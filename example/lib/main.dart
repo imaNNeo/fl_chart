@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Spot(5, 8),
                 Spot(6, 4),
                 Spot(7, 2),
-                Spot(8, 8.5),
+                Spot(8, 4),
               ],
               barColor: Colors.red,
               dotColor: Colors.blue,

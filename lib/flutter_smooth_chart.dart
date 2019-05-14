@@ -61,6 +61,8 @@ class _SmoothChartState extends State<SmoothChart> {
 
 class _SmoothChartPainter extends CustomPainter {
 
+  final double SMOOTHNESS = 0.35;
+
   final EdgeInsets padding;
   final List<_DrawingBar> bars;
 
@@ -77,90 +79,63 @@ class _SmoothChartPainter extends CustomPainter {
   _SmoothChartPainter(this.padding, this.bars,);
 
   @override
-  void paint(Canvas canvas, Size size) {
-    // QuadraticBazier
-//    Path path = Path();
-//    var point0 = Offset(0, size.height / 2);
-//    var point1 = Offset(size.width / 2, size.height);
-//    var point2 = Offset(size.width, size.height / 2);
-//    path.moveTo(point0.dx, point0.dy);
-//    path.quadraticBezierTo(point1.dx, point1.dy, point2.dx, point2.dy);
-//    canvas.drawPath(path, chartPaint);
-//    canvas.drawCircle(point0, dotSize, dotPaint);
-//    canvas.drawCircle(point1, dotSize, dotPaint);
-//    canvas.drawCircle(point2, dotSize, dotPaint);
-
-
-    // Cubic
-//    Path path = Path();
-//    var point0 = Offset(0, size.height / 2);
-//    var point1 = Offset(size.width / 4, 3 * size.height / 4);
-//    var point2 = Offset(3 * size.width / 4, size.height / 4);
-//    var point3 = Offset(size.width, size.height);
-//    path.moveTo(point0.dx, point0.dy);
-//    path.cubicTo(point1.dx, point1.dy, point2.dx, point2.dy, point3.dx, point3.dy);
-//    canvas.drawPath(path, chartPaint);
-//    canvas.drawCircle(point0, dotSize, dotPaint);
-//    canvas.drawCircle(point1, dotSize, dotPaint);
-//    canvas.drawCircle(point2, dotSize, dotPaint);
-//    canvas.drawCircle(point3, dotSize, dotPaint);
-
-
-    // Conic
-//    Path path = Path();
-//    var point0 = Offset(0, size.height / 2);
-//    var point1 = Offset(size.width / 4, 3 * size.height / 4);
-//    var point2 = Offset(size.width, size.height / 3);
-//    var weight = 3.0;
-//    path.moveTo(point0.dx, point0.dy);
-//    path.conicTo(point1.dx, point1.dy, point2.dx, point2.dy, weight);
-//    canvas.drawPath(path, chartPaint);
-//    canvas.drawCircle(point0, dotSize, dotPaint);
-//    canvas.drawCircle(point1, dotSize, dotPaint);
-//    canvas.drawCircle(point2, dotSize, dotPaint);
-
-
-//    Paint cellsPaint = Paint()
-//      ..color = Colors.black
-//      ..style = PaintingStyle.stroke
-//      ..strokeWidth = 0.5;
-//    double cellWidth = size.width / maxX;
-//    double cellHeight = size.height / maxY;
-
-    // Draw horizontal lines
-//    for (int i = 0; i < maxY; i++) {
-//      double height = i * cellHeight;
-//      canvas.drawLine(Offset(0, height), Offset(size.width, height), cellsPaint);
-//    }
-//
-//    // Draw vertical lines
-//    for (int i = 0; i < maxX; i++) {
-//      double width = i * cellWidth;
-//      canvas.drawLine(Offset(width, 0), Offset(width, size.height), cellsPaint);
-//    }
-
+  void paint(Canvas canvas, Size viewSize) {
     bars.forEach((_DrawingBar bar) {
-      // Draw chart lines
+
+      double getX(Spot spot) {
+        return padding.left + (spot.x / bar.maxX) * usableWidth(viewSize);
+      }
+
+      double getY(Spot spot) {
+        return padding.top + (spot.y / bar.maxY) * usableHeight(viewSize);
+      }
+
       Path path = Path();
-      double x = padding.left + (bar.spots[0].x / bar.maxX) * usableWidth(size);
-      double y = padding.top + (bar.spots[0].y / bar.maxY) * usableHeight(size);
+      int mMinY = 0;
+
+      int size = bar.spots.length;
+
+      path.reset();
+      double lX = 0.0, lY = 0.0;
+
+      double x = getX(bar.spots[0]);
+      double y = getY(bar.spots[0]);
       path.moveTo(x, y);
-      bar.spots.asMap().forEach((pos, spot) {
-        if (pos != 0) {
-          double x = padding.left + (spot.x / bar.maxX) * usableWidth(size);
-          double y = padding.top + (spot.y / bar.maxY) * usableHeight(size);
-          path.lineTo(x, y);
-        }
-      });
+      for (int i=1; i<size; i++) {
+        Spot p = bar.spots[i];
+        double px = getX(p);
+        double py = getY(p);
+
+        // first spot
+        Spot p0 = bar.spots[i-1];	// previous spot
+        double p0x = getX(p0);
+        double p0y = getY(p0);
+
+        double x1 = p0x + lX;
+        double y1 = p0y + lY;
+
+        // second spot
+        Spot p1 = bar.spots[i + 1 < size ? i + 1 : i]; // next point
+        double p1x = getX(p1);
+        double p1y = getY(p1);
+
+        lX = ((p1x - p0x) / 2) * SMOOTHNESS; // (lX,lY) is the slope of the reference line
+        lY = ((p1y - p0y) / 2) * SMOOTHNESS;
+        double x2 = px - lX;
+        double y2 = py - lY;
+
+        path.cubicTo(x1, y1, x2, y2, px, py);
+      }
       chartPaint.color = bar.barColor;
+
       canvas.drawPath(path, chartPaint);
 
       // Draw dots
       if (bar.showDots) {
         dotPaint.color = bar.dotColor;
         bar.spots.forEach((spot) {
-          double x = padding.left + (spot.x / bar.maxX) * usableWidth(size);
-          double y = padding.top + (spot.y / bar.maxY) * usableHeight(size);
+          double x = padding.left + (spot.x / bar.maxX) * usableWidth(viewSize);
+          double y = padding.top + (spot.y / bar.maxY) * usableHeight(viewSize);
           canvas.drawCircle(Offset(x, y), dotSize, dotPaint);
         });
       }
@@ -171,10 +146,10 @@ class _SmoothChartPainter extends CustomPainter {
     ..color = Colors.black
     ..style = PaintingStyle.stroke
     ..strokeWidth = 1.0;
-    canvas.drawRect(Rect.fromLTWH(padding.left, padding.top, usableWidth(size), usableHeight(size)), p);
+    canvas.drawRect(Rect.fromLTWH(padding.left, padding.top, usableWidth(viewSize), usableHeight(viewSize)), p);
 
     p.color = Colors.red;
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), p);
+    canvas.drawRect(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), p);
   }
 
   double usableWidth(Size size) {
