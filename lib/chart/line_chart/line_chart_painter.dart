@@ -43,7 +43,7 @@ class LineChartPainter extends CustomPainter {
 
   void drawBackgroundGrid(Canvas canvas, Size viewSize) {
     if (data.showGridLines && data.gridData != null) {
-      viewSize = getChartUsableDrawSize(viewSize);
+      viewSize = _getChartUsableDrawSize(viewSize);
       // Show Vertical Grid
       if (data.gridData.drawVerticalGrid) {
         int verticalCounter = 0;
@@ -52,7 +52,7 @@ class LineChartPainter extends CustomPainter {
         while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
           var currentIntervalSeek = data.gridData.verticalInterval * verticalCounter;
           if (data.gridData.showVerticalGridWithValue(currentIntervalSeek)) {
-            double sameY = getPixelY(currentIntervalSeek, viewSize);
+            double sameY = _getPixelY(currentIntervalSeek, viewSize);
             double x1 = 0 + _getLeftOffsetDrawSize();
             double y1 = sameY + _getTopOffsetDrawSize();
             double x2 = viewSize.width + _getLeftOffsetDrawSize();
@@ -75,7 +75,7 @@ class LineChartPainter extends CustomPainter {
         while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
           var currentIntervalSeek = data.gridData.horizontalInterval * horizontalCounter;
           if (data.gridData.showHorizontalGridWithValue(currentIntervalSeek)) {
-            double sameX = getPixelX(currentIntervalSeek, viewSize);
+            double sameX = _getPixelX(currentIntervalSeek, viewSize);
             double x1 = sameX;
             double y1 = 0 + _getTopOffsetDrawSize();
             double x2 = sameX;
@@ -94,14 +94,14 @@ class LineChartPainter extends CustomPainter {
 
   void drawTitles(Canvas canvas, Size viewSize) {
     if (data.showTitles) {
-      viewSize = getChartUsableDrawSize(viewSize);
+      viewSize = _getChartUsableDrawSize(viewSize);
 
       // Vertical Titles
       int verticalCounter = 0;
       while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
 
         double x = 0 + _getLeftOffsetDrawSize();
-        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) + _getTopOffsetDrawSize();
+        double y = _getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) + _getTopOffsetDrawSize();
 
         String text = data.titlesData.getVerticalTitle(
           data.gridData.verticalInterval * verticalCounter);
@@ -120,7 +120,7 @@ class LineChartPainter extends CustomPainter {
       // Horizontal titles
       int horizontalCounter = 0;
       while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
-        double x = getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
+        double x = _getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
         double y = viewSize.height + _getTopOffsetDrawSize();
 
         String text = data.titlesData.getHorizontalTitle(
@@ -142,7 +142,7 @@ class LineChartPainter extends CustomPainter {
   }
 
   void drawLineChart(Canvas canvas, Size viewSize) {
-    viewSize = getChartUsableDrawSize(viewSize);
+    viewSize = _getChartUsableDrawSize(viewSize);
 
     Path path = Path();
     int size = data.spots.length;
@@ -150,27 +150,27 @@ class LineChartPainter extends CustomPainter {
 
     double lX = 0.0, lY = 0.0;
 
-    double x = getPixelX(data.spots[0].x, viewSize);
-    double y = getPixelY(data.spots[0].y, viewSize);
+    double x = _getPixelX(data.spots[0].x, viewSize);
+    double y = _getPixelY(data.spots[0].y, viewSize);
     path.moveTo(x, y);
     for (int i = 1; i < size; i++) {
       // CurrentSpot
       LineChartSpot p = data.spots[i];
-      double px = getPixelX(p.x, viewSize);
-      double py = getPixelY(p.y, viewSize);
+      double px = _getPixelX(p.x, viewSize);
+      double py = _getPixelY(p.y, viewSize);
 
       // previous spot
       LineChartSpot p0 = data.spots[i - 1];
-      double p0x = getPixelX(p0.x, viewSize);
-      double p0y = getPixelY(p0.y, viewSize);
+      double p0x = _getPixelX(p0.x, viewSize);
+      double p0y = _getPixelY(p0.y, viewSize);
 
       double x1 = p0x + lX;
       double y1 = p0y + lY;
 
       // next point
       LineChartSpot p1 = data.spots[i + 1 < size ? i + 1 : i];
-      double p1x = getPixelX(p1.x, viewSize);
-      double p1y = getPixelY(p1.y, viewSize);
+      double p1x = _getPixelX(p1.x, viewSize);
+      double p1y = _getPixelY(p1.y, viewSize);
 
       double smoothness = data.isCurved ? data.curveSmoothness : 0.0;
       lX = ((p1x - p0x) / 2) * smoothness;
@@ -185,17 +185,17 @@ class LineChartPainter extends CustomPainter {
 
   void drawDots(Canvas canvas, Size viewSize) {
     if (data.showDots) {
-      viewSize = getChartUsableDrawSize(viewSize);
+      viewSize = _getChartUsableDrawSize(viewSize);
       data.spots.forEach((spot) {
-        double x = getPixelX(spot.x, viewSize);
-        double y = getPixelY(spot.y, viewSize);
+        double x = _getPixelX(spot.x, viewSize);
+        double y = _getPixelY(spot.y, viewSize);
         canvas.drawCircle(Offset(x, y), dotSize, dotPaint);
       });
     }
   }
 
   void drawViewBorder(Canvas canvas, Size viewSize) {
-    viewSize = getChartUsableDrawSize(viewSize);
+    viewSize = _getChartUsableDrawSize(viewSize);
     Paint p = Paint()
       ..color = Colors.black
       ..style = PaintingStyle.stroke
@@ -209,16 +209,16 @@ class LineChartPainter extends CustomPainter {
       ), p);
   }
 
-  double getPixelX(double spotX, Size viewSize) {
+  double _getPixelX(double spotX, Size viewSize) {
     return ((spotX / data.maxX) * viewSize.width) + _getLeftOffsetDrawSize();
   }
 
-  double getPixelY(double spotY, Size viewSize,) {
+  double _getPixelY(double spotY, Size viewSize,) {
     double y = data.maxY - spotY;
     return ((y / data.maxY) * viewSize.height) + _getTopOffsetDrawSize();
   }
 
-  Size getChartUsableDrawSize(Size viewSize) {
+  Size _getChartUsableDrawSize(Size viewSize) {
     double usableWidth = viewSize.width - _getExtraNeededHorizontalSpace();
     double usableHeight = viewSize.height - _getExtraNeededVerticalSpace();
     return Size(usableWidth, usableHeight);
