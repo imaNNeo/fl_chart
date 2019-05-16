@@ -53,7 +53,7 @@ class LineChartPainter extends CustomPainter {
       gridPaint.strokeWidth = data.gridData.verticalGridLineWidth;
       while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
         var currentIntervalSeek = data.gridData.verticalInterval * verticalCounter;
-        if (data.gridData.showVerticalGridWithValue(currentIntervalSeek)) {
+        if (data.gridData.checkToShowVerticalGrid(currentIntervalSeek)) {
           double sameY = _getPixelY(currentIntervalSeek, viewSize);
           double x1 = 0 + _getLeftOffsetDrawSize();
           double y1 = sameY + _getTopOffsetDrawSize();
@@ -76,7 +76,7 @@ class LineChartPainter extends CustomPainter {
       gridPaint.strokeWidth = data.gridData.horizontalGridLineWidth;
       while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
         var currentIntervalSeek = data.gridData.horizontalInterval * horizontalCounter;
-        if (data.gridData.showHorizontalGridWithValue(currentIntervalSeek)) {
+        if (data.gridData.checkToShowHorizontalGrid(currentIntervalSeek)) {
           double sameX = _getPixelX(currentIntervalSeek, viewSize);
           double x1 = sameX;
           double y1 = 0 + _getTopOffsetDrawSize();
@@ -195,7 +195,7 @@ class LineChartPainter extends CustomPainter {
     }
     viewSize = _getChartUsableDrawSize(viewSize);
     data.spots.forEach((spot) {
-      if (data.dotData.checkShowDotOnSpot(spot)) {
+      if (data.dotData.checkToShowDot(spot)) {
         double x = _getPixelX(spot.x, viewSize);
         double y = _getPixelY(spot.y, viewSize);
         canvas.drawCircle(Offset(x, y), dotSize, dotPaint);

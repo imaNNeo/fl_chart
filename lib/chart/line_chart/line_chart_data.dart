@@ -76,25 +76,25 @@ class LineChartBarData {
 
 
 // Dot Data
-typedef CheckShowDot = bool Function(LineChartSpot spot);
+typedef CheckToShowDot = bool Function(LineChartSpot spot);
 bool showAllDots(LineChartSpot spot) {
   return true;
 }
 class LineChartDotData {
   final Color dotColor;
   final double dotSize;
-  final CheckShowDot checkShowDotOnSpot;
+  final CheckToShowDot checkToShowDot;
 
   const LineChartDotData({
     this.dotColor = Colors.blue,
     this.dotSize = 4.0,
-    this.checkShowDotOnSpot = showAllDots,
+    this.checkToShowDot = showAllDots,
   });
 }
 
 
 // Grid data
-typedef BooleanCheckByValue = bool Function(double value);
+typedef CheckToShowGrid = bool Function(double value);
 
 bool showAllGrids(double value) {
   return true;
@@ -106,14 +106,14 @@ class LineChartGridData {
   final double horizontalInterval;
   final Color horizontalGridColor;
   final double horizontalGridLineWidth;
-  final BooleanCheckByValue showHorizontalGridWithValue;
+  final CheckToShowGrid checkToShowHorizontalGrid;
 
   // Vertical
   final bool drawVerticalGrid;
   final double verticalInterval;
   final Color verticalGridColor;
   final double verticalGridLineWidth;
-  final BooleanCheckByValue showVerticalGridWithValue;
+  final CheckToShowGrid checkToShowVerticalGrid;
 
   const LineChartGridData({
     // Horizontal
@@ -121,14 +121,14 @@ class LineChartGridData {
     this.horizontalInterval = 1.0,
     this.horizontalGridColor = Colors.grey,
     this.horizontalGridLineWidth = 0.5,
-    this.showHorizontalGridWithValue = showAllGrids,
+    this.checkToShowHorizontalGrid = showAllGrids,
 
     //Vertical
     this.drawVerticalGrid = true,
     this.verticalInterval = 1.0,
     this.verticalGridColor = Colors.grey,
     this.verticalGridLineWidth = 0.5,
-    this.showVerticalGridWithValue = showAllGrids,
+    this.checkToShowVerticalGrid = showAllGrids,
   });
 }
 
