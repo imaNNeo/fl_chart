@@ -1,18 +1,19 @@
+import 'package:fl_chart/chart/line_chart/line_chart_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smooth_chart/entity/bar.dart';
-import 'package:flutter_smooth_chart/entity/spot.dart';
-import 'package:flutter_smooth_chart/flutter_smooth_chart.dart';
+import 'package:fl_chart/fl_chart_widget.dart';
+import 'package:fl_chart/chart/line_chart/line_chart.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Smooth Chart Demo',
+      title: 'FlChart Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'smooth_chart'),
+      home: MyHomePage(title: 'fl_chart'),
     );
   }
 }
@@ -31,26 +32,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SizedBox(child: SmoothChart(
-          [
-            Bar(
+        child: SizedBox(child: FlChartWidget(
+          flChart: LineChart(
+            LineChartData(
               spots: [
-                Spot(0, 1),
-                Spot(1, 4),
-                Spot(2, 1),
-                Spot(3, 5),
-                Spot(4, 3),
-                Spot(5, 8),
-                Spot(6, 4),
-                Spot(7, 2),
-                Spot(8, 4),
-              ],
-              barColor: Colors.red,
-              dotColor: Colors.blue,
-              showDots: true,
-            ),
-          ],
-          padding: EdgeInsets.all(20),
+                LineChartSpot(0, 1),
+                LineChartSpot(1, 4),
+                LineChartSpot(2, 1),
+                LineChartSpot(3, 5),
+                LineChartSpot(4, 3),
+                LineChartSpot(5, 8),
+                LineChartSpot(6, 4),
+                LineChartSpot(7, 2),
+                LineChartSpot(8, 4),
+              ]
+            )
+          ),
         ), width: 300, height: 150,),
       ),
     );

@@ -1,6 +1,6 @@
-# flutter_smooth_chart
+# fl_chart
 
-Draw Smooth charts
+Draw Flutter charts
 
 ## Getting Started
 
