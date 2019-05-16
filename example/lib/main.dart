@@ -48,6 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
               curveSmoothness: 0.35,
               isCurved: true,
+              showGridLines: true,
+              gridData: LineChartGridData(
+                drawHorizontalGrid: false,
+              )
             )
           ),
         ), width: 300, height: 150,),

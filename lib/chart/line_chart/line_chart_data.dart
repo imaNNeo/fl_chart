@@ -11,6 +11,8 @@ class LineChartData {
   final bool showDots;
   final bool isCurved;
   final double curveSmoothness;
+  final bool showGridLines;
+  final LineChartGridData gridData;
 
   double minX, maxX;
   double minY, maxY;
@@ -23,7 +25,9 @@ class LineChartData {
     this.dotSize = 4.0,
     this.showDots = true,
     this.isCurved = false,
-    this.curveSmoothness = 0.35
+    this.curveSmoothness = 0.35,
+    this.showGridLines = true,
+    this.gridData = const LineChartGridData(),
   }) {
     if (spots == null) {
       throw Exception("spots couldn't be null");
@@ -56,4 +60,27 @@ class LineChartSpot {
   final double y;
 
   LineChartSpot(this.x, this.y);
+}
+
+class LineChartGridData {
+  final bool drawHorizontalGrid;
+  final double horizontalInterval;
+  final Color horizontalGridColor;
+  final double horizontalGridLineWidth;
+
+  final bool drawVerticalGrid;
+  final double verticalInterval;
+  final Color verticalGridColor;
+  final double verticalGridLineWidth;
+
+  const LineChartGridData({
+    this.drawHorizontalGrid = false,
+    this.horizontalInterval = 1.0,
+    this.horizontalGridColor = Colors.grey,
+    this.horizontalGridLineWidth = 0.5,
+    this.drawVerticalGrid = true,
+    this.verticalInterval = 1.0,
+    this.verticalGridColor = Colors.grey,
+    this.verticalGridLineWidth = 0.5,
+  });
 }
