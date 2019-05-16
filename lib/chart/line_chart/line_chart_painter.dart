@@ -66,8 +66,9 @@ class LineChartPainter extends CustomPainter {
       double p1x = getX(p1);
       double p1y = getY(p1);
 
-      lX = ((p1x - p0x) / 2) * data.curveSmoothness;
-      lY = ((p1y - p0y) / 2) * data.curveSmoothness;
+      double smoothness = data.isCurved ? data.curveSmoothness : 0.0;
+      lX = ((p1x - p0x) / 2) * smoothness;
+      lY = ((p1y - p0y) / 2) * smoothness;
       double x2 = px - lX;
       double y2 = py - lY;
 

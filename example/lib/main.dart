@@ -45,7 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 LineChartSpot(6, 4),
                 LineChartSpot(7, 2),
                 LineChartSpot(8, 4),
-              ]
+              ],
+              curveSmoothness: 0.35,
+              isCurved: true,
             )
           ),
         ), width: 300, height: 150,),

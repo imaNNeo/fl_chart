@@ -22,7 +22,7 @@ class LineChartData {
     this.dotColor = Colors.blue,
     this.dotSize = 4.0,
     this.showDots = true,
-    this.isCurved = true,
+    this.isCurved = false,
     this.curveSmoothness = 0.35
   }) {
     if (spots == null) {
