@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'line_chart_data.dart';
@@ -33,6 +35,7 @@ class LineChartPainter extends CustomPainter {
       return;
     }
     drawBackgroundGrid(canvas, viewSize);
+    drawTitles(canvas, viewSize);
     drawLineChart(canvas, viewSize);
     drawDots(canvas, viewSize);
     drawViewBorder(canvas, viewSize);
@@ -40,22 +43,26 @@ class LineChartPainter extends CustomPainter {
 
   void drawBackgroundGrid(Canvas canvas, Size viewSize) {
     if (data.showGridLines && data.gridData != null) {
+      viewSize = getChartUsableDrawSize(viewSize);
       // Show Vertical Grid
       if (data.gridData.drawVerticalGrid) {
         int verticalCounter = 0;
         gridPaint.color = data.gridData.verticalGridColor;
         gridPaint.strokeWidth = data.gridData.verticalGridLineWidth;
         while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
-          double sameY = getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize);
-          double x1 = 0;
-          double y1 = sameY;
-          double x2 = viewSize.width;
-          double y2 = sameY;
-          canvas.drawLine(
-            Offset(x1, y1),
-            Offset(x2, y2),
-            gridPaint,
-          );
+          var currentIntervalSeek = data.gridData.verticalInterval * verticalCounter;
+          if (data.gridData.showVerticalGridWithValue(currentIntervalSeek)) {
+            double sameY = getPixelY(currentIntervalSeek, viewSize);
+            double x1 = 0 + _getLeftOffsetDrawSize();
+            double y1 = sameY + _getTopOffsetDrawSize();
+            double x2 = viewSize.width + _getLeftOffsetDrawSize();
+            double y2 = sameY + _getTopOffsetDrawSize();
+            canvas.drawLine(
+              Offset(x1, y1),
+              Offset(x2, y2),
+              gridPaint,
+            );
+          }
           verticalCounter++;
         }
       }
@@ -66,23 +73,77 @@ class LineChartPainter extends CustomPainter {
         gridPaint.color = data.gridData.horizontalGridColor;
         gridPaint.strokeWidth = data.gridData.horizontalGridLineWidth;
         while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
-          double sameX = getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
-          double x1 = sameX;
-          double y1 = 0;
-          double x2 = sameX;
-          double y2 = viewSize.height;
-          canvas.drawLine(
-            Offset(x1, y1),
-            Offset(x2, y2),
-            gridPaint,
-          );
+          var currentIntervalSeek = data.gridData.horizontalInterval * horizontalCounter;
+          if (data.gridData.showHorizontalGridWithValue(currentIntervalSeek)) {
+            double sameX = getPixelX(currentIntervalSeek, viewSize);
+            double x1 = sameX;
+            double y1 = 0 + _getTopOffsetDrawSize();
+            double x2 = sameX;
+            double y2 = viewSize.height + _getTopOffsetDrawSize();
+            canvas.drawLine(
+              Offset(x1, y1),
+              Offset(x2, y2),
+              gridPaint,
+            );
+          }
           horizontalCounter++;
         }
       }
     }
   }
 
+  void drawTitles(Canvas canvas, Size viewSize) {
+    if (data.showTitles) {
+      viewSize = getChartUsableDrawSize(viewSize);
+
+      // Vertical Titles
+      int verticalCounter = 0;
+      while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
+
+        double x = 0 + _getLeftOffsetDrawSize();
+        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) + _getTopOffsetDrawSize();
+
+        String text = data.titlesData.getVerticalTitle(
+          data.gridData.verticalInterval * verticalCounter);
+
+        TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
+        TextPainter tp = new TextPainter(
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        tp.layout(maxWidth: _getExtraNeededHorizontalSpace());
+        x -= tp.width + data.titlesData.verticalTitleMargin;
+        y -= (tp.height / 2);
+        tp.paint(canvas, new Offset(x, y));
+
+        verticalCounter++;
+      }
+
+      // Horizontal titles
+      int horizontalCounter = 0;
+      while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
+        double x = getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
+        double y = viewSize.height + _getTopOffsetDrawSize();
+
+        String text = data.titlesData.getHorizontalTitle(
+          data.gridData.horizontalInterval * horizontalCounter);
+
+        TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
+        TextPainter tp = new TextPainter(
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        tp.layout();
+
+        x -= (tp.width / 2);
+        y += data.titlesData.horizontalTitleMargin;
+
+        tp.paint(canvas, Offset(x, y));
+
+        horizontalCounter++;
+      }
+    }
+  }
+
   void drawLineChart(Canvas canvas, Size viewSize) {
+    viewSize = getChartUsableDrawSize(viewSize);
+
     Path path = Path();
     int size = data.spots.length;
     path.reset();
@@ -124,6 +185,7 @@ class LineChartPainter extends CustomPainter {
 
   void drawDots(Canvas canvas, Size viewSize) {
     if (data.showDots) {
+      viewSize = getChartUsableDrawSize(viewSize);
       data.spots.forEach((spot) {
         double x = getPixelX(spot.x, viewSize);
         double y = getPixelY(spot.y, viewSize);
@@ -133,20 +195,61 @@ class LineChartPainter extends CustomPainter {
   }
 
   void drawViewBorder(Canvas canvas, Size viewSize) {
+    viewSize = getChartUsableDrawSize(viewSize);
     Paint p = Paint()
       ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
-    canvas.drawRect(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), p);
+    canvas.drawRect(
+      Rect.fromLTWH(
+        0 + _getLeftOffsetDrawSize(),
+        0 + _getTopOffsetDrawSize(),
+        viewSize.width,
+        viewSize.height,
+      ), p);
   }
 
   double getPixelX(double spotX, Size viewSize) {
-    return (spotX / data.maxX) * viewSize.width;
+    return ((spotX / data.maxX) * viewSize.width) + _getLeftOffsetDrawSize();
   }
 
   double getPixelY(double spotY, Size viewSize,) {
     double y = data.maxY - spotY;
-    return (y / data.maxY) * viewSize.height;
+    return ((y / data.maxY) * viewSize.height) + _getTopOffsetDrawSize();
+  }
+
+  Size getChartUsableDrawSize(Size viewSize) {
+    double usableWidth = viewSize.width - _getExtraNeededHorizontalSpace();
+    double usableHeight = viewSize.height - _getExtraNeededVerticalSpace();
+    return Size(usableWidth, usableHeight);
+  }
+
+  double _getExtraNeededHorizontalSpace() {
+    if (data.showTitles) {
+      return data.titlesData.verticalTitlesReservedWidth;
+    }
+    return 0;
+  }
+
+  double _getExtraNeededVerticalSpace() {
+    if (data.showTitles) {
+      return data.titlesData.horizontalTitlesReservedHeight;
+    }
+    return 0;
+  }
+
+  double _getLeftOffsetDrawSize() {
+    if (data.showTitles && data.titlesData.verticalTitlesAlignment == TitleAlignment.LEFT) {
+      return data.titlesData.verticalTitlesReservedWidth;
+    }
+    return 0;
+  }
+
+  double _getTopOffsetDrawSize() {
+    if (data.showTitles && data.titlesData.horizontalTitlesAlignment == TitleAlignment.TOP) {
+      return data.titlesData.horizontalTitlesReservedHeight;
+    }
+    return 0;
   }
 
   @override
