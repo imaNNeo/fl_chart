@@ -45,11 +45,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 LineChartSpot(6, 4),
                 LineChartSpot(7, 2),
               ],
-              curveSmoothness: 0.35,
-              isCurved: true,
+              showBar: true,
+              barData: LineChartBarData(
+                isCurved: true,
+                barWidth: 4,
+              ),
+              showDots: true,
+              dotData: LineChartDotData(
+                dotSize: 6,
+              ),
               showGridLines: true,
               gridData: LineChartGridData(
-                drawHorizontalGrid: true,
+                drawHorizontalGrid: false,
               ),
             ),
           ),

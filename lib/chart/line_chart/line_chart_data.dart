@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 
 class LineChartData {
   final List<LineChartSpot> spots;
-  final Color barColor;
-  final double barWidth;
-  final Color dotColor;
-  final double dotSize;
+  final bool showBar;
+  final LineChartBarData barData;
   final bool showDots;
-  final bool isCurved;
-  final double curveSmoothness;
+  final LineChartDotData dotData;
   final bool showGridLines;
   final LineChartGridData gridData;
   final bool showTitles;
@@ -21,13 +18,10 @@ class LineChartData {
 
   LineChartData({
     @required this.spots,
-    this.barColor = Colors.redAccent,
-    this.barWidth = 2.0,
-    this.dotColor = Colors.blue,
-    this.dotSize = 4.0,
+    this.showBar = true,
+    this.barData = const LineChartBarData(),
     this.showDots = true,
-    this.isCurved = false,
-    this.curveSmoothness = 0.35,
+    this.dotData = const LineChartDotData(),
     this.showGridLines = true,
     this.gridData = const LineChartGridData(),
     this.showTitles = true,
@@ -52,8 +46,6 @@ class LineChartData {
         } else if (spot.y < minY) {
           minY = spot.y;
         }
-
-        print("minX: $minX, maxX: $maxX, minY: $minY, maxY: $maxY, ");
       });
     }
   }
@@ -67,13 +59,47 @@ class LineChartSpot {
 }
 
 
+// Bar Data
+class LineChartBarData {
+  final Color barColor;
+  final double barWidth;
+  final bool isCurved;
+  final double curveSmoothness;
+
+  const LineChartBarData({
+    this.barColor = Colors.redAccent,
+    this.barWidth = 2.0,
+    this.isCurved = false,
+    this.curveSmoothness = 0.35,
+  });
+}
+
+
+// Dot Data
+typedef CheckShowDot = bool Function(LineChartSpot spot);
+bool showAllDots(LineChartSpot spot) {
+  return true;
+}
+class LineChartDotData {
+  final Color dotColor;
+  final double dotSize;
+  final CheckShowDot checkShowDotOnSpot;
+
+  const LineChartDotData({
+    this.dotColor = Colors.blue,
+    this.dotSize = 4.0,
+    this.checkShowDotOnSpot = showAllDots,
+  });
+}
+
+
+// Grid data
 typedef BooleanCheckByValue = bool Function(double value);
 
 bool showAllGrids(double value) {
   return true;
 }
 
-// Grid data
 class LineChartGridData {
   // Horizontal
   final bool drawHorizontalGrid;
@@ -106,8 +132,10 @@ class LineChartGridData {
   });
 }
 
+
 // Titles data
 typedef GetTitleFunction = String Function(double value);
+
 String defaultGetTitle(double value) {
   return "${value.toInt()}";
 }
