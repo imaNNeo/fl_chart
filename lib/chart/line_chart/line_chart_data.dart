@@ -14,6 +14,8 @@ class LineChartData {
   final LineChartGridData gridData;
   final bool showTitles;
   final LineChartTitlesData titlesData;
+  final bool showBorder;
+  final LineChartBorderData borderData;
 
   double minX, maxX;
   double minY, maxY;
@@ -30,6 +32,8 @@ class LineChartData {
     this.gridData = const LineChartGridData(),
     this.showTitles = true,
     this.titlesData = const LineChartTitlesData(),
+    this.showBorder = true,
+    this.borderData = const LineChartBorderData(),
   }) {
     if (spots == null) {
       throw Exception("spots couldn't be null");
@@ -180,14 +184,27 @@ class LineChartTitlesData {
     // Horizontal
     this.horizontalTitlesAlignment = TitleAlignment.BOTTOM,
     this.getHorizontalTitle = defaultGetTitle,
-    this.horizontalTitlesReservedHeight = 10,
+    this.horizontalTitlesReservedHeight = 22,
     this.horizontalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
     this.horizontalTitleMargin = 6,
+
     // Vertical
     this.verticalTitlesAlignment = TitleAlignment.LEFT,
     this.getVerticalTitle = defaultGetTitle,
     this.verticalTitlesReservedWidth = 40,
     this.verticalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
     this.verticalTitleMargin = 6,
+  });
+}
+
+
+// Border Data
+class LineChartBorderData {
+  final Color borderColor;
+  final double borderWidth;
+
+  const LineChartBorderData({
+    this.borderColor = Colors.black,
+    this.borderWidth = 1.0,
   });
 }

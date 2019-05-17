@@ -9,7 +9,7 @@ class LineChartPainter extends CustomPainter {
 
   final LineChartData data;
 
-  Paint barPaint, dotPaint, gridPaint, belowBarPaint;
+  Paint barPaint, dotPaint, gridPaint, belowBarPaint, borderPaint;
   double dotSize;
 
   LineChartPainter(this.data,) {
@@ -32,6 +32,11 @@ class LineChartPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     dotSize = data.dotData.dotSize;
+
+    borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
   }
 
   @override
@@ -56,10 +61,10 @@ class LineChartPainter extends CustomPainter {
     viewSize = _getChartUsableDrawSize(viewSize);
     // Show Vertical Grid
     if (data.gridData.drawVerticalGrid) {
-      int verticalCounter = 0;
+      int verticalCounter = 1;
       gridPaint.color = data.gridData.verticalGridColor;
       gridPaint.strokeWidth = data.gridData.verticalGridLineWidth;
-      while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
+      while (data.gridData.verticalInterval * verticalCounter < data.maxY) {
         var currentIntervalSeek = data.gridData.verticalInterval * verticalCounter;
         if (data.gridData.checkToShowVerticalGrid(currentIntervalSeek)) {
           double sameY = _getPixelY(currentIntervalSeek, viewSize);
@@ -79,10 +84,10 @@ class LineChartPainter extends CustomPainter {
 
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalGrid) {
-      int horizontalCounter = 0;
+      int horizontalCounter = 1;
       gridPaint.color = data.gridData.horizontalGridColor;
       gridPaint.strokeWidth = data.gridData.horizontalGridLineWidth;
-      while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
+      while (data.gridData.horizontalInterval * horizontalCounter < data.maxX) {
         var currentIntervalSeek = data.gridData.horizontalInterval * horizontalCounter;
         if (data.gridData.checkToShowHorizontalGrid(currentIntervalSeek)) {
           double sameX = _getPixelX(currentIntervalSeek, viewSize);
@@ -223,18 +228,22 @@ class LineChartPainter extends CustomPainter {
   }
 
   void _drawViewBorder(Canvas canvas, Size viewSize) {
-    viewSize = _getChartUsableDrawSize(viewSize);
-    Paint p = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
+    if (!data.showBorder) {
+      return;
+    }
+
+    var chartViewSize = _getChartUsableDrawSize(viewSize);
+
+    borderPaint.color = data.borderData.borderColor;
+    borderPaint.strokeWidth = data.borderData.borderWidth;
+
     canvas.drawRect(
       Rect.fromLTWH(
         0 + _getLeftOffsetDrawSize(),
         0 + _getTopOffsetDrawSize(),
-        viewSize.width,
-        viewSize.height,
-      ), p);
+        chartViewSize.width,
+        chartViewSize.height,
+      ), borderPaint);
   }
 
   Path _generateBarPath(Size viewSize) {
@@ -297,28 +306,28 @@ class LineChartPainter extends CustomPainter {
 
   double _getExtraNeededHorizontalSpace() {
     if (data.showTitles) {
-      return data.titlesData.verticalTitlesReservedWidth;
+      return data.titlesData.verticalTitlesReservedWidth + data.titlesData.verticalTitleMargin;
     }
     return 0;
   }
 
   double _getExtraNeededVerticalSpace() {
     if (data.showTitles) {
-      return data.titlesData.horizontalTitlesReservedHeight;
+      return data.titlesData.horizontalTitlesReservedHeight + data.titlesData.horizontalTitleMargin;
     }
     return 0;
   }
 
   double _getLeftOffsetDrawSize() {
     if (data.showTitles && data.titlesData.verticalTitlesAlignment == TitleAlignment.LEFT) {
-      return data.titlesData.verticalTitlesReservedWidth;
+      return data.titlesData.verticalTitlesReservedWidth + data.titlesData.verticalTitleMargin;
     }
     return 0;
   }
 
   double _getTopOffsetDrawSize() {
     if (data.showTitles && data.titlesData.horizontalTitlesAlignment == TitleAlignment.TOP) {
-      return data.titlesData.horizontalTitlesReservedHeight;
+      return data.titlesData.horizontalTitlesReservedHeight + data.titlesData.horizontalTitleMargin;
     }
     return 0;
   }
