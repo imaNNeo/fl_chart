@@ -6,6 +6,8 @@ class LineChartData {
   final List<LineChartSpot> spots;
   final bool showBar;
   final LineChartBarData barData;
+  final bool showBelowBar;
+  final BelowBarData belowBarData;
   final bool showDots;
   final LineChartDotData dotData;
   final bool showGridLines;
@@ -20,6 +22,8 @@ class LineChartData {
     @required this.spots,
     this.showBar = true,
     this.barData = const LineChartBarData(),
+    this.showBelowBar = true,
+    this.belowBarData = const BelowBarData(),
     this.showDots = true,
     this.dotData = const LineChartDotData(),
     this.showGridLines = true,
@@ -58,7 +62,6 @@ class LineChartSpot {
   LineChartSpot(this.x, this.y);
 }
 
-
 // Bar Data
 class LineChartBarData {
   final Color barColor;
@@ -74,6 +77,14 @@ class LineChartBarData {
   });
 }
 
+// Below Bar Data
+class BelowBarData {
+  final Color color;
+
+  const BelowBarData({
+    this.color = Colors.blueGrey,
+  });
+}
 
 // Dot Data
 typedef CheckToShowDot = bool Function(LineChartSpot spot);

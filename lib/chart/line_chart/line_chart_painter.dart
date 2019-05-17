@@ -8,7 +8,7 @@ class LineChartPainter extends CustomPainter {
 
   final LineChartData data;
 
-  Paint barPaint, dotPaint, gridPaint;
+  Paint barPaint, dotPaint, gridPaint, belowBarPaint;
   double dotSize;
 
   LineChartPainter(this.data,) {
@@ -26,6 +26,10 @@ class LineChartPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..strokeWidth = 0.5;
 
+    belowBarPaint = Paint()
+      ..color = Colors.orange.withOpacity(0.5)
+      ..style = PaintingStyle.fill;
+
     dotSize = data.dotData.dotSize;
   }
 
@@ -36,7 +40,10 @@ class LineChartPainter extends CustomPainter {
     }
     _drawGrid(canvas, viewSize);
     _drawTitles(canvas, viewSize);
-    _drawBar(canvas, viewSize);
+
+    Path barPath = _generateBarPath(viewSize);
+    _drawBelowBar(canvas, viewSize, Path.from(barPath));
+    _drawBar(canvas, viewSize, Path.from(barPath));
     _drawDots(canvas, viewSize);
     _drawViewBorder(canvas, viewSize);
   }
@@ -143,12 +150,76 @@ class LineChartPainter extends CustomPainter {
     }
   }
 
-  void _drawBar(Canvas canvas, Size viewSize) {
+  /*
+  barPath Ends in Top Right
+   */
+  void _drawBelowBar(Canvas canvas, Size viewSize, Path barPath) {
+    if (!data.showBelowBar) {
+      return;
+    }
+
+    Size chartViewSize = _getChartUsableDrawSize(viewSize);
+
+    // Line To Bottom Right
+    double x = _getPixelX(data.spots[data.spots.length - 1].x, chartViewSize);
+    double y = chartViewSize.height - _getTopOffsetDrawSize();
+    barPath.lineTo(x, y);
+
+    // Line To Bottom Left
+    x = _getPixelX(data.spots[0].x, chartViewSize);
+    y = chartViewSize.height - _getTopOffsetDrawSize();
+    barPath.lineTo(x, y);
+
+    // Line To Top Left
+    x = _getPixelX(data.spots[0].x, chartViewSize);
+    y = _getPixelY(data.spots[0].y, chartViewSize);
+    barPath.lineTo(x, y);
+    barPath.close();
+
+    belowBarPaint.color = data.belowBarData.color;
+
+    canvas.drawPath(barPath, belowBarPaint);
+
+  }
+
+  void _drawBar(Canvas canvas, Size viewSize, Path barPath) {
     if (!data.showBar) {
       return;
     }
-    viewSize = _getChartUsableDrawSize(viewSize);
+    canvas.drawPath(barPath, barPaint);
+  }
 
+  void _drawDots(Canvas canvas, Size viewSize) {
+    if (!data.showDots) {
+      return;
+    }
+    viewSize = _getChartUsableDrawSize(viewSize);
+    data.spots.forEach((spot) {
+      if (data.dotData.checkToShowDot(spot)) {
+        double x = _getPixelX(spot.x, viewSize);
+        double y = _getPixelY(spot.y, viewSize);
+        canvas.drawCircle(Offset(x, y), dotSize, dotPaint);
+      }
+    });
+  }
+
+  void _drawViewBorder(Canvas canvas, Size viewSize) {
+    viewSize = _getChartUsableDrawSize(viewSize);
+    Paint p = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+    canvas.drawRect(
+      Rect.fromLTWH(
+        0 + _getLeftOffsetDrawSize(),
+        0 + _getTopOffsetDrawSize(),
+        viewSize.width,
+        viewSize.height,
+      ), p);
+  }
+
+  Path _generateBarPath(Size viewSize) {
+    viewSize = _getChartUsableDrawSize(viewSize);
     Path path = Path();
     int size = data.spots.length;
     path.reset();
@@ -186,36 +257,8 @@ class LineChartPainter extends CustomPainter {
 
       path.cubicTo(x1, y1, x2, y2, px, py);
     }
-    canvas.drawPath(path, barPaint);
-  }
 
-  void _drawDots(Canvas canvas, Size viewSize) {
-    if (!data.showDots) {
-      return;
-    }
-    viewSize = _getChartUsableDrawSize(viewSize);
-    data.spots.forEach((spot) {
-      if (data.dotData.checkToShowDot(spot)) {
-        double x = _getPixelX(spot.x, viewSize);
-        double y = _getPixelY(spot.y, viewSize);
-        canvas.drawCircle(Offset(x, y), dotSize, dotPaint);
-      }
-    });
-  }
-
-  void _drawViewBorder(Canvas canvas, Size viewSize) {
-    viewSize = _getChartUsableDrawSize(viewSize);
-    Paint p = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-    canvas.drawRect(
-      Rect.fromLTWH(
-        0 + _getLeftOffsetDrawSize(),
-        0 + _getTopOffsetDrawSize(),
-        viewSize.width,
-        viewSize.height,
-      ), p);
+    return path;
   }
 
   double _getPixelX(double spotX, Size viewSize) {
