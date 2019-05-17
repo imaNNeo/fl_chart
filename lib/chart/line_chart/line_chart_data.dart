@@ -79,10 +79,16 @@ class LineChartBarData {
 
 // Below Bar Data
 class BelowBarData {
-  final Color color;
+  final List<Color> colors;
+  final Offset from;
+  final Offset to;
+  final List<double> colorStops;
 
   const BelowBarData({
-    this.color = Colors.blueGrey,
+    this.colors = const [Colors.blueGrey],
+    this.from = const Offset(0, 0),
+    this.to = const Offset(1, 0),
+    this.colorStops = const [1.0],
   });
 }
 

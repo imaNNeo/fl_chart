@@ -1,7 +1,8 @@
-import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import 'line_chart_data.dart';
 
 class LineChartPainter extends CustomPainter {
@@ -176,7 +177,25 @@ class LineChartPainter extends CustomPainter {
     barPath.lineTo(x, y);
     barPath.close();
 
-    belowBarPaint.color = data.belowBarData.color;
+    if (data.belowBarData.colors.length == 1) {
+      belowBarPaint.color = data.belowBarData.colors[0];
+      belowBarPaint.shader = null;
+    } else {
+      var from = data.belowBarData.from;
+      var to = data.belowBarData.to;
+      belowBarPaint.shader = ui.Gradient.linear(
+        Offset(
+          _getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
+          _getTopOffsetDrawSize() + (chartViewSize.height * from.dy),
+        ),
+        Offset(
+          _getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
+          _getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
+        ),
+        data.belowBarData.colors,
+        data.belowBarData.colorStops,
+      );
+    }
 
     canvas.drawPath(barPath, belowBarPaint);
 

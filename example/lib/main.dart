@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           showBelowBar: true,
           belowBarData: BelowBarData(
-            color: Colors.deepPurple.withOpacity(0.2)
+            colors: [Colors.deepPurple.withOpacity(0.2)],
           ),
           titlesData: LineChartTitlesData(
             horizontalTitlesTextStyle: TextStyle(
@@ -196,7 +196,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           showBelowBar: true,
           belowBarData: BelowBarData(
-            color: Colors.orange.withOpacity(0.3)
+            colors: [Colors.orange, Colors.orange.withOpacity(0.0),],
+            colorStops: [0.5, 1.0],
+            from: Offset(0, 0),
+            to: Offset(0, 1),
           ),
           showDots: true,
           dotData: LineChartDotData(
