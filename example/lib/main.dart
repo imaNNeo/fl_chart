@@ -1,8 +1,8 @@
 import 'package:example/sample_page.dart';
-import 'package:fl_chart/chart/line_chart/line_chart_data.dart';
-import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart_widget.dart';
 import 'package:fl_chart/chart/line_chart/line_chart.dart';
+import 'package:fl_chart/chart/line_chart/line_chart_data.dart';
+import 'package:fl_chart/fl_chart_widget.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
@@ -53,16 +53,47 @@ class _MyHomePageState extends State<MyHomePage> {
             LineChartSpot(3, 3),
             LineChartSpot(4, 3.5),
             LineChartSpot(5, 5),
+            LineChartSpot(6, 8),
           ],
           barData: LineChartBarData(
             isCurved: true,
             barWidth: 4,
           ),
+          showBelowBar: true,
           showDots: false,
-          showGridLines: true,
-          gridData: LineChartGridData(
-            drawHorizontalGrid: false,
+          titlesData: LineChartTitlesData(
+            getVerticalTitle: (val) {
+              return "";
+            },
+            verticalTitleMargin: 0,
+            verticalTitlesReservedWidth: 0,
+            getHorizontalTitle: (val) {
+              switch (val.toInt()) {
+                case 0:
+                  return "00:00";
+                case 1:
+                  return "04:00";
+                case 2:
+                  return "08:00";
+                case 3:
+                  return "12:00";
+                case 4:
+                  return "16:00";
+                case 5:
+                  return "20:00";
+                case 6:
+                  return "23:59";
+              }
+              return "";
+            },
+            horizontalTitlesTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.blueGrey,
+              fontFamily: "Digital",
+              fontSize: 18,
+            )
           ),
+          showGridLines: false,
         ),
       ),
     ), width: 300, height: 140,);
@@ -79,14 +110,59 @@ class _MyHomePageState extends State<MyHomePage> {
             LineChartSpot(3, 1),
             LineChartSpot(4, 4),
             LineChartSpot(5, 6),
-            LineChartSpot(6, 6),
+            LineChartSpot(6, 6.5),
             LineChartSpot(7, 6),
-            LineChartSpot(8, 7),
+            LineChartSpot(8, 4),
+            LineChartSpot(9, 6),
+            LineChartSpot(10, 6),
+            LineChartSpot(11, 7),
           ],
           barData: LineChartBarData(
             isCurved: true,
             barWidth: 8,
             barColor: Colors.purpleAccent,
+          ),
+          showBelowBar: true,
+          belowBarData: BelowBarData(
+            color: Colors.deepPurple.withOpacity(0.2)
+          ),
+          titlesData: LineChartTitlesData(
+            horizontalTitlesTextStyle: TextStyle(
+              fontSize: 10,
+              color: Colors.purple,
+              fontWeight: FontWeight.bold
+            ),
+            getVerticalTitle: (value) {
+              return "\$ ${value + 0.5}";
+            },
+            getHorizontalTitle: (value) {
+              switch(value.toInt()) {
+                case 0:
+                  return "Jan";
+                case 1:
+                  return "Feb";
+                case 2:
+                  return "Mar";
+                case 3:
+                  return "Apr";
+                case 4:
+                  return "May";
+                case 5:
+                  return "Jun";
+                case 6:
+                  return "Jul";
+                case 7:
+                  return "Aug";
+                case 8:
+                  return "Sep";
+                case 9:
+                  return "Oct";
+                case 10:
+                  return "Nov";
+                case 11:
+                  return "Dec";
+              }
+            }
           ),
           showDots: false,
           showGridLines: true,
@@ -117,6 +193,10 @@ class _MyHomePageState extends State<MyHomePage> {
             isCurved: false,
             barWidth: 4,
             barColor: Colors.orange,
+          ),
+          showBelowBar: true,
+          belowBarData: BelowBarData(
+            color: Colors.orange.withOpacity(0.3)
           ),
           showDots: true,
           dotData: LineChartDotData(
