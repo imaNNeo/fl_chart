@@ -1,7 +1,7 @@
 library fl_chart;
 
+import 'package:fl_chart/chart/base/fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/chart/fl_chart.dart';
 
 class FlChartWidget extends StatefulWidget {
   final FlChart flChart;

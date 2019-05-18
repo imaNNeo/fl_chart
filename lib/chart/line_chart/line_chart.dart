@@ -1,7 +1,7 @@
-import 'package:flutter/src/rendering/custom_paint.dart';
+import 'package:fl_chart/chart/base/fl_chart/fl_chart.dart';
+import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
 import 'package:fl_chart/chart/line_chart/line_chart_painter.dart';
 
-import '../fl_chart.dart';
 import 'line_chart_data.dart';
 
 class LineChart extends FlChart {
@@ -10,8 +10,7 @@ class LineChart extends FlChart {
   LineChart(this.lineChartData,);
 
   @override
-  CustomPainter painter() {
+  FlChartPainter painter() {
     return LineChartPainter(lineChartData);
   }
-
 }

@@ -1,79 +1,42 @@
 import 'dart:ui';
 
+import 'package:fl_chart/chart/base/fl_axis_chart/fl_axis_chart_data.dart';
+import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
 
-class LineChartData {
-  final List<LineChartSpot> spots;
-  final bool showBar;
+class LineChartData extends FlAxisChartData {
   final LineChartBarData barData;
-  final bool showBelowBar;
   final BelowBarData belowBarData;
-  final bool showDots;
-  final LineChartDotData dotData;
-  final bool showGridLines;
-  final LineChartGridData gridData;
-  final bool showTitles;
-  final LineChartTitlesData titlesData;
-  final bool showBorder;
-  final LineChartBorderData borderData;
-
-  double minX, maxX;
-  double minY, maxY;
 
   LineChartData({
-    @required this.spots,
-    this.showBar = true,
     this.barData = const LineChartBarData(),
-    this.showBelowBar = true,
     this.belowBarData = const BelowBarData(),
-    this.showDots = true,
-    this.dotData = const LineChartDotData(),
-    this.showGridLines = true,
-    this.gridData = const LineChartGridData(),
-    this.showTitles = true,
-    this.titlesData = const LineChartTitlesData(),
-    this.showBorder = true,
-    this.borderData = const LineChartBorderData(),
-  }) {
-    if (spots == null) {
-      throw Exception("spots couldn't be null");
-    }
+    List<AxisSpot> spots,
+    FlGridData gridData,
+    FlTitlesData titlesData,
+    FlBorderData borderData,
+    AxisDotData dotData,
+  }) : super(
+    spots: spots,
+    gridData: gridData,
+    dotData: dotData,
+    titlesData: titlesData,
+    borderData: borderData,
+  );
 
-    if (spots.length >= 0) {
-      minX = maxX = spots[0].x;
-      minY = maxY = spots[0].y;
-      spots.forEach((spot) {
-        if (spot.x > maxX) {
-          maxX = spot.x;
-        } else if (spot.x < minX) {
-          minX = spot.x;
-        }
-
-        if (spot.y > maxY) {
-          maxY = spot.y;
-        } else if (spot.y < minY) {
-          minY = spot.y;
-        }
-      });
-    }
-  }
-}
-
-class LineChartSpot {
-  final double x;
-  final double y;
-
-  LineChartSpot(this.x, this.y);
 }
 
 // Bar Data
 class LineChartBarData {
+  final bool show;
+
   final Color barColor;
   final double barWidth;
   final bool isCurved;
   final double curveSmoothness;
 
   const LineChartBarData({
+    this.show = true,
     this.barColor = Colors.redAccent,
     this.barWidth = 2.0,
     this.isCurved = false,
@@ -83,124 +46,18 @@ class LineChartBarData {
 
 // Below Bar Data
 class BelowBarData {
+  final bool show;
+
   final List<Color> colors;
   final Offset from;
   final Offset to;
   final List<double> colorStops;
 
   const BelowBarData({
+    this.show = true,
     this.colors = const [Colors.blueGrey],
     this.from = const Offset(0, 0),
     this.to = const Offset(1, 0),
     this.colorStops = const [1.0],
-  });
-}
-
-// Dot Data
-typedef CheckToShowDot = bool Function(LineChartSpot spot);
-bool showAllDots(LineChartSpot spot) {
-  return true;
-}
-class LineChartDotData {
-  final Color dotColor;
-  final double dotSize;
-  final CheckToShowDot checkToShowDot;
-
-  const LineChartDotData({
-    this.dotColor = Colors.blue,
-    this.dotSize = 4.0,
-    this.checkToShowDot = showAllDots,
-  });
-}
-
-
-// Grid data
-typedef CheckToShowGrid = bool Function(double value);
-
-bool showAllGrids(double value) {
-  return true;
-}
-
-class LineChartGridData {
-  // Horizontal
-  final bool drawHorizontalGrid;
-  final double horizontalInterval;
-  final Color horizontalGridColor;
-  final double horizontalGridLineWidth;
-  final CheckToShowGrid checkToShowHorizontalGrid;
-
-  // Vertical
-  final bool drawVerticalGrid;
-  final double verticalInterval;
-  final Color verticalGridColor;
-  final double verticalGridLineWidth;
-  final CheckToShowGrid checkToShowVerticalGrid;
-
-  const LineChartGridData({
-    // Horizontal
-    this.drawHorizontalGrid = false,
-    this.horizontalInterval = 1.0,
-    this.horizontalGridColor = Colors.grey,
-    this.horizontalGridLineWidth = 0.5,
-    this.checkToShowHorizontalGrid = showAllGrids,
-
-    //Vertical
-    this.drawVerticalGrid = true,
-    this.verticalInterval = 1.0,
-    this.verticalGridColor = Colors.grey,
-    this.verticalGridLineWidth = 0.5,
-    this.checkToShowVerticalGrid = showAllGrids,
-  });
-}
-
-
-// Titles data
-typedef GetTitleFunction = String Function(double value);
-
-String defaultGetTitle(double value) {
-  return "${value.toInt()}";
-}
-
-enum TitleAlignment {
-  LEFT, RIGHT, TOP, BOTTOM,
-}
-
-class LineChartTitlesData {
-  // Horizontal
-  final GetTitleFunction getHorizontalTitle;
-  final double horizontalTitlesReservedHeight;
-  final TextStyle horizontalTitlesTextStyle;
-  final double horizontalTitleMargin;
-
-  // Vertical
-  final GetTitleFunction getVerticalTitle;
-  final double verticalTitlesReservedWidth;
-  final TextStyle verticalTitlesTextStyle;
-  final double verticalTitleMargin;
-
-  const LineChartTitlesData({
-    // Horizontal
-    this.getHorizontalTitle = defaultGetTitle,
-    this.horizontalTitlesReservedHeight = 22,
-    this.horizontalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
-    this.horizontalTitleMargin = 6,
-
-    // Vertical
-    this.getVerticalTitle = defaultGetTitle,
-    this.verticalTitlesReservedWidth = 40,
-    this.verticalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
-    this.verticalTitleMargin = 6,
-  });
-}
-
-
-// Border Data
-class LineChartBorderData {
-  final Color borderColor;
-  final double borderWidth;
-
-  const LineChartBorderData({
-    this.borderColor = Colors.black,
-    this.borderWidth = 1.0,
   });
 }
