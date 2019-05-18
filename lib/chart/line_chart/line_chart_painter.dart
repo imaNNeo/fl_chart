@@ -6,13 +6,14 @@ import 'package:flutter/widgets.dart';
 import 'line_chart_data.dart';
 
 class LineChartPainter extends CustomPainter {
-
   final LineChartData data;
 
   Paint barPaint, dotPaint, gridPaint, belowBarPaint, borderPaint;
   double dotSize;
 
-  LineChartPainter(this.data,) {
+  LineChartPainter(
+    this.data,
+  ) {
     barPaint = Paint()
       ..color = data.barData.barColor
       ..style = PaintingStyle.stroke
@@ -117,14 +118,14 @@ class LineChartPainter extends CustomPainter {
     while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
       double x = 0 + _getLeftOffsetDrawSize();
       double y = _getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) +
-        _getTopOffsetDrawSize();
+          _getTopOffsetDrawSize();
 
-      String text = data.titlesData.getVerticalTitle(
-        data.gridData.verticalInterval * verticalCounter);
+      String text =
+          data.titlesData.getVerticalTitle(data.gridData.verticalInterval * verticalCounter);
 
       TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
       TextPainter tp = new TextPainter(
-        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
       tp.layout(maxWidth: _getExtraNeededHorizontalSpace());
       x -= tp.width + data.titlesData.verticalTitleMargin;
       y -= (tp.height / 2);
@@ -139,12 +140,12 @@ class LineChartPainter extends CustomPainter {
       double x = _getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
       double y = viewSize.height + _getTopOffsetDrawSize();
 
-      String text = data.titlesData.getHorizontalTitle(
-        data.gridData.horizontalInterval * horizontalCounter);
+      String text =
+          data.titlesData.getHorizontalTitle(data.gridData.horizontalInterval * horizontalCounter);
 
       TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
       TextPainter tp = new TextPainter(
-        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
       tp.layout();
 
       x -= (tp.width / 2);
@@ -203,7 +204,6 @@ class LineChartPainter extends CustomPainter {
     }
 
     canvas.drawPath(barPath, belowBarPaint);
-
   }
 
   void _drawBar(Canvas canvas, Size viewSize, Path barPath) {
@@ -238,12 +238,13 @@ class LineChartPainter extends CustomPainter {
     borderPaint.strokeWidth = data.borderData.borderWidth;
 
     canvas.drawRect(
-      Rect.fromLTWH(
-        0 + _getLeftOffsetDrawSize(),
-        0 + _getTopOffsetDrawSize(),
-        chartViewSize.width,
-        chartViewSize.height,
-      ), borderPaint);
+        Rect.fromLTWH(
+          0 + _getLeftOffsetDrawSize(),
+          0 + _getTopOffsetDrawSize(),
+          chartViewSize.width,
+          chartViewSize.height,
+        ),
+        borderPaint);
   }
 
   Path _generateBarPath(Size viewSize) {
@@ -252,8 +253,7 @@ class LineChartPainter extends CustomPainter {
     int size = data.spots.length;
     path.reset();
 
-    double lX = 0.0,
-      lY = 0.0;
+    double lX = 0.0, lY = 0.0;
 
     double x = _getPixelX(data.spots[0].x, viewSize);
     double y = _getPixelY(data.spots[0].y, viewSize);
@@ -293,7 +293,10 @@ class LineChartPainter extends CustomPainter {
     return ((spotX / data.maxX) * viewSize.width) + _getLeftOffsetDrawSize();
   }
 
-  double _getPixelY(double spotY, Size viewSize,) {
+  double _getPixelY(
+    double spotY,
+    Size viewSize,
+  ) {
     double y = data.maxY - spotY;
     return ((y / data.maxY) * viewSize.height) + _getTopOffsetDrawSize();
   }
@@ -319,20 +322,16 @@ class LineChartPainter extends CustomPainter {
   }
 
   double _getLeftOffsetDrawSize() {
-    if (data.showTitles && data.titlesData.verticalTitlesAlignment == TitleAlignment.LEFT) {
+    if (data.showTitles) {
       return data.titlesData.verticalTitlesReservedWidth + data.titlesData.verticalTitleMargin;
     }
     return 0;
   }
 
   double _getTopOffsetDrawSize() {
-    if (data.showTitles && data.titlesData.horizontalTitlesAlignment == TitleAlignment.TOP) {
-      return data.titlesData.horizontalTitlesReservedHeight + data.titlesData.horizontalTitleMargin;
-    }
     return 0;
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
-
 }

@@ -167,14 +167,12 @@ enum TitleAlignment {
 
 class LineChartTitlesData {
   // Horizontal
-  final TitleAlignment horizontalTitlesAlignment;
   final GetTitleFunction getHorizontalTitle;
   final double horizontalTitlesReservedHeight;
   final TextStyle horizontalTitlesTextStyle;
   final double horizontalTitleMargin;
 
   // Vertical
-  final TitleAlignment verticalTitlesAlignment;
   final GetTitleFunction getVerticalTitle;
   final double verticalTitlesReservedWidth;
   final TextStyle verticalTitlesTextStyle;
@@ -182,14 +180,12 @@ class LineChartTitlesData {
 
   const LineChartTitlesData({
     // Horizontal
-    this.horizontalTitlesAlignment = TitleAlignment.BOTTOM,
     this.getHorizontalTitle = defaultGetTitle,
     this.horizontalTitlesReservedHeight = 22,
     this.horizontalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
     this.horizontalTitleMargin = 6,
 
     // Vertical
-    this.verticalTitlesAlignment = TitleAlignment.LEFT,
     this.getVerticalTitle = defaultGetTitle,
     this.verticalTitlesReservedWidth = 40,
     this.verticalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),

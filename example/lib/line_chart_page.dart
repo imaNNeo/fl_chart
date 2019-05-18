@@ -243,7 +243,6 @@ class LineChartPage extends StatelessWidget {
               fontSize: 10
             )
           ),
-          showBorder: false,
         ),
       ),
     );
