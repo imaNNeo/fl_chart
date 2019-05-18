@@ -24,12 +24,12 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
 
   @override
   void paint(Canvas canvas, Size viewSize) {
-    _drawGrid(canvas, viewSize);
-    _drawTitles(canvas, viewSize);
-    _drawDots(canvas, viewSize);
+    super.paint(canvas, viewSize);
+    drawGrid(canvas, viewSize);
+    drawDots(canvas, viewSize);
   }
 
-  void _drawGrid(Canvas canvas, Size viewSize) {
+  void drawGrid(Canvas canvas, Size viewSize) {
     if (!data.gridData.show || data.gridData == null) {
       return;
     }
@@ -81,57 +81,7 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
     }
   }
 
-  void _drawTitles(Canvas canvas, Size viewSize) {
-    if (!data.titlesData.show) {
-      return;
-    }
-    viewSize = getChartUsableDrawSize(viewSize);
-
-    // Vertical Titles
-    int verticalCounter = 0;
-    while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
-      double x = 0 + getLeftOffsetDrawSize();
-      double y = getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) +
-        getTopOffsetDrawSize();
-
-      String text =
-      data.titlesData.getVerticalTitle(data.gridData.verticalInterval * verticalCounter);
-
-      TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
-      TextPainter tp = new TextPainter(
-        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
-      tp.layout(maxWidth: getExtraNeededHorizontalSpace());
-      x -= tp.width + data.titlesData.verticalTitleMargin;
-      y -= (tp.height / 2);
-      tp.paint(canvas, new Offset(x, y));
-
-      verticalCounter++;
-    }
-
-    // Horizontal titles
-    int horizontalCounter = 0;
-    while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
-      double x = getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
-      double y = viewSize.height + getTopOffsetDrawSize();
-
-      String text =
-      data.titlesData.getHorizontalTitle(data.gridData.horizontalInterval * horizontalCounter);
-
-      TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
-      TextPainter tp = new TextPainter(
-        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
-      tp.layout();
-
-      x -= (tp.width / 2);
-      y += data.titlesData.horizontalTitleMargin;
-
-      tp.paint(canvas, Offset(x, y));
-
-      horizontalCounter++;
-    }
-  }
-
-  void _drawDots(Canvas canvas, Size viewSize) {
+  void drawDots(Canvas canvas, Size viewSize) {
     if (!data.dotData.show) {
       return;
     }
@@ -145,22 +95,22 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
     });
   }
 
-  double getPixelX(double spotX, Size viewSize) {
-    return ((spotX / data.maxX) * viewSize.width) + getLeftOffsetDrawSize();
+  double getPixelX(double spotX, Size chartUsableSize) {
+    return ((spotX / data.maxX) * chartUsableSize.width) + getLeftOffsetDrawSize();
   }
 
   double getPixelY(
     double spotY,
-    Size viewSize,
+    Size chartUsableSize,
     ) {
     double y = data.maxY - spotY;
-    return ((y / data.maxY) * viewSize.height) + getTopOffsetDrawSize();
+    return ((y / data.maxY) * chartUsableSize.height) + getTopOffsetDrawSize();
   }
 
   @override
   double getExtraNeededHorizontalSpace() {
     double parentNeeded = super.getExtraNeededHorizontalSpace();
-    if (data.titlesData.show) {
+    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
       return parentNeeded + data.titlesData.verticalTitlesReservedWidth + data.titlesData.verticalTitleMargin;
     }
     return parentNeeded;
@@ -169,7 +119,7 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
   @override
   double getExtraNeededVerticalSpace() {
     double parentNeeded = super.getExtraNeededVerticalSpace();
-    if (data.titlesData.show) {
+    if (data.titlesData.show && data.titlesData.showHorizontalTitles) {
       return parentNeeded + data.titlesData.horizontalTitlesReservedHeight + data.titlesData.horizontalTitleMargin;
     }
     return parentNeeded;
@@ -177,7 +127,7 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
 
   double getLeftOffsetDrawSize() {
     double parentNeeded = super.getLeftOffsetDrawSize();
-    if (data.titlesData.show) {
+    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
       return parentNeeded + data.titlesData.verticalTitlesReservedWidth + data.titlesData.verticalTitleMargin;
     }
     return parentNeeded;

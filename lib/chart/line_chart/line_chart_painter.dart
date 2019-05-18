@@ -33,14 +33,15 @@ class LineChartPainter extends FlAxisChartPainter {
     super.paint(canvas, viewSize);
 
     Path barPath = _generateBarPath(viewSize);
-    _drawBelowBar(canvas, viewSize, Path.from(barPath));
-    _drawBar(canvas, viewSize, Path.from(barPath));
+    drawBelowBar(canvas, viewSize, Path.from(barPath));
+    drawBar(canvas, viewSize, Path.from(barPath));
+    drawTitles(canvas, viewSize);
   }
 
   /*
   barPath Ends in Top Right
    */
-  void _drawBelowBar(Canvas canvas, Size viewSize, Path barPath) {
+  void drawBelowBar(Canvas canvas, Size viewSize, Path barPath) {
     if (!data.belowBarData.show) {
       return;
     }
@@ -86,11 +87,65 @@ class LineChartPainter extends FlAxisChartPainter {
     canvas.drawPath(barPath, belowBarPaint);
   }
 
-  void _drawBar(Canvas canvas, Size viewSize, Path barPath) {
+  void drawBar(Canvas canvas, Size viewSize, Path barPath) {
     if (!data.barData.show) {
       return;
     }
     canvas.drawPath(barPath, barPaint);
+  }
+
+  void drawTitles(Canvas canvas, Size viewSize) {
+    if (!data.titlesData.show) {
+      return;
+    }
+    viewSize = getChartUsableDrawSize(viewSize);
+
+    // Vertical Titles
+    if (data.titlesData.showVerticalTitles) {
+      int verticalCounter = 0;
+      while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
+        double x = 0 + getLeftOffsetDrawSize();
+        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) +
+          getTopOffsetDrawSize();
+
+        String text =
+        data.titlesData.getVerticalTitle(data.gridData.verticalInterval * verticalCounter);
+
+        TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
+        TextPainter tp = new TextPainter(
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+        x -= tp.width + data.titlesData.verticalTitleMargin;
+        y -= (tp.height / 2);
+        tp.paint(canvas, new Offset(x, y));
+
+        verticalCounter++;
+      }
+    }
+
+    // Horizontal titles
+    if (data.titlesData.showHorizontalTitles) {
+      int horizontalCounter = 0;
+      while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
+        double x = getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
+        double y = viewSize.height + getTopOffsetDrawSize();
+
+        String text =
+        data.titlesData.getHorizontalTitle(data.gridData.horizontalInterval * horizontalCounter);
+
+        TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
+        TextPainter tp = new TextPainter(
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        tp.layout();
+
+        x -= (tp.width / 2);
+        y += data.titlesData.horizontalTitleMargin;
+
+        tp.paint(canvas, Offset(x, y));
+
+        horizontalCounter++;
+      }
+    }
   }
 
   Path _generateBarPath(Size viewSize) {

@@ -15,7 +15,7 @@ class FlAxisChartData extends FlChartData {
     this.gridData = const FlGridData(),
     this.titlesData = const FlTitlesData(),
     this.dotData = const AxisDotData(),
-    FlBorderData borderData,
+    FlBorderData borderData = const FlBorderData(),
   }) : super(borderData: borderData) {
     if (spots == null) {
       throw Exception("spots couldn't be null");
@@ -46,7 +46,7 @@ class AxisSpot {
   final double x;
   final double y;
 
-  AxisSpot(this.x, this.y);
+  const AxisSpot(this.x, this.y);
 }
 
 // Grid data
@@ -106,12 +106,14 @@ enum TitleAlignment {
 class FlTitlesData {
   final bool show;
   // Horizontal
+  final bool showHorizontalTitles;
   final GetTitleFunction getHorizontalTitle;
   final double horizontalTitlesReservedHeight;
   final TextStyle horizontalTitlesTextStyle;
   final double horizontalTitleMargin;
 
   // Vertical
+  final bool showVerticalTitles;
   final GetTitleFunction getVerticalTitle;
   final double verticalTitlesReservedWidth;
   final TextStyle verticalTitlesTextStyle;
@@ -120,12 +122,14 @@ class FlTitlesData {
   const FlTitlesData({
     this.show = true,
     // Horizontal
+    this.showHorizontalTitles = true,
     this.getHorizontalTitle = defaultGetTitle,
     this.horizontalTitlesReservedHeight = 22,
     this.horizontalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
     this.horizontalTitleMargin = 6,
 
     // Vertical
+    this.showVerticalTitles = true,
     this.getVerticalTitle = defaultGetTitle,
     this.verticalTitlesReservedWidth = 40,
     this.verticalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
