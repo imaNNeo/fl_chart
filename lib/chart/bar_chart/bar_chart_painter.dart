@@ -139,23 +139,28 @@ class BarChartPainter extends FlAxisChartPainter {
       double fromY = getPixelY(0, drawSize);
       double toY = getPixelY(barData.y, drawSize);
 
-      while ((fromY - toY).abs() < barWidth) {
-        barWidth -= barWidth * 0.1;
+      double roundedRadius = 0;
+      if (barData.isRound) {
+        while ((fromY - toY).abs() < barWidth) {
+          barWidth -= barWidth * 0.1;
+        }
+        roundedRadius = barWidth / 2;
       }
 
       Offset from = Offset(
         barsX[index],
-        fromY - (barWidth / 2),
+        fromY - roundedRadius,
       );
 
 
       Offset to = Offset(
         barsX[index],
-        toY + (barWidth / 2),
+        toY + roundedRadius,
       );
 
       barPaint.color = barData.color;
       barPaint.strokeWidth = barWidth;
+      barPaint.strokeCap = barData.isRound ? StrokeCap.round : StrokeCap.butt;
       canvas.drawLine(from, to, barPaint);
     });
   }

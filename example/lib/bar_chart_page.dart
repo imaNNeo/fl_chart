@@ -34,6 +34,7 @@ class BarChartPage extends StatelessWidget {
           alignment: BarChartAlignment.spaceEvenly,
           barSpots: [
             BarChartRodData(
+              isRound: false,
               color: Colors.red,
               width: 14,
               x: 0,
