@@ -1,5 +1,6 @@
 import 'package:fl_chart/chart/bar_chart/bar_chart.dart';
 import 'package:fl_chart/chart/bar_chart/bar_chart_data.dart';
+import 'package:fl_chart/chart/base/fl_axis_chart/fl_axis_chart_data.dart';
 import 'package:fl_chart/fl_chart_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -23,29 +24,36 @@ class BarChartPage extends StatelessWidget {
     return FlChartWidget(
       flChart: BarChart(
         BarChartData(
+          gridData: FlGridData(
+            show: true,
+          ),
+          titlesData: FlTitlesData(
+            show: true,
+            showVerticalTitles: true,
+          ),
           alignment: BarChartAlignment.spaceEvenly,
           barSpots: [
             BarChartRodData(
               color: Colors.red,
-              width: 8,
+              width: 14,
               x: 0,
               y: 2,
             ),
             BarChartRodData(
               color: Colors.purpleAccent,
-              width: 8,
+              width: 14,
               x: 1,
               y: 6,
             ),
             BarChartRodData(
               color: Colors.blue,
-              width: 8,
+              width: 14,
               x: 2,
               y: 3,
             ),
             BarChartRodData(
               color: Colors.green,
-              width: 8,
+              width: 14,
               x: 3,
               y: 5,
             ),

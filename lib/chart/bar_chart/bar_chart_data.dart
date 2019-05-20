@@ -38,10 +38,12 @@ enum BarChartAlignment {
 class BarChartRodData extends AxisSpot{
   final Color color;
   final double width;
+  final bool isRound;
 
   const BarChartRodData({
-    this.color,
-    this.width,
+    this.color = Colors.blueAccent,
+    this.width = 8,
+    this.isRound = true,
     double x,
     double y,
   }) : super(x, y);

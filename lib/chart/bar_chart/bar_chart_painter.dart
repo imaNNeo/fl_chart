@@ -36,11 +36,13 @@ class BarChartPainter extends FlAxisChartPainter {
 
     List<double> barsX = List(spots.length);
 
+    double leftTextsSpace = getLeftOffsetDrawSize();
+
     switch (alignment) {
       case BarChartAlignment.start:
         double tempX = 0;
         spots.asMap().forEach((i, spot) {
-          barsX[i] = tempX + spot.width / 2;
+          barsX[i] = leftTextsSpace + tempX + spot.width / 2;
           tempX += spot.width;
         });
         break;
@@ -49,7 +51,7 @@ class BarChartPainter extends FlAxisChartPainter {
         double tempX = 0;
         for (int i = spots.length - 1; i >= 0; i--) {
           var spot = spots[i];
-          barsX[i] = drawSize.width - tempX - spot.width / 2;
+          barsX[i] = (leftTextsSpace + drawSize.width) - tempX - spot.width / 2;
           tempX += spot.width;
         }
         break;
@@ -65,7 +67,7 @@ class BarChartPainter extends FlAxisChartPainter {
         double tempX = 0;
         for (int i = 0; i < spots.length; i++) {
           var spot = spots[i];
-          barsX[i] = horizontalMargin + tempX + spot.width / 2;
+          barsX[i] = leftTextsSpace + horizontalMargin + tempX + spot.width / 2;
           tempX += spot.width;
         }
         break;
@@ -84,7 +86,7 @@ class BarChartPainter extends FlAxisChartPainter {
           if (index != 0) {
             tempX += eachSpace;
           }
-          barsX[index] = tempX;
+          barsX[index] = leftTextsSpace + tempX;
           tempX += (spot.width / 2);
         });
         break;
@@ -102,7 +104,7 @@ class BarChartPainter extends FlAxisChartPainter {
           var spot = spots[i];
           tempX += eachSpace;
           tempX += spot.width / 2;
-          barsX[i] = tempX;
+          barsX[i] = leftTextsSpace + tempX;
           tempX += spot.width / 2;
           tempX += eachSpace;
         });
@@ -119,7 +121,7 @@ class BarChartPainter extends FlAxisChartPainter {
         spots.asMap().forEach((i, spot) {
           tempX += eachSpace;
           tempX += spot.width / 2;
-          barsX[i] = tempX;
+          barsX[i] = leftTextsSpace + tempX;
           tempX += spot.width / 2;
         });
         break;
