@@ -5,24 +5,33 @@ import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
 
 class BarChartData extends FlAxisChartData {
-  final List<BarChartRodData> barSpots;
+  final List<BarChartGroupData> barGroups;
   final BarChartAlignment alignment;
 
   BarChartData({
-    this.barSpots = const [],
+    this.barGroups = const [],
     this.alignment = BarChartAlignment.spaceBetween,
     FlGridData gridData = const FlGridData(show: false,),
     FlTitlesData titlesData = const FlTitlesData(show: true, showVerticalTitles: false),
     FlBorderData borderData = const FlBorderData(show: true, borderColor: Colors.black12),
     AxisDotData dotData = const AxisDotData(show: false),
   }) : super(
-    spots: barSpots,
+    spots: groupsToAxisSpots(barGroups),
     gridData: gridData,
     dotData: dotData,
     titlesData: titlesData,
     borderData: borderData,
   );
 
+  static List<AxisSpot> groupsToAxisSpots(List<BarChartGroupData> barGroups) {
+    List<AxisSpot> spots =  barGroups.expand((group) {
+      return group.barRods.map((rodData) {
+        return AxisSpot(group.x.toDouble(), rodData.y);
+      }).toList();
+    }).toList();
+
+    return spots;
+  }
 }
 
 enum BarChartAlignment {
@@ -34,17 +43,60 @@ enum BarChartAlignment {
   spaceBetween,
 }
 
+// Bar Chart Group Data
+class BarChartGroupData {
+  @required final int x;
+  final List<BarChartRodData> barRods;
+  final double barsSpace;
+
+  const BarChartGroupData({
+    this.x,
+    this.barRods = const [],
+    this.barsSpace = 2,
+  });
+
+  double get width {
+    if (barRods.length == 0) {
+      return 0;
+    }
+
+    double sumWidth =
+    barRods.map((rodData) => rodData.width)
+      .reduce((first, second) => first + second);
+    double spaces =
+      (barRods.length - 1) * barsSpace;
+
+    return sumWidth + spaces;
+  }
+
+}
+
 // Bar Data
-class BarChartRodData extends AxisSpot{
+class BarChartRodData {
+  final double y;
   final Color color;
   final double width;
   final bool isRound;
 
   const BarChartRodData({
+    this.y,
     this.color = Colors.blueAccent,
     this.width = 8,
     this.isRound = true,
-    double x,
-    double y,
-  }) : super(x, y);
+  });
+
+  BarChartRodData copyWith(
+    {
+      double y,
+      Color color,
+      double width,
+      bool isRound,
+    }) {
+    return BarChartRodData(
+      y: y ?? this.y,
+      color: color ?? this.color,
+      width: width ?? this.width,
+      isRound: isRound ?? this.isRound,
+    );
+  }
 }

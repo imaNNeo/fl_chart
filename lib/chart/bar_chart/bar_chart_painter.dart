@@ -25,147 +25,157 @@ class BarChartPainter extends FlAxisChartPainter {
     }
     super.paint(canvas, viewSize);
 
-    List<double> barsX = calculateBarsX(viewSize, data.barSpots, data.alignment);
+    List<double> barsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
     drawBars(canvas, viewSize, barsX);
     drawTitles(canvas, viewSize, barsX);
   }
 
-  List<double> calculateBarsX(Size viewSize,
-    List<BarChartRodData> spots, BarChartAlignment alignment) {
+  List<double> calculateGroupsX(Size viewSize,
+    List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
     Size drawSize = getChartUsableDrawSize(viewSize);
 
-    List<double> barsX = List(spots.length);
+    List<double> groupsX = List(barGroups.length);
 
     double leftTextsSpace = getLeftOffsetDrawSize();
 
     switch (alignment) {
       case BarChartAlignment.start:
         double tempX = 0;
-        spots.asMap().forEach((i, spot) {
-          barsX[i] = leftTextsSpace + tempX + spot.width / 2;
-          tempX += spot.width;
+        barGroups.asMap().forEach((i, group) {
+          groupsX[i] = leftTextsSpace + tempX + group.width / 2;
+          tempX += group.width;
         });
         break;
 
       case BarChartAlignment.end:
         double tempX = 0;
-        for (int i = spots.length - 1; i >= 0; i--) {
-          var spot = spots[i];
-          barsX[i] = (leftTextsSpace + drawSize.width) - tempX - spot.width / 2;
-          tempX += spot.width;
+        for (int i = barGroups.length - 1; i >= 0; i--) {
+          var group = barGroups[i];
+          groupsX[i] = (leftTextsSpace + drawSize.width) - tempX - group.width / 2;
+          tempX += group.width;
         }
         break;
 
       case BarChartAlignment.center:
-        double linesSumWidth = 0;
-        spots.forEach((spot) {
-          linesSumWidth += spot.width;
-        });
+        double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
 
-        double horizontalMargin = (drawSize.width - linesSumWidth) / 2;
+        double horizontalMargin = (drawSize.width - sumWidth) / 2;
 
         double tempX = 0;
-        for (int i = 0; i < spots.length; i++) {
-          var spot = spots[i];
-          barsX[i] = leftTextsSpace + horizontalMargin + tempX + spot.width / 2;
-          tempX += spot.width;
+        for (int i = 0; i < barGroups.length; i++) {
+          var group = barGroups[i];
+          groupsX[i] = leftTextsSpace + horizontalMargin + tempX + group.width / 2;
+          tempX += group.width;
         }
         break;
 
       case BarChartAlignment.spaceBetween:
-        double sumWidth = 0;
-        spots.forEach((spot) {
-          sumWidth += spot.width;
-        });
+        double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
         double spaceAvailable = drawSize.width - sumWidth;
-        double eachSpace = spaceAvailable / (spots.length - 1);
+        double eachSpace = spaceAvailable / (barGroups.length - 1);
 
         double tempX = 0;
-        spots.asMap().forEach((index, spot) {
-          tempX += (spot.width / 2);
+        barGroups.asMap().forEach((index, group) {
+          tempX += (group.width / 2);
           if (index != 0) {
             tempX += eachSpace;
           }
-          barsX[index] = leftTextsSpace + tempX;
-          tempX += (spot.width / 2);
+          groupsX[index] = leftTextsSpace + tempX;
+          tempX += (group.width / 2);
         });
         break;
 
       case BarChartAlignment.spaceAround:
-        double sumWidth = 0;
-        spots.forEach((spot) {
-          sumWidth += spot.width;
-        });
+        double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
         double spaceAvailable = drawSize.width - sumWidth;
-        double eachSpace = spaceAvailable / (spots.length * 2);
+        double eachSpace = spaceAvailable / (barGroups.length * 2);
 
         double tempX = 0;
-        spots.asMap().forEach((i, spot) {
-          var spot = spots[i];
+        barGroups.asMap().forEach((i, group) {
           tempX += eachSpace;
-          tempX += spot.width / 2;
-          barsX[i] = leftTextsSpace + tempX;
-          tempX += spot.width / 2;
+          tempX += group.width / 2;
+          groupsX[i] = leftTextsSpace + tempX;
+          tempX += group.width / 2;
           tempX += eachSpace;
         });
         break;
       case BarChartAlignment.spaceEvenly:
-        double sumWidth = 0;
-        spots.forEach((spot) {
-          sumWidth += spot.width;
-        });
+        double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
         double spaceAvailable = drawSize.width - sumWidth;
-        double eachSpace = spaceAvailable / (spots.length + 1);
+        double eachSpace = spaceAvailable / (barGroups.length + 1);
 
         double tempX = 0;
-        spots.asMap().forEach((i, spot) {
+        barGroups.asMap().forEach((i, group) {
           tempX += eachSpace;
-          tempX += spot.width / 2;
-          barsX[i] = leftTextsSpace + tempX;
-          tempX += spot.width / 2;
+          tempX += group.width / 2;
+          groupsX[i] = leftTextsSpace + tempX;
+          tempX += group.width / 2;
         });
         break;
     }
 
-    return barsX;
+    return groupsX;
   }
 
   void drawBars(Canvas canvas, Size viewSize, List<double> barsX) {
     Size drawSize = getChartUsableDrawSize(viewSize);
 
-    data.barSpots.asMap().forEach((int index, BarChartRodData barData) {
-      double barWidth = barData.width;
+    data.barGroups.asMap().forEach((groupIndex, barGroup) {
+      /*
+      * If the height of rounded bars is less than their roundedRadius,
+      * we can't draw them properly,
+      * then we try to make them width lower,
+      * */
+      List<BarChartRodData> resizedWidthRods = barGroup.barRods.map((barRod) {
+        if (!barRod.isRound) {
+          return barRod;
+        }
 
-      double fromY = getPixelY(0, drawSize);
-      double toY = getPixelY(barData.y, drawSize);
+        double fromY = getPixelY(0, drawSize);
+        double toY = getPixelY(barRod.y, drawSize);
 
-      double roundedRadius = 0;
-      if (barData.isRound) {
-        while ((fromY - toY).abs() < barWidth) {
+        double barWidth = barRod.width;
+
+        double barHeight = (fromY - toY).abs();
+        while (barHeight < barWidth) {
           barWidth -= barWidth * 0.1;
         }
-        roundedRadius = barWidth / 2;
-      }
 
-      Offset from = Offset(
-        barsX[index],
-        fromY - roundedRadius,
-      );
+        if (barWidth == barRod.width) {
+          return barRod;
+        } else {
+          return barRod.copyWith(width: barWidth);
+        }
+      }).toList();
 
+      double tempX = 0;
+      resizedWidthRods.asMap().forEach((barIndex, barRod) {
+        double widthHalf = barRod.width / 2;
+        double roundedRadius = barRod.isRound ? widthHalf : 0;
 
-      Offset to = Offset(
-        barsX[index],
-        toY + roundedRadius,
-      );
+        double x = barsX[groupIndex] - (barGroup.width / 2) + tempX + widthHalf;
 
-      barPaint.color = barData.color;
-      barPaint.strokeWidth = barWidth;
-      barPaint.strokeCap = barData.isRound ? StrokeCap.round : StrokeCap.butt;
-      canvas.drawLine(from, to, barPaint);
+        Offset from = Offset(
+          x,
+          getPixelY(0, drawSize) - roundedRadius,
+        );
+
+        Offset to = Offset(
+          x,
+          getPixelY(barRod.y, drawSize) + roundedRadius,
+        );
+
+        barPaint.color = barRod.color;
+        barPaint.strokeWidth = barRod.width;
+        barPaint.strokeCap = barRod.isRound ? StrokeCap.round : StrokeCap.butt;
+        canvas.drawLine(from, to, barPaint);
+
+        tempX += barRod.width + barGroup.barsSpace;
+      });
     });
   }
 
-  void drawTitles(Canvas canvas, Size viewSize, List<double> barsX) {
+  void drawTitles(Canvas canvas, Size viewSize, List<double> groupsX) {
     if (!data.titlesData.show) {
       return;
     }
@@ -195,7 +205,7 @@ class BarChartPainter extends FlAxisChartPainter {
     }
 
     // Horizontal titles
-    barsX.asMap().forEach((int index, double x) {
+    groupsX.asMap().forEach((int index, double x) {
       String text = data.titlesData.getHorizontalTitle(index.toDouble());
 
       TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);

@@ -32,31 +32,63 @@ class BarChartPage extends StatelessWidget {
             showVerticalTitles: true,
           ),
           alignment: BarChartAlignment.spaceEvenly,
-          barSpots: [
-            BarChartRodData(
-              isRound: false,
-              color: Colors.red,
-              width: 14,
+          barGroups: [
+            BarChartGroupData(
               x: 0,
-              y: 2,
+              barRods: [
+                BarChartRodData(
+                  isRound: false,
+                  color: Colors.red,
+                  width: 14,
+                  y: 1,
+                ),
+                BarChartRodData(
+                  isRound: false,
+                  color: Colors.redAccent,
+                  width: 14,
+                  y: 2,
+                ),
+              ]
             ),
-            BarChartRodData(
-              color: Colors.purpleAccent,
-              width: 14,
+            BarChartGroupData(
               x: 1,
-              y: 6,
+              barRods: [
+                BarChartRodData(
+                  color: Colors.purpleAccent,
+                  width: 14,
+                  y: 6,
+                ),
+                BarChartRodData(
+                  color: Colors.deepPurple,
+                  width: 14,
+                  y: 4,
+                ),
+              ]
             ),
-            BarChartRodData(
-              color: Colors.blue,
-              width: 14,
+            BarChartGroupData(
               x: 2,
-              y: 3,
+              barRods: [
+                BarChartRodData(
+                  color: Colors.blue,
+                  width: 14,
+                  y: 3,
+                ),
+              ]
             ),
-            BarChartRodData(
-              color: Colors.green,
-              width: 14,
+            BarChartGroupData(
               x: 3,
-              y: 5,
+              barRods: [
+                BarChartRodData(
+                  color: Colors.green,
+                  width: 14,
+                  y: 5,
+                ),
+                BarChartRodData(
+                  color: Colors.lightGreen,
+                  width: 14,
+                  y: 8,
+                ),
+              ]
             ),
           ],
         )
