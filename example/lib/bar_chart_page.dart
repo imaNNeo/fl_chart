@@ -23,6 +23,7 @@ class BarChartPage extends StatelessWidget {
     return FlChartWidget(
       flChart: BarChart(
         BarChartData(
+          alignment: BarChartAlignment.spaceEvenly,
           barSpots: [
             BarChartRodData(
               color: Colors.red,

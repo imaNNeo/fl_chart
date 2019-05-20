@@ -25,38 +25,144 @@ class BarChartPainter extends FlAxisChartPainter {
     }
     super.paint(canvas, viewSize);
 
-    EdgeInsets chartInsidePadding = EdgeInsets.all(data.barSpots[0].width / 2);
-
-    drawBars(canvas, viewSize, chartInsidePadding);
-    drawTitles(canvas, viewSize, chartInsidePadding);
+    List<double> barsX = calculateBarsX(viewSize, data.barSpots, data.alignment);
+    drawBars(canvas, viewSize, barsX);
+    drawTitles(canvas, viewSize, barsX);
   }
 
-  void drawBars(Canvas canvas, Size viewSize, EdgeInsets chartInsidePadding) {
+  List<double> calculateBarsX(Size viewSize,
+    List<BarChartRodData> spots, BarChartAlignment alignment) {
     Size drawSize = getChartUsableDrawSize(viewSize);
-    drawSize = Size(drawSize.width - chartInsidePadding.horizontal, drawSize.height - chartInsidePadding.vertical);
-    data.barSpots.forEach((BarChartRodData barData) {
+
+    List<double> barsX = List(spots.length);
+
+    switch (alignment) {
+      case BarChartAlignment.start:
+        double tempX = 0;
+        spots.asMap().forEach((i, spot) {
+          barsX[i] = tempX + spot.width / 2;
+          tempX += spot.width;
+        });
+        break;
+
+      case BarChartAlignment.end:
+        double tempX = 0;
+        for (int i = spots.length - 1; i >= 0; i--) {
+          var spot = spots[i];
+          barsX[i] = drawSize.width - tempX - spot.width / 2;
+          tempX += spot.width;
+        }
+        break;
+
+      case BarChartAlignment.center:
+        double linesSumWidth = 0;
+        spots.forEach((spot) {
+          linesSumWidth += spot.width;
+        });
+
+        double horizontalMargin = (drawSize.width - linesSumWidth) / 2;
+
+        double tempX = 0;
+        for (int i = 0; i < spots.length; i++) {
+          var spot = spots[i];
+          barsX[i] = horizontalMargin + tempX + spot.width / 2;
+          tempX += spot.width;
+        }
+        break;
+
+      case BarChartAlignment.spaceBetween:
+        double sumWidth = 0;
+        spots.forEach((spot) {
+          sumWidth += spot.width;
+        });
+        double spaceAvailable = drawSize.width - sumWidth;
+        double eachSpace = spaceAvailable / (spots.length - 1);
+
+        double tempX = 0;
+        spots.asMap().forEach((index, spot) {
+          tempX += (spot.width / 2);
+          if (index != 0) {
+            tempX += eachSpace;
+          }
+          barsX[index] = tempX;
+          tempX += (spot.width / 2);
+        });
+        break;
+
+      case BarChartAlignment.spaceAround:
+        double sumWidth = 0;
+        spots.forEach((spot) {
+          sumWidth += spot.width;
+        });
+        double spaceAvailable = drawSize.width - sumWidth;
+        double eachSpace = spaceAvailable / (spots.length * 2);
+
+        double tempX = 0;
+        spots.asMap().forEach((i, spot) {
+          var spot = spots[i];
+          tempX += eachSpace;
+          tempX += spot.width / 2;
+          barsX[i] = tempX;
+          tempX += spot.width / 2;
+          tempX += eachSpace;
+        });
+        break;
+      case BarChartAlignment.spaceEvenly:
+        double sumWidth = 0;
+        spots.forEach((spot) {
+          sumWidth += spot.width;
+        });
+        double spaceAvailable = drawSize.width - sumWidth;
+        double eachSpace = spaceAvailable / (spots.length + 1);
+
+        double tempX = 0;
+        spots.asMap().forEach((i, spot) {
+          tempX += eachSpace;
+          tempX += spot.width / 2;
+          barsX[i] = tempX;
+          tempX += spot.width / 2;
+        });
+        break;
+    }
+
+    return barsX;
+  }
+
+  void drawBars(Canvas canvas, Size viewSize, List<double> barsX) {
+    Size drawSize = getChartUsableDrawSize(viewSize);
+
+    data.barSpots.asMap().forEach((int index, BarChartRodData barData) {
+      double barWidth = barData.width;
+
+      double fromY = getPixelY(0, drawSize);
+      double toY = getPixelY(barData.y, drawSize);
+
+      while ((fromY - toY).abs() < barWidth) {
+        barWidth -= barWidth * 0.1;
+      }
+
       Offset from = Offset(
-        chartInsidePadding.left + getPixelX(barData.x, drawSize),
-        chartInsidePadding.top + getPixelY(0, drawSize),
+        barsX[index],
+        fromY - (barWidth / 2),
       );
 
+
       Offset to = Offset(
-        chartInsidePadding.left + getPixelX(barData.x, drawSize),
-        chartInsidePadding.top + getPixelY(barData.y, drawSize),
+        barsX[index],
+        toY + (barWidth / 2),
       );
 
       barPaint.color = barData.color;
-      barPaint.strokeWidth = barData.width;
+      barPaint.strokeWidth = barWidth;
       canvas.drawLine(from, to, barPaint);
     });
   }
 
-  void drawTitles(Canvas canvas, Size viewSize, EdgeInsets chartInsidePadding) {
+  void drawTitles(Canvas canvas, Size viewSize, List<double> barsX) {
     if (!data.titlesData.show) {
       return;
     }
     Size drawSize = getChartUsableDrawSize(viewSize);
-    drawSize = Size(drawSize.width - chartInsidePadding.horizontal, drawSize.height);
 
     // Vertical Titles
     if (data.titlesData.showVerticalTitles) {
@@ -82,28 +188,19 @@ class BarChartPainter extends FlAxisChartPainter {
     }
 
     // Horizontal titles
-    if (data.titlesData.showHorizontalTitles) {
-      int horizontalCounter = 0;
-      while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
-        double x = chartInsidePadding.left + getPixelX(data.gridData.horizontalInterval * horizontalCounter, drawSize);
-        double y = drawSize.height + getTopOffsetDrawSize();
+    barsX.asMap().forEach((int index, double x) {
+      String text = data.titlesData.getHorizontalTitle(index.toDouble());
 
-        String text =
-        data.titlesData.getHorizontalTitle(data.gridData.horizontalInterval * horizontalCounter);
+      TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
+      TextPainter tp = new TextPainter(
+        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+      tp.layout();
 
-        TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
-        TextPainter tp = new TextPainter(
-          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
-        tp.layout();
+      double textX = x - (tp.width / 2);
+      double textY = drawSize.height + getTopOffsetDrawSize() + data.titlesData.horizontalTitleMargin;
 
-        x -= (tp.width / 2);
-        y += data.titlesData.horizontalTitleMargin;
-
-        tp.paint(canvas, Offset(x, y));
-
-        horizontalCounter++;
-      }
-    }
+      tp.paint(canvas, Offset(textX, textY));
+    });
   }
 
   @override

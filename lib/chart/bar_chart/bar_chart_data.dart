@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 
 class BarChartData extends FlAxisChartData {
   final List<BarChartRodData> barSpots;
+  final BarChartAlignment alignment;
 
   BarChartData({
     this.barSpots = const [],
+    this.alignment = BarChartAlignment.spaceBetween,
     FlGridData gridData = const FlGridData(show: false,),
     FlTitlesData titlesData = const FlTitlesData(show: true, showVerticalTitles: false),
     FlBorderData borderData = const FlBorderData(show: true, borderColor: Colors.black12),
@@ -21,6 +23,15 @@ class BarChartData extends FlAxisChartData {
     borderData: borderData,
   );
 
+}
+
+enum BarChartAlignment {
+  start,
+  end,
+  center,
+  spaceEvenly,
+  spaceAround,
+  spaceBetween,
 }
 
 // Bar Data
