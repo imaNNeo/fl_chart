@@ -26,7 +26,11 @@ class BarChartData extends FlAxisChartData {
   static List<AxisSpot> groupsToAxisSpots(List<BarChartGroupData> barGroups) {
     List<AxisSpot> spots =  barGroups.expand((group) {
       return group.barRods.map((rodData) {
-        return AxisSpot(group.x.toDouble(), rodData.y);
+        double y = rodData.y;
+        if (rodData.backDrawRodData.y > y) {
+          y = rodData.backDrawRodData.y;
+        }
+        return AxisSpot(group.x.toDouble(), y);
       }).toList();
     }).toList();
 

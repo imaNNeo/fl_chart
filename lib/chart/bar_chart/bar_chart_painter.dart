@@ -20,6 +20,8 @@ class BarChartPainter extends FlAxisChartPainter {
 
   @override
   void paint(Canvas canvas, Size viewSize) {
+    print("$viewSize");
+
     if (data.spots.length == 0) {
       return;
     }
