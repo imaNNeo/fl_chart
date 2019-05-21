@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'bar_chart_page.dart';
+import 'bar_chart_page2.dart';
 import 'line_chart_page.dart';
 
 void main() => runApp(MyApp());
@@ -35,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: PageView(
           children: <Widget>[
             BarChartPage(),
+            BarChartPage2(),
             LineChartPage(),
           ],
         ),
