@@ -155,19 +155,40 @@ class BarChartPainter extends FlAxisChartPainter {
 
         double x = barsX[groupIndex] - (barGroup.width / 2) + tempX + widthHalf;
 
-        Offset from = Offset(
+        Offset from, to;
+
+        // Draw Bars
+        barPaint.strokeWidth = barRod.width;
+        barPaint.strokeCap = barRod.isRound ? StrokeCap.round : StrokeCap.butt;
+
+        // Back Draw
+        if(barRod.backDrawRodData.show) {
+          from = Offset(
+            x,
+            getPixelY(0, drawSize) - roundedRadius,
+          );
+
+          to = Offset(
+            x,
+            getPixelY(barRod.backDrawRodData.y, drawSize) + roundedRadius,
+          );
+
+          barPaint.color = barRod.backDrawRodData.color;
+          canvas.drawLine(from, to, barPaint);
+        }
+
+        // Main Rod
+        from = Offset(
           x,
           getPixelY(0, drawSize) - roundedRadius,
         );
 
-        Offset to = Offset(
+        to = Offset(
           x,
           getPixelY(barRod.y, drawSize) + roundedRadius,
         );
 
         barPaint.color = barRod.color;
-        barPaint.strokeWidth = barRod.width;
-        barPaint.strokeCap = barRod.isRound ? StrokeCap.round : StrokeCap.butt;
         canvas.drawLine(from, to, barPaint);
 
         tempX += barRod.width + barGroup.barsSpace;

@@ -77,12 +77,14 @@ class BarChartRodData {
   final Color color;
   final double width;
   final bool isRound;
+  final BackgroundBarChartRodData backDrawRodData;
 
   const BarChartRodData({
     this.y,
     this.color = Colors.blueAccent,
     this.width = 8,
     this.isRound = true,
+    this.backDrawRodData = const BackgroundBarChartRodData(),
   });
 
   BarChartRodData copyWith(
@@ -91,12 +93,27 @@ class BarChartRodData {
       Color color,
       double width,
       bool isRound,
+      BackgroundBarChartRodData backDrawRodData,
     }) {
     return BarChartRodData(
       y: y ?? this.y,
       color: color ?? this.color,
       width: width ?? this.width,
       isRound: isRound ?? this.isRound,
+      backDrawRodData: backDrawRodData ?? this.backDrawRodData,
     );
   }
+}
+
+class BackgroundBarChartRodData {
+  final bool show;
+  final double y;
+  final Color color;
+
+  const BackgroundBarChartRodData({
+    this.y = 8,
+    this.show = false,
+    this.color = Colors.blueGrey,
+  });
+
 }

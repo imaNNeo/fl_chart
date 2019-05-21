@@ -57,11 +57,21 @@ class BarChartPage extends StatelessWidget {
                   color: Colors.purpleAccent,
                   width: 14,
                   y: 6,
+                  backDrawRodData: BackgroundBarChartRodData(
+                    show: true,
+                    color: Colors.purpleAccent.withOpacity(0.3),
+                    y: 8,
+                  )
                 ),
                 BarChartRodData(
                   color: Colors.deepPurple,
                   width: 14,
                   y: 4,
+                  backDrawRodData: BackgroundBarChartRodData(
+                    show: true,
+                    y: 6,
+                    color: Colors.deepPurple.withOpacity(0.4),
+                  )
                 ),
               ]
             ),
