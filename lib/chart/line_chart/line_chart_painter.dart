@@ -26,11 +26,10 @@ class LineChartPainter extends FlAxisChartPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size viewSize) {
+  void drawBehindDots(ui.Canvas canvas, ui.Size viewSize) {
     if (data.spots.length == 0) {
       return;
     }
-    super.paint(canvas, viewSize);
 
     Path barPath = _generateBarPath(viewSize);
     drawBelowBar(canvas, viewSize, Path.from(barPath));

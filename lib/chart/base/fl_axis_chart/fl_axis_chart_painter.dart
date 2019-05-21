@@ -26,6 +26,7 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
   void paint(Canvas canvas, Size viewSize) {
     super.paint(canvas, viewSize);
     drawGrid(canvas, viewSize);
+    drawBehindDots(canvas, viewSize);
     drawDots(canvas, viewSize);
   }
 
@@ -80,6 +81,8 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
       }
     }
   }
+
+  void drawBehindDots(Canvas canvas, Size viewSize) { }
 
   void drawDots(Canvas canvas, Size viewSize) {
     if (!data.dotData.show) {
