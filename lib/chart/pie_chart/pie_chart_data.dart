@@ -34,7 +34,7 @@ class PieChartSectionData {
   final Color color;
   final double widthRadius;
   final bool showTitle;
-  final TextStyle textStyle;
+  final TextStyle titleStyle;
   final String title;
   final double titlePositionPercentageOffset;
 
@@ -43,7 +43,7 @@ class PieChartSectionData {
     this.color = Colors.red,
     this.widthRadius = 40,
     this.showTitle = true,
-    this.textStyle = const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+    this.titleStyle = const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
     this.title = "1",
     this.titlePositionPercentageOffset = 0.5,
   });

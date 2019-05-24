@@ -36,10 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
-            PieChartPage(),
             BarChartPage(),
             BarChartPage2(),
             LineChartPage(),
+            PieChartPage(),
           ],
         ),
       ),

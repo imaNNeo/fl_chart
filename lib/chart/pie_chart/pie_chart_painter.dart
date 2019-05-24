@@ -30,6 +30,7 @@ class PieChartPainter extends FlChartPainter {
 
   @override
   void paint(Canvas canvas, Size viewSize) {
+    print("paint ${viewSize}");
     if (data.sections.length == 0) {
       return;
     }
@@ -123,7 +124,7 @@ class PieChartPainter extends FlChartPainter {
       );
 
       if (section.showTitle) {
-        TextSpan span = new TextSpan(style: section.textStyle, text: section.title);
+        TextSpan span = new TextSpan(style: section.titleStyle, text: section.title);
         TextPainter tp = new TextPainter(
           text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
