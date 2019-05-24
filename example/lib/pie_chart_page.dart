@@ -15,7 +15,7 @@ class PieChartPage extends StatelessWidget {
     PieChartSectionData(
       color: Color(0xff0293ee),
       value: 25,
-      title: "25%",
+      title: "",
       widthRadius: 80,
       titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff044d7c)),
       titlePositionPercentageOffset: 0.55,
@@ -23,7 +23,7 @@ class PieChartPage extends StatelessWidget {
     PieChartSectionData(
       color: Color(0xfff8b250),
       value: 25,
-      title: "25%",
+      title: "",
       widthRadius: 65,
       titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff90672d)),
       titlePositionPercentageOffset: 0.55,
@@ -31,7 +31,7 @@ class PieChartPage extends StatelessWidget {
     PieChartSectionData(
       color: Color(0xff845bef),
       value: 25,
-      title: "25%",
+      title: "",
       widthRadius: 60,
       titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff4c3788)),
       titlePositionPercentageOffset: 0.6,
@@ -39,12 +39,43 @@ class PieChartPage extends StatelessWidget {
     PieChartSectionData(
       color: Color(0xff13d38e),
       value: 25,
-      title: "25%",
+      title: "",
       widthRadius: 70,
       titleStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff0c7f55)),
       titlePositionPercentageOffset: 0.55,
     ),
-  ]
+  ];
+
+  final pieChartSections2 = [
+    PieChartSectionData(
+      color: Color(0xff0293ee),
+      value: 40,
+      title: "40%",
+      widthRadius: 50,
+      titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
+    ),
+    PieChartSectionData(
+      color: Color(0xfff8b250),
+      value: 30,
+      title: "30%",
+      widthRadius: 50,
+      titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
+    ),
+    PieChartSectionData(
+      color: Color(0xff845bef),
+      value: 15,
+      title: "15%",
+      widthRadius: 50,
+      titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
+    ),
+    PieChartSectionData(
+      color: Color(0xff13d38e),
+      value: 15,
+      title: "15%",
+      widthRadius: 50,
+      titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +84,7 @@ class PieChartPage extends StatelessWidget {
       color: Color(0xffeceaeb),
       child: Padding(
         padding: const EdgeInsets.all(28.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: <Widget>[
             Align(
               alignment: Alignment.centerLeft,
@@ -75,10 +104,10 @@ class PieChartPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        makeIndicator(Color(0xff0293ee), "One"),
-                        makeIndicator(Color(0xfff8b250), "Two"),
-                        makeIndicator(Color(0xff845bef), "Three"),
-                        makeIndicator(Color(0xff13d38e), "Four"),
+                        makeIndicator(Color(0xff0293ee), "One", false),
+                        makeIndicator(Color(0xfff8b250), "Two", false),
+                        makeIndicator(Color(0xff845bef), "Three", false),
+                        makeIndicator(Color(0xff13d38e), "Four", false),
                       ],
                     ),
                     SizedBox(height: 18,),
@@ -104,20 +133,64 @@ class PieChartPage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 12,),
+            AspectRatio(
+              aspectRatio: 1.3,
+              child: Card(
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(height: 18,),
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: FlChartWidget(
+                          flChart: PieChart(
+                            PieChartData(
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: 0,
+                              centerSpaceRadius: 40,
+                              sections: pieChartSections2
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        makeIndicator(Color(0xff0293ee), "First", true),
+                        SizedBox(height: 4,),
+                        makeIndicator(Color(0xfff8b250), "Second", true),
+                        SizedBox(height: 4,),
+                        makeIndicator(Color(0xff845bef), "Third", true),
+                        SizedBox(height: 4,),
+                        makeIndicator(Color(0xff13d38e), "Fourth", true),
+                        SizedBox(height: 18,),
+                      ],
+                    ),
+                    SizedBox(width: 28,),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget makeIndicator(Color color, String text) {
+  Widget makeIndicator(Color color, String text, bool isSquare) {
     return Row(
       children: <Widget>[
         Container(
           width: 16,
           height: 16,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
             color: color,
           ),
         ),
