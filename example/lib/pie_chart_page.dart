@@ -14,7 +14,7 @@ class PieChartPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      color: Color(0xff232040),
+      color: Color(0xffffffff),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(28.0),
@@ -23,30 +23,35 @@ class PieChartPage extends StatelessWidget {
             child: FlChartWidget(
               flChart: PieChart(
                 PieChartData(
+                  sectionsSpace: 4,
+                  centerSpaceRadius: 0,
                   sections: [
                     PieChartSectionData(
                       value: 25,
                       color: Colors.green,
-                      widthRadius: 40,
-                      title: "25%"
+                      widthRadius: 120,
+                      title: "25%",
+                      titlePositionPercentageOffset: 0.6,
                     ),
                     PieChartSectionData(
                       value: 45,
                       color: Colors.red,
-                      widthRadius: 40,
+                      widthRadius: 120,
                       title: "45%"
                     ),
                     PieChartSectionData(
                       value: 20,
                       color: Colors.purpleAccent,
-                      widthRadius: 40,
-                      title: "20%"
+                      widthRadius: 120,
+                      title: "20%",
+                      titlePositionPercentageOffset: 0.60,
                     ),
                     PieChartSectionData(
                       value: 10,
                       color: Colors.blue,
-                      widthRadius: 40,
-                      title: "10%"
+                      widthRadius: 120,
+                      title: "10%",
+                      titlePositionPercentageOffset: 0.65,
                     ),
                   ]
                 ),

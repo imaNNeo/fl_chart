@@ -7,12 +7,16 @@ class PieChartData extends FlChartData {
   final List<PieChartSectionData> sections;
   final double centerSpaceRadius;
   final Color centerSpaceColor;
+  final double sectionsSpace;
+  final double startDegreeOffset;
   double sumValue;
 
   PieChartData({
     this.sections = const [],
     this.centerSpaceRadius = 80,
     this.centerSpaceColor = Colors.transparent,
+    this.sectionsSpace = 2,
+    this.startDegreeOffset = 0,
     FlBorderData borderData = const FlBorderData(),
   }) : super(
     borderData: borderData,
@@ -32,6 +36,7 @@ class PieChartSectionData {
   final bool showTitle;
   final TextStyle textStyle;
   final String title;
+  final double titlePositionPercentageOffset;
 
   PieChartSectionData({
     this.value = 10,
@@ -40,6 +45,7 @@ class PieChartSectionData {
     this.showTitle = true,
     this.textStyle = const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
     this.title = "1",
+    this.titlePositionPercentageOffset = 0.5,
   });
 
 }
