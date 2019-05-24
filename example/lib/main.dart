@@ -1,3 +1,4 @@
+import 'package:example/pie_chart_page.dart';
 import 'package:flutter/material.dart';
 
 import 'bar_chart_page.dart';
@@ -35,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
+            PieChartPage(),
             BarChartPage(),
             BarChartPage2(),
             LineChartPage(),
