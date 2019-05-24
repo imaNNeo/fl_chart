@@ -160,12 +160,12 @@ class LineChartPainter extends FlAxisChartPainter {
     path.moveTo(x, y);
     for (int i = 1; i < size; i++) {
       // CurrentSpot
-      AxisSpot p = data.spots[i];
+      FlSpot p = data.spots[i];
       double px = getPixelX(p.x, viewSize);
       double py = getPixelY(p.y, viewSize);
 
       // previous spot
-      AxisSpot p0 = data.spots[i - 1];
+      FlSpot p0 = data.spots[i - 1];
       double p0x = getPixelX(p0.x, viewSize);
       double p0y = getPixelY(p0.y, viewSize);
 
@@ -173,7 +173,7 @@ class LineChartPainter extends FlAxisChartPainter {
       double y1 = p0y + lY;
 
       // next point
-      AxisSpot p1 = data.spots[i + 1 < size ? i + 1 : i];
+      FlSpot p1 = data.spots[i + 1 < size ? i + 1 : i];
       double p1x = getPixelX(p1.x, viewSize);
       double p1y = getPixelY(p1.y, viewSize);
 

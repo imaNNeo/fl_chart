@@ -27,13 +27,13 @@ class LineChartPage extends StatelessWidget {
       flChart: LineChart(
         LineChartData(
           spots: [
-            AxisSpot(0, 1),
-            AxisSpot(1, 2),
-            AxisSpot(2, 1.5),
-            AxisSpot(3, 3),
-            AxisSpot(4, 3.5),
-            AxisSpot(5, 5),
-            AxisSpot(6, 8),
+            FlSpot(0, 1),
+            FlSpot(1, 2),
+            FlSpot(2, 1.5),
+            FlSpot(3, 3),
+            FlSpot(4, 3.5),
+            FlSpot(5, 5),
+            FlSpot(6, 8),
           ],
           barData: LineChartBarData(
             isCurved: true,
@@ -42,7 +42,7 @@ class LineChartPage extends StatelessWidget {
           belowBarData: BelowBarData(
             show: true,
           ),
-          dotData: AxisDotData(
+          dotData: FlDotData(
             show: false
           ),
           titlesData: FlTitlesData(
@@ -93,18 +93,18 @@ class LineChartPage extends StatelessWidget {
       flChart: LineChart(
         LineChartData(
           spots: [
-            AxisSpot(0, 4),
-            AxisSpot(1, 3.5),
-            AxisSpot(2, 4.5),
-            AxisSpot(3, 1),
-            AxisSpot(4, 4),
-            AxisSpot(5, 6),
-            AxisSpot(6, 6.5),
-            AxisSpot(7, 6),
-            AxisSpot(8, 4),
-            AxisSpot(9, 6),
-            AxisSpot(10, 6),
-            AxisSpot(11, 7),
+            FlSpot(0, 4),
+            FlSpot(1, 3.5),
+            FlSpot(2, 4.5),
+            FlSpot(3, 1),
+            FlSpot(4, 4),
+            FlSpot(5, 6),
+            FlSpot(6, 6.5),
+            FlSpot(7, 6),
+            FlSpot(8, 4),
+            FlSpot(9, 6),
+            FlSpot(10, 6),
+            FlSpot(11, 7),
           ],
           barData: LineChartBarData(
             isCurved: true,
@@ -153,7 +153,7 @@ class LineChartPage extends StatelessWidget {
               }
             }
           ),
-          dotData: AxisDotData(
+          dotData: FlDotData(
             show: false,
           ),
           gridData: FlGridData(
@@ -172,13 +172,13 @@ class LineChartPage extends StatelessWidget {
       flChart: LineChart(
         LineChartData(
           spots: [
-            AxisSpot(0, 1.3),
-            AxisSpot(1, 1),
-            AxisSpot(2, 1.8),
-            AxisSpot(3, 1.5),
-            AxisSpot(4, 2.2),
-            AxisSpot(5, 1.8),
-            AxisSpot(6, 3),
+            FlSpot(0, 1.3),
+            FlSpot(1, 1),
+            FlSpot(2, 1.8),
+            FlSpot(3, 1.5),
+            FlSpot(4, 2.2),
+            FlSpot(5, 1.8),
+            FlSpot(6, 3),
           ],
           barData: LineChartBarData(
             isCurved: false,
@@ -192,7 +192,7 @@ class LineChartPage extends StatelessWidget {
             from: Offset(0, 0),
             to: Offset(0, 1),
           ),
-          dotData: AxisDotData(
+          dotData: FlDotData(
             show: true,
             dotColor: Colors.deepOrange,
             dotSize: 6,

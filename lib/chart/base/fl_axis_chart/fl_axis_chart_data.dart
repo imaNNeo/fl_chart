@@ -2,10 +2,10 @@ import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
 
 class FlAxisChartData extends FlChartData {
-  final List<AxisSpot> spots;
+  final List<FlSpot> spots;
   final FlGridData gridData;
   final FlTitlesData titlesData;
-  final AxisDotData dotData;
+  final FlDotData dotData;
 
   double minX, maxX;
   double minY, maxY;
@@ -14,7 +14,7 @@ class FlAxisChartData extends FlChartData {
     @required this.spots,
     this.gridData = const FlGridData(),
     this.titlesData = const FlTitlesData(),
-    this.dotData = const AxisDotData(),
+    this.dotData = const FlDotData(),
     FlBorderData borderData = const FlBorderData(),
   }) : super(borderData: borderData) {
     if (spots == null) {
@@ -42,11 +42,11 @@ class FlAxisChartData extends FlChartData {
 }
 
 
-class AxisSpot {
+class FlSpot {
   final double x;
   final double y;
 
-  const AxisSpot(this.x, this.y);
+  const FlSpot(this.x, this.y);
 }
 
 // Grid data
@@ -139,17 +139,17 @@ class FlTitlesData {
 
 
 // Dot Data
-typedef CheckToShowDot = bool Function(AxisSpot spot);
-bool showAllDots(AxisSpot spot) {
+typedef CheckToShowDot = bool Function(FlSpot spot);
+bool showAllDots(FlSpot spot) {
   return true;
 }
-class AxisDotData {
+class FlDotData {
   final bool show;
   final Color dotColor;
   final double dotSize;
   final CheckToShowDot checkToShowDot;
 
-  const AxisDotData({
+  const FlDotData({
     this.show = true,
     this.dotColor = Colors.blue,
     this.dotSize = 4.0,

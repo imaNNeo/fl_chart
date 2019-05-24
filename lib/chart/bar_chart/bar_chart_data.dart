@@ -14,23 +14,23 @@ class BarChartData extends FlAxisChartData {
     FlGridData gridData = const FlGridData(show: false,),
     FlTitlesData titlesData = const FlTitlesData(show: true, showVerticalTitles: false),
     FlBorderData borderData = const FlBorderData(show: true, borderColor: Colors.black12),
-    AxisDotData dotData = const AxisDotData(show: false),
+    FlDotData dotData = const FlDotData(show: false),
   }) : super(
-    spots: groupsToAxisSpots(barGroups),
+    spots: groupsToFlSpots(barGroups),
     gridData: gridData,
     dotData: dotData,
     titlesData: titlesData,
     borderData: borderData,
   );
 
-  static List<AxisSpot> groupsToAxisSpots(List<BarChartGroupData> barGroups) {
-    List<AxisSpot> spots =  barGroups.expand((group) {
+  static List<FlSpot> groupsToFlSpots(List<BarChartGroupData> barGroups) {
+    List<FlSpot> spots =  barGroups.expand((group) {
       return group.barRods.map((rodData) {
         double y = rodData.y;
         if (rodData.backDrawRodData.y > y) {
           y = rodData.backDrawRodData.y;
         }
-        return AxisSpot(group.x.toDouble(), y);
+        return FlSpot(group.x.toDouble(), y);
       }).toList();
     }).toList();
 
