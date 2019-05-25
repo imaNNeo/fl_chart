@@ -7,7 +7,9 @@ import 'bar_chart_painter.dart';
 class BarChart extends FlChart {
   final BarChartData barChartData;
 
-  BarChart(this.barChartData,);
+  BarChart(
+    this.barChartData,
+  );
 
   @override
   FlChartPainter painter() => BarChartPainter(barChartData);

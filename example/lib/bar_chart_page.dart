@@ -6,14 +6,12 @@ import 'package:fl_chart/fl_chart_widget.dart';
 import 'package:flutter/material.dart';
 
 class BarChartPage extends StatelessWidget {
-
   final Color barColor = Colors.white;
   final Color barBackgroundColor = Color(0xff72d8bf);
   final double width = 22;
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Color(0xff232040),
       child: Center(
@@ -31,27 +29,35 @@ class BarChartPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Text("Mingguan", style: TextStyle(color: Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 4,),
-                    Text("Grafik konsumsi kalori", style: TextStyle(color: Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 38,),
+                    Text(
+                      "Mingguan",
+                      style: TextStyle(
+                          color: Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      "Grafik konsumsi kalori",
+                      style: TextStyle(
+                          color: Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 38,
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: FlChartWidget(
-                          flChart: BarChart(
-                            BarChartData(
-                              titlesData: FlTitlesData(
+                          flChart: BarChart(BarChartData(
+                            titlesData: FlTitlesData(
                                 show: true,
                                 showHorizontalTitles: true,
                                 showVerticalTitles: false,
                                 horizontalTitlesTextStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14
-                                ),
+                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
                                 horizontalTitleMargin: 16,
-                                getHorizontalTitle: (double value) {
+                                getHorizontalTitles: (double value) {
                                   switch (value.toInt()) {
                                     case 0:
                                       return 'M';
@@ -68,26 +74,26 @@ class BarChartPage extends StatelessWidget {
                                     case 6:
                                       return 'S';
                                   }
-                                }
-                              ),
-                              borderData: FlBorderData(
-                                show: false,
-                              ),
-                              barGroups: [
-                                makeGroupData(0, 5),
-                                makeGroupData(1, 6.5),
-                                makeGroupData(2, 5),
-                                makeGroupData(3, 7.5),
-                                makeGroupData(4, 9),
-                                makeGroupData(5, 11.5),
-                                makeGroupData(6, 6.5),
-                              ],
-                            )
-                          ),
+                                }),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            barGroups: [
+                              makeGroupData(0, 5),
+                              makeGroupData(1, 6.5),
+                              makeGroupData(2, 5),
+                              makeGroupData(3, 7.5),
+                              makeGroupData(4, 9),
+                              makeGroupData(5, 11.5),
+                              makeGroupData(6, 6.5),
+                            ],
+                          )),
                         ),
                       ),
                     ),
-                    SizedBox(height: 12,),
+                    SizedBox(
+                      height: 12,
+                    ),
                   ],
                 ),
               ),
@@ -99,22 +105,18 @@ class BarChartPage extends StatelessWidget {
   }
 
   BarChartGroupData makeGroupData(int x, double y) {
-    return BarChartGroupData(
-      x: x,
-      barRods: [
-        BarChartRodData(
-          y: y,
-          color: barColor,
-          width: width,
-          isRound: true,
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            y: 20,
-            color: barBackgroundColor,
-          ),
+    return BarChartGroupData(x: x, barRods: [
+      BarChartRodData(
+        y: y,
+        color: barColor,
+        width: width,
+        isRound: true,
+        backDrawRodData: BackgroundBarChartRodData(
+          show: true,
+          y: 20,
+          color: barBackgroundColor,
         ),
-      ]
-    );
+      ),
+    ]);
   }
-
 }

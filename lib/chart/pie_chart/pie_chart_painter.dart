@@ -30,7 +30,6 @@ class PieChartPainter extends FlChartPainter {
 
   @override
   void paint(Canvas canvas, Size viewSize) {
-    print("paint ${viewSize}");
     if (data.sections.length == 0) {
       return;
     }
@@ -57,11 +56,11 @@ class PieChartPainter extends FlChartPainter {
     data.sections.forEach((section) {
       Rect rect = Rect.fromCircle(
         center: center,
-        radius: data.centerSpaceRadius + (section.widthRadius / 2),
+        radius: data.centerSpaceRadius + (section.radius / 2),
       );
 
       sectionPaint.color = section.color;
-      sectionPaint.strokeWidth = section.widthRadius;
+      sectionPaint.strokeWidth = section.radius;
 
       double startAngle = tempAngle;
       double sweepAngle = 360 * (section.value / data.sumValue);
@@ -96,9 +95,9 @@ class PieChartPainter extends FlChartPainter {
 
       Offset sectionsStartTo = center + Offset(
         math.cos(radians(startAngle)) *
-          (data.centerSpaceRadius + section.widthRadius + extraLineSize),
+          (data.centerSpaceRadius + section.radius + extraLineSize),
         math.sin(radians(startAngle)) *
-          (data.centerSpaceRadius + section.widthRadius + extraLineSize),
+          (data.centerSpaceRadius + section.radius + extraLineSize),
       );
 
       sectionsSpaceClearPaint.strokeWidth = data.sectionsSpace;
@@ -118,9 +117,9 @@ class PieChartPainter extends FlChartPainter {
       double sectionCenterAngle = startAngle + (sweepAngle / 2);
       Offset sectionCenterOffset = center + Offset(
         math.cos(radians(sectionCenterAngle)) *
-          (data.centerSpaceRadius + (section.widthRadius * section.titlePositionPercentageOffset)),
+          (data.centerSpaceRadius + (section.radius * section.titlePositionPercentageOffset)),
         math.sin(radians(sectionCenterAngle)) *
-          (data.centerSpaceRadius + (section.widthRadius * section.titlePositionPercentageOffset)),
+          (data.centerSpaceRadius + (section.radius * section.titlePositionPercentageOffset)),
       );
 
       if (section.showTitle) {

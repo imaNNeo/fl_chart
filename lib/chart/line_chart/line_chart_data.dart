@@ -17,13 +17,12 @@ class LineChartData extends FlAxisChartData {
     FlBorderData borderData = const FlBorderData(),
     FlDotData dotData = const FlDotData(),
   }) : super(
-    spots: spots,
-    gridData: gridData,
-    dotData: dotData,
-    titlesData: titlesData,
-    borderData: borderData,
-  );
-
+          spots: spots,
+          gridData: gridData,
+          dotData: dotData,
+          titlesData: titlesData,
+          borderData: borderData,
+        );
 }
 
 // Bar Data
@@ -49,15 +48,15 @@ class BelowBarData {
   final bool show;
 
   final List<Color> colors;
-  final Offset from;
-  final Offset to;
-  final List<double> colorStops;
+  final Offset gradientFrom;
+  final Offset gradientTo;
+  final List<double> gradientColorStops;
 
   const BelowBarData({
     this.show = true,
     this.colors = const [Colors.blueGrey],
-    this.from = const Offset(0, 0),
-    this.to = const Offset(1, 0),
-    this.colorStops = const [1.0],
+    this.gradientFrom = const Offset(0, 0),
+    this.gradientTo = const Offset(1, 0),
+    this.gradientColorStops = const [1.0],
   });
 }

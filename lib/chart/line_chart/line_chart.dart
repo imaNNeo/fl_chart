@@ -7,7 +7,9 @@ import 'line_chart_data.dart';
 class LineChart extends FlChart {
   final LineChartData lineChartData;
 
-  LineChart(this.lineChartData,);
+  LineChart(
+    this.lineChartData,
+  );
 
   @override
   FlChartPainter painter() {

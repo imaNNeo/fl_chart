@@ -11,20 +11,22 @@ class BarChartData extends FlAxisChartData {
   BarChartData({
     this.barGroups = const [],
     this.alignment = BarChartAlignment.spaceBetween,
-    FlGridData gridData = const FlGridData(show: false,),
+    FlGridData gridData = const FlGridData(
+      show: false,
+    ),
     FlTitlesData titlesData = const FlTitlesData(show: true, showVerticalTitles: false),
     FlBorderData borderData = const FlBorderData(show: true, borderColor: Colors.black12),
     FlDotData dotData = const FlDotData(show: false),
   }) : super(
-    spots: groupsToFlSpots(barGroups),
-    gridData: gridData,
-    dotData: dotData,
-    titlesData: titlesData,
-    borderData: borderData,
-  );
+          spots: groupsToFlSpots(barGroups),
+          gridData: gridData,
+          dotData: dotData,
+          titlesData: titlesData,
+          borderData: borderData,
+        );
 
   static List<FlSpot> groupsToFlSpots(List<BarChartGroupData> barGroups) {
-    List<FlSpot> spots =  barGroups.expand((group) {
+    List<FlSpot> spots = barGroups.expand((group) {
       return group.barRods.map((rodData) {
         double y = rodData.y;
         if (rodData.backDrawRodData.y > y) {
@@ -49,7 +51,8 @@ enum BarChartAlignment {
 
 // Bar Chart Group Data
 class BarChartGroupData {
-  @required final int x;
+  @required
+  final int x;
   final List<BarChartRodData> barRods;
   final double barsSpace;
 
@@ -65,14 +68,11 @@ class BarChartGroupData {
     }
 
     double sumWidth =
-    barRods.map((rodData) => rodData.width)
-      .reduce((first, second) => first + second);
-    double spaces =
-      (barRods.length - 1) * barsSpace;
+        barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
+    double spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;
   }
-
 }
 
 // Bar Data
@@ -91,14 +91,13 @@ class BarChartRodData {
     this.backDrawRodData = const BackgroundBarChartRodData(),
   });
 
-  BarChartRodData copyWith(
-    {
-      double y,
-      Color color,
-      double width,
-      bool isRound,
-      BackgroundBarChartRodData backDrawRodData,
-    }) {
+  BarChartRodData copyWith({
+    double y,
+    Color color,
+    double width,
+    bool isRound,
+    BackgroundBarChartRodData backDrawRodData,
+  }) {
     return BarChartRodData(
       y: y ?? this.y,
       color: color ?? this.color,
@@ -119,5 +118,4 @@ class BackgroundBarChartRodData {
     this.show = false,
     this.color = Colors.blueGrey,
   });
-
 }

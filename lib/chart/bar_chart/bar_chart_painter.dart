@@ -10,30 +10,25 @@ class BarChartPainter extends FlAxisChartPainter {
 
   BarChartPainter(
     this.data,
-    ) : super(data) {
-    barPaint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.fill
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 10;
+  ) : super(data) {
+    barPaint = Paint()..style = PaintingStyle.fill;
   }
 
   @override
   void paint(Canvas canvas, Size viewSize) {
-    print("$viewSize");
+    super.paint(canvas, viewSize);
 
     if (data.spots.length == 0) {
       return;
     }
-    super.paint(canvas, viewSize);
 
     List<double> barsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
     drawBars(canvas, viewSize, barsX);
     drawTitles(canvas, viewSize, barsX);
   }
 
-  List<double> calculateGroupsX(Size viewSize,
-    List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
+  List<double> calculateGroupsX(
+      Size viewSize, List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
     Size drawSize = getChartUsableDrawSize(viewSize);
 
     List<double> groupsX = List(barGroups.length);
@@ -101,6 +96,7 @@ class BarChartPainter extends FlAxisChartPainter {
           tempX += eachSpace;
         });
         break;
+
       case BarChartAlignment.spaceEvenly:
         double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
         double spaceAvailable = drawSize.width - sumWidth;
@@ -164,32 +160,16 @@ class BarChartPainter extends FlAxisChartPainter {
         barPaint.strokeCap = barRod.isRound ? StrokeCap.round : StrokeCap.butt;
 
         // Back Draw
-        if(barRod.backDrawRodData.show) {
-          from = Offset(
-            x,
-            getPixelY(0, drawSize) - roundedRadius,
-          );
-
-          to = Offset(
-            x,
-            getPixelY(barRod.backDrawRodData.y, drawSize) + roundedRadius,
-          );
-
+        if (barRod.backDrawRodData.show) {
+          from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
+          to = Offset(x, getPixelY(barRod.backDrawRodData.y, drawSize) + roundedRadius,);
           barPaint.color = barRod.backDrawRodData.color;
           canvas.drawLine(from, to, barPaint);
         }
 
         // Main Rod
-        from = Offset(
-          x,
-          getPixelY(0, drawSize) - roundedRadius,
-        );
-
-        to = Offset(
-          x,
-          getPixelY(barRod.y, drawSize) + roundedRadius,
-        );
-
+        from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
+        to = Offset(x, getPixelY(barRod.y, drawSize) + roundedRadius,);
         barPaint.color = barRod.color;
         canvas.drawLine(from, to, barPaint);
 
@@ -210,14 +190,14 @@ class BarChartPainter extends FlAxisChartPainter {
       while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
         double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
-          getTopOffsetDrawSize();
+            getTopOffsetDrawSize();
 
         String text =
-        data.titlesData.getVerticalTitle(data.gridData.verticalInterval * verticalCounter);
+            data.titlesData.getVerticalTitles(data.gridData.verticalInterval * verticalCounter);
 
         TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
         TextPainter tp = new TextPainter(
-          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + data.titlesData.verticalTitleMargin;
         y -= (tp.height / 2);
@@ -229,15 +209,16 @@ class BarChartPainter extends FlAxisChartPainter {
 
     // Horizontal titles
     groupsX.asMap().forEach((int index, double x) {
-      String text = data.titlesData.getHorizontalTitle(index.toDouble());
+      String text = data.titlesData.getHorizontalTitles(index.toDouble());
 
       TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
       TextPainter tp = new TextPainter(
-        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
       tp.layout();
 
       double textX = x - (tp.width / 2);
-      double textY = drawSize.height + getTopOffsetDrawSize() + data.titlesData.horizontalTitleMargin;
+      double textY =
+          drawSize.height + getTopOffsetDrawSize() + data.titlesData.horizontalTitleMargin;
 
       tp.paint(canvas, Offset(textX, textY));
     });

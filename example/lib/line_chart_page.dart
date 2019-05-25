@@ -6,17 +6,31 @@ import 'package:fl_chart/fl_chart_widget.dart';
 import 'package:flutter/material.dart';
 
 class LineChartPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text("LineChart", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
-          SizedBox(child: sample1(), width: 300, height: 140,),
-          SizedBox(child: sample2(), width: 300, height: 140,),
-          SizedBox(child: sample3(), width: 300, height: 140,),
+          Text(
+            "LineChart",
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            child: sample1(),
+            width: 300,
+            height: 140,
+          ),
+          SizedBox(
+            child: sample2(),
+            width: 300,
+            height: 140,
+          ),
+          SizedBox(
+            child: sample3(),
+            width: 300,
+            height: 140,
+          ),
         ],
       ),
     );
@@ -42,44 +56,39 @@ class LineChartPage extends StatelessWidget {
           belowBarData: BelowBarData(
             show: true,
           ),
-          dotData: FlDotData(
-            show: false
-          ),
+          dotData: FlDotData(show: false),
           titlesData: FlTitlesData(
-            getVerticalTitle: (val) {
-              return "";
-            },
-            verticalTitleMargin: 0,
-            verticalTitlesReservedWidth: 0,
-            getHorizontalTitle: (val) {
-              switch (val.toInt()) {
-                case 0:
-                  return "00:00";
-                case 1:
-                  return "04:00";
-                case 2:
-                  return "08:00";
-                case 3:
-                  return "12:00";
-                case 4:
-                  return "16:00";
-                case 5:
-                  return "20:00";
-                case 6:
-                  return "23:59";
-              }
-              return "";
-            },
-            horizontalTitlesTextStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey,
-              fontFamily: "Digital",
-              fontSize: 18,
-            )
-          ),
-          gridData: FlGridData(
-            show: false
-          ),
+              getVerticalTitles: (val) {
+                return "";
+              },
+              verticalTitleMargin: 0,
+              verticalTitlesReservedWidth: 0,
+              getHorizontalTitles: (val) {
+                switch (val.toInt()) {
+                  case 0:
+                    return "00:00";
+                  case 1:
+                    return "04:00";
+                  case 2:
+                    return "08:00";
+                  case 3:
+                    return "12:00";
+                  case 4:
+                    return "16:00";
+                  case 5:
+                    return "20:00";
+                  case 6:
+                    return "23:59";
+                }
+                return "";
+              },
+              horizontalTitlesTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,
+                fontFamily: "Digital",
+                fontSize: 18,
+              )),
+          gridData: FlGridData(show: false),
           borderData: FlBorderData(
             show: true,
           ),
@@ -116,52 +125,47 @@ class LineChartPage extends StatelessWidget {
             colors: [Colors.deepPurple.withOpacity(0.2)],
           ),
           titlesData: FlTitlesData(
-            horizontalTitlesTextStyle: TextStyle(
-              fontSize: 10,
-              color: Colors.purple,
-              fontWeight: FontWeight.bold
-            ),
-            getVerticalTitle: (value) {
-              return "\$ ${value + 0.5}";
-            },
-            getHorizontalTitle: (value) {
-              switch(value.toInt()) {
-                case 0:
-                  return "Jan";
-                case 1:
-                  return "Feb";
-                case 2:
-                  return "Mar";
-                case 3:
-                  return "Apr";
-                case 4:
-                  return "May";
-                case 5:
-                  return "Jun";
-                case 6:
-                  return "Jul";
-                case 7:
-                  return "Aug";
-                case 8:
-                  return "Sep";
-                case 9:
-                  return "Oct";
-                case 10:
-                  return "Nov";
-                case 11:
-                  return "Dec";
-              }
-            }
-          ),
+              horizontalTitlesTextStyle:
+                  TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
+              getVerticalTitles: (value) {
+                return "\$ ${value + 0.5}";
+              },
+              getHorizontalTitles: (value) {
+                switch (value.toInt()) {
+                  case 0:
+                    return "Jan";
+                  case 1:
+                    return "Feb";
+                  case 2:
+                    return "Mar";
+                  case 3:
+                    return "Apr";
+                  case 4:
+                    return "May";
+                  case 5:
+                    return "Jun";
+                  case 6:
+                    return "Jul";
+                  case 7:
+                    return "Aug";
+                  case 8:
+                    return "Sep";
+                  case 9:
+                    return "Oct";
+                  case 10:
+                    return "Nov";
+                  case 11:
+                    return "Dec";
+                }
+              }),
           dotData: FlDotData(
             show: false,
           ),
           gridData: FlGridData(
-            show: true,
-            checkToShowVerticalGrid: (double value) {
-              return value == 1 || value == 6 || value == 4 || value == 5;
-            }
-          ),
+              show: true,
+              checkToShowVerticalGrid: (double value) {
+                return value == 1 || value == 6 || value == 4 || value == 5;
+              }),
         ),
       ),
     );
@@ -187,78 +191,75 @@ class LineChartPage extends StatelessWidget {
           ),
           belowBarData: BelowBarData(
             show: true,
-            colors: [Colors.orange, Colors.orange.withOpacity(0.0),],
-            colorStops: [0.5, 1.0],
-            from: Offset(0, 0),
-            to: Offset(0, 1),
+            colors: [
+              Colors.orange,
+              Colors.orange.withOpacity(0.0),
+            ],
+            gradientColorStops: [0.5, 1.0],
+            gradientFrom: Offset(0, 0),
+            gradientTo: Offset(0, 1),
           ),
           dotData: FlDotData(
-            show: true,
-            dotColor: Colors.deepOrange,
-            dotSize: 6,
-            checkToShowDot: (spot) {
-              return spot.x != 0 && spot.x != 6;
-            }
-          ),
+              show: true,
+              dotColor: Colors.deepOrange,
+              dotSize: 6,
+              checkToShowDot: (spot) {
+                return spot.x != 0 && spot.x != 6;
+              }),
           gridData: FlGridData(
             show: true,
             drawHorizontalGrid: true,
             drawVerticalGrid: true,
           ),
           titlesData: FlTitlesData(
-            show: true,
-            getHorizontalTitle: (value) {
-              switch (value.toInt()) {
-                case 0:
-                  return 'Sat';
+              show: true,
+              getHorizontalTitles: (value) {
+                switch (value.toInt()) {
+                  case 0:
+                    return 'Sat';
 
-                case 1:
-                  return 'Sun';
+                  case 1:
+                    return 'Sun';
 
-                case 2:
-                  return 'Mon';
+                  case 2:
+                    return 'Mon';
 
-                case 3:
-                  return 'Tue';
+                  case 3:
+                    return 'Tue';
 
-                case 4:
-                  return 'Wed';
+                  case 4:
+                    return 'Wed';
 
-                case 5:
-                  return 'Thu';
+                  case 5:
+                    return 'Thu';
 
-                case 6:
-                  return 'Fri';
-              }
+                  case 6:
+                    return 'Fri';
+                }
 
-              return '';
-            },
-            getVerticalTitle: (value) {
-              switch (value.toInt()) {
-                case 0:
-                  return "";
-                case 1:
-                  return "1k colories";
-                case 2:
-                  return "2k colories";
-                case 3:
-                  return "3k colories";
-              }
+                return '';
+              },
+              getVerticalTitles: (value) {
+                switch (value.toInt()) {
+                  case 0:
+                    return "";
+                  case 1:
+                    return "1k colories";
+                  case 2:
+                    return "2k colories";
+                  case 3:
+                    return "3k colories";
+                }
 
-              return "";
-            },
-            horizontalTitlesTextStyle: TextStyle(
-              color: Colors.deepOrange,
-              fontWeight: FontWeight.bold,
-            ),
-            verticalTitlesTextStyle: TextStyle(
-              color: Colors.black,
-              fontSize: 10
-            )
-          ),
+                return "";
+              },
+              horizontalTitlesTextStyle: TextStyle(
+                color: Colors.deepOrange,
+                fontWeight: FontWeight.bold,
+              ),
+              verticalTitlesTextStyle: TextStyle(color: Colors.black, fontSize: 10)),
         ),
       ),
     );
   }
-
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class FlChartData {
@@ -12,7 +11,6 @@ class FlChartData {
 // Border Data
 class FlBorderData {
   final bool show;
-
   final Color borderColor;
   final double borderWidth;
 

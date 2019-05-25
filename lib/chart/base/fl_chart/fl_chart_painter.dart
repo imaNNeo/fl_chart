@@ -1,22 +1,19 @@
 import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
 
-abstract class FlChartPainter<D extends FlChartData> extends CustomPainter{
+abstract class FlChartPainter<D extends FlChartData> extends CustomPainter {
   final D data;
   Paint borderPaint;
 
   FlChartPainter(this.data) {
     borderPaint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
+      ..style = PaintingStyle.stroke;
   }
 
   @override
   void paint(Canvas canvas, Size viewSize) {
     drawViewBorder(canvas, viewSize);
   }
-
 
   void drawViewBorder(Canvas canvas, Size viewSize) {
     if (!data.borderData.show) {
@@ -29,13 +26,13 @@ abstract class FlChartPainter<D extends FlChartData> extends CustomPainter{
     borderPaint.strokeWidth = data.borderData.borderWidth;
 
     canvas.drawRect(
-      Rect.fromLTWH(
-        0 + getLeftOffsetDrawSize(),
-        0 + getTopOffsetDrawSize(),
-        chartViewSize.width,
-        chartViewSize.height,
-      ),
-      borderPaint);
+        Rect.fromLTWH(
+          0 + getLeftOffsetDrawSize(),
+          0 + getTopOffsetDrawSize(),
+          chartViewSize.width,
+          chartViewSize.height,
+        ),
+        borderPaint);
   }
 
   Size getChartUsableDrawSize(Size viewSize) {
@@ -44,20 +41,8 @@ abstract class FlChartPainter<D extends FlChartData> extends CustomPainter{
     return Size(usableWidth, usableHeight);
   }
 
-  double getExtraNeededHorizontalSpace() {
-    return 0;
-  }
-
-  double getExtraNeededVerticalSpace() {
-    return 0;
-  }
-
-  double getLeftOffsetDrawSize() {
-    return 0;
-  }
-
-  double getTopOffsetDrawSize() {
-    return 0;
-  }
-
+  double getExtraNeededHorizontalSpace() => 0;
+  double getExtraNeededVerticalSpace() => 0;
+  double getLeftOffsetDrawSize() => 0;
+  double getTopOffsetDrawSize() => 0;
 }

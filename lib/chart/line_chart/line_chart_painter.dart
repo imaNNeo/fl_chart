@@ -20,9 +20,7 @@ class LineChartPainter extends FlAxisChartPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = data.barData.barWidth;
 
-    belowBarPaint = Paint()
-      ..color = Colors.orange.withOpacity(0.5)
-      ..style = PaintingStyle.fill;
+    belowBarPaint = Paint()..style = PaintingStyle.fill;
   }
 
   @override
@@ -32,8 +30,8 @@ class LineChartPainter extends FlAxisChartPainter {
     }
 
     Path barPath = _generateBarPath(viewSize);
-    drawBelowBar(canvas, viewSize, Path.from(barPath));
-    drawBar(canvas, viewSize, Path.from(barPath));
+    drawBelowBar(canvas, viewSize, barPath);
+    drawBar(canvas, viewSize, barPath);
     drawTitles(canvas, viewSize);
   }
 
@@ -45,30 +43,32 @@ class LineChartPainter extends FlAxisChartPainter {
       return;
     }
 
+    var belowBarPath = Path.from(barPath);
+
     Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     // Line To Bottom Right
     double x = getPixelX(data.spots[data.spots.length - 1].x, chartViewSize);
     double y = chartViewSize.height - getTopOffsetDrawSize();
-    barPath.lineTo(x, y);
+    belowBarPath.lineTo(x, y);
 
     // Line To Bottom Left
     x = getPixelX(data.spots[0].x, chartViewSize);
     y = chartViewSize.height - getTopOffsetDrawSize();
-    barPath.lineTo(x, y);
+    belowBarPath.lineTo(x, y);
 
     // Line To Top Left
     x = getPixelX(data.spots[0].x, chartViewSize);
     y = getPixelY(data.spots[0].y, chartViewSize);
-    barPath.lineTo(x, y);
-    barPath.close();
+    belowBarPath.lineTo(x, y);
+    belowBarPath.close();
 
     if (data.belowBarData.colors.length == 1) {
       belowBarPaint.color = data.belowBarData.colors[0];
       belowBarPaint.shader = null;
     } else {
-      var from = data.belowBarData.from;
-      var to = data.belowBarData.to;
+      var from = data.belowBarData.gradientFrom;
+      var to = data.belowBarData.gradientTo;
       belowBarPaint.shader = ui.Gradient.linear(
         Offset(
           getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
@@ -79,11 +79,11 @@ class LineChartPainter extends FlAxisChartPainter {
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
         data.belowBarData.colors,
-        data.belowBarData.colorStops,
+        data.belowBarData.gradientColorStops,
       );
     }
 
-    canvas.drawPath(barPath, belowBarPaint);
+    canvas.drawPath(belowBarPath, belowBarPaint);
   }
 
   void drawBar(Canvas canvas, Size viewSize, Path barPath) {
@@ -105,14 +105,14 @@ class LineChartPainter extends FlAxisChartPainter {
       while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
         double y = getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) +
-          getTopOffsetDrawSize();
+            getTopOffsetDrawSize();
 
         String text =
-        data.titlesData.getVerticalTitle(data.gridData.verticalInterval * verticalCounter);
+            data.titlesData.getVerticalTitles(data.gridData.verticalInterval * verticalCounter);
 
         TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
         TextPainter tp = new TextPainter(
-          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + data.titlesData.verticalTitleMargin;
         y -= (tp.height / 2);
@@ -129,12 +129,12 @@ class LineChartPainter extends FlAxisChartPainter {
         double x = getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
         double y = viewSize.height + getTopOffsetDrawSize();
 
-        String text =
-        data.titlesData.getHorizontalTitle(data.gridData.horizontalInterval * horizontalCounter);
+        String text = data.titlesData
+            .getHorizontalTitles(data.gridData.horizontalInterval * horizontalCounter);
 
         TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
         TextPainter tp = new TextPainter(
-          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
         x -= (tp.width / 2);

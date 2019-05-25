@@ -41,7 +41,6 @@ class FlAxisChartData extends FlChartData {
   }
 }
 
-
 class FlSpot {
   final double x;
   final double y;
@@ -91,7 +90,6 @@ class FlGridData {
   });
 }
 
-
 // Titles data
 typedef GetTitleFunction = String Function(double value);
 
@@ -99,22 +97,19 @@ String defaultGetTitle(double value) {
   return "${value.toInt()}";
 }
 
-enum TitleAlignment {
-  LEFT, RIGHT, TOP, BOTTOM,
-}
-
 class FlTitlesData {
   final bool show;
+
   // Horizontal
   final bool showHorizontalTitles;
-  final GetTitleFunction getHorizontalTitle;
+  final GetTitleFunction getHorizontalTitles;
   final double horizontalTitlesReservedHeight;
   final TextStyle horizontalTitlesTextStyle;
   final double horizontalTitleMargin;
 
   // Vertical
   final bool showVerticalTitles;
-  final GetTitleFunction getVerticalTitle;
+  final GetTitleFunction getVerticalTitles;
   final double verticalTitlesReservedWidth;
   final TextStyle verticalTitlesTextStyle;
   final double verticalTitleMargin;
@@ -123,26 +118,33 @@ class FlTitlesData {
     this.show = true,
     // Horizontal
     this.showHorizontalTitles = true,
-    this.getHorizontalTitle = defaultGetTitle,
+    this.getHorizontalTitles = defaultGetTitle,
     this.horizontalTitlesReservedHeight = 22,
-    this.horizontalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
+    this.horizontalTitlesTextStyle = const TextStyle(
+      color: Colors.black,
+      fontSize: 11,
+    ),
     this.horizontalTitleMargin = 6,
 
     // Vertical
     this.showVerticalTitles = true,
-    this.getVerticalTitle = defaultGetTitle,
+    this.getVerticalTitles = defaultGetTitle,
     this.verticalTitlesReservedWidth = 40,
-    this.verticalTitlesTextStyle = const TextStyle(color: Colors.black, fontSize: 11,),
+    this.verticalTitlesTextStyle = const TextStyle(
+      color: Colors.black,
+      fontSize: 11,
+    ),
     this.verticalTitleMargin = 6,
   });
 }
 
-
 // Dot Data
 typedef CheckToShowDot = bool Function(FlSpot spot);
+
 bool showAllDots(FlSpot spot) {
   return true;
 }
+
 class FlDotData {
   final bool show;
   final Color dotColor;
