@@ -4,22 +4,16 @@ import 'package:flutter/material.dart';
 
 abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPainter<D> {
   final D data;
-  Paint gridPaint, dotPaint;
+  Paint gridPaint;
 
   FlAxisChartPainter(this.data) : super(data) {
     gridPaint = new Paint()..style = PaintingStyle.fill;
-
-    dotPaint = Paint()
-      ..color = data.dotData.dotColor
-      ..style = PaintingStyle.fill;
   }
 
   @override
   void paint(Canvas canvas, Size viewSize) {
     super.paint(canvas, viewSize);
     drawGrid(canvas, viewSize);
-    drawBehindDots(canvas, viewSize);
-    drawDots(canvas, viewSize);
   }
 
   void drawGrid(Canvas canvas, Size viewSize) {
@@ -74,22 +68,6 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
         horizontalCounter++;
       }
     }
-  }
-
-  void drawBehindDots(Canvas canvas, Size viewSize) {}
-
-  void drawDots(Canvas canvas, Size viewSize) {
-    if (!data.dotData.show) {
-      return;
-    }
-    viewSize = getChartUsableDrawSize(viewSize);
-    data.spots.forEach((spot) {
-      if (data.dotData.checkToShowDot(spot)) {
-        double x = getPixelX(spot.x, viewSize);
-        double y = getPixelY(spot.y, viewSize);
-        canvas.drawCircle(Offset(x, y), data.dotData.dotSize, dotPaint);
-      }
-    });
   }
 
   double getPixelX(double spotX, Size chartUsableSize) {

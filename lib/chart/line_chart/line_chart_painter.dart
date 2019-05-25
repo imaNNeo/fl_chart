@@ -10,7 +10,7 @@ import 'line_chart_data.dart';
 class LineChartPainter extends FlAxisChartPainter {
   final LineChartData data;
 
-  Paint barPaint, belowBarPaint;
+  Paint barPaint, belowBarPaint, dotPaint;
 
   LineChartPainter(
     this.data,
@@ -21,10 +21,15 @@ class LineChartPainter extends FlAxisChartPainter {
       ..strokeWidth = data.barData.barWidth;
 
     belowBarPaint = Paint()..style = PaintingStyle.fill;
+
+    dotPaint = Paint()
+      ..color = data.dotData.dotColor
+      ..style = PaintingStyle.fill;
   }
 
   @override
-  void drawBehindDots(ui.Canvas canvas, ui.Size viewSize) {
+  void paint(Canvas canvas, Size viewSize) {
+    super.paint(canvas, viewSize);
     if (data.spots.length == 0) {
       return;
     }
@@ -33,6 +38,49 @@ class LineChartPainter extends FlAxisChartPainter {
     drawBelowBar(canvas, viewSize, barPath);
     drawBar(canvas, viewSize, barPath);
     drawTitles(canvas, viewSize);
+    drawDots(canvas, viewSize);
+  }
+
+  Path _generateBarPath(Size viewSize) {
+    viewSize = getChartUsableDrawSize(viewSize);
+    Path path = Path();
+    int size = data.spots.length;
+    path.reset();
+
+    double lX = 0.0, lY = 0.0;
+
+    double x = getPixelX(data.spots[0].x, viewSize);
+    double y = getPixelY(data.spots[0].y, viewSize);
+    path.moveTo(x, y);
+    for (int i = 1; i < size; i++) {
+      // CurrentSpot
+      FlSpot p = data.spots[i];
+      double px = getPixelX(p.x, viewSize);
+      double py = getPixelY(p.y, viewSize);
+
+      // previous spot
+      FlSpot p0 = data.spots[i - 1];
+      double p0x = getPixelX(p0.x, viewSize);
+      double p0y = getPixelY(p0.y, viewSize);
+
+      double x1 = p0x + lX;
+      double y1 = p0y + lY;
+
+      // next point
+      FlSpot p1 = data.spots[i + 1 < size ? i + 1 : i];
+      double p1x = getPixelX(p1.x, viewSize);
+      double p1y = getPixelY(p1.y, viewSize);
+
+      double smoothness = data.barData.isCurved ? data.barData.curveSmoothness : 0.0;
+      lX = ((p1x - p0x) / 2) * smoothness;
+      lY = ((p1y - p0y) / 2) * smoothness;
+      double x2 = px - lX;
+      double y2 = py - lY;
+
+      path.cubicTo(x1, y1, x2, y2, px, py);
+    }
+
+    return path;
   }
 
   /*
@@ -147,46 +195,18 @@ class LineChartPainter extends FlAxisChartPainter {
     }
   }
 
-  Path _generateBarPath(Size viewSize) {
-    viewSize = getChartUsableDrawSize(viewSize);
-    Path path = Path();
-    int size = data.spots.length;
-    path.reset();
-
-    double lX = 0.0, lY = 0.0;
-
-    double x = getPixelX(data.spots[0].x, viewSize);
-    double y = getPixelY(data.spots[0].y, viewSize);
-    path.moveTo(x, y);
-    for (int i = 1; i < size; i++) {
-      // CurrentSpot
-      FlSpot p = data.spots[i];
-      double px = getPixelX(p.x, viewSize);
-      double py = getPixelY(p.y, viewSize);
-
-      // previous spot
-      FlSpot p0 = data.spots[i - 1];
-      double p0x = getPixelX(p0.x, viewSize);
-      double p0y = getPixelY(p0.y, viewSize);
-
-      double x1 = p0x + lX;
-      double y1 = p0y + lY;
-
-      // next point
-      FlSpot p1 = data.spots[i + 1 < size ? i + 1 : i];
-      double p1x = getPixelX(p1.x, viewSize);
-      double p1y = getPixelY(p1.y, viewSize);
-
-      double smoothness = data.barData.isCurved ? data.barData.curveSmoothness : 0.0;
-      lX = ((p1x - p0x) / 2) * smoothness;
-      lY = ((p1y - p0y) / 2) * smoothness;
-      double x2 = px - lX;
-      double y2 = py - lY;
-
-      path.cubicTo(x1, y1, x2, y2, px, py);
+  void drawDots(Canvas canvas, Size viewSize) {
+    if (!data.dotData.show) {
+      return;
     }
-
-    return path;
+    viewSize = getChartUsableDrawSize(viewSize);
+    data.spots.forEach((spot) {
+      if (data.dotData.checkToShowDot(spot)) {
+        double x = getPixelX(spot.x, viewSize);
+        double y = getPixelY(spot.y, viewSize);
+        canvas.drawCircle(Offset(x, y), data.dotData.dotSize, dotPaint);
+      }
+    });
   }
 
   @override

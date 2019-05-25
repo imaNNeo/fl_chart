@@ -16,11 +16,9 @@ class BarChartData extends FlAxisChartData {
     ),
     FlTitlesData titlesData = const FlTitlesData(show: true, showVerticalTitles: false),
     FlBorderData borderData = const FlBorderData(show: true, borderColor: Colors.black12),
-    FlDotData dotData = const FlDotData(show: false),
   }) : super(
           spots: groupsToFlSpots(barGroups),
           gridData: gridData,
-          dotData: dotData,
           titlesData: titlesData,
           borderData: borderData,
         );

@@ -7,19 +7,19 @@ import 'package:flutter/material.dart';
 class LineChartData extends FlAxisChartData {
   final LineChartBarData barData;
   final BelowBarData belowBarData;
+  final FlDotData dotData;
 
   LineChartData({
     @required List<FlSpot> spots,
     this.barData = const LineChartBarData(),
     this.belowBarData = const BelowBarData(),
+    this.dotData = const FlDotData(),
     FlGridData gridData = const FlGridData(),
     FlTitlesData titlesData = const FlTitlesData(),
     FlBorderData borderData = const FlBorderData(),
-    FlDotData dotData = const FlDotData(),
   }) : super(
           spots: spots,
           gridData: gridData,
-          dotData: dotData,
           titlesData: titlesData,
           borderData: borderData,
         );
@@ -58,5 +58,27 @@ class BelowBarData {
     this.gradientFrom = const Offset(0, 0),
     this.gradientTo = const Offset(1, 0),
     this.gradientColorStops = const [1.0],
+  });
+}
+
+
+// Dot Data
+typedef CheckToShowDot = bool Function(FlSpot spot);
+
+bool showAllDots(FlSpot spot) {
+  return true;
+}
+
+class FlDotData {
+  final bool show;
+  final Color dotColor;
+  final double dotSize;
+  final CheckToShowDot checkToShowDot;
+
+  const FlDotData({
+    this.show = true,
+    this.dotColor = Colors.blue,
+    this.dotSize = 4.0,
+    this.checkToShowDot = showAllDots,
   });
 }

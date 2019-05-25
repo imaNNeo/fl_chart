@@ -5,7 +5,6 @@ class FlAxisChartData extends FlChartData {
   final List<FlSpot> spots;
   final FlGridData gridData;
   final FlTitlesData titlesData;
-  final FlDotData dotData;
 
   double minX, maxX;
   double minY, maxY;
@@ -14,7 +13,6 @@ class FlAxisChartData extends FlChartData {
     @required this.spots,
     this.gridData = const FlGridData(),
     this.titlesData = const FlTitlesData(),
-    this.dotData = const FlDotData(),
     FlBorderData borderData = const FlBorderData(),
   }) : super(borderData: borderData) {
     if (spots == null) {
@@ -135,26 +133,5 @@ class FlTitlesData {
       fontSize: 11,
     ),
     this.verticalTitleMargin = 6,
-  });
-}
-
-// Dot Data
-typedef CheckToShowDot = bool Function(FlSpot spot);
-
-bool showAllDots(FlSpot spot) {
-  return true;
-}
-
-class FlDotData {
-  final bool show;
-  final Color dotColor;
-  final double dotSize;
-  final CheckToShowDot checkToShowDot;
-
-  const FlDotData({
-    this.show = true,
-    this.dotColor = Colors.blue,
-    this.dotSize = 4.0,
-    this.checkToShowDot = showAllDots,
   });
 }

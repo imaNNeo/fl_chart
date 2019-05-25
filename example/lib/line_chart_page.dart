@@ -192,7 +192,7 @@ class LineChartPage extends StatelessWidget {
           belowBarData: BelowBarData(
             show: true,
             colors: [
-              Colors.orange,
+              Colors.orange.withOpacity(0.5),
               Colors.orange.withOpacity(0.0),
             ],
             gradientColorStops: [0.5, 1.0],
