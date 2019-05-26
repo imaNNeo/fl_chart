@@ -1,15 +1,20 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
+import 'package:fl_chart/chart/pie_chart/pie_chart.dart';
 import 'package:fl_chart/chart/pie_chart/pie_chart_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vector_math/vector_math.dart';
 
 
+/// this class will paint the [PieChart] based on the [PieChartData]
 class PieChartPainter extends FlChartPainter {
   final PieChartData data;
 
+  /// [sectionPaint] responsible to paint each section
+  /// [sectionsSpaceClearPaint] responsible to clear the space between the sections
+  /// [centerSpacePaint] responsible to draw the center space of our chart.
   Paint sectionPaint, sectionsSpaceClearPaint, centerSpacePaint;
 
   PieChartPainter(
@@ -30,14 +35,13 @@ class PieChartPainter extends FlChartPainter {
 
   @override
   void paint(Canvas canvas, Size viewSize) {
+    super.paint(canvas, viewSize);
     if (data.sections.length == 0) {
       return;
     }
-    super.paint(canvas, viewSize);
 
     drawCenterSpace(canvas, viewSize);
     drawSections(canvas, viewSize);
-    removeSectionsSpace(canvas, viewSize);
     drawTexts(canvas, viewSize);
   }
 
@@ -74,8 +78,12 @@ class PieChartPainter extends FlChartPainter {
 
       tempAngle += sweepAngle;
     });
+
+    removeSectionsSpace(canvas, viewSize);
   }
 
+  /// firstly the sections draw close to eachOther without any space,
+  /// then here we clear a line with given [PieChartData.width]
   void removeSectionsSpace(Canvas canvas, Size viewSize) {
     double extraLineSize = 1;
     Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
