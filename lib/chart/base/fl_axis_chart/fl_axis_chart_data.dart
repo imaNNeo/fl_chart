@@ -1,10 +1,15 @@
 import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
 
+/// This is the base class for axis base charts data
+/// that contains a list of [FlSpot] and a [FlGridData]
+/// we use spots to calculate [minX], [maxX], [minY], [maxY],
+/// with knowing them we can determine how much is the scale,
+/// and how much we should calculate height of each spot
+/// base on the view's height.
 class FlAxisChartData extends FlChartData {
   final List<FlSpot> spots;
   final FlGridData gridData;
-  final FlTitlesData titlesData;
 
   double minX, maxX;
   double minY, maxY;
@@ -12,7 +17,6 @@ class FlAxisChartData extends FlChartData {
   FlAxisChartData({
     @required this.spots,
     this.gridData = const FlGridData(),
-    this.titlesData = const FlTitlesData(),
     FlBorderData borderData = const FlBorderData(),
   }) : super(borderData: borderData) {
     if (spots == null) {
@@ -39,6 +43,11 @@ class FlAxisChartData extends FlChartData {
   }
 }
 
+/***** Spot *****/
+/// this class represent a conceptual position of a spot in our chart
+/// they are based on bottom/left just like real life axises.
+/// we convert them to view x and y according to maxX and maxY
+/// based on the view's size
 class FlSpot {
   final double x;
   final double y;
@@ -46,13 +55,18 @@ class FlSpot {
   const FlSpot(this.x, this.y);
 }
 
-// Grid data
+
+/***** GridData *****/
+/// we use this typedef to determine which grid lines we should show,
+/// we pass the coord value, and receive a boolean to show that line in the grid.
 typedef CheckToShowGrid = bool Function(double value);
 
 bool showAllGrids(double value) {
   return true;
 }
 
+/// This class is responsible to hold grid data,
+/// the field names are descriptive and you can find out what they do.
 class FlGridData {
   final bool show;
 
@@ -85,53 +99,5 @@ class FlGridData {
     this.verticalGridColor = Colors.grey,
     this.verticalGridLineWidth = 0.5,
     this.checkToShowVerticalGrid = showAllGrids,
-  });
-}
-
-// Titles data
-typedef GetTitleFunction = String Function(double value);
-
-String defaultGetTitle(double value) {
-  return "${value.toInt()}";
-}
-
-class FlTitlesData {
-  final bool show;
-
-  // Horizontal
-  final bool showHorizontalTitles;
-  final GetTitleFunction getHorizontalTitles;
-  final double horizontalTitlesReservedHeight;
-  final TextStyle horizontalTitlesTextStyle;
-  final double horizontalTitleMargin;
-
-  // Vertical
-  final bool showVerticalTitles;
-  final GetTitleFunction getVerticalTitles;
-  final double verticalTitlesReservedWidth;
-  final TextStyle verticalTitlesTextStyle;
-  final double verticalTitleMargin;
-
-  const FlTitlesData({
-    this.show = true,
-    // Horizontal
-    this.showHorizontalTitles = true,
-    this.getHorizontalTitles = defaultGetTitle,
-    this.horizontalTitlesReservedHeight = 22,
-    this.horizontalTitlesTextStyle = const TextStyle(
-      color: Colors.black,
-      fontSize: 11,
-    ),
-    this.horizontalTitleMargin = 6,
-
-    // Vertical
-    this.showVerticalTitles = true,
-    this.getVerticalTitles = defaultGetTitle,
-    this.verticalTitlesReservedWidth = 40,
-    this.verticalTitlesTextStyle = const TextStyle(
-      color: Colors.black,
-      fontSize: 11,
-    ),
-    this.verticalTitleMargin = 6,
   });
 }

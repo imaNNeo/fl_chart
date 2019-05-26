@@ -1,7 +1,12 @@
+import 'package:fl_chart/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/chart/base/fl_axis_chart/fl_axis_chart_data.dart';
 import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
+import 'package:fl_chart/chart/line_chart/line_chart_painter.dart';
 import 'package:flutter/material.dart';
 
+/// This class is responsible to draw the grid behind all axis base charts.
+/// also we have two useful function [getPixelX] and [getPixelY] that used
+/// in child classes -> [BarChartPainter], [LineChartPainter]
 abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPainter<D> {
   final D data;
   Paint gridPaint;
@@ -70,47 +75,20 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
     }
   }
 
+  /// With this function we can convert our [FlSpot] x
+  /// to the view base axis x .
+  /// the view 0, 0 is on the top/left, but the spots is bottom/left
   double getPixelX(double spotX, Size chartUsableSize) {
     return ((spotX / data.maxX) * chartUsableSize.width) + getLeftOffsetDrawSize();
   }
 
+  /// With this function we can convert our [FlSpot] y
+  /// to the view base axis y.
   double getPixelY(
     double spotY,
     Size chartUsableSize,
   ) {
     double y = data.maxY - spotY;
     return ((y / data.maxY) * chartUsableSize.height) + getTopOffsetDrawSize();
-  }
-
-  @override
-  double getExtraNeededHorizontalSpace() {
-    double parentNeeded = super.getExtraNeededHorizontalSpace();
-    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
-      return parentNeeded +
-          data.titlesData.verticalTitlesReservedWidth +
-          data.titlesData.verticalTitleMargin;
-    }
-    return parentNeeded;
-  }
-
-  @override
-  double getExtraNeededVerticalSpace() {
-    double parentNeeded = super.getExtraNeededVerticalSpace();
-    if (data.titlesData.show && data.titlesData.showHorizontalTitles) {
-      return parentNeeded +
-          data.titlesData.horizontalTitlesReservedHeight +
-          data.titlesData.horizontalTitleMargin;
-    }
-    return parentNeeded;
-  }
-
-  double getLeftOffsetDrawSize() {
-    double parentNeeded = super.getLeftOffsetDrawSize();
-    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
-      return parentNeeded +
-          data.titlesData.verticalTitlesReservedWidth +
-          data.titlesData.verticalTitleMargin;
-    }
-    return parentNeeded;
   }
 }

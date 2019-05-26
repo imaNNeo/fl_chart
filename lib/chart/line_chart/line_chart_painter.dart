@@ -210,5 +210,37 @@ class LineChartPainter extends FlAxisChartPainter {
   }
 
   @override
+  double getExtraNeededHorizontalSpace() {
+    double parentNeeded = super.getExtraNeededHorizontalSpace();
+    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
+      return parentNeeded +
+        data.titlesData.verticalTitlesReservedWidth +
+        data.titlesData.verticalTitleMargin;
+    }
+    return parentNeeded;
+  }
+
+  @override
+  double getExtraNeededVerticalSpace() {
+    double parentNeeded = super.getExtraNeededVerticalSpace();
+    if (data.titlesData.show && data.titlesData.showHorizontalTitles) {
+      return parentNeeded +
+        data.titlesData.horizontalTitlesReservedHeight +
+        data.titlesData.horizontalTitleMargin;
+    }
+    return parentNeeded;
+  }
+
+  double getLeftOffsetDrawSize() {
+    double parentNeeded = super.getLeftOffsetDrawSize();
+    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
+      return parentNeeded +
+        data.titlesData.verticalTitlesReservedWidth +
+        data.titlesData.verticalTitleMargin;
+    }
+    return parentNeeded;
+  }
+
+  @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

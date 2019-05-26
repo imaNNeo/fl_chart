@@ -7,19 +7,19 @@ import 'package:flutter/material.dart';
 class BarChartData extends FlAxisChartData {
   final List<BarChartGroupData> barGroups;
   final BarChartAlignment alignment;
+  final FlTitlesData titlesData;
 
   BarChartData({
     this.barGroups = const [],
     this.alignment = BarChartAlignment.spaceBetween,
+    this.titlesData = const FlTitlesData(),
     FlGridData gridData = const FlGridData(
       show: false,
     ),
-    FlTitlesData titlesData = const FlTitlesData(show: true, showVerticalTitles: false),
     FlBorderData borderData = const FlBorderData(show: true, borderColor: Colors.black12),
   }) : super(
           spots: groupsToFlSpots(barGroups),
           gridData: gridData,
-          titlesData: titlesData,
           borderData: borderData,
         );
 

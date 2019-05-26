@@ -8,19 +8,19 @@ class LineChartData extends FlAxisChartData {
   final LineChartBarData barData;
   final BelowBarData belowBarData;
   final FlDotData dotData;
+  final FlTitlesData titlesData;
 
   LineChartData({
     @required List<FlSpot> spots,
     this.barData = const LineChartBarData(),
     this.belowBarData = const BelowBarData(),
     this.dotData = const FlDotData(),
+    this.titlesData = const FlTitlesData(),
     FlGridData gridData = const FlGridData(),
-    FlTitlesData titlesData = const FlTitlesData(),
     FlBorderData borderData = const FlBorderData(),
   }) : super(
           spots: spots,
           gridData: gridData,
-          titlesData: titlesData,
           borderData: borderData,
         );
 }
