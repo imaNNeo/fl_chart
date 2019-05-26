@@ -46,12 +46,15 @@ class LineChartBarData {
   /// if it is 0.0, the lines draw with sharp corners.
   final double curveSmoothness;
 
+  final bool isStrokeCapRound;
+
   const LineChartBarData({
     this.show = true,
     this.barColor = Colors.redAccent,
     this.barWidth = 2.0,
     this.isCurved = false,
     this.curveSmoothness = 0.35,
+    this.isStrokeCapRound = false,
   });
 }
 

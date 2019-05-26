@@ -156,6 +156,8 @@ class LineChartPainter extends FlAxisChartPainter {
     if (!data.barData.show) {
       return;
     }
+
+    barPaint.strokeCap = data.barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
     canvas.drawPath(barPath, barPaint);
   }
 

@@ -23,7 +23,7 @@ class FlAxisChartData extends FlChartData {
       throw Exception("spots couldn't be null");
     }
 
-    if (spots.length >= 0) {
+    if (spots.length > 0) {
       minX = maxX = spots[0].x;
       minY = maxY = spots[0].y;
       spots.forEach((spot) {
