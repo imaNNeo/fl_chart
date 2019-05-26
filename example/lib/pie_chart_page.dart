@@ -133,7 +133,7 @@ class PieChartPage extends StatelessWidget {
                                 borderData: FlBorderData(
                                   show: false,
                                 ),
-                                sectionsSpace: 0,
+                                sectionsSpace: 12,
                                 centerSpaceRadius: 0,
                                 sections: pieChartSections),
                           ),

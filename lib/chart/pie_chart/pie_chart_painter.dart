@@ -89,7 +89,11 @@ class PieChartPainter extends FlChartPainter {
     Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     double tempAngle = data.startDegreeOffset;
-    data.sections.forEach((section) {
+    data.sections.asMap().forEach((index, section) {
+      int previousIndex = index == 0 ? data.sections.length - 1 : index - 1;
+      var previousSection = data.sections[previousIndex];
+
+      double maxSectionRadius = math.max(section.radius, previousSection.radius);
 
       double startAngle = tempAngle;
       double sweepAngle = 360 * (section.value / data.sumValue);
@@ -103,9 +107,9 @@ class PieChartPainter extends FlChartPainter {
 
       Offset sectionsStartTo = center + Offset(
         math.cos(radians(startAngle)) *
-          (data.centerSpaceRadius + section.radius + extraLineSize),
+          (data.centerSpaceRadius + maxSectionRadius + extraLineSize),
         math.sin(radians(startAngle)) *
-          (data.centerSpaceRadius + section.radius + extraLineSize),
+          (data.centerSpaceRadius + maxSectionRadius + extraLineSize),
       );
 
       sectionsSpaceClearPaint.strokeWidth = data.sectionsSpace;
