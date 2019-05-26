@@ -22,11 +22,14 @@ class BarChartPainter extends FlAxisChartPainter {
       return;
     }
 
-    List<double> barsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
-    drawBars(canvas, viewSize, barsX);
-    drawTitles(canvas, viewSize, barsX);
+    List<double> groupsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
+    drawBars(canvas, viewSize, groupsX);
+    drawTitles(canvas, viewSize, groupsX);
   }
 
+  /// this method calculates the x of our showing groups,
+  /// they calculate as center of the group
+  /// we position the groups based on the given [alignment],
   List<double> calculateGroupsX(
       Size viewSize, List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
     Size drawSize = getChartUsableDrawSize(viewSize);
@@ -115,15 +118,16 @@ class BarChartPainter extends FlAxisChartPainter {
     return groupsX;
   }
 
+
   void drawBars(Canvas canvas, Size viewSize, List<double> barsX) {
     Size drawSize = getChartUsableDrawSize(viewSize);
 
     data.barGroups.asMap().forEach((groupIndex, barGroup) {
-      /*
-      * If the height of rounded bars is less than their roundedRadius,
-      * we can't draw them properly,
-      * then we try to make them width lower,
-      * */
+
+      /// If the height of rounded bars is less than their roundedRadius,
+      /// we can't draw them properly,
+      /// then we try to make them width lower radius,
+      /// in this section we resize a new List with proper barsRadius.
       List<BarChartRodData> resizedWidthRods = barGroup.barRods.map((barRod) {
         if (!barRod.isRound) {
           return barRod;
@@ -155,11 +159,10 @@ class BarChartPainter extends FlAxisChartPainter {
 
         Offset from, to;
 
-        // Draw Bars
         barPaint.strokeWidth = barRod.width;
         barPaint.strokeCap = barRod.isRound ? StrokeCap.round : StrokeCap.butt;
 
-        // Back Draw
+        /// Draw [BackgroundBarChartRodData]
         if (barRod.backDrawRodData.show) {
           from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
           to = Offset(x, getPixelY(barRod.backDrawRodData.y, drawSize) + roundedRadius,);
@@ -167,7 +170,7 @@ class BarChartPainter extends FlAxisChartPainter {
           canvas.drawLine(from, to, barPaint);
         }
 
-        // Main Rod
+        // draw Main Rod
         from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
         to = Offset(x, getPixelY(barRod.y, drawSize) + roundedRadius,);
         barPaint.color = barRod.color;
@@ -224,6 +227,10 @@ class BarChartPainter extends FlAxisChartPainter {
     });
   }
 
+  /// We add our needed horizontal space to parent needed.
+  /// we have some titles that maybe draw in the left side of our chart,
+  /// then we should draw the chart a with some left space,
+  /// the left space is [getLeftOffsetDrawSize], and the whole
   @override
   double getExtraNeededHorizontalSpace() {
     double parentNeeded = super.getExtraNeededHorizontalSpace();
@@ -235,6 +242,8 @@ class BarChartPainter extends FlAxisChartPainter {
     return parentNeeded;
   }
 
+  /// We add our needed vertical space to parent needed.
+  /// we have some titles that maybe draw in the bottom side of our chart.
   @override
   double getExtraNeededVerticalSpace() {
     double parentNeeded = super.getExtraNeededVerticalSpace();
@@ -246,6 +255,9 @@ class BarChartPainter extends FlAxisChartPainter {
     return parentNeeded;
   }
 
+  /// calculate left offset for draw the chart,
+  /// maybe we want to show both left and right titles,
+  /// then just the left titles will effect on this function.
   double getLeftOffsetDrawSize() {
     double parentNeeded = super.getLeftOffsetDrawSize();
     if (data.titlesData.show && data.titlesData.showVerticalTitles) {

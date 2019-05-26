@@ -10,6 +10,9 @@ import 'line_chart_data.dart';
 class LineChartPainter extends FlAxisChartPainter {
   final LineChartData data;
 
+  /// [barPaint] is responsible to painting the bar line
+  /// [belowBarPaint] is responsible to fill the below space of our bar line
+  /// [dotPaint] is responsible to draw dots on spot points
   Paint barPaint, belowBarPaint, dotPaint;
 
   LineChartPainter(
@@ -41,6 +44,14 @@ class LineChartPainter extends FlAxisChartPainter {
     drawDots(canvas, viewSize);
   }
 
+  /// firstly we generate the bar line that we should draw,
+  /// then we reuse it to fill below bar space.
+  /// there is two type of barPath will be generate here,
+  /// first one is the sharp corners line on spot connections
+  /// second one is curved corners line on spot connections,
+  /// and we use isCurved to find out how we should generate it,
+  /// for curved lines we use [Path.cubicTo] function to have curved corners.
+  /// there is
   Path _generateBarPath(Size viewSize) {
     viewSize = getChartUsableDrawSize(viewSize);
     Path path = Path();
@@ -53,12 +64,12 @@ class LineChartPainter extends FlAxisChartPainter {
     double y = getPixelY(data.spots[0].y, viewSize);
     path.moveTo(x, y);
     for (int i = 1; i < size; i++) {
-      // CurrentSpot
+      /// CurrentSpot
       FlSpot p = data.spots[i];
       double px = getPixelX(p.x, viewSize);
       double py = getPixelY(p.y, viewSize);
 
-      // previous spot
+      /// previous spot
       FlSpot p0 = data.spots[i - 1];
       double p0x = getPixelX(p0.x, viewSize);
       double p0y = getPixelY(p0.y, viewSize);
@@ -66,11 +77,14 @@ class LineChartPainter extends FlAxisChartPainter {
       double x1 = p0x + lX;
       double y1 = p0y + lY;
 
-      // next point
+      /// next point
       FlSpot p1 = data.spots[i + 1 < size ? i + 1 : i];
       double p1x = getPixelX(p1.x, viewSize);
       double p1y = getPixelY(p1.y, viewSize);
 
+      /// if the isCurved is false, we set 0 for smoothness,
+      /// it means we should not have any smoothness then we face with
+      /// the sharped corners line
       double smoothness = data.barData.isCurved ? data.barData.curveSmoothness : 0.0;
       lX = ((p1x - p0x) / 2) * smoothness;
       lY = ((p1y - p0y) / 2) * smoothness;
@@ -83,9 +97,11 @@ class LineChartPainter extends FlAxisChartPainter {
     return path;
   }
 
-  /*
-  barPath Ends in Top Right
-   */
+  /// in this phase we get the generated [barPath] as input
+  /// that is the raw line bar.
+  /// then we make a copy from it and call it [belowBarPath],
+  /// we continue to complete the path to cover the below section.
+  /// then we close the path to fill the below space with a color or gradient.
   void drawBelowBar(Canvas canvas, Size viewSize, Path barPath) {
     if (!data.belowBarData.show) {
       return;
@@ -95,22 +111,24 @@ class LineChartPainter extends FlAxisChartPainter {
 
     Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    // Line To Bottom Right
+    /// Line To Bottom Right
     double x = getPixelX(data.spots[data.spots.length - 1].x, chartViewSize);
     double y = chartViewSize.height - getTopOffsetDrawSize();
     belowBarPath.lineTo(x, y);
 
-    // Line To Bottom Left
+    /// Line To Bottom Left
     x = getPixelX(data.spots[0].x, chartViewSize);
     y = chartViewSize.height - getTopOffsetDrawSize();
     belowBarPath.lineTo(x, y);
 
-    // Line To Top Left
+    /// Line To Top Left
     x = getPixelX(data.spots[0].x, chartViewSize);
     y = getPixelY(data.spots[0].y, chartViewSize);
     belowBarPath.lineTo(x, y);
     belowBarPath.close();
 
+    /// here we update the [belowBarPaint] to draw the solid color
+    /// or the gradient based on the [BelowBarData] class.
     if (data.belowBarData.colors.length == 1) {
       belowBarPaint.color = data.belowBarData.colors[0];
       belowBarPaint.shader = null;
@@ -209,6 +227,10 @@ class LineChartPainter extends FlAxisChartPainter {
     });
   }
 
+  /// We add our needed horizontal space to parent needed.
+  /// we have some titles that maybe draw in the left side of our chart,
+  /// then we should draw the chart a with some left space,
+  /// the left space is [getLeftOffsetDrawSize], and the whole
   @override
   double getExtraNeededHorizontalSpace() {
     double parentNeeded = super.getExtraNeededHorizontalSpace();
@@ -220,6 +242,8 @@ class LineChartPainter extends FlAxisChartPainter {
     return parentNeeded;
   }
 
+  /// We add our needed vertical space to parent needed.
+  /// we have some titles that maybe draw in the bottom side of our chart.
   @override
   double getExtraNeededVerticalSpace() {
     double parentNeeded = super.getExtraNeededVerticalSpace();
@@ -231,6 +255,9 @@ class LineChartPainter extends FlAxisChartPainter {
     return parentNeeded;
   }
 
+  /// calculate left offset for draw the chart,
+  /// maybe we want to show both left and right titles,
+  /// then just the left titles will effect on this function.
   double getLeftOffsetDrawSize() {
     double parentNeeded = super.getLeftOffsetDrawSize();
     if (data.titlesData.show && data.titlesData.showVerticalTitles) {
