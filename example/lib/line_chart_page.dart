@@ -40,23 +40,25 @@ class LineChartPage extends StatelessWidget {
     return FlChartWidget(
       flChart: LineChart(
         LineChartData(
-          spots: [
-            FlSpot(0, 1),
-            FlSpot(1, 2),
-            FlSpot(2, 1.5),
-            FlSpot(3, 3),
-            FlSpot(4, 3.5),
-            FlSpot(5, 5),
-            FlSpot(6, 8),
+          lineBarsData: [
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 1),
+                FlSpot(1, 2),
+                FlSpot(2, 1.5),
+                FlSpot(3, 3),
+                FlSpot(4, 3.5),
+                FlSpot(5, 5),
+                FlSpot(6, 8),
+              ],
+              isCurved: true,
+              barWidth: 4,
+              belowBarData: BelowBarData(
+                show: true,
+              ),
+              dotData: FlDotData(show: false),
+            ),
           ],
-          barData: LineChartBarData(
-            isCurved: true,
-            barWidth: 4,
-          ),
-          belowBarData: BelowBarData(
-            show: true,
-          ),
-          dotData: FlDotData(show: false),
           titlesData: FlTitlesData(
               getVerticalTitles: (val) {
                 return "";
@@ -101,29 +103,36 @@ class LineChartPage extends StatelessWidget {
     return FlChartWidget(
       flChart: LineChart(
         LineChartData(
-          spots: [
-            FlSpot(0, 4),
-            FlSpot(1, 3.5),
-            FlSpot(2, 4.5),
-            FlSpot(3, 1),
-            FlSpot(4, 4),
-            FlSpot(5, 6),
-            FlSpot(6, 6.5),
-            FlSpot(7, 6),
-            FlSpot(8, 4),
-            FlSpot(9, 6),
-            FlSpot(10, 6),
-            FlSpot(11, 7),
+          lineBarsData: [
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 4),
+                FlSpot(1, 3.5),
+                FlSpot(2, 4.5),
+                FlSpot(3, 1),
+                FlSpot(4, 4),
+                FlSpot(5, 6),
+                FlSpot(6, 6.5),
+                FlSpot(7, 6),
+                FlSpot(8, 4),
+                FlSpot(9, 6),
+                FlSpot(10, 6),
+                FlSpot(11, 7),
+              ],
+              isCurved: true,
+              barWidth: 8,
+              colors: [
+                Colors.purpleAccent,
+              ],
+              belowBarData: BelowBarData(
+                show: true,
+                colors: [Colors.deepPurple.withOpacity(0.2)],
+              ),
+              dotData: FlDotData(
+                show: false,
+              ),
+            ),
           ],
-          barData: LineChartBarData(
-            isCurved: true,
-            barWidth: 8,
-            barColor: Colors.purpleAccent,
-          ),
-          belowBarData: BelowBarData(
-            show: true,
-            colors: [Colors.deepPurple.withOpacity(0.2)],
-          ),
           titlesData: FlTitlesData(
               horizontalTitlesTextStyle:
                   TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
@@ -158,9 +167,6 @@ class LineChartPage extends StatelessWidget {
                     return "Dec";
                 }
               }),
-          dotData: FlDotData(
-            show: false,
-          ),
           gridData: FlGridData(
               show: true,
               checkToShowVerticalGrid: (double value) {
@@ -175,37 +181,41 @@ class LineChartPage extends StatelessWidget {
     return FlChartWidget(
       flChart: LineChart(
         LineChartData(
-          spots: [
-            FlSpot(0, 1.3),
-            FlSpot(1, 1),
-            FlSpot(2, 1.8),
-            FlSpot(3, 1.5),
-            FlSpot(4, 2.2),
-            FlSpot(5, 1.8),
-            FlSpot(6, 3),
+          lineBarsData: [
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 1.3),
+                FlSpot(1, 1),
+                FlSpot(2, 1.8),
+                FlSpot(3, 1.5),
+                FlSpot(4, 2.2),
+                FlSpot(5, 1.8),
+                FlSpot(6, 3),
+              ],
+              isCurved: false,
+              barWidth: 4,
+              colors: [
+                Colors.orange,
+              ],
+              belowBarData: BelowBarData(
+                show: true,
+                colors: [
+                  Colors.orange.withOpacity(0.5),
+                  Colors.orange.withOpacity(0.0),
+                ],
+                gradientColorStops: [0.5, 1.0],
+                gradientFrom: Offset(0, 0),
+                gradientTo: Offset(0, 1),
+              ),
+              dotData: FlDotData(
+                show: true,
+                dotColor: Colors.deepOrange,
+                dotSize: 6,
+                checkToShowDot: (spot) {
+                  return spot.x != 0 && spot.x != 6;
+                }),
+            ),
           ],
-          barData: LineChartBarData(
-            isCurved: false,
-            barWidth: 4,
-            barColor: Colors.orange,
-          ),
-          belowBarData: BelowBarData(
-            show: true,
-            colors: [
-              Colors.orange.withOpacity(0.5),
-              Colors.orange.withOpacity(0.0),
-            ],
-            gradientColorStops: [0.5, 1.0],
-            gradientFrom: Offset(0, 0),
-            gradientTo: Offset(0, 1),
-          ),
-          dotData: FlDotData(
-              show: true,
-              dotColor: Colors.deepOrange,
-              dotSize: 6,
-              checkToShowDot: (spot) {
-                return spot.x != 0 && spot.x != 6;
-              }),
           gridData: FlGridData(
             show: true,
             drawHorizontalGrid: true,

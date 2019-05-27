@@ -1,3 +1,4 @@
+import 'package:example/line_chart_page2.dart';
 import 'package:example/pie_chart_page.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
+            LineChartPage2(),
             BarChartPage(),
             BarChartPage2(),
-            LineChartPage(),
             PieChartPage(),
+            LineChartPage(),
           ],
         ),
       ),
