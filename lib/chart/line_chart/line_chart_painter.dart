@@ -136,6 +136,19 @@ class LineChartPainter extends FlAxisChartPainter {
       belowBarPaint.color = barData.belowBarData.colors[0];
       belowBarPaint.shader = null;
     } else {
+
+      List<double> stops = [];
+      if (barData.belowBarData.gradientColorStops == null
+        || barData.belowBarData.gradientColorStops.length != barData.belowBarData.colors.length) {
+        /// provided gradientColorStops is invalid and we calculate it here
+        barData.colors.asMap().forEach((index, color) {
+          double ss = 1.0 / barData.colors.length;
+          stops.add(ss * (index + 1));
+        });
+      } else {
+        stops = barData.colorStops;
+      }
+
       var from = barData.belowBarData.gradientFrom;
       var to = barData.belowBarData.gradientTo;
       belowBarPaint.shader = ui.Gradient.linear(
@@ -148,7 +161,7 @@ class LineChartPainter extends FlAxisChartPainter {
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
         barData.belowBarData.colors,
-        barData.belowBarData.gradientColorStops,
+        stops,
       );
     }
 
@@ -161,7 +174,41 @@ class LineChartPainter extends FlAxisChartPainter {
     }
 
     barPaint.strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
-    barPaint.color = barData.barColor;
+
+    /// here we update the [barPaint] to draw the solid color or
+    /// the gradient color,
+    /// if we have one color, solid color will apply,
+    /// but if we have more than one color, gradient will apply.
+    if (barData.colors.length == 1) {
+      barPaint.color = barData.colors[0];
+      barPaint.shader = null;
+    } else {
+
+      List<double> stops = [];
+      if (barData.colorStops == null || barData.colorStops.length != barData.colors.length) {
+        /// provided colorStops is invalid and we calculate it here
+        barData.colors.asMap().forEach((index, color) {
+          double ss = 1.0 / barData.colors.length;
+          stops.add(ss * (index + 1));
+        });
+      } else {
+        stops = barData.colorStops;
+      }
+
+      barPaint.shader = ui.Gradient.linear(
+        Offset(
+          getLeftOffsetDrawSize(),
+          getTopOffsetDrawSize() + (viewSize.height / 2),
+        ),
+        Offset(
+          getLeftOffsetDrawSize() + viewSize.width,
+          getTopOffsetDrawSize() + (viewSize.height / 2),
+        ),
+        barData.colors,
+        stops,
+      );
+    }
+
     barPaint.strokeWidth = barData.barWidth;
     canvas.drawPath(barPath, barPaint);
   }

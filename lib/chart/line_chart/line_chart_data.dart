@@ -104,7 +104,14 @@ class LineChartBarData {
 
   final bool show;
 
-  final Color barColor;
+  /// if one color provided, solid color will apply,
+  /// but if more than one color provided, gradient will apply.
+  final List<Color> colors;
+
+  /// if more than one color provided colorStops will hold
+  /// stop points of the gradient.
+  final List<double> colorStops;
+
   final double barWidth;
   final bool isCurved;
 
@@ -125,7 +132,8 @@ class LineChartBarData {
   const LineChartBarData({
     this.spots = const [],
     this.show = true,
-    this.barColor = Colors.redAccent,
+    this.colors = const [Colors.redAccent],
+    this.colorStops,
     this.barWidth = 2.0,
     this.isCurved = false,
     this.curveSmoothness = 0.35,
@@ -154,9 +162,8 @@ class BelowBarData {
   final Offset gradientFrom;
   final Offset gradientTo;
 
-  /// if you have more than one color, fill it with
-  /// equal or customized stops, for example if you have 3 colors,
-  /// fill it like this : gradientColorStops = [0.33, 0.66, 1.0]
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
   final List<double> gradientColorStops;
 
   const BelowBarData({
@@ -164,7 +171,7 @@ class BelowBarData {
     this.colors = const [Colors.blueGrey],
     this.gradientFrom = const Offset(0, 0),
     this.gradientTo = const Offset(1, 0),
-    this.gradientColorStops = const [1.0],
+    this.gradientColorStops,
   });
 }
 
