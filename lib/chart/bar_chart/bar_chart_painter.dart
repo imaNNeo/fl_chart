@@ -18,7 +18,7 @@ class BarChartPainter extends FlAxisChartPainter {
   void paint(Canvas canvas, Size viewSize) {
     super.paint(canvas, viewSize);
 
-    if (data.spots.length == 0) {
+    if (data.barGroups.length == 0) {
       return;
     }
 

@@ -2,73 +2,23 @@ import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
 
 /// This is the base class for axis base charts data
-/// that contains a list of [FlSpot] and a [FlGridData]
-/// we use spots to calculate [minX], [maxX], [minY], [maxY],
-/// with knowing them we can determine how much is the scale,
-/// and how much we should calculate height of each spot
-/// base on the view's height.
+/// that contains a [FlGridData] that holds data for showing grid lines,
+/// also we have [minX], [maxX], [minY], [maxY] values
+/// we use them to determine how much is the scale of chart,
+/// and calculate x and y according to the scale.
+/// each child have to set it in their constructor.
 class FlAxisChartData extends FlChartData {
-  final List<FlSpot> spots;
   final FlGridData gridData;
 
   double minX, maxX;
   double minY, maxY;
 
   FlAxisChartData({
-    @required this.spots,
     this.gridData = const FlGridData(),
     FlBorderData borderData,
     this.minX, this.maxX,
     this.minY, this.maxY,
-  }) : super(borderData: borderData) {
-    if (spots == null) {
-      throw Exception("spots couldn't be null");
-    }
-
-    if (spots.length > 0) {
-      var canModifyMinX = false;
-      if (minX == null) {
-        minX = spots[0].x;
-        canModifyMinX = true;
-      }
-
-      var canModifyMaxX = false;
-      if (maxX == null) {
-        maxX = spots[0].x;
-        canModifyMaxX = true;
-      }
-
-      var canModifyMinY = false;
-      if (minY == null) {
-        minY = spots[0].y;
-        canModifyMinY = true;
-      }
-
-      var canModifyMaxY = false;
-      if (maxY == null) {
-        maxY = spots[0].y;
-        canModifyMaxY = true;
-      }
-
-      spots.forEach((spot) {
-        if (canModifyMaxX && spot.x > maxX) {
-          maxX = spot.x;
-        }
-
-        if (canModifyMinX && spot.x < minX) {
-          minX = spot.x;
-        }
-
-        if (canModifyMaxY && spot.y > maxY) {
-          maxY = spot.y;
-        }
-
-        if (canModifyMinY && spot.y < minY) {
-          minY = spot.y;
-        }
-      });
-    }
-  }
+  }) : super(borderData: borderData);
 }
 
 /***** Spot *****/

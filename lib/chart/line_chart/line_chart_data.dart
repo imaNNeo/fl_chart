@@ -5,39 +5,103 @@ import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
 
 /// This class holds data to draw the line chart
-/// [LineChartBarData] the data to draw the bar line,
-/// [BelowBarData] to fill space below the bar line,
-/// [FlDotData] to show dot spots upon the line chart
+/// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
 class LineChartData extends FlAxisChartData {
-  final LineChartBarData barData;
-  final BelowBarData belowBarData;
-  final FlDotData dotData;
+  final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
 
   LineChartData({
-    @required List<FlSpot> spots,
-    this.barData = const LineChartBarData(),
-    this.belowBarData = const BelowBarData(),
-    this.dotData = const FlDotData(),
+    this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
-    double minX, double maxX,
-    double minY, double maxY,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
   }) : super(
-          spots: spots,
           gridData: gridData,
           borderData: borderData,
-          minX: minX, maxX: maxX,
-          minY: minY, maxY: maxY,
-        );
+        ) {
+    initSuperMinMaxValues(minX, maxX, minY, maxY);
+  }
+
+  void initSuperMinMaxValues(
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+  ) {
+    lineBarsData.forEach((lineBarChart) {
+      if (lineBarChart.spots == null || lineBarChart.spots.length <= 0) {
+        throw Exception("spots could not be null or empty");
+      }
+    });
+    if (lineBarsData.length > 0) {
+      var canModifyMinX = false;
+      if (minX == null) {
+        minX = lineBarsData[0].spots[0].x;
+        canModifyMinX = true;
+      }
+
+      var canModifyMaxX = false;
+      if (maxX == null) {
+        maxX = lineBarsData[0].spots[0].x;
+        canModifyMaxX = true;
+      }
+
+      var canModifyMinY = false;
+      if (minY == null) {
+        minY = lineBarsData[0].spots[0].y;
+        canModifyMinY = true;
+      }
+
+      var canModifyMaxY = false;
+      if (maxY == null) {
+        maxY = lineBarsData[0].spots[0].y;
+        canModifyMaxY = true;
+      }
+
+      lineBarsData.forEach((barData) {
+        barData.spots.forEach((spot) {
+          if (canModifyMaxX && spot.x > maxX) {
+            maxX = spot.x;
+          }
+
+          if (canModifyMinX && spot.x < minX) {
+            minX = spot.x;
+          }
+
+          if (canModifyMaxY && spot.y > maxY) {
+            maxY = spot.y;
+          }
+
+          if (canModifyMinY && spot.y < minY) {
+            minY = spot.y;
+          }
+        });
+      });
+    } else {
+      minX = 0;
+      maxX = 0;
+      minY = 0;
+      minX = 0;
+    }
+
+    super.minX = minX;
+    super.maxX = maxX;
+    super.minY = minY;
+    super.maxY = maxY;
+  }
 }
 
 /***** LineChartBarData *****/
 /// This class holds visualisation data about the bar line
 /// use [isCurved] to set the bar line curve or sharp on connections spot.
 class LineChartBarData {
+  final List<FlSpot> spots;
+
   final bool show;
 
   final Color barColor;
@@ -52,13 +116,22 @@ class LineChartBarData {
 
   final bool isStrokeCapRound;
 
+  /// to fill space below the bar line,
+  final BelowBarData belowBarData;
+
+  /// to show dot spots upon the line chart
+  final FlDotData dotData;
+
   const LineChartBarData({
+    this.spots = const [],
     this.show = true,
     this.barColor = Colors.redAccent,
     this.barWidth = 2.0,
     this.isCurved = false,
     this.curveSmoothness = 0.35,
     this.isStrokeCapRound = false,
+    this.belowBarData = const BelowBarData(),
+    this.dotData = const FlDotData(),
   });
 }
 
@@ -94,7 +167,6 @@ class BelowBarData {
     this.gradientColorStops = const [1.0],
   });
 }
-
 
 /***** DotData *****/
 typedef CheckToShowDot = bool Function(FlSpot spot);

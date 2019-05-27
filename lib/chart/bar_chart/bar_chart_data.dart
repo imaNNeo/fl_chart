@@ -21,28 +21,97 @@ class BarChartData extends FlAxisChartData {
       show: false,
     ),
     FlBorderData borderData,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
   }) : super(
-          spots: groupsToFlSpots(barGroups),
           gridData: gridData,
           borderData: borderData,
-        );
+        ) {
+    initSuperMinMaxValues(minX, maxX, minY, maxY);
+  }
 
-  /// we should pass a list of [FlSpot] to our parent [FlAxisChartData],
-  /// the parent need it to know how much is our min and max values
-  /// to calculate the scale of the chart,
-  /// here we map the [barGroups] to the list of [FlSpot]
-  static List<FlSpot> groupsToFlSpots(List<BarChartGroupData> barGroups) {
-    List<FlSpot> spots = barGroups.expand((group) {
-      return group.barRods.map((rodData) {
-        double y = rodData.y;
-        if (rodData.backDrawRodData.y > y) {
-          y = rodData.backDrawRodData.y;
+  /// we have to tell [FlAxisChartData] how much is our
+  /// minX, maxX, minY, maxY, values.
+  /// here we get them in our constructor, but if each of them was null,
+  /// we calculate it with the barGroups, and barRods data.
+  void initSuperMinMaxValues(
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+  ) {
+    barGroups.forEach((barData) {
+      if (barData.barRods == null || barData.barRods.length <= 0) {
+        throw Exception("barRods could not be null or empty");
+      }
+    });
+
+    if (barGroups.length > 0) {
+      var canModifyMinX = false;
+      if (minX == null) {
+        minX = barGroups[0].x.toDouble();
+        canModifyMinX = true;
+      }
+
+      var canModifyMaxX = false;
+      if (maxX == null) {
+        maxX = barGroups[0].x.toDouble();
+        canModifyMaxX = true;
+      }
+
+      var canModifyMinY = false;
+      if (minY == null) {
+        minY = barGroups[0].barRods[0].y;
+        canModifyMinY = true;
+      }
+
+      var canModifyMaxY = false;
+      if (maxY == null) {
+        maxY = barGroups[0].barRods[0].y;
+        canModifyMaxY = true;
+      }
+
+      barGroups.forEach((barGroup) {
+        if (canModifyMaxX && barGroup.x.toDouble() > maxX) {
+          maxX = barGroup.x.toDouble();
         }
-        return FlSpot(group.x.toDouble(), y);
-      }).toList();
-    }).toList();
 
-    return spots;
+        if (canModifyMinX && barGroup.x.toDouble() < minX) {
+          minX = barGroup.x.toDouble();
+        }
+
+        barGroup.barRods.forEach((rod) {
+          if (canModifyMaxY && rod.y > maxY) {
+            maxY = rod.y;
+          }
+
+          if (canModifyMinY && rod.y < minY) {
+            minY = rod.y;
+          }
+
+          if (canModifyMaxY && rod.backDrawRodData.y != null && rod.backDrawRodData.y > maxY) {
+            maxY = rod.backDrawRodData.y;
+          }
+
+          if (canModifyMinY && rod.backDrawRodData.y != null && rod.backDrawRodData.y < minY) {
+            minY = rod.backDrawRodData.y;
+          }
+        });
+      });
+    } else {
+      /// when list is empty
+      minX = 0;
+      maxX = 0;
+      minY = 0;
+      minX = 0;
+    }
+
+    super.minX = minX;
+    super.maxX = maxX;
+    super.minY = minY;
+    super.maxY = maxY;
   }
 }
 

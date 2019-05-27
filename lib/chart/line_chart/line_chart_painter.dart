@@ -19,58 +19,61 @@ class LineChartPainter extends FlAxisChartPainter {
     this.data,
   ) : super(data) {
     barPaint = Paint()
-      ..color = data.barData.barColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = data.barData.barWidth;
+      ..style = PaintingStyle.stroke;
 
     belowBarPaint = Paint()..style = PaintingStyle.fill;
 
     dotPaint = Paint()
-      ..color = data.dotData.dotColor
       ..style = PaintingStyle.fill;
   }
 
   @override
   void paint(Canvas canvas, Size viewSize) {
     super.paint(canvas, viewSize);
-    if (data.spots.length == 0) {
+    if (data.lineBarsData.length == 0) {
       return;
     }
 
-    Path barPath = _generateBarPath(viewSize);
-    drawBelowBar(canvas, viewSize, barPath);
-    drawBar(canvas, viewSize, barPath);
+    /// draw each line independently on the chart
+    data.lineBarsData.forEach((barData) {
+      drawBarLine(canvas, viewSize, barData);
+    });
+
     drawTitles(canvas, viewSize);
-    drawDots(canvas, viewSize);
+  }
+
+  void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    Path barPath = _generateBarPath(viewSize, barData);
+    drawBelowBar(canvas, viewSize, barPath, barData);
+    drawBar(canvas, viewSize, barPath, barData);
+    drawDots(canvas, viewSize, barData);
   }
 
   /// firstly we generate the bar line that we should draw,
   /// then we reuse it to fill below bar space.
-  /// there is two type of barPath will be generate here,
+  /// there is two type of barPath that generate here,
   /// first one is the sharp corners line on spot connections
   /// second one is curved corners line on spot connections,
   /// and we use isCurved to find out how we should generate it,
-  /// for curved lines we use [Path.cubicTo] function to have curved corners.
-  /// there is
-  Path _generateBarPath(Size viewSize) {
+  Path _generateBarPath(Size viewSize, LineChartBarData barData) {
     viewSize = getChartUsableDrawSize(viewSize);
     Path path = Path();
-    int size = data.spots.length;
+    int size = barData.spots.length;
     path.reset();
 
     double lX = 0.0, lY = 0.0;
 
-    double x = getPixelX(data.spots[0].x, viewSize);
-    double y = getPixelY(data.spots[0].y, viewSize);
+    double x = getPixelX(barData.spots[0].x, viewSize);
+    double y = getPixelY(barData.spots[0].y, viewSize);
     path.moveTo(x, y);
     for (int i = 1; i < size; i++) {
       /// CurrentSpot
-      FlSpot p = data.spots[i];
+      FlSpot p = barData.spots[i];
       double px = getPixelX(p.x, viewSize);
       double py = getPixelY(p.y, viewSize);
 
       /// previous spot
-      FlSpot p0 = data.spots[i - 1];
+      FlSpot p0 = barData.spots[i - 1];
       double p0x = getPixelX(p0.x, viewSize);
       double p0y = getPixelY(p0.y, viewSize);
 
@@ -78,14 +81,14 @@ class LineChartPainter extends FlAxisChartPainter {
       double y1 = p0y + lY;
 
       /// next point
-      FlSpot p1 = data.spots[i + 1 < size ? i + 1 : i];
+      FlSpot p1 = barData.spots[i + 1 < size ? i + 1 : i];
       double p1x = getPixelX(p1.x, viewSize);
       double p1y = getPixelY(p1.y, viewSize);
 
       /// if the isCurved is false, we set 0 for smoothness,
       /// it means we should not have any smoothness then we face with
       /// the sharped corners line
-      double smoothness = data.barData.isCurved ? data.barData.curveSmoothness : 0.0;
+      double smoothness = barData.isCurved ? barData.curveSmoothness : 0.0;
       lX = ((p1x - p0x) / 2) * smoothness;
       lY = ((p1y - p0y) / 2) * smoothness;
       double x2 = px - lX;
@@ -102,8 +105,8 @@ class LineChartPainter extends FlAxisChartPainter {
   /// then we make a copy from it and call it [belowBarPath],
   /// we continue to complete the path to cover the below section.
   /// then we close the path to fill the below space with a color or gradient.
-  void drawBelowBar(Canvas canvas, Size viewSize, Path barPath) {
-    if (!data.belowBarData.show) {
+  void drawBelowBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+    if (!barData.belowBarData.show) {
       return;
     }
 
@@ -112,29 +115,29 @@ class LineChartPainter extends FlAxisChartPainter {
     Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// Line To Bottom Right
-    double x = getPixelX(data.spots[data.spots.length - 1].x, chartViewSize);
+    double x = getPixelX(barData.spots[barData.spots.length - 1].x, chartViewSize);
     double y = chartViewSize.height - getTopOffsetDrawSize();
     belowBarPath.lineTo(x, y);
 
     /// Line To Bottom Left
-    x = getPixelX(data.spots[0].x, chartViewSize);
+    x = getPixelX(barData.spots[0].x, chartViewSize);
     y = chartViewSize.height - getTopOffsetDrawSize();
     belowBarPath.lineTo(x, y);
 
     /// Line To Top Left
-    x = getPixelX(data.spots[0].x, chartViewSize);
-    y = getPixelY(data.spots[0].y, chartViewSize);
+    x = getPixelX(barData.spots[0].x, chartViewSize);
+    y = getPixelY(barData.spots[0].y, chartViewSize);
     belowBarPath.lineTo(x, y);
     belowBarPath.close();
 
     /// here we update the [belowBarPaint] to draw the solid color
     /// or the gradient based on the [BelowBarData] class.
-    if (data.belowBarData.colors.length == 1) {
-      belowBarPaint.color = data.belowBarData.colors[0];
+    if (barData.belowBarData.colors.length == 1) {
+      belowBarPaint.color = barData.belowBarData.colors[0];
       belowBarPaint.shader = null;
     } else {
-      var from = data.belowBarData.gradientFrom;
-      var to = data.belowBarData.gradientTo;
+      var from = barData.belowBarData.gradientFrom;
+      var to = barData.belowBarData.gradientTo;
       belowBarPaint.shader = ui.Gradient.linear(
         Offset(
           getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
@@ -144,21 +147,38 @@ class LineChartPainter extends FlAxisChartPainter {
           getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
-        data.belowBarData.colors,
-        data.belowBarData.gradientColorStops,
+        barData.belowBarData.colors,
+        barData.belowBarData.gradientColorStops,
       );
     }
 
     canvas.drawPath(belowBarPath, belowBarPaint);
   }
 
-  void drawBar(Canvas canvas, Size viewSize, Path barPath) {
-    if (!data.barData.show) {
+  void drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+    if (!barData.show) {
       return;
     }
 
-    barPaint.strokeCap = data.barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    barPaint.strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    barPaint.color = barData.barColor;
+    barPaint.strokeWidth = barData.barWidth;
     canvas.drawPath(barPath, barPaint);
+  }
+
+  void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    if (!barData.dotData.show) {
+      return;
+    }
+    viewSize = getChartUsableDrawSize(viewSize);
+    barData.spots.forEach((spot) {
+      if (barData.dotData.checkToShowDot(spot)) {
+        double x = getPixelX(spot.x, viewSize);
+        double y = getPixelY(spot.y, viewSize);
+        dotPaint.color = barData.dotData.dotColor;
+        canvas.drawCircle(Offset(x, y), barData.dotData.dotSize, dotPaint);
+      }
+    });
   }
 
   void drawTitles(Canvas canvas, Size viewSize) {
@@ -213,20 +233,6 @@ class LineChartPainter extends FlAxisChartPainter {
         horizontalCounter++;
       }
     }
-  }
-
-  void drawDots(Canvas canvas, Size viewSize) {
-    if (!data.dotData.show) {
-      return;
-    }
-    viewSize = getChartUsableDrawSize(viewSize);
-    data.spots.forEach((spot) {
-      if (data.dotData.checkToShowDot(spot)) {
-        double x = getPixelX(spot.x, viewSize);
-        double y = getPixelY(spot.y, viewSize);
-        canvas.drawCircle(Offset(x, y), data.dotData.dotSize, dotPaint);
-      }
-    });
   }
 
   /// We add our needed horizontal space to parent needed.
