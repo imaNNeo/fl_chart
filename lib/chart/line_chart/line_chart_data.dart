@@ -22,11 +22,15 @@ class LineChartData extends FlAxisChartData {
     this.dotData = const FlDotData(),
     this.titlesData = const FlTitlesData(),
     FlGridData gridData = const FlGridData(),
-    FlBorderData borderData = const FlBorderData(),
+    FlBorderData borderData,
+    double minX, double maxX,
+    double minY, double maxY,
   }) : super(
           spots: spots,
           gridData: gridData,
           borderData: borderData,
+          minX: minX, maxX: maxX,
+          minY: minY, maxY: maxY,
         );
 }
 

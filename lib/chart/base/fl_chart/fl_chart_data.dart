@@ -10,28 +10,36 @@ import 'package:flutter/material.dart';
 /// see inherited samples:
 /// [LineChartData], [BarChartData], [PieChartData]
 class FlChartData {
-  final FlBorderData borderData;
+  FlBorderData borderData;
 
   FlChartData({
-    this.borderData = const FlBorderData(),
-  });
+    this.borderData,
+  }) {
+    if (borderData == null) {
+      borderData = FlBorderData();
+    }
+  }
 }
 
 /***** BorderData *****/
 /// Border Data that contains
-/// [show] show or hide the border line on our chart
-/// [borderColor] color of chart border line
-/// [borderWidth] width of chart border line
+/// used the [Border] class to draw each side of border.
 class FlBorderData {
   final bool show;
-  final Color borderColor;
-  final double borderWidth;
+  Border border;
 
-  const FlBorderData({
+  FlBorderData({
     this.show = true,
-    this.borderColor = Colors.black,
-    this.borderWidth = 1.0,
-  });
+    this.border,
+  }) {
+    if (border == null) {
+      border = Border.all(
+        color: Colors.black,
+        width: 1.0,
+        style: BorderStyle.solid,
+      );
+    }
+  }
 }
 
 

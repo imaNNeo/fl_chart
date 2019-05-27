@@ -17,25 +17,53 @@ class FlAxisChartData extends FlChartData {
   FlAxisChartData({
     @required this.spots,
     this.gridData = const FlGridData(),
-    FlBorderData borderData = const FlBorderData(),
+    FlBorderData borderData,
+    this.minX, this.maxX,
+    this.minY, this.maxY,
   }) : super(borderData: borderData) {
     if (spots == null) {
       throw Exception("spots couldn't be null");
     }
 
     if (spots.length > 0) {
-      minX = maxX = spots[0].x;
-      minY = maxY = spots[0].y;
+      var canModifyMinX = false;
+      if (minX == null) {
+        minX = spots[0].x;
+        canModifyMinX = true;
+      }
+
+      var canModifyMaxX = false;
+      if (maxX == null) {
+        maxX = spots[0].x;
+        canModifyMaxX = true;
+      }
+
+      var canModifyMinY = false;
+      if (minY == null) {
+        minY = spots[0].y;
+        canModifyMinY = true;
+      }
+
+      var canModifyMaxY = false;
+      if (maxY == null) {
+        maxY = spots[0].y;
+        canModifyMaxY = true;
+      }
+
       spots.forEach((spot) {
-        if (spot.x > maxX) {
+        if (canModifyMaxX && spot.x > maxX) {
           maxX = spot.x;
-        } else if (spot.x < minX) {
+        }
+
+        if (canModifyMinX && spot.x < minX) {
           minX = spot.x;
         }
 
-        if (spot.y > maxY) {
+        if (canModifyMaxY && spot.y > maxY) {
           maxY = spot.y;
-        } else if (spot.y < minY) {
+        }
+
+        if (canModifyMinY && spot.y < minY) {
           minY = spot.y;
         }
       });

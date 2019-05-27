@@ -20,7 +20,7 @@ class BarChartData extends FlAxisChartData {
     FlGridData gridData = const FlGridData(
       show: false,
     ),
-    FlBorderData borderData = const FlBorderData(show: true, borderColor: Colors.black12),
+    FlBorderData borderData,
   }) : super(
           spots: groupsToFlSpots(barGroups),
           gridData: gridData,

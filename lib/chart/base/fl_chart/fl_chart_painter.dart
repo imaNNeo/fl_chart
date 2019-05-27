@@ -31,17 +31,30 @@ abstract class FlChartPainter<D extends FlChartData> extends CustomPainter {
 
     var chartViewSize = getChartUsableDrawSize(viewSize);
 
-    borderPaint.color = data.borderData.borderColor;
-    borderPaint.strokeWidth = data.borderData.borderWidth;
+    var topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
+    var topRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
+    var bottomLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
+    var bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize() + chartViewSize.height);
 
-    canvas.drawRect(
-        Rect.fromLTWH(
-          0 + getLeftOffsetDrawSize(),
-          0 + getTopOffsetDrawSize(),
-          chartViewSize.width,
-          chartViewSize.height,
-        ),
-        borderPaint);
+    /// Draw Top Line
+    borderPaint.color = data.borderData.border.top.color;
+    borderPaint.strokeWidth = data.borderData.border.top.width;
+    canvas.drawLine(topLeft, topRight, borderPaint);
+
+    /// Draw Right Line
+    borderPaint.color = data.borderData.border.right.color;
+    borderPaint.strokeWidth = data.borderData.border.right.width;
+    canvas.drawLine(topRight, bottomRight, borderPaint);
+
+    /// Draw Bottom Line
+    borderPaint.color = data.borderData.border.bottom.color;
+    borderPaint.strokeWidth = data.borderData.border.bottom.width;
+    canvas.drawLine(bottomRight, bottomLeft, borderPaint);
+
+    /// Draw Left Line
+    borderPaint.color = data.borderData.border.left.color;
+    borderPaint.strokeWidth = data.borderData.border.left.width;
+    canvas.drawLine(bottomLeft, topLeft, borderPaint);
   }
 
   /// calculate the size that we can draw our chart.

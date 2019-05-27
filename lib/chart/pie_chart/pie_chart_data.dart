@@ -27,7 +27,7 @@ class PieChartData extends FlChartData {
     this.centerSpaceColor = Colors.transparent,
     this.sectionsSpace = 2,
     this.startDegreeOffset = 0,
-    FlBorderData borderData = const FlBorderData(),
+    FlBorderData borderData,
   }) : super(
           borderData: borderData,
         ) {
