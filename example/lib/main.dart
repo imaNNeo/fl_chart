@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FlChart Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xff262545),
+        primaryColorDark: Color(0xff201f39),
+        brightness: Brightness.dark,
       ),
       home: MyHomePage(title: 'fl_chart'),
     );

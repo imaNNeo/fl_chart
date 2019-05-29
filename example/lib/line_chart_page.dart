@@ -8,30 +8,33 @@ import 'package:flutter/material.dart';
 class LineChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Text(
-            "LineChart",
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            child: sample1(),
-            width: 300,
-            height: 140,
-          ),
-          SizedBox(
-            child: sample2(),
-            width: 300,
-            height: 140,
-          ),
-          SizedBox(
-            child: sample3(),
-            width: 300,
-            height: 140,
-          ),
-        ],
+    return Container(
+      color: Colors.white,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text(
+              "LineChart",
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              child: sample1(),
+              width: 300,
+              height: 140,
+            ),
+            SizedBox(
+              child: sample2(),
+              width: 300,
+              height: 140,
+            ),
+            SizedBox(
+              child: sample3(),
+              width: 300,
+              height: 140,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -105,6 +105,7 @@ class PieChartPage extends StatelessWidget {
             AspectRatio(
               aspectRatio: 1.3,
               child: Card(
+                color: Colors.white,
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -150,6 +151,7 @@ class PieChartPage extends StatelessWidget {
             AspectRatio(
               aspectRatio: 1.3,
               child: Card(
+                color: Colors.white,
                 child: Row(
                   children: <Widget>[
                     SizedBox(
