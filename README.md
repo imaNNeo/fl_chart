@@ -52,11 +52,3 @@ dependencies:
 ```kotlin
 flutter packages get
 ```
-
-## 3 - Know about Chart Types
-
-### - LineChart
-
-### - BarChart
-
-### - PieChart
