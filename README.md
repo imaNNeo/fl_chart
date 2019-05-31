@@ -15,6 +15,13 @@
 |------------|------------|-------------|
 |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="300" > |
 
+Samples inspired from
+[David Kovalev](https://dribbble.com/shots/5560237-Live-Graphs-XD),
+[Ricardo Salazar](https://dribbble.com/shots/1956890-Data-Stats),
+[Dmitro Petrenko](https://dribbble.com/shots/5425378-Mobile-Application-Dashboard-for-Stock-Platform),
+[Ghani Pradita](https://dribbble.com/shots/6379476-Calories-Management-App),
+[MONUiXD](https://www.uplabs.com/posts/chart-pie-chart-bar-chart)
+
 
 
 # Donate
