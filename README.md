@@ -15,7 +15,7 @@
 |LineChart	|BarChart		|PieChart		|
 |:------------:|:------------:|:-------------:|
 |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="300" > |
-|[Docs](repo_files/documentations/line_chart.md)|[Docs](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/bar_chart.md)|[Docs](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/pie_chart.md)|
+|[Docs](repo_files/documentations/line_chart.md)|[Docs](repo_files/documentations/bar_chart.md)|[Docs](repo_files/documentations/pie_chart.md)|
 
 Samples inspired from
 [David Kovalev](https://dribbble.com/shots/5560237-Live-Graphs-XD),
