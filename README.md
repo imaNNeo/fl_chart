@@ -13,7 +13,7 @@
 # Chart Types :
 |LineChart	|BarChart		|PieChart		|
 |------------|------------|-------------|
-|	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="220" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart.jpg" width="220" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="220" > |
+|	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="300" > |
 
 
 
