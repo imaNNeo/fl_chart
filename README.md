@@ -7,7 +7,14 @@
 [![pub package](https://img.shields.io/pub/v/circular_bottom_navigation.svg)](https://pub.dartlang.org/packages/circular_bottom_navigation)
 [![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/CircularBottomNavExample-0.0.3.apk)
 
-<img src="https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/images/uplabs_demo.gif" width="300" height:"100">
+<img src="https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/images/uplabs_demo.gif" width="300" height="100">
+
+
+# Chart Types :
+|LineChart	|BarChart		|PieChart		|
+|------------|------------|-------------|
+|	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="120" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart.jpg" width="120" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="120" > |
+
 
 
 # Donate
@@ -38,8 +45,8 @@ flutter packages get
 
 ## 3 - Know about Chart Types
 
-### * LineChart
+### - LineChart
 
-### * BarChart
+### - BarChart
 
-### * PieChart
+### - PieChart
