@@ -10,17 +10,20 @@
 <img src="https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/images/uplabs_demo.gif" width="300" height="100">
 
 
-## Chart Types
+### Chart Types
+
 |LineChart	|BarChart		|PieChart		|
-|------------|------------|-------------|
+|:------------:|:------------:|:-------------:|
 |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="300" > |
+|[Docs](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/line_chart.md)|[Docs](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/bar_chart.md)|[Docs](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/pie_chart.md)|
 
 Samples inspired from
 [David Kovalev](https://dribbble.com/shots/5560237-Live-Graphs-XD),
 [Ricardo Salazar](https://dribbble.com/shots/1956890-Data-Stats),
 [Dmitro Petrenko](https://dribbble.com/shots/5425378-Mobile-Application-Dashboard-for-Stock-Platform),
 [Ghani Pradita](https://dribbble.com/shots/6379476-Calories-Management-App),
-[MONUiXD](https://www.uplabs.com/posts/chart-pie-chart-bar-chart)
+[MONUiXD](https://www.uplabs.com/posts/chart-pie-chart-bar-chart).
+Thank you all!
 
 
 
