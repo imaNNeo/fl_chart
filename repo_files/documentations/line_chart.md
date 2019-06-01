@@ -30,7 +30,7 @@ FlChartWidget(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |show| determines show and hide the bar line|true|
-|spots| x and y coordinates that the line go through it| []
+|spots| list of [FlSpot](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/base_chart.md#FlSpot) x and y coordinates that the line go through it| []
 |colors| color of the line, if multiple colors provided gradient will apply|[Colors.redAccent]|
 |colorStops| stop positions of the gradient color|null|
 |barWidth| stroke width of the line bar|2.0|
