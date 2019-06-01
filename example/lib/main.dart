@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'bar_chart_page.dart';
-import 'bar_chart_page2.dart';
+import 'package:example/bar_chart/bar_chart_page.dart';
+import 'package:example/bar_chart/bar_chart_page2.dart';
 import 'line_chart/line_chart_page.dart';
 import 'line_chart/line_chart_page2.dart';
 import 'pie_chart_page.dart';
