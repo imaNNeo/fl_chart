@@ -7,7 +7,7 @@
 [![pub package](https://img.shields.io/pub/v/circular_bottom_navigation.svg)](https://pub.dartlang.org/packages/circular_bottom_navigation)
 [![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/CircularBottomNavExample-0.0.3.apk)
 
-<img src="https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/images/uplabs_demo.gif" width="300" height="100">
+<img src="https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/images/landing_logo.jpg" width="900">
 
 
 ### Chart Types
@@ -15,7 +15,7 @@
 |LineChart	|BarChart		|PieChart		|
 |:------------:|:------------:|:-------------:|
 |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="300" > |
-|[Docs](repo_files/documentations/line_chart.md)|[Docs](repo_files/documentations/bar_chart.md)|[Docs](repo_files/documentations/pie_chart.md)|
+|[Read More](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/line_chart.md)|[Read More](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/bar_chart.md)|[Read More](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/pie_chart.md)|
 
 Samples inspired from
 [David Kovalev](https://dribbble.com/shots/5560237-Live-Graphs-XD),
