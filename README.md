@@ -10,6 +10,8 @@
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/landing_logo.jpg" width="900">
 
 
+💥 A library to draw fantastic charts in Flutter  💥
+
 ### Chart Types
 
 |LineChart	|BarChart		|PieChart		|
@@ -27,18 +29,11 @@ Thank you all!
 
 
 
-# Donate
-
-Support us by becoming a patron on Patreon
-
-[![Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/imanneo)
-
-
 # Let's get started
 
-## 1 - Depend on it
+### 1 - Depend on it
 
-### Add it to your package's pubspec.yaml file
+##### Add it to your package's pubspec.yaml file
 
 ```kotlin
 dependencies:
@@ -46,12 +41,12 @@ dependencies:
 ```
 
 
-## 2 - Install it
+### 2 - Install it
 
-### Install packages from the command line
+##### Install packages from the command line
 ```kotlin
 flutter packages get
 ```
 
-## 3 - Learn it like a charm
-### Read the docs from [here](repo_files/documentations/index.md)
+### 3 - Learn it like a charm
+##### Read the docs from [here](repo_files/documentations/index.md)
