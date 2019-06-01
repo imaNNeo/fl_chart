@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.ikhoshabi.circular_bottom_nav_example"
+        applicationId "com.ikhoshabi.fl_chart_samples"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode flutterVersionCode.toInteger()

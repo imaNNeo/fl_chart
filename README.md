@@ -52,5 +52,5 @@ flutter packages get
 ##### Read the docs from [here](repo_files/documentations/index.md)
 
 
-### The last but not least 🔥
+### And the last but not least 🔥
 ##### :beer: pull requests are welcome!
