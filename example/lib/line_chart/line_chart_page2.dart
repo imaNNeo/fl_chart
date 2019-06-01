@@ -5,9 +5,9 @@ import 'package:fl_chart/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/fl_chart_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'samples/line_chart_sample1.dart';
-import 'samples/line_chart_sample2.dart';
 import 'samples/line_chart_sample3.dart';
+import 'samples/line_chart_sample4.dart';
+import 'samples/line_chart_sample5.dart';
 
 class LineChartPage2 extends StatelessWidget {
   @override
@@ -22,9 +22,9 @@ class LineChartPage2 extends StatelessWidget {
               "LineChart",
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
-            LineChartSample1(),
-            LineChartSample2(),
             LineChartSample3(),
+            LineChartSample4(),
+            LineChartSample5(),
           ],
         ),
       ),

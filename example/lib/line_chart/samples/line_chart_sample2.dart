@@ -9,81 +9,97 @@ class LineChartSample2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      height: 140,
-      child: FlChartWidget(
-        flChart: LineChart(
-          LineChartData(
-            lineBarsData: [
-              LineChartBarData(
-                spots: [
-                  FlSpot(0, 4),
-                  FlSpot(1, 3.5),
-                  FlSpot(2, 4.5),
-                  FlSpot(3, 1),
-                  FlSpot(4, 4),
-                  FlSpot(5, 6),
-                  FlSpot(6, 6.5),
-                  FlSpot(7, 6),
-                  FlSpot(8, 4),
-                  FlSpot(9, 6),
-                  FlSpot(10, 6),
-                  FlSpot(11, 7),
-                ],
-                isCurved: true,
-                barWidth: 8,
-                colors: [
-                  Colors.purpleAccent,
-                ],
-                belowBarData: BelowBarData(
+    List<Color> gradientColors = [
+      Color(0xff23b6e6),
+      Color(0xff02d39a),
+    ];
+    return AspectRatio(
+      aspectRatio: 1.70,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(18)),
+          color: Color(0xff232d37)
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
+          child: FlChartWidget(
+            flChart: LineChart(
+              LineChartData(
+                gridData: FlGridData(
                   show: true,
-                  colors: [Colors.deepPurple.withOpacity(0.2)],
+                  drawHorizontalGrid: true,
+                  verticalGridColor: Color(0xff37434d),
+                  verticalGridLineWidth: 1,
+                  horizontalGridColor: Color(0xff37434d),
+                  horizontalGridLineWidth: 1,
                 ),
-                dotData: FlDotData(
-                  show: false,
+                titlesData: FlTitlesData(
+                  show: true,
+                  horizontalTitlesTextStyle: TextStyle(
+                    color: Color(0xff68737d),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
+                  ),
+                  getHorizontalTitles: (value) {
+                    switch(value.toInt()) {
+                      case 2: return "MAR";
+                      case 5: return "JUN";
+                      case 8: return "SEP";
+                    }
+
+                    return "";
+                  },
+                  verticalTitlesTextStyle: TextStyle(
+                    color: Color(0xff67727d),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                  getVerticalTitles: (value) {
+                    switch(value.toInt()) {
+                      case 1: return "10k";
+                      case 3: return "30k";
+                      case 5: return "50k";
+                    }
+                    return "";
+                  },
+                  verticalTitlesReservedWidth: 28,
+                  verticalTitleMargin: 12,
+                  horizontalTitleMargin: 8,
                 ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(color: Color(0xff37434d), width: 1)
+                ),
+                minX: 0,
+                maxX: 11,
+                minY: 0,
+                maxY: 6,
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: [
+                      FlSpot(0, 3),
+                      FlSpot(2.6, 2),
+                      FlSpot(4.9, 5),
+                      FlSpot(6.8, 3.1),
+                      FlSpot(8, 4),
+                      FlSpot(9.5, 3),
+                      FlSpot(11, 4),
+                    ],
+                    isCurved: true,
+                    colors: gradientColors,
+                    barWidth: 5,
+                    isStrokeCapRound: true,
+                    dotData: FlDotData(
+                      show: false,
+                    ),
+                    belowBarData: BelowBarData(
+                      show: true,
+                      colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+                    ),
+                  ),
+                ],
               ),
-            ],
-            titlesData: FlTitlesData(
-              horizontalTitlesTextStyle:
-              TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
-              getVerticalTitles: (value) {
-                return "\$ ${value + 0.5}";
-              },
-              getHorizontalTitles: (value) {
-                switch (value.toInt()) {
-                  case 0:
-                    return "Jan";
-                  case 1:
-                    return "Feb";
-                  case 2:
-                    return "Mar";
-                  case 3:
-                    return "Apr";
-                  case 4:
-                    return "May";
-                  case 5:
-                    return "Jun";
-                  case 6:
-                    return "Jul";
-                  case 7:
-                    return "Aug";
-                  case 8:
-                    return "Sep";
-                  case 9:
-                    return "Oct";
-                  case 10:
-                    return "Nov";
-                  case 11:
-                    return "Dec";
-                }
-              }),
-            gridData: FlGridData(
-              show: true,
-              checkToShowVerticalGrid: (double value) {
-                return value == 1 || value == 6 || value == 4 || value == 5;
-              }),
+            ),
           ),
         ),
       ),

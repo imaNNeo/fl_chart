@@ -18,57 +18,90 @@ class LineChartSample3 extends StatelessWidget {
             lineBarsData: [
               LineChartBarData(
                 spots: [
-                  FlSpot(0, 1),
-                  FlSpot(1, 2),
-                  FlSpot(2, 1.5),
-                  FlSpot(3, 3),
-                  FlSpot(4, 3.5),
-                  FlSpot(5, 5),
-                  FlSpot(6, 8),
+                  FlSpot(0, 1.3),
+                  FlSpot(1, 1),
+                  FlSpot(2, 1.8),
+                  FlSpot(3, 1.5),
+                  FlSpot(4, 2.2),
+                  FlSpot(5, 1.8),
+                  FlSpot(6, 3),
                 ],
-                isCurved: true,
+                isCurved: false,
                 barWidth: 4,
+                colors: [
+                  Colors.orange,
+                ],
                 belowBarData: BelowBarData(
                   show: true,
+                  colors: [
+                    Colors.orange.withOpacity(0.5),
+                    Colors.orange.withOpacity(0.0),
+                  ],
+                  gradientColorStops: [0.5, 1.0],
+                  gradientFrom: Offset(0, 0),
+                  gradientTo: Offset(0, 1),
                 ),
-                dotData: FlDotData(show: false),
+                dotData: FlDotData(
+                  show: true,
+                  dotColor: Colors.deepOrange,
+                  dotSize: 6,
+                  checkToShowDot: (spot) {
+                    return spot.x != 0 && spot.x != 6;
+                  }),
               ),
             ],
+            gridData: FlGridData(
+              show: true,
+              drawHorizontalGrid: true,
+              drawVerticalGrid: true,
+            ),
             titlesData: FlTitlesData(
-              getVerticalTitles: (val) {
-                return "";
-              },
-              verticalTitleMargin: 0,
-              verticalTitlesReservedWidth: 0,
-              getHorizontalTitles: (val) {
-                switch (val.toInt()) {
+              show: true,
+              getHorizontalTitles: (value) {
+                switch (value.toInt()) {
                   case 0:
-                    return "00:00";
+                    return 'Sat';
+
                   case 1:
-                    return "04:00";
+                    return 'Sun';
+
                   case 2:
-                    return "08:00";
+                    return 'Mon';
+
                   case 3:
-                    return "12:00";
+                    return 'Tue';
+
                   case 4:
-                    return "16:00";
+                    return 'Wed';
+
                   case 5:
-                    return "20:00";
+                    return 'Thu';
+
                   case 6:
-                    return "23:59";
+                    return 'Fri';
                 }
+
+                return '';
+              },
+              getVerticalTitles: (value) {
+                switch (value.toInt()) {
+                  case 0:
+                    return "";
+                  case 1:
+                    return "1k colories";
+                  case 2:
+                    return "2k colories";
+                  case 3:
+                    return "3k colories";
+                }
+
                 return "";
               },
               horizontalTitlesTextStyle: TextStyle(
+                color: Colors.deepOrange,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
-                fontFamily: "Digital",
-                fontSize: 18,
-              )),
-            gridData: FlGridData(show: false),
-            borderData: FlBorderData(
-              show: true,
-            ),
+              ),
+              verticalTitlesTextStyle: TextStyle(color: Colors.black, fontSize: 10)),
           ),
         ),
       ),

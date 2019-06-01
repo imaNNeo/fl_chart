@@ -9,100 +9,175 @@ class LineChartSample1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      height: 140,
-      child: FlChartWidget(
-        flChart: LineChart(
-          LineChartData(
-            lineBarsData: [
-              LineChartBarData(
-                spots: [
-                  FlSpot(0, 1.3),
-                  FlSpot(1, 1),
-                  FlSpot(2, 1.8),
-                  FlSpot(3, 1.5),
-                  FlSpot(4, 2.2),
-                  FlSpot(5, 1.8),
-                  FlSpot(6, 3),
-                ],
-                isCurved: false,
-                barWidth: 4,
-                colors: [
-                  Colors.orange,
-                ],
-                belowBarData: BelowBarData(
-                  show: true,
-                  colors: [
-                    Colors.orange.withOpacity(0.5),
-                    Colors.orange.withOpacity(0.0),
-                  ],
-                  gradientColorStops: [0.5, 1.0],
-                  gradientFrom: Offset(0, 0),
-                  gradientTo: Offset(0, 1),
-                ),
-                dotData: FlDotData(
-                  show: true,
-                  dotColor: Colors.deepOrange,
-                  dotSize: 6,
-                  checkToShowDot: (spot) {
-                    return spot.x != 0 && spot.x != 6;
-                  }),
-              ),
+    return AspectRatio(
+      aspectRatio: 1.23,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(18)),
+          gradient: LinearGradient(
+            colors: [
+              Color(0xff2c274c),
+              Color(0xff46426c),
             ],
-            gridData: FlGridData(
-              show: true,
-              drawHorizontalGrid: true,
-              drawVerticalGrid: true,
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(
+              height: 37,
             ),
-            titlesData: FlTitlesData(
-              show: true,
-              getHorizontalTitles: (value) {
-                switch (value.toInt()) {
-                  case 0:
-                    return 'Sat';
-
-                  case 1:
-                    return 'Sun';
-
-                  case 2:
-                    return 'Mon';
-
-                  case 3:
-                    return 'Tue';
-
-                  case 4:
-                    return 'Wed';
-
-                  case 5:
-                    return 'Thu';
-
-                  case 6:
-                    return 'Fri';
-                }
-
-                return '';
-              },
-              getVerticalTitles: (value) {
-                switch (value.toInt()) {
-                  case 0:
-                    return "";
-                  case 1:
-                    return "1k colories";
-                  case 2:
-                    return "2k colories";
-                  case 3:
-                    return "3k colories";
-                }
-
-                return "";
-              },
-              horizontalTitlesTextStyle: TextStyle(
-                color: Colors.deepOrange,
-                fontWeight: FontWeight.bold,
+            Text("Unfold Shop 2018", style: TextStyle(color: Color(0xff827daa), fontSize: 16,), textAlign: TextAlign.center,),
+            SizedBox(
+              height: 4,
+            ),
+            Text("Monthly Sales", style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 2), textAlign: TextAlign.center,),
+            SizedBox(
+              height: 37,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+                child: FlChartWidget(
+                  flChart: LineChart(
+                    LineChartData(
+                      gridData: FlGridData(
+                        show: false,
+                      ),
+                      titlesData: FlTitlesData(
+                        horizontalTitlesTextStyle: TextStyle(
+                          color: Color(0xff72719b),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        horizontalTitleMargin: 10,
+                        getHorizontalTitles: (value) {
+                          switch(value.toInt()) {
+                            case 2:
+                              return "SEPT";
+                            case 7:
+                              return "OCT";
+                            case 12:
+                              return "DEC";
+                          }
+                          return "";
+                        },
+                        verticalTitlesTextStyle: TextStyle(
+                          color: Color(0xff75729e),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                        getVerticalTitles: (value) {
+                          switch(value.toInt()) {
+                            case 1: return "1m";
+                            case 2: return "2m";
+                            case 3: return "3m";
+                            case 4: return "5m";
+                          }
+                          return "";
+                        },
+                        verticalTitleMargin: 8,
+                        verticalTitlesReservedWidth: 30,
+                      ),
+                      borderData: FlBorderData(
+                        show: true,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Color(0xff4e4965),
+                            width: 4,
+                          ),
+                          left: BorderSide(
+                            color: Colors.transparent,
+                          ),
+                          right: BorderSide(
+                            color: Colors.transparent,
+                          ),
+                          top: BorderSide(
+                            color: Colors.transparent,
+                          ),
+                        )
+                      ),
+                      minX: 0,
+                      maxX: 14,
+                      maxY: 4,
+                      minY: 0,
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: [
+                            FlSpot(1, 1),
+                            FlSpot(3, 1.5),
+                            FlSpot(5, 1.4),
+                            FlSpot(7, 3.4),
+                            FlSpot(10, 2),
+                            FlSpot(12, 2.2),
+                            FlSpot(13, 1.8),
+                          ],
+                          isCurved: true,
+                          colors: [
+                            Color(0xff4af699),
+                          ],
+                          barWidth: 8,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(
+                            show: false,
+                          ),
+                          belowBarData: BelowBarData(
+                            show: false,
+                          ),
+                        ),
+                        LineChartBarData(
+                          spots: [
+                            FlSpot(1, 1),
+                            FlSpot(3, 2.8),
+                            FlSpot(7, 1.2),
+                            FlSpot(10, 2.8),
+                            FlSpot(12, 2.6),
+                            FlSpot(13, 3.9),
+                          ],
+                          isCurved: true,
+                          colors: [
+                            Color(0xffaa4cfc),
+                          ],
+                          barWidth: 8,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(
+                            show: false,
+                          ),
+                          belowBarData: BelowBarData(
+                            show: false,
+                          ),
+                        ),
+                        LineChartBarData(
+                          spots: [
+                            FlSpot(1, 2.8),
+                            FlSpot(3, 1.9),
+                            FlSpot(6, 3),
+                            FlSpot(10, 1.3),
+                            FlSpot(13, 2.5),
+                          ],
+                          isCurved: true,
+                          colors: [
+                            Color(0xff27b6fc),
+                          ],
+                          barWidth: 8,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(
+                            show: false,
+                          ),
+                          belowBarData: BelowBarData(
+                            show: false,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              verticalTitlesTextStyle: TextStyle(color: Colors.black, fontSize: 10)),
-          ),
+            ),
+            SizedBox(height: 10,),
+          ],
         ),
       ),
     );
