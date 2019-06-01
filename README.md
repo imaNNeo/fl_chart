@@ -14,7 +14,7 @@
 
 |LineChart	|BarChart		|PieChart		|
 |:------------:|:------------:|:-------------:|
-|	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart.jpg" width="300" > |
+|	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart.jpg" width="300" > |
 |[Read More](repo_files/documentations/line_chart.md)|[Read More](repo_files/documentations/bar_chart.md)|[Read More](repo_files/documentations/pie_chart.md)|
 
 Samples inspired from
