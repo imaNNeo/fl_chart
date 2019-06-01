@@ -60,21 +60,14 @@ FlChartWidget(
 |checkToShowDot|a function to check show or not show the dot on the given spot|showAllDots|
 
 #### some samples
-![sample1](repo_files/images/line_chart/line_chart_sample1.png)
-
-[Source Code](/example/lib/line_chart/samples/line_chart_sample1.dart)
-
-
----
+----
+###### Sample 1 ([Source Code](/example/lib/line_chart/samples/line_chart_sample1.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1.png" width="300" >
 
 
-![sample1](repo_files/images/line_chart/line_chart_sample2.png)
+###### Sample 2 ([Source Code](/example/lib/line_chart/samples/line_chart_sample2.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2.png" width="300" >
 
-[Source Code](/example/lib/line_chart/samples/line_chart_sample2.dart)
 
-
----
-
-![sample1](repo_files/images/line_chart/line_chart_sample3.png)
-
-[Source Code](/example/lib/line_chart/samples/line_chart_sample3.dart)
+###### Sample 3 ([Source Code](/example/lib/line_chart/samples/line_chart_sample3.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_3.png" width="300" >
