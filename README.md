@@ -50,3 +50,7 @@ flutter packages get
 
 ### 3 - Learn it like a charm
 ##### Read the docs from [here](repo_files/documentations/index.md)
+
+
+### The last but not least 🔥
+##### :beer: pull requests are welcome!
