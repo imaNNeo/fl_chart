@@ -13,7 +13,7 @@ FlChartWidget(
     );
 ```
 
-### LineChartData
+### BarChartData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |barGroups| list of [BarChartGroupData ](#BarChartGroupData) to showing the bar lines together, you can provide one item per group to show normal bar chart|[]|
@@ -27,6 +27,10 @@ FlChartWidget(
 |x| x position of the group on horizontal axis|null|
 |barRods| list of [BarChartRodData](#BarChartRodData) that they are a bar line| []
 |barsSpace| space between barRods of the group|2|
+
+
+### BarChartAlignment
+enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetween`}
 
 
 ### BarChartRodData
