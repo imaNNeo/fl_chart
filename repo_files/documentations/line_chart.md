@@ -1,6 +1,6 @@
 # LineChart
 
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart.jpg" width="300" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart.jpg" width="300" >
 
 ### How to use
 ```
@@ -32,7 +32,7 @@ FlChartWidget(
 |show| determines show and hide the bar line|true|
 |spots| list of [FlSpot](base_chart.md#FlSpot) x and y coordinates that the line go through it| []
 |colors| color of the line, if multiple colors provided gradient will apply|[Colors.redAccent]|
-|colorStops| stop positions of the gradient color|null|
+|colorStops| stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 |barWidth| stroke width of the line bar|2.0|
 |isCurved| curve the line corners on the spots position| false|
 |curveSmoothness| smoothness radius of the curve corners (works if isCurved is true) | 0.35|
@@ -46,9 +46,9 @@ FlChartWidget(
 |:-------|:----------|:------------|
 |show|determines show or hide the below bar|true|
 |colors|color of the belo bar area, if multiple colors provided gradient will apply|[Colors.blueGrey]|
-|gradientFrom|determines start of the gradient, each number should be between 0 and 1|Offset(0, 0)|
-|gradientTo|determines end of the gradient, each number should be between 0 and 1|Offset(1, 0)|
-|gradientColorStops|stop positions of the gradient color|null|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
+|gradientColorStops|stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 
 
 ### FlDotData
@@ -60,3 +60,21 @@ FlChartWidget(
 |checkToShowDot|a function to check show or not show the dot on the given spot|showAllDots|
 
 #### some samples
+![sample1](repo_files/images/line_chart/line_chart_sample1.png)
+
+[Source Code](/example/lib/line_chart/samples/line_chart_sample1.dart)
+
+
+---
+
+
+![sample1](repo_files/images/line_chart/line_chart_sample2.png)
+
+[Source Code](/example/lib/line_chart/samples/line_chart_sample2.dart)
+
+
+---
+
+![sample1](repo_files/images/line_chart/line_chart_sample3.png)
+
+[Source Code](/example/lib/line_chart/samples/line_chart_sample3.dart)

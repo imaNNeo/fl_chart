@@ -5,7 +5,7 @@ import 'package:fl_chart/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/fl_chart_widget.dart';
 import 'package:flutter/material.dart';
 
-class LineChartPage2 extends StatelessWidget {
+class LineChartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
