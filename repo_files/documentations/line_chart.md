@@ -17,9 +17,9 @@ FlChartWidget(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to showing the lines chart, they will stack and draw on top of each other|[]|
-|titlesData| check the [FlTitlesData](#FlTitlesData)| FlTitlesData()|
-|gridData| check the [FlGridData](#FlGridData)|FlGridData()|
-|borderData| check the [FlBorderData](#FlBorderData)|FlBorderData()|
+|titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
+|gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
+|borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| minimum x of showing x axis, if null, value will read from input lineBars |null|
 |maxX| maximum x of showing x axis, if null, value will read from input lineBars | null|
 |minY| minimum y of showing y axis, if null, value will read from input lineBars | null|
@@ -30,7 +30,7 @@ FlChartWidget(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |show| determines show and hide the bar line|true|
-|spots| list of [FlSpot](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/documentations/base_chart.md#FlSpot) x and y coordinates that the line go through it| []
+|spots| list of [FlSpot](https://github.com/imaNNeoFighT/circular_bottom_navigation/raw/master/repo_files/documentations/base_chart.md#FlSpot) x and y coordinates that the line go through it| []
 |colors| color of the line, if multiple colors provided gradient will apply|[Colors.redAccent]|
 |colorStops| stop positions of the gradient color|null|
 |barWidth| stroke width of the line bar|2.0|
