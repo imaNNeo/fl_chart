@@ -1,10 +1,10 @@
-import 'package:example/line_chart_page2.dart';
-import 'package:example/pie_chart_page.dart';
 import 'package:flutter/material.dart';
 
 import 'bar_chart_page.dart';
 import 'bar_chart_page2.dart';
 import 'line_chart_page.dart';
+import 'line_chart_page2.dart';
+import 'pie_chart_page.dart';
 
 void main() => runApp(MyApp());
 

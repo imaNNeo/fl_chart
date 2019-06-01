@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
 import 'package:fl_chart/chart/pie_chart/pie_chart.dart';
 import 'package:fl_chart/chart/pie_chart/pie_chart_data.dart';
+import 'package:fl_chart/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vector_math/vector_math.dart';
 
 
 /// this class will paint the [PieChart] based on the [PieChartData]
