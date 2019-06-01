@@ -38,7 +38,7 @@ Support us by becoming a patron on Patreon
 
 ## 1 - Depend on it
 
-### Add it to your package's pubspec.yaml file:
+### Add it to your package's pubspec.yaml file
 
 ```kotlin
 dependencies:
@@ -48,7 +48,10 @@ dependencies:
 
 ## 2 - Install it
 
-### install packages from the command line:
+### Install packages from the command line
 ```kotlin
 flutter packages get
 ```
+
+## 3 - Learn it like a charm
+### Read the docs from [here](repo_files/documentations/index.md)
