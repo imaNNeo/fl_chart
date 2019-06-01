@@ -59,15 +59,15 @@ FlChartWidget(
 |dotSize|size of showing dot|4.0|
 |checkToShowDot|a function to check show or not show the dot on the given spot|showAllDots|
 
-#### some samples
+### some samples
 ----
-###### Sample 1 ([Source Code](/example/lib/line_chart/samples/line_chart_sample1.dart))
+##### Sample 1 ([Source Code](/example/lib/line_chart/samples/line_chart_sample1.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1.png" width="300" >
 
 
-###### Sample 2 ([Source Code](/example/lib/line_chart/samples/line_chart_sample2.dart))
+##### Sample 2 ([Source Code](/example/lib/line_chart/samples/line_chart_sample2.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2.png" width="300" >
 
 
-###### Sample 3 ([Source Code](/example/lib/line_chart/samples/line_chart_sample3.dart))
+##### Sample 3 ([Source Code](/example/lib/line_chart/samples/line_chart_sample3.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_3.png" width="300" >
