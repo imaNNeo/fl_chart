@@ -1,4 +1,4 @@
-## Fl Chart Documentation
+## FL Chart Documentation
 FlChart allows you to draw your charts in the Flutter, currently we support these type of charts,
 click and learn more about them.
 

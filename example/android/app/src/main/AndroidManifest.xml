@@ -14,7 +14,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Fl Chart"
+        android:label="FL Chart"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name="com.ikhoshabi.fl_chart_samples.MainActivity"
