@@ -16,7 +16,7 @@ FlChartWidget(
 ### PieChartData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|sections| list of [PieChartSectionData ](#PieChartSectionData) that will show on the pie chart|[]|
+|sections| list of [PieChartSectionData ](#PieChartSectionData) that will show on the pie charts|[]|
 |centerSpaceRadius| free space on the middle of PieChart| 80|
 |centerSpaceColor| color of the free space on the middle of PieChart|Colors.transparent|
 |sectionsSpace| space between of sections (margin of them)|2|
