@@ -19,7 +19,8 @@
 |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" > |	<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart.jpg" width="300" > |
 |[Read More](repo_files/documentations/line_chart.md)|[Read More](repo_files/documentations/bar_chart.md)|[Read More](repo_files/documentations/pie_chart.md)|
 
-Samples inspired from
+Banner designed by [Soheil Saffar](https://www.linkedin.com/in/soheilsaffar), and
+samples inspired from
 [David Kovalev](https://dribbble.com/shots/5560237-Live-Graphs-XD),
 [Ricardo Salazar](https://dribbble.com/shots/1956890-Data-Stats),
 [Dmitro Petrenko](https://dribbble.com/shots/5425378-Mobile-Application-Dashboard-for-Stock-Platform),
