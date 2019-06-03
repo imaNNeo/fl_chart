@@ -1,5 +1,5 @@
-import 'package:example/bar_chart/samples/bar_chart_sample2.dart';
 import 'package:flutter/material.dart';
+import 'samples/bar_chart_sample2.dart';
 
 class BarChartPage2 extends StatelessWidget {
 
