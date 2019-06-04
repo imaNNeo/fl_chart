@@ -49,7 +49,7 @@ class BarChartData extends FlAxisChartData {
       }
     });
 
-    if (barGroups.length > 0) {
+    if (barGroups.isNotEmpty) {
       var canModifyMinX = false;
       if (minX == null) {
         minX = barGroups[0].x.toDouble();
@@ -150,7 +150,7 @@ class BarChartGroupData {
   /// calculates the whole width of our group,
   /// by adding all rod's width and group space * rods count.
   double get width {
-    if (barRods.length == 0) {
+    if (barRods.isEmpty) {
       return 0;
     }
 
