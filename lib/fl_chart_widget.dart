@@ -1,11 +1,22 @@
 library fl_chart;
 
-import 'package:fl_chart/chart/bar_chart/bar_chart.dart';
-import 'package:fl_chart/chart/base/fl_chart/fl_chart.dart';
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
-import 'package:fl_chart/chart/line_chart/line_chart.dart';
-import 'package:fl_chart/chart/pie_chart/pie_chart.dart';
 import 'package:flutter/material.dart';
+
+import 'chart/bar_chart/bar_chart.dart';
+import 'chart/base/fl_chart/fl_chart.dart';
+import 'chart/base/fl_chart/fl_chart_painter.dart';
+import 'chart/line_chart/line_chart.dart';
+import 'chart/pie_chart/pie_chart.dart';
+
+export 'chart/bar_chart/bar_chart.dart';
+export 'chart/bar_chart/bar_chart_data.dart';
+export 'chart/base/fl_axis_chart/fl_axis_chart_data.dart';
+export 'chart/base/fl_chart/fl_chart_data.dart';
+export 'chart/line_chart/line_chart.dart';
+export 'chart/line_chart/line_chart_data.dart';
+export 'chart/pie_chart/pie_chart.dart';
+export 'chart/pie_chart/pie_chart_data.dart';
+
 
 /// A widget that holds a [FlChart] class
 /// that contains [FlChartPainter] extends from [CustomPainter]

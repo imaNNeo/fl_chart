@@ -1,6 +1,3 @@
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
-import 'package:fl_chart/chart/pie_chart/pie_chart.dart';
-import 'package:fl_chart/chart/pie_chart/pie_chart_data.dart';
 import 'package:fl_chart/fl_chart_widget.dart';
 import 'package:flutter/material.dart';
 
