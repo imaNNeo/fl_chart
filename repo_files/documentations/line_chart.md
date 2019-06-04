@@ -16,27 +16,27 @@ FlChartWidget(
 ### LineChartData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to showing the lines chart, they will stack and draw on top of each other|[]|
+|lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to show the chart's lines, they stack and be drawn on top of each other|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
-|minX| minimum x of showing x axis, if null, value will read from input lineBars |null|
-|maxX| maximum x of showing x axis, if null, value will read from input lineBars | null|
-|minY| minimum y of showing y axis, if null, value will read from input lineBars | null|
-|maxY| maximum y of showing y axis, if null, value will read from input lineBars | null|
+|minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
+|maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
+|minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
+|maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
 
 
 ### LineChartBarData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|show| determines show and hide the bar line|true|
-|spots| list of [FlSpot](base_chart.md#FlSpot) x and y coordinates that the line go through it| []
-|colors| color of the line, if multiple colors provided gradient will apply|[Colors.redAccent]|
-|colorStops| stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
-|barWidth| stroke width of the line bar|2.0|
-|isCurved| curve the line corners on the spots position| false|
-|curveSmoothness| smoothness radius of the curve corners (works if isCurved is true) | 0.35|
-|isStrokeCapRound| determines if start and end of the bar line is Qubic or Round | false|
+|show| determines to show or hide the bar line|true|
+|spots| list of [FlSpot](base_chart.md#FlSpot)'s x and y coordinates that the line go through it| []
+|colors| colors the line, if multiple colors provided it will be gradient|[Colors.redAccent]|
+|colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|barWidth| gets the stroke width of the line bar|2.0|
+|isCurved| curves the corners of the line on the spot's positions| false|
+|curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
+|isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
 |belowBarData| check the [BelowBarData](#BelowBarData) |BelowBarData()|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
 
@@ -44,20 +44,20 @@ FlChartWidget(
 ### BelowBarData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|show|determines show or hide the below bar|true|
-|colors|color of the belo bar area, if multiple colors provided gradient will apply|[Colors.blueGrey]|
+|show|determines to show or hide the below bar|true|
+|colors|colors the below bar area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
 |gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
 |gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
-|gradientColorStops|stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 
 
 ### FlDotData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|show|determines show or hide the dots|true|
-|dotColor|color of showing dot|Colors.blue|
+|show|determines to show or hide the dots|true|
+|dotColor|colors the showing dot|Colors.blue|
 |dotSize|size of showing dot|4.0|
-|checkToShowDot|a function to check show or not show the dot on the given spot|showAllDots|
+|checkToShowDot|a function to determine whether to show or hide the dot on the given spot|showAllDots|
 
 ### some samples
 ----

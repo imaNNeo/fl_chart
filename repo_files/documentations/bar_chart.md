@@ -16,8 +16,8 @@ FlChartWidget(
 ### BarChartData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|barGroups| list of [BarChartGroupData ](#BarChartGroupData) to showing the bar lines together, you can provide one item per group to show normal bar chart|[]|
-|alignment| a [BarChartAlignment](#BarChartAlignment) that determines alignment of the barGroups, inspired from [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
+|barGroups| list of [BarChartGroupData ](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show normal bar chart|[]|
+|alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
 
 
@@ -25,8 +25,8 @@ FlChartWidget(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |x| x position of the group on horizontal axis|null|
-|barRods| list of [BarChartRodData](#BarChartRodData) that they are a bar line| []
-|barsSpace| space between barRods of the group|2|
+|barRods| list of [BarChartRodData](#BarChartRodData) that are a bar line| []
+|barsSpace| the space between barRods of the group|2|
 
 
 ### BarChartAlignment
@@ -37,17 +37,17 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |y|endY position of the bar on vertical axis (height of the bar)|null|
-|color|color of the bar rod|Colors.blueAccent|
+|color|colors the bar rod|Colors.blueAccent|
 |width|stroke width of the bar rod|8|
 |isRound|determines that the bar lines is round or qubic |true|
-|backDrawRodData|if provided, draw a rod on behind, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
+|backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
 
 
 ### BackgroundBarChartRodData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |y|same as [BarChartRodData](#BarChartRodData)'s y|8|
-|show|determines show or hide this section|false|
+|show|determines to show or hide this section|false|
 |color|same as [BarChartRodData](#BarChartRodData)'s color|Colors.blueGrey|
 
 ### some samples
