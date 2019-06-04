@@ -31,11 +31,11 @@ FlChartWidget(
 |:---------------|:---------------|:-------|
 |show| determines to show or hide the bar line|true|
 |spots| list of [FlSpot](base_chart.md#FlSpot)'s x and y coordinates that the line go through it| []
-|colors| color below of the line, if multiple colors provided it will be gradient|[Colors.redAccent]|
+|colors| color the line, if multiple colors provided it will be gradient|[Colors.redAccent]|
 |colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 |barWidth| gets the stroke width of the line bar|2.0|
 |isCurved| curves the corners of the line on the spot's positions| false|
-|curveSmoothness| ///////smoothness's radius of the curve corners (works when isCurved is true) | 0.35|
+|curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
 |isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
 |belowBarData| check the [BelowBarData](#BelowBarData) |BelowBarData()|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
