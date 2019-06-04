@@ -21,8 +21,8 @@ abstract class FlChartPainter<D extends FlChartData> extends CustomPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size viewSize) {
-    drawViewBorder(canvas, viewSize);
+  void paint(Canvas canvas, Size size) {
+    drawViewBorder(canvas, size);
   }
 
   void drawViewBorder(Canvas canvas, Size viewSize) {
