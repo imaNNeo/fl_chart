@@ -54,7 +54,7 @@ class PieChartPainter extends FlChartPainter {
   }
 
   void drawSections(Canvas canvas, Size viewSize) {
-    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), new Paint());
+    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     double tempAngle = data.startDegreeOffset;
@@ -136,8 +136,8 @@ class PieChartPainter extends FlChartPainter {
       );
 
       if (section.showTitle) {
-        TextSpan span = new TextSpan(style: section.titleStyle, text: section.title);
-        TextPainter tp = new TextPainter(
+        TextSpan span = TextSpan(style: section.titleStyle, text: section.title);
+        TextPainter tp = TextPainter(
           text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
         tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));

@@ -12,7 +12,7 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
   Paint gridPaint;
 
   FlAxisChartPainter(this.data) : super(data) {
-    gridPaint = new Paint()..style = PaintingStyle.fill;
+    gridPaint = Paint()..style = PaintingStyle.fill;
   }
 
   @override

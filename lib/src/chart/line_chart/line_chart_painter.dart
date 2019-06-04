@@ -245,13 +245,13 @@ class LineChartPainter extends FlAxisChartPainter {
         String text =
             data.titlesData.getVerticalTitles(data.gridData.verticalInterval * verticalCounter);
 
-        TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
-        TextPainter tp = new TextPainter(
+        TextSpan span = TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
+        TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + data.titlesData.verticalTitleMargin;
         y -= (tp.height / 2);
-        tp.paint(canvas, new Offset(x, y));
+        tp.paint(canvas, Offset(x, y));
 
         verticalCounter++;
       }
@@ -267,8 +267,8 @@ class LineChartPainter extends FlAxisChartPainter {
         String text = data.titlesData
             .getHorizontalTitles(data.gridData.horizontalInterval * horizontalCounter);
 
-        TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
-        TextPainter tp = new TextPainter(
+        TextSpan span = TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
+        TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
