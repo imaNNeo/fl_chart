@@ -44,7 +44,7 @@
 |verticalInterval|interval space of grid|1.0|
 |verticalGridColor|colors the vertical grid lines|Colors.grey|
 |verticalGridLineWidth|stroke width of vertical grid lines |0.5|
-|checkToShowVerticalGrid|a function to check whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
+|checkToShowVerticalGrid|a function to determine whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
 
 
 

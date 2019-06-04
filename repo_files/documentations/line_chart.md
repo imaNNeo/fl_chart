@@ -57,7 +57,7 @@ FlChartWidget(
 |show|determines to show or hide the dots|true|
 |dotColor|colors the showing dot|Colors.blue|
 |dotSize|size of showing dot|4.0|
-|checkToShowDot|a function to determine whether to show or not the dot on the given spot|showAllDots|
+|checkToShowDot|a function to determine whether to show or hide the dot on the given spot|showAllDots|
 
 ### some samples
 ----
