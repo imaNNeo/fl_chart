@@ -39,7 +39,7 @@ class LineChartData extends FlAxisChartData {
         throw Exception("spots could not be null or empty");
       }
     });
-    if (lineBarsData.length > 0) {
+    if (lineBarsData.isNotEmpty) {
       var canModifyMinX = false;
       if (minX == null) {
         minX = lineBarsData[0].spots[0].x;

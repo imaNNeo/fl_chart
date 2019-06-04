@@ -37,7 +37,7 @@ class PieChartPainter extends FlChartPainter {
   @override
   void paint(Canvas canvas, Size viewSize) {
     super.paint(canvas, viewSize);
-    if (data.sections.length == 0) {
+    if (data.sections.isEmpty) {
       return;
     }
 

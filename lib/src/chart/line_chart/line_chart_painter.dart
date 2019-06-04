@@ -30,7 +30,7 @@ class LineChartPainter extends FlAxisChartPainter {
   @override
   void paint(Canvas canvas, Size viewSize) {
     super.paint(canvas, viewSize);
-    if (data.lineBarsData.length == 0) {
+    if (data.lineBarsData.isEmpty) {
       return;
     }
 
