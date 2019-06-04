@@ -11,9 +11,7 @@ class FlChartData {
   FlChartData({
     this.borderData,
   }) {
-    if (borderData == null) {
-      borderData = FlBorderData();
-    }
+    borderData ??= FlBorderData();
   }
 }
 
@@ -28,13 +26,11 @@ class FlBorderData {
     this.show = true,
     this.border,
   }) {
-    if (border == null) {
-      border = Border.all(
+    border ??= Border.all(
         color: Colors.black,
         width: 1.0,
         style: BorderStyle.solid,
       );
-    }
   }
 }
 
