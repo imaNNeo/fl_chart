@@ -2,11 +2,7 @@ library fl_chart;
 
 import 'package:flutter/material.dart';
 
-import 'chart/bar_chart/bar_chart.dart';
 import 'chart/base/fl_chart/fl_chart.dart';
-import 'chart/base/fl_chart/fl_chart_painter.dart';
-import 'chart/line_chart/line_chart.dart';
-import 'chart/pie_chart/pie_chart.dart';
 
 export 'chart/bar_chart/bar_chart.dart';
 export 'chart/bar_chart/bar_chart_data.dart';
