@@ -46,6 +46,7 @@ class LineChartSample3 extends StatelessWidget {
                   }),
               ),
             ],
+            minY: 0,
             gridData: FlGridData(
               show: true,
               drawHorizontalGrid: true,

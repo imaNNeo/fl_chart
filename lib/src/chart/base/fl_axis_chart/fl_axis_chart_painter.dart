@@ -9,6 +9,7 @@ import 'fl_axis_chart_data.dart';
 /// in child classes -> [BarChartPainter], [LineChartPainter]
 abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPainter<D> {
   final D data;
+
   Paint gridPaint;
 
   FlAxisChartPainter(this.data) : super(data) {
@@ -25,28 +26,27 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
     if (!data.gridData.show || data.gridData == null) {
       return;
     }
-    var usableViewSize = getChartUsableDrawSize(viewSize);
+    final Size usableViewSize = getChartUsableDrawSize(viewSize);
     // Show Vertical Grid
     if (data.gridData.drawVerticalGrid) {
       gridPaint.color = data.gridData.verticalGridColor;
       gridPaint.strokeWidth = data.gridData.verticalGridLineWidth;
 
-      int verticalCounter = 1;
-      while (data.gridData.verticalInterval * verticalCounter < data.maxY) {
-        var currentIntervalSeek = data.gridData.verticalInterval * verticalCounter;
-        if (data.gridData.checkToShowVerticalGrid(currentIntervalSeek)) {
-          double bothY = getPixelY(currentIntervalSeek, usableViewSize);
-          double x1 = 0 + getLeftOffsetDrawSize();
-          double y1 = bothY + getTopOffsetDrawSize();
-          double x2 = usableViewSize.width + getLeftOffsetDrawSize();
-          double y2 = bothY + getTopOffsetDrawSize();
+      double verticalSeek = data.minY;
+      while (verticalSeek < data.maxY) {
+        if (data.gridData.checkToShowVerticalGrid(verticalSeek)) {
+          final double bothY = getPixelY(verticalSeek, usableViewSize);
+          final double x1 = 0 + getLeftOffsetDrawSize();
+          final double y1 = bothY + getTopOffsetDrawSize();
+          final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
+          final double y2 = bothY + getTopOffsetDrawSize();
           canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
             gridPaint,
           );
         }
-        verticalCounter++;
+        verticalSeek += data.gridData.verticalInterval;
       }
     }
 
@@ -55,22 +55,22 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
       gridPaint.color = data.gridData.horizontalGridColor;
       gridPaint.strokeWidth = data.gridData.horizontalGridLineWidth;
 
-      int horizontalCounter = 1;
-      while (data.gridData.horizontalInterval * horizontalCounter < data.maxX) {
-        var currentIntervalSeek = data.gridData.horizontalInterval * horizontalCounter;
-        if (data.gridData.checkToShowHorizontalGrid(currentIntervalSeek)) {
-          double bothX = getPixelX(currentIntervalSeek, usableViewSize);
-          double x1 = bothX;
-          double y1 = 0 + getTopOffsetDrawSize();
-          double x2 = bothX;
-          double y2 = usableViewSize.height + getTopOffsetDrawSize();
+      double horizontalSeek = data.minX;
+      while (horizontalSeek < data.maxX) {
+        if (data.gridData.checkToShowHorizontalGrid(horizontalSeek)) {
+          final double bothX = getPixelX(horizontalSeek, usableViewSize);
+          final double x1 = bothX;
+          final double y1 = 0 + getTopOffsetDrawSize();
+          final double x2 = bothX;
+          final double y2 = usableViewSize.height + getTopOffsetDrawSize();
           canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
             gridPaint,
           );
         }
-        horizontalCounter++;
+
+        horizontalSeek += data.gridData.horizontalInterval;
       }
     }
   }
@@ -79,7 +79,7 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
   /// to the view base axis x .
   /// the view 0, 0 is on the top/left, but the spots is bottom/left
   double getPixelX(double spotX, Size chartUsableSize) {
-    return ((spotX / data.maxX) * chartUsableSize.width) + getLeftOffsetDrawSize();
+    return (((spotX - data.minX) / (data.maxX - data.minX)) * chartUsableSize.width) + getLeftOffsetDrawSize();
   }
 
   /// With this function we can convert our [FlSpot] y
@@ -88,7 +88,7 @@ abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPain
     double spotY,
     Size chartUsableSize,
   ) {
-    double y = data.maxY - spotY;
-    return ((y / data.maxY) * chartUsableSize.height) + getTopOffsetDrawSize();
+    final double y = (data.maxY - data.minY) - spotY + data.minY;
+    return ((y / (data.maxY - data.minY)) * chartUsableSize.height) + getTopOffsetDrawSize();
   }
 }

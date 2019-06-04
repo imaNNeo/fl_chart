@@ -41,6 +41,7 @@ class LineChartSample4 extends StatelessWidget {
                 ),
               ),
             ],
+            minY: 0,
             titlesData: FlTitlesData(
               horizontalTitlesTextStyle:
               TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),

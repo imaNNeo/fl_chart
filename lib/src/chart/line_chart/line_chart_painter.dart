@@ -236,48 +236,48 @@ class LineChartPainter extends FlAxisChartPainter {
 
     // Vertical Titles
     if (data.titlesData.showVerticalTitles) {
-      int verticalCounter = 0;
-      while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
+      double verticalSeek = data.minY;
+      while (verticalSeek <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, viewSize) +
+        double y = getPixelY(verticalSeek, viewSize) +
             getTopOffsetDrawSize();
 
-        String text =
-            data.titlesData.getVerticalTitles(data.gridData.verticalInterval * verticalCounter);
+        final String text =
+            data.titlesData.getVerticalTitles(verticalSeek);
 
-        TextSpan span = TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
-        TextPainter tp = TextPainter(
+        final TextSpan span = TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
+        final TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + data.titlesData.verticalTitleMargin;
-        y -= (tp.height / 2);
+        y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
-        verticalCounter++;
+        verticalSeek += data.gridData.verticalInterval;
       }
     }
 
     // Horizontal titles
     if (data.titlesData.showHorizontalTitles) {
-      int horizontalCounter = 0;
-      while (data.gridData.horizontalInterval * horizontalCounter <= data.maxX) {
-        double x = getPixelX(data.gridData.horizontalInterval * horizontalCounter, viewSize);
+      double horizontalSeek = data.minX;
+      while (horizontalSeek <= data.maxX) {
+        double x = getPixelX(horizontalSeek, viewSize);
         double y = viewSize.height + getTopOffsetDrawSize();
 
         String text = data.titlesData
-            .getHorizontalTitles(data.gridData.horizontalInterval * horizontalCounter);
+            .getHorizontalTitles(horizontalSeek);
 
         TextSpan span = TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
         TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        x -= (tp.width / 2);
+        x -= tp.width / 2;
         y += data.titlesData.horizontalTitleMargin;
 
         tp.paint(canvas, Offset(x, y));
 
-        horizontalCounter++;
+        horizontalSeek += data.gridData.horizontalInterval;
       }
     }
   }

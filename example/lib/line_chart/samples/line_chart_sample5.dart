@@ -30,6 +30,7 @@ class LineChartSample5 extends StatelessWidget {
                 dotData: FlDotData(show: false),
               ),
             ],
+            minY: 0,
             titlesData: FlTitlesData(
               getVerticalTitles: (val) {
                 return "";
