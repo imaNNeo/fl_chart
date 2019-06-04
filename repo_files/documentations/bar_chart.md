@@ -26,7 +26,7 @@ FlChartWidget(
 |:---------------|:---------------|:-------|
 |x| x position of the group on horizontal axis|null|
 |barRods| list of [BarChartRodData](#BarChartRodData) that are a bar line| []
-|barsSpace| space between barRods of the group|2|
+|barsSpace| the space between barRods of the group|2|
 
 
 ### BarChartAlignment
@@ -37,7 +37,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |y|endY position of the bar on vertical axis (height of the bar)|null|
-|color|color the bar rod|Colors.blueAccent|
+|color|colors the bar rod|Colors.blueAccent|
 |width|stroke width of the bar rod|8|
 |isRound|determines that the bar lines is round or qubic |true|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|

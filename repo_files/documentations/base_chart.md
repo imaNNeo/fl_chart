@@ -37,12 +37,12 @@
 |show|determines to show or hide the background grid data|true|
 |drawHorizontalGrid|determines to show or hide the horizontal grid lines|false|
 |horizontalInterval|interval space of grid|1.0|
-|horizontalGridColor|color the horizontal grid lines|Colors.grey|
+|horizontalGridColor|colors the horizontal grid lines|Colors.grey|
 |horizontalGridLineWidth|stroke width of horizontal grid lines |0.5|
 |checkToShowHorizontalGrid|a function to check whether to show or hide the horizontal grid by givingv the related axis value |showAllGrids|
 |drawVerticalGrid|determines to show or hide the vertical grid lines|false|
 |verticalInterval|interval space of grid|1.0|
-|verticalGridColor|color the vertical grid lines|Colors.grey|
+|verticalGridColor|colors the vertical grid lines|Colors.grey|
 |verticalGridLineWidth|stroke width of vertical grid lines |0.5|
 |checkToShowVerticalGrid|a function to check whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
 

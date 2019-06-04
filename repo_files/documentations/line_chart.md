@@ -31,7 +31,7 @@ FlChartWidget(
 |:---------------|:---------------|:-------|
 |show| determines to show or hide the bar line|true|
 |spots| list of [FlSpot](base_chart.md#FlSpot)'s x and y coordinates that the line go through it| []
-|colors| color the line, if multiple colors provided it will be gradient|[Colors.redAccent]|
+|colors| colors the line, if multiple colors provided it will be gradient|[Colors.redAccent]|
 |colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 |barWidth| gets the stroke width of the line bar|2.0|
 |isCurved| curves the corners of the line on the spot's positions| false|
@@ -45,7 +45,7 @@ FlChartWidget(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |show|determines to show or hide the below bar|true|
-|colors|color the below bar area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
+|colors|colors the below bar area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
 |gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
 |gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
@@ -55,7 +55,7 @@ FlChartWidget(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |show|determines to show or hide the dots|true|
-|dotColor|color the showing dot|Colors.blue|
+|dotColor|colors the showing dot|Colors.blue|
 |dotSize|size of showing dot|4.0|
 |checkToShowDot|a function to determine whether to show or not the dot on the given spot|showAllDots|
 
