@@ -44,8 +44,8 @@ class BarChartData extends FlAxisChartData {
     double maxY,
   ) {
     barGroups.forEach((barData) {
-      if (barData.barRods == null || barData.barRods.length <= 0) {
-        throw Exception("barRods could not be null or empty");
+      if (barData.barRods == null || barData.barRods.isEmpty) {
+        throw Exception('barRods could not be null or empty');
       }
     });
 

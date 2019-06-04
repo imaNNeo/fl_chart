@@ -35,8 +35,8 @@ class LineChartData extends FlAxisChartData {
     double maxY,
   ) {
     lineBarsData.forEach((lineBarChart) {
-      if (lineBarChart.spots == null || lineBarChart.spots.length <= 0) {
-        throw Exception("spots could not be null or empty");
+      if (lineBarChart.spots == null || lineBarChart.spots.isEmpty) {
+        throw Exception('spots could not be null or empty');
       }
     });
     if (lineBarsData.isNotEmpty) {

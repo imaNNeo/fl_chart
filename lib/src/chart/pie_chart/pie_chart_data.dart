@@ -68,7 +68,7 @@ class PieChartSectionData {
     this.showTitle = true,
     this.titleStyle =
         const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-    this.title = "1",
+    this.title = '1',
     this.titlePositionPercentageOffset = 0.5,
   });
 }
