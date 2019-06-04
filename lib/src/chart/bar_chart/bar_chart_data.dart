@@ -44,12 +44,12 @@ class BarChartData extends FlAxisChartData {
     double maxY,
   ) {
     barGroups.forEach((barData) {
-      if (barData.barRods == null || barData.barRods.length <= 0) {
-        throw Exception("barRods could not be null or empty");
+      if (barData.barRods == null || barData.barRods.isEmpty) {
+        throw Exception('barRods could not be null or empty');
       }
     });
 
-    if (barGroups.length > 0) {
+    if (barGroups.isNotEmpty) {
       var canModifyMinX = false;
       if (minX == null) {
         minX = barGroups[0].x.toDouble();
@@ -150,7 +150,7 @@ class BarChartGroupData {
   /// calculates the whole width of our group,
   /// by adding all rod's width and group space * rods count.
   double get width {
-    if (barRods.length == 0) {
+    if (barRods.isEmpty) {
       return 0;
     }
 

@@ -16,16 +16,16 @@ class BarChartPainter extends FlAxisChartPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size viewSize) {
-    super.paint(canvas, viewSize);
+  void paint(Canvas canvas, Size size) {
+    super.paint(canvas, size);
 
-    if (data.barGroups.length == 0) {
+    if (data.barGroups.isEmpty) {
       return;
     }
 
-    List<double> groupsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
-    drawBars(canvas, viewSize, groupsX);
-    drawTitles(canvas, viewSize, groupsX);
+    List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
+    drawBars(canvas, size, groupsX);
+    drawTitles(canvas, size, groupsX);
   }
 
   /// this method calculates the x of our showing groups,
@@ -199,13 +199,13 @@ class BarChartPainter extends FlAxisChartPainter {
         String text =
             data.titlesData.getVerticalTitles(data.gridData.verticalInterval * verticalCounter);
 
-        TextSpan span = new TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
-        TextPainter tp = new TextPainter(
+        TextSpan span = TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
+        TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + data.titlesData.verticalTitleMargin;
         y -= (tp.height / 2);
-        tp.paint(canvas, new Offset(x, y));
+        tp.paint(canvas, Offset(x, y));
 
         verticalCounter++;
       }
@@ -215,8 +215,8 @@ class BarChartPainter extends FlAxisChartPainter {
     groupsX.asMap().forEach((int index, double x) {
       String text = data.titlesData.getHorizontalTitles(index.toDouble());
 
-      TextSpan span = new TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
-      TextPainter tp = new TextPainter(
+      TextSpan span = TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
+      TextPainter tp = TextPainter(
           text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
       tp.layout();
 
@@ -259,6 +259,7 @@ class BarChartPainter extends FlAxisChartPainter {
   /// calculate left offset for draw the chart,
   /// maybe we want to show both left and right titles,
   /// then just the left titles will effect on this function.
+  @override
   double getLeftOffsetDrawSize() {
     double parentNeeded = super.getLeftOffsetDrawSize();
     if (data.titlesData.show && data.titlesData.showVerticalTitles) {

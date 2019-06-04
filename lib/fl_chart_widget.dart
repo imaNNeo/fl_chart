@@ -27,7 +27,7 @@ class FlChartWidget extends StatefulWidget {
     @required this.flChart,
   }) : super(key: key) {
     if (flChart == null) {
-      throw Exception("flChart might not be null");
+      throw Exception('flChart might not be null');
     }
   }
 

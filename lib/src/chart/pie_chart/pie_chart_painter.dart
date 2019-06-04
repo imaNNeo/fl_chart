@@ -26,7 +26,7 @@ class PieChartPainter extends FlChartPainter {
 
     sectionsSpaceClearPaint = Paint()
       ..style = PaintingStyle.fill
-      ..color = Color(0x000000000)
+      ..color = const Color(0x000000000)
       ..blendMode = BlendMode.srcOut;
 
     centerSpacePaint = Paint()
@@ -35,15 +35,15 @@ class PieChartPainter extends FlChartPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size viewSize) {
-    super.paint(canvas, viewSize);
-    if (data.sections.length == 0) {
+  void paint(Canvas canvas, Size size) {
+    super.paint(canvas, size);
+    if (data.sections.isEmpty) {
       return;
     }
 
-    drawCenterSpace(canvas, viewSize);
-    drawSections(canvas, viewSize);
-    drawTexts(canvas, viewSize);
+    drawCenterSpace(canvas, size);
+    drawSections(canvas, size);
+    drawTexts(canvas, size);
   }
 
   void drawCenterSpace(Canvas canvas, Size viewSize) {
@@ -54,7 +54,7 @@ class PieChartPainter extends FlChartPainter {
   }
 
   void drawSections(Canvas canvas, Size viewSize) {
-    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), new Paint());
+    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     double tempAngle = data.startDegreeOffset;
@@ -136,8 +136,8 @@ class PieChartPainter extends FlChartPainter {
       );
 
       if (section.showTitle) {
-        TextSpan span = new TextSpan(style: section.titleStyle, text: section.title);
-        TextPainter tp = new TextPainter(
+        TextSpan span = TextSpan(style: section.titleStyle, text: section.title);
+        TextPainter tp = TextPainter(
           text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
         tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));

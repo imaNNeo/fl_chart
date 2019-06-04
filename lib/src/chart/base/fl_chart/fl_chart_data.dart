@@ -11,9 +11,7 @@ class FlChartData {
   FlChartData({
     this.borderData,
   }) {
-    if (borderData == null) {
-      borderData = FlBorderData();
-    }
+    borderData ??= FlBorderData();
   }
 }
 
@@ -28,13 +26,11 @@ class FlBorderData {
     this.show = true,
     this.border,
   }) {
-    if (border == null) {
-      border = Border.all(
+    border ??= Border.all(
         color: Colors.black,
         width: 1.0,
         style: BorderStyle.solid,
       );
-    }
   }
 }
 
@@ -46,7 +42,7 @@ class FlBorderData {
 typedef GetTitleFunction = String Function(double value);
 
 String defaultGetTitle(double value) {
-  return "${value.toInt()}";
+  return '${value.toInt()}';
 }
 
 /// This class is responsible to hold data about showing titles.
