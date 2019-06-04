@@ -1,8 +1,9 @@
-import 'package:fl_chart/chart/bar_chart/bar_chart_painter.dart';
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
-import 'package:fl_chart/chart/line_chart/line_chart_painter.dart';
-import 'package:fl_chart/chart/pie_chart/pie_chart_painter.dart';
 import 'package:flutter/material.dart';
+
+import '../../bar_chart/bar_chart_painter.dart';
+import '../../line_chart/line_chart_painter.dart';
+import '../../pie_chart/pie_chart_painter.dart';
+import 'fl_chart_data.dart';
 
 /// this class is base class of our painters and
 /// it is responsible to draw borders of charts.

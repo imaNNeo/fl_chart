@@ -1,8 +1,7 @@
-import 'package:fl_chart/chart/base/fl_axis_chart/fl_axis_chart.dart';
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
-import 'package:fl_chart/chart/line_chart/line_chart_painter.dart';
-
+import '../base/fl_axis_chart/fl_axis_chart.dart';
+import '../base/fl_chart/fl_chart_painter.dart';
 import 'line_chart_data.dart';
+import 'line_chart_painter.dart';
 
 class LineChart extends FlAxisChart {
   final LineChartData lineChartData;

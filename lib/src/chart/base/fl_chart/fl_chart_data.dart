@@ -1,7 +1,3 @@
-import 'package:fl_chart/chart/bar_chart/bar_chart_data.dart';
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
-import 'package:fl_chart/chart/line_chart/line_chart_data.dart';
-import 'package:fl_chart/chart/pie_chart/pie_chart_data.dart';
 import 'package:flutter/material.dart';
 
 /// This class holds all data needed to [FlChartPainter],

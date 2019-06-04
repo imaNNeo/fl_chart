@@ -1,8 +1,9 @@
 import 'dart:ui';
 
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
-import 'package:fl_chart/chart/pie_chart/pie_chart.dart';
 import 'package:flutter/material.dart';
+
+import '../base/fl_chart/fl_chart_data.dart';
+import 'pie_chart.dart';
 
 /// Holds all data needed to draw [PieChart],
 class PieChartData extends FlChartData {

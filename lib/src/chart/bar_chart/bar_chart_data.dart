@@ -1,8 +1,9 @@
 import 'dart:ui';
 
-import 'package:fl_chart/chart/base/fl_axis_chart/fl_axis_chart_data.dart';
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
+
+import '../base/fl_axis_chart/fl_axis_chart_data.dart';
+import '../base/fl_chart/fl_chart_data.dart';
 
 /// This class is responsible to holds data to draw Bar Chart
 /// [barGroups] holds list of bar groups to show together,

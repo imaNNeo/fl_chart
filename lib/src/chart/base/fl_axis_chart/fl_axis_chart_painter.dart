@@ -1,8 +1,8 @@
-import 'package:fl_chart/chart/bar_chart/bar_chart_painter.dart';
-import 'package:fl_chart/chart/base/fl_axis_chart/fl_axis_chart_data.dart';
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_painter.dart';
-import 'package:fl_chart/chart/line_chart/line_chart_painter.dart';
 import 'package:flutter/material.dart';
+
+import '../../bar_chart/bar_chart_painter.dart';
+import '../../base/fl_chart/fl_chart_painter.dart';
+import 'fl_axis_chart_data.dart';
 
 /// This class is responsible to draw the grid behind all axis base charts.
 /// also we have two useful function [getPixelX] and [getPixelY] that used

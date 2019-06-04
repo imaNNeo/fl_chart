@@ -1,5 +1,6 @@
-import 'package:fl_chart/chart/base/fl_chart/fl_chart_data.dart';
 import 'package:flutter/material.dart';
+
+import '../fl_chart/fl_chart_data.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,

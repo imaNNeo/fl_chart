@@ -2,16 +2,16 @@ library fl_chart;
 
 import 'package:flutter/material.dart';
 
-import 'chart/base/fl_chart/fl_chart.dart';
+import 'src/chart/base/fl_chart/fl_chart.dart';
 
-export 'chart/bar_chart/bar_chart.dart';
-export 'chart/bar_chart/bar_chart_data.dart';
-export 'chart/base/fl_axis_chart/fl_axis_chart_data.dart';
-export 'chart/base/fl_chart/fl_chart_data.dart';
-export 'chart/line_chart/line_chart.dart';
-export 'chart/line_chart/line_chart_data.dart';
-export 'chart/pie_chart/pie_chart.dart';
-export 'chart/pie_chart/pie_chart_data.dart';
+export 'src/chart/bar_chart/bar_chart.dart';
+export 'src/chart/bar_chart/bar_chart_data.dart';
+export 'src/chart/base/fl_axis_chart/fl_axis_chart_data.dart';
+export 'src/chart/base/fl_chart/fl_chart_data.dart';
+export 'src/chart/line_chart/line_chart.dart';
+export 'src/chart/line_chart/line_chart_data.dart';
+export 'src/chart/pie_chart/pie_chart.dart';
+export 'src/chart/pie_chart/pie_chart_data.dart';
 
 
 /// A widget that holds a [FlChart] class
