@@ -16,16 +16,16 @@ class BarChartPainter extends FlAxisChartPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size viewSize) {
-    super.paint(canvas, viewSize);
+  void paint(Canvas canvas, Size size) {
+    super.paint(canvas, size);
 
     if (data.barGroups.isEmpty) {
       return;
     }
 
-    List<double> groupsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
-    drawBars(canvas, viewSize, groupsX);
-    drawTitles(canvas, viewSize, groupsX);
+    List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
+    drawBars(canvas, size, groupsX);
+    drawTitles(canvas, size, groupsX);
   }
 
   /// this method calculates the x of our showing groups,
@@ -259,6 +259,7 @@ class BarChartPainter extends FlAxisChartPainter {
   /// calculate left offset for draw the chart,
   /// maybe we want to show both left and right titles,
   /// then just the left titles will effect on this function.
+  @override
   double getLeftOffsetDrawSize() {
     double parentNeeded = super.getLeftOffsetDrawSize();
     if (data.titlesData.show && data.titlesData.showVerticalTitles) {

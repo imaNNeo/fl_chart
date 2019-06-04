@@ -26,7 +26,7 @@ class PieChartPainter extends FlChartPainter {
 
     sectionsSpaceClearPaint = Paint()
       ..style = PaintingStyle.fill
-      ..color = Color(0x000000000)
+      ..color = const Color(0x000000000)
       ..blendMode = BlendMode.srcOut;
 
     centerSpacePaint = Paint()
@@ -35,15 +35,15 @@ class PieChartPainter extends FlChartPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size viewSize) {
-    super.paint(canvas, viewSize);
+  void paint(Canvas canvas, Size size) {
+    super.paint(canvas, size);
     if (data.sections.isEmpty) {
       return;
     }
 
-    drawCenterSpace(canvas, viewSize);
-    drawSections(canvas, viewSize);
-    drawTexts(canvas, viewSize);
+    drawCenterSpace(canvas, size);
+    drawSections(canvas, size);
+    drawTexts(canvas, size);
   }
 
   void drawCenterSpace(Canvas canvas, Size viewSize) {

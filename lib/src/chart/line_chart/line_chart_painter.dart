@@ -313,6 +313,7 @@ class LineChartPainter extends FlAxisChartPainter {
   /// calculate left offset for draw the chart,
   /// maybe we want to show both left and right titles,
   /// then just the left titles will effect on this function.
+  @override
   double getLeftOffsetDrawSize() {
     double parentNeeded = super.getLeftOffsetDrawSize();
     if (data.titlesData.show && data.titlesData.showVerticalTitles) {
