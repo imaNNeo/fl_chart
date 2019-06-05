@@ -1,4 +1,4 @@
-import 'package:fl_chart/fl_chart_widget.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample2 extends StatelessWidget {
@@ -18,8 +18,8 @@ class LineChartSample2 extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
-          child: FlChartWidget(
-            flChart: LineChart(
+          child: FlChart(
+            chart: LineChart(
               LineChartData(
                 gridData: FlGridData(
                   show: true,

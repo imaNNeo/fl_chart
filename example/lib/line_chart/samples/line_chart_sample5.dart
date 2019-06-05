@@ -1,4 +1,4 @@
-import 'package:fl_chart/fl_chart_widget.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample5 extends StatelessWidget {
@@ -8,8 +8,8 @@ class LineChartSample5 extends StatelessWidget {
     return SizedBox(
       width: 300,
       height: 140,
-      child: FlChartWidget(
-        flChart: LineChart(
+      child: FlChart(
+        chart: LineChart(
           LineChartData(
             lineBarsData: [
               LineChartBarData(

@@ -1,4 +1,4 @@
-import 'package:fl_chart/fl_chart_widget.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'indicator.dart';
@@ -67,8 +67,8 @@ class PieChartSample1 extends StatelessWidget {
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: FlChartWidget(
-                  flChart: PieChart(
+                child: FlChart(
+                  chart: PieChart(
                     PieChartData(
                       startDegreeOffset: 180,
                       borderData: FlBorderData(

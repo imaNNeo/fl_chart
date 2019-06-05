@@ -28,7 +28,7 @@
 
 
 
-# BaseAxisChart (Line and Bar Charts)
+# AxisChart (Line and Bar Charts)
 
 
 ### FlGridData

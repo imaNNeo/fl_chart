@@ -1,21 +1,21 @@
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:flutter/material.dart';
 
-import '../../bar_chart/bar_chart_painter.dart';
-import '../../line_chart/line_chart_painter.dart';
-import '../../pie_chart/pie_chart_painter.dart';
-import 'fl_chart_data.dart';
+import 'base_chart_data.dart';
 
 /// this class is base class of our painters and
 /// it is responsible to draw borders of charts.
 /// concrete samples :
 /// [LineChartPainter], [BarChartPainter], [PieChartPainter]
-/// there is a data [D] that extends from [FlChartData],
+/// there is a data [D] that extends from [BaseChartData],
 /// that contains needed data to draw chart border in this phase.
-abstract class FlChartPainter<D extends FlChartData> extends CustomPainter {
+abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   Paint borderPaint;
 
-  FlChartPainter(this.data) {
+  BaseChartPainter(this.data) {
     borderPaint = Paint()
       ..style = PaintingStyle.stroke;
   }

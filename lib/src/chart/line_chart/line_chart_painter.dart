@@ -1,13 +1,13 @@
 import 'dart:ui' as ui;
 
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../base/fl_axis_chart/fl_axis_chart_data.dart';
-import '../base/fl_axis_chart/fl_axis_chart_painter.dart';
 import 'line_chart_data.dart';
 
-class LineChartPainter extends FlAxisChartPainter {
+class LineChartPainter extends AxisChartPainter {
   final LineChartData data;
 
   /// [barPaint] is responsible to painting the bar line

@@ -1,18 +1,18 @@
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:flutter/material.dart';
 
-import '../../bar_chart/bar_chart_painter.dart';
-import '../../base/fl_chart/fl_chart_painter.dart';
-import 'fl_axis_chart_data.dart';
+import 'axis_chart_data.dart';
 
 /// This class is responsible to draw the grid behind all axis base charts.
 /// also we have two useful function [getPixelX] and [getPixelY] that used
 /// in child classes -> [BarChartPainter], [LineChartPainter]
-abstract class FlAxisChartPainter<D extends FlAxisChartData> extends FlChartPainter<D> {
+abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainter<D> {
   final D data;
 
   Paint gridPaint;
 
-  FlAxisChartPainter(this.data) : super(data) {
+  AxisChartPainter(this.data) : super(data) {
     gridPaint = Paint()..style = PaintingStyle.fill;
   }
 

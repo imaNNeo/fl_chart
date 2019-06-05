@@ -4,13 +4,13 @@
 
 ### How to use
 ```
-FlChartWidget(
-      flChart: BarChart(
-        BarChartData(
-        	// read about it in the below section
-        ),
+FlChart(
+   chart: BarChart(
+      BarChartData(
+         // read about it in the below section
       ),
-    );
+   ),
+);
 ```
 
 ### BarChartData
