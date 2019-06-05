@@ -44,17 +44,6 @@ class LineChartPainter extends AxisChartPainter {
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
     Path barPath = _generateBarPath(viewSize, barData);
-    ui.PathMetrics pathMetrics = barPath.computeMetrics();
-
-    print('size: ${pathMetrics.length}');
-    for (ui.PathMetric pathMetric in pathMetrics) {
-      print(''
-        'contourIndex: ${pathMetric.contourIndex}, '
-        'length: ${pathMetric.length}, '
-        'isClosed: ${pathMetric.isClosed}'
-        '');
-    }
-
     drawBelowBar(canvas, viewSize, barPath, barData);
     drawBar(canvas, viewSize, barPath, barData);
     drawDots(canvas, viewSize, barData);
