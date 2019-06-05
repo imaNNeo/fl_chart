@@ -4,13 +4,13 @@
 
 ### How to use
 ```
-FlChartWidget(
-      flChart: PieChart(
-        PieChartData(
-        	// read about it in the below section
-        ),
+FlChart(
+   chart: PieChart(
+      PieChartData(
+         // read about it in the below section
       ),
-    );
+   ),
+);
 ```
 
 ### PieChartData

@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../base/fl_chart/fl_chart_data.dart';
+import '../base/base_chart/base_chart_data.dart';
 import 'pie_chart.dart';
 
 /// Holds all data needed to draw [PieChart],
-class PieChartData extends FlChartData {
+class PieChartData extends BaseChartData {
   final List<PieChartSectionData> sections;
   final double centerSpaceRadius;
   final Color centerSpaceColor;

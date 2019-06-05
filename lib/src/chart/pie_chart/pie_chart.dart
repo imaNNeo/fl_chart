@@ -1,14 +1,15 @@
-import '../base/fl_chart/fl_chart.dart';
-import '../base/fl_chart/fl_chart_data.dart';
-import '../base/fl_chart/fl_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+
 import 'pie_chart_data.dart';
 import 'pie_chart_painter.dart';
 
-class PieChart extends FlChart {
+class PieChart extends BaseChart {
   final PieChartData pieChartData;
 
   PieChart(this.pieChartData);
 
   @override
-  FlChartPainter<FlChartData> painter() => PieChartPainter(pieChartData);
+  BaseChartPainter<BaseChartData> painter() => PieChartPainter(pieChartData);
 }

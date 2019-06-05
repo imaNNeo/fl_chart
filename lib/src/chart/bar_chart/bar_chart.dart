@@ -1,10 +1,11 @@
-import '../base/fl_axis_chart/fl_axis_chart.dart';
-import '../base/fl_chart/fl_chart_data.dart';
-import '../base/fl_chart/fl_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+
 import 'bar_chart_data.dart';
 import 'bar_chart_painter.dart';
 
-class BarChart extends FlAxisChart {
+class BarChart extends AxisChart {
   final BarChartData barChartData;
 
   BarChart(
@@ -12,5 +13,5 @@ class BarChart extends FlAxisChart {
   );
 
   @override
-  FlChartPainter<FlChartData> painter() => BarChartPainter(barChartData);
+  BaseChartPainter<BaseChartData> painter() => BarChartPainter(barChartData);
 }

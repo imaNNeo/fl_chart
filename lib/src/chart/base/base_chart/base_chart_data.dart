@@ -1,14 +1,19 @@
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
 import 'package:flutter/material.dart';
 
-/// This class holds all data needed to [FlChartPainter],
+import 'base_chart_painter.dart';
+
+/// This class holds all data needed to [BaseChartPainter],
 /// in this phase just the [FlBorderData] provided
 /// to drawing chart border line,
 /// see inherited samples:
 /// [LineChartData], [BarChartData], [PieChartData]
-class FlChartData {
+class BaseChartData {
   FlBorderData borderData;
 
-  FlChartData({
+  BaseChartData({
     this.borderData,
   }) {
     borderData ??= FlBorderData();

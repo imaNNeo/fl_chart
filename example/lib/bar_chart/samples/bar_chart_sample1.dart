@@ -1,4 +1,4 @@
-import 'package:fl_chart/fl_chart_widget.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample1 extends StatelessWidget {
@@ -40,8 +40,8 @@ class BarChartSample1 extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: FlChartWidget(
-                    flChart: BarChart(BarChartData(
+                  child: FlChart(
+                    chart: BarChart(BarChartData(
                       titlesData: FlTitlesData(
                         show: true,
                         showHorizontalTitles: true,

@@ -1,16 +1,16 @@
 import 'dart:math' as math;
 
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../utils/utils.dart';
-import '../base/fl_chart/fl_chart_painter.dart';
 import 'pie_chart.dart';
 import 'pie_chart_data.dart';
 
 
 /// this class will paint the [PieChart] based on the [PieChartData]
-class PieChartPainter extends FlChartPainter {
+class PieChartPainter extends BaseChartPainter {
   final PieChartData data;
 
   /// [sectionPaint] responsible to paint each section

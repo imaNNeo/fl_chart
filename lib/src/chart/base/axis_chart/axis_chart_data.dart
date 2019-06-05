@@ -1,6 +1,6 @@
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
 
-import '../fl_chart/fl_chart_data.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -8,13 +8,13 @@ import '../fl_chart/fl_chart_data.dart';
 /// we use them to determine how much is the scale of chart,
 /// and calculate x and y according to the scale.
 /// each child have to set it in their constructor.
-class FlAxisChartData extends FlChartData {
+class AxisChartData extends BaseChartData {
   final FlGridData gridData;
 
   double minX, maxX;
   double minY, maxY;
 
-  FlAxisChartData({
+  AxisChartData({
     this.gridData = const FlGridData(),
     FlBorderData borderData,
     this.minX, this.maxX,

@@ -1,15 +1,14 @@
 import 'dart:ui';
 
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
-
-import '../base/fl_axis_chart/fl_axis_chart_data.dart';
-import '../base/fl_chart/fl_chart_data.dart';
 
 /// This class is responsible to holds data to draw Bar Chart
 /// [barGroups] holds list of bar groups to show together,
 /// [alignment] is the alignment of showing groups,
 /// [titlesData] holds data about drawing left and bottom titles.
-class BarChartData extends FlAxisChartData {
+class BarChartData extends AxisChartData {
   final List<BarChartGroupData> barGroups;
   final BarChartAlignment alignment;
   final FlTitlesData titlesData;
@@ -33,7 +32,7 @@ class BarChartData extends FlAxisChartData {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
 
-  /// we have to tell [FlAxisChartData] how much is our
+  /// we have to tell [AxisChartData] how much is our
   /// minX, maxX, minY, maxY, values.
   /// here we get them in our constructor, but if each of them was null,
   /// we calculate it with the barGroups, and barRods data.

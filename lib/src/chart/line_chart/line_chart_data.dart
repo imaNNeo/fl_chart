@@ -1,14 +1,13 @@
 import 'dart:ui';
 
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
-
-import '../base/fl_axis_chart/fl_axis_chart_data.dart';
-import '../base/fl_chart/fl_chart_data.dart';
 
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
-class LineChartData extends FlAxisChartData {
+class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
 
