@@ -50,6 +50,9 @@ flutter packages get
 ### 3 - Learn it like a charm
 ##### Read the docs from [here](repo_files/documentations/index.md)
 
+### 4 - Follow the roadmap
+##### you can follow the roadmap from [here](repo_files/documentations/roadmap.md), and (let me know your suggestions)
+
 
 ### And the last but not least 🔥
 ##### :beer: pull requests are welcome!
