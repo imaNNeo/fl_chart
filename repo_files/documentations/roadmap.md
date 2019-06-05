@@ -1,10 +1,10 @@
 ## Roadmap
 
 
-[] Add Interactivity
+- [ ] Add Interactivity
 
-[] Add Animations
+- [ ] Add Animations
 
-[] Add stacked column chart (on our BarChart)
+- [ ] Add stacked column chart (on our BarChart)
 
 let me know your suggestions to add here
