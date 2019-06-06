@@ -21,15 +21,12 @@ class BarChartData extends AxisChartData {
       show: false,
     ),
     FlBorderData borderData,
-    double minX,
-    double maxX,
-    double minY,
     double maxY,
   }) : super(
           gridData: gridData,
           borderData: borderData,
         ) {
-    initSuperMinMaxValues(minX, maxX, minY, maxY);
+    initSuperMinMaxValues(maxY);
   }
 
   /// we have to tell [AxisChartData] how much is our
@@ -37,9 +34,6 @@ class BarChartData extends AxisChartData {
   /// here we get them in our constructor, but if each of them was null,
   /// we calculate it with the barGroups, and barRods data.
   void initSuperMinMaxValues(
-    double minX,
-    double maxX,
-    double minY,
     double maxY,
   ) {
     barGroups.forEach((barData) {
@@ -49,24 +43,6 @@ class BarChartData extends AxisChartData {
     });
 
     if (barGroups.isNotEmpty) {
-      var canModifyMinX = false;
-      if (minX == null) {
-        minX = barGroups[0].x.toDouble();
-        canModifyMinX = true;
-      }
-
-      var canModifyMaxX = false;
-      if (maxX == null) {
-        maxX = barGroups[0].x.toDouble();
-        canModifyMaxX = true;
-      }
-
-      var canModifyMinY = false;
-      if (minY == null) {
-        minY = barGroups[0].barRods[0].y;
-        canModifyMinY = true;
-      }
-
       var canModifyMaxY = false;
       if (maxY == null) {
         maxY = barGroups[0].barRods[0].y;
@@ -74,30 +50,16 @@ class BarChartData extends AxisChartData {
       }
 
       barGroups.forEach((barGroup) {
-        if (canModifyMaxX && barGroup.x.toDouble() > maxX) {
-          maxX = barGroup.x.toDouble();
-        }
-
-        if (canModifyMinX && barGroup.x.toDouble() < minX) {
-          minX = barGroup.x.toDouble();
-        }
 
         barGroup.barRods.forEach((rod) {
           if (canModifyMaxY && rod.y > maxY) {
             maxY = rod.y;
           }
 
-          if (canModifyMinY && rod.y < minY) {
-            minY = rod.y;
-          }
-
-          if (canModifyMaxY && rod.backDrawRodData.y != null && rod.backDrawRodData.y > maxY) {
+          if (canModifyMaxY && rod.backDrawRodData.show && rod.backDrawRodData.y != null && rod.backDrawRodData.y > maxY) {
             maxY = rod.backDrawRodData.y;
           }
 
-          if (canModifyMinY && rod.backDrawRodData.y != null && rod.backDrawRodData.y < minY) {
-            minY = rod.backDrawRodData.y;
-          }
         });
       });
     } else {
@@ -108,9 +70,9 @@ class BarChartData extends AxisChartData {
       minX = 0;
     }
 
-    super.minX = minX;
-    super.maxX = maxX;
-    super.minY = minY;
+    super.minX = 0;
+    super.maxX = 0;
+    super.minY = 0;
     super.maxY = maxY;
   }
 }

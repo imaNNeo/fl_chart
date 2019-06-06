@@ -88,7 +88,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     double spotY,
     Size chartUsableSize,
   ) {
-    final double y = (data.maxY - data.minY) - spotY + data.minY;
-    return ((y / (data.maxY - data.minY)) * chartUsableSize.height) + getTopOffsetDrawSize();
+    double y = ((spotY - data.minY) / (data.maxY - data.minY)) * chartUsableSize.height;
+    y = chartUsableSize.height - y;
+    return y + getTopOffsetDrawSize();
   }
 }
