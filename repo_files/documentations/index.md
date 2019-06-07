@@ -11,4 +11,4 @@ click and learn more about them.
 - [PieChart](pie_chart.md)
 
 
-- [ComposedChart (using Stack Widget)](pie_chart.md)
+- [ComposedChart (using Stack Widget)](composed_stack_chart.md)
