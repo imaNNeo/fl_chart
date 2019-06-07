@@ -10,10 +10,12 @@ import 'package:flutter/material.dart';
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
+  final ExtraLinesData extraLinesData;
 
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
+    this.extraLinesData,
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -35,7 +37,7 @@ class LineChartData extends AxisChartData {
   ) {
     lineBarsData.forEach((lineBarChart) {
       if (lineBarChart.spots == null || lineBarChart.spots.isEmpty) {
-        throw Exception('spots could not be null or empty');
+        throw Exception('spots must not be null or empty');
       }
     });
     if (lineBarsData.isNotEmpty) {
@@ -129,6 +131,9 @@ class LineChartBarData {
   /// to show dot spots upon the line chart
   final FlDotData dotData;
 
+  // to show line chart annotations such as average line and vertical dot lines
+  final ExtraLinesData extraLinesData;
+
   const LineChartBarData({
     this.spots = const [],
     this.show = true,
@@ -140,6 +145,7 @@ class LineChartBarData {
     this.isStrokeCapRound = false,
     this.belowBarData = const BelowBarData(),
     this.dotData = const FlDotData(),
+    this.extraLinesData = const ExtraLinesData(),
   });
 }
 
@@ -198,4 +204,52 @@ class FlDotData {
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
   });
+}
+
+/// This class holds data about drawing chart annotations (data decorations) such as average line and data point lines
+class ExtraLinesData {
+  final bool show;
+
+  // Average line
+  final bool showAverageLine;
+  final LineStyle averageLineStyle;
+
+  // Data point lines
+  final bool showDataPointLines;
+  final bool terminateAtChartLine;
+  final LineStyle dataPointLineStyle;
+
+  const ExtraLinesData({
+    this.show = true,
+
+    // Average line
+    this.showAverageLine = true,
+    this.averageLineStyle = const LineStyle(),
+
+    // Data point lines
+    this.showDataPointLines = true,
+    this.terminateAtChartLine = true,
+    this.dataPointLineStyle = const LineStyle(),
+  });
+}
+
+class LineStyle {
+  final Color color;
+  final double width;
+  final bool dashed;
+  final DashDefinition dashDefinition;
+
+  const LineStyle({
+    this.color = Colors.black12,
+    this.width = 1,
+    this.dashed = false,
+    this.dashDefinition = const DashDefinition(solidWidth: 1, gapWidth: 3.5)
+  });
+}
+
+class DashDefinition {
+  final double solidWidth;
+  final double gapWidth;
+
+  const DashDefinition({this.solidWidth, this.gapWidth});
 }

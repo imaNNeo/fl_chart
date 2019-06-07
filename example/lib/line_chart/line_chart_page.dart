@@ -1,3 +1,5 @@
+import 'package:example/line_chart/samples/line_chart_sample6.dart';
+
 import 'samples/line_chart_sample1.dart';
 import 'samples/line_chart_sample2.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,16 @@ class LineChartPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 28.0, right: 28),
             child: LineChartSample2(),
+          ),
+          SizedBox(
+            height: 22,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 28.0, right: 28),
+            child: LineChartSample6(),
+          ),
+          SizedBox(
+            height: 22,
           ),
         ],
       ),

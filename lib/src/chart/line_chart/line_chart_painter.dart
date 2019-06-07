@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
@@ -13,7 +14,8 @@ class LineChartPainter extends AxisChartPainter {
   /// [barPaint] is responsible to painting the bar line
   /// [belowBarPaint] is responsible to fill the below space of our bar line
   /// [dotPaint] is responsible to draw dots on spot points
-  Paint barPaint, belowBarPaint, dotPaint;
+  /// [extraLinesPaint] is responsible for drawing chart annotations, such as average line and dot lines
+  Paint barPaint, belowBarPaint, dotPaint, extraLinesPaint;
 
   LineChartPainter(
     this.data,
@@ -25,6 +27,9 @@ class LineChartPainter extends AxisChartPainter {
 
     dotPaint = Paint()
       ..style = PaintingStyle.fill;
+
+    extraLinesPaint = Paint()
+      ..style = PaintingStyle.stroke;
   }
 
   @override
@@ -40,6 +45,8 @@ class LineChartPainter extends AxisChartPainter {
     });
 
     drawTitles(canvas, viewSize);
+
+    drawAnnotation(canvas, viewSize);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -326,4 +333,93 @@ class LineChartPainter extends AxisChartPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+
+  void drawAnnotation(Canvas canvas, Size viewSize) {
+    if (data.extraLinesData != null && data.extraLinesData.show) {
+      if (data.extraLinesData.showAverageLine) {
+        _drawAverageLine(canvas, viewSize);
+      }
+      if (data.extraLinesData.showDataPointLines) {
+        _drawDataPointLines(canvas, viewSize);
+      }
+      return;
+    }
+  }
+
+  void _drawDataPointLines(Canvas canvas, Size viewSize) {
+    viewSize = getChartUsableDrawSize(viewSize);
+    extraLinesPaint.color = data.extraLinesData.dataPointLineStyle.color;
+    extraLinesPaint.strokeWidth = data.extraLinesData.dataPointLineStyle.width;
+
+    for (LineChartBarData item in data.lineBarsData) {
+      for (FlSpot spot in item.spots) {
+        final double x = getPixelX(spot.x, viewSize);
+        final double y = getPixelY(spot.y, viewSize);
+
+        if (data.extraLinesData.dataPointLineStyle.dashed) {
+          _drawDashedLine(canvas, x, viewSize.height, x, y, data.extraLinesData.dataPointLineStyle.dashDefinition);
+        } else {
+          canvas.drawLine(Offset(x, viewSize.height), Offset(x, y), extraLinesPaint);
+        }
+      }
+    }
+  }
+
+  void _drawAverageLine(Canvas canvas, Size viewSize) {
+    viewSize = getChartUsableDrawSize(viewSize);
+    extraLinesPaint.color = data.extraLinesData.averageLineStyle.color;
+    extraLinesPaint.strokeWidth = data.extraLinesData.averageLineStyle.width;
+
+    final double sum = data.lineBarsData
+        .map((item) => item.spots.map((spot) => spot.y).reduce((value, element) => value + element))
+        .reduce((value, element) => value + element);
+    double numElements = 0;
+    for (LineChartBarData item in data.lineBarsData) {
+      numElements += item.spots.length;
+    }
+    final double average = sum / numElements;
+    final double yPos = getPixelY(average, viewSize);
+
+    if (data.extraLinesData.averageLineStyle.dashed) {
+      _drawDashedLine(canvas, 0, yPos, viewSize.width, yPos, data.extraLinesData.averageLineStyle.dashDefinition);
+    } else {
+      final Path averageLinePath = Path();
+      averageLinePath.reset();
+      averageLinePath.moveTo(0, yPos);
+      averageLinePath.lineTo(viewSize.width, yPos);
+      canvas.drawPath(averageLinePath, extraLinesPaint);
+    }
+  }
+
+  void _drawDashedLine(Canvas canvas, double startX, double startY, double endX, double endY,
+      DashDefinition dashDefinition) {
+    final double originalVectorLength = sqrt(pow(endX - startX, 2) + pow(endY - startY, 2));
+    double vectorLength = originalVectorLength;
+    bool on = true;
+
+    final List<double> normalVector =  _normalizeVector(startX, startY, endX, endY);
+
+    while (vectorLength >= 0) {
+      final double progress = 1 - (vectorLength / originalVectorLength);
+      final double x1 = startX + (endX - startX) * progress;
+      final double y1 = startY + (endY - startY) * progress;
+      if (on) {
+        final double width = data.extraLinesData.averageLineStyle.dashDefinition.solidWidth;
+        final double x2 = x1 + (normalVector[0] * width);
+        final double y2 = y1 + (normalVector[1] * width);
+        canvas.drawLine(Offset(x1, y1), Offset(x2, y2), extraLinesPaint);
+        vectorLength -= width;
+      } else {
+        vectorLength -= data.extraLinesData.averageLineStyle.dashDefinition.gapWidth;
+      }
+      on = !on;
+    }
+  }
+
+  List<double> _normalizeVector(double startX, double startY, double endX, double endY) {
+    final List<double> normal = [endX - startX, endY - startY];
+    final double magnitude = sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
+    final List<double> un = [normal[0] / magnitude, normal[1] / magnitude];
+    return un;
+  }
 }
