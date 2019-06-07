@@ -5,6 +5,8 @@
 
 - [ ] Add Animations
 
+- [ ] Add Scatter Plot chart
+
 - [ ] Add Zoom feature
 
 - [ ] Add stacked column chart (on our BarChart)
