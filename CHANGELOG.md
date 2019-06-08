@@ -11,3 +11,6 @@
 
 ## 0.0.4
 * fixed bug of adding bar with y = 0 on bar chart #13
+
+## 0.0.5
+* added clipToBorder to the LineChartData to clip the drawing to the border, #3
