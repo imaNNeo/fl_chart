@@ -24,6 +24,7 @@ FlChart(
 |maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
 |minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
 |maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
+|clipToBorder| clip the chart to the border (prevent drawing outside the border) | false|
 
 
 ### LineChartBarData

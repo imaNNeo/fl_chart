@@ -14,11 +14,15 @@ class AxisChartData extends BaseChartData {
   double minX, maxX;
   double minY, maxY;
 
+  /// clip the chart to the border (prevent draw outside the border)
+  bool clipToBorder;
+
   AxisChartData({
     this.gridData = const FlGridData(),
     FlBorderData borderData,
     this.minX, this.maxX,
     this.minY, this.maxY,
+    this.clipToBorder = false,
   }) : super(borderData: borderData);
 }
 
