@@ -5,7 +5,11 @@
 
 - [ ] Add Animations
 
-- [ ] Add Scatter Plot chart
+- [ ] Add ScatterPlot chart
+
+- [ ] Add HeatMap Chart [see more](https://altair-viz.github.io/gallery/simple_heatmap.html)
+
+- [ ] Composability
 
 - [ ] Add Zoom feature
 
