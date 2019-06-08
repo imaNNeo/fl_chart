@@ -139,7 +139,7 @@ class BarChartPainter extends AxisChartPainter {
         double barWidth = barRod.width;
 
         double barHeight = (fromY - toY).abs();
-        while (barHeight < barWidth) {
+        while (barHeight != 0 && barHeight < barWidth) {
           barWidth -= barWidth * 0.1;
         }
 
@@ -163,7 +163,7 @@ class BarChartPainter extends AxisChartPainter {
         barPaint.strokeCap = barRod.isRound ? StrokeCap.round : StrokeCap.butt;
 
         /// Draw [BackgroundBarChartRodData]
-        if (barRod.backDrawRodData.show) {
+        if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
           from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
           to = Offset(x, getPixelY(barRod.backDrawRodData.y, drawSize) + roundedRadius,);
           barPaint.color = barRod.backDrawRodData.color;
@@ -171,10 +171,12 @@ class BarChartPainter extends AxisChartPainter {
         }
 
         // draw Main Rod
-        from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
-        to = Offset(x, getPixelY(barRod.y, drawSize) + roundedRadius,);
-        barPaint.color = barRod.color;
-        canvas.drawLine(from, to, barPaint);
+        if (barRod.y != 0) {
+          from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
+          to = Offset(x, getPixelY(barRod.y, drawSize) + roundedRadius,);
+          barPaint.color = barRod.color;
+          canvas.drawLine(from, to, barPaint);
+        }
 
         tempX += barRod.width + barGroup.barsSpace;
       });
