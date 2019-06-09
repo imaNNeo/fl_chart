@@ -360,5 +360,6 @@ class LineChartPainter extends AxisChartPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(LineChartPainter oldDelegate) =>
+      oldDelegate.data != this.data;
 }

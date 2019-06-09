@@ -272,5 +272,6 @@ class BarChartPainter extends AxisChartPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(BarChartPainter oldDelegate) =>
+      oldDelegate.data != this.data;
 }

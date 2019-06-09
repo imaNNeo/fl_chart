@@ -148,6 +148,6 @@ class PieChartPainter extends BaseChartPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
-
+  bool shouldRepaint(PieChartPainter oldDelegate) =>
+      oldDelegate.data != this.data;
 }
