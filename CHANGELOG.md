@@ -1,3 +1,7 @@
+## 0.0.6
+* fixed charts repainting bug, #16
+
+
 ## 0.0.5
 * added clipToBorder to the LineChartData to clip the drawing to the border, #3
 
