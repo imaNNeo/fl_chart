@@ -94,3 +94,13 @@ class FlTitlesData {
     this.verticalTitleMargin = 6,
   });
 }
+
+class FlLine {
+  final Color color;
+  final double strokeWidth;
+
+  const FlLine({
+    this.color = Colors.black,
+    this.strokeWidth = 1
+  });
+}

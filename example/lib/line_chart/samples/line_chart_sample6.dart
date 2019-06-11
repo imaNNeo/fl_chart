@@ -11,6 +11,8 @@ class LineChartSample6 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<FlSpot> spots = _getSeriesSpots();
+
     return AspectRatio(
       aspectRatio: 1.23,
       child: Container(
@@ -41,18 +43,16 @@ class LineChartSample6 extends StatelessWidget {
                       gridData: const FlGridData(
                         show: false,
                       ),
-                      extraLinesData: const ExtraLinesData(
+                      extraLinesData: ExtraLinesData(
                         show: true,
-                          showAverageLine: true,
-                        averageLineStyle: LineStyle(
+                        horizontalLines: [
+                          HorizontalLine(
+                            y: _getChartAverage(),
                             color: Colors.black26,
-                            dashed: true,
-                            dashDefinition: DashDefinition(solidWidth: 2, gapWidth: 2)
-                        ),
-                        showDataPointLines: true,
-                        dataPointLineStyle: LineStyle(
-                          color: Colors.black12
-                        )
+                            dashDefinition: const DashDefinition(solidWidth: 2, gapWidth: 2)
+                          )
+                        ],
+                        verticalLines: _getDataPointLines(spots),
                       ),
                       titlesData: FlTitlesData(
                         horizontalTitlesTextStyle: TextStyle(
@@ -88,7 +88,7 @@ class LineChartSample6 extends StatelessWidget {
                       maxY: _maxY,
                       lineBarsData: [
                         LineChartBarData(
-                          spots: _getSeriesSpots(),
+                          spots: spots,
                           isCurved: true,
                           colors: [
                             const Color(0xff3badc4),
@@ -122,5 +122,21 @@ class LineChartSample6 extends StatelessWidget {
       spots.add(FlSpot(index, _minY + (_maxY - _minY) * rnd.nextDouble()));
     }
     return spots;
+  }
+
+  double _getChartAverage() {
+    final List<FlSpot> spots = _getSeriesSpots();
+    final double sum = spots
+        .map((item) => item.y)
+        .reduce((value, element) => value + element);
+    return sum / spots.length;
+  }
+
+  List<VerticalLine> _getDataPointLines(List<FlSpot> spots) {
+    final List<VerticalLine> dataPointLines = [];
+    for (FlSpot spot in spots) {
+      dataPointLines.add(VerticalLine(color: Colors.black26, x: spot.x, endY: spot.y));
+    }
+    return dataPointLines;
   }
 }

@@ -208,50 +208,60 @@ class FlDotData {
   });
 }
 
-/// This class holds data about drawing chart annotations (data decorations) such as average line and data point lines
-class ExtraLinesData {
-  final bool show;
-
-  // Average line
-  final bool showAverageLine;
-  final LineStyle averageLineStyle;
-
-  // Data point lines
-  final bool showDataPointLines;
-  final bool terminateAtChartLine;
-  final LineStyle dataPointLineStyle;
-
-  const ExtraLinesData({
-    this.show = true,
-
-    // Average line
-    this.showAverageLine = true,
-    this.averageLineStyle = const LineStyle(),
-
-    // Data point lines
-    this.showDataPointLines = true,
-    this.terminateAtChartLine = true,
-    this.dataPointLineStyle = const LineStyle(),
-  });
-}
-
-class LineStyle {
-  final Color color;
-  final double width;
-  final bool dashed;
-  final DashDefinition dashDefinition;
-
-  const LineStyle({
-    this.color = Colors.black12,
-    this.width = 1,
-    this.dashed = false,
-    this.dashDefinition = const DashDefinition(solidWidth: 1, gapWidth: 3.5)
-  });
-}
-
 class DashDefinition {
   final double solidWidth;
   final double gapWidth;
 
   const DashDefinition({this.solidWidth, this.gapWidth});
+}
+
+class LineChartLine extends FlLine {
+  final DashDefinition dashDefinition;
+
+  const LineChartLine({
+    Color color,
+    double strokeWidth,
+    this.dashDefinition,
+  }) : super(color: color, strokeWidth: strokeWidth);
+}
+
+class VerticalLine extends LineChartLine {
+  final double x;
+  final double endY;
+
+  const VerticalLine({
+    @required this.x,
+    this.endY,
+    DashDefinition dashDefinition,
+    Color color = Colors.black,
+    double strokeWidth = 1,
+  }) : super(color: color, strokeWidth: strokeWidth, dashDefinition: dashDefinition);
+}
+
+class HorizontalLine extends LineChartLine {
+  final double y;
+  final double endX;
+
+  const HorizontalLine({
+    @required this.y,
+    this.endX,
+    DashDefinition dashDefinition,
+    Color color = Colors.black,
+    double strokeWidth = 1,
+  }) : super(color: color, strokeWidth: strokeWidth, dashDefinition: dashDefinition);
+}
+
+/// This class holds data about drawing chart annotations (data decorations) such as average line and data point lines
+class ExtraLinesData {
+  final bool show;
+
+  // Horizontal and vertical line definitions
+  final List<HorizontalLine> horizontalLines;
+  final List<VerticalLine> verticalLines;
+
+  const ExtraLinesData({
+    this.show = true,
+    this.horizontalLines,
+    this.verticalLines,
+  });
 }
