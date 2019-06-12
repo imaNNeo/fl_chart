@@ -1,3 +1,7 @@
+## 0.0.7
+* added ExtraLinesData in the LineChartData to draw extra horizontal and vertical lines on LineChart
+* added BelowSpotsLine in the BlowBarData to draw lines from spot to the bottom of chart on LineChart
+
 ## 0.0.6
 * fixed charts repainting bug, #16
 

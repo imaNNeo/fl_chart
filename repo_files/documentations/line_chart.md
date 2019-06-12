@@ -18,6 +18,7 @@ FlChart(
 |:---------------|:---------------|:-------|
 |lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to show the chart's lines, they stack and be drawn on top of each other|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
+|extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
@@ -50,6 +51,15 @@ FlChart(
 |gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
 |gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|belowSpotsLine| draw a line from each spot to the bottom of the chart|[BelowSpotsLine](#BelowSpotsLine)()|
+
+
+### BelowSpotsLine
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|show|determines show or hide the below spots line|true|
+|flLineStyle|a [FlLine](base_chart.md#FlLine) object that determines style of the line|[Colors.blueGrey]|
+|checkToShowSpotBelowLine|a function to determine whether to show or hide the below line on the given spot|showAllSpotsBelowLine|
 
 
 ### FlDotData
@@ -59,6 +69,32 @@ FlChart(
 |dotColor|colors the showing dot|Colors.blue|
 |dotSize|size of showing dot|4.0|
 |checkToShowDot|a function to determine whether to show or hide the dot on the given spot|showAllDots|
+
+
+### HorizontalLine
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|x|draw straight line from bottom to top of the chart with dynamic x value|null|
+|color|color of the line|Colors.black|
+|strokeWidth|strokeWidth of the line|2|
+
+
+### VerticalLine
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|x|draw straight line from left to right of the chart with dynamic y value|null|
+|color|color of the line|Colors.black|
+|strokeWidth|strokeWidth of the line|2|
+
+
+### ExtraLinesData
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|showHorizontalLines|determines to show or hide the horizontal lines|false|
+|horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
+|showVerticalLines|determines to show or hide the vertical lines|false|
+|verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
+
 
 ### some samples
 ----

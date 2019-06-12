@@ -3,7 +3,7 @@
 
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
-[![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/fl_chart_samples_0.0.1.apk)
+[![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/fl_chart_samples_0.0.7.apk)
 
 ![FL Chart Logo](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/landing_logo.jpg)
 
@@ -36,7 +36,7 @@ Thank you all!
 
 ```kotlin
 dependencies:
-  fl_chart: ^0.0.6
+  fl_chart: ^0.0.7
 ```
 
 

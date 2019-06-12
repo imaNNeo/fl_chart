@@ -14,7 +14,8 @@ class LineChartPainter extends AxisChartPainter {
   /// [belowBarPaint] is responsible to fill the below space of our bar line
   /// [dotPaint] is responsible to draw dots on spot points
   /// [clearAroundBorderPaint] is responsible to clip the border
-  Paint barPaint, belowBarPaint, dotPaint, clearAroundBorderPaint;
+  Paint barPaint, belowBarPaint, belowBarLinePaint,
+    dotPaint, clearAroundBorderPaint, extraLinesPaint;
 
   LineChartPainter(
     this.data,
@@ -24,6 +25,9 @@ class LineChartPainter extends AxisChartPainter {
 
     belowBarPaint = Paint()..style = PaintingStyle.fill;
 
+    belowBarLinePaint = Paint()
+      ..style = PaintingStyle.stroke;
+
     dotPaint = Paint()
       ..style = PaintingStyle.fill;
 
@@ -31,6 +35,9 @@ class LineChartPainter extends AxisChartPainter {
       ..style = PaintingStyle.stroke
       ..color = const Color(0x000000000)
       ..blendMode = BlendMode.dstIn;
+
+    extraLinesPaint = Paint()
+      ..style = PaintingStyle.stroke;
   }
 
   @override
@@ -58,6 +65,8 @@ class LineChartPainter extends AxisChartPainter {
     }
 
     drawTitles(canvas, viewSize);
+
+    drawExtraLines(canvas, viewSize);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -184,6 +193,32 @@ class LineChartPainter extends AxisChartPainter {
     }
 
     canvas.drawPath(belowBarPath, belowBarPaint);
+
+
+    /// draw below spots line
+    if (barData.belowBarData.belowSpotsLine != null) {
+      for (FlSpot spot in barData.spots) {
+        if (barData.belowBarData.belowSpotsLine.show &&
+          barData.belowBarData.belowSpotsLine.checkToShowSpotBelowLine(spot)) {
+          final Offset from = Offset(
+            getPixelX(spot.x, chartViewSize),
+            getPixelY(spot.y, chartViewSize),
+          );
+
+          final double bottomPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
+          final Offset to = Offset(
+            getPixelX(spot.x, chartViewSize),
+            viewSize.height - bottomPadding,
+          );
+
+          belowBarLinePaint.color = barData.belowBarData.belowSpotsLine.flLineStyle.color;
+          belowBarLinePaint.strokeWidth =
+            barData.belowBarData.belowSpotsLine.flLineStyle.strokeWidth;
+
+          canvas.drawLine(from, to, belowBarLinePaint);
+        }
+      }
+    }
   }
 
   void drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
@@ -317,6 +352,46 @@ class LineChartPainter extends AxisChartPainter {
     }
   }
 
+  void drawExtraLines(Canvas canvas, Size viewSize) {
+    if (data.extraLinesData == null) {
+      return;
+    }
+
+    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+
+    if (data.extraLinesData.showHorizontalLines) {
+      for (HorizontalLine line in data.extraLinesData.horizontalLines) {
+
+        final double topChartPadding = getTopOffsetDrawSize();
+        final Offset from = Offset(getPixelX(line.x, chartUsableSize), topChartPadding);
+
+        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
+        final Offset to = Offset(getPixelX(line.x, chartUsableSize), viewSize.height - bottomChartPadding);
+
+        extraLinesPaint.color = line.color;
+        extraLinesPaint.strokeWidth = line.strokeWidth;
+
+        canvas.drawLine(from, to, extraLinesPaint);
+      }
+    }
+
+    if (data.extraLinesData.showVerticalLines) {
+      for (VerticalLine line in data.extraLinesData.verticalLines) {
+
+        final double leftChartPadding = getLeftOffsetDrawSize();
+        final Offset from = Offset(leftChartPadding, getPixelY(line.y, chartUsableSize));
+
+        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
+        final Offset to = Offset(viewSize.width - rightChartPadding, getPixelY(line.y, chartUsableSize));
+
+        extraLinesPaint.color = line.color;
+        extraLinesPaint.strokeWidth = line.strokeWidth;
+
+        canvas.drawLine(from, to, extraLinesPaint);
+      }
+    }
+  }
+
   /// We add our needed horizontal space to parent needed.
   /// we have some titles that maybe draw in the left side of our chart,
   /// then we should draw the chart a with some left space,
@@ -362,4 +437,5 @@ class LineChartPainter extends AxisChartPainter {
   @override
   bool shouldRepaint(LineChartPainter oldDelegate) =>
       oldDelegate.data != this.data;
+
 }

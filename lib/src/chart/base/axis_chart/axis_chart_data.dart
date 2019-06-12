@@ -84,3 +84,16 @@ class FlGridData {
     this.checkToShowVerticalGrid = showAllGrids,
   });
 }
+
+
+/// This class can be used wherever we want draw a straight line,
+/// and contains visual properties
+class FlLine {
+  final Color color;
+  final double strokeWidth;
+
+  const FlLine({
+    this.color = Colors.black,
+    this.strokeWidth = 2,
+  });
+}

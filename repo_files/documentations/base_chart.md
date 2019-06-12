@@ -53,3 +53,11 @@
 |:-------|:----------|:------------|
 |x|represents x on the coordinate system (x starts from left)|null|
 |y|represents y on the coordinate system (y starts from bottom)|null|
+
+
+
+### FlLine
+|propName|Description|default valkue|
+|:-------|:----------|:------------|
+|color|determines the color of line|Colors.black|
+|strokeWidth|determines the stroke width of the line|2|
