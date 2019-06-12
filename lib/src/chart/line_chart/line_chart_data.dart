@@ -218,7 +218,7 @@ class HorizontalLine extends FlLine {
   }) : super(color: color, strokeWidth: strokeWidth);
 }
 
-/// This class holds data about drawing chart annotations (data decorations) such as average line and data point lines
+/// This class holds data about drawing horizontal lines at user specified locations in the chart
 class ExtraLinesData {
   final bool show;
 

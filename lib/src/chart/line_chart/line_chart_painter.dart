@@ -190,22 +190,6 @@ class LineChartPainter extends AxisChartPainter {
     }
 
     canvas.drawPath(belowBarPath, belowBarPaint);
-
-    _drawVerticalBelowBarLines(canvas, viewSize, barData);
-  }
-
-  void _drawVerticalBelowBarLines(Canvas canvas, Size viewSize, LineChartBarData barData) {
-    if (barData.belowBarData.verticalLines == null) {
-      return;
-    }
-    viewSize = getChartUsableDrawSize(viewSize);
-    for (FlSpot spot in barData.spots) {
-      extraLinesPaint.color = barData.belowBarData.verticalLines.color;
-      extraLinesPaint.strokeWidth = barData.belowBarData.verticalLines.strokeWidth;
-      final double x = getPixelX(spot.x, viewSize);
-      final double y = getPixelY(spot.y, viewSize);
-      _drawSolidLine(canvas, extraLinesPaint, x, viewSize.height, x, y);
-    }
   }
 
   void drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
@@ -339,6 +323,36 @@ class LineChartPainter extends AxisChartPainter {
     }
   }
 
+  void drawExtraLines(Canvas canvas, Size viewSize) {
+    // Draw vertical data point lines under spots
+    viewSize = getChartUsableDrawSize(viewSize);
+    for (LineChartBarData barData in data.lineBarsData) {
+      if (barData.belowBarData.verticalLines == null) {
+        return;
+      }
+      extraLinesPaint.color = barData.belowBarData.verticalLines.color;
+      extraLinesPaint.strokeWidth = barData.belowBarData.verticalLines.strokeWidth;
+      for (FlSpot spot in barData.spots) {
+        final double x = getPixelX(spot.x, viewSize);
+        final double y = getPixelY(spot.y, viewSize);
+        _drawSolidLine(canvas, extraLinesPaint, x, viewSize.height, x, y);
+      }
+    }
+
+    // Draw horizontal lines at user specified height locations
+    if (data.extraLinesData != null && data.extraLinesData.show && data.extraLinesData.horizontalLines != null) {
+      viewSize = getChartUsableDrawSize(viewSize);
+      for (HorizontalLine line in data.extraLinesData.horizontalLines) {
+        extraLinesPaint.color = line.color;
+        extraLinesPaint.strokeWidth = line.strokeWidth;
+        final double x = viewSize.width;
+        final double y = getPixelY(line.x, viewSize);
+        _drawSolidLine(canvas, extraLinesPaint, 0, y, x, y);
+      }
+      return;
+    }
+  }
+
   /// We add our needed horizontal space to parent needed.
   /// we have some titles that maybe draw in the left side of our chart,
   /// then we should draw the chart a with some left space,
@@ -381,34 +395,14 @@ class LineChartPainter extends AxisChartPainter {
     return parentNeeded;
   }
 
-  @override
-  bool shouldRepaint(LineChartPainter oldDelegate) =>
-      oldDelegate.data != this.data;
-
-  void drawExtraLines(Canvas canvas, Size viewSize) {
-    if (data.extraLinesData != null && data.extraLinesData.show) {
-      if (data.extraLinesData.horizontalLines != null) {
-        for (HorizontalLine line in data.extraLinesData.horizontalLines) {
-          _drawHorizontalLineLine(canvas, viewSize, line);
-        }
-      }
-      return;
-    }
-  }
-
-  void _drawHorizontalLineLine(Canvas canvas, Size viewSize, HorizontalLine line) {
-    viewSize = getChartUsableDrawSize(viewSize);
-    extraLinesPaint.color = line.color;
-    extraLinesPaint.strokeWidth = line.strokeWidth;
-    final double x = viewSize.width;
-    final double y = getPixelY(line.x, viewSize);
-    _drawSolidLine(canvas, extraLinesPaint, 0, y, x, y);
-  }
-
   void _drawSolidLine(Canvas canvas, Paint paint, double startX, double startY, double endX, double endY) {
     final Path linePath = Path();
     linePath.moveTo(startX, startY);
     linePath.lineTo(endX, endY);
     canvas.drawPath(linePath, extraLinesPaint);
   }
+
+  @override
+  bool shouldRepaint(LineChartPainter oldDelegate) =>
+      oldDelegate.data != this.data;
 }
