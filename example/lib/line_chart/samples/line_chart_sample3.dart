@@ -32,8 +32,8 @@ class LineChartSample3 extends StatelessWidget {
                   verticalLines: [
                     VerticalLine(
                       y: 1.8,
-                      color: Colors.green.withOpacity(0.3),
-                      strokeWidth: 8,
+                      color: Colors.green.withOpacity(0.7),
+                      strokeWidth: 4,
                     ),
                   ]
 
