@@ -10,10 +10,12 @@ import 'package:flutter/material.dart';
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
+  final ExtraLinesData extraLinesData;
 
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
+    this.extraLinesData = const ExtraLinesData(),
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -199,5 +201,46 @@ class FlDotData {
     this.dotColor = Colors.blue,
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
+  });
+}
+
+
+/// horizontal lines draw from bottom to top of the chart,
+/// and the x is dynamic
+class HorizontalLine extends FlLine {
+  final double x;
+  HorizontalLine({
+    this.x,
+    Color color = Colors.black,
+    double strokeWidth = 2,
+  }) : super(color: color, strokeWidth: strokeWidth);
+}
+
+/// vertical lines draw from left to right of the chart
+/// and the y is dynamic
+class VerticalLine extends FlLine {
+  final double y;
+  VerticalLine({
+    this.y,
+    Color color = Colors.black,
+    double strokeWidth = 2,
+  }) : super(color: color, strokeWidth: strokeWidth);
+}
+
+/// we use ExtraLinesData to draw straight horizontal and vertical lines,
+/// for example if you want show the average values of the y axis,
+/// you can calculate the average and draw a vertical line by setting the y.
+class ExtraLinesData {
+  final bool showHorizontalLines;
+  final List<HorizontalLine> horizontalLines;
+
+  final bool showVerticalLines;
+  final List<VerticalLine> verticalLines;
+
+  const ExtraLinesData({
+    this.showHorizontalLines = false,
+    this.horizontalLines = const [],
+    this.showVerticalLines = false,
+    this.verticalLines = const [],
   });
 }
