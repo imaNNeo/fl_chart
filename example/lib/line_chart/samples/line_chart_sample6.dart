@@ -47,7 +47,7 @@ class LineChartSample6 extends StatelessWidget {
                         show: true,
                         horizontalLines: [
                           HorizontalLine(
-                            y: _getChartAverage(),
+                            x: _getChartAverage(),
                             color: Colors.black26,
                           )
                         ],
@@ -99,7 +99,7 @@ class LineChartSample6 extends StatelessWidget {
                           belowBarData: BelowBarData(
                             show: true,
                             colors: [Colors.white],
-                            verticalLines: _getDataPointLines(spots),
+                            verticalLines: FlLine(color: Colors.black26),
                           ),
                         ),
                       ],
@@ -130,9 +130,5 @@ class LineChartSample6 extends StatelessWidget {
         .map((item) => item.y)
         .reduce((value, element) => value + element);
     return sum / spots.length;
-  }
-
-  List<VerticalLine> _getDataPointLines(List<FlSpot> spots) {
-    return spots.map((spot) => VerticalLine(color: Colors.black26, x: spot.x)).toList();
   }
 }

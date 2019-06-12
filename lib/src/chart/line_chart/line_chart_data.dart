@@ -167,7 +167,7 @@ class BelowBarData {
   final Offset gradientTo;
 
 
-  final List<VerticalLine> verticalLines;
+  final FlLine verticalLines;
 
   /// if more than one color provided gradientColorStops will hold
   /// stop points of the gradient.
@@ -208,21 +208,11 @@ class FlDotData {
   });
 }
 
-class VerticalLine extends FlLine {
+class HorizontalLine extends FlLine {
   final double x;
 
-  const VerticalLine({
-    @required this.x,
-    Color color = Colors.black,
-    double strokeWidth = 1,
-  }) : super(color: color, strokeWidth: strokeWidth);
-}
-
-class HorizontalLine extends FlLine {
-  final double y;
-
   const HorizontalLine({
-    @required this.y,
+    @required this.x,
     Color color = Colors.black,
     double strokeWidth = 1,
   }) : super(color: color, strokeWidth: strokeWidth);

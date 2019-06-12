@@ -195,28 +195,17 @@ class LineChartPainter extends AxisChartPainter {
   }
 
   void _drawVerticalBelowBarLines(Canvas canvas, Size viewSize, LineChartBarData barData) {
-    if (barData.belowBarData.verticalLines == null || barData.belowBarData.verticalLines.isEmpty) {
+    if (barData.belowBarData.verticalLines == null) {
       return;
     }
     viewSize = getChartUsableDrawSize(viewSize);
-    for (VerticalLine line in barData.belowBarData.verticalLines) {
-      final FlSpot spot = _findSpotAtX(line.x, barData);
-      if (spot == null) {
-        continue;
-      }
-      extraLinesPaint.color = line.color;
-      extraLinesPaint.strokeWidth = line.strokeWidth;
-      final double x = getPixelX(line.x, viewSize);
+    for (FlSpot spot in barData.spots) {
+      extraLinesPaint.color = barData.belowBarData.verticalLines.color;
+      extraLinesPaint.strokeWidth = barData.belowBarData.verticalLines.strokeWidth;
+      final double x = getPixelX(spot.x, viewSize);
       final double y = getPixelY(spot.y, viewSize);
       _drawSolidLine(canvas, extraLinesPaint, x, viewSize.height, x, y);
     }
-  }
-
-  FlSpot _findSpotAtX(double x, LineChartBarData barData) {
-    if (x < 0 || x > barData.spots.length) {
-      return null;
-    }
-    return barData.spots[x.toInt()];
   }
 
   void drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
@@ -412,7 +401,7 @@ class LineChartPainter extends AxisChartPainter {
     extraLinesPaint.color = line.color;
     extraLinesPaint.strokeWidth = line.strokeWidth;
     final double x = viewSize.width;
-    final double y = getPixelY(line.y, viewSize);
+    final double y = getPixelY(line.x, viewSize);
     _drawSolidLine(canvas, extraLinesPaint, 0, y, x, y);
   }
 
