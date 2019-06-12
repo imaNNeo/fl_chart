@@ -51,6 +51,15 @@ FlChart(
 |gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
 |gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|belowSpotsLine| draw a line from each spot to the bottom of the chart|[BelowSpotsLine](#BelowSpotsLine)()|
+
+
+### BelowSpotsLine
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|show|determines show or hide the below spots line|true|
+|flLineStyle|a [FlLine](base_chart.md#FlLine) object that determines style of the line|[Colors.blueGrey]|
+|checkToShowSpotBelowLine|a function to determine whether to show or hide the below line on the given spot|showAllSpotsBelowLine|
 
 
 ### FlDotData

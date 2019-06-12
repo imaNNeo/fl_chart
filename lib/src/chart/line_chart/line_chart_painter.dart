@@ -14,7 +14,8 @@ class LineChartPainter extends AxisChartPainter {
   /// [belowBarPaint] is responsible to fill the below space of our bar line
   /// [dotPaint] is responsible to draw dots on spot points
   /// [clearAroundBorderPaint] is responsible to clip the border
-  Paint barPaint, belowBarPaint, dotPaint, clearAroundBorderPaint, extraLinesPaint;
+  Paint barPaint, belowBarPaint, belowBarLinePaint,
+    dotPaint, clearAroundBorderPaint, extraLinesPaint;
 
   LineChartPainter(
     this.data,
@@ -23,6 +24,9 @@ class LineChartPainter extends AxisChartPainter {
       ..style = PaintingStyle.stroke;
 
     belowBarPaint = Paint()..style = PaintingStyle.fill;
+
+    belowBarLinePaint = Paint()
+      ..style = PaintingStyle.stroke;
 
     dotPaint = Paint()
       ..style = PaintingStyle.fill;
@@ -189,6 +193,32 @@ class LineChartPainter extends AxisChartPainter {
     }
 
     canvas.drawPath(belowBarPath, belowBarPaint);
+
+
+    /// draw below spots line
+    if (barData.belowBarData.belowSpotsLine != null) {
+      for (FlSpot spot in barData.spots) {
+        if (barData.belowBarData.belowSpotsLine.show &&
+          barData.belowBarData.belowSpotsLine.checkToShowSpotBelowLine(spot)) {
+          final Offset from = Offset(
+            getPixelX(spot.x, chartViewSize),
+            getPixelY(spot.y, chartViewSize),
+          );
+
+          final double bottomPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
+          final Offset to = Offset(
+            getPixelX(spot.x, chartViewSize),
+            viewSize.height - bottomPadding,
+          );
+
+          belowBarLinePaint.color = barData.belowBarData.belowSpotsLine.flLineStyle.color;
+          belowBarLinePaint.strokeWidth =
+            barData.belowBarData.belowSpotsLine.flLineStyle.strokeWidth;
+
+          canvas.drawLine(from, to, belowBarLinePaint);
+        }
+      }
+    }
   }
 
   void drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {

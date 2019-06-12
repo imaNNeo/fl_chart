@@ -92,7 +92,7 @@ class FlLine {
   final Color color;
   final double strokeWidth;
 
-  FlLine({
+  const FlLine({
     this.color = Colors.black,
     this.strokeWidth = 2,
   });

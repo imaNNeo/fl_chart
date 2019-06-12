@@ -9,8 +9,17 @@ class LineChartSample3 extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const Text('Average Line',
-          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16),),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Text('Average Line',
+              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16),),
+            const Text(' and ',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),),
+            const Text('Indiactors',
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16),),
+          ],
+        ),
         const SizedBox(height: 18,),
         SizedBox(
           width: 300,
@@ -54,6 +63,20 @@ class LineChartSample3 extends StatelessWidget {
                       gradientColorStops: [0.5, 1.0],
                       gradientFrom: Offset(0, 0),
                       gradientTo: Offset(0, 1),
+                      belowSpotsLine: BelowSpotsLine(
+                        show: true,
+                        flLineStyle: const FlLine(
+                          color: Colors.blue,
+                          strokeWidth: 2,
+                        ),
+                        checkToShowSpotBelowLine: (spot) {
+                          if (spot.x == 0 || spot.x == 6) {
+                            return false;
+                          }
+
+                          return true;
+                        }
+                      )
                     ),
                     dotData: FlDotData(
                       show: true,

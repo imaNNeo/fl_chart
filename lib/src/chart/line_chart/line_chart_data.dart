@@ -170,12 +170,40 @@ class BelowBarData {
   /// stop points of the gradient.
   final List<double> gradientColorStops;
 
+
+  /// holds data for drawing a line from each spot the the bottom of the chart
+  final BelowSpotsLine belowSpotsLine;
+
   const BelowBarData({
     this.show = true,
     this.colors = const [Colors.blueGrey],
     this.gradientFrom = const Offset(0, 0),
     this.gradientTo = const Offset(1, 0),
     this.gradientColorStops,
+    this.belowSpotsLine = const BelowSpotsLine(),
+  });
+}
+
+
+typedef CheckToShowSpotBelowLine = bool Function(FlSpot spot);
+
+bool showAllSpotsBelowLine(FlSpot spot) {
+  return true;
+}
+
+class BelowSpotsLine {
+  final bool show;
+
+  /// determines style of the line
+  final FlLine flLineStyle;
+
+  /// a function to determine whether to show or hide the below line on the given spot
+  final CheckToShowSpotBelowLine checkToShowSpotBelowLine;
+
+  const BelowSpotsLine({
+    this.show = false,
+    this.flLineStyle = const FlLine(),
+    this.checkToShowSpotBelowLine = showAllSpotsBelowLine,
   });
 }
 
