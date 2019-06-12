@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
@@ -15,7 +14,7 @@ class LineChartPainter extends AxisChartPainter {
   /// [belowBarPaint] is responsible to fill the below space of our bar line
   /// [dotPaint] is responsible to draw dots on spot points
   /// [clearAroundBorderPaint] is responsible to clip the border
-  /// [extraLinesPaint] is responsible for drawing chart annotations, such as average line and dot lines
+  /// [extraLinesPaint] is responsible for drawing extra user defined vertical and horizontal lines
   Paint barPaint, belowBarPaint, dotPaint, clearAroundBorderPaint, extraLinesPaint;
 
   LineChartPainter(
@@ -64,7 +63,7 @@ class LineChartPainter extends AxisChartPainter {
 
     drawTitles(canvas, viewSize);
 
-    drawAnnotation(canvas, viewSize);
+    drawExtraLines(canvas, viewSize);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -191,6 +190,33 @@ class LineChartPainter extends AxisChartPainter {
     }
 
     canvas.drawPath(belowBarPath, belowBarPaint);
+
+    _drawVerticalBelowBarLines(canvas, viewSize, barData);
+  }
+
+  void _drawVerticalBelowBarLines(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    if (barData.belowBarData.verticalLines == null || barData.belowBarData.verticalLines.isEmpty) {
+      return;
+    }
+    viewSize = getChartUsableDrawSize(viewSize);
+    for (VerticalLine line in barData.belowBarData.verticalLines) {
+      final FlSpot spot = _findSpotAtX(line.x, barData);
+      if (spot == null) {
+        continue;
+      }
+      extraLinesPaint.color = line.color;
+      extraLinesPaint.strokeWidth = line.strokeWidth;
+      final double x = getPixelX(line.x, viewSize);
+      final double y = getPixelY(spot.y, viewSize);
+      _drawSolidLine(canvas, extraLinesPaint, x, viewSize.height, x, y);
+    }
+  }
+
+  FlSpot _findSpotAtX(double x, LineChartBarData barData) {
+    if (x < 0 || x > barData.spots.length) {
+      return null;
+    }
+    return barData.spots[x.toInt()];
   }
 
   void drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
@@ -370,16 +396,11 @@ class LineChartPainter extends AxisChartPainter {
   bool shouldRepaint(LineChartPainter oldDelegate) =>
       oldDelegate.data != this.data;
 
-  void drawAnnotation(Canvas canvas, Size viewSize) {
+  void drawExtraLines(Canvas canvas, Size viewSize) {
     if (data.extraLinesData != null && data.extraLinesData.show) {
       if (data.extraLinesData.horizontalLines != null) {
         for (HorizontalLine line in data.extraLinesData.horizontalLines) {
           _drawHorizontalLineLine(canvas, viewSize, line);
-        };
-      }
-      if (data.extraLinesData.verticalLines != null) {
-        for (VerticalLine line in data.extraLinesData.verticalLines) {
-          _drawVerticalLineLine(canvas, viewSize, line);
         }
       }
       return;
@@ -390,26 +411,9 @@ class LineChartPainter extends AxisChartPainter {
     viewSize = getChartUsableDrawSize(viewSize);
     extraLinesPaint.color = line.color;
     extraLinesPaint.strokeWidth = line.strokeWidth;
-    final double x = line.endX == null ? viewSize.width : getPixelX(line.endX, viewSize);
+    final double x = viewSize.width;
     final double y = getPixelY(line.y, viewSize);
-    if (line.dashDefinition != null) {
-      _drawDashedLine(canvas, extraLinesPaint, 0, y, x, y, line.dashDefinition);
-    } else {
-      _drawSolidLine(canvas, extraLinesPaint, 0, y, x, y);
-    }
-  }
-
-  void _drawVerticalLineLine(Canvas canvas, Size viewSize, VerticalLine line) {
-    viewSize = getChartUsableDrawSize(viewSize);
-    extraLinesPaint.color = line.color;
-    extraLinesPaint.strokeWidth = line.strokeWidth;
-    final double x = getPixelX(line.x, viewSize);
-    final double y = line.endY == null ? 0 : getPixelY(line.endY, viewSize);
-    if (line.dashDefinition != null) {
-      _drawDashedLine(canvas, extraLinesPaint, x, viewSize.height, x, y, line.dashDefinition);
-    } else {
-      _drawSolidLine(canvas, extraLinesPaint, x, viewSize.height, x, y);
-    }
+    _drawSolidLine(canvas, extraLinesPaint, 0, y, x, y);
   }
 
   void _drawSolidLine(Canvas canvas, Paint paint, double startX, double startY, double endX, double endY) {
@@ -417,37 +421,5 @@ class LineChartPainter extends AxisChartPainter {
     linePath.moveTo(startX, startY);
     linePath.lineTo(endX, endY);
     canvas.drawPath(linePath, extraLinesPaint);
-  }
-
-  void _drawDashedLine(Canvas canvas, Paint paint, double startX, double startY, double endX, double endY,
-      DashDefinition dashDefinition) {
-    final double originalVectorLength = sqrt(pow(endX - startX, 2) + pow(endY - startY, 2));
-    double vectorLength = originalVectorLength;
-    bool on = true;
-
-    final List<double> normalVector =  _normalizeVector(startX, startY, endX, endY);
-
-    while (vectorLength >= 0) {
-      final double progress = 1 - (vectorLength / originalVectorLength);
-      final double x1 = startX + (endX - startX) * progress;
-      final double y1 = startY + (endY - startY) * progress;
-      if (on) {
-        final double width = dashDefinition.solidWidth;
-        final double x2 = x1 + (normalVector[0] * width);
-        final double y2 = y1 + (normalVector[1] * width);
-        canvas.drawLine(Offset(x1, y1), Offset(x2, y2), paint);
-        vectorLength -= width;
-      } else {
-        vectorLength -= dashDefinition.gapWidth;
-      }
-      on = !on;
-    }
-  }
-
-  List<double> _normalizeVector(double startX, double startY, double endX, double endY) {
-    final List<double> normal = [endX - startX, endY - startY];
-    final double magnitude = sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
-    final List<double> un = [normal[0] / magnitude, normal[1] / magnitude];
-    return un;
   }
 }

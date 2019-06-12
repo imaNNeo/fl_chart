@@ -49,10 +49,8 @@ class LineChartSample6 extends StatelessWidget {
                           HorizontalLine(
                             y: _getChartAverage(),
                             color: Colors.black26,
-                            dashDefinition: const DashDefinition(solidWidth: 2, gapWidth: 2)
                           )
                         ],
-                        verticalLines: _getDataPointLines(spots),
                       ),
                       titlesData: FlTitlesData(
                         horizontalTitlesTextStyle: TextStyle(
@@ -98,8 +96,10 @@ class LineChartSample6 extends StatelessWidget {
                           dotData: const FlDotData(
                             show: false,
                           ),
-                          belowBarData: const BelowBarData(
-                            show: false,
+                          belowBarData: BelowBarData(
+                            show: true,
+                            colors: [Colors.white],
+                            verticalLines: _getDataPointLines(spots),
                           ),
                         ),
                       ],
@@ -133,10 +133,6 @@ class LineChartSample6 extends StatelessWidget {
   }
 
   List<VerticalLine> _getDataPointLines(List<FlSpot> spots) {
-    final List<VerticalLine> dataPointLines = [];
-    for (FlSpot spot in spots) {
-      dataPointLines.add(VerticalLine(color: Colors.black26, x: spot.x, endY: spot.y));
-    }
-    return dataPointLines;
+    return spots.map((spot) => VerticalLine(color: Colors.black26, x: spot.x)).toList();
   }
 }
