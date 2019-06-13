@@ -12,14 +12,18 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   final D data;
 
   Paint gridPaint;
+  Paint backgroundPaint;
 
   AxisChartPainter(this.data) : super(data) {
     gridPaint = Paint()..style = PaintingStyle.fill;
+    backgroundPaint = Paint()..style = PaintingStyle.fill;
   }
 
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
+
+    drawBackground(canvas, size);
     drawGrid(canvas, size);
   }
 
@@ -74,6 +78,25 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
         horizontalSeek += data.gridData.horizontalInterval;
       }
     }
+  }
+
+  /// This function draws a colored background behind the chart.
+  void drawBackground(Canvas canvas, Size viewSize) {
+    if (data.backgroundColor == null) {
+      return;
+    }
+
+    final Size usableViewSize = getChartUsableDrawSize(viewSize);
+    backgroundPaint.color = data.backgroundColor;
+    canvas.drawRect(
+      Rect.fromLTWH(
+        getLeftOffsetDrawSize(),
+        getTopOffsetDrawSize(),
+        usableViewSize.width,
+        usableViewSize.height,
+      ),
+      backgroundPaint,
+    );
   }
 
   /// With this function we can convert our [FlSpot] x

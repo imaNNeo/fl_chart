@@ -22,9 +22,11 @@ class BarChartData extends AxisChartData {
     ),
     FlBorderData borderData,
     double maxY,
+    Color backgroundColor,
   }) : super(
           gridData: gridData,
           borderData: borderData,
+          backgroundColor: backgroundColor,
         ) {
     initSuperMinMaxValues(maxY);
   }
