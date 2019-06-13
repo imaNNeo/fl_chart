@@ -17,12 +17,16 @@ class AxisChartData extends BaseChartData {
   /// clip the chart to the border (prevent draw outside the border)
   bool clipToBorder;
 
+  /// A background color which is drawn behind th chart.
+  Color backgroundColor;
+
   AxisChartData({
     this.gridData = const FlGridData(),
     FlBorderData borderData,
     this.minX, this.maxX,
     this.minY, this.maxY,
     this.clipToBorder = false,
+    this.backgroundColor,
   }) : super(borderData: borderData);
 }
 

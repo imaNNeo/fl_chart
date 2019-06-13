@@ -23,10 +23,12 @@ class LineChartData extends AxisChartData {
     double minY,
     double maxY,
     bool clipToBorder = false,
+    Color backgroundColor,
   }) : super(
     gridData: gridData,
     borderData: borderData,
     clipToBorder: clipToBorder,
+    backgroundColor: backgroundColor,
   ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
