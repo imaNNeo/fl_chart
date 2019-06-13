@@ -20,6 +20,8 @@ class AxisChartData extends BaseChartData {
   /// A background color which is drawn behind th chart.
   Color backgroundColor;
 
+  bool invertYAxis;
+
   AxisChartData({
     this.gridData = const FlGridData(),
     FlBorderData borderData,
@@ -27,6 +29,7 @@ class AxisChartData extends BaseChartData {
     this.minY, this.maxY,
     this.clipToBorder = false,
     this.backgroundColor,
+    this.invertYAxis = false,
   }) : super(borderData: borderData);
 }
 

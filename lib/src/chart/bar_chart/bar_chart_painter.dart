@@ -155,6 +155,10 @@ class BarChartPainter extends AxisChartPainter {
         double widthHalf = barRod.width / 2;
         double roundedRadius = barRod.isRound ? widthHalf : 0;
 
+        // we need to invert the rounded radius, so it's later removed/added
+        // properly (reduces further if/else) 
+        roundedRadius *= data.invertYAxis ? -1 : 1;
+
         double x = barsX[groupIndex] - (barGroup.width / 2) + tempX + widthHalf;
 
         Offset from, to;
@@ -205,7 +209,7 @@ class BarChartPainter extends AxisChartPainter {
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + data.titlesData.verticalTitleMargin;
-        y -= (tp.height / 2);
+        y -= (tp.height / 2)+getTopOffsetDrawSize();
         tp.paint(canvas, Offset(x, y));
 
         verticalCounter++;
@@ -222,8 +226,10 @@ class BarChartPainter extends AxisChartPainter {
       tp.layout();
 
       double textX = x - (tp.width / 2);
-      double textY =
-          drawSize.height + getTopOffsetDrawSize() + data.titlesData.horizontalTitleMargin;
+      double textY = 4; // <-- this is a wild guess, please check and verify
+      if (data.invertYAxis == false) {
+        textY = drawSize.height + getTopOffsetDrawSize() + data.titlesData.horizontalTitleMargin;
+      }
 
       tp.paint(canvas, Offset(textX, textY));
     });
@@ -269,6 +275,17 @@ class BarChartPainter extends AxisChartPainter {
         data.titlesData.verticalTitleMargin;
     }
     return parentNeeded;
+  }
+
+  /// calculate top offset for draw the chart,
+  /// if the y axis is inverted, we just return the space that is used
+  /// for the horizontal titles
+  @override
+  double getTopOffsetDrawSize() {
+    if (data.invertYAxis) {
+      return getExtraNeededVerticalSpace();
+    }
+    return super.getTopOffsetDrawSize();
   }
 
   @override

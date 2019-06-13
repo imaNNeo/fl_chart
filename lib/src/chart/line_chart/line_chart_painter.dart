@@ -140,15 +140,21 @@ class LineChartPainter extends AxisChartPainter {
     var belowBarPath = Path.from(barPath);
 
     Size chartViewSize = getChartUsableDrawSize(viewSize);
+ 
 
     /// Line To Bottom Right
     double x = getPixelX(barData.spots[barData.spots.length - 1].x, chartViewSize);
-    double y = chartViewSize.height - getTopOffsetDrawSize();
+    double y;
+    if (data.invertYAxis) {
+      y = getTopOffsetDrawSize();
+    } else {
+      y = chartViewSize.height - getTopOffsetDrawSize();
+    }
     belowBarPath.lineTo(x, y);
 
     /// Line To Bottom Left
     x = getPixelX(barData.spots[0].x, chartViewSize);
-    y = chartViewSize.height - getTopOffsetDrawSize();
+    // y = chartViewSize.height - getTopOffsetDrawSize(); <-- unneccesary since it's identical to the previous declaration
     belowBarPath.lineTo(x, y);
 
     /// Line To Top Left
@@ -306,11 +312,12 @@ class LineChartPainter extends AxisChartPainter {
 
     // Vertical Titles
     if (data.titlesData.showVerticalTitles) {
+      double yOffset = (data.invertYAxis) ? 0 : getTopOffsetDrawSize();
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
         double y = getPixelY(verticalSeek, viewSize) +
-            getTopOffsetDrawSize();
+            yOffset;
 
         final String text =
             data.titlesData.getVerticalTitles(verticalSeek);
@@ -329,10 +336,14 @@ class LineChartPainter extends AxisChartPainter {
 
     // Horizontal titles
     if (data.titlesData.showHorizontalTitles) {
+      double baseY = 0;
+      if (data.invertYAxis == false) {
+        baseY = viewSize.height + getTopOffsetDrawSize();
+      }
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
         double x = getPixelX(horizontalSeek, viewSize);
-        double y = viewSize.height + getTopOffsetDrawSize();
+        double y = baseY;
 
         String text = data.titlesData
             .getHorizontalTitles(horizontalSeek);
@@ -432,6 +443,17 @@ class LineChartPainter extends AxisChartPainter {
         data.titlesData.verticalTitleMargin;
     }
     return parentNeeded;
+  }
+
+  /// calculate top offset for draw the chart,
+  /// if the y axis is inverted, we just return the space that is used
+  /// for the horizontal titles
+  @override
+  double getTopOffsetDrawSize() {
+    if (data.invertYAxis) {
+      return getExtraNeededVerticalSpace();
+    }
+    return super.getTopOffsetDrawSize();
   }
 
   @override

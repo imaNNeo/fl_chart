@@ -24,11 +24,13 @@ class LineChartData extends AxisChartData {
     double maxY,
     bool clipToBorder = false,
     Color backgroundColor,
+    bool invertYAxis = false,
   }) : super(
     gridData: gridData,
     borderData: borderData,
     clipToBorder: clipToBorder,
     backgroundColor: backgroundColor,
+    invertYAxis: invertYAxis,
   ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }

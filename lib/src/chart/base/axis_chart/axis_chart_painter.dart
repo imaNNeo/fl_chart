@@ -38,13 +38,16 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       gridPaint.strokeWidth = data.gridData.verticalGridLineWidth;
 
       double verticalSeek = data.minY;
+      // precalculated top offset 
+      // no top offset when axis is inverted
+      final topOffset = data.invertYAxis ? 0 : getTopOffsetDrawSize();
       while (verticalSeek < data.maxY) {
         if (data.gridData.checkToShowVerticalGrid(verticalSeek)) {
           final double bothY = getPixelY(verticalSeek, usableViewSize);
           final double x1 = 0 + getLeftOffsetDrawSize();
-          final double y1 = bothY + getTopOffsetDrawSize();
+          final double y1 = bothY + topOffset;
           final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
-          final double y2 = bothY + getTopOffsetDrawSize();
+          final double y2 = bothY + topOffset;
           canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
@@ -113,7 +116,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     Size chartUsableSize,
   ) {
     double y = ((spotY - data.minY) / (data.maxY - data.minY)) * chartUsableSize.height;
-    y = chartUsableSize.height - y;
+    if (data.invertYAxis != true) {
+      y = chartUsableSize.height - y;
+    }
     return y + getTopOffsetDrawSize();
   }
 }
