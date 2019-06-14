@@ -24,10 +24,18 @@ class LineChartSample2 extends StatelessWidget {
                 gridData: FlGridData(
                   show: true,
                   drawHorizontalGrid: true,
-                  verticalGridColor: Color(0xff37434d),
-                  verticalGridLineWidth: 1,
-                  horizontalGridColor: Color(0xff37434d),
-                  horizontalGridLineWidth: 1,
+                  getDrawingVerticalGridLine: (value) {
+                    return const FlLine(
+                      color: Color(0xff37434d),
+                      strokeWidth:  1,
+                    );
+                  },
+                  getDrawingHorizontalGridLine: (value) {
+                    return const FlLine(
+                      color: Color(0xff37434d),
+                      strokeWidth: 1,
+                    );
+                  },
                 ),
                 titlesData: FlTitlesData(
                   show: true,

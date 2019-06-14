@@ -92,6 +92,32 @@ class LineChartSample3 extends StatelessWidget {
                   show: true,
                   drawHorizontalGrid: true,
                   drawVerticalGrid: true,
+                  getDrawingVerticalGridLine: (value) {
+                    if (value == 0) {
+                      return const FlLine(
+                        color: Colors.deepOrange,
+                        strokeWidth: 2,
+                      );
+                    } else {
+                      return const FlLine(
+                        color: Colors.grey,
+                        strokeWidth: 0.5,
+                      );
+                    }
+                  },
+                  getDrawingHorizontalGridLine: (value) {
+                    if (value == 0) {
+                      return const FlLine(
+                        color: Colors.black,
+                        strokeWidth: 2,
+                      );
+                    } else {
+                      return const FlLine(
+                        color: Colors.grey,
+                        strokeWidth: 0.5,
+                      );
+                    }
+                  },
                 ),
                 titlesData: FlTitlesData(
                   show: true,

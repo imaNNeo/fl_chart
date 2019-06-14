@@ -52,6 +52,17 @@ bool showAllGrids(double value) {
   return true;
 }
 
+
+/// we use this typedef to determine how draw the grid line at specific position
+typedef GetDrawingGridLine = FlLine Function(double value);
+
+FlLine defaultGridLine(double value) {
+  return const FlLine(
+    color: Colors.grey,
+    strokeWidth: 0.5,
+  );
+}
+
 /// This class is responsible to hold grid data,
 /// the field names are descriptive and you can find out what they do.
 class FlGridData {
@@ -60,15 +71,13 @@ class FlGridData {
   // Horizontal
   final bool drawHorizontalGrid;
   final double horizontalInterval;
-  final Color horizontalGridColor;
-  final double horizontalGridLineWidth;
+  final GetDrawingGridLine getDrawingHorizontalGridLine;
   final CheckToShowGrid checkToShowHorizontalGrid;
 
   // Vertical
   final bool drawVerticalGrid;
   final double verticalInterval;
-  final Color verticalGridColor;
-  final double verticalGridLineWidth;
+  final GetDrawingGridLine getDrawingVerticalGridLine;
   final CheckToShowGrid checkToShowVerticalGrid;
 
   const FlGridData({
@@ -76,15 +85,13 @@ class FlGridData {
     // Horizontal
     this.drawHorizontalGrid = false,
     this.horizontalInterval = 1.0,
-    this.horizontalGridColor = Colors.grey,
-    this.horizontalGridLineWidth = 0.5,
+    this.getDrawingHorizontalGridLine = defaultGridLine,
     this.checkToShowHorizontalGrid = showAllGrids,
 
     //Vertical
     this.drawVerticalGrid = true,
     this.verticalInterval = 1.0,
-    this.verticalGridColor = Colors.grey,
-    this.verticalGridLineWidth = 0.5,
+    this.getDrawingVerticalGridLine = defaultGridLine,
     this.checkToShowVerticalGrid = showAllGrids,
   });
 }
