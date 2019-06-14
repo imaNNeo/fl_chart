@@ -1,3 +1,7 @@
+## 0.0.8
+* added backgroundColor to axis based charts (LineChart, BarChart) to draw a solid background color behind the chart
+* added getDrawingHorizontalGridLine, getDrawingVerticalGridLine on FlGridData to determine how(color, strokeWidth) the grid lines should be drawn with the given value on FlGridLine
+
 ## 0.0.7
 * added ExtraLinesData in the LineChartData to draw extra horizontal and vertical lines on LineChart
 * added BelowSpotsLine in the BlowBarData to draw lines from spot to the bottom of chart on LineChart
