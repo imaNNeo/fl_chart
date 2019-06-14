@@ -19,6 +19,10 @@ FlChart(
 |barGroups| list of [BarChartGroupData ](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show normal bar chart|[]|
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
+|gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData(show: false)|
+|borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
+|maxY|gets maximum y of y axis, if null, value will read from the input barGroups| null |
+|backgroundColor| a background color which is drawn behind th chart| null |
 
 
 ### BarChartGroupData
