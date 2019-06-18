@@ -9,5 +9,5 @@ import 'base_chart_painter.dart';
 /// you can find concrete examples here :
 /// [LineChart], [BarChart], [PieChart]
 abstract class BaseChart {
-  BaseChartPainter painter();
+  BaseChartPainter painter({FlTouchController touchController,});
 }

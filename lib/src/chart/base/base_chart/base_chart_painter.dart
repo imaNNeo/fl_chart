@@ -15,7 +15,10 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   Paint borderPaint;
 
-  BaseChartPainter(this.data) {
+  FlTouchController touchController;
+
+  BaseChartPainter(this.data, {this.touchController}): super(repaint: touchController) {
+
     borderPaint = Paint()
       ..style = PaintingStyle.stroke;
   }
@@ -88,4 +91,8 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
   double getTopOffsetDrawSize() => 0;
+}
+
+class FlTouchController extends ValueNotifier<Offset> {
+  FlTouchController(Offset value) : super(value);
 }

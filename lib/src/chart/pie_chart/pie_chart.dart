@@ -11,5 +11,5 @@ class PieChart extends BaseChart {
   PieChart(this.pieChartData);
 
   @override
-  BaseChartPainter<BaseChartData> painter() => PieChartPainter(pieChartData);
+  BaseChartPainter<BaseChartData> painter({FlTouchController touchController}) => PieChartPainter(pieChartData);
 }

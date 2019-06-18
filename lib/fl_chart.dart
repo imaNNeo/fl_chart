@@ -31,7 +31,7 @@ class FlChart extends StatefulWidget {
     @required this.chart,
   }) : super(key: key) {
     if (chart == null) {
-      throw Exception('chart might not be null');
+      throw Exception('chart should not be null');
     }
   }
 
@@ -40,10 +40,40 @@ class FlChart extends StatefulWidget {
 }
 
 class _FlChartState extends State<FlChart> {
+
+  FlTouchController flTouchController;
+
+  @override
+  void initState() {
+    super.initState();
+    flTouchController = FlTouchController(null);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: widget.chart.painter(),
+    return GestureDetector(
+      onLongPressStart: (d) {
+        final RenderBox box = context.findRenderObject();
+        final Offset offset = box.globalToLocal(d.globalPosition);
+        updateTouchedPoint(offset);
+      },
+      onLongPressEnd: (d) {
+        updateTouchedPoint(null);
+      },
+      onLongPressMoveUpdate: (d) {
+        final RenderBox box = context.findRenderObject();
+        final Offset offset = box.globalToLocal(d.globalPosition);
+        updateTouchedPoint(offset);
+      },
+      child: CustomPaint(
+        painter: widget.chart.painter(
+          touchController: flTouchController,
+        ),
+      ),
     );
+  }
+
+  void updateTouchedPoint(Offset newOffset) {
+    flTouchController.value = newOffset;
   }
 }
