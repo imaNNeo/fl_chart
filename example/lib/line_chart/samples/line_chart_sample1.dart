@@ -39,6 +39,11 @@ class LineChartSample1 extends StatelessWidget {
                 child: FlChart(
                   chart: LineChart(
                     LineChartData(
+                      touchData: TouchData(
+                        touchTooltipData: TouchTooltipData(
+                          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                        )
+                      ),
                       gridData: FlGridData(
                         show: false,
                       ),

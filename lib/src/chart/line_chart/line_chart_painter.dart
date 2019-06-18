@@ -16,8 +16,12 @@ class LineChartPainter extends AxisChartPainter {
   /// [belowBarPaint] is responsible to fill the below space of our bar line
   /// [dotPaint] is responsible to draw dots on spot points
   /// [clearAroundBorderPaint] is responsible to clip the border
+  /// [extraLinesPaint] is responsible to draw extr lines
+  /// [touchLinePaint] is responsible to draw touch indicators(below line and spot)
+  /// [bgTouchTooltipPaint] is responsible to draw box backgroundTooltip of touched point;
   Paint barPaint, belowBarPaint, belowBarLinePaint,
-    dotPaint, clearAroundBorderPaint, extraLinesPaint;
+    dotPaint, clearAroundBorderPaint, extraLinesPaint,
+    touchLinePaint, bgTouchTooltipPaint;
 
   LineChartPainter(
     this.data,
@@ -42,6 +46,14 @@ class LineChartPainter extends AxisChartPainter {
 
     extraLinesPaint = Paint()
       ..style = PaintingStyle.stroke;
+
+    touchLinePaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.black;
+
+    bgTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.white;
   }
 
   @override
@@ -56,28 +68,86 @@ class LineChartPainter extends AxisChartPainter {
       canvas.saveLayer(Rect.fromLTWH(0, -40, viewSize.width + 40, viewSize.height + 40), Paint());
     }
 
+    /// it holds list of nearest touched spots of each line
+    /// and we use it to draw touch stuff on them
+    final List<TouchedSpot> touchedSpots = [];
     /// draw each line independently on the chart
-    data.lineBarsData.forEach((barData) {
+    for (LineChartBarData barData in data.lineBarsData) {
       drawBarLine(canvas, viewSize, barData);
-    });
+      drawDots(canvas, viewSize, barData);
 
-    removeOutsideBorder(canvas, viewSize);
+      // find the nearest spot on touch area in this bar line
+      final TouchedSpot foundTouchedSpot = _getNearestTouchedSpot(canvas, viewSize, barData);
+      if (foundTouchedSpot != null) {
+        touchedSpots.add(foundTouchedSpot);
+      }
+    }
 
     if (data.clipToBorder) {
+      removeOutsideBorder(canvas, viewSize);
       /// restore layer to previous state (after clipping the chart)
       canvas.restore();
     }
 
+    // Draw touch indicators (below spot line and spot dot)
+    drawTouchedSpotsIndicator(canvas, viewSize, touchedSpots);
+
     drawTitles(canvas, viewSize);
 
     drawExtraLines(canvas, viewSize);
+
+    // Draw touch tooltip on most top spot
+    drawTouchTooltip(canvas, viewSize, touchedSpots);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
     Path barPath = _generateBarPath(viewSize, barData);
     drawBelowBar(canvas, viewSize, barPath, barData);
     drawBar(canvas, viewSize, barPath, barData);
-    drawDots(canvas, viewSize, barData);
+  }
+
+  /// find the nearest spot base on the touched offset
+  TouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    final Size chartViewSize = getChartUsableDrawSize(viewSize);
+
+    final Offset touchedPoint = touchController != null ? touchController.value : null;
+
+    if (touchedPoint == null) {
+      return null;
+    }
+
+    FlSpot nearestSpot;
+
+    /// Find the nearest spot (on X axis)
+    for (FlSpot spot in barData.spots) {
+      if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <= 10) {
+        nearestSpot = spot;
+      }
+    }
+
+    if (nearestSpot == null) {
+      return null;
+    }
+
+    final double x = getPixelX(nearestSpot.x, chartViewSize);
+    final Offset nearestSpotPos = Offset(x, getPixelY(nearestSpot.y, chartViewSize));
+
+    return TouchedSpot(nearestSpot, nearestSpotPos, barData);
+  }
+
+  void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    if (!barData.dotData.show) {
+      return;
+    }
+    viewSize = getChartUsableDrawSize(viewSize);
+    barData.spots.forEach((spot) {
+      if (barData.dotData.checkToShowDot(spot)) {
+        double x = getPixelX(spot.x, viewSize);
+        double y = getPixelY(spot.y, viewSize);
+        dotPaint.color = barData.dotData.dotColor;
+        canvas.drawCircle(Offset(x, y), barData.dotData.dotSize, dotPaint);
+      }
+    });
   }
 
   /// firstly we generate the bar line that we should draw,
@@ -270,21 +340,6 @@ class LineChartPainter extends AxisChartPainter {
     canvas.drawPath(barPath, barPaint);
   }
 
-  void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
-    if (!barData.dotData.show) {
-      return;
-    }
-    viewSize = getChartUsableDrawSize(viewSize);
-    barData.spots.forEach((spot) {
-      if (barData.dotData.checkToShowDot(spot)) {
-        double x = getPixelX(spot.x, viewSize);
-        double y = getPixelY(spot.y, viewSize);
-        dotPaint.color = barData.dotData.dotColor;
-        canvas.drawCircle(Offset(x, y), barData.dotData.dotSize, dotPaint);
-      }
-    });
-  }
-
   /// clip the border (remove outside the border)
   void removeOutsideBorder(Canvas canvas, Size viewSize) {
     if (!data.clipToBorder) {
@@ -300,6 +355,40 @@ class LineChartPainter extends AxisChartPainter {
       viewSize.height - (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
     );
     canvas.drawRect(rect, clearAroundBorderPaint);
+  }
+
+  void drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, List<TouchedSpot> touchedSpotOffsets) {
+    if (touchedSpotOffsets == null || touchedSpotOffsets.isEmpty) {
+      return;
+    }
+
+    final Size chartViewSize = getChartUsableDrawSize(viewSize);
+
+    touchLinePaint.strokeWidth = 4;
+    touchLinePaint.color = Colors.yellow;
+
+    touchedSpotOffsets.sort((a, b) => a.offset.dy.compareTo(b.offset.dy));
+    for (TouchedSpot touchedSpot in touchedSpotOffsets) {
+      /// Draw the indicator line
+      final from = Offset(touchedSpot.offset.dx, getTopOffsetDrawSize() + chartViewSize.height);
+      final to = touchedSpot.offset;
+
+      touchLinePaint.color = touchedSpot.barData.colors[0];
+      if (touchedSpot.barData.dotData.show) {
+        touchLinePaint.color = touchedSpot.barData.dotData.dotColor;
+      }
+      touchLinePaint.color = touchLinePaint.color;
+      canvas.drawLine(from, to, touchLinePaint);
+
+      /// Draw the indicator dot
+      double selectedSpotCircleSize = 10;
+      dotPaint.color = touchedSpot.barData.colors[0];
+      if (touchedSpot.barData.dotData.show) {
+        selectedSpotCircleSize = touchedSpot.barData.dotData.dotSize * 1.8;
+        dotPaint.color = touchedSpot.barData.dotData.dotColor;
+      }
+      canvas.drawCircle(to, selectedSpotCircleSize, dotPaint);
+    }
   }
 
   void drawTitles(Canvas canvas, Size viewSize) {
@@ -396,6 +485,74 @@ class LineChartPainter extends AxisChartPainter {
     }
   }
 
+  void drawTouchTooltip(Canvas canvas, Size viewSize, List<TouchedSpot> sortedTouchedSpotOffsets) {
+    const double textsBelowMargin = 4;
+
+    final TouchTooltipData tooltipData = data.touchData.touchTooltipData;
+
+    /// creating TextPainters to calculate the width and height of the tooltip
+    final List<TextPainter> drawingTextPainters = [];
+    for (TouchedSpot touchedSpot in sortedTouchedSpotOffsets) {
+      final String text = touchedSpot.spot.y.toString();
+      var style = TextStyle(
+        color: touchedSpot.barData.colors[0],
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      );
+
+      final TextSpan span = TextSpan(style: style, text: text);
+      final TextPainter tp = TextPainter(
+        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+      tp.layout(maxWidth: tooltipData.maxContentWidth);
+      drawingTextPainters.add(tp);
+    }
+
+    /// biggerWidth
+    /// some texts maybe larger, then we should
+    /// draw the tooltip' width as wide as biggerWidth
+    ///
+    /// sumTextsHeight
+    /// sum up all Texts height, then we should
+    /// draw the tooltip's height as tall as sumTextsHeight
+    double biggerWidth = 0;
+    double sumTextsHeight = 0;
+    for (TextPainter tp in drawingTextPainters) {
+      if (tp.width > biggerWidth) {
+        biggerWidth = tp.width;
+      }
+      sumTextsHeight += tp.height;
+    }
+    sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowMargin;
+
+
+    /// if we have multiple bar lines,
+    /// there are more than one FlCandidate on touch area,
+    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
+    final Offset mostTopOffset = sortedTouchedSpotOffsets.first.offset;
+
+    final double tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
+    final double tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
+
+    /// draw the background rect with rounded radius
+    final Rect rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2), mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin, tooltipWidth, tooltipHeight);
+    final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
+    final RRect roundedRect = RRect.fromRectAndCorners(rect, topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
+    bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+    canvas.drawRRect(roundedRect, bgTouchTooltipPaint);
+
+    /// draw the texts one by one in below of each other
+    double topPosSeek = tooltipData.tooltipPadding.top;
+    for (TextPainter tp in drawingTextPainters) {
+      final drawOffset = Offset(
+        rect.center.dx - (tp.width / 2),
+        rect.topCenter.dy + topPosSeek,
+      );
+      tp.paint(canvas, drawOffset);
+      topPosSeek += tp.height;
+      topPosSeek += textsBelowMargin;
+    }
+  }
+
   /// We add our needed horizontal space to parent needed.
   /// we have some titles that maybe draw in the left side of our chart,
   /// then we should draw the chart a with some left space,
@@ -443,4 +600,16 @@ class LineChartPainter extends AxisChartPainter {
       oldDelegate.data != data ||
         oldDelegate.touchController != touchController;
 
+}
+
+class TouchedSpot {
+  final FlSpot spot;
+  final Offset offset;
+  final LineChartBarData barData;
+
+  TouchedSpot(
+    this.spot,
+    this.offset,
+    this.barData,
+  );
 }

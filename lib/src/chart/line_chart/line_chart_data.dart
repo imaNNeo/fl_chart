@@ -16,6 +16,7 @@ class LineChartData extends AxisChartData {
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
+    TouchData touchData = const TouchData(),
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -26,6 +27,7 @@ class LineChartData extends AxisChartData {
     Color backgroundColor,
   }) : super(
     gridData: gridData,
+    touchData: touchData,
     borderData: borderData,
     clipToBorder: clipToBorder,
     backgroundColor: backgroundColor,
@@ -273,4 +275,14 @@ class ExtraLinesData {
     this.showVerticalLines = false,
     this.verticalLines = const [],
   });
+}
+
+class TouchData extends FlTouchData {
+  final TouchTooltipData touchTooltipData;
+
+  const TouchData({
+    this.touchTooltipData = const TouchTooltipData(),
+    bool enabled = true,
+  }) : super(enabled);
+
 }

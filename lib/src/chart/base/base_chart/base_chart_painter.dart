@@ -17,7 +17,8 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
 
   FlTouchController touchController;
 
-  BaseChartPainter(this.data, {this.touchController}): super(repaint: touchController) {
+  BaseChartPainter(this.data, {this.touchController}):
+      super(repaint: data.touchData.enabled ? touchController : null) {
 
     borderPaint = Paint()
       ..style = PaintingStyle.stroke;

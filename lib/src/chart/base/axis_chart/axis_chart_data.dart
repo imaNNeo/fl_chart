@@ -23,11 +23,12 @@ class AxisChartData extends BaseChartData {
   AxisChartData({
     this.gridData = const FlGridData(),
     FlBorderData borderData,
+    FlTouchData touchData,
     this.minX, this.maxX,
     this.minY, this.maxY,
     this.clipToBorder = false,
     this.backgroundColor,
-  }) : super(borderData: borderData);
+  }) : super(borderData: borderData, touchData: touchData);
 }
 
 /***** Spot *****/
@@ -107,4 +108,21 @@ class FlLine {
     this.color = Colors.black,
     this.strokeWidth = 2,
   });
+}
+
+/// Holds information about showing tooltip on axis based charts
+class TouchTooltipData {
+  final Color tooltipBgColor;
+  final double tooltipRoundedRadius;
+  final EdgeInsets tooltipPadding;
+  final double tooltipBottomMargin;
+  final double maxContentWidth;
+
+  const TouchTooltipData({
+    this.tooltipBgColor = Colors.white,
+    this.tooltipRoundedRadius = 4,
+    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipBottomMargin = 16,
+    this.maxContentWidth = 120,
+  }) : super();
 }

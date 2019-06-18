@@ -12,9 +12,11 @@ import 'base_chart_painter.dart';
 /// [LineChartData], [BarChartData], [PieChartData]
 class BaseChartData {
   FlBorderData borderData;
+  FlTouchData touchData;
 
   BaseChartData({
     this.borderData,
+    this.touchData,
   }) {
     borderData ??= FlBorderData();
   }
@@ -37,6 +39,15 @@ class FlBorderData {
         style: BorderStyle.solid,
       );
   }
+}
+
+
+/***** TouchData *****/
+/// holds information about touch on the chart
+class FlTouchData {
+  final bool enabled;
+
+  const FlTouchData(this.enabled,);
 }
 
 
