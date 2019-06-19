@@ -364,30 +364,37 @@ class LineChartPainter extends AxisChartPainter {
 
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    touchLinePaint.strokeWidth = 4;
-    touchLinePaint.color = Colors.yellow;
-
+    /// sort the touched spots top to down, base on their y value
     touchedSpotOffsets.sort((a, b) => a.offset.dy.compareTo(b.offset.dy));
-    for (TouchedSpot touchedSpot in touchedSpotOffsets) {
+
+    final List<TouchedSpotIndicatorData> indicatorsData =
+      data.touchData.getTouchedSpotIndicator(touchedSpotOffsets);
+
+    if (indicatorsData.length != touchedSpotOffsets.length) {
+      throw Exception('indicatorsData and touchedSpotOffsets size should be same');
+    }
+
+    for (int i = 0; i < touchedSpotOffsets.length; i++) {
+      final TouchedSpotIndicatorData indicatorData = indicatorsData[i];
+      final TouchedSpot touchedSpot = touchedSpotOffsets[i];
+
+      if (indicatorData == null) {
+        continue;
+      }
+
       /// Draw the indicator line
       final from = Offset(touchedSpot.offset.dx, getTopOffsetDrawSize() + chartViewSize.height);
       final to = touchedSpot.offset;
 
-      touchLinePaint.color = touchedSpot.barData.colors[0];
-      if (touchedSpot.barData.dotData.show) {
-        touchLinePaint.color = touchedSpot.barData.dotData.dotColor;
-      }
-      touchLinePaint.color = touchLinePaint.color;
+      touchLinePaint.color = indicatorData.indicatorBelowLine.color;
+      touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
       canvas.drawLine(from, to, touchLinePaint);
 
       /// Draw the indicator dot
-      double selectedSpotCircleSize = 10;
-      dotPaint.color = touchedSpot.barData.colors[0];
-      if (touchedSpot.barData.dotData.show) {
-        selectedSpotCircleSize = touchedSpot.barData.dotData.dotSize * 1.8;
-        dotPaint.color = touchedSpot.barData.dotData.dotColor;
-      }
-      canvas.drawCircle(to, selectedSpotCircleSize, dotPaint);
+      final double selectedSpotDotSize =
+        indicatorData.touchedSpotDotData.dotSize;
+      dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
+      canvas.drawCircle(to, selectedSpotDotSize, dotPaint);
     }
   }
 
@@ -492,19 +499,26 @@ class LineChartPainter extends AxisChartPainter {
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final List<TextPainter> drawingTextPainters = [];
-    for (TouchedSpot touchedSpot in sortedTouchedSpotOffsets) {
-      final String text = touchedSpot.spot.y.toString();
-      var style = TextStyle(
-        color: touchedSpot.barData.colors[0],
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      );
 
-      final TextSpan span = TextSpan(style: style, text: text);
+    final List<TooltipItem> tooltipItems = data.touchData.getTooltipItems(sortedTouchedSpotOffsets);
+    if (tooltipItems.length != sortedTouchedSpotOffsets.length) {
+      throw Exception('tooltipItems and touchedSpots size should be same');
+    }
+
+    for (int i = 0; i < sortedTouchedSpotOffsets.length; i++) {
+      final TooltipItem tooltipItem = tooltipItems[i];
+      if (tooltipItem == null) {
+        continue;
+      }
+
+      final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
       final TextPainter tp = TextPainter(
         text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
       tp.layout(maxWidth: tooltipData.maxContentWidth);
       drawingTextPainters.add(tp);
+    }
+    if (drawingTextPainters.isEmpty) {
+      return;
     }
 
     /// biggerWidth
