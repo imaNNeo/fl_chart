@@ -120,7 +120,7 @@ class LineChartPainter extends AxisChartPainter {
 
     /// Find the nearest spot (on X axis)
     for (FlSpot spot in barData.spots) {
-      if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <= 10) {
+      if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <= data.touchData.touchSpotThreshold) {
         nearestSpot = spot;
       }
     }

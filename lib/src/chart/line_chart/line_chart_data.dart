@@ -10,18 +10,18 @@ import 'line_chart_painter.dart';
 /// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
 /// [ExtraLinesData] to draw extra horizontal and vertical lines on the chart
-/// [TouchData] holds data to handling touch and interactions
+/// [LineTouchData] holds data to handling touch and interactions
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
   final ExtraLinesData extraLinesData;
-  final TouchData touchData;
+  final LineTouchData touchData;
 
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
-    this.touchData = const TouchData(),
+    this.touchData = const LineTouchData(),
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -327,7 +327,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<TouchedSpot> touche
   }).toList();
 }
 
-class TouchData extends FlTouchData {
+class LineTouchData extends FlTouchData {
   final TouchTooltipData touchTooltipData;
 
   /// show each TooltipItem as a row on the tooltip window,
@@ -338,10 +338,14 @@ class TouchData extends FlTouchData {
   /// return null if you don't want to show any indicator on each spot
   final GetTouchedSpotIndicator getTouchedSpotIndicator;
 
-  const TouchData({
+  /// we find the nearest spots on touched position based on this threshold
+  final double touchSpotThreshold;
+
+  const LineTouchData({
     this.touchTooltipData = const TouchTooltipData(),
     this.getTooltipItems = defaultTitlesStyle,
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
+    this.touchSpotThreshold = 10,
     bool enabled = true,
   }) : super(enabled);
 
