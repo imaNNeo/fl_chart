@@ -77,6 +77,24 @@ class BarChartData extends AxisChartData {
     super.minY = 0;
     super.maxY = maxY;
   }
+
+  BarChartData copyWith({
+    List<BarChartGroupData> barGroups,
+    BarChartAlignment alignment,
+    FlTitlesData titlesData,
+    FlGridData gridData,
+    FlBorderData borderData,
+    double maxY,
+  }) {
+    return BarChartData(
+      barGroups: barGroups?? this.barGroups,
+      alignment: alignment?? this.alignment,
+      titlesData: titlesData?? this.titlesData,
+      gridData: gridData ?? this.gridData,
+      borderData: borderData ?? this.borderData,
+      maxY: maxY ?? this.maxY,
+    );
+  }
 }
 
 /// this is mimic of [MainAxisAlignment] to aligning the groups horizontally
@@ -122,6 +140,18 @@ class BarChartGroupData {
     double spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;
+  }
+
+  BarChartGroupData copyWith({
+    int x,
+    List<BarChartRodData> barRods,
+    double barsSpace,
+  }) {
+    return BarChartGroupData(
+      x: x ?? this.x,
+      barRods: barRods ?? this.barRods,
+      barsSpace: barsSpace ?? this.barsSpace,
+    );
   }
 }
 

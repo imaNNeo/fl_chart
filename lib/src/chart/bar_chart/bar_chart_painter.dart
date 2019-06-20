@@ -22,9 +22,54 @@ class BarChartPainter extends AxisChartPainter {
       return;
     }
 
-    List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
-    drawBars(canvas, size, groupsX);
-    drawTitles(canvas, size, groupsX);
+    /// resize group rods that they would to show with rounded rect
+    /// and their width is more than their height,
+    /// we can't show them properly
+    data.copyWith(
+      barGroups: resizeGroupsRods(size, data.barGroups),
+    );
+
+    final List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
+    final List<GroupBarsPosition> groupBarsPosition =
+      calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
+
+    drawBars(canvas, size, groupBarsPosition);
+    drawTitles(canvas, size, groupBarsPosition);
+  }
+
+  /// If the height of rounded bars is less than their roundedRadius,
+  /// we can't draw them properly,
+  /// then we try to make them width lower,
+  /// in this section we resize a new List with proper barsRadius.
+  List<BarChartGroupData> resizeGroupsRods(Size viewSize, List<BarChartGroupData> groupsData) {
+    final Size drawSize = getChartUsableDrawSize(viewSize);
+
+    return groupsData.map((barGroup) {
+      final List<BarChartRodData> resizedWidthRods = barGroup.barRods.map((barRod) {
+        if (!barRod.isRound) {
+          return barRod;
+        }
+
+        final double fromY = getPixelY(0, drawSize);
+        final double toY = getPixelY(barRod.y, drawSize);
+
+        double barWidth = barRod.width;
+
+        final double barHeight = (fromY - toY).abs();
+        while (barHeight != 0 && barHeight < barWidth) {
+          barWidth -= barWidth * 0.1;
+        }
+
+        if (barWidth == barRod.width) {
+          return barRod;
+        } else {
+          return barRod.copyWith(width: barWidth);
+        }
+      }).toList();
+      return barGroup.copyWith(
+        barRods: resizedWidthRods
+      );
+    }).toList();
   }
 
   /// this method calculates the x of our showing groups,
@@ -118,44 +163,39 @@ class BarChartPainter extends AxisChartPainter {
     return groupsX;
   }
 
+  List<GroupBarsPosition> calculateGroupAndBarsPosition(Size viewSize, List<double> groupsX, List<BarChartGroupData> barGroups) {
+    if (groupsX.length != barGroups.length) {
+      throw Exception('inconsistent state groupsX.length != barGroups.length');
+    }
 
-  void drawBars(Canvas canvas, Size viewSize, List<double> barsX) {
+    final List<GroupBarsPosition> groupBarsPosition = [];
+    for (int i = 0; i < barGroups.length; i++) {
+      final BarChartGroupData barGroup = barGroups[i];
+      final double groupX = groupsX[i];
+
+      double tempX = 0;
+      final List<double> barsX = [];
+      barGroup.barRods.asMap().forEach((barIndex, barRod) {
+        final double widthHalf = barRod.width / 2;
+        barsX.add(groupX - (barGroup.width / 2) + tempX + widthHalf);
+        tempX += barRod.width + barGroup.barsSpace;
+      });
+      groupBarsPosition.add(GroupBarsPosition(groupX, barsX));
+    }
+    return groupBarsPosition;
+  }
+
+
+  void drawBars(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
     Size drawSize = getChartUsableDrawSize(viewSize);
 
     data.barGroups.asMap().forEach((groupIndex, barGroup) {
 
-      /// If the height of rounded bars is less than their roundedRadius,
-      /// we can't draw them properly,
-      /// then we try to make them width lower radius,
-      /// in this section we resize a new List with proper barsRadius.
-      List<BarChartRodData> resizedWidthRods = barGroup.barRods.map((barRod) {
-        if (!barRod.isRound) {
-          return barRod;
-        }
-
-        double fromY = getPixelY(0, drawSize);
-        double toY = getPixelY(barRod.y, drawSize);
-
-        double barWidth = barRod.width;
-
-        double barHeight = (fromY - toY).abs();
-        while (barHeight != 0 && barHeight < barWidth) {
-          barWidth -= barWidth * 0.1;
-        }
-
-        if (barWidth == barRod.width) {
-          return barRod;
-        } else {
-          return barRod.copyWith(width: barWidth);
-        }
-      }).toList();
-
-      double tempX = 0;
-      resizedWidthRods.asMap().forEach((barIndex, barRod) {
+      barGroup.barRods.asMap().forEach((barIndex, barRod) {
         double widthHalf = barRod.width / 2;
         double roundedRadius = barRod.isRound ? widthHalf : 0;
 
-        double x = barsX[groupIndex] - (barGroup.width / 2) + tempX + widthHalf;
+        final double x = groupBarsPosition[groupIndex].barsX[barIndex];
 
         Offset from, to;
 
@@ -177,13 +217,11 @@ class BarChartPainter extends AxisChartPainter {
           barPaint.color = barRod.color;
           canvas.drawLine(from, to, barPaint);
         }
-
-        tempX += barRod.width + barGroup.barsSpace;
       });
     });
   }
 
-  void drawTitles(Canvas canvas, Size viewSize, List<double> groupsX) {
+  void drawTitles(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
     if (!data.titlesData.show) {
       return;
     }
@@ -213,7 +251,7 @@ class BarChartPainter extends AxisChartPainter {
     }
 
     // Horizontal titles
-    groupsX.asMap().forEach((int index, double x) {
+    groupBarsPosition.asMap().forEach((int index, GroupBarsPosition groupBarPos) {
       String text = data.titlesData.getHorizontalTitles(index.toDouble());
 
       TextSpan span = TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
@@ -221,7 +259,7 @@ class BarChartPainter extends AxisChartPainter {
           text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
       tp.layout();
 
-      double textX = x - (tp.width / 2);
+      double textX = groupBarPos.groupX - (tp.width / 2);
       double textY =
           drawSize.height + getTopOffsetDrawSize() + data.titlesData.horizontalTitleMargin;
 
@@ -274,4 +312,11 @@ class BarChartPainter extends AxisChartPainter {
   @override
   bool shouldRepaint(BarChartPainter oldDelegate) =>
       oldDelegate.data != this.data;
+}
+
+class GroupBarsPosition {
+  final double groupX;
+  final List<double> barsX;
+
+  GroupBarsPosition(this.groupX, this.barsX);
 }
