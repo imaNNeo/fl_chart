@@ -70,14 +70,14 @@ class LineChartPainter extends AxisChartPainter {
 
     /// it holds list of nearest touched spots of each line
     /// and we use it to draw touch stuff on them
-    final List<TouchedSpot> touchedSpots = [];
+    final List<LineTouchedSpot> touchedSpots = [];
     /// draw each line independently on the chart
     for (LineChartBarData barData in data.lineBarsData) {
       drawBarLine(canvas, viewSize, barData);
       drawDots(canvas, viewSize, barData);
 
       // find the nearest spot on touch area in this bar line
-      final TouchedSpot foundTouchedSpot = _getNearestTouchedSpot(canvas, viewSize, barData);
+      final LineTouchedSpot foundTouchedSpot = _getNearestTouchedSpot(canvas, viewSize, barData);
       if (foundTouchedSpot != null) {
         touchedSpots.add(foundTouchedSpot);
       }
@@ -107,7 +107,7 @@ class LineChartPainter extends AxisChartPainter {
   }
 
   /// find the nearest spot base on the touched offset
-  TouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, LineChartBarData barData) {
+  LineTouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, LineChartBarData barData) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     final Offset touchedPoint = touchController != null ? touchController.value : null;
@@ -120,7 +120,7 @@ class LineChartPainter extends AxisChartPainter {
 
     /// Find the nearest spot (on X axis)
     for (FlSpot spot in barData.spots) {
-      if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <= data.touchData.touchSpotThreshold) {
+      if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <= data.lineTouchData.touchSpotThreshold) {
         nearestSpot = spot;
       }
     }
@@ -132,7 +132,7 @@ class LineChartPainter extends AxisChartPainter {
     final double x = getPixelX(nearestSpot.x, chartViewSize);
     final Offset nearestSpotPos = Offset(x, getPixelY(nearestSpot.y, chartViewSize));
 
-    return TouchedSpot(nearestSpot, nearestSpotPos, barData);
+    return LineTouchedSpot(barData, nearestSpot, nearestSpotPos);
   }
 
   void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -357,26 +357,26 @@ class LineChartPainter extends AxisChartPainter {
     canvas.drawRect(rect, clearAroundBorderPaint);
   }
 
-  void drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, List<TouchedSpot> touchedSpotOffsets) {
-    if (touchedSpotOffsets == null || touchedSpotOffsets.isEmpty) {
+  void drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, List<LineTouchedSpot> lineTouchedSpots) {
+    if (lineTouchedSpots == null || lineTouchedSpots.isEmpty) {
       return;
     }
 
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// sort the touched spots top to down, base on their y value
-    touchedSpotOffsets.sort((a, b) => a.offset.dy.compareTo(b.offset.dy));
+    lineTouchedSpots.sort((a, b) => a.offset.dy.compareTo(b.offset.dy));
 
     final List<TouchedSpotIndicatorData> indicatorsData =
-      data.touchData.getTouchedSpotIndicator(touchedSpotOffsets);
+      data.lineTouchData.getTouchedSpotIndicator(lineTouchedSpots);
 
-    if (indicatorsData.length != touchedSpotOffsets.length) {
+    if (indicatorsData.length != lineTouchedSpots.length) {
       throw Exception('indicatorsData and touchedSpotOffsets size should be same');
     }
 
-    for (int i = 0; i < touchedSpotOffsets.length; i++) {
+    for (int i = 0; i < lineTouchedSpots.length; i++) {
       final TouchedSpotIndicatorData indicatorData = indicatorsData[i];
-      final TouchedSpot touchedSpot = touchedSpotOffsets[i];
+      final LineTouchedSpot touchedSpot = lineTouchedSpots[i];
 
       if (indicatorData == null) {
         continue;
@@ -492,15 +492,16 @@ class LineChartPainter extends AxisChartPainter {
     }
   }
 
-  void drawTouchTooltip(Canvas canvas, Size viewSize, List<TouchedSpot> sortedTouchedSpotOffsets) {
+  void drawTouchTooltip(Canvas canvas, Size viewSize, List<LineTouchedSpot> sortedTouchedSpotOffsets) {
     const double textsBelowMargin = 4;
 
-    final TouchTooltipData tooltipData = data.touchData.touchTooltipData;
+    final TouchTooltipData tooltipData = data.lineTouchData.touchTooltipData;
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final List<TextPainter> drawingTextPainters = [];
 
-    final List<TooltipItem> tooltipItems = data.touchData.getTooltipItems(sortedTouchedSpotOffsets);
+    final List<TooltipItem> tooltipItems =
+      data.lineTouchData.touchTooltipData.getTooltipItems(sortedTouchedSpotOffsets);
     if (tooltipItems.length != sortedTouchedSpotOffsets.length) {
       throw Exception('tooltipItems and touchedSpots size should be same');
     }
@@ -614,16 +615,4 @@ class LineChartPainter extends AxisChartPainter {
       oldDelegate.data != data ||
         oldDelegate.touchController != touchController;
 
-}
-
-class TouchedSpot {
-  final FlSpot spot;
-  final Offset offset;
-  final LineChartBarData barData;
-
-  TouchedSpot(
-    this.spot,
-    this.offset,
-    this.barData,
-  );
 }

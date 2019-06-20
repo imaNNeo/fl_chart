@@ -110,6 +110,25 @@ class FlLine {
   });
 }
 
+
+/// show each TooltipItem as a row on the tooltip window,
+/// return null if you don't want to show each item
+/// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
+/// here we get the [TooltipItem] from the given [TouchedSpot].
+typedef GetTooltipItems = List<TooltipItem> Function<T extends TouchedSpot>(List<T> touchedSpots);
+List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(List<T> touchedSpots) {
+  return touchedSpots.map((T touchedSpot) {
+    final String text = touchedSpot.spot.y.toString();
+
+    final TextStyle textStyle = TextStyle(
+      color: touchedSpot.getColor(),
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+    return TooltipItem(text, textStyle);
+  }).toList();
+}
+
 /// Holds information about showing tooltip on axis based charts
 class TouchTooltipData {
   final Color tooltipBgColor;
@@ -117,6 +136,7 @@ class TouchTooltipData {
   final EdgeInsets tooltipPadding;
   final double tooltipBottomMargin;
   final double maxContentWidth;
+  final GetTooltipItems getTooltipItems;
 
   const TouchTooltipData({
     this.tooltipBgColor = Colors.white,
@@ -124,5 +144,26 @@ class TouchTooltipData {
     this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
+    this.getTooltipItems = defaultTitlesStyle,
   }) : super();
+}
+
+abstract class TouchedSpot {
+  final FlSpot spot;
+  final Offset offset;
+
+  TouchedSpot(
+    this.spot,
+    this.offset,
+    );
+
+  Color getColor();
+}
+
+/// holds data of showing each item in the tooltip window
+class TooltipItem {
+  final String text;
+  final TextStyle textStyle;
+
+  TooltipItem(this.text, this.textStyle);
 }

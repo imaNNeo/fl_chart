@@ -39,7 +39,7 @@ class LineChartSample1 extends StatelessWidget {
                 child: FlChart(
                   chart: LineChart(
                     LineChartData(
-                      touchData: LineTouchData(
+                      lineTouchData: LineTouchData(
                         touchTooltipData: TouchTooltipData(
                           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
                         )

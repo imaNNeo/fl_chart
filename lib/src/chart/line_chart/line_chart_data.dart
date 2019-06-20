@@ -4,8 +4,6 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
 
-import 'line_chart_painter.dart';
-
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
@@ -15,13 +13,13 @@ class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
   final ExtraLinesData extraLinesData;
-  final LineTouchData touchData;
+  final LineTouchData lineTouchData;
 
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
-    this.touchData = const LineTouchData(),
+    this.lineTouchData = const LineTouchData(),
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -32,7 +30,7 @@ class LineChartData extends AxisChartData {
     Color backgroundColor,
   }) : super(
     gridData: gridData,
-    touchData: touchData,
+    touchData: lineTouchData,
     borderData: borderData,
     clipToBorder: clipToBorder,
     backgroundColor: backgroundColor,
@@ -282,41 +280,26 @@ class ExtraLinesData {
   });
 }
 
-/// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
-/// here we get the [TooltipItem] from the given [TouchedSpot].
-typedef GetTooltipItems = List<TooltipItem> Function(List<TouchedSpot> touchedSpots);
-List<TooltipItem> defaultTitlesStyle(List<TouchedSpot> touchedSpots) {
-  return touchedSpots.map((TouchedSpot touchedSpot) {
-    final String text = touchedSpot.spot.y.toString();
-    final TextStyle textStyle = TextStyle(
-      color: touchedSpot.barData.colors[0],
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    return TooltipItem(text, textStyle);
-  }).toList();
-}
-
 /// if user touched the chart, we indicate the touched spots with a below line,
 /// and make a bigger dot on that spot,
-/// here we get the [TouchedSpotIndicatorData] from the given [TouchedSpot].
-typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(List<TouchedSpot> touchedSpots);
-List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<TouchedSpot> touchedSpots) {
-  return touchedSpots.map((TouchedSpot touchedSpot) {
+/// here we get the [TouchedSpotIndicatorData] from the given [LineTouchedSpot].
+typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(List<LineTouchedSpot> touchedSpots);
+List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<LineTouchedSpot> touchedSpots) {
+  return touchedSpots.map((LineTouchedSpot lineTouchedSpot) {
     /// Indicator Line
-    Color lineColor = touchedSpot.barData.colors[0];
-    if (touchedSpot.barData.dotData.show) {
-      lineColor = touchedSpot.barData.dotData.dotColor;
+    Color lineColor = lineTouchedSpot.barData.colors[0];
+    if (lineTouchedSpot.barData.dotData.show) {
+      lineColor = lineTouchedSpot.barData.dotData.dotColor;
     }
     const double lineStrokeWidth = 4;
     final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
     /// Indicator dot
     double dotSize = 10;
-    Color dotColor = touchedSpot.barData.colors[0];
-    if (touchedSpot.barData.dotData.show) {
-      dotSize = touchedSpot.barData.dotData.dotSize * 1.8;
-      dotColor = touchedSpot.barData.dotData.dotColor;
+    Color dotColor = lineTouchedSpot.barData.colors[0];
+    if (lineTouchedSpot.barData.dotData.show) {
+      dotSize = lineTouchedSpot.barData.dotData.dotSize * 1.8;
+      dotColor = lineTouchedSpot.barData.dotData.dotColor;
     }
     FlDotData dotData = FlDotData(
       dotSize: dotSize,
@@ -330,10 +313,6 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<TouchedSpot> touche
 class LineTouchData extends FlTouchData {
   final TouchTooltipData touchTooltipData;
 
-  /// show each TooltipItem as a row on the tooltip window,
-  /// return null if you don't want to show each item
-  final GetTooltipItems getTooltipItems;
-
   /// show the indicator line and dot at the touched spot
   /// return null if you don't want to show any indicator on each spot
   final GetTouchedSpotIndicator getTouchedSpotIndicator;
@@ -343,7 +322,6 @@ class LineTouchData extends FlTouchData {
 
   const LineTouchData({
     this.touchTooltipData = const TouchTooltipData(),
-    this.getTooltipItems = defaultTitlesStyle,
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
     bool enabled = true,
@@ -351,17 +329,24 @@ class LineTouchData extends FlTouchData {
 
 }
 
-/// holds data of showing each item in the tooltip window
-class TooltipItem {
-  final String text;
-  final TextStyle textStyle;
-
-  TooltipItem(this.text, this.textStyle);
-}
-
 class TouchedSpotIndicatorData {
   final FlLine indicatorBelowLine;
   final FlDotData touchedSpotDotData;
 
   TouchedSpotIndicatorData(this.indicatorBelowLine, this.touchedSpotDotData);
+}
+
+class LineTouchedSpot extends TouchedSpot {
+  LineChartBarData barData;
+
+  LineTouchedSpot(
+    this.barData,
+    FlSpot spot,
+    Offset offset,
+  ) : super(spot, offset);
+
+  @override
+  Color getColor() {
+    return barData.colors[0];
+  }
 }
