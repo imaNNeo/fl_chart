@@ -21,7 +21,7 @@ class LineChartPainter extends AxisChartPainter {
   /// [bgTouchTooltipPaint] is responsible to draw box backgroundTooltip of touched point;
   Paint barPaint, belowBarPaint, belowBarLinePaint,
     dotPaint, clearAroundBorderPaint, extraLinesPaint,
-    touchLinePaint, bgTouchTooltipPaint;
+    touchLinePaint;
 
   LineChartPainter(
     this.data,
@@ -50,10 +50,6 @@ class LineChartPainter extends AxisChartPainter {
     touchLinePaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.black;
-
-    bgTouchTooltipPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = Colors.white;
   }
 
   @override
@@ -97,7 +93,7 @@ class LineChartPainter extends AxisChartPainter {
     drawExtraLines(canvas, viewSize);
 
     // Draw touch tooltip on most top spot
-    drawTouchTooltip(canvas, viewSize, touchedSpots);
+    super.drawTouchTooltip(canvas, viewSize, data.lineTouchData.touchTooltipData, touchedSpots);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -486,82 +482,6 @@ class LineChartPainter extends AxisChartPainter {
 
         canvas.drawLine(from, to, extraLinesPaint);
       }
-    }
-  }
-
-  void drawTouchTooltip(Canvas canvas, Size viewSize, List<LineTouchedSpot> sortedTouchedSpotOffsets) {
-    const double textsBelowMargin = 4;
-
-    final TouchTooltipData tooltipData = data.lineTouchData.touchTooltipData;
-
-    /// creating TextPainters to calculate the width and height of the tooltip
-    final List<TextPainter> drawingTextPainters = [];
-
-    final List<TooltipItem> tooltipItems =
-      data.lineTouchData.touchTooltipData.getTooltipItems(sortedTouchedSpotOffsets);
-    if (tooltipItems.length != sortedTouchedSpotOffsets.length) {
-      throw Exception('tooltipItems and touchedSpots size should be same');
-    }
-
-    for (int i = 0; i < sortedTouchedSpotOffsets.length; i++) {
-      final TooltipItem tooltipItem = tooltipItems[i];
-      if (tooltipItem == null) {
-        continue;
-      }
-
-      final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
-      final TextPainter tp = TextPainter(
-        text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
-      tp.layout(maxWidth: tooltipData.maxContentWidth);
-      drawingTextPainters.add(tp);
-    }
-    if (drawingTextPainters.isEmpty) {
-      return;
-    }
-
-    /// biggerWidth
-    /// some texts maybe larger, then we should
-    /// draw the tooltip' width as wide as biggerWidth
-    ///
-    /// sumTextsHeight
-    /// sum up all Texts height, then we should
-    /// draw the tooltip's height as tall as sumTextsHeight
-    double biggerWidth = 0;
-    double sumTextsHeight = 0;
-    for (TextPainter tp in drawingTextPainters) {
-      if (tp.width > biggerWidth) {
-        biggerWidth = tp.width;
-      }
-      sumTextsHeight += tp.height;
-    }
-    sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowMargin;
-
-
-    /// if we have multiple bar lines,
-    /// there are more than one FlCandidate on touch area,
-    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final Offset mostTopOffset = sortedTouchedSpotOffsets.first.offset;
-
-    final double tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
-    final double tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
-
-    /// draw the background rect with rounded radius
-    final Rect rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2), mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin, tooltipWidth, tooltipHeight);
-    final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
-    final RRect roundedRect = RRect.fromRectAndCorners(rect, topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
-    bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvas.drawRRect(roundedRect, bgTouchTooltipPaint);
-
-    /// draw the texts one by one in below of each other
-    double topPosSeek = tooltipData.tooltipPadding.top;
-    for (TextPainter tp in drawingTextPainters) {
-      final drawOffset = Offset(
-        rect.center.dx - (tp.width / 2),
-        rect.topCenter.dy + topPosSeek,
-      );
-      tp.paint(canvas, drawOffset);
-      topPosSeek += tp.height;
-      topPosSeek += textsBelowMargin;
     }
   }
 

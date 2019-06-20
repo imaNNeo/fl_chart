@@ -148,6 +148,7 @@ class TouchTooltipData {
   }) : super();
 }
 
+/// holds information about touched spot on the axis base charts
 abstract class TouchedSpot {
   final FlSpot spot;
   final Offset offset;

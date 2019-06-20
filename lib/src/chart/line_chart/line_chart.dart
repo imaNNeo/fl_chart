@@ -12,5 +12,7 @@ class LineChart extends AxisChart {
   );
 
   @override
-  BaseChartPainter painter({FlTouchController touchController}) => LineChartPainter(lineChartData, touchController);
+  BaseChartPainter painter({FlTouchController touchController}) {
+    return LineChartPainter(lineChartData, touchController);
+  }
 }
