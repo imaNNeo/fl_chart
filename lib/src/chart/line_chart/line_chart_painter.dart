@@ -116,23 +116,20 @@ class LineChartPainter extends AxisChartPainter {
       return null;
     }
 
-    FlSpot nearestSpot;
-
     /// Find the nearest spot (on X axis)
     for (FlSpot spot in barData.spots) {
       if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <= data.lineTouchData.touchSpotThreshold) {
-        nearestSpot = spot;
+        final nearestSpot = spot;
+        final Offset nearestSpotPos = Offset(
+          getPixelX(nearestSpot.x, chartViewSize),
+          getPixelY(nearestSpot.y, chartViewSize),
+        );
+
+        return LineTouchedSpot(barData, nearestSpot, nearestSpotPos);
       }
     }
 
-    if (nearestSpot == null) {
-      return null;
-    }
-
-    final double x = getPixelX(nearestSpot.x, chartViewSize);
-    final Offset nearestSpotPos = Offset(x, getPixelY(nearestSpot.y, chartViewSize));
-
-    return LineTouchedSpot(barData, nearestSpot, nearestSpotPos);
+    return null;
   }
 
   void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
