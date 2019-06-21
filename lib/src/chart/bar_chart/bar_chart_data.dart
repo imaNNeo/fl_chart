@@ -12,11 +12,13 @@ class BarChartData extends AxisChartData {
   final List<BarChartGroupData> barGroups;
   final BarChartAlignment alignment;
   final FlTitlesData titlesData;
+  final BarTouchData barTouchData;
 
   BarChartData({
     this.barGroups = const [],
     this.alignment = BarChartAlignment.spaceBetween,
     this.titlesData = const FlTitlesData(),
+    this.barTouchData = const BarTouchData(),
     FlGridData gridData = const FlGridData(
       show: false,
     ),
@@ -27,6 +29,7 @@ class BarChartData extends AxisChartData {
           gridData: gridData,
           borderData: borderData,
           backgroundColor: backgroundColor,
+          touchData: barTouchData,
         ) {
     initSuperMinMaxValues(maxY);
   }
@@ -204,4 +207,40 @@ class BackgroundBarChartRodData {
     this.show = false,
     this.color = Colors.blueGrey,
   });
+}
+
+
+class BarTouchData extends FlTouchData {
+  final TouchTooltipData touchTooltipData;
+
+  /// we find the nearest bar on touched position based on this threshold
+  final EdgeInsets touchExtraThreshold;
+
+  final bool allowTouchBarBackDraw;
+
+  const BarTouchData({
+    this.touchTooltipData = const TouchTooltipData(),
+    this.touchExtraThreshold = const EdgeInsets.all(4),
+    this.allowTouchBarBackDraw = false,
+    bool enabled = true,
+  }) : super(enabled);
+
+}
+
+class BarTouchedSpot extends TouchedSpot {
+  final BarChartGroupData touchedBarGroup;
+  final BarChartRodData touchedRodData;
+
+  BarTouchedSpot(
+    this.touchedBarGroup,
+    this.touchedRodData,
+    FlSpot spot,
+    Offset offset,
+    ) : super(spot, offset);
+
+  @override
+  Color getColor() {
+    return Colors.black;
+  }
+
 }
