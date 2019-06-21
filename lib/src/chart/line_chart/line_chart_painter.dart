@@ -25,8 +25,8 @@ class LineChartPainter extends AxisChartPainter {
 
   LineChartPainter(
     this.data,
-    FlTouchController touchController,
-  ) : super(data, touchController: touchController) {
+    FlTouchInputNotifier touchInputNotifier,
+  ) : super(data, touchInputNotifier: touchInputNotifier) {
 
     barPaint = Paint()
       ..style = PaintingStyle.stroke;
@@ -106,7 +106,7 @@ class LineChartPainter extends AxisChartPainter {
   LineTouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, LineChartBarData barData) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    final Offset touchedPoint = touchController != null ? touchController.value : null;
+    final Offset touchedPoint = touchInputNotifier != null ? touchInputNotifier.value : null;
 
     if (touchedPoint == null) {
       return null;
@@ -530,6 +530,6 @@ class LineChartPainter extends AxisChartPainter {
   @override
   bool shouldRepaint(LineChartPainter oldDelegate) =>
       oldDelegate.data != data ||
-        oldDelegate.touchController != touchController;
+        oldDelegate.touchInputNotifier != touchInputNotifier;
 
 }

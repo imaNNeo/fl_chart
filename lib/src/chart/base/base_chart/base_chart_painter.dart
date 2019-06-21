@@ -15,10 +15,10 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   Paint borderPaint;
 
-  FlTouchController touchController;
+  FlTouchInputNotifier touchInputNotifier;
 
-  BaseChartPainter(this.data, {this.touchController}):
-      super(repaint: data.touchData.enabled ? touchController : null) {
+  BaseChartPainter(this.data, {this.touchInputNotifier}):
+      super(repaint: data.touchData.enabled ? touchInputNotifier : null) {
 
     borderPaint = Paint()
       ..style = PaintingStyle.stroke;
@@ -94,6 +94,6 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   double getTopOffsetDrawSize() => 0;
 }
 
-class FlTouchController extends ValueNotifier<Offset> {
-  FlTouchController(Offset value) : super(value);
+class FlTouchInputNotifier extends ValueNotifier<Offset> {
+  FlTouchInputNotifier(Offset value) : super(value);
 }

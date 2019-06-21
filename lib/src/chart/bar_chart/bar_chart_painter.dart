@@ -12,8 +12,8 @@ class BarChartPainter extends AxisChartPainter {
 
   BarChartPainter(
     this.data,
-    FlTouchController touchController,
-  ) : super(data, touchController: touchController) {
+    FlTouchInputNotifier touchController,
+  ) : super(data, touchInputNotifier: touchController) {
     barPaint = Paint()..style = PaintingStyle.fill;
   }
 
@@ -322,7 +322,7 @@ class BarChartPainter extends AxisChartPainter {
   BarTouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    final Offset touchedPoint = touchController != null ? touchController.value : null;
+    final Offset touchedPoint = touchInputNotifier != null ? touchInputNotifier.value : null;
 
     if (touchedPoint == null) {
       return null;

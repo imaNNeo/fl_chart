@@ -41,12 +41,12 @@ class FlChart extends StatefulWidget {
 
 class _FlChartState extends State<FlChart> {
 
-  FlTouchController flTouchController;
+  FlTouchInputNotifier flTouchInputNotifier;
 
   @override
   void initState() {
     super.initState();
-    flTouchController = FlTouchController(null);
+    flTouchInputNotifier = FlTouchInputNotifier(null);
   }
 
   @override
@@ -67,13 +67,13 @@ class _FlChartState extends State<FlChart> {
       },
       child: CustomPaint(
         painter: widget.chart.painter(
-          touchController: flTouchController,
+          touchController: flTouchInputNotifier,
         ),
       ),
     );
   }
 
   void updateTouchedPoint(Offset newOffset) {
-    flTouchController.value = newOffset;
+    flTouchInputNotifier.value = newOffset;
   }
 }
