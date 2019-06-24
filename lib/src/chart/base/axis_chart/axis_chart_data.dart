@@ -130,13 +130,13 @@ List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(List<T> touchedSpots
 }
 
 /// Holds information about showing tooltip on axis based charts
-class TouchTooltipData<T extends TouchedSpot> {
+class TouchTooltipData {
   final Color tooltipBgColor;
   final double tooltipRoundedRadius;
   final EdgeInsets tooltipPadding;
   final double tooltipBottomMargin;
   final double maxContentWidth;
-  final GetTooltipItems<T> getTooltipItems;
+  final GetTooltipItems getTooltipItems;
 
   const TouchTooltipData({
     this.tooltipBgColor = Colors.white,

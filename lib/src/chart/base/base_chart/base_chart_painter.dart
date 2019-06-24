@@ -4,6 +4,7 @@ import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_data.dart';
+import 'touch_input.dart';
 
 /// this class is base class of our painters and
 /// it is responsible to draw borders of charts.
@@ -92,8 +93,4 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
   double getTopOffsetDrawSize() => 0;
-}
-
-class FlTouchInputNotifier extends ValueNotifier<Offset> {
-  FlTouchInputNotifier(Offset value) : super(value);
 }

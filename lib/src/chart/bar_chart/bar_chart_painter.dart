@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -322,11 +322,17 @@ class BarChartPainter extends AxisChartPainter {
   BarTouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    final Offset touchedPoint = touchInputNotifier != null ? touchInputNotifier.value : null;
-
-    if (touchedPoint == null) {
+    if (touchInputNotifier == null || touchInputNotifier.value == null) {
       return null;
     }
+
+    final touch = touchInputNotifier.value;
+
+    if (touch.getOffset() == null || touch is FlLongPressEnd) {
+      return null;
+    }
+
+    final touchedPoint = touch.getOffset();
 
     /// Find the nearest barRod
     for (int i = 0; i < groupBarsPosition.length; i++) {

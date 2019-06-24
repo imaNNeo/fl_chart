@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -106,11 +106,17 @@ class LineChartPainter extends AxisChartPainter {
   LineTouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, LineChartBarData barData) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    final Offset touchedPoint = touchInputNotifier != null ? touchInputNotifier.value : null;
-
-    if (touchedPoint == null) {
+    if (touchInputNotifier == null || touchInputNotifier.value == null) {
       return null;
     }
+
+    final touch = touchInputNotifier.value;
+
+    if (touch.getOffset() == null || touch is FlLongPressEnd) {
+      return null;
+    }
+
+    final touchedPoint = touch.getOffset();
 
     /// Find the nearest spot (on X axis)
     for (FlSpot spot in barData.spots) {

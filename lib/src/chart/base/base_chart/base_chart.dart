@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 
 import 'base_chart_painter.dart';
+import 'touch_input.dart';
 
 /// BaseChart is a base class for our charts,
 /// each chart should extends this class and implement the [painter] method.

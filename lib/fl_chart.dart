@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'src/chart/bar_chart/bar_chart.dart';
 import 'src/chart/base/base_chart/base_chart.dart';
 import 'src/chart/base/base_chart/base_chart_painter.dart';
+import 'src/chart/base/base_chart/touch_input.dart';
 import 'src/chart/line_chart/line_chart.dart';
 import 'src/chart/pie_chart/pie_chart.dart';
 
@@ -41,39 +42,48 @@ class FlChart extends StatefulWidget {
 
 class _FlChartState extends State<FlChart> {
 
-  FlTouchInputNotifier flTouchInputNotifier;
+  FlTouchInputNotifier touchInputNotifier;
 
   @override
   void initState() {
     super.initState();
-    flTouchInputNotifier = FlTouchInputNotifier(null);
+    touchInputNotifier = FlTouchInputNotifier(null);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPressStart: (d) {
-        final RenderBox box = context.findRenderObject();
-        final Offset offset = box.globalToLocal(d.globalPosition);
-        updateTouchedPoint(offset);
+        touchInputNotifier.value = FlLongPressStart(
+          _globalToLocal(context, d.globalPosition),
+        );
       },
       onLongPressEnd: (d) {
-        updateTouchedPoint(null);
+        touchInputNotifier.value = FlLongPressEnd(
+          _globalToLocal(context, d.globalPosition),
+        );
       },
       onLongPressMoveUpdate: (d) {
-        final RenderBox box = context.findRenderObject();
-        final Offset offset = box.globalToLocal(d.globalPosition);
-        updateTouchedPoint(offset);
+        touchInputNotifier.value = FlLongPressMoveUpdate(
+          _globalToLocal(context, d.globalPosition),
+        );
       },
       child: CustomPaint(
         painter: widget.chart.painter(
-          touchController: flTouchInputNotifier,
+          touchController: touchInputNotifier,
         ),
       ),
     );
   }
 
-  void updateTouchedPoint(Offset newOffset) {
-    flTouchInputNotifier.value = newOffset;
+  Offset _globalToLocal(BuildContext context, Offset globalPosition) {
+    final RenderBox box = context.findRenderObject();
+    return box.globalToLocal(globalPosition);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    touchInputNotifier.dispose();
   }
 }
