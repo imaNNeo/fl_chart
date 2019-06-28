@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,7 +22,8 @@ class PieChartPainter extends BaseChartPainter {
 
   PieChartPainter(
     this.data,
-  ) : super(data) {
+    FlTouchInputNotifier touchInputNotifier,
+  ) : super(data, touchInputNotifier: touchInputNotifier) {
     sectionPaint = Paint()
       ..style = PaintingStyle.stroke;
 
@@ -41,9 +44,24 @@ class PieChartPainter extends BaseChartPainter {
       return;
     }
 
+    final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
+
     drawCenterSpace(canvas, size);
-    drawSections(canvas, size);
+    drawSections(canvas, size, sectionsAngle);
     drawTexts(canvas, size);
+
+    PieTouchedDetails touched =
+      _getTouchedDetails(canvas, size, sectionsAngle);
+    if (touched != null) {
+      int index = data.sections.indexOf(touched.sectionData);
+      print("touchedIndex: $index");
+    }
+  }
+
+  List<double> _calculateSectionsAngle(List<PieChartSectionData> sections, double sumValue) {
+    return sections.map((section) {
+      return 360 * (section.value / sumValue);
+    }).toList();
   }
 
   void drawCenterSpace(Canvas canvas, Size viewSize) {
@@ -53,13 +71,17 @@ class PieChartPainter extends BaseChartPainter {
     canvas.drawCircle(Offset(centerX, centerY), data.centerSpaceRadius, centerSpacePaint);
   }
 
-  void drawSections(Canvas canvas, Size viewSize) {
+  void drawSections(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
     canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     double tempAngle = data.startDegreeOffset;
-    data.sections.forEach((section) {
-      Rect rect = Rect.fromCircle(
+
+    for (int i = 0; i < data.sections.length; i++) {
+      final section =  data.sections[i];
+      final sectionDegree = sectionsAngle[i];
+
+      final rect = Rect.fromCircle(
         center: center,
         radius: data.centerSpaceRadius + (section.radius / 2),
       );
@@ -68,7 +90,7 @@ class PieChartPainter extends BaseChartPainter {
       sectionPaint.strokeWidth = section.radius;
 
       double startAngle = tempAngle;
-      double sweepAngle = 360 * (section.value / data.sumValue);
+      double sweepAngle = sectionDegree;
       canvas.drawArc(
         rect,
         radians(startAngle),
@@ -78,7 +100,7 @@ class PieChartPainter extends BaseChartPainter {
       );
 
       tempAngle += sweepAngle;
-    });
+    }
 
     removeSectionsSpace(canvas, viewSize);
   }
@@ -145,6 +167,59 @@ class PieChartPainter extends BaseChartPainter {
 
       tempAngle += sweepAngle;
     });
+  }
+
+  /// find touched section
+  PieTouchedDetails _getTouchedDetails(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
+    final center = Offset(viewSize.width / 2, viewSize.height / 2);
+
+    if (touchInputNotifier == null || touchInputNotifier.value == null) {
+      return null;
+    }
+
+    final touch = touchInputNotifier.value;
+
+    if (touch.getOffset() == null || touch is FlLongPressEnd) {
+      return null;
+    }
+
+    final touchedPoint = touch.getOffset() - center;
+
+    final touchX = touchedPoint.dx;
+    final touchY = touchedPoint.dy;
+
+    final touchR = math.sqrt(math.pow(touchX, 2) + math.pow(touchY, 2));
+    double touchAngle = degrees(math.atan2(touchY, touchX));
+    touchAngle = touchAngle < 0 ? (180 - touchAngle.abs()) + 180 : touchAngle;
+
+    /// Find the nearest section base on the touch spot
+    double tempAngle = data.startDegreeOffset;
+    for (int i = 0; i < data.sections.length; i++) {
+      PieChartSectionData section = data.sections[i];
+      double sectionAngle = sectionsAngle[i];
+
+      tempAngle %= 360;
+      sectionAngle %= 360;
+
+      /// degree criteria
+      final space = data.sectionsSpace / 2;
+      final fromDegree = tempAngle + space;
+      final toDegree = sectionAngle + tempAngle - space;
+      final isInDegree = touchAngle >= fromDegree && touchAngle <= toDegree;
+
+      /// radius criteria
+      final centerRadius = data.centerSpaceRadius;
+      final sectionRadius = centerRadius + section.radius;
+      final isInRadius = touchR > centerRadius && touchR <= sectionRadius;
+
+      if (isInDegree && isInRadius) {
+        return PieTouchedDetails(section);
+      }
+
+      tempAngle += sectionAngle;
+    }
+
+    return null;
   }
 
   @override

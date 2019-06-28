@@ -10,6 +10,7 @@ class PieChartData extends BaseChartData {
   final List<PieChartSectionData> sections;
   final double centerSpaceRadius;
   final Color centerSpaceColor;
+  final PieTouchData pieTouchData;
 
   /// space between sections together
   final double sectionsSpace;
@@ -28,9 +29,11 @@ class PieChartData extends BaseChartData {
     this.centerSpaceColor = Colors.transparent,
     this.sectionsSpace = 2,
     this.startDegreeOffset = 0,
+    this.pieTouchData = const PieTouchData(),
     FlBorderData borderData,
   }) : super(
           borderData: borderData,
+          touchData: pieTouchData
         ) {
     sumValue = sections.map((data) => data.value).reduce((first, second) => first + second);
   }
@@ -71,4 +74,18 @@ class PieChartSectionData {
     this.title = '1',
     this.titlePositionPercentageOffset = 0.5,
   });
+}
+
+class PieTouchData extends FlTouchData {
+  final double touchSpotThreshold;
+
+  const PieTouchData({
+    this.touchSpotThreshold = 10,
+    bool enabled = true,
+  }) : super(enabled);
+}
+
+class PieTouchedDetails {
+  final PieChartSectionData sectionData;
+  PieTouchedDetails(this.sectionData);
 }
