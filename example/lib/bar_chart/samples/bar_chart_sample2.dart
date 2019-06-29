@@ -1,11 +1,93 @@
+import 'dart:async';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class BarChartSample2 extends StatelessWidget {
+class BarChartSample2 extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() => BarChartSample2State();
+
+}
+
+class BarChartSample2State extends State<BarChartSample2> {
 
   final Color leftBarColor = Color(0xff53fdd7);
   final Color rightBarColor = Color(0xffff5182);
   final double width = 7;
+
+  List<BarChartGroupData> rawBarGroups;
+  List<BarChartGroupData> showingBarGroups;
+
+  StreamController<BarTouchResponse> barTouchedResultStreamController;
+
+  int touchedGroupIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    final barGroup1 = makeGroupData(0, 5, 12);
+    final barGroup2 = makeGroupData(1, 16, 12);
+    final barGroup3 = makeGroupData(2, 18, 5);
+    final barGroup4 = makeGroupData(3, 20, 16);
+    final barGroup5 = makeGroupData(4, 17, 6);
+    final barGroup6 = makeGroupData(5, 19, 1.5);
+    final barGroup7 = makeGroupData(6, 10, 1.5);
+
+    final items = [
+      barGroup1,
+      barGroup2,
+      barGroup3,
+      barGroup4,
+      barGroup5,
+      barGroup6,
+      barGroup7,
+    ];
+
+    rawBarGroups = items;
+
+    showingBarGroups = rawBarGroups;
+
+    barTouchedResultStreamController = StreamController();
+    barTouchedResultStreamController.stream.distinct().listen((BarTouchResponse response) {
+      if (response == null) {
+        return;
+      }
+
+      if (response.spot == null) {
+        setState(() {
+          touchedGroupIndex = -1;
+          showingBarGroups = List.of(rawBarGroups);
+        });
+        return;
+      }
+
+      touchedGroupIndex = showingBarGroups.indexOf(response.spot.touchedBarGroup);
+
+      setState(() {
+        if (response.touchInput is FlLongPressEnd) {
+          touchedGroupIndex = -1;
+          showingBarGroups = List.of(rawBarGroups);
+        } else {
+          showingBarGroups = List.of(rawBarGroups);
+          if (touchedGroupIndex != -1) {
+            double sum = 0;
+            for (BarChartRodData rod in showingBarGroups[touchedGroupIndex].barRods) {
+              sum += rod.y;
+            }
+            double avg = sum / showingBarGroups[touchedGroupIndex].barRods.length;
+
+            showingBarGroups[touchedGroupIndex] = showingBarGroups[touchedGroupIndex].copyWith(
+              barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
+                return rod.copyWith(y: avg);
+              }).toList(),
+            );
+          }
+        }
+      });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +134,18 @@ class BarChartSample2 extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: FlChart(
                     chart: BarChart(BarChartData(
+                      maxY: 20,
+                      barTouchData: BarTouchData(
+                        touchTooltipData: TouchTooltipData(
+                          tooltipBgColor: Colors.grey,
+                          getTooltipItems: (spots) {
+                            return spots.map((TouchedSpot spot) {
+                              return null;
+                            }).toList();
+                          }
+                        ),
+                        touchResponseSink: barTouchedResultStreamController.sink,
+                      ),
                       titlesData: FlTitlesData(
                         show: true,
                         showHorizontalTitles: true,
@@ -100,15 +194,7 @@ class BarChartSample2 extends StatelessWidget {
                       borderData: FlBorderData(
                         show: false,
                       ),
-                      barGroups: [
-                        makeGroupData(0, 5, 12),
-                        makeGroupData(1, 16, 12),
-                        makeGroupData(2, 18, 5),
-                        makeGroupData(3, 20, 16),
-                        makeGroupData(4, 17, 6),
-                        makeGroupData(5, 19, 1.5),
-                        makeGroupData(6, 10, 1.5),
-                      ],
+                      barGroups: showingBarGroups,
                     )),
                   ),
                 ),
@@ -187,5 +273,4 @@ class BarChartSample2 extends StatelessWidget {
       ],
     );
   }
-
 }

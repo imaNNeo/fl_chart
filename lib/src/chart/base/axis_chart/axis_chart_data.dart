@@ -117,6 +117,11 @@ class FlLine {
 /// here we get the [TooltipItem] from the given [TouchedSpot].
 typedef GetTooltipItems<T extends TouchedSpot> = List<TooltipItem> Function(List<T> touchedSpots);
 List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(List<T> touchedSpots) {
+
+  if (touchedSpots == null) {
+    return null;
+  }
+
   return touchedSpots.map((T touchedSpot) {
     if (touchedSpots == null || touchedSpot.spot == null) {
       return null;
