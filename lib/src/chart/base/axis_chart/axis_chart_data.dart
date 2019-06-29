@@ -129,7 +129,8 @@ List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(List<T> touchedSpots
   }).toList();
 }
 
-/// Holds information about showing tooltip on axis based charts
+/// Holds information for showing tooltip on axis based charts
+/// when a touch event happened
 class TouchTooltipData {
   final Color tooltipBgColor;
   final double tooltipRoundedRadius;

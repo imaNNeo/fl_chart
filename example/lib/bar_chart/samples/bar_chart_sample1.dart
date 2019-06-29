@@ -42,11 +42,6 @@ class BarChartSample1 extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: FlChart(
                     chart: BarChart(BarChartData(
-                      barTouchData: BarTouchData(
-                        touchTooltipData: TouchTooltipData(
-                          getTooltipItems: ss,
-                        )
-                      ),
                       titlesData: FlTitlesData(
                         show: true,
                         showHorizontalTitles: true,
@@ -114,8 +109,4 @@ class BarChartSample1 extends StatelessWidget {
     ]);
   }
 
-
-  List<TooltipItem> ss<T extends TouchedSpot>(List<T> touchedSpots) {
-
-  }
 }

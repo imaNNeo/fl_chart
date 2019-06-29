@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fl_chart/src/chart/base/base_chart/base_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -14,7 +16,11 @@ class PieChart extends BaseChart {
     );
 
   @override
-  BaseChartPainter<BaseChartData> painter({FlTouchInputNotifier touchController}) {
-    return PieChartPainter(pieChartData, touchController);
+  BaseChartPainter painter({FlTouchInputNotifier touchInputNotifier, StreamSink<BaseTouchResponse> touchResponseSink}) {
+    return PieChartPainter(pieChartData, touchInputNotifier, touchResponseSink);
   }
+
+  @override
+  BaseChartData getData() => pieChartData;
+
 }

@@ -1,6 +1,5 @@
+import 'package:example/pie_chart/pie_chart_page.dart';
 import 'package:flutter/material.dart';
-
-import 'bar_chart/bar_chart_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BarChartPage(),
+        child: PieChartPage(),
       ),
     );
   }

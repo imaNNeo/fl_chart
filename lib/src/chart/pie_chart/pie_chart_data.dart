@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 
 import '../base/base_chart/base_chart_data.dart';
@@ -74,18 +76,54 @@ class PieChartSectionData {
     this.title = '1',
     this.titlePositionPercentageOffset = 0.5,
   });
+
+  PieChartSectionData copyWith({
+    double value,
+    Color color,
+    double radius,
+    bool showTitle,
+    TextStyle titleStyle,
+    String title,
+    double titlePositionPercentageOffset,
+  }) {
+    return PieChartSectionData(
+      value: value ?? this.value,
+      color: color ?? this.color,
+      radius: radius ?? this.radius,
+      showTitle: showTitle ?? this.showTitle,
+      titleStyle: titleStyle ?? this.titleStyle,
+      title: title ?? this.title,
+      titlePositionPercentageOffset: titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+    );
+  }
 }
 
+/// holds data for handling touch events on the [PieChart]
 class PieTouchData extends FlTouchData {
-  final double touchSpotThreshold;
 
   const PieTouchData({
-    this.touchSpotThreshold = 10,
     bool enabled = true,
-  }) : super(enabled);
+    StreamSink<PieTouchResponse> touchResponseStreamSink,
+  }) : super(enabled, touchResponseStreamSink);
 }
 
-class PieTouchedDetails {
+/// holds the data of touch response on the [PieChart]
+/// used in the [PieTouchData] in a [StreamSink]
+class PieTouchResponse extends BaseTouchResponse {
+
+  /// touch happened on this section
   final PieChartSectionData sectionData;
-  PieTouchedDetails(this.sectionData);
+
+  /// touch happened with this angle on the [PieChart]
+  final double touchAngle;
+
+  /// touch happened with this radius on the [PieChart]
+  final double touchRadius;
+
+  PieTouchResponse(
+    this.sectionData,
+    this.touchAngle,
+    this.touchRadius,
+    FlTouchInput touchInput,
+    ) : super(touchInput);
 }

@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:flutter/material.dart';
 
 /// This class holds data to draw the line chart
@@ -310,7 +313,9 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<LineTouchedSpot> to
   }).toList();
 }
 
+/// holds data for handling touch events on the [LineChart]
 class LineTouchData extends FlTouchData {
+  /// show a tooltip on touched spots
   final TouchTooltipData touchTooltipData;
 
   /// show the indicator line and dot at the touched spot
@@ -325,15 +330,33 @@ class LineTouchData extends FlTouchData {
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
     bool enabled = true,
-  }) : super(enabled);
+    StreamSink<LineTouchResponse> touchedResultStreamSink,
+  }) : super(enabled, touchedResultStreamSink);
 
 }
 
+/// details of showing indicator when touch happened on [LineChart]
+/// [indicatorBelowLine] we draw a vertical line below of the touched spot
+/// [touchedSpotDotData] we draw a larger dot on the touched spot to bold it
 class TouchedSpotIndicatorData {
   final FlLine indicatorBelowLine;
   final FlDotData touchedSpotDotData;
 
   TouchedSpotIndicatorData(this.indicatorBelowLine, this.touchedSpotDotData);
+}
+
+/// holds the data of touch response on the [LineChart]
+/// used in the [LineTouchData] in a [StreamSink]
+class LineTouchResponse extends BaseTouchResponse {
+
+  /// touch happened on these spots
+  /// (if a single line provided on the chart, [spots]'s length will be 1 always)
+  final List<LineTouchedSpot> spots;
+
+  LineTouchResponse(
+    this.spots,
+    FlTouchInput touchInput,
+    ) : super(touchInput);
 }
 
 class LineTouchedSpot extends TouchedSpot {

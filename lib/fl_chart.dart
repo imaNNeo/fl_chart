@@ -13,6 +13,7 @@ export 'src/chart/bar_chart/bar_chart.dart';
 export 'src/chart/bar_chart/bar_chart_data.dart';
 export 'src/chart/base/axis_chart/axis_chart_data.dart';
 export 'src/chart/base/base_chart/base_chart_data.dart';
+export 'src/chart/base/base_chart/touch_input.dart';
 export 'src/chart/line_chart/line_chart.dart';
 export 'src/chart/line_chart/line_chart_data.dart';
 export 'src/chart/pie_chart/pie_chart.dart';
@@ -42,35 +43,38 @@ class FlChart extends StatefulWidget {
 
 class _FlChartState extends State<FlChart> {
 
-  FlTouchInputNotifier touchInputNotifier;
+  ///We will notify Touch Events through this Notifier in form of a [FlTouchInput],
+  ///then the painter returns touched details through a StreamSink.a
+  FlTouchInputNotifier _touchInputNotifier;
 
   @override
   void initState() {
     super.initState();
-    touchInputNotifier = FlTouchInputNotifier(null);
+    _touchInputNotifier = FlTouchInputNotifier(null);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPressStart: (d) {
-        touchInputNotifier.value = FlLongPressStart(
+        _touchInputNotifier.value = FlLongPressStart(
           _globalToLocal(context, d.globalPosition),
         );
       },
       onLongPressEnd: (d) {
-        touchInputNotifier.value = FlLongPressEnd(
+        _touchInputNotifier.value = FlLongPressEnd(
           _globalToLocal(context, d.globalPosition),
         );
       },
       onLongPressMoveUpdate: (d) {
-        touchInputNotifier.value = FlLongPressMoveUpdate(
+        _touchInputNotifier.value = FlLongPressMoveUpdate(
           _globalToLocal(context, d.globalPosition),
         );
       },
       child: CustomPaint(
         painter: widget.chart.painter(
-          touchController: touchInputNotifier,
+          touchInputNotifier: _touchInputNotifier,
+          touchResponseSink: widget.chart.getData().touchData.touchResponseSink,
         ),
       ),
     );
@@ -84,6 +88,6 @@ class _FlChartState extends State<FlChart> {
   @override
   void dispose() {
     super.dispose();
-    touchInputNotifier.dispose();
+    _touchInputNotifier.dispose();
   }
 }

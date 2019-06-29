@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
@@ -23,7 +24,8 @@ class PieChartPainter extends BaseChartPainter {
   PieChartPainter(
     this.data,
     FlTouchInputNotifier touchInputNotifier,
-  ) : super(data, touchInputNotifier: touchInputNotifier) {
+    StreamSink<PieTouchResponse> touchedResultSink,
+  ) : super(data, touchInputNotifier: touchInputNotifier, touchedResponseSink: touchedResultSink) {
     sectionPaint = Paint()
       ..style = PaintingStyle.stroke;
 
@@ -50,11 +52,9 @@ class PieChartPainter extends BaseChartPainter {
     drawSections(canvas, size, sectionsAngle);
     drawTexts(canvas, size);
 
-    PieTouchedDetails touched =
-      _getTouchedDetails(canvas, size, sectionsAngle);
-    if (touched != null) {
-      int index = data.sections.indexOf(touched.sectionData);
-      print("touchedIndex: $index");
+    final touched = _getTouchedDetails(canvas, size, sectionsAngle);
+    if (touchedResponseSink != null) {
+      touchedResponseSink.add(touched);
     }
   }
 
@@ -169,8 +169,8 @@ class PieChartPainter extends BaseChartPainter {
     });
   }
 
-  /// find touched section
-  PieTouchedDetails _getTouchedDetails(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
+  /// find touched section by the value of [touchInputNotifier]
+  PieTouchResponse _getTouchedDetails(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     if (touchInputNotifier == null || touchInputNotifier.value == null) {
@@ -179,7 +179,7 @@ class PieChartPainter extends BaseChartPainter {
 
     final touch = touchInputNotifier.value;
 
-    if (touch.getOffset() == null || touch is FlLongPressEnd) {
+    if (touch.getOffset() == null) {
       return null;
     }
 
@@ -192,10 +192,12 @@ class PieChartPainter extends BaseChartPainter {
     double touchAngle = degrees(math.atan2(touchY, touchX));
     touchAngle = touchAngle < 0 ? (180 - touchAngle.abs()) + 180 : touchAngle;
 
+    PieChartSectionData foundSectionData;
+
     /// Find the nearest section base on the touch spot
     double tempAngle = data.startDegreeOffset;
     for (int i = 0; i < data.sections.length; i++) {
-      PieChartSectionData section = data.sections[i];
+      final section = data.sections[i];
       double sectionAngle = sectionsAngle[i];
 
       tempAngle %= 360;
@@ -213,13 +215,14 @@ class PieChartPainter extends BaseChartPainter {
       final isInRadius = touchR > centerRadius && touchR <= sectionRadius;
 
       if (isInDegree && isInRadius) {
-        return PieTouchedDetails(section);
+        foundSectionData = section;
+        break;
       }
 
       tempAngle += sectionAngle;
     }
 
-    return null;
+    return PieTouchResponse(foundSectionData, touchAngle, touchR, touch);
   }
 
   @override

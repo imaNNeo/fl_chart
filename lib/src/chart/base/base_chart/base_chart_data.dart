@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
+import 'touch_input.dart';
 
 /// This class holds all data needed to [BaseChartPainter],
 /// in this phase just the [FlBorderData] provided
@@ -45,9 +48,14 @@ class FlBorderData {
 /***** TouchData *****/
 /// holds information about touch on the chart
 class FlTouchData {
+  /// determines enable or disable the touch in the chart
   final bool enabled;
 
-  const FlTouchData(this.enabled,);
+  /// chart notifies the touch responses through this [StreamSink]
+  /// in form of a [BaseTouchResponse] class
+  final StreamSink<BaseTouchResponse> touchResponseSink;
+
+  const FlTouchData(this.enabled, this.touchResponseSink);
 }
 
 
@@ -104,4 +112,12 @@ class FlTitlesData {
     ),
     this.verticalTitleMargin = 6,
   });
+}
+
+/// this class holds the touch response details,
+/// specific touch details should be hold on the concrete child classes
+class BaseTouchResponse {
+  final FlTouchInput touchInput;
+
+  BaseTouchResponse(this.touchInput);
 }

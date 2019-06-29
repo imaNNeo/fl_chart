@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 
 /// This class is responsible to holds data to draw Bar Chart
@@ -210,12 +213,15 @@ class BackgroundBarChartRodData {
 }
 
 
+/// holds data for handling touch events on the [BarChart]
 class BarTouchData extends FlTouchData {
+  /// show a tooltip on touched spots
   final TouchTooltipData touchTooltipData;
 
   /// we find the nearest bar on touched position based on this threshold
   final EdgeInsets touchExtraThreshold;
 
+  /// allow to touch the bar back draw
   final bool allowTouchBarBackDraw;
 
   const BarTouchData({
@@ -223,10 +229,26 @@ class BarTouchData extends FlTouchData {
     this.touchExtraThreshold = const EdgeInsets.all(4),
     this.allowTouchBarBackDraw = false,
     bool enabled = true,
-  }) : super(enabled);
+    StreamSink<BarTouchResponse> touchResponseSink,
+  }) : super(enabled, touchResponseSink);
 
 }
 
+/// holds the data of touch response on the [BarChart]
+/// used in the [BarTouchData] in a [StreamSink]
+class BarTouchResponse extends BaseTouchResponse{
+
+  /// touch happened on this [BarTouchedSpot]
+  final BarTouchedSpot spot;
+
+  BarTouchResponse(
+    this.spot,
+    FlTouchInput touchInput,
+    ) : super(touchInput);
+}
+
+/// holds the [BarChartGroupData] and the [BarChartRodData]
+/// of the touched spot
 class BarTouchedSpot extends TouchedSpot {
   final BarChartGroupData touchedBarGroup;
   final BarChartRodData touchedRodData;
