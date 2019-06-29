@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
@@ -14,8 +17,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
   Paint gridPaint, backgroundPaint, bgTouchTooltipPaint;
 
-  AxisChartPainter(this.data, {FlTouchInputNotifier touchInputNotifier,}) :
-      super(data, touchInputNotifier: touchInputNotifier) {
+  AxisChartPainter(this.data, {FlTouchInputNotifier touchInputNotifier, StreamSink<BaseTouchResponse> touchedResponseSink}) :
+      super(data, touchInputNotifier: touchInputNotifier, touchedResponseSink: touchedResponseSink) {
     gridPaint = Paint()..style = PaintingStyle.fill;
 
     backgroundPaint = Paint()..style = PaintingStyle.fill;

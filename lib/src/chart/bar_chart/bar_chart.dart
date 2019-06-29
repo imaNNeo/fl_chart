@@ -17,7 +17,7 @@ class BarChart extends AxisChart {
 
   @override
   BaseChartPainter painter({FlTouchInputNotifier touchInputNotifier, StreamSink touchResponseSink}) {
-    return BarChartPainter(barChartData, touchInputNotifier);
+    return BarChartPainter(barChartData, touchInputNotifier, touchResponseSink);
   }
 
   @override
