@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
@@ -26,7 +27,8 @@ class LineChartPainter extends AxisChartPainter {
   LineChartPainter(
     this.data,
     FlTouchInputNotifier touchInputNotifier,
-  ) : super(data, touchInputNotifier: touchInputNotifier) {
+    StreamSink<LineTouchResponse> touchedResponseSink,
+  ) : super(data, touchInputNotifier: touchInputNotifier, touchedResponseSink: touchedResponseSink) {
 
     barPaint = Paint()
       ..style = PaintingStyle.stroke;
@@ -94,6 +96,10 @@ class LineChartPainter extends AxisChartPainter {
 
     // Draw touch tooltip on most top spot
     super.drawTouchTooltip(canvas, viewSize, data.lineTouchData.touchTooltipData, touchedSpots);
+
+    if (touchedResponseSink != null) {
+      touchedResponseSink.add(LineTouchResponse(touchedSpots, touchInputNotifier.value));
+    }
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -112,7 +118,7 @@ class LineChartPainter extends AxisChartPainter {
 
     final touch = touchInputNotifier.value;
 
-    if (touch.getOffset() == null || touch is FlLongPressEnd) {
+    if (touch.getOffset() == null) {
       return null;
     }
 
@@ -357,6 +363,10 @@ class LineChartPainter extends AxisChartPainter {
   }
 
   void drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, List<LineTouchedSpot> lineTouchedSpots) {
+    if (touchInputNotifier.value is FlLongPressEnd) {
+      return;
+    }
+
     if (lineTouchedSpots == null || lineTouchedSpots.isEmpty) {
       return;
     }

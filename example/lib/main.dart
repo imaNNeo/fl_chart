@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'bar_chart/bar_chart_page2.dart';
+import 'line_chart/line_chart_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BarChartPage2(),
+        child: LineChartPage(),
       ),
     );
   }
