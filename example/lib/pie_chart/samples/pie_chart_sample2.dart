@@ -88,7 +88,7 @@ class PieChart2State extends State {
           showingSections = List.of(pieChartRawSections);
 
           if (touchedIndex != -1) {
-            TextStyle style = showingSections[touchedIndex].titleStyle;
+            final TextStyle style = showingSections[touchedIndex].titleStyle;
             showingSections[touchedIndex] = showingSections[touchedIndex].copyWith(
               titleStyle: style.copyWith(
                 fontSize: 24,
