@@ -17,7 +17,6 @@ class PieChartSample1State extends State {
   List<PieChartSectionData> pieChartRawSections;
   List<PieChartSectionData> showingSections;
 
-
   StreamController<PieTouchResponse> pieTouchedResultStreamController;
 
   int touchedIndex;
@@ -62,16 +61,16 @@ class PieChartSample1State extends State {
       titlePositionPercentageOffset: 0.55,
     );
 
-    final items =  [
+    final items = [
       section1,
       section2,
       section3,
       section4,
     ];
 
-    pieChartRawSections = List.unmodifiable(items);
+    pieChartRawSections = items;
 
-    showingSections = List.of(pieChartRawSections);
+    showingSections = pieChartRawSections;
 
     pieTouchedResultStreamController = StreamController();
     pieTouchedResultStreamController.stream.distinct().listen((details) {
