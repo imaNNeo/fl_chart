@@ -20,12 +20,14 @@ class PieChartSample1State extends State {
 
   StreamController<PieTouchResponse> pieTouchedResultStreamController;
 
+  int touchedIndex;
+
   @override
   void initState() {
     super.initState();
 
     final section1 = PieChartSectionData(
-      color: Color(0xff0293ee),
+      color: Color(0xff0293ee).withOpacity(0.8),
       value: 25,
       title: "",
       radius: 80,
@@ -34,7 +36,7 @@ class PieChartSample1State extends State {
     );
 
     final section2 = PieChartSectionData(
-      color: Color(0xfff8b250),
+      color: Color(0xfff8b250).withOpacity(0.8),
       value: 25,
       title: "",
       radius: 65,
@@ -43,7 +45,7 @@ class PieChartSample1State extends State {
     );
 
     final section3 = PieChartSectionData(
-      color: Color(0xff845bef),
+      color: Color(0xff845bef).withOpacity(0.8),
       value: 25,
       title: "",
       radius: 60,
@@ -52,7 +54,7 @@ class PieChartSample1State extends State {
     );
 
     final section4 = PieChartSectionData(
-      color: Color(0xff13d38e),
+      color: Color(0xff13d38e).withOpacity(0.8),
       value: 25,
       title: "",
       radius: 70,
@@ -77,19 +79,20 @@ class PieChartSample1State extends State {
         return;
       }
 
-      int index = -1;
+      touchedIndex = -1;
       if (details.sectionData != null) {
-        index = showingSections.indexOf(details.sectionData);
+        touchedIndex = showingSections.indexOf(details.sectionData);
       }
 
       setState(() {
         if (details.touchInput is FlLongPressEnd) {
+          touchedIndex = -1;
           showingSections = List.of(pieChartRawSections);
         } else {
           showingSections = List.of(pieChartRawSections);
-          if (index != -1) {
-            showingSections[index] = showingSections[index].copyWith(
-              color: showingSections[index].color.withOpacity(0.8),
+          if (touchedIndex != -1) {
+            showingSections[touchedIndex] = showingSections[touchedIndex].copyWith(
+              color: showingSections[touchedIndex].color.withOpacity(1),
             );
           }
         }
@@ -112,10 +115,18 @@ class PieChartSample1State extends State {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Indicator(color: Color(0xff0293ee), text: "One", isSquare: false),
-                Indicator(color: Color(0xfff8b250), text: "Two", isSquare: false),
-                Indicator(color: Color(0xff845bef), text: "Three", isSquare: false),
-                Indicator(color: Color(0xff13d38e), text: "Four", isSquare: false),
+                Indicator(color: Color(0xff0293ee), text: "One", isSquare: false,
+                  size: touchedIndex == 0 ? 18 : 16,
+                  textColor: touchedIndex == 0 ? Colors.black : Colors.grey,),
+                Indicator(color: Color(0xfff8b250), text: "Two", isSquare: false,
+                  size: touchedIndex == 1 ? 18 : 16,
+                  textColor: touchedIndex == 1 ? Colors.black : Colors.grey,),
+                Indicator(color: Color(0xff845bef), text: "Three", isSquare: false,
+                  size: touchedIndex == 2 ? 18 : 16,
+                  textColor: touchedIndex == 2 ? Colors.black : Colors.grey,),
+                Indicator(color: Color(0xff13d38e), text: "Four", isSquare: false,
+                  size: touchedIndex == 3 ? 18 : 16,
+                  textColor: touchedIndex == 3 ? Colors.black : Colors.grey,),
               ],
             ),
             SizedBox(
