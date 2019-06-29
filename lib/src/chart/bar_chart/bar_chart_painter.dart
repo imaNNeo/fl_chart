@@ -335,7 +335,7 @@ class BarChartPainter extends AxisChartPainter {
 
     final touch = touchInputNotifier.value;
 
-    if (touch.getOffset() == null || touch is FlLongPressEnd) {
+    if (touch.getOffset() == null) {
       return null;
     }
 
@@ -380,7 +380,7 @@ class BarChartPainter extends AxisChartPainter {
       }
     }
 
-    return null;
+    return BarTouchedSpot(null, null, null, null);
   }
 
   @override

@@ -115,6 +115,11 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   }
 
   void drawTouchTooltip(Canvas canvas, Size viewSize, TouchTooltipData tooltipData, List<TouchedSpot> touchedSpots) {
+    
+    if (touchInputNotifier.value is FlLongPressEnd) {
+      return;
+    }
+
     const double textsBelowMargin = 4;
 
     /// creating TextPainters to calculate the width and height of the tooltip
