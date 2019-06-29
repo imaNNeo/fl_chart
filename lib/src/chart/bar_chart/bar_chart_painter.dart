@@ -44,6 +44,10 @@ class BarChartPainter extends AxisChartPainter {
     drawTitles(canvas, size, groupBarsPosition);
 
     super.drawTouchTooltip(canvas, size, data.barTouchData.touchTooltipData, [touchedSpot]);
+
+    if (touchedResponseSink != null) {
+      touchedResponseSink.add(BarTouchResponse(touchedSpot, touchInputNotifier.value));
+    }
   }
 
   /// If the height of rounded bars is less than their roundedRadius,
