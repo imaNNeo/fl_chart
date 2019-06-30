@@ -326,12 +326,12 @@ class LineTouchData extends FlTouchData {
   final double touchSpotThreshold;
 
   const LineTouchData({
+    bool enabled = true,
     this.touchTooltipData = const TouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
-    bool enabled = true,
-    StreamSink<LineTouchResponse> touchedResultStreamSink,
-  }) : super(enabled, touchedResultStreamSink);
+    StreamSink<LineTouchResponse> touchResponseSink,
+  }) : super(enabled, touchResponseSink);
 
 }
 
@@ -345,6 +345,23 @@ class TouchedSpotIndicatorData {
   TouchedSpotIndicatorData(this.indicatorBelowLine, this.touchedSpotDotData);
 }
 
+/// holds the data of the touched spot
+class LineTouchedSpot extends TouchedSpot {
+  LineChartBarData barData;
+
+  LineTouchedSpot(
+    this.barData,
+    FlSpot spot,
+    Offset offset,
+    ) : super(spot, offset);
+
+  @override
+  Color getColor() {
+    return barData.colors[0];
+  }
+}
+
+
 /// holds the data of touch response on the [LineChart]
 /// used in the [LineTouchData] in a [StreamSink]
 class LineTouchResponse extends BaseTouchResponse {
@@ -357,19 +374,4 @@ class LineTouchResponse extends BaseTouchResponse {
     this.spots,
     FlTouchInput touchInput,
     ) : super(touchInput);
-}
-
-class LineTouchedSpot extends TouchedSpot {
-  LineChartBarData barData;
-
-  LineTouchedSpot(
-    this.barData,
-    FlSpot spot,
-    Offset offset,
-  ) : super(spot, offset);
-
-  @override
-  Color getColor() {
-    return barData.colors[0];
-  }
 }

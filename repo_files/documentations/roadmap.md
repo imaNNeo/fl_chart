@@ -1,7 +1,7 @@
 ## Roadmap
 
 
-- [ ] Add Interactivity
+- [x] Add Interactivity
 
 - [ ] Add Animations
 

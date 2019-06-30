@@ -225,10 +225,10 @@ class BarTouchData extends FlTouchData {
   final bool allowTouchBarBackDraw;
 
   const BarTouchData({
+    bool enabled = true,
     this.touchTooltipData = const TouchTooltipData(),
     this.touchExtraThreshold = const EdgeInsets.all(4),
     this.allowTouchBarBackDraw = false,
-    bool enabled = true,
     StreamSink<BarTouchResponse> touchResponseSink,
   }) : super(enabled, touchResponseSink);
 

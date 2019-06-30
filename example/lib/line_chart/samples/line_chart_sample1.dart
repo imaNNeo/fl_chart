@@ -62,7 +62,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                   chart: LineChart(
                     LineChartData(
                       lineTouchData: LineTouchData(
-                        touchedResultStreamSink: controller.sink,
+                        touchResponseSink: controller.sink,
                         touchTooltipData: TouchTooltipData (
                           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
                         )

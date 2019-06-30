@@ -21,6 +21,7 @@ FlChart(
 |centerSpaceColor| colors the free space in the middle of the PieChart|Colors.transparent|
 |sectionsSpace| space between the sections (margin of them)|2|
 |startDegreeOffset| degree offset of the sections around the pie chart, should be between 0 and 360|0|
+|pieTouchData| [PieTouchData](#PieTouchData) holds the touch interactivity details| PieTouchData()|
 |borderData| shows a border around the chart, check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 
 
@@ -36,11 +37,26 @@ FlChart(
 |titlePositionPercentageOffset|the place of the title in the section, this field should be between 0 and 1|0.5|
 
 
+### PieTouchData ([read about touch handling](handle_touches.md))
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|enabled|determines to enable or disable touch behaviors|true|
+|touchResponseStreamSink| a [StreamSink](https://api.flutter.dev/flutter/dart-async/StreamSink-class.html)<[PieTouchResponse](#PieTouchResponse)> to broadcast the touch response (with useful data) when touched on the chart| null|
+
+### PieTouchResponse
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|sectionData|the [PieChartSectionData](#PieChartSectionData) that user touched| null |
+|touchAngle|the angle of the touch|null|
+|touchRadius| the radius of the touch|null|
+|touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
+
+
 ### some samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/pie_chart/samples/pie_chart_sample1.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_1.png" width="300" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_1.gif" width="300" >
 
 
 ##### Sample 2 ([Source Code](/example/lib/pie_chart/samples/pie_chart_sample2.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_2.png" width="300" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_2.gif" width="300" >
