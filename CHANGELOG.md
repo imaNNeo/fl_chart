@@ -1,3 +1,6 @@
+## 0.1.1
+* nothing important
+
 ## 0.1.0
 * added **Touch Interactivity**, read more about it [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 
