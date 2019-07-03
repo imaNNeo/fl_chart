@@ -1,3 +1,6 @@
+## 0.1.0
+* added **Touch Interactivity**, read more about it [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+
 ## 0.0.8
 * added backgroundColor to axis based charts (LineChart, BarChart) to draw a solid background color behind the chart
 * added getDrawingHorizontalGridLine, getDrawingVerticalGridLine on FlGridData to determine how(color, strokeWidth) the grid lines should be drawn with the given value on FlGridLine
