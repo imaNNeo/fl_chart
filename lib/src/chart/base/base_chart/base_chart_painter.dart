@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_data.dart';
+import 'touch_input.dart';
 
 /// this class is base class of our painters and
 /// it is responsible to draw borders of charts.
@@ -15,7 +18,16 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   Paint borderPaint;
 
-  BaseChartPainter(this.data) {
+  /// receive the touch input events through this notifier
+  FlTouchInputNotifier touchInputNotifier;
+
+  /// responds the touch result through this sink,
+  /// in form of a [BaseTouchResponse]
+  StreamSink<BaseTouchResponse> touchedResponseSink;
+
+  BaseChartPainter(this.data, {this.touchInputNotifier, this.touchedResponseSink}):
+      super(repaint: data.touchData.enabled ? touchInputNotifier : null) {
+
     borderPaint = Paint()
       ..style = PaintingStyle.stroke;
   }

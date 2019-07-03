@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'bar_chart/bar_chart_page.dart';
 import 'bar_chart/bar_chart_page2.dart';
-import 'composed_samples/composed_samples_page.dart';
 import 'line_chart/line_chart_page.dart';
 import 'line_chart/line_chart_page2.dart';
 import 'pie_chart/pie_chart_page.dart';
@@ -45,7 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
             BarChartPage2(),
             PieChartPage(),
             LineChartPage2(),
-            ComposedSamplesPage(),
           ],
         ),
       ),

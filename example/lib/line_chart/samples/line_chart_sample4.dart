@@ -11,6 +11,7 @@ class LineChartSample4 extends StatelessWidget {
       child: FlChart(
         chart: LineChart(
           LineChartData(
+            lineTouchData: const LineTouchData(enabled: false),
             lineBarsData: [
               LineChartBarData(
                 spots: [

@@ -1,21 +1,28 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:flutter/material.dart';
 
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
+/// [ExtraLinesData] to draw extra horizontal and vertical lines on the chart
+/// [LineTouchData] holds data to handling touch and interactions
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
   final ExtraLinesData extraLinesData;
+  final LineTouchData lineTouchData;
 
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
+    this.lineTouchData = const LineTouchData(),
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -26,6 +33,7 @@ class LineChartData extends AxisChartData {
     Color backgroundColor,
   }) : super(
     gridData: gridData,
+    touchData: lineTouchData,
     borderData: borderData,
     clipToBorder: clipToBorder,
     backgroundColor: backgroundColor,
@@ -273,4 +281,97 @@ class ExtraLinesData {
     this.showVerticalLines = false,
     this.verticalLines = const [],
   });
+}
+
+/// if user touched the chart, we indicate the touched spots with a below line,
+/// and make a bigger dot on that spot,
+/// here we get the [TouchedSpotIndicatorData] from the given [LineTouchedSpot].
+typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(List<LineTouchedSpot> touchedSpots);
+List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<LineTouchedSpot> touchedSpots) {
+  return touchedSpots.map((LineTouchedSpot lineTouchedSpot) {
+    /// Indicator Line
+    Color lineColor = lineTouchedSpot.barData.colors[0];
+    if (lineTouchedSpot.barData.dotData.show) {
+      lineColor = lineTouchedSpot.barData.dotData.dotColor;
+    }
+    const double lineStrokeWidth = 4;
+    final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
+
+    /// Indicator dot
+    double dotSize = 10;
+    Color dotColor = lineTouchedSpot.barData.colors[0];
+    if (lineTouchedSpot.barData.dotData.show) {
+      dotSize = lineTouchedSpot.barData.dotData.dotSize * 1.8;
+      dotColor = lineTouchedSpot.barData.dotData.dotColor;
+    }
+    FlDotData dotData = FlDotData(
+      dotSize: dotSize,
+      dotColor: dotColor,
+    );
+
+    return TouchedSpotIndicatorData(flLine, dotData);
+  }).toList();
+}
+
+/// holds data for handling touch events on the [LineChart]
+class LineTouchData extends FlTouchData {
+  /// show a tooltip on touched spots
+  final TouchTooltipData touchTooltipData;
+
+  /// show the indicator line and dot at the touched spot
+  /// return null if you don't want to show any indicator on each spot
+  final GetTouchedSpotIndicator getTouchedSpotIndicator;
+
+  /// we find the nearest spots on touched position based on this threshold
+  final double touchSpotThreshold;
+
+  const LineTouchData({
+    bool enabled = true,
+    this.touchTooltipData = const TouchTooltipData(),
+    this.getTouchedSpotIndicator = defaultTouchedIndicators,
+    this.touchSpotThreshold = 10,
+    StreamSink<LineTouchResponse> touchResponseSink,
+  }) : super(enabled, touchResponseSink);
+
+}
+
+/// details of showing indicator when touch happened on [LineChart]
+/// [indicatorBelowLine] we draw a vertical line below of the touched spot
+/// [touchedSpotDotData] we draw a larger dot on the touched spot to bold it
+class TouchedSpotIndicatorData {
+  final FlLine indicatorBelowLine;
+  final FlDotData touchedSpotDotData;
+
+  TouchedSpotIndicatorData(this.indicatorBelowLine, this.touchedSpotDotData);
+}
+
+/// holds the data of the touched spot
+class LineTouchedSpot extends TouchedSpot {
+  LineChartBarData barData;
+
+  LineTouchedSpot(
+    this.barData,
+    FlSpot spot,
+    Offset offset,
+    ) : super(spot, offset);
+
+  @override
+  Color getColor() {
+    return barData.colors[0];
+  }
+}
+
+
+/// holds the data of touch response on the [LineChart]
+/// used in the [LineTouchData] in a [StreamSink]
+class LineTouchResponse extends BaseTouchResponse {
+
+  /// touch happened on these spots
+  /// (if a single line provided on the chart, [spots]'s length will be 1 always)
+  final List<LineTouchedSpot> spots;
+
+  LineTouchResponse(
+    this.spots,
+    FlTouchInput touchInput,
+    ) : super(touchInput);
 }

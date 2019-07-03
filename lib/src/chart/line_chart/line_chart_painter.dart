@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,12 +17,19 @@ class LineChartPainter extends AxisChartPainter {
   /// [belowBarPaint] is responsible to fill the below space of our bar line
   /// [dotPaint] is responsible to draw dots on spot points
   /// [clearAroundBorderPaint] is responsible to clip the border
+  /// [extraLinesPaint] is responsible to draw extr lines
+  /// [touchLinePaint] is responsible to draw touch indicators(below line and spot)
+  /// [bgTouchTooltipPaint] is responsible to draw box backgroundTooltip of touched point;
   Paint barPaint, belowBarPaint, belowBarLinePaint,
-    dotPaint, clearAroundBorderPaint, extraLinesPaint;
+    dotPaint, clearAroundBorderPaint, extraLinesPaint,
+    touchLinePaint;
 
   LineChartPainter(
     this.data,
-  ) : super(data) {
+    FlTouchInputNotifier touchInputNotifier,
+    StreamSink<LineTouchResponse> touchedResponseSink,
+  ) : super(data, touchInputNotifier: touchInputNotifier, touchedResponseSink: touchedResponseSink) {
+
     barPaint = Paint()
       ..style = PaintingStyle.stroke;
 
@@ -38,6 +48,10 @@ class LineChartPainter extends AxisChartPainter {
 
     extraLinesPaint = Paint()
       ..style = PaintingStyle.stroke;
+
+    touchLinePaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.black;
   }
 
   @override
@@ -52,28 +66,93 @@ class LineChartPainter extends AxisChartPainter {
       canvas.saveLayer(Rect.fromLTWH(0, -40, viewSize.width + 40, viewSize.height + 40), Paint());
     }
 
+    /// it holds list of nearest touched spots of each line
+    /// and we use it to draw touch stuff on them
+    final List<LineTouchedSpot> touchedSpots = [];
     /// draw each line independently on the chart
-    data.lineBarsData.forEach((barData) {
+    for (LineChartBarData barData in data.lineBarsData) {
       drawBarLine(canvas, viewSize, barData);
-    });
+      drawDots(canvas, viewSize, barData);
 
-    removeOutsideBorder(canvas, viewSize);
+      // find the nearest spot on touch area in this bar line
+      final LineTouchedSpot foundTouchedSpot = _getNearestTouchedSpot(canvas, viewSize, barData);
+      if (foundTouchedSpot != null) {
+        touchedSpots.add(foundTouchedSpot);
+      }
+    }
 
     if (data.clipToBorder) {
+      removeOutsideBorder(canvas, viewSize);
       /// restore layer to previous state (after clipping the chart)
       canvas.restore();
     }
 
+    // Draw touch indicators (below spot line and spot dot)
+    drawTouchedSpotsIndicator(canvas, viewSize, touchedSpots);
+
     drawTitles(canvas, viewSize);
 
     drawExtraLines(canvas, viewSize);
+
+    // Draw touch tooltip on most top spot
+    super.drawTouchTooltip(canvas, viewSize, data.lineTouchData.touchTooltipData, touchedSpots);
+
+    if (touchedResponseSink != null) {
+      touchedResponseSink.add(LineTouchResponse(touchedSpots, touchInputNotifier.value));
+    }
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
     Path barPath = _generateBarPath(viewSize, barData);
     drawBelowBar(canvas, viewSize, barPath, barData);
     drawBar(canvas, viewSize, barPath, barData);
-    drawDots(canvas, viewSize, barData);
+  }
+
+  /// find the nearest spot base on the touched offset
+  LineTouchedSpot _getNearestTouchedSpot(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    final Size chartViewSize = getChartUsableDrawSize(viewSize);
+
+    if (touchInputNotifier == null || touchInputNotifier.value == null) {
+      return null;
+    }
+
+    final touch = touchInputNotifier.value;
+
+    if (touch.getOffset() == null) {
+      return null;
+    }
+
+    final touchedPoint = touch.getOffset();
+
+    /// Find the nearest spot (on X axis)
+    for (FlSpot spot in barData.spots) {
+      if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <= data.lineTouchData.touchSpotThreshold) {
+        final nearestSpot = spot;
+        final Offset nearestSpotPos = Offset(
+          getPixelX(nearestSpot.x, chartViewSize),
+          getPixelY(nearestSpot.y, chartViewSize),
+        );
+
+        return LineTouchedSpot(barData, nearestSpot, nearestSpotPos);
+      }
+    }
+
+    return null;
+  }
+
+  void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    if (!barData.dotData.show) {
+      return;
+    }
+    viewSize = getChartUsableDrawSize(viewSize);
+    barData.spots.forEach((spot) {
+      if (barData.dotData.checkToShowDot(spot)) {
+        double x = getPixelX(spot.x, viewSize);
+        double y = getPixelY(spot.y, viewSize);
+        dotPaint.color = barData.dotData.dotColor;
+        canvas.drawCircle(Offset(x, y), barData.dotData.dotSize, dotPaint);
+      }
+    });
   }
 
   /// firstly we generate the bar line that we should draw,
@@ -266,21 +345,6 @@ class LineChartPainter extends AxisChartPainter {
     canvas.drawPath(barPath, barPaint);
   }
 
-  void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
-    if (!barData.dotData.show) {
-      return;
-    }
-    viewSize = getChartUsableDrawSize(viewSize);
-    barData.spots.forEach((spot) {
-      if (barData.dotData.checkToShowDot(spot)) {
-        double x = getPixelX(spot.x, viewSize);
-        double y = getPixelY(spot.y, viewSize);
-        dotPaint.color = barData.dotData.dotColor;
-        canvas.drawCircle(Offset(x, y), barData.dotData.dotSize, dotPaint);
-      }
-    });
-  }
-
   /// clip the border (remove outside the border)
   void removeOutsideBorder(Canvas canvas, Size viewSize) {
     if (!data.clipToBorder) {
@@ -296,6 +360,51 @@ class LineChartPainter extends AxisChartPainter {
       viewSize.height - (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
     );
     canvas.drawRect(rect, clearAroundBorderPaint);
+  }
+
+  void drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, List<LineTouchedSpot> lineTouchedSpots) {
+    if (touchInputNotifier.value is FlLongPressEnd) {
+      return;
+    }
+
+    if (lineTouchedSpots == null || lineTouchedSpots.isEmpty) {
+      return;
+    }
+
+    final Size chartViewSize = getChartUsableDrawSize(viewSize);
+
+    /// sort the touched spots top to down, base on their y value
+    lineTouchedSpots.sort((a, b) => a.offset.dy.compareTo(b.offset.dy));
+
+    final List<TouchedSpotIndicatorData> indicatorsData =
+      data.lineTouchData.getTouchedSpotIndicator(lineTouchedSpots);
+
+    if (indicatorsData.length != lineTouchedSpots.length) {
+      throw Exception('indicatorsData and touchedSpotOffsets size should be same');
+    }
+
+    for (int i = 0; i < lineTouchedSpots.length; i++) {
+      final TouchedSpotIndicatorData indicatorData = indicatorsData[i];
+      final LineTouchedSpot touchedSpot = lineTouchedSpots[i];
+
+      if (indicatorData == null) {
+        continue;
+      }
+
+      /// Draw the indicator line
+      final from = Offset(touchedSpot.offset.dx, getTopOffsetDrawSize() + chartViewSize.height);
+      final to = touchedSpot.offset;
+
+      touchLinePaint.color = indicatorData.indicatorBelowLine.color;
+      touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
+      canvas.drawLine(from, to, touchLinePaint);
+
+      /// Draw the indicator dot
+      final double selectedSpotDotSize =
+        indicatorData.touchedSpotDotData.dotSize;
+      dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
+      canvas.drawCircle(to, selectedSpotDotSize, dotPaint);
+    }
   }
 
   void drawTitles(Canvas canvas, Size viewSize) {
@@ -436,6 +545,7 @@ class LineChartPainter extends AxisChartPainter {
 
   @override
   bool shouldRepaint(LineChartPainter oldDelegate) =>
-      oldDelegate.data != this.data;
+      oldDelegate.data != data ||
+        oldDelegate.touchInputNotifier != touchInputNotifier;
 
 }

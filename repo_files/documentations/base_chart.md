@@ -27,6 +27,11 @@
 
 
 
+### FlTouchInput
+an abstract class that contains a [Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) with x and y of touched point, there is some concrete classes to distinguish between touch behaviours,
+currently we have these touch behaviors:
+`FlLongPressStart`, `FlLongPressMoveUpdate`, `FlLongPressEnd`.
+
 
 # AxisChart (Line and Bar Charts)
 
@@ -59,3 +64,28 @@
 |:-------|:----------|:------------|
 |color|determines the color of line|Colors.black|
 |strokeWidth|determines the stroke width of the line|2|
+
+
+### TouchTooltipData
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|tooltipBgColor|background color of the tooltip bubble|Colors.white|
+|tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
+|tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
+|tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
+|maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
+|getTooltipItems|a callback that retrieve list of [TooltipItem](#TooltipItem) by the given list of [TouchedSpot](#TouchedSpot) |defaultTitlesStyle|
+
+
+### TouchedSpot
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|spot|the touched [FlSpot](#FlSpot)|null|
+|offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) of the touched spot|null|
+
+
+### TooltipItem
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|text|text string of each row in the tooltip bubble|null|
+|textStyle|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the showing text row|null|

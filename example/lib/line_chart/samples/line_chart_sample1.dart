@@ -1,7 +1,29 @@
+
+import 'dart:async';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LineChartSample1 extends StatelessWidget {
+class LineChartSample1 extends StatefulWidget {
+
+
+  @override
+  State<StatefulWidget> createState() => LineChartSample1State();
+
+}
+
+class LineChartSample1State extends State<LineChartSample1> {
+
+  StreamController<LineTouchResponse> controller;
+  @override
+  void initState() {
+    super.initState();
+
+    controller = StreamController();
+    controller.stream.distinct().listen((LineTouchResponse response){
+      print('response: ${response.touchInput}');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +61,12 @@ class LineChartSample1 extends StatelessWidget {
                 child: FlChart(
                   chart: LineChart(
                     LineChartData(
+                      lineTouchData: LineTouchData(
+                        touchResponseSink: controller.sink,
+                        touchTooltipData: TouchTooltipData (
+                          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                        )
+                      ),
                       gridData: FlGridData(
                         show: false,
                       ),
@@ -177,6 +205,12 @@ class LineChartSample1 extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.close();
   }
 
 }

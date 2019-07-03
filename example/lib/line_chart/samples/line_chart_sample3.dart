@@ -27,6 +27,33 @@ class LineChartSample3 extends StatelessWidget {
           child: FlChart(
             chart: LineChart(
               LineChartData(
+                lineTouchData: LineTouchData(
+                  getTouchedSpotIndicator: (List<TouchedSpot> spots) {
+                    return spots.map((spot) {
+                      if (spot.spot.x == 0 || spot.spot.x == 6) {
+                        return null;
+                      }
+                      return TouchedSpotIndicatorData(
+                        const FlLine(color: Colors.blue, strokeWidth: 4),
+                        const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
+                      );
+                    }).toList();
+                  },
+                  touchTooltipData: TouchTooltipData(
+                    tooltipBgColor: Colors.blueAccent,
+                    getTooltipItems: (List<TouchedSpot> spots) {
+                      return spots.map((spot) {
+                        if (spot.spot.x == 0 || spot.spot.x == 6) {
+                          return null;
+                        }
+                        return TooltipItem(
+                          spot.spot.y.toString(),
+                          const TextStyle(color: Colors.white),
+                        );
+                      }).toList();
+                    }
+                  )
+                ),
                 extraLinesData: ExtraLinesData(
                   showVerticalLines: true,
                   verticalLines: [

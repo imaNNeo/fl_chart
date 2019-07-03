@@ -18,7 +18,8 @@ FlChart(
 |:---------------|:---------------|:-------|
 |lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to show the chart's lines, they stack and be drawn on top of each other|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
-|extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.
+|extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
+|lineTouchData| [LineTouchData](#LineTouchData) holds the touch interactivity details| LineTouchData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
@@ -97,14 +98,47 @@ FlChart(
 |verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
 
 
+### LineTouchData ([read about touch handling](handle_touches.md))
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|enabled|determines to enable or disable touch behaviors|true|
+|touchTooltipData|a [TouchTooltipData](base_chart.md#TouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|TouchTooltipData()|
+|getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineTouchedSpot](#LineTouchedSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
+|touchSpotThreshold|the threshold of the touch accuracy|10|
+|touchResponseSink| a [StreamSink](https://api.flutter.dev/flutter/dart-async/StreamSink-class.html)<[LineTouchResponse](#LineTouchResponse)> to broadcast the touch response (with useful data) when touched on the chart| null|
+
+
+### TouchedSpotIndicatorData
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|indicatorBelowLine|a [FlLine](base_chart.md#FlLine) to show the below line indicator on the touched spot|null|
+|touchedSpotDotData|a [FlDotData](#FlDotData) to show a dot indicator on the touched spot|null|
+
+
+### LineTouchedSpot
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|barData|the [LineChartBarData](#LineChartBarData) that user touchet it's spot|null|
+|spot|the touched [FlSpot](#FlSpot)|null|
+|offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) of the touched spot|null|
+
+
+### LineTouchResponse
+###### you can listen to touch behaviors stream and retrieve this object when any touch action happend.
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|spots|a list of [LineTouchedSpot](#LineTouchedSpot)|null|
+|touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
+
+
 ### some samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/line_chart/samples/line_chart_sample1.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1.png" width="300" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1.gif" width="300" >
 
 
 ##### Sample 2 ([Source Code](/example/lib/line_chart/samples/line_chart_sample2.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2.png" width="300" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2.gif" width="300" >
 
 
 ##### Sample 3 ([Source Code](/example/lib/line_chart/samples/line_chart_sample3.dart))
