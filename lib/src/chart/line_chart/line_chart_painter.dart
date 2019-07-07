@@ -191,12 +191,6 @@ class LineChartPainter extends AxisChartPainter {
         getPixelY(barData.spots[i + 1 < size ? i + 1 : i].y, viewSize),
       );
 
-      /// next point
-      final next2 = Offset(
-        getPixelX(barData.spots[i + 2 < size ? i + 2 : i].x, viewSize),
-        getPixelY(barData.spots[i + 2 < size ? i + 2 : i].y, viewSize),
-      );
-
       final controlPoint1 = previous + temp;
 
       /// if the isCurved is false, we set 0 for smoothness,

@@ -1,3 +1,6 @@
+## 0.1.2
+*  added `preventCurveOverShooting` on BarData, check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)
+
 ## 0.1.1
 * nothing important
 
