@@ -135,6 +135,10 @@ class LineChartBarData {
   /// if it is 0.0, the lines draw with sharp corners.
   final double curveSmoothness;
 
+  /// prevent overshooting when draw curve line on linear sequence spots
+  /// check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)
+  final bool preventCurveOverShooting;
+
   final bool isStrokeCapRound;
 
   /// to fill space below the bar line,
@@ -151,6 +155,7 @@ class LineChartBarData {
     this.barWidth = 2.0,
     this.isCurved = false,
     this.curveSmoothness = 0.35,
+    this.preventCurveOverShooting = false,
     this.isStrokeCapRound = false,
     this.belowBarData = const BelowBarData(),
     this.dotData = const FlDotData(),

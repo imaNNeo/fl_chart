@@ -167,40 +167,61 @@ class LineChartPainter extends AxisChartPainter {
     int size = barData.spots.length;
     path.reset();
 
-    double lX = 0.0, lY = 0.0;
+    var temp = const Offset(0.0, 0.0);
 
     double x = getPixelX(barData.spots[0].x, viewSize);
     double y = getPixelY(barData.spots[0].y, viewSize);
     path.moveTo(x, y);
     for (int i = 1; i < size; i++) {
       /// CurrentSpot
-      FlSpot p = barData.spots[i];
-      double px = getPixelX(p.x, viewSize);
-      double py = getPixelY(p.y, viewSize);
+      final current = Offset(
+        getPixelX(barData.spots[i].x, viewSize),
+        getPixelY(barData.spots[i].y, viewSize),
+      );
 
       /// previous spot
-      FlSpot p0 = barData.spots[i - 1];
-      double p0x = getPixelX(p0.x, viewSize);
-      double p0y = getPixelY(p0.y, viewSize);
-
-      double x1 = p0x + lX;
-      double y1 = p0y + lY;
+      final previous = Offset(
+        getPixelX(barData.spots[i - 1].x, viewSize),
+        getPixelY(barData.spots[i - 1].y, viewSize),
+      );
 
       /// next point
-      FlSpot p1 = barData.spots[i + 1 < size ? i + 1 : i];
-      double p1x = getPixelX(p1.x, viewSize);
-      double p1y = getPixelY(p1.y, viewSize);
+      final next = Offset(
+        getPixelX(barData.spots[i + 1 < size ? i + 1 : i].x, viewSize),
+        getPixelY(barData.spots[i + 1 < size ? i + 1 : i].y, viewSize),
+      );
+
+      /// next point
+      final next2 = Offset(
+        getPixelX(barData.spots[i + 2 < size ? i + 2 : i].x, viewSize),
+        getPixelY(barData.spots[i + 2 < size ? i + 2 : i].y, viewSize),
+      );
+
+      final controlPoint1 = previous + temp;
 
       /// if the isCurved is false, we set 0 for smoothness,
       /// it means we should not have any smoothness then we face with
       /// the sharped corners line
-      double smoothness = barData.isCurved ? barData.curveSmoothness : 0.0;
-      lX = ((p1x - p0x) / 2) * smoothness;
-      lY = ((p1y - p0y) / 2) * smoothness;
-      double x2 = px - lX;
-      double y2 = py - lY;
+      final smoothness = barData.isCurved ? barData.curveSmoothness : 0.0;
+      temp = ((next - previous) / 2) * smoothness;
 
-      path.cubicTo(x1, y1, x2, y2, px, py);
+      if (barData.preventCurveOverShooting) {
+        if ((next - current).dy <= 10 || (current - previous).dy <= 10) {
+          temp = Offset(temp.dx, 0);
+        }
+
+        if ((next - current).dx <= 10 || (current - previous).dx <= 10) {
+          temp = Offset(0, temp.dy);
+        }
+      }
+
+      final controlPoint2 = current - temp;
+
+      path.cubicTo(
+        controlPoint1.dx, controlPoint1.dy,
+        controlPoint2.dx, controlPoint2.dy,
+        current.dx, current.dy,
+      );
     }
 
     return path;
