@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 class LineChartSample3 extends StatelessWidget {
 
+  var weekDays = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,11 +45,13 @@ class LineChartSample3 extends StatelessWidget {
                     tooltipBgColor: Colors.blueAccent,
                     getTooltipItems: (List<TouchedSpot> spots) {
                       return spots.map((spot) {
-                        if (spot.spot.x == 0 || spot.spot.x == 6) {
+                        final flSpot = spot.spot;
+                        if (flSpot.x == 0 || flSpot.x == 6) {
                           return null;
                         }
+
                         return TooltipItem(
-                          spot.spot.y.toString(),
+                          '${weekDays[flSpot.x.toInt()]} \n${flSpot.y} k colories',
                           const TextStyle(color: Colors.white),
                         );
                       }).toList();
@@ -149,30 +153,7 @@ class LineChartSample3 extends StatelessWidget {
                 titlesData: FlTitlesData(
                   show: true,
                   getHorizontalTitles: (value) {
-                    switch (value.toInt()) {
-                      case 0:
-                        return 'Sat';
-
-                      case 1:
-                        return 'Sun';
-
-                      case 2:
-                        return 'Mon';
-
-                      case 3:
-                        return 'Tue';
-
-                      case 4:
-                        return 'Wed';
-
-                      case 5:
-                        return 'Thu';
-
-                      case 6:
-                        return 'Fri';
-                    }
-
-                    return '';
+                    return weekDays[value.toInt()];
                   },
                   getVerticalTitles: (value) {
                     switch (value.toInt()) {
