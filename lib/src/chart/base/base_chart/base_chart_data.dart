@@ -70,47 +70,38 @@ String defaultGetTitle(double value) {
 }
 
 /// This class is responsible to hold data about showing titles.
-/// titles show on the bottom and left of chart
-/// we call the bottom titles -> horizontal titles,
-/// and the left titles -> vertical titles.
+/// titles show on the each side of chart
 class FlTitlesData {
   final bool show;
 
-  // Horizontal
-  final bool showHorizontalTitles;
-  final GetTitleFunction getHorizontalTitles;
-  final double horizontalTitlesReservedHeight;
-  final TextStyle horizontalTitlesTextStyle;
-  final double horizontalTitleMargin;
-
-  // Vertical
-  final bool showVerticalTitles;
-  final GetTitleFunction getVerticalTitles;
-  final double verticalTitlesReservedWidth;
-  final TextStyle verticalTitlesTextStyle;
-  final double verticalTitleMargin;
+  final SideTitles leftTitles, topTitles, rightTitles, bottomTitles;
 
   const FlTitlesData({
     this.show = true,
-    // Horizontal
-    this.showHorizontalTitles = true,
-    this.getHorizontalTitles = defaultGetTitle,
-    this.horizontalTitlesReservedHeight = 22,
-    this.horizontalTitlesTextStyle = const TextStyle(
-      color: Colors.black,
-      fontSize: 11,
-    ),
-    this.horizontalTitleMargin = 6,
+    this.leftTitles = const SideTitles(reservedSize: 40, showTitles: true),
+    this.topTitles = const SideTitles(reservedSize: 6),
+    this.rightTitles = const SideTitles(reservedSize: 40,),
+    this.bottomTitles = const SideTitles(reservedSize: 22, showTitles: true),
+  });
+}
 
-    // Vertical
-    this.showVerticalTitles = true,
-    this.getVerticalTitles = defaultGetTitle,
-    this.verticalTitlesReservedWidth = 40,
-    this.verticalTitlesTextStyle = const TextStyle(
+/// specify each side titles data
+class SideTitles {
+  final bool showTitles;
+  final GetTitleFunction getTitles;
+  final double reservedSize;
+  final TextStyle textStyle;
+  final double margin;
+
+  const SideTitles({
+    this.showTitles = false,
+    this.getTitles = defaultGetTitle,
+    this.reservedSize = 22,
+    this.textStyle = const TextStyle(
       color: Colors.black,
       fontSize: 11,
     ),
-    this.verticalTitleMargin = 6,
+    this.margin = 6,
   });
 }
 

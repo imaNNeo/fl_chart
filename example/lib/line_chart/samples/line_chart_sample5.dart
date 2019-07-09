@@ -33,36 +33,36 @@ class LineChartSample5 extends StatelessWidget {
             ],
             minY: 0,
             titlesData: FlTitlesData(
-              getVerticalTitles: (val) {
-                return "";
-              },
-              verticalTitleMargin: 0,
-              verticalTitlesReservedWidth: 0,
-              getHorizontalTitles: (val) {
-                switch (val.toInt()) {
-                  case 0:
-                    return "00:00";
-                  case 1:
-                    return "04:00";
-                  case 2:
-                    return "08:00";
-                  case 3:
-                    return "12:00";
-                  case 4:
-                    return "16:00";
-                  case 5:
-                    return "20:00";
-                  case 6:
-                    return "23:59";
-                }
-                return "";
-              },
-              horizontalTitlesTextStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
-                fontFamily: "Digital",
-                fontSize: 18,
-              )),
+              leftTitles: const SideTitles(showTitles: false,),
+              bottomTitles: SideTitles(
+                showTitles: true,
+                getTitles: (val) {
+                  switch (val.toInt()) {
+                    case 0:
+                      return '00:00';
+                    case 1:
+                      return '04:00';
+                    case 2:
+                      return '08:00';
+                    case 3:
+                      return '12:00';
+                    case 4:
+                      return '16:00';
+                    case 5:
+                      return '20:00';
+                    case 6:
+                      return '23:59';
+                  }
+                  return '';
+                },
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey,
+                  fontFamily: 'Digital',
+                  fontSize: 18,
+                )
+              ),
+            ),
             gridData: FlGridData(show: false),
             borderData: FlBorderData(
               show: true,
