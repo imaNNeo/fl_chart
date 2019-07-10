@@ -14,16 +14,22 @@
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |show| determines to show or hide the titles Around the chart|true|
-|showHorizontalTitles| determines to show or hide the horizontal (below) titles | true|
-|getHorizontalTitles| a function to retrieve the title with given value on the related axis|defaultGetTitle|
-|horizontalTitlesReservedHeight| a reserved space to show horizontal titles|22|
-|horizontalTitlesTextStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of horizontal texts |TextStyle(color: Colors.black, fontSize: 11)|
-|horizontalTitleMargin| margin of horizontal titles | 6|
-|showVerticalTitles| determines to show or hide the vertical (left) titles | true|
-|getVerticalTitles| a function to retrieve the title with given value on the related axis | defaultGetTitle|
-|verticalTitlesReservedWidth| a reserved space to show vertical titles|40|
-|verticalTitlesTextStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of vertical texts |TextStyle(color: Colors.black, fontSize: 11)|
-|verticalTitleMargin| margin of vertical titles | 6|
+|leftTitles| a [SideTitles](#SideTitles) that holds data to draw left titles | SideTitles(reservedSize: 40, showTitles: true)|
+|topTitles| a [SideTitles](#SideTitles) that holds data to draw top titles |SideTitles(reservedSize: 6)|
+|rightTitles| a [SideTitles](#SideTitles) that holds data to draw right titles |SideTitles(reservedSize: 40,)|
+|bottomTitles| a [SideTitles](#SideTitles) that holds data to draw bottom titles |SideTitles(reservedSize: 22, showTitles: true)|
+
+
+
+### SideTitles
+|PropName		|Description	|default value|
+|:---------------|:---------------|:-------|
+|showTitles| determines to show or hide the titles | false|
+|getTitles| a function to retrieve the title with given value on the related axis|defaultGetTitle|
+|reservedSize| a reserved space to show titles|22|
+|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of texts |TextStyle(color: Colors.black, fontSize: 11)|
+|margin| margin of horizontal the titles | 6|
+
 
 
 

@@ -140,29 +140,32 @@ class BarChartSample1State extends State<BarChartSample1> {
                       ),
                       titlesData: FlTitlesData(
                         show: true,
-                        showHorizontalTitles: true,
-                        showVerticalTitles: false,
-                        horizontalTitlesTextStyle: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-                        horizontalTitleMargin: 16,
-                        getHorizontalTitles: (double value) {
-                          switch (value.toInt()) {
-                            case 0:
-                              return 'M';
-                            case 1:
-                              return 'T';
-                            case 2:
-                              return 'W';
-                            case 3:
-                              return 'T';
-                            case 4:
-                              return 'F';
-                            case 5:
-                              return 'S';
-                            case 6:
-                              return 'S';
+                        bottomTitles: SideTitles(
+                          showTitles: true,
+                          textStyle: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                          margin: 16,
+                          getTitles: (double value) {
+                            switch (value.toInt()) {
+                              case 0:
+                                return 'M';
+                              case 1:
+                                return 'T';
+                              case 2:
+                                return 'W';
+                              case 3:
+                                return 'T';
+                              case 4:
+                                return 'F';
+                              case 5:
+                                return 'S';
+                              case 6:
+                                return 'S';
+                            }
                           }
-                        }),
+                        ),
+                        leftTitles: SideTitles(showTitles: false,),
+                      ),
                       borderData: FlBorderData(
                         show: false,
                       ),

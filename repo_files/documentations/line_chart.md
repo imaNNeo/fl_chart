@@ -152,3 +152,7 @@ FlChart(
 
 ##### Sample 5 ([Source Code](/example/lib/line_chart/samples/line_chart_sample5.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_5.png" width="300" >
+
+
+##### Sample 6 - Reversed ([Source Code](/example/lib/line_chart/samples/line_chart_sample6.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_6.png" width="300" >

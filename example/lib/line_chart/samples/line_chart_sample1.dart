@@ -71,39 +71,46 @@ class LineChartSample1State extends State<LineChartSample1> {
                         show: false,
                       ),
                       titlesData: FlTitlesData(
-                        horizontalTitlesTextStyle: TextStyle(
-                          color: Color(0xff72719b),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                        bottomTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 22,
+                          textStyle: TextStyle(
+                            color: const Color(0xff72719b),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          margin: 10,
+                          getTitles: (value) {
+                            switch(value.toInt()) {
+                              case 2:
+                                return 'SEPT';
+                              case 7:
+                                return 'OCT';
+                              case 12:
+                                return 'DEC';
+                            }
+                            return '';
+                          },
                         ),
-                        horizontalTitleMargin: 10,
-                        getHorizontalTitles: (value) {
-                          switch(value.toInt()) {
-                            case 2:
-                              return "SEPT";
-                            case 7:
-                              return "OCT";
-                            case 12:
-                              return "DEC";
-                          }
-                          return "";
-                        },
-                        verticalTitlesTextStyle: TextStyle(
-                          color: Color(0xff75729e),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                        leftTitles: SideTitles(
+                          showTitles: true,
+                          textStyle: TextStyle(
+                            color: Color(0xff75729e),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                          getTitles: (value) {
+                            switch(value.toInt()) {
+                              case 1: return '1m';
+                              case 2: return '2m';
+                              case 3: return '3m';
+                              case 4: return '5m';
+                            }
+                            return '';
+                          },
+                          margin: 8,
+                          reservedSize: 30,
                         ),
-                        getVerticalTitles: (value) {
-                          switch(value.toInt()) {
-                            case 1: return "1m";
-                            case 2: return "2m";
-                            case 3: return "3m";
-                            case 4: return "5m";
-                          }
-                          return "";
-                        },
-                        verticalTitleMargin: 8,
-                        verticalTitlesReservedWidth: 30,
                       ),
                       borderData: FlBorderData(
                         show: true,

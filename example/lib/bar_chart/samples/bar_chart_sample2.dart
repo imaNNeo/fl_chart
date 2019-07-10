@@ -148,48 +148,52 @@ class BarChartSample2State extends State<BarChartSample2> {
                       ),
                       titlesData: FlTitlesData(
                         show: true,
-                        showHorizontalTitles: true,
-                        showVerticalTitles: true,
-                        verticalTitlesTextStyle: TextStyle(
-                          color: Color(0xff7589a2),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                        verticalTitleMargin: 32,
-                        verticalTitlesReservedWidth: 14,
-                        getVerticalTitles: (value) {
-                          if (value == 0) {
-                            return "1K";
-                          } else if (value == 10) {
-                            return "5K";
-                          } else if (value == 19) {
-                            return "10K";
-                          } else {
-                            return "";
-                          }
-                        },
-                        horizontalTitlesTextStyle: TextStyle(
-                          color: Color(0xff7589a2),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                        horizontalTitleMargin: 20,
-                        getHorizontalTitles: (double value) {
-                          switch (value.toInt()) {
-                            case 0:
-                              return 'Mn';
-                            case 1:
-                              return 'Te';
-                            case 2:
-                              return 'Wd';
-                            case 3:
-                              return 'Tu';
-                            case 4:
-                              return 'Fr';
-                            case 5:
-                              return 'St';
-                            case 6:
-                              return 'Sn';
-                          }
-                        },
+                        bottomTitles: SideTitles(
+                          showTitles: true,
+                          textStyle: TextStyle(
+                            color: const Color(0xff7589a2),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                          margin: 20,
+                          getTitles: (double value) {
+                            switch (value.toInt()) {
+                              case 0:
+                                return 'Mn';
+                              case 1:
+                                return 'Te';
+                              case 2:
+                                return 'Wd';
+                              case 3:
+                                return 'Tu';
+                              case 4:
+                                return 'Fr';
+                              case 5:
+                                return 'St';
+                              case 6:
+                                return 'Sn';
+                            }
+                          },
+                        ),
+                        leftTitles: SideTitles(
+                          showTitles: true,
+                          textStyle: TextStyle(
+                            color: const Color(0xff7589a2),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                          margin: 32,
+                          reservedSize: 14,
+                          getTitles: (value) {
+                            if (value == 0) {
+                              return '1K';
+                            } else if (value == 10) {
+                              return '5K';
+                            } else if (value == 19) {
+                              return '10K';
+                            } else {
+                              return '';
+                            }
+                          },
+                        ),
                       ),
                       borderData: FlBorderData(
                         show: false,

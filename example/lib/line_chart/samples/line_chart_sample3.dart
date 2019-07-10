@@ -152,28 +152,35 @@ class LineChartSample3 extends StatelessWidget {
                 ),
                 titlesData: FlTitlesData(
                   show: true,
-                  getHorizontalTitles: (value) {
-                    return weekDays[value.toInt()];
-                  },
-                  getVerticalTitles: (value) {
-                    switch (value.toInt()) {
-                      case 0:
-                        return "";
-                      case 1:
-                        return "1k colories";
-                      case 2:
-                        return "2k colories";
-                      case 3:
-                        return "3k colories";
-                    }
+                  leftTitles: SideTitles(
+                    showTitles: true,
+                    getTitles: (value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return '';
+                        case 1:
+                          return '1k colories';
+                        case 2:
+                          return '2k colories';
+                        case 3:
+                          return '3k colories';
+                      }
 
-                    return "";
-                  },
-                  horizontalTitlesTextStyle: TextStyle(
-                    color: Colors.deepOrange,
-                    fontWeight: FontWeight.bold,
+                      return '';
+                    },
+                    textStyle: const TextStyle(color: Colors.black, fontSize: 10),
                   ),
-                  verticalTitlesTextStyle: TextStyle(color: Colors.black, fontSize: 10)),
+                  bottomTitles: SideTitles(
+                    showTitles: true,
+                    getTitles: (value) {
+                      return weekDays[value.toInt()];
+                    },
+                    textStyle: const TextStyle(
+                      color: Colors.deepOrange,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ),
               ),
             ),
           ),

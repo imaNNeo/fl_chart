@@ -237,12 +237,12 @@ class LineChartPainter extends AxisChartPainter {
 
     /// Line To Bottom Right
     double x = getPixelX(barData.spots[barData.spots.length - 1].x, chartViewSize);
-    double y = chartViewSize.height - getTopOffsetDrawSize();
+    double y = chartViewSize.height + getTopOffsetDrawSize();
     belowBarPath.lineTo(x, y);
 
     /// Line To Bottom Left
     x = getPixelX(barData.spots[0].x, chartViewSize);
-    y = chartViewSize.height - getTopOffsetDrawSize();
+    y = chartViewSize.height + getTopOffsetDrawSize();
     belowBarPath.lineTo(x, y);
 
     /// Line To Top Left
@@ -428,22 +428,21 @@ class LineChartPainter extends AxisChartPainter {
     }
     viewSize = getChartUsableDrawSize(viewSize);
 
-    // Vertical Titles
-    if (data.titlesData.showVerticalTitles) {
+    // Left Titles
+    final leftTitles = data.titlesData.leftTitles;
+    if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize) +
-            getTopOffsetDrawSize();
+        double y = getPixelY(verticalSeek, viewSize);
 
-        final String text =
-            data.titlesData.getVerticalTitles(verticalSeek);
+        final String text = leftTitles.getTitles(verticalSeek);
 
-        final TextSpan span = TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
+        final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
         final TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
-        x -= tp.width + data.titlesData.verticalTitleMargin;
+        x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
@@ -451,23 +450,70 @@ class LineChartPainter extends AxisChartPainter {
       }
     }
 
-    // Horizontal titles
-    if (data.titlesData.showHorizontalTitles) {
+
+    // Top titles
+    final topTitles = data.titlesData.topTitles;
+    if (topTitles.showTitles) {
+      double horizontalSeek = data.minX;
+      while (horizontalSeek <= data.maxX) {
+        double x = getPixelX(horizontalSeek, viewSize);
+        double y = getTopOffsetDrawSize();
+
+        String text = topTitles.getTitles(horizontalSeek);
+
+        TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+        TextPainter tp = TextPainter(
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        tp.layout();
+
+        x -= tp.width / 2;
+        y -= topTitles.margin + tp.height;
+
+        tp.paint(canvas, Offset(x, y));
+
+        horizontalSeek += data.gridData.horizontalInterval;
+      }
+    }
+
+    // Right Titles
+    final rightTitles = data.titlesData.rightTitles;
+    if (rightTitles.showTitles) {
+      double verticalSeek = data.minY;
+      while (verticalSeek <= data.maxY) {
+        double x = viewSize.width + getLeftOffsetDrawSize();
+        double y = getPixelY(verticalSeek, viewSize);
+
+        final String text = rightTitles.getTitles(verticalSeek);
+
+        final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+        final TextPainter tp = TextPainter(
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+        x += rightTitles.margin;
+        y -= tp.height / 2;
+        tp.paint(canvas, Offset(x, y));
+
+        verticalSeek += data.gridData.verticalInterval;
+      }
+    }
+
+    // Bottom titles
+    final bottomTitles = data.titlesData.bottomTitles;
+    if (bottomTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
         double x = getPixelX(horizontalSeek, viewSize);
         double y = viewSize.height + getTopOffsetDrawSize();
 
-        String text = data.titlesData
-            .getHorizontalTitles(horizontalSeek);
+        String text = bottomTitles.getTitles(horizontalSeek);
 
-        TextSpan span = TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
+        TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
         TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
         x -= tp.width / 2;
-        y += data.titlesData.horizontalTitleMargin;
+        y += bottomTitles.margin;
 
         tp.paint(canvas, Offset(x, y));
 
@@ -517,31 +563,51 @@ class LineChartPainter extends AxisChartPainter {
   }
 
   /// We add our needed horizontal space to parent needed.
-  /// we have some titles that maybe draw in the left side of our chart,
+  /// we have some titles that maybe draw in the left and right side of our chart,
   /// then we should draw the chart a with some left space,
-  /// the left space is [getLeftOffsetDrawSize], and the whole
+  /// the left space is [getLeftOffsetDrawSize],
+  /// and the whole space is [getExtraNeededHorizontalSpace]
   @override
   double getExtraNeededHorizontalSpace() {
-    double parentNeeded = super.getExtraNeededHorizontalSpace();
-    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
-      return parentNeeded +
-        data.titlesData.verticalTitlesReservedWidth +
-        data.titlesData.verticalTitleMargin;
+    double sum = super.getExtraNeededHorizontalSpace();
+    if (data.titlesData.show) {
+
+      final leftSide = data.titlesData.leftTitles;
+      if (leftSide.showTitles) {
+        sum += leftSide.reservedSize + leftSide.margin;
+      }
+
+      final rightSide = data.titlesData.rightTitles;
+      if (rightSide.showTitles) {
+        sum += rightSide.reservedSize + rightSide.margin;
+      }
+
     }
-    return parentNeeded;
+    return sum;
   }
 
   /// We add our needed vertical space to parent needed.
-  /// we have some titles that maybe draw in the bottom side of our chart.
+  /// we have some titles that maybe draw in the top and bottom side of our chart,
+  /// then we should draw the chart a with some top space,
+  /// the top space is [getTopOffsetDrawSize()],
+  /// and the whole space is [getExtraNeededVerticalSpace]
   @override
   double getExtraNeededVerticalSpace() {
-    double parentNeeded = super.getExtraNeededVerticalSpace();
-    if (data.titlesData.show && data.titlesData.showHorizontalTitles) {
-      return parentNeeded +
-        data.titlesData.horizontalTitlesReservedHeight +
-        data.titlesData.horizontalTitleMargin;
+    double sum = super.getExtraNeededVerticalSpace();
+    if (data.titlesData.show) {
+
+      final topSide = data.titlesData.topTitles;
+      if (topSide.showTitles) {
+        sum += topSide.reservedSize + topSide.margin;
+      }
+
+      final bottomSide = data.titlesData.bottomTitles;
+      if (bottomSide.showTitles) {
+        sum += bottomSide.reservedSize + bottomSide.margin;
+      }
+
     }
-    return parentNeeded;
+    return sum;
   }
 
   /// calculate left offset for draw the chart,
@@ -549,13 +615,28 @@ class LineChartPainter extends AxisChartPainter {
   /// then just the left titles will effect on this function.
   @override
   double getLeftOffsetDrawSize() {
-    double parentNeeded = super.getLeftOffsetDrawSize();
-    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
-      return parentNeeded +
-        data.titlesData.verticalTitlesReservedWidth +
-        data.titlesData.verticalTitleMargin;
+    var sum = super.getLeftOffsetDrawSize();
+
+    final leftTitles = data.titlesData.leftTitles;
+    if (data.titlesData.show && leftTitles.showTitles) {
+      sum += leftTitles.reservedSize + leftTitles.margin;
     }
-    return parentNeeded;
+    return sum;
+  }
+
+  /// calculate top offset for draw the chart,
+  /// maybe we want to show both top and bottom titles,
+  /// then just the top titles will effect on this function.
+  @override
+  double getTopOffsetDrawSize() {
+    var sum = super.getTopOffsetDrawSize();
+
+    final topTitles = data.titlesData.topTitles;
+    if (data.titlesData.show && topTitles.showTitles) {
+      sum += topTitles.reservedSize + topTitles.margin;
+    }
+
+    return sum;
   }
 
   @override

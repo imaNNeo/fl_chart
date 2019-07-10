@@ -44,39 +44,45 @@ class LineChartSample4 extends StatelessWidget {
             ],
             minY: 0,
             titlesData: FlTitlesData(
-              horizontalTitlesTextStyle:
-              TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
-              getVerticalTitles: (value) {
-                return "\$ ${value + 0.5}";
-              },
-              getHorizontalTitles: (value) {
-                switch (value.toInt()) {
-                  case 0:
-                    return "Jan";
-                  case 1:
-                    return "Feb";
-                  case 2:
-                    return "Mar";
-                  case 3:
-                    return "Apr";
-                  case 4:
-                    return "May";
-                  case 5:
-                    return "Jun";
-                  case 6:
-                    return "Jul";
-                  case 7:
-                    return "Aug";
-                  case 8:
-                    return "Sep";
-                  case 9:
-                    return "Oct";
-                  case 10:
-                    return "Nov";
-                  case 11:
-                    return "Dec";
+              bottomTitles: SideTitles(
+                showTitles: true,
+                textStyle: TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
+                getTitles: (value) {
+                  switch (value.toInt()) {
+                    case 0:
+                      return 'Jan';
+                    case 1:
+                      return 'Feb';
+                    case 2:
+                      return 'Mar';
+                    case 3:
+                      return 'Apr';
+                    case 4:
+                      return 'May';
+                    case 5:
+                      return 'Jun';
+                    case 6:
+                      return 'Jul';
+                    case 7:
+                      return 'Aug';
+                    case 8:
+                      return 'Sep';
+                    case 9:
+                      return 'Oct';
+                    case 10:
+                      return 'Nov';
+                    case 11:
+                      return 'Dec';
+                  }
                 }
-              }),
+              ),
+              leftTitles: SideTitles(
+                showTitles: true,
+                getTitles: (value) {
+                  return '\$ ${value + 0.5}';
+                },
+              ),
+            ),
             gridData: FlGridData(
               show: true,
               checkToShowVerticalGrid: (double value) {

@@ -243,72 +243,115 @@ class BarChartPainter extends AxisChartPainter {
     }
     Size drawSize = getChartUsableDrawSize(viewSize);
 
-    // Vertical Titles
-    if (data.titlesData.showVerticalTitles) {
+    // Left Titles
+    final leftTitles = data.titlesData.leftTitles;
+    if (leftTitles.showTitles) {
       int verticalCounter = 0;
       while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
         double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
             getTopOffsetDrawSize();
 
-        String text =
-            data.titlesData.getVerticalTitles(data.gridData.verticalInterval * verticalCounter);
+        String text = leftTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
 
-        TextSpan span = TextSpan(style: data.titlesData.verticalTitlesTextStyle, text: text);
+        TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
         TextPainter tp = TextPainter(
             text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
-        x -= tp.width + data.titlesData.verticalTitleMargin;
-        y -= (tp.height / 2);
+        x -= tp.width + leftTitles.margin;
+        y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
         verticalCounter++;
       }
     }
 
-    // Horizontal titles
-    groupBarsPosition.asMap().forEach((int index, GroupBarsPosition groupBarPos) {
-      String text = data.titlesData.getHorizontalTitles(index.toDouble());
+    // Right Titles
+    final rightTitles = data.titlesData.rightTitles;
+    if (rightTitles.showTitles) {
+      int verticalCounter = 0;
+      while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
+        double x = drawSize.width + getLeftOffsetDrawSize();
+        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
+          getTopOffsetDrawSize();
 
-      TextSpan span = TextSpan(style: data.titlesData.horizontalTitlesTextStyle, text: text);
-      TextPainter tp = TextPainter(
+        String text = rightTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
+
+        TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+        TextPainter tp = TextPainter(
           text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
-      tp.layout();
+        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+        x += rightTitles.margin;
+        y -= tp.height / 2;
+        tp.paint(canvas, Offset(x, y));
 
-      double textX = groupBarPos.groupX - (tp.width / 2);
-      double textY =
-          drawSize.height + getTopOffsetDrawSize() + data.titlesData.horizontalTitleMargin;
+        verticalCounter++;
+      }
+    }
 
-      tp.paint(canvas, Offset(textX, textY));
-    });
+    // Bottom titles
+    final bottomTitles = data.titlesData.bottomTitles;
+    if (bottomTitles.showTitles) {
+      for (int index = 0; index < groupBarsPosition.length; index ++) {
+        GroupBarsPosition groupBarPos = groupBarsPosition[index];
+
+        String text = bottomTitles.getTitles(index.toDouble());
+
+        TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+        TextPainter tp = TextPainter(
+          text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        tp.layout();
+
+        double textX = groupBarPos.groupX - (tp.width / 2);
+        double textY =
+          drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
+
+        tp.paint(canvas, Offset(textX, textY));
+      }
+    }
   }
 
   /// We add our needed horizontal space to parent needed.
-  /// we have some titles that maybe draw in the left side of our chart,
+  /// we have some titles that maybe draw in the left and right side of our chart,
   /// then we should draw the chart a with some left space,
-  /// the left space is [getLeftOffsetDrawSize], and the whole
+  /// the left space is [getLeftOffsetDrawSize],
+  /// and the whole space is [getExtraNeededHorizontalSpace]
   @override
   double getExtraNeededHorizontalSpace() {
-    double parentNeeded = super.getExtraNeededHorizontalSpace();
-    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
-      return parentNeeded +
-        data.titlesData.verticalTitlesReservedWidth +
-        data.titlesData.verticalTitleMargin;
+    double sum = super.getExtraNeededHorizontalSpace();
+    if (data.titlesData.show) {
+
+      final leftSide = data.titlesData.leftTitles;
+      if (leftSide.showTitles) {
+        sum += leftSide.reservedSize + leftSide.margin;
+      }
+
+      final rightSide = data.titlesData.rightTitles;
+      if (rightSide.showTitles) {
+        sum += rightSide.reservedSize + rightSide.margin;
+      }
+
     }
-    return parentNeeded;
+    return sum;
   }
 
   /// We add our needed vertical space to parent needed.
-  /// we have some titles that maybe draw in the bottom side of our chart.
+  /// we have some titles that maybe draw in the top and bottom side of our chart,
+  /// then we should draw the chart a with some top space,
+  /// the top space is [getTopOffsetDrawSize()],
+  /// and the whole space is [getExtraNeededVerticalSpace]
   @override
   double getExtraNeededVerticalSpace() {
-    double parentNeeded = super.getExtraNeededVerticalSpace();
-    if (data.titlesData.show && data.titlesData.showHorizontalTitles) {
-      return parentNeeded +
-        data.titlesData.horizontalTitlesReservedHeight +
-        data.titlesData.horizontalTitleMargin;
+    double sum = super.getExtraNeededVerticalSpace();
+    if (data.titlesData.show) {
+
+      final bottomSide = data.titlesData.bottomTitles;
+      if (bottomSide.showTitles) {
+        sum += bottomSide.reservedSize + bottomSide.margin;
+      }
+
     }
-    return parentNeeded;
+    return sum;
   }
 
   /// calculate left offset for draw the chart,
@@ -316,13 +359,14 @@ class BarChartPainter extends AxisChartPainter {
   /// then just the left titles will effect on this function.
   @override
   double getLeftOffsetDrawSize() {
-    double parentNeeded = super.getLeftOffsetDrawSize();
-    if (data.titlesData.show && data.titlesData.showVerticalTitles) {
-      return parentNeeded +
-        data.titlesData.verticalTitlesReservedWidth +
-        data.titlesData.verticalTitleMargin;
+    var sum = super.getLeftOffsetDrawSize();
+
+    final leftTitles = data.titlesData.leftTitles;
+    if (data.titlesData.show && leftTitles.showTitles) {
+      sum += leftTitles.reservedSize + leftTitles.margin;
     }
-    return parentNeeded;
+
+    return sum;
   }
 
   /// find the nearest spot base on the touched offset
