@@ -434,8 +434,7 @@ class LineChartPainter extends AxisChartPainter {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize) +
-            getTopOffsetDrawSize();
+        double y = getPixelY(verticalSeek, viewSize);
 
         final String text = leftTitles.getTitles(verticalSeek);
 
@@ -458,7 +457,7 @@ class LineChartPainter extends AxisChartPainter {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
         double x = getPixelX(horizontalSeek, viewSize);
-        double y = 0;
+        double y = getTopOffsetDrawSize();
 
         String text = topTitles.getTitles(horizontalSeek);
 
@@ -482,8 +481,7 @@ class LineChartPainter extends AxisChartPainter {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
         double x = viewSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize) +
-          getTopOffsetDrawSize();
+        double y = getPixelY(verticalSeek, viewSize);
 
         final String text = rightTitles.getTitles(verticalSeek);
 

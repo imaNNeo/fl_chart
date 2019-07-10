@@ -41,6 +41,16 @@ class FlSpot {
   final double y;
 
   const FlSpot(this.x, this.y);
+
+  FlSpot copyWith({
+    double x,
+    double y,
+  }) {
+    return FlSpot(
+      x ?? this.x,
+      y ?? this.y,
+    );
+  }
 }
 
 

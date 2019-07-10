@@ -54,9 +54,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
           final double bothY = getPixelY(verticalSeek, usableViewSize);
           final double x1 = 0 + getLeftOffsetDrawSize();
-          final double y1 = bothY + getTopOffsetDrawSize();
+          final double y1 = bothY;
           final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
-          final double y2 = bothY + getTopOffsetDrawSize();
+          final double y2 = bothY;
           canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
