@@ -39,43 +39,36 @@ class LineChartSample2 extends StatelessWidget {
                 ),
                 titlesData: FlTitlesData(
                   show: true,
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 22,
-                    textStyle: TextStyle(
-                      color: const Color(0xff68737d),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16
-                    ),
-                    getTitles: (value) {
-                      switch(value.toInt()) {
-                        case 2: return 'MAR';
-                        case 5: return 'JUN';
-                        case 8: return 'SEP';
-                      }
+                  horizontalTitlesTextStyle: TextStyle(
+                    color: Color(0xff68737d),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16
+                  ),
+                  getHorizontalTitles: (value) {
+                    switch(value.toInt()) {
+                      case 2: return "MAR";
+                      case 5: return "JUN";
+                      case 8: return "SEP";
+                    }
 
-                      return '';
-                    },
-                    margin: 8,
+                    return "";
+                  },
+                  verticalTitlesTextStyle: TextStyle(
+                    color: Color(0xff67727d),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
                   ),
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    textStyle: TextStyle(
-                      color: const Color(0xff67727d),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                    getTitles: (value) {
-                      switch(value.toInt()) {
-                        case 1: return '10k';
-                        case 3: return '30k';
-                        case 5: return '50k';
-                      }
-                      return '';
-                    },
-                    reservedSize: 28,
-                    margin: 12,
-                  ),
+                  getVerticalTitles: (value) {
+                    switch(value.toInt()) {
+                      case 1: return "10k";
+                      case 3: return "30k";
+                      case 5: return "50k";
+                    }
+                    return "";
+                  },
+                  verticalTitlesReservedWidth: 28,
+                  verticalTitleMargin: 12,
+                  horizontalTitleMargin: 8,
                 ),
                 borderData: FlBorderData(
                   show: true,

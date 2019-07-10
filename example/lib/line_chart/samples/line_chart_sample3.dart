@@ -152,35 +152,28 @@ class LineChartSample3 extends StatelessWidget {
                 ),
                 titlesData: FlTitlesData(
                   show: true,
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return '';
-                        case 1:
-                          return '1k colories';
-                        case 2:
-                          return '2k colories';
-                        case 3:
-                          return '3k colories';
-                      }
+                  getHorizontalTitles: (value) {
+                    return weekDays[value.toInt()];
+                  },
+                  getVerticalTitles: (value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return "";
+                      case 1:
+                        return "1k colories";
+                      case 2:
+                        return "2k colories";
+                      case 3:
+                        return "3k colories";
+                    }
 
-                      return '';
-                    },
-                    textStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                    return "";
+                  },
+                  horizontalTitlesTextStyle: TextStyle(
+                    color: Colors.deepOrange,
+                    fontWeight: FontWeight.bold,
                   ),
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (value) {
-                      return weekDays[value.toInt()];
-                    },
-                    textStyle: const TextStyle(
-                      color: Colors.deepOrange,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ),
+                  verticalTitlesTextStyle: TextStyle(color: Colors.black, fontSize: 10)),
               ),
             ),
           ),

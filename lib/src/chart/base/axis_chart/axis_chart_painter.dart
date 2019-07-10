@@ -54,9 +54,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
           final double bothY = getPixelY(verticalSeek, usableViewSize);
           final double x1 = 0 + getLeftOffsetDrawSize();
-          final double y1 = bothY;
+          final double y1 = bothY + getTopOffsetDrawSize();
           final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
-          final double y2 = bothY;
+          final double y2 = bothY + getTopOffsetDrawSize();
           canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
@@ -205,6 +205,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     double spotY,
     Size chartUsableSize,
   ) {
-    return (((data.maxY - spotY - data.minY) / (data.maxY - data.minY)) * chartUsableSize.height) + getTopOffsetDrawSize();
+    double y = ((spotY - data.minY) / (data.maxY - data.minY)) * chartUsableSize.height;
+    y = chartUsableSize.height - y;
+    return y + getTopOffsetDrawSize();
   }
 }
