@@ -28,20 +28,12 @@ class BarChartPainter extends AxisChartPainter {
       return;
     }
 
-    /// resize group rods that they would to show with rounded rect
-    /// and their width is more than their height,
-    /// we can't show them properly
-    data.copyWith(
-      barGroups: resizeGroupsRods(size, data.barGroups),
-    );
-
     final List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
     final List<GroupBarsPosition> groupBarsPosition =
       calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
 
     final BarTouchedSpot touchedSpot =
       _getNearestTouchedSpot(canvas, size, groupBarsPosition);
-    print('touchedSpot = ${touchedSpot}');
 
     drawBars(canvas, size, groupBarsPosition);
     drawTitles(canvas, size, groupBarsPosition);
@@ -51,41 +43,6 @@ class BarChartPainter extends AxisChartPainter {
     if (touchedResponseSink != null) {
       touchedResponseSink.add(BarTouchResponse(touchedSpot, touchInputNotifier.value));
     }
-  }
-
-  /// If the height of rounded bars is less than their roundedRadius,
-  /// we can't draw them properly,
-  /// then we try to make them width lower,
-  /// in this section we resize a new List with proper barsRadius.
-  List<BarChartGroupData> resizeGroupsRods(Size viewSize, List<BarChartGroupData> groupsData) {
-    final Size drawSize = getChartUsableDrawSize(viewSize);
-
-    return groupsData.map((barGroup) {
-      final List<BarChartRodData> resizedWidthRods = barGroup.barRods.map((barRod) {
-        if (!barRod.isRound) {
-          return barRod;
-        }
-
-        final double fromY = getPixelY(0, drawSize);
-        final double toY = getPixelY(barRod.y, drawSize);
-
-        double barWidth = barRod.width;
-
-        final double barHeight = (fromY - toY).abs();
-        while (barHeight != 0 && barHeight < barWidth) {
-          barWidth -= barWidth * 0.1;
-        }
-
-        if (barWidth == barRod.width) {
-          return barRod;
-        } else {
-          return barRod.copyWith(width: barWidth);
-        }
-      }).toList();
-      return barGroup.copyWith(
-        barRods: resizedWidthRods
-      );
-    }).toList();
   }
 
   /// this method calculates the x of our showing groups,
@@ -228,8 +185,16 @@ class BarChartPainter extends AxisChartPainter {
 
         // draw Main Rod
         if (barRod.y != 0) {
-          from = Offset(x, getPixelY(0, drawSize) - roundedRadius,);
-          to = Offset(x, getPixelY(barRod.y, drawSize) + roundedRadius,);
+          final yFrom = getPixelY(0, drawSize);
+          from = Offset(x, yFrom - roundedRadius,);
+
+          var yTo = getPixelY(barRod.y, drawSize);
+
+          if ((yFrom - yTo).abs() <= barRod.width) {
+            yTo = yFrom - barRod.width;
+          }
+
+          to = Offset(x, yTo + roundedRadius,);
           barPaint.color = barRod.color;
           canvas.drawLine(from, to, barPaint);
         }
