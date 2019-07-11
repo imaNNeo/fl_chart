@@ -5,9 +5,16 @@ class LineChartSample6 extends StatelessWidget {
 
   final spots = [
     const FlSpot(0, 1),
-    const FlSpot(2, 3),
-    const FlSpot(4, 1),
+    const FlSpot(2, 5),
+    const FlSpot(4, 3),
     const FlSpot(6, 5),
+  ];
+
+  final spots2 = [
+    const FlSpot(0, 3),
+    const FlSpot(2, 1),
+    const FlSpot(4, 2),
+    const FlSpot(6, 1),
   ];
 
   double minSpotX, maxSpotX;
@@ -71,10 +78,10 @@ class LineChartSample6 extends StatelessWidget {
                   lineBarsData: [
                     LineChartBarData(
                       colors: [
-                        Colors.green,
-                        Colors.greenAccent,
+                        Colors.deepOrangeAccent,
+                        Colors.orangeAccent,
                       ],
-                      spots: reverseSpots(spots, minSpotX, maxSpotX),
+                      spots: reverseSpots(spots, minSpotY, maxSpotY),
                       isCurved: true,
                       isStrokeCapRound: true,
                       barWidth: 10,
@@ -83,7 +90,25 @@ class LineChartSample6 extends StatelessWidget {
                       ),
                       dotData: FlDotData(
                         show: true,
-                        dotColor: Colors.deepOrange.withOpacity(0.8),
+                        dotColor: Colors.deepOrange.withOpacity(0.5),
+                        dotSize: 12,
+                      ),
+                    ),
+                    LineChartBarData(
+                      colors: [
+                        Colors.lightBlueAccent,
+                        Colors.blue,
+                      ],
+                      spots: reverseSpots(spots2, minSpotY, maxSpotY),
+                      isCurved: true,
+                      isStrokeCapRound: true,
+                      barWidth: 10,
+                      belowBarData: const BelowBarData(
+                        show: false,
+                      ),
+                      dotData: FlDotData(
+                        show: true,
+                        dotColor: Colors.blue.withOpacity(0.5),
                         dotSize: 12,
                       ),
                     ),
@@ -102,8 +127,23 @@ class LineChartSample6 extends StatelessWidget {
 
                         return intValue.toString();
                       },
-                      textStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                      margin: 12,
+                      textStyle: const TextStyle(color: Colors.deepOrange, fontWeight: FontWeight.bold, fontSize: 18),
+                      margin: 16,
+                    ),
+                    rightTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 0,
+                      getTitles: (double value) {
+                        final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+
+                        if (intValue == (maxSpotY + minSpotY)) {
+                          return '';
+                        }
+
+                        return intValue.toString();
+                      },
+                      textStyle: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
+                      margin: 16,
                     ),
                     bottomTitles: const SideTitles(showTitles: false),
                     topTitles: SideTitles(
@@ -150,9 +190,9 @@ class LineChartSample6 extends StatelessWidget {
     return (maxX + minX) - y;
   }
 
-  List<FlSpot> reverseSpots(List<FlSpot> inputSpots, double minX, double maxX) {
+  List<FlSpot> reverseSpots(List<FlSpot> inputSpots, double minY, double maxY) {
     return inputSpots.map((spot) {
-      return spot.copyWith(x: (maxX + minX) - spot.x);
+      return spot.copyWith(y: (maxY + minY) - spot.y);
     }).toList();
   }
 }
