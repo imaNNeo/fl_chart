@@ -1,3 +1,6 @@
+## 0.1.4
+* bugfix -> fixed draw bug on BarChart when y value is very low in high scale y values (#43).
+
 ## 0.1.3
 * added `SideTitles` class to hold titles representation data, and used in `FlTitlesData` to show left, top, right, bottom titles, instead of legacy direct parameters, and implemented a reversed chart [sample](https://github.com/imaNNeoFighT/fl_chart/blob/feature/both-axis-titles/repo_files/documentations/line_chart.md#sample-6-source-code) using this update.
 
