@@ -267,7 +267,7 @@ class LineChartPainter extends AxisChartPainter {
           stops.add(ss * (index + 1));
         });
       } else {
-        stops = barData.colorStops;
+        stops = barData.belowBarData.gradientColorStops;
       }
 
       var from = barData.belowBarData.gradientFrom;
