@@ -1,3 +1,7 @@
+## 0.1.5
+* reverted getPixelY() on axis_chart_painter to solve the regression bug (fixed issue #48)
+* (fix) BelowBar considers its own color stops refs #46
+
 ## 0.1.4
 * bugfix -> fixed draw bug on BarChart when y value is very low in high scale y values (#43).
 
