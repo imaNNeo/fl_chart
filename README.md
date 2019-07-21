@@ -56,3 +56,9 @@ flutter packages get
 
 ### And the last but not least 🔥
 ##### :beer: pull requests are welcome!
+
+#### :moneybag: Dontation (bitcoin) :moneybag:
+##### Buy me some food to survive, I will contribute to add more features if I was alive
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bitcoin_public_key.png" width="240" >
+
+1BJt8apHJVreFyaPvseHcE17QQ3JwAdBcu
