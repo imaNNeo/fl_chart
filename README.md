@@ -59,6 +59,6 @@ flutter packages get
 
 #### :moneybag: Dontation (bitcoin) :moneybag:
 ##### Buy me some food to survive, I will contribute to add more features if I was alive
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bitcoin_public_key.png" width="240" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bitcoin_public_key.png" width="180" >
 
 1BJt8apHJVreFyaPvseHcE17QQ3JwAdBcu
