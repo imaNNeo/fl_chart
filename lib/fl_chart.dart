@@ -19,7 +19,6 @@ export 'src/chart/line_chart/line_chart_data.dart';
 export 'src/chart/pie_chart/pie_chart.dart';
 export 'src/chart/pie_chart/pie_chart_data.dart';
 
-
 /// A base widget that holds a [BaseChart] class
 /// that contains [BaseChartPainter] extends from [CustomPainter]
 /// to paint the relative content on our [CustomPaint] class
@@ -27,10 +26,12 @@ export 'src/chart/pie_chart/pie_chart_data.dart';
 /// such as [LineChart], [BarChart], [PieChart].
 class FlChart extends StatefulWidget {
   final BaseChart chart;
+  bool enableTap;
 
   FlChart({
     Key key,
     @required this.chart,
+    this.enableTap = true,
   }) : super(key: key) {
     if (chart == null) {
       throw Exception('chart should not be null');
@@ -42,7 +43,6 @@ class FlChart extends StatefulWidget {
 }
 
 class _FlChartState extends State<FlChart> {
-
   ///We will notify Touch Events through this Notifier in form of a [FlTouchInput],
   ///then the painter returns touched details through a StreamSink.a
   FlTouchInputNotifier _touchInputNotifier;
@@ -55,6 +55,41 @@ class _FlChartState extends State<FlChart> {
 
   @override
   Widget build(BuildContext context) {
+    return widget.enableTap ? _widgetWithTap() : _widgetWithLongPress();
+  }
+
+  Widget _widgetWithTap() {
+    Offset _offset;
+    return GestureDetector(
+      onHorizontalDragEnd: (d) {
+        _touchInputNotifier.value = FlLongPressEnd(
+          _globalToLocal(context, _offset),
+        );
+      },
+      onHorizontalDragStart: (d) {
+        _touchInputNotifier.value = FlLongPressStart(
+          _globalToLocal(context, d.globalPosition),
+        );
+      },
+      onHorizontalDragUpdate: (d) {
+        _offset = d.globalPosition;
+        _touchInputNotifier.value = FlLongPressMoveUpdate(
+          _globalToLocal(context, d.globalPosition),
+        );
+      },
+      child: CustomPaint(
+        painter: widget.chart.painter(
+          touchInputNotifier: _touchInputNotifier,
+          touchResponseSink: widget.chart
+              .getData()
+              .touchData
+              .touchResponseSink,
+        ),
+      ),
+    );
+  }
+
+  Widget _widgetWithLongPress() {
     return GestureDetector(
       onLongPressStart: (d) {
         _touchInputNotifier.value = FlLongPressStart(
@@ -74,7 +109,10 @@ class _FlChartState extends State<FlChart> {
       child: CustomPaint(
         painter: widget.chart.painter(
           touchInputNotifier: _touchInputNotifier,
-          touchResponseSink: widget.chart.getData().touchData.touchResponseSink,
+          touchResponseSink: widget.chart
+              .getData()
+              .touchData
+              .touchResponseSink,
         ),
       ),
     );
