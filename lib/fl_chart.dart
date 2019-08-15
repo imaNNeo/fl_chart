@@ -71,6 +71,18 @@ class _FlChartState extends State<FlChart> {
           _globalToLocal(context, d.globalPosition),
         );
       },
+      onPanCancel: () {
+        _touchInputNotifier.value = FlPanEnd(Offset.zero);
+      },
+      onPanEnd: (DragEndDetails details) {
+        _touchInputNotifier.value = FlPanEnd(Offset.zero);
+      },
+      onPanDown: (DragDownDetails details) {
+        _touchInputNotifier.value = FlPanStart(details.localPosition);
+      },
+      onPanUpdate: (DragUpdateDetails details) {
+        _touchInputNotifier.value = FlPanMoveUpdate(details.localPosition);
+      },
       child: CustomPaint(
         painter: widget.chart.painter(
           touchInputNotifier: _touchInputNotifier,

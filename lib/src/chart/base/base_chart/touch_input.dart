@@ -47,3 +47,42 @@ class FlLongPressEnd extends FlTouchInput {
   }
 
 }
+
+class FlPanStart extends FlTouchInput {
+
+  final Offset localPosition;
+
+  FlPanStart(this.localPosition);
+
+  @override
+  Offset getOffset() {
+    return localPosition;
+  }
+
+}
+
+class FlPanMoveUpdate extends FlTouchInput {
+
+  final Offset localPosition;
+
+  FlPanMoveUpdate(this.localPosition);
+
+  @override
+  Offset getOffset() {
+    return localPosition;
+  }
+
+}
+
+class FlPanEnd extends FlTouchInput {
+
+  final Offset localPosition;
+
+  FlPanEnd(this.localPosition);
+
+  @override
+  Offset getOffset() {
+    return localPosition;
+  }
+
+}
