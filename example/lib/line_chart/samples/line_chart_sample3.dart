@@ -18,7 +18,7 @@ class LineChartSample3 extends StatelessWidget {
               style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16),),
             const Text(' and ',
               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),),
-            const Text('Indiactors',
+            const Text('Indicators',
               style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16),),
           ],
         ),
