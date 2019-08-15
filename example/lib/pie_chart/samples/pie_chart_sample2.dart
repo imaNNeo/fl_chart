@@ -70,7 +70,6 @@ class PieChart2State extends State {
 
     pieTouchedResultStreamController = StreamController();
     pieTouchedResultStreamController.stream.distinct().listen((details) {
-      print(details);
       if (details == null) {
         return;
       }

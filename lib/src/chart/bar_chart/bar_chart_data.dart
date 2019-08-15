@@ -226,11 +226,12 @@ class BarTouchData extends FlTouchData {
 
   const BarTouchData({
     bool enabled = true,
+    bool enableNormalTouch = true,
     this.touchTooltipData = const TouchTooltipData(),
     this.touchExtraThreshold = const EdgeInsets.all(4),
     this.allowTouchBarBackDraw = false,
     StreamSink<BarTouchResponse> touchResponseSink,
-  }) : super(enabled, touchResponseSink);
+  }) : super(enabled, touchResponseSink, enableNormalTouch);
 
 }
 

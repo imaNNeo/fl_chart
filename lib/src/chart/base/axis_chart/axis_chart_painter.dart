@@ -115,8 +115,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   }
 
   void drawTouchTooltip(Canvas canvas, Size viewSize, TouchTooltipData tooltipData, List<TouchedSpot> touchedSpots) {
-    
-    if (touchInputNotifier.value is FlLongPressEnd) {
+
+    if (!shouldDrawTouch()) {
       return;
     }
 

@@ -57,19 +57,13 @@ class _FlChartState extends State<FlChart> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPressStart: (d) {
-        _touchInputNotifier.value = FlLongPressStart(
-          _globalToLocal(context, d.globalPosition),
-        );
+        _touchInputNotifier.value = FlLongPressStart(d.localPosition);
       },
       onLongPressEnd: (d) {
-        _touchInputNotifier.value = FlLongPressEnd(
-          _globalToLocal(context, d.globalPosition),
-        );
+        _touchInputNotifier.value = FlLongPressEnd(d.localPosition);
       },
       onLongPressMoveUpdate: (d) {
-        _touchInputNotifier.value = FlLongPressMoveUpdate(
-          _globalToLocal(context, d.globalPosition),
-        );
+        _touchInputNotifier.value = FlLongPressMoveUpdate(d.localPosition);
       },
       onPanCancel: () {
         _touchInputNotifier.value = FlPanEnd(Offset.zero);
@@ -90,11 +84,6 @@ class _FlChartState extends State<FlChart> {
         ),
       ),
     );
-  }
-
-  Offset _globalToLocal(BuildContext context, Offset globalPosition) {
-    final RenderBox box = context.findRenderObject();
-    return box.globalToLocal(globalPosition);
   }
 
   @override
