@@ -59,6 +59,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
+|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchTooltipData|a [TouchTooltipData](base_chart.md#TouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|TouchTooltipData()|
 |touchExtraThreshold|an [EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) class to hold a bounding threshold of touch accuracy|EdgeInsets.all(4)|
 |allowTouchBarBackDraw| if sets true, touch works on backdraw bar line| false |

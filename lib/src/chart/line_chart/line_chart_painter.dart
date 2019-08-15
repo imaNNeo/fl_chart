@@ -378,7 +378,7 @@ class LineChartPainter extends AxisChartPainter {
   }
 
   void drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, List<LineTouchedSpot> lineTouchedSpots) {
-    if (touchInputNotifier.value is FlLongPressEnd) {
+    if (!shouldDrawTouch()) {
       return;
     }
 

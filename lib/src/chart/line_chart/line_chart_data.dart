@@ -332,11 +332,12 @@ class LineTouchData extends FlTouchData {
 
   const LineTouchData({
     bool enabled = true,
+    bool enableNormalTouch = true,
     this.touchTooltipData = const TouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
     StreamSink<LineTouchResponse> touchResponseSink,
-  }) : super(enabled, touchResponseSink);
+  }) : super(enabled, touchResponseSink, enableNormalTouch);
 
 }
 

@@ -103,6 +103,7 @@ FlChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
+|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchTooltipData|a [TouchTooltipData](base_chart.md#TouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|TouchTooltipData()|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineTouchedSpot](#LineTouchedSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|

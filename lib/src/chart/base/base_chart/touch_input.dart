@@ -9,7 +9,9 @@ abstract class FlTouchInput {
   Offset getOffset();
 }
 
-class FlLongPressStart extends FlTouchInput {
+abstract class FlTouchLongInput extends FlTouchInput {}
+
+class FlLongPressStart extends FlTouchLongInput {
 
   final Offset localPosition;
 
@@ -22,7 +24,7 @@ class FlLongPressStart extends FlTouchInput {
 
 }
 
-class FlLongPressMoveUpdate extends FlTouchInput {
+class FlLongPressMoveUpdate extends FlTouchLongInput {
 
   final Offset localPosition;
 
@@ -35,11 +37,53 @@ class FlLongPressMoveUpdate extends FlTouchInput {
 
 }
 
-class FlLongPressEnd extends FlTouchInput {
+class FlLongPressEnd extends FlTouchLongInput {
 
   final Offset localPosition;
 
   FlLongPressEnd(this.localPosition);
+
+  @override
+  Offset getOffset() {
+    return localPosition;
+  }
+
+}
+
+
+abstract class FlTouchNormapInput extends FlTouchInput {}
+
+class FlPanStart extends FlTouchNormapInput {
+
+  final Offset localPosition;
+
+  FlPanStart(this.localPosition);
+
+  @override
+  Offset getOffset() {
+    return localPosition;
+  }
+
+}
+
+class FlPanMoveUpdate extends FlTouchNormapInput {
+
+  final Offset localPosition;
+
+  FlPanMoveUpdate(this.localPosition);
+
+  @override
+  Offset getOffset() {
+    return localPosition;
+  }
+
+}
+
+class FlPanEnd extends FlTouchNormapInput {
+
+  final Offset localPosition;
+
+  FlPanEnd(this.localPosition);
 
   @override
   Offset getOffset() {

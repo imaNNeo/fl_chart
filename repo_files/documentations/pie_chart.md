@@ -41,6 +41,7 @@ FlChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
+|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchResponseStreamSink| a [StreamSink](https://api.flutter.dev/flutter/dart-async/StreamSink-class.html)<[PieTouchResponse](#PieTouchResponse)> to broadcast the touch response (with useful data) when touched on the chart| null|
 
 ### PieTouchResponse

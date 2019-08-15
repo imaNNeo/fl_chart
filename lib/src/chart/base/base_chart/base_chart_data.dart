@@ -51,11 +51,14 @@ class FlTouchData {
   /// determines enable or disable the touch in the chart
   final bool enabled;
 
+  /// determines that charts should respond to normal touch events or not
+  final bool enableNormalTouch;
+
   /// chart notifies the touch responses through this [StreamSink]
   /// in form of a [BaseTouchResponse] class
   final StreamSink<BaseTouchResponse> touchResponseSink;
 
-  const FlTouchData(this.enabled, this.touchResponseSink);
+  const FlTouchData(this.enabled, this.touchResponseSink, this.enableNormalTouch);
 }
 
 
