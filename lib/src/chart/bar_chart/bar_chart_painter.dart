@@ -38,11 +38,13 @@ class BarChartPainter extends AxisChartPainter {
     drawBars(canvas, size, groupBarsPosition);
     drawTitles(canvas, size, groupBarsPosition);
 
-    super.drawTouchTooltip(canvas, size, data.barTouchData.touchTooltipData, [touchedSpot]);
+    if (touchedSpot != null) {
+      super.drawTouchTooltip(canvas, size, data.barTouchData.touchTooltipData, [touchedSpot]);
+    }
 
     if (touchedResponseSink != null && touchInputNotifier != null
       && touchInputNotifier.value != null
-      && !(touchInputNotifier.value.runtimeType is NonTouch)) {
+      && !(touchInputNotifier.value is NonTouch)) {
       touchedResponseSink.add(BarTouchResponse(touchedSpot, touchInputNotifier.value));
       releaseIfEndTouch();
     }
@@ -393,7 +395,7 @@ class BarChartPainter extends AxisChartPainter {
       }
     }
 
-    return BarTouchedSpot(null, null, null, null);
+    return null;
   }
 
   @override
