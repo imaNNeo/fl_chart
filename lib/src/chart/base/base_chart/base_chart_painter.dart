@@ -126,7 +126,8 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (touchInputNotifier == null) {
       return;
     }
-    if (touchInputNotifier.value is FlLongPressEnd
+    if (touchInputNotifier.value == null
+      || touchInputNotifier.value is FlLongPressEnd
       || touchInputNotifier.value is FlPanEnd) {
       touchInputNotifier.value = NonTouch();
     }
