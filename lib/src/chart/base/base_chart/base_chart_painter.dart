@@ -104,7 +104,9 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// checks that the touchInput is eligible to draw,
   /// and child painters can use this function to check then draw their default touch behaviors.
   bool shouldDrawTouch() {
-    if (touchInputNotifier == null || shouldDrawTouch == null) {
+    if (touchInputNotifier == null
+      || touchInputNotifier.value == null
+      || shouldDrawTouch == null) {
       return false;
     }
 
@@ -117,5 +119,12 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     }
 
     return true;
+  }
+
+  /// if the event was ended, we should release our touchInputNotifier
+  void releaseIfEndTouch() {
+    if (touchInputNotifier.value is FlLongPressEnd || touchInputNotifier.value is FlPanEnd) {
+      touchInputNotifier.value = NonTouch();
+    }
   }
 }

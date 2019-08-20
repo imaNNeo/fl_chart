@@ -91,3 +91,11 @@ class FlPanEnd extends FlTouchNormapInput {
   }
 
 }
+
+
+class NonTouch extends FlTouchInput {
+  @override
+  Offset getOffset() {
+    return null;
+  }
+}
