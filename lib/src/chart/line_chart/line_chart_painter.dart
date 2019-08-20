@@ -97,8 +97,11 @@ class LineChartPainter extends AxisChartPainter {
     // Draw touch tooltip on most top spot
     super.drawTouchTooltip(canvas, viewSize, data.lineTouchData.touchTooltipData, touchedSpots);
 
-    if (touchedResponseSink != null) {
+    if (touchedResponseSink != null && touchInputNotifier != null
+      && touchInputNotifier.value != null
+      && !(touchInputNotifier.value.runtimeType is NonTouch)) {
       touchedResponseSink.add(LineTouchResponse(touchedSpots, touchInputNotifier.value));
+      releaseIfEndTouch();
     }
   }
 

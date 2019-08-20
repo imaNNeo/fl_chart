@@ -129,10 +129,10 @@ class BarChartGroupData {
   /// to draw them independently by y value together.
   /// [barsSpace] is the space between the bar lines inside group
   const BarChartGroupData({
-    this.x,
+    @required this.x,
     this.barRods = const [],
     this.barsSpace = 2,
-  });
+  }): assert(x != null);
 
   /// calculates the whole width of our group,
   /// by adding all rod's width and group space * rods count.

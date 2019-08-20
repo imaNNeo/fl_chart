@@ -53,8 +53,11 @@ class PieChartPainter extends BaseChartPainter {
     drawTexts(canvas, size);
 
     final touched = _getTouchedDetails(canvas, size, sectionsAngle);
-    if (touchedResponseSink != null) {
+    if (touchedResponseSink != null && touchInputNotifier != null
+      && touchInputNotifier.value != null
+      && !(touchInputNotifier.value.runtimeType is NonTouch)) {
       touchedResponseSink.add(touched);
+      releaseIfEndTouch();
     }
   }
 

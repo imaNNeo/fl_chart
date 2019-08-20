@@ -20,9 +20,7 @@ class LineChartSample1State extends State<LineChartSample1> {
     super.initState();
 
     controller = StreamController();
-    controller.stream.distinct().listen((LineTouchResponse response){
-      print('response: ${response.touchInput}');
-    });
+    controller.stream.distinct().listen((LineTouchResponse response){});
   }
 
   @override
