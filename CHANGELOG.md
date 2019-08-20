@@ -1,3 +1,7 @@
+## 0.2.0
+* fixed a critical got stuck in draw loop bug,
+* set `BarChartGroupData` x as required property to keep consistency and prevent unpredictable bugs
+
 ## 0.1.6
 * added `enableNormalTouch` property to chart's TouchData to handle normal taps, and enabled by default.
 
