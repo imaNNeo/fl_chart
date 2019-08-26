@@ -252,22 +252,30 @@ class FlDotData {
 /// and the x is dynamic
 class HorizontalLine extends FlLine {
   final double x;
+  final bool isDashed;
+  final double dashLength;
   HorizontalLine({
     this.x,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    this.isDashed = false,
+    this.dashLength = 5.0
+  }) : super(color: color, strokeWidth: strokeWidth, );
 }
 
 /// vertical lines draw from left to right of the chart
 /// and the y is dynamic
 class VerticalLine extends FlLine {
   final double y;
+  final bool isDashed;
+  final double dashLength;
   VerticalLine({
     this.y,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    this.isDashed = false,
+    this.dashLength = 5.0
+  }) : super(color: color, strokeWidth: strokeWidth, isDashed: isDashed, dashLength: dashLength);
 }
 
 /// we use ExtraLinesData to draw straight horizontal and vertical lines,

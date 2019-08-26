@@ -544,7 +544,16 @@ class LineChartPainter extends AxisChartPainter {
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        canvas.drawLine(from, to, extraLinesPaint);
+        if (line.isDashed) {
+          double currentY = topChartPadding;
+          final lineX = to.dx;
+          while (currentY <= viewSize.height - bottomChartPadding) {
+            canvas.drawLine(Offset(lineX, currentY), Offset(lineX, currentY + line.dashLength), extraLinesPaint);
+            currentY += line.dashLength * 1.5;
+          }
+        } else {
+          canvas.drawLine(from, to, extraLinesPaint);
+        }
       }
     }
 
@@ -560,7 +569,16 @@ class LineChartPainter extends AxisChartPainter {
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        canvas.drawLine(from, to, extraLinesPaint);
+        if (line.isDashed) {
+          double currentX = leftChartPadding;
+          final lineY = to.dy;
+          while (currentX <= viewSize.width - rightChartPadding) {
+            canvas.drawLine(Offset(currentX, lineY), Offset(currentX + line.dashLength, lineY), extraLinesPaint);
+            currentX += line.dashLength * 1.5;
+          }
+        } else {
+          canvas.drawLine(from, to, extraLinesPaint);
+        }
       }
     }
   }
