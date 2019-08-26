@@ -9,6 +9,9 @@ class LineChartSample2 extends StatelessWidget {
       Color(0xff23b6e6),
       Color(0xff02d39a),
     ];
+    List<Color> otherGradientColors = [
+      Colors.red, Colors.redAccent
+    ];
     return AspectRatio(
       aspectRatio: 1.70,
       child: Container(
@@ -103,9 +106,11 @@ class LineChartSample2 extends StatelessWidget {
                     dotData: FlDotData(
                       show: false,
                     ),
-                    belowBarData: BelowBarData(
+                    barAreaData: BarAreaData(
                       show: true,
-                      colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+                      yCutOff: 3.05,
+                      belowColors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+                      aboveColors: otherGradientColors.map((color) => color.withOpacity(0.3)).toList()
                     ),
                   ),
                 ],

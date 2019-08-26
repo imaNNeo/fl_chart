@@ -33,9 +33,9 @@ class LineChartSample4 extends StatelessWidget {
                 colors: [
                   Colors.purpleAccent,
                 ],
-                belowBarData: BelowBarData(
+                barAreaData: BarAreaData(
                   show: true,
-                  colors: [Colors.deepPurple.withOpacity(0.2)],
+                  belowColors: [Colors.deepPurple.withOpacity(0.2)],
                 ),
                 dotData: FlDotData(
                   show: false,

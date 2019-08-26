@@ -152,7 +152,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                           dotData: FlDotData(
                             show: false,
                           ),
-                          belowBarData: BelowBarData(
+                          barAreaData: BarAreaData(
                             show: false,
                           ),
                         ),
@@ -174,7 +174,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                           dotData: FlDotData(
                             show: false,
                           ),
-                          belowBarData: BelowBarData(
+                          barAreaData: BarAreaData(
                             show: false,
                           ),
                         ),
@@ -195,7 +195,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                           dotData: FlDotData(
                             show: false,
                           ),
-                          belowBarData: BelowBarData(
+                          barAreaData: BarAreaData(
                             show: false,
                           ),
                         ),

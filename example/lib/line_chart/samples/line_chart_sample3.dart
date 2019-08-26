@@ -85,15 +85,15 @@ class LineChartSample3 extends StatelessWidget {
                     colors: [
                       Colors.orange,
                     ],
-                    belowBarData: BelowBarData(
+                    barAreaData: BarAreaData(
                       show: true,
-                      colors: [
+                      belowColors: [
                         Colors.orange.withOpacity(0.5),
                         Colors.orange.withOpacity(0.0),
                       ],
                       gradientColorStops: [0.5, 1.0],
-                      gradientFrom: Offset(0, 0),
-                      gradientTo: Offset(0, 1),
+                      belowGradientFrom: Offset(0, 0),
+                      belowGradientTo: Offset(0, 1),
                       belowSpotsLine: BelowSpotsLine(
                         show: true,
                         flLineStyle: const FlLine(
