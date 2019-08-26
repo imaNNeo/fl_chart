@@ -113,10 +113,14 @@ class FlGridData {
 class FlLine {
   final Color color;
   final double strokeWidth;
+  final bool isDashed;
+  final double dashLength;
 
   const FlLine({
     this.color = Colors.black,
     this.strokeWidth = 2,
+    this.isDashed,
+    this.dashLength
   });
 }
 

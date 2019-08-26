@@ -20,7 +20,7 @@ class LineChartPainter extends AxisChartPainter {
   /// [extraLinesPaint] is responsible to draw extr lines
   /// [touchLinePaint] is responsible to draw touch indicators(below line and spot)
   /// [bgTouchTooltipPaint] is responsible to draw box backgroundTooltip of touched point;
-  Paint barPaint, belowBarPaint, belowBarLinePaint,
+  Paint barPaint, belowBarPaint, aboveBarPaint, belowBarLinePaint,
     dotPaint, clearAroundBorderPaint, extraLinesPaint,
     touchLinePaint;
 
@@ -34,6 +34,8 @@ class LineChartPainter extends AxisChartPainter {
       ..style = PaintingStyle.stroke;
 
     belowBarPaint = Paint()..style = PaintingStyle.fill;
+        
+    aboveBarPaint = Paint()..style = PaintingStyle.fill;
 
     belowBarLinePaint = Paint()
       ..style = PaintingStyle.stroke;
@@ -230,7 +232,7 @@ class LineChartPainter extends AxisChartPainter {
   /// we continue to complete the path to cover the below section.
   /// then we close the path to fill the below space with a color or gradient.
   void drawBelowBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
-    if (!barData.belowBarData.show) {
+    if (!barData.barAreaData.show) {
       return;
     }
 
@@ -240,12 +242,16 @@ class LineChartPainter extends AxisChartPainter {
 
     /// Line To Bottom Right
     double x = getPixelX(barData.spots[barData.spots.length - 1].x, chartViewSize);
-    double y = chartViewSize.height + getTopOffsetDrawSize();
+    double y = barData.barAreaData.yCutOff == 0
+        ? chartViewSize.height + getTopOffsetDrawSize()
+        : getPixelY(barData.barAreaData.yCutOff, chartViewSize);
     belowBarPath.lineTo(x, y);
 
     /// Line To Bottom Left
     x = getPixelX(barData.spots[0].x, chartViewSize);
-    y = chartViewSize.height + getTopOffsetDrawSize();
+    y = barData.barAreaData.yCutOff == 0
+        ? chartViewSize.height + getTopOffsetDrawSize()
+        : getPixelY(barData.barAreaData.yCutOff, chartViewSize);
     belowBarPath.lineTo(x, y);
 
     /// Line To Top Left
@@ -256,25 +262,25 @@ class LineChartPainter extends AxisChartPainter {
 
     /// here we update the [belowBarPaint] to draw the solid color
     /// or the gradient based on the [BelowBarData] class.
-    if (barData.belowBarData.colors.length == 1) {
-      belowBarPaint.color = barData.belowBarData.colors[0];
+    if (barData.barAreaData.belowColors.length == 1) {
+      belowBarPaint.color = barData.barAreaData.belowColors[0];
       belowBarPaint.shader = null;
     } else {
 
       List<double> stops = [];
-      if (barData.belowBarData.gradientColorStops == null
-        || barData.belowBarData.gradientColorStops.length != barData.belowBarData.colors.length) {
+      if (barData.barAreaData.gradientColorStops == null
+        || barData.barAreaData.gradientColorStops.length != barData.barAreaData.belowColors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
         barData.colors.asMap().forEach((index, color) {
           double ss = 1.0 / barData.colors.length;
           stops.add(ss * (index + 1));
         });
       } else {
-        stops = barData.belowBarData.gradientColorStops;
+        stops = barData.barAreaData.gradientColorStops;
       }
 
-      var from = barData.belowBarData.gradientFrom;
-      var to = barData.belowBarData.gradientTo;
+      var from = barData.barAreaData.belowGradientFrom;
+      var to = barData.barAreaData.belowGradientTo;
       belowBarPaint.shader = ui.Gradient.linear(
         Offset(
           getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
@@ -284,19 +290,30 @@ class LineChartPainter extends AxisChartPainter {
           getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
-        barData.belowBarData.colors,
+        barData.barAreaData.belowColors,
         stops,
       );
     }
 
-    canvas.drawPath(belowBarPath, belowBarPaint);
+     if (barData.barAreaData.yCutOff != 0) {
+       final clearUnnecessaryAreaFillingPath = Path()..moveTo(0, getPixelY(barData.barAreaData.yCutOff, chartViewSize))
+         ..lineTo(0, chartViewSize.height + getTopOffsetDrawSize())
+         ..lineTo(chartViewSize.width + getLeftOffsetDrawSize(), chartViewSize.height + getTopOffsetDrawSize())
+         ..lineTo(chartViewSize.width + getLeftOffsetDrawSize(), getPixelY(barData.barAreaData.yCutOff, chartViewSize));
+
+       final belowBarPathWithCutOff = Path.combine(PathOperation.difference, belowBarPath, clearUnnecessaryAreaFillingPath);
+       canvas.drawPath(belowBarPathWithCutOff, belowBarPaint);
+       drawAboveBar(canvas, viewSize, barPath, barData);
+     } else {
+       canvas.drawPath(belowBarPath, belowBarPaint);
+     }
 
 
     /// draw below spots line
-    if (barData.belowBarData.belowSpotsLine != null) {
+    if (barData.barAreaData.belowSpotsLine != null) {
       for (FlSpot spot in barData.spots) {
-        if (barData.belowBarData.belowSpotsLine.show &&
-          barData.belowBarData.belowSpotsLine.checkToShowSpotBelowLine(spot)) {
+        if (barData.barAreaData.belowSpotsLine.show &&
+          barData.barAreaData.belowSpotsLine.checkToShowSpotBelowLine(spot)) {
           final Offset from = Offset(
             getPixelX(spot.x, chartViewSize),
             getPixelY(spot.y, chartViewSize),
@@ -308,14 +325,82 @@ class LineChartPainter extends AxisChartPainter {
             viewSize.height - bottomPadding,
           );
 
-          belowBarLinePaint.color = barData.belowBarData.belowSpotsLine.flLineStyle.color;
+          belowBarLinePaint.color = barData.barAreaData.belowSpotsLine.flLineStyle.color;
           belowBarLinePaint.strokeWidth =
-            barData.belowBarData.belowSpotsLine.flLineStyle.strokeWidth;
+            barData.barAreaData.belowSpotsLine.flLineStyle.strokeWidth;
 
           canvas.drawLine(from, to, belowBarLinePaint);
         }
       }
     }
+  }
+
+  void drawAboveBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+    final aboveBarPath = Path.from(barPath);
+
+    Size chartViewSize = getChartUsableDrawSize(viewSize);
+
+    /// Line To Bottom Right
+    double x =
+    getPixelX(barData.spots[barData.spots.length - 1].x, chartViewSize);
+    double y = barData.barAreaData.yCutOff == 0
+        ? chartViewSize.height + getTopOffsetDrawSize()
+        : getPixelY(barData.barAreaData.yCutOff, chartViewSize);
+    aboveBarPath.lineTo(x, y);
+
+    /// Line To Bottom Left
+    x = getPixelX(barData.spots[0].x, chartViewSize);
+    y = barData.barAreaData.yCutOff == 0
+        ? chartViewSize.height + getTopOffsetDrawSize()
+        : getPixelY(barData.barAreaData.yCutOff, chartViewSize);
+    aboveBarPath.lineTo(x, y);
+
+    /// Line To Top Left
+    x = getPixelX(barData.spots[0].x, chartViewSize);
+    y = getPixelY(barData.spots[0].y, chartViewSize);
+    aboveBarPath.lineTo(x, y);
+    aboveBarPath.close();
+
+    if (barData.barAreaData.aboveColors.length == 1) {
+      aboveBarPaint.color = barData.barAreaData.aboveColors[0];
+      aboveBarPaint.shader = null;
+    } else {
+      List<double> stops = [];
+      if (barData.barAreaData.gradientColorStops == null ||
+          barData.barAreaData.gradientColorStops.length !=
+              barData.barAreaData.aboveColors.length) {
+        /// provided gradientColorStops is invalid and we calculate it here
+        barData.colors.asMap().forEach((index, color) {
+          double ss = 1.0 / barData.colors.length;
+          stops.add(ss * (index + 1));
+        });
+      } else {
+        stops = barData.barAreaData.gradientColorStops;
+      }
+
+      var from = barData.barAreaData.aboveGradientFrom;
+      var to = barData.barAreaData.aboveGradientTo;
+      aboveBarPaint.shader = ui.Gradient.linear(
+        Offset(
+          getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
+          getTopOffsetDrawSize() + (chartViewSize.height * from.dy),
+        ),
+        Offset(
+          getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
+          getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
+        ),
+        barData.barAreaData.aboveColors,
+        stops,
+      );
+    }
+
+      final clearUnnecessaryAreaFillingPath = Path()..moveTo(0, 0)
+        ..lineTo(0, getPixelY(barData.barAreaData.yCutOff, chartViewSize))
+        ..lineTo(chartViewSize.width + getLeftOffsetDrawSize(), getPixelY(barData.barAreaData.yCutOff, chartViewSize))
+        ..lineTo(chartViewSize.width + getLeftOffsetDrawSize(), 0);
+
+      final aboveBarPathWithCutOff = Path.combine(PathOperation.difference, aboveBarPath, clearUnnecessaryAreaFillingPath);
+      canvas.drawPath(aboveBarPathWithCutOff, aboveBarPaint);
   }
 
   void drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
@@ -544,7 +629,16 @@ class LineChartPainter extends AxisChartPainter {
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        canvas.drawLine(from, to, extraLinesPaint);
+        if (line.isDashed) {
+          double currentY = topChartPadding;
+          final lineX = to.dx;
+          while (currentY <= viewSize.height - bottomChartPadding) {
+            canvas.drawLine(Offset(lineX, currentY), Offset(lineX, currentY + line.dashLength), extraLinesPaint);
+            currentY += line.dashLength * 1.5;
+          }
+        } else {
+          canvas.drawLine(from, to, extraLinesPaint);
+        }
       }
     }
 
@@ -560,7 +654,16 @@ class LineChartPainter extends AxisChartPainter {
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        canvas.drawLine(from, to, extraLinesPaint);
+        if (line.isDashed) {
+          double currentX = leftChartPadding;
+          final lineY = to.dy;
+          while (currentX <= viewSize.width - rightChartPadding) {
+            canvas.drawLine(Offset(currentX, lineY), Offset(currentX + line.dashLength, lineY), extraLinesPaint);
+            currentX += line.dashLength * 1.5;
+          }
+        } else {
+          canvas.drawLine(from, to, extraLinesPaint);
+        }
       }
     }
   }

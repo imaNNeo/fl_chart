@@ -25,7 +25,7 @@ class LineChartSample5 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 4,
-                belowBarData: BelowBarData(
+                barAreaData: BarAreaData(
                   show: true,
                 ),
                 dotData: FlDotData(show: false),
