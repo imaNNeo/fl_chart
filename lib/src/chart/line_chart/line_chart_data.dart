@@ -142,7 +142,7 @@ class LineChartBarData {
   final bool isStrokeCapRound;
 
   /// to fill space below the bar line,
-  final BelowBarData belowBarData;
+  final BarAreaData barAreaData;
 
   /// to show dot spots upon the line chart
   final FlDotData dotData;
@@ -157,20 +157,21 @@ class LineChartBarData {
     this.curveSmoothness = 0.35,
     this.preventCurveOverShooting = false,
     this.isStrokeCapRound = false,
-    this.belowBarData = const BelowBarData(),
+    this.barAreaData = const BarAreaData(),
     this.dotData = const FlDotData(),
   });
 }
 
 /***** BelowBarData *****/
 /// This class holds data about draw on below space of the bar line,
-class BelowBarData {
+class BarAreaData {
   final bool show;
 
   /// if you pass just one color, the solid color will be used,
   /// or if you pass more than one color, we use gradient mode to draw.
   /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
-  final List<Color> colors;
+  final List<Color> belowColors;
+  final List<Color> aboveColors;
 
   /// if the gradient mode is enabled (if you have more than one color)
   /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
@@ -178,8 +179,10 @@ class BelowBarData {
   /// values are available between 0 to 1,
   /// Offset(0, 0) represent the top / left
   /// Offset(1, 1) represent the bottom / right
-  final Offset gradientFrom;
-  final Offset gradientTo;
+  final Offset belowGradientFrom;
+  final Offset belowGradientTo;
+  final Offset aboveGradientFrom;
+  final Offset aboveGradientTo;
 
   /// if more than one color provided gradientColorStops will hold
   /// stop points of the gradient.
@@ -189,13 +192,20 @@ class BelowBarData {
   /// holds data for drawing a line from each spot the the bottom of the chart
   final BelowSpotsLine belowSpotsLine;
 
-  const BelowBarData({
+  // y value line to draw under graph area color around
+  final double yCutOff;
+
+  const BarAreaData({
     this.show = true,
-    this.colors = const [Colors.blueGrey],
-    this.gradientFrom = const Offset(0, 0),
-    this.gradientTo = const Offset(1, 0),
+    this.belowColors = const [Colors.blueGrey],
+    this.aboveColors = const [Colors.redAccent],
+    this.belowGradientFrom = const Offset(0, 0),
+    this.belowGradientTo = const Offset(1, 0),
+    this.aboveGradientFrom = const Offset(0, 0),
+    this.aboveGradientTo = const Offset(0, 1),
     this.gradientColorStops,
     this.belowSpotsLine = const BelowSpotsLine(),
+    this.yCutOff = 0,
   });
 }
 
