@@ -16,11 +16,11 @@ class BarChart extends AxisChart {
   );
 
   @override
-  BaseChartPainter painter({FlTouchInputNotifier touchInputNotifier, StreamSink touchResponseSink}) {
+  BaseChartPainter painter(
+      {FlTouchInputNotifier touchInputNotifier, StreamSink touchResponseSink}) {
     return BarChartPainter(barChartData, touchInputNotifier, touchResponseSink);
   }
 
   @override
   BaseChartData getData() => barChartData;
-
 }

@@ -32,12 +32,12 @@ class LineChartData extends AxisChartData {
     bool clipToBorder = false,
     Color backgroundColor,
   }) : super(
-    gridData: gridData,
-    touchData: lineTouchData,
-    borderData: borderData,
-    clipToBorder: clipToBorder,
-    backgroundColor: backgroundColor,
-  ) {
+          gridData: gridData,
+          touchData: lineTouchData,
+          borderData: borderData,
+          clipToBorder: clipToBorder,
+          backgroundColor: backgroundColor,
+        ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
 
@@ -111,6 +111,7 @@ class LineChartData extends AxisChartData {
 }
 
 /***** LineChartBarData *****/
+
 /// This class holds visualisation data about the bar line
 /// use [isCurved] to set the bar line curve or sharp on connections spot.
 class LineChartBarData {
@@ -163,6 +164,7 @@ class LineChartBarData {
 }
 
 /***** BelowBarData *****/
+
 /// This class holds data about draw on below space of the bar line,
 class BelowBarData {
   final bool show;
@@ -185,7 +187,6 @@ class BelowBarData {
   /// stop points of the gradient.
   final List<double> gradientColorStops;
 
-
   /// holds data for drawing a line from each spot the the bottom of the chart
   final BelowSpotsLine belowSpotsLine;
 
@@ -198,7 +199,6 @@ class BelowBarData {
     this.belowSpotsLine = const BelowSpotsLine(),
   });
 }
-
 
 typedef CheckToShowSpotBelowLine = bool Function(FlSpot spot);
 
@@ -247,11 +247,11 @@ class FlDotData {
   });
 }
 
-
 /// horizontal lines draw from bottom to top of the chart,
 /// and the x is dynamic
 class HorizontalLine extends FlLine {
   final double x;
+
   HorizontalLine({
     this.x,
     Color color = Colors.black,
@@ -263,6 +263,7 @@ class HorizontalLine extends FlLine {
 /// and the y is dynamic
 class VerticalLine extends FlLine {
   final double y;
+
   VerticalLine({
     this.y,
     Color color = Colors.black,
@@ -291,7 +292,9 @@ class ExtraLinesData {
 /// if user touched the chart, we indicate the touched spots with a below line,
 /// and make a bigger dot on that spot,
 /// here we get the [TouchedSpotIndicatorData] from the given [LineTouchedSpot].
-typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(List<LineTouchedSpot> touchedSpots);
+typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
+    List<LineTouchedSpot> touchedSpots);
+
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<LineTouchedSpot> touchedSpots) {
   return touchedSpots.map((LineTouchedSpot lineTouchedSpot) {
     /// Indicator Line
@@ -338,7 +341,6 @@ class LineTouchData extends FlTouchData {
     this.touchSpotThreshold = 10,
     StreamSink<LineTouchResponse> touchResponseSink,
   }) : super(enabled, touchResponseSink, enableNormalTouch);
-
 }
 
 /// details of showing indicator when touch happened on [LineChart]
@@ -359,7 +361,7 @@ class LineTouchedSpot extends TouchedSpot {
     this.barData,
     FlSpot spot,
     Offset offset,
-    ) : super(spot, offset);
+  ) : super(spot, offset);
 
   @override
   Color getColor() {
@@ -367,11 +369,9 @@ class LineTouchedSpot extends TouchedSpot {
   }
 }
 
-
 /// holds the data of touch response on the [LineChart]
 /// used in the [LineTouchData] in a [StreamSink]
 class LineTouchResponse extends BaseTouchResponse {
-
   /// touch happened on these spots
   /// (if a single line provided on the chart, [spots]'s length will be 1 always)
   final List<LineTouchedSpot> spots;
@@ -379,5 +379,5 @@ class LineTouchResponse extends BaseTouchResponse {
   LineTouchResponse(
     this.spots,
     FlTouchInput touchInput,
-    ) : super(touchInput);
+  ) : super(touchInput);
 }

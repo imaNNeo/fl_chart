@@ -58,16 +58,17 @@ class BarChartData extends AxisChartData {
       }
 
       barGroups.forEach((barGroup) {
-
         barGroup.barRods.forEach((rod) {
           if (canModifyMaxY && rod.y > maxY) {
             maxY = rod.y;
           }
 
-          if (canModifyMaxY && rod.backDrawRodData.show && rod.backDrawRodData.y != null && rod.backDrawRodData.y > maxY) {
+          if (canModifyMaxY &&
+              rod.backDrawRodData.show &&
+              rod.backDrawRodData.y != null &&
+              rod.backDrawRodData.y > maxY) {
             maxY = rod.backDrawRodData.y;
           }
-
         });
       });
     } else {
@@ -93,9 +94,9 @@ class BarChartData extends AxisChartData {
     double maxY,
   }) {
     return BarChartData(
-      barGroups: barGroups?? this.barGroups,
-      alignment: alignment?? this.alignment,
-      titlesData: titlesData?? this.titlesData,
+      barGroups: barGroups ?? this.barGroups,
+      alignment: alignment ?? this.alignment,
+      titlesData: titlesData ?? this.titlesData,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
       maxY: maxY ?? this.maxY,
@@ -114,6 +115,7 @@ enum BarChartAlignment {
 }
 
 /***** BarChartGroupData *****/
+
 /// holds list of vertical bars together as a group,
 /// we call the vertical bars Rod, see [BarChartRodData],
 /// if your chart doesn't have some bar lines grouped together,
@@ -132,7 +134,7 @@ class BarChartGroupData {
     @required this.x,
     this.barRods = const [],
     this.barsSpace = 2,
-  }): assert(x != null);
+  }) : assert(x != null);
 
   /// calculates the whole width of our group,
   /// by adding all rod's width and group space * rods count.
@@ -162,6 +164,7 @@ class BarChartGroupData {
 }
 
 /***** BarChartRodData *****/
+
 /// This class holds data to show a single rod,
 /// rod is a vertical bar line,
 class BarChartRodData {
@@ -212,7 +215,6 @@ class BackgroundBarChartRodData {
   });
 }
 
-
 /// holds data for handling touch events on the [BarChart]
 class BarTouchData extends FlTouchData {
   /// show a tooltip on touched spots
@@ -232,20 +234,18 @@ class BarTouchData extends FlTouchData {
     this.allowTouchBarBackDraw = false,
     StreamSink<BarTouchResponse> touchResponseSink,
   }) : super(enabled, touchResponseSink, enableNormalTouch);
-
 }
 
 /// holds the data of touch response on the [BarChart]
 /// used in the [BarTouchData] in a [StreamSink]
-class BarTouchResponse extends BaseTouchResponse{
-
+class BarTouchResponse extends BaseTouchResponse {
   /// touch happened on this [BarTouchedSpot]
   final BarTouchedSpot spot;
 
   BarTouchResponse(
     this.spot,
     FlTouchInput touchInput,
-    ) : super(touchInput);
+  ) : super(touchInput);
 }
 
 /// holds the [BarChartGroupData] and the [BarChartRodData]
@@ -259,11 +259,10 @@ class BarTouchedSpot extends TouchedSpot {
     this.touchedRodData,
     FlSpot spot,
     Offset offset,
-    ) : super(spot, offset);
+  ) : super(spot, offset);
 
   @override
   Color getColor() {
     return Colors.black;
   }
-
 }

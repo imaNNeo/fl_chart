@@ -1,7 +1,6 @@
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
 
-
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
 /// also we have [minX], [maxX], [minY], [maxY] values
@@ -24,14 +23,17 @@ class AxisChartData extends BaseChartData {
     this.gridData = const FlGridData(),
     FlBorderData borderData,
     FlTouchData touchData,
-    this.minX, this.maxX,
-    this.minY, this.maxY,
+    this.minX,
+    this.maxX,
+    this.minY,
+    this.maxY,
     this.clipToBorder = false,
     this.backgroundColor,
   }) : super(borderData: borderData, touchData: touchData);
 }
 
 /***** Spot *****/
+
 /// this class represent a conceptual position of a spot in our chart
 /// they are based on bottom/left just like real life axises.
 /// we convert them to view x and y according to maxX and maxY
@@ -53,8 +55,8 @@ class FlSpot {
   }
 }
 
-
 /***** GridData *****/
+
 /// we use this typedef to determine which grid lines we should show,
 /// we pass the coord value, and receive a boolean to show that line in the grid.
 typedef CheckToShowGrid = bool Function(double value);
@@ -62,7 +64,6 @@ typedef CheckToShowGrid = bool Function(double value);
 bool showAllGrids(double value) {
   return true;
 }
-
 
 /// we use this typedef to determine how draw the grid line at specific position
 typedef GetDrawingGridLine = FlLine Function(double value);
@@ -107,7 +108,6 @@ class FlGridData {
   });
 }
 
-
 /// This class can be used wherever we want draw a straight line,
 /// and contains visual properties
 class FlLine {
@@ -120,14 +120,13 @@ class FlLine {
   });
 }
 
-
 /// show each TooltipItem as a row on the tooltip window,
 /// return null if you don't want to show each item
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [TooltipItem] from the given [TouchedSpot].
 typedef GetTooltipItems<T extends TouchedSpot> = List<TooltipItem> Function(List<T> touchedSpots);
-List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(List<T> touchedSpots) {
 
+List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(List<T> touchedSpots) {
   if (touchedSpots == null) {
     return null;
   }
@@ -176,7 +175,7 @@ abstract class TouchedSpot {
   TouchedSpot(
     this.spot,
     this.offset,
-    );
+  );
 
   Color getColor();
 }

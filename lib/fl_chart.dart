@@ -19,7 +19,6 @@ export 'src/chart/line_chart/line_chart_data.dart';
 export 'src/chart/pie_chart/pie_chart.dart';
 export 'src/chart/pie_chart/pie_chart_data.dart';
 
-
 /// A base widget that holds a [BaseChart] class
 /// that contains [BaseChartPainter] extends from [CustomPainter]
 /// to paint the relative content on our [CustomPaint] class
@@ -42,7 +41,6 @@ class FlChart extends StatefulWidget {
 }
 
 class _FlChartState extends State<FlChart> {
-
   ///We will notify Touch Events through this Notifier in form of a [FlTouchInput],
   ///then the painter returns touched details through a StreamSink.a
   FlTouchInputNotifier _touchInputNotifier;

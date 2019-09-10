@@ -12,14 +12,14 @@ import 'touch_input.dart';
 /// you can find concrete examples here :
 /// [LineChart], [BarChart], [PieChart]
 abstract class BaseChart {
-
   /// [touchInputNotifier] the FlChart sends the touch events through this notifier,
   /// in form of a [FlTouchInput] that is a parent class for some touch behaviors.
   /// [touchResponseSink] the painter will responds the touch events through this [StreamSink],
   /// the owner should implement a StreamController and listen to that stream,
   /// and pass the sink here to get the response in form of [BaseTouchResponse],
   /// that is the base class for our charts touched details
-  BaseChartPainter painter({FlTouchInputNotifier touchInputNotifier, StreamSink<BaseTouchResponse> touchResponseSink});
+  BaseChartPainter painter(
+      {FlTouchInputNotifier touchInputNotifier, StreamSink<BaseTouchResponse> touchResponseSink});
 
   /// get the data of the concrete chart
   BaseChartData getData();

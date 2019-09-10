@@ -26,6 +26,7 @@ class BaseChartData {
 }
 
 /***** BorderData *****/
+
 /// Border Data that contains
 /// used the [Border] class to draw each side of border.
 class FlBorderData {
@@ -37,15 +38,15 @@ class FlBorderData {
     this.border,
   }) {
     border ??= Border.all(
-        color: Colors.black,
-        width: 1.0,
-        style: BorderStyle.solid,
-      );
+      color: Colors.black,
+      width: 1.0,
+      style: BorderStyle.solid,
+    );
   }
 }
 
-
 /***** TouchData *****/
+
 /// holds information about touch on the chart
 class FlTouchData {
   /// determines enable or disable the touch in the chart
@@ -61,8 +62,8 @@ class FlTouchData {
   const FlTouchData(this.enabled, this.touchResponseSink, this.enableNormalTouch);
 }
 
-
 /***** TitlesData *****/
+
 /// we use this typedef to determine which titles
 /// we should show (according to the value),
 /// we pass the value and get a boolean to show the title for that value.
@@ -83,7 +84,9 @@ class FlTitlesData {
     this.show = true,
     this.leftTitles = const SideTitles(reservedSize: 40, showTitles: true),
     this.topTitles = const SideTitles(reservedSize: 6),
-    this.rightTitles = const SideTitles(reservedSize: 40,),
+    this.rightTitles = const SideTitles(
+      reservedSize: 40,
+    ),
     this.bottomTitles = const SideTitles(reservedSize: 22, showTitles: true),
   });
 }

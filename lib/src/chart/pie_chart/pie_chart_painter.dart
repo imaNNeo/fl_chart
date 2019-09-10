@@ -24,8 +24,8 @@ class PieChartPainter extends BaseChartPainter {
   PieChartPainter(
     this.data,
     FlTouchInputNotifier touchInputNotifier,
-    StreamSink<PieTouchResponse> touchedResultSink,
-  ) : super(data, touchInputNotifier: touchInputNotifier, touchedResponseSink: touchedResultSink) {
+    StreamSink<PieTouchResponse> touchedResultSink,)
+    : super(data, touchInputNotifier: touchInputNotifier, touchedResponseSink: touchedResultSink) {
     sectionPaint = Paint()
       ..style = PaintingStyle.stroke;
 

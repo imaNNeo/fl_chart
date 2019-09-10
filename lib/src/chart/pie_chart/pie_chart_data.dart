@@ -33,18 +33,15 @@ class PieChartData extends BaseChartData {
     this.startDegreeOffset = 0,
     this.pieTouchData = const PieTouchData(),
     FlBorderData borderData,
-  }) : super(
-          borderData: borderData,
-          touchData: pieTouchData
-        ) {
+  }) : super(borderData: borderData, touchData: pieTouchData) {
     sumValue = sections.map((data) => data.value).reduce((first, second) => first + second);
   }
 }
 
 /***** PieChartSectionData *****/
+
 /// this class holds data about each section of the pie chart,
 class PieChartSectionData {
-
   /// the [value] is weight of the section,
   /// for example if all values is 25, and we have 4 section,
   /// then the sum is 100 and each section takes 1/4 of whole circle (360/4) degree.
@@ -93,14 +90,14 @@ class PieChartSectionData {
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
       title: title ?? this.title,
-      titlePositionPercentageOffset: titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+      titlePositionPercentageOffset:
+          titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
     );
   }
 }
 
 /// holds data for handling touch events on the [PieChart]
 class PieTouchData extends FlTouchData {
-
   const PieTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
@@ -111,7 +108,6 @@ class PieTouchData extends FlTouchData {
 /// holds the data of touch response on the [PieChart]
 /// used in the [PieTouchData] in a [StreamSink]
 class PieTouchResponse extends BaseTouchResponse {
-
   /// touch happened on this section
   final PieChartSectionData sectionData;
 
@@ -126,5 +122,5 @@ class PieTouchResponse extends BaseTouchResponse {
     this.touchAngle,
     this.touchRadius,
     FlTouchInput touchInput,
-    ) : super(touchInput);
+  ) : super(touchInput);
 }
