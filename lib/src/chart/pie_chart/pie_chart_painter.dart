@@ -57,7 +57,6 @@ class PieChartPainter extends BaseChartPainter {
       && touchInputNotifier.value != null
       && !(touchInputNotifier.value.runtimeType is NonTouch)) {
       touchedResponseSink.add(touched);
-      releaseIfEndTouch();
     }
   }
 
