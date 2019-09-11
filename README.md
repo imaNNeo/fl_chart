@@ -36,7 +36,7 @@ Thank you all!
 
 ```kotlin
 dependencies:
-  fl_chart: ^0.2.1
+  fl_chart: ^0.2.2
 ```
 
 

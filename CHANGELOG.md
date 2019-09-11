@@ -1,3 +1,7 @@
+## 0.2.2
+* fixed a typo on CHANGELOG
+* reformatted dart files with `flutter format` command
+
 ## 0.2.1
 * fixed #64, added a technical debt :(
 
