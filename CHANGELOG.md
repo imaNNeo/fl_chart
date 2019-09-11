@@ -1,5 +1,5 @@
 ## 0.2.1
-* fixed #64, added a technichal debt :(
+* fixed #64, added a technical debt :(
 
 ## 0.2.0
 * fixed a critical got stuck in draw loop bug,
