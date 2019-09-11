@@ -46,7 +46,6 @@ class BarChartPainter extends AxisChartPainter {
         touchInputNotifier.value != null &&
         !(touchInputNotifier.value is NonTouch)) {
       touchedResponseSink.add(BarTouchResponse(touchedSpot, touchInputNotifier.value));
-      releaseIfEndTouch();
     }
   }
 

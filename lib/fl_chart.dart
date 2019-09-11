@@ -57,17 +57,20 @@ class _FlChartState extends State<FlChart> {
       onLongPressStart: (d) {
         _touchInputNotifier.value = FlLongPressStart(d.localPosition);
       },
-      onLongPressEnd: (d) {
+      onLongPressEnd: (d) async {
         _touchInputNotifier.value = FlLongPressEnd(d.localPosition);
+        _releaseTouch();
       },
       onLongPressMoveUpdate: (d) {
         _touchInputNotifier.value = FlLongPressMoveUpdate(d.localPosition);
       },
-      onPanCancel: () {
+      onPanCancel: () async {
         _touchInputNotifier.value = FlPanEnd(Offset.zero);
+        _releaseTouch();
       },
-      onPanEnd: (DragEndDetails details) {
+      onPanEnd: (DragEndDetails details) async {
         _touchInputNotifier.value = FlPanEnd(Offset.zero);
+        _releaseTouch();
       },
       onPanDown: (DragDownDetails details) {
         _touchInputNotifier.value = FlPanStart(details.localPosition);
@@ -82,6 +85,18 @@ class _FlChartState extends State<FlChart> {
         ),
       ),
     );
+  }
+
+  void _releaseTouch() {
+    // bugFix to this issue: https://github.com/imaNNeoFighT/fl_chart/issues/64
+    // the problem is that wen user touches on screen we notify the touch result
+    // via touchResponseSink, and the listener tries to change the state of chart,
+    // then the chart again puts the new touchResult inside the touchResponseSink,
+    // and it got stuck in a loop, now we pass a NonTouch to break the loop
+    // Todo: we should find a better way to handle it
+    Future<dynamic>.delayed(Duration(milliseconds: 100)).then((dynamic s) {
+      _touchInputNotifier.value = NonTouch();
+    });
   }
 
   @override

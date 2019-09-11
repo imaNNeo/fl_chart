@@ -117,16 +117,4 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
 
     return true;
   }
-
-  /// if the event was ended, we should release our touchInputNotifier
-  void releaseIfEndTouch() {
-    if (touchInputNotifier == null) {
-      return;
-    }
-    if (touchInputNotifier.value == null ||
-        touchInputNotifier.value is FlLongPressEnd ||
-        touchInputNotifier.value is FlPanEnd) {
-      touchInputNotifier.value = NonTouch();
-    }
-  }
 }

@@ -104,7 +104,6 @@ class LineChartPainter extends AxisChartPainter {
         touchInputNotifier.value != null &&
         !(touchInputNotifier.value.runtimeType is NonTouch)) {
       touchedResponseSink.add(LineTouchResponse(touchedSpots, touchInputNotifier.value));
-      releaseIfEndTouch();
     }
   }
 
