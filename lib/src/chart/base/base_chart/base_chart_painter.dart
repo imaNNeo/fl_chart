@@ -25,7 +25,8 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// in form of a [BaseTouchResponse]
   StreamSink<BaseTouchResponse> touchedResponseSink;
 
-  BaseChartPainter(this.data, {this.touchInputNotifier, this.touchedResponseSink})
+  BaseChartPainter(this.data,
+      {this.touchInputNotifier, this.touchedResponseSink})
       : super(repaint: data.touchData.enabled ? touchInputNotifier : null) {
     borderPaint = Paint()..style = PaintingStyle.stroke;
   }
@@ -43,8 +44,10 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     var chartViewSize = getChartUsableDrawSize(viewSize);
 
     var topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
-    var topRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
-    var bottomLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
+    var topRight = Offset(
+        getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
+    var bottomLeft = Offset(
+        getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
     var bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
         getTopOffsetDrawSize() + chartViewSize.height);
 
@@ -103,15 +106,19 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// checks that the touchInput is eligible to draw,
   /// and child painters can use this function to check then draw their default touch behaviors.
   bool shouldDrawTouch() {
-    if (touchInputNotifier == null || touchInputNotifier.value == null || shouldDrawTouch == null) {
+    if (touchInputNotifier == null ||
+        touchInputNotifier.value == null ||
+        shouldDrawTouch == null) {
       return false;
     }
 
-    if (touchInputNotifier.value is FlLongPressEnd || touchInputNotifier.value is FlPanEnd) {
+    if (touchInputNotifier.value is FlLongPressEnd ||
+        touchInputNotifier.value is FlPanEnd) {
       return false;
     }
 
-    if (touchInputNotifier.value is FlTouchNormapInput && !data.touchData.enableNormalTouch) {
+    if (touchInputNotifier.value is FlTouchNormapInput &&
+        !data.touchData.enableNormalTouch) {
       return false;
     }
 

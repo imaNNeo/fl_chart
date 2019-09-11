@@ -143,8 +143,9 @@ class BarChartGroupData {
       return 0;
     }
 
-    double sumWidth =
-        barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
+    double sumWidth = barRods
+        .map((rodData) => rodData.width)
+        .reduce((first, second) => first + second);
     double spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;

@@ -124,9 +124,11 @@ class FlLine {
 /// return null if you don't want to show each item
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [TooltipItem] from the given [TouchedSpot].
-typedef GetTooltipItems<T extends TouchedSpot> = List<TooltipItem> Function(List<T> touchedSpots);
+typedef GetTooltipItems<T extends TouchedSpot> = List<TooltipItem> Function(
+    List<T> touchedSpots);
 
-List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(List<T> touchedSpots) {
+List<TooltipItem> defaultTitlesStyle<T extends TouchedSpot>(
+    List<T> touchedSpots) {
   if (touchedSpots == null) {
     return null;
   }
@@ -160,7 +162,8 @@ class TouchTooltipData {
   const TouchTooltipData({
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
-    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipPadding =
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultTitlesStyle,

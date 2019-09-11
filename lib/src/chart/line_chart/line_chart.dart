@@ -17,8 +17,10 @@ class LineChart extends AxisChart {
 
   @override
   BaseChartPainter painter(
-      {FlTouchInputNotifier touchInputNotifier, StreamSink<BaseTouchResponse> touchResponseSink}) {
-    return LineChartPainter(lineChartData, touchInputNotifier, touchResponseSink);
+      {FlTouchInputNotifier touchInputNotifier,
+      StreamSink<BaseTouchResponse> touchResponseSink}) {
+    return LineChartPainter(
+        lineChartData, touchInputNotifier, touchResponseSink);
   }
 
   @override

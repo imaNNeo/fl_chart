@@ -34,7 +34,9 @@ class PieChartData extends BaseChartData {
     this.pieTouchData = const PieTouchData(),
     FlBorderData borderData,
   }) : super(borderData: borderData, touchData: pieTouchData) {
-    sumValue = sections.map((data) => data.value).reduce((first, second) => first + second);
+    sumValue = sections
+        .map((data) => data.value)
+        .reduce((first, second) => first + second);
   }
 }
 
@@ -68,8 +70,8 @@ class PieChartSectionData {
     this.color = Colors.red,
     this.radius = 40,
     this.showTitle = true,
-    this.titleStyle =
-        const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+    this.titleStyle = const TextStyle(
+        color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
     this.title = '1',
     this.titlePositionPercentageOffset = 0.5,
   });

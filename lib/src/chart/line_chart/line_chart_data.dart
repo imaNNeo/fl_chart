@@ -295,7 +295,8 @@ class ExtraLinesData {
 typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
     List<LineTouchedSpot> touchedSpots);
 
-List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<LineTouchedSpot> touchedSpots) {
+List<TouchedSpotIndicatorData> defaultTouchedIndicators(
+    List<LineTouchedSpot> touchedSpots) {
   return touchedSpots.map((LineTouchedSpot lineTouchedSpot) {
     /// Indicator Line
     Color lineColor = lineTouchedSpot.barData.colors[0];
@@ -303,7 +304,8 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(List<LineTouchedSpot> to
       lineColor = lineTouchedSpot.barData.dotData.dotColor;
     }
     const double lineStrokeWidth = 4;
-    final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
+    final FlLine flLine =
+        FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
     /// Indicator dot
     double dotSize = 10;

@@ -70,7 +70,7 @@ class FlTouchData {
 typedef GetTitleFunction = String Function(double value);
 
 String defaultGetTitle(double value) {
-  return '${value}';
+  return '$value';
 }
 
 /// This class is responsible to hold data about showing titles.
