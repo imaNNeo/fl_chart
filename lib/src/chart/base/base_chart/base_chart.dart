@@ -19,7 +19,8 @@ abstract class BaseChart {
   /// and pass the sink here to get the response in form of [BaseTouchResponse],
   /// that is the base class for our charts touched details
   BaseChartPainter painter(
-      {FlTouchInputNotifier touchInputNotifier,
+      {BaseChartData baseChartData,
+      FlTouchInputNotifier touchInputNotifier,
       StreamSink<BaseTouchResponse> touchResponseSink});
 
   /// get the data of the concrete chart

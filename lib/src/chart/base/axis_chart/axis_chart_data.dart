@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +9,7 @@ import 'package:flutter/material.dart';
 /// we use them to determine how much is the scale of chart,
 /// and calculate x and y according to the scale.
 /// each child have to set it in their constructor.
-class AxisChartData extends BaseChartData {
+abstract class AxisChartData extends BaseChartData {
   final FlGridData gridData;
 
   double minX, maxX;

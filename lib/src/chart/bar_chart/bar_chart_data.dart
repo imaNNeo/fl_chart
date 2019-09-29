@@ -102,6 +102,19 @@ class BarChartData extends AxisChartData {
       maxY: maxY ?? this.maxY,
     );
   }
+
+  @override
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
+    if (a is BarChartData && b is BarChartData && t != null) {
+      if (t <= 0.5) {
+        return a;
+      } else {
+        return b;
+      }
+    } else {
+      throw Exception('Illegal State');
+    }
+  }
 }
 
 /// this is mimic of [MainAxisAlignment] to aligning the groups horizontally

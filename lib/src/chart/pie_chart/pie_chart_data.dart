@@ -38,6 +38,19 @@ class PieChartData extends BaseChartData {
         .map((data) => data.value)
         .reduce((first, second) => first + second);
   }
+
+  @override
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
+    if (a is PieChartData && b is PieChartData && t != null) {
+      if (t <= 0.5) {
+        return a;
+      } else {
+        return b;
+      }
+    } else {
+      throw Exception('Illegal State');
+    }
+  }
 }
 
 /***** PieChartSectionData *****/

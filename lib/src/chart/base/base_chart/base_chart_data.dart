@@ -13,7 +13,7 @@ import 'touch_input.dart';
 /// to drawing chart border line,
 /// see inherited samples:
 /// [LineChartData], [BarChartData], [PieChartData]
-class BaseChartData {
+abstract class BaseChartData {
   FlBorderData borderData;
   FlTouchData touchData;
 
@@ -23,6 +23,8 @@ class BaseChartData {
   }) {
     borderData ??= FlBorderData();
   }
+
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 }
 
 /***** BorderData *****/
