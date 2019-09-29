@@ -45,6 +45,16 @@ class FlBorderData {
       style: BorderStyle.solid,
     );
   }
+
+  FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
+    assert(a != null && b != null && t != null);
+    return FlBorderData(
+      show: b.show,
+      border: Border.lerp(a.border, b.border, t),
+    );
+  }
+
+
 }
 
 /***** TouchData *****/
@@ -91,6 +101,16 @@ class FlTitlesData {
     ),
     this.bottomTitles = const SideTitles(reservedSize: 22, showTitles: true),
   });
+
+  static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
+    return FlTitlesData(
+      show: b.show,
+      leftTitles: SideTitles.lerp(a.leftTitles, b.leftTitles, t),
+      rightTitles: SideTitles.lerp(a.rightTitles, b.rightTitles, t),
+      bottomTitles: SideTitles.lerp(a.bottomTitles, b.bottomTitles, t),
+      topTitles: SideTitles.lerp(a.topTitles, b.topTitles, t),
+    );
+  }
 }
 
 /// specify each side titles data
@@ -111,6 +131,16 @@ class SideTitles {
     ),
     this.margin = 6,
   });
+
+  static SideTitles lerp(SideTitles a, SideTitles b, double t) {
+    return SideTitles(
+      showTitles: b.showTitles,
+      getTitles: b.getTitles,
+      reservedSize: prefix0.lerpDouble(a.reservedSize, b.reservedSize, t),
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
+      margin: prefix0.lerpDouble(a.margin, b.margin, t),
+    );
+  }
 }
 
 /// this class holds the touch response details,

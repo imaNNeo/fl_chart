@@ -55,6 +55,13 @@ class FlSpot {
       y ?? this.y,
     );
   }
+
+  static FlSpot lerp(FlSpot a, FlSpot b, double t) {
+    return FlSpot(
+      lerpDouble(a.x, b.x, t),
+      lerpDouble(a.y, b.y, t),
+    );
+  }
 }
 
 /***** GridData *****/
@@ -108,6 +115,20 @@ class FlGridData {
     this.getDrawingVerticalGridLine = defaultGridLine,
     this.checkToShowVerticalGrid = showAllGrids,
   });
+
+  static FlGridData lerp(FlGridData a, FlGridData b, double t) {
+    return FlGridData(
+      show: b.show,
+      drawHorizontalGrid: b.drawHorizontalGrid,
+      horizontalInterval: lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
+      getDrawingHorizontalGridLine: b.getDrawingHorizontalGridLine,
+      checkToShowHorizontalGrid: b.checkToShowHorizontalGrid,
+      drawVerticalGrid: b.drawVerticalGrid,
+      verticalInterval: lerpDouble(a.verticalInterval, b.verticalInterval, t),
+      getDrawingVerticalGridLine: b.getDrawingVerticalGridLine,
+      checkToShowVerticalGrid: b.checkToShowVerticalGrid,
+    );
+  }
 }
 
 /// This class can be used wherever we want draw a straight line,
@@ -120,6 +141,13 @@ class FlLine {
     this.color = Colors.black,
     this.strokeWidth = 2,
   });
+
+  static FlLine lerp(FlLine a, FlLine b, double t) {
+    return FlLine(
+      color: Color.lerp(a.color, b.color, t),
+      strokeWidth: prefix0.lerpDouble(a.strokeWidth, b.strokeWidth, t),
+    );
+  }
 }
 
 /// show each TooltipItem as a row on the tooltip window,
