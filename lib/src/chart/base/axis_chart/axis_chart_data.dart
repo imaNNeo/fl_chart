@@ -145,7 +145,7 @@ class FlLine {
   static FlLine lerp(FlLine a, FlLine b, double t) {
     return FlLine(
       color: Color.lerp(a.color, b.color, t),
-      strokeWidth: prefix0.lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
     );
   }
 }

@@ -112,6 +112,7 @@ class LineChartData extends AxisChartData {
 
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
+
     if (a is LineChartData && b is LineChartData && t != null) {
       return LineChartData(
         minX: lerpDouble(a.minX, b.minX, t),
@@ -119,7 +120,7 @@ class LineChartData extends AxisChartData {
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
-        borderData: borderData.lerp(a.borderData, b.borderData, t),
+        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         clipToBorder: b.clipToBorder,
         extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),

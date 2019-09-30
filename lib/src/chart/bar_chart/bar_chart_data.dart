@@ -5,6 +5,7 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
 /// This class is responsible to holds data to draw Bar Chart
@@ -106,11 +107,16 @@ class BarChartData extends AxisChartData {
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is BarChartData && b is BarChartData && t != null) {
-      if (t <= 0.5) {
-        return a;
-      } else {
-        return b;
-      }
+      return BarChartData(
+        titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        gridData: FlGridData.lerp(a.gridData, b.gridData, t),
+        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+        alignment: b.alignment,
+        barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
+        maxY: lerpDouble(a.maxY, b.maxY, t),
+        barTouchData: b.barTouchData,
+      );
     } else {
       throw Exception('Illegal State');
     }
@@ -175,6 +181,14 @@ class BarChartGroupData {
       barsSpace: barsSpace ?? this.barsSpace,
     );
   }
+
+  static BarChartGroupData lerp(BarChartGroupData a, BarChartGroupData b, double t) {
+    return BarChartGroupData(
+      x: (a.x + (b.x - a.x) * t).round(),
+      barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
+      barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
+    );
+  }
 }
 
 /***** BarChartRodData *****/
@@ -211,6 +225,16 @@ class BarChartRodData {
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
     );
   }
+
+  static BarChartRodData lerp(BarChartRodData a, BarChartRodData b, double t) {
+    return BarChartRodData(
+      color: Color.lerp(a.color, b.color, t),
+      width: lerpDouble(a.width, b.width, t),
+      isRound: b.isRound,
+      y: lerpDouble(a.y, b.y, t),
+      backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
+    );
+  }
 }
 
 /// maybe in your design you should draw a behind bar
@@ -227,6 +251,14 @@ class BackgroundBarChartRodData {
     this.show = false,
     this.color = Colors.blueGrey,
   });
+
+  static BackgroundBarChartRodData lerp(BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
+    return BackgroundBarChartRodData(
+      y: lerpDouble(a.y, b.y, t),
+      color: Color.lerp(a.color, b.color, t),
+      show: b.show,
+    );
+  }
 }
 
 /// holds data for handling touch events on the [BarChart]
@@ -266,11 +298,16 @@ class BarTouchResponse extends BaseTouchResponse {
 /// of the touched spot
 class BarTouchedSpot extends TouchedSpot {
   final BarChartGroupData touchedBarGroup;
+  final int touchedBarGroupPosition;
+
   final BarChartRodData touchedRodData;
+  final int touchedRodDataPosition;
 
   BarTouchedSpot(
     this.touchedBarGroup,
+    this.touchedBarGroupPosition,
     this.touchedRodData,
+    this.touchedRodDataPosition,
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);

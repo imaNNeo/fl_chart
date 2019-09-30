@@ -16,37 +16,13 @@ class BarChartSample1State extends State<BarChartSample1> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final double width = 22;
 
-  List<BarChartGroupData> rawBarGroups;
-  List<BarChartGroupData> showingBarGroups;
-
   StreamController<BarTouchResponse> barTouchedResultStreamController;
 
-  int touchedGroupIndex;
+  int touchedIndex;
 
   @override
   void initState() {
     super.initState();
-    final barGroup1 = makeGroupData(0, 5);
-    final barGroup2 = makeGroupData(1, 6.5);
-    final barGroup3 = makeGroupData(2, 5);
-    final barGroup4 = makeGroupData(3, 7.5);
-    final barGroup5 = makeGroupData(4, 9);
-    final barGroup6 = makeGroupData(5, 11.5);
-    final barGroup7 = makeGroupData(6, 6.5);
-
-    final items = [
-      barGroup1,
-      barGroup2,
-      barGroup3,
-      barGroup4,
-      barGroup5,
-      barGroup6,
-      barGroup7,
-    ];
-
-    rawBarGroups = items;
-
-    showingBarGroups = rawBarGroups;
 
     barTouchedResultStreamController = StreamController();
     barTouchedResultStreamController.stream.distinct().listen((BarTouchResponse response) {
@@ -56,27 +32,16 @@ class BarChartSample1State extends State<BarChartSample1> {
 
       if (response.spot == null) {
         setState(() {
-          touchedGroupIndex = -1;
-          showingBarGroups = List.of(rawBarGroups);
+          touchedIndex = -1;
         });
         return;
       }
 
-      touchedGroupIndex = showingBarGroups.indexOf(response.spot.touchedBarGroup);
-
       setState(() {
         if (response.touchInput is FlLongPressEnd) {
-          touchedGroupIndex = -1;
-          showingBarGroups = List.of(rawBarGroups);
+          touchedIndex = -1;
         } else {
-          showingBarGroups = List.of(rawBarGroups);
-          if (touchedGroupIndex != -1) {
-            showingBarGroups[touchedGroupIndex] = showingBarGroups[touchedGroupIndex].copyWith(
-              barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                return rod.copyWith(color: Colors.yellow, y: rod.y + 1);
-              }).toList(),
-            );
-          }
+          touchedIndex = response.spot.touchedBarGroupPosition;
         }
       });
     });
@@ -169,7 +134,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                       borderData: FlBorderData(
                         show: false,
                       ),
-                      barGroups: showingBarGroups,
+                      barGroups: showingGroups(),
                     )),
                   ),
                 ),
@@ -184,11 +149,11 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
-  BarChartGroupData makeGroupData(int x, double y) {
+  BarChartGroupData makeGroupData(int x, double y, bool isTouched) {
     return BarChartGroupData(x: x, barRods: [
       BarChartRodData(
-        y: y,
-        color: barColor,
+        y: isTouched ? y + 1 : y,
+        color: isTouched ? Colors.yellow : barColor,
         width: width,
         isRound: true,
         backDrawRodData: BackgroundBarChartRodData(
@@ -205,4 +170,17 @@ class BarChartSample1State extends State<BarChartSample1> {
     super.dispose();
     barTouchedResultStreamController.close();
   }
+
+  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+    switch(i) {
+      case 0: return makeGroupData(0, 5, i == touchedIndex);
+      case 1: return makeGroupData(1, 6.5, i == touchedIndex);
+      case 2: return makeGroupData(2, 5, i == touchedIndex);
+      case 3: return makeGroupData(3, 7.5, i == touchedIndex);
+      case 4: return makeGroupData(4, 9, i == touchedIndex);
+      case 5: return makeGroupData(5, 11.5, i == touchedIndex);
+      case 6: return makeGroupData(6, 6.5, i == touchedIndex);
+      default: return null;
+    }
+  });
 }

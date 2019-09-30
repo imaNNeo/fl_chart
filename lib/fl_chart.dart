@@ -31,7 +31,7 @@ class FlChart extends ImplicitlyAnimatedWidget {
   FlChart({
     Key key,
     @required this.chart,
-  }) : super(key: key, duration: Duration(seconds: 4)) {
+  }) : super(key: key, duration: Duration(milliseconds: 300)) {
     if (chart == null) {
       throw Exception('chart should not be null');
     }

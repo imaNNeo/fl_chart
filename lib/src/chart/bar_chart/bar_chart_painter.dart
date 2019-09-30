@@ -427,7 +427,7 @@ class BarChartPainter extends AxisChartPainter {
               Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
 
           return BarTouchedSpot(
-              nearestGroup, nearestBarRod, nearestSpot, nearestSpotPos);
+              nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
         }
       }
     }

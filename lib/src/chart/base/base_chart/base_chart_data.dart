@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
@@ -46,7 +47,7 @@ class FlBorderData {
     );
   }
 
-  FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
+  static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
     assert(a != null && b != null && t != null);
     return FlBorderData(
       show: b.show,
@@ -136,9 +137,9 @@ class SideTitles {
     return SideTitles(
       showTitles: b.showTitles,
       getTitles: b.getTitles,
-      reservedSize: prefix0.lerpDouble(a.reservedSize, b.reservedSize, t),
+      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
-      margin: prefix0.lerpDouble(a.margin, b.margin, t),
+      margin: lerpDouble(a.margin, b.margin, t),
     );
   }
 }

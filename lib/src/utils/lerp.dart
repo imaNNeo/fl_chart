@@ -62,3 +62,23 @@ List<LineChartBarData> lerpLineChartBarDataList(List<LineChartBarData> a, List<L
     return b;
   }
 }
+
+List<BarChartGroupData> lerpBarChartGroupDataList(List<BarChartGroupData> a, List<BarChartGroupData> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return BarChartGroupData.lerp(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}
+
+List<BarChartRodData> lerpBarChartRodDataList(List<BarChartRodData> a, List<BarChartRodData> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return BarChartRodData.lerp(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}
