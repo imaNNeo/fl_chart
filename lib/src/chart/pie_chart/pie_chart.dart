@@ -18,11 +18,13 @@ class PieChart extends BaseChart {
   @override
   BaseChartPainter<BaseChartData> painter({
     BaseChartData baseChartData,
+    BaseChartData targetBaseChartData,
     FlTouchInputNotifier touchInputNotifier,
     StreamSink<BaseTouchResponse> touchResponseSink,
   }) {
     return PieChartPainter(
       baseChartData,
+      targetBaseChartData,
       touchInputNotifier,
       touchResponseSink,
     );

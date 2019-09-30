@@ -18,11 +18,13 @@ class LineChart extends AxisChart {
   @override
   BaseChartPainter<BaseChartData> painter({
     BaseChartData baseChartData,
+    BaseChartData targetBaseChartData,
     FlTouchInputNotifier touchInputNotifier,
     StreamSink<BaseTouchResponse> touchResponseSink,
   }) {
     return LineChartPainter(
       baseChartData,
+      targetBaseChartData,
       touchInputNotifier,
       touchResponseSink,
     );

@@ -14,8 +14,11 @@ import 'touch_input.dart';
 /// [LineChartPainter], [BarChartPainter], [PieChartPainter]
 /// there is a data [D] that extends from [BaseChartData],
 /// that contains needed data to draw chart border in this phase.
+/// [data] is the currently showing data (it may produced by an animation using lerp function),
+/// [targetData] is the target data, that animation is going to show (if animating)
 abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
+  final D targetData;
   Paint borderPaint;
 
   /// receive the touch input events through this notifier
@@ -25,7 +28,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// in form of a [BaseTouchResponse]
   StreamSink<BaseTouchResponse> touchedResponseSink;
 
-  BaseChartPainter(this.data,
+  BaseChartPainter(this.data, this.targetData,
       {this.touchInputNotifier, this.touchedResponseSink})
       : super(repaint: data.touchData.enabled ? touchInputNotifier : null) {
     borderPaint = Paint()..style = PaintingStyle.stroke;

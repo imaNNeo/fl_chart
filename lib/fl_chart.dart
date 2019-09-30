@@ -84,6 +84,7 @@ class _FlChartState extends AnimatedWidgetBaseState<FlChart> {
       child: CustomPaint(
         painter: widget.chart.painter(
           baseChartData: _baseChartDataTween.evaluate(animation),
+          targetBaseChartData: widget.chart.getData(),
           touchInputNotifier: _touchInputNotifier,
           touchResponseSink: widget.chart.getData().touchData.touchResponseSink,
         ),

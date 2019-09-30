@@ -12,6 +12,7 @@ import 'line_chart_data.dart';
 
 class LineChartPainter extends AxisChartPainter {
   final LineChartData data;
+  final LineChartData targetData;
 
   /// [barPaint] is responsible to painting the bar line
   /// [belowBarPaint] is responsible to fill the below space of our bar line
@@ -30,9 +31,10 @@ class LineChartPainter extends AxisChartPainter {
 
   LineChartPainter(
     this.data,
+    this.targetData,
     FlTouchInputNotifier touchInputNotifier,
     StreamSink<LineTouchResponse> touchedResponseSink,
-  ) : super(data,
+  ) : super(data, targetData,
             touchInputNotifier: touchInputNotifier,
             touchedResponseSink: touchedResponseSink) {
     barPaint = Paint()..style = PaintingStyle.stroke;

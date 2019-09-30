@@ -97,7 +97,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                                 case 5: weekDay = 'Saturday'; break;
                                 case 6: weekDay = 'Sunday'; break;
                               }
-                              return TooltipItem(weekDay + '\n' + touchedSpot.spot.y.toString(), TextStyle(color: Colors.yellow));
+                              return TooltipItem(weekDay + '\n' + (touchedSpot.spot.y - 1).toString(), TextStyle(color: Colors.yellow));
                             }).toList();
                           }
                         ),

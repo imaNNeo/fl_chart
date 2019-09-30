@@ -14,6 +14,7 @@ import 'pie_chart_data.dart';
 /// this class will paint the [PieChart] based on the [PieChartData]
 class PieChartPainter extends BaseChartPainter {
   final PieChartData data;
+  final PieChartData targetData;
 
   /// [sectionPaint] responsible to paint each section
   /// [sectionsSpaceClearPaint] responsible to clear the space between the sections
@@ -21,10 +22,10 @@ class PieChartPainter extends BaseChartPainter {
   Paint sectionPaint, sectionsSpaceClearPaint, centerSpacePaint;
 
   PieChartPainter(
-    this.data,
+    this.data, this.targetData,
     FlTouchInputNotifier touchInputNotifier,
     StreamSink<PieTouchResponse> touchedResultSink,
-  ) : super(data,
+  ) : super(data, targetData,
             touchInputNotifier: touchInputNotifier,
             touchedResponseSink: touchedResultSink) {
     sectionPaint = Paint()..style = PaintingStyle.stroke;

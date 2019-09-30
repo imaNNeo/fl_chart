@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FlChart Demo',
+      showPerformanceOverlay: true,
       theme: ThemeData(
         primaryColor: Color(0xff262545),
         primaryColorDark: Color(0xff201f39),
