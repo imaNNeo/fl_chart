@@ -82,3 +82,13 @@ List<BarChartRodData> lerpBarChartRodDataList(List<BarChartRodData> a, List<BarC
     return b;
   }
 }
+
+List<PieChartSectionData> lerpPieChartSectionDataList(List<PieChartSectionData> a, List<PieChartSectionData> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return PieChartSectionData.lerp(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}

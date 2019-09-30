@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
 import '../base/base_chart/base_chart_data.dart';
@@ -42,11 +43,15 @@ class PieChartData extends BaseChartData {
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is PieChartData && b is PieChartData && t != null) {
-      if (t <= 0.5) {
-        return a;
-      } else {
-        return b;
-      }
+      return PieChartData(
+        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        centerSpaceColor: Color.lerp(a.centerSpaceColor, b.centerSpaceColor, t),
+        centerSpaceRadius: lerpDouble(a.centerSpaceRadius, b.centerSpaceRadius, t),
+        pieTouchData: b.pieTouchData,
+        sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
+        startDegreeOffset: lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
+        sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
+      );
     } else {
       throw Exception('Illegal State');
     }
@@ -107,6 +112,18 @@ class PieChartSectionData {
       title: title ?? this.title,
       titlePositionPercentageOffset:
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+    );
+  }
+
+  static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
+    return PieChartSectionData(
+      color: Color.lerp(a.color, b.color, t),
+      radius: lerpDouble(a.radius, b.radius, t),
+      showTitle: b.showTitle,
+      title: b.title,
+      titlePositionPercentageOffset: lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+      titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
+      value: lerpDouble(a.value, b.value, t),
     );
   }
 }
