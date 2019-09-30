@@ -212,6 +212,7 @@ class PieChartPainter extends BaseChartPainter {
     touchAngle = touchAngle < 0 ? (180 - touchAngle.abs()) + 180 : touchAngle;
 
     PieChartSectionData foundSectionData;
+    int foundSectionDataPosition;
 
     /// Find the nearest section base on the touch spot
     double tempAngle = data.startDegreeOffset;
@@ -235,13 +236,14 @@ class PieChartPainter extends BaseChartPainter {
 
       if (isInDegree && isInRadius) {
         foundSectionData = section;
+        foundSectionDataPosition = i;
         break;
       }
 
       tempAngle += sectionAngle;
     }
 
-    return PieTouchResponse(foundSectionData, touchAngle, touchR, touch);
+    return PieTouchResponse(foundSectionData, foundSectionDataPosition, touchAngle, touchR, touch);
   }
 
   @override

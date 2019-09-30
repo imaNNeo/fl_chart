@@ -141,7 +141,10 @@ class PieTouchData extends FlTouchData {
 /// used in the [PieTouchData] in a [StreamSink]
 class PieTouchResponse extends BaseTouchResponse {
   /// touch happened on this section
-  final PieChartSectionData sectionData;
+  final PieChartSectionData touchedSection;
+
+  /// touch happened on this position
+  final int touchedSectionPosition;
 
   /// touch happened with this angle on the [PieChart]
   final double touchAngle;
@@ -150,7 +153,8 @@ class PieTouchResponse extends BaseTouchResponse {
   final double touchRadius;
 
   PieTouchResponse(
-    this.sectionData,
+    this.touchedSection,
+    this.touchedSectionPosition,
     this.touchAngle,
     this.touchRadius,
     FlTouchInput touchInput,

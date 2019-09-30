@@ -454,9 +454,11 @@ class TouchedSpotIndicatorData {
 /// holds the data of the touched spot
 class LineTouchedSpot extends TouchedSpot {
   LineChartBarData barData;
+  int barDataPosition;
 
   LineTouchedSpot(
     this.barData,
+    this.barDataPosition,
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);
