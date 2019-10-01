@@ -7,7 +7,7 @@ class BarChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xff232040),
+      color: const Color(0xff232040),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(28.0),

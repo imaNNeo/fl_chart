@@ -5,14 +5,14 @@ import 'samples/pie_chart_sample2.dart';
 
 class PieChartPage extends StatelessWidget {
   final Color barColor = Colors.white;
-  final Color barBackgroundColor = Color(0xff72d8bf);
+  final Color barBackgroundColor = const Color(0xff72d8bf);
   final double width = 22;
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xffeceaeb),
+      color: const Color(0xffeceaeb),
       child: Padding(
         padding: const EdgeInsets.all(28.0),
         child: ListView(
@@ -22,9 +22,9 @@ class PieChartPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
-                  "Pie Chart",
+                  'Pie Chart',
                   style: TextStyle(
-                      color: Color(
+                      color: const Color(
                         0xff333333,
                       ),
                       fontSize: 32,
@@ -32,11 +32,11 @@ class PieChartPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             PieChartSample1(),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             PieChartSample2(),
