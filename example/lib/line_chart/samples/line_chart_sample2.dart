@@ -48,7 +48,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             },
             child: Text(
               'avg',
-              style: TextStyle(fontSize: 12, color: showAvg ? Colors.white : Colors.white.withOpacity(0.5)),
+              style: TextStyle(fontSize: 12, color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
             ),
           ),
         ),
