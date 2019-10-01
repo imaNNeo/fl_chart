@@ -28,10 +28,13 @@ export 'src/chart/pie_chart/pie_chart_data.dart';
 class FlChart extends ImplicitlyAnimatedWidget {
   final BaseChart chart;
 
+  /// [swapAnimationDuration] is the duration of animation when swapping between
+  /// a [BaseChartData] to another one, check [ImplicitlyAnimatedWidget]
   FlChart({
     Key key,
     @required this.chart,
-  }) : super(key: key, duration: Duration(milliseconds: 150)) {
+    Duration swapAnimationDuration = const Duration(milliseconds: 150),
+  }) : super(key: key, duration: swapAnimationDuration) {
     if (chart == null) {
       throw Exception('chart should not be null');
     }
@@ -46,6 +49,8 @@ class _FlChartState extends AnimatedWidgetBaseState<FlChart> {
   ///then the painter returns touched details through a StreamSink.a
   FlTouchInputNotifier _touchInputNotifier;
 
+  /// we handle under the hood animations (implicit animations) via this tween,
+  /// it lerps between the old [BaseChartData] to the new one.
   BaseChartDataTween _baseChartDataTween;
 
   @override
