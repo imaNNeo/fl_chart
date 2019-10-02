@@ -18,9 +18,14 @@ abstract class BaseChart {
   /// the owner should implement a StreamController and listen to that stream,
   /// and pass the sink here to get the response in form of [BaseTouchResponse],
   /// that is the base class for our charts touched details
-  BaseChartPainter painter(
-      {FlTouchInputNotifier touchInputNotifier,
-      StreamSink<BaseTouchResponse> touchResponseSink});
+  /// [baseChartData] is the currently showing data (it may produced by an animation using lerp function),
+  /// [targetBaseChartData] is the target data, that animation is going to show (if animating)
+  BaseChartPainter painter({
+    BaseChartData baseChartData,
+    BaseChartData targetBaseChartData,
+    FlTouchInputNotifier touchInputNotifier,
+    StreamSink<BaseTouchResponse> touchResponseSink,
+  });
 
   /// get the data of the concrete chart
   BaseChartData getData();

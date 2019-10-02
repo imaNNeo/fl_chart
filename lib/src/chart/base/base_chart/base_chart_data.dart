@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart_data_tween.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ import 'touch_input.dart';
 /// to drawing chart border line,
 /// see inherited samples:
 /// [LineChartData], [BarChartData], [PieChartData]
-class BaseChartData {
+abstract class BaseChartData {
   FlBorderData borderData;
   FlTouchData touchData;
 
@@ -23,6 +25,10 @@ class BaseChartData {
   }) {
     borderData ??= FlBorderData();
   }
+
+  /// this function is used for animate between current and target data,
+  /// used in the [BaseChartDataTween]
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 }
 
 /***** BorderData *****/
@@ -43,6 +49,16 @@ class FlBorderData {
       style: BorderStyle.solid,
     );
   }
+
+  static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
+    assert(a != null && b != null && t != null);
+    return FlBorderData(
+      show: b.show,
+      border: Border.lerp(a.border, b.border, t),
+    );
+  }
+
+
 }
 
 /***** TouchData *****/
@@ -89,6 +105,16 @@ class FlTitlesData {
     ),
     this.bottomTitles = const SideTitles(reservedSize: 22, showTitles: true),
   });
+
+  static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
+    return FlTitlesData(
+      show: b.show,
+      leftTitles: SideTitles.lerp(a.leftTitles, b.leftTitles, t),
+      rightTitles: SideTitles.lerp(a.rightTitles, b.rightTitles, t),
+      bottomTitles: SideTitles.lerp(a.bottomTitles, b.bottomTitles, t),
+      topTitles: SideTitles.lerp(a.topTitles, b.topTitles, t),
+    );
+  }
 }
 
 /// specify each side titles data
@@ -109,6 +135,16 @@ class SideTitles {
     ),
     this.margin = 6,
   });
+
+  static SideTitles lerp(SideTitles a, SideTitles b, double t) {
+    return SideTitles(
+      showTitles: b.showTitles,
+      getTitles: b.getTitles,
+      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
+      margin: lerpDouble(a.margin, b.margin, t),
+    );
+  }
 }
 
 /// this class holds the touch response details,

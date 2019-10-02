@@ -1,5 +1,6 @@
 library fl_chart;
 
+import 'package:fl_chart/src/chart/base/base_chart_data_tween.dart';
 import 'package:flutter/material.dart';
 
 import 'src/chart/bar_chart/bar_chart.dart';
@@ -24,26 +25,34 @@ export 'src/chart/pie_chart/pie_chart_data.dart';
 /// to paint the relative content on our [CustomPaint] class
 /// [BaseChart] is an abstract class and we should use a concrete class
 /// such as [LineChart], [BarChart], [PieChart].
-class FlChart extends StatefulWidget {
+class FlChart extends ImplicitlyAnimatedWidget {
   final BaseChart chart;
 
+  /// [swapAnimationDuration] is the duration of animation when swapping between
+  /// a [BaseChartData] to another one, you can disable animations by setting 0 duration,
+  /// check [ImplicitlyAnimatedWidget]
   FlChart({
     Key key,
     @required this.chart,
-  }) : super(key: key) {
+    Duration swapAnimationDuration = const Duration(milliseconds: 150),
+  }) : super(key: key, duration: swapAnimationDuration) {
     if (chart == null) {
       throw Exception('chart should not be null');
     }
   }
 
   @override
-  State<StatefulWidget> createState() => _FlChartState();
+  _FlChartState createState() => _FlChartState();
 }
 
-class _FlChartState extends State<FlChart> {
+class _FlChartState extends AnimatedWidgetBaseState<FlChart> {
   ///We will notify Touch Events through this Notifier in form of a [FlTouchInput],
   ///then the painter returns touched details through a StreamSink.a
   FlTouchInputNotifier _touchInputNotifier;
+
+  /// we handle under the hood animations (implicit animations) via this tween,
+  /// it lerps between the old [BaseChartData] to the new one.
+  BaseChartDataTween _baseChartDataTween;
 
   @override
   void initState() {
@@ -80,6 +89,8 @@ class _FlChartState extends State<FlChart> {
       },
       child: CustomPaint(
         painter: widget.chart.painter(
+          baseChartData: _baseChartDataTween.evaluate(animation),
+          targetBaseChartData: widget.chart.getData(),
           touchInputNotifier: _touchInputNotifier,
           touchResponseSink: widget.chart.getData().touchData.touchResponseSink,
         ),
@@ -103,5 +114,14 @@ class _FlChartState extends State<FlChart> {
   void dispose() {
     super.dispose();
     _touchInputNotifier.dispose();
+  }
+
+  @override
+  void forEachTween(visitor) {
+    _baseChartDataTween = visitor(
+      _baseChartDataTween,
+      widget.chart.getData(),
+      (dynamic value) => BaseChartDataTween(begin: value),
+    );
   }
 }

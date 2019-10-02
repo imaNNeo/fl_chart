@@ -1,9 +1,9 @@
 ## Roadmap
 
 
-- [x] Add Interactivity
+- [x] Add Interactivity ([Docs](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md))
 
-- [ ] Add Animations
+- [x] Add Animations ([Docs](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_animations.md))
 
 - [ ] Add ScatterPlot chart
 

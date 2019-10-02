@@ -8,7 +8,7 @@ class LineChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xff262545),
+      color: const Color(0xff262545),
       child: ListView(
         children: <Widget>[
           Align(
@@ -16,9 +16,9 @@ class LineChartPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 36.0, top: 24,),
               child: Text(
-                "Line Chart",
+                'Line Chart',
                 style: TextStyle(
-                  color: Color(
+                  color: const Color(
                     0xff6f6f97,
                   ),
                   fontSize: 32,
@@ -26,14 +26,14 @@ class LineChartPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 28, right: 28,),
             child: LineChartSample1(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 22,
           ),
           Padding(

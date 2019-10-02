@@ -5,6 +5,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
+import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
 /// This class holds data to draw the line chart
@@ -108,6 +109,29 @@ class LineChartData extends AxisChartData {
     super.minY = minY;
     super.maxY = maxY;
   }
+
+  @override
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
+    if (a is LineChartData && b is LineChartData && t != null) {
+      return LineChartData(
+        minX: lerpDouble(a.minX, b.minX, t),
+        maxX: lerpDouble(a.maxX, b.maxX, t),
+        minY: lerpDouble(a.minY, b.minY, t),
+        maxY: lerpDouble(a.maxY, b.maxY, t),
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        clipToBorder: b.clipToBorder,
+        extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
+        gridData: FlGridData.lerp(a.gridData, b.gridData, t),
+        titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
+        lineTouchData: b.lineTouchData,
+      );
+    } else {
+      throw Exception('Illegal State');
+    }
+  }
+
 }
 
 /***** LineChartBarData *****/
@@ -161,6 +185,22 @@ class LineChartBarData {
     this.belowBarData = const BelowBarData(),
     this.dotData = const FlDotData(),
   });
+
+  static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
+    return LineChartBarData(
+      show: b.show,
+      barWidth: lerpDouble(a.barWidth, b.barWidth, t),
+      belowBarData: BelowBarData.lerp(a.belowBarData, b.belowBarData, t),
+      curveSmoothness: b.curveSmoothness,
+      isCurved: b.isCurved,
+      isStrokeCapRound: b.isStrokeCapRound,
+      preventCurveOverShooting: b.preventCurveOverShooting,
+      dotData: FlDotData.lerp(a.dotData, b.dotData, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
+      spots: lerpFlSpotList(a.spots, b.spots, t),
+    );
+  }
 }
 
 /***** BelowBarData *****/
@@ -198,6 +238,17 @@ class BelowBarData {
     this.gradientColorStops,
     this.belowSpotsLine = const BelowSpotsLine(),
   });
+
+  static BelowBarData lerp(BelowBarData a, BelowBarData b, double t) {
+    return BelowBarData(
+      show: b.show,
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
+      belowSpotsLine: BelowSpotsLine.lerp(a.belowSpotsLine, b.belowSpotsLine, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+    );
+  }
 }
 
 typedef CheckToShowSpotBelowLine = bool Function(FlSpot spot);
@@ -220,6 +271,14 @@ class BelowSpotsLine {
     this.flLineStyle = const FlLine(),
     this.checkToShowSpotBelowLine = showAllSpotsBelowLine,
   });
+
+  static BelowSpotsLine lerp(BelowSpotsLine a, BelowSpotsLine b, double t) {
+    return BelowSpotsLine(
+      show: b.show,
+      checkToShowSpotBelowLine: b.checkToShowSpotBelowLine,
+      flLineStyle: FlLine.lerp(a.flLineStyle, b.flLineStyle, t),
+    );
+  }
 }
 
 /***** DotData *****/
@@ -245,6 +304,15 @@ class FlDotData {
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
   });
+
+  static FlDotData lerp(FlDotData a, FlDotData b, double t) {
+    return FlDotData(
+      show: b.show,
+      checkToShowDot: b.checkToShowDot,
+      dotColor: Color.lerp(a.dotColor, b.dotColor, t),
+      dotSize: lerpDouble(a.dotSize, b.dotSize, t),
+    );
+  }
 }
 
 /// horizontal lines draw from bottom to top of the chart,
@@ -257,6 +325,14 @@ class HorizontalLine extends FlLine {
     Color color = Colors.black,
     double strokeWidth = 2,
   }) : super(color: color, strokeWidth: strokeWidth);
+
+  static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
+    return HorizontalLine(
+      x: lerpDouble(a.x, b.x, t),
+      color: Color.lerp(a.color, b.color, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+    );
+  }
 }
 
 /// vertical lines draw from left to right of the chart
@@ -269,6 +345,14 @@ class VerticalLine extends FlLine {
     Color color = Colors.black,
     double strokeWidth = 2,
   }) : super(color: color, strokeWidth: strokeWidth);
+
+  static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
+    return VerticalLine(
+      y: lerpDouble(a.y, b.y, t),
+      color: Color.lerp(a.color, b.color, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+    );
+  }
 }
 
 /// we use ExtraLinesData to draw straight horizontal and vertical lines,
@@ -287,6 +371,16 @@ class ExtraLinesData {
     this.showVerticalLines = false,
     this.verticalLines = const [],
   });
+
+  static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
+    return ExtraLinesData(
+      showHorizontalLines: b.showHorizontalLines,
+      showVerticalLines: b.showVerticalLines,
+      horizontalLines: lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
+      verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
+    );
+  }
+
 }
 
 /// if user touched the chart, we indicate the touched spots with a below line,
@@ -358,9 +452,11 @@ class TouchedSpotIndicatorData {
 /// holds the data of the touched spot
 class LineTouchedSpot extends TouchedSpot {
   LineChartBarData barData;
+  int barDataPosition;
 
   LineTouchedSpot(
     this.barData,
+    this.barDataPosition,
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);

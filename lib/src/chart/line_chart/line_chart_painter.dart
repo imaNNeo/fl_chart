@@ -12,6 +12,7 @@ import 'line_chart_data.dart';
 
 class LineChartPainter extends AxisChartPainter {
   final LineChartData data;
+  final LineChartData targetData;
 
   /// [barPaint] is responsible to painting the bar line
   /// [belowBarPaint] is responsible to fill the below space of our bar line
@@ -30,9 +31,10 @@ class LineChartPainter extends AxisChartPainter {
 
   LineChartPainter(
     this.data,
+    this.targetData,
     FlTouchInputNotifier touchInputNotifier,
     StreamSink<LineTouchResponse> touchedResponseSink,
-  ) : super(data,
+  ) : super(data, targetData,
             touchInputNotifier: touchInputNotifier,
             touchedResponseSink: touchedResponseSink) {
     barPaint = Paint()..style = PaintingStyle.stroke;
@@ -74,13 +76,15 @@ class LineChartPainter extends AxisChartPainter {
     final List<LineTouchedSpot> touchedSpots = [];
 
     /// draw each line independently on the chart
-    for (LineChartBarData barData in data.lineBarsData) {
+    for (int i = 0; i<data.lineBarsData.length; i++) {
+      final barData = data.lineBarsData[i];
+
       drawBarLine(canvas, viewSize, barData);
       drawDots(canvas, viewSize, barData);
 
       // find the nearest spot on touch area in this bar line
       final LineTouchedSpot foundTouchedSpot =
-          _getNearestTouchedSpot(canvas, viewSize, barData);
+          _getNearestTouchedSpot(canvas, viewSize, barData, i);
       if (foundTouchedSpot != null) {
         touchedSpots.add(foundTouchedSpot);
       }
@@ -121,7 +125,7 @@ class LineChartPainter extends AxisChartPainter {
 
   /// find the nearest spot base on the touched offset
   LineTouchedSpot _getNearestTouchedSpot(
-      Canvas canvas, Size viewSize, LineChartBarData barData) {
+      Canvas canvas, Size viewSize, LineChartBarData barData, int barDataPosition) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     if (touchInputNotifier == null || touchInputNotifier.value == null) {
@@ -146,7 +150,7 @@ class LineChartPainter extends AxisChartPainter {
           getPixelY(nearestSpot.y, chartViewSize),
         );
 
-        return LineTouchedSpot(barData, nearestSpot, nearestSpotPos);
+        return LineTouchedSpot(barData, barDataPosition, nearestSpot, nearestSpotPos);
       }
     }
 

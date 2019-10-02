@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
 import '../base/base_chart/base_chart_data.dart';
@@ -37,6 +38,23 @@ class PieChartData extends BaseChartData {
     sumValue = sections
         .map((data) => data.value)
         .reduce((first, second) => first + second);
+  }
+
+  @override
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
+    if (a is PieChartData && b is PieChartData && t != null) {
+      return PieChartData(
+        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        centerSpaceColor: Color.lerp(a.centerSpaceColor, b.centerSpaceColor, t),
+        centerSpaceRadius: lerpDouble(a.centerSpaceRadius, b.centerSpaceRadius, t),
+        pieTouchData: b.pieTouchData,
+        sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
+        startDegreeOffset: lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
+        sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
+      );
+    } else {
+      throw Exception('Illegal State');
+    }
   }
 }
 
@@ -96,6 +114,18 @@ class PieChartSectionData {
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
     );
   }
+
+  static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
+    return PieChartSectionData(
+      color: Color.lerp(a.color, b.color, t),
+      radius: lerpDouble(a.radius, b.radius, t),
+      showTitle: b.showTitle,
+      title: b.title,
+      titlePositionPercentageOffset: lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+      titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
+      value: lerpDouble(a.value, b.value, t),
+    );
+  }
 }
 
 /// holds data for handling touch events on the [PieChart]
@@ -111,7 +141,10 @@ class PieTouchData extends FlTouchData {
 /// used in the [PieTouchData] in a [StreamSink]
 class PieTouchResponse extends BaseTouchResponse {
   /// touch happened on this section
-  final PieChartSectionData sectionData;
+  final PieChartSectionData touchedSection;
+
+  /// touch happened on this position
+  final int touchedSectionPosition;
 
   /// touch happened with this angle on the [PieChart]
   final double touchAngle;
@@ -120,7 +153,8 @@ class PieTouchResponse extends BaseTouchResponse {
   final double touchRadius;
 
   PieTouchResponse(
-    this.sectionData,
+    this.touchedSection,
+    this.touchedSectionPosition,
     this.touchAngle,
     this.touchRadius,
     FlTouchInput touchInput,

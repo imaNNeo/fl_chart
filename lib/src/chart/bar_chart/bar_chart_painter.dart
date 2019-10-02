@@ -9,14 +9,16 @@ import 'package:flutter/widgets.dart';
 
 class BarChartPainter extends AxisChartPainter {
   final BarChartData data;
+  final BarChartData targetData;
 
   Paint barPaint;
 
   BarChartPainter(
     this.data,
+    this.targetData,
     FlTouchInputNotifier touchController,
     StreamSink<BarTouchResponse> touchedResponseSink,
-  ) : super(data,
+  ) : super(data, targetData,
             touchInputNotifier: touchController,
             touchedResponseSink: touchedResponseSink) {
     barPaint = Paint()..style = PaintingStyle.fill;
@@ -391,15 +393,15 @@ class BarChartPainter extends AxisChartPainter {
       final GroupBarsPosition groupBarPos = groupBarsPosition[i];
       for (int j = 0; j < groupBarPos.barsX.length; j++) {
         final double barX = groupBarPos.barsX[j];
-        final double barWidth = data.barGroups[i].barRods[j].width;
+        final double barWidth = targetData.barGroups[i].barRods[j].width;
         final double halfBarWidth = barWidth / 2;
         final double barTopY =
-            getPixelY(data.barGroups[i].barRods[j].y, chartViewSize);
+            getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
         final double barBotY = getPixelY(0, chartViewSize);
         final double backDrawBarTopY = getPixelY(
-            data.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
+            targetData.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
         final EdgeInsets touchExtraThreshold =
-            data.barTouchData.touchExtraThreshold;
+            targetData.barTouchData.touchExtraThreshold;
 
         final bool isXInTouchBounds = (touchedPoint.dx <=
                 barX + halfBarWidth + touchExtraThreshold.right) &&
@@ -414,12 +416,12 @@ class BarChartPainter extends AxisChartPainter {
                 (touchedPoint.dy >= backDrawBarTopY - touchExtraThreshold.top);
 
         final bool isYInTouchBounds =
-            (data.barTouchData.allowTouchBarBackDraw &&
+            (targetData.barTouchData.allowTouchBarBackDraw &&
                     isYInBarBackDrawBounds) ||
                 isYInBarBounds;
 
         if (isXInTouchBounds && isYInTouchBounds) {
-          final nearestGroup = data.barGroups[i];
+          final nearestGroup = targetData.barGroups[i];
           final nearestBarRod = nearestGroup.barRods[j];
           final nearestSpot =
               FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
@@ -427,7 +429,7 @@ class BarChartPainter extends AxisChartPainter {
               Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
 
           return BarTouchedSpot(
-              nearestGroup, nearestBarRod, nearestSpot, nearestSpotPos);
+              nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
         }
       }
     }
