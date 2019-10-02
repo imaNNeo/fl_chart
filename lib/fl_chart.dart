@@ -29,7 +29,8 @@ class FlChart extends ImplicitlyAnimatedWidget {
   final BaseChart chart;
 
   /// [swapAnimationDuration] is the duration of animation when swapping between
-  /// a [BaseChartData] to another one, check [ImplicitlyAnimatedWidget]
+  /// a [BaseChartData] to another one, you can disable animations by setting 0 duration,
+  /// check [ImplicitlyAnimatedWidget]
   FlChart({
     Key key,
     @required this.chart,

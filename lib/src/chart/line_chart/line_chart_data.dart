@@ -112,7 +112,6 @@ class LineChartData extends AxisChartData {
 
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
-
     if (a is LineChartData && b is LineChartData && t != null) {
       return LineChartData(
         minX: lerpDouble(a.minX, b.minX, t),
@@ -188,7 +187,6 @@ class LineChartBarData {
   });
 
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
-
     return LineChartBarData(
       show: b.show,
       barWidth: lerpDouble(a.barWidth, b.barWidth, t),

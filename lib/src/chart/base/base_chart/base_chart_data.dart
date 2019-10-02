@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart_data_tween.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ abstract class BaseChartData {
     borderData ??= FlBorderData();
   }
 
+  /// this function is used for animate between current and target data,
+  /// used in the [BaseChartDataTween]
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 }
 
