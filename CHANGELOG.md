@@ -1,3 +1,6 @@
+## 0.3.0
+* 💥 Added Animations 💥, [read about it](https://github.com/imaNNeoFighT/fl_chart/blob/feature/both-axis-titles/repo_files/documentations/handle_animations.md).
+
 ## 0.2.2
 * fixed a typo on CHANGELOG
 * reformatted dart files with `flutter format` command
