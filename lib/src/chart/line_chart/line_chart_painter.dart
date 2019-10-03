@@ -481,7 +481,7 @@ class LineChartPainter extends AxisChartPainter {
         y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
-        verticalSeek += data.gridData.verticalInterval;
+        verticalSeek += leftTitles.interval;
       }
     }
 
@@ -507,7 +507,7 @@ class LineChartPainter extends AxisChartPainter {
 
         tp.paint(canvas, Offset(x, y));
 
-        horizontalSeek += data.gridData.horizontalInterval;
+        horizontalSeek += topTitles.interval;
       }
     }
 
@@ -532,7 +532,7 @@ class LineChartPainter extends AxisChartPainter {
         y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
-        verticalSeek += data.gridData.verticalInterval;
+        verticalSeek += rightTitles.interval;
       }
     }
 
@@ -558,7 +558,7 @@ class LineChartPainter extends AxisChartPainter {
 
         tp.paint(canvas, Offset(x, y));
 
-        horizontalSeek += data.gridData.horizontalInterval;
+        horizontalSeek += bottomTitles.interval;
       }
     }
   }

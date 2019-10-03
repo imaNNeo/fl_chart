@@ -124,6 +124,7 @@ class SideTitles {
   final double reservedSize;
   final TextStyle textStyle;
   final double margin;
+  final double interval;
 
   const SideTitles({
     this.showTitles = false,
@@ -134,6 +135,7 @@ class SideTitles {
       fontSize: 11,
     ),
     this.margin = 6,
+    this.interval = 1.0,
   });
 
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
@@ -143,6 +145,7 @@ class SideTitles {
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
       margin: lerpDouble(a.margin, b.margin, t),
+      interval: lerpDouble(a.interval, b.interval, t),
     );
   }
 }
