@@ -3,10 +3,10 @@
 * added support for drawing below and above areas separately in LineChart
 * added cutOffY feature in LineChart, see this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/62)
 * added `aboveBarData` in [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata)
-* `BelowBarData` class renamed to [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareadata) to reuse for both above and below are
+* `BelowBarData` class renamed to [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareadata) to reuse for both above and below areas
 * `belowSpotsLine` renamed to `spotsLine` in [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareadata)
-* `cutOffY` and `applyCutOffY` fields is added in [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareadata) to handle cutting of drawing below or above area
-* `BelowSpotsLine` renamed to [BarAreaSpotsLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareaspotsline), and inside it `heckToShowSpotBelowLine` renamed to `heckToShowSpotLine`
+* `cutOffY` and `applyCutOffY` fields are added in [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareadata) to handle cutting of drawing below or above area
+* `BelowSpotsLine` renamed to [BarAreaSpotsLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareaspotsline), and inside it `checkToShowSpotBelowLine` renamed to `checkToShowSpotLine`
 
 ## 0.3.2
 * provided default size (square with 30% smaller than screen) for the FLChart, fixed this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/74).
