@@ -1,3 +1,6 @@
+## 0.3.2
+* provided default size (square with 30% smaller than screen) for the FLChart, fixed this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/74).
+
 ## 0.3.1
 * added `interval` field in [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), fixed this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/67)
 
