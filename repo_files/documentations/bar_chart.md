@@ -19,11 +19,11 @@ FlChart(
 |barGroups| list of [BarChartGroupData ](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show normal bar chart|[]|
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
-|backgroundColor| a background color which is drawn behind th chart| null |
+|backgroundColor| a background color which is drawn behind the chart| null |
 |barTouchData| [BarTouchData](#BarTouchData) holds the touch interactivity details|BarTouchData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
-|maxY| gets maximum y of y axis, if null, value will read from the input barGroups | null|
+|maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
 
 
 ### BarChartGroupData
@@ -42,8 +42,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |y|endY position of the bar on vertical axis (height of the bar)|null|
-|color|colors the bar rod|Colors.blueAccent|
-|width|stroke width of the bar rod|8|
+|color|colors the rod bar|Colors.blueAccent|
+|width|stroke width of the rod bar|8|
 |isRound|determines that the bar lines is round or qubic |true|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
 
@@ -76,11 +76,11 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BarTouchedSpot
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|touchedBarGroup|the [BarChartGroupData](#BarChartGroupData) that user touched it's rod's spot| null |
-|touchedRodData|the [BarChartRodData](#BarChartRodData) that user touched it's spot|null|
+|touchedBarGroup|the [BarChartGroupData](#BarChartGroupData) that user touched its rod's spot| null |
+|touchedRodData|the [BarChartRodData](#BarChartRodData) that user touched its spot|null|
 
 
-### some samples
+### Some Samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample1.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1.gif" width="300" >
