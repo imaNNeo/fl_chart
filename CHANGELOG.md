@@ -2,7 +2,7 @@
 * added `interval` field in [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), fixed this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/67)
 
 ## 0.3.0
-* 💥 Added Animations 💥, [read about it](https://github.com/imaNNeoFighT/fl_chart/blob/feature/both-axis-titles/repo_files/documentations/handle_animations.md).
+* 💥 Added Animations 💥, [read about it](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_animations.md).
 
 ## 0.2.2
 * fixed a typo on CHANGELOG
@@ -26,7 +26,7 @@
 * bugfix -> fixed draw bug on BarChart when y value is very low in high scale y values (#43).
 
 ## 0.1.3
-* added `SideTitles` class to hold titles representation data, and used in `FlTitlesData` to show left, top, right, bottom titles, instead of legacy direct parameters, and implemented a reversed chart [sample](https://github.com/imaNNeoFighT/fl_chart/blob/feature/both-axis-titles/repo_files/documentations/line_chart.md#sample-6-source-code) using this update.
+* added `SideTitles` class to hold titles representation data, and used in `FlTitlesData` to show left, top, right, bottom titles, instead of legacy direct parameters, and implemented a reversed chart [sample](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-6-source-code) using this update.
 
 ## 0.1.2
 *  added `preventCurveOverShooting` on BarData, check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)
