@@ -1,3 +1,6 @@
+## 0.3.1
+* added `interval` field in [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), fixed this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/67)
+
 ## 0.3.0
 * 💥 Added Animations 💥, [read about it](https://github.com/imaNNeoFighT/fl_chart/blob/feature/both-axis-titles/repo_files/documentations/handle_animations.md).
 
