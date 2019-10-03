@@ -85,7 +85,7 @@ class LineChartSample6 extends StatelessWidget {
                       isCurved: true,
                       isStrokeCapRound: true,
                       barWidth: 10,
-                      belowBarData: const BelowBarData(
+                      belowBarData: const BarAreaData(
                         show: false,
                       ),
                       dotData: FlDotData(
@@ -103,7 +103,7 @@ class LineChartSample6 extends StatelessWidget {
                       isCurved: true,
                       isStrokeCapRound: true,
                       barWidth: 10,
-                      belowBarData: const BelowBarData(
+                      belowBarData: const BarAreaData(
                         show: false,
                       ),
                       dotData: FlDotData(

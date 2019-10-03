@@ -5,6 +5,9 @@ class LineChartSample4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    const cutOffYValue = 5.0;
+
     return SizedBox(
       width: 300,
       height: 140,
@@ -14,7 +17,7 @@ class LineChartSample4 extends StatelessWidget {
             lineTouchData: const LineTouchData(enabled: false),
             lineBarsData: [
               LineChartBarData(
-                spots: [
+                spots: const [
                   FlSpot(0, 4),
                   FlSpot(1, 3.5),
                   FlSpot(2, 4.5),
@@ -33,11 +36,19 @@ class LineChartSample4 extends StatelessWidget {
                 colors: [
                   Colors.purpleAccent,
                 ],
-                belowBarData: BelowBarData(
+                belowBarData: BarAreaData(
                   show: true,
-                  colors: [Colors.deepPurple.withOpacity(0.2)],
+                  colors: [Colors.deepPurple.withOpacity(0.4)],
+                  cutOffY: cutOffYValue,
+                  applyCutOffY: true,
                 ),
-                dotData: FlDotData(
+                aboveBarData: BarAreaData(
+                  show: true,
+                  colors: [Colors.orange.withOpacity(0.6)],
+                  cutOffY: cutOffYValue,
+                  applyCutOffY: true,
+                ),
+                dotData: const FlDotData(
                   show: false,
                 ),
               ),
@@ -73,6 +84,7 @@ class LineChartSample4 extends StatelessWidget {
                       return 'Nov';
                     case 11:
                       return 'Dec';
+                    default: return '';
                   }
                 }
               ),

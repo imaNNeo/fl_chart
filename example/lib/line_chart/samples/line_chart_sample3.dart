@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class LineChartSample3 extends StatelessWidget {
 
-  var weekDays = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', ];
+  final weekDays = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', ];
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +13,12 @@ class LineChartSample3 extends StatelessWidget {
       children: <Widget>[
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Text('Average Line',
+          children: const <Widget> [
+            Text('Average Line',
               style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16),),
-            const Text(' and ',
+            Text(' and ',
               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),),
-            const Text('Indicators',
+            Text('Indicators',
               style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16),),
           ],
         ),
@@ -71,7 +71,7 @@ class LineChartSample3 extends StatelessWidget {
                 ),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: [
+                    spots: const [
                       FlSpot(0, 1.3),
                       FlSpot(1, 1),
                       FlSpot(2, 1.8),
@@ -85,22 +85,22 @@ class LineChartSample3 extends StatelessWidget {
                     colors: [
                       Colors.orange,
                     ],
-                    belowBarData: BelowBarData(
+                    belowBarData: BarAreaData(
                       show: true,
                       colors: [
                         Colors.orange.withOpacity(0.5),
                         Colors.orange.withOpacity(0.0),
                       ],
                       gradientColorStops: [0.5, 1.0],
-                      gradientFrom: Offset(0, 0),
-                      gradientTo: Offset(0, 1),
-                      belowSpotsLine: BelowSpotsLine(
+                      gradientFrom: const Offset(0, 0),
+                      gradientTo: const Offset(0, 1),
+                      spotsLine: BarAreaSpotsLine(
                         show: true,
                         flLineStyle: const FlLine(
                           color: Colors.blue,
                           strokeWidth: 2,
                         ),
-                        checkToShowSpotBelowLine: (spot) {
+                        checkToShowSpotLine: (spot) {
                           if (spot.x == 0 || spot.x == 6) {
                             return false;
                           }
@@ -188,5 +188,4 @@ class LineChartSample3 extends StatelessWidget {
       ],
     );
   }
-
 }
