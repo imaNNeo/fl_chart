@@ -42,27 +42,30 @@ FlChart(
 |curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
 |preventCurveOverShooting|prevent overshooting when draw curve line on linear sequence spots, check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)| false|
 |isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
-|belowBarData| check the [BelowBarData](#BelowBarData) |BelowBarData()|
+|belowBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
+|aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
 
 
-### BelowBarData
+### BarAreaData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|show|determines to show or hide the below bar|true|
-|colors|colors the below bar area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
+|show|determines to show or hide the below, or above bar area|false|
+|colors|colors the below, or above bar area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
 |gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
 |gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
-|belowSpotsLine| draw a line from each spot to the bottom of the chart|[BelowSpotsLine](#BelowSpotsLine)()|
+|spotsLine| draw a line from each spot the the bottom, or top of the chart|[BarAreaSpotsLine](#BarAreaSpotsLine)()|
+|cutOffY| cut the drawing below or above area to this y value (set `applyCutOffY` true if you want to set it)|null|
+|applyCutOffY| determines should or shouldn't apply cutOffY (`scutOffY` should be provided)|false|
 
 
-### BelowSpotsLine
+### BarAreaSpotsLine
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|show|determines show or hide the below spots line|true|
+|show|determines show or hide the below, or above spots line|true|
 |flLineStyle|a [FlLine](base_chart.md#FlLine) object that determines style of the line|[Colors.blueGrey]|
-|checkToShowSpotBelowLine|a function to determine whether to show or hide the below line on the given spot|showAllSpotsBelowLine|
+|checkToShowSpotLine|a function to determine whether to show or hide the below or above line on the given spot|showAllSpotsBelowLine|
 
 
 ### FlDotData
