@@ -166,8 +166,11 @@ class LineChartBarData {
 
   final bool isStrokeCapRound;
 
-  /// to fill space below the bar line,
-  final BelowBarData belowBarData;
+  /// to fill space below the bar line
+  final BarAreaData belowBarData;
+
+  /// to fill space above the bar line
+  final BarAreaData aboveBarData;
 
   /// to show dot spots upon the line chart
   final FlDotData dotData;
@@ -182,7 +185,8 @@ class LineChartBarData {
     this.curveSmoothness = 0.35,
     this.preventCurveOverShooting = false,
     this.isStrokeCapRound = false,
-    this.belowBarData = const BelowBarData(),
+    this.belowBarData = const BarAreaData(),
+    this.aboveBarData = const BarAreaData(),
     this.dotData = const FlDotData(),
   });
 
@@ -190,7 +194,7 @@ class LineChartBarData {
     return LineChartBarData(
       show: b.show,
       barWidth: lerpDouble(a.barWidth, b.barWidth, t),
-      belowBarData: BelowBarData.lerp(a.belowBarData, b.belowBarData, t),
+      belowBarData: BarAreaData.lerp(a.belowBarData, b.belowBarData, t),
       curveSmoothness: b.curveSmoothness,
       isCurved: b.isCurved,
       isStrokeCapRound: b.isStrokeCapRound,
@@ -203,10 +207,9 @@ class LineChartBarData {
   }
 }
 
-/***** BelowBarData *****/
-
-/// This class holds data about draw on below space of the bar line,
-class BelowBarData {
+/***** BarAreaData *****/
+/// This class holds data about draw on below or above space of the bar line,
+class BarAreaData {
   final bool show;
 
   /// if you pass just one color, the solid color will be used,
@@ -227,55 +230,65 @@ class BelowBarData {
   /// stop points of the gradient.
   final List<double> gradientColorStops;
 
-  /// holds data for drawing a line from each spot the the bottom of the chart
-  final BelowSpotsLine belowSpotsLine;
+  /// holds data for drawing a line from each spot the the bottom, or top of the chart
+  final BarAreaSpotsLine spotsLine;
 
-  const BelowBarData({
-    this.show = true,
+  /// cut the drawing below or above area to this y value
+  final double cutOffY;
+
+  /// determines should or shouldn't apply cutOffY
+  final bool applyCutOffY;
+
+  const BarAreaData({
+    this.show = false,
     this.colors = const [Colors.blueGrey],
     this.gradientFrom = const Offset(0, 0),
     this.gradientTo = const Offset(1, 0),
     this.gradientColorStops,
-    this.belowSpotsLine = const BelowSpotsLine(),
-  });
+    this.spotsLine = const BarAreaSpotsLine(),
+    this.cutOffY,
+    this.applyCutOffY = false,
+  }) : assert(applyCutOffY == true ? cutOffY != null : true);
 
-  static BelowBarData lerp(BelowBarData a, BelowBarData b, double t) {
-    return BelowBarData(
+  static BarAreaData lerp(BarAreaData a, BarAreaData b, double t) {
+    return BarAreaData(
       show: b.show,
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
-      belowSpotsLine: BelowSpotsLine.lerp(a.belowSpotsLine, b.belowSpotsLine, t),
+      spotsLine: BarAreaSpotsLine.lerp(a.spotsLine, b.spotsLine, t),
       colors: lerpColorList(a.colors, b.colors, t),
       gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+      cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t),
+      applyCutOffY: b.applyCutOffY,
     );
   }
 }
 
-typedef CheckToShowSpotBelowLine = bool Function(FlSpot spot);
+typedef CheckToShowSpotLine = bool Function(FlSpot spot);
 
 bool showAllSpotsBelowLine(FlSpot spot) {
   return true;
 }
 
-class BelowSpotsLine {
+class BarAreaSpotsLine {
   final bool show;
 
   /// determines style of the line
   final FlLine flLineStyle;
 
-  /// a function to determine whether to show or hide the below line on the given spot
-  final CheckToShowSpotBelowLine checkToShowSpotBelowLine;
+  /// a function to determine whether to show or hide the below or above line on the given spot
+  final CheckToShowSpotLine checkToShowSpotLine;
 
-  const BelowSpotsLine({
+  const BarAreaSpotsLine({
     this.show = false,
     this.flLineStyle = const FlLine(),
-    this.checkToShowSpotBelowLine = showAllSpotsBelowLine,
+    this.checkToShowSpotLine = showAllSpotsBelowLine,
   });
 
-  static BelowSpotsLine lerp(BelowSpotsLine a, BelowSpotsLine b, double t) {
-    return BelowSpotsLine(
+  static BarAreaSpotsLine lerp(BarAreaSpotsLine a, BarAreaSpotsLine b, double t) {
+    return BarAreaSpotsLine(
       show: b.show,
-      checkToShowSpotBelowLine: b.checkToShowSpotBelowLine,
+      checkToShowSpotLine: b.checkToShowSpotLine,
       flLineStyle: FlLine.lerp(a.flLineStyle, b.flLineStyle, t),
     );
   }
