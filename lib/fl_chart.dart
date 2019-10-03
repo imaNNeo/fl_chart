@@ -88,6 +88,7 @@ class _FlChartState extends AnimatedWidgetBaseState<FlChart> {
         _touchInputNotifier.value = FlPanMoveUpdate(details.localPosition);
       },
       child: CustomPaint(
+        size: getDefaultSize(context),
         painter: widget.chart.painter(
           baseChartData: _baseChartDataTween.evaluate(animation),
           targetBaseChartData: widget.chart.getData(),
@@ -96,6 +97,17 @@ class _FlChartState extends AnimatedWidgetBaseState<FlChart> {
         ),
       ),
     );
+  }
+
+  Size getDefaultSize(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    if (size.width < size.height) {
+      size = Size(size.width, size.width);
+    } else if (size.height < size.width) {
+      size = Size(size.height, size.height);
+    }
+    size *= 0.7;
+    return size;
   }
 
   void _releaseTouch() {
