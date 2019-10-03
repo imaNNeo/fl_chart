@@ -243,7 +243,7 @@ class BarChartPainter extends AxisChartPainter {
     final leftTitles = data.titlesData.leftTitles;
     if (leftTitles.showTitles) {
       int verticalCounter = 0;
-      while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
+      while (leftTitles.interval * verticalCounter <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
         double y = getPixelY(
                 data.gridData.verticalInterval * verticalCounter, drawSize) +
@@ -270,7 +270,7 @@ class BarChartPainter extends AxisChartPainter {
     final rightTitles = data.titlesData.rightTitles;
     if (rightTitles.showTitles) {
       int verticalCounter = 0;
-      while (data.gridData.verticalInterval * verticalCounter <= data.maxY) {
+      while (rightTitles.interval * verticalCounter <= data.maxY) {
         double x = drawSize.width + getLeftOffsetDrawSize();
         double y = getPixelY(
                 data.gridData.verticalInterval * verticalCounter, drawSize) +

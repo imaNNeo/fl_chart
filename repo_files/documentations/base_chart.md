@@ -29,6 +29,7 @@
 |reservedSize| a reserved space to show titles|22|
 |textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of texts |TextStyle(color: Colors.black, fontSize: 11)|
 |margin| margin of horizontal the titles | 6|
+|interval| interval between of showing titles in this side,  | 1.0 |
 
 
 
