@@ -135,7 +135,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         leftTitles: SideTitles(
           showTitles: true,
           textStyle: TextStyle(
-            color: Color(0xff75729e),
+            color: const Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -202,7 +202,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BelowBarData(
+        belowBarData: BarAreaData(
           show: false,
         ),
       ),
@@ -224,7 +224,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BelowBarData(
+        belowBarData: BarAreaData(
           show: false,
           colors: [
             Color(0x00aa4cfc),
@@ -248,7 +248,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BelowBarData(
+        belowBarData: BarAreaData(
           show: false,
         ),
       ),
@@ -286,7 +286,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         leftTitles: SideTitles(
           showTitles: true,
           textStyle: TextStyle(
-            color: Color(0xff75729e),
+            color: const Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -356,7 +356,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BelowBarData(
+        belowBarData: BarAreaData(
           show: false,
         ),
       ),
@@ -378,7 +378,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BelowBarData(
+        belowBarData: BarAreaData(
           show: true,
           colors: [
             Color(0x33aa4cfc),
@@ -403,7 +403,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: true,
         ),
-        belowBarData: BelowBarData(
+        belowBarData: BarAreaData(
           show: false,
         ),
       ),

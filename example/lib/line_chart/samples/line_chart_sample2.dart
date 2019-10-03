@@ -139,7 +139,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           dotData: const FlDotData(
             show: false,
           ),
-          belowBarData: BelowBarData(
+          belowBarData: BarAreaData(
             show: true,
             colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
           ),
@@ -235,7 +235,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           dotData: const FlDotData(
             show: false,
           ),
-          belowBarData: BelowBarData(
+          belowBarData: BarAreaData(
             show: true,
             colors: [
               ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2).withOpacity(0.1),

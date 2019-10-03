@@ -13,7 +13,7 @@ class LineChartSample5 extends StatelessWidget {
           LineChartData(
             lineTouchData: const LineTouchData(enabled: false),
             lineBarsData: [
-              LineChartBarData(
+              const LineChartBarData(
                 spots: [
                   FlSpot(0, 1),
                   FlSpot(1, 2),
@@ -25,7 +25,7 @@ class LineChartSample5 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 4,
-                belowBarData: BelowBarData(
+                belowBarData: BarAreaData(
                   show: true,
                 ),
                 dotData: FlDotData(show: false),
@@ -63,7 +63,7 @@ class LineChartSample5 extends StatelessWidget {
                 )
               ),
             ),
-            gridData: FlGridData(show: false),
+            gridData: const FlGridData(show: false),
             borderData: FlBorderData(
               show: true,
             ),
