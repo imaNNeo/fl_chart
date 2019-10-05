@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample6 extends StatelessWidget {
-
   final spots = [
     const FlSpot(0, 1),
     const FlSpot(2, 5),
@@ -48,16 +47,15 @@ class LineChartSample6 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black,
-            blurRadius: 10,
-            spreadRadius: 0,
-          )
-        ]
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 10,
+              spreadRadius: 0,
+            )
+          ]),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -119,7 +117,8 @@ class LineChartSample6 extends StatelessWidget {
                     leftTitles: SideTitles(
                       showTitles: true,
                       getTitles: (double value) {
-                        final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+                        final intValue =
+                            reverseY(value, minSpotY, maxSpotY).toInt();
 
                         if (intValue == (maxSpotY + minSpotY)) {
                           return '';
@@ -127,14 +126,18 @@ class LineChartSample6 extends StatelessWidget {
 
                         return intValue.toString();
                       },
-                      textStyle: const TextStyle(color: Colors.deepOrange, fontWeight: FontWeight.bold, fontSize: 18),
+                      textStyle: const TextStyle(
+                          color: Colors.deepOrange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                       margin: 16,
                     ),
                     rightTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 0,
                       getTitles: (double value) {
-                        final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+                        final intValue =
+                            reverseY(value, minSpotY, maxSpotY).toInt();
 
                         if (intValue == (maxSpotY + minSpotY)) {
                           return '';
@@ -142,7 +145,10 @@ class LineChartSample6 extends StatelessWidget {
 
                         return intValue.toString();
                       },
-                      textStyle: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
+                      textStyle: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                       margin: 16,
                     ),
                     bottomTitles: const SideTitles(showTitles: false),
@@ -150,32 +156,34 @@ class LineChartSample6 extends StatelessWidget {
                       showTitles: true,
                       reservedSize: 28,
                       margin: 8,
-                      textStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
                       getTitles: (double value) {
                         return value.toInt().toString();
                       },
                     ),
                   ),
                   gridData: FlGridData(
-                    show: true,
-                    drawHorizontalGrid: true,
-                    checkToShowVerticalGrid: (value) {
+                      show: true,
+                      drawHorizontalGrid: true,
+                      checkToShowVerticalGrid: (value) {
+                        final intValue =
+                            reverseY(value, minSpotY, maxSpotY).toInt();
 
-                      final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+                        if (intValue.toInt() == (maxSpotY + minSpotY).toInt()) {
+                          return false;
+                        }
 
-                      if (intValue.toInt() == (maxSpotY + minSpotY).toInt()) {
-                        return false;
-                      }
-
-                      return true;
-                    }
-                  ),
-                  borderData: FlBorderData(show: true, border: Border(
-                    left: BorderSide(color: Colors.black),
-                    top: BorderSide(color: Colors.black),
-                    bottom: BorderSide(color: Colors.transparent),
-                    right: BorderSide(color: Colors.transparent),
-                  )),
+                        return true;
+                      }),
+                  borderData: FlBorderData(
+                      show: true,
+                      border: Border(
+                        left: BorderSide(color: Colors.black),
+                        top: BorderSide(color: Colors.black),
+                        bottom: BorderSide(color: Colors.transparent),
+                        right: BorderSide(color: Colors.transparent),
+                      )),
                 ),
               ),
             ),
@@ -184,7 +192,6 @@ class LineChartSample6 extends StatelessWidget {
       ),
     );
   }
-
 
   double reverseY(double y, double minX, double maxX) {
     return (maxX + minX) - y;

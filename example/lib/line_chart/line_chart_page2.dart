@@ -14,7 +14,7 @@ class LineChartPage2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(
-              "LineChart",
+              'LineChart',
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
             LineChartSample3(),

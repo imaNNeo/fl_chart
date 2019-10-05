@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample5 extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -33,35 +32,36 @@ class LineChartSample5 extends StatelessWidget {
             ],
             minY: 0,
             titlesData: FlTitlesData(
-              leftTitles: const SideTitles(showTitles: false,),
-              bottomTitles: SideTitles(
-                showTitles: true,
-                getTitles: (val) {
-                  switch (val.toInt()) {
-                    case 0:
-                      return '00:00';
-                    case 1:
-                      return '04:00';
-                    case 2:
-                      return '08:00';
-                    case 3:
-                      return '12:00';
-                    case 4:
-                      return '16:00';
-                    case 5:
-                      return '20:00';
-                    case 6:
-                      return '23:59';
-                  }
-                  return '';
-                },
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey,
-                  fontFamily: 'Digital',
-                  fontSize: 18,
-                )
+              leftTitles: const SideTitles(
+                showTitles: false,
               ),
+              bottomTitles: SideTitles(
+                  showTitles: true,
+                  getTitles: (val) {
+                    switch (val.toInt()) {
+                      case 0:
+                        return '00:00';
+                      case 1:
+                        return '04:00';
+                      case 2:
+                        return '08:00';
+                      case 3:
+                        return '12:00';
+                      case 4:
+                        return '16:00';
+                      case 5:
+                        return '20:00';
+                      case 6:
+                        return '23:59';
+                    }
+                    return '';
+                  },
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,
+                    fontFamily: 'Digital',
+                    fontSize: 18,
+                  )),
             ),
             gridData: const FlGridData(show: false),
             borderData: FlBorderData(
@@ -72,5 +72,4 @@ class LineChartSample5 extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -4,7 +4,6 @@ import 'samples/line_chart_sample1.dart';
 import 'samples/line_chart_sample2.dart';
 
 class LineChartPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,15 +13,18 @@ class LineChartPage extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 36.0, top: 24,),
+              padding: const EdgeInsets.only(
+                left: 36.0,
+                top: 24,
+              ),
               child: Text(
                 'Line Chart',
                 style: TextStyle(
-                  color: const Color(
-                    0xff6f6f97,
-                  ),
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold),
+                    color: const Color(
+                      0xff6f6f97,
+                    ),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -30,7 +32,10 @@ class LineChartPage extends StatelessWidget {
             height: 8,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 28, right: 28,),
+            padding: const EdgeInsets.only(
+              left: 28,
+              right: 28,
+            ),
             child: LineChartSample1(),
           ),
           const SizedBox(
@@ -44,5 +49,4 @@ class LineChartPage extends StatelessWidget {
       ),
     );
   }
-
 }

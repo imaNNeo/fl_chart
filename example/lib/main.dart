@@ -16,17 +16,17 @@ class MyApp extends StatelessWidget {
       title: 'FlChart Demo',
       showPerformanceOverlay: false,
       theme: ThemeData(
-        primaryColor: Color(0xff262545),
-        primaryColorDark: Color(0xff201f39),
+        primaryColor: const Color(0xff262545),
+        primaryColorDark: const Color(0xff201f39),
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(title: 'fl_chart'),
+      home: const MyHomePage(title: 'fl_chart'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override

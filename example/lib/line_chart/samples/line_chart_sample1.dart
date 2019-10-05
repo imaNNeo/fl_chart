@@ -9,7 +9,6 @@ class LineChartSample1 extends StatefulWidget {
 }
 
 class LineChartSample1State extends State<LineChartSample1> {
-
   bool isShowingMainData;
 
   StreamController<LineTouchResponse> controller;
@@ -87,7 +86,10 @@ class LineChartSample1State extends State<LineChartSample1> {
               ],
             ),
             IconButton(
-              icon: Icon(Icons.refresh, color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),),
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
+              ),
               onPressed: () {
                 setState(() {
                   isShowingMainData = !isShowingMainData;
@@ -224,12 +226,9 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BarAreaData(
-          show: false,
-          colors: [
-            Color(0x00aa4cfc),
-          ]
-        ),
+        belowBarData: BarAreaData(show: false, colors: [
+          Color(0x00aa4cfc),
+        ]),
       ),
       const LineChartBarData(
         spots: [
@@ -378,12 +377,9 @@ class LineChartSample1State extends State<LineChartSample1> {
         dotData: FlDotData(
           show: false,
         ),
-        belowBarData: BarAreaData(
-          show: true,
-          colors: [
-            Color(0x33aa4cfc),
-          ]
-        ),
+        belowBarData: BarAreaData(show: true, colors: [
+          Color(0x33aa4cfc),
+        ]),
       ),
       const LineChartBarData(
         spots: [

@@ -4,16 +4,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample2 extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => BarChartSample2State();
-
 }
 
 class BarChartSample2State extends State<BarChartSample2> {
-
-  final Color leftBarColor = Color(0xff53fdd7);
-  final Color rightBarColor = Color(0xffff5182);
+  final Color leftBarColor = const Color(0xff53fdd7);
+  final Color rightBarColor = const Color(0xffff5182);
   final double width = 7;
 
   List<BarChartGroupData> rawBarGroups;
@@ -49,7 +46,9 @@ class BarChartSample2State extends State<BarChartSample2> {
     showingBarGroups = rawBarGroups;
 
     barTouchedResultStreamController = StreamController();
-    barTouchedResultStreamController.stream.distinct().listen((BarTouchResponse response) {
+    barTouchedResultStreamController.stream
+        .distinct()
+        .listen((BarTouchResponse response) {
       if (response == null) {
         return;
       }
@@ -62,7 +61,8 @@ class BarChartSample2State extends State<BarChartSample2> {
         return;
       }
 
-      touchedGroupIndex = showingBarGroups.indexOf(response.spot.touchedBarGroup);
+      touchedGroupIndex =
+          showingBarGroups.indexOf(response.spot.touchedBarGroup);
 
       setState(() {
         if (response.touchInput is FlLongPressEnd) {
@@ -72,12 +72,15 @@ class BarChartSample2State extends State<BarChartSample2> {
           showingBarGroups = List.of(rawBarGroups);
           if (touchedGroupIndex != -1) {
             double sum = 0;
-            for (BarChartRodData rod in showingBarGroups[touchedGroupIndex].barRods) {
+            for (BarChartRodData rod
+                in showingBarGroups[touchedGroupIndex].barRods) {
               sum += rod.y;
             }
-            double avg = sum / showingBarGroups[touchedGroupIndex].barRods.length;
+            final avg =
+                sum / showingBarGroups[touchedGroupIndex].barRods.length;
 
-            showingBarGroups[touchedGroupIndex] = showingBarGroups[touchedGroupIndex].copyWith(
+            showingBarGroups[touchedGroupIndex] =
+                showingBarGroups[touchedGroupIndex].copyWith(
               barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
                 return rod.copyWith(y: avg);
               }).toList(),
@@ -86,7 +89,6 @@ class BarChartSample2State extends State<BarChartSample2> {
         }
       });
     });
-
   }
 
   @override
@@ -96,7 +98,7 @@ class BarChartSample2State extends State<BarChartSample2> {
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        color: Color(0xff2c4260),
+        color: const Color(0xff2c4260),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -110,23 +112,23 @@ class BarChartSample2State extends State<BarChartSample2> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   makeTransactionsIcon(),
-                  SizedBox(
+                  const SizedBox(
                     width: 38,
                   ),
                   Text(
-                    "Transactions",
+                    'Transactions',
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
                   Text(
-                    "state",
-                    style: TextStyle(color: Color(0xff77839a), fontSize: 16),
+                    'state',
+                    style: TextStyle(color: const Color(0xff77839a), fontSize: 16),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 38,
               ),
               Expanded(
@@ -137,23 +139,23 @@ class BarChartSample2State extends State<BarChartSample2> {
                       maxY: 20,
                       barTouchData: BarTouchData(
                         touchTooltipData: TouchTooltipData(
-                          tooltipBgColor: Colors.grey,
-                          getTooltipItems: (spots) {
-                            return spots.map((TouchedSpot spot) {
-                              return null;
-                            }).toList();
-                          }
-                        ),
-                        touchResponseSink: barTouchedResultStreamController.sink,
+                            tooltipBgColor: Colors.grey,
+                            getTooltipItems: (spots) {
+                              return spots.map((TouchedSpot spot) {
+                                return null;
+                              }).toList();
+                            }),
+                        touchResponseSink:
+                            barTouchedResultStreamController.sink,
                       ),
                       titlesData: FlTitlesData(
                         show: true,
                         bottomTitles: SideTitles(
                           showTitles: true,
                           textStyle: TextStyle(
-                            color: const Color(0xff7589a2),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14),
+                              color: const Color(0xff7589a2),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
                           margin: 20,
                           getTitles: (double value) {
                             switch (value.toInt()) {
@@ -171,15 +173,16 @@ class BarChartSample2State extends State<BarChartSample2> {
                                 return 'St';
                               case 6:
                                 return 'Sn';
+                              default: return '';
                             }
                           },
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
                           textStyle: TextStyle(
-                            color: const Color(0xff7589a2),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14),
+                              color: const Color(0xff7589a2),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
                           margin: 32,
                           reservedSize: 14,
                           getTitles: (value) {
@@ -203,7 +206,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
             ],
@@ -231,8 +234,8 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   Widget makeTransactionsIcon() {
-    double width = 4.5;
-    double space = 3.5;
+    const double width = 4.5;
+    const double space = 3.5;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -242,7 +245,7 @@ class BarChartSample2State extends State<BarChartSample2> {
           height: 10,
           color: Colors.white.withOpacity(0.4),
         ),
-        SizedBox(
+        const SizedBox(
           width: space,
         ),
         Container(
@@ -250,7 +253,7 @@ class BarChartSample2State extends State<BarChartSample2> {
           height: 28,
           color: Colors.white.withOpacity(0.8),
         ),
-        SizedBox(
+        const SizedBox(
           width: space,
         ),
         Container(
@@ -258,7 +261,7 @@ class BarChartSample2State extends State<BarChartSample2> {
           height: 42,
           color: Colors.white.withOpacity(1),
         ),
-        SizedBox(
+        const SizedBox(
           width: space,
         ),
         Container(
@@ -266,7 +269,7 @@ class BarChartSample2State extends State<BarChartSample2> {
           height: 28,
           color: Colors.white.withOpacity(0.8),
         ),
-        SizedBox(
+        const SizedBox(
           width: space,
         ),
         Container(

@@ -8,7 +8,6 @@ class PieChartPage extends StatelessWidget {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final double width = 22;
 
-
   @override
   Widget build(BuildContext context) {
     return Container(

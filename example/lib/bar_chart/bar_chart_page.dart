@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'samples/bar_chart_sample1.dart';
 
 class BarChartPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,5 +15,4 @@ class BarChartPage extends StatelessWidget {
       ),
     );
   }
-
 }

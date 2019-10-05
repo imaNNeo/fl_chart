@@ -53,7 +53,8 @@ class PieChart2State extends State {
                   chart: PieChart(
                     PieChartData(
                         pieTouchData: PieTouchData(
-                            touchResponseStreamSink: pieTouchedResultStreamController.sink),
+                            touchResponseStreamSink:
+                                pieTouchedResultStreamController.sink),
                         borderData: FlBorderData(
                           show: false,
                         ),
@@ -125,7 +126,9 @@ class PieChart2State extends State {
             title: '40%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         case 1:
           return PieChartSectionData(
@@ -134,7 +137,9 @@ class PieChart2State extends State {
             title: '30%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         case 2:
           return PieChartSectionData(
@@ -143,7 +148,9 @@ class PieChart2State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         case 3:
           return PieChartSectionData(
@@ -152,7 +159,9 @@ class PieChart2State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         default:
           return null;

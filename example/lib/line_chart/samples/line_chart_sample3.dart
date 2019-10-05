@@ -2,8 +2,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample3 extends StatelessWidget {
-
-  final weekDays = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', ];
+  final weekDays = [
+    'Sat',
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +20,33 @@ class LineChartSample3 extends StatelessWidget {
       children: <Widget>[
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: const <Widget> [
-            Text('Average Line',
-              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16),),
-            Text(' and ',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),),
-            Text('Indicators',
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16),),
+          children: const <Widget>[
+            Text(
+              'Average Line',
+              style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
+            Text(
+              ' and ',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
+            Text(
+              'Indicators',
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
           ],
         ),
-        const SizedBox(height: 18,),
+        const SizedBox(
+          height: 18,
+        ),
         SizedBox(
           width: 300,
           height: 140,
@@ -30,45 +54,41 @@ class LineChartSample3 extends StatelessWidget {
             chart: LineChart(
               LineChartData(
                 lineTouchData: LineTouchData(
-                  getTouchedSpotIndicator: (List<TouchedSpot> spots) {
-                    return spots.map((spot) {
-                      if (spot.spot.x == 0 || spot.spot.x == 6) {
-                        return null;
-                      }
-                      return TouchedSpotIndicatorData(
-                        const FlLine(color: Colors.blue, strokeWidth: 4),
-                        const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
-                      );
-                    }).toList();
-                  },
-                  touchTooltipData: TouchTooltipData(
-                    tooltipBgColor: Colors.blueAccent,
-                    getTooltipItems: (List<TouchedSpot> spots) {
+                    getTouchedSpotIndicator: (List<TouchedSpot> spots) {
                       return spots.map((spot) {
-                        final flSpot = spot.spot;
-                        if (flSpot.x == 0 || flSpot.x == 6) {
+                        if (spot.spot.x == 0 || spot.spot.x == 6) {
                           return null;
                         }
-
-                        return TooltipItem(
-                          '${weekDays[flSpot.x.toInt()]} \n${flSpot.y} k colories',
-                          const TextStyle(color: Colors.white),
+                        return TouchedSpotIndicatorData(
+                          const FlLine(color: Colors.blue, strokeWidth: 4),
+                          const FlDotData(
+                              dotSize: 8, dotColor: Colors.deepOrange),
                         );
                       }).toList();
-                    }
-                  )
-                ),
-                extraLinesData: ExtraLinesData(
-                  showVerticalLines: true,
-                  verticalLines: [
-                    VerticalLine(
-                      y: 1.8,
-                      color: Colors.green.withOpacity(0.7),
-                      strokeWidth: 4,
-                    ),
-                  ]
+                    },
+                    touchTooltipData: TouchTooltipData(
+                        tooltipBgColor: Colors.blueAccent,
+                        getTooltipItems: (List<TouchedSpot> spots) {
+                          return spots.map((spot) {
+                            final flSpot = spot.spot;
+                            if (flSpot.x == 0 || flSpot.x == 6) {
+                              return null;
+                            }
 
-                ),
+                            return TooltipItem(
+                              '${weekDays[flSpot.x.toInt()]} \n${flSpot.y} k colories',
+                              const TextStyle(color: Colors.white),
+                            );
+                          }).toList();
+                        })),
+                extraLinesData:
+                    ExtraLinesData(showVerticalLines: true, verticalLines: [
+                  VerticalLine(
+                    y: 1.8,
+                    color: Colors.green.withOpacity(0.7),
+                    strokeWidth: 4,
+                  ),
+                ]),
                 lineBarsData: [
                   LineChartBarData(
                     spots: const [
@@ -86,36 +106,34 @@ class LineChartSample3 extends StatelessWidget {
                       Colors.orange,
                     ],
                     belowBarData: BarAreaData(
-                      show: true,
-                      colors: [
-                        Colors.orange.withOpacity(0.5),
-                        Colors.orange.withOpacity(0.0),
-                      ],
-                      gradientColorStops: [0.5, 1.0],
-                      gradientFrom: const Offset(0, 0),
-                      gradientTo: const Offset(0, 1),
-                      spotsLine: BarAreaSpotsLine(
                         show: true,
-                        flLineStyle: const FlLine(
-                          color: Colors.blue,
-                          strokeWidth: 2,
-                        ),
-                        checkToShowSpotLine: (spot) {
-                          if (spot.x == 0 || spot.x == 6) {
-                            return false;
-                          }
+                        colors: [
+                          Colors.orange.withOpacity(0.5),
+                          Colors.orange.withOpacity(0.0),
+                        ],
+                        gradientColorStops: [0.5, 1.0],
+                        gradientFrom: const Offset(0, 0),
+                        gradientTo: const Offset(0, 1),
+                        spotsLine: BarAreaSpotsLine(
+                            show: true,
+                            flLineStyle: const FlLine(
+                              color: Colors.blue,
+                              strokeWidth: 2,
+                            ),
+                            checkToShowSpotLine: (spot) {
+                              if (spot.x == 0 || spot.x == 6) {
+                                return false;
+                              }
 
-                          return true;
-                        }
-                      )
-                    ),
+                              return true;
+                            })),
                     dotData: FlDotData(
-                      show: true,
-                      dotColor: Colors.deepOrange,
-                      dotSize: 6,
-                      checkToShowDot: (spot) {
-                        return spot.x != 0 && spot.x != 6;
-                      }),
+                        show: true,
+                        dotColor: Colors.deepOrange,
+                        dotSize: 6,
+                        checkToShowDot: (spot) {
+                          return spot.x != 0 && spot.x != 6;
+                        }),
                   ),
                 ],
                 minY: 0,
@@ -151,36 +169,36 @@ class LineChartSample3 extends StatelessWidget {
                   },
                 ),
                 titlesData: FlTitlesData(
-                  show: true,
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return '';
-                        case 1:
-                          return '1k colories';
-                        case 2:
-                          return '2k colories';
-                        case 3:
-                          return '3k colories';
-                      }
+                    show: true,
+                    leftTitles: SideTitles(
+                      showTitles: true,
+                      getTitles: (value) {
+                        switch (value.toInt()) {
+                          case 0:
+                            return '';
+                          case 1:
+                            return '1k colories';
+                          case 2:
+                            return '2k colories';
+                          case 3:
+                            return '3k colories';
+                        }
 
-                      return '';
-                    },
-                    textStyle: const TextStyle(color: Colors.black, fontSize: 10),
-                  ),
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (value) {
-                      return weekDays[value.toInt()];
-                    },
-                    textStyle: const TextStyle(
-                      color: Colors.deepOrange,
-                      fontWeight: FontWeight.bold,
+                        return '';
+                      },
+                      textStyle:
+                          const TextStyle(color: Colors.black, fontSize: 10),
                     ),
-                  )
-                ),
+                    bottomTitles: SideTitles(
+                      showTitles: true,
+                      getTitles: (value) {
+                        return weekDays[value.toInt()];
+                      },
+                      textStyle: const TextStyle(
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
               ),
             ),
           ),

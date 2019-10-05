@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'samples/line_chart_sample6.dart';
 
 class LineChartPage3 extends StatelessWidget {
@@ -12,10 +13,15 @@ class LineChartPage3 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              "LineChart (reversed)",
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+              'LineChart (reversed)',
+              style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
-            SizedBox(height: 52,),
+            const SizedBox(
+              height: 52,
+            ),
             LineChartSample6(),
           ],
         ),
