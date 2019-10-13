@@ -1,3 +1,7 @@
+## 0.3.4
+* BREAKING CHANGES
+* swapped horizontal and vertical semantics in [FlGridData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlGridData), fixed this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/85).
+
 ## 0.3.3
 * BREAKING CHANGES
 * added support for drawing below and above areas separately in LineChart
