@@ -51,19 +51,19 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final Size usableViewSize = getChartUsableDrawSize(viewSize);
     // Show Vertical Grid
     if (data.gridData.drawVerticalGrid) {
-      double verticalSeek = data.minY;
-      while (verticalSeek < data.maxY) {
+      double verticalSeek = data.minX;
+      while (verticalSeek < data.maxX) {
         if (data.gridData.checkToShowVerticalGrid(verticalSeek)) {
           final FlLine flLineStyle =
               data.gridData.getDrawingVerticalGridLine(verticalSeek);
           gridPaint.color = flLineStyle.color;
           gridPaint.strokeWidth = flLineStyle.strokeWidth;
 
-          final double bothY = getPixelY(verticalSeek, usableViewSize);
-          final double x1 = 0 + getLeftOffsetDrawSize();
-          final double y1 = bothY;
-          final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
-          final double y2 = bothY;
+          final double bothX = getPixelX(verticalSeek, usableViewSize);
+          final double x1 = bothX;
+          final double y1 = 0 + getTopOffsetDrawSize();
+          final double x2 = bothX;
+          final double y2 = usableViewSize.height + getTopOffsetDrawSize();
           canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
@@ -76,19 +76,19 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalGrid) {
-      double horizontalSeek = data.minX;
-      while (horizontalSeek < data.maxX) {
+      double horizontalSeek = data.minY;
+      while (horizontalSeek < data.maxY) {
         if (data.gridData.checkToShowHorizontalGrid(horizontalSeek)) {
           final FlLine flLine =
               data.gridData.getDrawingHorizontalGridLine(horizontalSeek);
           gridPaint.color = flLine.color;
           gridPaint.strokeWidth = flLine.strokeWidth;
 
-          final double bothX = getPixelX(horizontalSeek, usableViewSize);
-          final double x1 = bothX;
-          final double y1 = 0 + getTopOffsetDrawSize();
-          final double x2 = bothX;
-          final double y2 = usableViewSize.height + getTopOffsetDrawSize();
+          final double bothY = getPixelY(horizontalSeek, usableViewSize);
+          final double x1 = 0 + getLeftOffsetDrawSize();
+          final double y1 = bothY;
+          final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
+          final double y2 = bothY;
           canvas.drawLine(
             Offset(x1, y1),
             Offset(x2, y2),
