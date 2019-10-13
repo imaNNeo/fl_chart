@@ -63,14 +63,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return LineChartData(
       gridData: FlGridData(
         show: true,
-        drawHorizontalGrid: true,
-        getDrawingVerticalGridLine: (value) {
+        drawVerticalGrid: true,
+        getDrawingHorizontalGridLine: (value) {
           return const FlLine(
             color: Color(0xff37434d),
             strokeWidth: 1,
           );
         },
-        getDrawingHorizontalGridLine: (value) {
+        getDrawingVerticalGridLine: (value) {
           return const FlLine(
             color: Color(0xff37434d),
             strokeWidth: 1,

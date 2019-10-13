@@ -23,24 +23,15 @@ class LineChartSample3 extends StatelessWidget {
           children: const <Widget>[
             Text(
               'Average Line',
-              style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16),
+              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16),
             ),
             Text(
               ' and ',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
             ),
             Text(
               'Indicators',
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16),
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ],
         ),
@@ -61,8 +52,7 @@ class LineChartSample3 extends StatelessWidget {
                         }
                         return TouchedSpotIndicatorData(
                           const FlLine(color: Colors.blue, strokeWidth: 4),
-                          const FlDotData(
-                              dotSize: 8, dotColor: Colors.deepOrange),
+                          const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
                         );
                       }).toList();
                     },
@@ -81,8 +71,7 @@ class LineChartSample3 extends StatelessWidget {
                             );
                           }).toList();
                         })),
-                extraLinesData:
-                    ExtraLinesData(showVerticalLines: true, verticalLines: [
+                extraLinesData: ExtraLinesData(showVerticalLines: true, verticalLines: [
                   VerticalLine(
                     y: 1.8,
                     color: Colors.green.withOpacity(0.7),
@@ -141,7 +130,7 @@ class LineChartSample3 extends StatelessWidget {
                   show: true,
                   drawHorizontalGrid: true,
                   drawVerticalGrid: true,
-                  getDrawingVerticalGridLine: (value) {
+                  getDrawingHorizontalGridLine: (value) {
                     if (value == 0) {
                       return const FlLine(
                         color: Colors.deepOrange,
@@ -154,7 +143,7 @@ class LineChartSample3 extends StatelessWidget {
                       );
                     }
                   },
-                  getDrawingHorizontalGridLine: (value) {
+                  getDrawingVerticalGridLine: (value) {
                     if (value == 0) {
                       return const FlLine(
                         color: Colors.black,
@@ -186,8 +175,7 @@ class LineChartSample3 extends StatelessWidget {
 
                         return '';
                       },
-                      textStyle:
-                          const TextStyle(color: Colors.black, fontSize: 10),
+                      textStyle: const TextStyle(color: Colors.black, fontSize: 10),
                     ),
                     bottomTitles: SideTitles(
                       showTitles: true,

@@ -98,7 +98,7 @@ class LineChartSample4 extends StatelessWidget {
             ),
             gridData: FlGridData(
                 show: true,
-                checkToShowVerticalGrid: (double value) {
+                checkToShowHorizontalGrid: (double value) {
                   return value == 1 || value == 6 || value == 4 || value == 5;
                 }),
           ),

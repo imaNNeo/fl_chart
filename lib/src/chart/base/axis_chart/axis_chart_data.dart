@@ -104,13 +104,13 @@ class FlGridData {
   const FlGridData({
     this.show = true,
     // Horizontal
-    this.drawHorizontalGrid = false,
+    this.drawHorizontalGrid = true,
     this.horizontalInterval = 1.0,
     this.getDrawingHorizontalGridLine = defaultGridLine,
     this.checkToShowHorizontalGrid = showAllGrids,
 
     //Vertical
-    this.drawVerticalGrid = true,
+    this.drawVerticalGrid = false,
     this.verticalInterval = 1.0,
     this.getDrawingVerticalGridLine = defaultGridLine,
     this.checkToShowVerticalGrid = showAllGrids,
