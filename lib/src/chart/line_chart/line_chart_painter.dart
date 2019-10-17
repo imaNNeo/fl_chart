@@ -65,8 +65,8 @@ class LineChartPainter extends AxisChartPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size viewSize) {
-    super.paint(canvas, viewSize);
+  void paint(Canvas canvas, Size size) {
+    super.paint(canvas, size);
     if (data.lineBarsData.isEmpty) {
       return;
     }
@@ -74,7 +74,7 @@ class LineChartPainter extends AxisChartPainter {
     if (data.clipToBorder) {
       /// save layer to clip it to border after lines drew
       canvas.saveLayer(
-          Rect.fromLTWH(0, -40, viewSize.width + 40, viewSize.height + 40),
+          Rect.fromLTWH(0, -40, size.width + 40, size.height + 40),
           Paint());
     }
 
@@ -86,34 +86,34 @@ class LineChartPainter extends AxisChartPainter {
     for (int i = 0; i<data.lineBarsData.length; i++) {
       final barData = data.lineBarsData[i];
 
-      drawBarLine(canvas, viewSize, barData);
-      drawDots(canvas, viewSize, barData);
+      drawBarLine(canvas, size, barData);
+      drawDots(canvas, size, barData);
 
       // find the nearest spot on touch area in this bar line
       final LineTouchedSpot foundTouchedSpot =
-          _getNearestTouchedSpot(canvas, viewSize, barData, i);
+          _getNearestTouchedSpot(canvas, size, barData, i);
       if (foundTouchedSpot != null) {
         touchedSpots.add(foundTouchedSpot);
       }
     }
 
     if (data.clipToBorder) {
-      removeOutsideBorder(canvas, viewSize);
+      removeOutsideBorder(canvas, size);
 
       /// restore layer to previous state (after clipping the chart)
       canvas.restore();
     }
 
     // Draw touch indicators (below spot line and spot dot)
-    drawTouchedSpotsIndicator(canvas, viewSize, touchedSpots);
+    drawTouchedSpotsIndicator(canvas, size, touchedSpots);
 
-    drawTitles(canvas, viewSize);
+    drawTitles(canvas, size);
 
-    drawExtraLines(canvas, viewSize);
+    drawExtraLines(canvas, size);
 
     // Draw touch tooltip on most top spot
     super.drawTouchTooltip(
-        canvas, viewSize, data.lineTouchData.touchTooltipData, touchedSpots);
+        canvas, size, data.lineTouchData.touchTooltipData, touchedSpots);
 
     if (touchedResponseSink != null &&
         touchInputNotifier != null &&
