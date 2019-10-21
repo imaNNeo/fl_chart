@@ -96,11 +96,8 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: FlChart(
-                        swapAnimationDuration: animDuration,
-                        chart:
-                            BarChart(isPlaying ? randomData() : mainBarData()),
-                      ),
+                      child: BarChart(isPlaying ? randomData() : mainBarData(),
+                        swapAnimationDuration: animDuration),
                     ),
                   ),
                   const SizedBox(

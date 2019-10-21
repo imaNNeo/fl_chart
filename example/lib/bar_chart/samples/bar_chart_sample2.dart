@@ -46,9 +46,7 @@ class BarChartSample2State extends State<BarChartSample2> {
     showingBarGroups = rawBarGroups;
 
     barTouchedResultStreamController = StreamController();
-    barTouchedResultStreamController.stream
-        .distinct()
-        .listen((BarTouchResponse response) {
+    barTouchedResultStreamController.stream.distinct().listen((BarTouchResponse response) {
       if (response == null) {
         return;
       }
@@ -61,8 +59,7 @@ class BarChartSample2State extends State<BarChartSample2> {
         return;
       }
 
-      touchedGroupIndex =
-          showingBarGroups.indexOf(response.spot.touchedBarGroup);
+      touchedGroupIndex = showingBarGroups.indexOf(response.spot.touchedBarGroup);
 
       setState(() {
         if (response.touchInput is FlLongPressEnd) {
@@ -72,15 +69,12 @@ class BarChartSample2State extends State<BarChartSample2> {
           showingBarGroups = List.of(rawBarGroups);
           if (touchedGroupIndex != -1) {
             double sum = 0;
-            for (BarChartRodData rod
-                in showingBarGroups[touchedGroupIndex].barRods) {
+            for (BarChartRodData rod in showingBarGroups[touchedGroupIndex].barRods) {
               sum += rod.y;
             }
-            final avg =
-                sum / showingBarGroups[touchedGroupIndex].barRods.length;
+            final avg = sum / showingBarGroups[touchedGroupIndex].barRods.length;
 
-            showingBarGroups[touchedGroupIndex] =
-                showingBarGroups[touchedGroupIndex].copyWith(
+            showingBarGroups[touchedGroupIndex] = showingBarGroups[touchedGroupIndex].copyWith(
               barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
                 return rod.copyWith(y: avg);
               }).toList(),
@@ -134,8 +128,8 @@ class BarChartSample2State extends State<BarChartSample2> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: FlChart(
-                    chart: BarChart(BarChartData(
+                  child: BarChart(
+                    BarChartData(
                       maxY: 20,
                       barTouchData: BarTouchData(
                         touchTooltipData: TouchTooltipData(
@@ -145,8 +139,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                                 return null;
                               }).toList();
                             }),
-                        touchResponseSink:
-                            barTouchedResultStreamController.sink,
+                        touchResponseSink: barTouchedResultStreamController.sink,
                       ),
                       titlesData: FlTitlesData(
                         show: true,
@@ -173,7 +166,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                                 return 'St';
                               case 6:
                                 return 'Sn';
-                              default: return '';
+                              default:
+                                return '';
                             }
                           },
                         ),
@@ -202,7 +196,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                         show: false,
                       ),
                       barGroups: showingBarGroups,
-                    )),
+                    ),
                   ),
                 ),
               ),
