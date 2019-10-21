@@ -72,12 +72,9 @@ class LineChartSample1State extends State<LineChartSample1> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-                    child: FlChart(
-                      swapAnimationDuration: Duration(milliseconds: 250),
-                      chart: LineChart(
-                        isShowingMainData ? sampleData1() : sampleData2(),
-                      ),
-                    ),
+                    child: LineChart(
+                      isShowingMainData ? sampleData1() : sampleData2(),
+                      swapAnimationDuration: Duration(milliseconds: 250),)
                   ),
                 ),
                 const SizedBox(
