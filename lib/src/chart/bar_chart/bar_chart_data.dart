@@ -45,11 +45,12 @@ class BarChartData extends AxisChartData {
   void initSuperMinMaxValues(
     double maxY,
   ) {
-    barGroups.forEach((barData) {
+    for (int i = 0; i < barGroups.length; i++) {
+      final BarChartGroupData barData = barGroups[i];
       if (barData.barRods == null || barData.barRods.isEmpty) {
         throw Exception('barRods could not be null or empty');
       }
-    });
+    }
 
     if (barGroups.isNotEmpty) {
       var canModifyMaxY = false;
@@ -58,8 +59,10 @@ class BarChartData extends AxisChartData {
         canModifyMaxY = true;
       }
 
-      barGroups.forEach((barGroup) {
-        barGroup.barRods.forEach((rod) {
+      for (int i = 0; i < barGroups.length; i++) {
+        final BarChartGroupData barGroup = barGroups[i];
+        for (int j = 0; j < barGroup.barRods.length; j++) {
+          final BarChartRodData rod = barGroup.barRods[j];
           if (canModifyMaxY && rod.y > maxY) {
             maxY = rod.y;
           }
@@ -70,8 +73,8 @@ class BarChartData extends AxisChartData {
               rod.backDrawRodData.y > maxY) {
             maxY = rod.backDrawRodData.y;
           }
-        });
-      });
+        }
+      }
     } else {
       /// when list is empty
       minX = 0;
@@ -162,10 +165,9 @@ class BarChartGroupData {
       return 0;
     }
 
-    double sumWidth = barRods
-        .map((rodData) => rodData.width)
-        .reduce((first, second) => first + second);
-    double spaces = (barRods.length - 1) * barsSpace;
+    final double sumWidth =
+        barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
+    final double spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;
   }
@@ -252,7 +254,8 @@ class BackgroundBarChartRodData {
     this.color = Colors.blueGrey,
   });
 
-  static BackgroundBarChartRodData lerp(BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
+  static BackgroundBarChartRodData lerp(
+      BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
       y: lerpDouble(a.y, b.y, t),
       color: Color.lerp(a.color, b.color, t),

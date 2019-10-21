@@ -421,7 +421,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
       dotSize = lineTouchedSpot.barData.dotData.dotSize * 1.8;
       dotColor = lineTouchedSpot.barData.dotData.dotColor;
     }
-    FlDotData dotData = FlDotData(
+    final dotData = FlDotData(
       dotSize: dotSize,
       dotColor: dotColor,
     );

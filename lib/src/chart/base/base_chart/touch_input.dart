@@ -43,9 +43,9 @@ class FlLongPressEnd extends FlTouchLongInput {
   }
 }
 
-abstract class FlTouchNormapInput extends FlTouchInput {}
+abstract class FlTouchNormalInput extends FlTouchInput {}
 
-class FlPanStart extends FlTouchNormapInput {
+class FlPanStart extends FlTouchNormalInput {
   final Offset localPosition;
 
   FlPanStart(this.localPosition);
@@ -56,7 +56,7 @@ class FlPanStart extends FlTouchNormapInput {
   }
 }
 
-class FlPanMoveUpdate extends FlTouchNormapInput {
+class FlPanMoveUpdate extends FlTouchNormalInput {
   final Offset localPosition;
 
   FlPanMoveUpdate(this.localPosition);
@@ -67,7 +67,7 @@ class FlPanMoveUpdate extends FlTouchNormapInput {
   }
 }
 
-class FlPanEnd extends FlTouchNormapInput {
+class FlPanEnd extends FlTouchNormalInput {
   final Offset localPosition;
 
   FlPanEnd(this.localPosition);

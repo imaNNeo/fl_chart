@@ -44,14 +44,14 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
       return;
     }
 
-    var chartViewSize = getChartUsableDrawSize(viewSize);
+    final chartViewSize = getChartUsableDrawSize(viewSize);
 
-    var topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
-    var topRight = Offset(
+    final topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
+    final topRight = Offset(
         getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
-    var bottomLeft = Offset(
+    final bottomLeft = Offset(
         getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
-    var bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
+    final bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
         getTopOffsetDrawSize() + chartViewSize.height);
 
     /// Draw Top Line
@@ -81,8 +81,8 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// stuff around our chart.
   /// then we subtract them from raw [viewSize]
   Size getChartUsableDrawSize(Size viewSize) {
-    double usableWidth = viewSize.width - getExtraNeededHorizontalSpace();
-    double usableHeight = viewSize.height - getExtraNeededVerticalSpace();
+    final usableWidth = viewSize.width - getExtraNeededHorizontalSpace();
+    final usableHeight = viewSize.height - getExtraNeededVerticalSpace();
     return Size(usableWidth, usableHeight);
   }
 
@@ -120,7 +120,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
       return false;
     }
 
-    if (touchInputNotifier.value is FlTouchNormapInput &&
+    if (touchInputNotifier.value is FlTouchNormalInput &&
         !data.touchData.enableNormalTouch) {
       return false;
     }
