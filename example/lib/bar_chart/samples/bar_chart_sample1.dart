@@ -22,40 +22,9 @@ class BarChartSample1State extends State<BarChartSample1> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = Duration(milliseconds: 250);
 
-  StreamController<BarTouchResponse> barTouchedResultStreamController;
-
   int touchedIndex;
 
   bool isPlaying = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    barTouchedResultStreamController = StreamController();
-    barTouchedResultStreamController.stream
-        .distinct()
-        .listen((BarTouchResponse response) {
-      if (response == null) {
-        return;
-      }
-
-      if (response.spot == null) {
-        setState(() {
-          touchedIndex = -1;
-        });
-        return;
-      }
-
-      setState(() {
-        if (response.touchInput is FlLongPressEnd) {
-          touchedIndex = -1;
-        } else {
-          touchedIndex = response.spot.touchedBarGroupPosition;
-        }
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,12 +123,6 @@ class BarChartSample1State extends State<BarChartSample1> {
     ]);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    barTouchedResultStreamController.close();
-  }
-
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
@@ -184,12 +147,12 @@ class BarChartSample1State extends State<BarChartSample1> {
   BarChartData mainBarData() {
     return BarChartData(
       barTouchData: BarTouchData(
-        touchTooltipData: TouchTooltipData(
+        touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.blueGrey,
-            getTooltipItems: (touchedSpots) {
-              return touchedSpots.map((touchedSpot) {
+            getTooltipItems: (touchedBarSpots) {
+              return touchedBarSpots.map((touchedBarSpot) {
                 String weekDay;
-                switch (touchedSpot.spot.x.toInt()) {
+                switch (touchedBarSpot.x.toInt()) {
                   case 0:
                     weekDay = 'Monday';
                     break;
@@ -212,12 +175,11 @@ class BarChartSample1State extends State<BarChartSample1> {
                     weekDay = 'Sunday';
                     break;
                 }
-                return TooltipItem(
-                    weekDay + '\n' + (touchedSpot.spot.y - 1).toString(),
+                return BarTooltipItem(
+                    weekDay + '\n' + (touchedBarSpot.y - 1).toString(),
                     TextStyle(color: Colors.yellow));
               }).toList();
             }),
-        touchResponseSink: barTouchedResultStreamController.sink,
       ),
       titlesData: FlTitlesData(
         show: true,

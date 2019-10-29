@@ -35,7 +35,7 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
       onPanUpdate: (DragUpdateDetails details) {},
       child: CustomPaint(
         size: getDefaultSize(context),
-        painter: PieChartPainter(_baseChartDataTween.evaluate(animation), widget.data, null, null),
+        painter: PieChartPainter(_baseChartDataTween.evaluate(animation), widget.data,),
       ),
     );
   }

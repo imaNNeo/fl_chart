@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
@@ -71,11 +70,7 @@ class FlTouchData {
   /// determines that charts should respond to normal touch events or not
   final bool enableNormalTouch;
 
-  /// chart notifies the touch responses through this [StreamSink]
-  /// in form of a [BaseTouchResponse] class
-  final StreamSink<BaseTouchResponse> touchResponseSink;
-
-  const FlTouchData(this.enabled, this.touchResponseSink, this.enableNormalTouch);
+  const FlTouchData(this.enabled, this.enableNormalTouch);
 }
 
 /***** TitlesData *****/

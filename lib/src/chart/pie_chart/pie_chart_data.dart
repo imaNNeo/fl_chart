@@ -133,8 +133,7 @@ class PieTouchData extends FlTouchData {
   const PieTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
-    StreamSink<PieTouchResponse> touchResponseStreamSink,
-  }) : super(enabled, touchResponseStreamSink, enableNormalTouch);
+  }) : super(enabled, enableNormalTouch);
 }
 
 /// holds the data of touch response on the [PieChart]

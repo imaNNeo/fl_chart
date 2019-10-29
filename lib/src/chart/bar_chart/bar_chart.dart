@@ -34,7 +34,7 @@ class BarChartState extends AnimatedWidgetBaseState<BarChart> {
       onPanUpdate: (DragUpdateDetails details) {},
       child: CustomPaint(
         size: getDefaultSize(context),
-        painter: BarChartPainter(_baseChartDataTween.evaluate(animation), widget.data, null, null),
+        painter: BarChartPainter(_baseChartDataTween.evaluate(animation), widget.data,),
       ),
     );
   }

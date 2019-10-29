@@ -267,7 +267,7 @@ class BackgroundBarChartRodData {
 /// holds data for handling touch events on the [BarChart]
 class BarTouchData extends FlTouchData {
   /// show a tooltip on touched spots
-  final TouchTooltipData touchTooltipData;
+  final BarTouchTooltipData touchTooltipData;
 
   /// we find the nearest bar on touched position based on this threshold
   final EdgeInsets touchExtraThreshold;
@@ -278,11 +278,66 @@ class BarTouchData extends FlTouchData {
   const BarTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
-    this.touchTooltipData = const TouchTooltipData(),
+    this.touchTooltipData = const BarTouchTooltipData(),
     this.touchExtraThreshold = const EdgeInsets.all(4),
     this.allowTouchBarBackDraw = false,
-    StreamSink<BarTouchResponse> touchResponseSink,
-  }) : super(enabled, touchResponseSink, enableNormalTouch);
+  }) : super(enabled, enableNormalTouch);
+}
+
+
+/// Holds information for showing tooltip on axis based charts
+/// when a touch event happened
+class BarTouchTooltipData {
+  final Color tooltipBgColor;
+  final double tooltipRoundedRadius;
+  final EdgeInsets tooltipPadding;
+  final double tooltipBottomMargin;
+  final double maxContentWidth;
+  final GetBarTooltipItems getTooltipItems;
+
+  const BarTouchTooltipData({
+    this.tooltipBgColor = Colors.white,
+    this.tooltipRoundedRadius = 4,
+    this.tooltipPadding =
+    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipBottomMargin = 16,
+    this.maxContentWidth = 120,
+    this.getTooltipItems = defaultBarTooltipItem,
+  }) : super();
+}
+
+/// show each TooltipItem as a row on the tooltip window,
+/// return null if you don't want to show each item
+/// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
+/// here we get the [BarTooltipItem] from the given [TouchedSpot].
+typedef GetBarTooltipItems = List<BarTooltipItem> Function(
+  List<FlSpot> touchedSpots);
+
+List<BarTooltipItem> defaultBarTooltipItem (
+  List<FlSpot> touchedSpots) {
+  if (touchedSpots == null) {
+    return null;
+  }
+
+  return touchedSpots.map((FlSpot touchedSpot) {
+    if (touchedSpots == null) {
+      return null;
+    }
+    final TextStyle textStyle = TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+    return BarTooltipItem(touchedSpot.y.toString(), textStyle);
+  }).toList();
+}
+
+/// holds data of showing each item in the tooltip window
+class BarTooltipItem {
+  final String text;
+  final TextStyle textStyle;
+
+  BarTooltipItem(this.text, this.textStyle);
 }
 
 /// holds the data of touch response on the [BarChart]

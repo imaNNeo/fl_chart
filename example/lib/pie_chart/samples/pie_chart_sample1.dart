@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -11,29 +9,7 @@ class PieChartSample1 extends StatefulWidget {
 }
 
 class PieChartSample1State extends State {
-  StreamController<PieTouchResponse> pieTouchedResultStreamController;
-
   int touchedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-
-    pieTouchedResultStreamController = StreamController();
-    pieTouchedResultStreamController.stream.distinct().listen((details) {
-      if (details == null) {
-        return;
-      }
-
-      setState(() {
-        if (details.touchInput is FlLongPressEnd) {
-          touchedIndex = -1;
-        } else {
-          touchedIndex = details.touchedSectionPosition;
-        }
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +64,6 @@ class PieChartSample1State extends State {
                 aspectRatio: 1,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData: PieTouchData(
-                        touchResponseStreamSink: pieTouchedResultStreamController.sink,
-                      ),
                       startDegreeOffset: 180,
                       borderData: FlBorderData(
                         show: false,
@@ -105,12 +78,6 @@ class PieChartSample1State extends State {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    pieTouchedResultStreamController.close();
   }
 
   List<PieChartSectionData> showingSections() {

@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,11 +9,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   BarChartPainter(
     BarChartData data,
-    BarChartData targetData,
-    FlTouchInputNotifier touchController,
-    StreamSink<BarTouchResponse> touchedResponseSink,
-  ) : super(data, targetData,
-            touchInputNotifier: touchController, touchedResponseSink: touchedResponseSink) {
+    BarChartData targetData
+  ) : super(data, targetData) {
     barPaint = Paint()..style = PaintingStyle.fill;
   }
 
@@ -37,16 +31,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     drawBars(canvas, size, groupBarsPosition);
     drawTitles(canvas, size, groupBarsPosition);
 
-    if (touchedSpot != null) {
-      super.drawTouchTooltip(canvas, size, data.barTouchData.touchTooltipData, [touchedSpot]);
-    }
-
-    if (touchedResponseSink != null &&
-        touchInputNotifier != null &&
-        touchInputNotifier.value != null &&
-        !(touchInputNotifier.value is NonTouch)) {
-      touchedResponseSink.add(BarTouchResponse(touchedSpot, touchInputNotifier.value));
-    }
+//    if (touchedSpot != null) {
+//      super.drawTouchTooltip(canvas, size, data.barTouchData.touchTooltipData, [touchedSpot]);
+//    }
+//
+//    if (touchedResponseSink != null &&
+//        touchInputNotifier != null &&
+//        touchInputNotifier.value != null &&
+//        !(touchInputNotifier.value is NonTouch)) {
+//      touchedResponseSink.add(BarTouchResponse(touchedSpot, touchInputNotifier.value));
+//    }
   }
 
   /// this method calculates the x of our showing groups,
@@ -346,58 +340,58 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// find the nearest spot base on the touched offset
   BarTouchedSpot _getNearestTouchedSpot(
       Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
-    final Size chartViewSize = getChartUsableDrawSize(viewSize);
-
-    if (touchInputNotifier == null || touchInputNotifier.value == null) {
-      return null;
-    }
-
-    final touch = touchInputNotifier.value;
-
-    if (touch.getOffset() == null) {
-      return null;
-    }
-
-    final touchedPoint = touch.getOffset();
-
-    /// Find the nearest barRod
-    for (int i = 0; i < groupBarsPosition.length; i++) {
-      final GroupBarsPosition groupBarPos = groupBarsPosition[i];
-      for (int j = 0; j < groupBarPos.barsX.length; j++) {
-        final double barX = groupBarPos.barsX[j];
-        final double barWidth = targetData.barGroups[i].barRods[j].width;
-        final double halfBarWidth = barWidth / 2;
-        final double barTopY = getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
-        final double barBotY = getPixelY(0, chartViewSize);
-        final double backDrawBarTopY =
-            getPixelY(targetData.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
-        final EdgeInsets touchExtraThreshold = targetData.barTouchData.touchExtraThreshold;
-
-        final bool isXInTouchBounds =
-            (touchedPoint.dx <= barX + halfBarWidth + touchExtraThreshold.right) &&
-                (touchedPoint.dx >= barX - halfBarWidth - touchExtraThreshold.left);
-
-        final bool isYInBarBounds = (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
-            (touchedPoint.dy >= barTopY - touchExtraThreshold.top);
-
-        final bool isYInBarBackDrawBounds =
-            (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
-                (touchedPoint.dy >= backDrawBarTopY - touchExtraThreshold.top);
-
-        final bool isYInTouchBounds =
-            (targetData.barTouchData.allowTouchBarBackDraw && isYInBarBackDrawBounds) ||
-                isYInBarBounds;
-
-        if (isXInTouchBounds && isYInTouchBounds) {
-          final nearestGroup = targetData.barGroups[i];
-          final nearestBarRod = nearestGroup.barRods[j];
-          final nearestSpot = FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
-          final nearestSpotPos = Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
-
-          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
-        }
-      }
-    }
+//    final Size chartViewSize = getChartUsableDrawSize(viewSize);
+//
+//    if (touchInputNotifier == null || touchInputNotifier.value == null) {
+//      return null;
+//    }
+//
+//    final touch = touchInputNotifier.value;
+//
+//    if (touch.getOffset() == null) {
+//      return null;
+//    }
+//
+//    final touchedPoint = touch.getOffset();
+//
+//    /// Find the nearest barRod
+//    for (int i = 0; i < groupBarsPosition.length; i++) {
+//      final GroupBarsPosition groupBarPos = groupBarsPosition[i];
+//      for (int j = 0; j < groupBarPos.barsX.length; j++) {
+//        final double barX = groupBarPos.barsX[j];
+//        final double barWidth = targetData.barGroups[i].barRods[j].width;
+//        final double halfBarWidth = barWidth / 2;
+//        final double barTopY = getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
+//        final double barBotY = getPixelY(0, chartViewSize);
+//        final double backDrawBarTopY =
+//            getPixelY(targetData.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
+//        final EdgeInsets touchExtraThreshold = targetData.barTouchData.touchExtraThreshold;
+//
+//        final bool isXInTouchBounds =
+//            (touchedPoint.dx <= barX + halfBarWidth + touchExtraThreshold.right) &&
+//                (touchedPoint.dx >= barX - halfBarWidth - touchExtraThreshold.left);
+//
+//        final bool isYInBarBounds = (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
+//            (touchedPoint.dy >= barTopY - touchExtraThreshold.top);
+//
+//        final bool isYInBarBackDrawBounds =
+//            (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
+//                (touchedPoint.dy >= backDrawBarTopY - touchExtraThreshold.top);
+//
+//        final bool isYInTouchBounds =
+//            (targetData.barTouchData.allowTouchBarBackDraw && isYInBarBackDrawBounds) ||
+//                isYInBarBounds;
+//
+//        if (isXInTouchBounds && isYInTouchBounds) {
+//          final nearestGroup = targetData.barGroups[i];
+//          final nearestBarRod = nearestGroup.barRods[j];
+//          final nearestSpot = FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
+//          final nearestSpotPos = Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
+//
+//          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
+//        }
+//      }
+//    }
 
     return null;
   }
