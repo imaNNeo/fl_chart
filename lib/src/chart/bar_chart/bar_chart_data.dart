@@ -93,17 +93,21 @@ class BarChartData extends AxisChartData {
     List<BarChartGroupData> barGroups,
     BarChartAlignment alignment,
     FlTitlesData titlesData,
+    BarTouchData barTouchData,
     FlGridData gridData,
     FlBorderData borderData,
     double maxY,
+    Color backgroundColor,
   }) {
     return BarChartData(
       barGroups: barGroups ?? this.barGroups,
       alignment: alignment ?? this.alignment,
       titlesData: titlesData ?? this.titlesData,
+      barTouchData: barTouchData ?? this.barTouchData,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
       maxY: maxY ?? this.maxY,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
 
@@ -147,6 +151,7 @@ class BarChartGroupData {
   final int x;
   final List<BarChartRodData> barRods;
   final double barsSpace;
+  final List<int> showingTooltipIndicators;
 
   /// the [x] is the whole group x,
   /// [barRods] are our vertical bar lines, that each of them contains a y value,
@@ -156,6 +161,7 @@ class BarChartGroupData {
     @required this.x,
     this.barRods = const [],
     this.barsSpace = 2,
+    this.showingTooltipIndicators = const [],
   }) : assert(x != null);
 
   /// calculates the whole width of our group,
@@ -176,11 +182,13 @@ class BarChartGroupData {
     int x,
     List<BarChartRodData> barRods,
     double barsSpace,
+    List<int> showingTooltipIndicators,
   }) {
     return BarChartGroupData(
       x: x ?? this.x,
       barRods: barRods ?? this.barRods,
       barsSpace: barsSpace ?? this.barsSpace,
+      showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
     );
   }
 
@@ -189,6 +197,7 @@ class BarChartGroupData {
       x: (a.x + (b.x - a.x) * t).round(),
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
+      showingTooltipIndicators: lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
     );
   }
 }
@@ -275,13 +284,41 @@ class BarTouchData extends FlTouchData {
   /// allow to touch the bar back draw
   final bool allowTouchBarBackDraw;
 
+  /// handle built in touch responses
+  final bool handleBuiltInTouches;
+
+  final Function(BarTouchResponse) touchCallback;
+
   const BarTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
     this.touchTooltipData = const BarTouchTooltipData(),
     this.touchExtraThreshold = const EdgeInsets.all(4),
     this.allowTouchBarBackDraw = false,
+    this.handleBuiltInTouches = true,
+    this.touchCallback,
   }) : super(enabled, enableNormalTouch);
+
+  BarTouchData copyWith({
+    bool enabled,
+    bool enableNormalTouch,
+    BarTouchTooltipData touchTooltipData,
+    EdgeInsets touchExtraThreshold,
+    bool allowTouchBarBackDraw,
+    bool handleBuiltInTouches,
+    Function(BarTouchResponse) touchCallback,
+  }) {
+    return BarTouchData(
+      enabled: enabled ?? this.enabled,
+      enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
+      touchTooltipData: touchTooltipData ?? this.touchTooltipData,
+      touchExtraThreshold: touchExtraThreshold ?? this.touchExtraThreshold,
+      allowTouchBarBackDraw: allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
+      handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
+      touchCallback: touchCallback ?? this.touchCallback,
+    );
+  }
+
 }
 
 
@@ -293,7 +330,7 @@ class BarTouchTooltipData {
   final EdgeInsets tooltipPadding;
   final double tooltipBottomMargin;
   final double maxContentWidth;
-  final GetBarTooltipItems getTooltipItems;
+  final GetBarTooltipItem getTooltipItem;
 
   const BarTouchTooltipData({
     this.tooltipBgColor = Colors.white,
@@ -302,7 +339,7 @@ class BarTouchTooltipData {
     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
-    this.getTooltipItems = defaultBarTooltipItem,
+    this.getTooltipItem = defaultBarTooltipItem,
   }) : super();
 }
 
@@ -310,26 +347,21 @@ class BarTouchTooltipData {
 /// return null if you don't want to show each item
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [BarTooltipItem] from the given [TouchedSpot].
-typedef GetBarTooltipItems = List<BarTooltipItem> Function(
-  List<FlSpot> touchedSpots);
+typedef GetBarTooltipItem = BarTooltipItem Function(
+  BarChartGroupData group, int groupIndex,
+  BarChartRodData rod, int rodIndex,
+  );
 
-List<BarTooltipItem> defaultBarTooltipItem (
-  List<FlSpot> touchedSpots) {
-  if (touchedSpots == null) {
-    return null;
-  }
-
-  return touchedSpots.map((FlSpot touchedSpot) {
-    if (touchedSpots == null) {
-      return null;
-    }
-    final TextStyle textStyle = TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    return BarTooltipItem(touchedSpot.y.toString(), textStyle);
-  }).toList();
+BarTooltipItem defaultBarTooltipItem(
+  BarChartGroupData group, int groupIndex,
+  BarChartRodData rod, int rodIndex,
+  ) {
+  final TextStyle textStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+    fontSize: 14,
+  );
+  return BarTooltipItem(rod.y.toString(), textStyle);
 }
 
 /// holds data of showing each item in the tooltip window
@@ -356,16 +388,16 @@ class BarTouchResponse extends BaseTouchResponse {
 /// of the touched spot
 class BarTouchedSpot extends TouchedSpot {
   final BarChartGroupData touchedBarGroup;
-  final int touchedBarGroupPosition;
+  final int touchedBarGroupIndex;
 
   final BarChartRodData touchedRodData;
-  final int touchedRodDataPosition;
+  final int touchedRodDataIndex;
 
   BarTouchedSpot(
     this.touchedBarGroup,
-    this.touchedBarGroupPosition,
+    this.touchedBarGroupIndex,
     this.touchedRodData,
-    this.touchedRodDataPosition,
+    this.touchedRodDataIndex,
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);
@@ -374,4 +406,13 @@ class BarTouchedSpot extends TouchedSpot {
   Color getColor() {
     return Colors.black;
   }
+}
+
+class BarChartDataTween extends Tween<BarChartData> {
+
+  BarChartDataTween({BarChartData begin, BarChartData end}) : super(begin: begin, end: end);
+
+  @override
+  BarChartData lerp(double t) => begin.lerp(begin, end, t);
+
 }
