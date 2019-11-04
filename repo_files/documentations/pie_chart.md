@@ -4,12 +4,10 @@
 
 ### How to use
 ```
-FlChart(
-   chart: PieChart(
-      PieChartData(
-         // read about it in the below section
-      ),
-   ),
+PieChart(
+  PieChartData(
+    // read about it in the below section
+  ),
 );
 ```
 
@@ -42,12 +40,13 @@ FlChart(
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
 |enableNormalTouch| set it false if you just want to handle long press|true|
-|touchResponseStreamSink| a [StreamSink](https://api.flutter.dev/flutter/dart-async/StreamSink-class.html)<[PieTouchResponse](#PieTouchResponse)> to broadcast the touch response (with useful data) when touched on the chart| null|
+|touchCallback| listen to this callback to retrieve touch events, it gives you a [PieTouchResponse](#PieTouchResponse)| null|
 
 ### PieTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |sectionData|the [PieChartSectionData](#PieChartSectionData) that user touched| null |
+|touchedSectionIndex| index of the touched section | null|
 |touchAngle|the angle of the touch|null|
 |touchRadius| the radius of the touch|null|
 |touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|

@@ -4,12 +4,10 @@
 
 ### How to use
 ```
-FlChart(
-   chart: LineChart(
-      LineChartData(
-         // read about it in the below section
-      ),
-   ),
+LineChart(
+  LineChartData(
+    // read about it in the below section
+  ),
 );
 ```
 
@@ -20,6 +18,7 @@ FlChart(
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#LineTouchData) holds the touch interactivity details| LineTouchData()|
+|showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot]| {} |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
@@ -45,6 +44,7 @@ FlChart(
 |belowBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
+|showingIndicators| show indicators based on provided indexes | []|
 
 
 ### BarAreaData
@@ -107,11 +107,28 @@ FlChart(
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
 |enableNormalTouch| set it false if you just want to handle long press|true|
-|touchTooltipData|a [TouchTooltipData](base_chart.md#TouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|TouchTooltipData()|
-|getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineTouchedSpot](#LineTouchedSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
+|touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
+|getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
-|touchResponseSink| a [StreamSink](https://api.flutter.dev/flutter/dart-async/StreamSink-class.html)<[LineTouchResponse](#LineTouchResponse)> to broadcast the touch response (with useful data) when touched on the chart| null|
+|handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
+|touchCallback| listen to this callback to retrieve touch events, it gives you a [LineTouchResponse](#LineTouchResponse)| null|
 
+
+### LineTouchTooltipData
+ |PropName|Description|default value|
+ |:-------|:----------|:------------|
+ |tooltipBgColor|background color of the tooltip bubble|Colors.white|
+ |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
+ |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
+ |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
+ |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
+ |getTooltipItems|a callback that retrieve list of [LineTooltipItem](#LineTooltipItem) by the given list of [LineBarSpot](#LineBarSpot) |defaultLineTooltipItem|
+
+### LineTooltipItem
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|text|text string of each row in the tooltip bubble|null|
+|textStyle|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the showing text row|null|
 
 ### TouchedSpotIndicatorData
 |PropName|Description|default value|
@@ -120,19 +137,19 @@ FlChart(
 |touchedSpotDotData|a [FlDotData](#FlDotData) to show a dot indicator on the touched spot|null|
 
 
-### LineTouchedSpot
+### LineBarSpot
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|barData|the [LineChartBarData](#LineChartBarData) that user touchet it's spot|null|
-|spot|the touched [FlSpot](#FlSpot)|null|
-|offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) of the touched spot|null|
+|bar|the [LineChartBarData](#LineChartBarData) that contains a spot|null|
+|barIndex|index of the target [LineChartBarData](#LineChartBarData) inside [LineChartData](#LineChartData)|null|
+|spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
 
 
 ### LineTouchResponse
 ###### you can listen to touch behaviors stream and retrieve this object when any touch action happend.
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|spots|a list of [LineTouchedSpot](#LineTouchedSpot)|null|
+|lineBarSpots|a list of [LineBarSpot](#LineBarSpot)|null|
 |touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
 
 

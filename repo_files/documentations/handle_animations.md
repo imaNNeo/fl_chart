@@ -10,14 +10,14 @@ We handle all animations Implicitly, This is power of the [ImplicitlyAnimatedWid
 ##### Duration
 we added an optional argument in the `FlChart` class called  `swapAnimationDuration`, this is a [Duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) class that you can set the duration of the animation. the default value is `150 ms`, you can change it to fit your requirements.
 ```
-FlChart(
-    swapAnimationDuration: Duration(milliseconds: 150),
-    chart: LineChart(
-        isShowingMainData ? sampleData1() : sampleData2(),
-    ),
+LineChart(
+  swapAnimationDuration: Duration(milliseconds: 150),
+  LineChartData(
+    isShowingMainData ? sampleData1() : sampleData2(),
+  ),
 )
 ```
 
 ##### How to disable
 
-If you want to disable animation, I think you should set the duration `0` without any performance issue.
+If you want to disable animation, I you should set the duration `0`.
