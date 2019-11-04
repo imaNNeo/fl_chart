@@ -1,3 +1,6 @@
+## 0.4.1
+* fixed handling disabled `handleBuiltInTouches` state bug
+
 ## 0.4.0
 * BIG BREAKING CHANGES
 * There is no `FlChart` class anymore, instead use [LineChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md), [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md), and [PieChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md) directly as a widget.
