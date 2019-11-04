@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:fl_chart/fl_chart.dart';
 
 import 'base_chart_painter.dart';
-import 'touch_input.dart';
 
 /// BaseChart is a base class for our charts,
 /// each chart should extends this class and implement the [painter] method.
@@ -12,19 +9,11 @@ import 'touch_input.dart';
 /// you can find concrete examples here :
 /// [LineChart], [BarChart], [PieChart]
 abstract class BaseChart {
-  /// [touchInputNotifier] the FlChart sends the touch events through this notifier,
-  /// in form of a [FlTouchInput] that is a parent class for some touch behaviors.
-  /// [touchResponseSink] the painter will responds the touch events through this [StreamSink],
-  /// the owner should implement a StreamController and listen to that stream,
-  /// and pass the sink here to get the response in form of [BaseTouchResponse],
-  /// that is the base class for our charts touched details
   /// [baseChartData] is the currently showing data (it may produced by an animation using lerp function),
   /// [targetBaseChartData] is the target data, that animation is going to show (if animating)
   BaseChartPainter painter({
     BaseChartData baseChartData,
     BaseChartData targetBaseChartData,
-    FlTouchInputNotifier touchInputNotifier,
-    StreamSink<BaseTouchResponse> touchResponseSink,
   });
 
   /// get the data of the concrete chart
