@@ -7,57 +7,41 @@
 
 
 #### The Touch Flow
-When user touches on the chart, a touch event notifies to the chart's painter through a [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) that contains a concrete [TouchInput](base_chart.md#FlTouchInput) that describes the type and details of the touch, then the specific chart detects the touched area and makes an object that contains touch informations, then some basic touch visualized effects will be apply, and finally it creates a concrete [TouchResponse](base_chart.md#BaseTouchResponse) and sends it through a given [StreamSink](https://api.flutter.dev/flutter/dart-async/StreamSink-class.html),
+When user touches on the chart, touch will handle by the painter to determine which elements of the chart is touched and it makes an object that contains touch informations (for example a [LineTouchResponse](line_chart.md#LineTouchResponse), you can listen to the `touchCallback` provided in each ChartTouchData classes like [LineTouchData](line_chart.md#linetouchdata-read-about-touch-handling).
 
-if you want to handle touch events, you should create a [StreamController](https://api.flutter.dev/flutter/dart-async/StreamController-class.html) in your [StatefulWidget](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html) (don't forget to dispose the StreamController on [dispose method](https://api.flutter.dev/flutter/widgets/State/dispose.html)),  pass the `controller.sink` to the chart's TouchData (inside the ChartData), then listen to it distinctly and do what you want to do with the given `TouchResponse` (for example change the touched section color or something like that).
+If you set `handleBuiltInTouches` true, it will handle touch by showing a tooltip or an indicator on the touched spot (in the line and bar chart), you can also handle your own touch handling along with the built in touches.
 
 
 #### How to use? (for example in `LineChart`)
 ##### In the Line and Bar Charts we show a built in tooltip on the touched spots, then you just need to config how to show it, just fill the `touchTooltipData` in the `LineTouchData`.
 #####
 ```
-FlChart(
-  chart: LineChart(
-    LineChartData(
-      lineTouchData: LineTouchData(
-        touchTooltipData: TouchTooltipData (
-          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
-          .
-          .
-          .
-        )
+LineChart(
+  LineChartData(
+    lineTouchData: LineTouchData(
+      touchTooltipData: TouchTooltipData (
+        tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+         .
+         .
+         .
       )
     )
   )
 )
 ```
-##### But if you want more customization on touch behaviors, make a `StreamController<LineTouchResponse>`, and pass it's `sink` to the chart and then listen to coming touch details(here contains the touched **Spots**, **BarLine**, and [TouchInput](base_chart.md#FlTouchInput))
+##### But if you want more customization on touch behaviors, implement the `touchCallback` and handle it.
 ```
-StreamController<LineTouchResponse> controller;
 
-@override
-void initState() {
-  super.initState();
-  controller = StreamController();
-  controller.stream.distinct().listen((LineTouchResponse response){
-    /// do whatever you want and change any property of the chart.
-  });
-}
-
-@override
-Widget build(BuildContext context) {
-  return FlChart(
-    chart: LineChart(
-      LineChartData(
-        lineTouchData: LineTouchData(
-          touchResponseSink: controller.sink,
-          .
-          .
-          .
-        )
-      )
+LineChart(
+  LineChartData(
+    lineTouchData: LineTouchData(
+      touchCallback: (LineTouchResponse touchResponse) {
+        // handle it
+      },
+      .
+      .
+      .
     )
   )
-}
+)
 ```
-

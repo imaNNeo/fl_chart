@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -11,29 +9,7 @@ class PieChartSample1 extends StatefulWidget {
 }
 
 class PieChartSample1State extends State {
-  StreamController<PieTouchResponse> pieTouchedResultStreamController;
-
   int touchedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-
-    pieTouchedResultStreamController = StreamController();
-    pieTouchedResultStreamController.stream.distinct().listen((details) {
-      if (details == null) {
-        return;
-      }
-
-      setState(() {
-        if (details.touchInput is FlLongPressEnd) {
-          touchedIndex = -1;
-        } else {
-          touchedIndex = details.touchedSectionPosition;
-        }
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,21 +62,25 @@ class PieChartSample1State extends State {
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: FlChart(
-                  chart: PieChart(
-                    PieChartData(
-                        pieTouchData: PieTouchData(
-                          touchResponseStreamSink:
-                              pieTouchedResultStreamController.sink,
-                        ),
-                        startDegreeOffset: 180,
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        sectionsSpace: 12,
-                        centerSpaceRadius: 0,
-                        sections: showingSections()),
-                  ),
+                child: PieChart(
+                  PieChartData(
+                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                        setState(() {
+                          if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                              pieTouchResponse.touchInput is FlPanEnd) {
+                            touchedIndex = -1;
+                          } else {
+                            touchedIndex = pieTouchResponse.touchedSectionIndex;
+                          }
+                        });
+                      }),
+                      startDegreeOffset: 180,
+                      borderData: FlBorderData(
+                        show: false,
+                      ),
+                      sectionsSpace: 12,
+                      centerSpaceRadius: 0,
+                      sections: showingSections()),
                 ),
               ),
             ),
@@ -108,12 +88,6 @@ class PieChartSample1State extends State {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    pieTouchedResultStreamController.close();
   }
 
   List<PieChartSectionData> showingSections() {
@@ -130,9 +104,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 80,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff044d7c)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff044d7c)),
               titlePositionPercentageOffset: 0.55,
             );
           case 1:
@@ -142,9 +114,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 65,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff90672d)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff90672d)),
               titlePositionPercentageOffset: 0.55,
             );
           case 2:
@@ -154,9 +124,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 60,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff4c3788)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff4c3788)),
               titlePositionPercentageOffset: 0.6,
             );
           case 3:
@@ -166,9 +134,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 70,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff0c7f55)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff0c7f55)),
               titlePositionPercentageOffset: 0.55,
             );
           default:

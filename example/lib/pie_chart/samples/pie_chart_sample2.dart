@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -11,29 +9,7 @@ class PieChartSample2 extends StatefulWidget {
 }
 
 class PieChart2State extends State {
-  StreamController<PieTouchResponse> pieTouchedResultStreamController;
-
   int touchedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-
-    pieTouchedResultStreamController = StreamController();
-    pieTouchedResultStreamController.stream.distinct().listen((details) {
-      if (details == null) {
-        return;
-      }
-
-      setState(() {
-        if (details.touchInput is FlLongPressEnd) {
-          touchedIndex = -1;
-        } else {
-          touchedIndex = details.touchedSectionPosition;
-        }
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,19 +25,24 @@ class PieChart2State extends State {
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: FlChart(
-                  chart: PieChart(
-                    PieChartData(
-                        pieTouchData: PieTouchData(
-                            touchResponseStreamSink:
-                                pieTouchedResultStreamController.sink),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        sectionsSpace: 0,
-                        centerSpaceRadius: 40,
-                        sections: showingSections()),
-                  ),
+                child: PieChart(
+                  PieChartData(
+                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                        setState(() {
+                          if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                              pieTouchResponse.touchInput is FlPanEnd) {
+                            touchedIndex = -1;
+                          } else {
+                            touchedIndex = pieTouchResponse.touchedSectionIndex;
+                          }
+                        });
+                      }),
+                      borderData: FlBorderData(
+                        show: false,
+                      ),
+                      sectionsSpace: 0,
+                      centerSpaceRadius: 40,
+                      sections: showingSections()),
                 ),
               ),
             ),
@@ -126,9 +107,7 @@ class PieChart2State extends State {
             title: '40%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         case 1:
           return PieChartSectionData(
@@ -137,9 +116,7 @@ class PieChart2State extends State {
             title: '30%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         case 2:
           return PieChartSectionData(
@@ -148,9 +125,7 @@ class PieChart2State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         case 3:
           return PieChartSectionData(
@@ -159,9 +134,7 @@ class PieChart2State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         default:
           return null;

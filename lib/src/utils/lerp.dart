@@ -23,6 +23,21 @@ List<double> lerpDoubleList(List<double> a, List<double> b, double t) {
   }
 }
 
+List<int> lerpIntList(List<int> a, List<int> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return lerpInt(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}
+
+int lerpInt(int a, int b, double t) {
+  return (a + (b - a) * t).round();
+}
+
+
 List<FlSpot> lerpFlSpotList(List<FlSpot> a, List<FlSpot> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {

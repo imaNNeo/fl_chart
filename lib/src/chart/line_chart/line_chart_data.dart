@@ -13,17 +13,20 @@ import 'package:flutter/material.dart';
 /// [FlTitlesData] to show the bottom and left titles
 /// [ExtraLinesData] to draw extra horizontal and vertical lines on the chart
 /// [LineTouchData] holds data to handling touch and interactions
+/// [showingTooltipIndicators] show the tooltip based on provided position(x), and list of [LineBarSpot]
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
   final ExtraLinesData extraLinesData;
   final LineTouchData lineTouchData;
+  final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
 
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
     this.lineTouchData = const LineTouchData(),
+    this.showingTooltipIndicators = const[],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -48,11 +51,12 @@ class LineChartData extends AxisChartData {
     double minY,
     double maxY,
   ) {
-    lineBarsData.forEach((lineBarChart) {
+    for (int i = 0; i < lineBarsData.length; i++) {
+      final LineChartBarData lineBarChart = lineBarsData[i];
       if (lineBarChart.spots == null || lineBarChart.spots.isEmpty) {
         throw Exception('spots could not be null or empty');
       }
-    });
+    }
     if (lineBarsData.isNotEmpty) {
       var canModifyMinX = false;
       if (minX == null) {
@@ -78,8 +82,10 @@ class LineChartData extends AxisChartData {
         canModifyMaxY = true;
       }
 
-      lineBarsData.forEach((barData) {
-        barData.spots.forEach((spot) {
+      for (int i = 0; i < lineBarsData.length; i++) {
+        final LineChartBarData barData = lineBarsData[i];
+        for (int j = 0; j < barData.spots.length; j++) {
+          final FlSpot spot = barData.spots[j];
           if (canModifyMaxX && spot.x > maxX) {
             maxX = spot.x;
           }
@@ -95,8 +101,8 @@ class LineChartData extends AxisChartData {
           if (canModifyMinY && spot.y < minY) {
             minY = spot.y;
           }
-        });
-      });
+        }
+      }
     } else {
       minX = 0;
       maxX = 0;
@@ -126,12 +132,44 @@ class LineChartData extends AxisChartData {
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
         lineTouchData: b.lineTouchData,
+        showingTooltipIndicators: b.showingTooltipIndicators,
       );
     } else {
       throw Exception('Illegal State');
     }
   }
 
+  LineChartData copyWith({
+    List<LineChartBarData> lineBarsData,
+    FlTitlesData titlesData,
+    ExtraLinesData extraLinesData,
+    LineTouchData lineTouchData,
+    List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
+    FlGridData gridData,
+    FlBorderData borderData,
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+    bool clipToBorder,
+    Color backgroundColor,
+  }) {
+    return LineChartData(
+      lineBarsData: lineBarsData ?? this.lineBarsData,
+      titlesData: titlesData ?? this.titlesData,
+      extraLinesData: extraLinesData ?? this.extraLinesData,
+      lineTouchData: lineTouchData ?? this.lineTouchData,
+      showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
+      gridData: gridData ?? this.gridData,
+      borderData: borderData ?? this.borderData,
+      minX: minX ?? this.minX,
+      maxX: maxX ?? this.maxX,
+      minY: minY ?? this.minY,
+      maxY: maxY ?? this.maxY,
+      clipToBorder: clipToBorder ?? this.clipToBorder,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+    );
+  }
 }
 
 /***** LineChartBarData *****/
@@ -175,6 +213,9 @@ class LineChartBarData {
   /// to show dot spots upon the line chart
   final FlDotData dotData;
 
+  /// show indicators based on provided indexes
+  final List<int> showingIndicators;
+
   const LineChartBarData({
     this.spots = const [],
     this.show = true,
@@ -188,6 +229,7 @@ class LineChartBarData {
     this.belowBarData = const BarAreaData(),
     this.aboveBarData = const BarAreaData(),
     this.dotData = const FlDotData(),
+    this.showingIndicators = const [],
   });
 
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
@@ -203,8 +245,53 @@ class LineChartBarData {
       colors: lerpColorList(a.colors, b.colors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       spots: lerpFlSpotList(a.spots, b.spots, t),
+      showingIndicators: b.showingIndicators,
     );
   }
+
+  LineChartBarData copyWith({
+    List<FlSpot> spots,
+    bool show,
+    List<Color> colors,
+    List<double> colorStops,
+    double barWidth,
+    bool isCurved,
+    double curveSmoothness,
+    bool preventCurveOverShooting,
+    bool isStrokeCapRound,
+    BarAreaData belowBarData,
+    BarAreaData aboveBarData,
+    FlDotData dotData,
+    List<int> showingIndicators,
+  }) {
+    return LineChartBarData(
+      spots: spots ?? this.spots,
+      show: show ?? this.show,
+      colors: colors ?? this.colors,
+      colorStops: colorStops ?? this.colorStops,
+      barWidth: barWidth ?? this.barWidth,
+      isCurved: isCurved ?? this.isCurved,
+      curveSmoothness: curveSmoothness ?? this.curveSmoothness,
+      preventCurveOverShooting: preventCurveOverShooting ?? this.preventCurveOverShooting,
+      isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
+      belowBarData: belowBarData ?? this.belowBarData,
+      aboveBarData: aboveBarData ?? this.aboveBarData,
+      dotData: dotData ?? this.dotData,
+      showingIndicators: showingIndicators ?? this.showingIndicators,
+    );
+  }
+
+}
+
+/// holds the details of a [FlSpot] inside a [LineChartBarData]
+class LineBarSpot extends FlSpot {
+  final LineChartBarData bar;
+  final int barIndex;
+  final int spotIndex;
+
+  LineBarSpot(this.bar, this.barIndex, FlSpot spot,)
+    :spotIndex = bar.spots.indexOf(spot),
+      super(spot.x, spot.y);
 }
 
 /***** BarAreaData *****/
@@ -393,35 +480,36 @@ class ExtraLinesData {
       verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
     );
   }
-
 }
 
 /// if user touched the chart, we indicate the touched spots with a below line,
 /// and make a bigger dot on that spot,
 /// here we get the [TouchedSpotIndicatorData] from the given [LineTouchedSpot].
 typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
-    List<LineTouchedSpot> touchedSpots);
+    LineChartBarData barData, List<int> spotIndexes);
 
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
-    List<LineTouchedSpot> touchedSpots) {
-  return touchedSpots.map((LineTouchedSpot lineTouchedSpot) {
+    LineChartBarData barData, List<int> indicators) {
+  if (indicators == null) {
+    return [];
+  }
+  return indicators.map((int index) {
     /// Indicator Line
-    Color lineColor = lineTouchedSpot.barData.colors[0];
-    if (lineTouchedSpot.barData.dotData.show) {
-      lineColor = lineTouchedSpot.barData.dotData.dotColor;
+    Color lineColor = barData.colors[0];
+    if (barData.dotData.show) {
+      lineColor = barData.dotData.dotColor;
     }
     const double lineStrokeWidth = 4;
-    final FlLine flLine =
-        FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
+    final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
     /// Indicator dot
     double dotSize = 10;
-    Color dotColor = lineTouchedSpot.barData.colors[0];
-    if (lineTouchedSpot.barData.dotData.show) {
-      dotSize = lineTouchedSpot.barData.dotData.dotSize * 1.8;
-      dotColor = lineTouchedSpot.barData.dotData.dotColor;
+    Color dotColor = barData.colors[0];
+    if (barData.dotData.show) {
+      dotSize = barData.dotData.dotSize * 1.8;
+      dotColor = barData.dotData.dotColor;
     }
-    FlDotData dotData = FlDotData(
+    final dotData = FlDotData(
       dotSize: dotSize,
       dotColor: dotColor,
     );
@@ -433,7 +521,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
 /// holds data for handling touch events on the [LineChart]
 class LineTouchData extends FlTouchData {
   /// show a tooltip on touched spots
-  final TouchTooltipData touchTooltipData;
+  final LineTouchTooltipData touchTooltipData;
 
   /// show the indicator line and dot at the touched spot
   /// return null if you don't want to show any indicator on each spot
@@ -442,14 +530,96 @@ class LineTouchData extends FlTouchData {
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
 
+  /// set this true if you want the built in touch handling
+  /// (show a tooltip bubble and an indicator on touched spots)
+  final bool handleBuiltInTouches;
+
+  /// you can implement it to receive touches callback
+  final Function(LineTouchResponse) touchCallback;
+
   const LineTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
-    this.touchTooltipData = const TouchTooltipData(),
+    this.touchTooltipData = const LineTouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
-    StreamSink<LineTouchResponse> touchResponseSink,
-  }) : super(enabled, touchResponseSink, enableNormalTouch);
+    this.handleBuiltInTouches = true,
+    this.touchCallback,
+  }) : super(enabled, enableNormalTouch);
+
+  LineTouchData copyWith({
+    bool enabled,
+    bool enableNormalTouch,
+    LineTouchTooltipData touchTooltipData,
+    GetTouchedSpotIndicator getTouchedSpotIndicator,
+    double touchSpotThreshold,
+    Function(LineTouchResponse) touchCallback,
+  }) {
+    return LineTouchData(
+      enabled: enabled ?? this.enabled,
+      enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
+      touchTooltipData: touchTooltipData ?? this.touchTooltipData,
+      getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
+      touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
+      touchCallback: touchCallback ?? this.touchCallback,
+    );
+  }
+
+}
+
+/// Holds information for showing tooltip on axis based charts
+/// when a touch event happened
+class LineTouchTooltipData {
+  final Color tooltipBgColor;
+  final double tooltipRoundedRadius;
+  final EdgeInsets tooltipPadding;
+  final double tooltipBottomMargin;
+  final double maxContentWidth;
+  final GetLineTooltipItems getTooltipItems;
+
+  const LineTouchTooltipData({
+    this.tooltipBgColor = Colors.white,
+    this.tooltipRoundedRadius = 4,
+    this.tooltipPadding =
+    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipBottomMargin = 16,
+    this.maxContentWidth = 120,
+    this.getTooltipItems = defaultLineTooltipItem,
+  }) : super();
+}
+
+/// show each LineTooltipItem as a row on the tooltip window,
+/// return null if you don't want to show each item
+/// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
+/// here we get the [LineTooltipItem] from the given [TouchedSpot].
+typedef GetLineTooltipItems = List<LineTooltipItem> Function(
+  List<LineBarSpot> touchedSpots);
+
+List<LineTooltipItem> defaultLineTooltipItem (
+  List<LineBarSpot> touchedSpots) {
+  if (touchedSpots == null) {
+    return null;
+  }
+
+  return touchedSpots.map((LineBarSpot touchedSpot) {
+    if (touchedSpot == null) {
+      return null;
+    }
+    final TextStyle textStyle = TextStyle(
+      color: touchedSpot.bar.colors[0],
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+    return LineTooltipItem(touchedSpot.y.toString(), textStyle);
+  }).toList();
+}
+
+/// holds data of showing each item in the tooltip window
+class LineTooltipItem {
+  final String text;
+  final TextStyle textStyle;
+
+  LineTooltipItem(this.text, this.textStyle);
 }
 
 /// details of showing indicator when touch happened on [LineChart]
@@ -462,33 +632,25 @@ class TouchedSpotIndicatorData {
   TouchedSpotIndicatorData(this.indicatorBelowLine, this.touchedSpotDotData);
 }
 
-/// holds the data of the touched spot
-class LineTouchedSpot extends TouchedSpot {
-  LineChartBarData barData;
-  int barDataPosition;
-
-  LineTouchedSpot(
-    this.barData,
-    this.barDataPosition,
-    FlSpot spot,
-    Offset offset,
-  ) : super(spot, offset);
-
-  @override
-  Color getColor() {
-    return barData.colors[0];
-  }
-}
-
 /// holds the data of touch response on the [LineChart]
 /// used in the [LineTouchData] in a [StreamSink]
 class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
-  /// (if a single line provided on the chart, [spots]'s length will be 1 always)
-  final List<LineTouchedSpot> spots;
+  /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
+  final List<LineBarSpot> lineBarSpots;
 
   LineTouchResponse(
-    this.spots,
+    this.lineBarSpots,
     FlTouchInput touchInput,
   ) : super(touchInput);
+}
+
+
+class LineChartDataTween extends Tween<LineChartData> {
+
+  LineChartDataTween({LineChartData begin, LineChartData end}) : super(begin: begin, end: end);
+
+  @override
+  LineChartData lerp(double t) => begin.lerp(begin, end, t);
+
 }

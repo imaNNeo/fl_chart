@@ -1,3 +1,12 @@
+## 0.4.0
+* BIG BREAKING CHANGES
+* There is no `FlChart` class anymore, instead use [LineChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md), [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md), and [PieChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md) directly as a widget.
+* Touch handling system is improved and for sure we have some changes, there is no `touchedResultSink` anymore and use `touchCallback` function which is added to each TouchData like ([LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling)), [read more](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md).
+* `TouchTooltipData` class inside `LineTouchData` and `BarTouchData` renamed to `LineTouchTooltipData` and `BarTouchTooltipData` respectively, and also `TooltipItem` class renamed to `LineTooltipItem` and `BarTooltipItem`.
+* `spots` inside `LineTouchResponse` renamed to `lineBarSpots` and type changed from `LineTouchedSpot` to `LineBarSpot`.
+* `FlTouchNormapInput` renamed to `FlTouchNormalInput` (fixed typo)
+
+
 ## 0.3.4
 * BREAKING CHANGES
 * swapped horizontal and vertical semantics in [FlGridData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlGridData), fixed this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/85).

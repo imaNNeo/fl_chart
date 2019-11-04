@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
@@ -21,17 +19,10 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D targetData;
   Paint borderPaint;
 
-  /// receive the touch input events through this notifier
-  FlTouchInputNotifier touchInputNotifier;
-
-  /// responds the touch result through this sink,
-  /// in form of a [BaseTouchResponse]
-  StreamSink<BaseTouchResponse> touchedResponseSink;
-
-  BaseChartPainter(this.data, this.targetData,
-      {this.touchInputNotifier, this.touchedResponseSink})
-      : super(repaint: data.touchData.enabled ? touchInputNotifier : null) {
-    borderPaint = Paint()..style = PaintingStyle.stroke;
+  BaseChartPainter(this.data, this.targetData)
+    : super() {
+    borderPaint = Paint()
+      ..style = PaintingStyle.stroke;
   }
 
   @override
@@ -44,14 +35,14 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
       return;
     }
 
-    var chartViewSize = getChartUsableDrawSize(viewSize);
+    final chartViewSize = getChartUsableDrawSize(viewSize);
 
-    var topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
-    var topRight = Offset(
+    final topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
+    final topRight = Offset(
         getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
-    var bottomLeft = Offset(
+    final bottomLeft = Offset(
         getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
-    var bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
+    final bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
         getTopOffsetDrawSize() + chartViewSize.height);
 
     /// Draw Top Line
@@ -81,8 +72,8 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// stuff around our chart.
   /// then we subtract them from raw [viewSize]
   Size getChartUsableDrawSize(Size viewSize) {
-    double usableWidth = viewSize.width - getExtraNeededHorizontalSpace();
-    double usableHeight = viewSize.height - getExtraNeededVerticalSpace();
+    final usableWidth = viewSize.width - getExtraNeededHorizontalSpace();
+    final usableHeight = viewSize.height - getExtraNeededVerticalSpace();
     return Size(usableWidth, usableHeight);
   }
 
@@ -105,26 +96,9 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
   double getTopOffsetDrawSize() => 0;
+}
 
-  /// checks that the touchInput is eligible to draw,
-  /// and child painters can use this function to check then draw their default touch behaviors.
-  bool shouldDrawTouch() {
-    if (touchInputNotifier == null ||
-        touchInputNotifier.value == null ||
-        shouldDrawTouch == null) {
-      return false;
-    }
-
-    if (touchInputNotifier.value is FlLongPressEnd ||
-        touchInputNotifier.value is FlPanEnd) {
-      return false;
-    }
-
-    if (touchInputNotifier.value is FlTouchNormapInput &&
-        !data.touchData.enableNormalTouch) {
-      return false;
-    }
-
-    return true;
-  }
+mixin TouchHandler<T extends BaseTouchResponse> {
+  T handleTouch(FlTouchInput touchInput, Size size,) =>
+    throw UnsupportedError('not implemented');
 }

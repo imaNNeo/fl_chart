@@ -130,11 +130,15 @@ class PieChartSectionData {
 
 /// holds data for handling touch events on the [PieChart]
 class PieTouchData extends FlTouchData {
+
+  /// you can implement it to receive touches callback
+  final Function(PieTouchResponse) touchCallback;
+  
   const PieTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
-    StreamSink<PieTouchResponse> touchResponseStreamSink,
-  }) : super(enabled, touchResponseStreamSink, enableNormalTouch);
+    this.touchCallback,
+  }) : super(enabled, enableNormalTouch);
 }
 
 /// holds the data of touch response on the [PieChart]
@@ -144,7 +148,7 @@ class PieTouchResponse extends BaseTouchResponse {
   final PieChartSectionData touchedSection;
 
   /// touch happened on this position
-  final int touchedSectionPosition;
+  final int touchedSectionIndex;
 
   /// touch happened with this angle on the [PieChart]
   final double touchAngle;
@@ -154,9 +158,18 @@ class PieTouchResponse extends BaseTouchResponse {
 
   PieTouchResponse(
     this.touchedSection,
-    this.touchedSectionPosition,
+    this.touchedSectionIndex,
     this.touchAngle,
     this.touchRadius,
     FlTouchInput touchInput,
   ) : super(touchInput);
+}
+
+class PieChartDataTween extends Tween<PieChartData> {
+
+  PieChartDataTween({PieChartData begin, PieChartData end}) : super(begin: begin, end: end);
+
+  @override
+  PieChartData lerp(double t) => begin.lerp(begin, end, t);
+
 }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +13,6 @@ class BarChartSample2State extends State<BarChartSample2> {
 
   List<BarChartGroupData> rawBarGroups;
   List<BarChartGroupData> showingBarGroups;
-
-  StreamController<BarTouchResponse> barTouchedResultStreamController;
 
   int touchedGroupIndex;
 
@@ -44,51 +40,6 @@ class BarChartSample2State extends State<BarChartSample2> {
     rawBarGroups = items;
 
     showingBarGroups = rawBarGroups;
-
-    barTouchedResultStreamController = StreamController();
-    barTouchedResultStreamController.stream
-        .distinct()
-        .listen((BarTouchResponse response) {
-      if (response == null) {
-        return;
-      }
-
-      if (response.spot == null) {
-        setState(() {
-          touchedGroupIndex = -1;
-          showingBarGroups = List.of(rawBarGroups);
-        });
-        return;
-      }
-
-      touchedGroupIndex =
-          showingBarGroups.indexOf(response.spot.touchedBarGroup);
-
-      setState(() {
-        if (response.touchInput is FlLongPressEnd) {
-          touchedGroupIndex = -1;
-          showingBarGroups = List.of(rawBarGroups);
-        } else {
-          showingBarGroups = List.of(rawBarGroups);
-          if (touchedGroupIndex != -1) {
-            double sum = 0;
-            for (BarChartRodData rod
-                in showingBarGroups[touchedGroupIndex].barRods) {
-              sum += rod.y;
-            }
-            final avg =
-                sum / showingBarGroups[touchedGroupIndex].barRods.length;
-
-            showingBarGroups[touchedGroupIndex] =
-                showingBarGroups[touchedGroupIndex].copyWith(
-              barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                return rod.copyWith(y: avg);
-              }).toList(),
-            );
-          }
-        }
-      });
-    });
   }
 
   @override
@@ -134,19 +85,48 @@ class BarChartSample2State extends State<BarChartSample2> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: FlChart(
-                    chart: BarChart(BarChartData(
+                  child: BarChart(
+                    BarChartData(
                       maxY: 20,
                       barTouchData: BarTouchData(
-                        touchTooltipData: TouchTooltipData(
+                        touchTooltipData: BarTouchTooltipData(
                             tooltipBgColor: Colors.grey,
-                            getTooltipItems: (spots) {
-                              return spots.map((TouchedSpot spot) {
-                                return null;
-                              }).toList();
-                            }),
-                        touchResponseSink:
-                            barTouchedResultStreamController.sink,
+                            getTooltipItem: (_a, _b, _c, _d) => null,
+                        ),
+                        touchCallback: (response) {
+                          if (response.spot == null) {
+                            setState(() {
+                              touchedGroupIndex = -1;
+                              showingBarGroups = List.of(rawBarGroups);
+                            });
+                            return;
+                          }
+
+                          touchedGroupIndex = response.spot.touchedBarGroupIndex;
+
+                          setState(() {
+                            if (response.touchInput is FlLongPressEnd || response.touchInput is FlPanEnd) {
+                              touchedGroupIndex = -1;
+                              showingBarGroups = List.of(rawBarGroups);
+                            } else {
+                              showingBarGroups = List.of(rawBarGroups);
+                              if (touchedGroupIndex != -1) {
+                                double sum = 0;
+                                for (BarChartRodData rod in showingBarGroups[touchedGroupIndex].barRods) {
+                                  sum += rod.y;
+                                }
+                                final avg = sum / showingBarGroups[touchedGroupIndex].barRods.length;
+
+                                showingBarGroups[touchedGroupIndex] =
+                                  showingBarGroups[touchedGroupIndex].copyWith(
+                                    barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
+                                      return rod.copyWith(y: avg);
+                                    }).toList(),
+                                  );
+                              }
+                            }
+                          });
+                        }
                       ),
                       titlesData: FlTitlesData(
                         show: true,
@@ -173,7 +153,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                                 return 'St';
                               case 6:
                                 return 'Sn';
-                              default: return '';
+                              default:
+                                return '';
                             }
                           },
                         ),
@@ -202,7 +183,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                         show: false,
                       ),
                       barGroups: showingBarGroups,
-                    )),
+                    ),
                   ),
                 ),
               ),

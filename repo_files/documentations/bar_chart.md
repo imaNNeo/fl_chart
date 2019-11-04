@@ -4,12 +4,10 @@
 
 ### How to use
 ```
-FlChart(
-   chart: BarChart(
-      BarChartData(
-         // read about it in the below section
-      ),
-   ),
+BarChart(
+  BarChartData(
+    // read about it in the below section
+  ),
 );
 ```
 
@@ -32,6 +30,7 @@ FlChart(
 |x| x position of the group on horizontal axis|null|
 |barRods| list of [BarChartRodData](#BarChartRodData) that are a bar line| []
 |barsSpace| the space between barRods of the group|2|
+|showingTooltipIndicators| indexes of barRods to show the tooltip on top of them | []|
 
 
 ### BarChartAlignment
@@ -60,10 +59,27 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
 |enableNormalTouch| set it false if you just want to handle long press|true|
-|touchTooltipData|a [TouchTooltipData](base_chart.md#TouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|TouchTooltipData()|
+|touchTooltipData|a [BarTouchTooltipData](#BarTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|BarTouchTooltipData()|
 |touchExtraThreshold|an [EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) class to hold a bounding threshold of touch accuracy|EdgeInsets.all(4)|
 |allowTouchBarBackDraw| if sets true, touch works on backdraw bar line| false |
-|touchResponseSink| a [StreamSink](https://api.flutter.dev/flutter/dart-async/StreamSink-class.html)<[BarTouchResponse](#BarTouchResponse)> to broadcast the touch response (with useful data) when touched on the chart| null|
+|handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
+|touchCallback| listen to this callback to retrieve touch events, it gives you a [BarTouchResponse](#BarTouchResponse)| null|
+
+### BarTouchTooltipData
+ |PropName|Description|default value|
+ |:-------|:----------|:------------|
+ |tooltipBgColor|background color of the tooltip bubble|Colors.white|
+ |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
+ |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
+ |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
+ |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
+ |getTooltipItems|a callback that retrieve [BarTooltipItem](#BarTooltipItem) by the given [BarChartGroupData](#BarChartGroupData), groupIndex, [BarChartRodData](#BarChartRodData) and rodIndex |defaultBarTooltipItem|
+
+### BarTooltipItem
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|text|text string of each row in the tooltip bubble|null|
+|textStyle|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the showing text row|null|
 
 
 ### BarTouchResponse
@@ -77,7 +93,9 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |touchedBarGroup|the [BarChartGroupData](#BarChartGroupData) that user touched its rod's spot| null |
+|touchedBarGroupIndex| index of touched barGroup| null|
 |touchedRodData|the [BarChartRodData](#BarChartRodData) that user touched its spot|null|
+|touchedRodDataIndex| index of touchedRod | null|
 
 
 ### Some Samples

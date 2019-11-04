@@ -1,27 +1,26 @@
-import 'dart:async';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class BarChartPainter extends AxisChartPainter {
-  final BarChartData data;
-  final BarChartData targetData;
+class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
+  Paint barPaint, bgTouchTooltipPaint;
 
-  Paint barPaint;
+  List<GroupBarsPosition> groupBarsPosition;
 
   BarChartPainter(
-    this.data,
-    this.targetData,
-    FlTouchInputNotifier touchController,
-    StreamSink<BarTouchResponse> touchedResponseSink,
-  ) : super(data, targetData,
-            touchInputNotifier: touchController,
-            touchedResponseSink: touchedResponseSink) {
+    BarChartData data,
+    BarChartData targetData,
+    Function(TouchHandler) touchHandler,
+  ) : super(data, targetData) {
+    touchHandler(this);
     barPaint = Paint()..style = PaintingStyle.fill;
+
+    bgTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.white;
   }
 
   @override
@@ -32,41 +31,37 @@ class BarChartPainter extends AxisChartPainter {
       return;
     }
 
-    final List<double> groupsX =
-        calculateGroupsX(size, data.barGroups, data.alignment);
-    final List<GroupBarsPosition> groupBarsPosition =
-        calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
-
-    final BarTouchedSpot touchedSpot =
-        _getNearestTouchedSpot(canvas, size, groupBarsPosition);
+    final List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
+    groupBarsPosition = calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
 
     drawBars(canvas, size, groupBarsPosition);
     drawTitles(canvas, size, groupBarsPosition);
 
-    if (touchedSpot != null) {
-      super.drawTouchTooltip(
-          canvas, size, data.barTouchData.touchTooltipData, [touchedSpot]);
-    }
+    for (int i = 0; i < targetData.barGroups.length; i++) {
+      final barGroup = targetData.barGroups[i];
+      for (int j = 0; j < barGroup.barRods.length; j++) {
+        if (!barGroup.showingTooltipIndicators.contains(j)) {
+          continue;
+        }
+        final barRod = barGroup.barRods[j];
 
-    if (touchedResponseSink != null &&
-        touchInputNotifier != null &&
-        touchInputNotifier.value != null &&
-        !(touchInputNotifier.value is NonTouch)) {
-      touchedResponseSink
-          .add(BarTouchResponse(touchedSpot, touchInputNotifier.value));
+        drawTouchTooltip(canvas, size, groupBarsPosition, targetData.barTouchData.touchTooltipData,
+          barGroup, i,
+          barRod, j);
+      }
     }
   }
 
   /// this method calculates the x of our showing groups,
   /// they calculate as center of the group
   /// we position the groups based on the given [alignment],
-  List<double> calculateGroupsX(Size viewSize,
-      List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
-    Size drawSize = getChartUsableDrawSize(viewSize);
+  List<double> calculateGroupsX(
+      Size viewSize, List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
+    final Size drawSize = getChartUsableDrawSize(viewSize);
 
-    List<double> groupsX = List(barGroups.length);
+    final List<double> groupsX = List<double>(barGroups.length);
 
-    double leftTextsSpace = getLeftOffsetDrawSize();
+    final double leftTextsSpace = getLeftOffsetDrawSize();
 
     switch (alignment) {
       case BarChartAlignment.start:
@@ -80,50 +75,44 @@ class BarChartPainter extends AxisChartPainter {
       case BarChartAlignment.end:
         double tempX = 0;
         for (int i = barGroups.length - 1; i >= 0; i--) {
-          var group = barGroups[i];
-          groupsX[i] =
-              (leftTextsSpace + drawSize.width) - tempX - group.width / 2;
+          final group = barGroups[i];
+          groupsX[i] = (leftTextsSpace + drawSize.width) - tempX - group.width / 2;
           tempX += group.width;
         }
         break;
 
       case BarChartAlignment.center:
-        double sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-
-        double horizontalMargin = (drawSize.width - sumWidth) / 2;
+        final double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        final double horizontalMargin = (drawSize.width - sumWidth) / 2;
 
         double tempX = 0;
         for (int i = 0; i < barGroups.length; i++) {
-          var group = barGroups[i];
-          groupsX[i] =
-              leftTextsSpace + horizontalMargin + tempX + group.width / 2;
+          final group = barGroups[i];
+          groupsX[i] = leftTextsSpace + horizontalMargin + tempX + group.width / 2;
           tempX += group.width;
         }
         break;
 
       case BarChartAlignment.spaceBetween:
-        double sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        double spaceAvailable = drawSize.width - sumWidth;
-        double eachSpace = spaceAvailable / (barGroups.length - 1);
+        final double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        final double spaceAvailable = drawSize.width - sumWidth;
+        final double eachSpace = spaceAvailable / (barGroups.length - 1);
 
         double tempX = 0;
         barGroups.asMap().forEach((index, group) {
-          tempX += (group.width / 2);
+          tempX += group.width / 2;
           if (index != 0) {
             tempX += eachSpace;
           }
           groupsX[index] = leftTextsSpace + tempX;
-          tempX += (group.width / 2);
+          tempX += group.width / 2;
         });
         break;
 
       case BarChartAlignment.spaceAround:
-        double sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        double spaceAvailable = drawSize.width - sumWidth;
-        double eachSpace = spaceAvailable / (barGroups.length * 2);
+        final double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        final double spaceAvailable = drawSize.width - sumWidth;
+        final double eachSpace = spaceAvailable / (barGroups.length * 2);
 
         double tempX = 0;
         barGroups.asMap().forEach((i, group) {
@@ -136,10 +125,9 @@ class BarChartPainter extends AxisChartPainter {
         break;
 
       case BarChartAlignment.spaceEvenly:
-        double sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        double spaceAvailable = drawSize.width - sumWidth;
-        double eachSpace = spaceAvailable / (barGroups.length + 1);
+        final double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        final double spaceAvailable = drawSize.width - sumWidth;
+        final double eachSpace = spaceAvailable / (barGroups.length + 1);
 
         double tempX = 0;
         barGroups.asMap().forEach((i, group) {
@@ -177,16 +165,17 @@ class BarChartPainter extends AxisChartPainter {
     return groupBarsPosition;
   }
 
-  void drawBars(
-      Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
-    Size drawSize = getChartUsableDrawSize(viewSize);
+  void drawBars(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
+    final Size drawSize = getChartUsableDrawSize(viewSize);
 
-    data.barGroups.asMap().forEach((groupIndex, barGroup) {
-      barGroup.barRods.asMap().forEach((barIndex, barRod) {
-        double widthHalf = barRod.width / 2;
-        double roundedRadius = barRod.isRound ? widthHalf : 0;
+    for (int i = 0; i < data.barGroups.length; i++) {
+      final barGroup = data.barGroups[i];
+      for (int j = 0; j < barGroup.barRods.length; j++) {
+        final barRod = barGroup.barRods[j];
+        final double widthHalf = barRod.width / 2;
+        final double roundedRadius = barRod.isRound ? widthHalf : 0;
 
-        final double x = groupBarsPosition[groupIndex].barsX[barIndex];
+        final double x = groupBarsPosition[i].barsX[j];
 
         Offset from, to;
 
@@ -228,16 +217,15 @@ class BarChartPainter extends AxisChartPainter {
           barPaint.color = barRod.color;
           canvas.drawLine(from, to, barPaint);
         }
-      });
-    });
+      }
+    }
   }
 
-  void drawTitles(
-      Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
+  void drawTitles(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
     if (!data.titlesData.show) {
       return;
     }
-    Size drawSize = getChartUsableDrawSize(viewSize);
+    final Size drawSize = getChartUsableDrawSize(viewSize);
 
     // Left Titles
     final leftTitles = data.titlesData.leftTitles;
@@ -245,18 +233,14 @@ class BarChartPainter extends AxisChartPainter {
       int verticalCounter = 0;
       while (leftTitles.interval * verticalCounter <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(
-                data.gridData.verticalInterval * verticalCounter, drawSize) +
+        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
             getTopOffsetDrawSize();
 
-        String text = leftTitles
-            .getTitles(data.gridData.verticalInterval * verticalCounter);
+        final String text = leftTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
 
-        TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
-        TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr);
+        final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+        final TextPainter tp =
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
@@ -272,18 +256,14 @@ class BarChartPainter extends AxisChartPainter {
       int verticalCounter = 0;
       while (rightTitles.interval * verticalCounter <= data.maxY) {
         double x = drawSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(
-                data.gridData.verticalInterval * verticalCounter, drawSize) +
+        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
             getTopOffsetDrawSize();
 
-        String text = rightTitles
-            .getTitles(data.gridData.verticalInterval * verticalCounter);
+        final String text = rightTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
 
-        TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
-        TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr);
+        final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+        final TextPainter tp =
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x += rightTitles.margin;
         y -= tp.height / 2;
@@ -297,24 +277,89 @@ class BarChartPainter extends AxisChartPainter {
     final bottomTitles = data.titlesData.bottomTitles;
     if (bottomTitles.showTitles) {
       for (int index = 0; index < groupBarsPosition.length; index++) {
-        GroupBarsPosition groupBarPos = groupBarsPosition[index];
+        final GroupBarsPosition groupBarPos = groupBarsPosition[index];
 
-        String text = bottomTitles.getTitles(index.toDouble());
+        final String text = bottomTitles.getTitles(index.toDouble());
 
-        TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
-        TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr);
+        final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+        final TextPainter tp =
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        double textX = groupBarPos.groupX - (tp.width / 2);
-        double textY =
-            drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
+        final double textX = groupBarPos.groupX - (tp.width / 2);
+        final double textY = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
 
         tp.paint(canvas, Offset(textX, textY));
       }
     }
+  }
+
+  void drawTouchTooltip(Canvas canvas, Size viewSize,
+    List<GroupBarsPosition> groupPositions, BarTouchTooltipData tooltipData,
+    BarChartGroupData showOnBarGroup, int barGroupIndex,
+    BarChartRodData showOnRodData, int barRodIndex,) {
+
+    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+
+    const double textsBelowMargin = 4;
+
+    final BarTooltipItem tooltipItem = tooltipData.getTooltipItem(
+      showOnBarGroup, barGroupIndex,
+      showOnRodData, barRodIndex,
+    );
+
+    if (tooltipItem == null) {
+      return;
+    }
+
+    final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
+    final TextPainter tp =
+    TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+    tp.layout(maxWidth: tooltipData.maxContentWidth);
+
+    /// creating TextPainters to calculate the width and height of the tooltip
+    final TextPainter drawingTextPainter = tp;
+
+    /// biggerWidth
+    /// some texts maybe larger, then we should
+    /// draw the tooltip' width as wide as biggerWidth
+    ///
+    /// sumTextsHeight
+    /// sum up all Texts height, then we should
+    /// draw the tooltip's height as tall as sumTextsHeight
+    final double textWidth = drawingTextPainter.width;
+    final double textHeight = drawingTextPainter.height + textsBelowMargin;
+
+    /// if we have multiple bar lines,
+    /// there are more than one FlCandidate on touch area,
+    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
+    final Offset mostTopOffset = Offset(
+      groupPositions[barGroupIndex].barsX[barRodIndex],
+      getPixelY(showOnRodData.y, chartUsableSize),
+    );
+
+    final double tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
+    final double tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
+
+    /// draw the background rect with rounded radius
+    final Rect rect = Rect.fromLTWH(
+      mostTopOffset.dx - (tooltipWidth / 2),
+      mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
+      tooltipWidth,
+      tooltipHeight);
+    final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
+    final RRect roundedRect = RRect.fromRectAndCorners(rect,
+      topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
+    bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+    canvas.drawRRect(roundedRect, bgTouchTooltipPaint);
+
+    /// draw the texts one by one in below of each other
+    final double top = tooltipData.tooltipPadding.top;
+    final drawOffset = Offset(
+      rect.center.dx - (tp.width / 2),
+      rect.topCenter.dy + top,
+    );
+    tp.paint(canvas, drawOffset);
   }
 
   /// We add our needed horizontal space to parent needed.
@@ -371,22 +416,15 @@ class BarChartPainter extends AxisChartPainter {
     return sum;
   }
 
+  @override
+  BarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
+    final BarTouchedSpot touchedSpot = _getNearestTouchedSpot(size, touchInput.getOffset(), groupBarsPosition);
+    return BarTouchResponse(touchedSpot, touchInput);
+  }
+
   /// find the nearest spot base on the touched offset
-  BarTouchedSpot _getNearestTouchedSpot(
-      Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
+  BarTouchedSpot _getNearestTouchedSpot(Size viewSize, Offset touchedPoint, List<GroupBarsPosition> groupBarsPosition) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
-
-    if (touchInputNotifier == null || touchInputNotifier.value == null) {
-      return null;
-    }
-
-    final touch = touchInputNotifier.value;
-
-    if (touch.getOffset() == null) {
-      return null;
-    }
-
-    final touchedPoint = touch.getOffset();
 
     /// Find the nearest barRod
     for (int i = 0; i < groupBarsPosition.length; i++) {
@@ -395,41 +433,34 @@ class BarChartPainter extends AxisChartPainter {
         final double barX = groupBarPos.barsX[j];
         final double barWidth = targetData.barGroups[i].barRods[j].width;
         final double halfBarWidth = barWidth / 2;
-        final double barTopY =
-            getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
+        final double barTopY = getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
         final double barBotY = getPixelY(0, chartViewSize);
-        final double backDrawBarTopY = getPixelY(
-            targetData.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
-        final EdgeInsets touchExtraThreshold =
-            targetData.barTouchData.touchExtraThreshold;
+        final double backDrawBarTopY =
+            getPixelY(targetData.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
+        final EdgeInsets touchExtraThreshold = targetData.barTouchData.touchExtraThreshold;
 
-        final bool isXInTouchBounds = (touchedPoint.dx <=
-                barX + halfBarWidth + touchExtraThreshold.right) &&
-            (touchedPoint.dx >= barX - halfBarWidth - touchExtraThreshold.left);
+        final bool isXInTouchBounds =
+            (touchedPoint.dx <= barX + halfBarWidth + touchExtraThreshold.right) &&
+                (touchedPoint.dx >= barX - halfBarWidth - touchExtraThreshold.left);
 
-        final bool isYInBarBounds =
-            (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
-                (touchedPoint.dy >= barTopY - touchExtraThreshold.top);
+        final bool isYInBarBounds = (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
+            (touchedPoint.dy >= barTopY - touchExtraThreshold.top);
 
         final bool isYInBarBackDrawBounds =
             (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
                 (touchedPoint.dy >= backDrawBarTopY - touchExtraThreshold.top);
 
         final bool isYInTouchBounds =
-            (targetData.barTouchData.allowTouchBarBackDraw &&
-                    isYInBarBackDrawBounds) ||
+            (targetData.barTouchData.allowTouchBarBackDraw && isYInBarBackDrawBounds) ||
                 isYInBarBounds;
 
         if (isXInTouchBounds && isYInTouchBounds) {
           final nearestGroup = targetData.barGroups[i];
           final nearestBarRod = nearestGroup.barRods[j];
-          final nearestSpot =
-              FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
-          final nearestSpotPos =
-              Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
+          final nearestSpot = FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
+          final nearestSpotPos = Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
 
-          return BarTouchedSpot(
-              nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
+          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
         }
       }
     }
@@ -438,8 +469,7 @@ class BarChartPainter extends AxisChartPainter {
   }
 
   @override
-  bool shouldRepaint(BarChartPainter oldDelegate) =>
-      oldDelegate.data != this.data;
+  bool shouldRepaint(BarChartPainter oldDelegate) => oldDelegate.data != data;
 }
 
 class GroupBarsPosition {
