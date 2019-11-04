@@ -5,6 +5,10 @@
 * `TouchTooltipData` class inside `LineTouchData` and `BarTouchData` renamed to `LineTouchTooltipData` and `BarTouchTooltipData` respectively, and also `TooltipItem` class renamed to `LineTooltipItem` and `BarTooltipItem`.
 * `spots` inside `LineTouchResponse` renamed to `lineBarSpots` and type changed from `LineTouchedSpot` to `LineBarSpot`.
 * `FlTouchNormapInput` renamed to `FlTouchNormalInput` (fixed typo)
+* added `showingTooltipIndicators` in [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to show manually tooltips in `LineChart`.
+* added `showingIndicators` in [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata) to show manually indicators in `LineChart`.
+* added `showingTooltipIndicators` in [BarChartGroupData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartgroupdata) to show manually tooltips in `BarChart`.
+
 
 
 ## 0.3.4
