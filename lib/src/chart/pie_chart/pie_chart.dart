@@ -23,8 +23,10 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
   /// it lerps between the old [PieChartData] to the new one.
   PieChartDataTween _pieChartDataTween;
 
+  /// this is used to map the touch events to [PieTouchResponse]
   TouchHandler _touchHandler;
 
+  /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
 
   @override
@@ -112,6 +114,8 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
     }
   }
 
+  /// if builtIn touches are enabled, we should recreate our [pieChartData]
+  /// to handle built in touches
   PieChartData _getDate() {
     return widget.data;
   }

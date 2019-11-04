@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 /// [FlTitlesData] to show the bottom and left titles
 /// [ExtraLinesData] to draw extra horizontal and vertical lines on the chart
 /// [LineTouchData] holds data to handling touch and interactions
+/// [showingTooltipIndicators] show the tooltip based on provided position(x), and list of [LineBarSpot]
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
@@ -212,7 +213,7 @@ class LineChartBarData {
   /// to show dot spots upon the line chart
   final FlDotData dotData;
 
-  /// index of showing indicators
+  /// show indicators based on provided indexes
   final List<int> showingIndicators;
 
   const LineChartBarData({
@@ -282,6 +283,7 @@ class LineChartBarData {
 
 }
 
+/// holds the details of a [FlSpot] inside a [LineChartBarData]
 class LineBarSpot extends FlSpot {
   final LineChartBarData bar;
   final int barIndex;
@@ -293,7 +295,6 @@ class LineBarSpot extends FlSpot {
 }
 
 /***** BarAreaData *****/
-
 /// This class holds data about draw on below or above space of the bar line,
 class BarAreaData {
   final bool show;
@@ -529,9 +530,11 @@ class LineTouchData extends FlTouchData {
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
 
-  /// handle built in touch responses
+  /// set this true if you want the built in touch handling
+  /// (show a tooltip bubble and an indicator on touched spots)
   final bool handleBuiltInTouches;
 
+  /// you can implement it to receive touches callback
   final Function(LineTouchResponse) touchCallback;
 
   const LineTouchData({
@@ -585,7 +588,7 @@ class LineTouchTooltipData {
   }) : super();
 }
 
-/// show each TooltipItem as a row on the tooltip window,
+/// show each LineTooltipItem as a row on the tooltip window,
 /// return null if you don't want to show each item
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [LineTooltipItem] from the given [TouchedSpot].

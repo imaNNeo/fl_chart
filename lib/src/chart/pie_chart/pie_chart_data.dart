@@ -131,6 +131,7 @@ class PieChartSectionData {
 /// holds data for handling touch events on the [PieChart]
 class PieTouchData extends FlTouchData {
 
+  /// you can implement it to receive touches callback
   final Function(PieTouchResponse) touchCallback;
   
   const PieTouchData({

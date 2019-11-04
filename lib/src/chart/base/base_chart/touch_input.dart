@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-class FlTouchInputNotifier extends ValueNotifier<FlTouchInput> {
-  FlTouchInputNotifier(FlTouchInput value) : super(value);
-}
-
 abstract class FlTouchInput {
   Offset getOffset();
 }

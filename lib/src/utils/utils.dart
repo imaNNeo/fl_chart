@@ -10,6 +10,8 @@ const double radians2Degrees = 180.0 / math.pi;
 
 double degrees(double radians) => radians * radians2Degrees;
 
+/// returns a default size based on the screen size
+/// that is a 70% scaled square based on the screen.
 Size getDefaultSize(BuildContext context) {
   Size size = MediaQuery.of(context).size;
   if (size.width < size.height) {

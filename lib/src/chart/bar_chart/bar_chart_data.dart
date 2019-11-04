@@ -157,6 +157,7 @@ class BarChartGroupData {
   /// [barRods] are our vertical bar lines, that each of them contains a y value,
   /// to draw them independently by y value together.
   /// [barsSpace] is the space between the bar lines inside group
+  /// [showingTooltipIndicators] indexes of barRods to show the tooltip on top of them
   const BarChartGroupData({
     @required this.x,
     this.barRods = const [],
@@ -284,7 +285,8 @@ class BarTouchData extends FlTouchData {
   /// allow to touch the bar back draw
   final bool allowTouchBarBackDraw;
 
-  /// handle built in touch responses
+  /// set this true if you want the built in touch handling
+  /// (show a tooltip bubble and an indicator on touched spots)
   final bool handleBuiltInTouches;
 
   final Function(BarTouchResponse) touchCallback;

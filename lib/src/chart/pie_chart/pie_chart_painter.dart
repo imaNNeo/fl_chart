@@ -16,6 +16,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   /// [centerSpacePaint] responsible to draw the center space of our chart.
   Paint sectionPaint, sectionsSpaceClearPaint, centerSpacePaint;
 
+  /// We hold this calculated angles to use in touch handling,
   List<double> sectionsAngle;
 
   PieChartPainter(
@@ -49,14 +50,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
     drawCenterSpace(canvas, size);
     drawSections(canvas, size, sectionsAngle);
     drawTexts(canvas, size);
-
-//    final touched = _getTouchedDetails(canvas, size, sectionsAngle);
-//    if (touchedResponseSink != null &&
-//        touchInputNotifier != null &&
-//        touchInputNotifier.value != null &&
-//        !(touchInputNotifier.value.runtimeType is NonTouch)) {
-//      touchedResponseSink.add(touched);
-//    }
   }
 
   List<double> _calculateSectionsAngle(List<PieChartSectionData> sections, double sumValue) {
