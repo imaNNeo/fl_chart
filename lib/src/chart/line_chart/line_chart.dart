@@ -113,6 +113,11 @@ class LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (lineChartData == null) {
       return lineChartData;
     }
+
+    if (!lineChartData.lineTouchData.enabled || !lineChartData.lineTouchData.handleBuiltInTouches) {
+      return lineChartData;
+    }
+
     return lineChartData.copyWith(
       showingTooltipIndicators: _showingTouchedTooltips,
       lineBarsData: lineChartData.lineBarsData.map((barData) {

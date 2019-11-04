@@ -109,6 +109,10 @@ class BarChartState extends AnimatedWidgetBaseState<BarChart> {
       return barChartData;
     }
 
+    if (!barChartData.barTouchData.enabled || !barChartData.barTouchData.handleBuiltInTouches) {
+      return barChartData;
+    }
+
     final List<BarChartGroupData> newGroups = [];
     for (int i = 0; i < barChartData.barGroups.length; i++) {
       final group = barChartData.barGroups[i];
