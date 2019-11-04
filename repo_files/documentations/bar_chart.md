@@ -109,3 +109,6 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 
 ##### Sample 2 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample2.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_2.gif" width="300" >
+
+##### Sample 3 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample3.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_3.gif" width="300" >
