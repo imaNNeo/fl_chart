@@ -106,7 +106,11 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   /// to the view base axis x .
   /// the view 0, 0 is on the top/left, but the spots is bottom/left
   double getPixelX(double spotX, Size chartUsableSize) {
-    return (((spotX - data.minX) / (data.maxX - data.minX)) * chartUsableSize.width) +
+    final double deltaX = data.maxX - data.minX;
+    if (deltaX == 0.0) {
+      return getLeftOffsetDrawSize();
+    }
+    return (((spotX - data.minX) / deltaX) * chartUsableSize.width) +
         getLeftOffsetDrawSize();
   }
 
@@ -116,7 +120,12 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     double spotY,
     Size chartUsableSize,
   ) {
-    double y = ((spotY - data.minY) / (data.maxY - data.minY)) * chartUsableSize.height;
+    final double deltaY = data.maxY - data.minY;
+    if (deltaY == 0.0) {
+      return chartUsableSize.height + getTopOffsetDrawSize();
+    }
+
+    double y = ((spotY - data.minY) / deltaY) * chartUsableSize.height;
     y = chartUsableSize.height - y;
     return y + getTopOffsetDrawSize();
   }

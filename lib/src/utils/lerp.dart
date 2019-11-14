@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 
 List<Color> lerpColorList(List<Color> a, List<Color> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -108,6 +109,15 @@ List<PieChartSectionData> lerpPieChartSectionDataList(List<PieChartSectionData> 
   }
 }
 
+List<ScatterSpot> lerpScatterSpotList(List<ScatterSpot> a, List<ScatterSpot> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return ScatterSpot.lerp(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}
 List<BarChartRodStackItem> lerpBarChartRodStackList(List<BarChartRodStackItem> a, List<BarChartRodStackItem> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
