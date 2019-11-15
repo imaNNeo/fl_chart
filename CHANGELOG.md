@@ -1,3 +1,9 @@
+## 0.4.2
+* implemented stacked bar chart, check the [samples](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code)
+* added `groupSpace in [BarChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartdata) to apply space between bar groups
+* fixed drawing left and right titles of the BarChart
+* fixed showing gridLines bug (the grid line of exact max value of each direction doesn't show)
+
 ## 0.4.1
 * fixed handling disabled `handleBuiltInTouches` state bug
 

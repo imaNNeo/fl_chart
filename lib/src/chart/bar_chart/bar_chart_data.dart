@@ -10,16 +10,19 @@ import 'package:flutter/material.dart';
 
 /// This class is responsible to holds data to draw Bar Chart
 /// [barGroups] holds list of bar groups to show together,
+/// [groupsSpace] space between groups, it applies only when the [alignment] is [Alignment.center],
 /// [alignment] is the alignment of showing groups,
 /// [titlesData] holds data about drawing left and bottom titles.
 class BarChartData extends AxisChartData {
   final List<BarChartGroupData> barGroups;
+  final double groupsSpace;
   final BarChartAlignment alignment;
   final FlTitlesData titlesData;
   final BarTouchData barTouchData;
 
   BarChartData({
     this.barGroups = const [],
+    this.groupsSpace = 16,
     this.alignment = BarChartAlignment.spaceBetween,
     this.titlesData = const FlTitlesData(),
     this.barTouchData = const BarTouchData(),
@@ -91,6 +94,7 @@ class BarChartData extends AxisChartData {
 
   BarChartData copyWith({
     List<BarChartGroupData> barGroups,
+    double groupsSpace,
     BarChartAlignment alignment,
     FlTitlesData titlesData,
     BarTouchData barTouchData,
@@ -101,6 +105,7 @@ class BarChartData extends AxisChartData {
   }) {
     return BarChartData(
       barGroups: barGroups ?? this.barGroups,
+      groupsSpace: groupsSpace ?? this.groupsSpace,
       alignment: alignment ?? this.alignment,
       titlesData: titlesData ?? this.titlesData,
       barTouchData: barTouchData ?? this.barTouchData,
@@ -115,14 +120,15 @@ class BarChartData extends AxisChartData {
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is BarChartData && b is BarChartData && t != null) {
       return BarChartData(
+        barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
+        groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
+        alignment: b.alignment,
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        barTouchData: b.barTouchData,
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
-        alignment: b.alignment,
-        barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
-        barTouchData: b.barTouchData,
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
     } else {
       throw Exception('Illegal State');
@@ -213,6 +219,7 @@ class BarChartRodData {
   final double width;
   final bool isRound;
   final BackgroundBarChartRodData backDrawRodData;
+  final List<BarChartRodStackItem> rodStackItem;
 
   const BarChartRodData({
     this.y,
@@ -220,6 +227,7 @@ class BarChartRodData {
     this.width = 8,
     this.isRound = true,
     this.backDrawRodData = const BackgroundBarChartRodData(),
+    this.rodStackItem = const [],
   });
 
   BarChartRodData copyWith({
@@ -228,6 +236,7 @@ class BarChartRodData {
     double width,
     bool isRound,
     BackgroundBarChartRodData backDrawRodData,
+    List<BarChartRodStackItem> rodStackItem,
   }) {
     return BarChartRodData(
       y: y ?? this.y,
@@ -235,6 +244,7 @@ class BarChartRodData {
       width: width ?? this.width,
       isRound: isRound ?? this.isRound,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
+      rodStackItem: rodStackItem ?? this.rodStackItem,
     );
   }
 
@@ -245,6 +255,36 @@ class BarChartRodData {
       isRound: b.isRound,
       y: lerpDouble(a.y, b.y, t),
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
+      rodStackItem: lerpBarChartRodStackList(a.rodStackItem, b.rodStackItem, t),
+    );
+  }
+}
+
+/// each section of rod stack, it will draw the section from [fromY] to [toY] using [color].
+class BarChartRodStackItem {
+  final double fromY;
+  final double toY;
+  final Color color;
+
+  const BarChartRodStackItem(this.fromY, this.toY, this.color);
+
+  BarChartRodStackItem copyWith({
+    double fromY,
+    double toY,
+    Color color,
+  }) {
+    return BarChartRodStackItem(
+      fromY ?? this.fromY,
+      toY ?? this.toY,
+      color ?? this.color,
+    );
+  }
+
+  static BarChartRodStackItem lerp(BarChartRodStackItem a, BarChartRodStackItem b, double t) {
+    return BarChartRodStackItem(
+      lerpDouble(a.fromY, b.fromY, t),
+      lerpDouble(a.toY, b.toY, t),
+      Color.lerp(a.color, b.color, t),
     );
   }
 }

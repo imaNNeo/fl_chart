@@ -15,6 +15,7 @@ BarChart(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |barGroups| list of [BarChartGroupData ](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show normal bar chart|[]|
+|groupsSpace| space between groups, it applies only when the [alignment](#BarChartAlignment) is `Alignment.center`,|16|
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
 |backgroundColor| a background color which is drawn behind the chart| null |
@@ -45,6 +46,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |width|stroke width of the rod bar|8|
 |isRound|determines that the bar lines is round or qubic |true|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
+|rodStackItem|if you want to have stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
 
 
 ### BackgroundBarChartRodData
@@ -53,6 +55,13 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |y|same as [BarChartRodData](#BarChartRodData)'s y|8|
 |show|determines to show or hide this section|false|
 |color|same as [BarChartRodData](#BarChartRodData)'s color|Colors.blueGrey|
+
+### BarChartRodStackItem
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|fromY|draw stack item from this value|null|
+|toY|draw stack item to this value|null|
+|color|color of the stack item|null|
 
 ### BarTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
@@ -112,3 +121,9 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 
 ##### Sample 3 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample3.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_3.png" width="300" >
+
+##### Sample 4 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample4.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_4.png" width="300" >
+
+##### Sample 5 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample5.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_5.png" width="300" >

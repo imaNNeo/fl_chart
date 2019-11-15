@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
   Paint barPaint, bgTouchTooltipPaint;
+  Paint clearPaint;
 
   List<GroupBarsPosition> groupBarsPosition;
 
@@ -21,6 +22,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
+
+    clearPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.white
+      ..blendMode = BlendMode.dstIn;
   }
 
   @override
@@ -82,14 +88,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         break;
 
       case BarChartAlignment.center:
-        final double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        sumWidth += data.groupsSpace * (barGroups.length - 1);
         final double horizontalMargin = (drawSize.width - sumWidth) / 2;
 
         double tempX = 0;
         for (int i = 0; i < barGroups.length; i++) {
           final group = barGroups[i];
           groupsX[i] = leftTextsSpace + horizontalMargin + tempX + group.width / 2;
-          tempX += group.width;
+
+          final double groupSpace = i == barGroups.length - 1 ? 0 : data.groupsSpace;
+          tempX += group.width + groupSpace;
         }
         break;
 
@@ -216,6 +225,42 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           );
           barPaint.color = barRod.color;
           canvas.drawLine(from, to, barPaint);
+
+          // draw rod stack
+          if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
+            final Rect barRect = Rect.fromLTRB(
+              x - roundedRadius,
+              yTo,
+              x + roundedRadius,
+              yFrom,
+            );
+            if (barRod.isRound) {
+              clearPaint
+                ..blendMode = BlendMode.srcOver;
+              canvas.saveLayer(barRect, clearPaint);
+            }
+            for (int i = 0; i < barRod.rodStackItem.length; i++) {
+              final stackItem = barRod.rodStackItem[i];
+              barPaint.color = stackItem.color;
+              barPaint.strokeCap = StrokeCap.butt;
+
+              final Offset fromY = Offset(x, getPixelY(stackItem.fromY, drawSize));
+              final Offset toY = Offset(x, getPixelY(stackItem.toY, drawSize));
+
+              barPaint.strokeCap = StrokeCap.butt;
+              canvas.drawLine(fromY, toY, barPaint);
+            }
+            if (barRod.isRound) {
+              clearPaint..blendMode = BlendMode.dstIn;
+              canvas.saveLayer(barRect, clearPaint);
+              barPaint.color = const Color(0xff000000);
+              final previousMode = barPaint.blendMode;
+              canvas.drawRRect(RRect.fromRectAndRadius(barRect, Radius.circular(roundedRadius)), barPaint);
+              barPaint.blendMode = previousMode;
+              canvas.restore();
+              canvas.restore();
+            }
+          }
         }
       }
     }
@@ -230,46 +275,44 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     // Left Titles
     final leftTitles = data.titlesData.leftTitles;
     if (leftTitles.showTitles) {
-      int verticalCounter = 0;
-      while (leftTitles.interval * verticalCounter <= data.maxY) {
+      double verticalSeek = data.minY;
+      while (verticalSeek <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
-            getTopOffsetDrawSize();
+        double y = getPixelY(verticalSeek, drawSize);
 
-        final String text = leftTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
+        final String text = leftTitles.getTitles(verticalSeek);
 
         final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
-        verticalCounter++;
+        verticalSeek += leftTitles.interval;
       }
     }
 
     // Right Titles
     final rightTitles = data.titlesData.rightTitles;
     if (rightTitles.showTitles) {
-      int verticalCounter = 0;
-      while (rightTitles.interval * verticalCounter <= data.maxY) {
+      double verticalSeek = data.minY;
+      while (verticalSeek <= data.maxY) {
         double x = drawSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
-            getTopOffsetDrawSize();
+        double y = getPixelY(verticalSeek, drawSize);
 
-        final String text = rightTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
+        final String text = rightTitles.getTitles(verticalSeek);
 
         final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x += rightTitles.margin;
         y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
-        verticalCounter++;
+        verticalSeek += rightTitles.interval;
       }
     }
 

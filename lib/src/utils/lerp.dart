@@ -107,3 +107,13 @@ List<PieChartSectionData> lerpPieChartSectionDataList(List<PieChartSectionData> 
     return b;
   }
 }
+
+List<BarChartRodStackItem> lerpBarChartRodStackList(List<BarChartRodStackItem> a, List<BarChartRodStackItem> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return BarChartRodStackItem.lerp(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}
