@@ -266,7 +266,7 @@ class BarChartRodStackItem {
   final double toY;
   final Color color;
 
-  BarChartRodStackItem(this.fromY, this.toY, this.color);
+  const BarChartRodStackItem(this.fromY, this.toY, this.color);
 
   BarChartRodStackItem copyWith({
     double fromY,
