@@ -275,46 +275,44 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     // Left Titles
     final leftTitles = data.titlesData.leftTitles;
     if (leftTitles.showTitles) {
-      int verticalCounter = 0;
-      while (leftTitles.interval * verticalCounter <= data.maxY) {
+      double verticalSeek = data.minY;
+      while (verticalSeek <= data.maxY) {
         double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
-            getTopOffsetDrawSize();
+        double y = getPixelY(verticalSeek, drawSize);
 
-        final String text = leftTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
+        final String text = leftTitles.getTitles(verticalSeek);
 
         final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
-        verticalCounter++;
+        verticalSeek += leftTitles.interval;
       }
     }
 
     // Right Titles
     final rightTitles = data.titlesData.rightTitles;
     if (rightTitles.showTitles) {
-      int verticalCounter = 0;
-      while (rightTitles.interval * verticalCounter <= data.maxY) {
+      double verticalSeek = data.minY;
+      while (verticalSeek <= data.maxY) {
         double x = drawSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(data.gridData.verticalInterval * verticalCounter, drawSize) +
-            getTopOffsetDrawSize();
+        double y = getPixelY(verticalSeek, drawSize);
 
-        final String text = rightTitles.getTitles(data.gridData.verticalInterval * verticalCounter);
+        final String text = rightTitles.getTitles(verticalSeek);
 
         final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x += rightTitles.margin;
         y -= tp.height / 2;
         tp.paint(canvas, Offset(x, y));
 
-        verticalCounter++;
+        verticalSeek += rightTitles.interval;
       }
     }
 
