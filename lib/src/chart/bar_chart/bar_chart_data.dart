@@ -213,6 +213,7 @@ class BarChartRodData {
   final double width;
   final bool isRound;
   final BackgroundBarChartRodData backDrawRodData;
+  final List<BarChartRodStackItem> rodStackItem;
 
   const BarChartRodData({
     this.y,
@@ -220,6 +221,7 @@ class BarChartRodData {
     this.width = 8,
     this.isRound = true,
     this.backDrawRodData = const BackgroundBarChartRodData(),
+    this.rodStackItem = const [],
   });
 
   BarChartRodData copyWith({
@@ -228,6 +230,7 @@ class BarChartRodData {
     double width,
     bool isRound,
     BackgroundBarChartRodData backDrawRodData,
+    List<BarChartRodStackItem> rodStackItem,
   }) {
     return BarChartRodData(
       y: y ?? this.y,
@@ -235,6 +238,7 @@ class BarChartRodData {
       width: width ?? this.width,
       isRound: isRound ?? this.isRound,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
+      rodStackItem: rodStackItem ?? this.rodStackItem,
     );
   }
 
@@ -245,6 +249,36 @@ class BarChartRodData {
       isRound: b.isRound,
       y: lerpDouble(a.y, b.y, t),
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
+      rodStackItem: lerpBarChartRodStackList(a.rodStackItem, b.rodStackItem, t),
+    );
+  }
+}
+
+/// each section of rod stack, it will draw the section from [fromY] to [toY] using [color].
+class BarChartRodStackItem {
+  final double fromY;
+  final double toY;
+  final Color color;
+
+  BarChartRodStackItem(this.fromY, this.toY, this.color);
+
+  BarChartRodStackItem copyWith({
+    double fromY,
+    double toY,
+    Color color,
+  }) {
+    return BarChartRodStackItem(
+      fromY ?? this.fromY,
+      toY ?? this.toY,
+      color ?? this.color,
+    );
+  }
+
+  static BarChartRodStackItem lerp(BarChartRodStackItem a, BarChartRodStackItem b, double t) {
+    return BarChartRodStackItem(
+      lerpDouble(a.fromY, b.fromY, t),
+      lerpDouble(a.toY, b.toY, t),
+      Color.lerp(a.color, b.color, t),
     );
   }
 }

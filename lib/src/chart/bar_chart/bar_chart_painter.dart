@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
   Paint barPaint, bgTouchTooltipPaint;
+  Paint clearPaint;
 
   List<GroupBarsPosition> groupBarsPosition;
 
@@ -21,6 +22,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
+
+    clearPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.white
+      ..blendMode = BlendMode.dstIn;
   }
 
   @override
@@ -216,6 +222,42 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           );
           barPaint.color = barRod.color;
           canvas.drawLine(from, to, barPaint);
+          
+          // draw rod stack
+          if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
+            final Rect barRect = Rect.fromLTRB(
+              x - roundedRadius,
+              yTo,
+              x + roundedRadius,
+              yFrom,
+            );
+            if (barRod.isRound) {
+              clearPaint
+                ..blendMode = BlendMode.srcOver;
+              canvas.saveLayer(barRect, clearPaint);
+            }
+            for (int i = 0; i < barRod.rodStackItem.length; i++) {
+              final stackItem = barRod.rodStackItem[i];
+              barPaint.color = stackItem.color;
+              barPaint.strokeCap = StrokeCap.butt;
+
+              final Offset fromY = Offset(x, getPixelY(stackItem.fromY, drawSize));
+              final Offset toY = Offset(x, getPixelY(stackItem.toY, drawSize));
+
+              barPaint.strokeCap = StrokeCap.butt;
+              canvas.drawLine(fromY, toY, barPaint);
+            }
+            if (barRod.isRound) {
+              clearPaint..blendMode = BlendMode.dstIn;
+              canvas.saveLayer(barRect, clearPaint);
+              barPaint.color = const Color(0xff000000);
+              final previousMode = barPaint.blendMode;
+              canvas.drawRRect(RRect.fromRectAndRadius(barRect, Radius.circular(roundedRadius)), barPaint);
+              barPaint.blendMode = previousMode;
+              canvas.restore();
+              canvas.restore();
+            }
+          }
         }
       }
     }

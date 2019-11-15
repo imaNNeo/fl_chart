@@ -45,6 +45,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |width|stroke width of the rod bar|8|
 |isRound|determines that the bar lines is round or qubic |true|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
+|rodStackItem|if you want to have stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
 
 
 ### BackgroundBarChartRodData
@@ -53,6 +54,13 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |y|same as [BarChartRodData](#BarChartRodData)'s y|8|
 |show|determines to show or hide this section|false|
 |color|same as [BarChartRodData](#BarChartRodData)'s color|Colors.blueGrey|
+
+### BarChartRodStackItem
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|fromY|draw stack item from this value|null|
+|toY|draw stack item to this value|null|
+|color|color of the stack item|null|
 
 ### BarTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
