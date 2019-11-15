@@ -88,14 +88,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         break;
 
       case BarChartAlignment.center:
-        final double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        double sumWidth = barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        sumWidth += data.groupsSpace * (barGroups.length - 1);
         final double horizontalMargin = (drawSize.width - sumWidth) / 2;
 
         double tempX = 0;
         for (int i = 0; i < barGroups.length; i++) {
           final group = barGroups[i];
           groupsX[i] = leftTextsSpace + horizontalMargin + tempX + group.width / 2;
-          tempX += group.width;
+
+          final double groupSpace = i == barGroups.length - 1 ? 0 : data.groupsSpace;
+          tempX += group.width + groupSpace;
         }
         break;
 
@@ -222,7 +225,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           );
           barPaint.color = barRod.color;
           canvas.drawLine(from, to, barPaint);
-          
+
           // draw rod stack
           if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
             final Rect barRect = Rect.fromLTRB(

@@ -15,6 +15,7 @@ BarChart(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |barGroups| list of [BarChartGroupData ](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show normal bar chart|[]|
+|groupsSpace| space between groups, it applies only when the [alignment](#BarChartAlignment) is `Alignment.center`,|16|
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
 |backgroundColor| a background color which is drawn behind the chart| null |

@@ -10,16 +10,19 @@ import 'package:flutter/material.dart';
 
 /// This class is responsible to holds data to draw Bar Chart
 /// [barGroups] holds list of bar groups to show together,
+/// [groupsSpace] space between groups, it applies only when the [alignment] is [Alignment.center],
 /// [alignment] is the alignment of showing groups,
 /// [titlesData] holds data about drawing left and bottom titles.
 class BarChartData extends AxisChartData {
   final List<BarChartGroupData> barGroups;
+  final double groupsSpace;
   final BarChartAlignment alignment;
   final FlTitlesData titlesData;
   final BarTouchData barTouchData;
 
   BarChartData({
     this.barGroups = const [],
+    this.groupsSpace = 16,
     this.alignment = BarChartAlignment.spaceBetween,
     this.titlesData = const FlTitlesData(),
     this.barTouchData = const BarTouchData(),
@@ -91,6 +94,7 @@ class BarChartData extends AxisChartData {
 
   BarChartData copyWith({
     List<BarChartGroupData> barGroups,
+    double groupsSpace,
     BarChartAlignment alignment,
     FlTitlesData titlesData,
     BarTouchData barTouchData,
@@ -101,6 +105,7 @@ class BarChartData extends AxisChartData {
   }) {
     return BarChartData(
       barGroups: barGroups ?? this.barGroups,
+      groupsSpace: groupsSpace ?? this.groupsSpace,
       alignment: alignment ?? this.alignment,
       titlesData: titlesData ?? this.titlesData,
       barTouchData: barTouchData ?? this.barTouchData,
@@ -115,14 +120,15 @@ class BarChartData extends AxisChartData {
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is BarChartData && b is BarChartData && t != null) {
       return BarChartData(
+        barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
+        groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
+        alignment: b.alignment,
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        barTouchData: b.barTouchData,
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
-        alignment: b.alignment,
-        barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
-        barTouchData: b.barTouchData,
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
     } else {
       throw Exception('Illegal State');
