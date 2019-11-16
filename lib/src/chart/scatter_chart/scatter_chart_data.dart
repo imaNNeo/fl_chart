@@ -85,17 +85,12 @@ class ScatterChartData extends AxisChartData {
           minY = spot.y;
         }
       }
-    } else {
-      minX = 0;
-      maxX = 0;
-      minY = 0;
-      minX = 0;
     }
 
-    super.minX = minX;
-    super.maxX = maxX;
-    super.minY = minY;
-    super.maxY = maxY;
+    super.minX = minX ?? 0;
+    super.maxX = maxX ?? 1;
+    super.minY = minY ?? 0;
+    super.maxY = maxY ?? 1;
   }
 
   @override
