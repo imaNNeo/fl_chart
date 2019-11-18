@@ -91,7 +91,7 @@ class LineChartState extends AnimatedWidgetBaseState<LineChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: chartSize,
+        size: getDefaultSize(context),
         painter: LineChartPainter(
           _withTouchedIndicators(_lineChartDataTween.evaluate(animation)),
           _withTouchedIndicators(showingData),

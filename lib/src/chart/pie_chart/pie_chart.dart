@@ -87,7 +87,7 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: chartSize,
+        size: getDefaultSize(context),
         painter: PieChartPainter(
           _pieChartDataTween.evaluate(animation),
           showingData,
