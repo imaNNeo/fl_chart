@@ -494,6 +494,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     if (!barData.show) {
       return;
     }
+    final chartViewSize = getChartUsableDrawSize(viewSize);
 
     barPaint.strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
 
@@ -516,14 +517,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         stops = barData.colorStops;
       }
 
+      final from = barData.gradientFrom;
+      final to = barData.gradientTo;
+
       barPaint.shader = ui.Gradient.linear(
         Offset(
-          getLeftOffsetDrawSize(),
-          getTopOffsetDrawSize() + (viewSize.height / 2),
+          getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
+          getTopOffsetDrawSize() + (chartViewSize.height * from.dy),
         ),
         Offset(
-          getLeftOffsetDrawSize() + viewSize.width,
-          getTopOffsetDrawSize() + (viewSize.height / 2),
+          getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
+          getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
         barData.colors,
         stops,

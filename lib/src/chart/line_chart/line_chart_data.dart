@@ -189,6 +189,15 @@ class LineChartBarData {
   /// stop points of the gradient.
   final List<double> colorStops;
 
+  /// if the gradient mode is enabled (if you have more than one color)
+  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
+  /// you can determine where the gradient should start and end,
+  /// values are available between 0 to 1,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right
+  final Offset gradientFrom;
+  final Offset gradientTo;
+
   final double barWidth;
   final bool isCurved;
 
@@ -221,6 +230,8 @@ class LineChartBarData {
     this.show = true,
     this.colors = const [Colors.redAccent],
     this.colorStops,
+    this.gradientFrom = const Offset(0, 0),
+    this.gradientTo = const Offset(1, 0),
     this.barWidth = 2.0,
     this.isCurved = false,
     this.curveSmoothness = 0.35,
@@ -244,6 +255,8 @@ class LineChartBarData {
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       colors: lerpColorList(a.colors, b.colors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spots: lerpFlSpotList(a.spots, b.spots, t),
       showingIndicators: b.showingIndicators,
     );
@@ -254,6 +267,8 @@ class LineChartBarData {
     bool show,
     List<Color> colors,
     List<double> colorStops,
+    Offset gradientFrom,
+    Offset gradientTo,
     double barWidth,
     bool isCurved,
     double curveSmoothness,
@@ -269,6 +284,8 @@ class LineChartBarData {
       show: show ?? this.show,
       colors: colors ?? this.colors,
       colorStops: colorStops ?? this.colorStops,
+      gradientFrom: gradientFrom ?? this.gradientFrom,
+      gradientTo: gradientTo ?? this.gradientTo,
       barWidth: barWidth ?? this.barWidth,
       isCurved: isCurved ?? this.isCurved,
       curveSmoothness: curveSmoothness ?? this.curveSmoothness,
