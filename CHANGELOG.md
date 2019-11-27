@@ -1,3 +1,7 @@
+## 0.4.3
+* fixed a size bug, #100.
+* direction support for gradient on the LineChart (added `gradientFrom` and `gradientTo` in the [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata)).
+
 ## 0.4.2
 * implemented stacked bar chart, check the [samples](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code)
 * added `groupSpace in [BarChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartdata) to apply space between bar groups
