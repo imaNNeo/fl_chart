@@ -11,12 +11,14 @@ import 'package:flutter/material.dart';
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
+/// [FlAxisTitleData] to show a description of each axis
 /// [ExtraLinesData] to draw extra horizontal and vertical lines on the chart
 /// [LineTouchData] holds data to handling touch and interactions
 /// [showingTooltipIndicators] show the tooltip based on provided position(x), and list of [LineBarSpot]
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
+  final FlAxisTitleData axisTitleData;
   final ExtraLinesData extraLinesData;
   final LineTouchData lineTouchData;
   final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
@@ -24,6 +26,7 @@ class LineChartData extends AxisChartData {
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
+    this.axisTitleData = const FlAxisTitleData(),
     this.extraLinesData = const ExtraLinesData(),
     this.lineTouchData = const LineTouchData(),
     this.showingTooltipIndicators = const[],
@@ -125,6 +128,7 @@ class LineChartData extends AxisChartData {
         extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
         lineTouchData: b.lineTouchData,
         showingTooltipIndicators: b.showingTooltipIndicators,
@@ -137,6 +141,7 @@ class LineChartData extends AxisChartData {
   LineChartData copyWith({
     List<LineChartBarData> lineBarsData,
     FlTitlesData titlesData,
+    FlAxisTitleData axisTitleData,
     ExtraLinesData extraLinesData,
     LineTouchData lineTouchData,
     List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
@@ -152,6 +157,7 @@ class LineChartData extends AxisChartData {
     return LineChartData(
       lineBarsData: lineBarsData ?? this.lineBarsData,
       titlesData: titlesData ?? this.titlesData,
+      axisTitleData: axisTitleData ?? this.axisTitleData,
       extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
       showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,

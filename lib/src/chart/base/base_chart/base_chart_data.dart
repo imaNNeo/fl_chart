@@ -72,6 +72,66 @@ class FlTouchData {
   const FlTouchData(this.enabled, this.enableNormalTouch);
 }
 
+///***** AxisTitleData *****/
+
+/// This class holds data about the description for each axis of the chart.
+class FlAxisTitleData {
+  final bool show;
+
+  final AxisTitle leftTitle, topTitle, rightTitle, bottomTitle;
+
+  const FlAxisTitleData({
+    this.show = true,
+    this.leftTitle = const AxisTitle(reservedSize: 16),
+    this.topTitle = const AxisTitle(reservedSize: 16),
+    this.rightTitle = const AxisTitle(reservedSize: 16),
+    this.bottomTitle = const AxisTitle(reservedSize: 16),
+  });
+
+  static FlAxisTitleData lerp(FlAxisTitleData a, FlAxisTitleData b, double t) {
+    return FlAxisTitleData(
+      show: b.show,
+      leftTitle: AxisTitle.lerp(a.leftTitle, b.leftTitle, t),
+      rightTitle: AxisTitle.lerp(a.rightTitle, b.rightTitle, t),
+      bottomTitle: AxisTitle.lerp(a.bottomTitle, b.bottomTitle, t),
+      topTitle: AxisTitle.lerp(a.topTitle, b.topTitle, t),
+    );
+  }
+}
+
+/// specify each axis titles data
+class AxisTitle {
+  final bool showTitle;
+  final double reservedSize;
+  final TextStyle textStyle;
+  final TextAlign textAlign;
+  final double margin;
+  final String titleText;
+
+  const AxisTitle({
+    this.showTitle = false,
+    this.titleText = '',
+    this.reservedSize = 14,
+    this.textStyle = const TextStyle(
+      color: Colors.black,
+      fontSize: 11,
+    ),
+    this.textAlign = TextAlign.center,
+    this.margin = 4,
+  });
+
+  static AxisTitle lerp(AxisTitle a, AxisTitle b, double t) {
+    return AxisTitle(
+      showTitle: b.showTitle,
+      titleText: b.titleText,
+      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
+      textAlign: b.textAlign,
+      margin: lerpDouble(a.margin, b.margin, t),
+    );
+  }
+}
+
 /***** TitlesData *****/
 
 /// we use this typedef to determine which titles

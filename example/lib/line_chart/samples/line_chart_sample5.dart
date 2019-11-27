@@ -89,6 +89,13 @@ class LineChartSample5 extends StatelessWidget {
                   fontSize: 18,
                 )),
           ),
+          axisTitleData: const FlAxisTitleData(
+              rightTitle: AxisTitle(showTitle: true, titleText: 'count'),
+              leftTitle: AxisTitle(showTitle: true, titleText: 'count'),
+              topTitle: AxisTitle(
+                  showTitle: true,
+                  titleText: 'Wall clock',
+                  textAlign: TextAlign.left)),
           gridData: const FlGridData(show: false),
           borderData: FlBorderData(
             show: true,
