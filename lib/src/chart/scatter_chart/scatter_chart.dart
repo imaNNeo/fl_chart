@@ -85,7 +85,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
+        size: chartSize,
         painter: ScatterChartPainter(
           _scatterChartDataTween.evaluate(animation),
           showingData,
@@ -106,7 +106,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   Size _getChartSize() {
     if (_chartKey.currentContext != null) {
       final RenderBox containerRenderBox = _chartKey.currentContext.findRenderObject();
-      return containerRenderBox.size;
+      return containerRenderBox.constraints.biggest;
     } else {
       return getDefaultSize(context);
     }
