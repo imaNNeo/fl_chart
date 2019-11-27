@@ -36,6 +36,8 @@ LineChart(
 |spots| list of [FlSpot](base_chart.md#FlSpot)'s x and y coordinates that the line go through it| []
 |colors| colors the line, if multiple colors provided it will be gradient|[Colors.redAccent]|
 |colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |barWidth| gets the stroke width of the line bar|2.0|
 |isCurved| curves the corners of the line on the spot's positions| false|
 |curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
