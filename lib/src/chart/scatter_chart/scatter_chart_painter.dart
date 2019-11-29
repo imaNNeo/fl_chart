@@ -10,7 +10,7 @@ import 'scatter_chart_data.dart';
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchHandler<ScatterTouchResponse> {
 
   /// [spotsPaint] is responsible to draw scatter spots
-  Paint spotsPaint;
+  Paint spotsPaint, bgTouchTooltipPaint;
 
   ScatterChartPainter(
     ScatterChartData data,
@@ -20,6 +20,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
     touchHandler(this);
 
     spotsPaint = Paint()..style = PaintingStyle.fill;
+
+    bgTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.white;
+
   }
 
   @override
@@ -28,6 +33,15 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
     drawTitles(canvas, size);
     drawSpots(canvas, size);
+
+    for(int i = 0; i < targetData.scatterSpots.length; i++) {
+      if (!targetData.showingTooltipIndicators.contains(i)) {
+        continue;
+      }
+
+      final ScatterSpot scatterSpot = targetData.scatterSpots[i];
+      drawTouchTooltip(canvas, size, targetData.scatterTouchData.touchTooltipData, scatterSpot);
+    }
   }
 
   void drawTitles(Canvas canvas, Size viewSize) {
@@ -148,6 +162,56 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
     }
   }
 
+  void drawTouchTooltip(Canvas canvas, Size viewSize, ScatterTouchTooltipData tooltipData,
+    ScatterSpot showOnSpot) {
+
+    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+
+    final ScatterTooltipItem tooltipItem = tooltipData.getTooltipItems(showOnSpot);
+
+    if (tooltipItem == null) {
+      return;
+    }
+
+    final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
+    final TextPainter drawingTextPainter =
+    TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+    drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
+
+    final width = drawingTextPainter.width;
+    final height = drawingTextPainter.height;
+
+    /// if we have multiple bar lines,
+    /// there are more than one FlCandidate on touch area,
+    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
+    final Offset mostTopOffset = Offset(
+      getPixelX(showOnSpot.x, chartUsableSize),
+      getPixelY(showOnSpot.y, chartUsableSize),
+    );
+
+    final double tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
+    final double tooltipHeight = height + tooltipData.tooltipPadding.vertical;
+
+    /// draw the background rect with rounded radius
+    final Rect rect = Rect.fromLTWH(
+      mostTopOffset.dx - (tooltipWidth / 2),
+      mostTopOffset.dy - tooltipHeight - tooltipItem.bottomMargin,
+      tooltipWidth,
+      tooltipHeight);
+    final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
+    final RRect roundedRect = RRect.fromRectAndCorners(rect,
+      topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
+    bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+    canvas.drawRRect(roundedRect, bgTouchTooltipPaint);
+
+    /// draw the texts one by one in below of each other
+    final drawOffset = Offset(
+      rect.center.dx - (drawingTextPainter.width / 2),
+      rect.topCenter.dy + tooltipData.tooltipPadding.top,
+    );
+    drawingTextPainter.paint(canvas, drawOffset);
+  }
+
   /// We add our needed horizontal space to parent needed.
   /// we have some titles that maybe draw in the left and right side of our chart,
   /// then we should draw the chart a with some left space,
@@ -232,13 +296,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
       final spotPixelX = getPixelX(spot.x, chartViewSize);
       final spotPixelY = getPixelY(spot.y, chartViewSize);
 
-      if ((spot.x - spotPixelX).abs() <= data.scatterTouchData.touchSpotThreshold
-        && (spot.y - spotPixelY).abs() <= data.scatterTouchData.touchSpotThreshold) {
-        return ScatterTouchResponse(touchInput, spot);
+      if ((touchInput.getOffset().dx - spotPixelX).abs() <= (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold
+        && (touchInput.getOffset().dy - spotPixelY).abs() <= (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold) {
+        return ScatterTouchResponse(touchInput, spot, i);
       }
     }
 
-    return null;
+    return ScatterTouchResponse(touchInput, null, -1);
   }
 
   @override

@@ -10,11 +10,13 @@ class ScatterChartData extends AxisChartData {
   final List<ScatterSpot> scatterSpots;
   final FlTitlesData titlesData;
   final ScatterTouchData scatterTouchData;
+  final List<int> showingTooltipIndicators;
 
   ScatterChartData({
     this.scatterSpots = const [],
     this.titlesData = const FlTitlesData(),
     this.scatterTouchData = const ScatterTouchData(),
+    this.showingTooltipIndicators = const [],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     double minX,
@@ -97,6 +99,7 @@ class ScatterChartData extends AxisChartData {
         scatterSpots: lerpScatterSpotList(a.scatterSpots, b.scatterSpots, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         scatterTouchData: b.scatterTouchData,
+        showingTooltipIndicators: lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         minX: lerpDouble(a.minX, b.minX, t),
@@ -115,6 +118,7 @@ class ScatterChartData extends AxisChartData {
     List<ScatterSpot> scatterSpots,
     FlTitlesData titlesData,
     ScatterTouchData scatterTouchData,
+    List<int> showingTooltipIndicators,
     FlGridData gridData,
     FlBorderData borderData,
     double minX,
@@ -128,6 +132,7 @@ class ScatterChartData extends AxisChartData {
       scatterSpots: scatterSpots ?? this.scatterSpots,
       titlesData: titlesData ?? this.titlesData,
       scatterTouchData: scatterTouchData ?? this.scatterTouchData,
+      showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
       minX: minX ?? this.minX,
@@ -169,14 +174,15 @@ class ScatterSpot extends FlSpot {
 class ScatterTouchResponse extends BaseTouchResponse {
 
   final ScatterSpot touchedSpot;
+  final int touchedSpotIndex;
 
-  ScatterTouchResponse(FlTouchInput touchInput, this.touchedSpot) : super(touchInput);
+  ScatterTouchResponse(FlTouchInput touchInput, this.touchedSpot, this.touchedSpotIndex,) : super(touchInput);
 }
 
 class ScatterTouchData extends FlTouchData {
 
   /// show a tooltip on touched spots
-  final LineTouchTooltipData touchTooltipData;
+  final ScatterTouchTooltipData touchTooltipData;
 
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
@@ -191,7 +197,7 @@ class ScatterTouchData extends FlTouchData {
   const ScatterTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
-    this.touchTooltipData = const LineTouchTooltipData(),
+    this.touchTooltipData = const ScatterTouchTooltipData(),
     this.touchSpotThreshold = 10,
     this.handleBuiltInTouches = true,
     this.touchCallback,
@@ -214,6 +220,53 @@ class ScatterTouchData extends FlTouchData {
   }
 
 }
+
+
+/// Holds information for showing tooltip
+/// when a touch event happened
+class ScatterTouchTooltipData {
+  final Color tooltipBgColor;
+  final double tooltipRoundedRadius;
+  final EdgeInsets tooltipPadding;
+  final double maxContentWidth;
+  final GetScatterTooltipItems getTooltipItems;
+
+  const ScatterTouchTooltipData({
+    this.tooltipBgColor = Colors.white,
+    this.tooltipRoundedRadius = 4,
+    this.tooltipPadding =
+    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.maxContentWidth = 120,
+    this.getTooltipItems = defaultScatterTooltipItem,
+  }) : super();
+}
+
+/// show each [ScatterTooltipItem] on the tooltip window,
+/// return null if you don't want to show each item
+/// here we get the [ScatterTooltipItem] from the given [ScatterSpot].
+typedef GetScatterTooltipItems = ScatterTooltipItem Function(ScatterSpot touchedSpots);
+
+ScatterTooltipItem defaultScatterTooltipItem (ScatterSpot touchedSpot) {
+  if (touchedSpot == null) {
+    return null;
+  }
+  final TextStyle textStyle = TextStyle(
+    color: touchedSpot.color,
+    fontWeight: FontWeight.bold,
+    fontSize: 14,
+  );
+  return ScatterTooltipItem('${touchedSpot.x.toInt()}, ${touchedSpot.y.toInt()}', textStyle, touchedSpot.radius + (touchedSpot.radius * 0.2));
+}
+
+/// holds data of showing each item in the tooltip window
+class ScatterTooltipItem {
+  final String text;
+  final TextStyle textStyle;
+  final double bottomMargin;
+
+  ScatterTooltipItem(this.text, this.textStyle, this.bottomMargin,);
+}
+
 
 class ScatterChartDataTween extends Tween<ScatterChartData> {
 

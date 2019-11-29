@@ -45,7 +45,15 @@ class _ScatterChartSample2State extends State {
               ),
               titlesData: const FlTitlesData(
                 show: false,
-              )),
+              ),
+            scatterTouchData: const ScatterTouchData(
+              enabled: true,
+              handleBuiltInTouches: true,
+              touchTooltipData: ScatterTouchTooltipData(
+                tooltipBgColor: Colors.black,
+              )
+            )
+          ),
         ),
       ),
     );

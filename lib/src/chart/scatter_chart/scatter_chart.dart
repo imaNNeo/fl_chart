@@ -26,6 +26,8 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   TouchHandler<ScatterTouchResponse> _touchHandler;
 
   final GlobalKey _chartKey = GlobalKey();
+  
+  List<int> touchedSpots = [];
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +89,8 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         key: _chartKey,
         size: chartSize,
         painter: ScatterChartPainter(
-          _scatterChartDataTween.evaluate(animation),
-          showingData,
+          _withTouchedIndicators(_scatterChartDataTween.evaluate(animation)),
+          _withTouchedIndicators(showingData),
           (touchHandler) {
             setState(() {
               _touchHandler = touchHandler;
@@ -101,6 +103,20 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
 
   bool _canHandleTouch(ScatterTouchResponse response, ScatterTouchData touchData) {
     return response != null && touchData != null && touchData.touchCallback != null;
+  }
+
+  ScatterChartData _withTouchedIndicators(ScatterChartData scatterChartData) {
+    if (scatterChartData == null) {
+      return scatterChartData;
+    }
+
+    if (!scatterChartData.scatterTouchData.enabled || !scatterChartData.scatterTouchData.handleBuiltInTouches) {
+      return scatterChartData;
+    }
+
+    return scatterChartData.copyWith(
+      showingTooltipIndicators: touchedSpots,
+    );
   }
 
   Size _getChartSize() {
@@ -131,9 +147,14 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         touchResponse.touchInput is FlPanMoveUpdate ||
         touchResponse.touchInput is FlLongPressStart ||
         touchResponse.touchInput is FlLongPressMoveUpdate) {
-      setState(() {});
+      setState(() {
+        touchedSpots.clear();
+        touchedSpots.add(touchResponse.touchedSpotIndex);
+      });
     } else {
-      setState(() {});
+      setState(() {
+        touchedSpots.clear();
+      });
     }
   }
 
