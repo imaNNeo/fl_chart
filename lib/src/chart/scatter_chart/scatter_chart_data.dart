@@ -9,14 +9,11 @@ class ScatterChartData extends AxisChartData {
 
   final List<ScatterSpot> scatterSpots;
   final FlTitlesData titlesData;
-  final ExtraLinesData extraLinesData;
-
   final ScatterTouchData scatterTouchData;
 
   ScatterChartData({
     this.scatterSpots = const [],
     this.titlesData = const FlTitlesData(),
-    this.extraLinesData = const ExtraLinesData(),
     this.scatterTouchData = const ScatterTouchData(),
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
@@ -99,7 +96,6 @@ class ScatterChartData extends AxisChartData {
       return ScatterChartData(
         scatterSpots: lerpScatterSpotList(a.scatterSpots, b.scatterSpots, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
-        extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         scatterTouchData: b.scatterTouchData,
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
@@ -118,7 +114,6 @@ class ScatterChartData extends AxisChartData {
   ScatterChartData copyWith({
     List<ScatterSpot> scatterSpots,
     FlTitlesData titlesData,
-    ExtraLinesData extraLinesData,
     ScatterTouchData scatterTouchData,
     FlGridData gridData,
     FlBorderData borderData,
@@ -132,7 +127,6 @@ class ScatterChartData extends AxisChartData {
     return ScatterChartData(
       scatterSpots: scatterSpots ?? this.scatterSpots,
       titlesData: titlesData ?? this.titlesData,
-      extraLinesData: extraLinesData ?? this.extraLinesData,
       scatterTouchData: scatterTouchData ?? this.scatterTouchData,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,

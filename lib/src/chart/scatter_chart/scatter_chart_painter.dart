@@ -9,9 +9,8 @@ import 'scatter_chart_data.dart';
 
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchHandler<ScatterTouchResponse> {
 
-  /// [extraLinesPaint] is responsible to draw extra lines
   /// [spotsPaint] is responsible to draw scatter spots
-  Paint extraLinesPaint, spotsPaint;
+  Paint spotsPaint;
 
   ScatterChartPainter(
     ScatterChartData data,
@@ -19,8 +18,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
     Function(TouchHandler) touchHandler,
     ) : super(data, targetData,) {
     touchHandler(this);
-
-    extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
     spotsPaint = Paint()..style = PaintingStyle.fill;
   }
@@ -31,7 +28,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
     drawTitles(canvas, size);
     drawSpots(canvas, size);
-    drawExtraLines(canvas, size);
   }
 
   void drawTitles(Canvas canvas, Size viewSize) {
@@ -149,46 +145,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
         scatterSpot.radius,
         spotsPaint,
       );
-    }
-  }
-
-  void drawExtraLines(Canvas canvas, Size viewSize) {
-    if (data.extraLinesData == null) {
-      return;
-    }
-
-    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
-
-    if (data.extraLinesData.showHorizontalLines) {
-      for (HorizontalLine line in data.extraLinesData.horizontalLines) {
-        final double topChartPadding = getTopOffsetDrawSize();
-        final Offset from = Offset(getPixelX(line.x, chartUsableSize), topChartPadding);
-
-        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
-        final Offset to =
-        Offset(getPixelX(line.x, chartUsableSize), viewSize.height - bottomChartPadding);
-
-        extraLinesPaint.color = line.color;
-        extraLinesPaint.strokeWidth = line.strokeWidth;
-
-        canvas.drawLine(from, to, extraLinesPaint);
-      }
-    }
-
-    if (data.extraLinesData.showVerticalLines) {
-      for (VerticalLine line in data.extraLinesData.verticalLines) {
-        final double leftChartPadding = getLeftOffsetDrawSize();
-        final Offset from = Offset(leftChartPadding, getPixelY(line.y, chartUsableSize));
-
-        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
-        final Offset to =
-        Offset(viewSize.width - rightChartPadding, getPixelY(line.y, chartUsableSize));
-
-        extraLinesPaint.color = line.color;
-        extraLinesPaint.strokeWidth = line.strokeWidth;
-
-        canvas.drawLine(from, to, extraLinesPaint);
-      }
     }
   }
 
