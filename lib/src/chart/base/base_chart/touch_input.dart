@@ -65,8 +65,9 @@ class FlPanMoveUpdate extends FlTouchNormalInput {
 
 class FlPanEnd extends FlTouchNormalInput {
   final Offset localPosition;
+  final Velocity velocity;
 
-  FlPanEnd(this.localPosition);
+  FlPanEnd(this.localPosition, this.velocity,);
 
   @override
   Offset getOffset() {

@@ -59,14 +59,14 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       },
       onPanCancel: () async {
         final ScatterTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero), chartSize);
+            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanEnd: (DragEndDetails details) async {
         final ScatterTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero), chartSize);
+            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }

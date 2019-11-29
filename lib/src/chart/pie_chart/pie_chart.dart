@@ -59,14 +59,14 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
       },
       onPanCancel: () async {
         final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero), chartSize);
+            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanEnd: (DragEndDetails details) async {
         final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero), chartSize);
+            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
