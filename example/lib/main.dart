@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
+            ScatterChartPage(),
             LineChartPage(),
             BarChartPage(),
             BarChartPage2(),
@@ -49,7 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
             LineChartPage2(),
             LineChartPage3(),
             LineChartPage4(),
-            ScatterChartPage(),
           ],
         ),
       ),
