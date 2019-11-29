@@ -5,7 +5,7 @@
 
 - [x] Add Animations ([Docs](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_animations.md))
 
-- [ ] Add ScatterPlot chart
+- [x] Add ScatterPlot chart
 
 - [ ] Add HeatMap Chart [see more](https://altair-viz.github.io/gallery/simple_heatmap.html)
 
