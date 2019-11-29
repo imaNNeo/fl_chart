@@ -30,7 +30,7 @@ class _ScatterChartSample1State extends State {
       child: AspectRatio(
         aspectRatio: 1,
         child: Card(
-          color: Color(0xffffffff),
+          color: const Color(0xffffffff),
           elevation: 6,
           child: ScatterChart(
             ScatterChartData(
@@ -42,12 +42,16 @@ class _ScatterChartSample1State extends State {
               borderData: FlBorderData(
                 show: false,
               ),
-              gridData: FlGridData(
+              gridData: const FlGridData(
                 show: false,
               ),
               titlesData: const FlTitlesData(
                 show: false,
-              )),
+              ),
+              scatterTouchData: const ScatterTouchData(
+                enabled: false,
+              )
+            ),
             swapAnimationDuration: Duration(milliseconds: 600),
           ),
         ),

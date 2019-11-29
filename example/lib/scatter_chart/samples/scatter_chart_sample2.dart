@@ -9,6 +9,12 @@ class ScatterChartSample2 extends StatefulWidget {
 class _ScatterChartSample2State extends State {
   int touchedIndex;
 
+  Color greyColor = Colors.grey;
+
+  List<int> selectedSpots = [];
+
+  int lastPanStartOnIndex = -1;
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -18,14 +24,14 @@ class _ScatterChartSample2State extends State {
         child: ScatterChart(
           ScatterChartData(
               scatterSpots: [
-                ScatterSpot(4, 4, color: Colors.green,),
-                ScatterSpot(2, 5, color: Colors.yellow, radius: 12,),
-                ScatterSpot(4, 5, color: Colors.purpleAccent, radius: 8,),
-                ScatterSpot(8, 6, color: Colors.orange, radius: 20,),
-                ScatterSpot(5, 7, color: Colors.brown, radius: 14,),
-                ScatterSpot(7, 2, color: Colors.lightGreenAccent, radius: 18,),
-                ScatterSpot(3, 2, color: Colors.red, radius: 36,),
-                ScatterSpot(2, 8, color: Colors.tealAccent, radius: 22,),
+                ScatterSpot(4, 4, color: selectedSpots.contains(0) ? Colors.green : greyColor,),
+                ScatterSpot(2, 5, color: selectedSpots.contains(1) ? Colors.yellow : greyColor, radius: 12,),
+                ScatterSpot(4, 5, color: selectedSpots.contains(2) ? Colors.purpleAccent : greyColor, radius: 8,),
+                ScatterSpot(8, 6, color: selectedSpots.contains(3) ? Colors.orange : greyColor, radius: 20,),
+                ScatterSpot(5, 7, color: selectedSpots.contains(4) ? Colors.brown : greyColor, radius: 14,),
+                ScatterSpot(7, 2, color: selectedSpots.contains(5) ? Colors.lightGreenAccent : greyColor, radius: 18,),
+                ScatterSpot(3, 2, color: selectedSpots.contains(6) ? Colors.red : greyColor, radius: 36,),
+                ScatterSpot(2, 8, color: selectedSpots.contains(7) ? Colors.tealAccent : greyColor, radius: 22,),
               ],
               minX: 0,
               maxX: 10,
@@ -46,12 +52,31 @@ class _ScatterChartSample2State extends State {
               titlesData: const FlTitlesData(
                 show: false,
               ),
-            scatterTouchData: const ScatterTouchData(
+            showingTooltipIndicators: selectedSpots,
+            scatterTouchData: ScatterTouchData(
               enabled: true,
-              handleBuiltInTouches: true,
-              touchTooltipData: ScatterTouchTooltipData(
+              handleBuiltInTouches: false,
+              touchTooltipData: const ScatterTouchTooltipData(
                 tooltipBgColor: Colors.black,
-              )
+              ),
+              touchCallback: (ScatterTouchResponse touchResponse) {
+                if (touchResponse.touchInput is FlPanStart) {
+                  lastPanStartOnIndex = touchResponse.touchedSpotIndex;
+                } else if (touchResponse.touchInput is FlPanEnd) {
+                  final FlPanEnd flPanEnd = touchResponse.touchInput;
+
+                  if (flPanEnd.velocity.pixelsPerSecond <= const Offset(4, 4)) {
+                    // Tap happened
+                    setState(() {
+                      if (selectedSpots.contains(lastPanStartOnIndex)) {
+                        selectedSpots.remove(lastPanStartOnIndex);
+                      } else {
+                        selectedSpots.add(lastPanStartOnIndex);
+                      }
+                    });
+                  }
+                }
+              }
             )
           ),
         ),

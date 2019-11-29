@@ -255,7 +255,7 @@ ScatterTooltipItem defaultScatterTooltipItem (ScatterSpot touchedSpot) {
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return ScatterTooltipItem('${touchedSpot.x.toInt()}, ${touchedSpot.y.toInt()}', textStyle, touchedSpot.radius + (touchedSpot.radius * 0.2));
+  return ScatterTooltipItem('${touchedSpot.radius.toInt()}', textStyle, touchedSpot.radius + (touchedSpot.radius * 0.2));
 }
 
 /// holds data of showing each item in the tooltip window
