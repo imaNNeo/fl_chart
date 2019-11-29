@@ -1,3 +1,4 @@
+import 'package:example/scatter_chart/scatter_chart_page.dart';
 import 'package:flutter/material.dart';
 
 import 'bar_chart/bar_chart_page.dart';
@@ -48,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             LineChartPage2(),
             LineChartPage3(),
             LineChartPage4(),
+            ScatterChartPage(),
           ],
         ),
       ),
