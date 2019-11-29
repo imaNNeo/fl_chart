@@ -1,3 +1,6 @@
+## 0.5.0
+* 💥 Added ScatterChart ([read about it](https://jbt.github.io/markdown-editor/repo_files/documentations/scatter_chart.md)) 💥
+
 ## 0.4.3
 * fixed a size bug, #100.
 * direction support for gradient on the LineChart (added `gradientFrom` and `gradientTo` in the [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata)).
