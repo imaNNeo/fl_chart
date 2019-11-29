@@ -63,14 +63,14 @@ class LineChartState extends AnimatedWidgetBaseState<LineChart> {
       },
       onPanCancel: () async {
         final LineTouchResponse response =
-        _touchHandler?.handleTouch(FlPanEnd(Offset.zero), chartSize);
+        _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanEnd: (DragEndDetails details) async {
         final LineTouchResponse response =
-        _touchHandler?.handleTouch(FlPanEnd(Offset.zero), chartSize);
+        _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }

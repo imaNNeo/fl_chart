@@ -1,85 +1,85 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
-import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-import 'pie_chart_data.dart';
+class ScatterChart extends ImplicitlyAnimatedWidget {
+  final ScatterChartData data;
 
-class PieChart extends ImplicitlyAnimatedWidget {
-  final PieChartData data;
-
-  const PieChart(
+  const ScatterChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(duration: swapAnimationDuration);
 
   @override
-  PieChartState createState() => PieChartState();
+  ScatterChartState createState() => ScatterChartState();
 }
 
-class PieChartState extends AnimatedWidgetBaseState<PieChart> {
+class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
-  /// it lerps between the old [PieChartData] to the new one.
-  PieChartDataTween _pieChartDataTween;
+  /// it lerps between the old [ScatterChartData] to the new one.
+  ScatterChartDataTween _scatterChartDataTween;
 
-  /// this is used to map the touch events to [PieTouchResponse]
-  TouchHandler _touchHandler;
+  TouchHandler<ScatterTouchResponse> _touchHandler;
 
-  /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
+  
+  List<int> touchedSpots = [];
 
   @override
   Widget build(BuildContext context) {
-    final PieChartData showingData = _getDate();
+    final ScatterChartData showingData = _getDate();
     final Size chartSize = _getChartSize();
-    final PieTouchData touchData = showingData.pieTouchData;
+    final ScatterTouchData touchData = showingData.scatterTouchData;
 
     return GestureDetector(
       onLongPressStart: (d) {
-        final PieTouchResponse response =
+        final ScatterTouchResponse response =
             _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onLongPressEnd: (d) async {
-        final PieTouchResponse response =
+        final ScatterTouchResponse response =
             _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onLongPressMoveUpdate: (d) {
-        final PieTouchResponse response =
+        final ScatterTouchResponse response =
             _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanCancel: () async {
-        final PieTouchResponse response =
+        final ScatterTouchResponse response =
             _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanEnd: (DragEndDetails details) async {
-        final PieTouchResponse response =
+        final ScatterTouchResponse response =
             _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanDown: (DragDownDetails details) {
-        final PieTouchResponse response =
+        final ScatterTouchResponse response =
             _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
-        final PieTouchResponse response =
+        final ScatterTouchResponse response =
             _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
@@ -87,10 +87,10 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
-        painter: PieChartPainter(
-          _pieChartDataTween.evaluate(animation),
-          showingData,
+        size: chartSize,
+        painter: ScatterChartPainter(
+          _withTouchedIndicators(_scatterChartDataTween.evaluate(animation)),
+          _withTouchedIndicators(showingData),
           (touchHandler) {
             setState(() {
               _touchHandler = touchHandler;
@@ -101,8 +101,22 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
     );
   }
 
-  bool _canHandleTouch(PieTouchResponse response, PieTouchData touchData) {
+  bool _canHandleTouch(ScatterTouchResponse response, ScatterTouchData touchData) {
     return response != null && touchData != null && touchData.touchCallback != null;
+  }
+
+  ScatterChartData _withTouchedIndicators(ScatterChartData scatterChartData) {
+    if (scatterChartData == null) {
+      return scatterChartData;
+    }
+
+    if (!scatterChartData.scatterTouchData.enabled || !scatterChartData.scatterTouchData.handleBuiltInTouches) {
+      return scatterChartData;
+    }
+
+    return scatterChartData.copyWith(
+      showingTooltipIndicators: touchedSpots,
+    );
   }
 
   Size _getChartSize() {
@@ -114,18 +128,42 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
     }
   }
 
-  /// if builtIn touches are enabled, we should recreate our [pieChartData]
-  /// to handle built in touches
-  PieChartData _getDate() {
+  ScatterChartData _getDate() {
+    final scatterTouchData = widget.data.scatterTouchData;
+    if (scatterTouchData.enabled && scatterTouchData.handleBuiltInTouches) {
+      return widget.data.copyWith(
+        scatterTouchData: widget.data.scatterTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+      );
+    }
     return widget.data;
+  }
+
+  void _handleBuiltInTouch(ScatterTouchResponse touchResponse) {
+    if (widget.data.scatterTouchData.touchCallback != null) {
+      widget.data.scatterTouchData.touchCallback(touchResponse);
+    }
+
+    if (touchResponse.touchInput is FlPanStart ||
+        touchResponse.touchInput is FlPanMoveUpdate ||
+        touchResponse.touchInput is FlLongPressStart ||
+        touchResponse.touchInput is FlLongPressMoveUpdate) {
+      setState(() {
+        touchedSpots.clear();
+        touchedSpots.add(touchResponse.touchedSpotIndex);
+      });
+    } else {
+      setState(() {
+        touchedSpots.clear();
+      });
+    }
   }
 
   @override
   void forEachTween(visitor) {
-    _pieChartDataTween = visitor(
-      _pieChartDataTween,
-      widget.data,
-      (dynamic value) => PieChartDataTween(begin: value),
+    _scatterChartDataTween = visitor(
+      _scatterChartDataTween,
+      _getDate(),
+      (dynamic value) => ScatterChartDataTween(begin: value),
     );
   }
 }

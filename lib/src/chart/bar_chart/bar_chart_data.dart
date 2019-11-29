@@ -78,18 +78,12 @@ class BarChartData extends AxisChartData {
           }
         }
       }
-    } else {
-      /// when list is empty
-      minX = 0;
-      maxX = 0;
-      minY = 0;
-      minX = 0;
     }
 
     super.minX = 0;
-    super.maxX = 0;
+    super.maxX = 1;
     super.minY = 0;
-    super.maxY = maxY;
+    super.maxY = maxY ?? 1;
   }
 
   BarChartData copyWith({
