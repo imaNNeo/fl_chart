@@ -5,6 +5,8 @@ class LineChartSample4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const cutOffYValue = 5.0;
+    const dateTextStyle = TextStyle(
+        fontSize: 10, color: Color(0xff434371), fontWeight: FontWeight.bold);
 
     return SizedBox(
       width: 300,
@@ -31,17 +33,17 @@ class LineChartSample4 extends StatelessWidget {
               isCurved: true,
               barWidth: 8,
               colors: [
-                Colors.purpleAccent,
+                Color(0xff434371),
               ],
               belowBarData: BarAreaData(
                 show: true,
-                colors: [Colors.deepPurple.withOpacity(0.4)],
+                colors: [Color(0xffEDFFAB)],
                 cutOffY: cutOffYValue,
                 applyCutOffY: true,
               ),
               aboveBarData: BarAreaData(
                 show: true,
-                colors: [Colors.orange.withOpacity(0.6)],
+                colors: [Color(0xffC8FFBE)],
                 cutOffY: cutOffYValue,
                 applyCutOffY: true,
               ),
