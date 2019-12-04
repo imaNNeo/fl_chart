@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -23,26 +22,3 @@ Size getDefaultSize(BuildContext context) {
   size *= 0.7;
   return size;
 }
-
-Offset rotateTextCanvas(Canvas canvas, TextPainter textPainter, double degreeAngle) {
-  final double radiansAngle = radians(degreeAngle);
-  final double r = sqrt(textPainter.width * textPainter.width + textPainter.height * textPainter.height) / 2;
-  final alpha = atan(textPainter.height / textPainter.width);
-  final beta = alpha + radiansAngle;
-  final shiftY = r * sin(beta);
-  final shiftX = r * cos(beta);
-  final translateX = textPainter.width / 2 - shiftX;
-  final translateY = textPainter.height / 2 - shiftY;
-  print("${textPainter.width}, ${textPainter.height}");
-  canvas.translate(translateX, translateY);
-  canvas.rotate(radiansAngle);
-  return Offset(translateX, translateY);
-}
-
-Canvas rotateCanvas(Canvas canvas, double degreeAngle) {
-  final double radiansAngle = radians(degreeAngle);
-  canvas.rotate(radiansAngle);
-  return canvas;
-}
-
-

@@ -88,11 +88,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 2:
-                return 'aaaa';
+                return 'MAR';
               case 5:
-                return 'bbb';
+                return 'JUN';
               case 8:
-                return 'cc';
+                return 'SEP';
             }
             return '';
           },
