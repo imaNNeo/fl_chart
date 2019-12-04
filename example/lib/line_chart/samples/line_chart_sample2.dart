@@ -80,6 +80,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
+          rotateAngle: 45,
           textStyle: TextStyle(
               color: const Color(0xff68737d),
               fontWeight: FontWeight.bold,
@@ -87,11 +88,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 2:
-                return 'MAR';
+                return 'aaaa';
               case 5:
-                return 'JUN';
+                return 'bbb';
               case 8:
-                return 'SEP';
+                return 'cc';
             }
             return '';
           },
@@ -99,6 +100,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
+          rotateAngle: 45,
           textStyle: TextStyle(
             color: const Color(0xff67727d),
             fontWeight: FontWeight.bold,

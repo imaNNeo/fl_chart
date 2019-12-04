@@ -5,6 +5,8 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../utils/utils.dart';
+
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
   Paint barPaint, bgTouchTooltipPaint;
   Paint clearPaint;
@@ -288,7 +290,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
+        canvas.save();
+        canvas.translate(x, y);
+        canvas.rotate(radians(leftTitles.rotateAngle));
+        canvas.translate(-x, -y);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         verticalSeek += leftTitles.interval;
       }
@@ -310,7 +317,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x += rightTitles.margin;
         y -= tp.height / 2;
+        canvas.save();
+        canvas.translate(x, y);
+        canvas.rotate(radians(rightTitles.rotateAngle));
+        canvas.translate(-x, -y);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         verticalSeek += rightTitles.interval;
       }
@@ -329,10 +341,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        final double textX = groupBarPos.groupX - (tp.width / 2);
-        final double textY = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
+        final double x = groupBarPos.groupX - (tp.width / 2);
+        final double y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
 
-        tp.paint(canvas, Offset(textX, textY));
+        canvas.save();
+        canvas.translate(x, y);
+        canvas.rotate(radians(bottomTitles.rotateAngle));
+        canvas.translate(-x, -y);
+        tp.paint(canvas, Offset(x, y));
+        canvas.restore();
       }
     }
   }
