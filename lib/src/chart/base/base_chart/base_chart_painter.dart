@@ -96,6 +96,21 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
   double getTopOffsetDrawSize() => 0;
+
+  /// calculate the position of text [SideTitles] base of its [SideTitlesAlignment]
+  /// like SideTitlesAlignment.start, center & end
+  double getSideTitlesPosition(SideTitlesAlignment alignment, double size) {
+    switch(alignment) {
+      case SideTitlesAlignment.start:
+        return size;
+      case SideTitlesAlignment.end:
+        return 0.0;
+      case SideTitlesAlignment.center:
+        return size / 2;
+      default:
+        return size / 2;
+    }
+  }
 }
 
 mixin TouchHandler<T extends BaseTouchResponse> {

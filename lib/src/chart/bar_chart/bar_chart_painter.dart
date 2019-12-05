@@ -289,7 +289,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
-        y -= tp.height / 2;
+        y -= getSideTitlesPosition(leftTitles.alignment, tp.height) +
+            translateRotatedX(tp.width, leftTitles.rotateAngle);
         canvas.save();
         canvas.translate(x, y);
         canvas.rotate(radians(leftTitles.rotateAngle));
@@ -316,7 +317,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x += rightTitles.margin;
-        y -= tp.height / 2;
+        y -= getSideTitlesPosition(rightTitles.alignment, tp.height) +
+            translateRotatedX(tp.width, rightTitles.rotateAngle);
         canvas.save();
         canvas.translate(x, y);
         canvas.rotate(radians(rightTitles.rotateAngle));
@@ -341,9 +343,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        final double x = groupBarPos.groupX - (tp.width / 2);
-        final double y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
-
+        double x = groupBarPos.groupX;
+        double y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
+        x += -getSideTitlesPosition(bottomTitles.alignment, tp.width) +
+            translateRotatedX(tp.height, bottomTitles.rotateAngle);
         canvas.save();
         canvas.translate(x, y);
         canvas.rotate(radians(bottomTitles.rotateAngle));

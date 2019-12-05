@@ -41,7 +41,8 @@ class BarChartSample5State extends State<BarChartSample5> {
                   showTitles: true,
                   textStyle: TextStyle(color: Colors.white, fontSize: 10),
                   margin: 10,
-                  rotateAngle: 45,
+                  rotateAngle: 90,
+                  alignment: SideTitlesAlignment.end,
                   getTitles: (double value) {
                     switch (value.toInt()) {
                       case 0:
@@ -67,6 +68,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   showTitles: true,
                   textStyle: TextStyle(color: Colors.white, fontSize: 10),
                   rotateAngle: 45,
+                  alignment: SideTitlesAlignment.end,
                   getTitles: (double value) {
                     if (value == 0) {
                       return '';

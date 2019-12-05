@@ -579,7 +579,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
-        y -= tp.height / 2;
+        y -= getSideTitlesPosition(leftTitles.alignment, tp.height) +
+            translateRotatedX(tp.width, leftTitles.rotateAngle);
         canvas.save();
         canvas.translate(x, y);
         canvas.rotate(radians(leftTitles.rotateAngle));
@@ -605,7 +606,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        x -= tp.width / 2;
+        x += -getSideTitlesPosition(topTitles.alignment, tp.width) +
+            translateRotatedX(tp.height, topTitles.rotateAngle);
         y -= topTitles.margin + tp.height;
 
         canvas.save();
@@ -633,7 +635,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x += rightTitles.margin;
-        y -= tp.height / 2;
+        y -= getSideTitlesPosition(rightTitles.alignment, tp.height) +
+            translateRotatedX(tp.width, rightTitles.rotateAngle);
         canvas.save();
         canvas.translate(x, y);
         canvas.rotate(radians(rightTitles.rotateAngle));
@@ -656,7 +659,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         final TextPainter tp =
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
-        x -= tp.width / 2;
+        x += -getSideTitlesPosition(bottomTitles.alignment, tp.width) +
+            translateRotatedX(tp.height, bottomTitles.rotateAngle);
         y += bottomTitles.margin;
         canvas.save();
         canvas.translate(x, y);
