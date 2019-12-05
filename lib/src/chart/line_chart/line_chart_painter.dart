@@ -81,6 +81,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     for (int i = 0; i < data.lineBarsData.length; i++) {
       final barData = data.lineBarsData[i];
 
+      if (!barData.show) {
+        continue;
+      }
+
       drawBarLine(canvas, size, barData);
       drawDots(canvas, size, barData);
       drawTouchedSpotsIndicator(canvas, size, barData);
@@ -876,6 +880,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
   /// find the nearest spot base on the touched offset
   LineBarSpot _getNearestTouchedSpot(Size viewSize, Offset touchedPoint, LineChartBarData barData, int barDataPosition) {
+    if (!barData.show) {
+      return null;
+    }
+
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// Find the nearest spot (on X axis)
