@@ -1,3 +1,6 @@
+## 0.5.1
+* prevent to show touch indicators if barData.show is false in LineChart, [#125](https://github.com/imaNNeoFighT/fl_chart/issues/125).
+
 ## 0.5.0
 * 💥 Added ScatterChart ([read about it](https://jbt.github.io/markdown-editor/repo_files/documentations/scatter_chart.md)) 💥
 * Added Velocity to in  [FlPanEnd](https://github.com/imaNNeoFighT/fl_chart/blob/feature/scatter-chart/repo_files/documentations/base_chart.md#fltouchinput) to determine the Tap event.
