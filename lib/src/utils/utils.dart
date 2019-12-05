@@ -24,7 +24,7 @@ Size getDefaultSize(BuildContext context) {
 }
 
 /// forward the view base on its degree
-double translateRotatedX(double size, double degree) {
+double translateRotatedPosition(double size, double degree) {
   degree = degree % 180.0;
   return size * degree / 180.0;
 }
