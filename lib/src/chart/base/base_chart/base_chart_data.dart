@@ -126,7 +126,7 @@ class SideTitles {
   final TextStyle textStyle;
   final double margin;
   final double interval;
-  final double rotateAngle; /// prefer to use [SideTitlesAlignment.end] to [alignment] if you use 90 degree
+  final double rotateAngle;
   final SideTitlesAlignment alignment;
 
   const SideTitles({
