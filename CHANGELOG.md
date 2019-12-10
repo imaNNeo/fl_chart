@@ -1,3 +1,6 @@
+##
+* fixed calculating size for handling touches bug, #126
+
 ## 0.5.2
 * drawing titles using targetData instead of animating data, fixed issue #130.
 
