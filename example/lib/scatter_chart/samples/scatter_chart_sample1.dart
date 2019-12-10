@@ -48,6 +48,17 @@ class _ScatterChartSample1State extends State {
               titlesData: const FlTitlesData(
                 show: false,
               ),
+              axisTitleData: FlAxisTitleData(
+                show: showFlutter,
+                topTitle: const AxisTitle(showTitle: true,
+                    titleText: 'Flutter'),
+                leftTitle: const AxisTitle(showTitle: true,
+                    titleText: 'charts'),
+                rightTitle: const AxisTitle(showTitle: true,
+                    titleText: 'are'),
+                bottomTitle: const AxisTitle(showTitle: true,
+                    titleText: 'awesome'),
+              ),
               scatterTouchData: const ScatterTouchData(
                 enabled: false,
               )
