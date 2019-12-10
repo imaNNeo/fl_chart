@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
@@ -97,8 +96,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
       /// restore layer to previous state (after clipping the chart)
       canvas.restore();
     }
-
-    drawAxisTitles(canvas, size);
 
     drawTitles(canvas, size);
 
@@ -564,89 +561,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     canvas.drawRect(rect, clearAroundBorderPaint);
   }
 
-  void drawAxisTitles(Canvas canvas, Size viewSize) {
-    if (!data.axisTitleData.show) {
-      return;
-    }
-    viewSize = getChartUsableDrawSize(viewSize);
-
-    final axisTitles = data.axisTitleData;
-
-    // Left Title
-    final leftTitle = axisTitles.leftTitle;
-    if (leftTitle.showTitle) {
-      final TextSpan span =
-          TextSpan(style: leftTitle.textStyle, text: leftTitle.titleText);
-      final TextPainter tp = TextPainter(
-          text: span,
-          textAlign: leftTitle.textAlign,
-          textDirection: TextDirection.ltr);
-      tp.layout(minWidth: viewSize.height);
-      canvas.save();
-      canvas.rotate(-math.pi * 0.5);
-      tp.paint(
-          canvas,
-          Offset(-viewSize.height - getTopOffsetDrawSize(),
-              leftTitle.reservedSize - tp.height));
-      canvas.restore();
-    }
-
-    // Top title
-    final topTitle = axisTitles.topTitle;
-    if (topTitle.showTitle) {
-      final TextSpan span =
-          TextSpan(style: topTitle.textStyle, text: topTitle.titleText);
-      final TextPainter tp = TextPainter(
-          text: span,
-          textAlign: topTitle.textAlign,
-          textDirection: TextDirection.ltr);
-      tp.layout(minWidth: viewSize.width);
-      tp.paint(canvas,
-          Offset(getLeftOffsetDrawSize(), topTitle.reservedSize - tp.height));
-    }
-
-    // Right Title
-    final rightTitle = axisTitles.rightTitle;
-    if (rightTitle.showTitle) {
-      final TextSpan span =
-          TextSpan(style: rightTitle.textStyle, text: rightTitle.titleText);
-      final TextPainter tp = TextPainter(
-          text: span,
-          textAlign: rightTitle.textAlign,
-          textDirection: TextDirection.ltr);
-      tp.layout(minWidth: viewSize.height);
-      canvas.save();
-      canvas.rotate(-math.pi * 0.5);
-      tp.paint(
-          canvas,
-          Offset(
-              -viewSize.height - getTopOffsetDrawSize(),
-              viewSize.width +
-                  getExtraNeededHorizontalSpace() -
-                  rightTitle.reservedSize));
-      canvas.restore();
-    }
-
-    // Bottom title
-    final bottomTitle = axisTitles.bottomTitle;
-    if (bottomTitle.showTitle) {
-      final TextSpan span =
-          TextSpan(style: bottomTitle.textStyle, text: bottomTitle.titleText);
-      final TextPainter tp = TextPainter(
-          text: span,
-          textAlign: bottomTitle.textAlign,
-          textDirection: TextDirection.ltr);
-      tp.layout(minWidth: viewSize.width);
-      tp.paint(
-          canvas,
-          Offset(
-              getLeftOffsetDrawSize(),
-              getExtraNeededVerticalSpace() -
-                  bottomTitle.reservedSize +
-                  viewSize.height));
-    }
-  }
-
   void drawTitles(Canvas canvas, Size viewSize) {
     if (!data.titlesData.show) {
       return;
@@ -889,17 +803,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         sum += rightSide.reservedSize + rightSide.margin;
       }
     }
-    if (data.axisTitleData.show) {
-      final leftSide = data.axisTitleData.leftTitle;
-      if (leftSide.showTitle) {
-        sum += leftSide.reservedSize + leftSide.margin;
-      }
-
-      final rightSide = data.axisTitleData.rightTitle;
-      if (rightSide.showTitle) {
-        sum += rightSide.reservedSize + rightSide.margin;
-      }
-    }
     return sum;
   }
 
@@ -922,17 +825,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         sum += bottomSide.reservedSize + bottomSide.margin;
       }
     }
-    if (data.axisTitleData.show) {
-      final topSide = data.axisTitleData.topTitle;
-      if (topSide.showTitle) {
-        sum += topSide.reservedSize + topSide.margin;
-      }
-
-      final bottomSide = data.axisTitleData.bottomTitle;
-      if (bottomSide.showTitle) {
-        sum += bottomSide.reservedSize + bottomSide.margin;
-      }
-    }
     return sum;
   }
 
@@ -947,10 +839,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     if (data.titlesData.show && leftTitles.showTitles) {
       sum += leftTitles.reservedSize + leftTitles.margin;
     }
-    final leftAxisTitle = data.axisTitleData.leftTitle;
-    if (data.axisTitleData.show && leftAxisTitle.showTitle) {
-      sum += leftAxisTitle.reservedSize + leftAxisTitle.margin;
-    }
     return sum;
   }
 
@@ -964,10 +852,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     final topTitles = data.titlesData.topTitles;
     if (data.titlesData.show && topTitles.showTitles) {
       sum += topTitles.reservedSize + topTitles.margin;
-    }
-    final topAxisTitle = data.axisTitleData.topTitle;
-    if (data.axisTitleData.show && topAxisTitle.showTitle) {
-      sum += topAxisTitle.reservedSize + topAxisTitle.margin;
     }
 
     return sum;

@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final FlTitlesData titlesData;
-  final FlAxisTitleData axisTitleData;
   final ExtraLinesData extraLinesData;
   final LineTouchData lineTouchData;
   final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
@@ -26,12 +25,12 @@ class LineChartData extends AxisChartData {
   LineChartData({
     this.lineBarsData = const [],
     this.titlesData = const FlTitlesData(),
-    this.axisTitleData = const FlAxisTitleData(),
     this.extraLinesData = const ExtraLinesData(),
     this.lineTouchData = const LineTouchData(),
     this.showingTooltipIndicators = const[],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
+    FlAxisTitleData axisTitleData = const FlAxisTitleData(),
     double minX,
     double maxX,
     double minY,
@@ -42,6 +41,7 @@ class LineChartData extends AxisChartData {
           gridData: gridData,
           touchData: lineTouchData,
           borderData: borderData,
+          axisTitleData: axisTitleData,
           clipToBorder: clipToBorder,
           backgroundColor: backgroundColor,
         ) {

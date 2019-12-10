@@ -19,6 +19,7 @@ class ScatterChartData extends AxisChartData {
     this.showingTooltipIndicators = const [],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
+    FlAxisTitleData axisTitleData = const FlAxisTitleData(),
     double minX,
     double maxX,
     double minY,
@@ -29,6 +30,7 @@ class ScatterChartData extends AxisChartData {
     gridData: gridData,
     touchData: scatterTouchData,
     borderData: borderData,
+    axisTitleData: axisTitleData,
     clipToBorder: clipToBorder,
     backgroundColor: backgroundColor,
   ) {
