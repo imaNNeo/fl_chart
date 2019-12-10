@@ -562,13 +562,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
   }
 
   void drawTitles(Canvas canvas, Size viewSize) {
-    if (!data.titlesData.show) {
+    if (!targetData.titlesData.show) {
       return;
     }
     viewSize = getChartUsableDrawSize(viewSize);
 
     // Left Titles
-    final leftTitles = data.titlesData.leftTitles;
+    final leftTitles = targetData.titlesData.leftTitles;
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -590,7 +590,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     }
 
     // Top titles
-    final topTitles = data.titlesData.topTitles;
+    final topTitles = targetData.titlesData.topTitles;
     if (topTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
@@ -614,7 +614,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     }
 
     // Right Titles
-    final rightTitles = data.titlesData.rightTitles;
+    final rightTitles = targetData.titlesData.rightTitles;
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -636,7 +636,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     }
 
     // Bottom titles
-    final bottomTitles = data.titlesData.bottomTitles;
+    final bottomTitles = targetData.titlesData.bottomTitles;
     if (bottomTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {

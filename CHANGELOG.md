@@ -1,3 +1,6 @@
+## 0.5.2
+* drawing titles using targetData instead of animating data, fixed issue #130.
+
 ## 0.5.1
 * prevent to show touch indicators if barData.show is false in LineChart, [#125](https://github.com/imaNNeoFighT/fl_chart/issues/125).
 

@@ -267,13 +267,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   }
 
   void drawTitles(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
-    if (!data.titlesData.show) {
+    if (!targetData.titlesData.show) {
       return;
     }
     final Size drawSize = getChartUsableDrawSize(viewSize);
 
     // Left Titles
-    final leftTitles = data.titlesData.leftTitles;
+    final leftTitles = targetData.titlesData.leftTitles;
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -295,7 +295,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
 
     // Right Titles
-    final rightTitles = data.titlesData.rightTitles;
+    final rightTitles = targetData.titlesData.rightTitles;
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -317,7 +317,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
 
     // Bottom titles
-    final bottomTitles = data.titlesData.bottomTitles;
+    final bottomTitles = targetData.titlesData.bottomTitles;
     if (bottomTitles.showTitles) {
       for (int index = 0; index < groupBarsPosition.length; index++) {
         final GroupBarsPosition groupBarPos = groupBarsPosition[index];
