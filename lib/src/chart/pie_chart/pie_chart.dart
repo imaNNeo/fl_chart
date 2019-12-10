@@ -32,18 +32,26 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
   @override
   Widget build(BuildContext context) {
     final PieChartData showingData = _getDate();
-    final Size chartSize = _getChartSize();
     final PieTouchData touchData = showingData.pieTouchData;
 
     return GestureDetector(
       onLongPressStart: (d) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
         final PieTouchResponse response =
             _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
-      onLongPressEnd: (d) async {
+      onLongPressEnd: (d) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
         final PieTouchResponse response =
             _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
@@ -51,20 +59,35 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onLongPressMoveUpdate: (d) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
         final PieTouchResponse response =
             _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
-      onPanCancel: () async {
+      onPanCancel: () {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
         final PieTouchResponse response =
             _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
-      onPanEnd: (DragEndDetails details) async {
+      onPanEnd: (DragEndDetails details) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
         final PieTouchResponse response =
             _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
@@ -72,6 +95,11 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onPanDown: (DragDownDetails details) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
         final PieTouchResponse response =
             _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
@@ -79,6 +107,11 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
         final PieTouchResponse response =
             _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
@@ -108,9 +141,12 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
   Size _getChartSize() {
     if (_chartKey.currentContext != null) {
       final RenderBox containerRenderBox = _chartKey.currentContext.findRenderObject();
-      return containerRenderBox.constraints.biggest;
+      if (containerRenderBox.hasSize) {
+        return containerRenderBox.size;
+      }
+      return null;
     } else {
-      return getDefaultSize(context);
+      return null;
     }
   }
 
