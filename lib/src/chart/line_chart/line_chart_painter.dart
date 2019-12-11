@@ -579,7 +579,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
-        y -= getSideTitlesPosition(leftTitles.alignment, tp.height);
+        y -= tp.height / 2;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);
         canvas.rotate(radians(leftTitles.rotateAngle));
@@ -607,7 +607,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        x -= getSideTitlesPosition(topTitles.alignment, tp.width);
+        x -= tp.width / 2;
         y -= topTitles.margin + tp.height;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);
@@ -637,7 +637,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
         x += rightTitles.margin;
-        y -= getSideTitlesPosition(rightTitles.alignment, tp.height);
+        y -= tp.height / 2;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);
         canvas.rotate(radians(rightTitles.rotateAngle));
@@ -663,7 +663,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        x -= getSideTitlesPosition(bottomTitles.alignment, tp.width);
+        x -= tp.width / 2;
         y += bottomTitles.margin;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);

@@ -66,7 +66,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
         TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
-        y -= getSideTitlesPosition(leftTitles.alignment, tp.height);
+        y -= tp.height / 2;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);
         canvas.rotate(radians(leftTitles.rotateAngle));
@@ -94,7 +94,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
         TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        x -= getSideTitlesPosition(topTitles.alignment, tp.width);
+        x -= tp.width / 2;
         y -= topTitles.margin + tp.height;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);
@@ -124,7 +124,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
         x += rightTitles.margin;
-        y -= getSideTitlesPosition(rightTitles.alignment, tp.height);
+        y -= tp.height / 2;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);
         canvas.rotate(radians(rightTitles.rotateAngle));
@@ -152,7 +152,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
         TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout();
 
-        x -= getSideTitlesPosition(bottomTitles.alignment, tp.width);
+        x -= tp.width / 2;
         y += bottomTitles.margin;
         canvas.save();
         canvas.translate(x + tp.width / 2, y + tp.height / 2);

@@ -31,12 +31,6 @@
 |margin| margin of horizontal the titles | 6|
 |interval| interval between of showing titles in this side  | 1.0 |
 |rotateAngle| the clockwise angle of rotating title in degree   | 0.0 |
-|alignment| a [SideTitlesAlignment](#SideTitlesAlignment) of title  | SideTitlesAlignment.center |
-
-
-
-### SideTitlesAlignment
-enum values {`start`, `end`, `center`}
 
 
 

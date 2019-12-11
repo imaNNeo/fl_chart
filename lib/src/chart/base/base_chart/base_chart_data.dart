@@ -111,13 +111,6 @@ class FlTitlesData {
   }
 }
 
-/// this is mimic of [MainAxisAlignment] to aligning the [SideTitles]
-enum SideTitlesAlignment {
-  start,
-  end,
-  center,
-}
-
 /// specify each side titles data
 class SideTitles {
   final bool showTitles;
@@ -127,7 +120,6 @@ class SideTitles {
   final double margin;
   final double interval;
   final double rotateAngle;
-  final SideTitlesAlignment alignment;
 
   const SideTitles({
     this.showTitles = false,
@@ -140,7 +132,6 @@ class SideTitles {
     this.margin = 6,
     this.interval = 1.0,
     this.rotateAngle = 0.0,
-    this.alignment = SideTitlesAlignment.center,
   });
 
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
@@ -152,7 +143,6 @@ class SideTitles {
       margin: lerpDouble(a.margin, b.margin, t),
       interval: lerpDouble(a.interval, b.interval, t),
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
-      alignment: b.alignment,
     );
   }
 }
