@@ -5,6 +5,7 @@ import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../utils/utils.dart';
 import 'scatter_chart_data.dart';
 
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchHandler<ScatterTouchResponse> {
@@ -66,7 +67,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(leftTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         verticalSeek += leftTitles.interval;
       }
@@ -89,8 +96,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
         x -= tp.width / 2;
         y -= topTitles.margin + tp.height;
-
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(topTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         horizontalSeek += topTitles.interval;
       }
@@ -110,9 +122,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
         final TextPainter tp =
         TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+
         x += rightTitles.margin;
         y -= tp.height / 2;
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(rightTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         verticalSeek += rightTitles.interval;
       }
@@ -135,8 +154,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
         x -= tp.width / 2;
         y += bottomTitles.margin;
-
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(bottomTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         horizontalSeek += bottomTitles.interval;
       }

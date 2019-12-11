@@ -22,3 +22,8 @@ Size getDefaultSize(BuildContext context) {
   size *= 0.7;
   return size;
 }
+
+/// forward the view base on its degree
+double translateRotatedPosition(double size, double degree) {
+  return (size / 4) * math.sin(radians(degree.abs()));
+}

@@ -119,6 +119,7 @@ class SideTitles {
   final TextStyle textStyle;
   final double margin;
   final double interval;
+  final double rotateAngle;
 
   const SideTitles({
     this.showTitles = false,
@@ -130,6 +131,7 @@ class SideTitles {
     ),
     this.margin = 6,
     this.interval = 1.0,
+    this.rotateAngle = 0.0,
   });
 
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
@@ -140,6 +142,7 @@ class SideTitles {
       textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
       margin: lerpDouble(a.margin, b.margin, t),
       interval: lerpDouble(a.interval, b.interval, t),
+      rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
     );
   }
 }

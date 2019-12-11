@@ -8,6 +8,7 @@ import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../utils/utils.dart';
 import 'line_chart_data.dart';
 
 class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler<LineTouchResponse> {
@@ -583,7 +584,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(leftTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         verticalSeek += leftTitles.interval;
       }
@@ -606,8 +613,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
         x -= tp.width / 2;
         y -= topTitles.margin + tp.height;
-
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(topTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         horizontalSeek += topTitles.interval;
       }
@@ -627,9 +639,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         final TextPainter tp =
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+
         x += rightTitles.margin;
         y -= tp.height / 2;
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(rightTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         verticalSeek += rightTitles.interval;
       }
@@ -642,9 +661,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
       while (horizontalSeek <= data.maxX) {
         double x = getPixelX(horizontalSeek, viewSize);
         double y = viewSize.height + getTopOffsetDrawSize();
-
         final String text = bottomTitles.getTitles(horizontalSeek);
-
         final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
         final TextPainter tp =
             TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
@@ -652,8 +669,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
         x -= tp.width / 2;
         y += bottomTitles.margin;
-
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(bottomTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
         tp.paint(canvas, Offset(x, y));
+        canvas.restore();
 
         horizontalSeek += bottomTitles.interval;
       }
