@@ -1,5 +1,6 @@
 ##
 * fixed calculating size for handling touches bug, #126
+* added `rotateAngle` property to rotate the [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), fixed issue [#75](https://github.com/imaNNeoFighT/fl_chart/issues/75) , see in this [sample](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code)
 
 ## 0.5.2
 * drawing titles using targetData instead of animating data, fixed issue #130.
