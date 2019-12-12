@@ -47,14 +47,14 @@ currently we have these touch behaviors:
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |show|determines to show or hide the background grid data|true|
-|drawHorizontalGrid|determines to show or hide the horizontal grid lines|true|
+|drawHorizontalLine|determines to show or hide the horizontal grid lines|true|
 |horizontalInterval|interval space of grid|1.0|
-|getDrawingHorizontalGridLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
-|checkToShowHorizontalGrid|a function to check whether to show or hide the horizontal grid by giving the related axis value |showAllGrids|
-|drawVerticalGrid|determines to show or hide the vertical grid lines|false|
+|getDrawingHorizontalLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
+|checkToShowHorizontalLine|a function to check whether to show or hide the horizontal grid by giving the related axis value |showAllGrids|
+|drawVerticalLine|determines to show or hide the vertical grid lines|false|
 |verticalInterval|interval space of grid|1.0|
-|getDrawingVerticalGridLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
-|checkToShowVerticalGrid|a function to determine whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
+|getDrawingVerticalLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
+|checkToShowVerticalLine|a function to determine whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
 
 
 

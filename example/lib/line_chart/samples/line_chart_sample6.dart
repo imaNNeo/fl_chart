@@ -156,8 +156,8 @@ class LineChartSample6 extends StatelessWidget {
                 ),
                 gridData: FlGridData(
                     show: true,
-                    drawVerticalGrid: true,
-                    checkToShowHorizontalGrid: (value) {
+                    drawVerticalLine: true,
+                    checkToShowHorizontalLine: (value) {
                       final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
 
                       if (intValue.toInt() == (maxSpotY + minSpotY).toInt()) {

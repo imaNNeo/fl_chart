@@ -42,12 +42,12 @@ class _ScatterChartSample2State extends State {
               ),
               gridData: FlGridData(
                 show: true,
-                drawHorizontalGrid: true,
-                checkToShowHorizontalGrid: (value) => true,
-                getDrawingHorizontalGridLine: (value) => FlLine(color: Colors.white.withOpacity(0.1)),
-                drawVerticalGrid: true,
-                checkToShowVerticalGrid: (value) => true,
-                getDrawingVerticalGridLine: (value) => FlLine(color: Colors.white.withOpacity(0.1)),
+                drawHorizontalLine: true,
+                checkToShowHorizontalLine: (value) => true,
+                getDrawingHorizontalLine: (value) => FlLine(color: Colors.white.withOpacity(0.1)),
+                drawVerticalLine: true,
+                checkToShowVerticalLine: (value) => true,
+                getDrawingVerticalLine: (value) => FlLine(color: Colors.white.withOpacity(0.1)),
               ),
               titlesData: const FlTitlesData(
                 show: false,

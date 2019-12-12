@@ -34,11 +34,11 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     }
     final Size usableViewSize = getChartUsableDrawSize(viewSize);
     // Show Vertical Grid
-    if (data.gridData.drawVerticalGrid) {
+    if (data.gridData.drawVerticalLine) {
       double verticalSeek = data.minX;
       while (verticalSeek <= data.maxX) {
-        if (data.gridData.checkToShowVerticalGrid(verticalSeek)) {
-          final FlLine flLineStyle = data.gridData.getDrawingVerticalGridLine(verticalSeek);
+        if (data.gridData.checkToShowVerticalLine(verticalSeek)) {
+          final FlLine flLineStyle = data.gridData.getDrawingVerticalLine(verticalSeek);
           gridPaint.color = flLineStyle.color;
           gridPaint.strokeWidth = flLineStyle.strokeWidth;
 
@@ -58,11 +58,11 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     }
 
     // Show Horizontal Grid
-    if (data.gridData.drawHorizontalGrid) {
+    if (data.gridData.drawHorizontalLine) {
       double horizontalSeek = data.minY;
       while (horizontalSeek <= data.maxY) {
-        if (data.gridData.checkToShowHorizontalGrid(horizontalSeek)) {
-          final FlLine flLine = data.gridData.getDrawingHorizontalGridLine(horizontalSeek);
+        if (data.gridData.checkToShowHorizontalLine(horizontalSeek)) {
+          final FlLine flLine = data.gridData.getDrawingHorizontalLine(horizontalSeek);
           gridPaint.color = flLine.color;
           gridPaint.strokeWidth = flLine.strokeWidth;
 

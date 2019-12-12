@@ -128,9 +128,9 @@ class LineChartSample3 extends StatelessWidget {
               minY: 0,
               gridData: FlGridData(
                 show: true,
-                drawHorizontalGrid: true,
-                drawVerticalGrid: true,
-                getDrawingHorizontalGridLine: (value) {
+                drawHorizontalLine: true,
+                drawVerticalLine: true,
+                getDrawingHorizontalLine: (value) {
                   if (value == 0) {
                     return const FlLine(
                       color: Colors.deepOrange,
@@ -143,7 +143,7 @@ class LineChartSample3 extends StatelessWidget {
                     );
                   }
                 },
-                getDrawingVerticalGridLine: (value) {
+                getDrawingVerticalLine: (value) {
                   if (value == 0) {
                     return const FlLine(
                       color: Colors.black,

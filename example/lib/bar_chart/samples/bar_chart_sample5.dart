@@ -94,8 +94,8 @@ class BarChartSample5State extends State<BarChartSample5> {
               ),
               gridData: FlGridData(
                 show: true,
-                checkToShowHorizontalGrid: (value) => value % 5 == 0,
-                getDrawingHorizontalGridLine: (value) {
+                checkToShowHorizontalLine: (value) => value % 5 == 0,
+                getDrawingHorizontalLine: (value) {
                   if (value == 0) {
                     return const FlLine(color: Color(0xff363753), strokeWidth: 3);
                   }

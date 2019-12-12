@@ -228,8 +228,8 @@ class BarChartSample4State extends State<BarChartSample4> {
               ),
               gridData: FlGridData(
                 show: true,
-                checkToShowHorizontalGrid: (value) => value % 10 == 0,
-                getDrawingHorizontalGridLine: (value) => const FlLine(color: Color(0xffe7e8ec), strokeWidth: 1,),
+                checkToShowHorizontalLine: (value) => value % 10 == 0,
+                getDrawingHorizontalLine: (value) => const FlLine(color: Color(0xffe7e8ec), strokeWidth: 1,),
               ),
               borderData: FlBorderData(
                 show: false,

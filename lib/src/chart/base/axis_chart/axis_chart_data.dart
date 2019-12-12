@@ -91,43 +91,43 @@ class FlGridData {
   final bool show;
 
   // Horizontal
-  final bool drawHorizontalGrid;
+  final bool drawHorizontalLine;
   final double horizontalInterval;
-  final GetDrawingGridLine getDrawingHorizontalGridLine;
-  final CheckToShowGrid checkToShowHorizontalGrid;
+  final GetDrawingGridLine getDrawingHorizontalLine;
+  final CheckToShowGrid checkToShowHorizontalLine;
 
   // Vertical
-  final bool drawVerticalGrid;
+  final bool drawVerticalLine;
   final double verticalInterval;
-  final GetDrawingGridLine getDrawingVerticalGridLine;
-  final CheckToShowGrid checkToShowVerticalGrid;
+  final GetDrawingGridLine getDrawingVerticalLine;
+  final CheckToShowGrid checkToShowVerticalLine;
 
   const FlGridData({
     this.show = true,
     // Horizontal
-    this.drawHorizontalGrid = true,
+    this.drawHorizontalLine = true,
     this.horizontalInterval = 1.0,
-    this.getDrawingHorizontalGridLine = defaultGridLine,
-    this.checkToShowHorizontalGrid = showAllGrids,
+    this.getDrawingHorizontalLine = defaultGridLine,
+    this.checkToShowHorizontalLine = showAllGrids,
 
     //Vertical
-    this.drawVerticalGrid = false,
+    this.drawVerticalLine = false,
     this.verticalInterval = 1.0,
-    this.getDrawingVerticalGridLine = defaultGridLine,
-    this.checkToShowVerticalGrid = showAllGrids,
+    this.getDrawingVerticalLine = defaultGridLine,
+    this.checkToShowVerticalLine = showAllGrids,
   });
 
   static FlGridData lerp(FlGridData a, FlGridData b, double t) {
     return FlGridData(
       show: b.show,
-      drawHorizontalGrid: b.drawHorizontalGrid,
+      drawHorizontalLine: b.drawHorizontalLine,
       horizontalInterval: lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
-      getDrawingHorizontalGridLine: b.getDrawingHorizontalGridLine,
-      checkToShowHorizontalGrid: b.checkToShowHorizontalGrid,
-      drawVerticalGrid: b.drawVerticalGrid,
+      getDrawingHorizontalLine: b.getDrawingHorizontalLine,
+      checkToShowHorizontalLine: b.checkToShowHorizontalLine,
+      drawVerticalLine: b.drawVerticalLine,
       verticalInterval: lerpDouble(a.verticalInterval, b.verticalInterval, t),
-      getDrawingVerticalGridLine: b.getDrawingVerticalGridLine,
-      checkToShowVerticalGrid: b.checkToShowVerticalGrid,
+      getDrawingVerticalLine: b.getDrawingVerticalLine,
+      checkToShowVerticalLine: b.checkToShowVerticalLine,
     );
   }
 }
