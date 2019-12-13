@@ -56,7 +56,7 @@ class FlBorderData {
     );
   }
 
-
+  
 }
 
 /***** TouchData *****/
@@ -90,12 +90,11 @@ class FlAxisTitleData {
 
   static FlAxisTitleData lerp(FlAxisTitleData a, FlAxisTitleData b, double t) {
     return FlAxisTitleData(
-      show: a.show || b.show,
-      leftTitle: AxisTitle.lerp(a.leftTitle, a.show, b.leftTitle, b.show, t),
-      rightTitle: AxisTitle.lerp(a.rightTitle, a.show, b.rightTitle, b.show, t),
-      bottomTitle:
-          AxisTitle.lerp(a.bottomTitle, a.show, b.bottomTitle, b.show, t),
-      topTitle: AxisTitle.lerp(a.topTitle, a.show, b.topTitle, b.show, t),
+      show: b.show,
+      leftTitle: AxisTitle.lerp(a.leftTitle, b.leftTitle, t),
+      rightTitle: AxisTitle.lerp(a.rightTitle, b.rightTitle, t),
+      bottomTitle: AxisTitle.lerp(a.bottomTitle, b.bottomTitle, t),
+      topTitle: AxisTitle.lerp(a.topTitle, b.topTitle, t),
     );
   }
 }
@@ -121,21 +120,17 @@ class AxisTitle {
     this.margin = 4,
   });
 
-  static AxisTitle lerp(
-      AxisTitle a, bool aVisible, AxisTitle b, bool bVisible, double t) {
-    final showA = a.showTitle && aVisible;
-    final showB = b.showTitle && bVisible;
+  static AxisTitle lerp(AxisTitle a, AxisTitle b, double t) {
     return AxisTitle(
-      showTitle: showB || showA,
+      showTitle: b.showTitle,
       titleText: b.titleText,
-      reservedSize:
-          lerpDouble(showA ? a.reservedSize : 0, showB ? b.reservedSize : 0, t),
+      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(
-          a.textStyle.copyWith(fontSize: showA ? a.textStyle.fontSize : 0),
-          b.textStyle.copyWith(fontSize: showB ? b.textStyle.fontSize : 0),
+          a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
+          b.textStyle.copyWith(fontSize: b.textStyle.fontSize),
           t),
       textAlign: b.textAlign,
-      margin: lerpDouble(showA ? a.margin : 0, showB ? b.margin : 0, t),
+      margin: lerpDouble(a.margin, b.margin, t),
     );
   }
 }

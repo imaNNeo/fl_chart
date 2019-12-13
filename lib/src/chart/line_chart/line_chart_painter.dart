@@ -97,6 +97,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
       canvas.restore();
     }
 
+    drawAxisTitles(canvas, size);
     drawTitles(canvas, size);
 
     drawExtraLines(canvas, size);

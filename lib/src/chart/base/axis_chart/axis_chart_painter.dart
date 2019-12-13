@@ -28,7 +28,6 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
     drawBackground(canvas, size);
     drawGrid(canvas, size);
-    drawAxisTitles(canvas, size);
   }
 
 
