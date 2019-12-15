@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 /// [showingTooltipIndicators] show the tooltip based on provided position(x), and list of [LineBarSpot]
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
+  final List<BetweenBarsData> betweenBarsData;
   final FlTitlesData titlesData;
   final ExtraLinesData extraLinesData;
   final LineTouchData lineTouchData;
@@ -23,6 +24,7 @@ class LineChartData extends AxisChartData {
 
   LineChartData({
     this.lineBarsData = const [],
+    this.betweenBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
     this.lineTouchData = const LineTouchData(),
@@ -126,6 +128,7 @@ class LineChartData extends AxisChartData {
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
+        betweenBarsData: lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
         lineTouchData: b.lineTouchData,
         showingTooltipIndicators: b.showingTooltipIndicators,
       );
@@ -136,6 +139,7 @@ class LineChartData extends AxisChartData {
 
   LineChartData copyWith({
     List<LineChartBarData> lineBarsData,
+    List<BetweenBarsData> betweenBarsData,
     FlTitlesData titlesData,
     ExtraLinesData extraLinesData,
     LineTouchData lineTouchData,
@@ -151,6 +155,7 @@ class LineChartData extends AxisChartData {
   }) {
     return LineChartData(
       lineBarsData: lineBarsData ?? this.lineBarsData,
+      betweenBarsData: betweenBarsData ?? this.betweenBarsData,
       titlesData: titlesData ?? this.titlesData,
       extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
@@ -359,6 +364,56 @@ class BarAreaData {
       gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
       cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t),
       applyCutOffY: b.applyCutOffY,
+    );
+  }
+}
+
+/***** BarAreaData *****/
+/// This class holds data about draw on below or above space of the bar line,
+class BetweenBarsData {
+
+  /// The index of the lineBarsData from where the area has to be rendered
+  final int fromIndex;
+
+  /// The index of the lineBarsData until where the area has to be rendered
+  final int toIndex;
+
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw.
+  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
+  final List<Color> colors;
+
+  /// if the gradient mode is enabled (if you have more than one color)
+  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
+  /// you can determine where the gradient should start and end,
+  /// values are available between 0 to 1,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right
+  final Offset gradientFrom;
+  final Offset gradientTo;
+
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
+  final List<double> gradientColorStops;
+
+
+  const BetweenBarsData({
+    @required this.fromIndex,
+    @required this.toIndex,
+    this.colors = const [Colors.blueGrey],
+    this.gradientFrom = const Offset(0, 0),
+    this.gradientTo = const Offset(1, 0),
+    this.gradientColorStops,
+  });
+
+  static BetweenBarsData lerp(BetweenBarsData a, BetweenBarsData b, double t) {
+    return BetweenBarsData(
+      fromIndex: b.fromIndex,
+      toIndex: b.toIndex,
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
     );
   }
 }
