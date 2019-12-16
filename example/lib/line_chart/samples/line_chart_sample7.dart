@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LineChartSampleBetweenBarsData extends StatelessWidget {
+class LineChartSample7 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
