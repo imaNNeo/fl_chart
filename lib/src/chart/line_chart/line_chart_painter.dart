@@ -215,6 +215,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
   /// first one is the sharp corners line on spot connections
   /// second one is curved corners line on spot connections,
   /// and we use isCurved to find out how we should generate it,
+  /// If you want to concatenate paths together for creating an area between
+  /// multiple bars for example, you can pass the appendToPath
   Path _generateBarPath(Size viewSize, LineChartBarData barData, Path appendToPath) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
