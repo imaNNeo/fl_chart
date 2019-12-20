@@ -128,28 +128,6 @@ class BarChartSample2State extends State<BarChartSample2> {
                           });
                         }
                       ),
-                      axisTitleData:
-                          FlAxisTitleData(
-                            show: true,
-                            leftTitle: AxisTitle(
-                              showTitle: true,
-                              titleText: 'VOLUME',
-                              margin: 16,
-                              textStyle: TextStyle(
-                                  color: const Color(0xff7589a2),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
-                            ),
-                            bottomTitle: AxisTitle(
-                              showTitle: true,
-                              titleText: 'Press bars to display average',
-                              textAlign: TextAlign.end,
-                              textStyle: TextStyle(
-                                color: const Color(0xff7589a2),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14),
-                              )
-                          ),
                       titlesData: FlTitlesData(
                         show: true,
                         bottomTitles: SideTitles(
