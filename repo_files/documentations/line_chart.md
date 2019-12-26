@@ -15,6 +15,7 @@ LineChart(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to show the chart's lines, they stack and be drawn on top of each other|[]|
+|betweenBarsData| list of [BetweenBarsData](#BetweenBarsData ) to fill the area between 2 chart lines|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
@@ -48,6 +49,15 @@ LineChart(
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
 |showingIndicators| show indicators based on provided indexes | []|
 
+### BetweenBarsData
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|fromIndex|index of the first LineChartBarData inside LineChartData (zero-based index)|required|
+|toIndex|index of the second LineChartBarData inside LineChartData (zero-based index)|required|
+|colors|colors the area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
+|gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 
 ### BarAreaData
 |PropName|Description|default value|
@@ -183,3 +193,7 @@ LineChart(
 
 ##### Sample 6 - Reversed ([Source Code](/example/lib/line_chart/samples/line_chart_sample6.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_6.png" width="300" >
+
+
+##### Sample 7 ([Source Code](/example/lib/line_chart/samples/line_chart_sample7.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_7.png" width="300" >

@@ -79,7 +79,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     }
 
     for(BetweenBarsData betweenBarsData in data.betweenBarsData) {
-      drawBetweenBarsArea(canvas, size, data.lineBarsData[betweenBarsData.fromIndex], data.lineBarsData[betweenBarsData.toIndex], betweenBarsData);
+      drawBetweenBarsArea(canvas, size, data, betweenBarsData);
     }
 
     /// draw each line independently on the chart
@@ -128,7 +128,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
-    final barPath = _generateBarPath(viewSize, barData, null);
+    final barPath = _generateBarPath(viewSize, barData);
 
     final belowBarPath = _generateBelowBarPath(viewSize, barData, barPath);
     final completelyFillBelowBarPath =
@@ -143,13 +143,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     _drawBar(canvas, viewSize, barPath, barData);
   }
 
-  void drawBetweenBarsArea(Canvas canvas, Size viewSize, LineChartBarData fromBarData, LineChartBarData toBarData, BetweenBarsData betweenBarsData) {
+  void drawBetweenBarsArea(Canvas canvas, Size viewSize, LineChartData data, BetweenBarsData betweenBarsData) {
+    final LineChartBarData fromBarData = data.lineBarsData[betweenBarsData.fromIndex];
+    final LineChartBarData toBarData = data.lineBarsData[betweenBarsData.toIndex];
+
     final List<FlSpot> spots = [];
-    //spots.addAll(fromBarData.spots);
     spots.addAll(toBarData.spots.reversed.toList());
-    //final barPath = _generateBarPath(viewSize, toBarData.copyWith(spots: spots));
-    final fromBarPath = _generateBarPath(viewSize, fromBarData, null);
-    final barPath = _generateBarPath(viewSize, toBarData.copyWith(spots: spots), fromBarPath);
+    final fromBarPath = _generateBarPath(viewSize, fromBarData);
+    final barPath = _generateBarPath(viewSize, toBarData.copyWith(spots: spots), appendToPath: fromBarPath);
 
     _drawBetweenBar(canvas, viewSize, barPath, betweenBarsData);
   }
@@ -217,7 +218,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
   /// and we use isCurved to find out how we should generate it,
   /// If you want to concatenate paths together for creating an area between
   /// multiple bars for example, you can pass the appendToPath
-  Path _generateBarPath(Size viewSize, LineChartBarData barData, Path appendToPath) {
+  Path _generateBarPath(Size viewSize, LineChartBarData barData, {Path appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
     final int size = barData.spots.length;
