@@ -1,3 +1,4 @@
+import 'package:example/line_chart/samples/line_chart_sample7.dart';
 import 'package:flutter/material.dart';
 
 import 'samples/line_chart_sample3.dart';
@@ -15,10 +16,11 @@ class LineChartPage2 extends StatelessWidget {
           children: <Widget>[
             Text(
               'LineChart',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             LineChartSample3(),
             LineChartSample4(),
+            LineChartSample7(),
             LineChartSample5(),
           ],
         ),

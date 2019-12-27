@@ -78,6 +78,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
     }
 
+    for(BetweenBarsData betweenBarsData in data.betweenBarsData) {
+      drawBetweenBarsArea(canvas, size, data, betweenBarsData);
+    }
+
     /// draw each line independently on the chart
     for (int i = 0; i < data.lineBarsData.length; i++) {
       final barData = data.lineBarsData[i];
@@ -137,6 +141,18 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     _drawBelowBar(canvas, viewSize, belowBarPath, completelyFillAboveBarPath, barData);
     _drawAboveBar(canvas, viewSize, aboveBarPath, completelyFillBelowBarPath, barData);
     _drawBar(canvas, viewSize, barPath, barData);
+  }
+
+  void drawBetweenBarsArea(Canvas canvas, Size viewSize, LineChartData data, BetweenBarsData betweenBarsData) {
+    final LineChartBarData fromBarData = data.lineBarsData[betweenBarsData.fromIndex];
+    final LineChartBarData toBarData = data.lineBarsData[betweenBarsData.toIndex];
+
+    final List<FlSpot> spots = [];
+    spots.addAll(toBarData.spots.reversed.toList());
+    final fromBarPath = _generateBarPath(viewSize, fromBarData);
+    final barPath = _generateBarPath(viewSize, toBarData.copyWith(spots: spots), appendToPath: fromBarPath);
+
+    _drawBetweenBar(canvas, viewSize, barPath, betweenBarsData);
   }
 
   void drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -200,17 +216,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
   /// first one is the sharp corners line on spot connections
   /// second one is curved corners line on spot connections,
   /// and we use isCurved to find out how we should generate it,
-  Path _generateBarPath(Size viewSize, LineChartBarData barData) {
+  /// If you want to concatenate paths together for creating an area between
+  /// multiple bars for example, you can pass the appendToPath
+  Path _generateBarPath(Size viewSize, LineChartBarData barData, {Path appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
-    final Path path = Path();
+    final Path path = appendToPath ?? Path();
     final int size = barData.spots.length;
-    path.reset();
 
     var temp = const Offset(0.0, 0.0);
 
     final double x = getPixelX(barData.spots[0].x, viewSize);
     final double y = getPixelY(barData.spots[0].y, viewSize);
-    path.moveTo(x, y);
+    if(appendToPath==null) {
+      path.moveTo(x, y);
+    } else {
+      path.lineTo(x, y);
+    }
     for (int i = 1; i < size; i++) {
       /// CurrentSpot
       final current = Offset(
@@ -492,6 +513,52 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         }
       }
     }
+  }
+
+  void _drawBetweenBar(Canvas canvas, Size viewSize, Path aboveBarPath,
+      BetweenBarsData betweenBarsData) {
+    final chartViewSize = getChartUsableDrawSize(viewSize);
+
+    /// here we update the [betweenBarsData] to draw the solid color
+    /// or the gradient based on the [BetweenBarsData] class.
+    if (betweenBarsData.colors.length == 1) {
+      barAreaPaint.color = betweenBarsData.colors[0];
+      barAreaPaint.shader = null;
+    } else {
+      List<double> stops = [];
+      if (betweenBarsData.gradientColorStops == null ||
+          betweenBarsData.gradientColorStops.length != betweenBarsData.colors.length) {
+        /// provided gradientColorStops is invalid and we calculate it here
+        betweenBarsData.colors.asMap().forEach((index, color) {
+          final percent = 1.0 / betweenBarsData.colors.length;
+          stops.add(percent * (index + 1));
+        });
+      } else {
+        stops = betweenBarsData.gradientColorStops;
+      }
+
+      final from = betweenBarsData.gradientFrom;
+      final to = betweenBarsData.gradientTo;
+      barAreaPaint.shader = ui.Gradient.linear(
+        Offset(
+          getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
+          getTopOffsetDrawSize() + (chartViewSize.height * from.dy),
+        ),
+        Offset(
+          getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
+          getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
+        ),
+        betweenBarsData.colors,
+        stops,
+      );
+    }
+
+    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    canvas.drawPath(aboveBarPath, barAreaPaint);
+
+    // clear the above area that get out of the bar line
+    canvas.restore();
+
   }
 
   /// draw the main bar line by the [barPath]
