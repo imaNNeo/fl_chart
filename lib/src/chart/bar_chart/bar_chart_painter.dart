@@ -43,6 +43,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     groupBarsPosition = calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
 
     drawBars(canvas, size, groupBarsPosition);
+    drawAxisTitles(canvas, size);
     drawTitles(canvas, size, groupBarsPosition);
 
     for (int i = 0; i < targetData.barGroups.length; i++) {

@@ -32,6 +32,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
 
+    drawAxisTitles(canvas, size);
     drawTitles(canvas, size);
     drawSpots(canvas, size);
 

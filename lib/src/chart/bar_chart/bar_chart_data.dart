@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 /// This class is responsible to holds data to draw Bar Chart
 /// [barGroups] holds list of bar groups to show together,
 /// [groupsSpace] space between groups, it applies only when the [alignment] is [Alignment.center],
+/// [axisTitleData] to show a description of each axis
 /// [alignment] is the alignment of showing groups,
 /// [titlesData] holds data about drawing left and bottom titles.
 class BarChartData extends AxisChartData {
@@ -30,11 +31,13 @@ class BarChartData extends AxisChartData {
       show: false,
     ),
     FlBorderData borderData,
+    FlAxisTitleData axisTitleData = const FlAxisTitleData(),
     double maxY,
     Color backgroundColor,
   }) : super(
           gridData: gridData,
           borderData: borderData,
+          axisTitleData: axisTitleData,
           backgroundColor: backgroundColor,
           touchData: barTouchData,
         ) {
@@ -91,6 +94,7 @@ class BarChartData extends AxisChartData {
     double groupsSpace,
     BarChartAlignment alignment,
     FlTitlesData titlesData,
+    FlAxisTitleData axisTitleData,
     BarTouchData barTouchData,
     FlGridData gridData,
     FlBorderData borderData,
@@ -102,6 +106,7 @@ class BarChartData extends AxisChartData {
       groupsSpace: groupsSpace ?? this.groupsSpace,
       alignment: alignment ?? this.alignment,
       titlesData: titlesData ?? this.titlesData,
+      axisTitleData: axisTitleData ?? this.axisTitleData,
       barTouchData: barTouchData ?? this.barTouchData,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
@@ -118,6 +123,7 @@ class BarChartData extends AxisChartData {
         groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
         alignment: b.alignment,
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         barTouchData: b.barTouchData,
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 /// each child have to set it in their constructor.
 abstract class AxisChartData extends BaseChartData {
   final FlGridData gridData;
+  final FlAxisTitleData axisTitleData;
 
   double minX, maxX;
   double minY, maxY;
@@ -26,6 +27,7 @@ abstract class AxisChartData extends BaseChartData {
     this.gridData = const FlGridData(),
     FlBorderData borderData,
     FlTouchData touchData,
+    this.axisTitleData,
     this.minX,
     this.maxX,
     this.minY,

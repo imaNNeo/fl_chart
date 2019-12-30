@@ -18,6 +18,7 @@ BarChart(
 |groupsSpace| space between groups, it applies only when the [alignment](#BarChartAlignment) is `Alignment.center`,|16|
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
+|axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |backgroundColor| a background color which is drawn behind the chart| null |
 |barTouchData| [BarTouchData](#BarTouchData) holds the touch interactivity details|BarTouchData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
