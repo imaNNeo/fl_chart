@@ -78,3 +78,29 @@ currently we have these touch behaviors:
 |:-------|:----------|:------------|
 |spot|the touched [FlSpot](#FlSpot)|null|
 |offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) of the touched spot|null|
+
+
+
+### FlAxisTitleData
+
+Can be used to display a title text for each axis. Titles for the vertical axes (left and right) will be rotated 90 degrees.
+
+|PropName		|Description	|default value|
+|:---------------|:---------------|:-------|
+|show| determines to show or hide the titles for the axes|true|
+|leftTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the left axis | `AxisTitle(reservedSize: 16)`|
+|topTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the top axis | `AxisTitle(reservedSize: 16)`|
+|rightTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the right axis | `AxisTitle(reservedSize: 16)`|
+|bottomTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the bottom axis | `AxisTitle(reservedSize: 16)`|
+
+
+
+### AxisTitle
+|PropName		|Description	|default value|
+|:---------------|:---------------|:-------|
+|showTitle| determines to show or hide the title | `false`|
+|titleText| the text to draw as a description for this axis| `''`|
+|reservedSize| a reserved space for the text| `14`|
+|margin| margin between the axis text and inner elements ([SideTitles](#SideTitles) or the chart) | `4`|
+|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of the text | `TextStyle(color: Colors.black, fontSize: 11)`|
+|textAlign| [TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) to determine the alignment of the text | `TextAlign.center`|
