@@ -217,6 +217,7 @@ class BarChartRodData {
   final double y;
   final Color color;
   final double width;
+  final bool square;
   final bool isRound;
   final BackgroundBarChartRodData backDrawRodData;
   final List<BarChartRodStackItem> rodStackItem;
@@ -225,6 +226,7 @@ class BarChartRodData {
     this.y,
     this.color = Colors.blueAccent,
     this.width = 8,
+    this.square = true,
     this.isRound = true,
     this.backDrawRodData = const BackgroundBarChartRodData(),
     this.rodStackItem = const [],
