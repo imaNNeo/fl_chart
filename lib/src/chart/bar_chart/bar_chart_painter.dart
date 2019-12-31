@@ -218,7 +218,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           var yTo = getPixelY(barRod.y, drawSize);
 
-          if ((yFrom - yTo).abs() <= barRod.width) {
+          if (barRod.square && (yFrom - yTo).abs() <= barRod.width) {
             yTo = yFrom - barRod.width;
           }
 
