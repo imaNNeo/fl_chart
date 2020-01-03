@@ -23,7 +23,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
     PieChartData data,
     PieChartData targetData,
     Function(TouchHandler) touchHandler,
-  ) : super(data, targetData,) {
+    {double textScale}
+  ) : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
     sectionPaint = Paint()..style = PaintingStyle.stroke;
@@ -156,7 +157,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       if (section.showTitle) {
         final TextSpan span = TextSpan(style: section.titleStyle, text: section.title);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout();
         tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));
       }

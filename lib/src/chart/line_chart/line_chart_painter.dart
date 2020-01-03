@@ -34,7 +34,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     LineChartData data,
     LineChartData targetData,
     Function(TouchHandler) touchHandler,
-  ) : super(data, targetData,) {
+    {double textScale})
+    : super(data, targetData, textScale: textScale) {
     touchHandler(this);
     
     barPaint = Paint()..style = PaintingStyle.stroke;
@@ -648,7 +649,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
         final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
@@ -676,7 +677,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
         final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout();
 
         x -= tp.width / 2;
@@ -705,7 +706,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
         final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
         x += rightTitles.margin;
@@ -732,7 +733,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         final String text = bottomTitles.getTitles(horizontalSeek);
         final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
         final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout();
 
         x -= tp.width / 2;
@@ -813,7 +814,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
       final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
       final TextPainter tp =
-      TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+      TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
       tp.layout(maxWidth: tooltipData.maxContentWidth);
       drawingTextPainters.add(tp);
     }

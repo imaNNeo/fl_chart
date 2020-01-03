@@ -130,6 +130,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
               _touchHandler = touchHandler;
             });
           },
+          textScale: MediaQuery.of(context).textScaleFactor,
         ),
       ),
     );

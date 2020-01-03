@@ -18,9 +18,10 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   final D targetData;
   Paint borderPaint;
+  double textScale;
 
-  BaseChartPainter(this.data, this.targetData)
-    : super() {
+  BaseChartPainter(this.data, this.targetData, {this.textScale = 1})
+      : super() {
     borderPaint = Paint()
       ..style = PaintingStyle.stroke;
   }

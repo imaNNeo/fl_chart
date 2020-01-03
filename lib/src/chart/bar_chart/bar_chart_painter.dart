@@ -16,8 +16,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   BarChartPainter(
     BarChartData data,
     BarChartData targetData,
-    Function(TouchHandler) touchHandler,
-  ) : super(data, targetData) {
+      Function(TouchHandler) touchHandler,
+      {double textScale = 1})
+      : super(data, targetData, textScale: textScale) {
     touchHandler(this);
     barPaint = Paint()..style = PaintingStyle.fill;
 
@@ -286,8 +287,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final String text = leftTitles.getTitles(verticalSeek);
 
         final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
-        final TextPainter tp =
-        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        final TextPainter tp = TextPainter(
+            text: span,
+            textAlign: TextAlign.center,
+            textDirection: TextDirection.ltr,
+            textScaleFactor: textScale);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
@@ -314,8 +318,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final String text = rightTitles.getTitles(verticalSeek);
 
         final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
-        final TextPainter tp =
-        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        final TextPainter tp = TextPainter(
+            text: span,
+            textAlign: TextAlign.center,
+            textDirection: TextDirection.ltr,
+            textScaleFactor: textScale);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x += rightTitles.margin;
         y -= tp.height / 2;
@@ -339,8 +346,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
         final String text = bottomTitles.getTitles(index.toDouble());
         final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
-        final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        final TextPainter tp = TextPainter(
+            text: span,
+            textAlign: TextAlign.center,
+            textDirection: TextDirection.ltr,
+            textScaleFactor: textScale);
         tp.layout();
         double x = groupBarPos.groupX;
         double y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
@@ -376,8 +386,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
 
     final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
-    final TextPainter tp =
-    TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+    final TextPainter tp = TextPainter(
+        text: span,
+        textAlign: TextAlign.center,
+        textDirection: TextDirection.ltr,
+        textScaleFactor: textScale);
     tp.layout(maxWidth: tooltipData.maxContentWidth);
 
     /// creating TextPainters to calculate the width and height of the tooltip

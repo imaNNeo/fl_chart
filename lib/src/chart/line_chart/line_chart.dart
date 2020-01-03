@@ -127,14 +127,13 @@ class LineChartState extends AnimatedWidgetBaseState<LineChart> {
         key: _chartKey,
         size: getDefaultSize(context),
         painter: LineChartPainter(
-          _withTouchedIndicators(_lineChartDataTween.evaluate(animation)),
-          _withTouchedIndicators(showingData),
-          (touchHandler) {
-            setState(() {
-              _touchHandler = touchHandler;
-            });
-          },
-        ),
+            _withTouchedIndicators(_lineChartDataTween.evaluate(animation)),
+            _withTouchedIndicators(showingData),
+            (touchHandler) {
+          setState(() {
+            _touchHandler = touchHandler;
+          });
+        }, textScale: MediaQuery.of(context).textScaleFactor),
       ),
     );
   }
