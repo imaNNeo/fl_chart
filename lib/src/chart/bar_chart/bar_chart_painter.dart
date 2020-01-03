@@ -15,9 +15,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
   List<GroupBarsPosition> groupBarsPosition;
 
-  BarChartPainter(
-    BarChartData data,
-    BarChartData targetData,
+  BarChartPainter(BarChartData data, BarChartData targetData,
       Function(TouchHandler) touchHandler,
       {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
@@ -191,7 +189,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final BorderRadius borderRadius =
             barRod.borderRadius ?? BorderRadius.circular(barRod.width / 2);
 
-        final double x = groupBarsPosition[i].barsX[j];
+        final double x = groupBarsPosition[i].barsOffset[j];
 
         final left = x - widthHalf;
         final right = x + widthHalf;
@@ -200,8 +198,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           max(borderRadius.bottomLeft.y, borderRadius.bottomRight.y);
 
         /// Draw [BackgroundBarChartRodData]
-        if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
-          final top = min(getPixelY(barRod.backDrawRodData.y, drawSize),
+        if (barRod.backDrawRodData.show && barRod.backDrawRodData.value != 0) {
+          final top = min(getPixelY(barRod.backDrawRodData.value, drawSize),
             bottom - cornerHeight);
 
           barPaint.color = barRod.backDrawRodData.color;
@@ -216,8 +214,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         }
 
         // draw Main Rod
-        if (barRod.y != 0) {
-          final top = min(getPixelY(barRod.y, drawSize), bottom - cornerHeight);
+        if (barRod.value != 0) {
+          final top = min(getPixelY(barRod.value, drawSize), bottom - cornerHeight);
 
           barPaint.color = barRod.color;
           final barRect = RRect.fromLTRBAndCorners(
@@ -232,8 +230,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
             for (int i = 0; i < barRod.rodStackItem.length; i++) {
               final stackItem = barRod.rodStackItem[i];
-              final stackBottom =  getPixelY(stackItem.fromY, drawSize);
-              final stackTop = getPixelY(stackItem.toY, drawSize);
+              final stackBottom =  getPixelY(stackItem.fromValue, drawSize);
+              final stackTop = min(getPixelY(stackItem.toValue, drawSize),
+                bottom - cornerHeight);
 
               barPaint.color = stackItem.color;
               canvas.save();
@@ -329,8 +328,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             textDirection: TextDirection.ltr,
             textScaleFactor: textScale);
         tp.layout();
-        double x = groupBarPos.groupX;
-        double y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
+        double x = groupBarPos.groupOffset;
+        final y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
 
         x -= tp.width / 2;
         canvas.save();
@@ -387,8 +386,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
     final Offset mostTopOffset = Offset(
-      groupPositions[barGroupIndex].barsX[barRodIndex],
-      getPixelY(showOnRodData.y, chartUsableSize),
+      groupPositions[barGroupIndex].barsOffset[barRodIndex],
+      getPixelY(showOnRodData.value, chartUsableSize),
     );
 
     final double tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
@@ -482,14 +481,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     /// Find the nearest barRod
     for (int i = 0; i < groupBarsPosition.length; i++) {
       final GroupBarsPosition groupBarPos = groupBarsPosition[i];
-      for (int j = 0; j < groupBarPos.barsX.length; j++) {
-        final double barX = groupBarPos.barsX[j];
+      for (int j = 0; j < groupBarPos.barsOffset.length; j++) {
+        final double barX = groupBarPos.barsOffset[j];
         final double barWidth = targetData.barGroups[i].barRods[j].width;
         final double halfBarWidth = barWidth / 2;
-        final double barTopY = getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
+        final double barTopY = getPixelY(targetData.barGroups[i].barRods[j].value, chartViewSize);
         final double barBotY = getPixelY(0, chartViewSize);
         final double backDrawBarTopY =
-            getPixelY(targetData.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
+            getPixelY(targetData.barGroups[i].barRods[j].backDrawRodData.value, chartViewSize);
         final EdgeInsets touchExtraThreshold = targetData.barTouchData.touchExtraThreshold;
 
         final bool isXInTouchBounds =
@@ -510,7 +509,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         if (isXInTouchBounds && isYInTouchBounds) {
           final nearestGroup = targetData.barGroups[i];
           final nearestBarRod = nearestGroup.barRods[j];
-          final nearestSpot = FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
+          final nearestSpot = FlSpot(nearestGroup.value.toDouble(), nearestBarRod.value);
           final nearestSpotPos = Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
 
           return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
@@ -526,8 +525,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 }
 
 class GroupBarsPosition {
-  final double groupX;
-  final List<double> barsX;
+  final double groupOffset;
+  final List<double> barsOffset;
 
-  GroupBarsPosition(this.groupX, this.barsX);
+  GroupBarsPosition(this.groupOffset, this.barsOffset);
 }

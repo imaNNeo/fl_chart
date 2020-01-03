@@ -29,10 +29,9 @@ class BarChartSample5State extends State<BarChartSample5> {
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: BarChart(
-            BarChartData(
+            VerticalBarChartData(
               alignment: BarChartAlignment.center,
-              maxY: 20,
-              groupsSpace: 12,
+              maxValue: 20,
               barTouchData: const BarTouchData(
                 enabled: false,
               ),
@@ -111,10 +110,10 @@ class BarChartSample5State extends State<BarChartSample5> {
               ),
               barGroups: [
                 const BarChartGroupData(
-                  x: 0,
+                  value: 0,
                   barRods: [
                     BarChartRodData(
-                      y: 15.1,
+                      value: 15.1,
                       width: barWidth,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -129,10 +128,10 @@ class BarChartSample5State extends State<BarChartSample5> {
                   ],
                 ),
                 const BarChartGroupData(
-                  x: 1,
+                  value: 1,
                   barRods: [
                     BarChartRodData(
-                      y: 14,
+                      value: 14,
                       width: barWidth,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -147,10 +146,10 @@ class BarChartSample5State extends State<BarChartSample5> {
                   ],
                 ),
                 const BarChartGroupData(
-                  x: 2,
+                  value: 2,
                   barRods: [
                     BarChartRodData(
-                      y: 13,
+                      value: 13,
                       width: barWidth,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -165,10 +164,10 @@ class BarChartSample5State extends State<BarChartSample5> {
                   ],
                 ),
                 const BarChartGroupData(
-                  x: 3,
+                  value: 3,
                   barRods: [
                     BarChartRodData(
-                      y: 13.5,
+                      value: 13.5,
                       width: barWidth,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -183,10 +182,10 @@ class BarChartSample5State extends State<BarChartSample5> {
                   ],
                 ),
                 const BarChartGroupData(
-                  x: 4,
+                  value: 4,
                   barRods: [
                     BarChartRodData(
-                      y: 18,
+                      value: 18,
                       width: barWidth,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -201,10 +200,10 @@ class BarChartSample5State extends State<BarChartSample5> {
                   ],
                 ),
                 const BarChartGroupData(
-                  x: 5,
+                  value: 5,
                   barRods: [
                     BarChartRodData(
-                      y: 17,
+                      value: 17,
                       width: barWidth,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -219,10 +218,10 @@ class BarChartSample5State extends State<BarChartSample5> {
                   ],
                 ),
                 const BarChartGroupData(
-                  x: 6,
+                  value: 6,
                   barRods: [
                     BarChartRodData(
-                      y: 16,
+                      value: 16,
                       width: barWidth,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),

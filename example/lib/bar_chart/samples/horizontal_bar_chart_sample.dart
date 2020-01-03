@@ -1,15 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class BarChartSample2 extends StatefulWidget {
+class HorizontalBarChartSample extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => BarChartSample2State();
+  State<StatefulWidget> createState() => HorizontalBarChartSampleState();
 }
 
-class BarChartSample2State extends State<BarChartSample2> {
+class HorizontalBarChartSampleState extends State<HorizontalBarChartSample> {
   final Color leftBarColor = const Color(0xff53fdd7);
   final Color rightBarColor = const Color(0xffff5182);
-  final double width = 7;
+  final double width = 16;
 
   List<BarChartGroupData> rawBarGroups;
   List<BarChartGroupData> showingBarGroups;
@@ -38,57 +38,34 @@ class BarChartSample2State extends State<BarChartSample2> {
     ];
 
     rawBarGroups = items;
-
     showingBarGroups = rawBarGroups;
   }
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        color: const Color(0xff2c4260),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  makeTransactionsIcon(),
-                  const SizedBox(
-                    width: 38,
-                  ),
-                  Text(
-                    'Transactions',
-                    style: TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    'state',
-                    style:
-                        TextStyle(color: const Color(0xff77839a), fontSize: 16),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 38,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: BarChart(
-                    VerticalBarChartData(
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 28.0, right: 28.0, bottom: 28.0),
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          color: Colors.white12,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  child: HorizontalBarChart(
+                    HorizontalBarChartData(
                       maxValue: 20,
+                      gridData: FlGridData(
+                          show: true,
+                          drawVerticalLine: true,
+                          getDrawingVerticalLine: (i) =>
+                              FlLine(color: Colors.white12)),
                       barTouchData: BarTouchData(
                           touchTooltipData: BarTouchTooltipData(
                             tooltipBgColor: Colors.grey,
@@ -138,15 +115,47 @@ class BarChartSample2State extends State<BarChartSample2> {
                               }
                             });
                           }),
+                      axisTitleData: FlAxisTitleData(
+                          show: true,
+                          leftTitle: AxisTitle(
+                            showTitle: true,
+                            titleText: 'DAY OF WEEK',
+                            margin: 4,
+                            reservedSize: 12,
+                            textStyle: TextStyle(
+                                color: const Color(0xff7589a2),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14),
+                          ),
+                          topTitle: AxisTitle(
+                            showTitle: true,
+                            titleText: 'VOLUME',
+                            margin: 4,
+                            reservedSize: 12,
+                            textStyle: TextStyle(
+                                color: const Color(0xff7589a2),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14),
+                          ),
+                          bottomTitle: AxisTitle(
+                            showTitle: true,
+                            titleText: 'Press bars to display average',
+                            textAlign: TextAlign.end,
+                            textStyle: TextStyle(
+                                color: const Color(0xff7589a2),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14),
+                          )),
                       titlesData: FlTitlesData(
                         show: true,
-                        bottomTitles: SideTitles(
+                        leftTitles: SideTitles(
                           showTitles: true,
                           textStyle: TextStyle(
                               color: const Color(0xff7589a2),
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
-                          margin: 20,
+                          margin: 8,
+                          reservedSize: 14,
                           getTitles: (double value) {
                             switch (value.toInt()) {
                               case 0:
@@ -168,58 +177,63 @@ class BarChartSample2State extends State<BarChartSample2> {
                             }
                           },
                         ),
-                        leftTitles: SideTitles(
+                        topTitles: SideTitles(
                           showTitles: true,
                           textStyle: TextStyle(
                               color: const Color(0xff7589a2),
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
-                          margin: 32,
-                          reservedSize: 14,
+                          margin: 8,
+                          reservedSize: 16,
+                          interval: 2,
                           getTitles: (value) {
                             if (value == 0) {
                               return '1K';
                             } else if (value == 10) {
                               return '5K';
-                            } else if (value == 19) {
+                            } else if (value == 20) {
                               return '10K';
                             } else {
-                              return '';
+                              return '.';
                             }
                           },
                         ),
                       ),
                       borderData: FlBorderData(
-                        show: false,
-                      ),
+                          show: true,
+                          border: Border.all(color: Colors.white38)),
                       barGroups: showingBarGroups,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(barsSpace: 4, value: x, barRods: [
+  BarChartGroupData makeGroupData(int value, double v1, double v2) {
+    return BarChartGroupData(barsSpace: 0, value: value, barRods: [
       BarChartRodData(
-        value: y1,
+        value: v1,
         color: leftBarColor,
         width: width,
+        borderRadius: const BorderRadius.all(Radius.zero),
+        showTitle: true,
+        title: value == 2 ? 'There can be text on the bars' : null,
+        titleStyle: const TextStyle(color: Colors.black),
+        sideTitleStyle: const TextStyle(color: Colors.white),
         backDrawRodData: BackgroundBarChartRodData(
             value: 15, color: Colors.amber.withOpacity(0.2), show: true),
       ),
       BarChartRodData(
-        value: y2,
+        value: v2,
         color: rightBarColor,
         width: width,
+        showTitle: true,
+        title: value == 2 ? 'Text will be besides if it doesn\'t fit' : null,
       ),
     ]);
   }

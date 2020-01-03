@@ -106,14 +106,14 @@ class BarChartSample1State extends State<BarChartSample1> {
     double width = 22,
     List<int> showTooltips = const [],
   }) {
-    return BarChartGroupData(x: x, barRods: [
+    return BarChartGroupData(value: x, barRods: [
       BarChartRodData(
-        y: isTouched ? y + 1 : y,
+        value: isTouched ? y + 1 : y,
         color: isTouched ? Colors.yellow : barColor,
         width: width,
         backDrawRodData: BackgroundBarChartRodData(
           show: true,
-          y: 20,
+          value: 20,
           color: barBackgroundColor,
         ),
       ),
@@ -143,13 +143,13 @@ class BarChartSample1State extends State<BarChartSample1> {
       });
 
   BarChartData mainBarData() {
-    return BarChartData(
+    return VerticalBarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.blueGrey,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               String weekDay;
-              switch (group.x.toInt()) {
+              switch (group.value.toInt()) {
                 case 0:
                   weekDay = 'Monday';
                   break;
@@ -172,7 +172,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                   weekDay = 'Sunday';
                   break;
               }
-              return BarTooltipItem(weekDay + '\n' + (rod.y - 1).toString(),
+              return BarTooltipItem(weekDay + '\n' + (rod.value - 1).toString(),
                   TextStyle(color: Colors.yellow));
             }),
         touchCallback: (barTouchResponse) {
@@ -225,7 +225,7 @@ class BarChartSample1State extends State<BarChartSample1> {
   }
 
   BarChartData randomData() {
-    return BarChartData(
+    return VerticalBarChartData(
       barTouchData: const BarTouchData(
         enabled: false,
       ),

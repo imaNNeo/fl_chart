@@ -16,9 +16,9 @@ class BarChartSample3State extends State<BarChartSample3> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         color: const Color(0xff2c4260),
         child: BarChart(
-          BarChartData(
+          VerticalBarChartData(
               alignment: BarChartAlignment.spaceAround,
-              maxY: 20,
+              maxValue: 20,
               barTouchData: BarTouchData(
                 enabled: false,
                 touchTooltipData: BarTouchTooltipData(
@@ -32,7 +32,7 @@ class BarChartSample3State extends State<BarChartSample3> {
                     int rodIndex,
                   ) {
                     return BarTooltipItem(
-                      rod.y.round().toString(),
+                      rod.value.round().toString(),
                       TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -76,28 +76,28 @@ class BarChartSample3State extends State<BarChartSample3> {
               ),
               barGroups: [
                 BarChartGroupData(
-                    x: 0,
-                    barRods: [BarChartRodData(y: 8, color: Colors.lightBlueAccent)],
+                    value: 0,
+                    barRods: [BarChartRodData(value: 8, color: Colors.lightBlueAccent)],
                     showingTooltipIndicators: [0]),
                 BarChartGroupData(
-                    x: 1,
-                    barRods: [BarChartRodData(y: 10, color: Colors.lightBlueAccent)],
+                    value: 1,
+                    barRods: [BarChartRodData(value: 10, color: Colors.lightBlueAccent)],
                     showingTooltipIndicators: [0]),
                 BarChartGroupData(
-                    x: 2,
-                    barRods: [BarChartRodData(y: 14, color: Colors.lightBlueAccent)],
+                    value: 2,
+                    barRods: [BarChartRodData(value: 14, color: Colors.lightBlueAccent)],
                     showingTooltipIndicators: [0]),
                 BarChartGroupData(
-                    x: 3,
-                    barRods: [BarChartRodData(y: 15, color: Colors.lightBlueAccent)],
+                    value: 3,
+                    barRods: [BarChartRodData(value: 15, color: Colors.lightBlueAccent)],
                     showingTooltipIndicators: [0]),
                 BarChartGroupData(
-                    x: 3,
-                    barRods: [BarChartRodData(y: 13, color: Colors.lightBlueAccent)],
+                    value: 3,
+                    barRods: [BarChartRodData(value: 13, color: Colors.lightBlueAccent)],
                     showingTooltipIndicators: [0]),
                 BarChartGroupData(
-                    x: 3,
-                    barRods: [BarChartRodData(y: 10, color: Colors.lightBlueAccent)],
+                    value: 3,
+                    barRods: [BarChartRodData(value: 10, color: Colors.lightBlueAccent)],
                     showingTooltipIndicators: [0]),
               ]),
         ),

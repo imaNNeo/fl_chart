@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 /// [axisTitleData] to show a description of each axis
 /// [alignment] is the alignment of showing groups,
 /// [titlesData] holds data about drawing left and bottom titles.
-class BarChartData extends AxisChartData {
+abstract class BarChartData extends AxisChartData {
   final List<BarChartGroupData> barGroups;
   final double groupsSpace;
   final BarChartAlignment alignment;
@@ -32,7 +32,6 @@ class BarChartData extends AxisChartData {
     ),
     FlBorderData borderData,
     FlAxisTitleData axisTitleData = const FlAxisTitleData(),
-    double maxY,
     Color backgroundColor,
   }) : super(
           gridData: gridData,
@@ -40,54 +39,11 @@ class BarChartData extends AxisChartData {
           axisTitleData: axisTitleData,
           backgroundColor: backgroundColor,
           touchData: barTouchData,
-        ) {
-    initSuperMinMaxValues(maxY);
-  }
+        );
 
-  /// we have to tell [AxisChartData] how much is our
-  /// minX, maxX, minY, maxY, values.
-  /// here we get them in our constructor, but if each of them was null,
-  /// we calculate it with the barGroups, and barRods data.
-  void initSuperMinMaxValues(
-    double maxY,
-  ) {
-    for (int i = 0; i < barGroups.length; i++) {
-      final BarChartGroupData barData = barGroups[i];
-      if (barData.barRods == null || barData.barRods.isEmpty) {
-        throw Exception('barRods could not be null or empty');
-      }
-    }
+  double get maxValue;
 
-    if (barGroups.isNotEmpty) {
-      var canModifyMaxY = false;
-      if (maxY == null) {
-        maxY = barGroups[0].barRods[0].y;
-        canModifyMaxY = true;
-      }
-
-      for (int i = 0; i < barGroups.length; i++) {
-        final BarChartGroupData barGroup = barGroups[i];
-        for (int j = 0; j < barGroup.barRods.length; j++) {
-          final BarChartRodData rod = barGroup.barRods[j];
-          if (canModifyMaxY && rod.y > maxY) {
-            maxY = rod.y;
-          }
-
-          if (canModifyMaxY &&
-              rod.backDrawRodData.show &&
-              rod.backDrawRodData.y != null &&
-              rod.backDrawRodData.y > maxY) {
-            maxY = rod.backDrawRodData.y;
-          }
-        }
-      }
-    }
-
-    super.minX = 0;
-    super.maxX = 1;
-    super.minY = 0;
-    super.maxY = maxY ?? 1;
-  }
+  void initSuperMinMaxValues(double maxValue);
 
   BarChartData copyWith({
     List<BarChartGroupData> barGroups,
@@ -98,10 +54,57 @@ class BarChartData extends AxisChartData {
     BarTouchData barTouchData,
     FlGridData gridData,
     FlBorderData borderData,
-    double maxY,
+    double maxValue,
+    Color backgroundColor,
+  });
+
+  @override
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
+}
+
+class VerticalBarChartData extends BarChartData {
+  VerticalBarChartData({
+    List<BarChartGroupData> barGroups = const [],
+    double groupsSpace = 16,
+    BarChartAlignment alignment = BarChartAlignment.spaceBetween,
+    FlTitlesData titlesData = const FlTitlesData(),
+    BarTouchData barTouchData = const BarTouchData(),
+    FlGridData gridData = const FlGridData(show: false),
+    FlBorderData borderData,
+    FlAxisTitleData axisTitleData = const FlAxisTitleData(),
+    double maxValue,
+    Color backgroundColor,
+  }) : super(
+          barGroups: barGroups,
+          groupsSpace: groupsSpace,
+          alignment: alignment,
+          titlesData: titlesData,
+          barTouchData: barTouchData,
+          gridData: gridData,
+          borderData: borderData,
+          axisTitleData: axisTitleData,
+          backgroundColor: backgroundColor,
+        ) {
+    initSuperMinMaxValues(maxValue);
+  }
+
+  @override
+  double get maxValue => maxY;
+
+  @override
+  BarChartData copyWith({
+    List<BarChartGroupData> barGroups,
+    double groupsSpace,
+    BarChartAlignment alignment,
+    FlTitlesData titlesData,
+    FlAxisTitleData axisTitleData,
+    BarTouchData barTouchData,
+    FlGridData gridData,
+    FlBorderData borderData,
+    double maxValue,
     Color backgroundColor,
   }) {
-    return BarChartData(
+    return VerticalBarChartData(
       barGroups: barGroups ?? this.barGroups,
       groupsSpace: groupsSpace ?? this.groupsSpace,
       alignment: alignment ?? this.alignment,
@@ -110,7 +113,7 @@ class BarChartData extends AxisChartData {
       barTouchData: barTouchData ?? this.barTouchData,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
-      maxY: maxY ?? this.maxY,
+      maxValue: maxValue ?? this.maxValue,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
@@ -118,7 +121,7 @@ class BarChartData extends AxisChartData {
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is BarChartData && b is BarChartData && t != null) {
-      return BarChartData(
+      return VerticalBarChartData(
         barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
         groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
         alignment: b.alignment,
@@ -127,12 +130,58 @@ class BarChartData extends AxisChartData {
         barTouchData: b.barTouchData,
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        maxY: lerpDouble(a.maxY, b.maxY, t),
+        maxValue: lerpDouble(a.maxValue, b.maxValue, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
     } else {
       throw Exception('Illegal State');
     }
+  }
+
+  /// we have to tell [AxisChartData] how much is our
+  /// minX, maxX, minY, maxY, values.
+  /// here we get them in our constructor, but if each of them was null,
+  /// we calculate it with the barGroups, and barRods data.
+  @override
+  void initSuperMinMaxValues(
+    double maxValue,
+  ) {
+    for (int i = 0; i < barGroups.length; i++) {
+      final BarChartGroupData barData = barGroups[i];
+      if (barData.barRods == null || barData.barRods.isEmpty) {
+        throw Exception('barRods could not be null or empty');
+      }
+    }
+
+    if (barGroups.isNotEmpty) {
+      var canModifyMaxValue = false;
+      if (maxValue == null) {
+        maxValue = barGroups[0].barRods[0].value;
+        canModifyMaxValue = true;
+      }
+
+      for (int i = 0; i < barGroups.length; i++) {
+        final BarChartGroupData barGroup = barGroups[i];
+        for (int j = 0; j < barGroup.barRods.length; j++) {
+          final BarChartRodData rod = barGroup.barRods[j];
+          if (canModifyMaxValue && rod.value > maxValue) {
+            maxValue = rod.value;
+          }
+
+          if (canModifyMaxValue &&
+              rod.backDrawRodData.show &&
+              rod.backDrawRodData.value != null &&
+              rod.backDrawRodData.value > maxValue) {
+            maxValue = rod.backDrawRodData.value;
+          }
+        }
+      }
+    }
+
+    super.minX = 0;
+    super.maxX = 1;
+    super.minY = 0;
+    super.maxY = maxValue ?? 1;
   }
 }
 
@@ -154,7 +203,7 @@ enum BarChartAlignment {
 /// you should use it with single child list.
 class BarChartGroupData {
   @required
-  final int x;
+  final int value;
   final List<BarChartRodData> barRods;
   final double barsSpace;
   final List<int> showingTooltipIndicators;
@@ -165,11 +214,11 @@ class BarChartGroupData {
   /// [barsSpace] is the space between the bar lines inside group
   /// [showingTooltipIndicators] indexes of barRods to show the tooltip on top of them
   const BarChartGroupData({
-    @required this.x,
+    @required this.value,
     this.barRods = const [],
     this.barsSpace = 2,
     this.showingTooltipIndicators = const [],
-  }) : assert(x != null);
+  }) : assert(value != null);
 
   /// calculates the whole width of our group,
   /// by adding all rod's width and group space * rods count.
@@ -186,13 +235,13 @@ class BarChartGroupData {
   }
 
   BarChartGroupData copyWith({
-    int x,
+    int value,
     List<BarChartRodData> barRods,
     double barsSpace,
     List<int> showingTooltipIndicators,
   }) {
     return BarChartGroupData(
-      x: x ?? this.x,
+      value: value ?? this.value,
       barRods: barRods ?? this.barRods,
       barsSpace: barsSpace ?? this.barsSpace,
       showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
@@ -201,7 +250,7 @@ class BarChartGroupData {
 
   static BarChartGroupData lerp(BarChartGroupData a, BarChartGroupData b, double t) {
     return BarChartGroupData(
-      x: (a.x + (b.x - a.x) * t).round(),
+      value: (a.value + (b.value - a.value) * t).round(),
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
       showingTooltipIndicators: lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
@@ -214,37 +263,57 @@ class BarChartGroupData {
 /// This class holds data to show a single rod,
 /// rod is a vertical bar line,
 class BarChartRodData {
-  final double y;
+  final double value;
   final Color color;
   final double width;
   final BorderRadius borderRadius;
   final BackgroundBarChartRodData backDrawRodData;
   final List<BarChartRodStackItem> rodStackItem;
+  final String title;
+  final TextStyle titleStyle;
+  final TextStyle sideTitleStyle;
+  final double titlePadding;
+  final bool showTitle;
 
   const BarChartRodData({
-    this.y,
+    this.value,
     this.color = Colors.blueAccent,
     this.width = 8,
     this.borderRadius,
     this.backDrawRodData = const BackgroundBarChartRodData(),
     this.rodStackItem = const [],
+    this.title,
+    this.showTitle = false,
+    this.titleStyle = const TextStyle(color: Colors.black, fontSize: 12),
+    this.sideTitleStyle = const TextStyle(color: Colors.white, fontSize: 12),
+    this.titlePadding = 4,
   });
 
   BarChartRodData copyWith({
-    double y,
+    double value,
     Color color,
     double width,
     Radius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
     List<BarChartRodStackItem> rodStackItem,
+    String title,
+    bool showTitle,
+    TextStyle titleStyle,
+    TextStyle sideTitleStyle,
+    double titlePadding,
   }) {
     return BarChartRodData(
-      y: y ?? this.y,
+      value: value ?? this.value,
       color: color ?? this.color,
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
       rodStackItem: rodStackItem ?? this.rodStackItem,
+      title: title ?? this.title,
+      showTitle: showTitle ?? this.showTitle,
+      titleStyle: titleStyle ?? this.titleStyle,
+      sideTitleStyle: sideTitleStyle ?? this.sideTitleStyle,
+      titlePadding: titlePadding ?? this.titlePadding,
     );
   }
 
@@ -252,38 +321,44 @@ class BarChartRodData {
     return BarChartRodData(
       color: Color.lerp(a.color, b.color, t),
       width: lerpDouble(a.width, b.width, t),
+      value: lerpDouble(a.value, b.value, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
-      y: lerpDouble(a.y, b.y, t),
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
       rodStackItem: lerpBarChartRodStackList(a.rodStackItem, b.rodStackItem, t),
+      title: b.title,
+      showTitle: b.showTitle,
+      titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
+      sideTitleStyle: TextStyle.lerp(a.sideTitleStyle, b.sideTitleStyle, t),
+      titlePadding: lerpDouble(a.titlePadding, b.titlePadding, t),
     );
   }
 }
 
-/// each section of rod stack, it will draw the section from [fromY] to [toY] using [color].
+/// each section of rod stack, it will draw the section from [fromValue] to [toValue] using [color].
 class BarChartRodStackItem {
-  final double fromY;
-  final double toY;
+  final double fromValue;
+  final double toValue;
   final Color color;
 
-  const BarChartRodStackItem(this.fromY, this.toY, this.color);
+  const BarChartRodStackItem(this.fromValue, this.toValue, this.color);
 
-  BarChartRodStackItem copyWith({
-    double fromY,
-    double toY,
-    Color color,
-  }) {
+  BarChartRodStackItem copyWith(
+      {double fromValue,
+      double toValue,
+      Color color,
+      String title,
+      bool showTitle}) {
     return BarChartRodStackItem(
-      fromY ?? this.fromY,
-      toY ?? this.toY,
+      fromValue ?? this.fromValue,
+      toValue ?? this.toValue,
       color ?? this.color,
     );
   }
 
   static BarChartRodStackItem lerp(BarChartRodStackItem a, BarChartRodStackItem b, double t) {
     return BarChartRodStackItem(
-      lerpDouble(a.fromY, b.fromY, t),
-      lerpDouble(a.toY, b.toY, t),
+      lerpDouble(a.fromValue, b.fromValue, t),
+      lerpDouble(a.toValue, b.toValue, t),
       Color.lerp(a.color, b.color, t),
     );
   }
@@ -295,11 +370,11 @@ class BarChartRodStackItem {
 /// if you want to use it set [BackgroundBarChartRodData.show] true.
 class BackgroundBarChartRodData {
   final bool show;
-  final double y;
+  final double value;
   final Color color;
 
   const BackgroundBarChartRodData({
-    this.y = 8,
+    this.value = 8,
     this.show = false,
     this.color = Colors.blueGrey,
   });
@@ -307,7 +382,7 @@ class BackgroundBarChartRodData {
   static BackgroundBarChartRodData lerp(
       BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
-      y: lerpDouble(a.y, b.y, t),
+      value: lerpDouble(a.value, b.value, t),
       color: Color.lerp(a.color, b.color, t),
       show: b.show,
     );
@@ -378,7 +453,7 @@ class BarTouchTooltipData {
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding =
-    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItem = defaultBarTooltipItem,
@@ -392,18 +467,18 @@ class BarTouchTooltipData {
 typedef GetBarTooltipItem = BarTooltipItem Function(
   BarChartGroupData group, int groupIndex,
   BarChartRodData rod, int rodIndex,
-  );
+);
 
 BarTooltipItem defaultBarTooltipItem(
   BarChartGroupData group, int groupIndex,
   BarChartRodData rod, int rodIndex,
-  ) {
+) {
   final TextStyle textStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return BarTooltipItem(rod.y.toString(), textStyle);
+  return BarTooltipItem(rod.value.toString(), textStyle);
 }
 
 /// holds data of showing each item in the tooltip window
