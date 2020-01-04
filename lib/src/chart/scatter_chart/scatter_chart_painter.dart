@@ -17,7 +17,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
     ScatterChartData data,
     ScatterChartData targetData,
     Function(TouchHandler) touchHandler,
-    ) : super(data, targetData,) {
+    {double textScale}
+    ) : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
     spotsPaint = Paint()..style = PaintingStyle.fill;
@@ -64,7 +65,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
         final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
         final TextPainter tp =
-        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
         x -= tp.width + leftTitles.margin;
         y -= tp.height / 2;
@@ -92,7 +93,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
         final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
         final TextPainter tp =
-        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout();
 
         x -= tp.width / 2;
@@ -121,7 +122,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
         final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
         final TextPainter tp =
-        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
         x += rightTitles.margin;
@@ -150,7 +151,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
         final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
         final TextPainter tp =
-        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+        TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
         tp.layout();
 
         x -= tp.width / 2;
@@ -200,7 +201,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> with TouchH
 
     final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
     final TextPainter drawingTextPainter =
-    TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
+    TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
     drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
 
     final width = drawingTextPainter.width;

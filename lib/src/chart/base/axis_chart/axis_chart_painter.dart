@@ -15,8 +15,8 @@ import 'axis_chart_data.dart';
 abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainter<D> {
   Paint gridPaint, backgroundPaint;
 
-  AxisChartPainter(D data, D targetData,)
-      : super(data, targetData,) {
+  AxisChartPainter(D data, D targetData, {double textScale})
+      : super(data, targetData, textScale: textScale) {
     gridPaint = Paint()..style = PaintingStyle.fill;
 
     backgroundPaint = Paint()..style = PaintingStyle.fill;
@@ -47,7 +47,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: leftTitle.textAlign,
-          textDirection: TextDirection.ltr);
+          textDirection: TextDirection.ltr,
+          textScaleFactor: textScale);
       tp.layout(minWidth: viewSize.height);
       canvas.save();
       canvas.rotate(-math.pi * 0.5);
@@ -66,7 +67,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: topTitle.textAlign,
-          textDirection: TextDirection.ltr);
+          textDirection: TextDirection.ltr,
+          textScaleFactor: textScale);
       tp.layout(minWidth: viewSize.width);
       tp.paint(canvas,
           Offset(getLeftOffsetDrawSize(), topTitle.reservedSize - tp.height));
@@ -80,7 +82,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: rightTitle.textAlign,
-          textDirection: TextDirection.ltr);
+          textDirection: TextDirection.ltr,
+          textScaleFactor: textScale);
       tp.layout(minWidth: viewSize.height);
       canvas.save();
       canvas.rotate(-math.pi * 0.5);
@@ -102,7 +105,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: bottomTitle.textAlign,
-          textDirection: TextDirection.ltr);
+          textDirection: TextDirection.ltr,
+          textScaleFactor: textScale);
       tp.layout(minWidth: viewSize.width);
       tp.paint(
           canvas,

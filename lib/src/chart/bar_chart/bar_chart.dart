@@ -129,6 +129,7 @@ class BarChartState extends AnimatedWidgetBaseState<BarChart> {
               _touchHandler = touchHandler;
             });
           },
+          textScale: MediaQuery.of(context).textScaleFactor,
         ),
       ),
     );

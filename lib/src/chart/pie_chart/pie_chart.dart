@@ -129,6 +129,7 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
               _touchHandler = touchHandler;
             });
           },
+          textScale: MediaQuery.of(context).textScaleFactor,
         ),
       ),
     );
