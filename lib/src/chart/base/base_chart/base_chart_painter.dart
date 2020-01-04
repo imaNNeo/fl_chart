@@ -46,24 +46,36 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
         getTopOffsetDrawSize() + chartViewSize.height);
 
     /// Draw Top Line
-    borderPaint.color = data.borderData.border.top.color;
-    borderPaint.strokeWidth = data.borderData.border.top.width;
-    canvas.drawLine(topLeft, topRight, borderPaint);
+    final BorderSide topBorder = data.borderData.border.top;
+    if (topBorder.width != 0.0) {
+      borderPaint.color = topBorder.color;
+      borderPaint.strokeWidth = topBorder.width;
+      canvas.drawLine(topLeft, topRight, borderPaint);
+    }
 
     /// Draw Right Line
-    borderPaint.color = data.borderData.border.right.color;
-    borderPaint.strokeWidth = data.borderData.border.right.width;
-    canvas.drawLine(topRight, bottomRight, borderPaint);
+    final BorderSide rightBorder = data.borderData.border.right;
+    if (rightBorder.width != 0.0) {
+      borderPaint.color = rightBorder.color;
+      borderPaint.strokeWidth = rightBorder.width;
+      canvas.drawLine(topRight, bottomRight, borderPaint);
+    }
 
     /// Draw Bottom Line
-    borderPaint.color = data.borderData.border.bottom.color;
-    borderPaint.strokeWidth = data.borderData.border.bottom.width;
-    canvas.drawLine(bottomRight, bottomLeft, borderPaint);
+    final BorderSide bottomBorder = data.borderData.border.bottom;
+    if (bottomBorder.width != 0.0) {
+      borderPaint.color = bottomBorder.color;
+      borderPaint.strokeWidth = bottomBorder.width;
+      canvas.drawLine(bottomRight, bottomLeft, borderPaint);
+    }
 
     /// Draw Left Line
-    borderPaint.color = data.borderData.border.left.color;
-    borderPaint.strokeWidth = data.borderData.border.left.width;
-    canvas.drawLine(bottomLeft, topLeft, borderPaint);
+    final BorderSide leftBorder = data.borderData.border.left;
+    if (leftBorder.width != 0.0) {
+      borderPaint.color = leftBorder.color;
+      borderPaint.strokeWidth = leftBorder.width;
+      canvas.drawLine(bottomLeft, topLeft, borderPaint);
+    }
   }
 
   /// calculate the size that we can draw our chart.
