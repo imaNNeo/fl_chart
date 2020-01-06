@@ -1,3 +1,7 @@
+## 0.6.3
+* Fixed drawing borddr bug, #143.
+* Respect text scale factor when drawing text.
+
 ## 0.6.2
 * added `axisTitleData` field to all axis base charts (Line, Bar, Scatter) to show the axes titles, see [LineChartSample4](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-4-source-code) and [LineChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-5-source-code).
 
