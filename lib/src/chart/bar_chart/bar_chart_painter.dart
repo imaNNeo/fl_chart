@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
@@ -186,82 +188,57 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       for (int j = 0; j < barGroup.barRods.length; j++) {
         final barRod = barGroup.barRods[j];
         final double widthHalf = barRod.width / 2;
-        final double roundedRadius = barRod.isRound ? widthHalf : 0;
+        final BorderRadius borderRadius =
+            barRod.borderRadius ?? BorderRadius.circular(barRod.width);
 
         final double x = groupBarsPosition[i].barsX[j];
 
-        Offset from, to;
-
-        barPaint.strokeWidth = barRod.width;
-        barPaint.strokeCap = barRod.isRound ? StrokeCap.round : StrokeCap.butt;
+        final left = x - widthHalf;
+        final right = x + widthHalf;
+        final bottom = getPixelY(0, drawSize);
+        final cornerHeight = max(borderRadius.topLeft.y, borderRadius.topRight.y);
 
         /// Draw [BackgroundBarChartRodData]
         if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
-          from = Offset(
-            x,
-            getPixelY(0, drawSize) - roundedRadius,
-          );
-          to = Offset(
-            x,
-            getPixelY(barRod.backDrawRodData.y, drawSize) + roundedRadius,
-          );
+          final top = min(getPixelY(barRod.backDrawRodData.y, drawSize),
+            bottom - cornerHeight);
+
           barPaint.color = barRod.backDrawRodData.color;
-          canvas.drawLine(from, to, barPaint);
+          canvas.drawRRect(
+              RRect.fromLTRBAndCorners(
+                  left, top, right, bottom,
+                  topLeft: borderRadius.topLeft,
+                  topRight: borderRadius.topRight,
+                  bottomLeft: borderRadius.bottomLeft,
+                  bottomRight: borderRadius.bottomRight),
+              barPaint);
         }
 
         // draw Main Rod
         if (barRod.y != 0) {
-          final yFrom = getPixelY(0, drawSize);
-          from = Offset(
-            x,
-            yFrom - roundedRadius,
-          );
+          final top = min(getPixelY(barRod.y, drawSize), bottom - cornerHeight);
 
-          var yTo = getPixelY(barRod.y, drawSize);
-
-          if ((yFrom - yTo).abs() <= barRod.width) {
-            yTo = yFrom - barRod.width;
-          }
-
-          to = Offset(
-            x,
-            yTo + roundedRadius,
-          );
           barPaint.color = barRod.color;
-          canvas.drawLine(from, to, barPaint);
+          final barRect = RRect.fromLTRBAndCorners(
+                  left, top, right, bottom,
+                  topLeft: borderRadius.topLeft,
+                  topRight: borderRadius.topRight,
+                  bottomLeft: borderRadius.bottomLeft,
+                  bottomRight: borderRadius.bottomRight);
+          canvas.drawRRect(barRect, barPaint);
 
           // draw rod stack
           if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
-            final Rect barRect = Rect.fromLTRB(
-              x - roundedRadius,
-              yTo,
-              x + roundedRadius,
-              yFrom,
-            );
-            if (barRod.isRound) {
-              clearPaint
-                ..blendMode = BlendMode.srcOver;
-              canvas.saveLayer(barRect, clearPaint);
-            }
             for (int i = 0; i < barRod.rodStackItem.length; i++) {
               final stackItem = barRod.rodStackItem[i];
+              final stackBottom =  getPixelY(stackItem.fromY, drawSize);
+              final stackTop = min(getPixelY(stackItem.toY, drawSize),
+                bottom - cornerHeight);
+
               barPaint.color = stackItem.color;
-              barPaint.strokeCap = StrokeCap.butt;
-
-              final Offset fromY = Offset(x, getPixelY(stackItem.fromY, drawSize));
-              final Offset toY = Offset(x, getPixelY(stackItem.toY, drawSize));
-
-              barPaint.strokeCap = StrokeCap.butt;
-              canvas.drawLine(fromY, toY, barPaint);
-            }
-            if (barRod.isRound) {
-              clearPaint..blendMode = BlendMode.dstIn;
-              canvas.saveLayer(barRect, clearPaint);
-              barPaint.color = const Color(0xff000000);
-              final previousMode = barPaint.blendMode;
-              canvas.drawRRect(RRect.fromRectAndRadius(barRect, Radius.circular(roundedRadius)), barPaint);
-              barPaint.blendMode = previousMode;
-              canvas.restore();
+              canvas.save();
+              canvas.clipRect(Rect.fromLTRB(left, stackTop, right, stackBottom));
+              canvas.drawRRect(barRect, barPaint);
               canvas.restore();
             }
           }
