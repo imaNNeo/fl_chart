@@ -196,7 +196,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final left = x - widthHalf;
         final right = x + widthHalf;
         final bottom = getPixelY(0, drawSize);
-        final cornerHeight = max(borderRadius.topLeft.y, borderRadius.topRight.y);
+        final cornerHeight = max(borderRadius.topLeft.y, borderRadius.topRight.y) +
+          max(borderRadius.bottomLeft.y, borderRadius.bottomRight.y);
 
         /// Draw [BackgroundBarChartRodData]
         if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
@@ -232,8 +233,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             for (int i = 0; i < barRod.rodStackItem.length; i++) {
               final stackItem = barRod.rodStackItem[i];
               final stackBottom =  getPixelY(stackItem.fromY, drawSize);
-              final stackTop = min(getPixelY(stackItem.toY, drawSize),
-                bottom - cornerHeight);
+              final stackTop = getPixelY(stackItem.toY, drawSize);
 
               barPaint.color = stackItem.color;
               canvas.save();
