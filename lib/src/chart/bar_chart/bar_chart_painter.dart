@@ -189,7 +189,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final barRod = barGroup.barRods[j];
         final double widthHalf = barRod.width / 2;
         final BorderRadius borderRadius =
-            barRod.borderRadius ?? BorderRadius.circular(barRod.width);
+            barRod.borderRadius ?? BorderRadius.circular(barRod.width / 2);
 
         final double x = groupBarsPosition[i].barsX[j];
 
