@@ -9,12 +9,10 @@ import 'line_chart_painter.dart';
 
 class LineChart extends ImplicitlyAnimatedWidget {
   final LineChartData data;
-  final bool stickyTouchedIndicators;
 
   const LineChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
-    this.stickyTouchedIndicators = false,
   }) : super(duration: swapAnimationDuration);
 
   @override
@@ -210,12 +208,10 @@ class LineChartState extends AnimatedWidgetBaseState<LineChart> {
         _showingTouchedTooltips.add(MapEntry(0, sortedLineSpots));
       });
     } else {
-      if (!widget.stickyTouchedIndicators) {
-        setState(() {
-          _showingTouchedTooltips.clear();
-          _showingTouchedIndicators.clear();
-        });
-      }
+      setState(() {
+        _showingTouchedTooltips.clear();
+        _showingTouchedIndicators.clear();
+      });
     }
   }
 
