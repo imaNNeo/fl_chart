@@ -29,7 +29,7 @@ class LineChartData extends AxisChartData {
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
     this.lineTouchData = const LineTouchData(),
-    this.showingTooltipIndicators = const [],
+    this.showingTooltipIndicators = const[],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     FlAxisTitleData axisTitleData = const FlAxisTitleData(),
@@ -127,16 +127,12 @@ class LineChartData extends AxisChartData {
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         clipToBorder: b.clipToBorder,
-        extraLinesData:
-            ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
+        extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
-        axisTitleData:
-            FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
-        lineBarsData:
-            lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
-        betweenBarsData:
-            lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
+        axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
+        lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
+        betweenBarsData: lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
         lineTouchData: b.lineTouchData,
         showingTooltipIndicators: b.showingTooltipIndicators,
       );
@@ -169,8 +165,7 @@ class LineChartData extends AxisChartData {
       axisTitleData: axisTitleData ?? this.axisTitleData,
       extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
-      showingTooltipIndicators:
-          showingTooltipIndicators ?? this.showingTooltipIndicators,
+      showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
       minX: minX ?? this.minX,
@@ -254,8 +249,7 @@ class LineChartBarData {
     this.showingIndicators = const [],
   });
 
-  static LineChartBarData lerp(
-      LineChartBarData a, LineChartBarData b, double t) {
+  static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
     return LineChartBarData(
       show: b.show,
       barWidth: lerpDouble(a.barWidth, b.barWidth, t),
@@ -301,8 +295,7 @@ class LineChartBarData {
       barWidth: barWidth ?? this.barWidth,
       isCurved: isCurved ?? this.isCurved,
       curveSmoothness: curveSmoothness ?? this.curveSmoothness,
-      preventCurveOverShooting:
-          preventCurveOverShooting ?? this.preventCurveOverShooting,
+      preventCurveOverShooting: preventCurveOverShooting ?? this.preventCurveOverShooting,
       isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
       belowBarData: belowBarData ?? this.belowBarData,
       aboveBarData: aboveBarData ?? this.aboveBarData,
@@ -310,6 +303,7 @@ class LineChartBarData {
       showingIndicators: showingIndicators ?? this.showingIndicators,
     );
   }
+
 }
 
 /// holds the details of a [FlSpot] inside a [LineChartBarData]
@@ -318,12 +312,9 @@ class LineBarSpot extends FlSpot {
   final int barIndex;
   final int spotIndex;
 
-  LineBarSpot(
-    this.bar,
-    this.barIndex,
-    FlSpot spot,
-  )   : spotIndex = bar.spots.indexOf(spot),
-        super(spot.x, spot.y);
+  LineBarSpot(this.bar, this.barIndex, FlSpot spot,)
+    :spotIndex = bar.spots.indexOf(spot),
+      super(spot.x, spot.y);
 }
 
 /***** BarAreaData *****/
@@ -376,8 +367,7 @@ class BarAreaData {
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spotsLine: BarAreaSpotsLine.lerp(a.spotsLine, b.spotsLine, t),
       colors: lerpColorList(a.colors, b.colors, t),
-      gradientColorStops:
-          lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+      gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
       cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t),
       applyCutOffY: b.applyCutOffY,
     );
@@ -387,6 +377,7 @@ class BarAreaData {
 /***** BarAreaData *****/
 /// This class holds data about draw on below or above space of the bar line,
 class BetweenBarsData {
+
   /// The index of the lineBarsData from where the area has to be rendered
   final int fromIndex;
 
@@ -411,6 +402,7 @@ class BetweenBarsData {
   /// stop points of the gradient.
   final List<double> gradientColorStops;
 
+
   const BetweenBarsData({
     @required this.fromIndex,
     @required this.toIndex,
@@ -427,8 +419,7 @@ class BetweenBarsData {
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       colors: lerpColorList(a.colors, b.colors, t),
-      gradientColorStops:
-          lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+      gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
     );
   }
 }
@@ -454,8 +445,7 @@ class BarAreaSpotsLine {
     this.checkToShowSpotLine = showAllSpotsBelowLine,
   });
 
-  static BarAreaSpotsLine lerp(
-      BarAreaSpotsLine a, BarAreaSpotsLine b, double t) {
+  static BarAreaSpotsLine lerp(BarAreaSpotsLine a, BarAreaSpotsLine b, double t) {
     return BarAreaSpotsLine(
       show: b.show,
       checkToShowSpotLine: b.checkToShowSpotLine,
@@ -569,8 +559,7 @@ class ExtraLinesData {
     return ExtraLinesData(
       showHorizontalLines: b.showHorizontalLines,
       showVerticalLines: b.showVerticalLines,
-      horizontalLines:
-          lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
+      horizontalLines: lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
       verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
     );
   }
@@ -594,8 +583,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
       lineColor = barData.dotData.dotColor;
     }
     const double lineStrokeWidth = 4;
-    final FlLine flLine =
-        FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
+    final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
     /// Indicator dot
     double dotSize = 10;
@@ -654,12 +642,12 @@ class LineTouchData extends FlTouchData {
       enabled: enabled ?? this.enabled,
       enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
-      getTouchedSpotIndicator:
-          getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
+      getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
+
 }
 
 /// Holds information for showing tooltip on axis based charts
@@ -676,7 +664,7 @@ class LineTouchTooltipData {
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding =
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
@@ -688,9 +676,10 @@ class LineTouchTooltipData {
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [LineTooltipItem] from the given [TouchedSpot].
 typedef GetLineTooltipItems = List<LineTooltipItem> Function(
-    List<LineBarSpot> touchedSpots);
+  List<LineBarSpot> touchedSpots);
 
-List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
+List<LineTooltipItem> defaultLineTooltipItem (
+  List<LineBarSpot> touchedSpots) {
   if (touchedSpots == null) {
     return null;
   }
@@ -739,10 +728,12 @@ class LineTouchResponse extends BaseTouchResponse {
   ) : super(touchInput);
 }
 
+
 class LineChartDataTween extends Tween<LineChartData> {
-  LineChartDataTween({LineChartData begin, LineChartData end})
-      : super(begin: begin, end: end);
+
+  LineChartDataTween({LineChartData begin, LineChartData end}) : super(begin: begin, end: end);
 
   @override
   LineChartData lerp(double t) => begin.lerp(begin, end, t);
+
 }
