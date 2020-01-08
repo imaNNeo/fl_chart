@@ -168,23 +168,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
 
-        Color dotColor;
-        if (barData.dotData.getDotColor != null) {
-          dotColor = barData.dotData.getDotColor(spot);
-        } else {
-          dotColor = barData.dotData.dotColor;
-        }
+        final dotColor = barData.dotData.getDotColor(spot);
 
-        dotPaint.style = barData.dotData.style;
-        dotPaint.strokeWidth = barData.dotData.strokeWidth;
-
-        if (dotPaint.style == PaintingStyle.stroke) {
+        if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
           canvas.drawCircle(
               Offset(x, y),
               barData.dotData.dotSize,
               dotPaint
-                ..color = barData.dotData.fillColor
-                ..style = PaintingStyle.fill);
+                ..color = barData.dotData.getStrokeColor(spot)
+                ..strokeWidth = barData.dotData.strokeWidth
+                ..style = PaintingStyle.stroke);
         }
 
         canvas.drawCircle(
@@ -192,7 +185,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
             barData.dotData.dotSize,
             dotPaint
               ..color = dotColor
-              ..style = barData.dotData.style);
+              ..style = PaintingStyle.fill);
       }
     }
   }
@@ -231,9 +224,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
       /// Draw the indicator dot
       final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
-      dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
+      dotPaint.color = indicatorData.touchedSpotDotData.getDotColor(spot);
       canvas.drawCircle(to, selectedSpotDotSize,
-          dotPaint..style = indicatorData.touchedSpotDotData.style);
+          dotPaint..style = PaintingStyle.fill);
     }
   }
 

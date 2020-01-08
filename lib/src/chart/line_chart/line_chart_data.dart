@@ -462,16 +462,15 @@ bool showAllDots(FlSpot spot) {
 }
 
 typedef GetDotColorCallback = Color Function(FlSpot);
+Color _defaultGetDotColor(FlSpot _) => Colors.blue;
 
 /// This class holds data about drawing spot dots on the drawing bar line.
 class FlDotData {
   final bool show;
-  final Color dotColor;
   final double dotSize;
-  final PaintingStyle style;
   final double strokeWidth;
+  final GetDotColorCallback getStrokeColor;
   final GetDotColorCallback getDotColor;
-  final Color fillColor;
 
   /// with this field you can determine which dot should show,
   /// for example you can draw just the last spot dot.
@@ -479,21 +478,19 @@ class FlDotData {
 
   const FlDotData({
     this.show = true,
-    this.dotColor = Colors.blue,
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
-    this.style,
     this.strokeWidth,
-    this.getDotColor,
-    this.fillColor,
+    this.getStrokeColor,
+    this.getDotColor = _defaultGetDotColor,
   });
 
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
     return FlDotData(
       show: b.show,
       checkToShowDot: b.checkToShowDot,
-      dotColor: Color.lerp(a.dotColor, b.dotColor, t),
       dotSize: lerpDouble(a.dotSize, b.dotSize, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
     );
   }
 }
@@ -580,7 +577,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     /// Indicator Line
     Color lineColor = barData.colors[0];
     if (barData.dotData.show) {
-      lineColor = barData.dotData.dotColor;
+      lineColor = barData.dotData.getDotColor(barData.spots[index]);
     }
     const double lineStrokeWidth = 4;
     final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
@@ -590,11 +587,11 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     Color dotColor = barData.colors[0];
     if (barData.dotData.show) {
       dotSize = barData.dotData.dotSize * 1.8;
-      dotColor = barData.dotData.dotColor;
+      dotColor = barData.dotData.getDotColor(barData.spots[index]);
     }
     final dotData = FlDotData(
       dotSize: dotSize,
-      dotColor: dotColor,
+      getDotColor: (_) => dotColor,
     );
 
     return TouchedSpotIndicatorData(flLine, dotData);
