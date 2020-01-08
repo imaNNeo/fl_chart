@@ -24,13 +24,13 @@
 ### SideTitles
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|showTitles| determines to show or hide the titles | false|
+|showTitles| determines whether to show or hide the titles | false|
 |getTitles| a function to retrieve the title with given value on the related axis|defaultGetTitle|
 |reservedSize| a reserved space to show titles|22|
-|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of texts |TextStyle(color: Colors.black, fontSize: 11)|
-|margin| margin of horizontal the titles | 6|
-|interval| interval between of showing titles in this side  | 1.0 |
-|rotateAngle| the clockwise angle of rotating title in degree   | 0.0 |
+|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) the style to use for title text |TextStyle(color: Colors.black, fontSize: 11)|
+|margin| margin between each title | 6|
+|interval| interval to display each title on a side  | 1.0 |
+|rotateAngle| the clockwise angle of rotating title in degrees   | 0.0 |
 
 
 
