@@ -66,7 +66,7 @@ class LineChartSample3 extends StatelessWidget {
                           }
 
                           return LineTooltipItem(
-                            '${weekDays[flSpot.x.toInt()]} \n${flSpot.y} k colories',
+                            '${weekDays[flSpot.x.toInt()]} \n${flSpot.y} k calories',
                             const TextStyle(color: Colors.white),
                           );
                         }).toList();
@@ -166,11 +166,11 @@ class LineChartSample3 extends StatelessWidget {
                         case 0:
                           return '';
                         case 1:
-                          return '1k colories';
+                          return '1k calories';
                         case 2:
-                          return '2k colories';
+                          return '2k calories';
                         case 3:
-                          return '3k colories';
+                          return '3k calories';
                       }
 
                       return '';
