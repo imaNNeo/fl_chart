@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'samples/line_chart_sample1.dart';
 import 'samples/line_chart_sample2.dart';
+import 'samples/line_chart_sample2_2.dart';
 
 class LineChartPage extends StatelessWidget {
   @override
@@ -44,6 +45,30 @@ class LineChartPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 28.0, right: 28),
             child: LineChartSample2(),
+          ),
+          const SizedBox(
+            height: 22,
+          ),
+            Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 36.0,
+              ),
+              child: Text(
+                'Range annotations',
+                style: TextStyle(
+                    color: const Color(
+                      0xff6f6f97,
+                    ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 28.0, right: 28),
+            child: LineChartSample2_2(),
           ),
         ],
       ),
