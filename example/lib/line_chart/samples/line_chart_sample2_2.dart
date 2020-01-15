@@ -54,7 +54,7 @@ class _LineChartSample2_2State extends State<LineChartSample2_2> {
             color: Colors.yellow
           ),
         ],
-        hasHorizonalRangeAnnotations: true,
+        hasHorizontalRangeAnnotations: true,
         horizontalRangeAnnotations: [
           HorizontalRangeAnnotation(
             y1: 1,

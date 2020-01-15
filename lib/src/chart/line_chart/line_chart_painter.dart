@@ -822,7 +822,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
       }
     }
 
-    if (data.rangeAnnotations.hasHorizonalRangeAnnotations) {
+    if (data.rangeAnnotations.hasHorizontalRangeAnnotations) {
       for (HorizontalRangeAnnotation anno in data.rangeAnnotations.horizontalRangeAnnotations) {
         final double leftChartPadding = getLeftOffsetDrawSize();
         final Offset from = Offset(leftChartPadding, getPixelY(anno.y1, chartUsableSize));
