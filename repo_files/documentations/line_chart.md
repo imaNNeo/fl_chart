@@ -105,6 +105,21 @@ LineChart(
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 
+### HorizontalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|y1|start interval of horizontal rectangle|null|
+|y2|end interval of horizontal rectangle|null|
+|color|color of the rectangle|Colors.white|
+
+
+### VerticalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|x1|start interval of vertical rectangle|null|
+|x2|end interval of vertical rectangle|null|
+|color|color of the rectangle|Colors.white|
+
 
 ### ExtraLinesData
 |PropName|Description|default value|
@@ -113,6 +128,15 @@ LineChart(
 |horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
 |showVerticalLines|determines to show or hide the vertical lines|false|
 |verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
+
+
+### RangeAnnotations
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|horizontalRangeAnnotations|list of [horizontalRangeAnnotation](#HorizontalRangeAnnotation) to draw on the chart|[]|
+|hasHorizontalRangeAnnotations|determines to show or hide the horizontal range annotations|false|
+|hasVerticalRangeAnnotations|determines to show or hide vertical range annotations|false|
+|verticalRangeAnnotations|list of [VerticalRangeAnnotation](#VerticalRangeAnnotation) to draw on the chart|[]|
 
 
 ### LineTouchData ([read about touch handling](handle_touches.md))
