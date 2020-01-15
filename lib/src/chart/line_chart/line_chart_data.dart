@@ -21,6 +21,7 @@ class LineChartData extends AxisChartData {
   final FlTitlesData titlesData;
   final ExtraLinesData extraLinesData;
   final LineTouchData lineTouchData;
+  final RangeAnnotations rangeAnnotations;
   final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
 
   LineChartData({
@@ -28,6 +29,7 @@ class LineChartData extends AxisChartData {
     this.betweenBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
+    this.rangeAnnotations = const RangeAnnotations(),
     this.lineTouchData = const LineTouchData(),
     this.showingTooltipIndicators = const[],
     FlGridData gridData = const FlGridData(),
@@ -147,6 +149,7 @@ class LineChartData extends AxisChartData {
     FlTitlesData titlesData,
     FlAxisTitleData axisTitleData,
     ExtraLinesData extraLinesData,
+    RangeAnnotations rangeAnnotations,
     LineTouchData lineTouchData,
     List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
     FlGridData gridData,
@@ -164,6 +167,7 @@ class LineChartData extends AxisChartData {
       titlesData: titlesData ?? this.titlesData,
       axisTitleData: axisTitleData ?? this.axisTitleData,
       extraLinesData: extraLinesData ?? this.extraLinesData,
+      rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
       lineTouchData: lineTouchData ?? this.lineTouchData,
       showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
       gridData: gridData ?? this.gridData,
@@ -553,6 +557,47 @@ class ExtraLinesData {
       verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
     );
   }
+}
+
+/// HorizontalRangeAnnotation
+class HorizontalRangeAnnotation {
+  final double y1;
+  final double y2;
+  final Color color;
+
+  HorizontalRangeAnnotation({
+    this.y1,
+    this.y2,
+    this.color = Colors.white,
+  });
+}
+
+/// VerticalRangeAnnotation
+class VerticalRangeAnnotation {
+  final double x1;
+  final double x2;
+  final Color color;
+
+  VerticalRangeAnnotation({
+    this.x1,
+    this.x2,
+    this.color = Colors.white,
+  });
+}
+
+/// RangeAnnotations
+class RangeAnnotations {
+  final bool hasHorizonalRangeAnnotations;
+  final bool hasVerticalRangeAnnotations;
+  final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
+  final List<VerticalRangeAnnotation> verticalRangeAnnotations;
+
+  const RangeAnnotations({
+    this.hasHorizonalRangeAnnotations = false,
+    this.hasVerticalRangeAnnotations = false,
+    this.horizontalRangeAnnotations = const [],
+    this.verticalRangeAnnotations = const [],
+  });
 }
 
 /// if user touched the chart, we indicate the touched spots with a below line,
