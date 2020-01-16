@@ -542,11 +542,14 @@ class ExtraLinesData {
   final bool showVerticalLines;
   final List<VerticalLine> verticalLines;
 
+  final bool extraLinesOnTop;
+
   const ExtraLinesData({
     this.showHorizontalLines = false,
     this.horizontalLines = const [],
     this.showVerticalLines = false,
     this.verticalLines = const [],
+    this.extraLinesOnTop = true
   });
 
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
