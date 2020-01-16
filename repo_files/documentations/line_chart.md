@@ -134,8 +134,6 @@ LineChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |horizontalRangeAnnotations|list of [horizontalRangeAnnotation](#HorizontalRangeAnnotation) to draw on the chart|[]|
-|hasHorizontalRangeAnnotations|determines to show or hide the horizontal range annotations|false|
-|hasVerticalRangeAnnotations|determines to show or hide vertical range annotations|false|
 |verticalRangeAnnotations|list of [VerticalRangeAnnotation](#VerticalRangeAnnotation) to draw on the chart|[]|
 
 

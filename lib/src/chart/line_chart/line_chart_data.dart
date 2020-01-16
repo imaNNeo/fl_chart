@@ -587,14 +587,10 @@ class VerticalRangeAnnotation {
 
 /// RangeAnnotations
 class RangeAnnotations {
-  final bool hasHorizontalRangeAnnotations;
-  final bool hasVerticalRangeAnnotations;
   final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
   final List<VerticalRangeAnnotation> verticalRangeAnnotations;
 
   const RangeAnnotations({
-    this.hasHorizontalRangeAnnotations = false,
-    this.hasVerticalRangeAnnotations = false,
     this.horizontalRangeAnnotations = const [],
     this.verticalRangeAnnotations = const [],
   });
