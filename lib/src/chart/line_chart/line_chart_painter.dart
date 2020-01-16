@@ -799,7 +799,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
  void drawRangeAnnotation(Canvas canvas, Size viewSize) {
     if (data.rangeAnnotations == null) {
-      print('is null');
       return;
     }
 
