@@ -130,6 +130,7 @@ class LineChartData extends AxisChartData {
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         clipToBorder: b.clipToBorder,
         extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
+        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
@@ -573,6 +574,14 @@ class HorizontalRangeAnnotation {
     this.y2,
     this.color = Colors.white,
   });
+
+  static HorizontalRangeAnnotation lerp(HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+    return HorizontalRangeAnnotation(
+      y1: lerpDouble(a.y1, b.y1, t),
+      y2: lerpDouble(a.y2, b.y2, t),
+      color: Color.lerp(a.color, b.color, t),
+    );
+  }
 }
 
 /// VerticalRangeAnnotation
@@ -586,6 +595,14 @@ class VerticalRangeAnnotation {
     this.x2,
     this.color = Colors.white,
   });
+
+  static VerticalRangeAnnotation lerp(VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+    return VerticalRangeAnnotation(
+      x1: lerpDouble(a.x1, b.x1, t),
+      x2: lerpDouble(a.x2, b.x2, t),
+      color: Color.lerp(a.color, b.color, t),
+    );
+  }
 }
 
 /// RangeAnnotations
@@ -597,6 +614,13 @@ class RangeAnnotations {
     this.horizontalRangeAnnotations = const [],
     this.verticalRangeAnnotations = const [],
   });
+
+  static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
+    return RangeAnnotations(
+      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+    );
+  }
 }
 
 /// if user touched the chart, we indicate the touched spots with a below line,
