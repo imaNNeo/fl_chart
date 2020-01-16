@@ -41,33 +41,34 @@ class _LineChartSample2_2State extends State<LineChartSample2_2> {
   LineChartData mainData() {
     return LineChartData(
       rangeAnnotations: RangeAnnotations(
-        // verticalRangeAnnotations: [
-        //   VerticalRangeAnnotation(
-        //     x1: 2,
-        //     x2: 4,
-        //     color: Colors.orange
-        //   ),
-        //   VerticalRangeAnnotation(
-        //     x1: 8,
-        //     x2: 10,
-        //     color: Colors.yellow
-        //   ),
-        // ],
-        // horizontalRangeAnnotations: [
-        //   HorizontalRangeAnnotation(
-        //     y1: 1,
-        //     y2: 2,
-        //     color: Colors.red
-        //   ),
-        //   HorizontalRangeAnnotation(
-        //     y1: 4,
-        //     y2: 5,
-        //     color: Colors.blue
-        //   ),
-        // ]
+        verticalRangeAnnotations: [
+          VerticalRangeAnnotation(
+            x1: 2,
+            x2: 4,
+            color: Colors.orange
+          ),
+          VerticalRangeAnnotation(
+            x1: 8,
+            x2: 10,
+            color: Colors.yellow
+          ),
+        ],
+        horizontalRangeAnnotations: [
+          HorizontalRangeAnnotation(
+            y1: 1,
+            y2: 2,
+            color: Colors.red
+          ),
+          HorizontalRangeAnnotation(
+            y1: 4,
+            y2: 5,
+            color: Colors.blue
+          ),
+        ]
       ),
       // uncomment to see ExtraLines with RangeAnnotations
       // extraLinesData: ExtraLinesData(
+      //   extraLinesOnTop: true,
       //   showHorizontalLines: true,
       //   horizontalLines: [
       //     HorizontalLine(
