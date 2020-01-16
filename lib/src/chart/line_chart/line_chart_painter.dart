@@ -58,9 +58,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
       ..color = const Color(0x000000000)
       ..blendMode = BlendMode.dstIn;
 
-    rangeAnnotationPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = const Color(0xf5eaf1f6);
+    rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
 
     extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
