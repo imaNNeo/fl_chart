@@ -805,34 +805,34 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
     if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
-      for (VerticalRangeAnnotation anno in data.rangeAnnotations.verticalRangeAnnotations) {
+      for (VerticalRangeAnnotation annotation in data.rangeAnnotations.verticalRangeAnnotations) {
         final double topChartPadding = getTopOffsetDrawSize();
-        final Offset from = Offset(getPixelX(anno.x1, chartUsableSize), topChartPadding);
+        final Offset from = Offset(getPixelX(annotation.x1, chartUsableSize), topChartPadding);
 
         final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
         final Offset to =
-            Offset(getPixelX(anno.x2, chartUsableSize), viewSize.height - bottomChartPadding);//9
+            Offset(getPixelX(annotation.x2, chartUsableSize), viewSize.height - bottomChartPadding);//9
 
         final Rect rect = Rect.fromPoints(from, to);
 
-        rangeAnnotationPaint.color = anno.color;
+        rangeAnnotationPaint.color = annotation.color;
 
         canvas.drawRect(rect, rangeAnnotationPaint);
       }
     }
 
     if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
-      for (HorizontalRangeAnnotation anno in data.rangeAnnotations.horizontalRangeAnnotations) {
+      for (HorizontalRangeAnnotation annotation in data.rangeAnnotations.horizontalRangeAnnotations) {
         final double leftChartPadding = getLeftOffsetDrawSize();
-        final Offset from = Offset(leftChartPadding, getPixelY(anno.y1, chartUsableSize));
+        final Offset from = Offset(leftChartPadding, getPixelY(annotation.y1, chartUsableSize));
 
         final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
         final Offset to =
-            Offset(viewSize.width - rightChartPadding, getPixelY(anno.y2, chartUsableSize));
+            Offset(viewSize.width - rightChartPadding, getPixelY(annotation.y2, chartUsableSize));
 
         final Rect rect = Rect.fromPoints(from, to);
 
-        rangeAnnotationPaint.color = anno.color;
+        rangeAnnotationPaint.color = annotation.color;
 
         canvas.drawRect(rect, rangeAnnotationPaint);
       }
