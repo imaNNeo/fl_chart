@@ -555,6 +555,7 @@ class ExtraLinesData {
 
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
     return ExtraLinesData(
+      extraLinesOnTop: b.extraLinesOnTop,
       showHorizontalLines: b.showHorizontalLines,
       showVerticalLines: b.showVerticalLines,
       horizontalLines: lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
