@@ -124,7 +124,7 @@ LineChart(
 ### ExtraLinesData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|extraLinesOnTop|determines to paint the extraLines over the trendline or below it|false|
+|extraLinesOnTop|determines to paint the extraLines over the trendline or below it|true|
 |showHorizontalLines|determines to show or hide the horizontal lines|false|
 |horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
 |showVerticalLines|determines to show or hide the vertical lines|false|
