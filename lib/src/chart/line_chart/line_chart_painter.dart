@@ -97,14 +97,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
       drawRangeAnnotation(canvas, size);
 
-      if (!data.extraLinesData.extraLinesOnTop) {
+      if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
         drawExtraLines(canvas, size);
       }
 
       drawBarLine(canvas, size, barData);
       drawDots(canvas, size, barData);
 
-      if (data.extraLinesData.extraLinesOnTop) {
+      if (data.extraLinesData != null && data.extraLinesData.extraLinesOnTop) {
         drawExtraLines(canvas, size);
       }
 
