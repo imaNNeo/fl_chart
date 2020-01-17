@@ -5,8 +5,8 @@ class LineChartSample4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const cutOffYValue = 5.0;
-    const dateTextStyle = TextStyle(
-        fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold);
+    const dateTextStyle =
+        TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold);
 
     return SizedBox(
       width: 300,
@@ -96,8 +96,7 @@ class LineChartSample4 extends StatelessWidget {
             ),
           ),
           axisTitleData: const FlAxisTitleData(
-              leftTitle:
-                  AxisTitle(showTitle: true, titleText: 'Value', margin: 4),
+              leftTitle: AxisTitle(showTitle: true, titleText: 'Value', margin: 4),
               bottomTitle: AxisTitle(
                   showTitle: true,
                   margin: 0,

@@ -12,11 +12,10 @@ class LineChartPage2 extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Center(
-        child:
-          Padding(
+        child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: ListView(
-                children: <Widget>[
+              children: <Widget>[
                 Text(
                   'LineChart',
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
@@ -37,8 +36,7 @@ class LineChartPage2 extends StatelessWidget {
                 ),
                 LineChartSample8(),
               ],
-            )
-          ),
+            )),
       ),
     );
   }

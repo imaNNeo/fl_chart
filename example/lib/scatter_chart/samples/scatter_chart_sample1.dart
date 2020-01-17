@@ -9,7 +9,6 @@ class ScatterChartSample1 extends StatefulWidget {
 }
 
 class _ScatterChartSample1State extends State {
-
   final maxX = 50.0;
   final maxY = 50.0;
   final radius = 8.0;
@@ -34,24 +33,23 @@ class _ScatterChartSample1State extends State {
           elevation: 6,
           child: ScatterChart(
             ScatterChartData(
-              scatterSpots: showFlutter ? flutterLogoData() : randomData(),
-              minX: 0,
-              maxX: maxX,
-              minY: 0,
-              maxY: maxY,
-              borderData: FlBorderData(
-                show: false,
-              ),
-              gridData: const FlGridData(
-                show: false,
-              ),
-              titlesData: const FlTitlesData(
-                show: false,
-              ),
-              scatterTouchData: const ScatterTouchData(
-                enabled: false,
-              )
-            ),
+                scatterSpots: showFlutter ? flutterLogoData() : randomData(),
+                minX: 0,
+                maxX: maxX,
+                minY: 0,
+                maxY: maxY,
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                gridData: const FlGridData(
+                  show: false,
+                ),
+                titlesData: const FlTitlesData(
+                  show: false,
+                ),
+                scatterTouchData: const ScatterTouchData(
+                  enabled: false,
+                )),
             swapAnimationDuration: Duration(milliseconds: 600),
           ),
         ),
@@ -186,7 +184,7 @@ class _ScatterChartSample1State extends State {
 
       return ScatterSpot(
         (Random().nextDouble() * (maxX - 8)) + 4,
-      (Random().nextDouble() * (maxY - 8)) + 4,
+        (Random().nextDouble() * (maxY - 8)) + 4,
         color: color,
         radius: (Random().nextDouble() * 16) + 4,
       );

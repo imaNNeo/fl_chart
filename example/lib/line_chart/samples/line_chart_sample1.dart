@@ -63,11 +63,11 @@ class LineChartSample1State extends State<LineChartSample1> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-                    child: LineChart(
-                      isShowingMainData ? sampleData1() : sampleData2(),
-                      swapAnimationDuration: Duration(milliseconds: 250),)
-                  ),
+                      padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+                      child: LineChart(
+                        isShowingMainData ? sampleData1() : sampleData2(),
+                        swapAnimationDuration: Duration(milliseconds: 250),
+                      )),
                 ),
                 const SizedBox(
                   height: 10,
@@ -200,7 +200,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
     );
-    final LineChartBarData lineChartBarData2 =  LineChartBarData(
+    final LineChartBarData lineChartBarData2 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 2.8),
@@ -252,7 +252,9 @@ class LineChartSample1State extends State<LineChartSample1> {
 
   LineChartData sampleData2() {
     return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false,),
+      lineTouchData: const LineTouchData(
+        enabled: false,
+      ),
       gridData: const FlGridData(
         show: false,
       ),

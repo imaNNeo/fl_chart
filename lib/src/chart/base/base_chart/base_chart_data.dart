@@ -55,8 +55,6 @@ class FlBorderData {
       border: Border.lerp(a.border, b.border, t),
     );
   }
-
-  
 }
 
 /***** TouchData *****/
@@ -125,10 +123,8 @@ class AxisTitle {
       showTitle: b.showTitle,
       titleText: b.titleText,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
-      textStyle: TextStyle.lerp(
-          a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
-          b.textStyle.copyWith(fontSize: b.textStyle.fontSize),
-          t),
+      textStyle: TextStyle.lerp(a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
+          b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
       textAlign: b.textAlign,
       margin: lerpDouble(a.margin, b.margin, t),
     );

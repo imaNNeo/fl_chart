@@ -35,27 +35,24 @@ class _LineChartSample8State extends State<LineChartSample8> {
 
   LineChartData mainData() {
     return LineChartData(
-      rangeAnnotations: RangeAnnotations(
-        verticalRangeAnnotations: [
-          VerticalRangeAnnotation(
-            x1: 2,
-            x2: 5,
-            color: Color(0xffD5DAE5),
-          ),
-          VerticalRangeAnnotation(
-            x1: 8,
-            x2: 9,
-            color: Color(0xffD5DAE5),
-          ),
-        ],
-        horizontalRangeAnnotations: [
-          HorizontalRangeAnnotation(
-            y1: 2,
-            y2: 3,
-            color: Color(0xffEEF3FE),
-          ),
-        ]
-      ),
+      rangeAnnotations: RangeAnnotations(verticalRangeAnnotations: [
+        VerticalRangeAnnotation(
+          x1: 2,
+          x2: 5,
+          color: Color(0xffD5DAE5),
+        ),
+        VerticalRangeAnnotation(
+          x1: 8,
+          x2: 9,
+          color: Color(0xffD5DAE5),
+        ),
+      ], horizontalRangeAnnotations: [
+        HorizontalRangeAnnotation(
+          y1: 2,
+          y2: 3,
+          color: Color(0xffEEF3FE),
+        ),
+      ]),
       // uncomment to see ExtraLines with RangeAnnotations
       // extraLinesData: ExtraLinesData(
       //   extraLinesOnTop: true,
@@ -74,20 +71,14 @@ class _LineChartSample8State extends State<LineChartSample8> {
       //   ],
       // ),
       gridData: FlGridData(
-        show: true,
-        drawVerticalLine: false,
-        drawHorizontalLine: false,
-        verticalInterval: 1
-      ),
+          show: true, drawVerticalLine: false, drawHorizontalLine: false, verticalInterval: 1),
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: TextStyle(
-              color: Colors.black87,
-              fontSize: 10),
-              interval: 2,
+          textStyle: TextStyle(color: Colors.black87, fontSize: 10),
+          interval: 2,
           margin: 8,
         ),
         leftTitles: SideTitles(
@@ -101,9 +92,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           margin: 12,
         ),
       ),
-      borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: Color(0xffecf1fe), width: 1)),
+      borderData: FlBorderData(show: true, border: Border.all(color: Color(0xffecf1fe), width: 1)),
       minX: 0,
       maxX: 11,
       minY: 0,
@@ -120,7 +109,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             FlSpot(11, 4),
           ],
           isCurved: true,
-          colors: [Color(0xff0F2BF6),Color(0xff0F2BF6)],
+          colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: const FlDotData(
@@ -128,8 +117,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           ),
           belowBarData: BarAreaData(
             show: false,
-            colors:
-                gradientColors.map((color) => color.withOpacity(0.5)).toList(),
+            colors: gradientColors.map((color) => color.withOpacity(0.5)).toList(),
           ),
         ),
       ],

@@ -13,10 +13,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
   List<GroupBarsPosition> groupBarsPosition;
 
-  BarChartPainter(
-    BarChartData data,
-    BarChartData targetData,
-      Function(TouchHandler) touchHandler,
+  BarChartPainter(BarChartData data, BarChartData targetData, Function(TouchHandler) touchHandler,
       {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);
@@ -56,8 +53,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final barRod = barGroup.barRods[j];
 
         drawTouchTooltip(canvas, size, groupBarsPosition, targetData.barTouchData.touchTooltipData,
-          barGroup, i,
-          barRod, j);
+            barGroup, i, barRod, j);
       }
     }
   }
@@ -239,8 +235,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
               yFrom,
             );
             if (barRod.isRound) {
-              clearPaint
-                ..blendMode = BlendMode.srcOver;
+              clearPaint..blendMode = BlendMode.srcOver;
               canvas.saveLayer(barRect, clearPaint);
             }
             for (int i = 0; i < barRod.rodStackItem.length; i++) {
@@ -259,7 +254,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
               canvas.saveLayer(barRect, clearPaint);
               barPaint.color = const Color(0xff000000);
               final previousMode = barPaint.blendMode;
-              canvas.drawRRect(RRect.fromRectAndRadius(barRect, Radius.circular(roundedRadius)), barPaint);
+              canvas.drawRRect(
+                  RRect.fromRectAndRadius(barRect, Radius.circular(roundedRadius)), barPaint);
               barPaint.blendMode = previousMode;
               canvas.restore();
               canvas.restore();
@@ -367,18 +363,25 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
   }
 
-  void drawTouchTooltip(Canvas canvas, Size viewSize,
-    List<GroupBarsPosition> groupPositions, BarTouchTooltipData tooltipData,
-    BarChartGroupData showOnBarGroup, int barGroupIndex,
-    BarChartRodData showOnRodData, int barRodIndex,) {
-
+  void drawTouchTooltip(
+    Canvas canvas,
+    Size viewSize,
+    List<GroupBarsPosition> groupPositions,
+    BarTouchTooltipData tooltipData,
+    BarChartGroupData showOnBarGroup,
+    int barGroupIndex,
+    BarChartRodData showOnRodData,
+    int barRodIndex,
+  ) {
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
     const double textsBelowMargin = 4;
 
     final BarTooltipItem tooltipItem = tooltipData.getTooltipItem(
-      showOnBarGroup, barGroupIndex,
-      showOnRodData, barRodIndex,
+      showOnBarGroup,
+      barGroupIndex,
+      showOnRodData,
+      barRodIndex,
     );
 
     if (tooltipItem == null) {
@@ -419,13 +422,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
     /// draw the background rect with rounded radius
     final Rect rect = Rect.fromLTWH(
-      mostTopOffset.dx - (tooltipWidth / 2),
-      mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
-      tooltipWidth,
-      tooltipHeight);
+        mostTopOffset.dx - (tooltipWidth / 2),
+        mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
+        tooltipWidth,
+        tooltipHeight);
     final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
     final RRect roundedRect = RRect.fromRectAndCorners(rect,
-      topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
+        topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
     canvas.drawRRect(roundedRect, bgTouchTooltipPaint);
 
@@ -494,12 +497,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
   @override
   BarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
-    final BarTouchedSpot touchedSpot = _getNearestTouchedSpot(size, touchInput.getOffset(), groupBarsPosition);
+    final BarTouchedSpot touchedSpot =
+        _getNearestTouchedSpot(size, touchInput.getOffset(), groupBarsPosition);
     return BarTouchResponse(touchedSpot, touchInput);
   }
 
   /// find the nearest spot base on the touched offset
-  BarTouchedSpot _getNearestTouchedSpot(Size viewSize, Offset touchedPoint, List<GroupBarsPosition> groupBarsPosition) {
+  BarTouchedSpot _getNearestTouchedSpot(
+      Size viewSize, Offset touchedPoint, List<GroupBarsPosition> groupBarsPosition) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// Find the nearest barRod

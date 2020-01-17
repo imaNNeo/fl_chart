@@ -30,7 +30,6 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     drawGrid(canvas, size);
   }
 
-
   void drawAxisTitles(Canvas canvas, Size viewSize) {
     if (!data.axisTitleData.show) {
       return;
@@ -42,8 +41,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Left Title
     final leftTitle = axisTitles.leftTitle;
     if (leftTitle.showTitle) {
-      final TextSpan span =
-      TextSpan(style: leftTitle.textStyle, text: leftTitle.titleText);
+      final TextSpan span = TextSpan(style: leftTitle.textStyle, text: leftTitle.titleText);
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: leftTitle.textAlign,
@@ -52,33 +50,28 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       tp.layout(minWidth: viewSize.height);
       canvas.save();
       canvas.rotate(-math.pi * 0.5);
-      tp.paint(
-          canvas,
-          Offset(-viewSize.height - getTopOffsetDrawSize(),
-              leftTitle.reservedSize - tp.height));
+      tp.paint(canvas,
+          Offset(-viewSize.height - getTopOffsetDrawSize(), leftTitle.reservedSize - tp.height));
       canvas.restore();
     }
 
     // Top title
     final topTitle = axisTitles.topTitle;
     if (topTitle.showTitle) {
-      final TextSpan span =
-      TextSpan(style: topTitle.textStyle, text: topTitle.titleText);
+      final TextSpan span = TextSpan(style: topTitle.textStyle, text: topTitle.titleText);
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: topTitle.textAlign,
           textDirection: TextDirection.ltr,
           textScaleFactor: textScale);
       tp.layout(minWidth: viewSize.width);
-      tp.paint(canvas,
-          Offset(getLeftOffsetDrawSize(), topTitle.reservedSize - tp.height));
+      tp.paint(canvas, Offset(getLeftOffsetDrawSize(), topTitle.reservedSize - tp.height));
     }
 
     // Right Title
     final rightTitle = axisTitles.rightTitle;
     if (rightTitle.showTitle) {
-      final TextSpan span =
-      TextSpan(style: rightTitle.textStyle, text: rightTitle.titleText);
+      final TextSpan span = TextSpan(style: rightTitle.textStyle, text: rightTitle.titleText);
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: rightTitle.textAlign,
@@ -89,19 +82,15 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       canvas.rotate(-math.pi * 0.5);
       tp.paint(
           canvas,
-          Offset(
-              -viewSize.height - getTopOffsetDrawSize(),
-              viewSize.width +
-                  getExtraNeededHorizontalSpace() -
-                  rightTitle.reservedSize));
+          Offset(-viewSize.height - getTopOffsetDrawSize(),
+              viewSize.width + getExtraNeededHorizontalSpace() - rightTitle.reservedSize));
       canvas.restore();
     }
 
     // Bottom title
     final bottomTitle = axisTitles.bottomTitle;
     if (bottomTitle.showTitle) {
-      final TextSpan span =
-      TextSpan(style: bottomTitle.textStyle, text: bottomTitle.titleText);
+      final TextSpan span = TextSpan(style: bottomTitle.textStyle, text: bottomTitle.titleText);
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: bottomTitle.textAlign,
@@ -110,11 +99,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       tp.layout(minWidth: viewSize.width);
       tp.paint(
           canvas,
-          Offset(
-              getLeftOffsetDrawSize(),
-              getExtraNeededVerticalSpace() -
-                  bottomTitle.reservedSize +
-                  viewSize.height));
+          Offset(getLeftOffsetDrawSize(),
+              getExtraNeededVerticalSpace() - bottomTitle.reservedSize + viewSize.height));
     }
   }
 
@@ -262,8 +248,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     if (deltaX == 0.0) {
       return getLeftOffsetDrawSize();
     }
-    return (((spotX - data.minX) / deltaX) * chartUsableSize.width) +
-        getLeftOffsetDrawSize();
+    return (((spotX - data.minX) / deltaX) * chartUsableSize.width) + getLeftOffsetDrawSize();
   }
 
   /// With this function we can convert our [FlSpot] y

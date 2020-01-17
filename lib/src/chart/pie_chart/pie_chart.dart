@@ -76,8 +76,8 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }

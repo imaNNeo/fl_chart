@@ -86,8 +86,8 @@ class LineChartSample7 extends StatelessWidget {
           ],
           betweenBarsData: [
             BetweenBarsData(
-                fromIndex: 0,
-                toIndex: 2,
+              fromIndex: 0,
+              toIndex: 2,
               colors: [Colors.red.withOpacity(0.3)],
             )
           ],

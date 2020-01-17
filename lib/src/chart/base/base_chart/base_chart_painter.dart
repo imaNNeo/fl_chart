@@ -20,10 +20,8 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   Paint borderPaint;
   double textScale;
 
-  BaseChartPainter(this.data, this.targetData, {this.textScale = 1})
-      : super() {
-    borderPaint = Paint()
-      ..style = PaintingStyle.stroke;
+  BaseChartPainter(this.data, this.targetData, {this.textScale = 1}) : super() {
+    borderPaint = Paint()..style = PaintingStyle.stroke;
   }
 
   @override
@@ -39,10 +37,9 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     final topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
-    final topRight = Offset(
-        getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
-    final bottomLeft = Offset(
-        getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
+    final topRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
+    final bottomLeft =
+        Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
     final bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
         getTopOffsetDrawSize() + chartViewSize.height);
 
@@ -112,6 +109,9 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
 }
 
 mixin TouchHandler<T extends BaseTouchResponse> {
-  T handleTouch(FlTouchInput touchInput, Size size,) =>
-    throw UnsupportedError('not implemented');
+  T handleTouch(
+    FlTouchInput touchInput,
+    Size size,
+  ) =>
+      throw UnsupportedError('not implemented');
 }

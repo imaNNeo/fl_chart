@@ -38,7 +38,8 @@ class LineChartSample5 extends StatelessWidget {
             return MapEntry(
               index,
               [
-                LineBarSpot(tooltipsOnBar, lineBarsData.indexOf(tooltipsOnBar), tooltipsOnBar.spots[index]),
+                LineBarSpot(
+                    tooltipsOnBar, lineBarsData.indexOf(tooltipsOnBar), tooltipsOnBar.spots[index]),
               ],
             );
           }).toList(),
@@ -92,10 +93,8 @@ class LineChartSample5 extends StatelessWidget {
           axisTitleData: const FlAxisTitleData(
               rightTitle: AxisTitle(showTitle: true, titleText: 'count'),
               leftTitle: AxisTitle(showTitle: true, titleText: 'count'),
-              topTitle: AxisTitle(
-                  showTitle: true,
-                  titleText: 'Wall clock',
-                  textAlign: TextAlign.left)),
+              topTitle:
+                  AxisTitle(showTitle: true, titleText: 'Wall clock', textAlign: TextAlign.left)),
           gridData: const FlGridData(show: false),
           borderData: FlBorderData(
             show: true,

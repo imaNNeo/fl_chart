@@ -12,9 +12,13 @@ class LineChartPage4 extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         children: <Widget>[
           BarChartSample3(),
-          const SizedBox(height: 18,),
+          const SizedBox(
+            height: 18,
+          ),
           BarChartSample4(),
-          const SizedBox(height: 18,),
+          const SizedBox(
+            height: 18,
+          ),
           BarChartSample5(),
         ],
       ),
