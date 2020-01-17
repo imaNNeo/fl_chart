@@ -13,33 +13,35 @@ class LineChartPage2 extends StatelessWidget {
       color: Colors.white,
       child: Center(
         child:
-          ListView(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            children: <Widget>[
-            Text(
-              'LineChart',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            LineChartSample3(),
-            LineChartSample4(),
-            LineChartSample7(),
-            LineChartSample5(),
-            const SizedBox(
-              height: 22,
-            ),
-            Text(
-              'Range annotations',
-              style: TextStyle(
-                color: const Color(
-                  0xff6f6f97,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: ListView(
+                children: <Widget>[
+                Text(
+                  'LineChart',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
                 ),
-                fontSize: 16,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-            LineChartSample8(),
-          ],
-        )
+                LineChartSample3(),
+                LineChartSample4(),
+                LineChartSample7(),
+                LineChartSample5(),
+                const SizedBox(
+                  height: 22,
+                ),
+                Text(
+                  'Range annotations',
+                  style: TextStyle(
+                    color: const Color(
+                      0xff6f6f97,
+                    ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                LineChartSample8(),
+              ],
+            )
+          ),
       ),
     );
   }
