@@ -8,8 +8,8 @@ class LineChartSample8 extends StatefulWidget {
 
 class _LineChartSample8State extends State<LineChartSample8> {
   List<Color> gradientColors = [
-    Colors.grey,
-    Colors.grey,
+    Color(0xffEEF3FE),
+    Color(0xffEEF3FE),
   ];
 
   bool showAvg = false;
@@ -39,25 +39,20 @@ class _LineChartSample8State extends State<LineChartSample8> {
         verticalRangeAnnotations: [
           VerticalRangeAnnotation(
             x1: 2,
-            x2: 4,
-            color: Colors.orange
+            x2: 5,
+            color: Color(0xffD5DAE5),
           ),
           VerticalRangeAnnotation(
             x1: 8,
-            x2: 10,
-            color: Colors.yellow
+            x2: 9,
+            color: Color(0xffD5DAE5),
           ),
         ],
         horizontalRangeAnnotations: [
           HorizontalRangeAnnotation(
-            y1: 1,
-            y2: 2,
-            color: Colors.red
-          ),
-          HorizontalRangeAnnotation(
-            y1: 4,
-            y2: 5,
-            color: Colors.blue
+            y1: 2,
+            y2: 3,
+            color: Color(0xffEEF3FE),
           ),
         ]
       ),
@@ -83,13 +78,13 @@ class _LineChartSample8State extends State<LineChartSample8> {
         drawVerticalLine: true,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
-            color: Color(0xff37434d),
+            color: Color.fromRGBO(225, 227, 234, 1),
             strokeWidth: 1,
           );
         },
         getDrawingVerticalLine: (value) {
           return const FlLine(
-            color: Color(0xff37434d),
+            color: Color.fromRGBO(225, 227, 234, 1),
             strokeWidth: 1,
           );
         },
@@ -100,9 +95,8 @@ class _LineChartSample8State extends State<LineChartSample8> {
           showTitles: true,
           reservedSize: 22,
           textStyle: TextStyle(
-              color: const Color(0xff68737d),
-              fontWeight: FontWeight.bold,
-              fontSize: 16),
+              color: Colors.black87,
+              fontSize: 10),
               interval: 2,
           margin: 8,
         ),
@@ -110,9 +104,8 @@ class _LineChartSample8State extends State<LineChartSample8> {
           interval: 2,
           showTitles: true,
           textStyle: TextStyle(
-            color: const Color(0xff67727d),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
+            color: Colors.black87,
+            fontSize: 10,
           ),
           reservedSize: 28,
           margin: 12,
@@ -137,14 +130,14 @@ class _LineChartSample8State extends State<LineChartSample8> {
             FlSpot(11, 4),
           ],
           isCurved: true,
-          colors: [Colors.grey, Colors.grey],
+          colors: [Color(0xff0F2BF6),Color(0xff0F2BF6)],
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(
-            show: true,
+            show: false,
             colors:
                 gradientColors.map((color) => color.withOpacity(0.5)).toList(),
           ),

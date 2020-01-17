@@ -31,11 +31,8 @@ class LineChartPage2 extends StatelessWidget {
                 Text(
                   'Range annotations',
                   style: TextStyle(
-                    color: const Color(
-                      0xff6f6f97,
-                    ),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
+                    color: Colors.black87,
+                    fontSize: 14,
                   ),
                 ),
                 LineChartSample8(),
