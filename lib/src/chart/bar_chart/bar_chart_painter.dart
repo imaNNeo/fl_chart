@@ -193,17 +193,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final right = x + widthHalf;
         final bottom = getPixelY(0, drawSize);
         final cornerHeight = max(borderRadius.topLeft.y, borderRadius.topRight.y) +
-          max(borderRadius.bottomLeft.y, borderRadius.bottomRight.y);
+            max(borderRadius.bottomLeft.y, borderRadius.bottomRight.y);
 
         /// Draw [BackgroundBarChartRodData]
         if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
-          final top = min(getPixelY(barRod.backDrawRodData.y, drawSize),
-            bottom - cornerHeight);
+          final top = min(getPixelY(barRod.backDrawRodData.y, drawSize), bottom - cornerHeight);
 
           barPaint.color = barRod.backDrawRodData.color;
           canvas.drawRRect(
-              RRect.fromLTRBAndCorners(
-                  left, top, right, bottom,
+              RRect.fromLTRBAndCorners(left, top, right, bottom,
                   topLeft: borderRadius.topLeft,
                   topRight: borderRadius.topRight,
                   bottomLeft: borderRadius.bottomLeft,
@@ -216,19 +214,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           final top = min(getPixelY(barRod.y, drawSize), bottom - cornerHeight);
 
           barPaint.color = barRod.color;
-          final barRect = RRect.fromLTRBAndCorners(
-                  left, top, right, bottom,
-                  topLeft: borderRadius.topLeft,
-                  topRight: borderRadius.topRight,
-                  bottomLeft: borderRadius.bottomLeft,
-                  bottomRight: borderRadius.bottomRight);
+          final barRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
+              topLeft: borderRadius.topLeft,
+              topRight: borderRadius.topRight,
+              bottomLeft: borderRadius.bottomLeft,
+              bottomRight: borderRadius.bottomRight);
           canvas.drawRRect(barRect, barPaint);
 
           // draw rod stack
           if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
             for (int i = 0; i < barRod.rodStackItem.length; i++) {
               final stackItem = barRod.rodStackItem[i];
-              final stackBottom =  getPixelY(stackItem.fromY, drawSize);
+              final stackBottom = getPixelY(stackItem.fromY, drawSize);
               final stackTop = getPixelY(stackItem.toY, drawSize);
 
               barPaint.color = stackItem.color;

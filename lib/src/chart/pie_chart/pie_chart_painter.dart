@@ -16,12 +16,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   /// [centerSpacePaint] responsible to draw the center space of our chart.
   Paint sectionPaint, sectionsSpaceClearPaint, centerSpacePaint;
 
-  PieChartPainter(
-    PieChartData data,
-    PieChartData targetData,
-    Function(TouchHandler) touchHandler,
-    {double textScale}
-  ) : super(data, targetData, textScale: textScale) {
+  PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler) touchHandler,
+      {double textScale})
+      : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
     sectionPaint = Paint()..style = PaintingStyle.stroke;

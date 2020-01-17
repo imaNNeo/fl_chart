@@ -107,18 +107,21 @@ class BarChartSample1State extends State<BarChartSample1> {
     double width = 22,
     List<int> showTooltips = const [],
   }) {
-    return BarChartGroupData(x: x, barRods: [
-      BarChartRodData(
-        y: isTouched ? y + 1 : y,
-        color: isTouched ? Colors.yellow : barColor,
-        width: width,
-        backDrawRodData: BackgroundBarChartRodData(
-          show: true,
-          y: 20,
-          color: barBackgroundColor,
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          y: isTouched ? y + 1 : y,
+          color: isTouched ? Colors.yellow : barColor,
+          width: width,
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            y: 20,
+            color: barBackgroundColor,
+          ),
         ),
-      ),
-    ], showingTooltipIndicators: showTooltips,
+      ],
+      showingTooltipIndicators: showTooltips,
     );
   }
 
