@@ -75,19 +75,9 @@ class _LineChartSample8State extends State<LineChartSample8> {
       // ),
       gridData: FlGridData(
         show: true,
-        drawVerticalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color.fromRGBO(225, 227, 234, 1),
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color.fromRGBO(225, 227, 234, 1),
-            strokeWidth: 1,
-          );
-        },
+        drawVerticalLine: false,
+        drawHorizontalLine: false,
+        verticalInterval: 1
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -113,7 +103,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
       ),
       borderData: FlBorderData(
           show: true,
-          border: Border.all(color: const Color(0xff37434d), width: 1)),
+          border: Border.all(color: Color(0xffecf1fe), width: 1)),
       minX: 0,
       maxX: 11,
       minY: 0,
