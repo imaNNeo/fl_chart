@@ -10,7 +10,6 @@ ios/Flutter/Generated.xcconfig
 ios/Runner/GeneratedPluginRegistrant.*
 pubspec.lock
 .vscode/launch.json
-.vscode/settings.json
 example/android/.project
 example/android/.settings/org.eclipse.buildship.core.prefs
 example/android/app/.classpath

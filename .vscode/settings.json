@@ -1,0 +1,10 @@
+{
+  "dart.lineLength": 100,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.tabCompletion": "onlySnippets",
+  "editor.wordBasedSuggestions": false,
+  "files.insertFinalNewline": true,
+  "editor.defaultFormatter": "Dart-Code.dart-code"
+}
