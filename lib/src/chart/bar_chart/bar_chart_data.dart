@@ -218,7 +218,7 @@ class BarChartRodData {
   final double y;
   final Color color;
   final double width;
-  final bool isRound;
+  final BorderRadius borderRadius;
   final BackgroundBarChartRodData backDrawRodData;
   final List<BarChartRodStackItem> rodStackItem;
 
@@ -226,7 +226,7 @@ class BarChartRodData {
     this.y,
     this.color = Colors.blueAccent,
     this.width = 8,
-    this.isRound = true,
+    this.borderRadius,
     this.backDrawRodData = const BackgroundBarChartRodData(),
     this.rodStackItem = const [],
   });
@@ -235,7 +235,7 @@ class BarChartRodData {
     double y,
     Color color,
     double width,
-    bool isRound,
+    Radius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
     List<BarChartRodStackItem> rodStackItem,
   }) {
@@ -243,7 +243,7 @@ class BarChartRodData {
       y: y ?? this.y,
       color: color ?? this.color,
       width: width ?? this.width,
-      isRound: isRound ?? this.isRound,
+      borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
       rodStackItem: rodStackItem ?? this.rodStackItem,
     );
@@ -253,7 +253,7 @@ class BarChartRodData {
     return BarChartRodData(
       color: Color.lerp(a.color, b.color, t),
       width: lerpDouble(a.width, b.width, t),
-      isRound: b.isRound,
+      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       y: lerpDouble(a.y, b.y, t),
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
       rodStackItem: lerpBarChartRodStackList(a.rodStackItem, b.rodStackItem, t),

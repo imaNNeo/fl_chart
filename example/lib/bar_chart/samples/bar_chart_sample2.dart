@@ -205,13 +205,11 @@ class BarChartSample2State extends State<BarChartSample2> {
         y: y1,
         color: leftBarColor,
         width: width,
-        isRound: true,
       ),
       BarChartRodData(
         y: y2,
         color: rightBarColor,
         width: width,
-        isRound: true,
       ),
     ]);
   }

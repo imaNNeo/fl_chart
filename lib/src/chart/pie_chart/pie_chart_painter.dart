@@ -16,12 +16,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   /// [centerSpacePaint] responsible to draw the center space of our chart.
   Paint sectionPaint, sectionsSpaceClearPaint, centerSpacePaint;
 
-  /// We hold this calculated angles to use in touch handling,
-  List<double> sectionsAngle;
-
-  PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler) touchHandler,
-      {double textScale})
-      : super(data, targetData, textScale: textScale) {
+  PieChartPainter(
+    PieChartData data,
+    PieChartData targetData,
+    Function(TouchHandler) touchHandler,
+    {double textScale}
+  ) : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
     sectionPaint = Paint()..style = PaintingStyle.stroke;
@@ -43,7 +43,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       return;
     }
 
-    sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
+    final List<double> sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
 
     drawCenterSpace(canvas, size);
     drawSections(canvas, size, sectionsAngle);
@@ -168,6 +168,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
   @override
   PieTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
+    final List<double> sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
     return _getTouchedDetails(size, touchInput, sectionsAngle);
   }
 
