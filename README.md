@@ -72,3 +72,8 @@ flutter packages get
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bitcoin_public_key.jpg" width="180" >
 
 `1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
+
+# Contributing
+1. Make sure to format files using Dart formatter with line length of 100. VSC users will have these settings auto applied via the included VSC workspace config.
+
+2. Submit a PR with your changes.
