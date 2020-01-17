@@ -221,3 +221,7 @@ LineChart(
 
 ##### Sample 7 ([Source Code](/example/lib/line_chart/samples/line_chart_sample7.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_7.png" width="300" >
+
+
+##### Sample 8 ([Source Code](/example/lib/line_chart/samples/line_chart_sample8.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
