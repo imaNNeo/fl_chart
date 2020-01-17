@@ -104,10 +104,11 @@ class LineChartSample4 extends StatelessWidget {
                   textStyle: dateTextStyle,
                   textAlign: TextAlign.right)),
           gridData: FlGridData(
-              show: true,
-              checkToShowHorizontalLine: (double value) {
-                return value == 1 || value == 6 || value == 4 || value == 5;
-              }),
+            show: true,
+            checkToShowHorizontalLine: (double value) {
+              return value == 1 || value == 6 || value == 4 || value == 5;
+            },
+          ),
         ),
       ),
     );

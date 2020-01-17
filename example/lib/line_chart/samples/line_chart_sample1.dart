@@ -21,15 +21,16 @@ class LineChartSample1State extends State<LineChartSample1> {
       aspectRatio: 1.23,
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(18)),
-            gradient: LinearGradient(
-              colors: const [
-                Color(0xff2c274c),
-                Color(0xff46426c),
-              ],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            )),
+          borderRadius: const BorderRadius.all(Radius.circular(18)),
+          gradient: LinearGradient(
+            colors: const [
+              Color(0xff2c274c),
+              Color(0xff46426c),
+            ],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          ),
+        ),
         child: Stack(
           children: <Widget>[
             Column(
@@ -63,11 +64,12 @@ class LineChartSample1State extends State<LineChartSample1> {
                 ),
                 Expanded(
                   child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-                      child: LineChart(
-                        isShowingMainData ? sampleData1() : sampleData2(),
-                        swapAnimationDuration: Duration(milliseconds: 250),
-                      )),
+                    padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+                    child: LineChart(
+                      isShowingMainData ? sampleData1() : sampleData2(),
+                      swapAnimationDuration: Duration(milliseconds: 250),
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -152,22 +154,23 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border(
-            bottom: BorderSide(
-              color: const Color(0xff4e4965),
-              width: 4,
-            ),
-            left: BorderSide(
-              color: Colors.transparent,
-            ),
-            right: BorderSide(
-              color: Colors.transparent,
-            ),
-            top: BorderSide(
-              color: Colors.transparent,
-            ),
-          )),
+        show: true,
+        border: Border(
+          bottom: BorderSide(
+            color: const Color(0xff4e4965),
+            width: 4,
+          ),
+          left: BorderSide(
+            color: Colors.transparent,
+          ),
+          right: BorderSide(
+            color: Colors.transparent,
+          ),
+          top: BorderSide(
+            color: Colors.transparent,
+          ),
+        ),
+      ),
       minX: 0,
       maxX: 14,
       maxY: 4,

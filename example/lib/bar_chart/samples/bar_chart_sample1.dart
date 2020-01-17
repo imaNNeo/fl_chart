@@ -150,73 +150,75 @@ class BarChartSample1State extends State<BarChartSample1> {
   BarChartData mainBarData() {
     return BarChartData(
       barTouchData: BarTouchData(
-          touchTooltipData: BarTouchTooltipData(
-              tooltipBgColor: Colors.blueGrey,
-              getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                String weekDay;
-                switch (group.x.toInt()) {
-                  case 0:
-                    weekDay = 'Monday';
-                    break;
-                  case 1:
-                    weekDay = 'Tuesday';
-                    break;
-                  case 2:
-                    weekDay = 'Wednesday';
-                    break;
-                  case 3:
-                    weekDay = 'Thursday';
-                    break;
-                  case 4:
-                    weekDay = 'Friday';
-                    break;
-                  case 5:
-                    weekDay = 'Saturday';
-                    break;
-                  case 6:
-                    weekDay = 'Sunday';
-                    break;
-                }
-                return BarTooltipItem(
-                    weekDay + '\n' + (rod.y - 1).toString(), TextStyle(color: Colors.yellow));
-              }),
-          touchCallback: (barTouchResponse) {
-            setState(() {
-              if (barTouchResponse.spot != null &&
-                  barTouchResponse.touchInput is! FlPanEnd &&
-                  barTouchResponse.touchInput is! FlLongPressEnd) {
-                touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
-              } else {
-                touchedIndex = -1;
+        touchTooltipData: BarTouchTooltipData(
+            tooltipBgColor: Colors.blueGrey,
+            getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              String weekDay;
+              switch (group.x.toInt()) {
+                case 0:
+                  weekDay = 'Monday';
+                  break;
+                case 1:
+                  weekDay = 'Tuesday';
+                  break;
+                case 2:
+                  weekDay = 'Wednesday';
+                  break;
+                case 3:
+                  weekDay = 'Thursday';
+                  break;
+                case 4:
+                  weekDay = 'Friday';
+                  break;
+                case 5:
+                  weekDay = 'Saturday';
+                  break;
+                case 6:
+                  weekDay = 'Sunday';
+                  break;
               }
-            });
-          }),
+              return BarTooltipItem(
+                  weekDay + '\n' + (rod.y - 1).toString(), TextStyle(color: Colors.yellow));
+            }),
+        touchCallback: (barTouchResponse) {
+          setState(() {
+            if (barTouchResponse.spot != null &&
+                barTouchResponse.touchInput is! FlPanEnd &&
+                barTouchResponse.touchInput is! FlLongPressEnd) {
+              touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+            } else {
+              touchedIndex = -1;
+            }
+          });
+        },
+      ),
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
-            showTitles: true,
-            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-            margin: 16,
-            getTitles: (double value) {
-              switch (value.toInt()) {
-                case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
-                  return 'S';
-                case 6:
-                  return 'S';
-                default:
-                  return '';
-              }
-            }),
+          showTitles: true,
+          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          margin: 16,
+          getTitles: (double value) {
+            switch (value.toInt()) {
+              case 0:
+                return 'M';
+              case 1:
+                return 'T';
+              case 2:
+                return 'W';
+              case 3:
+                return 'T';
+              case 4:
+                return 'F';
+              case 5:
+                return 'S';
+              case 6:
+                return 'S';
+              default:
+                return '';
+            }
+          },
+        ),
         leftTitles: const SideTitles(
           showTitles: false,
         ),
@@ -236,29 +238,30 @@ class BarChartSample1State extends State<BarChartSample1> {
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
-            showTitles: true,
-            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-            margin: 16,
-            getTitles: (double value) {
-              switch (value.toInt()) {
-                case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
-                  return 'S';
-                case 6:
-                  return 'S';
-                default:
-                  return '';
-              }
-            }),
+          showTitles: true,
+          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          margin: 16,
+          getTitles: (double value) {
+            switch (value.toInt()) {
+              case 0:
+                return 'M';
+              case 1:
+                return 'T';
+              case 2:
+                return 'W';
+              case 3:
+                return 'T';
+              case 4:
+                return 'F';
+              case 5:
+                return 'S';
+              case 6:
+                return 'S';
+              default:
+                return '';
+            }
+          },
+        ),
         leftTitles: const SideTitles(
           showTitles: false,
         ),

@@ -33,23 +33,24 @@ class _ScatterChartSample1State extends State {
           elevation: 6,
           child: ScatterChart(
             ScatterChartData(
-                scatterSpots: showFlutter ? flutterLogoData() : randomData(),
-                minX: 0,
-                maxX: maxX,
-                minY: 0,
-                maxY: maxY,
-                borderData: FlBorderData(
-                  show: false,
-                ),
-                gridData: const FlGridData(
-                  show: false,
-                ),
-                titlesData: const FlTitlesData(
-                  show: false,
-                ),
-                scatterTouchData: const ScatterTouchData(
-                  enabled: false,
-                )),
+              scatterSpots: showFlutter ? flutterLogoData() : randomData(),
+              minX: 0,
+              maxX: maxX,
+              minY: 0,
+              maxY: maxY,
+              borderData: FlBorderData(
+                show: false,
+              ),
+              gridData: const FlGridData(
+                show: false,
+              ),
+              titlesData: const FlTitlesData(
+                show: false,
+              ),
+              scatterTouchData: const ScatterTouchData(
+                enabled: false,
+              ),
+            ),
             swapAnimationDuration: Duration(milliseconds: 600),
           ),
         ),

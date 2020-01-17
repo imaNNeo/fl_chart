@@ -44,18 +44,20 @@ class LineChartSample5 extends StatelessWidget {
             );
           }).toList(),
           lineTouchData: LineTouchData(
-              enabled: false,
-              touchTooltipData: LineTouchTooltipData(
-                  tooltipBgColor: Colors.pink,
-                  tooltipRoundedRadius: 8,
-                  getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
-                    return lineBarsSpot.map((lineBarSpot) {
-                      return LineTooltipItem(
-                        lineBarSpot.y.toString(),
-                        TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                      );
-                    }).toList();
-                  })),
+            enabled: false,
+            touchTooltipData: LineTouchTooltipData(
+              tooltipBgColor: Colors.pink,
+              tooltipRoundedRadius: 8,
+              getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
+                return lineBarsSpot.map((lineBarSpot) {
+                  return LineTooltipItem(
+                    lineBarSpot.y.toString(),
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  );
+                }).toList();
+              },
+            ),
+          ),
           lineBarsData: lineBarsData,
           minY: 0,
           titlesData: FlTitlesData(
@@ -91,10 +93,11 @@ class LineChartSample5 extends StatelessWidget {
                 )),
           ),
           axisTitleData: const FlAxisTitleData(
-              rightTitle: AxisTitle(showTitle: true, titleText: 'count'),
-              leftTitle: AxisTitle(showTitle: true, titleText: 'count'),
-              topTitle:
-                  AxisTitle(showTitle: true, titleText: 'Wall clock', textAlign: TextAlign.left)),
+            rightTitle: AxisTitle(showTitle: true, titleText: 'count'),
+            leftTitle: AxisTitle(showTitle: true, titleText: 'count'),
+            topTitle:
+                AxisTitle(showTitle: true, titleText: 'Wall clock', textAlign: TextAlign.left),
+          ),
           gridData: const FlGridData(show: false),
           borderData: FlBorderData(
             show: true,
