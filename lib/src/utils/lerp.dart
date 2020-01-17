@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -38,7 +37,6 @@ int lerpInt(int a, int b, double t) {
   return (a + (b - a) * t).round();
 }
 
-
 List<FlSpot> lerpFlSpotList(List<FlSpot> a, List<FlSpot> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
@@ -49,7 +47,8 @@ List<FlSpot> lerpFlSpotList(List<FlSpot> a, List<FlSpot> b, double t) {
   }
 }
 
-List<HorizontalLine> lerpHorizontalLineList(List<HorizontalLine> a, List<HorizontalLine> b, double t) {
+List<HorizontalLine> lerpHorizontalLineList(
+    List<HorizontalLine> a, List<HorizontalLine> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return HorizontalLine.lerp(a[i], b[i], t);
@@ -69,7 +68,8 @@ List<VerticalLine> lerpVerticalLineList(List<VerticalLine> a, List<VerticalLine>
   }
 }
 
-List<HorizontalRangeAnnotation> lerpHorizontalRangeAnnotationList(List<HorizontalRangeAnnotation> a, List<HorizontalRangeAnnotation> b, double t) {
+List<HorizontalRangeAnnotation> lerpHorizontalRangeAnnotationList(
+    List<HorizontalRangeAnnotation> a, List<HorizontalRangeAnnotation> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return HorizontalRangeAnnotation.lerp(a[i], b[i], t);
@@ -79,7 +79,8 @@ List<HorizontalRangeAnnotation> lerpHorizontalRangeAnnotationList(List<Horizonta
   }
 }
 
-List<VerticalRangeAnnotation> lerpVerticalRangeAnnotationList(List<VerticalRangeAnnotation> a, List<VerticalRangeAnnotation> b, double t) {
+List<VerticalRangeAnnotation> lerpVerticalRangeAnnotationList(
+    List<VerticalRangeAnnotation> a, List<VerticalRangeAnnotation> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return VerticalRangeAnnotation.lerp(a[i], b[i], t);
@@ -89,7 +90,8 @@ List<VerticalRangeAnnotation> lerpVerticalRangeAnnotationList(List<VerticalRange
   }
 }
 
-List<LineChartBarData> lerpLineChartBarDataList(List<LineChartBarData> a, List<LineChartBarData> b, double t) {
+List<LineChartBarData> lerpLineChartBarDataList(
+    List<LineChartBarData> a, List<LineChartBarData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return LineChartBarData.lerp(a[i], b[i], t);
@@ -99,7 +101,8 @@ List<LineChartBarData> lerpLineChartBarDataList(List<LineChartBarData> a, List<L
   }
 }
 
-List<BetweenBarsData> lerpBetweenBarsDataList(List<BetweenBarsData> a, List<BetweenBarsData> b, double t) {
+List<BetweenBarsData> lerpBetweenBarsDataList(
+    List<BetweenBarsData> a, List<BetweenBarsData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return BetweenBarsData.lerp(a[i], b[i], t);
@@ -109,7 +112,8 @@ List<BetweenBarsData> lerpBetweenBarsDataList(List<BetweenBarsData> a, List<Betw
   }
 }
 
-List<BarChartGroupData> lerpBarChartGroupDataList(List<BarChartGroupData> a, List<BarChartGroupData> b, double t) {
+List<BarChartGroupData> lerpBarChartGroupDataList(
+    List<BarChartGroupData> a, List<BarChartGroupData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return BarChartGroupData.lerp(a[i], b[i], t);
@@ -119,7 +123,8 @@ List<BarChartGroupData> lerpBarChartGroupDataList(List<BarChartGroupData> a, Lis
   }
 }
 
-List<BarChartRodData> lerpBarChartRodDataList(List<BarChartRodData> a, List<BarChartRodData> b, double t) {
+List<BarChartRodData> lerpBarChartRodDataList(
+    List<BarChartRodData> a, List<BarChartRodData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return BarChartRodData.lerp(a[i], b[i], t);
@@ -129,7 +134,8 @@ List<BarChartRodData> lerpBarChartRodDataList(List<BarChartRodData> a, List<BarC
   }
 }
 
-List<PieChartSectionData> lerpPieChartSectionDataList(List<PieChartSectionData> a, List<PieChartSectionData> b, double t) {
+List<PieChartSectionData> lerpPieChartSectionDataList(
+    List<PieChartSectionData> a, List<PieChartSectionData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return PieChartSectionData.lerp(a[i], b[i], t);
@@ -148,7 +154,9 @@ List<ScatterSpot> lerpScatterSpotList(List<ScatterSpot> a, List<ScatterSpot> b, 
     return b;
   }
 }
-List<BarChartRodStackItem> lerpBarChartRodStackList(List<BarChartRodStackItem> a, List<BarChartRodStackItem> b, double t) {
+
+List<BarChartRodStackItem> lerpBarChartRodStackList(
+    List<BarChartRodStackItem> a, List<BarChartRodStackItem> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return BarChartRodStackItem.lerp(a[i], b[i], t);

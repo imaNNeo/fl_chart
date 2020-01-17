@@ -35,9 +35,7 @@ class PieChartData extends BaseChartData {
     this.pieTouchData = const PieTouchData(),
     FlBorderData borderData,
   }) : super(borderData: borderData, touchData: pieTouchData) {
-    sumValue = sections
-        .map((data) => data.value)
-        .reduce((first, second) => first + second);
+    sumValue = sections.map((data) => data.value).reduce((first, second) => first + second);
   }
 
   @override
@@ -88,8 +86,8 @@ class PieChartSectionData {
     this.color = Colors.red,
     this.radius = 40,
     this.showTitle = true,
-    this.titleStyle = const TextStyle(
-        color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+    this.titleStyle =
+        const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
     this.title = '1',
     this.titlePositionPercentageOffset = 0.5,
   });
@@ -121,7 +119,8 @@ class PieChartSectionData {
       radius: lerpDouble(a.radius, b.radius, t),
       showTitle: b.showTitle,
       title: b.title,
-      titlePositionPercentageOffset: lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+      titlePositionPercentageOffset:
+          lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
       value: lerpDouble(a.value, b.value, t),
     );
@@ -130,10 +129,9 @@ class PieChartSectionData {
 
 /// holds data for handling touch events on the [PieChart]
 class PieTouchData extends FlTouchData {
-
   /// you can implement it to receive touches callback
   final Function(PieTouchResponse) touchCallback;
-  
+
   const PieTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
@@ -166,10 +164,8 @@ class PieTouchResponse extends BaseTouchResponse {
 }
 
 class PieChartDataTween extends Tween<PieChartData> {
-
   PieChartDataTween({PieChartData begin, PieChartData end}) : super(begin: begin, end: end);
 
   @override
   PieChartData lerp(double t) => begin.lerp(begin, end, t);
-
 }

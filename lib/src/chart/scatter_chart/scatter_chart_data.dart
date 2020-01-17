@@ -6,7 +6,6 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 class ScatterChartData extends AxisChartData {
-
   final List<ScatterSpot> scatterSpots;
   final FlTitlesData titlesData;
   final ScatterTouchData scatterTouchData;
@@ -27,13 +26,13 @@ class ScatterChartData extends AxisChartData {
     bool clipToBorder = false,
     Color backgroundColor,
   }) : super(
-    gridData: gridData,
-    touchData: scatterTouchData,
-    borderData: borderData,
-    axisTitleData: axisTitleData,
-    clipToBorder: clipToBorder,
-    backgroundColor: backgroundColor,
-  ) {
+          gridData: gridData,
+          touchData: scatterTouchData,
+          borderData: borderData,
+          axisTitleData: axisTitleData,
+          clipToBorder: clipToBorder,
+          backgroundColor: backgroundColor,
+        ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
 
@@ -42,7 +41,7 @@ class ScatterChartData extends AxisChartData {
     double maxX,
     double minY,
     double maxY,
-    ) {
+  ) {
     if (scatterSpots.isNotEmpty) {
       var canModifyMinX = false;
       if (minX == null) {
@@ -101,7 +100,8 @@ class ScatterChartData extends AxisChartData {
         scatterSpots: lerpScatterSpotList(a.scatterSpots, b.scatterSpots, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         scatterTouchData: b.scatterTouchData,
-        showingTooltipIndicators: lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
+        showingTooltipIndicators:
+            lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
@@ -148,7 +148,6 @@ class ScatterChartData extends AxisChartData {
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
-
 }
 
 class ScatterSpot extends FlSpot {
@@ -156,7 +155,9 @@ class ScatterSpot extends FlSpot {
   final double radius;
   Color color;
 
-  ScatterSpot(double x, double y, {
+  ScatterSpot(
+    double x,
+    double y, {
     this.show = true,
     this.radius = 6,
     this.color,
@@ -173,19 +174,20 @@ class ScatterSpot extends FlSpot {
       color: Color.lerp(a.color, b.color, t),
     );
   }
-
 }
 
 class ScatterTouchResponse extends BaseTouchResponse {
-
   final ScatterSpot touchedSpot;
   final int touchedSpotIndex;
 
-  ScatterTouchResponse(FlTouchInput touchInput, this.touchedSpot, this.touchedSpotIndex,) : super(touchInput);
+  ScatterTouchResponse(
+    FlTouchInput touchInput,
+    this.touchedSpot,
+    this.touchedSpotIndex,
+  ) : super(touchInput);
 }
 
 class ScatterTouchData extends FlTouchData {
-
   /// show a tooltip on touched spots
   final ScatterTouchTooltipData touchTooltipData;
 
@@ -223,9 +225,7 @@ class ScatterTouchData extends FlTouchData {
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
-
 }
-
 
 /// Holds information for showing tooltip
 /// when a touch event happened
@@ -239,8 +239,7 @@ class ScatterTouchTooltipData {
   const ScatterTouchTooltipData({
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
-    this.tooltipPadding =
-    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultScatterTooltipItem,
   }) : super();
@@ -251,7 +250,7 @@ class ScatterTouchTooltipData {
 /// here we get the [ScatterTooltipItem] from the given [ScatterSpot].
 typedef GetScatterTooltipItems = ScatterTooltipItem Function(ScatterSpot touchedSpots);
 
-ScatterTooltipItem defaultScatterTooltipItem (ScatterSpot touchedSpot) {
+ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
   if (touchedSpot == null) {
     return null;
   }
@@ -260,7 +259,8 @@ ScatterTooltipItem defaultScatterTooltipItem (ScatterSpot touchedSpot) {
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return ScatterTooltipItem('${touchedSpot.radius.toInt()}', textStyle, touchedSpot.radius + (touchedSpot.radius * 0.2));
+  return ScatterTooltipItem(
+      '${touchedSpot.radius.toInt()}', textStyle, touchedSpot.radius + (touchedSpot.radius * 0.2));
 }
 
 /// holds data of showing each item in the tooltip window
@@ -269,17 +269,19 @@ class ScatterTooltipItem {
   final TextStyle textStyle;
   final double bottomMargin;
 
-  ScatterTooltipItem(this.text, this.textStyle, this.bottomMargin,);
+  ScatterTooltipItem(
+    this.text,
+    this.textStyle,
+    this.bottomMargin,
+  );
 }
 
-
 class ScatterChartDataTween extends Tween<ScatterChartData> {
-
-  ScatterChartDataTween({ScatterChartData begin, ScatterChartData end}) : super(begin: begin, end: end);
+  ScatterChartDataTween({ScatterChartData begin, ScatterChartData end})
+      : super(begin: begin, end: end);
 
   @override
   ScatterChartData lerp(double t) {
     return begin.lerp(begin, end, t);
   }
-
 }

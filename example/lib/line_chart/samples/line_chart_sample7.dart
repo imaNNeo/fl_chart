@@ -86,8 +86,8 @@ class LineChartSample7 extends StatelessWidget {
           ],
           betweenBarsData: [
             BetweenBarsData(
-                fromIndex: 0,
-                toIndex: 2,
+              fromIndex: 0,
+              toIndex: 2,
               colors: [Colors.red.withOpacity(0.3)],
             )
           ],
@@ -135,10 +135,11 @@ class LineChartSample7 extends StatelessWidget {
             ),
           ),
           gridData: FlGridData(
-              show: true,
-              checkToShowHorizontalLine: (double value) {
-                return value == 1 || value == 6 || value == 4 || value == 5;
-              }),
+            show: true,
+            checkToShowHorizontalLine: (double value) {
+              return value == 1 || value == 6 || value == 4 || value == 5;
+            },
+          ),
         ),
       ),
     );

@@ -31,7 +31,7 @@ class LineChartData extends AxisChartData {
     this.extraLinesData = const ExtraLinesData(),
     this.rangeAnnotations = const RangeAnnotations(),
     this.lineTouchData = const LineTouchData(),
-    this.showingTooltipIndicators = const[],
+    this.showingTooltipIndicators = const [],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     FlAxisTitleData axisTitleData = const FlAxisTitleData(),
@@ -308,7 +308,6 @@ class LineChartBarData {
       showingIndicators: showingIndicators ?? this.showingIndicators,
     );
   }
-
 }
 
 /// holds the details of a [FlSpot] inside a [LineChartBarData]
@@ -317,9 +316,12 @@ class LineBarSpot extends FlSpot {
   final int barIndex;
   final int spotIndex;
 
-  LineBarSpot(this.bar, this.barIndex, FlSpot spot,)
-    :spotIndex = bar.spots.indexOf(spot),
-      super(spot.x, spot.y);
+  LineBarSpot(
+    this.bar,
+    this.barIndex,
+    FlSpot spot,
+  )   : spotIndex = bar.spots.indexOf(spot),
+        super(spot.x, spot.y);
 }
 
 /***** BarAreaData *****/
@@ -382,7 +384,6 @@ class BarAreaData {
 /***** BarAreaData *****/
 /// This class holds data about draw on below or above space of the bar line,
 class BetweenBarsData {
-
   /// The index of the lineBarsData from where the area has to be rendered
   final int fromIndex;
 
@@ -406,7 +407,6 @@ class BetweenBarsData {
   /// if more than one color provided gradientColorStops will hold
   /// stop points of the gradient.
   final List<double> gradientColorStops;
-
 
   const BetweenBarsData({
     @required this.fromIndex,
@@ -545,13 +545,12 @@ class ExtraLinesData {
 
   final bool extraLinesOnTop;
 
-  const ExtraLinesData({
-    this.showHorizontalLines = false,
-    this.horizontalLines = const [],
-    this.showVerticalLines = false,
-    this.verticalLines = const [],
-    this.extraLinesOnTop = true
-  });
+  const ExtraLinesData(
+      {this.showHorizontalLines = false,
+      this.horizontalLines = const [],
+      this.showVerticalLines = false,
+      this.verticalLines = const [],
+      this.extraLinesOnTop = true});
 
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
     return ExtraLinesData(
@@ -576,7 +575,8 @@ class HorizontalRangeAnnotation {
     this.color = Colors.white,
   });
 
-  static HorizontalRangeAnnotation lerp(HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+  static HorizontalRangeAnnotation lerp(
+      HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
     return HorizontalRangeAnnotation(
       y1: lerpDouble(a.y1, b.y1, t),
       y2: lerpDouble(a.y2, b.y2, t),
@@ -597,7 +597,8 @@ class VerticalRangeAnnotation {
     this.color = Colors.white,
   });
 
-  static VerticalRangeAnnotation lerp(VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+  static VerticalRangeAnnotation lerp(
+      VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
     return VerticalRangeAnnotation(
       x1: lerpDouble(a.x1, b.x1, t),
       x2: lerpDouble(a.x2, b.x2, t),
@@ -618,8 +619,10 @@ class RangeAnnotations {
 
   static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
-      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
-      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
+          a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
+          a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
 }
@@ -706,7 +709,6 @@ class LineTouchData extends FlTouchData {
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
-
 }
 
 /// Holds information for showing tooltip on axis based charts
@@ -722,8 +724,7 @@ class LineTouchTooltipData {
   const LineTouchTooltipData({
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
-    this.tooltipPadding =
-    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
@@ -734,11 +735,9 @@ class LineTouchTooltipData {
 /// return null if you don't want to show each item
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [LineTooltipItem] from the given [TouchedSpot].
-typedef GetLineTooltipItems = List<LineTooltipItem> Function(
-  List<LineBarSpot> touchedSpots);
+typedef GetLineTooltipItems = List<LineTooltipItem> Function(List<LineBarSpot> touchedSpots);
 
-List<LineTooltipItem> defaultLineTooltipItem (
-  List<LineBarSpot> touchedSpots) {
+List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
   if (touchedSpots == null) {
     return null;
   }
@@ -787,12 +786,9 @@ class LineTouchResponse extends BaseTouchResponse {
   ) : super(touchInput);
 }
 
-
 class LineChartDataTween extends Tween<LineChartData> {
-
   LineChartDataTween({LineChartData begin, LineChartData end}) : super(begin: begin, end: end);
 
   @override
   LineChartData lerp(double t) => begin.lerp(begin, end, t);
-
 }

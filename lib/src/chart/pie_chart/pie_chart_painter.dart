@@ -19,12 +19,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   /// We hold this calculated angles to use in touch handling,
   List<double> sectionsAngle;
 
-  PieChartPainter(
-    PieChartData data,
-    PieChartData targetData,
-    Function(TouchHandler) touchHandler,
-    {double textScale}
-  ) : super(data, targetData, textScale: textScale) {
+  PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler) touchHandler,
+      {double textScale})
+      : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
     sectionPaint = Paint()..style = PaintingStyle.stroke;
@@ -156,8 +153,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
       if (section.showTitle) {
         final TextSpan span = TextSpan(style: section.titleStyle, text: section.title);
-        final TextPainter tp =
-            TextPainter(text: span, textAlign: TextAlign.center, textDirection: TextDirection.ltr, textScaleFactor: textScale);
+        final TextPainter tp = TextPainter(
+            text: span,
+            textAlign: TextAlign.center,
+            textDirection: TextDirection.ltr,
+            textScaleFactor: textScale);
         tp.layout();
         tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));
       }
@@ -172,7 +172,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   }
 
   /// find touched section by the value of [touchInputNotifier]
-  PieTouchResponse _getTouchedDetails(Size viewSize, FlTouchInput touchInput, List<double> sectionsAngle) {
+  PieTouchResponse _getTouchedDetails(
+      Size viewSize, FlTouchInput touchInput, List<double> sectionsAngle) {
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     if (touchInput.getOffset() == null) {
@@ -220,7 +221,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       tempAngle += sectionAngle;
     }
 
-    return PieTouchResponse(foundSectionData, foundSectionDataPosition, touchAngle, touchR, touchInput);
+    return PieTouchResponse(
+        foundSectionData, foundSectionDataPosition, touchAngle, touchR, touchInput);
   }
 
   @override

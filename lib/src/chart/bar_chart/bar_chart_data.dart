@@ -204,7 +204,8 @@ class BarChartGroupData {
       x: (a.x + (b.x - a.x) * t).round(),
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
-      showingTooltipIndicators: lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
+      showingTooltipIndicators:
+          lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
     );
   }
 }
@@ -360,9 +361,7 @@ class BarTouchData extends FlTouchData {
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
-
 }
-
 
 /// Holds information for showing tooltip on axis based charts
 /// when a touch event happened
@@ -377,8 +376,7 @@ class BarTouchTooltipData {
   const BarTouchTooltipData({
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
-    this.tooltipPadding =
-    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItem = defaultBarTooltipItem,
@@ -390,14 +388,18 @@ class BarTouchTooltipData {
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [BarTooltipItem] from the given [TouchedSpot].
 typedef GetBarTooltipItem = BarTooltipItem Function(
-  BarChartGroupData group, int groupIndex,
-  BarChartRodData rod, int rodIndex,
-  );
+  BarChartGroupData group,
+  int groupIndex,
+  BarChartRodData rod,
+  int rodIndex,
+);
 
 BarTooltipItem defaultBarTooltipItem(
-  BarChartGroupData group, int groupIndex,
-  BarChartRodData rod, int rodIndex,
-  ) {
+  BarChartGroupData group,
+  int groupIndex,
+  BarChartRodData rod,
+  int rodIndex,
+) {
   final TextStyle textStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
@@ -451,10 +453,8 @@ class BarTouchedSpot extends TouchedSpot {
 }
 
 class BarChartDataTween extends Tween<BarChartData> {
-
   BarChartDataTween({BarChartData begin, BarChartData end}) : super(begin: begin, end: end);
 
   @override
   BarChartData lerp(double t) => begin.lerp(begin, end, t);
-
 }

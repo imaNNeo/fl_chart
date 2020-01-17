@@ -61,7 +61,8 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: BarChart(isPlaying ? randomData() : mainBarData(),
+                      child: BarChart(
+                        isPlaying ? randomData() : mainBarData(),
                         swapAnimationDuration: animDuration,
                       ),
                     ),
@@ -106,19 +107,22 @@ class BarChartSample1State extends State<BarChartSample1> {
     double width = 22,
     List<int> showTooltips = const [],
   }) {
-    return BarChartGroupData(x: x, barRods: [
-      BarChartRodData(
-        y: isTouched ? y + 1 : y,
-        color: isTouched ? Colors.yellow : barColor,
-        width: width,
-        isRound: true,
-        backDrawRodData: BackgroundBarChartRodData(
-          show: true,
-          y: 20,
-          color: barBackgroundColor,
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          y: isTouched ? y + 1 : y,
+          color: isTouched ? Colors.yellow : barColor,
+          width: width,
+          isRound: true,
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            y: 20,
+            color: barBackgroundColor,
+          ),
         ),
-      ),
-    ], showingTooltipIndicators: showTooltips,
+      ],
+      showingTooltipIndicators: showTooltips,
     );
   }
 
@@ -173,47 +177,48 @@ class BarChartSample1State extends State<BarChartSample1> {
                   weekDay = 'Sunday';
                   break;
               }
-              return BarTooltipItem(weekDay + '\n' + (rod.y - 1).toString(),
-                  TextStyle(color: Colors.yellow));
+              return BarTooltipItem(
+                  weekDay + '\n' + (rod.y - 1).toString(), TextStyle(color: Colors.yellow));
             }),
         touchCallback: (barTouchResponse) {
           setState(() {
             if (barTouchResponse.spot != null &&
-              barTouchResponse.touchInput is! FlPanEnd &&
-              barTouchResponse.touchInput is! FlLongPressEnd) {
+                barTouchResponse.touchInput is! FlPanEnd &&
+                barTouchResponse.touchInput is! FlLongPressEnd) {
               touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
             } else {
               touchedIndex = -1;
             }
           });
-        }
+        },
       ),
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
-            showTitles: true,
-            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-            margin: 16,
-            getTitles: (double value) {
-              switch (value.toInt()) {
-                case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
-                  return 'S';
-                case 6:
-                  return 'S';
-                default:
-                  return '';
-              }
-            }),
+          showTitles: true,
+          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          margin: 16,
+          getTitles: (double value) {
+            switch (value.toInt()) {
+              case 0:
+                return 'M';
+              case 1:
+                return 'T';
+              case 2:
+                return 'W';
+              case 3:
+                return 'T';
+              case 4:
+                return 'F';
+              case 5:
+                return 'S';
+              case 6:
+                return 'S';
+              default:
+                return '';
+            }
+          },
+        ),
         leftTitles: const SideTitles(
           showTitles: false,
         ),
@@ -233,29 +238,30 @@ class BarChartSample1State extends State<BarChartSample1> {
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
-            showTitles: true,
-            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-            margin: 16,
-            getTitles: (double value) {
-              switch (value.toInt()) {
-                case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
-                  return 'S';
-                case 6:
-                  return 'S';
-                default:
-                  return '';
-              }
-            }),
+          showTitles: true,
+          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          margin: 16,
+          getTitles: (double value) {
+            switch (value.toInt()) {
+              case 0:
+                return 'M';
+              case 1:
+                return 'T';
+              case 2:
+                return 'W';
+              case 3:
+                return 'T';
+              case 4:
+                return 'F';
+              case 5:
+                return 'S';
+              case 6:
+                return 'S';
+              default:
+                return '';
+            }
+          },
+        ),
         leftTitles: const SideTitles(
           showTitles: false,
         ),
