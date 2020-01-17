@@ -105,14 +105,37 @@ LineChart(
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 
+### HorizontalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|y1|start interval of horizontal rectangle|null|
+|y2|end interval of horizontal rectangle|null|
+|color|color of the rectangle|Colors.white|
+
+
+### VerticalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|x1|start interval of vertical rectangle|null|
+|x2|end interval of vertical rectangle|null|
+|color|color of the rectangle|Colors.white|
+
 
 ### ExtraLinesData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|extraLinesOnTop|determines to paint the extraLines over the trendline or below it|true|
 |showHorizontalLines|determines to show or hide the horizontal lines|false|
 |horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
 |showVerticalLines|determines to show or hide the vertical lines|false|
 |verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
+
+
+### RangeAnnotations
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|horizontalRangeAnnotations|list of [horizontalRangeAnnotation](#HorizontalRangeAnnotation) to draw on the chart|[]|
+|verticalRangeAnnotations|list of [VerticalRangeAnnotation](#VerticalRangeAnnotation) to draw on the chart|[]|
 
 
 ### LineTouchData ([read about touch handling](handle_touches.md))
@@ -198,3 +221,7 @@ LineChart(
 
 ##### Sample 7 ([Source Code](/example/lib/line_chart/samples/line_chart_sample7.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_7.png" width="300" >
+
+
+##### Sample 8 ([Source Code](/example/lib/line_chart/samples/line_chart_sample8.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >

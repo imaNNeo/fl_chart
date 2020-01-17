@@ -20,6 +20,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
   /// [extraLinesPaint] is responsible to draw extra lines
   /// [touchLinePaint] is responsible to draw touch indicators(below line and spot)
   /// [bgTouchTooltipPaint] is responsible to draw box backgroundTooltip of touched point;
+  /// [rangeAnnotationPaint] draws range annotations;
   Paint barPaint,
     barAreaPaint,
     barAreaLinesPaint,
@@ -28,6 +29,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     clearAroundBorderPaint,
     extraLinesPaint,
     touchLinePaint,
+    rangeAnnotationPaint,
     bgTouchTooltipPaint;
 
   LineChartPainter(
@@ -37,7 +39,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
     {double textScale})
     : super(data, targetData, textScale: textScale) {
     touchHandler(this);
-    
+
     barPaint = Paint()..style = PaintingStyle.stroke;
 
     barAreaPaint = Paint()..style = PaintingStyle.fill;
@@ -55,6 +57,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
       ..style = PaintingStyle.stroke
       ..color = const Color(0x000000000)
       ..blendMode = BlendMode.dstIn;
+
+    rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
 
     extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -91,8 +95,19 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         continue;
       }
 
+      drawRangeAnnotation(canvas, size);
+
+      if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
+        drawExtraLines(canvas, size);
+      }
+
       drawBarLine(canvas, size, barData);
       drawDots(canvas, size, barData);
+
+      if (data.extraLinesData != null && data.extraLinesData.extraLinesOnTop) {
+        drawExtraLines(canvas, size);
+      }
+
       drawTouchedSpotsIndicator(canvas, size, barData);
     }
 
@@ -105,8 +120,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
 
     drawAxisTitles(canvas, size);
     drawTitles(canvas, size);
-
-    drawExtraLines(canvas, size);
 
     // Draw touch tooltip on most top spot
     for (int i = 0; i < data.showingTooltipIndicators.length; i++) {
@@ -787,6 +800,48 @@ class LineChartPainter extends AxisChartPainter<LineChartData> with TouchHandler
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawLine(from, to, extraLinesPaint);
+      }
+    }
+  }
+
+ void drawRangeAnnotation(Canvas canvas, Size viewSize) {
+    if (data.rangeAnnotations == null) {
+      return;
+    }
+
+    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+
+    if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
+      for (VerticalRangeAnnotation annotation in data.rangeAnnotations.verticalRangeAnnotations) {
+        final double topChartPadding = getTopOffsetDrawSize();
+        final Offset from = Offset(getPixelX(annotation.x1, chartUsableSize), topChartPadding);
+
+        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
+        final Offset to =
+            Offset(getPixelX(annotation.x2, chartUsableSize), viewSize.height - bottomChartPadding);//9
+
+        final Rect rect = Rect.fromPoints(from, to);
+
+        rangeAnnotationPaint.color = annotation.color;
+
+        canvas.drawRect(rect, rangeAnnotationPaint);
+      }
+    }
+
+    if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
+      for (HorizontalRangeAnnotation annotation in data.rangeAnnotations.horizontalRangeAnnotations) {
+        final double leftChartPadding = getLeftOffsetDrawSize();
+        final Offset from = Offset(leftChartPadding, getPixelY(annotation.y1, chartUsableSize));
+
+        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
+        final Offset to =
+            Offset(viewSize.width - rightChartPadding, getPixelY(annotation.y2, chartUsableSize));
+
+        final Rect rect = Rect.fromPoints(from, to);
+
+        rangeAnnotationPaint.color = annotation.color;
+
+        canvas.drawRect(rect, rangeAnnotationPaint);
       }
     }
   }

@@ -69,6 +69,26 @@ List<VerticalLine> lerpVerticalLineList(List<VerticalLine> a, List<VerticalLine>
   }
 }
 
+List<HorizontalRangeAnnotation> lerpHorizontalRangeAnnotationList(List<HorizontalRangeAnnotation> a, List<HorizontalRangeAnnotation> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return HorizontalRangeAnnotation.lerp(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}
+
+List<VerticalRangeAnnotation> lerpVerticalRangeAnnotationList(List<VerticalRangeAnnotation> a, List<VerticalRangeAnnotation> b, double t) {
+  if (a != null && b != null && a.length == b.length) {
+    return List.generate(a.length, (i) {
+      return VerticalRangeAnnotation.lerp(a[i], b[i], t);
+    });
+  } else {
+    return b;
+  }
+}
+
 List<LineChartBarData> lerpLineChartBarDataList(List<LineChartBarData> a, List<LineChartBarData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
