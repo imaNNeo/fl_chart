@@ -8,6 +8,8 @@ import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
+import 'package:path_drawing/path_drawing.dart';
+
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
@@ -236,6 +238,8 @@ class LineChartBarData {
   /// show indicators based on provided indexes
   final List<int> showingIndicators;
 
+  final CircularIntervalList<double> dashArray;
+
   const LineChartBarData({
     this.spots = const [],
     this.show = true,
@@ -252,6 +256,7 @@ class LineChartBarData {
     this.aboveBarData = const BarAreaData(),
     this.dotData = const FlDotData(),
     this.showingIndicators = const [],
+    this.dashArray,
   });
 
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
@@ -264,6 +269,7 @@ class LineChartBarData {
       isStrokeCapRound: b.isStrokeCapRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
+      dashArray: b.dashArray,
       colors: lerpColorList(a.colors, b.colors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
@@ -288,6 +294,7 @@ class LineChartBarData {
     BarAreaData belowBarData,
     BarAreaData aboveBarData,
     FlDotData dotData,
+    CircularIntervalList dashArray,
     List<int> showingIndicators,
   }) {
     return LineChartBarData(
@@ -304,6 +311,7 @@ class LineChartBarData {
       isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
       belowBarData: belowBarData ?? this.belowBarData,
       aboveBarData: aboveBarData ?? this.aboveBarData,
+      dashArray: dashArray ?? this.dashArray,
       dotData: dotData ?? this.dotData,
       showingIndicators: showingIndicators ?? this.showingIndicators,
     );
