@@ -1,3 +1,8 @@
+## 0.7.0
+* added rangeAnnotations in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to show range annotations, #163.
+* removed `isRound` fiend in the [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) to add more customizability, and fixed #147 bug.
+* fixed sever bug of click on pie chart, #146.
+
 ## 0.6.3
 * Fixed drawing borddr bug, #143.
 * Respect text scale factor when drawing text.
