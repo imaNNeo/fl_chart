@@ -28,7 +28,7 @@ class LineChartPage2 extends StatelessWidget {
                 height: 22,
               ),
               Text(
-                'Range annotations',
+                'Range annotations and dashed line',
                 style: TextStyle(
                   color: Colors.black87,
                   fontSize: 14,
