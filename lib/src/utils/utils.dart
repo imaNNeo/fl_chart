@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:path_drawing/path_drawing.dart';
 
 const double degrees2Radians = math.pi / 180.0;
 
@@ -26,4 +27,15 @@ Size getDefaultSize(BuildContext context) {
 /// forward the view base on its degree
 double translateRotatedPosition(double size, double degree) {
   return (size / 4) * math.sin(radians(degree.abs()));
+}
+
+/// takes in a path and returns a dathed path
+/// data.dashArray is provided
+/// dynamic because dart has no union types
+Path pathDasher(Path path, Paint painter, dynamic data) {
+  if (path != null && data.dashArray != null) {
+    return dashPath(path, dashArray: data.dashArray);
+  } else {
+    return path;
+  }
 }
