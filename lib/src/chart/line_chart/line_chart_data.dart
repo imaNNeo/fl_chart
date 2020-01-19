@@ -508,14 +508,15 @@ class HorizontalLine extends FlLine {
     this.x,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    List<int> dashArray,
+  }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
-      x: lerpDouble(a.x, b.x, t),
-      color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-    );
+        x: lerpDouble(a.x, b.x, t),
+        color: Color.lerp(a.color, b.color, t),
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+        dashArray: lerpIntList(a.dashArray, b.dashArray, t));
   }
 }
 
@@ -528,13 +529,15 @@ class VerticalLine extends FlLine {
     this.y,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    List<int> dashArray,
+  }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
       y: lerpDouble(a.y, b.y, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
 }
