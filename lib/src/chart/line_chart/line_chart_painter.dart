@@ -217,7 +217,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
-      // canvas.drawLine(from, to, touchLinePaint);
       drawDashedLine(canvas, from, to, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
@@ -452,7 +451,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           barAreaLinesPaint.color = barData.belowBarData.spotsLine.flLineStyle.color;
           barAreaLinesPaint.strokeWidth = barData.belowBarData.spotsLine.flLineStyle.strokeWidth;
 
-          // canvas.drawLine(from, to, barAreaLinesPaint);
           drawDashedLine(canvas, from, to, barAreaLinesPaint,
               barData.belowBarData.spotsLine.flLineStyle.dashArray);
         }
@@ -528,7 +526,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           barAreaLinesPaint.color = barData.aboveBarData.spotsLine.flLineStyle.color;
           barAreaLinesPaint.strokeWidth = barData.aboveBarData.spotsLine.flLineStyle.strokeWidth;
 
-          // canvas.drawLine(from, to, barAreaLinesPaint);
           drawDashedLine(canvas, from, to, barAreaLinesPaint,
               barData.aboveBarData.spotsLine.flLineStyle.dashArray);
         }
@@ -802,7 +799,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        // canvas.drawLine(from, to, extraLinesPaint);
         drawDashedLine(canvas, from, to, extraLinesPaint, line.dashArray);
       }
     }
@@ -819,7 +815,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        // canvas.drawLine(from, to, extraLinesPaint);
         drawDashedLine(canvas, from, to, extraLinesPaint, line.dashArray);
       }
     }

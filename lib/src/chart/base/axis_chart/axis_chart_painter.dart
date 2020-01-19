@@ -187,11 +187,6 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           final double x2 = bothX;
           final double y2 = usableViewSize.height + getTopOffsetDrawSize();
           drawDashedLine(canvas, Offset(x1, y1), Offset(x2, y2), gridPaint, flLineStyle.dashArray);
-          // canvas.drawLine(
-          //   Offset(x1, y1),
-          //   Offset(x2, y2),
-          //   gridPaint,
-          // );
         }
         verticalSeek += data.gridData.verticalInterval;
       }
@@ -212,11 +207,6 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
           final double y2 = bothY;
           drawDashedLine(canvas, Offset(x1, y1), Offset(x2, y2), gridPaint, flLine.dashArray);
-          // canvas.drawLine(
-          //   Offset(x1, y1),
-          //   Offset(x2, y2),
-          //   gridPaint,
-          // );
         }
 
         horizontalSeek += data.gridData.horizontalInterval;
