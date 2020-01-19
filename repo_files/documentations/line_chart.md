@@ -49,6 +49,7 @@ LineChart(
 |aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
 |showingIndicators| show indicators based on provided indexes | []|
+|dashArray|A circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
 
 ### BetweenBarsData
 |PropName|Description|default value|
