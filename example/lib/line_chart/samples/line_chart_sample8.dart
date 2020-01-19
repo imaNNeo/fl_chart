@@ -111,7 +111,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             FlSpot(9.5, 2),
             FlSpot(11, 4),
           ],
-          dashArray: CircularArray([2, 4]),
+          dashArray: [2, 4],
           isCurved: true,
           colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
           barWidth: 2,
