@@ -267,7 +267,7 @@ class LineChartBarData {
       isStrokeCapRound: b.isStrokeCapRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
-      dashArray: b.dashArray,
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),

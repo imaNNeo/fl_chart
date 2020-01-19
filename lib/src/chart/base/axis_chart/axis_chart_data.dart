@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/src/utils/lerp.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -152,7 +153,7 @@ class FlLine {
     return FlLine(
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-      dashArray: b.dashArray,
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
 }
