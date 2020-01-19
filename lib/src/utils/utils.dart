@@ -29,9 +29,7 @@ double translateRotatedPosition(double size, double degree) {
   return (size / 4) * math.sin(radians(degree.abs()));
 }
 
-/// takes in a path and returns a dathed path
-/// data.dashArray is provided
-/// dynamic because dart has no union types
+/// returns a dashed path from a path
 Path generateDashedPath(Path path, List<int> dashArray) {
   if (path != null && dashArray != null) {
     final castedArray = dashArray.map((value) => value.toDouble()).toList();
@@ -42,6 +40,7 @@ Path generateDashedPath(Path path, List<int> dashArray) {
   }
 }
 
+/// draws a dashed line from passed in offsets
 void drawDashedLine(Canvas canvas, Offset from, Offset to, Paint painter, List<int> dashArray) {
   final Path path = Path();
   path.moveTo(from.dx, from.dy);
