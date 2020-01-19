@@ -238,7 +238,7 @@ class LineChartBarData {
   /// show indicators based on provided indexes
   final List<int> showingIndicators;
 
-  final CircularArray dashArray;
+  final List<int> dashArray;
 
   const LineChartBarData({
     this.spots = const [],
@@ -294,7 +294,7 @@ class LineChartBarData {
     BarAreaData belowBarData,
     BarAreaData aboveBarData,
     FlDotData dotData,
-    CircularArray dashArray,
+    List<int> dashArray,
     List<int> showingIndicators,
   }) {
     return LineChartBarData(
@@ -799,27 +799,4 @@ class LineChartDataTween extends Tween<LineChartData> {
 
   @override
   LineChartData lerp(double t) => begin.lerp(begin, end, t);
-}
-
-/// A circular array of dash offsets and lengths.
-///
-/// For example, the array `[5, 10]` would result in dashes 5 pixels long
-/// followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would
-/// result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap,
-/// a 10 pixel dash, etc.
-///
-/// Note that this does not quite conform to an [Iterable<T>], because it does
-/// not have a moveNext.
-class CircularArray {
-  CircularArray(this._vals);
-
-  final List<int> _vals;
-  int _idx = 0;
-
-  int get next {
-    if (_idx >= _vals.length) {
-      _idx = 0;
-    }
-    return _vals[_idx++];
-  }
 }

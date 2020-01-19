@@ -32,9 +32,11 @@ double translateRotatedPosition(double size, double degree) {
 /// takes in a path and returns a dathed path
 /// data.dashArray is provided
 /// dynamic because dart has no union types
-Path pathDasher(Path path, Paint painter, dynamic data) {
-  if (path != null && data.dashArray != null) {
-    return dashPath(path, dashArray: data.dashArray);
+Path pathDasher(Path path, Paint painter, List<int> dashArray) {
+  if (path != null && dashArray != null) {
+    final castedArray = dashArray.map((value) => value.toDouble()).toList();
+
+    return dashPath(path, dashArray: CircularIntervalList<double>(castedArray));
   } else {
     return path;
   }

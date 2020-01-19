@@ -622,7 +622,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     barPaint.strokeWidth = barData.barWidth;
-    barPath = pathDasher(barPath, barPaint, barData);
+    barPath = pathDasher(barPath, barPaint, barData.dashArray);
 
     canvas.drawPath(barPath, barPaint);
   }
