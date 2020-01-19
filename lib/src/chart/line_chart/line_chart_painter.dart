@@ -62,7 +62,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
     touchLinePaint = Paint()
-      ..style = PaintingStyle.fill
+      ..style = PaintingStyle.stroke
       ..color = Colors.black;
 
     bgTouchTooltipPaint = Paint()
@@ -217,7 +217,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
-      canvas.drawLine(from, to, touchLinePaint);
+      // canvas.drawLine(from, to, touchLinePaint);
+      drawDashedLine(canvas, from, to, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
       final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
@@ -622,7 +623,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     barPaint.strokeWidth = barData.barWidth;
-    barPath = pathDasher(barPath, barPaint, barData.dashArray);
+    barPath = generateDashedPath(barPath, barData.dashArray);
 
     canvas.drawPath(barPath, barPaint);
   }
