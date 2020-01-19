@@ -8,8 +8,6 @@ import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
-import 'package:path_drawing/path_drawing.dart';
-
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
 /// [FlTitlesData] to show the bottom and left titles
