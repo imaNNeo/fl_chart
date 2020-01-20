@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
+import 'package:fl_chart/src/extensions/canvas_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -219,9 +220,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
-      Path path = Path();
-      path = path.toDashedPathFromLine(from, to, indicatorData.indicatorBelowLine.dashArray);
-      canvas.drawPath(path, touchLinePaint);
+      canvas.drawDashedLine(from, to, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
       final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
@@ -455,10 +454,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           barAreaLinesPaint.color = barData.belowBarData.spotsLine.flLineStyle.color;
           barAreaLinesPaint.strokeWidth = barData.belowBarData.spotsLine.flLineStyle.strokeWidth;
 
-          Path path = Path();
-          path = path.toDashedPathFromLine(
-              from, to, barData.belowBarData.spotsLine.flLineStyle.dashArray);
-          canvas.drawPath(path, barAreaLinesPaint);
+          canvas.drawDashedLine(
+              from, to, barAreaLinesPaint, barData.belowBarData.spotsLine.flLineStyle.dashArray);
         }
       }
     }
@@ -532,10 +529,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           barAreaLinesPaint.color = barData.aboveBarData.spotsLine.flLineStyle.color;
           barAreaLinesPaint.strokeWidth = barData.aboveBarData.spotsLine.flLineStyle.strokeWidth;
 
-          Path path = Path();
-          path = path.toDashedPathFromLine(
-              from, to, barData.aboveBarData.spotsLine.flLineStyle.dashArray);
-          canvas.drawPath(path, barAreaLinesPaint);
+          canvas.drawDashedLine(
+              from, to, barAreaLinesPaint, barData.aboveBarData.spotsLine.flLineStyle.dashArray);
         }
       }
     }
@@ -806,9 +801,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        Path path = Path();
-        path = path.toDashedPathFromLine(from, to, line.dashArray);
-        canvas.drawPath(path, extraLinesPaint);
+        canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
       }
     }
 
@@ -824,9 +817,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        Path path = Path();
-        path = path.toDashedPathFromLine(from, to, line.dashArray);
-        canvas.drawPath(path, extraLinesPaint);
+        canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
       }
     }
   }
