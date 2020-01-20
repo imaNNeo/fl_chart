@@ -1,7 +1,6 @@
 library fl_chart;
 
-export 'package:path_drawing/path_drawing.dart';
-export 'package:fl_chart/src/extensions/canvas_extension.dart';
+export 'package:fl_chart/src/extensions/path_extension.dart';
 
 export 'src/chart/bar_chart/bar_chart.dart';
 export 'src/chart/bar_chart/bar_chart_data.dart';
