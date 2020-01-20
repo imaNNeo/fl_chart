@@ -513,10 +513,11 @@ class HorizontalLine extends FlLine {
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
-        x: lerpDouble(a.x, b.x, t),
-        color: Color.lerp(a.color, b.color, t),
-        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-        dashArray: lerpIntList(a.dashArray, b.dashArray, t));
+      x: lerpDouble(a.x, b.x, t),
+      color: Color.lerp(a.color, b.color, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+    );
   }
 }
 
