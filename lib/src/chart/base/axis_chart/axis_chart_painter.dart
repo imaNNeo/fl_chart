@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
-import 'package:fl_chart/src/extensions/canvas_extension.dart';
+import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'axis_chart_data.dart';
@@ -186,7 +186,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           final double y1 = 0 + getTopOffsetDrawSize();
           final double x2 = bothX;
           final double y2 = usableViewSize.height + getTopOffsetDrawSize();
-          canvas.drawDashedLine(Offset(x1, y1), Offset(x2, y2), gridPaint, flLineStyle.dashArray);
+          Path path = Path();
+          path = path.toDashedPathFromLine(Offset(x1, y1), Offset(x2, y2), flLineStyle.dashArray);
+          canvas.drawPath(path, gridPaint);
         }
         verticalSeek += data.gridData.verticalInterval;
       }
@@ -206,7 +208,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           final double y1 = bothY;
           final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
           final double y2 = bothY;
-          canvas.drawDashedLine(Offset(x1, y1), Offset(x2, y2), gridPaint, flLine.dashArray);
+          Path path = Path();
+          path = path.toDashedPathFromLine(Offset(x1, y1), Offset(x2, y2), flLine.dashArray);
+          canvas.drawPath(path, gridPaint);
         }
 
         horizontalSeek += data.gridData.horizontalInterval;
