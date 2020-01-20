@@ -14,11 +14,4 @@ extension DashedPath on Path {
       return this;
     }
   }
-
-  /// get a dashed(or solid) path from two offsets
-  Path toDashedPathFromLine(Offset from, Offset to, List<int> dashArray) {
-    this.moveTo(from.dx, from.dy);
-    this.lineTo(to.dx, to.dy);
-    return this.toDashedPath(dashArray);
-  }
 }
