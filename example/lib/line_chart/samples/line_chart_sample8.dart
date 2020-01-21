@@ -95,6 +95,23 @@ class _LineChartSample8State extends State<LineChartSample8> {
           margin: 12,
         ),
       ),
+      lineTouchData: LineTouchData(
+        getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
+          return spotIndexes.map((spotIndex) {
+            final FlSpot spot = barData.spots[spotIndex];
+            if (spot.x == 0 || spot.x == 6) {
+              return null;
+            }
+            return TouchedSpotIndicatorData(
+              const FlLine(color: Colors.orange, strokeWidth: 3),
+              const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
+            );
+          }).toList();
+        },
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueAccent,
+        ),
+      ),
       borderData: FlBorderData(show: true, border: Border.all(color: Color(0xffecf1fe), width: 1)),
       minX: 0,
       maxX: 11,
@@ -111,6 +128,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             FlSpot(9.5, 2),
             FlSpot(11, 4),
           ],
+          dashArray: [2, 4],
           isCurved: true,
           colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
           barWidth: 2,

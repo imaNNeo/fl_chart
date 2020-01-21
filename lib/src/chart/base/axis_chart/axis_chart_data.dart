@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/src/utils/lerp.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -136,19 +137,23 @@ class FlGridData {
 
 /// This class can be used wherever we want draw a straight line,
 /// and contains visual properties
+/// [dashArray]  A circular array of dash offsets and lengths.
+/// For example, the array `[5, 10]` would result in dashes 5 pixels long
+/// followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would
+/// result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap,
+/// a 10 pixel dash, etc.
 class FlLine {
   final Color color;
   final double strokeWidth;
+  final List<int> dashArray;
 
-  const FlLine({
-    this.color = Colors.black,
-    this.strokeWidth = 2,
-  });
+  const FlLine({this.color = Colors.black, this.strokeWidth = 2, this.dashArray});
 
   static FlLine lerp(FlLine a, FlLine b, double t) {
     return FlLine(
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
 }

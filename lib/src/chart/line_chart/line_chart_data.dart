@@ -236,6 +236,8 @@ class LineChartBarData {
   /// show indicators based on provided indexes
   final List<int> showingIndicators;
 
+  final List<int> dashArray;
+
   const LineChartBarData({
     this.spots = const [],
     this.show = true,
@@ -252,6 +254,7 @@ class LineChartBarData {
     this.aboveBarData = const BarAreaData(),
     this.dotData = const FlDotData(),
     this.showingIndicators = const [],
+    this.dashArray,
   });
 
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
@@ -264,6 +267,7 @@ class LineChartBarData {
       isStrokeCapRound: b.isStrokeCapRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
@@ -288,6 +292,7 @@ class LineChartBarData {
     BarAreaData belowBarData,
     BarAreaData aboveBarData,
     FlDotData dotData,
+    List<int> dashArray,
     List<int> showingIndicators,
   }) {
     return LineChartBarData(
@@ -304,6 +309,7 @@ class LineChartBarData {
       isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
       belowBarData: belowBarData ?? this.belowBarData,
       aboveBarData: aboveBarData ?? this.aboveBarData,
+      dashArray: dashArray ?? this.dashArray,
       dotData: dotData ?? this.dotData,
       showingIndicators: showingIndicators ?? this.showingIndicators,
     );
@@ -502,13 +508,15 @@ class HorizontalLine extends FlLine {
     this.x,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    List<int> dashArray,
+  }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
       x: lerpDouble(a.x, b.x, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
 }
@@ -522,13 +530,15 @@ class VerticalLine extends FlLine {
     this.y,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    List<int> dashArray,
+  }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
       y: lerpDouble(a.y, b.y, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
 }
