@@ -95,7 +95,7 @@ LineChart(
 ### HorizontalLine
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|x|draw straight line from bottom to top of the chart with dynamic x value|null|
+|y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 
@@ -103,7 +103,7 @@ LineChart(
 ### VerticalLine
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|x|draw straight line from left to right of the chart with dynamic y value|null|
+|x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 
@@ -127,9 +127,7 @@ LineChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |extraLinesOnTop|determines to paint the extraLines over the trendline or below it|true|
-|showHorizontalLines|determines to show or hide the horizontal lines|false|
 |horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
-|showVerticalLines|determines to show or hide the vertical lines|false|
 |verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
 
 

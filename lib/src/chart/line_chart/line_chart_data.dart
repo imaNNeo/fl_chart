@@ -499,13 +499,13 @@ class FlDotData {
   }
 }
 
-/// horizontal lines draw from bottom to top of the chart,
-/// and the x is dynamic
+/// horizontal lines draw from left to right of the chart,
+/// and the y is dynamic
 class HorizontalLine extends FlLine {
-  final double x;
+  final double y;
 
   HorizontalLine({
-    this.x,
+    this.y,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -513,7 +513,7 @@ class HorizontalLine extends FlLine {
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
-      x: lerpDouble(a.x, b.x, t),
+      y: lerpDouble(a.y, b.y, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
@@ -521,13 +521,13 @@ class HorizontalLine extends FlLine {
   }
 }
 
-/// vertical lines draw from left to right of the chart
-/// and the y is dynamic
+/// vertical lines draw from bottom to top of the chart
+/// and the x is dynamic
 class VerticalLine extends FlLine {
-  final double y;
+  final double x;
 
   VerticalLine({
-    this.y,
+    this.x,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -535,7 +535,7 @@ class VerticalLine extends FlLine {
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
-      y: lerpDouble(a.y, b.y, t),
+      x: lerpDouble(a.x, b.x, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
@@ -547,26 +547,19 @@ class VerticalLine extends FlLine {
 /// for example if you want show the average values of the y axis,
 /// you can calculate the average and draw a vertical line by setting the y.
 class ExtraLinesData {
-  final bool showHorizontalLines;
   final List<HorizontalLine> horizontalLines;
-
-  final bool showVerticalLines;
   final List<VerticalLine> verticalLines;
 
   final bool extraLinesOnTop;
 
   const ExtraLinesData(
-      {this.showHorizontalLines = false,
-      this.horizontalLines = const [],
-      this.showVerticalLines = false,
+      {this.horizontalLines = const [],
       this.verticalLines = const [],
       this.extraLinesOnTop = true});
 
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
     return ExtraLinesData(
       extraLinesOnTop: b.extraLinesOnTop,
-      showHorizontalLines: b.showHorizontalLines,
-      showVerticalLines: b.showVerticalLines,
       horizontalLines: lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
       verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
     );
