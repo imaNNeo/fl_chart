@@ -105,9 +105,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       drawBarLine(canvas, size, barData);
       drawDots(canvas, size, barData);
+
       if (data.extraLinesData != null && data.extraLinesData.extraLinesOnTop) {
         drawExtraLines(canvas, size);
       }
+
       drawTouchedSpotsIndicator(canvas, size, barData);
     }
 
