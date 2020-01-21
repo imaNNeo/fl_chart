@@ -1,3 +1,9 @@
+## 0.8.0
+* added functionallity to have dashed lines, in everywhere we draw line, there should be a property called `dashArray` (for example check [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata), and see [LineChartSample8](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code))
+* BREAKING CHANGE:
+* swapped [HorizontalExtraLines](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontalline), and [VerticalExtraLines](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#verticalline) functionalities (now it has a well definition)
+* and also removed `showVerticalLines`, and `showHorizontalLines` from [ExtraLinesData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#ExtraLinesData), if the `horizontalLines`, or `verticalLines` is empty we don't show them
+
 ## 0.7.0
 * added rangeAnnotations in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to show range annotations, #163.
 * removed `isRound` fiend in the [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) to add more customizability, and fixed #147 bug.
