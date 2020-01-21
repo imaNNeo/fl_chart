@@ -83,13 +83,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
     }
 
-    for (BetweenBarsData betweenBarsData in data.betweenBarsData) {
-      drawBetweenBarsArea(canvas, size, data, betweenBarsData);
-    }
-
     super.drawBackground(canvas, size);
     drawRangeAnnotation(canvas, size);
     super.drawGrid(canvas, size);
+
+    for (BetweenBarsData betweenBarsData in data.betweenBarsData) {
+      drawBetweenBarsArea(canvas, size, data, betweenBarsData);
+    }
 
     if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
       drawExtraLines(canvas, size);
