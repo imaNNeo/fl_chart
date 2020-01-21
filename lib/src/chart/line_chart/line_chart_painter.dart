@@ -74,7 +74,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
   @override
   void paint(Canvas canvas, Size size) {
-    super.paint(canvas, size);
     if (data.lineBarsData.isEmpty) {
       return;
     }
@@ -88,6 +87,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       drawBetweenBarsArea(canvas, size, data, betweenBarsData);
     }
 
+    super.drawBackground(canvas, size);
+    drawRangeAnnotation(canvas, size);
+    super.drawGrid(canvas, size);
+
+    if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
+      drawExtraLines(canvas, size);
+    }
+
     /// draw each line independently on the chart
     for (int i = 0; i < data.lineBarsData.length; i++) {
       final barData = data.lineBarsData[i];
@@ -96,20 +103,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
-      drawRangeAnnotation(canvas, size);
-
-      if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
-        drawExtraLines(canvas, size);
-      }
-
       drawBarLine(canvas, size, barData);
       drawDots(canvas, size, barData);
-
-      if (data.extraLinesData != null && data.extraLinesData.extraLinesOnTop) {
-        drawExtraLines(canvas, size);
-      }
-
       drawTouchedSpotsIndicator(canvas, size, barData);
+    }
+
+    if (data.extraLinesData != null && data.extraLinesData.extraLinesOnTop) {
+      drawExtraLines(canvas, size);
     }
 
     if (data.clipToBorder) {
@@ -798,7 +798,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
         final Offset to =
-        Offset(viewSize.width - rightChartPadding, getPixelY(line.y, chartUsableSize));
+            Offset(viewSize.width - rightChartPadding, getPixelY(line.y, chartUsableSize));
 
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
@@ -814,7 +814,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
         final Offset to =
-        Offset(getPixelX(line.x, chartUsableSize), viewSize.height - bottomChartPadding);
+            Offset(getPixelX(line.x, chartUsableSize), viewSize.height - bottomChartPadding);
 
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
