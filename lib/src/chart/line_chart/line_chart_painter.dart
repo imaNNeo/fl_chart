@@ -5,8 +5,8 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
-import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
+import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -789,14 +789,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
-    if (data.extraLinesData.showHorizontalLines) {
+    if (data.extraLinesData.horizontalLines.isNotEmpty) {
       for (HorizontalLine line in data.extraLinesData.horizontalLines) {
-        final double topChartPadding = getTopOffsetDrawSize();
-        final Offset from = Offset(getPixelX(line.x, chartUsableSize), topChartPadding);
+        final double leftChartPadding = getLeftOffsetDrawSize();
+        final Offset from = Offset(leftChartPadding, getPixelY(line.y, chartUsableSize));
 
-        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
+        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
         final Offset to =
-            Offset(getPixelX(line.x, chartUsableSize), viewSize.height - bottomChartPadding);
+        Offset(viewSize.width - rightChartPadding, getPixelY(line.y, chartUsableSize));
 
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;
@@ -805,14 +805,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       }
     }
 
-    if (data.extraLinesData.showVerticalLines) {
+    if (data.extraLinesData.verticalLines.isNotEmpty) {
       for (VerticalLine line in data.extraLinesData.verticalLines) {
-        final double leftChartPadding = getLeftOffsetDrawSize();
-        final Offset from = Offset(leftChartPadding, getPixelY(line.y, chartUsableSize));
+        final double topChartPadding = getTopOffsetDrawSize();
+        final Offset from = Offset(getPixelX(line.x, chartUsableSize), topChartPadding);
 
-        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
+        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
         final Offset to =
-            Offset(viewSize.width - rightChartPadding, getPixelY(line.y, chartUsableSize));
+        Offset(getPixelX(line.x, chartUsableSize), viewSize.height - bottomChartPadding);
 
         extraLinesPaint.color = line.color;
         extraLinesPaint.strokeWidth = line.strokeWidth;

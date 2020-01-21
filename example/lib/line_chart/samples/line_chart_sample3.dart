@@ -71,8 +71,8 @@ class LineChartSample3 extends StatelessWidget {
                           );
                         }).toList();
                       })),
-              extraLinesData: ExtraLinesData(showVerticalLines: true, verticalLines: [
-                VerticalLine(
+              extraLinesData: ExtraLinesData(horizontalLines: [
+                HorizontalLine(
                   y: 1.8,
                   color: Colors.green.withOpacity(0.7),
                   strokeWidth: 4,
