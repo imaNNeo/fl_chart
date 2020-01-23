@@ -83,6 +83,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
     }
 
+    super.superBorderPaint(canvas, size);
     super.drawBackground(canvas, size);
     drawRangeAnnotation(canvas, size);
     super.drawGrid(canvas, size);
