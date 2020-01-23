@@ -31,6 +31,11 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     drawGrid(canvas, size);
   }
 
+  /// allow descendants of the class to call the superclass
+  void superBorderPaint(Canvas canvas, Size size) {
+    super.paint(canvas, size);
+  }
+
   void drawAxisTitles(Canvas canvas, Size viewSize) {
     if (!data.axisTitleData.show) {
       return;
