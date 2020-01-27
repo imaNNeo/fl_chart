@@ -33,7 +33,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       extraLinesPaint,
       touchLinePaint,
       rangeAnnotationPaint,
-      bgTouchTooltipPaint;
+      bgTouchTooltipPaint,
+      imagePaint;
 
   LineChartPainter(
       LineChartData data, LineChartData targetData, Function(TouchHandler) touchHandler,
@@ -70,6 +71,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
+
+    imagePaint = Paint();
   }
 
   @override
@@ -818,6 +821,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.image != null) {
+          final int imageWidth = line.image.width;
+          final int imageHeight = line.image.height;
+          final double centerX = to.dx - (imageWidth / 2);
+          final double adjustY = imageHeight / 2;
+          final Offset centeredImageOffset =
+              Offset(centerX, viewSize.height - bottomChartPadding - adjustY);
+
+          canvas.drawImage(line.image, centeredImageOffset, imagePaint);
+        }
       }
     }
   }
