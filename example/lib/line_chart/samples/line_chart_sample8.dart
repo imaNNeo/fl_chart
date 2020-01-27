@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class LineChartSample8 extends StatefulWidget {
   @override
@@ -14,26 +19,41 @@ class _LineChartSample8State extends State<LineChartSample8> {
 
   bool showAvg = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AspectRatio(
-          aspectRatio: 1.70,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
-              child: LineChart(
-                mainData(),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+  Future<ui.Image> load(String asset) async {
+    ByteData data = await rootBundle.load(asset);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return fi.image;
   }
 
-  LineChartData mainData() {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<ui.Image>(
+        future: load('assets/image_annotation.png'),
+        builder: (BuildContext context, imageSnapshot) {
+          if (imageSnapshot.connectionState == ConnectionState.done) {
+            return Stack(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 1.70,
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
+                      child: LineChart(
+                        mainData(imageSnapshot.data),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
+  }
+
+  LineChartData mainData(ui.Image image) {
     return LineChartData(
       rangeAnnotations: RangeAnnotations(
         verticalRangeAnnotations: [
@@ -57,22 +77,23 @@ class _LineChartSample8State extends State<LineChartSample8> {
         ],
       ),
       // uncomment to see ExtraLines with RangeAnnotations
-      // extraLinesData: ExtraLinesData(
-      //   extraLinesOnTop: true,
-      //   showHorizontalLines: true,
-      //   horizontalLines: [
-      //     HorizontalLine(
-      //       x: 2.5,
-      //       color: Color.fromRGBO(197, 210, 214, 1),
-      //       strokeWidth: 2,
-      //     ),
-      //     HorizontalLine(
-      //       x: 8.5,
-      //       color: Color.fromRGBO(197, 210, 214, 1),
-      //       strokeWidth: 2,
-      //     ),
-      //   ],
-      // ),
+      extraLinesData: ExtraLinesData(
+        extraLinesOnTop: false,
+        verticalLines: [
+          VerticalLine(
+            x: 2.5,
+            color: Color.fromRGBO(197, 210, 214, 1),
+            strokeWidth: 2,
+            image: image,
+          ),
+          VerticalLine(
+            x: 8.5,
+            color: Color.fromRGBO(197, 210, 214, 1),
+            strokeWidth: 2,
+            image: image,
+          ),
+        ],
+      ),
       gridData: FlGridData(
           show: true, drawVerticalLine: false, drawHorizontalLine: false, verticalInterval: 1),
       titlesData: FlTitlesData(
