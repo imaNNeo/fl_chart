@@ -6,7 +6,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Image;
 
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
@@ -503,12 +503,14 @@ class FlDotData {
 /// and the y is dynamic
 class HorizontalLine extends FlLine {
   final double y;
+  Image image;
 
   HorizontalLine({
     this.y,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
+    this.image,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
@@ -517,6 +519,7 @@ class HorizontalLine extends FlLine {
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      image: b.image,
     );
   }
 }
@@ -525,12 +528,14 @@ class HorizontalLine extends FlLine {
 /// and the x is dynamic
 class VerticalLine extends FlLine {
   final double x;
+  Image image;
 
   VerticalLine({
     this.x,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
+    this.image,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
@@ -539,6 +544,7 @@ class VerticalLine extends FlLine {
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      image: b.image,
     );
   }
 }
