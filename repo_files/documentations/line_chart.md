@@ -98,6 +98,7 @@ LineChart(
 |y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
 
 
 ### VerticalLine
@@ -106,6 +107,7 @@ LineChart(
 |x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
 
 ### HorizontalRangeAnnotation
 |PropName|Description|default value|
