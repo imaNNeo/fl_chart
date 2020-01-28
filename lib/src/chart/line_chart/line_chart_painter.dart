@@ -805,6 +805,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.image != null) {
+          final int imageWidth = line.image.width;
+          final int imageHeight = line.image.height;
+          final double centerX = imageWidth / 2;
+          final double centerY = imageHeight / 2;
+          final Offset centeredImageOffset = Offset(leftChartPadding - centerX, to.dy - centerY);
+          canvas.drawImage(line.image, centeredImageOffset, imagePaint);
+        }
       }
     }
 
@@ -825,10 +834,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         if (line.image != null) {
           final int imageWidth = line.image.width;
           final int imageHeight = line.image.height;
-          final double centerX = to.dx - (imageWidth / 2);
-          final double adjustY = imageHeight / 2;
+          final double centerX = imageWidth / 2;
+          final double centerY = imageHeight / 2;
           final Offset centeredImageOffset =
-              Offset(centerX, viewSize.height - bottomChartPadding - adjustY);
+              Offset(to.dx - centerX, viewSize.height - bottomChartPadding - centerY);
 
           canvas.drawImage(line.image, centeredImageOffset, imagePaint);
         }
