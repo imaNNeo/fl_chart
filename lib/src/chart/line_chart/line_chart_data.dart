@@ -503,9 +503,11 @@ class FlDotData {
 /// and the y is dynamic
 class HorizontalLine extends FlLine {
   final double y;
+  final HorizontalLineLabel label;
 
   HorizontalLine({
     this.y,
+    this.label,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -525,9 +527,11 @@ class HorizontalLine extends FlLine {
 /// and the x is dynamic
 class VerticalLine extends FlLine {
   final double x;
+  final VerticalLineLabel label;
 
   VerticalLine({
     this.x,
+    this.label,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
