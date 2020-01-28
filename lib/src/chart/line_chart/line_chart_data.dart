@@ -546,39 +546,34 @@ class VerticalLine extends FlLine {
 // Lines labels
 class FlLineLabel {
   final EdgeInsetsGeometry padding;
-  final Color color;
   final TextStyle style;
   final Alignment alignment;
 
-  FlLineLabel({this.padding, this.color, this.style, this.alignment});
+  FlLineLabel({this.padding, this.style, this.alignment});
 }
 
 class HorizontalLineLabel extends FlLineLabel {
   final String Function(HorizontalLine) labelResolver;
-
   static String defaultLineLabelResolver(HorizontalLine line) => line.y.toString();
 
   HorizontalLineLabel({
-    EdgeInsetsGeometry padding,
-    Color color,
+    EdgeInsets padding,
     TextStyle style,
-    Alignment alignment,
+    Alignment alignment = Alignment.topLeft,
     this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
-  }) : super(padding: padding, color: color, style: style, alignment: alignment);
+  }) : super(padding: padding, style: style, alignment: alignment);
 }
 
 class VerticalLineLabel extends FlLineLabel {
   final String Function(VerticalLine) labelResolver;
-
   static String defaultLineLabelResolver(VerticalLine line) => line.x.toString();
 
   VerticalLineLabel({
-    EdgeInsetsGeometry padding,
-    Color color,
+    EdgeInsets padding,
     TextStyle style,
-    Alignment alignment,
+    Alignment alignment = Alignment.bottomRight,
     this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
-  }) : super(padding: padding, color: color, style: style, alignment: alignment);
+  }) : super(padding: padding, style: style, alignment: alignment);
 }
 
 /// we use ExtraLinesData to draw straight horizontal and vertical lines,
