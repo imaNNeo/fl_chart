@@ -543,6 +543,44 @@ class VerticalLine extends FlLine {
   }
 }
 
+// Lines labels
+class FlLineLabel {
+  final EdgeInsetsGeometry padding;
+  final Color color;
+  final TextStyle style;
+  final Alignment alignment;
+
+  FlLineLabel({this.padding, this.color, this.style, this.alignment});
+}
+
+class HorizontalLineLabel extends FlLineLabel {
+  final String Function(HorizontalLine) labelResolver;
+
+  static String defaultLineLabelResolver(HorizontalLine line) => line.y.toString();
+
+  HorizontalLineLabel({
+    EdgeInsetsGeometry padding,
+    Color color,
+    TextStyle style,
+    Alignment alignment,
+    this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
+  }) : super(padding: padding, color: color, style: style, alignment: alignment);
+}
+
+class VerticalLineLabel extends FlLineLabel {
+  final String Function(VerticalLine) labelResolver;
+
+  static String defaultLineLabelResolver(VerticalLine line) => line.x.toString();
+
+  VerticalLineLabel({
+    EdgeInsetsGeometry padding,
+    Color color,
+    TextStyle style,
+    Alignment alignment,
+    this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
+  }) : super(padding: padding, color: color, style: style, alignment: alignment);
+}
+
 /// we use ExtraLinesData to draw straight horizontal and vertical lines,
 /// for example if you want show the average values of the y axis,
 /// you can calculate the average and draw a vertical line by setting the y.
