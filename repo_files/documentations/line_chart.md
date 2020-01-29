@@ -99,6 +99,7 @@ LineChart(
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 |image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
 
 
 ### VerticalLine
@@ -108,6 +109,16 @@ LineChart(
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 |image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
+
+
+### SizedPicture
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|Picture|a Dart UI Picture which should be derived from the svg. see example for how to get a Picture from an svg.|null|
+|width|the width of the picture|null|
+|height|the height of the picture|null|
+
 
 ### HorizontalRangeAnnotation
 |PropName|Description|default value|
