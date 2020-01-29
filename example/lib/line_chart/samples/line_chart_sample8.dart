@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LineChartSample8 extends StatefulWidget {
   @override
@@ -19,17 +20,28 @@ class _LineChartSample8State extends State<LineChartSample8> {
 
   bool showAvg = false;
 
-  Future<ui.Image> load(String asset) async {
+  Future<ui.Image> loadImage(String asset) async {
     ByteData data = await rootBundle.load(asset);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
     ui.FrameInfo fi = await codec.getNextFrame();
     return fi.image;
   }
 
+  Future<SizedPicture> loadSvg() async {
+    final String rawSvg =
+        '<svg height="14" width="14" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" transform="translate(-.000014)"><circle cx="7" cy="7" fill="#495DFF" r="7"/><path d="m7 10.9999976c1.6562389 0 2.99998569-1.34374678 2.99998569-2.99999283s-1.34374679-4.99998808-2.99998569-4.99998808c-1.6562532 0-3 3.34374203-3 4.99998808s1.3437468 2.99999283 3 2.99999283z" fill="#fff" fill-rule="nonzero"/></g></svg>';
+
+    final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
+
+    final ui.Picture picture = svgRoot.toPicture();
+    final sizedPicture = SizedPicture(picture, 14, 14);
+    return sizedPicture;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ui.Image>(
-        future: load('assets/image_annotation.png'),
+    return FutureBuilder<SizedPicture>(
+        future: loadSvg(),
         builder: (BuildContext context, imageSnapshot) {
           if (imageSnapshot.connectionState == ConnectionState.done) {
             return Stack(
@@ -53,7 +65,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
         });
   }
 
-  LineChartData mainData(ui.Image image) {
+  LineChartData mainData(SizedPicture sizedPicture) {
     return LineChartData(
       rangeAnnotations: RangeAnnotations(
         verticalRangeAnnotations: [
@@ -82,15 +94,15 @@ class _LineChartSample8State extends State<LineChartSample8> {
         verticalLines: [
           VerticalLine(
             x: 2.5,
-            color: Color.fromRGBO(197, 210, 214, 1),
+            color: Colors.transparent,
             strokeWidth: 2,
-            image: image,
+            // image: image,
           ),
           VerticalLine(
             x: 8.5,
-            color: Color.fromRGBO(197, 210, 214, 1),
+            color: Colors.transparent,
             strokeWidth: 2,
-            image: image,
+            sizedPicture: sizedPicture,
           ),
         ],
       ),
