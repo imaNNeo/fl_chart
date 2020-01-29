@@ -806,11 +806,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
 
+        if (line.sizedPicture != null) {
+          final double centerX = line.sizedPicture.width / 2;
+          final double centerY = line.sizedPicture.height / 2;
+          final double xPosition = leftChartPadding - centerX;
+          final double yPosition = to.dy - centerY;
+
+          canvas.save();
+          canvas.translate(xPosition, yPosition);
+          canvas.drawPicture(line.sizedPicture.picture);
+          canvas.restore();
+        }
         if (line.image != null) {
-          final int imageWidth = line.image.width;
-          final int imageHeight = line.image.height;
-          final double centerX = imageWidth / 2;
-          final double centerY = imageHeight / 2;
+          final double centerX = line.image.width / 2;
+          final double centerY = line.image.height / 2;
           final Offset centeredImageOffset = Offset(leftChartPadding - centerX, to.dy - centerY);
           canvas.drawImage(line.image, centeredImageOffset, imagePaint);
         }
@@ -831,14 +840,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
 
+        if (line.sizedPicture != null) {
+          final double centerX = line.sizedPicture.width / 2;
+          final double centerY = line.sizedPicture.height / 2;
+          final double xPosition = to.dx - centerX;
+          final double yPosition = viewSize.height - bottomChartPadding - centerY;
+
+          canvas.save();
+          canvas.translate(xPosition, yPosition);
+          canvas.drawPicture(line.sizedPicture.picture);
+          canvas.restore();
+        }
         if (line.image != null) {
-          final int imageWidth = line.image.width;
-          final int imageHeight = line.image.height;
-          final double centerX = imageWidth / 2;
-          final double centerY = imageHeight / 2;
+          final double centerX = line.image.width / 2;
+          final double centerY = line.image.height / 2;
           final Offset centeredImageOffset =
               Offset(to.dx - centerX, viewSize.height - bottomChartPadding - centerY);
-
           canvas.drawImage(line.image, centeredImageOffset, imagePaint);
         }
       }
