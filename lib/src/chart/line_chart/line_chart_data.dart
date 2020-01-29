@@ -504,6 +504,7 @@ class FlDotData {
 class HorizontalLine extends FlLine {
   final double y;
   Image image;
+  SizedPicture sizedPicture;
 
   HorizontalLine({
     this.y,
@@ -511,6 +512,7 @@ class HorizontalLine extends FlLine {
     double strokeWidth = 2,
     List<int> dashArray,
     this.image,
+    this.sizedPicture,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
@@ -529,6 +531,7 @@ class HorizontalLine extends FlLine {
 class VerticalLine extends FlLine {
   final double x;
   Image image;
+  SizedPicture sizedPicture;
 
   VerticalLine({
     this.x,
@@ -536,6 +539,7 @@ class VerticalLine extends FlLine {
     double strokeWidth = 2,
     List<int> dashArray,
     this.image,
+    this.sizedPicture,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
@@ -545,6 +549,7 @@ class VerticalLine extends FlLine {
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       image: b.image,
+      sizedPicture: b.sizedPicture,
     );
   }
 }
@@ -800,4 +805,12 @@ class LineChartDataTween extends Tween<LineChartData> {
 
   @override
   LineChartData lerp(double t) => begin.lerp(begin, end, t);
+}
+
+class SizedPicture {
+  Picture picture;
+  int width;
+  int height;
+
+  SizedPicture(this.picture, this.width, this.height);
 }
