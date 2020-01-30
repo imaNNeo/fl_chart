@@ -206,8 +206,8 @@ class LineChartState extends AnimatedWidgetBaseState<LineChart> {
       });
     } else {
       setState(() {
-        _showingTouchedTooltips.clear();
-        _showingTouchedIndicators.clear();
+//        _showingTouchedTooltips.clear();
+//        _showingTouchedIndicators.clear();
       });
     }
   }
