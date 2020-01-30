@@ -685,6 +685,9 @@ class LineTouchData extends FlTouchData {
   /// you can implement it to receive touches callback
   final Function(LineTouchResponse) touchCallback;
 
+  /// set to true to persist indicators and tooltips after a touch
+  final bool persistIndicatorsAndTooltips;
+
   const LineTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
@@ -693,6 +696,7 @@ class LineTouchData extends FlTouchData {
     this.touchSpotThreshold = 10,
     this.handleBuiltInTouches = true,
     this.touchCallback,
+    this.persistIndicatorsAndTooltips,
   }) : super(enabled, enableNormalTouch);
 
   LineTouchData copyWith({
