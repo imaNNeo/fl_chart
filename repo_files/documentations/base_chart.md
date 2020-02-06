@@ -105,3 +105,26 @@ Can be used to display a title text for each axis. Titles for the vertical axes 
 |margin| margin between the axis text and inner elements ([SideTitles](#SideTitles) or the chart) | `4`|
 |textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of the text | `TextStyle(color: Colors.black, fontSize: 11)`|
 |textAlign| [TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) to determine the alignment of the text | `TextAlign.center`|
+
+
+### RangeAnnotations
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|horizontalRangeAnnotations|list of [horizontalRangeAnnotation](#HorizontalRangeAnnotation) to draw on the chart|[]|
+|verticalRangeAnnotations|list of [VerticalRangeAnnotation](#VerticalRangeAnnotation) to draw on the chart|[]|
+
+
+### HorizontalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|y1|start interval of horizontal rectangle|null|
+|y2|end interval of horizontal rectangle|null|
+|color|color of the rectangle|Colors.white|
+
+
+### VerticalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|x1|start interval of vertical rectangle|null|
+|x2|end interval of vertical rectangle|null|
+|color|color of the rectangle|Colors.white|
