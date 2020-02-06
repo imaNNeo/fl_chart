@@ -223,9 +223,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       canvas.drawDashedLine(from, to, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
-      final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
-      dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
-      canvas.drawCircle(to, selectedSpotDotSize, dotPaint);
+      if (indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show) {
+        final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
+        dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
+        canvas.drawCircle(to, selectedSpotDotSize, dotPaint);
+      }
     }
   }
 
