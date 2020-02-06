@@ -522,6 +522,7 @@ class HorizontalLine extends FlLine {
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       image: b.image,
+      sizedPicture: b.sizedPicture,
     );
   }
 }
