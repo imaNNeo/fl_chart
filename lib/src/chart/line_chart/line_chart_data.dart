@@ -21,7 +21,6 @@ class LineChartData extends AxisChartData {
   final FlTitlesData titlesData;
   final ExtraLinesData extraLinesData;
   final LineTouchData lineTouchData;
-  final RangeAnnotations rangeAnnotations;
   final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
 
   LineChartData({
@@ -29,12 +28,12 @@ class LineChartData extends AxisChartData {
     this.betweenBarsData = const [],
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
-    this.rangeAnnotations = const RangeAnnotations(),
     this.lineTouchData = const LineTouchData(),
     this.showingTooltipIndicators = const [],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     FlAxisTitleData axisTitleData = const FlAxisTitleData(),
+    RangeAnnotations rangeAnnotations = const RangeAnnotations(),
     double minX,
     double maxX,
     double minY,
@@ -46,6 +45,7 @@ class LineChartData extends AxisChartData {
           touchData: lineTouchData,
           borderData: borderData,
           axisTitleData: axisTitleData,
+          rangeAnnotations: rangeAnnotations,
           clipToBorder: clipToBorder,
           backgroundColor: backgroundColor,
         ) {
@@ -130,10 +130,10 @@ class LineChartData extends AxisChartData {
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         clipToBorder: b.clipToBorder,
         extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
-        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
+        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
         betweenBarsData: lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
         lineTouchData: b.lineTouchData,
@@ -149,8 +149,8 @@ class LineChartData extends AxisChartData {
     List<BetweenBarsData> betweenBarsData,
     FlTitlesData titlesData,
     FlAxisTitleData axisTitleData,
-    ExtraLinesData extraLinesData,
     RangeAnnotations rangeAnnotations,
+    ExtraLinesData extraLinesData,
     LineTouchData lineTouchData,
     List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
     FlGridData gridData,
@@ -167,8 +167,8 @@ class LineChartData extends AxisChartData {
       betweenBarsData: betweenBarsData ?? this.betweenBarsData,
       titlesData: titlesData ?? this.titlesData,
       axisTitleData: axisTitleData ?? this.axisTitleData,
-      extraLinesData: extraLinesData ?? this.extraLinesData,
       rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
+      extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
       showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
       gridData: gridData ?? this.gridData,
@@ -562,70 +562,6 @@ class ExtraLinesData {
       extraLinesOnTop: b.extraLinesOnTop,
       horizontalLines: lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
       verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
-    );
-  }
-}
-
-/// HorizontalRangeAnnotation
-class HorizontalRangeAnnotation {
-  final double y1;
-  final double y2;
-  final Color color;
-
-  HorizontalRangeAnnotation({
-    this.y1,
-    this.y2,
-    this.color = Colors.white,
-  });
-
-  static HorizontalRangeAnnotation lerp(
-      HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
-    return HorizontalRangeAnnotation(
-      y1: lerpDouble(a.y1, b.y1, t),
-      y2: lerpDouble(a.y2, b.y2, t),
-      color: Color.lerp(a.color, b.color, t),
-    );
-  }
-}
-
-/// VerticalRangeAnnotation
-class VerticalRangeAnnotation {
-  final double x1;
-  final double x2;
-  final Color color;
-
-  VerticalRangeAnnotation({
-    this.x1,
-    this.x2,
-    this.color = Colors.white,
-  });
-
-  static VerticalRangeAnnotation lerp(
-      VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
-    return VerticalRangeAnnotation(
-      x1: lerpDouble(a.x1, b.x1, t),
-      x2: lerpDouble(a.x2, b.x2, t),
-      color: Color.lerp(a.color, b.color, t),
-    );
-  }
-}
-
-/// RangeAnnotations
-class RangeAnnotations {
-  final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
-  final List<VerticalRangeAnnotation> verticalRangeAnnotations;
-
-  const RangeAnnotations({
-    this.horizontalRangeAnnotations = const [],
-    this.verticalRangeAnnotations = const [],
-  });
-
-  static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
-    return RangeAnnotations(
-      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
-          a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
-      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
-          a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
 }

@@ -16,11 +16,16 @@ import 'axis_chart_data.dart';
 abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainter<D> {
   Paint gridPaint, backgroundPaint;
 
+  /// [rangeAnnotationPaint] draws range annotations;
+  Paint rangeAnnotationPaint;
+
   AxisChartPainter(D data, D targetData, {double textScale})
       : super(data, targetData, textScale: textScale) {
     gridPaint = Paint()..style = PaintingStyle.stroke;
 
     backgroundPaint = Paint()..style = PaintingStyle.fill;
+
+    rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
   }
 
   @override
@@ -28,6 +33,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     super.paint(canvas, size);
 
     drawBackground(canvas, size);
+    drawRangeAnnotation(canvas, size);
     drawGrid(canvas, size);
   }
 
@@ -236,6 +242,49 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       ),
       backgroundPaint,
     );
+  }
+
+  void drawRangeAnnotation(Canvas canvas, Size viewSize) {
+    if (data.rangeAnnotations == null) {
+      return;
+    }
+
+    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+
+    if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
+      for (VerticalRangeAnnotation annotation in data.rangeAnnotations.verticalRangeAnnotations) {
+        final double topChartPadding = getTopOffsetDrawSize();
+        final Offset from = Offset(getPixelX(annotation.x1, chartUsableSize), topChartPadding);
+
+        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
+        final Offset to = Offset(
+          getPixelX(annotation.x2, chartUsableSize), viewSize.height - bottomChartPadding); //9
+
+        final Rect rect = Rect.fromPoints(from, to);
+
+        rangeAnnotationPaint.color = annotation.color;
+
+        canvas.drawRect(rect, rangeAnnotationPaint);
+      }
+    }
+
+    if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
+      for (HorizontalRangeAnnotation annotation
+      in data.rangeAnnotations.horizontalRangeAnnotations) {
+        final double leftChartPadding = getLeftOffsetDrawSize();
+        final Offset from = Offset(leftChartPadding, getPixelY(annotation.y1, chartUsableSize));
+
+        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
+        final Offset to =
+        Offset(viewSize.width - rightChartPadding, getPixelY(annotation.y2, chartUsableSize));
+
+        final Rect rect = Rect.fromPoints(from, to);
+
+        rangeAnnotationPaint.color = annotation.color;
+
+        canvas.drawRect(rect, rangeAnnotationPaint);
+      }
+    }
   }
 
   /// With this function we can convert our [FlSpot] x

@@ -20,7 +20,7 @@ LineChart(
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
-|rangeAnnotations| show range annotations behind the chart | RangeAnnotations()|
+|rangeAnnotations| show range annotations behind the chart, check [base_chart.md#RangeAnnotations](RangeAnnotations) | RangeAnnotations()|
 |showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot]| {} |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
@@ -107,21 +107,6 @@ LineChart(
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 
-### HorizontalRangeAnnotation
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|y1|start interval of horizontal rectangle|null|
-|y2|end interval of horizontal rectangle|null|
-|color|color of the rectangle|Colors.white|
-
-
-### VerticalRangeAnnotation
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|x1|start interval of vertical rectangle|null|
-|x2|end interval of vertical rectangle|null|
-|color|color of the rectangle|Colors.white|
-
 
 ### ExtraLinesData
 |PropName|Description|default value|
@@ -129,13 +114,6 @@ LineChart(
 |extraLinesOnTop|determines to paint the extraLines over the trendline or below it|true|
 |horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
 |verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
-
-
-### RangeAnnotations
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|horizontalRangeAnnotations|list of [horizontalRangeAnnotation](#HorizontalRangeAnnotation) to draw on the chart|[]|
-|verticalRangeAnnotations|list of [VerticalRangeAnnotation](#VerticalRangeAnnotation) to draw on the chart|[]|
 
 
 ### LineTouchData ([read about touch handling](handle_touches.md))
