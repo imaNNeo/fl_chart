@@ -15,7 +15,7 @@ PieChart(
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |sections| list of [PieChartSectionData ](#PieChartSectionData) that is shown on the pie chart|[]|
-|centerSpaceRadius| free space in the middle of the PieChart| 80|
+|centerSpaceRadius| free space in the middle of the PieChart, set `double.nan` if you want it to be calculated according to the view size| double.nan|
 |centerSpaceColor| colors the free space in the middle of the PieChart|Colors.transparent|
 |sectionsSpace| space between the sections (margin of them)|2|
 |startDegreeOffset| degree offset of the sections around the pie chart, should be between 0 and 360|0|
