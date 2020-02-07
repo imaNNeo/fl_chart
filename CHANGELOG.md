@@ -1,5 +1,6 @@
 ##
 * skipped the first and the last grid lines from drawing, #174.
+* fixed pieChart `centerSpaceRadius` bug, #179.
 
 ## 0.8.0
 * added functionallity to have dashed lines, in everywhere we draw line, there should be a property called `dashArray` (for example check [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata), and see [LineChartSample8](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code))
