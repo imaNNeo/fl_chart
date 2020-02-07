@@ -23,7 +23,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// [extraLinesPaint] is responsible to draw extra lines
   /// [touchLinePaint] is responsible to draw touch indicators(below line and spot)
   /// [bgTouchTooltipPaint] is responsible to draw box backgroundTooltip of touched point;
-  /// [rangeAnnotationPaint] draws range annotations;
   Paint barPaint,
       barAreaPaint,
       barAreaLinesPaint,
@@ -32,7 +31,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       clearAroundBorderPaint,
       extraLinesPaint,
       touchLinePaint,
-      rangeAnnotationPaint,
       bgTouchTooltipPaint;
 
   LineChartPainter(
@@ -59,8 +57,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       ..color = const Color(0x000000000)
       ..blendMode = BlendMode.dstIn;
 
-    rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
-
     extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
     touchLinePaint = Paint()
@@ -74,7 +70,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
   @override
   void paint(Canvas canvas, Size size) {
-    super.paint(canvas, size);
     if (data.lineBarsData.isEmpty) {
       return;
     }
@@ -84,8 +79,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
     }
 
+    super.paint(canvas, size);
+
     for (BetweenBarsData betweenBarsData in data.betweenBarsData) {
       drawBetweenBarsArea(canvas, size, data, betweenBarsData);
+    }
+
+    if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
+      drawExtraLines(canvas, size);
     }
 
     /// draw each line independently on the chart
@@ -94,12 +95,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       if (!barData.show) {
         continue;
-      }
-
-      drawRangeAnnotation(canvas, size);
-
-      if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
-        drawExtraLines(canvas, size);
       }
 
       drawBarLine(canvas, size, barData);
@@ -820,49 +815,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
-      }
-    }
-  }
-
-  void drawRangeAnnotation(Canvas canvas, Size viewSize) {
-    if (data.rangeAnnotations == null) {
-      return;
-    }
-
-    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
-
-    if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
-      for (VerticalRangeAnnotation annotation in data.rangeAnnotations.verticalRangeAnnotations) {
-        final double topChartPadding = getTopOffsetDrawSize();
-        final Offset from = Offset(getPixelX(annotation.x1, chartUsableSize), topChartPadding);
-
-        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
-        final Offset to = Offset(
-            getPixelX(annotation.x2, chartUsableSize), viewSize.height - bottomChartPadding); //9
-
-        final Rect rect = Rect.fromPoints(from, to);
-
-        rangeAnnotationPaint.color = annotation.color;
-
-        canvas.drawRect(rect, rangeAnnotationPaint);
-      }
-    }
-
-    if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
-      for (HorizontalRangeAnnotation annotation
-          in data.rangeAnnotations.horizontalRangeAnnotations) {
-        final double leftChartPadding = getLeftOffsetDrawSize();
-        final Offset from = Offset(leftChartPadding, getPixelY(annotation.y1, chartUsableSize));
-
-        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
-        final Offset to =
-            Offset(viewSize.width - rightChartPadding, getPixelY(annotation.y2, chartUsableSize));
-
-        final Rect rect = Rect.fromPoints(from, to);
-
-        rangeAnnotationPaint.color = annotation.color;
-
-        canvas.drawRect(rect, rangeAnnotationPaint);
       }
     }
   }
