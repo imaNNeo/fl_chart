@@ -1,6 +1,9 @@
-##
+## 0.8.1
+* yaaay, added some basic unit tests
 * skipped the first and the last grid lines from drawing, #174.
-* fixed pieChart `centerSpaceRadius` bug, #179.
+* prevent to draw touchedSpotDot if `show` is false, #180.
+* improved paint order, more details in #175.
+* added possibility to set `double.nan` in `centerSpaceRadius` for the PieChart to let it to be calculated according to the view size, fixed #179.
 
 ## 0.8.0
 * added functionallity to have dashed lines, in everywhere we draw line, there should be a property called `dashArray` (for example check [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata), and see [LineChartSample8](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code))
