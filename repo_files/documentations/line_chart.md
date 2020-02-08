@@ -98,6 +98,7 @@ LineChart(
 |y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|label|a [HorizontalLineLabel](#HorizontalLineLabel) object with label parameters|null
 
 
 ### VerticalLine
@@ -106,6 +107,25 @@ LineChart(
 |x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|label|a [VerticalLineLabel](#VerticalLineLabel) object with label parameters|null
+
+
+### HorizontalLineLabel
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
+|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|labelResolver|Getter function returning label title|defaultLineLabelResolver|
+
+### VerticalLineLabel
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
+|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|labelResolver|Getter function returning label title|defaultLineLabelResolver|
+
 
 ### HorizontalRangeAnnotation
 |PropName|Description|default value|
