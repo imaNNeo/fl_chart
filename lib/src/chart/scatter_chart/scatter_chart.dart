@@ -121,7 +121,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
+        size: getDefaultSize(MediaQuery.of(context).size),
         painter: ScatterChartPainter(
           _withTouchedIndicators(_scatterChartDataTween.evaluate(animation)),
           _withTouchedIndicators(showingData),

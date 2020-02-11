@@ -72,7 +72,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
       final rect = Rect.fromCircle(
         center: center,
-        radius: data.centerSpaceRadius + (section.radius / 2),
+        radius: _calculateCenterRadius(viewSize, data.centerSpaceRadius) + (section.radius / 2),
       );
 
       sectionPaint.color = section.color;
@@ -112,16 +112,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
       final Offset sectionsStartFrom = center +
           Offset(
-            math.cos(radians(startAngle)) * (data.centerSpaceRadius - extraLineSize),
-            math.sin(radians(startAngle)) * (data.centerSpaceRadius - extraLineSize),
+            math.cos(radians(startAngle)) * (_calculateCenterRadius(viewSize, data.centerSpaceRadius) - extraLineSize),
+            math.sin(radians(startAngle)) * (_calculateCenterRadius(viewSize, data.centerSpaceRadius) - extraLineSize),
           );
 
       final Offset sectionsStartTo = center +
           Offset(
             math.cos(radians(startAngle)) *
-                (data.centerSpaceRadius + maxSectionRadius + extraLineSize),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + maxSectionRadius + extraLineSize),
             math.sin(radians(startAngle)) *
-                (data.centerSpaceRadius + maxSectionRadius + extraLineSize),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + maxSectionRadius + extraLineSize),
           );
 
       sectionsSpaceClearPaint.strokeWidth = data.sectionsSpace;
@@ -143,9 +143,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       final Offset sectionCenterOffset = center +
           Offset(
             math.cos(radians(sectionCenterAngle)) *
-                (data.centerSpaceRadius + (section.radius * section.titlePositionPercentageOffset)),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + (section.radius * section.titlePositionPercentageOffset)),
             math.sin(radians(sectionCenterAngle)) *
-                (data.centerSpaceRadius + (section.radius * section.titlePositionPercentageOffset)),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + (section.radius * section.titlePositionPercentageOffset)),
           );
 
       if (section.showTitle) {
@@ -161,6 +161,24 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
       tempAngle += sweepAngle;
     }
+  }
+
+  double _calculateCenterRadius(Size viewSize, double givenCenterRadius) {
+    if (!givenCenterRadius.isNaN) {
+      return givenCenterRadius;
+    }
+
+    double maxRadius = 0;
+    for (int i = 0; i < data.sections.length; i++) {
+      final section = data.sections[i];
+      if (section.radius > maxRadius) {
+        maxRadius = section.radius;
+      }
+    }
+
+    final minWidthHeight = math.min(viewSize.width, viewSize.height);
+    final centerRadius = (minWidthHeight - (maxRadius * 2)) / 2;
+    return centerRadius;
   }
 
   @override
@@ -206,7 +224,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       final isInDegree = touchAngle >= fromDegree && touchAngle <= toDegree;
 
       /// radius criteria
-      final centerRadius = data.centerSpaceRadius;
+      final centerRadius = _calculateCenterRadius(viewSize, data.centerSpaceRadius);
       final sectionRadius = centerRadius + section.radius;
       final isInRadius = touchR > centerRadius && touchR <= sectionRadius;
 

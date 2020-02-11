@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
-import 'package:flutter/material.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:flutter/material.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -14,6 +14,7 @@ import 'package:fl_chart/src/utils/lerp.dart';
 abstract class AxisChartData extends BaseChartData {
   final FlGridData gridData;
   final FlAxisTitleData axisTitleData;
+  final RangeAnnotations rangeAnnotations;
 
   double minX, maxX;
   double minY, maxY;
@@ -29,6 +30,7 @@ abstract class AxisChartData extends BaseChartData {
     FlBorderData borderData,
     FlTouchData touchData,
     this.axisTitleData,
+    this.rangeAnnotations = const RangeAnnotations(),
     this.minX,
     this.maxX,
     this.minY,
@@ -169,4 +171,68 @@ abstract class TouchedSpot {
   );
 
   Color getColor();
+}
+
+/// HorizontalRangeAnnotation
+class HorizontalRangeAnnotation {
+  final double y1;
+  final double y2;
+  final Color color;
+
+  HorizontalRangeAnnotation({
+    this.y1,
+    this.y2,
+    this.color = Colors.white,
+  });
+
+  static HorizontalRangeAnnotation lerp(
+    HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+    return HorizontalRangeAnnotation(
+      y1: lerpDouble(a.y1, b.y1, t),
+      y2: lerpDouble(a.y2, b.y2, t),
+      color: Color.lerp(a.color, b.color, t),
+    );
+  }
+}
+
+/// VerticalRangeAnnotation
+class VerticalRangeAnnotation {
+  final double x1;
+  final double x2;
+  final Color color;
+
+  VerticalRangeAnnotation({
+    this.x1,
+    this.x2,
+    this.color = Colors.white,
+  });
+
+  static VerticalRangeAnnotation lerp(
+    VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+    return VerticalRangeAnnotation(
+      x1: lerpDouble(a.x1, b.x1, t),
+      x2: lerpDouble(a.x2, b.x2, t),
+      color: Color.lerp(a.color, b.color, t),
+    );
+  }
+}
+
+/// RangeAnnotations
+class RangeAnnotations {
+  final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
+  final List<VerticalRangeAnnotation> verticalRangeAnnotations;
+
+  const RangeAnnotations({
+    this.horizontalRangeAnnotations = const [],
+    this.verticalRangeAnnotations = const [],
+  });
+
+  static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
+    return RangeAnnotations(
+      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
+        a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
+        a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+    );
+  }
 }

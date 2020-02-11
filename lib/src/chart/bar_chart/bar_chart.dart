@@ -119,7 +119,7 @@ class BarChartState extends AnimatedWidgetBaseState<BarChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
+        size: getDefaultSize(MediaQuery.of(context).size),
         painter: BarChartPainter(
           _withTouchedIndicators(_barChartDataTween.evaluate(animation)),
           _withTouchedIndicators(showingData),

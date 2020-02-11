@@ -28,7 +28,7 @@ class PieChartData extends BaseChartData {
 
   PieChartData({
     this.sections = const [],
-    this.centerSpaceRadius = 80,
+    this.centerSpaceRadius = double.nan,
     this.centerSpaceColor = Colors.transparent,
     this.sectionsSpace = 2,
     this.startDegreeOffset = 0,
