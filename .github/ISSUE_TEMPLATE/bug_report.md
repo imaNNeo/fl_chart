@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+** Don't make a duplicate issue.
+You can search in issues to make sure there isn't any already opened issue with your concern.
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
