@@ -104,7 +104,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             }
             return TouchedSpotIndicatorData(
               const FlLine(color: Colors.orange, strokeWidth: 3),
-              const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
+              FlDotData(dotSize: 8, getDotColor: (_) => Colors.deepOrange),
             );
           }).toList();
         },

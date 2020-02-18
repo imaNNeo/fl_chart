@@ -86,7 +86,7 @@ class LineChartSample6 extends StatelessWidget {
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.deepOrange.withOpacity(0.5),
+                      getDotColor: (_) => Colors.deepOrange.withOpacity(0.5),
                       dotSize: 12,
                     ),
                   ),
@@ -104,7 +104,7 @@ class LineChartSample6 extends StatelessWidget {
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.blue.withOpacity(0.5),
+                      getDotColor: (_) => Colors.blue.withOpacity(0.5),
                       dotSize: 12,
                     ),
                   ),
