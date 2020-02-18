@@ -1,3 +1,25 @@
+## 0.8.1
+* yaaay, added some basic unit tests
+* skipped the first and the last grid lines from drawing, #174.
+* prevent to draw touchedSpotDot if `show` is false, #180.
+* improved paint order, more details in #175.
+* added possibility to set `double.nan` in `centerSpaceRadius` for the PieChart to let it to be calculated according to the view size, fixed #179.
+
+## 0.8.0
+* added functionallity to have dashed lines, in everywhere we draw line, there should be a property called `dashArray` (for example check [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata), and see [LineChartSample8](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code))
+* BREAKING CHANGE:
+* swapped [HorizontalExtraLines](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontalline), and [VerticalExtraLines](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#verticalline) functionalities (now it has a well definition)
+* and also removed `showVerticalLines`, and `showHorizontalLines` from [ExtraLinesData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#ExtraLinesData), if the `horizontalLines`, or `verticalLines` is empty we don't show them
+
+## 0.7.0
+* added rangeAnnotations in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to show range annotations, #163.
+* removed `isRound` fiend in the [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) to add more customizability, and fixed #147 bug.
+* fixed sever bug of click on pie chart, #146.
+
+## 0.6.3
+* Fixed drawing borddr bug, #143.
+* Respect text scale factor when drawing text.
+
 ## 0.6.2
 * added `axisTitleData` field to all axis base charts (Line, Bar, Scatter) to show the axes titles, see [LineChartSample4](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-4-source-code) and [LineChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-5-source-code).
 

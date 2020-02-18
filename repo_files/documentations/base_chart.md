@@ -24,13 +24,13 @@
 ### SideTitles
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|showTitles| determines to show or hide the titles | false|
+|showTitles| determines whether to show or hide the titles | false|
 |getTitles| a function to retrieve the title with given value on the related axis|defaultGetTitle|
 |reservedSize| a reserved space to show titles|22|
-|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of texts |TextStyle(color: Colors.black, fontSize: 11)|
-|margin| margin of horizontal the titles | 6|
-|interval| interval between of showing titles in this side  | 1.0 |
-|rotateAngle| the clockwise angle of rotating title in degree   | 0.0 |
+|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) the style to use for title text |TextStyle(color: Colors.black, fontSize: 11)|
+|margin| margin between each title | 6|
+|interval| interval to display each title on a side  | 1.0 |
+|rotateAngle| the clockwise angle of rotating title in degrees   | 0.0 |
 
 
 
@@ -67,10 +67,11 @@ currently we have these touch behaviors:
 
 
 ### FlLine
-|propName|Description|default valkue|
+|propName|Description|default value|
 |:-------|:----------|:------------|
 |color|determines the color of line|Colors.black|
 |strokeWidth|determines the stroke width of the line|2|
+|dashArray|A circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
 
 
 ### TouchedSpot
@@ -104,3 +105,26 @@ Can be used to display a title text for each axis. Titles for the vertical axes 
 |margin| margin between the axis text and inner elements ([SideTitles](#SideTitles) or the chart) | `4`|
 |textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of the text | `TextStyle(color: Colors.black, fontSize: 11)`|
 |textAlign| [TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) to determine the alignment of the text | `TextAlign.center`|
+
+
+### RangeAnnotations
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|horizontalRangeAnnotations|list of [horizontalRangeAnnotation](#HorizontalRangeAnnotation) to draw on the chart|[]|
+|verticalRangeAnnotations|list of [VerticalRangeAnnotation](#VerticalRangeAnnotation) to draw on the chart|[]|
+
+
+### HorizontalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|y1|start interval of horizontal rectangle|null|
+|y2|end interval of horizontal rectangle|null|
+|color|color of the rectangle|Colors.white|
+
+
+### VerticalRangeAnnotation
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|x1|start interval of vertical rectangle|null|
+|x2|end interval of vertical rectangle|null|
+|color|color of the rectangle|Colors.white|

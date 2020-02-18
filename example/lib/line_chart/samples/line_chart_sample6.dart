@@ -167,13 +167,14 @@ class LineChartSample6 extends StatelessWidget {
                       return true;
                     }),
                 borderData: FlBorderData(
-                    show: true,
-                    border: Border(
-                      left: BorderSide(color: Colors.black),
-                      top: BorderSide(color: Colors.black),
-                      bottom: BorderSide(color: Colors.transparent),
-                      right: BorderSide(color: Colors.transparent),
-                    )),
+                  show: true,
+                  border: Border(
+                    left: BorderSide(color: Colors.black),
+                    top: BorderSide(color: Colors.black),
+                    bottom: BorderSide(color: Colors.transparent),
+                    right: BorderSide(color: Colors.transparent),
+                  ),
+                ),
               ),
             ),
           ),

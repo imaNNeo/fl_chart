@@ -29,10 +29,11 @@ class LineChartData extends AxisChartData {
     this.titlesData = const FlTitlesData(),
     this.extraLinesData = const ExtraLinesData(),
     this.lineTouchData = const LineTouchData(),
-    this.showingTooltipIndicators = const[],
+    this.showingTooltipIndicators = const [],
     FlGridData gridData = const FlGridData(),
     FlBorderData borderData,
     FlAxisTitleData axisTitleData = const FlAxisTitleData(),
+    RangeAnnotations rangeAnnotations = const RangeAnnotations(),
     double minX,
     double maxX,
     double minY,
@@ -44,6 +45,7 @@ class LineChartData extends AxisChartData {
           touchData: lineTouchData,
           borderData: borderData,
           axisTitleData: axisTitleData,
+          rangeAnnotations: rangeAnnotations,
           clipToBorder: clipToBorder,
           backgroundColor: backgroundColor,
         ) {
@@ -131,6 +133,7 @@ class LineChartData extends AxisChartData {
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
+        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
         betweenBarsData: lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
         lineTouchData: b.lineTouchData,
@@ -146,6 +149,7 @@ class LineChartData extends AxisChartData {
     List<BetweenBarsData> betweenBarsData,
     FlTitlesData titlesData,
     FlAxisTitleData axisTitleData,
+    RangeAnnotations rangeAnnotations,
     ExtraLinesData extraLinesData,
     LineTouchData lineTouchData,
     List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
@@ -163,6 +167,7 @@ class LineChartData extends AxisChartData {
       betweenBarsData: betweenBarsData ?? this.betweenBarsData,
       titlesData: titlesData ?? this.titlesData,
       axisTitleData: axisTitleData ?? this.axisTitleData,
+      rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
       extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
       showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
@@ -231,6 +236,8 @@ class LineChartBarData {
   /// show indicators based on provided indexes
   final List<int> showingIndicators;
 
+  final List<int> dashArray;
+
   const LineChartBarData({
     this.spots = const [],
     this.show = true,
@@ -247,6 +254,7 @@ class LineChartBarData {
     this.aboveBarData = const BarAreaData(),
     this.dotData = const FlDotData(),
     this.showingIndicators = const [],
+    this.dashArray,
   });
 
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
@@ -259,6 +267,7 @@ class LineChartBarData {
       isStrokeCapRound: b.isStrokeCapRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
@@ -283,6 +292,7 @@ class LineChartBarData {
     BarAreaData belowBarData,
     BarAreaData aboveBarData,
     FlDotData dotData,
+    List<int> dashArray,
     List<int> showingIndicators,
   }) {
     return LineChartBarData(
@@ -299,11 +309,11 @@ class LineChartBarData {
       isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
       belowBarData: belowBarData ?? this.belowBarData,
       aboveBarData: aboveBarData ?? this.aboveBarData,
+      dashArray: dashArray ?? this.dashArray,
       dotData: dotData ?? this.dotData,
       showingIndicators: showingIndicators ?? this.showingIndicators,
     );
   }
-
 }
 
 /// holds the details of a [FlSpot] inside a [LineChartBarData]
@@ -312,9 +322,12 @@ class LineBarSpot extends FlSpot {
   final int barIndex;
   final int spotIndex;
 
-  LineBarSpot(this.bar, this.barIndex, FlSpot spot,)
-    :spotIndex = bar.spots.indexOf(spot),
-      super(spot.x, spot.y);
+  LineBarSpot(
+    this.bar,
+    this.barIndex,
+    FlSpot spot,
+  )   : spotIndex = bar.spots.indexOf(spot),
+        super(spot.x, spot.y);
 }
 
 /***** BarAreaData *****/
@@ -377,7 +390,6 @@ class BarAreaData {
 /***** BarAreaData *****/
 /// This class holds data about draw on below or above space of the bar line,
 class BetweenBarsData {
-
   /// The index of the lineBarsData from where the area has to be rendered
   final int fromIndex;
 
@@ -401,7 +413,6 @@ class BetweenBarsData {
   /// if more than one color provided gradientColorStops will hold
   /// stop points of the gradient.
   final List<double> gradientColorStops;
-
 
   const BetweenBarsData({
     @required this.fromIndex,
@@ -495,42 +506,46 @@ class FlDotData {
   }
 }
 
-/// horizontal lines draw from bottom to top of the chart,
-/// and the x is dynamic
+/// horizontal lines draw from left to right of the chart,
+/// and the y is dynamic
 class HorizontalLine extends FlLine {
-  final double x;
+  final double y;
 
   HorizontalLine({
-    this.x,
+    this.y,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    List<int> dashArray,
+  }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
-      x: lerpDouble(a.x, b.x, t),
+      y: lerpDouble(a.y, b.y, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
 }
 
-/// vertical lines draw from left to right of the chart
-/// and the y is dynamic
+/// vertical lines draw from bottom to top of the chart
+/// and the x is dynamic
 class VerticalLine extends FlLine {
-  final double y;
+  final double x;
 
   VerticalLine({
-    this.y,
+    this.x,
     Color color = Colors.black,
     double strokeWidth = 2,
-  }) : super(color: color, strokeWidth: strokeWidth);
+    List<int> dashArray,
+  }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
-      y: lerpDouble(a.y, b.y, t),
+      x: lerpDouble(a.x, b.x, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
 }
@@ -539,23 +554,19 @@ class VerticalLine extends FlLine {
 /// for example if you want show the average values of the y axis,
 /// you can calculate the average and draw a vertical line by setting the y.
 class ExtraLinesData {
-  final bool showHorizontalLines;
   final List<HorizontalLine> horizontalLines;
-
-  final bool showVerticalLines;
   final List<VerticalLine> verticalLines;
 
-  const ExtraLinesData({
-    this.showHorizontalLines = false,
-    this.horizontalLines = const [],
-    this.showVerticalLines = false,
-    this.verticalLines = const [],
-  });
+  final bool extraLinesOnTop;
+
+  const ExtraLinesData(
+      {this.horizontalLines = const [],
+      this.verticalLines = const [],
+      this.extraLinesOnTop = true});
 
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
     return ExtraLinesData(
-      showHorizontalLines: b.showHorizontalLines,
-      showVerticalLines: b.showVerticalLines,
+      extraLinesOnTop: b.extraLinesOnTop,
       horizontalLines: lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
       verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
     );
@@ -644,7 +655,6 @@ class LineTouchData extends FlTouchData {
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
-
 }
 
 /// Holds information for showing tooltip on axis based charts
@@ -660,8 +670,7 @@ class LineTouchTooltipData {
   const LineTouchTooltipData({
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
-    this.tooltipPadding =
-    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
@@ -672,11 +681,9 @@ class LineTouchTooltipData {
 /// return null if you don't want to show each item
 /// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
 /// here we get the [LineTooltipItem] from the given [TouchedSpot].
-typedef GetLineTooltipItems = List<LineTooltipItem> Function(
-  List<LineBarSpot> touchedSpots);
+typedef GetLineTooltipItems = List<LineTooltipItem> Function(List<LineBarSpot> touchedSpots);
 
-List<LineTooltipItem> defaultLineTooltipItem (
-  List<LineBarSpot> touchedSpots) {
+List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
   if (touchedSpots == null) {
     return null;
   }
@@ -725,12 +732,9 @@ class LineTouchResponse extends BaseTouchResponse {
   ) : super(touchInput);
 }
 
-
 class LineChartDataTween extends Tween<LineChartData> {
-
   LineChartDataTween({LineChartData begin, LineChartData end}) : super(begin: begin, end: end);
 
   @override
   LineChartData lerp(double t) => begin.lerp(begin, end, t);
-
 }

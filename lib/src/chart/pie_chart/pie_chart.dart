@@ -76,8 +76,8 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -120,7 +120,7 @@ class PieChartState extends AnimatedWidgetBaseState<PieChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
+        size: getDefaultSize(MediaQuery.of(context).size),
         painter: PieChartPainter(
           _pieChartDataTween.evaluate(animation),
           showingData,

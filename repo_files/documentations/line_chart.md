@@ -20,6 +20,7 @@ LineChart(
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
+|rangeAnnotations| show range annotations behind the chart, check [base_chart.md#RangeAnnotations](RangeAnnotations) | RangeAnnotations()|
 |showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot]| {} |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
@@ -49,6 +50,7 @@ LineChart(
 |aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
 |showingIndicators| show indicators based on provided indexes | []|
+|dashArray|A circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
 
 ### BetweenBarsData
 |PropName|Description|default value|
@@ -93,7 +95,7 @@ LineChart(
 ### HorizontalLine
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|x|draw straight line from bottom to top of the chart with dynamic x value|null|
+|y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 
@@ -101,7 +103,7 @@ LineChart(
 ### VerticalLine
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|x|draw straight line from left to right of the chart with dynamic y value|null|
+|x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
 
@@ -109,9 +111,8 @@ LineChart(
 ### ExtraLinesData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|showHorizontalLines|determines to show or hide the horizontal lines|false|
+|extraLinesOnTop|determines to paint the extraLines over the trendline or below it|true|
 |horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
-|showVerticalLines|determines to show or hide the vertical lines|false|
 |verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
 
 
@@ -198,3 +199,7 @@ LineChart(
 
 ##### Sample 7 ([Source Code](/example/lib/line_chart/samples/line_chart_sample7.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_7.png" width="300" >
+
+
+##### Sample 8 ([Source Code](/example/lib/line_chart/samples/line_chart_sample8.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >

@@ -66,13 +66,13 @@ class LineChartSample3 extends StatelessWidget {
                           }
 
                           return LineTooltipItem(
-                            '${weekDays[flSpot.x.toInt()]} \n${flSpot.y} k colories',
+                            '${weekDays[flSpot.x.toInt()]} \n${flSpot.y} k calories',
                             const TextStyle(color: Colors.white),
                           );
                         }).toList();
                       })),
-              extraLinesData: ExtraLinesData(showVerticalLines: true, verticalLines: [
-                VerticalLine(
+              extraLinesData: ExtraLinesData(horizontalLines: [
+                HorizontalLine(
                   y: 1.8,
                   color: Colors.green.withOpacity(0.7),
                   strokeWidth: 4,
@@ -95,27 +95,29 @@ class LineChartSample3 extends StatelessWidget {
                     Colors.orange,
                   ],
                   belowBarData: BarAreaData(
+                    show: true,
+                    colors: [
+                      Colors.orange.withOpacity(0.5),
+                      Colors.orange.withOpacity(0.0),
+                    ],
+                    gradientColorStops: [0.5, 1.0],
+                    gradientFrom: const Offset(0, 0),
+                    gradientTo: const Offset(0, 1),
+                    spotsLine: BarAreaSpotsLine(
                       show: true,
-                      colors: [
-                        Colors.orange.withOpacity(0.5),
-                        Colors.orange.withOpacity(0.0),
-                      ],
-                      gradientColorStops: [0.5, 1.0],
-                      gradientFrom: const Offset(0, 0),
-                      gradientTo: const Offset(0, 1),
-                      spotsLine: BarAreaSpotsLine(
-                          show: true,
-                          flLineStyle: const FlLine(
-                            color: Colors.blue,
-                            strokeWidth: 2,
-                          ),
-                          checkToShowSpotLine: (spot) {
-                            if (spot.x == 0 || spot.x == 6) {
-                              return false;
-                            }
+                      flLineStyle: const FlLine(
+                        color: Colors.blue,
+                        strokeWidth: 2,
+                      ),
+                      checkToShowSpotLine: (spot) {
+                        if (spot.x == 0 || spot.x == 6) {
+                          return false;
+                        }
 
-                            return true;
-                          })),
+                        return true;
+                      },
+                    ),
+                  ),
                   dotData: FlDotData(
                       show: true,
                       dotColor: Colors.deepOrange,
@@ -158,35 +160,36 @@ class LineChartSample3 extends StatelessWidget {
                 },
               ),
               titlesData: FlTitlesData(
-                  show: true,
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return '';
-                        case 1:
-                          return '1k colories';
-                        case 2:
-                          return '2k colories';
-                        case 3:
-                          return '3k colories';
-                      }
+                show: true,
+                leftTitles: SideTitles(
+                  showTitles: true,
+                  getTitles: (value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return '';
+                      case 1:
+                        return '1k calories';
+                      case 2:
+                        return '2k calories';
+                      case 3:
+                        return '3k calories';
+                    }
 
-                      return '';
-                    },
-                    textStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                    return '';
+                  },
+                  textStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                ),
+                bottomTitles: SideTitles(
+                  showTitles: true,
+                  getTitles: (value) {
+                    return weekDays[value.toInt()];
+                  },
+                  textStyle: const TextStyle(
+                    color: Colors.deepOrange,
+                    fontWeight: FontWeight.bold,
                   ),
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (value) {
-                      return weekDays[value.toInt()];
-                    },
-                    textStyle: const TextStyle(
-                      color: Colors.deepOrange,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
+                ),
+              ),
             ),
           ),
         ),

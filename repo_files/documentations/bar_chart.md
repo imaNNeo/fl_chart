@@ -19,6 +19,7 @@ BarChart(
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
+|rangeAnnotations| show range annotations behind the chart, check [base_chart.md#RangeAnnotations](RangeAnnotations) | RangeAnnotations()|
 |backgroundColor| a background color which is drawn behind the chart| null |
 |barTouchData| [BarTouchData](#BarTouchData) holds the touch interactivity details|BarTouchData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
@@ -45,7 +46,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |y|endY position of the bar on vertical axis (height of the bar)|null|
 |color|colors the rod bar|Colors.blueAccent|
 |width|stroke width of the rod bar|8|
-|isRound|determines that the bar lines is round or qubic |true|
+|borderRadius|Determines the edge rounding of the bar corners, see [BorderRadius](https://api.flutter.dev/flutter/painting/BorderRadius-class.html). When `null`, it defaults to completely round bars. |null|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
 |rodStackItem|if you want to have stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
 

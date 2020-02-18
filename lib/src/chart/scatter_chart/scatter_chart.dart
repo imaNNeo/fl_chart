@@ -26,7 +26,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   TouchHandler<ScatterTouchResponse> _touchHandler;
 
   final GlobalKey _chartKey = GlobalKey();
-  
+
   List<int> touchedSpots = [];
 
   @override
@@ -77,8 +77,8 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
           return;
         }
 
-        final ScatterTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
+        final ScatterTouchResponse response = _touchHandler?.handleTouch(
+            FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -121,7 +121,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
+        size: getDefaultSize(MediaQuery.of(context).size),
         painter: ScatterChartPainter(
           _withTouchedIndicators(_scatterChartDataTween.evaluate(animation)),
           _withTouchedIndicators(showingData),
@@ -145,7 +145,8 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       return scatterChartData;
     }
 
-    if (!scatterChartData.scatterTouchData.enabled || !scatterChartData.scatterTouchData.handleBuiltInTouches) {
+    if (!scatterChartData.scatterTouchData.enabled ||
+        !scatterChartData.scatterTouchData.handleBuiltInTouches) {
       return scatterChartData;
     }
 
