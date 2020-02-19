@@ -502,6 +502,7 @@ class FlDotData {
       checkToShowDot: b.checkToShowDot,
       dotSize: lerpDouble(a.dotSize, b.dotSize, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      getDotColor: b.getDotColor,
     );
   }
 }
