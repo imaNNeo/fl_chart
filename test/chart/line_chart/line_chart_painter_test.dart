@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('chart usable size', () {
+  group('LineChart usable size', () {
     test('test 1', () {
       const viewSize = Size(728, 728);
 
