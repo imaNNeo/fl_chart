@@ -618,6 +618,9 @@ class LineTouchData extends FlTouchData {
   /// (show a tooltip bubble and an indicator on touched spots)
   final bool handleBuiltInTouches;
 
+  /// if you want the touchline to reach the top of the chart
+  final bool fullHeightTouchLine;
+
   /// you can implement it to receive touches callback
   final Function(LineTouchResponse) touchCallback;
 
@@ -627,6 +630,7 @@ class LineTouchData extends FlTouchData {
     this.touchTooltipData = const LineTouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
+    this.fullHeightTouchLine = false,
     this.handleBuiltInTouches = true,
     this.touchCallback,
   }) : super(enabled, enableNormalTouch);
@@ -634,6 +638,7 @@ class LineTouchData extends FlTouchData {
   LineTouchData copyWith({
     bool enabled,
     bool enableNormalTouch,
+    bool fullHeightTouchLine,
     LineTouchTooltipData touchTooltipData,
     GetTouchedSpotIndicator getTouchedSpotIndicator,
     double touchSpotThreshold,
@@ -642,6 +647,7 @@ class LineTouchData extends FlTouchData {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
       enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
+      fullHeightTouchLine: fullHeightTouchLine ?? this.fullHeightTouchLine,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
