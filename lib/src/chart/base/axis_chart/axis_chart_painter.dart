@@ -37,6 +37,18 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     drawGrid(canvas, size);
   }
 
+  void paintCustomGrid(Canvas canvas, Size size, bool showEdge, bool showGrid) {
+    if (showEdge) {
+      super.paint(canvas, size);
+    }
+
+    if (showGrid) {
+      drawGrid(canvas, size);
+    }
+
+    drawRangeAnnotation(canvas, size);
+  }
+
   /// allow descendants of the class to call the superclass
   void superBorderPaint(Canvas canvas, Size size) {
     super.paint(canvas, size);
@@ -258,7 +270,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
         final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
         final Offset to = Offset(
-          getPixelX(annotation.x2, chartUsableSize), viewSize.height - bottomChartPadding); //9
+            getPixelX(annotation.x2, chartUsableSize), viewSize.height - bottomChartPadding); //9
 
         final Rect rect = Rect.fromPoints(from, to);
 
@@ -270,13 +282,13 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
     if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
       for (HorizontalRangeAnnotation annotation
-      in data.rangeAnnotations.horizontalRangeAnnotations) {
+          in data.rangeAnnotations.horizontalRangeAnnotations) {
         final double leftChartPadding = getLeftOffsetDrawSize();
         final Offset from = Offset(leftChartPadding, getPixelY(annotation.y1, chartUsableSize));
 
         final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
         final Offset to =
-        Offset(viewSize.width - rightChartPadding, getPixelY(annotation.y2, chartUsableSize));
+            Offset(viewSize.width - rightChartPadding, getPixelY(annotation.y2, chartUsableSize));
 
         final Rect rect = Rect.fromPoints(from, to);
 

@@ -79,7 +79,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
     }
 
-    super.paint(canvas, size);
+    if (data.showGridLine && data.showEdgeLine) {
+      super.paint(canvas, size);
+    } else {
+      paintCustomGrid(canvas, size, data.showEdgeLine, data.showGridLine);
+    }
 
     for (BetweenBarsData betweenBarsData in data.betweenBarsData) {
       drawBetweenBarsArea(canvas, size, data, betweenBarsData);

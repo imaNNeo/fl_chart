@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 /// [ExtraLinesData] to draw extra horizontal and vertical lines on the chart
 /// [LineTouchData] holds data to handling touch and interactions
 /// [showingTooltipIndicators] show the tooltip based on provided position(x), and list of [LineBarSpot]
+/// [showGridLine] show grid line of background chart
+/// [showEdgeLine] show edge line of chart
 class LineChartData extends AxisChartData {
   final List<LineChartBarData> lineBarsData;
   final List<BetweenBarsData> betweenBarsData;
@@ -22,33 +24,36 @@ class LineChartData extends AxisChartData {
   final ExtraLinesData extraLinesData;
   final LineTouchData lineTouchData;
   final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
+  final bool showGridLine;
+  final bool showEdgeLine;
 
-  LineChartData({
-    this.lineBarsData = const [],
-    this.betweenBarsData = const [],
-    this.titlesData = const FlTitlesData(),
-    this.extraLinesData = const ExtraLinesData(),
-    this.lineTouchData = const LineTouchData(),
-    this.showingTooltipIndicators = const [],
-    FlGridData gridData = const FlGridData(),
-    FlBorderData borderData,
-    FlAxisTitleData axisTitleData = const FlAxisTitleData(),
-    RangeAnnotations rangeAnnotations = const RangeAnnotations(),
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-    bool clipToBorder = false,
-    Color backgroundColor,
-  }) : super(
-          gridData: gridData,
-          touchData: lineTouchData,
-          borderData: borderData,
-          axisTitleData: axisTitleData,
-          rangeAnnotations: rangeAnnotations,
-          clipToBorder: clipToBorder,
-          backgroundColor: backgroundColor,
-        ) {
+  LineChartData(
+      {this.lineBarsData = const [],
+      this.betweenBarsData = const [],
+      this.titlesData = const FlTitlesData(),
+      this.extraLinesData = const ExtraLinesData(),
+      this.lineTouchData = const LineTouchData(),
+      this.showingTooltipIndicators = const [],
+      this.showGridLine = true,
+      this.showEdgeLine = true,
+      FlGridData gridData = const FlGridData(),
+      FlBorderData borderData,
+      FlAxisTitleData axisTitleData = const FlAxisTitleData(),
+      RangeAnnotations rangeAnnotations = const RangeAnnotations(),
+      double minX,
+      double maxX,
+      double minY,
+      double maxY,
+      bool clipToBorder = false,
+      Color backgroundColor})
+      : super(
+            gridData: gridData,
+            touchData: lineTouchData,
+            borderData: borderData,
+            axisTitleData: axisTitleData,
+            rangeAnnotations: rangeAnnotations,
+            clipToBorder: clipToBorder,
+            backgroundColor: backgroundColor) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
 
@@ -122,64 +127,67 @@ class LineChartData extends AxisChartData {
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is LineChartData && b is LineChartData && t != null) {
       return LineChartData(
-        minX: lerpDouble(a.minX, b.minX, t),
-        maxX: lerpDouble(a.maxX, b.maxX, t),
-        minY: lerpDouble(a.minY, b.minY, t),
-        maxY: lerpDouble(a.maxY, b.maxY, t),
-        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
-        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        clipToBorder: b.clipToBorder,
-        extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
-        gridData: FlGridData.lerp(a.gridData, b.gridData, t),
-        titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
-        axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
-        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
-        lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
-        betweenBarsData: lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
-        lineTouchData: b.lineTouchData,
-        showingTooltipIndicators: b.showingTooltipIndicators,
-      );
+          minX: lerpDouble(a.minX, b.minX, t),
+          maxX: lerpDouble(a.maxX, b.maxX, t),
+          minY: lerpDouble(a.minY, b.minY, t),
+          maxY: lerpDouble(a.maxY, b.maxY, t),
+          backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+          borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+          clipToBorder: b.clipToBorder,
+          extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
+          gridData: FlGridData.lerp(a.gridData, b.gridData, t),
+          titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+          axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
+          rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
+          lineBarsData: lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
+          betweenBarsData: lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
+          lineTouchData: b.lineTouchData,
+          showingTooltipIndicators: b.showingTooltipIndicators,
+          showGridLine: b.showGridLine,
+          showEdgeLine: b.showEdgeLine);
     } else {
       throw Exception('Illegal State');
     }
   }
 
-  LineChartData copyWith({
-    List<LineChartBarData> lineBarsData,
-    List<BetweenBarsData> betweenBarsData,
-    FlTitlesData titlesData,
-    FlAxisTitleData axisTitleData,
-    RangeAnnotations rangeAnnotations,
-    ExtraLinesData extraLinesData,
-    LineTouchData lineTouchData,
-    List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
-    FlGridData gridData,
-    FlBorderData borderData,
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-    bool clipToBorder,
-    Color backgroundColor,
-  }) {
+  LineChartData copyWith(
+      {List<LineChartBarData> lineBarsData,
+      List<BetweenBarsData> betweenBarsData,
+      FlTitlesData titlesData,
+      FlAxisTitleData axisTitleData,
+      RangeAnnotations rangeAnnotations,
+      ExtraLinesData extraLinesData,
+      LineTouchData lineTouchData,
+      List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
+      bool showGridLine,
+      bool showEdgeLine,
+      FlGridData gridData,
+      FlBorderData borderData,
+      double minX,
+      double maxX,
+      double minY,
+      double maxY,
+      bool clipToBorder,
+      Color backgroundColor}) {
     return LineChartData(
-      lineBarsData: lineBarsData ?? this.lineBarsData,
-      betweenBarsData: betweenBarsData ?? this.betweenBarsData,
-      titlesData: titlesData ?? this.titlesData,
-      axisTitleData: axisTitleData ?? this.axisTitleData,
-      rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
-      extraLinesData: extraLinesData ?? this.extraLinesData,
-      lineTouchData: lineTouchData ?? this.lineTouchData,
-      showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
-      gridData: gridData ?? this.gridData,
-      borderData: borderData ?? this.borderData,
-      minX: minX ?? this.minX,
-      maxX: maxX ?? this.maxX,
-      minY: minY ?? this.minY,
-      maxY: maxY ?? this.maxY,
-      clipToBorder: clipToBorder ?? this.clipToBorder,
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-    );
+        lineBarsData: lineBarsData ?? this.lineBarsData,
+        betweenBarsData: betweenBarsData ?? this.betweenBarsData,
+        titlesData: titlesData ?? this.titlesData,
+        axisTitleData: axisTitleData ?? this.axisTitleData,
+        rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
+        extraLinesData: extraLinesData ?? this.extraLinesData,
+        lineTouchData: lineTouchData ?? this.lineTouchData,
+        showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
+        showGridLine: showGridLine ?? this.showGridLine,
+        showEdgeLine: showEdgeLine ?? this.showEdgeLine,
+        gridData: gridData ?? this.gridData,
+        borderData: borderData ?? this.borderData,
+        minX: minX ?? this.minX,
+        maxX: maxX ?? this.maxX,
+        minY: minY ?? this.minY,
+        maxY: maxY ?? this.maxY,
+        clipToBorder: clipToBorder ?? this.clipToBorder,
+        backgroundColor: backgroundColor ?? this.backgroundColor);
   }
 }
 
@@ -484,14 +492,13 @@ class FlDotData {
   /// for example you can draw just the last spot dot.
   final CheckToShowDot checkToShowDot;
 
-  const FlDotData({
-    this.show = true,
-    this.dotColor = Colors.blue,
-    this.dotSize = 4.0,
-    this.checkToShowDot = showAllDots,
-    this.showData = false,
-    this.dataStyle = const TextStyle(color: Colors.blue)
-  });
+  const FlDotData(
+      {this.show = true,
+      this.dotColor = Colors.blue,
+      this.dotSize = 4.0,
+      this.checkToShowDot = showAllDots,
+      this.showData = false,
+      this.dataStyle = const TextStyle(color: Colors.blue)});
 
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
     return FlDotData(

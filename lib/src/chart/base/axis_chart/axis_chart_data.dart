@@ -25,19 +25,19 @@ abstract class AxisChartData extends BaseChartData {
   /// A background color which is drawn behind th chart.
   Color backgroundColor;
 
-  AxisChartData({
-    this.gridData = const FlGridData(),
-    FlBorderData borderData,
-    FlTouchData touchData,
-    this.axisTitleData,
-    this.rangeAnnotations = const RangeAnnotations(),
-    this.minX,
-    this.maxX,
-    this.minY,
-    this.maxY,
-    this.clipToBorder = false,
-    this.backgroundColor,
-  }) : super(borderData: borderData, touchData: touchData);
+  AxisChartData(
+      {this.gridData = const FlGridData(),
+      FlBorderData borderData,
+      FlTouchData touchData,
+      this.axisTitleData,
+      this.rangeAnnotations = const RangeAnnotations(),
+      this.minX,
+      this.maxX,
+      this.minY,
+      this.maxY,
+      this.clipToBorder = false,
+      this.backgroundColor})
+      : super(borderData: borderData, touchData: touchData);
 }
 
 /***** Spot *****/
@@ -186,7 +186,7 @@ class HorizontalRangeAnnotation {
   });
 
   static HorizontalRangeAnnotation lerp(
-    HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+      HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
     return HorizontalRangeAnnotation(
       y1: lerpDouble(a.y1, b.y1, t),
       y2: lerpDouble(a.y2, b.y2, t),
@@ -208,7 +208,7 @@ class VerticalRangeAnnotation {
   });
 
   static VerticalRangeAnnotation lerp(
-    VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+      VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
     return VerticalRangeAnnotation(
       x1: lerpDouble(a.x1, b.x1, t),
       x2: lerpDouble(a.x2, b.x2, t),
@@ -230,9 +230,9 @@ class RangeAnnotations {
   static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
       horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
-        a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+          a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
       verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
-        a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+          a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
 }
