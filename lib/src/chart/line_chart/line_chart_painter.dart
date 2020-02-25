@@ -176,8 +176,21 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     for (int i = 0; i < barData.spots.length; i++) {
       final FlSpot spot = barData.spots[i];
       if (barData.dotData.checkToShowDot(spot)) {
+        final String text = spot.y.toString();
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
+
+        if (barData.dotData.showData) {
+          final TextSpan span = TextSpan(style: barData.dotData.dataStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout();
+          tp.paint(canvas, Offset(x - 15, y - 25));
+        }
+
         dotPaint.color = barData.dotData.dotColor;
         canvas.drawCircle(Offset(x, y), barData.dotData.dotSize, dotPaint);
       }

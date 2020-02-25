@@ -477,6 +477,8 @@ class FlDotData {
   final bool show;
   final Color dotColor;
   final double dotSize;
+  final bool showData;
+  final TextStyle dataStyle;
 
   /// with this field you can determine which dot should show,
   /// for example you can draw just the last spot dot.
@@ -487,6 +489,8 @@ class FlDotData {
     this.dotColor = Colors.blue,
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
+    this.showData = false,
+    this.dataStyle = const TextStyle(color: Colors.blue)
   });
 
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
