@@ -205,23 +205,28 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
+      /// For drawing the dot
       final Offset touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
 
-      /// Draw the indicator line
+      /// For drawing the indicator line
       final from = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
-      final to = touchedSpot;
+      final top = Offset(getPixelX(spot.x, chartViewSize), getTopOffsetDrawSize());
+
+      /// Draw to top or to the touchedSpot
+      final Offset lineEnd = data.lineTouchData.fullHeightTouchLine ? top : touchedSpot;
 
       touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
-      canvas.drawDashedLine(from, to, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
+      canvas.drawDashedLine(
+          from, lineEnd, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
       if (indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show) {
         final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
         dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
-        canvas.drawCircle(to, selectedSpotDotSize, dotPaint);
+        canvas.drawCircle(touchedSpot, selectedSpotDotSize, dotPaint);
       }
     }
   }
