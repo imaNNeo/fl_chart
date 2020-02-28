@@ -57,22 +57,37 @@ class _LineChartSample8State extends State<LineChartSample8> {
         ],
       ),
       // uncomment to see ExtraLines with RangeAnnotations
-      // extraLinesData: ExtraLinesData(
-      //   extraLinesOnTop: true,
-      //   showHorizontalLines: true,
-      //   horizontalLines: [
-      //     HorizontalLine(
-      //       x: 2.5,
-      //       color: Color.fromRGBO(197, 210, 214, 1),
-      //       strokeWidth: 2,
-      //     ),
-      //     HorizontalLine(
-      //       x: 8.5,
-      //       color: Color.fromRGBO(197, 210, 214, 1),
-      //       strokeWidth: 2,
-      //     ),
-      //   ],
-      // ),
+      extraLinesData: ExtraLinesData(
+//         extraLinesOnTop: true,
+        horizontalLines: [
+          HorizontalLine(
+            y: 5,
+            color: Color.fromRGBO(197, 210, 214, 1),
+            strokeWidth: 2,
+            dashArray: [5, 10],
+            label: HorizontalLineLabel(
+              alignment: Alignment.topRight,
+              padding: EdgeInsets.only(right: 5, bottom: 5),
+              style: const TextStyle(color: Colors.black, fontSize: 9),
+              labelResolver: (line) => 'H: ${line.y}',
+            ),
+          ),
+        ],
+        verticalLines: [
+          VerticalLine(
+            x: 5.5,
+            color: Color.fromRGBO(197, 210, 214, 1),
+            strokeWidth: 2,
+            dashArray: [5, 10],
+            label: VerticalLineLabel(
+              alignment: Alignment.topRight,
+              padding: EdgeInsets.only(left: 10, top: 5),
+              style: const TextStyle(color: Colors.black, fontSize: 9),
+              labelResolver: (line) => 'V: ${line.x}',
+            ),
+          ),
+        ],
+      ),
       gridData: FlGridData(
           show: true, drawVerticalLine: false, drawHorizontalLine: false, verticalInterval: 1),
       titlesData: FlTitlesData(

@@ -1,4 +1,5 @@
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
@@ -804,6 +805,35 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.label != null) {
+          final HorizontalLineLabel label = line.label;
+          final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
+          final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
+
+          final TextSpan span = TextSpan(
+            text: label.labelResolver(line),
+            style: style,
+          );
+
+          final TextPainter tp = TextPainter(
+            text: span,
+            textDirection: TextDirection.ltr,
+          );
+
+          tp.layout();
+          tp.paint(
+            canvas,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx + padding.left,
+                from.dy - padding.bottom - tp.height,
+                to.dx - padding.right - tp.width,
+                to.dy + padding.top,
+              ),
+            ),
+          );
+        }
       }
     }
 
@@ -820,6 +850,36 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.label != null) {
+          final VerticalLineLabel label = line.label;
+          final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
+          final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
+
+          final TextSpan span = TextSpan(
+            text: label.labelResolver(line),
+            style: style,
+          );
+
+          final TextPainter tp = TextPainter(
+            text: span,
+            textDirection: TextDirection.ltr,
+          );
+
+          tp.layout();
+
+          tp.paint(
+            canvas,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                to.dx - padding.right - tp.width,
+                from.dy + padding.top - topChartPadding,
+                from.dx + padding.left,
+                to.dy - padding.bottom + bottomChartPadding,
+              ),
+            ),
+          );
+        }
       }
     }
   }
