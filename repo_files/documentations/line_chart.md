@@ -21,7 +21,7 @@ LineChart(
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
 |rangeAnnotations| show range annotations behind the chart, check [base_chart.md#RangeAnnotations](RangeAnnotations) | RangeAnnotations()|
-|showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot]| {} |
+|showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot](#LineBarSpot)| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
@@ -100,6 +100,7 @@ LineChart(
 |strokeWidth|strokeWidth of the line|2|
 |image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
 |sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
+|label|a [HorizontalLineLabel](#HorizontalLineLabel) object with label parameters|null
 
 
 ### VerticalLine
@@ -118,6 +119,24 @@ LineChart(
 |Picture|a Dart UI Picture which should be derived from the svg. see example for how to get a Picture from an svg.|null|
 |width|the width of the picture|null|
 |height|the height of the picture|null|
+|label|a [VerticalLineLabel](#VerticalLineLabel) object with label parameters|null
+
+
+### HorizontalLineLabel
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
+|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|labelResolver|Getter function returning label title|defaultLineLabelResolver|
+
+### VerticalLineLabel
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
+|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|labelResolver|Getter function returning label title|defaultLineLabelResolver|
 
 
 

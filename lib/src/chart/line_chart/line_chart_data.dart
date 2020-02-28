@@ -505,9 +505,11 @@ class HorizontalLine extends FlLine {
   final double y;
   Image image;
   SizedPicture sizedPicture;
+  final HorizontalLineLabel label;
 
   HorizontalLine({
     this.y,
+    this.label,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -533,9 +535,11 @@ class VerticalLine extends FlLine {
   final double x;
   Image image;
   SizedPicture sizedPicture;
+  final VerticalLineLabel label;
 
   VerticalLine({
     this.x,
+    this.label,
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -553,6 +557,39 @@ class VerticalLine extends FlLine {
       sizedPicture: b.sizedPicture,
     );
   }
+}
+
+// Lines labels
+class FlLineLabel {
+  final EdgeInsetsGeometry padding;
+  final TextStyle style;
+  final Alignment alignment;
+
+  FlLineLabel({this.padding, this.style, this.alignment});
+}
+
+class HorizontalLineLabel extends FlLineLabel {
+  final String Function(HorizontalLine) labelResolver;
+  static String defaultLineLabelResolver(HorizontalLine line) => line.y.toString();
+
+  HorizontalLineLabel({
+    EdgeInsets padding,
+    TextStyle style,
+    Alignment alignment = Alignment.topLeft,
+    this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
+  }) : super(padding: padding, style: style, alignment: alignment);
+}
+
+class VerticalLineLabel extends FlLineLabel {
+  final String Function(VerticalLine) labelResolver;
+  static String defaultLineLabelResolver(VerticalLine line) => line.x.toString();
+
+  VerticalLineLabel({
+    EdgeInsets padding,
+    TextStyle style,
+    Alignment alignment = Alignment.bottomRight,
+    this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
+  }) : super(padding: padding, style: style, alignment: alignment);
 }
 
 /// we use ExtraLinesData to draw straight horizontal and vertical lines,
@@ -630,6 +667,9 @@ class LineTouchData extends FlTouchData {
   /// (show a tooltip bubble and an indicator on touched spots)
   final bool handleBuiltInTouches;
 
+  /// if you want the touchline to reach the top of the chart
+  final bool fullHeightTouchLine;
+
   /// you can implement it to receive touches callback
   final Function(LineTouchResponse) touchCallback;
 
@@ -639,6 +679,7 @@ class LineTouchData extends FlTouchData {
     this.touchTooltipData = const LineTouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
+    this.fullHeightTouchLine = false,
     this.handleBuiltInTouches = true,
     this.touchCallback,
   }) : super(enabled, enableNormalTouch);
@@ -646,6 +687,7 @@ class LineTouchData extends FlTouchData {
   LineTouchData copyWith({
     bool enabled,
     bool enableNormalTouch,
+    bool fullHeightTouchLine,
     LineTouchTooltipData touchTooltipData,
     GetTouchedSpotIndicator getTouchedSpotIndicator,
     double touchSpotThreshold,
@@ -654,6 +696,7 @@ class LineTouchData extends FlTouchData {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
       enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
+      fullHeightTouchLine: fullHeightTouchLine ?? this.fullHeightTouchLine,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
