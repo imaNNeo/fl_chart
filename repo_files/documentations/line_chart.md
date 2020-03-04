@@ -20,7 +20,7 @@ LineChart(
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
-|rangeAnnotations| show range annotations behind the chart, check [base_chart.md#RangeAnnotations](RangeAnnotations) | RangeAnnotations()|
+|rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
 |showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot](#LineBarSpot)| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
