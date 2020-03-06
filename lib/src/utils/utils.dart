@@ -26,3 +26,48 @@ Size getDefaultSize(Size screenSize) {
 double translateRotatedPosition(double size, double degree) {
   return (size / 4) * math.sin(radians(degree.abs()));
 }
+
+BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
+  if (borderRadius == null) {
+    return null;
+  }
+
+  Radius topLeft;
+  if (borderRadius.topLeft != null
+    && (borderRadius.topLeft.x > width / 2 || borderRadius.topLeft.y > width / 2)) {
+    topLeft = Radius.circular(width / 2);
+  } else {
+    topLeft = borderRadius.topLeft;
+  }
+
+  Radius topRight;
+  if ((borderRadius.topRight != null)
+    && (borderRadius.topRight.x > width / 2 || borderRadius.topRight.y > width / 2)) {
+    topRight = Radius.circular(width / 2);
+  } else {
+    topRight = borderRadius.topRight;
+  }
+
+  Radius bottomLeft;
+  if ((borderRadius.bottomLeft != null)
+    && (borderRadius.bottomLeft.x > width / 2 || borderRadius.bottomLeft.y > width / 2)) {
+    bottomLeft = Radius.circular(width / 2);
+  } else {
+    bottomLeft = borderRadius.bottomLeft;
+  }
+
+  Radius bottomRight;
+  if ((borderRadius.bottomRight != null)
+    && (borderRadius.bottomRight.x > width / 2 || borderRadius.bottomRight.y > width / 2)) {
+    bottomRight = Radius.circular(width / 2);
+  } else {
+    bottomRight = borderRadius.bottomRight;
+  }
+
+  return BorderRadius.only(
+    topLeft: topLeft,
+    topRight: topRight,
+    bottomLeft: bottomLeft,
+    bottomRight: bottomRight,
+  );
+}

@@ -947,11 +947,32 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final double tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
 
     /// draw the background rect with rounded radius
-    final Rect rect = Rect.fromLTWH(
+    Rect rect = Rect.fromLTWH(
         mostTopOffset.dx - (tooltipWidth / 2),
         mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
         tooltipWidth,
         tooltipHeight);
+
+    if (tooltipData.fitInsideTheChart) {
+      if (rect.left < 0) {
+        final shiftAmount = 0 - rect.left;
+        rect = Rect.fromLTRB(rect.left + shiftAmount,
+            rect.top,
+            rect.right + shiftAmount,
+            rect.bottom,
+          );
+      }
+
+      if (rect.right > viewSize.width) {
+        final shiftAmount = rect.right - viewSize.width;
+        rect = Rect.fromLTRB(rect.left - shiftAmount,
+            rect.top,
+            rect.right - shiftAmount,
+            rect.bottom,
+          );
+      }
+    }
+
     final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
     final RRect roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
