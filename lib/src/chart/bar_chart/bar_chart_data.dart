@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 /// This class is responsible to holds data to draw Bar Chart
@@ -227,14 +228,14 @@ class BarChartRodData {
   final BackgroundBarChartRodData backDrawRodData;
   final List<BarChartRodStackItem> rodStackItem;
 
-  const BarChartRodData({
+  BarChartRodData({
     this.y,
     this.color = Colors.blueAccent,
     this.width = 8,
-    this.borderRadius,
+    BorderRadius borderRadius,
     this.backDrawRodData = const BackgroundBarChartRodData(),
     this.rodStackItem = const [],
-  });
+  }) :borderRadius = normalizeBorderRadius(borderRadius, width);
 
   BarChartRodData copyWith({
     double y,
