@@ -85,6 +85,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve [BarTooltipItem](#BarTooltipItem) by the given [BarChartGroupData](#BarChartGroupData), groupIndex, [BarChartRodData](#BarChartRodData) and rodIndex |defaultBarTooltipItem|
+ |fitInsideTheChart| forces tooltip to shift inside the chart's bounding box| false|
 
 ### BarTooltipItem
 |PropName|Description|default value|

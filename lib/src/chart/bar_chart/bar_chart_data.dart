@@ -378,6 +378,7 @@ class BarTouchTooltipData {
   final double tooltipBottomMargin;
   final double maxContentWidth;
   final GetBarTooltipItem getTooltipItem;
+  final bool fitInsideTheChart;
 
   const BarTouchTooltipData({
     this.tooltipBgColor = Colors.white,
@@ -386,6 +387,7 @@ class BarTouchTooltipData {
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItem = defaultBarTooltipItem,
+    this.fitInsideTheChart = false,
   }) : super();
 }
 
