@@ -1,3 +1,7 @@
+## 0.8.3
+* prevent to set BorderRadius with numbers larger than (width / 2), fixed #200.
+* added `fitInsideTheChart` property inside `BarTouchTooltipData` and `LineTouchTooltipData` to force tooltip draw inside the chart (shift it to the chart), fixed #159.
+
 ## 0.8.2
 * added `fullHeightTouchLine` in [LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling) to show a full height touch line, see sample in merge request #208.
 * added `label` ([HorizontalLineLabel](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontallinelabel)) inside [HorizontalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontalline) and [VerticalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#verticalline) to show a lable text on the lines.
