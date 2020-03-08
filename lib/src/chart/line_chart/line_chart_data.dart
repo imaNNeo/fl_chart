@@ -515,10 +515,11 @@ class HorizontalLine extends FlLine {
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
-      y: lerpDouble(a.y, b.y, t),
-      color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        y: lerpDouble(a.y, b.y, t),
+        color: Color.lerp(a.color, b.color, t),
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+        dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        label: HorizontalLineLabel.lerp(a.label, b.label, t)
     );
   }
 }
@@ -539,10 +540,11 @@ class VerticalLine extends FlLine {
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
-      x: lerpDouble(a.x, b.x, t),
-      color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        x: lerpDouble(a.x, b.x, t),
+        color: Color.lerp(a.color, b.color, t),
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+        dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        label: VerticalLineLabel.lerp(a.label, b.label, t)
     );
   }
 }
@@ -558,7 +560,9 @@ class FlLineLabel {
 
 class HorizontalLineLabel extends FlLineLabel {
   final String Function(HorizontalLine) labelResolver;
-  static String defaultLineLabelResolver(HorizontalLine line) => line.y.toString();
+
+  static String defaultLineLabelResolver(HorizontalLine line) =>
+      line.y.toString();
 
   HorizontalLineLabel({
     EdgeInsets padding,
@@ -566,11 +570,23 @@ class HorizontalLineLabel extends FlLineLabel {
     Alignment alignment = Alignment.topLeft,
     this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
+
+
+  static HorizontalLineLabel lerp(HorizontalLineLabel a, HorizontalLineLabel b,
+      double t) {
+    return HorizontalLineLabel(
+      padding: EdgeInsets.lerp(a.padding, b.padding, t),
+      style: TextStyle.lerp(a.style, b.style, t),
+      alignment: Alignment.lerp(a.alignment, b.alignment, t),
+    );
+  }
 }
 
 class VerticalLineLabel extends FlLineLabel {
   final String Function(VerticalLine) labelResolver;
-  static String defaultLineLabelResolver(VerticalLine line) => line.x.toString();
+
+  static String defaultLineLabelResolver(VerticalLine line) =>
+      line.x.toString();
 
   VerticalLineLabel({
     EdgeInsets padding,
@@ -578,6 +594,15 @@ class VerticalLineLabel extends FlLineLabel {
     Alignment alignment = Alignment.bottomRight,
     this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
+
+  static VerticalLineLabel lerp(VerticalLineLabel a, VerticalLineLabel b,
+      double t) {
+    return VerticalLineLabel(
+      padding: EdgeInsets.lerp(a.padding, b.padding, t),
+      style: TextStyle.lerp(a.style, b.style, t),
+      alignment: Alignment.lerp(a.alignment, b.alignment, t),
+    );
+  }
 }
 
 /// we use ExtraLinesData to draw straight horizontal and vertical lines,

@@ -309,6 +309,20 @@ class LineChartSample1State extends State<LineChartSample1> {
           reservedSize: 30,
         ),
       ),
+      extraLinesData: ExtraLinesData(
+        horizontalLines: [ HorizontalLine(
+          y: 2.5,
+          color: Color.fromRGBO(197, 210, 214, 1),
+          strokeWidth: 2,
+          dashArray: [5, 10],
+          label: HorizontalLineLabel(
+            alignment: Alignment.topRight,
+            padding: EdgeInsets.only(right: 5, bottom: 5),
+            style: const TextStyle(color: Colors.black, fontSize: 9),
+            labelResolver: (line) => 'H: ${line.y}',
+          ),
+        ),]
+      ),
       borderData: FlBorderData(
           show: true,
           border: Border(
