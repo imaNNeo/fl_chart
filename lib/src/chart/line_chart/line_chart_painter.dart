@@ -973,6 +973,23 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
             rect.bottom,
           );
       }
+
+      if (rect.top < 0) {
+        rect = Rect.fromLTRB(rect.left,
+          0,
+          rect.right,
+          tooltipHeight,
+        );
+      }
+
+      if (rect.bottom > viewSize.height) {
+        final shiftAmount = rect.bottom - viewSize.height + tooltipHeight;
+        rect = Rect.fromLTRB(rect.left,
+          rect.top - shiftAmount,
+          rect.right,
+          rect.bottom - shiftAmount,
+        );
+      }
     }
 
     final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
