@@ -1,3 +1,6 @@
+## 0.8.4
+* Added `preventCurveOvershootingThreshold` in `LineChartBarData` for applying prevent overshooting algorithm, #193.
+
 ## 0.8.3
 * prevent to set BorderRadius with numbers larger than (width / 2), fixed #200.
 * added `fitInsideTheChart` property inside `BarTouchTooltipData` and `LineTouchTooltipData` to force tooltip draw inside the chart (shift it to the chart), fixed #159.
