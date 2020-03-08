@@ -1,4 +1,5 @@
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
@@ -205,23 +206,28 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
+      /// For drawing the dot
       final Offset touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
 
-      /// Draw the indicator line
+      /// For drawing the indicator line
       final from = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
-      final to = touchedSpot;
+      final top = Offset(getPixelX(spot.x, chartViewSize), getTopOffsetDrawSize());
+
+      /// Draw to top or to the touchedSpot
+      final Offset lineEnd = data.lineTouchData.fullHeightTouchLine ? top : touchedSpot;
 
       touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
-      canvas.drawDashedLine(from, to, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
+      canvas.drawDashedLine(
+          from, lineEnd, touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
       if (indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show) {
         final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
         dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
-        canvas.drawCircle(to, selectedSpotDotSize, dotPaint);
+        canvas.drawCircle(touchedSpot, selectedSpotDotSize, dotPaint);
       }
     }
   }
@@ -799,6 +805,35 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.label != null) {
+          final HorizontalLineLabel label = line.label;
+          final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
+          final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
+
+          final TextSpan span = TextSpan(
+            text: label.labelResolver(line),
+            style: style,
+          );
+
+          final TextPainter tp = TextPainter(
+            text: span,
+            textDirection: TextDirection.ltr,
+          );
+
+          tp.layout();
+          tp.paint(
+            canvas,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx + padding.left,
+                from.dy - padding.bottom - tp.height,
+                to.dx - padding.right - tp.width,
+                to.dy + padding.top,
+              ),
+            ),
+          );
+        }
       }
     }
 
@@ -815,6 +850,36 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.label != null) {
+          final VerticalLineLabel label = line.label;
+          final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
+          final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
+
+          final TextSpan span = TextSpan(
+            text: label.labelResolver(line),
+            style: style,
+          );
+
+          final TextPainter tp = TextPainter(
+            text: span,
+            textDirection: TextDirection.ltr,
+          );
+
+          tp.layout();
+
+          tp.paint(
+            canvas,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                to.dx - padding.right - tp.width,
+                from.dy + padding.top - topChartPadding,
+                from.dx + padding.left,
+                to.dy - padding.bottom + bottomChartPadding,
+              ),
+            ),
+          );
+        }
       }
     }
   }
@@ -882,11 +947,32 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final double tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
 
     /// draw the background rect with rounded radius
-    final Rect rect = Rect.fromLTWH(
+    Rect rect = Rect.fromLTWH(
         mostTopOffset.dx - (tooltipWidth / 2),
         mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
         tooltipWidth,
         tooltipHeight);
+
+    if (tooltipData.fitInsideTheChart) {
+      if (rect.left < 0) {
+        final shiftAmount = 0 - rect.left;
+        rect = Rect.fromLTRB(rect.left + shiftAmount,
+            rect.top,
+            rect.right + shiftAmount,
+            rect.bottom,
+          );
+      }
+
+      if (rect.right > viewSize.width) {
+        final shiftAmount = rect.right - viewSize.width;
+        rect = Rect.fromLTRB(rect.left - shiftAmount,
+            rect.top,
+            rect.right - shiftAmount,
+            rect.bottom,
+          );
+      }
+    }
+
     final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
     final RRect roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
