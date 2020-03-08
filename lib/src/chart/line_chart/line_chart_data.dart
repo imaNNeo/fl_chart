@@ -221,6 +221,9 @@ class LineChartBarData {
   /// prevent overshooting when draw curve line on linear sequence spots
   /// check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)
   final bool preventCurveOverShooting;
+  
+  /// threshold for applying prevent overshooting algorithm
+  final double preventCurveOvershootingThreshold;
 
   final bool isStrokeCapRound;
 
@@ -249,6 +252,7 @@ class LineChartBarData {
     this.isCurved = false,
     this.curveSmoothness = 0.35,
     this.preventCurveOverShooting = false,
+    this.preventCurveOvershootingThreshold = 10.0,
     this.isStrokeCapRound = false,
     this.belowBarData = const BarAreaData(),
     this.aboveBarData = const BarAreaData(),
@@ -266,6 +270,7 @@ class LineChartBarData {
       isCurved: b.isCurved,
       isStrokeCapRound: b.isStrokeCapRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
+      preventCurveOvershootingThreshold: lerpDouble(a.preventCurveOvershootingThreshold, b.preventCurveOvershootingThreshold, t),
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),

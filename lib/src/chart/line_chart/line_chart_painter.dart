@@ -282,11 +282,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       temp = ((next - previous) / 2) * smoothness;
 
       if (barData.preventCurveOverShooting) {
-        if ((next - current).dy <= 10 || (current - previous).dy <= 10) {
+        if ((next - current).dy <= barData.preventCurveOvershootingThreshold
+          || (current - previous).dy <= barData.preventCurveOvershootingThreshold) {
           temp = Offset(temp.dx, 0);
         }
 
-        if ((next - current).dx <= 10 || (current - previous).dx <= 10) {
+        if ((next - current).dx <= barData.preventCurveOvershootingThreshold
+          || (current - previous).dx <= barData.preventCurveOvershootingThreshold) {
           temp = Offset(0, temp.dy);
         }
       }
