@@ -578,6 +578,7 @@ class HorizontalLineLabel extends FlLineLabel {
       padding: EdgeInsets.lerp(a.padding, b.padding, t),
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t),
+      labelResolver: b.labelResolver
     );
   }
 }
@@ -601,6 +602,7 @@ class VerticalLineLabel extends FlLineLabel {
       padding: EdgeInsets.lerp(a.padding, b.padding, t),
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t),
+      labelResolver: b.labelResolver
     );
   }
 }
