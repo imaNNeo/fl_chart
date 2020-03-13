@@ -134,9 +134,8 @@ class PieTouchData extends FlTouchData {
 
   const PieTouchData({
     bool enabled = true,
-    bool enableNormalTouch = true,
     this.touchCallback,
-  }) : super(enabled, enableNormalTouch);
+  }) : super(enabled);
 }
 
 /// holds the data of touch response on the [PieChart]
