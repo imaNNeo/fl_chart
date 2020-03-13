@@ -668,18 +668,16 @@ class LineTouchData extends FlTouchData {
 
   const LineTouchData({
     bool enabled = true,
-    bool enableNormalTouch = true,
     this.touchTooltipData = const LineTouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
     this.fullHeightTouchLine = false,
     this.handleBuiltInTouches = true,
     this.touchCallback,
-  }) : super(enabled, enableNormalTouch);
+  }) : super(enabled);
 
   LineTouchData copyWith({
     bool enabled,
-    bool enableNormalTouch,
     bool fullHeightTouchLine,
     LineTouchTooltipData touchTooltipData,
     GetTouchedSpotIndicator getTouchedSpotIndicator,
@@ -688,7 +686,6 @@ class LineTouchData extends FlTouchData {
   }) {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
-      enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
       fullHeightTouchLine: fullHeightTouchLine ?? this.fullHeightTouchLine,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,

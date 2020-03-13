@@ -64,10 +64,7 @@ class FlTouchData {
   /// determines enable or disable the touch in the chart
   final bool enabled;
 
-  /// determines that charts should respond to normal touch events or not
-  final bool enableNormalTouch;
-
-  const FlTouchData(this.enabled, this.enableNormalTouch);
+  const FlTouchData(this.enabled);
 }
 
 ///***** AxisTitleData *****/

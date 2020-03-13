@@ -39,7 +39,6 @@ PieChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchCallback| listen to this callback to retrieve touch events, it gives you a [PieTouchResponse](#PieTouchResponse)| null|
 
 ### PieTouchResponse

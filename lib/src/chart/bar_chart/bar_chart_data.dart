@@ -340,17 +340,15 @@ class BarTouchData extends FlTouchData {
 
   const BarTouchData({
     bool enabled = true,
-    bool enableNormalTouch = true,
     this.touchTooltipData = const BarTouchTooltipData(),
     this.touchExtraThreshold = const EdgeInsets.all(4),
     this.allowTouchBarBackDraw = false,
     this.handleBuiltInTouches = true,
     this.touchCallback,
-  }) : super(enabled, enableNormalTouch);
+  }) : super(enabled);
 
   BarTouchData copyWith({
     bool enabled,
-    bool enableNormalTouch,
     BarTouchTooltipData touchTooltipData,
     EdgeInsets touchExtraThreshold,
     bool allowTouchBarBackDraw,
@@ -359,7 +357,6 @@ class BarTouchData extends FlTouchData {
   }) {
     return BarTouchData(
       enabled: enabled ?? this.enabled,
-      enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       touchExtraThreshold: touchExtraThreshold ?? this.touchExtraThreshold,
       allowTouchBarBackDraw: allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
