@@ -1,5 +1,6 @@
 ## 0.8.4
 * Added `preventCurveOvershootingThreshold` in `LineChartBarData` for applying prevent overshooting algorithm, #193.
+* Fixed `clipToBorder` bug in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata), #228, #214.
 
 ## 0.8.3
 * prevent to set BorderRadius with numbers larger than (width / 2), fixed #200.
