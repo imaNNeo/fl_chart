@@ -99,6 +99,8 @@ LineChart(
 |y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
 |label|a [HorizontalLineLabel](#HorizontalLineLabel) object with label parameters|null
 
 
@@ -108,8 +110,16 @@ LineChart(
 |x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
 |label|a [VerticalLineLabel](#VerticalLineLabel) object with label parameters|null
 
+### SizedPicture
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|Picture|a Dart UI Picture which should be derived from the svg. see example for how to get a Picture from an svg.|null|
+|width|the width of the picture|null|
+|height|the height of the picture|null|
 
 ### HorizontalLineLabel
 |PropName|Description|default value|

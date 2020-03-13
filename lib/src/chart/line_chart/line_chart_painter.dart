@@ -32,7 +32,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       clearAroundBorderPaint,
       extraLinesPaint,
       touchLinePaint,
-      bgTouchTooltipPaint;
+      bgTouchTooltipPaint,
+      imagePaint;
 
   LineChartPainter(
       LineChartData data, LineChartData targetData, Function(TouchHandler) touchHandler,
@@ -67,6 +68,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
+
+    imagePaint = Paint();
   }
 
   @override
@@ -294,13 +297,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       temp = ((next - previous) / 2) * smoothness;
 
       if (barData.preventCurveOverShooting) {
-        if ((next - current).dy <= barData.preventCurveOvershootingThreshold
-          || (current - previous).dy <= barData.preventCurveOvershootingThreshold) {
+        if ((next - current).dy <= barData.preventCurveOvershootingThreshold ||
+            (current - previous).dy <= barData.preventCurveOvershootingThreshold) {
           temp = Offset(temp.dx, 0);
         }
 
-        if ((next - current).dx <= barData.preventCurveOvershootingThreshold
-          || (current - previous).dx <= barData.preventCurveOvershootingThreshold) {
+        if ((next - current).dx <= barData.preventCurveOvershootingThreshold ||
+            (current - previous).dx <= barData.preventCurveOvershootingThreshold) {
           temp = Offset(0, temp.dy);
         }
       }
@@ -801,6 +804,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
 
+        if (line.sizedPicture != null) {
+          final double centerX = line.sizedPicture.width / 2;
+          final double centerY = line.sizedPicture.height / 2;
+          final double xPosition = leftChartPadding - centerX;
+          final double yPosition = to.dy - centerY;
+
+          canvas.save();
+          canvas.translate(xPosition, yPosition);
+          canvas.drawPicture(line.sizedPicture.picture);
+          canvas.restore();
+        }
+
+        if (line.image != null) {
+          final double centerX = line.image.width / 2;
+          final double centerY = line.image.height / 2;
+          final Offset centeredImageOffset = Offset(leftChartPadding - centerX, to.dy - centerY);
+          canvas.drawImage(line.image, centeredImageOffset, imagePaint);
+        }
+
         if (line.label != null) {
           final HorizontalLineLabel label = line.label;
           final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
@@ -845,6 +867,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.sizedPicture != null) {
+          final double centerX = line.sizedPicture.width / 2;
+          final double centerY = line.sizedPicture.height / 2;
+          final double xPosition = to.dx - centerX;
+          final double yPosition = viewSize.height - bottomChartPadding - centerY;
+
+          canvas.save();
+          canvas.translate(xPosition, yPosition);
+          canvas.drawPicture(line.sizedPicture.picture);
+          canvas.restore();
+        }
+        if (line.image != null) {
+          final double centerX = line.image.width / 2;
+          final double centerY = line.image.height / 2;
+          final Offset centeredImageOffset =
+              Offset(to.dx - centerX, viewSize.height - bottomChartPadding - centerY);
+          canvas.drawImage(line.image, centeredImageOffset, imagePaint);
+        }
 
         if (line.label != null) {
           final VerticalLineLabel label = line.label;
@@ -951,20 +992,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     if (tooltipData.fitInsideTheChart) {
       if (rect.left < 0) {
         final shiftAmount = 0 - rect.left;
-        rect = Rect.fromLTRB(rect.left + shiftAmount,
-            rect.top,
-            rect.right + shiftAmount,
-            rect.bottom,
-          );
+        rect = Rect.fromLTRB(
+          rect.left + shiftAmount,
+          rect.top,
+          rect.right + shiftAmount,
+          rect.bottom,
+        );
       }
 
       if (rect.right > viewSize.width) {
         final shiftAmount = rect.right - viewSize.width;
-        rect = Rect.fromLTRB(rect.left - shiftAmount,
-            rect.top,
-            rect.right - shiftAmount,
-            rect.bottom,
-          );
+        rect = Rect.fromLTRB(
+          rect.left - shiftAmount,
+          rect.top,
+          rect.right - shiftAmount,
+          rect.bottom,
+        );
       }
     }
 
