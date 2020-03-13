@@ -148,7 +148,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       size.height- (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
     );
 
-    canvas.clipRect(rect, clipOp: ClipOp.intersect);
+    canvas.clipRect(rect);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
