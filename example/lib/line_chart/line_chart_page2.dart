@@ -28,10 +28,10 @@ class LineChartPage2 extends StatelessWidget {
                 height: 22,
               ),
               Text(
-                'Range annotations and dashed path',
+                'Range annotations, dashes, image annotation using svg',
                 style: TextStyle(
                   color: Colors.black87,
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
               ),
               LineChartSample8(),
