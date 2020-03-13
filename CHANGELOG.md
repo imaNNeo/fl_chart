@@ -1,6 +1,8 @@
 ## 0.8.4
 * Added `preventCurveOvershootingThreshold` in `LineChartBarData` for applying prevent overshooting algorithm, #193.
 * Fixed `clipToBorder` bug in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata), #228, #214.
+* Removed unused `enableNormalTouch` property from all charts TouchData.
+* Implemented ImageAnnotations feature (added `image`, and `sizedPicture` in the [VerticalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#verticalline), and the [HorizontalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontalline), check [this sample](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-8-source-code) for more information.
 
 ## 0.8.3
 * prevent to set BorderRadius with numbers larger than (width / 2), fixed #200.
