@@ -76,8 +76,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     if (data.clipToBorder) {
-      /// save layer to clip it to border after lines drew
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
+
+      clipToBorder(canvas, size);
     }
 
     super.paint(canvas, size);
@@ -109,9 +110,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     if (data.clipToBorder) {
-      removeOutsideBorder(canvas, size);
-
-      /// restore layer to previous state (after clipping the chart)
       canvas.restore();
     }
 
@@ -137,6 +135,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       drawTouchTooltip(canvas, size, data.lineTouchData.touchTooltipData, topSpot, tooltipSpots);
     }
+  }
+
+  void clipToBorder(ui.Canvas canvas, ui.Size size,) {
+    final double halfStrokeWidth = clearAroundBorderPaint.strokeWidth / 2;
+    final Rect rect = Rect.fromLTRB(
+      getLeftOffsetDrawSize() - halfStrokeWidth,
+      getTopOffsetDrawSize() - halfStrokeWidth,
+      size.width -
+          (getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize()) +
+          halfStrokeWidth,
+      size.height- (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
+    );
+
+    canvas.clipRect(rect);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -634,25 +646,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     barPaint.strokeWidth = barData.barWidth;
     barPath = barPath.toDashedPath(barData.dashArray);
     canvas.drawPath(barPath, barPaint);
-  }
-
-  /// clip the border (remove outside the border)
-  void removeOutsideBorder(Canvas canvas, Size viewSize) {
-    if (!data.clipToBorder) {
-      return;
-    }
-
-    clearAroundBorderPaint.strokeWidth = barPaint.strokeWidth / 2;
-    final double halfStrokeWidth = clearAroundBorderPaint.strokeWidth / 2;
-    final Rect rect = Rect.fromLTRB(
-      getLeftOffsetDrawSize() - halfStrokeWidth,
-      getTopOffsetDrawSize() - halfStrokeWidth,
-      viewSize.width -
-          (getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize()) +
-          halfStrokeWidth,
-      viewSize.height - (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
-    );
-    canvas.drawRect(rect, clearAroundBorderPaint);
   }
 
   void drawTitles(Canvas canvas, Size viewSize) {
