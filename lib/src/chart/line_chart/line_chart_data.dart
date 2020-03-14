@@ -8,21 +8,59 @@ import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart' hide Image;
 
-/// This class holds data to draw the line chart
-/// List [LineChartBarData] the data to draw the bar lines independently,
-/// [FlTitlesData] to show the bottom and left titles
-/// [FlAxisTitleData] to show a description of each axis
-/// [ExtraLinesData] to draw extra horizontal and vertical lines on the chart
-/// [LineTouchData] holds data to handling touch and interactions
-/// [showingTooltipIndicators] show the tooltip based on provided position(x), and list of [LineBarSpot]
+/// [LineChart] needs this class to render itself.
+///
+/// It holds data needed to draw a line chart,
+/// including bar lines, spots, colors, touches, ...
 class LineChartData extends AxisChartData {
+
+  /// [LineChart] draws some lines in various shapes and overlaps them.
   final List<LineChartBarData> lineBarsData;
+
+  /// Fills area between two [LineChartBarData] with a color or gradient.
   final List<BetweenBarsData> betweenBarsData;
+
+  /// Titles on left, top, right, bottom axis for each number.
   final FlTitlesData titlesData;
+
+  /// [LineChart] draws some horizontal or vertical lines on above or below of everything
   final ExtraLinesData extraLinesData;
+
+  /// Handles touch behaviors and responses.
   final LineTouchData lineTouchData;
+
+  /// You can show some tooltipIndicators (a popup with an information)
+  /// on top of each [LineChartBarData.spots] using [showingTooltipIndicators],
+  /// just put line indicator number and spots indices you want to show it on top of them.
   final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
 
+  /// [LineChart] draws some lines in various shapes and overlaps them.
+  /// lines are defined in [lineBarsData], sometimes you need to fill space between two bars
+  /// with a color or gradient, you can use [betweenBarsData] to achieve that.
+  ///
+  /// It draws some titles on left, top, right, bottom sides per each axis number,
+  /// you can modify [titlesData] to have your custom titles,
+  /// also you can define the axis title (one text per axis) for each side
+  /// using [axisTitleData], you can restrict the y axis using [minY] and [maxY] value,
+  /// and restrict x axis using [minX] and [maxX].
+  ///
+  /// It draws a color as a background behind everything you can set it using [backgroundColor],
+  /// then a grid over it, you can customize it using [gridData],
+  /// and it draws 4 borders around your chart, you can customize it using [borderData].
+  ///
+  /// You can annotate some regions with a highlight color using [rangeAnnotations].
+  ///
+  /// You can modify [lineTouchData] to customize touch behaviors and responses.
+  ///
+  /// you can show some tooltipIndicators (a popup with an information)
+  /// on top of each [LineChartBarData.spots] using [showingTooltipIndicators],
+  /// just put line indicator number and spots indices you want to show it on top of them.
+  ///
+  /// [LineChart] draws some horizontal or vertical lines on above or below of everything,
+  /// they are useful in some scenarios, for example you can show average line, you can fill
+  /// [extraLinesData] property to have your extra lines.
+  ///
+  /// [clipToBorder] forces the [LineChart] to draw lines inside the chart bounding box.
   LineChartData({
     this.lineBarsData = const [],
     this.betweenBarsData = const [],
@@ -52,6 +90,8 @@ class LineChartData extends AxisChartData {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
 
+  /// fills [minX], [maxX], [minY], [maxY] if they are null,
+  /// based on the provided [lineBarsData].
   void initSuperMinMaxValues(
     double minX,
     double maxX,
@@ -183,64 +223,101 @@ class LineChartData extends AxisChartData {
   }
 }
 
-/***** LineChartBarData *****/
-
-/// This class holds visualisation data about the bar line
-/// use [isCurved] to set the bar line curve or sharp on connections spot.
+/// Holds data for drawing each individual line in the [LineChart]
 class LineChartBarData {
+
+  /// This line goes through this spots.
   final List<FlSpot> spots;
 
+  /// Determines to show or hide the line.
   final bool show;
 
-  /// if one color provided, solid color will apply,
-  /// but if more than one color provided, gradient will apply.
+  /// determines the color of drawing line, if one color provided it applies a solid color,
+  /// otherwise it gradients between provided colors for drawing the line.
   final List<Color> colors;
 
-  /// if more than one color provided colorStops will hold
-  /// stop points of the gradient.
+  /// Determines the gradient color stops, if multiple [colors] provided.
   final List<double> colorStops;
 
-  /// if the gradient mode is enabled (if you have more than one color)
-  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
-  /// you can determine where the gradient should start and end,
-  /// values are available between 0 to 1,
+  /// Determines the start point of gradient,
   /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right
+  /// Offset(1, 1) represent the bottom / right.
   final Offset gradientFrom;
+
+  /// Determines the end point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
   final Offset gradientTo;
 
+  /// Determines thickness of drawing line.
   final double barWidth;
+
+  /// If it's true, [LineChart] draws the line with curved edges,
+  /// otherwise it draws line with hard edges.
   final bool isCurved;
 
-  /// if isCurved is true, this is important to us,
-  /// this determines that how much we should curve the line
-  /// on the spot connections.
-  /// if it is 0.0, the lines draw with sharp corners.
+  /// If [isCurved] is true, it determines smoothness of the curved edges.
   final double curveSmoothness;
 
-  /// prevent overshooting when draw curve line on linear sequence spots
+  /// Prevent overshooting when draw curve line with high value changes.
   /// check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)
   final bool preventCurveOverShooting;
 
-  /// threshold for applying prevent overshooting algorithm
+  /// Applies threshold for [preventCurveOverShooting] algorithm.
   final double preventCurveOvershootingThreshold;
 
+  /// Determines the style of line's cap.
   final bool isStrokeCapRound;
 
-  /// to fill space below the bar line
+  /// Fills the space blow the line, using a color or gradient.
   final BarAreaData belowBarData;
 
-  /// to fill space above the bar line
+  /// Fills the space above the line, using a color or gradient.
   final BarAreaData aboveBarData;
 
-  /// to show dot spots upon the line chart
+  /// Responsible to showing [spots] on the line as a circular point.
   final FlDotData dotData;
 
-  /// show indicators based on provided indexes
+  /// Show indicators based on provided indexes
   final List<int> showingIndicators;
 
+  /// Determines the dash length and space respectively, fill it if you want to have dashed line.
   final List<int> dashArray;
 
+  /// [BarChart] draws some lines and overlaps them in the chart's view,
+  /// each line passes through [spots], with hard edges by default,
+  /// [isCurved] makes it curve for drawing, and [curveSmoothness] determines the curve smoothness.
+  ///
+  /// [show] determines the drawing, if set to false, it draws nothing.
+  ///
+  /// [colors] determines the color of drawing line, if one color provided it applies a solid color,
+  /// otherwise it gradients between provided colors for drawing the line.
+  /// Gradient happens using provided [colorStops], [gradientFrom], [gradientTo].
+  /// if you want it draw normally, don't touch them,
+  /// check [LinearGradient] for understanding [colorStops]
+  ///
+  /// [barWidth] determines the thickness of drawing line,
+  ///
+  /// if [isCurved] is true, in some situations if the spots changes are in high values,
+  /// an overshooting will happen, we don't have any idea to solve this at the moment,
+  /// but you can set [preventCurveOverShooting] true, and update the threshold
+  /// using [preventCurveOvershootingThreshold] to achieve an acceptable curve,
+  /// check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)
+  /// to overshooting understand the problem.
+  ///
+  /// [isStrokeCapRound] determines the shape of line's cap.
+  ///
+  /// [belowBarData], and  [aboveBarData] used to fill the space below or above the drawn line,
+  /// you can fill with a solid color or a linear gradient.
+  ///
+  /// [LineChart] draws points that the line is going through [spots],
+  /// you can customize it's appearance using [dotData].
+  ///
+  /// there are some indicators with a line and bold point on each spot,
+  /// you can show them by filling [showingIndicators] with indices
+  /// you want to show indicator on them.
+  ///
+  /// [LineChart] draws the lines with dashed effect if you fill [dashArray].
   const LineChartBarData({
     this.spots = const [],
     this.show = true,
@@ -322,22 +399,7 @@ class LineChartBarData {
   }
 }
 
-/// holds the details of a [FlSpot] inside a [LineChartBarData]
-class LineBarSpot extends FlSpot {
-  final LineChartBarData bar;
-  final int barIndex;
-  final int spotIndex;
-
-  LineBarSpot(
-    this.bar,
-    this.barIndex,
-    FlSpot spot,
-  )   : spotIndex = bar.spots.indexOf(spot),
-        super(spot.x, spot.y);
-}
-
-/***** BarAreaData *****/
-/// This class holds data about draw on below or above space of the bar line,
+/// Holds data for filling an area (above or below) of the line with a color or gradient.
 class BarAreaData {
   final bool show;
 
@@ -368,6 +430,20 @@ class BarAreaData {
   /// determines should or shouldn't apply cutOffY
   final bool applyCutOffY;
 
+  /// if [show] is true, [LineChart] fills above and below area of each line
+  /// with a color or gradient.
+  ///
+  /// [colors] determines the color of above or below space area,
+  /// if one color provided it applies a solid color,
+  /// otherwise it gradients between provided colors for drawing the line.
+  /// Gradient happens using provided [gradientColorStops], [gradientFrom], [gradientTo].
+  /// if you want it draw normally, don't touch them,
+  /// check [LinearGradient] for understanding [gradientColorStops]
+  ///
+  /// If [spotsLine] is provided, it draws some lines from each spot
+  /// to the bottom or top of the chart.
+  ///
+  /// If [applyCutOffY] is true, it cuts the drawing by the [cutOffY] line.
   const BarAreaData({
     this.show = false,
     this.colors = const [Colors.blueGrey],
@@ -393,8 +469,7 @@ class BarAreaData {
   }
 }
 
-/***** BarAreaData *****/
-/// This class holds data about draw on below or above space of the bar line,
+/// Holds data about filling below or above space of the bar line,
 class BetweenBarsData {
   /// The index of the lineBarsData from where the area has to be rendered
   final int fromIndex;
@@ -441,21 +516,21 @@ class BetweenBarsData {
   }
 }
 
-typedef CheckToShowSpotLine = bool Function(FlSpot spot);
-
-bool showAllSpotsBelowLine(FlSpot spot) {
-  return true;
-}
-
+/// Holds data for drawing line on the spots under the [BarAreaData].
 class BarAreaSpotsLine {
+
+  /// Determines to show or hide all the lines.
   final bool show;
 
-  /// determines style of the line
+  /// Holds appearance of drawing line on the spots.
   final FlLine flLineStyle;
 
-  /// a function to determine whether to show or hide the below or above line on the given spot
+  /// Checks to show or hide lines on the spots.
   final CheckToShowSpotLine checkToShowSpotLine;
 
+  /// If [show] is true, [LineChart] draws some lines on above or below the spots,
+  /// you can customize the appearance of the lines using [flLineStyle]
+  /// and you can decide to show or hide the lines on each spot using [checkToShowSpotLine].
   const BarAreaSpotsLine({
     this.show = false,
     this.flLineStyle = const FlLine(),
@@ -471,14 +546,18 @@ class BarAreaSpotsLine {
   }
 }
 
-/***** DotData *****/
-typedef CheckToShowDot = bool Function(FlSpot spot);
+/// It used for determine showing or hiding [BarAreaSpotsLine]s
+///
+/// It gives you the checking spot, and you have to decide to
+/// show or not show the line on the provided spot.
+typedef CheckToShowSpotLine = bool Function(FlSpot spot);
 
-bool showAllDots(FlSpot spot) {
+/// Shows all spot lines.
+bool showAllSpotsBelowLine(FlSpot spot) {
   return true;
 }
 
-/// This class holds data about drawing spot dots on the drawing bar line.
+/// Holds data for showing dots on the bar line.
 class FlDotData {
   final bool show;
   final Color dotColor;
@@ -488,6 +567,11 @@ class FlDotData {
   /// for example you can draw just the last spot dot.
   final CheckToShowDot checkToShowDot;
 
+  /// set [show] false to prevent dots from drawing,
+  /// [dotColor] determines the color of circular dots on spots, and
+  /// [dotSize] determines the size of dots.
+  /// if you want to show or hide dots in some spots,
+  /// override [checkToShowDot] to handle it in your way.
   const FlDotData({
     this.show = true,
     this.dotColor = Colors.blue,
@@ -505,14 +589,32 @@ class FlDotData {
   }
 }
 
+/// It determines showing or hiding [FlDotData] on the spots.
+///
+/// It gives you the checking [FlSpot] and you should decide to
+/// show or hide the dot on this spot by returning true or false.
+typedef CheckToShowDot = bool Function(FlSpot spot);
+
+/// Shows all dots on spots.
+bool showAllDots(FlSpot spot) {
+  return true;
+}
+
 /// horizontal lines draw from left to right of the chart,
 /// and the y is dynamic
+///
+/// Holds data for drawing extra horizontal lines.
+///
+/// [LineChart] draws some [HorizontalLine] (set by [LineChartData.extraLinesData]),
+/// in below or above of everything, it draws from left to right side of the chart.
 class HorizontalLine extends FlLine {
   final double y;
   Image image;
   SizedPicture sizedPicture;
   final HorizontalLineLabel label;
 
+  /// [LineChart] draws horizontal lines from left to right side of the chart
+  /// in the provided [y] axis.
   HorizontalLine({
     this.y,
     this.label,
@@ -752,6 +854,22 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
     );
     return LineTooltipItem(touchedSpot.y.toString(), textStyle);
   }).toList();
+}
+
+/// holds the details of a [FlSpot] inside a [LineChartBarData]
+///
+///
+class LineBarSpot extends FlSpot {
+  final LineChartBarData bar;
+  final int barIndex;
+  final int spotIndex;
+
+  LineBarSpot(
+    this.bar,
+    this.barIndex,
+    FlSpot spot,
+    )   : spotIndex = bar.spots.indexOf(spot),
+      super(spot.x, spot.y);
 }
 
 /// holds data of showing each item in the tooltip window
