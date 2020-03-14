@@ -989,7 +989,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         tooltipWidth,
         tooltipHeight);
 
-    if (tooltipData.fitInsideTheChart) {
+    if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
         final shiftAmount = 0 - rect.left;
         rect = Rect.fromLTRB(
@@ -1009,18 +1009,23 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           rect.bottom,
         );
       }
+    }
 
+    if (tooltipData.fitInsideVertically) {
       if (rect.top < 0) {
-        rect = Rect.fromLTRB(rect.left,
-          0,
+        final shiftAmount = 0 - rect.top;
+        rect = Rect.fromLTRB(
+          rect.left,
+          rect.top + shiftAmount,
           rect.right,
-          tooltipHeight,
+          rect.bottom + shiftAmount,
         );
       }
 
       if (rect.bottom > viewSize.height) {
-        final shiftAmount = rect.bottom - viewSize.height + tooltipHeight;
-        rect = Rect.fromLTRB(rect.left,
+        final shiftAmount = rect.bottom - viewSize.height;
+        rect = Rect.fromLTRB(
+          rect.left,
           rect.top - shiftAmount,
           rect.right,
           rect.bottom - shiftAmount,

@@ -168,7 +168,8 @@ LineChart(
  |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve list of [LineTooltipItem](#LineTooltipItem) by the given list of [LineBarSpot](#LineBarSpot) |defaultLineTooltipItem|
- |fitInsideTheChart| forces tooltip to shift inside the chart's bounding box| false|
+ |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
+ |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
 
 ### LineTooltipItem
 |PropName|Description|default value|

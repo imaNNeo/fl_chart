@@ -498,8 +498,11 @@ class BarTouchTooltipData {
   /// Retrieves data for showing content inside the tooltip.
   final GetBarTooltipItem getTooltipItem;
 
-  /// Fits the tooltip inside the chart, if overflow happens and draws outside of the chart.
-  final bool fitInsideTheChart;
+  /// Forces the tooltip to shift horizontally inside the chart, if overflow happens.
+  final bool fitInsideHorizontally;
+
+  /// Forces the tooltip to shift vertically inside the chart, if overflow happens.
+  final bool fitInsideVertically;
 
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
@@ -520,7 +523,8 @@ class BarTouchTooltipData {
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItem = defaultBarTooltipItem,
-    this.fitInsideTheChart = false,
+    this.fitInsideHorizontally = false,
+    this.fitInsideVertically = false,
   }) : super();
 }
 
