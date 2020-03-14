@@ -702,8 +702,7 @@ class LineTouchTooltipData {
   final double tooltipBottomMargin;
   final double maxContentWidth;
   final GetLineTooltipItems getTooltipItems;
-  final bool fitInsideHorizontally;
-  final bool fitInsideVertically;
+  final bool fitInsideTheChart;
 
   const LineTouchTooltipData({
     this.tooltipBgColor = Colors.white,
@@ -712,8 +711,7 @@ class LineTouchTooltipData {
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
-    this.fitInsideHorizontally = false,
-    this.fitInsideVertically = false,
+    this.fitInsideTheChart = false,
   }) : super();
 }
 

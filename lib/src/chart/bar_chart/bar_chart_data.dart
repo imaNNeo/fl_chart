@@ -235,7 +235,7 @@ class BarChartRodData {
     BorderRadius borderRadius,
     this.backDrawRodData = const BackgroundBarChartRodData(),
     this.rodStackItem = const [],
-  }) : borderRadius = normalizeBorderRadius(borderRadius, width);
+  }) :borderRadius = normalizeBorderRadius(borderRadius, width);
 
   BarChartRodData copyWith({
     double y,
@@ -378,8 +378,7 @@ class BarTouchTooltipData {
   final double tooltipBottomMargin;
   final double maxContentWidth;
   final GetBarTooltipItem getTooltipItem;
-  final bool fitInsideHorizontally;
-  final bool fitInsideVertically;
+  final bool fitInsideTheChart;
 
   const BarTouchTooltipData({
     this.tooltipBgColor = Colors.white,
@@ -388,8 +387,7 @@ class BarTouchTooltipData {
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItem = defaultBarTooltipItem,
-    this.fitInsideHorizontally = false,
-    this.fitInsideVertically = false,
+    this.fitInsideTheChart = false,
   }) : super();
 }
 
