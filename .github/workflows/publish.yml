@@ -1,16 +1,18 @@
-name: Publish to Pub.dev
+name: Publish plugin
 
-on: push
+on:
+  release:
+    types: [published]
 
 jobs:
-  publishing:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v2 # required!
+  publish:
 
-      - name: '>> Dart package <<'
-        uses: k-paxian/dart-package-publisher@master
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Publish
+        uses: sakebook/actions-flutter-pub-publisher@v1.2.1
         with:
-          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
-          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          credential: ${{ secrets.CREDENTIAL_JSON }}
