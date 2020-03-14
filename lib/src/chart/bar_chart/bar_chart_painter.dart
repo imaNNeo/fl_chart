@@ -401,7 +401,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         tooltipWidth,
         tooltipHeight);
 
-    if (tooltipData.fitInsideTheChart) {
+    if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
         final shiftAmount = 0 - rect.left;
         rect = Rect.fromLTRB(
@@ -423,7 +423,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       }
     }
 
-    if (tooltipData.fitInsideTheChartVertically) {
+    if (tooltipData.fitInsideVertically) {
       if (rect.top < 0) {
         final shiftAmount = 0 - rect.top;
         rect = Rect.fromLTRB(

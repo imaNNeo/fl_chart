@@ -235,7 +235,7 @@ class BarChartRodData {
     BorderRadius borderRadius,
     this.backDrawRodData = const BackgroundBarChartRodData(),
     this.rodStackItem = const [],
-  }) :borderRadius = normalizeBorderRadius(borderRadius, width);
+  }) : borderRadius = normalizeBorderRadius(borderRadius, width);
 
   BarChartRodData copyWith({
     double y,
