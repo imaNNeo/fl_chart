@@ -45,6 +45,7 @@ LineChart(
 |isCurved| curves the corners of the line on the spot's positions| false|
 |curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
 |preventCurveOverShooting|prevent overshooting when draw curve line on linear sequence spots, check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)| false|
+|preventCurveOvershootingThreshold|threshold for applying prevent overshooting algorithm | 10.0|
 |isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
 |belowBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
@@ -98,6 +99,8 @@ LineChart(
 |y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
 |label|a [HorizontalLineLabel](#HorizontalLineLabel) object with label parameters|null
 
 
@@ -107,8 +110,16 @@ LineChart(
 |x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
 |label|a [VerticalLineLabel](#VerticalLineLabel) object with label parameters|null
 
+### SizedPicture
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|Picture|a Dart UI Picture which should be derived from the svg. see example for how to get a Picture from an svg.|null|
+|width|the width of the picture|null|
+|height|the height of the picture|null|
 
 ### HorizontalLineLabel
 |PropName|Description|default value|
@@ -140,7 +151,6 @@ LineChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
@@ -158,7 +168,8 @@ LineChart(
  |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve list of [LineTooltipItem](#LineTooltipItem) by the given list of [LineBarSpot](#LineBarSpot) |defaultLineTooltipItem|
- |fitInsideTheChart| forces tooltip to shift inside the chart's bounding box| false|
+ |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
+ |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
 
 ### LineTooltipItem
 |PropName|Description|default value|

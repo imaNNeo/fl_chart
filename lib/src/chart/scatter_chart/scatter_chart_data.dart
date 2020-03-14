@@ -203,23 +203,20 @@ class ScatterTouchData extends FlTouchData {
 
   const ScatterTouchData({
     bool enabled = true,
-    bool enableNormalTouch = true,
     this.touchTooltipData = const ScatterTouchTooltipData(),
     this.touchSpotThreshold = 10,
     this.handleBuiltInTouches = true,
     this.touchCallback,
-  }) : super(enabled, enableNormalTouch);
+  }) : super(enabled);
 
   ScatterTouchData copyWith({
     bool enabled,
-    bool enableNormalTouch,
     LineTouchTooltipData touchTooltipData,
     double touchSpotThreshold,
     Function(ScatterTouchResponse) touchCallback,
   }) {
     return ScatterTouchData(
       enabled: enabled ?? this.enabled,
-      enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       touchCallback: touchCallback ?? this.touchCallback,

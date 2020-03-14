@@ -6,7 +6,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Image;
 
 /// This class holds data to draw the line chart
 /// List [LineChartBarData] the data to draw the bar lines independently,
@@ -222,6 +222,9 @@ class LineChartBarData {
   /// check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)
   final bool preventCurveOverShooting;
 
+  /// threshold for applying prevent overshooting algorithm
+  final double preventCurveOvershootingThreshold;
+
   final bool isStrokeCapRound;
 
   /// to fill space below the bar line
@@ -249,6 +252,7 @@ class LineChartBarData {
     this.isCurved = false,
     this.curveSmoothness = 0.35,
     this.preventCurveOverShooting = false,
+    this.preventCurveOvershootingThreshold = 10.0,
     this.isStrokeCapRound = false,
     this.belowBarData = const BarAreaData(),
     this.aboveBarData = const BarAreaData(),
@@ -266,6 +270,8 @@ class LineChartBarData {
       isCurved: b.isCurved,
       isStrokeCapRound: b.isStrokeCapRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
+      preventCurveOvershootingThreshold:
+          lerpDouble(a.preventCurveOvershootingThreshold, b.preventCurveOvershootingThreshold, t),
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),
@@ -503,6 +509,8 @@ class FlDotData {
 /// and the y is dynamic
 class HorizontalLine extends FlLine {
   final double y;
+  Image image;
+  SizedPicture sizedPicture;
   final HorizontalLineLabel label;
 
   HorizontalLine({
@@ -511,6 +519,8 @@ class HorizontalLine extends FlLine {
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
+    this.image,
+    this.sizedPicture,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
@@ -519,6 +529,8 @@ class HorizontalLine extends FlLine {
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      image: b.image,
+      sizedPicture: b.sizedPicture,
     );
   }
 }
@@ -527,6 +539,8 @@ class HorizontalLine extends FlLine {
 /// and the x is dynamic
 class VerticalLine extends FlLine {
   final double x;
+  Image image;
+  SizedPicture sizedPicture;
   final VerticalLineLabel label;
 
   VerticalLine({
@@ -535,6 +549,8 @@ class VerticalLine extends FlLine {
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
+    this.image,
+    this.sizedPicture,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
@@ -543,6 +559,8 @@ class VerticalLine extends FlLine {
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      image: b.image,
+      sizedPicture: b.sizedPicture,
     );
   }
 }
@@ -663,18 +681,16 @@ class LineTouchData extends FlTouchData {
 
   const LineTouchData({
     bool enabled = true,
-    bool enableNormalTouch = true,
     this.touchTooltipData = const LineTouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
     this.fullHeightTouchLine = false,
     this.handleBuiltInTouches = true,
     this.touchCallback,
-  }) : super(enabled, enableNormalTouch);
+  }) : super(enabled);
 
   LineTouchData copyWith({
     bool enabled,
-    bool enableNormalTouch,
     bool fullHeightTouchLine,
     LineTouchTooltipData touchTooltipData,
     GetTouchedSpotIndicator getTouchedSpotIndicator,
@@ -683,7 +699,6 @@ class LineTouchData extends FlTouchData {
   }) {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
-      enableNormalTouch: enableNormalTouch ?? this.enableNormalTouch,
       fullHeightTouchLine: fullHeightTouchLine ?? this.fullHeightTouchLine,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
@@ -702,7 +717,8 @@ class LineTouchTooltipData {
   final double tooltipBottomMargin;
   final double maxContentWidth;
   final GetLineTooltipItems getTooltipItems;
-  final bool fitInsideTheChart;
+  final bool fitInsideHorizontally;
+  final bool fitInsideVertically;
 
   const LineTouchTooltipData({
     this.tooltipBgColor = Colors.white,
@@ -711,7 +727,8 @@ class LineTouchTooltipData {
     this.tooltipBottomMargin = 16,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
-    this.fitInsideTheChart = false,
+    this.fitInsideHorizontally = false,
+    this.fitInsideVertically = false,
   }) : super();
 }
 
@@ -775,4 +792,12 @@ class LineChartDataTween extends Tween<LineChartData> {
 
   @override
   LineChartData lerp(double t) => begin.lerp(begin, end, t);
+}
+
+class SizedPicture {
+  Picture picture;
+  int width;
+  int height;
+
+  SizedPicture(this.picture, this.width, this.height);
 }

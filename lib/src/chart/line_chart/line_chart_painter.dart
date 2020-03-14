@@ -32,7 +32,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       clearAroundBorderPaint,
       extraLinesPaint,
       touchLinePaint,
-      bgTouchTooltipPaint;
+      bgTouchTooltipPaint,
+      imagePaint;
 
   LineChartPainter(
       LineChartData data, LineChartData targetData, Function(TouchHandler) touchHandler,
@@ -67,6 +68,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
+
+    imagePaint = Paint();
   }
 
   @override
@@ -76,8 +79,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     if (data.clipToBorder) {
-      /// save layer to clip it to border after lines drew
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
+
+      clipToBorder(canvas, size);
     }
 
     super.paint(canvas, size);
@@ -109,9 +113,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     if (data.clipToBorder) {
-      removeOutsideBorder(canvas, size);
-
-      /// restore layer to previous state (after clipping the chart)
       canvas.restore();
     }
 
@@ -137,6 +138,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       drawTouchTooltip(canvas, size, data.lineTouchData.touchTooltipData, topSpot, tooltipSpots);
     }
+  }
+
+  void clipToBorder(ui.Canvas canvas, ui.Size size,) {
+    final double halfStrokeWidth = clearAroundBorderPaint.strokeWidth / 2;
+    final Rect rect = Rect.fromLTRB(
+      getLeftOffsetDrawSize() - halfStrokeWidth,
+      getTopOffsetDrawSize() - halfStrokeWidth,
+      size.width -
+          (getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize()) +
+          halfStrokeWidth,
+      size.height- (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
+    );
+
+    canvas.clipRect(rect);
   }
 
   void drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -282,11 +297,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       temp = ((next - previous) / 2) * smoothness;
 
       if (barData.preventCurveOverShooting) {
-        if ((next - current).dy <= 10 || (current - previous).dy <= 10) {
+        if ((next - current).dy <= barData.preventCurveOvershootingThreshold ||
+            (current - previous).dy <= barData.preventCurveOvershootingThreshold) {
           temp = Offset(temp.dx, 0);
         }
 
-        if ((next - current).dx <= 10 || (current - previous).dx <= 10) {
+        if ((next - current).dx <= barData.preventCurveOvershootingThreshold ||
+            (current - previous).dx <= barData.preventCurveOvershootingThreshold) {
           temp = Offset(0, temp.dy);
         }
       }
@@ -634,25 +651,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     canvas.drawPath(barPath, barPaint);
   }
 
-  /// clip the border (remove outside the border)
-  void removeOutsideBorder(Canvas canvas, Size viewSize) {
-    if (!data.clipToBorder) {
-      return;
-    }
-
-    clearAroundBorderPaint.strokeWidth = barPaint.strokeWidth / 2;
-    final double halfStrokeWidth = clearAroundBorderPaint.strokeWidth / 2;
-    final Rect rect = Rect.fromLTRB(
-      getLeftOffsetDrawSize() - halfStrokeWidth,
-      getTopOffsetDrawSize() - halfStrokeWidth,
-      viewSize.width -
-          (getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize()) +
-          halfStrokeWidth,
-      viewSize.height - (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
-    );
-    canvas.drawRect(rect, clearAroundBorderPaint);
-  }
-
   void drawTitles(Canvas canvas, Size viewSize) {
     if (!targetData.titlesData.show) {
       return;
@@ -806,6 +804,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
 
+        if (line.sizedPicture != null) {
+          final double centerX = line.sizedPicture.width / 2;
+          final double centerY = line.sizedPicture.height / 2;
+          final double xPosition = leftChartPadding - centerX;
+          final double yPosition = to.dy - centerY;
+
+          canvas.save();
+          canvas.translate(xPosition, yPosition);
+          canvas.drawPicture(line.sizedPicture.picture);
+          canvas.restore();
+        }
+
+        if (line.image != null) {
+          final double centerX = line.image.width / 2;
+          final double centerY = line.image.height / 2;
+          final Offset centeredImageOffset = Offset(leftChartPadding - centerX, to.dy - centerY);
+          canvas.drawImage(line.image, centeredImageOffset, imagePaint);
+        }
+
         if (line.label != null) {
           final HorizontalLineLabel label = line.label;
           final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
@@ -850,6 +867,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         extraLinesPaint.strokeWidth = line.strokeWidth;
 
         canvas.drawDashedLine(from, to, extraLinesPaint, line.dashArray);
+
+        if (line.sizedPicture != null) {
+          final double centerX = line.sizedPicture.width / 2;
+          final double centerY = line.sizedPicture.height / 2;
+          final double xPosition = to.dx - centerX;
+          final double yPosition = viewSize.height - bottomChartPadding - centerY;
+
+          canvas.save();
+          canvas.translate(xPosition, yPosition);
+          canvas.drawPicture(line.sizedPicture.picture);
+          canvas.restore();
+        }
+        if (line.image != null) {
+          final double centerX = line.image.width / 2;
+          final double centerY = line.image.height / 2;
+          final Offset centeredImageOffset =
+              Offset(to.dx - centerX, viewSize.height - bottomChartPadding - centerY);
+          canvas.drawImage(line.image, centeredImageOffset, imagePaint);
+        }
 
         if (line.label != null) {
           final VerticalLineLabel label = line.label;
@@ -953,23 +989,47 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         tooltipWidth,
         tooltipHeight);
 
-    if (tooltipData.fitInsideTheChart) {
+    if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
         final shiftAmount = 0 - rect.left;
-        rect = Rect.fromLTRB(rect.left + shiftAmount,
-            rect.top,
-            rect.right + shiftAmount,
-            rect.bottom,
-          );
+        rect = Rect.fromLTRB(
+          rect.left + shiftAmount,
+          rect.top,
+          rect.right + shiftAmount,
+          rect.bottom,
+        );
       }
 
       if (rect.right > viewSize.width) {
         final shiftAmount = rect.right - viewSize.width;
-        rect = Rect.fromLTRB(rect.left - shiftAmount,
-            rect.top,
-            rect.right - shiftAmount,
-            rect.bottom,
-          );
+        rect = Rect.fromLTRB(
+          rect.left - shiftAmount,
+          rect.top,
+          rect.right - shiftAmount,
+          rect.bottom,
+        );
+      }
+    }
+
+    if (tooltipData.fitInsideVertically) {
+      if (rect.top < 0) {
+        final shiftAmount = 0 - rect.top;
+        rect = Rect.fromLTRB(
+          rect.left,
+          rect.top + shiftAmount,
+          rect.right,
+          rect.bottom + shiftAmount,
+        );
+      }
+
+      if (rect.bottom > viewSize.height) {
+        final shiftAmount = rect.bottom - viewSize.height;
+        rect = Rect.fromLTRB(
+          rect.left,
+          rect.top - shiftAmount,
+          rect.right,
+          rect.bottom - shiftAmount,
+        );
       }
     }
 
