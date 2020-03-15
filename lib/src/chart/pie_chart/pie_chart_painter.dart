@@ -6,16 +6,24 @@ import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'pie_chart.dart';
 import 'pie_chart_data.dart';
 
-/// this class will paint the [PieChart] based on the [PieChartData]
+/// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
 class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<PieTouchResponse> {
-  /// [_sectionPaint] responsible to paint each section
-  /// [_sectionsSpaceClearPaint] responsible to clear the space between the sections
-  /// [_centerSpacePaint] responsible to draw the center space of our chart.
+
   Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
+  /// Paints [data] into canvas, it is the animating [PieChartData],
+  /// [targetData] is the animation's target and remains the same
+  /// during animation, then we should use it  when we need to show
+  /// tooltips or something like that, because [data] is changing constantly.
+  ///
+  /// [touchHandler] passes a [TouchHandler] to the parent,
+  /// parent will use it for touch handling flow.
+  ///
+  /// [textScale] used for scaling texts inside the chart,
+  /// parent can use [MediaQuery.textScaleFactor] to respect
+  /// the system's font size.
   PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler) touchHandler,
       {double textScale})
       : super(data, targetData, textScale: textScale) {

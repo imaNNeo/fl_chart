@@ -14,16 +14,10 @@ import 'package:flutter/widgets.dart';
 import '../../utils/utils.dart';
 import 'line_chart_data.dart';
 
+/// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData>
     with TouchHandler<LineTouchResponse> {
-  /// [_barPaint] is responsible to painting the bar line
-  /// [_barAreaPaint] is responsible to fill the below or above space of the bar line
-  /// [_barAreaLinesPaint] is responsible to draw vertical lines on above or below of the bar line
-  /// [_dotPaint] is responsible to draw dots on spot points
-  /// [_clearAroundBorderPaint] is responsible to clip the border
-  /// [_extraLinesPaint] is responsible to draw extra lines
-  /// [_touchLinePaint] is responsible to draw touch indicators(below line and spot)
-  /// [_bgTouchTooltipPaint] is responsible to draw box backgroundTooltip of touched point;
+
   Paint _barPaint,
       _barAreaPaint,
       _barAreaLinesPaint,
@@ -35,6 +29,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _bgTouchTooltipPaint,
       _imagePaint;
 
+  /// Paints [data] into canvas, it is the animating [LineChartData],
+  /// [targetData] is the animation's target and remains the same
+  /// during animation, then we should use it  when we need to show
+  /// tooltips or something like that, because [data] is changing constantly.
+  ///
+  /// [touchHandler] passes a [TouchHandler] to the parent,
+  /// parent will use it for touch handling flow.
+  ///
+  /// [textScale] used for scaling texts inside the chart,
+  /// parent can use [MediaQuery.textScaleFactor] to respect
+  /// the system's font size.
   LineChartPainter(
       LineChartData data, LineChartData targetData, Function(TouchHandler) touchHandler,
       {double textScale})

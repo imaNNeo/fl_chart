@@ -9,12 +9,24 @@ import 'package:flutter/widgets.dart';
 
 import '../../utils/utils.dart';
 
+/// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
   Paint _barPaint, _bgTouchTooltipPaint;
   Paint _clearPaint;
 
   List<_GroupBarsPosition> _groupBarsPosition;
 
+  /// Paints [data] into canvas, it is the animating [BarChartData],
+  /// [targetData] is the animation's target and remains the same
+  /// during animation, then we should use it  when we need to show
+  /// tooltips or something like that, because [data] is changing constantly.
+  ///
+  /// [touchHandler] passes a [TouchHandler] to the parent,
+  /// parent will use it for touch handling flow.
+  ///
+  /// [textScale] used for scaling texts inside the chart,
+  /// parent can use [MediaQuery.textScaleFactor] to respect
+  /// the system's font size.
   BarChartPainter(BarChartData data, BarChartData targetData, Function(TouchHandler) touchHandler,
       {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
@@ -60,9 +72,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
   }
 
-  /// this method calculates the x of our showing groups,
-  /// they calculate as center of the group
-  /// we position the groups based on the given [alignment],
+  /// Calculates groups position for showing in the x axis using [alignment].
   List<double> _calculateGroupsX(
       Size viewSize, List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
     final Size drawSize = getChartUsableDrawSize(viewSize);
@@ -153,6 +163,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     return groupsX;
   }
 
+  /// Calculates bars position alongside group positions.
   List<_GroupBarsPosition> _calculateGroupAndBarsPosition(
       Size viewSize, List<double> groupsX, List<BarChartGroupData> barGroups) {
     if (groupsX.length != barGroups.length) {

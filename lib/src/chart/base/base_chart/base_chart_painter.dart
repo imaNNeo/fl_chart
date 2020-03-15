@@ -1,19 +1,11 @@
-import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
-import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_data.dart';
 import 'touch_input.dart';
 
-/// this class is base class of our painters and
-/// it is responsible to draw borders of charts.
-/// concrete samples :
-/// [LineChartPainter], [BarChartPainter], [PieChartPainter]
-/// there is a data [D] that extends from [BaseChartData],
-/// that contains needed data to draw chart border in this phase.
-/// [data] is the currently showing data (it may produced by an animation using lerp function),
-/// [targetData] is the target data, that animation is going to show (if animating)
+/// Base class of our painters.
+///
+/// It is responsible to do basic jobs, like drawing borders of charts.
 abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   final D targetData;
@@ -76,7 +68,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     }
   }
 
-  /// calculate the size that we can draw our chart.
+  /// Calculate the size that we can draw our chart's main content.
   /// [getExtraNeededHorizontalSpace] and [getExtraNeededVerticalSpace]
   /// is the needed space to draw horizontal and vertical
   /// stuff around our chart.
@@ -87,22 +79,20 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     return Size(usableWidth, usableHeight);
   }
 
-  /// extra needed space to show horizontal contents around the chart,
+  /// Extra space needed to show horizontal contents around the chart,
   /// like: left, right padding, left, right titles, and so on,
-  /// each child class can override this function.
   double getExtraNeededHorizontalSpace() => 0;
 
-  /// extra needed space to show vertical contents around the chart,
-  /// like: tob, bottom padding, top, bottom titles, and so on,
-  /// each child class can override this function.
+  /// Extra space needed to show vertical contents around the chart,
+  /// like: top, bottom padding, top, bottom titles, and so on,
   double getExtraNeededVerticalSpace() => 0;
 
-  /// left offset to draw the chart
+  /// Left offset to draw the chart's main content
   /// we should use this to offset our x axis when we drawing the chart,
   /// and the width space we can use to draw chart is[getChartUsableDrawSize.width]
   double getLeftOffsetDrawSize() => 0;
 
-  /// top offset to draw the chart
+  /// Top offset to draw the chart's main content
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
   double getTopOffsetDrawSize() => 0;
