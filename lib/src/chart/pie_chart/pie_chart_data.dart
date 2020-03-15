@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
@@ -8,24 +7,44 @@ import 'package:flutter/material.dart';
 import '../base/base_chart/base_chart_data.dart';
 import 'pie_chart.dart';
 
-/// Holds all data needed to draw [PieChart],
+/// [PieChart] needs this class to render itself.
+///
+/// It holds data needed to draw a pie chart,
+/// including pie sections, colors, ...
 class PieChartData extends BaseChartData {
+
+  /// Defines showing sections of the [PieChart].
   final List<PieChartSectionData> sections;
+
+  /// Radius of free space in center of the circle.
   final double centerSpaceRadius;
+
+  /// Color of free space in center of the circle.
   final Color centerSpaceColor;
+
+  /// Handles touch behaviors and responses.
   final PieTouchData pieTouchData;
 
-  /// space between sections together
+  /// Defines gap between sections.
   final double sectionsSpace;
 
-  /// determines where the sections will be drawn value should be (0 to 360),
-  /// the default value is 0, it means the sections
-  /// will be drawn from 0 degree (zero degree is right/center of a circle).
+  /// [PieChart] draws [sections] from zero degree (right side of the circle) clockwise.
   final double startDegreeOffset;
 
-  /// we hold this value to determine weight of each [FlBorderData.value].
+  /// We hold this value to determine weight of each [PieChartSectionData.value].
   double sumValue;
 
+  /// [PieChart] draws some [sections] in a circle,
+  /// and applies free space with radius [centerSpaceRadius],
+  /// and color [centerSpaceColor] in the center of the circle,
+  /// if you don't want it, set [centerSpaceRadius] to zero.
+  ///
+  /// It draws [sections] from zero degree (right side of the circle) clockwise,
+  /// you can change the starting point, by changing [startDegreeOffset] (in degrees).
+  ///
+  /// You can define a gap between [sections] by setting [sectionsSpace].
+  ///
+  /// You can modify [pieTouchData] to customize touch behaviors and responses.
   PieChartData({
     this.sections = const [],
     this.centerSpaceRadius = double.nan,
@@ -56,31 +75,51 @@ class PieChartData extends BaseChartData {
   }
 }
 
-/***** PieChartSectionData *****/
-
-/// this class holds data about each section of the pie chart,
+/// Holds data related to drawing each [PieChart] section.
 class PieChartSectionData {
-  /// the [value] is weight of the section,
-  /// for example if all values is 25, and we have 4 section,
-  /// then the sum is 100 and each section takes 1/4 of whole circle (360/4) degree.
+
+  /// It determines how much space it should occupy around the circle.
+  ///
+  /// This is depends on sum of all sections, each section should
+  /// occupy ([value] / sumValues) * 360 degrees.
   final double value;
+
+  /// Defines the color of section.
   final Color color;
 
-  /// the [radius] is the width radius of each section
+  /// Defines the radius of section.
   final double radius;
+
+  /// Defines show or hide the title of section.
   final bool showTitle;
+
+  /// Defines style of showing title of section.
   final TextStyle titleStyle;
+
+  /// Defines text of showing title at the middle of section.
   final String title;
 
-  /// the [titlePositionPercentageOffset] is the place of showing title on the section
-  /// the degree is statically on the center of each section,
-  /// but the radius of drawing is depend of this field,
-  /// this field should be between 0 and 1,
-  /// if it is 0 the title will be drawn near the inside section,
-  /// if it is 1 the title will be drawn near the outside of section,
-  /// the default value is 0.5, means it draw on the center of section.
+  /// Defines position of showing title in the section.
+  ///
+  /// It should be between 0.0 to 1.0,
+  /// 0.0 means near the center,
+  /// 1.0 means near the outside of the [PieChart].
   final double titlePositionPercentageOffset;
 
+  /// [PieChart] draws section from right side of the circle (0 degrees),
+  /// each section have a [value] that determines how much it should occupy,
+  /// this is depends on sum of all sections, each section should
+  /// occupy ([value] / sumValues) * 360 degrees.
+  ///
+  /// It draws this section with filled [color], and [radius].
+  ///
+  /// If [showTitle] is true, it draws a title at the middle of section,
+  /// you can set the text using [title], and set the style using [titleStyle],
+  /// by default it draws texts at the middle of section, but you can change the
+  /// [titlePositionPercentageOffset] to have your desire design,
+  /// it should be between 0.0 to 1.0,
+  /// 0.0 means near the center,
+  /// 1.0 means near the outside of the [PieChart].
   PieChartSectionData({
     this.value = 10,
     this.color = Colors.red,
@@ -115,31 +154,42 @@ class PieChartSectionData {
 
   static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
     return PieChartSectionData(
+      value: lerpDouble(a.value, b.value, t),
       color: Color.lerp(a.color, b.color, t),
       radius: lerpDouble(a.radius, b.radius, t),
       showTitle: b.showTitle,
+      titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
       title: b.title,
       titlePositionPercentageOffset:
           lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
-      titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
-      value: lerpDouble(a.value, b.value, t),
     );
   }
 }
 
-/// holds data for handling touch events on the [PieChart]
+/// Holds data to handle touch events, and touch responses in the [PieChart].
+///
+/// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+/// in a simple way, each chart captures the touch events, and passes a concrete
+/// instance of [FlTouchInput] to the painter, and gets a generated [PieTouchResponse].
 class PieTouchData extends FlTouchData {
   /// you can implement it to receive touches callback
   final Function(PieTouchResponse) touchCallback;
 
+  /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// You can listen to touch events using [touchCallback],
+  /// It gives you a [PieTouchResponse] that contains some
+  /// useful information about happened touch.
   const PieTouchData({
     bool enabled = true,
     this.touchCallback,
   }) : super(enabled);
 }
 
-/// holds the data of touch response on the [PieChart]
-/// used in the [PieTouchData] in a [StreamSink]
+/// Holds information about touch response in the [PieChart].
+///
+/// You can override [PieTouchData.touchCallback] to handle touch events,
+/// it gives you a [PieTouchResponse] and you can do whatever you want.
 class PieTouchResponse extends BaseTouchResponse {
   /// touch happened on this section
   final PieChartSectionData touchedSection;
@@ -153,6 +203,12 @@ class PieTouchResponse extends BaseTouchResponse {
   /// touch happened with this radius on the [PieChart]
   final double touchRadius;
 
+  /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
+  /// that contains [touchedSection], [touchedSectionIndex] that tells
+  /// you touch happened on which section,
+  /// [touchAngle] gives you angle of touch,
+  /// and [touchRadius] gives you radius of the touch.
+  /// [touchInput] is the type of happened touch.
   PieTouchResponse(
     this.touchedSection,
     this.touchedSectionIndex,
@@ -162,6 +218,7 @@ class PieTouchResponse extends BaseTouchResponse {
   ) : super(touchInput);
 }
 
+/// It lerps a [PieChartData] to another [PieChartData] (handles animation for updating values)
 class PieChartDataTween extends Tween<PieChartData> {
   PieChartDataTween({PieChartData begin, PieChartData end}) : super(begin: begin, end: end);
 

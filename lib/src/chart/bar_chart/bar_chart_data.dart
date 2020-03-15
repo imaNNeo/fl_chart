@@ -450,6 +450,10 @@ class BarTouchData extends FlTouchData {
   /// If you need to have a distance threshold for handling touches, use [touchExtraThreshold].
   /// If [allowTouchBarBackDraw] sets to true, touches will work
   /// on [BarChartRodData.backDrawRodData] too (by default it only works on the main rods).
+  ///
+  /// You can listen to touch events using [touchCallback],
+  /// It gives you a [BarTouchResponse] that contains some
+  /// useful information about happened touch.
   const BarTouchData({
     bool enabled = true,
     this.touchTooltipData = const BarTouchTooltipData(),
@@ -581,7 +585,7 @@ class BarTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
-  /// [touchInput] is the type of touch happened.
+  /// [touchInput] is the type of happened touch.
   BarTouchResponse(
     this.spot,
     FlTouchInput touchInput,

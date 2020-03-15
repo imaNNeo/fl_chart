@@ -866,6 +866,10 @@ class LineTouchData extends FlTouchData {
   /// if [fullHeightTouchLine] sets true, the line goes from bottom to top of the chart,
   /// and goes through the targeted spot.
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
+  ///
+  /// You can listen to touch events using [touchCallback],
+  /// It gives you a [LineTouchResponse] that contains some
+  /// useful information about happened touch.
   const LineTouchData({
     bool enabled = true,
     this.touchTooltipData = const LineTouchTooltipData(),
@@ -1082,7 +1086,7 @@ class LineTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
-  /// [touchInput] is the type of touch happened.
+  /// [touchInput] is the type of happened touch.
   LineTouchResponse(
     this.lineBarSpots,
     FlTouchInput touchInput,
