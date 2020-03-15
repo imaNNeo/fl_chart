@@ -420,19 +420,20 @@ class BackgroundBarChartRodData {
   }
 }
 
-/// Holds data to handle touch events, and touch responses.
+/// Holds data to handle touch events, and touch responses in the [BarChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, to retrieve generate [BarTouchResponse].
+/// instance of [FlTouchInput] to the painter, and gets a generated [BarTouchResponse].
 class BarTouchData extends FlTouchData {
-  /// Config of how touch tooltip popup
+
+  /// Configs of how touch tooltip popup.
   final BarTouchTooltipData touchTooltipData;
 
-  /// Distance threshold to handle the touch event
+  /// Distance threshold to handle the touch event.
   final EdgeInsets touchExtraThreshold;
 
-  /// Determines to handle touches on the back draw bar
+  /// Determines to handle touches on the back draw bar.
   final bool allowTouchBarBackDraw;
 
   /// Determines to handle default built-in touch responses,
@@ -447,7 +448,7 @@ class BarTouchData extends FlTouchData {
   /// touch occurs (or you can show it manually using, [BarChartGroupData.showingTooltipIndicators]),
   /// You can customize this tooltip using [touchTooltipData].
   /// If you need to have a distance threshold for handling touches, use [touchExtraThreshold].
-  /// If you [allowTouchBarBackDraw] set to true, touches will work
+  /// If [allowTouchBarBackDraw] sets to true, touches will work
   /// on [BarChartRodData.backDrawRodData] too (by default it only works on the main rods).
   const BarTouchData({
     bool enabled = true,
@@ -506,7 +507,7 @@ class BarTouchTooltipData {
 
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
-  /// otherwise you should handle it manually.
+  /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
   /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
@@ -515,7 +516,8 @@ class BarTouchTooltipData {
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
   /// Sometimes, [BarChart] shows the tooltip outside of the chart,
-  /// you can set [fitInsideTheChart] true to prevent it.
+  /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
+  /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   const BarTouchTooltipData({
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
@@ -528,11 +530,6 @@ class BarTouchTooltipData {
   }) : super();
 }
 
-/// show each TooltipItem as a row on the tooltip window,
-/// return null if you don't want to show each item
-/// if user touched the chart, we show a tooltip window on the most top [TouchSpot],
-/// here we get the [BarTooltipItem] from the given [TouchedSpot].
-///
 /// Provides a [BarTooltipItem] for showing content inside the [BarTouchTooltipData].
 ///
 /// You can override [BarTouchTooltipData.getTooltipItem], it gives you
@@ -545,7 +542,7 @@ typedef GetBarTooltipItem = BarTooltipItem Function(
   int rodIndex,
 );
 
-/// Default callback for [BarTouchTooltipData.getTooltipItem].
+/// Default implementation for [BarTouchTooltipData.getTooltipItem].
 BarTooltipItem defaultBarTooltipItem(
   BarChartGroupData group,
   int groupIndex,
@@ -584,6 +581,7 @@ class BarTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
+  /// [touchInput] is the type of touch happened.
   BarTouchResponse(
     this.spot,
     FlTouchInput touchInput,
