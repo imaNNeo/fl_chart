@@ -26,10 +26,10 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    drawViewBorder(canvas, size);
+    _drawViewBorder(canvas, size);
   }
 
-  void drawViewBorder(Canvas canvas, Size viewSize) {
+  void _drawViewBorder(Canvas canvas, Size viewSize) {
     if (!data.borderData.show) {
       return;
     }

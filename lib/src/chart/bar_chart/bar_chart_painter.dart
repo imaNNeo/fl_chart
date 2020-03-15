@@ -13,7 +13,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   Paint barPaint, bgTouchTooltipPaint;
   Paint clearPaint;
 
-  List<GroupBarsPosition> groupBarsPosition;
+  List<_GroupBarsPosition> groupBarsPosition;
 
   BarChartPainter(BarChartData data, BarChartData targetData, Function(TouchHandler) touchHandler,
       {double textScale = 1})
@@ -39,12 +39,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       return;
     }
 
-    final List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
-    groupBarsPosition = calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
+    final List<double> groupsX = _calculateGroupsX(size, data.barGroups, data.alignment);
+    groupBarsPosition = _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
 
-    drawBars(canvas, size, groupBarsPosition);
+    _drawBars(canvas, size, groupBarsPosition);
     drawAxisTitles(canvas, size);
-    drawTitles(canvas, size, groupBarsPosition);
+    _drawTitles(canvas, size, groupBarsPosition);
 
     for (int i = 0; i < targetData.barGroups.length; i++) {
       final barGroup = targetData.barGroups[i];
@@ -54,7 +54,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         }
         final barRod = barGroup.barRods[j];
 
-        drawTouchTooltip(canvas, size, groupBarsPosition, targetData.barTouchData.touchTooltipData,
+        _drawTouchTooltip(canvas, size, groupBarsPosition, targetData.barTouchData.touchTooltipData,
             barGroup, i, barRod, j);
       }
     }
@@ -63,7 +63,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// this method calculates the x of our showing groups,
   /// they calculate as center of the group
   /// we position the groups based on the given [alignment],
-  List<double> calculateGroupsX(
+  List<double> _calculateGroupsX(
       Size viewSize, List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
     final Size drawSize = getChartUsableDrawSize(viewSize);
 
@@ -153,13 +153,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     return groupsX;
   }
 
-  List<GroupBarsPosition> calculateGroupAndBarsPosition(
+  List<_GroupBarsPosition> _calculateGroupAndBarsPosition(
       Size viewSize, List<double> groupsX, List<BarChartGroupData> barGroups) {
     if (groupsX.length != barGroups.length) {
       throw Exception('inconsistent state groupsX.length != barGroups.length');
     }
 
-    final List<GroupBarsPosition> groupBarsPosition = [];
+    final List<_GroupBarsPosition> groupBarsPosition = [];
     for (int i = 0; i < barGroups.length; i++) {
       final BarChartGroupData barGroup = barGroups[i];
       final double groupX = groupsX[i];
@@ -171,12 +171,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         barsX.add(groupX - (barGroup.width / 2) + tempX + widthHalf);
         tempX += barRod.width + barGroup.barsSpace;
       });
-      groupBarsPosition.add(GroupBarsPosition(groupX, barsX));
+      groupBarsPosition.add(_GroupBarsPosition(groupX, barsX));
     }
     return groupBarsPosition;
   }
 
-  void drawBars(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
+  void _drawBars(Canvas canvas, Size viewSize, List<_GroupBarsPosition> groupBarsPosition) {
     final Size drawSize = getChartUsableDrawSize(viewSize);
 
     for (int i = 0; i < data.barGroups.length; i++) {
@@ -240,7 +240,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
   }
 
-  void drawTitles(Canvas canvas, Size viewSize, List<GroupBarsPosition> groupBarsPosition) {
+  void _drawTitles(Canvas canvas, Size viewSize, List<_GroupBarsPosition> groupBarsPosition) {
     if (!targetData.titlesData.show) {
       return;
     }
@@ -312,7 +312,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     final bottomTitles = targetData.titlesData.bottomTitles;
     if (bottomTitles.showTitles) {
       for (int index = 0; index < groupBarsPosition.length; index++) {
-        final GroupBarsPosition groupBarPos = groupBarsPosition[index];
+        final _GroupBarsPosition groupBarPos = groupBarsPosition[index];
 
         final String text = bottomTitles.getTitles(index.toDouble());
         final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
@@ -337,10 +337,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
   }
 
-  void drawTouchTooltip(
+  void _drawTouchTooltip(
     Canvas canvas,
     Size viewSize,
-    List<GroupBarsPosition> groupPositions,
+    List<_GroupBarsPosition> groupPositions,
     BarTouchTooltipData tooltipData,
     BarChartGroupData showOnBarGroup,
     int barGroupIndex,
@@ -523,12 +523,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
   /// find the nearest spot base on the touched offset
   BarTouchedSpot _getNearestTouchedSpot(
-      Size viewSize, Offset touchedPoint, List<GroupBarsPosition> groupBarsPosition) {
+      Size viewSize, Offset touchedPoint, List<_GroupBarsPosition> groupBarsPosition) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// Find the nearest barRod
     for (int i = 0; i < groupBarsPosition.length; i++) {
-      final GroupBarsPosition groupBarPos = groupBarsPosition[i];
+      final _GroupBarsPosition groupBarPos = groupBarsPosition[i];
       for (int j = 0; j < groupBarPos.barsX.length; j++) {
         final double barX = groupBarPos.barsX[j];
         final double barWidth = targetData.barGroups[i].barRods[j].width;
@@ -572,9 +572,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   bool shouldRepaint(BarChartPainter oldDelegate) => oldDelegate.data != data;
 }
 
-class GroupBarsPosition {
+class _GroupBarsPosition {
   final double groupX;
   final List<double> barsX;
 
-  GroupBarsPosition(this.groupX, this.barsX);
+  _GroupBarsPosition(this.groupX, this.barsX);
 }
