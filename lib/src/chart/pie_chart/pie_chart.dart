@@ -6,19 +6,25 @@ import 'package:flutter/material.dart';
 
 import 'pie_chart_data.dart';
 
+/// Renders a pie chart as a widget, using provided [PieChartData].
 class PieChart extends ImplicitlyAnimatedWidget {
+
+  /// Determines how the [PieChart] should be look like.
   final PieChartData data;
 
+  /// [data] determines how the [PieChart] should be look like,
+  /// when you make any change in the [PieChartData], it updates
+  /// new values with animation, and duration is [swapAnimationDuration].
   const PieChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(duration: swapAnimationDuration);
 
   @override
-  PieChartState createState() => PieChartState();
+  _PieChartState createState() => _PieChartState();
 }
 
-class PieChartState extends AnimatedWidgetBaseState<PieChart> {
+class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [PieChartData] to the new one.
   PieChartDataTween _pieChartDataTween;
