@@ -859,7 +859,7 @@ class LineTouchData extends FlTouchData {
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [LineChart] shows a tooltip popup on top of the spots if
   /// touch occurs (or you can show it manually using, [LineChartData.showingTooltipIndicators])
-  /// and also shows an indicator (contains a thicker line and larger dot on the targeted spot),
+  /// and also it shows an indicator (contains a thicker line and larger dot on the targeted spot),
   /// You can define how this indicator looks like through [getTouchedSpotIndicator] callback,
   /// You can customize this tooltip using [touchTooltipData], indicator lines starts from  bottom
   /// of the chart to the targeted spot, you can change this behavior by [fullHeightTouchLine],
@@ -1080,6 +1080,7 @@ class TouchedSpotIndicatorData {
 /// You can override [LineTouchData.touchCallback] to handle touch events,
 /// it gives you a [LineTouchResponse] and you can do whatever you want.
 class LineTouchResponse extends BaseTouchResponse {
+
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
   final List<LineBarSpot> lineBarSpots;
