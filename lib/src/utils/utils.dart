@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 
 const double _degrees2Radians = math.pi / 180.0;
 
+/// Converts degrees to radians
 double radians(double degrees) => degrees * _degrees2Radians;
 
 const double _radians2Degrees = 180.0 / math.pi;
 
+/// Converts radians to degrees
 double degrees(double radians) => radians * _radians2Degrees;
 
-/// returns a default size based on the screen size
+/// Returns a default size based on the screen size
 /// that is a 70% scaled square based on the screen.
 Size getDefaultSize(Size screenSize) {
   Size resultSize;
@@ -22,11 +24,12 @@ Size getDefaultSize(Size screenSize) {
   return resultSize * 0.7;
 }
 
-/// forward the view base on its degree
+/// Forward the view base on its degree
 double translateRotatedPosition(double size, double degree) {
   return (size / 4) * math.sin(radians(degree.abs()));
 }
 
+/// Decreases [borderRadius] to <= width / 2
 BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
   if (borderRadius == null) {
     return null;
