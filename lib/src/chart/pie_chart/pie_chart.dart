@@ -15,10 +15,10 @@ class PieChart extends ImplicitlyAnimatedWidget {
   }) : super(duration: swapAnimationDuration);
 
   @override
-  PieChartState createState() => PieChartState();
+  _PieChartState createState() => _PieChartState();
 }
 
-class PieChartState extends AnimatedWidgetBaseState<PieChart> {
+class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [PieChartData] to the new one.
   PieChartDataTween _pieChartDataTween;

@@ -16,10 +16,10 @@ class LineChart extends ImplicitlyAnimatedWidget {
   }) : super(duration: swapAnimationDuration);
 
   @override
-  LineChartState createState() => LineChartState();
+  _LineChartState createState() => _LineChartState();
 }
 
-class LineChartState extends AnimatedWidgetBaseState<LineChart> {
+class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [LineChartData] to the new one.
   LineChartDataTween _lineChartDataTween;

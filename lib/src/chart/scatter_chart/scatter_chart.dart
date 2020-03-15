@@ -15,10 +15,10 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   }) : super(duration: swapAnimationDuration);
 
   @override
-  ScatterChartState createState() => ScatterChartState();
+  _ScatterChartState createState() => _ScatterChartState();
 }
 
-class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
+class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [ScatterChartData] to the new one.
   ScatterChartDataTween _scatterChartDataTween;
