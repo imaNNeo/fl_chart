@@ -4,10 +4,15 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 
-
+/// Renders a bar chart as a widget, using provided [BarChartData].
 class BarChart extends ImplicitlyAnimatedWidget {
+
+  /// Determines how the [BarChart] should be look like.
   final BarChartData data;
 
+  /// [data] determines how the [BarChart] should be look like,
+  /// when you make any change in the [BarChartData], it updates
+  /// new values with animation, and duration is [swapAnimationDuration].
   const BarChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),

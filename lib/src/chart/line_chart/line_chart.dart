@@ -7,9 +7,15 @@ import 'package:flutter/cupertino.dart';
 import 'line_chart_data.dart';
 import 'line_chart_painter.dart';
 
+/// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
+
+  /// Determines how the [LineChart] should be look like.
   final LineChartData data;
 
+  /// [data] determines how the [LineChart] should be look like,
+  /// when you make any change in the [LineChartData], it updates
+  /// new values with animation, and duration is [swapAnimationDuration].
   const LineChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
