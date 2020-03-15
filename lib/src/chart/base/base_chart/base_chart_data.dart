@@ -1,22 +1,24 @@
 import 'dart:ui';
 
-import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
-import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
 import 'touch_input.dart';
 
-/// This class holds all data needed to [BaseChartPainter],
-/// in this phase just the [FlBorderData] provided
-/// to drawing chart border line,
-/// see inherited samples:
-/// [LineChartData], [BarChartData], [PieChartData]
+/// This class holds all data needed for [BaseChartPainter].
+///
+/// In this phase we draw the border,
+/// and handle touches in an abstract way.
 abstract class BaseChartData {
+
+  /// Holds data to drawing border around the chart.
   FlBorderData borderData;
+
+  /// Holds data needed to touch behavior and responses.
   FlTouchData touchData;
 
+  /// It draws 4 borders around your chart, you can customize it using [borderData],
+  /// [touchData] defines the touch behavior and responses.
   BaseChartData({
     this.borderData,
     this.touchData,
@@ -24,19 +26,16 @@ abstract class BaseChartData {
     borderData ??= FlBorderData();
   }
 
-  /// this function is used for animate between current and target data,
-  /// used in the [BaseChartDataTween]
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 }
 
-/***** BorderData *****/
-
-/// Border Data that contains
-/// used the [Border] class to draw each side of border.
+/// Holds data to drawing border around the chart.
 class FlBorderData {
   final bool show;
   Border border;
 
+  /// [show] Determines showing or hiding border around the chart.
+  /// [border] Determines the visual look of 4 borders, see [Border].
   FlBorderData({
     this.show = true,
     this.border,
@@ -57,24 +56,30 @@ class FlBorderData {
   }
 }
 
-/***** TouchData *****/
-
-/// holds information about touch on the chart
+/// Holds data to handle touch events, and touch responses in abstract way.
+///
+/// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+/// in a simple way, each chart captures the touch events, and passes a concrete
+/// instance of [FlTouchInput] to the painter, and gets a generated [BaseTouchResponse].
 class FlTouchData {
-  /// determines enable or disable the touch in the chart
+
+  /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
+  /// You can disable or enable the touch system using [enabled] flag,
   const FlTouchData(this.enabled);
+
 }
 
-///***** AxisTitleData *****/
-
-/// This class holds data about the description for each axis of the chart.
+/// Holds data for showing a title in each side (left, top, right, bottom) of the chart.
 class FlAxisTitleData {
   final bool show;
 
   final AxisTitle leftTitle, topTitle, rightTitle, bottomTitle;
 
+  /// [show] determines showing or hiding all titles,
+  /// [leftTitle], [topTitle], [rightTitle], [bottomTitle] determines
+  /// title for left, top, right, bottom axis sides respectively.
   const FlAxisTitleData({
     this.show = true,
     this.leftTitle = const AxisTitle(reservedSize: 16),
@@ -94,15 +99,35 @@ class FlAxisTitleData {
   }
 }
 
-/// specify each axis titles data
+/// Holds data for showing title of each side of charts.
 class AxisTitle {
+
+  /// You can show or hide it using [showTitle],
   final bool showTitle;
+
+  /// Defines how much space it needed to draw.
   final double reservedSize;
+
+  /// Determines the style of this.
   final TextStyle textStyle;
+
+  /// Determines alignment of this title.
   final TextAlign textAlign;
+
+  /// Determines margin of this title.
   final double margin;
+
+  /// Determines the showing text.
   final String titleText;
 
+  /// You can show or hide it using [showTitle],
+  /// [titleText] determines the text, and
+  /// [textStyle] determines the style of this.
+  /// [textAlign] determines alignment of this title,
+  /// [BaseChartPainter] uses [reservedSize] for assigning
+  /// a space for drawing this side title, it used for
+  /// some calculations.
+  /// [margin] determines margin of this title.
   const AxisTitle({
     this.showTitle = false,
     this.titleText = '',
@@ -121,31 +146,22 @@ class AxisTitle {
       titleText: b.titleText,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
-          b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
+        b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
       textAlign: b.textAlign,
       margin: lerpDouble(a.margin, b.margin, t),
     );
   }
 }
 
-/***** TitlesData *****/
-
-/// we use this typedef to determine which titles
-/// we should show (according to the value),
-/// we pass the value and get a boolean to show the title for that value.
-typedef GetTitleFunction = String Function(double value);
-
-String defaultGetTitle(double value) {
-  return '$value';
-}
-
-/// This class is responsible to hold data about showing titles.
-/// titles show on the each side of chart
+/// Holds data for showing titles on each side of charts (a title per each axis value).
 class FlTitlesData {
   final bool show;
 
   final SideTitles leftTitles, topTitles, rightTitles, bottomTitles;
 
+  /// [show] determines showing or hiding all titles,
+  /// [leftTitles], [topTitles], [rightTitles], [bottomTitles] defines
+  /// side titles of left, top, right, bottom sides respectively.
   const FlTitlesData({
     this.show = true,
     this.leftTitles = const SideTitles(reservedSize: 40, showTitles: true),
@@ -167,7 +183,7 @@ class FlTitlesData {
   }
 }
 
-/// specify each side titles data
+/// Holds data for showing each side titles (a title per each axis value).
 class SideTitles {
   final bool showTitles;
   final GetTitleFunction getTitles;
@@ -177,6 +193,19 @@ class SideTitles {
   final double interval;
   final double rotateAngle;
 
+  /// It draws some title on all axis, per each axis value,
+  /// [showTitles] determines showing or hiding this side,
+  /// texts are depend on the axis value, you can override [getTitles],
+  /// it gives you an axis value (double value), and you should return a string.
+  ///
+  /// [reservedSize] determines how much space they needed,
+  /// [textStyle] determines the text style of them,
+  /// [margin] determines margin of texts from the border line,
+  ///
+  /// by default, texts are showing with 1.0 interval,
+  /// you can change this value using [interval],
+  ///
+  /// you can change rotation of drawing titles using [rotateAngle].
   const SideTitles({
     this.showTitles = false,
     this.getTitles = defaultGetTitle,
@@ -203,8 +232,19 @@ class SideTitles {
   }
 }
 
-/// this class holds the touch response details,
-/// specific touch details should be hold on the concrete child classes
+/// It gives you the axis value and gets a String value based on it.
+typedef GetTitleFunction = String Function(double value);
+
+/// The default [SideTitles.getTitles] function.
+///
+/// It maps the axis number to a string and returns it.
+String defaultGetTitle(double value) {
+  return '$value';
+}
+
+/// This class holds the touch response details.
+///
+/// Specific touch details should be hold on the concrete child classes.
 class BaseTouchResponse {
   final FlTouchInput touchInput;
 
