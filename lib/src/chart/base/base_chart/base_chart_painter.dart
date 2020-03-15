@@ -17,11 +17,11 @@ import 'touch_input.dart';
 abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   final D targetData;
-  Paint borderPaint;
+  Paint _borderPaint;
   double textScale;
 
   BaseChartPainter(this.data, this.targetData, {this.textScale = 1}) : super() {
-    borderPaint = Paint()..style = PaintingStyle.stroke;
+    _borderPaint = Paint()..style = PaintingStyle.stroke;
   }
 
   @override
@@ -46,33 +46,33 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     /// Draw Top Line
     final BorderSide topBorder = data.borderData.border.top;
     if (topBorder.width != 0.0) {
-      borderPaint.color = topBorder.color;
-      borderPaint.strokeWidth = topBorder.width;
-      canvas.drawLine(topLeft, topRight, borderPaint);
+      _borderPaint.color = topBorder.color;
+      _borderPaint.strokeWidth = topBorder.width;
+      canvas.drawLine(topLeft, topRight, _borderPaint);
     }
 
     /// Draw Right Line
     final BorderSide rightBorder = data.borderData.border.right;
     if (rightBorder.width != 0.0) {
-      borderPaint.color = rightBorder.color;
-      borderPaint.strokeWidth = rightBorder.width;
-      canvas.drawLine(topRight, bottomRight, borderPaint);
+      _borderPaint.color = rightBorder.color;
+      _borderPaint.strokeWidth = rightBorder.width;
+      canvas.drawLine(topRight, bottomRight, _borderPaint);
     }
 
     /// Draw Bottom Line
     final BorderSide bottomBorder = data.borderData.border.bottom;
     if (bottomBorder.width != 0.0) {
-      borderPaint.color = bottomBorder.color;
-      borderPaint.strokeWidth = bottomBorder.width;
-      canvas.drawLine(bottomRight, bottomLeft, borderPaint);
+      _borderPaint.color = bottomBorder.color;
+      _borderPaint.strokeWidth = bottomBorder.width;
+      canvas.drawLine(bottomRight, bottomLeft, _borderPaint);
     }
 
     /// Draw Left Line
     final BorderSide leftBorder = data.borderData.border.left;
     if (leftBorder.width != 0.0) {
-      borderPaint.color = leftBorder.color;
-      borderPaint.strokeWidth = leftBorder.width;
-      canvas.drawLine(bottomLeft, topLeft, borderPaint);
+      _borderPaint.color = leftBorder.color;
+      _borderPaint.strokeWidth = leftBorder.width;
+      canvas.drawLine(bottomLeft, topLeft, _borderPaint);
     }
   }
 
