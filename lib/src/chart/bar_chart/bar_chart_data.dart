@@ -620,10 +620,6 @@ class BarTouchedSpot extends TouchedSpot {
     Offset offset,
   ) : super(spot, offset);
 
-  @override
-  Color getColor() {
-    return Colors.black;
-  }
 }
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)

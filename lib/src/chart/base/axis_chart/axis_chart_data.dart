@@ -387,8 +387,6 @@ abstract class TouchedSpot {
     this.spot,
     this.offset,
   );
-
-  Color getColor();
 }
 
 /// Holds data for rendering horizontal and vertical range annotations.
