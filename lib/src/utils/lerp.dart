@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
+import 'package:flutter/animation.dart';
 
-/// Lerps [Color] list based on [t] value
+/// Lerps [Color] list based on [t] value, check [Tween.lerp].
 List<Color> lerpColorList(List<Color> a, List<Color> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
@@ -14,7 +15,7 @@ List<Color> lerpColorList(List<Color> a, List<Color> b, double t) {
   }
 }
 
-/// Lerps [double] list based on [t] value
+/// Lerps [double] list based on [t] value, check [Tween.lerp].
 List<double> lerpDoubleList(List<double> a, List<double> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
@@ -25,7 +26,7 @@ List<double> lerpDoubleList(List<double> a, List<double> b, double t) {
   }
 }
 
-/// Lerps [int] list based on [t] value
+/// Lerps [int] list based on [t] value, check [Tween.lerp].
 List<int> lerpIntList(List<int> a, List<int> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
@@ -36,12 +37,12 @@ List<int> lerpIntList(List<int> a, List<int> b, double t) {
   }
 }
 
-/// Lerps [int] list based on [t] value
+/// Lerps [int] list based on [t] value, check [Tween.lerp].
 int lerpInt(int a, int b, double t) {
   return (a + (b - a) * t).round();
 }
 
-/// Lerps [FlSpot] list based on [t] value
+/// Lerps [FlSpot] list based on [t] value, check [Tween.lerp].
 List<FlSpot> lerpFlSpotList(List<FlSpot> a, List<FlSpot> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
@@ -52,7 +53,7 @@ List<FlSpot> lerpFlSpotList(List<FlSpot> a, List<FlSpot> b, double t) {
   }
 }
 
-/// Lerps [HorizontalLine] list based on [t] value
+/// Lerps [HorizontalLine] list based on [t] value, check [Tween.lerp].
 List<HorizontalLine> lerpHorizontalLineList(
     List<HorizontalLine> a, List<HorizontalLine> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -64,7 +65,7 @@ List<HorizontalLine> lerpHorizontalLineList(
   }
 }
 
-/// Lerps [VerticalLine] list based on [t] value
+/// Lerps [VerticalLine] list based on [t] value, check [Tween.lerp].
 List<VerticalLine> lerpVerticalLineList(List<VerticalLine> a, List<VerticalLine> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
@@ -75,7 +76,7 @@ List<VerticalLine> lerpVerticalLineList(List<VerticalLine> a, List<VerticalLine>
   }
 }
 
-/// Lerps [HorizontalRangeAnnotation] list based on [t] value
+/// Lerps [HorizontalRangeAnnotation] list based on [t] value, check [Tween.lerp].
 List<HorizontalRangeAnnotation> lerpHorizontalRangeAnnotationList(
     List<HorizontalRangeAnnotation> a, List<HorizontalRangeAnnotation> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -87,7 +88,7 @@ List<HorizontalRangeAnnotation> lerpHorizontalRangeAnnotationList(
   }
 }
 
-/// Lerps [VerticalRangeAnnotation] list based on [t] value
+/// Lerps [VerticalRangeAnnotation] list based on [t] value, check [Tween.lerp].
 List<VerticalRangeAnnotation> lerpVerticalRangeAnnotationList(
     List<VerticalRangeAnnotation> a, List<VerticalRangeAnnotation> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -99,7 +100,7 @@ List<VerticalRangeAnnotation> lerpVerticalRangeAnnotationList(
   }
 }
 
-/// Lerps [LineChartBarData] list based on [t] value
+/// Lerps [LineChartBarData] list based on [t] value, check [Tween.lerp].
 List<LineChartBarData> lerpLineChartBarDataList(
     List<LineChartBarData> a, List<LineChartBarData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -111,7 +112,7 @@ List<LineChartBarData> lerpLineChartBarDataList(
   }
 }
 
-/// Lerps [BetweenBarsData] list based on [t] value
+/// Lerps [BetweenBarsData] list based on [t] value, check [Tween.lerp].
 List<BetweenBarsData> lerpBetweenBarsDataList(
     List<BetweenBarsData> a, List<BetweenBarsData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -123,7 +124,7 @@ List<BetweenBarsData> lerpBetweenBarsDataList(
   }
 }
 
-/// Lerps [BarChartGroupData] list based on [t] value
+/// Lerps [BarChartGroupData] list based on [t] value, check [Tween.lerp].
 List<BarChartGroupData> lerpBarChartGroupDataList(
     List<BarChartGroupData> a, List<BarChartGroupData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -135,7 +136,7 @@ List<BarChartGroupData> lerpBarChartGroupDataList(
   }
 }
 
-/// Lerps [BarChartRodData] list based on [t] value
+/// Lerps [BarChartRodData] list based on [t] value, check [Tween.lerp].
 List<BarChartRodData> lerpBarChartRodDataList(
     List<BarChartRodData> a, List<BarChartRodData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -147,7 +148,7 @@ List<BarChartRodData> lerpBarChartRodDataList(
   }
 }
 
-/// Lerps [PieChartSectionData] list based on [t] value
+/// Lerps [PieChartSectionData] list based on [t] value, check [Tween.lerp].
 List<PieChartSectionData> lerpPieChartSectionDataList(
     List<PieChartSectionData> a, List<PieChartSectionData> b, double t) {
   if (a != null && b != null && a.length == b.length) {
@@ -159,7 +160,7 @@ List<PieChartSectionData> lerpPieChartSectionDataList(
   }
 }
 
-/// Lerps [ScatterSpot] list based on [t] value
+/// Lerps [ScatterSpot] list based on [t] value, check [Tween.lerp].
 List<ScatterSpot> lerpScatterSpotList(List<ScatterSpot> a, List<ScatterSpot> b, double t) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
@@ -170,7 +171,7 @@ List<ScatterSpot> lerpScatterSpotList(List<ScatterSpot> a, List<ScatterSpot> b, 
   }
 }
 
-/// Lerps [BarChartRodStackItem] list based on [t] value
+/// Lerps [BarChartRodStackItem] list based on [t] value, check [Tween.lerp].
 List<BarChartRodStackItem> lerpBarChartRodStackList(
     List<BarChartRodStackItem> a, List<BarChartRodStackItem> b, double t) {
   if (a != null && b != null && a.length == b.length) {

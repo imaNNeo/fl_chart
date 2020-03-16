@@ -1,3 +1,9 @@
+## 0.8.5
+* Added `fitInsideHorizontally` and `fitInsideVertically` in [ScatterTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertouchtooltipdata)
+* Fixed `clipToBorder` functionality basdd on the border sides.
+
+
+
 ## 0.8.4-test1
 * Improved documentations
 

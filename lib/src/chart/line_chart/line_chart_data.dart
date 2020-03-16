@@ -157,6 +157,7 @@ class LineChartData extends AxisChartData {
     super.maxY = maxY ?? 1;
   }
 
+  /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is LineChartData && b is LineChartData && t != null) {
@@ -337,6 +338,7 @@ class LineChartBarData {
     this.dashArray,
   });
 
+  /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
     return LineChartBarData(
       show: b.show,
@@ -454,6 +456,7 @@ class BarAreaData {
     this.applyCutOffY = false,
   }) : assert(applyCutOffY == true ? cutOffY != null : true);
 
+  /// Lerps a [BarAreaData] based on [t] value, check [Tween.lerp].
   static BarAreaData lerp(BarAreaData a, BarAreaData b, double t) {
     return BarAreaData(
       show: b.show,
@@ -503,6 +506,7 @@ class BetweenBarsData {
     this.gradientColorStops,
   });
 
+  /// Lerps a [BetweenBarsData] based on [t] value, check [Tween.lerp].
   static BetweenBarsData lerp(BetweenBarsData a, BetweenBarsData b, double t) {
     return BetweenBarsData(
       fromIndex: b.fromIndex,
@@ -536,6 +540,7 @@ class BarAreaSpotsLine {
     this.checkToShowSpotLine = showAllSpotsBelowLine,
   });
 
+  /// Lerps a [BarAreaSpotsLine] based on [t] value, check [Tween.lerp].
   static BarAreaSpotsLine lerp(BarAreaSpotsLine a, BarAreaSpotsLine b, double t) {
     return BarAreaSpotsLine(
       show: b.show,
@@ -583,6 +588,7 @@ class FlDotData {
     this.checkToShowDot = showAllDots,
   });
 
+  /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
     return FlDotData(
       show: b.show,
@@ -642,9 +648,11 @@ class HorizontalLine extends FlLine {
     this.sizedPicture,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
+  /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
       y: lerpDouble(a.y, b.y, t),
+      label: HorizontalLineLabel.lerp(a.label, b.label, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
@@ -692,9 +700,11 @@ class VerticalLine extends FlLine {
     this.sizedPicture,
   }) : super(color: color, strokeWidth: strokeWidth, dashArray: dashArray);
 
+  /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
       x: lerpDouble(a.x, b.x, t),
+      label: VerticalLineLabel.lerp(a.label, b.label, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
@@ -742,6 +752,16 @@ class HorizontalLineLabel extends FlLineLabel {
     Alignment alignment = Alignment.topLeft,
     this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
+
+  /// Lerps a [HorizontalLineLabel] based on [t] value, check [Tween.lerp].
+  static HorizontalLineLabel lerp(HorizontalLineLabel a, HorizontalLineLabel b, double t) {
+    return HorizontalLineLabel(
+      padding: EdgeInsets.lerp(a.padding, b.padding, t),
+      style: TextStyle.lerp(a.style, b.style, t),
+      alignment: Alignment.lerp(a.alignment, b.alignment, t),
+      labelResolver: b.labelResolver,
+    );
+  }
 }
 
 /// Draws a title on the [VerticalLine]
@@ -764,6 +784,17 @@ class VerticalLineLabel extends FlLineLabel {
     Alignment alignment = Alignment.bottomRight,
     this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
+
+  /// Lerps a [VerticalLineLabel] based on [t] value, check [Tween.lerp].
+  static VerticalLineLabel lerp(VerticalLineLabel a, VerticalLineLabel b, double t) {
+    return VerticalLineLabel(
+      padding: EdgeInsets.lerp(a.padding, b.padding, t),
+      style: TextStyle.lerp(a.style, b.style, t),
+      alignment: Alignment.lerp(a.alignment, b.alignment, t),
+      labelResolver: b.labelResolver,
+    );
+  }
+
 }
 
 /// Holds data for showing a vector image inside the chart.
@@ -820,6 +851,7 @@ class ExtraLinesData {
       this.verticalLines = const [],
       this.extraLinesOnTop = true});
 
+  /// Lerps a [ExtraLinesData] based on [t] value, check [Tween.lerp].
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
     return ExtraLinesData(
       extraLinesOnTop: b.extraLinesOnTop,
@@ -1100,6 +1132,7 @@ class LineTouchResponse extends BaseTouchResponse {
 class LineChartDataTween extends Tween<LineChartData> {
   LineChartDataTween({LineChartData begin, LineChartData end}) : super(begin: begin, end: end);
 
+  /// Lerps a [LineChartData] based on [t] value, check [Tween.lerp].
   @override
   LineChartData lerp(double t) => begin.lerp(begin, end, t);
 }

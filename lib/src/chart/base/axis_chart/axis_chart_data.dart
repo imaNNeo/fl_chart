@@ -58,6 +58,7 @@ class FlAxisTitleData {
     this.bottomTitle = const AxisTitle(reservedSize: 16),
   });
 
+  /// Lerps a [FlAxisTitleData] based on [t] value, check [Tween.lerp].
   static FlAxisTitleData lerp(FlAxisTitleData a, FlAxisTitleData b, double t) {
     return FlAxisTitleData(
       show: b.show,
@@ -386,8 +387,6 @@ abstract class TouchedSpot {
     this.spot,
     this.offset,
   );
-
-  Color getColor();
 }
 
 /// Holds data for rendering horizontal and vertical range annotations.

@@ -57,6 +57,7 @@ class PieChartData extends BaseChartData {
     sumValue = sections.map((data) => data.value).reduce((first, second) => first + second);
   }
 
+  /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is PieChartData && b is PieChartData && t != null) {
@@ -152,6 +153,7 @@ class PieChartSectionData {
     );
   }
 
+  /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
   static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
     return PieChartSectionData(
       value: lerpDouble(a.value, b.value, t),
@@ -222,6 +224,7 @@ class PieTouchResponse extends BaseTouchResponse {
 class PieChartDataTween extends Tween<PieChartData> {
   PieChartDataTween({PieChartData begin, PieChartData end}) : super(begin: begin, end: end);
 
+  /// Lerps a [PieChartData] based on [t] value, check [Tween.lerp].
   @override
   PieChartData lerp(double t) => begin.lerp(begin, end, t);
 }
