@@ -58,6 +58,7 @@ class FlAxisTitleData {
     this.bottomTitle = const AxisTitle(reservedSize: 16),
   });
 
+  /// Lerps a [FlAxisTitleData] based on [t] value, check [Tween.lerp].
   static FlAxisTitleData lerp(FlAxisTitleData a, FlAxisTitleData b, double t) {
     return FlAxisTitleData(
       show: b.show,

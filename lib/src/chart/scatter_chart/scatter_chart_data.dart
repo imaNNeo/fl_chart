@@ -117,6 +117,7 @@ class ScatterChartData extends AxisChartData {
     super.maxY = maxY ?? 1;
   }
 
+  /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is ScatterChartData && b is ScatterChartData && t != null) {
@@ -199,6 +200,7 @@ class ScatterSpot extends FlSpot {
     color ??= Colors.primaries[((x * y) % Colors.primaries.length).toInt()];
   }
 
+  /// Lerps a [ScatterSpot] based on [t] value, check [Tween.lerp].
   static ScatterSpot lerp(ScatterSpot a, ScatterSpot b, double t) {
     return ScatterSpot(
       lerpDouble(a.x, b.x, t),
@@ -368,6 +370,7 @@ class ScatterChartDataTween extends Tween<ScatterChartData> {
   ScatterChartDataTween({ScatterChartData begin, ScatterChartData end})
       : super(begin: begin, end: end);
 
+  /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(double t) {
     return begin.lerp(begin, end, t);
