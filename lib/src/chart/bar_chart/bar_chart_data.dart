@@ -113,6 +113,8 @@ class BarChartData extends AxisChartData {
     super.maxY = maxY ?? 1;
   }
 
+  /// Copies current [BarChartData] to a new [BarChartData],
+  /// and replaces provided values.
   BarChartData copyWith({
     List<BarChartGroupData> barGroups,
     double groupsSpace,
@@ -224,6 +226,8 @@ class BarChartGroupData {
     return sumWidth + spaces;
   }
 
+  /// Copies current [BarChartGroupData] to a new [BarChartGroupData],
+  /// and replaces provided values.
   BarChartGroupData copyWith({
     int x,
     List<BarChartRodData> barRods,
@@ -306,6 +310,8 @@ class BarChartRodData {
     this.rodStackItem = const [],
   }) :borderRadius = normalizeBorderRadius(borderRadius, width);
 
+  /// Copies current [BarChartRodData] to a new [BarChartRodData],
+  /// and replaces provided values.
   BarChartRodData copyWith({
     double y,
     Color color,
@@ -367,6 +373,8 @@ class BarChartRodStackItem {
   /// ```
   const BarChartRodStackItem(this.fromY, this.toY, this.color);
 
+  /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
+  /// and replaces provided values.
   BarChartRodStackItem copyWith({
     double fromY,
     double toY,
@@ -468,6 +476,8 @@ class BarTouchData extends FlTouchData {
     this.touchCallback,
   }) : super(enabled);
 
+  /// Copies current [BarTouchData] to a new [BarTouchData],
+  /// and replaces provided values.
   BarTouchData copyWith({
     bool enabled,
     BarTouchTooltipData touchTooltipData,

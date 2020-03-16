@@ -184,6 +184,8 @@ class LineChartData extends AxisChartData {
     }
   }
 
+  /// Copies current [LineChartData] to a new [LineChartData],
+  /// and replaces provided values.
   LineChartData copyWith({
     List<LineChartBarData> lineBarsData,
     List<BetweenBarsData> betweenBarsData,
@@ -361,6 +363,8 @@ class LineChartBarData {
     );
   }
 
+  /// Copies current [LineChartBarData] to a new [LineChartBarData],
+  /// and replaces provided values.
   LineChartBarData copyWith({
     List<FlSpot> spots,
     bool show,
@@ -912,6 +916,8 @@ class LineTouchData extends FlTouchData {
     this.touchCallback,
   }) : super(enabled);
 
+  /// Copies current [LineTouchData] to a new [LineTouchData],
+  /// and replaces provided values.
   LineTouchData copyWith({
     bool enabled,
     bool fullHeightTouchLine,

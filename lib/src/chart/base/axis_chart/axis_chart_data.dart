@@ -215,6 +215,8 @@ class FlSpot {
   /// 0 means most bottom point of the chart
   const FlSpot(this.x, this.y);
 
+  /// Copies current [FlSpot] to a new [FlSpot],
+  /// and replaces provided values.
   FlSpot copyWith({
     double x,
     double y,

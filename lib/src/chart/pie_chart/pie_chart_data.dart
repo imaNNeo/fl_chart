@@ -132,6 +132,8 @@ class PieChartSectionData {
     this.titlePositionPercentageOffset = 0.5,
   });
 
+  /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
+  /// and replaces provided values.
   PieChartSectionData copyWith({
     double value,
     Color color,
