@@ -18,8 +18,10 @@ class BarChart extends ImplicitlyAnimatedWidget {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(duration: swapAnimationDuration);
 
+  /// Creates a [_BarChartState]
   @override
   _BarChartState createState() => _BarChartState();
+
 }
 
 class _BarChartState extends AnimatedWidgetBaseState<BarChart> {

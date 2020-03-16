@@ -1137,6 +1137,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     return sum;
   }
 
+  /// Makes a [LineTouchResponse] based on the provided [FlTouchInput]
+  ///
+  /// Processes [FlTouchInput.getOffset] and checks
+  /// the elements of the chart that are near the offset,
+  /// then makes a [LineTouchResponse] from the elements that has been touched.
   @override
   LineTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
     /// it holds list of nearest touched spots of each line
@@ -1179,6 +1184,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     return null;
   }
 
+  /// Determines should it redraw the chart or not.
+  ///
+  /// If there is a change in the [LineChartData],
+  /// [LineChartPainter] should repaint itself.
   @override
   bool shouldRepaint(LineChartPainter oldDelegate) => oldDelegate.data != data;
+
 }

@@ -21,8 +21,10 @@ class LineChart extends ImplicitlyAnimatedWidget {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(duration: swapAnimationDuration);
 
+  /// Creates a [_LineChartState]
   @override
   _LineChartState createState() => _LineChartState();
+
 }
 
 class _LineChartState extends AnimatedWidgetBaseState<LineChart> {

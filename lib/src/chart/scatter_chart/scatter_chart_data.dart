@@ -60,6 +60,8 @@ class ScatterChartData extends AxisChartData {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
 
+  /// fills [minX], [maxX], [minY], [maxY] if they are null,
+  /// based on the provided [scatterSpots].
   void initSuperMinMaxValues(
     double minX,
     double maxX,

@@ -718,7 +718,7 @@ class VerticalLine extends FlLine {
   }
 }
 
-// Shows a text label
+/// Shows a text label
 abstract class FlLineLabel {
 
   /// Inner spaces around the drawing text.
@@ -734,6 +734,7 @@ abstract class FlLineLabel {
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
   FlLineLabel({this.padding, this.style, this.alignment});
+
 }
 
 /// Draws a title on the [HorizontalLine]

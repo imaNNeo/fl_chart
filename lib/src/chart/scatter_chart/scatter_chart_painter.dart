@@ -8,8 +8,10 @@ import 'package:flutter/widgets.dart';
 import '../../utils/utils.dart';
 import 'scatter_chart_data.dart';
 
+/// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     with TouchHandler<ScatterTouchResponse> {
+
   /// [_spotsPaint] is responsible to draw scatter spots
   Paint _spotsPaint, _bgTouchTooltipPaint;
 
@@ -376,6 +378,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     return sum;
   }
 
+  /// Makes a [ScatterTouchResponse] based on the provided [FlTouchInput]
+  ///
+  /// Processes [FlTouchInput.getOffset] and checks
+  /// the elements of the chart that are near the offset,
+  /// then makes a [ScatterTouchResponse] from the elements that has been touched.
   @override
   ScatterTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
     final Size chartViewSize = getChartUsableDrawSize(size);
@@ -397,6 +404,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     return ScatterTouchResponse(touchInput, null, -1);
   }
 
+  /// Determines should it redraw the chart or not.
+  ///
+  /// If there is a change in the [ScatterChartData],
+  /// [ScatterChartPainter] should repaint itself.
   @override
   bool shouldRepaint(ScatterChartPainter oldDelegate) => oldDelegate.data != data;
 }

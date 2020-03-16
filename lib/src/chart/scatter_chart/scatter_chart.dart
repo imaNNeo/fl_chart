@@ -20,8 +20,10 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(duration: swapAnimationDuration);
 
+  /// Creates a [_ScatterChartState]
   @override
   _ScatterChartState createState() => _ScatterChartState();
+
 }
 
 class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
