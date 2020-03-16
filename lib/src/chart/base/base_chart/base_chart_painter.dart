@@ -12,6 +12,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   Paint _borderPaint;
   double textScale;
 
+  /// Draws some basic things line border
   BaseChartPainter(this.data, this.targetData, {this.textScale = 1}) : super() {
     _borderPaint = Paint()..style = PaintingStyle.stroke;
   }

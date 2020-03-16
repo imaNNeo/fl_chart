@@ -117,6 +117,7 @@ class ScatterChartData extends AxisChartData {
     super.maxY = maxY ?? 1;
   }
 
+  /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is ScatterChartData && b is ScatterChartData && t != null) {
@@ -199,6 +200,7 @@ class ScatterSpot extends FlSpot {
     color ??= Colors.primaries[((x * y) % Colors.primaries.length).toInt()];
   }
 
+  /// Lerps a [ScatterSpot] based on [t] value, check [Tween.lerp].
   static ScatterSpot lerp(ScatterSpot a, ScatterSpot b, double t) {
     return ScatterSpot(
       lerpDouble(a.x, b.x, t),
@@ -302,6 +304,12 @@ class ScatterTouchTooltipData {
   /// Retrieves data for showing content inside the tooltip.
   final GetScatterTooltipItems getTooltipItems;
 
+  /// Forces the tooltip to shift horizontally inside the chart, if overflow happens.
+  final bool fitInsideHorizontally;
+
+  /// Forces the tooltip to shift vertically inside the chart, if overflow happens.
+  final bool fitInsideVertically;
+
   /// if [ScatterTouchData.handleBuiltInTouches] is true,
   /// [ScatterChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [ScatterChartData.showingTooltipIndicators].
@@ -311,12 +319,17 @@ class ScatterTouchTooltipData {
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
+  /// Sometimes, [ScatterChart] shows the tooltip outside of the chart,
+  /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
+  /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   const ScatterTouchTooltipData({
     this.tooltipBgColor = Colors.white,
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultScatterTooltipItem,
+    this.fitInsideHorizontally = false,
+    this.fitInsideVertically = false,
   }) : super();
 }
 
@@ -368,6 +381,7 @@ class ScatterChartDataTween extends Tween<ScatterChartData> {
   ScatterChartDataTween({ScatterChartData begin, ScatterChartData end})
       : super(begin: begin, end: end);
 
+  /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(double t) {
     return begin.lerp(begin, end, t);
