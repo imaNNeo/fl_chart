@@ -48,6 +48,8 @@ ScatterChart(
 |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
 |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
 |getTooltipItems|a callback that retrieve a [ScatterTooltipItem](#ScatterTooltipItem) by the given [ScatterSpot](#ScatterSpot) |defaultScatterTooltipItem|
+|fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
+|fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
 
 ### ScatterTooltipItem
 |PropName|Description|default value|
