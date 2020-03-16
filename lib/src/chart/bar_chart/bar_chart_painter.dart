@@ -12,7 +12,6 @@ import '../../utils/utils.dart';
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
   Paint _barPaint, _bgTouchTooltipPaint;
-  Paint _clearPaint;
 
   List<_GroupBarsPosition> _groupBarsPosition;
 
@@ -36,11 +35,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
-
-    _clearPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = Colors.white
-      ..blendMode = BlendMode.dstIn;
   }
 
   @override
