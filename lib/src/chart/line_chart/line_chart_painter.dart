@@ -71,6 +71,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     _imagePaint = Paint();
   }
 
+  /// Paints [LineChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     if (data.lineBarsData.isEmpty) {

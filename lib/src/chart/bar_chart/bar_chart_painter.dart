@@ -37,6 +37,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       ..color = Colors.white;
   }
 
+  /// Paints [BarChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);

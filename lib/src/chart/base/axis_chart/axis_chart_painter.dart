@@ -28,6 +28,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
   }
 
+  /// Paints [AxisChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);

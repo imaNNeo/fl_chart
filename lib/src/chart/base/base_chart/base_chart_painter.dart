@@ -17,6 +17,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     _borderPaint = Paint()..style = PaintingStyle.stroke;
   }
 
+  /// Paints [BaseChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     _drawViewBorder(canvas, size);

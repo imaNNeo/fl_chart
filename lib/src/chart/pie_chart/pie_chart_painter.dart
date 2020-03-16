@@ -41,6 +41,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       ..color = data.centerSpaceColor;
   }
 
+  /// Paints [PieChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);

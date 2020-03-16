@@ -37,6 +37,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
       ..color = Colors.white;
   }
 
+  /// Paints [ScatterChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
