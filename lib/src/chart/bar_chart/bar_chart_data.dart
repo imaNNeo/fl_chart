@@ -141,6 +141,7 @@ class BarChartData extends AxisChartData {
     );
   }
 
+  /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is BarChartData && b is BarChartData && t != null) {
@@ -237,6 +238,7 @@ class BarChartGroupData {
     );
   }
 
+  /// Lerps a [BarChartGroupData] based on [t] value, check [Tween.lerp].
   static BarChartGroupData lerp(BarChartGroupData a, BarChartGroupData b, double t) {
     return BarChartGroupData(
       x: (a.x + (b.x - a.x) * t).round(),
@@ -322,6 +324,7 @@ class BarChartRodData {
     );
   }
 
+  /// Lerps a [BarChartRodData] based on [t] value, check [Tween.lerp].
   static BarChartRodData lerp(BarChartRodData a, BarChartRodData b, double t) {
     return BarChartRodData(
       color: Color.lerp(a.color, b.color, t),
@@ -376,6 +379,7 @@ class BarChartRodStackItem {
     );
   }
 
+  /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
   static BarChartRodStackItem lerp(BarChartRodStackItem a, BarChartRodStackItem b, double t) {
     return BarChartRodStackItem(
       lerpDouble(a.fromY, b.fromY, t),
@@ -410,6 +414,7 @@ class BackgroundBarChartRodData {
     this.color = Colors.blueGrey,
   });
 
+  /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
   static BackgroundBarChartRodData lerp(
       BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
@@ -625,6 +630,8 @@ class BarTouchedSpot extends TouchedSpot {
 class BarChartDataTween extends Tween<BarChartData> {
   BarChartDataTween({BarChartData begin, BarChartData end}) : super(begin: begin, end: end);
 
+  /// Lerps a [BarChartData] based on [t] value, check [Tween.lerp].
   @override
   BarChartData lerp(double t) => begin.lerp(begin, end, t);
+
 }

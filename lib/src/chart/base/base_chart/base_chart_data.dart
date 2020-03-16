@@ -45,6 +45,7 @@ class FlBorderData {
     );
   }
 
+  /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
   static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
     assert(a != null && b != null && t != null);
     return FlBorderData(
