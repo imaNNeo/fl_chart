@@ -140,14 +140,26 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _clipToBorder(ui.Canvas canvas, ui.Size size,) {
-    final double halfStrokeWidth = _clearAroundBorderPaint.strokeWidth / 2;
-    final Rect rect = Rect.fromLTRB(
-      getLeftOffsetDrawSize() - halfStrokeWidth,
-      getTopOffsetDrawSize() - halfStrokeWidth,
-      size.width -
-          (getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize()) +
-          halfStrokeWidth,
-      size.height- (getExtraNeededVerticalSpace() - getTopOffsetDrawSize()) + halfStrokeWidth,
+    final usableSize = getChartUsableDrawSize(size);
+
+    double left = 0;
+    double top = 0;
+    double right = 0;
+    double bottom = 0;
+    if (data.borderData.show) {
+      final border = data.borderData.border;
+
+      left = border?.left?.width ?? 0;
+      top = border?.top?.width ?? 0;
+      right = border?.right?.width ?? 0;
+      bottom = border?.bottom?.width ?? 0;
+    }
+
+    final rect = Rect.fromLTRB(
+      getLeftOffsetDrawSize() - (left / 2),
+      getTopOffsetDrawSize() - (top / 2),
+      getLeftOffsetDrawSize() + usableSize.width + (right / 2),
+      getTopOffsetDrawSize() + usableSize.height + (bottom / 2),
     );
 
     canvas.clipRect(rect);
