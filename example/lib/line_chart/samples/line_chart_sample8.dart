@@ -173,14 +173,18 @@ class _LineChartSample8State extends State<LineChartSample8> {
       lineBarsData: [
         LineChartBarData(
           spots: const [
+            FlSpot(null, null),
             FlSpot(0, 1),
             FlSpot(2, 1),
-            FlSpot(3, 3),
+            FlSpot(3, 4),
             FlSpot(null, null),
-            FlSpot(5, 4.5),
+            FlSpot(5, 3),
+            FlSpot(6, 2),
             FlSpot(8, 1),
-            FlSpot(9.5, 2),
-            FlSpot(11, 4),
+            FlSpot(9, 2),
+            FlSpot(10, 3),
+            FlSpot(11, 3.5),
+            // FlSpot(null, null),
           ],
           dashArray: [2, 4],
           isCurved: true,
