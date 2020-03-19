@@ -175,8 +175,9 @@ class _LineChartSample8State extends State<LineChartSample8> {
           spots: const [
             FlSpot(0, 1),
             FlSpot(2, 1),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 5),
+            FlSpot(3, 3),
+            FlSpot(null, null),
+            FlSpot(5, 4.5),
             FlSpot(8, 1),
             FlSpot(9.5, 2),
             FlSpot(11, 4),
