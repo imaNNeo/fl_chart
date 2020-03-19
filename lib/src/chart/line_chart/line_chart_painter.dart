@@ -171,34 +171,38 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   void _drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
     final List<List<FlSpot>> barList = [[]];
 
-    barData.spots.forEach((spot) {
-      if (spot.x != null && spot.y != null) {
-        barList.last.add(spot);
+    // handle nullability by splitting off the list into multiple
+    // separate lists when separated by nulls
+    // and ignore nulls when they're first or last
+    for (int i = 0; i < barData.spots.length; i++) {
+      if (barData.spots[i].x != null && barData.spots[i].y != null) {
+        barList.last.add(barData.spots[i]);
       } else {
-        barList.add(<FlSpot>[]);
+        if (i != 0 && i != barData.spots.length - 1) {
+          barList.add(<FlSpot>[]);
+        }
       }
-    });
+    }
 
+    // paint each sublist that was built above
+    // bar is passed in seperately from barData
+    // because barData is the whole line
+    // and bar is a piece of that line
     barList.forEach((bar) {
-      print('bar g');
       final barPath = _generateBarPath(viewSize, barData, bar: bar);
       _drawBar(canvas, viewSize, barPath, barData);
 
-      final belowBarPath = _generateBelowBarPath(viewSize, barData, barPath);
+      final belowBarPath = _generateBelowBarPath(viewSize, barData, barPath, bar: bar);
       final completelyFillBelowBarPath =
-          _generateBelowBarPath(viewSize, barData, barPath, fillCompletely: true);
+          _generateBelowBarPath(viewSize, barData, barPath, bar: bar, fillCompletely: true);
 
-      final aboveBarPath = _generateAboveBarPath(viewSize, barData, barPath);
+      final aboveBarPath = _generateAboveBarPath(viewSize, barData, barPath, bar: bar);
       final completelyFillAboveBarPath =
-          _generateAboveBarPath(viewSize, barData, barPath, fillCompletely: true);
+          _generateAboveBarPath(viewSize, barData, barPath, bar: bar, fillCompletely: true);
 
       _drawBelowBar(canvas, viewSize, belowBarPath, completelyFillAboveBarPath, barData);
       _drawAboveBar(canvas, viewSize, aboveBarPath, completelyFillBelowBarPath, barData);
     });
-
-    // final barPath = _generateBarPath(viewSize, barData);
-
-    // _drawBar(canvas, viewSize, barPath, barData);
   }
 
   void _drawBetweenBarsArea(
@@ -368,13 +372,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// if [fillCompletely] is true, the cutOffY will be ignored,
   /// and a completely filled path will return,
   Path _generateBelowBarPath(Size viewSize, LineChartBarData barData, Path barPath,
-      {bool fillCompletely = false}) {
+      {List<FlSpot> bar, bool fillCompletely = false}) {
     final belowBarPath = Path.from(barPath);
 
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// Line To Bottom Right
-    double x = getPixelX(barData.spots[barData.spots.length - 1].x, chartViewSize);
+    double x = getPixelX(bar[bar.length - 1].x, chartViewSize);
     double y;
     if (!fillCompletely && barData.belowBarData.applyCutOffY) {
       y = getPixelY(barData.belowBarData.cutOffY, chartViewSize);
@@ -384,7 +388,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     belowBarPath.lineTo(x, y);
 
     /// Line To Bottom Left
-    x = getPixelX(barData.spots[0].x, chartViewSize);
+    x = getPixelX(bar[0].x, chartViewSize);
     if (!fillCompletely && barData.belowBarData.applyCutOffY) {
       y = getPixelY(barData.belowBarData.cutOffY, chartViewSize);
     } else {
@@ -393,8 +397,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     belowBarPath.lineTo(x, y);
 
     /// Line To Top Left
-    x = getPixelX(barData.spots[0].x, chartViewSize);
-    y = getPixelY(barData.spots[0].y, chartViewSize);
+    x = getPixelX(bar[0].x, chartViewSize);
+    y = getPixelY(bar[0].y, chartViewSize);
     belowBarPath.lineTo(x, y);
     belowBarPath.close();
 
@@ -406,13 +410,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// if [fillCompletely] is true, the cutOffY will be ignored,
   /// and a completely filled path will return,
   Path _generateAboveBarPath(Size viewSize, LineChartBarData barData, Path barPath,
-      {bool fillCompletely = false}) {
+      {List<FlSpot> bar, bool fillCompletely = false}) {
     final aboveBarPath = Path.from(barPath);
 
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// Line To Top Right
-    double x = getPixelX(barData.spots[barData.spots.length - 1].x, chartViewSize);
+    double x = getPixelX(bar[bar.length - 1].x, chartViewSize);
     double y;
     if (!fillCompletely && barData.aboveBarData.applyCutOffY) {
       y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize);
@@ -422,7 +426,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     aboveBarPath.lineTo(x, y);
 
     /// Line To Top Left
-    x = getPixelX(barData.spots[0].x, chartViewSize);
+    x = getPixelX(bar[0].x, chartViewSize);
     if (!fillCompletely && barData.aboveBarData.applyCutOffY) {
       y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize);
     } else {
@@ -431,8 +435,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     aboveBarPath.lineTo(x, y);
 
     /// Line To Bottom Left
-    x = getPixelX(barData.spots[0].x, chartViewSize);
-    y = getPixelY(barData.spots[0].y, chartViewSize);
+    x = getPixelX(bar[0].x, chartViewSize);
+    y = getPixelY(bar[0].y, chartViewSize);
     aboveBarPath.lineTo(x, y);
     aboveBarPath.close();
 
@@ -1202,7 +1206,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// Find the nearest spot (on X axis)
     for (int i = 0; i < barData.spots.length; i++) {
       final spot = barData.spots[i];
-      if (spot.y != null) {
+      if (spot.y != null && spot.x != null) {
         if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <=
             data.lineTouchData.touchSpotThreshold) {
           return LineBarSpot(barData, barDataPosition, spot);
