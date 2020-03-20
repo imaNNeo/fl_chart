@@ -186,18 +186,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     // and bar is a piece of that line
     barList.forEach((bar) {
       final barPath = _generateBarPath(viewSize, barData, bar: bar);
-      _drawBar(canvas, viewSize, barPath, barData);
 
       final belowBarPath = _generateBelowBarPath(viewSize, barData, barPath, bar: bar);
       final completelyFillBelowBarPath =
           _generateBelowBarPath(viewSize, barData, barPath, bar: bar, fillCompletely: true);
-
       final aboveBarPath = _generateAboveBarPath(viewSize, barData, barPath, bar: bar);
       final completelyFillAboveBarPath =
           _generateAboveBarPath(viewSize, barData, barPath, bar: bar, fillCompletely: true);
 
       _drawBelowBar(canvas, viewSize, belowBarPath, completelyFillAboveBarPath, barData);
       _drawAboveBar(canvas, viewSize, aboveBarPath, completelyFillBelowBarPath, barData);
+      _drawBar(canvas, viewSize, barPath, barData);
     });
   }
 
