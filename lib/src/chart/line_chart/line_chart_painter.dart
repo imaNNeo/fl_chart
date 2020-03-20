@@ -185,20 +185,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     // bar is passed in seperately from barData
     // because barData is the whole line
     // and bar is a piece of that line
-    barList.forEach((bar) {
-      final barPath = _generateBarPath(viewSize, barData, bar: bar);
+    for (List<FlSpot> bar in barList) {
+      final barPath = _generateBarPath(viewSize, barData, bar);
 
-      final belowBarPath = _generateBelowBarPath(viewSize, barData, barPath, bar: bar);
+      final belowBarPath = _generateBelowBarPath(viewSize, barData, barPath, bar);
       final completelyFillBelowBarPath =
-          _generateBelowBarPath(viewSize, barData, barPath, bar: bar, fillCompletely: true);
-      final aboveBarPath = _generateAboveBarPath(viewSize, barData, barPath, bar: bar);
+          _generateBelowBarPath(viewSize, barData, barPath, bar, fillCompletely: true);
+      final aboveBarPath = _generateAboveBarPath(viewSize, barData, barPath, bar);
       final completelyFillAboveBarPath =
-          _generateAboveBarPath(viewSize, barData, barPath, bar: bar, fillCompletely: true);
+          _generateAboveBarPath(viewSize, barData, barPath, bar, fillCompletely: true);
 
       _drawBelowBar(canvas, viewSize, belowBarPath, completelyFillAboveBarPath, barData);
       _drawAboveBar(canvas, viewSize, aboveBarPath, completelyFillBelowBarPath, barData);
       _drawBar(canvas, viewSize, barPath, barData);
-    });
+    }
   }
 
   void _drawBetweenBarsArea(
@@ -211,13 +211,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final fromBarPath = _generateBarPath(
       viewSize,
       fromBarData,
-      bar: fromBarData.spots,
+      fromBarData.spots,
     );
     final barPath = _generateBarPath(
       viewSize,
       toBarData.copyWith(spots: spots),
+      toBarData.copyWith(spots: spots).spots,
       appendToPath: fromBarPath,
-      bar: toBarData.copyWith(spots: spots).spots,
     );
 
     _drawBetweenBar(canvas, viewSize, barPath, betweenBarsData);
@@ -294,8 +294,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// and we use isCurved to find out how we should generate it,
   /// If you want to concatenate paths together for creating an area between
   /// multiple bars for example, you can pass the appendToPath
-  Path _generateBarPath(Size viewSize, LineChartBarData barData,
-      {Path appendToPath, List<FlSpot> bar}) {
+  Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> bar,
+      {Path appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
     final int size = bar.length;
@@ -367,8 +367,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// if cutOffY is provided by the [BarAreaData], it cut the area to the provided cutOffY value,
   /// if [fillCompletely] is true, the cutOffY will be ignored,
   /// and a completely filled path will return,
-  Path _generateBelowBarPath(Size viewSize, LineChartBarData barData, Path barPath,
-      {List<FlSpot> bar, bool fillCompletely = false}) {
+  Path _generateBelowBarPath(
+      Size viewSize, LineChartBarData barData, Path barPath, List<FlSpot> bar,
+      {bool fillCompletely = false}) {
     final belowBarPath = Path.from(barPath);
 
     final chartViewSize = getChartUsableDrawSize(viewSize);
@@ -405,8 +406,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// if cutOffY is provided by the [BarAreaData], it cut the area to the provided cutOffY value,
   /// if [fillCompletely] is true, the cutOffY will be ignored,
   /// and a completely filled path will return,
-  Path _generateAboveBarPath(Size viewSize, LineChartBarData barData, Path barPath,
-      {List<FlSpot> bar, bool fillCompletely = false}) {
+  Path _generateAboveBarPath(
+      Size viewSize, LineChartBarData barData, Path barPath, List<FlSpot> bar,
+      {bool fillCompletely = false}) {
     final aboveBarPath = Path.from(barPath);
 
     final chartViewSize = getChartUsableDrawSize(viewSize);
