@@ -139,7 +139,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _clipToBorder(ui.Canvas canvas, ui.Size size) {
+  void _clipToBorder(ui.Canvas canvas, ui.Size size,) {
     final usableSize = getChartUsableDrawSize(size);
 
     double left = 0;
@@ -1190,11 +1190,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
   /// find the nearest spot base on the touched offset
   LineBarSpot _getNearestTouchedSpot(
-    Size viewSize,
-    Offset touchedPoint,
-    LineChartBarData barData,
-    int barDataPosition,
-  ) {
+      Size viewSize, Offset touchedPoint, LineChartBarData barData, int barDataPosition) {
     if (!barData.show) {
       return null;
     }
