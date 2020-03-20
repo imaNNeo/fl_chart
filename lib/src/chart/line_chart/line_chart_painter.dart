@@ -100,7 +100,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
-      // not here
       _drawBarLine(canvas, size, barData);
       _drawDots(canvas, size, barData);
 
@@ -139,10 +138,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _clipToBorder(
-    ui.Canvas canvas,
-    ui.Size size,
-  ) {
+  void _clipToBorder(ui.Canvas canvas, ui.Size size) {
     final usableSize = getChartUsableDrawSize(size);
 
     double left = 0;
