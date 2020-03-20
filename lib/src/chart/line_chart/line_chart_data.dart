@@ -643,8 +643,8 @@ class HorizontalLine extends FlLine {
   /// It draws an image in left side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
   HorizontalLine({
-    this.y,
-    this.label,
+    @required this.y,
+    this.label = const HorizontalLineLabel(),
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -695,8 +695,8 @@ class VerticalLine extends FlLine {
   /// It draws an image in bottom side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
   VerticalLine({
-    this.x,
-    this.label,
+    @required this.x,
+    this.label = const VerticalLineLabel(),
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -733,7 +733,7 @@ abstract class FlLineLabel {
   /// Draws a title on the line, align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
-  FlLineLabel({this.padding, this.style, this.alignment});
+  const FlLineLabel({this.padding, this.style, this.alignment});
 
 }
 
@@ -751,9 +751,13 @@ class HorizontalLineLabel extends FlLineLabel {
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
-  HorizontalLineLabel({
-    EdgeInsets padding,
-    TextStyle style,
+  const HorizontalLineLabel({
+    EdgeInsets padding = const EdgeInsets.all(6),
+    TextStyle style = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    ),
     Alignment alignment = Alignment.topLeft,
     this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
@@ -783,9 +787,13 @@ class VerticalLineLabel extends FlLineLabel {
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
-  VerticalLineLabel({
-    EdgeInsets padding,
-    TextStyle style,
+  const VerticalLineLabel({
+    EdgeInsets padding = const EdgeInsets.all(6),
+    TextStyle style = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    ),
     Alignment alignment = Alignment.bottomRight,
     this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
