@@ -20,8 +20,10 @@ class PieChart extends ImplicitlyAnimatedWidget {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(duration: swapAnimationDuration);
 
+  /// Creates a [_PieChartState]
   @override
   _PieChartState createState() => _PieChartState();
+
 }
 
 class _PieChartState extends AnimatedWidgetBaseState<PieChart> {

@@ -132,20 +132,22 @@ class LineChartData extends AxisChartData {
         final LineChartBarData barData = lineBarsData[i];
         for (int j = 0; j < barData.spots.length; j++) {
           final FlSpot spot = barData.spots[j];
-          if (canModifyMaxX && spot.x > maxX) {
-            maxX = spot.x;
-          }
+          if (spot.isNotNull()) {
+            if (canModifyMaxX && spot.x > maxX) {
+              maxX = spot.x;
+            }
 
-          if (canModifyMinX && spot.x < minX) {
-            minX = spot.x;
-          }
+            if (canModifyMinX && spot.x < minX) {
+              minX = spot.x;
+            }
 
-          if (canModifyMaxY && spot.y > maxY) {
-            maxY = spot.y;
-          }
+            if (canModifyMaxY && spot.y > maxY) {
+              maxY = spot.y;
+            }
 
-          if (canModifyMinY && spot.y < minY) {
-            minY = spot.y;
+            if (canModifyMinY && spot.y < minY) {
+              minY = spot.y;
+            }
           }
         }
       }
@@ -184,6 +186,8 @@ class LineChartData extends AxisChartData {
     }
   }
 
+  /// Copies current [LineChartData] to a new [LineChartData],
+  /// and replaces provided values.
   LineChartData copyWith({
     List<LineChartBarData> lineBarsData,
     List<BetweenBarsData> betweenBarsData,
@@ -227,6 +231,9 @@ class LineChartData extends AxisChartData {
 class LineChartBarData {
 
   /// This line goes through this spots.
+  ///
+  /// You can have multiple lines by splitting them,
+  /// put a [FlSpot.nullSpot] between each section.
   final List<FlSpot> spots;
 
   /// Determines to show or hide the line.
@@ -285,6 +292,8 @@ class LineChartBarData {
   final List<int> dashArray;
 
   /// [BarChart] draws some lines and overlaps them in the chart's view,
+  /// You can have multiple lines by splitting them,
+  /// put a [FlSpot.nullSpot] between each section.
   /// each line passes through [spots], with hard edges by default,
   /// [isCurved] makes it curve for drawing, and [curveSmoothness] determines the curve smoothness.
   ///
@@ -361,6 +370,8 @@ class LineChartBarData {
     );
   }
 
+  /// Copies current [LineChartBarData] to a new [LineChartBarData],
+  /// and replaces provided values.
   LineChartBarData copyWith({
     List<FlSpot> spots,
     bool show,
@@ -639,8 +650,8 @@ class HorizontalLine extends FlLine {
   /// It draws an image in left side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
   HorizontalLine({
-    this.y,
-    this.label,
+    @required this.y,
+    this.label = const HorizontalLineLabel(),
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -691,8 +702,8 @@ class VerticalLine extends FlLine {
   /// It draws an image in bottom side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
   VerticalLine({
-    this.x,
-    this.label,
+    @required this.x,
+    this.label = const VerticalLineLabel(),
     Color color = Colors.black,
     double strokeWidth = 2,
     List<int> dashArray,
@@ -714,7 +725,7 @@ class VerticalLine extends FlLine {
   }
 }
 
-// Shows a text label
+/// Shows a text label
 abstract class FlLineLabel {
 
   /// Inner spaces around the drawing text.
@@ -729,7 +740,8 @@ abstract class FlLineLabel {
   /// Draws a title on the line, align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
-  FlLineLabel({this.padding, this.style, this.alignment});
+  const FlLineLabel({this.padding, this.style, this.alignment});
+
 }
 
 /// Draws a title on the [HorizontalLine]
@@ -739,16 +751,20 @@ class HorizontalLineLabel extends FlLineLabel {
   final String Function(HorizontalLine) labelResolver;
 
   /// Returns the [HorizontalLine.y] as the drawing label.
-  static String defaultLineLabelResolver(HorizontalLine line) => line.y.toString();
+  static String defaultLineLabelResolver(HorizontalLine line) => line.y.toStringAsFixed(1);
 
   /// Draws a title on the [HorizontalLine], align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style for changing color,
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
-  HorizontalLineLabel({
-    EdgeInsets padding,
-    TextStyle style,
+  const HorizontalLineLabel({
+    EdgeInsets padding = const EdgeInsets.all(6),
+    TextStyle style = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    ),
     Alignment alignment = Alignment.topLeft,
     this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
@@ -771,16 +787,20 @@ class VerticalLineLabel extends FlLineLabel {
   final String Function(VerticalLine) labelResolver;
 
   /// Returns the [VerticalLine.x] as the drawing label.
-  static String defaultLineLabelResolver(VerticalLine line) => line.x.toString();
+  static String defaultLineLabelResolver(VerticalLine line) => line.x.toStringAsFixed(1);
 
   /// Draws a title on the [VerticalLine], align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style for changing color,
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
-  VerticalLineLabel({
-    EdgeInsets padding,
-    TextStyle style,
+  const VerticalLineLabel({
+    EdgeInsets padding = const EdgeInsets.all(6),
+    TextStyle style = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    ),
     Alignment alignment = Alignment.bottomRight,
     this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
   }) : super(padding: padding, style: style, alignment: alignment);
@@ -912,6 +932,8 @@ class LineTouchData extends FlTouchData {
     this.touchCallback,
   }) : super(enabled);
 
+  /// Copies current [LineTouchData] to a new [LineTouchData],
+  /// and replaces provided values.
   LineTouchData copyWith({
     bool enabled,
     bool fullHeightTouchLine,

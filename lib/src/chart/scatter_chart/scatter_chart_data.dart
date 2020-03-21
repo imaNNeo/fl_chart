@@ -60,6 +60,8 @@ class ScatterChartData extends AxisChartData {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
   }
 
+  /// fills [minX], [maxX], [minY], [maxY] if they are null,
+  /// based on the provided [scatterSpots].
   void initSuperMinMaxValues(
     double minX,
     double maxX,
@@ -142,6 +144,8 @@ class ScatterChartData extends AxisChartData {
     }
   }
 
+  /// Copies current [ScatterChartData] to a new [ScatterChartData],
+  /// and replaces provided values.
   ScatterChartData copyWith({
     List<ScatterSpot> scatterSpots,
     FlTitlesData titlesData,
@@ -249,6 +253,8 @@ class ScatterTouchData extends FlTouchData {
     this.touchCallback,
   }) : super(enabled);
 
+  /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
+  /// and replaces provided values.
   ScatterTouchData copyWith({
     bool enabled,
     LineTouchTooltipData touchTooltipData,

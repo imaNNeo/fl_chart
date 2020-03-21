@@ -41,6 +41,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       ..color = data.centerSpaceColor;
   }
 
+  /// Paints [PieChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
@@ -189,6 +190,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
     return centerRadius;
   }
 
+  /// Makes a [PieTouchResponse] based on the provided [FlTouchInput]
+  ///
+  /// Processes [FlTouchInput.getOffset] and checks
+  /// the elements of the chart that are near the offset,
+  /// then makes a [PieTouchResponse] from the elements that has been touched.
   @override
   PieTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
     final List<double> sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
@@ -249,6 +255,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
         foundSectionData, foundSectionDataPosition, touchAngle, touchR, touchInput);
   }
 
+  /// Determines should it redraw the chart or not.
+  ///
+  /// If there is a change in the [PieChartData],
+  /// [PieChartPainter] should repaint itself.
   @override
   bool shouldRepaint(PieChartPainter oldDelegate) => oldDelegate.data != data;
+
 }

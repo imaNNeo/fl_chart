@@ -111,6 +111,7 @@ class AxisTitle {
     this.margin = 4,
   });
 
+  /// Lerps an [AxisTitle] based on [t] value, check [Tween.lerp].
   static AxisTitle lerp(AxisTitle a, AxisTitle b, double t) {
     return AxisTitle(
       showTitle: b.showTitle,
@@ -143,6 +144,7 @@ class FlTitlesData {
     this.bottomTitles = const SideTitles(reservedSize: 22, showTitles: true),
   });
 
+  /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
   static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
     return FlTitlesData(
       show: b.show,
@@ -190,6 +192,7 @@ class SideTitles {
     this.rotateAngle = 0.0,
   });
 
+  /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
     return SideTitles(
       showTitles: b.showTitles,
@@ -215,6 +218,8 @@ class FlSpot {
   /// 0 means most bottom point of the chart
   const FlSpot(this.x, this.y);
 
+  /// Copies current [FlSpot] to a new [FlSpot],
+  /// and replaces provided values.
   FlSpot copyWith({
     double x,
     double y,
@@ -225,12 +230,23 @@ class FlSpot {
     );
   }
 
+  /// Used for splitting lines, or maybe other concepts.
+  static const FlSpot nullSpot = FlSpot(null, null);
+
+  /// Determines if [x] or [y] is null.
+  bool isNull() => x == null || y == null;
+
+  /// Determines if [x] and [y] is not null.
+  bool isNotNull() => !isNull();
+
+  /// Lerps a [FlSpot] based on [t] value, check [Tween.lerp].
   static FlSpot lerp(FlSpot a, FlSpot b, double t) {
     return FlSpot(
       lerpDouble(a.x, b.x, t),
       lerpDouble(a.y, b.y, t),
     );
   }
+
 }
 
 /// Responsible to hold grid data,
@@ -297,6 +313,7 @@ class FlGridData {
     this.checkToShowVerticalLine = showAllGrids,
   });
 
+  /// Lerps a [FlGridData] based on [t] value, check [Tween.lerp].
   static FlGridData lerp(FlGridData a, FlGridData b, double t) {
     return FlGridData(
       show: b.show,
@@ -310,6 +327,7 @@ class FlGridData {
       checkToShowVerticalLine: b.checkToShowVerticalLine,
     );
   }
+
 }
 
 /// Determines showing or hiding specified line.
@@ -358,6 +376,7 @@ class FlLine {
   /// followed by blank spaces 10 pixels long.
   const FlLine({this.color = Colors.black, this.strokeWidth = 2, this.dashArray});
 
+  /// Lerps a [FlLine] based on [t] value, check [Tween.lerp].
   static FlLine lerp(FlLine a, FlLine b, double t) {
     return FlLine(
       color: Color.lerp(a.color, b.color, t),
@@ -365,6 +384,7 @@ class FlLine {
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
+
 }
 
 /// holds information about touched spot on the axis based charts.
@@ -401,6 +421,7 @@ class RangeAnnotations {
     this.verticalRangeAnnotations = const [],
   });
 
+  /// Lerps a [RangeAnnotations] based on [t] value, check [Tween.lerp].
   static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
       horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
@@ -409,6 +430,7 @@ class RangeAnnotations {
         a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
+
 }
 
 /// Defines an annotation region in y (vertical) axis.
@@ -431,6 +453,7 @@ class HorizontalRangeAnnotation {
     this.color = Colors.white,
   });
 
+  /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static HorizontalRangeAnnotation lerp(
     HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
     return HorizontalRangeAnnotation(
@@ -439,6 +462,7 @@ class HorizontalRangeAnnotation {
       color: Color.lerp(a.color, b.color, t),
     );
   }
+
 }
 
 /// Defines an annotation region in x (horizontal) axis.
@@ -462,6 +486,7 @@ class VerticalRangeAnnotation {
     this.color = Colors.white,
   });
 
+  /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static VerticalRangeAnnotation lerp(
     VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
     return VerticalRangeAnnotation(
@@ -470,4 +495,5 @@ class VerticalRangeAnnotation {
       color: Color.lerp(a.color, b.color, t),
     );
   }
+
 }

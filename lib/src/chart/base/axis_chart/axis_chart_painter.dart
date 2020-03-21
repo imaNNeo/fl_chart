@@ -28,6 +28,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
   }
 
+  /// Paints [AxisChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
@@ -37,11 +38,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     _drawGrid(canvas, size);
   }
 
-  /// allow descendants of the class to call the superclass
-  void _superBorderPaint(Canvas canvas, Size size) {
-    super.paint(canvas, size);
-  }
-
+  /// Draws an axis titles in each side (left, top, right, bottom).
+  ///
+  /// AxisTitle is a title to describe each axis,
+  /// It can be larger then axis values titles.
   void drawAxisTitles(Canvas canvas, Size viewSize) {
     if (!data.axisTitleData.show) {
       return;
@@ -116,6 +116,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     }
   }
 
+  /// Returns needed extra space in the left and right side of the chart.
+  ///
+  /// We need some extra spaces around the chart, for showing titles, ...
+  /// It returns extra needed spaces in left and right side of the chart.
   @override
   double getExtraNeededHorizontalSpace() {
     double sum = super.getExtraNeededHorizontalSpace();
@@ -135,6 +139,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
+  /// Returns needed extra space in the bottom and tom side of the chart.
+  ///
+  /// We need some extra spaces around the chart, for showing titles, ...
+  /// It returns extra needed spaces in bottom and top side of the chart.
   @override
   double getExtraNeededVerticalSpace() {
     double sum = super.getExtraNeededVerticalSpace();
@@ -154,6 +162,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
+  /// Returns left offset for drawing chart's content.
+  ///
+  /// It returns left offset that we have apply it
+  /// to our draws to fit inside the chart's area.
   @override
   double getLeftOffsetDrawSize() {
     var sum = super.getLeftOffsetDrawSize();
@@ -166,6 +178,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
+  /// Returns top offset for drawing chart's content.
+  ///
+  /// It returns left offset that we have apply it
+  /// to our draws to fit inside the chart's area.
   @override
   double getTopOffsetDrawSize() {
     var sum = super.getTopOffsetDrawSize();

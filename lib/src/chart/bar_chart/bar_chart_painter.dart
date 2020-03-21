@@ -37,6 +37,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       ..color = Colors.white;
   }
 
+  /// Paints [BarChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
@@ -519,6 +520,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     return sum;
   }
 
+  /// Makes a [BarTouchResponse] based on the provided [FlTouchInput]
+  ///
+  /// Processes [FlTouchInput.getOffset] and checks
+  /// the elements of the chart that are near the offset,
+  /// then makes a [BarTouchResponse] from the elements that has been touched.
   @override
   BarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
     final BarTouchedSpot touchedSpot =
@@ -573,8 +579,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     return null;
   }
 
+  /// Determines should it redraw the chart or not.
+  ///
+  /// If there is a change in the [BarChartData],
+  /// [BarChartPainter] should repaint itself.
   @override
   bool shouldRepaint(BarChartPainter oldDelegate) => oldDelegate.data != data;
+
 }
 
 class _GroupBarsPosition {
