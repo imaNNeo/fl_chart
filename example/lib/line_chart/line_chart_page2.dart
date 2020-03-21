@@ -24,16 +24,6 @@ class LineChartPage2 extends StatelessWidget {
               LineChartSample4(),
               LineChartSample7(),
               LineChartSample5(),
-              const SizedBox(
-                height: 22,
-              ),
-              Text(
-                'Range annotations, dashes, image annotation using svg',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 12,
-                ),
-              ),
               LineChartSample8(),
             ],
           ),

@@ -132,20 +132,22 @@ class LineChartData extends AxisChartData {
         final LineChartBarData barData = lineBarsData[i];
         for (int j = 0; j < barData.spots.length; j++) {
           final FlSpot spot = barData.spots[j];
-          if (canModifyMaxX && spot.x > maxX) {
-            maxX = spot.x;
-          }
+          if (spot.x != null && spot.y != null) {
+            if (canModifyMaxX && spot.x > maxX) {
+              maxX = spot.x;
+            }
 
-          if (canModifyMinX && spot.x < minX) {
-            minX = spot.x;
-          }
+            if (canModifyMinX && spot.x < minX) {
+              minX = spot.x;
+            }
 
-          if (canModifyMaxY && spot.y > maxY) {
-            maxY = spot.y;
-          }
+            if (canModifyMaxY && spot.y > maxY) {
+              maxY = spot.y;
+            }
 
-          if (canModifyMinY && spot.y < minY) {
-            minY = spot.y;
+            if (canModifyMinY && spot.y < minY) {
+              minY = spot.y;
+            }
           }
         }
       }
