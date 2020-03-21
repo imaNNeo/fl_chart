@@ -1,8 +1,7 @@
 ## 0.8.6
 * Fixed exception on extraLinesData, #251.
-* Show extra lines value with 1 floating point.
-* Implemented multi section lines in LineChart, check this issue (#25) and this merge request (#252)
-
+* Show extra lines value with 1 floating-point.
+* Implemented multi-section lines in LineChart, check this issue (#26) and this merge request (#252)
 
 ## 0.8.5
 * Added `fitInsideHorizontally` and `fitInsideVertically` in [ScatterTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertouchtooltipdata)
