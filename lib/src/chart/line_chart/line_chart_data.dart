@@ -728,6 +728,9 @@ class VerticalLine extends FlLine {
 /// Shows a text label
 abstract class FlLineLabel {
 
+  /// Determines showing label or not.
+  final bool show;
+
   /// Inner spaces around the drawing text.
   final EdgeInsetsGeometry padding;
 
@@ -740,7 +743,8 @@ abstract class FlLineLabel {
   /// Draws a title on the line, align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
-  const FlLineLabel({this.padding, this.style, this.alignment});
+  /// [show] determines showing label or not.
+  const FlLineLabel({this.show, this.padding, this.style, this.alignment});
 
 }
 
@@ -758,6 +762,7 @@ class HorizontalLineLabel extends FlLineLabel {
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
+  /// /// [show] determines showing label or not.
   const HorizontalLineLabel({
     EdgeInsets padding = const EdgeInsets.all(6),
     TextStyle style = const TextStyle(
@@ -766,8 +771,9 @@ class HorizontalLineLabel extends FlLineLabel {
       fontSize: 14,
     ),
     Alignment alignment = Alignment.topLeft,
+    bool show = false,
     this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
-  }) : super(padding: padding, style: style, alignment: alignment);
+  }) : super(show: show, padding: padding, style: style, alignment: alignment);
 
   /// Lerps a [HorizontalLineLabel] based on [t] value, check [Tween.lerp].
   static HorizontalLineLabel lerp(HorizontalLineLabel a, HorizontalLineLabel b, double t) {
@@ -776,6 +782,7 @@ class HorizontalLineLabel extends FlLineLabel {
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t),
       labelResolver: b.labelResolver,
+      show: b.show,
     );
   }
 }
@@ -794,6 +801,7 @@ class VerticalLineLabel extends FlLineLabel {
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
+  /// [show] determines showing label or not.
   const VerticalLineLabel({
     EdgeInsets padding = const EdgeInsets.all(6),
     TextStyle style = const TextStyle(
@@ -802,8 +810,9 @@ class VerticalLineLabel extends FlLineLabel {
       fontSize: 14,
     ),
     Alignment alignment = Alignment.bottomRight,
+    bool show = false,
     this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
-  }) : super(padding: padding, style: style, alignment: alignment);
+  }) : super(show: show, padding: padding, style: style, alignment: alignment);
 
   /// Lerps a [VerticalLineLabel] based on [t] value, check [Tween.lerp].
   static VerticalLineLabel lerp(VerticalLineLabel a, VerticalLineLabel b, double t) {
@@ -812,6 +821,7 @@ class VerticalLineLabel extends FlLineLabel {
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t),
       labelResolver: b.labelResolver,
+      show: b.show,
     );
   }
 

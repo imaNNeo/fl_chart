@@ -1,3 +1,6 @@
+## 0.8.7
+* added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
+
 ## 0.8.6
 * Fixed exception on extraLinesData, #251.
 * Show extra lines value with 1 floating-point.
