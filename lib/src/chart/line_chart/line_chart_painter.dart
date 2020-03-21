@@ -173,7 +173,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     // separate lists when separated by nulls
     // and ignore nulls when they're first or last
     for (int i = 0; i < barData.spots.length; i++) {
-      if (barData.spots[i].x != null && barData.spots[i].y != null) {
+      if (barData.spots[i].isNotNull()) {
         barList.last.add(barData.spots[i]);
       } else {
         if (i != 0 && i != barData.spots.length - 1) {
@@ -1206,7 +1206,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// Find the nearest spot (on X axis)
     for (int i = 0; i < barData.spots.length; i++) {
       final spot = barData.spots[i];
-      if (spot.y != null && spot.x != null) {
+      if (spot.isNotNull()) {
         if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <=
             data.lineTouchData.touchSpotThreshold) {
           return LineBarSpot(barData, barDataPosition, spot);

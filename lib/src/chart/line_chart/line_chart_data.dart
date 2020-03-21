@@ -132,7 +132,7 @@ class LineChartData extends AxisChartData {
         final LineChartBarData barData = lineBarsData[i];
         for (int j = 0; j < barData.spots.length; j++) {
           final FlSpot spot = barData.spots[j];
-          if (spot.x != null && spot.y != null) {
+          if (spot.isNotNull()) {
             if (canModifyMaxX && spot.x > maxX) {
               maxX = spot.x;
             }
@@ -231,6 +231,9 @@ class LineChartData extends AxisChartData {
 class LineChartBarData {
 
   /// This line goes through this spots.
+  ///
+  /// You can have multiple lines by splitting them,
+  /// put a [FlSpot.nullSpot] between each section.
   final List<FlSpot> spots;
 
   /// Determines to show or hide the line.
@@ -289,6 +292,8 @@ class LineChartBarData {
   final List<int> dashArray;
 
   /// [BarChart] draws some lines and overlaps them in the chart's view,
+  /// You can have multiple lines by splitting them,
+  /// put a [FlSpot.nullSpot] between each section.
   /// each line passes through [spots], with hard edges by default,
   /// [isCurved] makes it curve for drawing, and [curveSmoothness] determines the curve smoothness.
   ///

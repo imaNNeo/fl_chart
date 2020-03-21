@@ -230,6 +230,15 @@ class FlSpot {
     );
   }
 
+  /// Used for splitting lines, or maybe other concepts.
+  static const FlSpot nullSpot = FlSpot(null, null);
+
+  /// Determines if [x] or [y] is null.
+  bool isNull() => x == null || y == null;
+
+  /// Determines if [x] and [y] is not null.
+  bool isNotNull() => !isNull();
+
   /// Lerps a [FlSpot] based on [t] value, check [Tween.lerp].
   static FlSpot lerp(FlSpot a, FlSpot b, double t) {
     return FlSpot(
