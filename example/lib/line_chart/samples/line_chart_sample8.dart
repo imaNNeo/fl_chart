@@ -152,9 +152,6 @@ class _LineChartSample8State extends State<LineChartSample8> {
         getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
             final FlSpot spot = barData.spots[spotIndex];
-            if (spot.x == 0 || spot.x == 6) {
-              return null;
-            }
             return TouchedSpotIndicatorData(
               const FlLine(color: Colors.orange, strokeWidth: 3),
               const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
