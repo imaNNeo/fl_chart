@@ -20,6 +20,8 @@ Size getDefaultSize(Size screenSize) {
     resultSize = Size(screenSize.width, screenSize.width);
   } else if (screenSize.height < screenSize.width) {
     resultSize = Size(screenSize.height, screenSize.height);
+  } else {
+    resultSize = Size(screenSize.width, screenSize.height);
   }
   return resultSize * 0.7;
 }

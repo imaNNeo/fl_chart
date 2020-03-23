@@ -27,6 +27,8 @@ void main() {
 
     expect(getDefaultSize(const Size(2560, 1600)).width, closeTo(1120, tolerance));
     expect(getDefaultSize(const Size(2560, 1600)).height, closeTo(1120, tolerance));
+
+    expect(getDefaultSize(const Size(1000, 1000)).width, closeTo(700, tolerance));
   });
 
   test('translate roatted position', () {
