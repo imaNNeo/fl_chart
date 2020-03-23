@@ -866,7 +866,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           canvas.drawImage(line.image, centeredImageOffset, _imagePaint);
         }
 
-        if (line.label != null) {
+        if (line.label != null && line.label.show) {
           final HorizontalLineLabel label = line.label;
           final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
@@ -930,7 +930,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           canvas.drawImage(line.image, centeredImageOffset, _imagePaint);
         }
 
-        if (line.label != null) {
+        if (line.label != null && line.label.show) {
           final VerticalLineLabel label = line.label;
           final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final EdgeInsets padding = label.padding ?? EdgeInsets.zero;

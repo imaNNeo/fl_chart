@@ -1,3 +1,7 @@
+## 0.8.7
+* Added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
+* Fixed bug, when the screen size is square, #258.
+
 ## 0.8.6
 * Fixed exception on extraLinesData, #251.
 * Show extra lines value with 1 floating-point.

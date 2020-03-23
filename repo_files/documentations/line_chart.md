@@ -124,6 +124,7 @@ LineChart(
 ### HorizontalLineLabel
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|show| Determines showing or not showing label|false|
 |padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
@@ -132,6 +133,7 @@ LineChart(
 ### VerticalLineLabel
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|show| Determines showing or not showing label|false|
 |padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
