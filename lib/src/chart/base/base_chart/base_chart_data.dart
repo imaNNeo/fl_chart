@@ -77,7 +77,7 @@ typedef GetTitleFunction = String Function(double value);
 ///
 /// It maps the axis number to a string and returns it.
 String defaultGetTitle(double value) {
-  return '$value';
+  return '${value.round()} kg';
 }
 
 /// This class holds the touch response details.
