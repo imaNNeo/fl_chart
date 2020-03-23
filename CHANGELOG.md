@@ -1,6 +1,6 @@
 ## 0.8.7
-* added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
-* Fixed bug, when screensize is square, #258.
+* Added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
+* Fixed bug, when screen size is square, #258.
 
 ## 0.8.6
 * Fixed exception on extraLinesData, #251.
