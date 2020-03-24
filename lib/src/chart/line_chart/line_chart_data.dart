@@ -579,6 +579,8 @@ Color _defaultGetDotColor(FlSpot _) => Colors.blue;
 class FlDotData {
   /// Determines show or hide all dots.
   final bool show;
+
+  // Customsize the size of the dot
   final double dotSize;
 
   /// The stroke width to use for the corresponding [FlSpot]
@@ -904,7 +906,7 @@ class ExtraLinesData {
 }
 
 /// Holds data to handle touch events, and touch responses in the [LineChart].
-/// and make a bigger dot on that spot,
+///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)	/// here we get the [TouchedSpotIndicatorData] from the given [LineTouchedSpot].
 /// in a simple way, each chart captures the touch events, and passes a concrete	typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
 /// instance of [FlTouchInput] to the painter, and gets a generated [LineTouchResponse].	    LineChartBarData barData, List<int> spotIndexes);
@@ -981,10 +983,11 @@ class LineTouchData extends FlTouchData {
 /// length of this list should be equal to the [spotIndexes.length],
 /// each [TouchedSpotIndicatorData] determines the look of showing indicator.
 typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
-    LineChartBarData barData, List<int> spotIndexes);
+  LineChartBarData barData, List<int> spotIndexes);
 
+/// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
-    LineChartBarData barData, List<int> indicators) {
+  LineChartBarData barData, List<int> indicators) {
   if (indicators == null) {
     return [];
   }
