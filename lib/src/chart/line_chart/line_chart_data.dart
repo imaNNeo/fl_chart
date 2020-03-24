@@ -596,7 +596,7 @@ class FlDotData {
     this.show = true,
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
-    this.strokeWidth,
+    this.strokeWidth = 0.0,
     this.getStrokeColor,
     this.getDotColor = _defaultGetDotColor,
   });
@@ -609,6 +609,7 @@ class FlDotData {
       dotSize: lerpDouble(a.dotSize, b.dotSize, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       getDotColor: b.getDotColor,
+      getStrokeColor: b.getStrokeColor,
     );
   }
 }
@@ -788,8 +789,8 @@ class HorizontalLineLabel extends FlLineLabel {
       show: b.show,
     );
   }
-
 }
+
 
 /// Draws a title on the [VerticalLine]
 class VerticalLineLabel extends FlLineLabel {
@@ -894,45 +895,6 @@ class ExtraLinesData {
   }
 }
 
-/// Used for showing touch indicators (a thicker line and larger dot on the targeted spot).
-///
-/// It gives you the [spotIndexes] that touch happened, or manually targeted,
-/// in the given [barData], you should return a list of [TouchedSpotIndicatorData],
-/// length of this list should be equal to the [spotIndexes.length],
-/// each [TouchedSpotIndicatorData] determines the look of showing indicator.
-typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
-    LineChartBarData barData, List<int> spotIndexes);
-
-List<TouchedSpotIndicatorData> defaultTouchedIndicators(
-    LineChartBarData barData, List<int> indicators) {
-  if (indicators == null) {
-    return [];
-  }
-  return indicators.map((int index) {
-    /// Indicator Line
-    Color lineColor = barData.colors[0];
-    if (barData.dotData.show) {
-      lineColor = barData.dotData.getDotColor(barData.spots[index]);
-    }
-    const double lineStrokeWidth = 4;
-    final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
-
-    /// Indicator dot
-    double dotSize = 10;
-    Color dotColor = barData.colors[0];
-    if (barData.dotData.show) {
-      dotSize = barData.dotData.dotSize * 1.8;
-      dotColor = barData.dotData.getDotColor(barData.spots[index]);
-    }
-    final dotData = FlDotData(
-      dotSize: dotSize,
-      getDotColor: (_) => dotColor,
-    );
-
-    return TouchedSpotIndicatorData(flLine, dotData);
-  }).toList();
-}
-
 /// Holds data to handle touch events, and touch responses in the [LineChart].
 /// and make a bigger dot on that spot,
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)	/// here we get the [TouchedSpotIndicatorData] from the given [LineTouchedSpot].
@@ -1002,6 +964,45 @@ class LineTouchData extends FlTouchData {
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
+}
+
+/// Used for showing touch indicators (a thicker line and larger dot on the targeted spot).
+///
+/// It gives you the [spotIndexes] that touch happened, or manually targeted,
+/// in the given [barData], you should return a list of [TouchedSpotIndicatorData],
+/// length of this list should be equal to the [spotIndexes.length],
+/// each [TouchedSpotIndicatorData] determines the look of showing indicator.
+typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
+    LineChartBarData barData, List<int> spotIndexes);
+
+List<TouchedSpotIndicatorData> defaultTouchedIndicators(
+    LineChartBarData barData, List<int> indicators) {
+  if (indicators == null) {
+    return [];
+  }
+  return indicators.map((int index) {
+    /// Indicator Line
+    Color lineColor = barData.colors[0];
+    if (barData.dotData.show) {
+      lineColor = barData.dotData.getDotColor(barData.spots[index]);
+    }
+    const double lineStrokeWidth = 4;
+    final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
+
+    /// Indicator dot
+    double dotSize = 10;
+    Color dotColor = barData.colors[0];
+    if (barData.dotData.show) {
+      dotSize = barData.dotData.dotSize * 1.8;
+      dotColor = barData.dotData.getDotColor(barData.spots[index]);
+    }
+    final dotData = FlDotData(
+      dotSize: dotSize,
+      getDotColor: (_) => dotColor,
+    );
+
+    return TouchedSpotIndicatorData(flLine, dotData);
+  }).toList();
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
@@ -1104,8 +1105,8 @@ class LineBarSpot extends FlSpot {
     this.bar,
     this.barIndex,
     FlSpot spot,
-  ) : spotIndex = bar.spots.indexOf(spot),
-        super(spot.x, spot.y);
+    )   : spotIndex = bar.spots.indexOf(spot),
+      super(spot.x, spot.y);
 }
 
 /// Holds data of showing each row item in the tooltip popup.
