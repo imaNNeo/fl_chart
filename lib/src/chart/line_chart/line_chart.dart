@@ -9,10 +9,8 @@ import 'line_chart_painter.dart';
 
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
-
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;
-  final bool stickyTouchedIndicators;
 
   /// [data] determines how the [LineChart] should be look like,
   /// when you make any change in the [LineChartData], it updates
@@ -20,13 +18,11 @@ class LineChart extends ImplicitlyAnimatedWidget {
   const LineChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
-    this.stickyTouchedIndicators = false,
   }) : super(duration: swapAnimationDuration);
 
   /// Creates a [_LineChartState]
   @override
   _LineChartState createState() => _LineChartState();
-
 }
 
 class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
@@ -215,12 +211,10 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         _showingTouchedTooltips.add(MapEntry(0, sortedLineSpots));
       });
     } else {
-      if (!widget.stickyTouchedIndicators) {
-        setState(() {
-          _showingTouchedTooltips.clear();
-          _showingTouchedIndicators.clear();
-        });
-      }
+      setState(() {
+        _showingTouchedTooltips.clear();
+        _showingTouchedIndicators.clear();
+      });
     }
   }
 
