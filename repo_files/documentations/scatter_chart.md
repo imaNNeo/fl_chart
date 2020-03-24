@@ -34,7 +34,6 @@ ScatterChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchTooltipData|a [ScatterTouchTooltipData](#ScatterTouchTooltipData), that determines how show the tooltip on top of touched spot (appearance of the showing tooltip bubble)|ScatterTouchTooltipData()|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
@@ -49,6 +48,8 @@ ScatterChart(
 |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
 |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
 |getTooltipItems|a callback that retrieve a [ScatterTooltipItem](#ScatterTooltipItem) by the given [ScatterSpot](#ScatterSpot) |defaultScatterTooltipItem|
+|fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
+|fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
 
 ### ScatterTooltipItem
 |PropName|Description|default value|

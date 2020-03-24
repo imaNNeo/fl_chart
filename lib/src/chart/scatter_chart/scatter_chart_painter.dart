@@ -8,31 +8,45 @@ import 'package:flutter/widgets.dart';
 import '../../utils/utils.dart';
 import 'scatter_chart_data.dart';
 
+/// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     with TouchHandler<ScatterTouchResponse> {
-  /// [spotsPaint] is responsible to draw scatter spots
-  Paint spotsPaint, bgTouchTooltipPaint;
 
+  /// [_spotsPaint] is responsible to draw scatter spots
+  Paint _spotsPaint, _bgTouchTooltipPaint;
+
+  /// Paints [data] into canvas, it is the animating [ScatterChartData],
+  /// [targetData] is the animation's target and remains the same
+  /// during animation, then we should use it  when we need to show
+  /// tooltips or something like that, because [data] is changing constantly.
+  ///
+  /// [touchHandler] passes a [TouchHandler] to the parent,
+  /// parent will use it for touch handling flow.
+  ///
+  /// [textScale] used for scaling texts inside the chart,
+  /// parent can use [MediaQuery.textScaleFactor] to respect
+  /// the system's font size.
   ScatterChartPainter(
       ScatterChartData data, ScatterChartData targetData, Function(TouchHandler) touchHandler,
       {double textScale})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
-    spotsPaint = Paint()..style = PaintingStyle.fill;
+    _spotsPaint = Paint()..style = PaintingStyle.fill;
 
-    bgTouchTooltipPaint = Paint()
+    _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
   }
 
+  /// Paints [ScatterChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
 
     drawAxisTitles(canvas, size);
-    drawTitles(canvas, size);
-    drawSpots(canvas, size);
+    _drawTitles(canvas, size);
+    _drawSpots(canvas, size);
 
     for (int i = 0; i < targetData.scatterSpots.length; i++) {
       if (!targetData.showingTooltipIndicators.contains(i)) {
@@ -40,11 +54,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
       }
 
       final ScatterSpot scatterSpot = targetData.scatterSpots[i];
-      drawTouchTooltip(canvas, size, targetData.scatterTouchData.touchTooltipData, scatterSpot);
+      _drawTouchTooltip(canvas, size, targetData.scatterTouchData.touchTooltipData, scatterSpot);
     }
   }
 
-  void drawTitles(Canvas canvas, Size viewSize) {
+  void _drawTitles(Canvas canvas, Size viewSize) {
     if (!targetData.titlesData.show) {
       return;
     }
@@ -178,7 +192,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     }
   }
 
-  void drawSpots(Canvas canvas, Size viewSize) {
+  void _drawSpots(Canvas canvas, Size viewSize) {
     if (data.scatterSpots == null) {
       return;
     }
@@ -187,17 +201,17 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
       final double pixelX = getPixelX(scatterSpot.x, chartUsableSize);
       final double pixelY = getPixelY(scatterSpot.y, chartUsableSize);
 
-      spotsPaint.color = scatterSpot.color;
+      _spotsPaint.color = scatterSpot.color;
 
       canvas.drawCircle(
         Offset(pixelX, pixelY),
         scatterSpot.radius,
-        spotsPaint,
+        _spotsPaint,
       );
     }
   }
 
-  void drawTouchTooltip(
+  void _drawTouchTooltip(
       Canvas canvas, Size viewSize, ScatterTouchTooltipData tooltipData, ScatterSpot showOnSpot) {
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
@@ -230,13 +244,58 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final double tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
     /// draw the background rect with rounded radius
-    final Rect rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2),
+    Rect rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2),
         mostTopOffset.dy - tooltipHeight - tooltipItem.bottomMargin, tooltipWidth, tooltipHeight);
+
+    if (tooltipData.fitInsideHorizontally) {
+      if (rect.left < 0) {
+        final shiftAmount = 0 - rect.left;
+        rect = Rect.fromLTRB(
+          rect.left + shiftAmount,
+          rect.top,
+          rect.right + shiftAmount,
+          rect.bottom,
+        );
+      }
+
+      if (rect.right > viewSize.width) {
+        final shiftAmount = rect.right - viewSize.width;
+        rect = Rect.fromLTRB(
+          rect.left - shiftAmount,
+          rect.top,
+          rect.right - shiftAmount,
+          rect.bottom,
+        );
+      }
+    }
+
+    if (tooltipData.fitInsideVertically) {
+      if (rect.top < 0) {
+        final shiftAmount = 0 - rect.top;
+        rect = Rect.fromLTRB(
+          rect.left,
+          rect.top + shiftAmount,
+          rect.right,
+          rect.bottom + shiftAmount,
+        );
+      }
+
+      if (rect.bottom > viewSize.height) {
+        final shiftAmount = rect.bottom - viewSize.height;
+        rect = Rect.fromLTRB(
+          rect.left,
+          rect.top - shiftAmount,
+          rect.right,
+          rect.bottom - shiftAmount,
+        );
+      }
+    }
+
     final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
     final RRect roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
-    bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvas.drawRRect(roundedRect, bgTouchTooltipPaint);
+    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+    canvas.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
     /// draw the texts one by one in below of each other
     final drawOffset = Offset(
@@ -319,6 +378,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     return sum;
   }
 
+  /// Makes a [ScatterTouchResponse] based on the provided [FlTouchInput]
+  ///
+  /// Processes [FlTouchInput.getOffset] and checks
+  /// the elements of the chart that are near the offset,
+  /// then makes a [ScatterTouchResponse] from the elements that has been touched.
   @override
   ScatterTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
     final Size chartViewSize = getChartUsableDrawSize(size);
@@ -340,6 +404,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     return ScatterTouchResponse(touchInput, null, -1);
   }
 
+  /// Determines should it redraw the chart or not.
+  ///
+  /// If there is a change in the [ScatterChartData],
+  /// [ScatterChartPainter] should repaint itself.
   @override
   bool shouldRepaint(ScatterChartPainter oldDelegate) => oldDelegate.data != data;
 }

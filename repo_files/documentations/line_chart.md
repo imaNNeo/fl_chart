@@ -20,8 +20,8 @@ LineChart(
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
-|rangeAnnotations| show range annotations behind the chart, check [base_chart.md#RangeAnnotations](RangeAnnotations) | RangeAnnotations()|
-|showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot]| {} |
+|rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
+|showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot](#LineBarSpot)| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
@@ -45,6 +45,7 @@ LineChart(
 |isCurved| curves the corners of the line on the spot's positions| false|
 |curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
 |preventCurveOverShooting|prevent overshooting when draw curve line on linear sequence spots, check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)| false|
+|preventCurveOvershootingThreshold|threshold for applying prevent overshooting algorithm | 10.0|
 |isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
 |belowBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
@@ -98,6 +99,9 @@ LineChart(
 |y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
+|label|a [HorizontalLineLabel](#HorizontalLineLabel) object with label parameters|null
 
 
 ### VerticalLine
@@ -106,6 +110,35 @@ LineChart(
 |x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
+|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
+|label|a [VerticalLineLabel](#VerticalLineLabel) object with label parameters|null
+
+### SizedPicture
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|Picture|a Dart UI Picture which should be derived from the svg. see example for how to get a Picture from an svg.|null|
+|width|the width of the picture|null|
+|height|the height of the picture|null|
+
+### HorizontalLineLabel
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|show| Determines showing or not showing label|false|
+|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
+|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|labelResolver|Getter function returning label title|defaultLineLabelResolver|
+
+### VerticalLineLabel
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|show| Determines showing or not showing label|false|
+|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
+|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|labelResolver|Getter function returning label title|defaultLineLabelResolver|
+
 
 
 ### ExtraLinesData
@@ -120,11 +153,11 @@ LineChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
+|fullHeightTouchLine| set `true` to show the line in full height mode | false|
 |touchCallback| listen to this callback to retrieve touch events, it gives you a [LineTouchResponse](#LineTouchResponse)| null|
 
 
@@ -137,6 +170,8 @@ LineChart(
  |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve list of [LineTooltipItem](#LineTooltipItem) by the given list of [LineBarSpot](#LineBarSpot) |defaultLineTooltipItem|
+ |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
+ |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
 
 ### LineTooltipItem
 |PropName|Description|default value|

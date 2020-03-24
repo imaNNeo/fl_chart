@@ -1,3 +1,35 @@
+## 0.8.7
+* Added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
+* Fixed bug, when the screen size is square, #258.
+
+## 0.8.6
+* Fixed exception on extraLinesData, #251.
+* Show extra lines value with 1 floating-point.
+* Implemented multi-section lines in LineChart, check this issue (#26) and this merge request (#252)
+
+## 0.8.5
+* Added `fitInsideHorizontally` and `fitInsideVertically` in [ScatterTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertouchtooltipdata)
+* Fixed `clipToBorder` functionality basdd on the border sides.
+
+## 0.8.4-test1
+* Improved documentations
+
+## 0.8.4
+* Added `preventCurveOvershootingThreshold` in `LineChartBarData` for applying prevent overshooting algorithm, #193.
+* Fixed `clipToBorder` bug in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata), #228, #214.
+* Removed unused `enableNormalTouch` property from all charts TouchData.
+* Implemented ImageAnnotations feature (added `image`, and `sizedPicture` in the [VerticalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#verticalline), and the [HorizontalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontalline), check [this sample](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-8-source-code) for more information.
+* Enable 'fitInsideTheChart' to support vertical tooltip overflow as well, #225.
+* BREAKING CHANGE-> changed `fitInsideTheChart` to `fitInsideHorizontally` and added `fitInsideVertically` to support both sides, #225.
+
+## 0.8.3
+* prevent to set BorderRadius with numbers larger than (width / 2), fixed #200.
+* added `fitInsideTheChart` property inside `BarTouchTooltipData` and `LineTouchTooltipData` to force tooltip draw inside the chart (shift it to the chart), fixed #159.
+
+## 0.8.2
+* added `fullHeightTouchLine` in [LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling) to show a full height touch line, see sample in merge request #208.
+* added `label` ([HorizontalLineLabel](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontallinelabel)) inside [HorizontalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#horizontalline) and [VerticalLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#verticalline) to show a lable text on the lines.
+
 ## 0.8.1
 * yaaay, added some basic unit tests
 * skipped the first and the last grid lines from drawing, #174.

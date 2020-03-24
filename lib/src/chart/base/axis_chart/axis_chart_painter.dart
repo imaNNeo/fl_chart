@@ -14,34 +14,34 @@ import 'axis_chart_data.dart';
 /// [data] is the currently showing data (it may produced by an animation using lerp function),
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainter<D> {
-  Paint gridPaint, backgroundPaint;
+  Paint _gridPaint, _backgroundPaint;
 
-  /// [rangeAnnotationPaint] draws range annotations;
-  Paint rangeAnnotationPaint;
+  /// [_rangeAnnotationPaint] draws range annotations;
+  Paint _rangeAnnotationPaint;
 
   AxisChartPainter(D data, D targetData, {double textScale})
       : super(data, targetData, textScale: textScale) {
-    gridPaint = Paint()..style = PaintingStyle.stroke;
+    _gridPaint = Paint()..style = PaintingStyle.stroke;
 
-    backgroundPaint = Paint()..style = PaintingStyle.fill;
+    _backgroundPaint = Paint()..style = PaintingStyle.fill;
 
-    rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
+    _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
   }
 
+  /// Paints [AxisChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
 
-    drawBackground(canvas, size);
-    drawRangeAnnotation(canvas, size);
-    drawGrid(canvas, size);
+    _drawBackground(canvas, size);
+    _drawRangeAnnotation(canvas, size);
+    _drawGrid(canvas, size);
   }
 
-  /// allow descendants of the class to call the superclass
-  void superBorderPaint(Canvas canvas, Size size) {
-    super.paint(canvas, size);
-  }
-
+  /// Draws an axis titles in each side (left, top, right, bottom).
+  ///
+  /// AxisTitle is a title to describe each axis,
+  /// It can be larger then axis values titles.
   void drawAxisTitles(Canvas canvas, Size viewSize) {
     if (!data.axisTitleData.show) {
       return;
@@ -116,6 +116,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     }
   }
 
+  /// Returns needed extra space in the left and right side of the chart.
+  ///
+  /// We need some extra spaces around the chart, for showing titles, ...
+  /// It returns extra needed spaces in left and right side of the chart.
   @override
   double getExtraNeededHorizontalSpace() {
     double sum = super.getExtraNeededHorizontalSpace();
@@ -135,6 +139,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
+  /// Returns needed extra space in the bottom and tom side of the chart.
+  ///
+  /// We need some extra spaces around the chart, for showing titles, ...
+  /// It returns extra needed spaces in bottom and top side of the chart.
   @override
   double getExtraNeededVerticalSpace() {
     double sum = super.getExtraNeededVerticalSpace();
@@ -154,6 +162,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
+  /// Returns left offset for drawing chart's content.
+  ///
+  /// It returns left offset that we have apply it
+  /// to our draws to fit inside the chart's area.
   @override
   double getLeftOffsetDrawSize() {
     var sum = super.getLeftOffsetDrawSize();
@@ -166,6 +178,10 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
+  /// Returns top offset for drawing chart's content.
+  ///
+  /// It returns left offset that we have apply it
+  /// to our draws to fit inside the chart's area.
   @override
   double getTopOffsetDrawSize() {
     var sum = super.getTopOffsetDrawSize();
@@ -178,7 +194,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
-  void drawGrid(Canvas canvas, Size viewSize) {
+  void _drawGrid(Canvas canvas, Size viewSize) {
     if (!data.gridData.show || data.gridData == null) {
       return;
     }
@@ -189,15 +205,15 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       while (verticalSeek <= data.maxX - data.gridData.verticalInterval) {
         if (data.gridData.checkToShowVerticalLine(verticalSeek)) {
           final FlLine flLineStyle = data.gridData.getDrawingVerticalLine(verticalSeek);
-          gridPaint.color = flLineStyle.color;
-          gridPaint.strokeWidth = flLineStyle.strokeWidth;
+          _gridPaint.color = flLineStyle.color;
+          _gridPaint.strokeWidth = flLineStyle.strokeWidth;
 
           final double bothX = getPixelX(verticalSeek, usableViewSize);
           final double x1 = bothX;
           final double y1 = 0 + getTopOffsetDrawSize();
           final double x2 = bothX;
           final double y2 = usableViewSize.height + getTopOffsetDrawSize();
-          canvas.drawDashedLine(Offset(x1, y1), Offset(x2, y2), gridPaint, flLineStyle.dashArray);
+          canvas.drawDashedLine(Offset(x1, y1), Offset(x2, y2), _gridPaint, flLineStyle.dashArray);
         }
         verticalSeek += data.gridData.verticalInterval;
       }
@@ -209,15 +225,15 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       while (horizontalSeek <= data.maxY - data.gridData.horizontalInterval) {
         if (data.gridData.checkToShowHorizontalLine(horizontalSeek)) {
           final FlLine flLine = data.gridData.getDrawingHorizontalLine(horizontalSeek);
-          gridPaint.color = flLine.color;
-          gridPaint.strokeWidth = flLine.strokeWidth;
+          _gridPaint.color = flLine.color;
+          _gridPaint.strokeWidth = flLine.strokeWidth;
 
           final double bothY = getPixelY(horizontalSeek, usableViewSize);
           final double x1 = 0 + getLeftOffsetDrawSize();
           final double y1 = bothY;
           final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
           final double y2 = bothY;
-          canvas.drawDashedLine(Offset(x1, y1), Offset(x2, y2), gridPaint, flLine.dashArray);
+          canvas.drawDashedLine(Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
         }
 
         horizontalSeek += data.gridData.horizontalInterval;
@@ -226,13 +242,13 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   }
 
   /// This function draws a colored background behind the chart.
-  void drawBackground(Canvas canvas, Size viewSize) {
+  void _drawBackground(Canvas canvas, Size viewSize) {
     if (data.backgroundColor == null) {
       return;
     }
 
     final Size usableViewSize = getChartUsableDrawSize(viewSize);
-    backgroundPaint.color = data.backgroundColor;
+    _backgroundPaint.color = data.backgroundColor;
     canvas.drawRect(
       Rect.fromLTWH(
         getLeftOffsetDrawSize(),
@@ -240,11 +256,11 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
         usableViewSize.width,
         usableViewSize.height,
       ),
-      backgroundPaint,
+      _backgroundPaint,
     );
   }
 
-  void drawRangeAnnotation(Canvas canvas, Size viewSize) {
+  void _drawRangeAnnotation(Canvas canvas, Size viewSize) {
     if (data.rangeAnnotations == null) {
       return;
     }
@@ -262,9 +278,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
         final Rect rect = Rect.fromPoints(from, to);
 
-        rangeAnnotationPaint.color = annotation.color;
+        _rangeAnnotationPaint.color = annotation.color;
 
-        canvas.drawRect(rect, rangeAnnotationPaint);
+        canvas.drawRect(rect, _rangeAnnotationPaint);
       }
     }
 
@@ -280,9 +296,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
         final Rect rect = Rect.fromPoints(from, to);
 
-        rangeAnnotationPaint.color = annotation.color;
+        _rangeAnnotationPaint.color = annotation.color;
 
-        canvas.drawRect(rect, rangeAnnotationPaint);
+        canvas.drawRect(rect, _rangeAnnotationPaint);
       }
     }
   }
