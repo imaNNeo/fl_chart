@@ -580,8 +580,16 @@ class FlDotData {
   /// Determines show or hide all dots.
   final bool show;
   final double dotSize;
+
+  /// The stroke width to use for the corresponding [FlSpot]
   final double strokeWidth;
+
+  /// Callback which is called to the the stroke color of the given [FlSpot].
+  /// The [FlSpot] is provided as parameter to this callback
   final GetDotColorCallback getStrokeColor;
+
+  /// Callback which is called to the the color of the given [FlSpot].
+  /// The [FlSpot] is provided as parameter to this callback
   final GetDotColorCallback getDotColor;
 
   /// Checks to show or hide an individual dot.
@@ -791,7 +799,6 @@ class HorizontalLineLabel extends FlLineLabel {
   }
 }
 
-
 /// Draws a title on the [VerticalLine]
 class VerticalLineLabel extends FlLineLabel {
 
@@ -829,6 +836,7 @@ class VerticalLineLabel extends FlLineLabel {
       show: b.show,
     );
   }
+
 }
 
 /// Holds data for showing a vector image inside the chart.
