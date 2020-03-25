@@ -242,7 +242,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
           canvas.drawCircle(
               Offset(x, y),
-              barData.dotData.dotSize,
+              barData.dotData.dotSize + (barData.dotData.strokeWidth / 2),
               _dotPaint
                 ..color = barData.dotData.getStrokeColor(spot)
                 ..strokeWidth = barData.dotData.strokeWidth
@@ -280,28 +280,45 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
+      final bool showingDots = indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
+      final double dotCircleSize = showingDots ? indicatorData.touchedSpotDotData.dotSize : 0;
+
       /// For drawing the dot
       final Offset touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
 
       /// For drawing the indicator line
-      final from = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
+      final bottom = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
       final top = Offset(getPixelX(spot.x, chartViewSize), getTopOffsetDrawSize());
 
       /// Draw to top or to the touchedSpot
-      final Offset lineEnd = data.lineTouchData.fullHeightTouchLine ? top : touchedSpot;
+      final Offset lineEnd = data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotCircleSize);
 
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
       canvas.drawDashedLine(
-          from, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
+          bottom, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
-      if (indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show) {
+      if (showingDots) {
         final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
         _dotPaint.color = indicatorData.touchedSpotDotData.getDotColor(spot);
-        canvas.drawCircle(touchedSpot, selectedSpotDotSize, _dotPaint);
+
+        if (indicatorData.touchedSpotDotData.getStrokeColor != null && indicatorData.touchedSpotDotData.strokeWidth != null) {
+          canvas.drawCircle(
+            touchedSpot,
+            indicatorData.touchedSpotDotData.dotSize + (indicatorData.touchedSpotDotData.strokeWidth / 2),
+            _dotPaint
+              ..color = indicatorData.touchedSpotDotData.getStrokeColor(spot)
+              ..strokeWidth = indicatorData.touchedSpotDotData.strokeWidth
+              ..style = PaintingStyle.stroke);
+        }
+
+        canvas.drawCircle(touchedSpot, selectedSpotDotSize,
+          _dotPaint
+            ..color = indicatorData.touchedSpotDotData.getDotColor(spot)
+            ..style = PaintingStyle.fill);
       }
     }
   }
