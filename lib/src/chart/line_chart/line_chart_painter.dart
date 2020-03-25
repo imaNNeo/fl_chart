@@ -1236,18 +1236,26 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    /// Find the nearest spot (on X axis)
-    for (int i = 0; i < barData.spots.length; i++) {
-      final spot = barData.spots[i];
-      if (spot.isNotNull()) {
-        if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs() <=
-            data.lineTouchData.touchSpotThreshold) {
-          return LineBarSpot(barData, barDataPosition, spot);
-        }
-      }
-    }
+    final closestSpotByX = barData.spots.reduce((lhs, rhs) {
+      final lhsDistance = (touchedPoint.dx - getPixelX(lhs.x, chartViewSize)).abs();
+      final rhsDistance = (touchedPoint.dx - getPixelX(rhs.x, chartViewSize)).abs();
+      return lhsDistance < rhsDistance ? lhs : rhs;
+    });
 
-    return null;
+    final minDistanceX = (touchedPoint.dx - getPixelX(closestSpotByX.x, chartViewSize)).abs();
+
+    final closestSpotByY = barData.spots
+      .where((spot) {
+        final distanceX = (touchedPoint.dx - getPixelX(spot.x, chartViewSize)).abs();
+        return distanceX == minDistanceX;
+      })
+      .reduce((lhs, rhs) {
+        final lhsDistanceY = (touchedPoint.dy - getPixelY(lhs.y, chartViewSize)).abs();
+        final rhsDistanceY = (touchedPoint.dy - getPixelY(rhs.y, chartViewSize)).abs();
+        return lhsDistanceY < rhsDistanceY ? lhs : rhs;
+      });
+
+    return closestSpotByY == null ? null: LineBarSpot(barData, barDataPosition, closestSpotByY);
   }
 
   /// Determines should it redraw the chart or not.
