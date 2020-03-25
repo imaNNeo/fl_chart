@@ -240,7 +240,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
           canvas.drawCircle(
               Offset(x, y),
-              barData.dotData.dotSize,
+              barData.dotData.dotSize + (barData.dotData.strokeWidth / 2),
               _dotPaint
                 ..color = barData.dotData.getStrokeColor(spot)
                 ..strokeWidth = barData.dotData.strokeWidth
@@ -302,6 +302,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       if (showingDots) {
         final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
         _dotPaint.color = indicatorData.touchedSpotDotData.getDotColor(spot);
+
         if (indicatorData.touchedSpotDotData.getStrokeColor != null && indicatorData.touchedSpotDotData.strokeWidth != null) {
           canvas.drawCircle(
             touchedSpot,
