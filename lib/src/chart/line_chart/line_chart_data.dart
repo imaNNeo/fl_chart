@@ -570,13 +570,20 @@ bool showAllSpotsBelowLine(FlSpot spot) {
 }
 
 /// The callback passed to get the color of a [FlSpot]
+///
 /// The callback receives as parameter the [FlSpot] for which to retrieve
 /// the color and returns the [Color] that needs to be used
 typedef GetDotColorCallback = Color Function(FlSpot);
+
+/// It returns [Colors.blue] for all spots.
 Color _defaultGetDotColor(FlSpot _) => Colors.blue;
+
+/// It returns [Colors.red] for all spots.
+Color _defaultGetDotStrokeColor(FlSpot _) => Colors.red;
 
 /// This class holds data about drawing spot dots on the drawing bar line.
 class FlDotData {
+
   /// Determines show or hide all dots.
   final bool show;
 
@@ -598,16 +605,24 @@ class FlDotData {
   final CheckToShowDot checkToShowDot;
 
   /// set [show] false to prevent dots from drawing,
-  /// [dotColor] determines the color of circular dots on spots, and
   /// [dotSize] determines the size of dots.
   /// if you want to show or hide dots in some spots,
   /// override [checkToShowDot] to handle it in your way.
+  ///
+  /// The color of dot determines by [getDotColor],
+  /// you can override it, it gives you a [FlSpot],
+  /// and you should decide to return a [Color].
+  ///
+  /// You can have stroke line around the dot,
+  /// by setting the thickness by [strokeWidth],
+  /// and you can implement [getStrokeColor] callback,
+  /// it gives you the [FlSpot], and you should decide to return a [Color].
   const FlDotData({
     this.show = true,
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
     this.strokeWidth = 0.0,
-    this.getStrokeColor,
+    this.getStrokeColor = _defaultGetDotStrokeColor,
     this.getDotColor = _defaultGetDotColor,
   });
 
