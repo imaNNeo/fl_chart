@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 
 class LineChartSample5 extends StatelessWidget {
   final List<int> showIndexes = const [1, 3, 5];
+  final List<FlSpot> allSpots = [
+    FlSpot(0, 1),
+    FlSpot(1, 2),
+    FlSpot(2, 1.5),
+    FlSpot(3, 3),
+    FlSpot(4, 3.5),
+    FlSpot(5, 5),
+    FlSpot(6, 8),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final lineBarsData = [
       LineChartBarData(
         showingIndicators: showIndexes,
-        spots: const [
-          FlSpot(0, 1),
-          FlSpot(1, 2),
-          FlSpot(2, 1.5),
-          FlSpot(3, 3),
-          FlSpot(4, 3.5),
-          FlSpot(5, 5),
-          FlSpot(6, 8),
-        ],
+        spots: allSpots,
         isCurved: true,
         barWidth: 4,
         belowBarData: const BarAreaData(
@@ -45,6 +46,30 @@ class LineChartSample5 extends StatelessWidget {
           }).toList(),
           lineTouchData: LineTouchData(
             enabled: false,
+            getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
+              return spotIndexes.map((index) {
+                return TouchedSpotIndicatorData(
+                  FlLine(
+                    color: Colors.pink,
+                  ),
+                  FlDotData(
+                    show: true,
+                    dotSize: 8,
+                    strokeWidth: 4,
+                    getStrokeColor: (spot) => Colors.black,
+                    getDotColor: (spot) {
+                      switch(allSpots.indexOf(spot)) {
+                        case 1: return Colors.yellow;
+                        case 3: return Colors.green;
+                        case 5: return Colors.blue;
+                      }
+                      return Colors.pink;
+                    },
+                  )
+                  ,
+                );
+              }).toList();
+            },
             touchTooltipData: LineTouchTooltipData(
               tooltipBgColor: Colors.pink,
               tooltipRoundedRadius: 8,
