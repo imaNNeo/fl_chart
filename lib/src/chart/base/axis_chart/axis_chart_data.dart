@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 /// we use them to determine how much is the scale of chart,
 /// and calculate x and y according to the scale.
 /// each child have to set it in their constructor.
-abstract class AxisChartData extends BaseChartData with EquatableMixin {
+abstract class AxisChartData extends BaseChartData {
   final FlGridData gridData;
   final FlAxisTitleData axisTitleData;
   final RangeAnnotations rangeAnnotations;
@@ -28,47 +28,22 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   Color backgroundColor;
 
   AxisChartData({
-    FlGridData gridData,
-    FlAxisTitleData axisTitleData,
-    RangeAnnotations rangeAnnotations,
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-    bool clipToBorder,
-    Color backgroundColor,
+    this.gridData = const FlGridData(),
     FlBorderData borderData,
     FlTouchData touchData,
-  })  : gridData = gridData ?? FlGridData(),
-        axisTitleData = axisTitleData,
-        rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
-        minX = minX,
-        maxX = maxX,
-        minY = minY,
-        maxY = maxY,
-        clipToBorder = clipToBorder ?? false,
-        backgroundColor = backgroundColor,
-        super(borderData: borderData, touchData: touchData);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        gridData,
-        axisTitleData,
-        rangeAnnotations,
-        minX,
-        maxX,
-        minY,
-        maxY,
-        clipToBorder,
-        backgroundColor,
-        borderData,
-        touchData,
-      ];
+    this.axisTitleData,
+    this.rangeAnnotations = const RangeAnnotations(),
+    this.minX,
+    this.maxX,
+    this.minY,
+    this.maxY,
+    this.clipToBorder = false,
+    this.backgroundColor,
+  }) : super(borderData: borderData, touchData: touchData);
 }
 
 /// Holds data for showing a title in each side (left, top, right, bottom) of the chart.
-class FlAxisTitleData with EquatableMixin {
+class FlAxisTitleData {
   final bool show;
 
   final AxisTitle leftTitle, topTitle, rightTitle, bottomTitle;
@@ -76,17 +51,13 @@ class FlAxisTitleData with EquatableMixin {
   /// [show] determines showing or hiding all titles,
   /// [leftTitle], [topTitle], [rightTitle], [bottomTitle] determines
   /// title for left, top, right, bottom axis sides respectively.
-  FlAxisTitleData({
-    bool show,
-    AxisTitle leftTitle,
-    AxisTitle topTitle,
-    AxisTitle rightTitle,
-    AxisTitle bottomTitle,
-  })  : show = show ?? true,
-        leftTitle = leftTitle ?? AxisTitle(reservedSize: 16),
-        topTitle = topTitle ?? AxisTitle(reservedSize: 16),
-        rightTitle = rightTitle ?? AxisTitle(reservedSize: 16),
-        bottomTitle = bottomTitle ?? AxisTitle(reservedSize: 16);
+  const FlAxisTitleData({
+    this.show = true,
+    this.leftTitle = const AxisTitle(reservedSize: 16),
+    this.topTitle = const AxisTitle(reservedSize: 16),
+    this.rightTitle = const AxisTitle(reservedSize: 16),
+    this.bottomTitle = const AxisTitle(reservedSize: 16),
+  });
 
   /// Lerps a [FlAxisTitleData] based on [t] value, check [Tween.lerp].
   static FlAxisTitleData lerp(FlAxisTitleData a, FlAxisTitleData b, double t) {
@@ -98,25 +69,13 @@ class FlAxisTitleData with EquatableMixin {
       topTitle: AxisTitle.lerp(a.topTitle, b.topTitle, t),
     );
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        show,
-        leftTitle,
-        topTitle,
-        rightTitle,
-        bottomTitle,
-      ];
 }
 
 /// Holds data for showing title of each side of charts.
-class AxisTitle with EquatableMixin {
+class AxisTitle {
+
   /// You can show or hide it using [showTitle],
   final bool showTitle;
-
-  /// Determines the showing text.
-  final String titleText;
 
   /// Defines how much space it needed to draw.
   final double reservedSize;
@@ -130,6 +89,9 @@ class AxisTitle with EquatableMixin {
   /// Determines margin of this title.
   final double margin;
 
+  /// Determines the showing text.
+  final String titleText;
+
   /// You can show or hide it using [showTitle],
   /// [titleText] determines the text, and
   /// [textStyle] determines the style of this.
@@ -138,23 +100,17 @@ class AxisTitle with EquatableMixin {
   /// a space for drawing this side title, it used for
   /// some calculations.
   /// [margin] determines margin of this title.
-  AxisTitle({
-    bool showTitle,
-    String titleText,
-    double reservedSize,
-    TextStyle textStyle,
-    TextAlign textAlign,
-    double margin,
-  })  : showTitle = showTitle ?? false,
-        titleText = titleText ?? '',
-        reservedSize = reservedSize ?? 14,
-        textStyle = textStyle ??
-            const TextStyle(
-              color: Colors.black,
-              fontSize: 11,
-            ),
-        textAlign = textAlign ?? TextAlign.center,
-        margin = margin ?? 4;
+  const AxisTitle({
+    this.showTitle = false,
+    this.titleText = '',
+    this.reservedSize = 14,
+    this.textStyle = const TextStyle(
+      color: Colors.black,
+      fontSize: 11,
+    ),
+    this.textAlign = TextAlign.center,
+    this.margin = 4,
+  });
 
   /// Lerps an [AxisTitle] based on [t] value, check [Tween.lerp].
   static AxisTitle lerp(AxisTitle a, AxisTitle b, double t) {
@@ -163,26 +119,15 @@ class AxisTitle with EquatableMixin {
       titleText: b.titleText,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
-          b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
+        b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
       textAlign: b.textAlign,
       margin: lerpDouble(a.margin, b.margin, t),
     );
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        showTitle,
-        titleText,
-        reservedSize,
-        textStyle,
-        textAlign,
-        margin,
-      ];
 }
 
 /// Holds data for showing titles on each side of charts (a title per each axis value).
-class FlTitlesData with EquatableMixin {
+class FlTitlesData {
   final bool show;
 
   final SideTitles leftTitles, topTitles, rightTitles, bottomTitles;
@@ -190,17 +135,15 @@ class FlTitlesData with EquatableMixin {
   /// [show] determines showing or hiding all titles,
   /// [leftTitles], [topTitles], [rightTitles], [bottomTitles] defines
   /// side titles of left, top, right, bottom sides respectively.
-  FlTitlesData({
-    bool show,
-    SideTitles leftTitles,
-    SideTitles topTitles,
-    SideTitles rightTitles,
-    SideTitles bottomTitles,
-  })  : show = show ?? true,
-        leftTitles = leftTitles ?? SideTitles(reservedSize: 40, showTitles: true),
-        topTitles = topTitles ?? SideTitles(reservedSize: 6),
-        rightTitles = rightTitles ?? SideTitles(reservedSize: 40),
-        bottomTitles = bottomTitles ?? SideTitles(reservedSize: 22, showTitles: true);
+  const FlTitlesData({
+    this.show = true,
+    this.leftTitles = const SideTitles(reservedSize: 40, showTitles: true),
+    this.topTitles = const SideTitles(reservedSize: 6),
+    this.rightTitles = const SideTitles(
+      reservedSize: 40,
+    ),
+    this.bottomTitles = const SideTitles(reservedSize: 22, showTitles: true),
+  });
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
   static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
@@ -212,20 +155,10 @@ class FlTitlesData with EquatableMixin {
       topTitles: SideTitles.lerp(a.topTitles, b.topTitles, t),
     );
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        show,
-        leftTitles,
-        topTitles,
-        rightTitles,
-        bottomTitles,
-      ];
 }
 
 /// Holds data for showing each side titles (a title per each axis value).
-class SideTitles with EquatableMixin {
+class SideTitles {
   final bool showTitles;
   final GetTitleFunction getTitles;
   final double reservedSize;
@@ -247,25 +180,18 @@ class SideTitles with EquatableMixin {
   /// you can change this value using [interval],
   ///
   /// you can change rotation of drawing titles using [rotateAngle].
-  SideTitles({
-    bool showTitles,
-    GetTitleFunction getTitles,
-    double reservedSize,
-    TextStyle textStyle,
-    double margin,
-    double interval,
-    double rotateAngle,
-  })  : showTitles = showTitles ?? false,
-        getTitles = getTitles ?? defaultGetTitle,
-        reservedSize = reservedSize ?? 22,
-        textStyle = textStyle ??
-            const TextStyle(
-              color: Colors.black,
-              fontSize: 11,
-            ),
-        margin = margin ?? 6,
-        interval = interval ?? 1.0,
-        rotateAngle = rotateAngle ?? 0.0;
+  const SideTitles({
+    this.showTitles = false,
+    this.getTitles = defaultGetTitle,
+    this.reservedSize = 22,
+    this.textStyle = const TextStyle(
+      color: Colors.black,
+      fontSize: 11,
+    ),
+    this.margin = 6,
+    this.interval = 1.0,
+    this.rotateAngle = 0.0,
+  });
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
@@ -279,18 +205,6 @@ class SideTitles with EquatableMixin {
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
     );
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        showTitles,
-        getTitles,
-        reservedSize,
-        textStyle,
-        margin,
-        interval,
-        rotateAngle,
-      ];
 }
 
 /// Represents a conceptual position in cartesian (axis based) space.
@@ -303,9 +217,7 @@ class FlSpot with EquatableMixin {
   ///
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
-  FlSpot(double x, double y)
-      : x = x,
-        y = y;
+  FlSpot(this.x, this.y);
 
   /// Copies current [FlSpot] to a new [FlSpot],
   /// and replaces provided values.
@@ -328,7 +240,6 @@ class FlSpot with EquatableMixin {
   /// Determines if [x] and [y] is not null.
   bool isNotNull() => !isNull();
 
-  /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props {
     return [
@@ -344,10 +255,12 @@ class FlSpot with EquatableMixin {
       lerpDouble(a.y, b.y, t),
     );
   }
+
 }
 
 /// Responsible to hold grid data,
-class FlGridData with EquatableMixin {
+class FlGridData {
+
   /// Determines showing or hiding all horizontal and vertical lines.
   final bool show;
 
@@ -397,25 +310,17 @@ class FlGridData with EquatableMixin {
   /// it gives you a double value (in the x axis), and you should return a boolean that determines
   /// showing or hiding specified line.
   /// or you can hide all vertical lines by setting [drawVerticalLine] false.
-  FlGridData({
-    bool show,
-    bool drawHorizontalLine,
-    double horizontalInterval,
-    GetDrawingGridLine getDrawingHorizontalLine,
-    CheckToShowGrid checkToShowHorizontalLine,
-    bool drawVerticalLine,
-    double verticalInterval,
-    GetDrawingGridLine getDrawingVerticalLine,
-    CheckToShowGrid checkToShowVerticalLine,
-  })  : show = show ?? true,
-        drawHorizontalLine = drawHorizontalLine ?? true,
-        horizontalInterval = horizontalInterval ?? 1.0,
-        getDrawingHorizontalLine = getDrawingHorizontalLine ?? defaultGridLine,
-        checkToShowHorizontalLine = checkToShowHorizontalLine ?? showAllGrids,
-        drawVerticalLine = drawVerticalLine ?? false,
-        verticalInterval = verticalInterval ?? 1.0,
-        getDrawingVerticalLine = getDrawingVerticalLine ?? defaultGridLine,
-        checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids;
+  const FlGridData({
+    this.show = true,
+    this.drawHorizontalLine = true,
+    this.horizontalInterval = 1.0,
+    this.getDrawingHorizontalLine = defaultGridLine,
+    this.checkToShowHorizontalLine = showAllGrids,
+    this.drawVerticalLine = false,
+    this.verticalInterval = 1.0,
+    this.getDrawingVerticalLine = defaultGridLine,
+    this.checkToShowVerticalLine = showAllGrids,
+  });
 
   /// Lerps a [FlGridData] based on [t] value, check [Tween.lerp].
   static FlGridData lerp(FlGridData a, FlGridData b, double t) {
@@ -432,19 +337,6 @@ class FlGridData with EquatableMixin {
     );
   }
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        show,
-        drawHorizontalLine,
-        horizontalInterval,
-        getDrawingHorizontalLine,
-        checkToShowHorizontalLine,
-        drawVerticalLine,
-        verticalInterval,
-        getDrawingVerticalLine,
-        checkToShowVerticalLine,
-      ];
 }
 
 /// Determines showing or hiding specified line.
@@ -463,14 +355,15 @@ typedef GetDrawingGridLine = FlLine Function(double value);
 
 /// Returns a grey line for all values.
 FlLine defaultGridLine(double value) {
-  return FlLine(
+  return const FlLine(
     color: Colors.grey,
     strokeWidth: 0.5,
   );
 }
 
 /// Defines style of a line.
-class FlLine with EquatableMixin {
+class FlLine {
+
   /// Defines color of the line.
   final Color color;
 
@@ -490,10 +383,7 @@ class FlLine with EquatableMixin {
   /// it is a circular array of dash offsets and lengths.
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
-  FlLine({Color color, double strokeWidth, List<int> dashArray})
-      : color = color ?? Colors.black,
-        strokeWidth = strokeWidth ?? 2,
-        dashArray = dashArray;
+  const FlLine({this.color = Colors.black, this.strokeWidth = 2, this.dashArray});
 
   /// Lerps a [FlLine] based on [t] value, check [Tween.lerp].
   static FlLine lerp(FlLine a, FlLine b, double t) {
@@ -504,17 +394,11 @@ class FlLine with EquatableMixin {
     );
   }
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        color,
-        strokeWidth,
-        dashArray,
-      ];
 }
 
 /// holds information about touched spot on the axis based charts.
-abstract class TouchedSpot with EquatableMixin {
+abstract class TouchedSpot {
+
   /// Represents the spot inside our axis based chart,
   /// 0, 0 is bottom left, and 1, 1 is top right.
   final FlSpot spot;
@@ -529,52 +413,38 @@ abstract class TouchedSpot with EquatableMixin {
   /// [offset] is the touch position in device pixels,
   /// 0, 0 is top, left, and 1, 1 is bottom right.
   TouchedSpot(
-    FlSpot spot,
-    Offset offset,
-  )   : spot = spot,
-        offset = offset;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        spot,
-        offset,
-      ];
+    this.spot,
+    this.offset,
+  );
 }
 
 /// Holds data for rendering horizontal and vertical range annotations.
-class RangeAnnotations with EquatableMixin {
+class RangeAnnotations {
   final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
   final List<VerticalRangeAnnotation> verticalRangeAnnotations;
 
   /// Axis based charts can annotate some horizontal and vertical regions,
   /// using [horizontalRangeAnnotations], and [verticalRangeAnnotations] respectively.
-  RangeAnnotations({
-    List<HorizontalRangeAnnotation> horizontalRangeAnnotations,
-    List<VerticalRangeAnnotation> verticalRangeAnnotations,
-  })  : horizontalRangeAnnotations = horizontalRangeAnnotations ?? const [],
-        verticalRangeAnnotations = verticalRangeAnnotations ?? const [];
+  const RangeAnnotations({
+    this.horizontalRangeAnnotations = const [],
+    this.verticalRangeAnnotations = const [],
+  });
 
   /// Lerps a [RangeAnnotations] based on [t] value, check [Tween.lerp].
   static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
       horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
-          a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+        a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
       verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
-          a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+        a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        horizontalRangeAnnotations,
-        verticalRangeAnnotations,
-      ];
 }
 
 /// Defines an annotation region in y (vertical) axis.
-class HorizontalRangeAnnotation with EquatableMixin {
+class HorizontalRangeAnnotation {
+
   /// Determines starting point in vertical (y) axis.
   final double y1;
 
@@ -587,16 +457,14 @@ class HorizontalRangeAnnotation with EquatableMixin {
   /// Annotates a horizontal region from most left to most right point of the chart, and
   /// from [y1] to [y2], and fills the area with [color].
   HorizontalRangeAnnotation({
-    double y1,
-    double y2,
-    Color color,
-  })  : y1 = y1,
-        y2 = y2,
-        color = color ?? Colors.white;
+    this.y1,
+    this.y2,
+    this.color = Colors.white,
+  });
 
   /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static HorizontalRangeAnnotation lerp(
-      HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+    HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
     return HorizontalRangeAnnotation(
       y1: lerpDouble(a.y1, b.y1, t),
       y2: lerpDouble(a.y2, b.y2, t),
@@ -604,17 +472,11 @@ class HorizontalRangeAnnotation with EquatableMixin {
     );
   }
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        y1,
-        y2,
-        color,
-      ];
 }
 
 /// Defines an annotation region in x (horizontal) axis.
-class VerticalRangeAnnotation with EquatableMixin {
+class VerticalRangeAnnotation {
+
   /// Determines starting point in horizontal (x) axis.
   final double x1;
 
@@ -624,19 +486,18 @@ class VerticalRangeAnnotation with EquatableMixin {
   /// Fills the area with this color.
   final Color color;
 
+
   /// Annotates a vertical region from most bottom to most top point of the chart, and
   /// from [x1] to [x2], and fills the area with [color].
   VerticalRangeAnnotation({
-    double x1,
-    double x2,
-    Color color,
-  })  : x1 = x1,
-        x2 = x2,
-        color = color ?? Colors.white;
+    this.x1,
+    this.x2,
+    this.color = Colors.white,
+  });
 
   /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static VerticalRangeAnnotation lerp(
-      VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+    VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
     return VerticalRangeAnnotation(
       x1: lerpDouble(a.x1, b.x1, t),
       x2: lerpDouble(a.x2, b.x2, t),
@@ -644,11 +505,4 @@ class VerticalRangeAnnotation with EquatableMixin {
     );
   }
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        x1,
-        x2,
-        color,
-      ];
 }
