@@ -572,6 +572,9 @@ bool showAllSpotsBelowLine(FlSpot spot) {
   return true;
 }
 
+/// The callback passed to get the color of a [FlSpot]
+/// The callback receives as parameter the [FlSpot] for which to retrieve
+/// the color and returns the [Color] that needs to be used
 typedef GetDotColorCallback = Color Function(FlSpot);
 Color _defaultGetDotColor(FlSpot _) => Colors.blue;
 
