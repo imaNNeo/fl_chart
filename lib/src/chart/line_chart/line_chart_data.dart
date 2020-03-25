@@ -932,6 +932,9 @@ class LineTouchData extends FlTouchData {
   /// and goes through the targeted spot.
   final bool fullHeightTouchLine;
 
+  /// Sets touch indicator to sticky
+  final bool stickyTouchIndicator;
+
   /// Informs the touchResponses
   final Function(LineTouchResponse) touchCallback;
 
@@ -956,6 +959,7 @@ class LineTouchData extends FlTouchData {
     this.touchSpotThreshold = 10,
     this.fullHeightTouchLine = false,
     this.handleBuiltInTouches = true,
+    this.stickyTouchIndicator = false,
     this.touchCallback,
   }) : super(enabled);
 
