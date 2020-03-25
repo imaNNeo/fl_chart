@@ -80,7 +80,7 @@ class LineChartSample3 extends StatelessWidget {
               ]),
               lineBarsData: [
                 LineChartBarData(
-                  spots: const [
+                  spots: [
                     FlSpot(0, 1.3),
                     FlSpot(1, 1),
                     FlSpot(2, 1.8),
