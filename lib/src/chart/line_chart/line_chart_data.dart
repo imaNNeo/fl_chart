@@ -910,10 +910,11 @@ class ExtraLinesData {
 
 /// Holds data to handle touch events, and touch responses in the [LineChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)	/// here we get the [TouchedSpotIndicatorData] from the given [LineTouchedSpot].
-/// in a simple way, each chart captures the touch events, and passes a concrete	typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
-/// instance of [FlTouchInput] to the painter, and gets a generated [LineTouchResponse].	    LineChartBarData barData, List<int> spotIndexes);
+/// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+/// in a simple way, each chart captures the touch events, and passes a concrete
+/// instance of [FlTouchInput] to the painter, and gets a generated [LineTouchResponse].
 class LineTouchData extends FlTouchData {
+
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;
 
