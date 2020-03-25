@@ -12,7 +12,7 @@ class LineChartSample7 extends StatelessWidget {
           lineTouchData: const LineTouchData(enabled: false),
           lineBarsData: [
             LineChartBarData(
-              spots: const [
+              spots: [
                 FlSpot(0, 4),
                 FlSpot(1, 3.5),
                 FlSpot(2, 4.5),
@@ -35,7 +35,7 @@ class LineChartSample7 extends StatelessWidget {
                 show: false,
               ),
             ),
-            const LineChartBarData(
+            LineChartBarData(
               spots: [
                 FlSpot(0, 0),
                 FlSpot(1, 3),
@@ -60,7 +60,7 @@ class LineChartSample7 extends StatelessWidget {
               ),
             ),
             LineChartBarData(
-              spots: const [
+              spots: [
                 FlSpot(0, 7),
                 FlSpot(1, 3),
                 FlSpot(2, 4),

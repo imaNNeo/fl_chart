@@ -180,7 +180,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   }
 
   List<LineChartBarData> linesBarData1() {
-    const LineChartBarData lineChartBarData1 = LineChartBarData(
+    LineChartBarData lineChartBarData1 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 1.5),
@@ -225,7 +225,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         Color(0x00aa4cfc),
       ]),
     );
-    const LineChartBarData lineChartBarData3 = LineChartBarData(
+    LineChartBarData lineChartBarData3 = LineChartBarData(
       spots: [
         FlSpot(1, 2.8),
         FlSpot(3, 1.9),
@@ -336,7 +336,7 @@ class LineChartSample1State extends State<LineChartSample1> {
 
   List<LineChartBarData> linesBarData2() {
     return [
-      const LineChartBarData(
+      LineChartBarData(
         spots: [
           FlSpot(1, 1),
           FlSpot(3, 4),
@@ -348,19 +348,19 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         isCurved: true,
         curveSmoothness: 0,
-        colors: [
+        colors: const [
           Color(0x444af699),
         ],
         barWidth: 4,
         isStrokeCapRound: true,
-        dotData: FlDotData(
+        dotData: const FlDotData(
           show: false,
         ),
-        belowBarData: BarAreaData(
+        belowBarData: const BarAreaData(
           show: false,
         ),
       ),
-      const LineChartBarData(
+      LineChartBarData(
         spots: [
           FlSpot(1, 1),
           FlSpot(3, 2.8),
@@ -370,19 +370,19 @@ class LineChartSample1State extends State<LineChartSample1> {
           FlSpot(13, 3.9),
         ],
         isCurved: true,
-        colors: [
+        colors: const [
           Color(0x99aa4cfc),
         ],
         barWidth: 4,
         isStrokeCapRound: true,
-        dotData: FlDotData(
+        dotData: const FlDotData(
           show: false,
         ),
-        belowBarData: BarAreaData(show: true, colors: [
+        belowBarData: const BarAreaData(show: true, colors: [
           Color(0x33aa4cfc),
         ]),
       ),
-      const LineChartBarData(
+      LineChartBarData(
         spots: [
           FlSpot(1, 3.8),
           FlSpot(3, 1.9),
@@ -392,15 +392,15 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         isCurved: true,
         curveSmoothness: 0,
-        colors: [
+        colors: const [
           Color(0x4427b6fc),
         ],
         barWidth: 2,
         isStrokeCapRound: true,
-        dotData: FlDotData(
+        dotData: const FlDotData(
           show: true,
         ),
-        belowBarData: BarAreaData(
+        belowBarData: const BarAreaData(
           show: false,
         ),
       ),

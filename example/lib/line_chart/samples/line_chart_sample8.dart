@@ -170,7 +170,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
+          spots: [
             FlSpot(0, 1),
             FlSpot(2, 1),
             FlSpot(4.9, 5),

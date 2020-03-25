@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
@@ -206,7 +207,7 @@ class SideTitles {
 }
 
 /// Represents a conceptual position in cartesian (axis based) space.
-class FlSpot {
+class FlSpot with EquatableMixin {
   final double x;
   final double y;
 
@@ -215,7 +216,7 @@ class FlSpot {
   ///
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
-  const FlSpot(this.x, this.y);
+  FlSpot(this.x, this.y);
 
   /// Copies current [FlSpot] to a new [FlSpot],
   /// and replaces provided values.
@@ -230,13 +231,21 @@ class FlSpot {
   }
 
   /// Used for splitting lines, or maybe other concepts.
-  static const FlSpot nullSpot = FlSpot(null, null);
+  static FlSpot nullSpot = FlSpot(null, null);
 
   /// Determines if [x] or [y] is null.
   bool isNull() => x == null || y == null;
 
   /// Determines if [x] and [y] is not null.
   bool isNotNull() => !isNull();
+
+  @override
+  List<Object> get props {
+    return [
+      x,
+      y,
+    ];
+  }
 
   /// Lerps a [FlSpot] based on [t] value, check [Tween.lerp].
   static FlSpot lerp(FlSpot a, FlSpot b, double t) {
