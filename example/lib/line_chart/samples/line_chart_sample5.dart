@@ -17,29 +17,15 @@ class LineChartSample5 extends StatelessWidget {
   Widget build(BuildContext context) {
     final lineBarsData = [
       LineChartBarData(
-          showingIndicators: showIndexes,
-          spots: allSpots,
-          isCurved: true,
-          barWidth: 4,
-          belowBarData: BarAreaData(
-            show: true,
-            colors: [
-              const Color(0xff12c2e9).withOpacity(0.4),
-              const Color(0xffc471ed).withOpacity(0.4),
-              const Color(0xfff64f59).withOpacity(0.4),
-            ],
-          ),
-          dotData: FlDotData(show: false),
-          colors: [
-            const Color(0xff12c2e9),
-            const Color(0xffc471ed),
-            const Color(0xfff64f59),
-          ],
-          colorStops: [
-            0.1,
-            0.4,
-            0.9
-          ]),
+        showingIndicators: showIndexes,
+        spots: allSpots,
+        isCurved: true,
+        barWidth: 4,
+        belowBarData: BarAreaData(
+          show: true,
+        ),
+        dotData: FlDotData(show: false),
+      ),
     ];
 
     final LineChartBarData tooltipsOnBar = lineBarsData[0];
@@ -69,12 +55,18 @@ class LineChartSample5 extends StatelessWidget {
                   FlDotData(
                     show: true,
                     dotSize: 8,
-                    strokeWidth: 2,
-                    getStrokeColor: (spot, percent, barData) => Colors.black,
-                    getDotColor: (spot, percent, barData) {
-                      return lerpGradient(barData.colors, barData.colorStops, percent / 100);
+                    strokeWidth: 4,
+                    getStrokeColor: (spot) => Colors.black,
+                    getDotColor: (spot) {
+                      switch(allSpots.indexOf(spot)) {
+                        case 1: return Colors.yellow;
+                        case 3: return Colors.green;
+                        case 5: return Colors.blue;
+                      }
+                      return Colors.pink;
                     },
-                  ),
+                  )
+                  ,
                 );
               }).toList();
             },
@@ -85,7 +77,7 @@ class LineChartSample5 extends StatelessWidget {
                 return lineBarsSpot.map((lineBarSpot) {
                   return LineTooltipItem(
                     lineBarSpot.y.toString(),
-                    const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   );
                 }).toList();
               },
@@ -94,7 +86,7 @@ class LineChartSample5 extends StatelessWidget {
           lineBarsData: lineBarsData,
           minY: 0,
           titlesData: FlTitlesData(
-            leftTitles: SideTitles(
+            leftTitles: const SideTitles(
               showTitles: false,
             ),
             bottomTitles: SideTitles(
@@ -125,13 +117,13 @@ class LineChartSample5 extends StatelessWidget {
                   fontSize: 18,
                 )),
           ),
-          axisTitleData: FlAxisTitleData(
+          axisTitleData: const FlAxisTitleData(
             rightTitle: AxisTitle(showTitle: true, titleText: 'count'),
             leftTitle: AxisTitle(showTitle: true, titleText: 'count'),
             topTitle:
                 AxisTitle(showTitle: true, titleText: 'Wall clock', textAlign: TextAlign.left),
           ),
-          gridData: FlGridData(show: false),
+          gridData: const FlGridData(show: false),
           borderData: FlBorderData(
             show: true,
           ),
@@ -139,29 +131,4 @@ class LineChartSample5 extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Lerps between a [LinearGradient] colors, based on [t]
-Color lerpGradient(List<Color> colors, List<double> stops, double t) {
-  if (stops == null || stops.length != colors.length) {
-    stops = [];
-
-    /// provided gradientColorStops is invalid and we calculate it here
-    colors.asMap().forEach((index, color) {
-      final percent = 1.0 / colors.length;
-      stops.add(percent * (index + 1));
-    });
-  }
-
-  for (var s = 0; s < stops.length - 1; s++) {
-    final leftStop = stops[s], rightStop = stops[s + 1];
-    final leftColor = colors[s], rightColor = colors[s + 1];
-    if (t <= leftStop) {
-      return leftColor;
-    } else if (t < rightStop) {
-      final sectionT = (t - leftStop) / (rightStop - leftStop);
-      return Color.lerp(leftColor, rightColor, sectionT);
-    }
-  }
-  return colors.last;
 }
