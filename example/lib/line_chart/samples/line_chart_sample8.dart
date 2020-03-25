@@ -13,7 +13,7 @@ class LineChartSample8 extends StatefulWidget {
 }
 
 class _LineChartSample8State extends State<LineChartSample8> {
-  List<Color> gradientColors = const [
+  List<Color> gradientColors = [
     Color(0xffEEF3FE),
     Color(0xffEEF3FE),
   ];
@@ -21,14 +21,14 @@ class _LineChartSample8State extends State<LineChartSample8> {
   bool showAvg = false;
 
   Future<ui.Image> loadImage(String asset) async {
-    final ByteData data = await rootBundle.load(asset);
-    final ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-    final ui.FrameInfo fi = await codec.getNextFrame();
+    ByteData data = await rootBundle.load(asset);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+    ui.FrameInfo fi = await codec.getNextFrame();
     return fi.image;
   }
 
   Future<SizedPicture> loadSvg() async {
-    const String rawSvg =
+    final String rawSvg =
         '<svg height="14" width="14" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" transform="translate(-.000014)"><circle cx="7" cy="7" fill="#495DFF" r="7"/><path d="m7 10.9999976c1.6562389 0 2.99998569-1.34374678 2.99998569-2.99999283s-1.34374679-4.99998808-2.99998569-4.99998808c-1.6562532 0-3 3.34374203-3 4.99998808s1.3437468 2.99999283 3 2.99999283z" fill="#fff" fill-rule="nonzero"/></g></svg>';
 
     final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
@@ -60,7 +60,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
               ],
             );
           } else {
-            return const CircularProgressIndicator();
+            return CircularProgressIndicator();
           }
         });
   }
@@ -72,19 +72,19 @@ class _LineChartSample8State extends State<LineChartSample8> {
           VerticalRangeAnnotation(
             x1: 2,
             x2: 5,
-            color: const Color(0xffD5DAE5),
+            color: Color(0xffD5DAE5),
           ),
           VerticalRangeAnnotation(
             x1: 8,
             x2: 9,
-            color: const Color(0xffD5DAE5),
+            color: Color(0xffD5DAE5),
           ),
         ],
         horizontalRangeAnnotations: [
           HorizontalRangeAnnotation(
             y1: 2,
             y2: 3,
-            color: const Color(0xffEEF3FE),
+            color: Color(0xffEEF3FE),
           ),
         ],
       ),
@@ -94,12 +94,12 @@ class _LineChartSample8State extends State<LineChartSample8> {
         horizontalLines: [
           HorizontalLine(
             y: 5,
-            color: const Color.fromRGBO(197, 210, 214, 1),
+            color: Color.fromRGBO(197, 210, 214, 1),
             strokeWidth: 2,
             dashArray: [5, 10],
             label: HorizontalLineLabel(
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(right: 5, bottom: 5),
+              padding: EdgeInsets.only(right: 5, bottom: 5),
               style: const TextStyle(color: Colors.black, fontSize: 9),
               labelResolver: (line) => 'H: ${line.y}',
             ),
@@ -108,12 +108,12 @@ class _LineChartSample8State extends State<LineChartSample8> {
         verticalLines: [
           VerticalLine(
             x: 5.5,
-            color: const Color.fromRGBO(197, 210, 214, 1),
+            color: Color.fromRGBO(197, 210, 214, 1),
             strokeWidth: 2,
             dashArray: [5, 10],
             label: VerticalLineLabel(
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(left: 10, top: 5),
+              padding: EdgeInsets.only(left: 10, top: 5),
               style: const TextStyle(color: Colors.black, fontSize: 9),
               labelResolver: (line) => 'V: ${line.x}',
             ),
@@ -151,9 +151,10 @@ class _LineChartSample8State extends State<LineChartSample8> {
         fullHeightTouchLine: true,
         getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
+            final FlSpot spot = barData.spots[spotIndex];
             return TouchedSpotIndicatorData(
-              FlLine(color: Colors.orange, strokeWidth: 3),
-              FlDotData(dotSize: 8, getDotColor: (spot, percent, barData) => Colors.deepOrange),
+              const FlLine(color: Colors.orange, strokeWidth: 3),
+              FlDotData(dotSize: 8, getDotColor: (_) => Colors.deepOrange),
             );
           }).toList();
         },
@@ -161,15 +162,14 @@ class _LineChartSample8State extends State<LineChartSample8> {
           tooltipBgColor: Colors.blueAccent,
         ),
       ),
-      borderData:
-          FlBorderData(show: true, border: Border.all(color: const Color(0xffecf1fe), width: 1)),
+      borderData: FlBorderData(show: true, border: Border.all(color: Color(0xffecf1fe), width: 1)),
       minX: 0,
       maxX: 11,
       minY: 0,
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: [
+          spots: const [
             FlSpot(0, 1),
             FlSpot(2, 1),
             FlSpot(4.9, 5),
@@ -183,10 +183,10 @@ class _LineChartSample8State extends State<LineChartSample8> {
           ],
           dashArray: [2, 4],
           isCurved: true,
-          colors: const [Color(0xff0F2BF6), Color(0xff0F2BF6)],
+          colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
           barWidth: 2,
           isStrokeCapRound: true,
-          dotData: FlDotData(
+          dotData: const FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(

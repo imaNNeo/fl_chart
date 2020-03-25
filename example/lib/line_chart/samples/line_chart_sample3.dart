@@ -51,13 +51,8 @@ class LineChartSample3 extends StatelessWidget {
                         return null;
                       }
                       return TouchedSpotIndicatorData(
-                        FlLine(color: Colors.blue, strokeWidth: 4),
-                        FlDotData(
-                          dotSize: 8,
-                          strokeWidth: 5,
-                          getDotColor: (spot, percent, barData) => Colors.white,
-                          getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
-                        ),
+                        const FlLine(color: Colors.blue, strokeWidth: 4),
+                        FlDotData(dotSize: 8, getDotColor: (_) => Colors.deepOrange),
                       );
                     }).toList();
                   },
@@ -85,7 +80,7 @@ class LineChartSample3 extends StatelessWidget {
               ]),
               lineBarsData: [
                 LineChartBarData(
-                  spots: [
+                  spots: const [
                     FlSpot(0, 1.3),
                     FlSpot(1, 1),
                     FlSpot(2, 1.8),
@@ -110,7 +105,7 @@ class LineChartSample3 extends StatelessWidget {
                     gradientTo: const Offset(0, 1),
                     spotsLine: BarAreaSpotsLine(
                       show: true,
-                      flLineStyle: FlLine(
+                      flLineStyle: const FlLine(
                         color: Colors.blue,
                         strokeWidth: 2,
                       ),
@@ -125,10 +120,8 @@ class LineChartSample3 extends StatelessWidget {
                   ),
                   dotData: FlDotData(
                       show: true,
-                      getDotColor: (spot, percent, barData) => Colors.white,
+                      getDotColor: (_) => Colors.deepOrange,
                       dotSize: 6,
-                      strokeWidth: 4,
-                      getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
                       checkToShowDot: (spot) {
                         return spot.x != 0 && spot.x != 6;
                       }),
@@ -141,12 +134,12 @@ class LineChartSample3 extends StatelessWidget {
                 drawVerticalLine: true,
                 getDrawingHorizontalLine: (value) {
                   if (value == 0) {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.deepOrange,
                       strokeWidth: 2,
                     );
                   } else {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.grey,
                       strokeWidth: 0.5,
                     );
@@ -154,12 +147,12 @@ class LineChartSample3 extends StatelessWidget {
                 },
                 getDrawingVerticalLine: (value) {
                   if (value == 0) {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.black,
                       strokeWidth: 2,
                     );
                   } else {
-                    return FlLine(
+                    return const FlLine(
                       color: Colors.grey,
                       strokeWidth: 0.5,
                     );

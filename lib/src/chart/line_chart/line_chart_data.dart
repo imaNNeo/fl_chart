@@ -689,45 +689,17 @@ bool showAllSpotsBelowLine(FlSpot spot) {
 }
 
 /// The callback passed to get the color of a [FlSpot]
-///
-/// The callback receives [FlSpot], which is the target spot,
-/// [double] is the percentage of spot along the bar line,
-/// [LineChartBarData] is the chart's bar.
-/// It should return a [Color] that needs to be used for drawing target.
-typedef GetDotColorCallback = Color Function(FlSpot, double, LineChartBarData);
-
-/// If there is one color in [LineChartBarData.colors], it returns that color,
-/// otherwise it returns the color along the gradient colors based on the [xPercentage].
-Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
-  if (bar.colors == null || bar.colors.isEmpty) {
-    return Colors.green;
-  } else if (bar.colors.length == 1) {
-    return bar.colors[0];
-  } else {
-    return lerpGradient(bar.colors, bar.colorStops, xPercentage / 100);
-  }
-}
-
-/// If there is one color in [LineChartBarData.colors], it returns that color in a darker mode,
-/// otherwise it returns the color along the gradient colors based on the [xPercentage] in a darker mode.
-Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarData bar) {
-  Color color;
-  if (bar.colors == null || bar.colors.isEmpty) {
-    color = Colors.green;
-  } else if (bar.colors.length == 1) {
-    color = bar.colors[0];
-  } else {
-    color = lerpGradient(bar.colors, bar.colorStops, xPercentage / 100);
-  }
-  return color.darken();
-}
+/// The callback receives as parameter the [FlSpot] for which to retrieve
+/// the color and returns the [Color] that needs to be used
+typedef GetDotColorCallback = Color Function(FlSpot);
+Color _defaultGetDotColor(FlSpot _) => Colors.blue;
 
 /// This class holds data about drawing spot dots on the drawing bar line.
-class FlDotData with EquatableMixin {
+class FlDotData {
   /// Determines show or hide all dots.
   final bool show;
 
-  // Customizes the size of the dot
+  // Customsize the size of the dot
   final double dotSize;
 
   /// The stroke width to use for the corresponding [FlSpot]
@@ -748,28 +720,14 @@ class FlDotData with EquatableMixin {
   /// [dotSize] determines the size of dots.
   /// if you want to show or hide dots in some spots,
   /// override [checkToShowDot] to handle it in your way.
-  ///
-  /// The color of dot determines by [getDotColor],
-  /// you can override it, it gives you a [FlSpot],
-  /// and you should decide to return a [Color].
-  ///
-  /// You can have stroke line around the dot,
-  /// by setting the thickness by [strokeWidth],
-  /// and you can implement [getStrokeColor] callback,
-  /// it gives you the [FlSpot], and you should decide to return a [Color].
-  FlDotData({
-    bool show,
-    double dotSize,
-    CheckToShowDot checkToShowDot,
-    double strokeWidth,
-    GetDotColorCallback getStrokeColor,
-    GetDotColorCallback getDotColor,
-  })  : show = show ?? true,
-        dotSize = dotSize ?? 4.0,
-        checkToShowDot = checkToShowDot ?? showAllDots,
-        strokeWidth = strokeWidth ?? 0.0,
-        getStrokeColor = getStrokeColor ?? _defaultGetDotStrokeColor,
-        getDotColor = getDotColor ?? _defaultGetDotColor;
+  const FlDotData({
+    this.show = true,
+    this.dotSize = 4.0,
+    this.checkToShowDot = showAllDots,
+    this.strokeWidth = 0.0,
+    this.getStrokeColor,
+    this.getDotColor = _defaultGetDotColor,
+  });
 
   /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
@@ -1278,7 +1236,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     /// Indicator Line
     Color lineColor = barData.colors[0];
     if (barData.dotData.show) {
-      lineColor = barData.dotData.getDotColor(barData.spots[index], 0, barData);
+      lineColor = barData.dotData.getDotColor(barData.spots[index]);
     }
     const double lineStrokeWidth = 4;
     final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
@@ -1287,10 +1245,11 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     double dotSize = 10;
     if (barData.dotData.show) {
       dotSize = barData.dotData.dotSize * 1.8;
+      dotColor = barData.dotData.getDotColor(barData.spots[index]);
     }
     final dotData = FlDotData(
       dotSize: dotSize,
-      getDotColor: (spot, percent, bar) => _defaultGetDotColor(spot, percent, bar),
+      getDotColor: (_) => dotColor,
     );
 
     return TouchedSpotIndicatorData(flLine, dotData);

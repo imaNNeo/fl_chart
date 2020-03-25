@@ -17,6 +17,7 @@ import 'line_chart_data.dart';
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData>
     with TouchHandler<LineTouchResponse> {
+
   Paint _barPaint,
       _barAreaPaint,
       _barAreaLinesPaint,
@@ -139,10 +140,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _clipToBorder(
-    ui.Canvas canvas,
-    ui.Size size,
-  ) {
+  void _clipToBorder(ui.Canvas canvas, ui.Size size,) {
     final usableSize = getChartUsableDrawSize(size);
 
     double left = 0;
@@ -227,29 +225,24 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
-    if (!barData.dotData.show || barData.spots == null || barData.spots.isEmpty) {
+    if (!barData.dotData.show) {
       return;
     }
     viewSize = getChartUsableDrawSize(viewSize);
-
-    final barXDelta = _getBarLineXLength(barData, viewSize);
-
     for (int i = 0; i < barData.spots.length; i++) {
       final FlSpot spot = barData.spots[i];
       if (barData.dotData.checkToShowDot(spot)) {
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
 
-        final double xPercentInLine = ((x - getLeftOffsetDrawSize()) / barXDelta) * 100;
-
-        final dotColor = barData.dotData.getDotColor(spot, xPercentInLine, barData);
+        final dotColor = barData.dotData.getDotColor(spot);
 
         if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
           canvas.drawCircle(
               Offset(x, y),
-              barData.dotData.dotSize + (barData.dotData.strokeWidth / 2),
+              barData.dotData.dotSize,
               _dotPaint
-                ..color = barData.dotData.getStrokeColor(spot, xPercentInLine, barData)
+                ..color = barData.dotData.getStrokeColor(spot)
                 ..strokeWidth = barData.dotData.strokeWidth
                 ..style = PaintingStyle.stroke);
         }
@@ -267,8 +260,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   void _drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, LineChartBarData barData) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
-    final barXDelta = _getBarLineXLength(barData, viewSize);
-
     // Todo technical debt, we can read the TouchedSpotIndicatorData directly,
     // Todo instead of mapping indexes to TouchedSpotIndicatorData
     final List<TouchedSpotIndicatorData> indicatorsData =
@@ -281,60 +272,34 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     for (int i = 0; i < barData.showingIndicators.length; i++) {
       final TouchedSpotIndicatorData indicatorData = indicatorsData[i];
       final int index = barData.showingIndicators[i];
-      final FlSpot spot = barData.spots[index];
+      FlSpot spot = barData.spots[index];
 
       if (indicatorData == null) {
         continue;
       }
-
-      final bool showingDots =
-          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
-      final double dotCircleSize = showingDots ? indicatorData.touchedSpotDotData.dotSize : 0;
 
       /// For drawing the dot
       final Offset touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
 
       /// For drawing the indicator line
-      final bottom = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
+      final from = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
       final top = Offset(getPixelX(spot.x, chartViewSize), getTopOffsetDrawSize());
 
       /// Draw to top or to the touchedSpot
-      final Offset lineEnd =
-          data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotCircleSize);
+      final Offset lineEnd = data.lineTouchData.fullHeightTouchLine ? top : touchedSpot;
 
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
       canvas.drawDashedLine(
-          bottom, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
+          from, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
-      if (showingDots) {
+      if (indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show) {
         final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
-
-        final double xPercentInLine =
-            ((touchedSpot.dx - getLeftOffsetDrawSize()) / barXDelta) * 100;
-
-        if (indicatorData.touchedSpotDotData.getStrokeColor != null &&
-            indicatorData.touchedSpotDotData.strokeWidth != null) {
-          canvas.drawCircle(
-              touchedSpot,
-              indicatorData.touchedSpotDotData.dotSize +
-                  (indicatorData.touchedSpotDotData.strokeWidth / 2),
-              _dotPaint
-                ..color =
-                    indicatorData.touchedSpotDotData.getStrokeColor(spot, xPercentInLine, barData)
-                ..strokeWidth = indicatorData.touchedSpotDotData.strokeWidth
-                ..style = PaintingStyle.stroke);
-        }
-
-        canvas.drawCircle(
-            touchedSpot,
-            selectedSpotDotSize,
-            _dotPaint
-              ..color = indicatorData.touchedSpotDotData.getDotColor(spot, xPercentInLine, barData)
-              ..style = PaintingStyle.fill);
+        _dotPaint.color = indicatorData.touchedSpotDotData.getDotColor(spot);
+        canvas.drawCircle(touchedSpot, selectedSpotDotSize, _dotPaint);
       }
     }
   }
@@ -515,7 +480,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       if (barData.belowBarData.gradientColorStops == null ||
           barData.belowBarData.gradientColorStops.length != barData.belowBarData.colors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
-        barData.belowBarData.colors.asMap().forEach((index, color) {
+        barData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / barData.colors.length;
           stops.add(percent * (index + 1));
         });
@@ -1147,20 +1112,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  double _getBarLineXLength(LineChartBarData barData, Size chartUsableSize) {
-    if (barData.spots == null || barData.spots.isEmpty) {
-      return 0.0;
-    }
-
-    final firstSpot = barData.spots[0];
-    final firstSpotX = getPixelX(firstSpot.x, chartUsableSize);
-
-    final lastSpot = barData.spots[barData.spots.length - 1];
-    final lastSpotX = getPixelX(lastSpot.x, chartUsableSize);
-
-    return lastSpotX - firstSpotX;
-  }
-
   /// We add our needed horizontal space to parent needed.
   /// we have some titles that maybe draw in the left and right side of our chart,
   /// then we should draw the chart a with some left space,
@@ -1289,4 +1240,5 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// [LineChartPainter] should repaint itself.
   @override
   bool shouldRepaint(LineChartPainter oldDelegate) => oldDelegate.data != data;
+
 }
