@@ -569,16 +569,30 @@ bool showAllSpotsBelowLine(FlSpot spot) {
   return true;
 }
 
-/// Holds data for showing dots on the bar line.
+/// The callback passed to get the color of a [FlSpot]
+/// The callback receives as parameter the [FlSpot] for which to retrieve
+/// the color and returns the [Color] that needs to be used
+typedef GetDotColorCallback = Color Function(FlSpot);
+Color _defaultGetDotColor(FlSpot _) => Colors.blue;
+
+/// This class holds data about drawing spot dots on the drawing bar line.
 class FlDotData {
   /// Determines show or hide all dots.
   final bool show;
 
-  /// Determines color of showing dots.
-  final Color dotColor;
-
-  /// Determines size of showing dots.
+  // Customsize the size of the dot
   final double dotSize;
+
+  /// The stroke width to use for the corresponding [FlSpot]
+  final double strokeWidth;
+
+  /// Callback which is called to the the stroke color of the given [FlSpot].
+  /// The [FlSpot] is provided as parameter to this callback
+  final GetDotColorCallback getStrokeColor;
+
+  /// Callback which is called to the the color of the given [FlSpot].
+  /// The [FlSpot] is provided as parameter to this callback
+  final GetDotColorCallback getDotColor;
 
   /// Checks to show or hide an individual dot.
   final CheckToShowDot checkToShowDot;
@@ -590,9 +604,11 @@ class FlDotData {
   /// override [checkToShowDot] to handle it in your way.
   const FlDotData({
     this.show = true,
-    this.dotColor = Colors.blue,
     this.dotSize = 4.0,
     this.checkToShowDot = showAllDots,
+    this.strokeWidth = 0.0,
+    this.getStrokeColor,
+    this.getDotColor = _defaultGetDotColor,
   });
 
   /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
@@ -600,8 +616,10 @@ class FlDotData {
     return FlDotData(
       show: b.show,
       checkToShowDot: b.checkToShowDot,
-      dotColor: Color.lerp(a.dotColor, b.dotColor, t),
       dotSize: lerpDouble(a.dotSize, b.dotSize, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      getDotColor: b.getDotColor,
+      getStrokeColor: b.getStrokeColor,
     );
   }
 }
@@ -968,7 +986,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     /// Indicator Line
     Color lineColor = barData.colors[0];
     if (barData.dotData.show) {
-      lineColor = barData.dotData.dotColor;
+      lineColor = barData.dotData.getDotColor(barData.spots[index]);
     }
     const double lineStrokeWidth = 4;
     final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
@@ -978,11 +996,11 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     Color dotColor = barData.colors[0];
     if (barData.dotData.show) {
       dotSize = barData.dotData.dotSize * 1.8;
-      dotColor = barData.dotData.dotColor;
+      dotColor = barData.dotData.getDotColor(barData.spots[index]);
     }
     final dotData = FlDotData(
       dotSize: dotSize,
-      dotColor: dotColor,
+      getDotColor: (_) => dotColor,
     );
 
     return TouchedSpotIndicatorData(flLine, dotData);

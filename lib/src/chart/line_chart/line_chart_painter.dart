@@ -236,8 +236,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       if (barData.dotData.checkToShowDot(spot)) {
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
-        _dotPaint.color = barData.dotData.dotColor;
-        canvas.drawCircle(Offset(x, y), barData.dotData.dotSize, _dotPaint);
+
+        final dotColor = barData.dotData.getDotColor(spot);
+
+        if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
+          canvas.drawCircle(
+              Offset(x, y),
+              barData.dotData.dotSize,
+              _dotPaint
+                ..color = barData.dotData.getStrokeColor(spot)
+                ..strokeWidth = barData.dotData.strokeWidth
+                ..style = PaintingStyle.stroke);
+        }
+
+        canvas.drawCircle(
+            Offset(x, y),
+            barData.dotData.dotSize,
+            _dotPaint
+              ..color = dotColor
+              ..style = PaintingStyle.fill);
       }
     }
   }
@@ -283,7 +300,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       /// Draw the indicator dot
       if (indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show) {
         final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
-        _dotPaint.color = indicatorData.touchedSpotDotData.dotColor;
+        _dotPaint.color = indicatorData.touchedSpotDotData.getDotColor(spot);
         canvas.drawCircle(touchedSpot, selectedSpotDotSize, _dotPaint);
       }
     }
