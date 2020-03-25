@@ -1,3 +1,7 @@
+## 0.8.8
+* Added `strokeWidth`, `getStrokeColor`, `getDotColor` in the [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), also removed `dotColor` from it (you should use `getDotColor` instead, it gives you more customizability), now we have more customizability on [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), check [line_chart_sample3](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-3-source-code), and [line_chart_sample5](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-5-source-code).
+* Added `equatable` library to solve some equation issues.
+
 ## 0.8.7
 * Added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
 * Fixed bug, when the screen size is square, #258.
