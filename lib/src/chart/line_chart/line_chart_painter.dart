@@ -1220,6 +1220,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
+    /// Find the nearest spot (on X axis)
     for (int i = 0; i < barData.spots.length; i++) {
       final spot = barData.spots[i];
       if (spot.isNotNull()) {
