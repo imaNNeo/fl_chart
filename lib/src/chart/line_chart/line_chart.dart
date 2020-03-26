@@ -106,9 +106,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         final LineTouchResponse response =
             _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
-          setState(() {
-            _lastTouchedPosition = details.localPosition;
-          });
+          _lastTouchedPosition = details.localPosition;
           touchData.touchCallback(response);
         }
       },
@@ -145,9 +143,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         final LineTouchResponse response =
             _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
-          setState(() {
-            _lastTouchedPosition = details.localPosition;
-          });
+          _lastTouchedPosition = details.localPosition;
           touchData.touchCallback(response);
         }
       },
