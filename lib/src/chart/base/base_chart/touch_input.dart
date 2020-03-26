@@ -97,7 +97,7 @@ class FlPanStart extends FlTouchNormalInput {
 }
 
 /// Convenience class for a simple tap to use for conditionals
-/// used for [GestureDetector.onTapDown] and [GestureDetector.onTapUp]
+/// used for [GestureDetector.onTapCancel] and [GestureDetector.onTapUp]
 class FlTap extends FlTouchNormalInput {
 
   /// It is a localized touch position inside our widget,
