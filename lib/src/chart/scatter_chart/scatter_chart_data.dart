@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/animation.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 ///
 /// It holds data needed to draw a scatter chart,
 /// including background color, scatter spots, ...
-class ScatterChartData extends AxisChartData {
+class ScatterChartData extends AxisChartData with EquatableMixin {
   final List<ScatterSpot> scatterSpots;
   final FlTitlesData titlesData;
   final ScatterTouchData scatterTouchData;
@@ -36,25 +37,29 @@ class ScatterChartData extends AxisChartData {
   ///
   /// [clipToBorder] forces the [LineChart] to draw lines inside the chart bounding box.
   ScatterChartData({
-    this.scatterSpots = const [],
-    this.titlesData = const FlTitlesData(),
-    this.scatterTouchData = const ScatterTouchData(),
-    this.showingTooltipIndicators = const [],
-    FlGridData gridData = const FlGridData(),
+    List<ScatterSpot> scatterSpots,
+    FlTitlesData titlesData,
+    ScatterTouchData scatterTouchData,
+    List<int> showingTooltipIndicators,
+    FlGridData gridData,
     FlBorderData borderData,
-    FlAxisTitleData axisTitleData = const FlAxisTitleData(),
+    FlAxisTitleData axisTitleData,
     double minX,
     double maxX,
     double minY,
     double maxY,
-    bool clipToBorder = false,
+    bool clipToBorder,
     Color backgroundColor,
-  }) : super(
-          gridData: gridData,
-          touchData: scatterTouchData,
+  }) : scatterSpots = scatterSpots ?? const [],
+      titlesData = titlesData ?? const FlTitlesData(),
+      scatterTouchData = scatterTouchData ?? ScatterTouchData(),
+      showingTooltipIndicators = showingTooltipIndicators ?? const [],
+      super(
+          gridData: gridData ?? const FlGridData(),
+          touchData: scatterTouchData ?? ScatterTouchData(),
           borderData: borderData,
-          axisTitleData: axisTitleData,
-          clipToBorder: clipToBorder,
+          axisTitleData: axisTitleData ?? const FlAxisTitleData(),
+          clipToBorder: clipToBorder ?? false,
           backgroundColor: backgroundColor,
         ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
@@ -177,10 +182,31 @@ class ScatterChartData extends AxisChartData {
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+    scatterSpots,
+    titlesData,
+    scatterTouchData,
+    showingTooltipIndicators,
+    gridData,
+    touchData,
+    borderData,
+    axisTitleData,
+    clipToBorder,
+    backgroundColor,
+    minX,
+    maxX,
+    minY,
+    maxY,
+  ];
+
 }
 
 /// Defines information about a spot in the [ScatterChart]
-class ScatterSpot extends FlSpot {
+class ScatterSpot extends FlSpot with EquatableMixin {
+
   /// Determines show or hide the spot.
   final bool show;
 
@@ -193,15 +219,16 @@ class ScatterSpot extends FlSpot {
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
-  ScatterSpot(
-    double x,
+  ScatterSpot(double x,
     double y, {
-    this.show = true,
-    this.radius = 6,
-    this.color,
-  }) : super(x, y) {
-    color ??= Colors.primaries[((x * y) % Colors.primaries.length).toInt()];
-  }
+      bool show,
+      double radius,
+      Color color,
+    })
+    : show = show ?? true,
+      radius = radius ?? 6,
+      color = color ?? Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
+      super(x, y);
 
   /// Lerps a [ScatterSpot] based on [t] value, check [Tween.lerp].
   static ScatterSpot lerp(ScatterSpot a, ScatterSpot b, double t) {
@@ -213,6 +240,17 @@ class ScatterSpot extends FlSpot {
       color: Color.lerp(a.color, b.color, t),
     );
   }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+    x,
+    y,
+    show,
+    radius,
+    color,
+  ];
+
 }
 
 /// Holds data to handle touch events, and touch responses in the [ScatterChart].
@@ -220,7 +258,7 @@ class ScatterSpot extends FlSpot {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart captures the touch events, and passes a concrete
 /// instance of [FlTouchInput] to the painter, and gets a generated [ScatterTouchResponse].
-class ScatterTouchData extends FlTouchData {
+class ScatterTouchData extends FlTouchData with EquatableMixin {
   /// show a tooltip on touched spots
   final ScatterTouchTooltipData touchTooltipData;
 
@@ -244,13 +282,18 @@ class ScatterTouchData extends FlTouchData {
   /// You can listen to touch events using [touchCallback],
   /// It gives you a [ScatterTouchResponse] that contains some
   /// useful information about happened touch.
-  const ScatterTouchData({
+  ScatterTouchData({
     bool enabled = true,
-    this.touchTooltipData = const ScatterTouchTooltipData(),
-    this.touchSpotThreshold = 10,
-    this.handleBuiltInTouches = true,
-    this.touchCallback,
-  }) : super(enabled);
+    ScatterTouchTooltipData touchTooltipData,
+    double touchSpotThreshold,
+    bool handleBuiltInTouches,
+    Function(ScatterTouchResponse) touchCallback,
+  })
+    : touchTooltipData = touchTooltipData ?? ScatterTouchTooltipData(),
+      touchSpotThreshold = touchSpotThreshold ?? 10,
+      handleBuiltInTouches = handleBuiltInTouches ?? true,
+      touchCallback = touchCallback,
+      super(enabled);
 
   /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
   /// and replaces provided values.
@@ -267,13 +310,24 @@ class ScatterTouchData extends FlTouchData {
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+    enabled,
+    touchTooltipData,
+    touchSpotThreshold,
+    handleBuiltInTouches,
+    touchCallback,
+  ];
+
 }
 
 /// Holds information about touch response in the [ScatterChart].
 ///
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
-class ScatterTouchResponse extends BaseTouchResponse {
+class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
   final ScatterSpot touchedSpot;
   final int touchedSpotIndex;
 
@@ -284,15 +338,26 @@ class ScatterTouchResponse extends BaseTouchResponse {
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
   ///
   /// [touchInput] is the type of happened touch.
-  ScatterTouchResponse(
-    FlTouchInput touchInput,
-    this.touchedSpot,
-    this.touchedSpotIndex,
-  ) : super(touchInput);
+  ScatterTouchResponse(FlTouchInput touchInput,
+    ScatterSpot touchedSpot,
+    int touchedSpotIndex,)
+    : touchedSpot = touchedSpot,
+      touchedSpotIndex = touchedSpotIndex,
+      super(touchInput);
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+    touchInput,
+    touchedSpot,
+    touchedSpotIndex,
+  ];
+
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
-class ScatterTouchTooltipData {
+class ScatterTouchTooltipData with EquatableMixin {
+
   /// The tooltip background color.
   final Color tooltipBgColor;
 
@@ -326,15 +391,36 @@ class ScatterTouchTooltipData {
   /// Sometimes, [ScatterChart] shows the tooltip outside of the chart,
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
-  const ScatterTouchTooltipData({
-    this.tooltipBgColor = Colors.white,
-    this.tooltipRoundedRadius = 4,
-    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    this.maxContentWidth = 120,
-    this.getTooltipItems = defaultScatterTooltipItem,
-    this.fitInsideHorizontally = false,
-    this.fitInsideVertically = false,
-  }) : super();
+  ScatterTouchTooltipData({
+    Color tooltipBgColor,
+    double tooltipRoundedRadius,
+    EdgeInsets tooltipPadding,
+    double maxContentWidth,
+    GetScatterTooltipItems getTooltipItems,
+    bool fitInsideHorizontally,
+    bool fitInsideVertically,
+  })
+    : tooltipBgColor = tooltipBgColor ?? Colors.white,
+      tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+      tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      maxContentWidth = maxContentWidth ?? 120,
+      getTooltipItems = getTooltipItems ?? defaultScatterTooltipItem,
+      fitInsideHorizontally = fitInsideHorizontally ?? false,
+      fitInsideVertically = fitInsideVertically ?? false,
+      super();
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+    tooltipBgColor,
+    tooltipRoundedRadius,
+    tooltipPadding,
+    maxContentWidth,
+    getTooltipItems,
+    fitInsideHorizontally,
+    fitInsideVertically,
+  ];
+
 }
 
 /// Provides a [ScatterTooltipItem] for showing content inside the [ScatterTouchTooltipData].
@@ -360,7 +446,8 @@ ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
 }
 
 /// Holds data of showing each item in the tooltip popup.
-class ScatterTooltipItem {
+class ScatterTooltipItem with EquatableMixin {
+
   /// Showing text.
   final String text;
 
@@ -372,11 +459,21 @@ class ScatterTooltipItem {
 
   /// Shows a [text] with [textStyle] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
-  ScatterTooltipItem(
-    this.text,
-    this.textStyle,
-    this.bottomMargin,
-  );
+  ScatterTooltipItem(String text,
+    TextStyle textStyle,
+    double bottomMargin,)
+    : text = text,
+      textStyle = textStyle,
+      bottomMargin = bottomMargin;
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+    text,
+    textStyle,
+    bottomMargin,
+  ];
+
 }
 
 /// It lerps a [ScatterChartData] to another [ScatterChartData] (handles animation for updating values)

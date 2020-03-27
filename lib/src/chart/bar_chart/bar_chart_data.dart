@@ -72,7 +72,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
       borderData: borderData,
       rangeAnnotations: rangeAnnotations ?? const RangeAnnotations(),
       backgroundColor: backgroundColor,
-      touchData: barTouchData,
+      touchData: barTouchData ?? BarTouchData(),
     ) {
     initSuperMinMaxValues(maxY, minY);
   }
