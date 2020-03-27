@@ -114,7 +114,7 @@ linter:
     - prefer_foreach
     # - prefer_function_declarations_over_variables # not yet tested
     - prefer_generic_function_type_aliases
-    - prefer_initializing_formals
+    # - prefer_initializing_formals # Fucked up with Equatable, because it's added props field, then we couldn't have const constructor.
     # - prefer_int_literals # not yet tested
     # - prefer_interpolation_to_compose_strings # not yet tested
     - prefer_is_empty
