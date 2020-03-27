@@ -187,7 +187,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           colors: const [Color(0xff0F2BF6), Color(0xff0F2BF6)],
           barWidth: 2,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(

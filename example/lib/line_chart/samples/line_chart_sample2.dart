@@ -135,7 +135,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           colors: gradientColors,
           barWidth: 5,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(
@@ -149,7 +149,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   LineChartData avgData() {
     return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
+      lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
         show: true,
         drawHorizontalLine: true,
@@ -232,7 +232,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           ],
           barWidth: 5,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(show: true, colors: [
