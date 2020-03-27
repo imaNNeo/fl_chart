@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 
 class LineChartSample6 extends StatelessWidget {
   final spots = [
-    const FlSpot(0, 1),
-    const FlSpot(2, 5),
-    const FlSpot(4, 3),
-    const FlSpot(6, 5),
+    FlSpot(0, 1),
+    FlSpot(2, 5),
+    FlSpot(4, 3),
+    FlSpot(6, 5),
   ];
 
   final spots2 = [
-    const FlSpot(0, 3),
-    const FlSpot(2, 1),
-    const FlSpot(4, 2),
-    const FlSpot(6, 1),
+    FlSpot(0, 3),
+    FlSpot(2, 1),
+    FlSpot(4, 2),
+    FlSpot(6, 1),
   ];
 
   double minSpotX, maxSpotX;
@@ -86,7 +86,7 @@ class LineChartSample6 extends StatelessWidget {
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.deepOrange.withOpacity(0.5),
+                      getDotColor: (_) => Colors.deepOrange.withOpacity(0.5),
                       dotSize: 12,
                     ),
                   ),
@@ -104,7 +104,7 @@ class LineChartSample6 extends StatelessWidget {
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.blue.withOpacity(0.5),
+                      getDotColor: (_) => Colors.blue.withOpacity(0.5),
                       dotSize: 12,
                     ),
                   ),

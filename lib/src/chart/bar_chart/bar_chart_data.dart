@@ -453,6 +453,9 @@ class BarTouchData extends FlTouchData {
   /// [BarTouchResponse] shows a tooltip popup above the touched spot.
   final bool handleBuiltInTouches;
 
+  /// Sets touch indicator to sticky
+  final bool stickyTouchIndicator;
+
   /// Informs the touchResponses
   final Function(BarTouchResponse) touchCallback;
 
@@ -473,6 +476,7 @@ class BarTouchData extends FlTouchData {
     this.touchExtraThreshold = const EdgeInsets.all(4),
     this.allowTouchBarBackDraw = false,
     this.handleBuiltInTouches = true,
+    this.stickyTouchIndicator = false,
     this.touchCallback,
   }) : super(enabled);
 
@@ -484,6 +488,7 @@ class BarTouchData extends FlTouchData {
     EdgeInsets touchExtraThreshold,
     bool allowTouchBarBackDraw,
     bool handleBuiltInTouches,
+    bool stickyTouchIndicator,
     Function(BarTouchResponse) touchCallback,
   }) {
     return BarTouchData(
@@ -492,6 +497,7 @@ class BarTouchData extends FlTouchData {
       touchExtraThreshold: touchExtraThreshold ?? this.touchExtraThreshold,
       allowTouchBarBackDraw: allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
+      stickyTouchIndicator: stickyTouchIndicator ?? this.stickyTouchIndicator,
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }

@@ -149,15 +149,13 @@ class _LineChartSample8State extends State<LineChartSample8> {
       ),
       lineTouchData: LineTouchData(
         fullHeightTouchLine: true,
+        stickyTouchIndicator: true,
         getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
             final FlSpot spot = barData.spots[spotIndex];
-            if (spot.x == 0 || spot.x == 6) {
-              return null;
-            }
             return TouchedSpotIndicatorData(
               const FlLine(color: Colors.orange, strokeWidth: 3),
-              const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
+              FlDotData(dotSize: 8, getDotColor: (_) => Colors.deepOrange),
             );
           }).toList();
         },
@@ -172,7 +170,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
+          spots: [
             FlSpot(0, 1),
             FlSpot(2, 1),
             FlSpot(4.9, 5),

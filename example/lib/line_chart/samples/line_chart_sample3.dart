@@ -52,7 +52,7 @@ class LineChartSample3 extends StatelessWidget {
                       }
                       return TouchedSpotIndicatorData(
                         const FlLine(color: Colors.blue, strokeWidth: 4),
-                        const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
+                        FlDotData(dotSize: 8, getDotColor: (_) => Colors.deepOrange),
                       );
                     }).toList();
                   },
@@ -80,7 +80,7 @@ class LineChartSample3 extends StatelessWidget {
               ]),
               lineBarsData: [
                 LineChartBarData(
-                  spots: const [
+                  spots: [
                     FlSpot(0, 1.3),
                     FlSpot(1, 1),
                     FlSpot(2, 1.8),
@@ -120,7 +120,7 @@ class LineChartSample3 extends StatelessWidget {
                   ),
                   dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.deepOrange,
+                      getDotColor: (_) => Colors.deepOrange,
                       dotSize: 6,
                       checkToShowDot: (spot) {
                         return spot.x != 0 && spot.x != 6;
