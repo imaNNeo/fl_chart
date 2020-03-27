@@ -70,7 +70,7 @@ class LineChartSample6 extends StatelessWidget {
             height: 200,
             child: LineChart(
               LineChartData(
-                lineTouchData: const LineTouchData(enabled: false),
+                lineTouchData: LineTouchData(enabled: false),
                 lineBarsData: [
                   LineChartBarData(
                     colors: [
@@ -81,7 +81,7 @@ class LineChartSample6 extends StatelessWidget {
                     isCurved: true,
                     isStrokeCapRound: true,
                     barWidth: 10,
-                    belowBarData: const BarAreaData(
+                    belowBarData: BarAreaData(
                       show: false,
                     ),
                     dotData: FlDotData(
@@ -99,7 +99,7 @@ class LineChartSample6 extends StatelessWidget {
                     isCurved: true,
                     isStrokeCapRound: true,
                     barWidth: 10,
-                    belowBarData: const BarAreaData(
+                    belowBarData: BarAreaData(
                       show: false,
                     ),
                     dotData: FlDotData(
