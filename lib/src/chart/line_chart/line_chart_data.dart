@@ -87,7 +87,7 @@ class LineChartData extends AxisChartData {
      showingTooltipIndicators = showingTooltipIndicators ?? const [],
       super(
           gridData: gridData ?? const FlGridData(),
-          touchData: lineTouchData,
+          touchData: lineTouchData ?? LineTouchData(),
           borderData: borderData,
           axisTitleData: axisTitleData ?? const FlAxisTitleData(),
           rangeAnnotations: rangeAnnotations ?? const RangeAnnotations(),
