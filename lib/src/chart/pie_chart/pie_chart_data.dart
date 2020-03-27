@@ -60,7 +60,7 @@ class PieChartData extends BaseChartData  with EquatableMixin {
       sectionsSpace = sectionsSpace ?? 2,
       startDegreeOffset = startDegreeOffset ?? 0,
       pieTouchData = pieTouchData ?? PieTouchData(),
-      super(borderData: borderData, touchData: pieTouchData) {
+      super(borderData: borderData, touchData: pieTouchData ?? PieTouchData()) {
     sumValue = sections.map((data) => data.value).reduce((first, second) => first + second);
   }
 
