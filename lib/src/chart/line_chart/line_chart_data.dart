@@ -602,13 +602,19 @@ class BetweenBarsData with EquatableMixin {
   final List<double> gradientColorStops;
 
   BetweenBarsData({
-    @required this.fromIndex,
-    @required this.toIndex,
-    this.colors = const [Colors.blueGrey],
-    this.gradientFrom = const Offset(0, 0),
-    this.gradientTo = const Offset(1, 0),
-    this.gradientColorStops,
-  });
+    @required int fromIndex,
+    @required int toIndex,
+    List<Color> colors,
+    Offset gradientFrom,
+    Offset gradientTo,
+    List<double> gradientColorStops,
+  })
+    : fromIndex = fromIndex,
+      toIndex = toIndex,
+      colors = colors ?? const [Colors.blueGrey],
+      gradientFrom = gradientFrom ?? const Offset(0, 0),
+      gradientTo = gradientTo ?? const Offset(1, 0),
+      gradientColorStops = gradientColorStops;
 
   /// Lerps a [BetweenBarsData] based on [t] value, check [Tween.lerp].
   static BetweenBarsData lerp(BetweenBarsData a, BetweenBarsData b, double t) {
@@ -650,10 +656,13 @@ class BarAreaSpotsLine with EquatableMixin {
   /// you can customize the appearance of the lines using [flLineStyle]
   /// and you can decide to show or hide the lines on each spot using [checkToShowSpotLine].
   BarAreaSpotsLine({
-    this.show = false,
-    this.flLineStyle = const FlLine(),
-    this.checkToShowSpotLine = showAllSpotsBelowLine,
-  });
+    bool show,
+    FlLine flLineStyle,
+    CheckToShowSpotLine checkToShowSpotLine,
+  })
+    : show = show ?? false,
+      flLineStyle = flLineStyle ?? const FlLine(),
+      checkToShowSpotLine = checkToShowSpotLine ?? showAllSpotsBelowLine;
 
   /// Lerps a [BarAreaSpotsLine] based on [t] value, check [Tween.lerp].
   static BarAreaSpotsLine lerp(BarAreaSpotsLine a, BarAreaSpotsLine b, double t) {
@@ -734,13 +743,19 @@ class FlDotData with EquatableMixin {
   /// and you can implement [getStrokeColor] callback,
   /// it gives you the [FlSpot], and you should decide to return a [Color].
   FlDotData({
-    this.show = true,
-    this.dotSize = 4.0,
-    this.checkToShowDot = showAllDots,
-    this.strokeWidth = 0.0,
-    this.getStrokeColor = _defaultGetDotStrokeColor,
-    this.getDotColor = _defaultGetDotColor,
-  });
+    bool show = true,
+    double dotSize,
+    double checkToShowDot,
+    GetDotColorCallback strokeWidth,
+    GetDotColorCallback getStrokeColor,
+    CheckToShowDot getDotColor,
+  })
+    : show = show ?? true,
+      dotSize = dotSize ?? 4.0,
+      checkToShowDot = checkToShowDot ?? showAllDots,
+      strokeWidth = strokeWidth ?? 0.0,
+      getStrokeColor = getStrokeColor ?? _defaultGetDotStrokeColor,
+      getDotColor = getDotColor ?? _defaultGetDotColor;
 
   /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
@@ -956,16 +971,23 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
   /// you can override it with your custom data.
   /// /// [show] determines showing label or not.
   HorizontalLineLabel({
-    EdgeInsets padding = const EdgeInsets.all(6),
-    TextStyle style = const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    ),
-    Alignment alignment = Alignment.topLeft,
+    EdgeInsets padding,
+    TextStyle style,
+    Alignment alignment,
     bool show = false,
-    this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
-  }) : super(show: show, padding: padding, style: style, alignment: alignment);
+    String Function(HorizontalLine) labelResolver,
+  })
+    : labelResolver = labelResolver ?? HorizontalLineLabel.defaultLineLabelResolver,
+      super(
+      show: show,
+      padding: padding ?? const EdgeInsets.all(6),
+      style: style ?? const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+      alignment: alignment ?? Alignment.topLeft,
+    );
 
   /// Lerps a [HorizontalLineLabel] based on [t] value, check [Tween.lerp].
   static HorizontalLineLabel lerp(HorizontalLineLabel a, HorizontalLineLabel b, double t) {
@@ -1005,16 +1027,23 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
   /// you can override it with your custom data.
   /// [show] determines showing label or not.
   VerticalLineLabel({
-    EdgeInsets padding = const EdgeInsets.all(6),
-    TextStyle style = const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    ),
-    Alignment alignment = Alignment.bottomRight,
-    bool show = false,
-    this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
-  }) : super(show: show, padding: padding, style: style, alignment: alignment);
+    EdgeInsets padding,
+    TextStyle style,
+    Alignment alignment,
+    bool show,
+    String Function(VerticalLine) labelResolver,
+  })
+    : labelResolver = labelResolver ?? VerticalLineLabel.defaultLineLabelResolver,
+      super(
+      show: show ?? false,
+      padding: padding ?? const EdgeInsets.all(6),
+      style: style ?? const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+      alignment: alignment ?? Alignment.bottomRight,
+    );
 
   /// Lerps a [VerticalLineLabel] based on [t] value, check [Tween.lerp].
   static VerticalLineLabel lerp(VerticalLineLabel a, VerticalLineLabel b, double t) {
@@ -1095,10 +1124,13 @@ class ExtraLinesData with EquatableMixin {
   ///
   /// If [extraLinesOnTop] sets true, it draws the line above the main bar lines, otherwise
   /// it draws them below the main bar lines.
-  ExtraLinesData(
-      {this.horizontalLines = const [],
-      this.verticalLines = const [],
-      this.extraLinesOnTop = true});
+  ExtraLinesData({List<HorizontalLine> horizontalLines,
+    List<VerticalLine> verticalLines,
+    bool extraLinesOnTop,})
+    :
+      horizontalLines = horizontalLines ?? const [],
+      verticalLines = verticalLines ?? const [],
+      extraLinesOnTop = extraLinesOnTop ?? true;
 
   /// Lerps a [ExtraLinesData] based on [t] value, check [Tween.lerp].
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
@@ -1292,15 +1324,24 @@ class LineTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   LineTouchTooltipData({
-    this.tooltipBgColor = Colors.white,
-    this.tooltipRoundedRadius = 4,
-    this.tooltipPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    this.tooltipBottomMargin = 16,
-    this.maxContentWidth = 120,
-    this.getTooltipItems = defaultLineTooltipItem,
-    this.fitInsideHorizontally = false,
-    this.fitInsideVertically = false,
-  }) : super();
+    Color tooltipBgColor,
+    double tooltipRoundedRadius,
+    EdgeInsets tooltipPadding,
+    double tooltipBottomMargin,
+    double maxContentWidth,
+    GetLineTooltipItems getTooltipItems,
+    bool fitInsideHorizontally,
+    bool fitInsideVertically,
+  })
+    : tooltipBgColor = tooltipBgColor ?? Colors.white,
+      tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+      tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      tooltipBottomMargin = tooltipBottomMargin ?? 16,
+      maxContentWidth = maxContentWidth ?? 120,
+      getTooltipItems = getTooltipItems ?? defaultLineTooltipItem,
+      fitInsideHorizontally = fitInsideHorizontally ?? false,
+      fitInsideVertically = fitInsideVertically ?? false,
+      super();
 
   /// Used for equality check, see [EquatableMixin].
   @override
