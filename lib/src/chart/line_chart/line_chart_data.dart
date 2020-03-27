@@ -745,10 +745,10 @@ class FlDotData with EquatableMixin {
   FlDotData({
     bool show = true,
     double dotSize,
-    double checkToShowDot,
-    GetDotColorCallback strokeWidth,
+    CheckToShowDot checkToShowDot,
+    double strokeWidth,
     GetDotColorCallback getStrokeColor,
-    CheckToShowDot getDotColor,
+    GetDotColorCallback getDotColor,
   })
     : show = show ?? true,
       dotSize = dotSize ?? 4.0,

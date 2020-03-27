@@ -264,7 +264,7 @@ class BarChartSample4State extends State<BarChartSample4> {
             BarChartData(
               alignment: BarChartAlignment.center,
               maxY: 35,
-              barTouchData: const BarTouchData(
+              barTouchData: BarTouchData(
                 enabled: false,
               ),
               titlesData: FlTitlesData(

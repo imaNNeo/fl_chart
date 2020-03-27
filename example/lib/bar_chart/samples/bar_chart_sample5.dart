@@ -31,7 +31,7 @@ class BarChartSample5State extends State<BarChartSample5> {
               maxY: 20,
               minY: -20,
               groupsSpace: 12,
-              barTouchData: const BarTouchData(
+              barTouchData: BarTouchData(
                 enabled: false,
               ),
               titlesData: FlTitlesData(
@@ -115,8 +115,9 @@ class BarChartSample5State extends State<BarChartSample5> {
                       y: 15.1,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: const [
+                          topLeft: Radius.circular(6),
+                          topRight: Radius.circular(6)),
+                      rodStackItem: [
                         BarChartRodStackItem(0, 2, Color(0xff2bdb90)),
                         BarChartRodStackItem(2, 5, Color(0xffffdd80)),
                         BarChartRodStackItem(5, 7.5, Color(0xffff4d94)),
@@ -132,8 +133,9 @@ class BarChartSample5State extends State<BarChartSample5> {
                       y: -14,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: const [
+                          bottomLeft: Radius.circular(6),
+                          bottomRight: Radius.circular(6)),
+                      rodStackItem: [
                         BarChartRodStackItem(0, -1.8, Color(0xff2bdb90)),
                         BarChartRodStackItem(-1.8, -4.5, Color(0xffffdd80)),
                         BarChartRodStackItem(-4.5, -7.5, Color(0xffff4d94)),
@@ -149,8 +151,9 @@ class BarChartSample5State extends State<BarChartSample5> {
                       y: 13,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: const [
+                          topLeft: Radius.circular(6),
+                          topRight: Radius.circular(6)),
+                      rodStackItem: [
                         BarChartRodStackItem(0, 1.5, Color(0xff2bdb90)),
                         BarChartRodStackItem(1.5, 3.5, Color(0xffffdd80)),
                         BarChartRodStackItem(3.5, 7, Color(0xffff4d94)),
@@ -166,8 +169,9 @@ class BarChartSample5State extends State<BarChartSample5> {
                       y: 13.5,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: const [
+                          topLeft: Radius.circular(6),
+                          topRight: Radius.circular(6)),
+                      rodStackItem: [
                         BarChartRodStackItem(0, 1.5, Color(0xff2bdb90)),
                         BarChartRodStackItem(1.5, 3, Color(0xffffdd80)),
                         BarChartRodStackItem(3, 7, Color(0xffff4d94)),
@@ -183,8 +187,9 @@ class BarChartSample5State extends State<BarChartSample5> {
                       y: -18,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: const [
+                          bottomLeft: Radius.circular(6),
+                          bottomRight: Radius.circular(6)),
+                      rodStackItem: [
                         BarChartRodStackItem(0, -2, Color(0xff2bdb90)),
                         BarChartRodStackItem(-2, -4, Color(0xffffdd80)),
                         BarChartRodStackItem(-4, -9, Color(0xffff4d94)),
@@ -200,8 +205,9 @@ class BarChartSample5State extends State<BarChartSample5> {
                       y: -17,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: const [
+                          bottomLeft: Radius.circular(6),
+                          bottomRight: Radius.circular(6)),
+                      rodStackItem: [
                         BarChartRodStackItem(0, -1.2, Color(0xff2bdb90)),
                         BarChartRodStackItem(-1.2, -2.7, Color(0xffffdd80)),
                         BarChartRodStackItem(-2.7, -7, Color(0xffff4d94)),
@@ -217,8 +223,9 @@ class BarChartSample5State extends State<BarChartSample5> {
                       y: 16,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: const [
+                          topLeft: Radius.circular(6),
+                          topRight: Radius.circular(6)),
+                      rodStackItem: [
                         BarChartRodStackItem(0, 1.2, Color(0xff2bdb90)),
                         BarChartRodStackItem(1.2, 6, Color(0xffffdd80)),
                         BarChartRodStackItem(6, 11, Color(0xffff4d94)),
