@@ -96,6 +96,23 @@ class FlPanStart extends FlTouchNormalInput {
 
 }
 
+/// Convenience class for a simple tap to use for conditionals
+/// used for [GestureDetector.onTapCancel] and [GestureDetector.onTapUp]
+class FlTap extends FlTouchNormalInput {
+
+  /// It is a localized touch position inside our widget,
+  /// it represents [TapDownDetails.localPosition].
+  final Offset localPosition;
+
+  FlTap(this.localPosition);
+
+  @override
+  Offset getOffset() {
+    return localPosition;
+  }
+
+}
+
 /// Represents a [GestureDetector.onPanUpdate] event.
 class FlPanMoveUpdate extends FlTouchNormalInput {
 
