@@ -36,7 +36,7 @@ class BarChartData extends AxisChartData {
   /// It draws some titles on left, top, right, bottom sides per each axis number,
   /// you can modify [titlesData] to have your custom titles,
   /// also you can define the axis title (one text per axis) for each side
-  /// using [axisTitleData], you can restrict the y axis using [maxY] value.
+  /// using [axisTitleData], you can restrict the y axis using [minX], and [maxY] values.
   ///
   /// It draws a color as a background behind everything you can set it using [backgroundColor],
   /// then a grid over it, you can customize it using [gridData],
@@ -53,6 +53,7 @@ class BarChartData extends AxisChartData {
     this.barTouchData = const BarTouchData(),
     FlAxisTitleData axisTitleData = const FlAxisTitleData(),
     double maxY,
+    double minY,
     FlGridData gridData = const FlGridData(
       show: false,
     ),
@@ -67,13 +68,14 @@ class BarChartData extends AxisChartData {
           backgroundColor: backgroundColor,
           touchData: barTouchData,
         ) {
-    initSuperMinMaxValues(maxY);
+    initSuperMinMaxValues(maxY, minY);
   }
 
   /// fills [minX], [maxX], [minY], [maxY] if they are null,
   /// based on the provided [barGroups].
   void initSuperMinMaxValues(
     double maxY,
+    double minY,
   ) {
     for (int i = 0; i < barGroups.length; i++) {
       final BarChartGroupData barData = barGroups[i];
@@ -83,25 +85,45 @@ class BarChartData extends AxisChartData {
     }
 
     if (barGroups.isNotEmpty) {
+
       var canModifyMaxY = false;
       if (maxY == null) {
         maxY = barGroups[0].barRods[0].y;
         canModifyMaxY = true;
       }
 
+      var canModifyMinY = false;
+      if (minY == null) {
+        minY = 0;
+        canModifyMinY = true;
+      }
+
       for (int i = 0; i < barGroups.length; i++) {
         final BarChartGroupData barGroup = barGroups[i];
         for (int j = 0; j < barGroup.barRods.length; j++) {
+
           final BarChartRodData rod = barGroup.barRods[j];
+
           if (canModifyMaxY && rod.y > maxY) {
             maxY = rod.y;
           }
 
           if (canModifyMaxY &&
-              rod.backDrawRodData.show &&
-              rod.backDrawRodData.y != null &&
-              rod.backDrawRodData.y > maxY) {
+            rod.backDrawRodData.show &&
+            rod.backDrawRodData.y != null &&
+            rod.backDrawRodData.y > maxY) {
             maxY = rod.backDrawRodData.y;
+          }
+
+          if (canModifyMinY && rod.y < minY) {
+            minY = rod.y;
+          }
+
+          if (canModifyMinY &&
+            rod.backDrawRodData.show &&
+            rod.backDrawRodData.y != null &&
+            rod.backDrawRodData.y < minY) {
+            minY = rod.backDrawRodData.y;
           }
         }
       }
@@ -109,7 +131,7 @@ class BarChartData extends AxisChartData {
 
     super.minX = 0;
     super.maxX = 1;
-    super.minY = 0;
+    super.minY = minY ?? 0;
     super.maxY = maxY ?? 1;
   }
 
@@ -126,6 +148,7 @@ class BarChartData extends AxisChartData {
     FlGridData gridData,
     FlBorderData borderData,
     double maxY,
+    double minY,
     Color backgroundColor,
   }) {
     return BarChartData(
@@ -139,6 +162,7 @@ class BarChartData extends AxisChartData {
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
       maxY: maxY ?? this.maxY,
+      minY: minY ?? this.minY,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
@@ -158,6 +182,7 @@ class BarChartData extends AxisChartData {
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
+        minY: lerpDouble(a.minY, b.minY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
     } else {

@@ -7,7 +7,7 @@ class LineChartPage4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff3f3f5),
+      backgroundColor: Colors.white,
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: <Widget>[
