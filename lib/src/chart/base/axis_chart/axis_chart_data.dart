@@ -79,7 +79,7 @@ class FlAxisTitleData with EquatableMixin {
   /// [leftTitle], [topTitle], [rightTitle], [bottomTitle] determines
   /// title for left, top, right, bottom axis sides respectively.
   FlAxisTitleData({
-    bool show = true,
+    bool show,
     AxisTitle leftTitle,
     AxisTitle topTitle,
     AxisTitle rightTitle,
@@ -417,7 +417,7 @@ class FlGridData with EquatableMixin {
     bool drawVerticalLine,
     double verticalInterval,
     GetDrawingGridLine getDrawingVerticalLine,
-    CheckToShowGrid checkToShowVerticalLine = showAllGrids,
+    CheckToShowGrid checkToShowVerticalLine,
   })
     : show = show ?? true,
       drawHorizontalLine = drawHorizontalLine ?? true,
@@ -504,7 +504,7 @@ class FlLine with EquatableMixin {
   /// it is a circular array of dash offsets and lengths.
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
-  FlLine({Color color, double strokeWidth = 2, List<int> dashArray})
+  FlLine({Color color, double strokeWidth, List<int> dashArray})
     :
       color = color ?? Colors.black,
       strokeWidth = strokeWidth ?? 2,
