@@ -283,7 +283,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   /// It gives you a [ScatterTouchResponse] that contains some
   /// useful information about happened touch.
   ScatterTouchData({
-    bool enabled = true,
+    bool enabled,
     ScatterTouchTooltipData touchTooltipData,
     double touchSpotThreshold,
     bool handleBuiltInTouches,
@@ -293,7 +293,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
       touchSpotThreshold = touchSpotThreshold ?? 10,
       handleBuiltInTouches = handleBuiltInTouches ?? true,
       touchCallback = touchCallback,
-      super(enabled);
+      super(enabled ?? true);
 
   /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
   /// and replaces provided values.

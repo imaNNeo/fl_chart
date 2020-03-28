@@ -12,7 +12,7 @@ import 'package:flutter/material.dart' hide Image;
 ///
 /// It holds data needed to draw a line chart,
 /// including bar lines, spots, colors, touches, ...
-class LineChartData extends AxisChartData {
+class LineChartData extends AxisChartData with EquatableMixin {
 
   /// [LineChart] draws some lines in various shapes and overlaps them.
   final List<LineChartBarData> lineBarsData;
@@ -484,7 +484,7 @@ class LineChartBarData with EquatableMixin {
 }
 
 /// Holds data for filling an area (above or below) of the line with a color or gradient.
-class BarAreaData {
+class BarAreaData with EquatableMixin {
   final bool show;
 
   /// if you pass just one color, the solid color will be used,
