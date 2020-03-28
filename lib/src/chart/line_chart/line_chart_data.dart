@@ -747,7 +747,7 @@ class FlDotData with EquatableMixin {
   /// and you can implement [getStrokeColor] callback,
   /// it gives you the [FlSpot], and you should decide to return a [Color].
   FlDotData({
-    bool show = true,
+    bool show,
     double dotSize,
     CheckToShowDot checkToShowDot,
     double strokeWidth,
@@ -1225,8 +1225,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     bool fullHeightTouchLine,
     bool handleBuiltInTouches,
     Function(LineTouchResponse) touchCallback,
-  })
-    : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
+  }) : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
       getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
       touchSpotThreshold = touchSpotThreshold ?? 10,
       fullHeightTouchLine = fullHeightTouchLine ?? false,
@@ -1525,8 +1524,6 @@ class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
   ];
 
 }
-
-
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)
 class LineChartDataTween extends Tween<LineChartData> {
