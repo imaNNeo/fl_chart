@@ -724,7 +724,9 @@ class BarTooltipItem with EquatableMixin {
   final TextStyle textStyle;
 
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(this.text, this.textStyle);
+  BarTooltipItem(String text, TextStyle textStyle)
+    : text = text,
+      textStyle = textStyle;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -746,10 +748,10 @@ class BarTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
-  BarTouchResponse(
-    this.spot,
-    FlTouchInput touchInput,
-  ) : super(touchInput);
+  BarTouchResponse(BarTouchedSpot spot,
+    FlTouchInput touchInput,)
+    : spot = spot,
+      super(touchInput);
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -775,13 +777,17 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
   /// You can also have the touched x and y in the chart as a [FlSpot] using [spot] value,
   /// and you can have the local touch coordinates on the screen as a [Offset] using [offset] value.
   BarTouchedSpot(
-    this.touchedBarGroup,
-    this.touchedBarGroupIndex,
-    this.touchedRodData,
-    this.touchedRodDataIndex,
+    BarChartGroupData touchedBarGroup,
+    int touchedBarGroupIndex,
+    BarChartRodData touchedRodData,
+    int touchedRodDataIndex,
     FlSpot spot,
     Offset offset,
-  ) : super(spot, offset);
+  ) : touchedBarGroup = touchedBarGroup,
+      touchedBarGroupIndex = touchedBarGroupIndex,
+      touchedRodData = touchedRodData,
+      touchedRodDataIndex = touchedRodDataIndex,
+      super(spot, offset);
 
   /// Used for equality check, see [EquatableMixin].
   @override

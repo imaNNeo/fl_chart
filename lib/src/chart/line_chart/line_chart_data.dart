@@ -12,7 +12,8 @@ import 'package:flutter/material.dart' hide Image;
 ///
 /// It holds data needed to draw a line chart,
 /// including bar lines, spots, colors, touches, ...
-class LineChartData extends AxisChartData {
+class LineChartData extends AxisChartData with EquatableMixin {
+
   /// [LineChart] draws some lines in various shapes and overlaps them.
   final List<LineChartBarData> lineBarsData;
 
@@ -259,6 +260,7 @@ class LineChartData extends AxisChartData {
 
 /// Holds data for drawing each individual line in the [LineChart]
 class LineChartBarData with EquatableMixin {
+
   /// This line goes through this spots.
   ///
   /// You can have multiple lines by splitting them,
@@ -483,7 +485,7 @@ class LineChartBarData with EquatableMixin {
 }
 
 /// Holds data for filling an area (above or below) of the line with a color or gradient.
-class BarAreaData {
+class BarAreaData with EquatableMixin {
   final bool show;
 
   /// if you pass just one color, the solid color will be used,
@@ -644,6 +646,7 @@ class BetweenBarsData with EquatableMixin {
 
 /// Holds data for drawing line on the spots under the [BarAreaData].
 class BarAreaSpotsLine with EquatableMixin {
+
   /// Determines to show or hide all the lines.
   final bool show;
 
@@ -799,6 +802,7 @@ bool showAllDots(FlSpot spot) {
 /// [LineChart] draws some [HorizontalLine] (set by [LineChartData.extraLinesData]),
 /// in below or above of everything, it draws from left to right side of the chart.
 class HorizontalLine extends FlLine with EquatableMixin {
+
   /// Draws from left to right of the chart using the [y] value.
   final double y;
 
@@ -868,6 +872,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
 /// [LineChart] draws some [VerticalLine] (set by [LineChartData.extraLinesData]),
 /// in below or above of everything, it draws from bottom to top side of the chart.
 class VerticalLine extends FlLine with EquatableMixin {
+
   /// Draws from bottom to top of the chart using the [x] value.
   final double x;
 
@@ -934,6 +939,7 @@ class VerticalLine extends FlLine with EquatableMixin {
 
 /// Shows a text label
 abstract class FlLineLabel with EquatableMixin {
+
   /// Determines showing label or not.
   final bool show;
 
@@ -970,6 +976,7 @@ abstract class FlLineLabel with EquatableMixin {
 
 /// Draws a title on the [HorizontalLine]
 class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
+
   /// Resolves a label for showing.
   final String Function(HorizontalLine) labelResolver;
 
@@ -1026,6 +1033,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
 
 /// Draws a title on the [VerticalLine]
 class VerticalLineLabel extends FlLineLabel with EquatableMixin {
+
   /// Resolves a label for showing.
   final String Function(VerticalLine) labelResolver;
 
@@ -1092,6 +1100,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
 ///  }
 /// ```
 class SizedPicture with EquatableMixin {
+
   /// Is the showing image.
   Picture picture;
 
@@ -1127,6 +1136,7 @@ class SizedPicture with EquatableMixin {
 
 /// Draws some straight horizontal or vertical lines in the [LineChart]
 class ExtraLinesData with EquatableMixin {
+
   final List<HorizontalLine> horizontalLines;
   final List<VerticalLine> verticalLines;
 
@@ -1172,6 +1182,7 @@ class ExtraLinesData with EquatableMixin {
 /// in a simple way, each chart captures the touch events, and passes a concrete
 /// instance of [FlTouchInput] to the painter, and gets a generated [LineTouchResponse].
 class LineTouchData extends FlTouchData with EquatableMixin {
+
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;
 
@@ -1265,11 +1276,11 @@ class LineTouchData extends FlTouchData with EquatableMixin {
 /// length of this list should be equal to the [spotIndexes.length],
 /// each [TouchedSpotIndicatorData] determines the look of showing indicator.
 typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
-    LineChartBarData barData, List<int> spotIndexes);
+  LineChartBarData barData, List<int> spotIndexes);
 
 /// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
-    LineChartBarData barData, List<int> indicators) {
+  LineChartBarData barData, List<int> indicators) {
   if (indicators == null) {
     return [];
   }
@@ -1300,6 +1311,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
 
 /// Holds representation data for showing tooltip popup on top of spots.
 class LineTouchTooltipData with EquatableMixin {
+
   /// The tooltip background color.
   final Color tooltipBgColor;
 
@@ -1401,6 +1413,7 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
 
 /// Represent a targeted spot inside a line bar.
 class LineBarSpot extends FlSpot with EquatableMixin {
+
   /// Is the [LineChartBarData] that this spot is inside of.
   final LineChartBarData bar;
 
@@ -1436,6 +1449,7 @@ class LineBarSpot extends FlSpot with EquatableMixin {
 
 /// Holds data of showing each row item in the tooltip popup.
 class LineTooltipItem with EquatableMixin {
+
   /// Showing text.
   final String text;
 
@@ -1460,6 +1474,7 @@ class LineTooltipItem with EquatableMixin {
 /// [indicatorBelowLine] we draw a vertical line below of the touched spot
 /// [touchedSpotDotData] we draw a larger dot on the touched spot to bold it
 class TouchedSpotIndicatorData with EquatableMixin {
+
   /// Determines line's style.
   final FlLine indicatorBelowLine;
 
@@ -1489,6 +1504,7 @@ class TouchedSpotIndicatorData with EquatableMixin {
 /// You can override [LineTouchData.touchCallback] to handle touch events,
 /// it gives you a [LineTouchResponse] and you can do whatever you want.
 class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
+
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
   final List<LineBarSpot> lineBarSpots;
