@@ -191,6 +191,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     scatterTouchData,
     showingTooltipIndicators,
     gridData,
+    scatterTouchData,
     touchData,
     borderData,
     axisTitleData,

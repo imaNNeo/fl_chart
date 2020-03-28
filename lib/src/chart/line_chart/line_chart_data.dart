@@ -242,6 +242,7 @@ class LineChartData extends AxisChartData {
     titlesData,
     extraLinesData,
     lineTouchData,
+    touchData,
     showingTooltipIndicators,
     gridData,
     borderData,
