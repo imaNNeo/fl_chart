@@ -80,16 +80,16 @@ class LineChartData extends AxisChartData {
   })
     : lineBarsData = lineBarsData ?? const [],
      betweenBarsData = betweenBarsData ?? const [],
-     titlesData = titlesData ?? const FlTitlesData(),
+     titlesData = titlesData ?? FlTitlesData(),
      extraLinesData = extraLinesData ?? ExtraLinesData(),
      lineTouchData = lineTouchData ?? LineTouchData(),
      showingTooltipIndicators = showingTooltipIndicators ?? const [],
       super(
-          gridData: gridData ?? const FlGridData(),
+          gridData: gridData ?? FlGridData(),
           touchData: lineTouchData ?? LineTouchData(),
           borderData: borderData,
-          axisTitleData: axisTitleData ?? const FlAxisTitleData(),
-          rangeAnnotations: rangeAnnotations ?? const RangeAnnotations(),
+          axisTitleData: axisTitleData ?? FlAxisTitleData(),
+          rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
           clipToBorder: clipToBorder ?? false,
           backgroundColor: backgroundColor,
         ) {
@@ -661,7 +661,7 @@ class BarAreaSpotsLine with EquatableMixin {
     CheckToShowSpotLine checkToShowSpotLine,
   })
     : show = show ?? false,
-      flLineStyle = flLineStyle ?? const FlLine(),
+      flLineStyle = flLineStyle ?? FlLine(),
       checkToShowSpotLine = checkToShowSpotLine ?? showAllSpotsBelowLine;
 
   /// Lerps a [BarAreaSpotsLine] based on [t] value, check [Tween.lerp].

@@ -95,7 +95,7 @@ class LineChartSample4 extends StatelessWidget {
               },
             ),
           ),
-          axisTitleData: const FlAxisTitleData(
+          axisTitleData: FlAxisTitleData(
               leftTitle: AxisTitle(showTitle: true, titleText: 'Value', margin: 4),
               bottomTitle: AxisTitle(
                   showTitle: true,

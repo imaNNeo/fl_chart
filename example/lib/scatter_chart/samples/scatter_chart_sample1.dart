@@ -41,13 +41,13 @@ class _ScatterChartSample1State extends State {
               borderData: FlBorderData(
                 show: false,
               ),
-              gridData: const FlGridData(
+              gridData: FlGridData(
                 show: false,
               ),
-              titlesData: const FlTitlesData(
+              titlesData: FlTitlesData(
                 show: false,
               ),
-              scatterTouchData: const ScatterTouchData(
+              scatterTouchData: ScatterTouchData(
                 enabled: false,
               ),
             ),

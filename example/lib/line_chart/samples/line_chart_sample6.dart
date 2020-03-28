@@ -147,7 +147,7 @@ class LineChartSample6 extends StatelessWidget {
                         color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
                     margin: 16,
                   ),
-                  bottomTitles: const SideTitles(showTitles: false),
+                  bottomTitles: SideTitles(showTitles: false),
                   topTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 28,

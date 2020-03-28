@@ -62,15 +62,15 @@ class BarChartData extends AxisChartData with EquatableMixin {
     : barGroups = barGroups ?? const [],
       groupsSpace = groupsSpace ?? 16,
       alignment = alignment ?? BarChartAlignment.spaceBetween,
-      titlesData = titlesData ?? const FlTitlesData(),
+      titlesData = titlesData ?? FlTitlesData(),
       barTouchData = barTouchData ?? BarTouchData(),
       super(
-      axisTitleData: axisTitleData ?? const FlAxisTitleData(),
-      gridData: gridData ?? const FlGridData(
+      axisTitleData: axisTitleData ??  FlAxisTitleData(),
+      gridData: gridData ??  FlGridData(
         show: false,
       ),
       borderData: borderData,
-      rangeAnnotations: rangeAnnotations ?? const RangeAnnotations(),
+      rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
       backgroundColor: backgroundColor,
       touchData: barTouchData ?? BarTouchData(),
     ) {
@@ -374,7 +374,7 @@ class BarChartRodData with EquatableMixin {
     : y = y,
       color = color ?? Colors.blueAccent,
       width = width ?? 8,
-      borderRadius = normalizeBorderRadius(borderRadius, width),
+      borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
       backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
       rodStackItem = rodStackItem ?? const [];
 

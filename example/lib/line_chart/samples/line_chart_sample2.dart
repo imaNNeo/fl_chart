@@ -60,13 +60,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
         show: true,
         drawVerticalLine: true,
         getDrawingHorizontalLine: (value) {
-          return const FlLine(
+          return FlLine(
             color: Color(0xff37434d),
             strokeWidth: 1,
           );
         },
         getDrawingVerticalLine: (value) {
-          return const FlLine(
+          return FlLine(
             color: Color(0xff37434d),
             strokeWidth: 1,
           );
@@ -154,13 +154,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
         show: true,
         drawHorizontalLine: true,
         getDrawingVerticalLine: (value) {
-          return const FlLine(
+          return FlLine(
             color: Color(0xff37434d),
             strokeWidth: 1,
           );
         },
         getDrawingHorizontalLine: (value) {
-          return const FlLine(
+          return FlLine(
             color: Color(0xff37434d),
             strokeWidth: 1,
           );

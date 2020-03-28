@@ -88,14 +88,14 @@ class _ScatterChartSample2State extends State {
               checkToShowVerticalLine: (value) => true,
               getDrawingVerticalLine: (value) => FlLine(color: Colors.white.withOpacity(0.1)),
             ),
-            titlesData: const FlTitlesData(
+            titlesData: FlTitlesData(
               show: false,
             ),
             showingTooltipIndicators: selectedSpots,
             scatterTouchData: ScatterTouchData(
               enabled: true,
               handleBuiltInTouches: false,
-              touchTooltipData: const ScatterTouchTooltipData(
+              touchTooltipData: ScatterTouchTooltipData(
                 tooltipBgColor: Colors.black,
               ),
               touchCallback: (ScatterTouchResponse touchResponse) {

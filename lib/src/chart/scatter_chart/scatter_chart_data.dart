@@ -51,14 +51,14 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     bool clipToBorder,
     Color backgroundColor,
   }) : scatterSpots = scatterSpots ?? const [],
-      titlesData = titlesData ?? const FlTitlesData(),
+      titlesData = titlesData ?? FlTitlesData(),
       scatterTouchData = scatterTouchData ?? ScatterTouchData(),
       showingTooltipIndicators = showingTooltipIndicators ?? const [],
       super(
-          gridData: gridData ?? const FlGridData(),
+          gridData: gridData ?? FlGridData(),
           touchData: scatterTouchData ?? ScatterTouchData(),
           borderData: borderData,
-          axisTitleData: axisTitleData ?? const FlAxisTitleData(),
+          axisTitleData: axisTitleData ?? FlAxisTitleData(),
           clipToBorder: clipToBorder ?? false,
           backgroundColor: backgroundColor,
         ) {
