@@ -822,15 +822,18 @@ class HorizontalLine extends FlLine with EquatableMixin {
   /// It draws an image in left side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
   HorizontalLine({
-    @required this.y,
+    @required double y,
     HorizontalLineLabel label,
+    Image image,
+    SizedPicture sizedPicture,
     Color color,
     double strokeWidth,
     List<int> dashArray,
-    this.image,
-    this.sizedPicture,
   })
-    : label = label ?? HorizontalLineLabel(),
+    : y = y,
+      label = label ?? HorizontalLineLabel(),
+      image = image,
+      sizedPicture = sizedPicture,
       super(color: color ?? Colors.black, strokeWidth: strokeWidth ?? 2, dashArray: dashArray);
 
   /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
@@ -888,15 +891,18 @@ class VerticalLine extends FlLine with EquatableMixin {
   /// It draws an image in bottom side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
   VerticalLine({
-    @required this.x,
+    @required double x,
+    Image image,
+    SizedPicture sizedPicture,
     VerticalLineLabel label,
     Color color,
     double strokeWidth,
     List<int> dashArray,
-    this.image,
-    this.sizedPicture,
   })
-    : label = label ?? VerticalLineLabel(),
+    : x = x,
+      image = image,
+      sizedPicture = sizedPicture,
+      label = label ?? VerticalLineLabel(),
       super(color: color ?? Colors.black, strokeWidth: strokeWidth ?? 2, dashArray: dashArray);
 
   /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
@@ -944,7 +950,12 @@ abstract class FlLineLabel with EquatableMixin {
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
   /// [show] determines showing label or not.
-  FlLineLabel({this.show, this.padding, this.style, this.alignment});
+  FlLineLabel({bool show, EdgeInsetsGeometry padding, TextStyle style, Alignment alignment})
+    :
+      show = show,
+      padding = padding,
+      style = style,
+      alignment = alignment;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -975,12 +986,12 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
     EdgeInsets padding,
     TextStyle style,
     Alignment alignment,
-    bool show = false,
+    bool show,
     String Function(HorizontalLine) labelResolver,
   })
     : labelResolver = labelResolver ?? HorizontalLineLabel.defaultLineLabelResolver,
       super(
-      show: show,
+      show: show ?? false,
       padding: padding ?? const EdgeInsets.all(6),
       style: style ?? const TextStyle(
         color: Colors.black,
@@ -1099,7 +1110,10 @@ class SizedPicture with EquatableMixin {
   ///    final picture = svgRoot.toPicture()
   /// ```
   /// [width] and [height] determines the size of our picture.
-  SizedPicture(this.picture, this.width, this.height);
+  SizedPicture(Picture picture, int width, int height)
+    : picture = picture,
+      width = width,
+      height = height;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1401,11 +1415,12 @@ class LineBarSpot extends FlSpot with EquatableMixin {
   /// [barIndex] is the index of our [bar], in the [LineChartData.lineBarsData] list,
   /// [spot] is the targeted spot.
   /// [spotIndex] is the index this [FlSpot], in the [LineChartBarData.spots] list.
-  LineBarSpot(
-    this.bar,
-    this.barIndex,
-    FlSpot spot,
-    )   : spotIndex = bar.spots.indexOf(spot),
+  LineBarSpot(LineChartBarData bar,
+    int barIndex,
+    FlSpot spot,)
+    : bar = bar,
+      barIndex = barIndex,
+      spotIndex = bar.spots.indexOf(spot),
       super(spot.x, spot.y);
 
   /// Used for equality check, see [EquatableMixin].
@@ -1429,7 +1444,9 @@ class LineTooltipItem with EquatableMixin {
   final TextStyle textStyle;
 
   /// Shows a [text] with [textStyle] as a row in the tooltip popup.
-  LineTooltipItem(this.text, this.textStyle);
+  LineTooltipItem(String text, TextStyle textStyle)
+    : text = text,
+      textStyle = textStyle;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1455,7 +1472,9 @@ class TouchedSpotIndicatorData with EquatableMixin {
   /// otherwise you can show it manually using [LineChartBarData.showingIndicators].
   /// [indicatorBelowLine] determines line's style, and
   /// [touchedSpotDotData] determines dot's style.
-  TouchedSpotIndicatorData(this.indicatorBelowLine, this.touchedSpotDotData);
+  TouchedSpotIndicatorData(FlLine indicatorBelowLine, FlDotData touchedSpotDotData)
+    : indicatorBelowLine = indicatorBelowLine,
+      touchedSpotDotData = touchedSpotDotData;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1478,10 +1497,9 @@ class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
-  LineTouchResponse(
-    this.lineBarSpots,
-    FlTouchInput touchInput,
-  ) : super(touchInput);
+  LineTouchResponse(List<LineBarSpot> lineBarSpots, FlTouchInput touchInput,)
+    : lineBarSpots = lineBarSpots,
+      super(touchInput);
 
   /// Used for equality check, see [EquatableMixin].
   @override
