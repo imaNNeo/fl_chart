@@ -9,6 +9,7 @@ import 'touch_input.dart';
 /// In this phase we draw the border,
 /// and handle touches in an abstract way.
 abstract class BaseChartData with EquatableMixin {
+
   /// Holds data to drawing border around the chart.
   FlBorderData borderData;
 
@@ -20,17 +21,19 @@ abstract class BaseChartData with EquatableMixin {
   BaseChartData({
     FlBorderData borderData,
     FlTouchData touchData,
-  })  : borderData = borderData ?? FlBorderData(),
-        touchData = touchData;
+  })
+    : borderData = borderData ?? FlBorderData(),
+      touchData = touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-        borderData,
-        touchData,
-      ];
+    borderData,
+    touchData,
+  ];
+
 }
 
 /// Holds data to drawing border around the chart.
@@ -43,13 +46,13 @@ class FlBorderData with EquatableMixin {
   FlBorderData({
     bool show,
     Border border,
-  })  : show = show ?? true,
-        border = border ??
-            Border.all(
-              color: Colors.black,
-              width: 1.0,
-              style: BorderStyle.solid,
-            );
+  })
+    : show = show ?? true,
+      border = border ?? Border.all(
+        color: Colors.black,
+        width: 1.0,
+        style: BorderStyle.solid,
+      );
 
   /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
   static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
@@ -63,9 +66,10 @@ class FlBorderData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-        show,
-        border,
-      ];
+    show,
+    border,
+  ];
+
 }
 
 /// Holds data to handle touch events, and touch responses in abstract way.
@@ -74,6 +78,7 @@ class FlBorderData with EquatableMixin {
 /// in a simple way, each chart captures the touch events, and passes a concrete
 /// instance of [FlTouchInput] to the painter, and gets a generated [BaseTouchResponse].
 class FlTouchData with EquatableMixin {
+
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
@@ -83,8 +88,9 @@ class FlTouchData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-        enabled,
-      ];
+    enabled,
+  ];
+
 }
 
 /// It gives you the axis value and gets a String value based on it.
@@ -108,6 +114,7 @@ class BaseTouchResponse with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-        touchInput,
-      ];
+    touchInput,
+  ];
+
 }
