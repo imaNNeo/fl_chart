@@ -218,7 +218,7 @@ class BarChartSample1State extends State<BarChartSample1> {
             }
           },
         ),
-        leftTitles: const SideTitles(
+        leftTitles: SideTitles(
           showTitles: false,
         ),
       ),
@@ -261,7 +261,7 @@ class BarChartSample1State extends State<BarChartSample1> {
             }
           },
         ),
-        leftTitles: const SideTitles(
+        leftTitles: SideTitles(
           showTitles: false,
         ),
       ),
