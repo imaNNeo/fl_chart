@@ -204,6 +204,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
     alignment,
     titlesData,
     barTouchData,
+    touchData,
     axisTitleData,
     maxY,
     minY,

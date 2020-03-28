@@ -89,6 +89,7 @@ class PieChartData extends BaseChartData  with EquatableMixin {
     centerSpaceRadius,
     centerSpaceColor,
     pieTouchData,
+    touchData,
     sectionsSpace,
     startDegreeOffset,
     sumValue,
