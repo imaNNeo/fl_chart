@@ -104,7 +104,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         },
         handleBuiltInTouches: true,
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
         show: false,
       ),
       titlesData: FlTitlesData(
@@ -258,7 +258,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       lineTouchData: LineTouchData(
         enabled: false,
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
         show: false,
       ),
       titlesData: FlTitlesData(
