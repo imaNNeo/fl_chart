@@ -69,7 +69,7 @@ class BarChartSample3State extends State<BarChartSample3> {
                   }
                 },
               ),
-              leftTitles: const SideTitles(showTitles: false),
+              leftTitles: SideTitles(showTitles: false),
             ),
             borderData: FlBorderData(
               show: false,

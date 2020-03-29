@@ -13,8 +13,6 @@ import '../../utils/utils.dart';
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
   Paint _barPaint, _bgTouchTooltipPaint;
 
-  List<_GroupBarsPosition> _groupBarsPosition;
-
   /// Paints [data] into canvas, it is the animating [BarChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
@@ -47,7 +45,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
 
     final List<double> groupsX = _calculateGroupsX(size, data.barGroups, data.alignment);
-    _groupBarsPosition = _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
+    final List<_GroupBarsPosition> _groupBarsPosition =
+    _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
 
     _drawBars(canvas, size, _groupBarsPosition);
     drawAxisTitles(canvas, size);
@@ -565,7 +564,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// then makes a [BarTouchResponse] from the elements that has been touched.
   @override
   BarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
-    print(touchInput.getOffset());
+
+    final List<double> _groupsX = _calculateGroupsX(size, data.barGroups, data.alignment);
+    final List<_GroupBarsPosition> _groupBarsPosition =
+    _calculateGroupAndBarsPosition(size, _groupsX, data.barGroups);
+
     final BarTouchedSpot touchedSpot =
         _getNearestTouchedSpot(size, touchInput.getOffset(), _groupBarsPosition);
     return BarTouchResponse(touchedSpot, touchInput);
