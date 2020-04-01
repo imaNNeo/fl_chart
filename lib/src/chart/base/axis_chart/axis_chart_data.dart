@@ -450,12 +450,8 @@ class FlGridData with EquatableMixin {
     show,
     drawHorizontalLine,
     horizontalInterval,
-    getDrawingHorizontalLine,
-    checkToShowHorizontalLine,
     drawVerticalLine,
     verticalInterval,
-    getDrawingVerticalLine,
-    checkToShowVerticalLine,
   ];
 
 }
