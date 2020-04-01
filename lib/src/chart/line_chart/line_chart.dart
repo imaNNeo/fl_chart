@@ -9,7 +9,6 @@ import 'line_chart_painter.dart';
 
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
-
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;
 
@@ -24,7 +23,6 @@ class LineChart extends ImplicitlyAnimatedWidget {
   /// Creates a [_LineChartState]
   @override
   _LineChartState createState() => _LineChartState();
-
 }
 
 class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
@@ -39,6 +37,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   final List<MapEntry<int, List<LineBarSpot>>> _showingTouchedTooltips = [];
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
+
+  // to set the correct ending position of a gesture
+  Offset _lastTouchedPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -82,31 +83,44 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
           touchData.touchCallback(response);
         }
       },
-      onPanCancel: () {
-        final Size chartSize = _getChartSize();
-        if (chartSize == null) {
-          return;
-        }
-
-        final LineTouchResponse response = _touchHandler?.handleTouch(
-            FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
-      },
-      onPanEnd: (DragEndDetails details) {
+      onTapCancel: () {
         final Size chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
         final LineTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+            _touchHandler?.handleTouch(FlTap(_lastTouchedPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
-      onPanDown: (DragDownDetails details) {
+      onTapDown: (details) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
+        final LineTouchResponse response =
+            _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
+        if (_canHandleTouch(response, touchData)) {
+          _lastTouchedPosition = details.localPosition;
+          touchData.touchCallback(response);
+        }
+      },
+      onTapUp: (details) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
+        final LineTouchResponse response =
+            _touchHandler?.handleTouch(FlTap(details.localPosition), chartSize);
+        if (_canHandleTouch(response, touchData)) {
+          touchData.touchCallback(response);
+        }
+      },
+      onHorizontalDragStart: (DragStartDetails details) {
         final Size chartSize = _getChartSize();
         if (chartSize == null) {
           return;
@@ -118,7 +132,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
           touchData.touchCallback(response);
         }
       },
-      onPanUpdate: (DragUpdateDetails details) {
+      onHorizontalDragUpdate: (DragUpdateDetails details) {
         final Size chartSize = _getChartSize();
         if (chartSize == null) {
           return;
@@ -126,6 +140,19 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
         final LineTouchResponse response =
             _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
+        if (_canHandleTouch(response, touchData)) {
+          _lastTouchedPosition = details.localPosition;
+          touchData.touchCallback(response);
+        }
+      },
+      onHorizontalDragEnd: (DragEndDetails details) {
+        final Size chartSize = _getChartSize();
+        if (chartSize == null) {
+          return;
+        }
+
+        final LineTouchResponse response =
+            _touchHandler?.handleTouch(FlPanEnd(_lastTouchedPosition, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
