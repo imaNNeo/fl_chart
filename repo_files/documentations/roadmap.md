@@ -7,6 +7,8 @@
 
 - [x] Add ScatterPlot chart
 
+- [ ] Range Column Chart
+
 - [ ] Add HeatMap Chart [see more](https://altair-viz.github.io/gallery/simple_heatmap.html)
 
 - [ ] Composability
