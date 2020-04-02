@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
 class BarChart extends ImplicitlyAnimatedWidget {
-
   /// Determines how the [BarChart] should be look like.
   final BarChartData data;
 
@@ -21,7 +20,6 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// Creates a [_BarChartState]
   @override
   _BarChartState createState() => _BarChartState();
-
 }
 
 class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
@@ -202,21 +200,26 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         touchResponse.touchInput is FlPanMoveUpdate ||
         touchResponse.touchInput is FlLongPressStart ||
         touchResponse.touchInput is FlLongPressMoveUpdate) {
-      setState(() {
+      if (!widget.data.barTouchData.stickyTouchIndicator) {
         if (touchResponse.spot == null) {
           _showingTouchedTooltips.clear();
           return;
         }
-        final groupIndex = touchResponse.spot.touchedBarGroupIndex;
-        final rodIndex = touchResponse.spot.touchedRodDataIndex;
-
-        _showingTouchedTooltips.clear();
+      } else {
+        if (touchResponse.spot == null) {
+          return;
+        }
+      }
+      final groupIndex = touchResponse.spot.touchedBarGroupIndex;
+      final rodIndex = touchResponse.spot.touchedRodDataIndex;
+      _showingTouchedTooltips.clear();
+      setState(() {
         _showingTouchedTooltips[groupIndex] = [rodIndex];
       });
     } else {
-      setState(() {
+      if (!widget.data.barTouchData.stickyTouchIndicator) {
         _showingTouchedTooltips.clear();
-      });
+      }
     }
   }
 
