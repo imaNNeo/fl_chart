@@ -148,6 +148,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
         ),
       ),
       lineTouchData: LineTouchData(
+        stickyTouchIndicator: true,
         fullHeightTouchLine: true,
         getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
