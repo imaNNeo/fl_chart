@@ -4,7 +4,7 @@
 * Implemented negative values feature for the BarChart, #106, #103.
 * add Equatable for all models, it leads to have a better performance.
 * Fixed a minor touch bug in the [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md).
-
+* Fixed ScatterChart built-in touch behaviour.
 
 ## 0.8.7
 * Added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
