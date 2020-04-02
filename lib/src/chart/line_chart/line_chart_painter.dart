@@ -17,7 +17,6 @@ import 'line_chart_data.dart';
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData>
     with TouchHandler<LineTouchResponse> {
-
   Paint _barPaint,
       _barAreaPaint,
       _barAreaLinesPaint,
@@ -109,7 +108,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         _drawExtraLines(canvas, size);
       }
 
-      _drawTouchedSpotsIndicator(canvas, size, barData);
+      _drawTouchLine(canvas, size, barData);
+    }
+
+    for (int i = 0; i < data.lineBarsData.length; i++) {
+      final barData = data.lineBarsData[i];
+      _drawTouchDot(canvas, size, barData);
     }
 
     if (data.clipToBorder) {
@@ -140,7 +144,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _clipToBorder(ui.Canvas canvas, ui.Size size,) {
+  void _clipToBorder(
+    ui.Canvas canvas,
+    ui.Size size,
+  ) {
     final usableSize = getChartUsableDrawSize(size);
 
     double left = 0;
@@ -257,7 +264,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, LineChartBarData barData) {
+  void _drawTouchLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     // Todo technical debt, we can read the TouchedSpotIndicatorData directly,
@@ -278,7 +285,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
-      final bool showingDots = indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
+      final bool showingDots =
+          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
       final double dotCircleSize = showingDots ? indicatorData.touchedSpotDotData.dotSize : 0;
 
       /// For drawing the dot
@@ -290,33 +298,68 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final top = Offset(getPixelX(spot.x, chartViewSize), getTopOffsetDrawSize());
 
       /// Draw to top or to the touchedSpot
-      final Offset lineEnd = data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotCircleSize);
+      final Offset lineEnd =
+          data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotCircleSize);
 
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
       canvas.drawDashedLine(
           bottom, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
+    }
+  }
+
+  void _drawTouchDot(Canvas canvas, Size viewSize, LineChartBarData barData) {
+    final Size chartViewSize = getChartUsableDrawSize(viewSize);
+
+    // Todo technical debt, we can read the TouchedSpotIndicatorData directly,
+    // Todo instead of mapping indexes to TouchedSpotIndicatorData
+    final List<TouchedSpotIndicatorData> indicatorsData =
+        data.lineTouchData.getTouchedSpotIndicator(barData, barData.showingIndicators);
+
+    if (indicatorsData.length != barData.showingIndicators.length) {
+      throw Exception('indicatorsData and touchedSpotOffsets size should be same');
+    }
+
+    for (int i = 0; i < barData.showingIndicators.length; i++) {
+      final TouchedSpotIndicatorData indicatorData = indicatorsData[i];
+      final int index = barData.showingIndicators[i];
+      FlSpot spot = barData.spots[index];
+
+      if (indicatorData == null) {
+        continue;
+      }
+
+      final bool showingDots =
+          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
+
+      /// For drawing the dot
+      final Offset touchedSpot =
+          Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
 
       /// Draw the indicator dot
       if (showingDots) {
         final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
         _dotPaint.color = indicatorData.touchedSpotDotData.getDotColor(spot);
 
-        if (indicatorData.touchedSpotDotData.getStrokeColor != null && indicatorData.touchedSpotDotData.strokeWidth != null) {
+        if (indicatorData.touchedSpotDotData.getStrokeColor != null &&
+            indicatorData.touchedSpotDotData.strokeWidth != null) {
           canvas.drawCircle(
-            touchedSpot,
-            indicatorData.touchedSpotDotData.dotSize + (indicatorData.touchedSpotDotData.strokeWidth / 2),
-            _dotPaint
-              ..color = indicatorData.touchedSpotDotData.getStrokeColor(spot)
-              ..strokeWidth = indicatorData.touchedSpotDotData.strokeWidth
-              ..style = PaintingStyle.stroke);
+              touchedSpot,
+              indicatorData.touchedSpotDotData.dotSize +
+                  (indicatorData.touchedSpotDotData.strokeWidth / 2),
+              _dotPaint
+                ..color = indicatorData.touchedSpotDotData.getStrokeColor(spot)
+                ..strokeWidth = indicatorData.touchedSpotDotData.strokeWidth
+                ..style = PaintingStyle.stroke);
         }
 
-        canvas.drawCircle(touchedSpot, selectedSpotDotSize,
-          _dotPaint
-            ..color = indicatorData.touchedSpotDotData.getDotColor(spot)
-            ..style = PaintingStyle.fill);
+        canvas.drawCircle(
+            touchedSpot,
+            selectedSpotDotSize,
+            _dotPaint
+              ..color = indicatorData.touchedSpotDotData.getDotColor(spot)
+              ..style = PaintingStyle.fill);
       }
     }
   }
@@ -1257,5 +1300,4 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// [LineChartPainter] should repaint itself.
   @override
   bool shouldRepaint(LineChartPainter oldDelegate) => oldDelegate.data != data;
-
 }
