@@ -100,11 +100,10 @@ class LineChartSample1State extends State<LineChartSample1> {
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
         ),
         touchCallback: (LineTouchResponse touchResponse) {
-          print(touchResponse);
         },
         handleBuiltInTouches: true,
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
         show: false,
       ),
       titlesData: FlTitlesData(
@@ -239,10 +238,10 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       barWidth: 8,
       isStrokeCapRound: true,
-      dotData: const FlDotData(
+      dotData: FlDotData(
         show: false,
       ),
-      belowBarData: const BarAreaData(
+      belowBarData: BarAreaData(
         show: false,
       ),
     );
@@ -255,10 +254,10 @@ class LineChartSample1State extends State<LineChartSample1> {
 
   LineChartData sampleData2() {
     return LineChartData(
-      lineTouchData: const LineTouchData(
+      lineTouchData: LineTouchData(
         enabled: false,
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
         show: false,
       ),
       titlesData: FlTitlesData(
@@ -353,10 +352,10 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         barWidth: 4,
         isStrokeCapRound: true,
-        dotData: const FlDotData(
+        dotData: FlDotData(
           show: false,
         ),
-        belowBarData: const BarAreaData(
+        belowBarData: BarAreaData(
           show: false,
         ),
       ),
@@ -375,10 +374,10 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         barWidth: 4,
         isStrokeCapRound: true,
-        dotData: const FlDotData(
+        dotData: FlDotData(
           show: false,
         ),
-        belowBarData: const BarAreaData(show: true, colors: [
+        belowBarData: BarAreaData(show: true, colors: [
           Color(0x33aa4cfc),
         ]),
       ),
@@ -397,10 +396,10 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         barWidth: 2,
         isStrokeCapRound: true,
-        dotData: const FlDotData(
+        dotData: FlDotData(
           show: true,
         ),
-        belowBarData: const BarAreaData(
+        belowBarData: BarAreaData(
           show: false,
         ),
       ),

@@ -154,7 +154,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           return spotIndexes.map((spotIndex) {
             final FlSpot spot = barData.spots[spotIndex];
             return TouchedSpotIndicatorData(
-              const FlLine(color: Colors.orange, strokeWidth: 3),
+              FlLine(color: Colors.orange, strokeWidth: 3),
               FlDotData(dotSize: 8, getDotColor: (_) => Colors.deepOrange),
             );
           }).toList();
@@ -187,7 +187,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
           barWidth: 2,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(

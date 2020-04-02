@@ -13,8 +13,6 @@ import '../../utils/utils.dart';
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
   Paint _barPaint, _bgTouchTooltipPaint;
 
-  List<_GroupBarsPosition> _groupBarsPosition;
-
   /// Paints [data] into canvas, it is the animating [BarChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
@@ -47,7 +45,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
 
     final List<double> groupsX = _calculateGroupsX(size, data.barGroups, data.alignment);
-    _groupBarsPosition = _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
+    final List<_GroupBarsPosition> _groupBarsPosition =
+    _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
 
     _drawBars(canvas, size, _groupBarsPosition);
     drawAxisTitles(canvas, size);
@@ -197,50 +196,82 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
         final left = x - widthHalf;
         final right = x + widthHalf;
-        final bottom = getPixelY(0, drawSize);
         final cornerHeight = max(borderRadius.topLeft.y, borderRadius.topRight.y) +
             max(borderRadius.bottomLeft.y, borderRadius.bottomRight.y);
 
+        RRect barRRect;
         /// Draw [BackgroundBarChartRodData]
         if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
-          final top = min(getPixelY(barRod.backDrawRodData.y, drawSize), bottom - cornerHeight);
 
-          _barPaint.color = barRod.backDrawRodData.color;
-          canvas.drawRRect(
-              RRect.fromLTRBAndCorners(left, top, right, bottom,
-                  topLeft: borderRadius.topLeft,
-                  topRight: borderRadius.topRight,
-                  bottomLeft: borderRadius.bottomLeft,
-                  bottomRight: borderRadius.bottomRight),
-              _barPaint);
-        }
+          if (barRod.backDrawRodData.y > 0) {
+            // positive
+            final bottom = getPixelY(0, drawSize);
+            final top = min(getPixelY(barRod.backDrawRodData.y, drawSize), bottom - cornerHeight);
 
-        // draw Main Rod
-        if (barRod.y != 0) {
-          final top = min(getPixelY(barRod.y, drawSize), bottom - cornerHeight);
-
-          _barPaint.color = barRod.color;
-          final barRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
+            barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
               topLeft: borderRadius.topLeft,
               topRight: borderRadius.topRight,
               bottomLeft: borderRadius.bottomLeft,
               bottomRight: borderRadius.bottomRight);
-          canvas.drawRRect(barRect, _barPaint);
+          } else {
+            // negative
+            final top = getPixelY(0, drawSize);
+            final bottom = max(getPixelY(barRod.backDrawRodData.y, drawSize), top + cornerHeight);
+
+            barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
+              topLeft: borderRadius.topLeft,
+              topRight: borderRadius.topRight,
+              bottomLeft: borderRadius.bottomLeft,
+              bottomRight: borderRadius.bottomRight);
+          }
+
+          _barPaint.color = barRod.backDrawRodData.color;
+          canvas.drawRRect(barRRect, _barPaint);
+        }
+
+        // draw Main Rod
+        if (barRod.y != 0) {
+
+          if (barRod.y > 0) {
+            // positive
+            final bottom = getPixelY(0, drawSize);
+            final top = min(getPixelY(barRod.y, drawSize), bottom - cornerHeight);
+
+            barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
+              topLeft: borderRadius.topLeft,
+              topRight: borderRadius.topRight,
+              bottomLeft: borderRadius.bottomLeft,
+              bottomRight: borderRadius.bottomRight);
+          } else {
+            // negative
+            final top = getPixelY(0, drawSize);
+            final bottom = max(getPixelY(barRod.y, drawSize), top + cornerHeight);
+
+            barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
+              topLeft: borderRadius.topLeft,
+              topRight: borderRadius.topRight,
+              bottomLeft: borderRadius.bottomLeft,
+              bottomRight: borderRadius.bottomRight);
+          }
+
+          _barPaint.color = barRod.color;
+          canvas.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
           if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
             for (int i = 0; i < barRod.rodStackItem.length; i++) {
               final stackItem = barRod.rodStackItem[i];
-              final stackBottom = getPixelY(stackItem.fromY, drawSize);
-              final stackTop = getPixelY(stackItem.toY, drawSize);
+              final stackFromY = getPixelY(stackItem.fromY, drawSize);
+              final stackToY = getPixelY(stackItem.toY, drawSize);
 
               _barPaint.color = stackItem.color;
               canvas.save();
-              canvas.clipRect(Rect.fromLTRB(left, stackTop, right, stackBottom));
-              canvas.drawRRect(barRect, _barPaint);
+              canvas.clipRect(Rect.fromLTRB(left, stackToY, right, stackFromY));
+              canvas.drawRRect(barRRect, _barPaint);
               canvas.restore();
             }
           }
+
         }
       }
     }
@@ -392,18 +423,24 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final Offset mostTopOffset = Offset(
+    final Offset barOffset = Offset(
       groupPositions[barGroupIndex].barsX[barRodIndex],
       getPixelY(showOnRodData.y, chartUsableSize),
     );
 
+    final isPositive = showOnRodData.y > 0;
+
     final double tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
     final double tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
 
+    final double tooltipTop = isPositive
+      ? barOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin
+      : barOffset.dy + tooltipData.tooltipBottomMargin;
+
     /// draw the background rect with rounded radius
     Rect rect = Rect.fromLTWH(
-        mostTopOffset.dx - (tooltipWidth / 2),
-        mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
+        barOffset.dx - (tooltipWidth / 2),
+        tooltipTop,
         tooltipWidth,
         tooltipHeight);
 
@@ -527,6 +564,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// then makes a [BarTouchResponse] from the elements that has been touched.
   @override
   BarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
+
+    final List<double> _groupsX = _calculateGroupsX(size, data.barGroups, data.alignment);
+    final List<_GroupBarsPosition> _groupBarsPosition =
+    _calculateGroupAndBarsPosition(size, _groupsX, data.barGroups);
+
     final BarTouchedSpot touchedSpot =
         _getNearestTouchedSpot(size, touchInput.getOffset(), _groupBarsPosition);
     return BarTouchResponse(touchedSpot, touchInput);
@@ -544,9 +586,20 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final double barX = groupBarPos.barsX[j];
         final double barWidth = targetData.barGroups[i].barRods[j].width;
         final double halfBarWidth = barWidth / 2;
-        final double barTopY = getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
-        final double barBotY = getPixelY(0, chartViewSize);
-        final double backDrawBarTopY =
+
+        double barTopY;
+        double barBotY;
+
+        final bool isPositive = targetData.barGroups[i].barRods[j].y > 0;
+        if (isPositive) {
+          barTopY = getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
+          barBotY = getPixelY(0, chartViewSize);
+        } else {
+          barTopY = getPixelY(0, chartViewSize);
+          barBotY = getPixelY(targetData.barGroups[i].barRods[j].y, chartViewSize);
+        }
+
+        final double backDrawBarY =
             getPixelY(targetData.barGroups[i].barRods[j].backDrawRodData.y, chartViewSize);
         final EdgeInsets touchExtraThreshold = targetData.barTouchData.touchExtraThreshold;
 
@@ -557,9 +610,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final bool isYInBarBounds = (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
             (touchedPoint.dy >= barTopY - touchExtraThreshold.top);
 
-        final bool isYInBarBackDrawBounds =
+        bool isYInBarBackDrawBounds;
+        if (isPositive) {
+          isYInBarBackDrawBounds =
             (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
-                (touchedPoint.dy >= backDrawBarTopY - touchExtraThreshold.top);
+              (touchedPoint.dy >= backDrawBarY - touchExtraThreshold.top);
+        } else {
+          isYInBarBackDrawBounds =
+            (touchedPoint.dy >= barTopY - touchExtraThreshold.top) &&
+              (touchedPoint.dy <= backDrawBarY + touchExtraThreshold.bottom);
+        }
 
         final bool isYInTouchBounds =
             (targetData.barTouchData.allowTouchBarBackDraw && isYInBarBackDrawBounds) ||
