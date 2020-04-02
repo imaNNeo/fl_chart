@@ -558,6 +558,9 @@ class BarTouchData extends FlTouchData with EquatableMixin {
   /// [BarTouchResponse] shows a tooltip popup above the touched spot.
   final bool handleBuiltInTouches;
 
+  /// Sets touch indicator to sticky
+  final bool stickyTouchIndicator;
+
   /// Informs the touchResponses
   final Function(BarTouchResponse) touchCallback;
 
@@ -595,6 +598,7 @@ class BarTouchData extends FlTouchData with EquatableMixin {
     EdgeInsets touchExtraThreshold,
     bool allowTouchBarBackDraw,
     bool handleBuiltInTouches,
+    bool stickyTouchIndicator,
     Function(BarTouchResponse) touchCallback,
   }) {
     return BarTouchData(
@@ -603,6 +607,7 @@ class BarTouchData extends FlTouchData with EquatableMixin {
       touchExtraThreshold: touchExtraThreshold ?? this.touchExtraThreshold,
       allowTouchBarBackDraw: allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
+      stickyTouchIndicator: stickyTouchIndicator ?? this.stickyTouchIndicator,
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }

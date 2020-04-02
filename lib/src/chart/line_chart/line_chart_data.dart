@@ -1200,6 +1200,9 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// and goes through the targeted spot.
   final bool fullHeightTouchLine;
 
+  /// Sets touch indicator to sticky
+  final bool stickyTouchIndicator;
+
   /// Informs the touchResponses
   final Function(LineTouchResponse) touchCallback;
 
