@@ -38,18 +38,16 @@ void main() {
   });
 
   test('lerp gradient', () {
-    expect(
-        lerpGradient([
-          Colors.red,
-          Colors.green,
-        ], null, 0.0),
-        Colors.red);
 
-    expect(
-        lerpGradient([
-          Colors.red,
-          Colors.green,
-        ], null, 1.0),
-        Colors.green);
+    expect(lerpGradient([
+      Colors.red,
+      Colors.green,
+    ], null, 0.0), Colors.red);
+
+    expect(lerpGradient([
+      Colors.red,
+      Colors.green,
+    ], null, 1.0), Colors.green);
+
   });
 }

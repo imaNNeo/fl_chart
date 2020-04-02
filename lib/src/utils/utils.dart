@@ -38,32 +38,32 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
   }
 
   Radius topLeft;
-  if (borderRadius.topLeft != null &&
-      (borderRadius.topLeft.x > width / 2 || borderRadius.topLeft.y > width / 2)) {
+  if (borderRadius.topLeft != null
+    && (borderRadius.topLeft.x > width / 2 || borderRadius.topLeft.y > width / 2)) {
     topLeft = Radius.circular(width / 2);
   } else {
     topLeft = borderRadius.topLeft;
   }
 
   Radius topRight;
-  if ((borderRadius.topRight != null) &&
-      (borderRadius.topRight.x > width / 2 || borderRadius.topRight.y > width / 2)) {
+  if ((borderRadius.topRight != null)
+    && (borderRadius.topRight.x > width / 2 || borderRadius.topRight.y > width / 2)) {
     topRight = Radius.circular(width / 2);
   } else {
     topRight = borderRadius.topRight;
   }
 
   Radius bottomLeft;
-  if ((borderRadius.bottomLeft != null) &&
-      (borderRadius.bottomLeft.x > width / 2 || borderRadius.bottomLeft.y > width / 2)) {
+  if ((borderRadius.bottomLeft != null)
+    && (borderRadius.bottomLeft.x > width / 2 || borderRadius.bottomLeft.y > width / 2)) {
     bottomLeft = Radius.circular(width / 2);
   } else {
     bottomLeft = borderRadius.bottomLeft;
   }
 
   Radius bottomRight;
-  if ((borderRadius.bottomRight != null) &&
-      (borderRadius.bottomRight.x > width / 2 || borderRadius.bottomRight.y > width / 2)) {
+  if ((borderRadius.bottomRight != null)
+    && (borderRadius.bottomRight.x > width / 2 || borderRadius.bottomRight.y > width / 2)) {
     bottomRight = Radius.circular(width / 2);
   } else {
     bottomRight = borderRadius.bottomRight;
@@ -79,9 +79,9 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
+
   if (stops == null || stops.length != colors.length) {
     stops = [];
-
     /// provided gradientColorStops is invalid and we calculate it here
     colors.asMap().forEach((index, color) {
       final percent = 1.0 / colors.length;

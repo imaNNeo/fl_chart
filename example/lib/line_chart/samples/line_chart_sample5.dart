@@ -56,8 +56,8 @@ class LineChartSample5 extends StatelessWidget {
                     show: true,
                     dotSize: 8,
                     strokeWidth: 4,
-                    getStrokeColor: (spot) => Colors.black,
-                    getDotColor: (spot) {
+                    getStrokeColor: (spot, percent, barData) => Colors.black,
+                    getDotColor: (spot, percent, barData) {
                       switch(allSpots.indexOf(spot)) {
                         case 1: return Colors.yellow;
                         case 3: return Colors.green;
