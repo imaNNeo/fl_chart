@@ -1,5 +1,6 @@
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -34,5 +35,19 @@ void main() {
   test('translate roatted position', () {
     expect(translateRotatedPosition(100, 90), 25);
     expect(translateRotatedPosition(100, 0), 0);
+  });
+
+  test('lerp gradient', () {
+
+    expect(lerpGradient([
+      Colors.red,
+      Colors.green,
+    ], null, 0.0), Colors.red);
+
+    expect(lerpGradient([
+      Colors.red,
+      Colors.green,
+    ], null, 1.0), Colors.green);
+
   });
 }

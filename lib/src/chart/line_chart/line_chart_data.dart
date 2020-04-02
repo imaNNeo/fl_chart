@@ -5,7 +5,9 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
 
 /// [LineChart] needs this class to render itself.
@@ -700,15 +702,37 @@ bool showAllSpotsBelowLine(FlSpot spot) {
 
 /// The callback passed to get the color of a [FlSpot]
 ///
-/// The callback receives as parameter the [FlSpot] for which to retrieve
-/// the color and returns the [Color] that needs to be used
-typedef GetDotColorCallback = Color Function(FlSpot);
+/// The callback receives [FlSpot], which is the target spot,
+/// [double] is the percentage of spot along the bar line,
+/// [LineChartBarData] is the chart's bar.
+/// It should return a [Color] that needs to be used for drawing target.
+typedef GetDotColorCallback = Color Function(FlSpot, double, LineChartBarData);
 
-/// It returns [Colors.blue] for all spots.
-Color _defaultGetDotColor(FlSpot _) => Colors.blue;
+/// If there is one color in [LineChartBarData.colors], it returns that color,
+/// otherwise it returns the color along the gradient colors based on the [xPercentage].
+Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
+  if (bar.colors == null || bar.colors.isEmpty) {
+    return Colors.green;
+  } else if ( bar.colors.length == 1) {
+    return bar.colors[0];
+  } else {
+    return lerpGradient(bar.colors, bar.colorStops, xPercentage / 100);
+  }
+}
 
-/// It returns [Colors.red] for all spots.
-Color _defaultGetDotStrokeColor(FlSpot _) => Colors.red;
+/// If there is one color in [LineChartBarData.colors], it returns that color in a darker mode,
+/// otherwise it returns the color along the gradient colors based on the [xPercentage] in a darker mode.
+Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarData bar) {
+  Color color;
+  if (bar.colors == null || bar.colors.isEmpty) {
+    color = Colors.green;
+  } else if ( bar.colors.length == 1) {
+    color = bar.colors[0];
+  } else {
+    color = lerpGradient(bar.colors, bar.colorStops, xPercentage / 100);
+  }
+  return color.darken();
+}
 
 /// This class holds data about drawing spot dots on the drawing bar line.
 class FlDotData with EquatableMixin {
@@ -1288,21 +1312,19 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     /// Indicator Line
     Color lineColor = barData.colors[0];
     if (barData.dotData.show) {
-      lineColor = barData.dotData.getDotColor(barData.spots[index]);
+      lineColor = barData.dotData.getDotColor(barData.spots[index], 0, barData);
     }
     const double lineStrokeWidth = 4;
     final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
     /// Indicator dot
     double dotSize = 10;
-    Color dotColor = barData.colors[0];
     if (barData.dotData.show) {
       dotSize = barData.dotData.dotSize * 1.8;
-      dotColor = barData.dotData.getDotColor(barData.spots[index]);
     }
     final dotData = FlDotData(
       dotSize: dotSize,
-      getDotColor: (_) => dotColor,
+      getDotColor: (spot, percent, bar) => _defaultGetDotColor(spot, percent, bar),
     );
 
     return TouchedSpotIndicatorData(flLine, dotData);

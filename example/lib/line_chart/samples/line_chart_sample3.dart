@@ -55,8 +55,8 @@ class LineChartSample3 extends StatelessWidget {
                         FlDotData(
                           dotSize: 8,
                           strokeWidth: 5,
-                          getDotColor: (_) => Colors.white,
-                          getStrokeColor: (_) => Colors.deepOrange,
+                          getDotColor: (spot, percent, barData) => Colors.white,
+                          getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
                         ),
                       );
                     }).toList();
@@ -125,10 +125,10 @@ class LineChartSample3 extends StatelessWidget {
                   ),
                   dotData: FlDotData(
                       show: true,
-                      getDotColor: (_) => Colors.white,
+                      getDotColor: (spot, percent, barData) => Colors.white,
                       dotSize: 6,
                       strokeWidth: 4,
-                      getStrokeColor: (_) => Colors.deepOrange,
+                      getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
                       checkToShowDot: (spot) {
                         return spot.x != 0 && spot.x != 6;
                       }),
