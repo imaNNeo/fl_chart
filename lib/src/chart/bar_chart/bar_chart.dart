@@ -200,6 +200,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         touchResponse.touchInput is FlPanMoveUpdate ||
         touchResponse.touchInput is FlLongPressStart ||
         touchResponse.touchInput is FlLongPressMoveUpdate) {
+
       if (!widget.data.barTouchData.stickyTouchIndicator) {
         if (touchResponse.spot == null) {
           _showingTouchedTooltips.clear();
