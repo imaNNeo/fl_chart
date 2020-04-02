@@ -470,6 +470,16 @@ void main() {
               ),
             )),
         false);
+
+      expect(
+        sample ==
+          sampleClone.copyWith( showingTooltipIndicators: []),
+        false);
+
+      expect(
+        sample ==
+          sampleClone.copyWith( showingTooltipIndicators: [2, 1, 0]),
+        false);
     });
 
     test('ScatterSpot equality test', () {
