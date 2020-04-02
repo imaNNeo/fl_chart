@@ -499,7 +499,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       if (barData.belowBarData.gradientColorStops == null ||
           barData.belowBarData.gradientColorStops.length != barData.belowBarData.colors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
-        barData.colors.asMap().forEach((index, color) {
+        barData.belowBarData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / barData.colors.length;
           stops.add(percent * (index + 1));
         });
