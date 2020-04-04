@@ -12,6 +12,9 @@ void main() {
       23,
     );
 
+    Function(double) gridCheckToShowLine = (value) => true;
+    Function(double) gridGetDrawingLine = (value) => FlLine();
+
     test('ScatterChartData equality test', () {
       final ScatterChartData sample = ScatterChartData(
         minY: 0,
@@ -55,12 +58,10 @@ void main() {
         ),
         gridData: FlGridData(
           show: false,
-          getDrawingHorizontalLine: (value) =>
-            FlLine(color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
-          getDrawingVerticalLine: (value) =>
-            FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
-          checkToShowHorizontalLine: (value) => false,
-          checkToShowVerticalLine: (value) => true,
+          getDrawingHorizontalLine: gridGetDrawingLine,
+          getDrawingVerticalLine: gridGetDrawingLine,
+          checkToShowHorizontalLine: gridCheckToShowLine,
+          checkToShowVerticalLine: gridCheckToShowLine,
           drawHorizontalLine: true,
           drawVerticalLine: false,
           horizontalInterval: 33,
@@ -144,12 +145,10 @@ void main() {
         ),
         gridData: FlGridData(
           show: false,
-          getDrawingHorizontalLine: (value) =>
-            FlLine(color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
-          getDrawingVerticalLine: (value) =>
-            FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
-          checkToShowHorizontalLine: (value) => false,
-          checkToShowVerticalLine: (value) => true,
+          getDrawingHorizontalLine: gridGetDrawingLine,
+          getDrawingVerticalLine: gridGetDrawingLine,
+          checkToShowHorizontalLine: gridCheckToShowLine,
+          checkToShowVerticalLine: gridCheckToShowLine,
           drawHorizontalLine: true,
           drawVerticalLine: false,
           horizontalInterval: 33,
@@ -227,12 +226,10 @@ void main() {
           sampleClone.copyWith(
             gridData: FlGridData(
               show: false,
-              getDrawingHorizontalLine: (value) =>
-                FlLine(color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
-              getDrawingVerticalLine: (value) =>
-                FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
-              checkToShowHorizontalLine: (value) => false,
-              checkToShowVerticalLine: (value) => true,
+              getDrawingHorizontalLine: gridGetDrawingLine,
+              getDrawingVerticalLine: gridGetDrawingLine,
+              checkToShowHorizontalLine: gridCheckToShowLine,
+              checkToShowVerticalLine: gridCheckToShowLine,
               drawHorizontalLine: true,
               drawVerticalLine: false,
               horizontalInterval: 33,
@@ -244,12 +241,10 @@ void main() {
           sampleClone.copyWith(
             gridData: FlGridData(
               show: true,
-              getDrawingHorizontalLine: (value) =>
-                FlLine(color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
-              getDrawingVerticalLine: (value) =>
-                FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
-              checkToShowHorizontalLine: (value) => false,
-              checkToShowVerticalLine: (value) => true,
+              getDrawingHorizontalLine: gridGetDrawingLine,
+              getDrawingVerticalLine: gridGetDrawingLine,
+              checkToShowHorizontalLine: gridCheckToShowLine,
+              checkToShowVerticalLine: gridCheckToShowLine,
               drawHorizontalLine: true,
               drawVerticalLine: false,
               horizontalInterval: 33,
