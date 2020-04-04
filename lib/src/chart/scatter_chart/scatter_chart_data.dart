@@ -434,6 +434,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     tooltipRoundedRadius,
     tooltipPadding,
     maxContentWidth,
+    getTooltipItems,
     fitInsideHorizontally,
     fitInsideVertically,
   ];

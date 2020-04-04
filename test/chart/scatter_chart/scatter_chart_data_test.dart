@@ -6,6 +6,12 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('ScatterChart data equality check', () {
 
+    Function(ScatterSpot) getTooltipItems = (touchedSpot) => ScatterTooltipItem(
+      'test',
+      TextStyle(color: Colors.white),
+      23,
+    );
+
     test('ScatterChartData equality test', () {
       final ScatterChartData sample = ScatterChartData(
         minY: 0,
@@ -75,11 +81,7 @@ void main() {
         scatterTouchData: ScatterTouchData(
           enabled: true,
           touchTooltipData: ScatterTouchTooltipData(
-            getTooltipItems: (touchedSpot) => ScatterTooltipItem(
-              'test',
-              TextStyle(color: Colors.white),
-              23,
-            ),
+            getTooltipItems: getTooltipItems,
             fitInsideHorizontally: true,
             fitInsideVertically: false,
             maxContentWidth: 33,
@@ -168,11 +170,7 @@ void main() {
         scatterTouchData: ScatterTouchData(
           enabled: true,
           touchTooltipData: ScatterTouchTooltipData(
-            getTooltipItems: (touchedSpot) => ScatterTooltipItem(
-              'test',
-              TextStyle(color: Colors.white),
-              23,
-            ),
+            getTooltipItems: getTooltipItems,
             fitInsideHorizontally: true,
             fitInsideVertically: false,
             maxContentWidth: 33,
@@ -585,7 +583,7 @@ void main() {
         maxContentWidth: 33,
         fitInsideVertically: true,
         fitInsideHorizontally: false,
-        getTooltipItems: (too) => ScatterTooltipItem('', TextStyle(color: Colors.green), 33),
+        getTooltipItems: getTooltipItems,
       );
       ScatterTouchTooltipData sample2 = ScatterTouchTooltipData(
         tooltipRoundedRadius: 23,
@@ -594,7 +592,7 @@ void main() {
         maxContentWidth: 33,
         fitInsideVertically: true,
         fitInsideHorizontally: false,
-        getTooltipItems: (too) => ScatterTooltipItem('', TextStyle(color: Colors.green), 33),
+        getTooltipItems: getTooltipItems,
       );
       expect(sample1 == sample2, true);
     });
