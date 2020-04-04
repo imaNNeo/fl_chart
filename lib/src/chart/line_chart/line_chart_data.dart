@@ -34,7 +34,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// You can show some tooltipIndicators (a popup with an information)
   /// on top of each [LineChartBarData.spots] using [showingTooltipIndicators],
   /// just put line indicator number and spots indices you want to show it on top of them.
-  final List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators;
+  final List<ShowingTooltipIndicators> showingTooltipIndicators;
 
   /// [LineChart] draws some lines in various shapes and overlaps them.
   /// lines are defined in [lineBarsData], sometimes you need to fill space between two bars
@@ -69,7 +69,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlTitlesData titlesData,
     ExtraLinesData extraLinesData,
     LineTouchData lineTouchData,
-    List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
+    List<ShowingTooltipIndicators> showingTooltipIndicators,
     FlGridData gridData,
     FlBorderData borderData,
     FlAxisTitleData axisTitleData,
@@ -206,7 +206,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     RangeAnnotations rangeAnnotations,
     ExtraLinesData extraLinesData,
     LineTouchData lineTouchData,
-    List<MapEntry<int, List<LineBarSpot>>> showingTooltipIndicators,
+    List<ShowingTooltipIndicators> showingTooltipIndicators,
     FlGridData gridData,
     FlBorderData borderData,
     double minX,
@@ -1499,6 +1499,31 @@ class TouchedSpotIndicatorData with EquatableMixin {
     touchedSpotDotData,
   ];
 
+}
+
+/// Holds data for showing tooltips over a line
+class ShowingTooltipIndicators with EquatableMixin {
+
+  /// Determines in which line these tooltips should be shown.
+  final int lineIndex;
+
+  /// Determines the spots that each tooltip should be shown.
+  final List<LineBarSpot> showingSpots;
+
+  /// [LineChart] shows some tooltips over each [LineChartBarData],
+  /// [lineIndex] determines the index of [LineChartBarData], 
+  /// and [showingSpots] determines in which spots this tooltip should be shown.
+  ShowingTooltipIndicators(int lineIndex, List<LineBarSpot> showingSpots)
+    :
+      lineIndex = lineIndex,
+      showingSpots = showingSpots;
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+    lineIndex,
+    showingSpots
+  ];
 }
 
 /// Holds information about touch response in the [LineChart].

@@ -34,7 +34,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final GlobalKey _chartKey = GlobalKey();
 
-  final List<MapEntry<int, List<LineBarSpot>>> _showingTouchedTooltips = [];
+  final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
 
@@ -208,7 +208,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
 
         _showingTouchedTooltips.clear();
-        _showingTouchedTooltips.add(MapEntry(0, sortedLineSpots));
+        _showingTouchedTooltips.add(ShowingTooltipIndicators(0, sortedLineSpots));
       });
     } else {
       setState(() {

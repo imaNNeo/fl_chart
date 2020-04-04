@@ -7,6 +7,7 @@
 * Fixed ScatterChart built-in touch behaviour.
 * Fixed drawing grid lines bug, #280.
 * Implemented [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata).`getDotColor` in a proper way, it returns a color based on the [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata) color, #274, #282.
+* Updated [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata).`showingTooltipIndicators` field type to list of [ShowingTooltipIndicators](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#showingtoltipindicators) to have a clean naming.
 
 ## 0.8.7
 * Added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
