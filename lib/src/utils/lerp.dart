@@ -95,7 +95,7 @@ List<VerticalLine> lerpVerticalLineList(List<VerticalLine> a, List<VerticalLine>
     return List.generate(b.length, (i) {
       return VerticalLine.lerp(i >= a.length ? b[i] : a[i], b[i], t);
     });
-  }  else {
+  } else {
     return b;
   }
 }
@@ -111,7 +111,7 @@ List<HorizontalRangeAnnotation> lerpHorizontalRangeAnnotationList(
     return List.generate(b.length, (i) {
       return HorizontalRangeAnnotation.lerp(i >= a.length ? b[i] : a[i], b[i], t);
     });
-  }  else {
+  } else {
     return b;
   }
 }
@@ -127,7 +127,7 @@ List<VerticalRangeAnnotation> lerpVerticalRangeAnnotationList(
     return List.generate(b.length, (i) {
       return VerticalRangeAnnotation.lerp(i >= a.length ? b[i] : a[i], b[i], t);
     });
-  }  else {
+  } else {
     return b;
   }
 }
@@ -159,7 +159,7 @@ List<BetweenBarsData> lerpBetweenBarsDataList(
     return List.generate(b.length, (i) {
       return BetweenBarsData.lerp(i >= a.length ? b[i] : a[i], b[i], t);
     });
-  }  else {
+  } else {
     return b;
   }
 }
@@ -175,7 +175,7 @@ List<BarChartGroupData> lerpBarChartGroupDataList(
     return List.generate(b.length, (i) {
       return BarChartGroupData.lerp(i >= a.length ? b[i] : a[i], b[i], t);
     });
-  }  else {
+  } else {
     return b;
   }
 }
@@ -191,7 +191,7 @@ List<BarChartRodData> lerpBarChartRodDataList(
     return List.generate(b.length, (i) {
       return BarChartRodData.lerp(i >= a.length ? b[i] : a[i], b[i], t);
     });
-  }  else {
+  } else {
     return b;
   }
 }

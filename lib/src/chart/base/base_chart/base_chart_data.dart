@@ -8,7 +8,6 @@ import 'touch_input.dart';
 /// In this phase we draw the border,
 /// and handle touches in an abstract way.
 abstract class BaseChartData {
-
   /// Holds data to drawing border around the chart.
   FlBorderData borderData;
 
@@ -61,13 +60,11 @@ class FlBorderData {
 /// in a simple way, each chart captures the touch events, and passes a concrete
 /// instance of [FlTouchInput] to the painter, and gets a generated [BaseTouchResponse].
 class FlTouchData {
-
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
   /// You can disable or enable the touch system using [enabled] flag,
   const FlTouchData(this.enabled);
-
 }
 
 /// It gives you the axis value and gets a String value based on it.

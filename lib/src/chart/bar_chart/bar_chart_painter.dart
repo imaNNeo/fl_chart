@@ -61,8 +61,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         }
         final barRod = barGroup.barRods[j];
 
-        _drawTouchTooltip(canvas, size, _groupBarsPosition, targetData.barTouchData.touchTooltipData,
-            barGroup, i, barRod, j);
+        _drawTouchTooltip(canvas, size, _groupBarsPosition,
+            targetData.barTouchData.touchTooltipData, barGroup, i, barRod, j);
       }
     }
   }
@@ -329,7 +329,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             textScaleFactor: textScale);
         tp.layout();
         double x = groupBarPos.groupX;
-        double y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
+        final double y = drawSize.height + getTopOffsetDrawSize() + bottomTitles.margin;
 
         x -= tp.width / 2;
         canvas.save();
@@ -585,7 +585,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// [BarChartPainter] should repaint itself.
   @override
   bool shouldRepaint(BarChartPainter oldDelegate) => oldDelegate.data != data;
-
 }
 
 class _GroupBarsPosition {

@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
 class BarChart extends ImplicitlyAnimatedWidget {
-
   /// Determines how the [BarChart] should be look like.
   final BarChartData data;
 
@@ -21,7 +20,6 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// Creates a [_BarChartState]
   @override
   _BarChartState createState() => _BarChartState();
-
 }
 
 class _BarChartState extends AnimatedWidgetBaseState<BarChart> {

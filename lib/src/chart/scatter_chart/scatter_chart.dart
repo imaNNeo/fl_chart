@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 
 /// Renders a pie chart as a widget, using provided [ScatterChartData].
 class ScatterChart extends ImplicitlyAnimatedWidget {
-
   /// Determines how the [ScatterChart] should be look like.
   final ScatterChartData data;
 
@@ -23,7 +22,6 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// Creates a [_ScatterChartState]
   @override
   _ScatterChartState createState() => _ScatterChartState();
-
 }
 
 class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {

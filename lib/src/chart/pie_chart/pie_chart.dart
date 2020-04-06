@@ -8,7 +8,6 @@ import 'pie_chart_data.dart';
 
 /// Renders a pie chart as a widget, using provided [PieChartData].
 class PieChart extends ImplicitlyAnimatedWidget {
-
   /// Determines how the [PieChart] should be look like.
   final PieChartData data;
 
@@ -23,7 +22,6 @@ class PieChart extends ImplicitlyAnimatedWidget {
   /// Creates a [_PieChartState]
   @override
   _PieChartState createState() => _PieChartState();
-
 }
 
 class _PieChartState extends AnimatedWidgetBaseState<PieChart> {

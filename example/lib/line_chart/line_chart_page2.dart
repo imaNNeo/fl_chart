@@ -13,7 +13,7 @@ class LineChartPage2 extends StatelessWidget {
       color: Colors.white,
       child: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ListView(
             children: <Widget>[
               Text(

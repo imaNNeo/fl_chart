@@ -10,7 +10,6 @@ import 'pie_chart_data.dart';
 
 /// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
 class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<PieTouchResponse> {
-
   Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
   /// Paints [data] into canvas, it is the animating [PieChartData],
@@ -121,16 +120,22 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
       final Offset sectionsStartFrom = center +
           Offset(
-            math.cos(radians(startAngle)) * (_calculateCenterRadius(viewSize, data.centerSpaceRadius) - extraLineSize),
-            math.sin(radians(startAngle)) * (_calculateCenterRadius(viewSize, data.centerSpaceRadius) - extraLineSize),
+            math.cos(radians(startAngle)) *
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) - extraLineSize),
+            math.sin(radians(startAngle)) *
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) - extraLineSize),
           );
 
       final Offset sectionsStartTo = center +
           Offset(
             math.cos(radians(startAngle)) *
-                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + maxSectionRadius + extraLineSize),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
+                    maxSectionRadius +
+                    extraLineSize),
             math.sin(radians(startAngle)) *
-                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + maxSectionRadius + extraLineSize),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
+                    maxSectionRadius +
+                    extraLineSize),
           );
 
       _sectionsSpaceClearPaint.strokeWidth = data.sectionsSpace;
@@ -152,9 +157,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       final Offset sectionCenterOffset = center +
           Offset(
             math.cos(radians(sectionCenterAngle)) *
-                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + (section.radius * section.titlePositionPercentageOffset)),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
+                    (section.radius * section.titlePositionPercentageOffset)),
             math.sin(radians(sectionCenterAngle)) *
-                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) + (section.radius * section.titlePositionPercentageOffset)),
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
+                    (section.radius * section.titlePositionPercentageOffset)),
           );
 
       if (section.showTitle) {
@@ -261,5 +268,4 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   /// [PieChartPainter] should repaint itself.
   @override
   bool shouldRepaint(PieChartPainter oldDelegate) => oldDelegate.data != data;
-
 }

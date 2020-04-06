@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+// TODO(mhmdanas): fix this warning
+// ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
   final spots = [
     const FlSpot(0, 1),
@@ -47,14 +49,16 @@ class LineChartSample6 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [
-        BoxShadow(
-          color: Colors.black,
-          blurRadius: 10,
-          spreadRadius: 0,
-        )
-      ]),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 10,
+              spreadRadius: 0,
+            )
+          ]),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -168,7 +172,7 @@ class LineChartSample6 extends StatelessWidget {
                     }),
                 borderData: FlBorderData(
                   show: true,
-                  border: Border(
+                  border: const Border(
                     left: BorderSide(color: Colors.black),
                     top: BorderSide(color: Colors.black),
                     bottom: BorderSide(color: Colors.transparent),

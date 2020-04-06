@@ -4,7 +4,6 @@ import 'package:path_drawing/path_drawing.dart';
 
 /// Defines extensions on the [Path]
 extension DashedPath on Path {
-
   /// Returns a dashed path based on [dashArray].
   ///
   /// it is a circular array of dash offsets and lengths.
@@ -20,5 +19,4 @@ extension DashedPath on Path {
       return this;
     }
   }
-
 }

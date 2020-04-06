@@ -4,7 +4,7 @@ version: 0.8.7
 homepage: https://github.com/imaNNeoFighT/fl_chart
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:

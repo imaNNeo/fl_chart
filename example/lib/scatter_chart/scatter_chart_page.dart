@@ -10,7 +10,7 @@ class ScatterChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       body: ListView(
         children: <Widget>[
           Padding(
