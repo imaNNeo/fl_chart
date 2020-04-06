@@ -3,7 +3,7 @@
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart.png" width="300" >
 
 ### How to use
-```
+```dart
 ScatterChart(
   ScatterChartData(
     // read about it in the below section

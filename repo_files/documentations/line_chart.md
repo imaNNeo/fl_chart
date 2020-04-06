@@ -3,7 +3,7 @@
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart.jpg" width="300" >
 
 ### How to use
-```
+```dart
 LineChart(
   LineChartData(
     // read about it in the below section

@@ -3,7 +3,7 @@
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart.jpg" width="300" >
 
 ### How to use
-```
+```dart
 PieChart(
   PieChartData(
     // read about it in the below section

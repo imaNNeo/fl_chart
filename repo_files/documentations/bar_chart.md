@@ -3,7 +3,7 @@
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
 
 ### How to use
-```
+```dart
 BarChart(
   BarChartData(
     // read about it in the below section

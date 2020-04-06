@@ -39,7 +39,7 @@ Thank you all!
 
 ##### Add it to your package's pubspec.yaml file
 
-```kotlin
+```yml
 dependencies:
   fl_chart: ^0.8.7
 ```
@@ -48,7 +48,7 @@ dependencies:
 ### 2 - Install it
 
 ##### Install packages from the command line
-```kotlin
+```sh
 flutter packages get
 ```
 
