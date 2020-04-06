@@ -48,7 +48,7 @@ dependencies:
 ### 2 - Install it
 
 ##### Install packages from the command line
-```yml
+```sh
 flutter packages get
 ```
 
