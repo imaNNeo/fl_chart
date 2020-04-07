@@ -231,6 +231,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       color = color ?? Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
       super(x, y);
 
+  @override
   ScatterSpot copyWith({
     double x,
     double y,

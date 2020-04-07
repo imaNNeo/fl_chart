@@ -6,14 +6,14 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('ScatterChart data equality check', () {
 
-    Function(ScatterSpot) getTooltipItems = (touchedSpot) => ScatterTooltipItem(
+    final Function(ScatterSpot) getTooltipItems = (touchedSpot) => ScatterTooltipItem(
       'test',
       TextStyle(color: Colors.white),
       23,
     );
 
-    Function(double) gridCheckToShowLine = (value) => true;
-    Function(double) gridGetDrawingLine = (value) => FlLine();
+    final Function(double) gridCheckToShowLine = (value) => true;
+    final Function(double) gridGetDrawingLine = (value) => FlLine();
 
     test('ScatterChartData equality test', () {
       final ScatterChartData sample = ScatterChartData(
@@ -87,7 +87,7 @@ void main() {
             fitInsideVertically: false,
             maxContentWidth: 33,
             tooltipBgColor: Colors.white,
-            tooltipPadding: EdgeInsets.all(23),
+            tooltipPadding: const EdgeInsets.all(23),
             tooltipRoundedRadius: 534,
           ),
           handleBuiltInTouches: false,
@@ -174,7 +174,7 @@ void main() {
             fitInsideVertically: false,
             maxContentWidth: 33,
             tooltipBgColor: Colors.white,
-            tooltipPadding: EdgeInsets.all(23),
+            tooltipPadding: const EdgeInsets.all(23),
             tooltipRoundedRadius: 534,
           ),
           handleBuiltInTouches: false,
@@ -476,8 +476,8 @@ void main() {
     });
 
     test('ScatterSpot equality test', () {
-      ScatterSpot scatterSpot = ScatterSpot(0, 1);
-      ScatterSpot scatterSpotClone = ScatterSpot(0, 1);
+      final ScatterSpot scatterSpot = ScatterSpot(0, 1);
+      final ScatterSpot scatterSpotClone = ScatterSpot(0, 1);
 
       expect(scatterSpot == scatterSpotClone.copyWith(), true);
       expect(scatterSpot == scatterSpotClone.copyWith(y: 3), false);
@@ -485,22 +485,22 @@ void main() {
     });
 
     test('ScatterTouchData equality test', () {
-      ScatterTouchData sample = ScatterTouchData(
+      final ScatterTouchData sample = ScatterTouchData(
         touchTooltipData: ScatterTouchTooltipData(
           maxContentWidth: 2,
           tooltipBgColor: Colors.red,
-          tooltipPadding: EdgeInsets.all(11),
+          tooltipPadding: const EdgeInsets.all(11),
         ),
         handleBuiltInTouches: false,
         touchCallback: null,
         touchSpotThreshold: 23,
         enabled: false,
       );
-      ScatterTouchData sampleClone = ScatterTouchData(
+      final ScatterTouchData sampleClone = ScatterTouchData(
         touchTooltipData: ScatterTouchTooltipData(
           maxContentWidth: 2,
           tooltipBgColor: Colors.red,
-          tooltipPadding: EdgeInsets.all(11),
+          tooltipPadding: const EdgeInsets.all(11),
         ),
         handleBuiltInTouches: false,
         touchCallback: null,
@@ -536,34 +536,34 @@ void main() {
     });
 
     test('ScatterTouchResponse equality test', () {
-      ScatterTouchResponse sample1 = ScatterTouchResponse(
-        new FlPanStart(Offset(0, 0)),
+      final ScatterTouchResponse sample1 = ScatterTouchResponse(
+        FlPanStart(const Offset(0, 0)),
         ScatterSpot(3, 4),
         1,
       );
-      ScatterTouchResponse sample2 = ScatterTouchResponse(
-        new FlPanStart(Offset(0, 0)),
+      final ScatterTouchResponse sample2 = ScatterTouchResponse(
+        FlPanStart(const Offset(0, 0)),
         ScatterSpot(3, 4),
         1,
       );
       expect(sample1 == sample2, true);
 
       ScatterTouchResponse sampleChanged = ScatterTouchResponse(
-        new FlPanStart(Offset(0, 3)),
+        FlPanStart(const Offset(0, 3)),
         ScatterSpot(3, 4),
         1,
       );
       expect(sample1 == sampleChanged, false);
 
       sampleChanged = ScatterTouchResponse(
-        new FlPanStart(Offset(0, 0)),
+        FlPanStart(const Offset(0, 0)),
         ScatterSpot(0, 4),
         1,
       );
       expect(sample1 == sampleChanged, false);
 
       sampleChanged = ScatterTouchResponse(
-        new FlPanStart(Offset(0, 0)),
+        FlPanStart(const Offset(0, 0)),
         ScatterSpot(3, 4),
         5,
       );
@@ -571,18 +571,18 @@ void main() {
     });
 
     test('ScatterTouchTooltipData equality test', () {
-      ScatterTouchTooltipData sample1 = ScatterTouchTooltipData(
+      final ScatterTouchTooltipData sample1 = ScatterTouchTooltipData(
         tooltipRoundedRadius: 23,
-        tooltipPadding: EdgeInsets.all(11),
+        tooltipPadding: const EdgeInsets.all(11),
         tooltipBgColor: Colors.green,
         maxContentWidth: 33,
         fitInsideVertically: true,
         fitInsideHorizontally: false,
         getTooltipItems: getTooltipItems,
       );
-      ScatterTouchTooltipData sample2 = ScatterTouchTooltipData(
+      final ScatterTouchTooltipData sample2 = ScatterTouchTooltipData(
         tooltipRoundedRadius: 23,
-        tooltipPadding: EdgeInsets.all(11),
+        tooltipPadding: const EdgeInsets.all(11),
         tooltipBgColor: Colors.green,
         maxContentWidth: 33,
         fitInsideVertically: true,
@@ -593,12 +593,12 @@ void main() {
     });
 
     test('ScatterTooltipItem equality test', () {
-      ScatterTooltipItem sample1 = ScatterTooltipItem(
+      final ScatterTooltipItem sample1 = ScatterTooltipItem(
         'aa',
         TextStyle(color: Colors.red),
         23,
       );
-      ScatterTooltipItem sample2 = ScatterTooltipItem(
+      final ScatterTooltipItem sample2 = ScatterTooltipItem(
         'aa',
         TextStyle(color: Colors.red),
         23,

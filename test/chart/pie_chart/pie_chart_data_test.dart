@@ -6,7 +6,7 @@ void main() {
 
   group('PieChart data equality check',() {
     test('PieChartData equality test', () {
-      PieChartData sample1 = PieChartData(
+      final PieChartData sample1 = PieChartData(
         borderData: FlBorderData(show: false,border: Border.all(color: Colors.black)),
         startDegreeOffset: 0,
         sections: [
@@ -19,7 +19,7 @@ void main() {
         sectionsSpace: 44,
       );
 
-      PieChartData sample2 = PieChartData(
+      final PieChartData sample2 = PieChartData(
         borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
         startDegreeOffset: 0,
         sections: [
@@ -102,7 +102,7 @@ void main() {
     });
 
     test('PieChartSectionData equality test', () {
-      PieChartSectionData sample1 = PieChartSectionData(
+      final PieChartSectionData sample1 = PieChartSectionData(
         color: Colors.red,
         radius: 12,
         showTitle: false,
@@ -112,7 +112,7 @@ void main() {
         titleStyle: TextStyle(color: Colors.green),
       );
 
-      PieChartSectionData sample2 = PieChartSectionData(
+      final PieChartSectionData sample2 = PieChartSectionData(
         color: Colors.red,
         radius: 12,
         showTitle: false,
@@ -155,18 +155,18 @@ void main() {
     });
 
     test('PieTouchData equality test', () {
-      PieTouchData sample1 = PieTouchData(
+      final PieTouchData sample1 = PieTouchData(
         touchCallback: (response) {},
         enabled: true,
       );
-      PieTouchData sample2 = PieTouchData(
+      final PieTouchData sample2 = PieTouchData(
         touchCallback: null,
         enabled: true,
       );
 
       expect(sample1 == sample2, true);
 
-      PieTouchData disabled = PieTouchData(
+      final PieTouchData disabled = PieTouchData(
         touchCallback: null,
         enabled: false,
       );
@@ -174,7 +174,7 @@ void main() {
     });
 
     test('PieTouchResponse equality test', () {
-      PieTouchResponse sample1 = PieTouchResponse(
+      final PieTouchResponse sample1 = PieTouchResponse(
         PieChartSectionData(
           color: Colors.green,
           title: 'test',
@@ -183,9 +183,9 @@ void main() {
         1,
         12.0,
         30,
-        FlPanStart(Offset(0, 1)),
+        FlPanStart(const Offset(0, 1)),
       );
-      PieTouchResponse sample2 = PieTouchResponse(
+      final PieTouchResponse sample2 = PieTouchResponse(
         PieChartSectionData(
           color: Colors.green,
           title: 'test',
@@ -194,7 +194,7 @@ void main() {
         1,
         12.0,
         30,
-        FlPanStart(Offset(0, 1)),
+        FlPanStart(const Offset(0, 1)),
       );
 
       expect(sample1 == sample2, true);
@@ -208,7 +208,7 @@ void main() {
         1,
         12.0,
         30,
-        FlPanStart(Offset(0, 1)),
+        FlPanStart(const Offset(0, 1)),
       );
 
       expect(sample1 == changed, false);
@@ -222,7 +222,7 @@ void main() {
         1,
         12.0,
         30,
-        FlPanStart(Offset(0, 1)),
+        FlPanStart(const Offset(0, 1)),
       );
 
       expect(sample1 == changed, false);
@@ -236,7 +236,7 @@ void main() {
         1,
         12.1,
         30,
-        FlPanStart(Offset(0, 1)),
+        FlPanStart(const Offset(0, 1)),
       );
 
       expect(sample1 == changed, false);
@@ -250,7 +250,7 @@ void main() {
         1,
         12.0,
         30,
-        FlPanStart(Offset(0, 1.1)),
+        FlPanStart(const Offset(0, 1.1)),
       );
 
       expect(sample1 == changed, false);
@@ -260,7 +260,7 @@ void main() {
         1,
         12.0,
         30,
-        FlPanStart(Offset(0, 1)),
+        FlPanStart(const Offset(0, 1)),
       );
 
       expect(sample1 == changed, false);

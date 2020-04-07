@@ -39,10 +39,10 @@ class LineChartSample1State extends State<LineChartSample1> {
                 const SizedBox(
                   height: 37,
                 ),
-                Text(
+                const Text(
                   'Unfold Shop 2018',
                   style: TextStyle(
-                    color: const Color(0xff827daa),
+                    color: Color(0xff827daa),
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
@@ -67,7 +67,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                     padding: const EdgeInsets.only(right: 16.0, left: 6.0),
                     child: LineChart(
                       isShowingMainData ? sampleData1() : sampleData2(),
-                      swapAnimationDuration: Duration(milliseconds: 250),
+                      swapAnimationDuration: const Duration(milliseconds: 250),
                     ),
                   ),
                 ),
@@ -156,8 +156,8 @@ class LineChartSample1State extends State<LineChartSample1> {
       borderData: FlBorderData(
         show: true,
         border: Border(
-          bottom: BorderSide(
-            color: const Color(0xff4e4965),
+          bottom: const BorderSide(
+            color: Color(0xff4e4965),
             width: 4,
           ),
           left: BorderSide(
@@ -180,7 +180,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   }
 
   List<LineChartBarData> linesBarData1() {
-    LineChartBarData lineChartBarData1 = LineChartBarData(
+    final LineChartBarData lineChartBarData1 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 1.5),
@@ -192,7 +192,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       isCurved: true,
       colors: [
-        Color(0xff4af699),
+        const Color(0xff4af699),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -214,7 +214,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       isCurved: true,
       colors: [
-        Color(0xffaa4cfc),
+        const Color(0xffaa4cfc),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -222,10 +222,10 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
       belowBarData: BarAreaData(show: false, colors: [
-        Color(0x00aa4cfc),
+        const Color(0x00aa4cfc),
       ]),
     );
-    LineChartBarData lineChartBarData3 = LineChartBarData(
+    final LineChartBarData lineChartBarData3 = LineChartBarData(
       spots: [
         FlSpot(1, 2.8),
         FlSpot(3, 1.9),
@@ -312,8 +312,8 @@ class LineChartSample1State extends State<LineChartSample1> {
       borderData: FlBorderData(
           show: true,
           border: Border(
-            bottom: BorderSide(
-              color: const Color(0xff4e4965),
+            bottom: const BorderSide(
+              color: Color(0xff4e4965),
               width: 4,
             ),
             left: BorderSide(
@@ -379,7 +379,7 @@ class LineChartSample1State extends State<LineChartSample1> {
           show: false,
         ),
         belowBarData: BarAreaData(show: true, colors: [
-          Color(0x33aa4cfc),
+          const Color(0x33aa4cfc),
         ]),
       ),
       LineChartBarData(

@@ -6,25 +6,25 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('BaseChartData data equality check',() {
 
-    BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(
+    final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(
       FlPanStart(Offset.zero),
     );
-    BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(
+    final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(
       FlPanStart(Offset.zero),
     );
 
-    FlTouchData touchData1 = FlTouchData(
+    final FlTouchData touchData1 = FlTouchData(
       false,
     );
-    FlTouchData touchData2 = FlTouchData(
+    final FlTouchData touchData2 = FlTouchData(
       false,
     );
 
-    FlBorderData borderData1 = FlBorderData(
+    final FlBorderData borderData1 = FlBorderData(
       show: true,
       border: Border.all(color: Colors.green),
     );
-    FlBorderData borderData2 = FlBorderData(
+    final FlBorderData borderData2 = FlBorderData(
       show: true,
       border: Border.all(color: Colors.green),
     );
@@ -49,7 +49,7 @@ void main() {
 
       expect(touchData1 == touchData2, true);
 
-      expect(baseTouchResponse1 == FlTouchData(
+      expect(touchData1 == FlTouchData(
         true,
       ), false);
 
@@ -59,7 +59,7 @@ void main() {
       expect(baseTouchResponse1 == baseTouchResponse2, true);
 
       expect(baseTouchResponse1 == BaseTouchResponse(
-        FlPanStart(Offset(0.0, 1.0)),
+        FlPanStart(const Offset(0.0, 1.0)),
       ), false);
 
     });

@@ -6,29 +6,29 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('AxisChartData data equality check',() {
 
-    VerticalRangeAnnotation verticalRangeAnnotation1 = VerticalRangeAnnotation(
+    final VerticalRangeAnnotation verticalRangeAnnotation1 = VerticalRangeAnnotation(
       color: Colors.green,
       x2: 12,
       x1: 12.1
     );
-    VerticalRangeAnnotation verticalRangeAnnotation2 = VerticalRangeAnnotation(
+    final VerticalRangeAnnotation verticalRangeAnnotation2 = VerticalRangeAnnotation(
       color: Colors.green,
       x2: 12,
       x1: 12.1
     );
 
-    HorizontalRangeAnnotation horizontalRangeAnnotation1 = HorizontalRangeAnnotation(
+    final HorizontalRangeAnnotation horizontalRangeAnnotation1 = HorizontalRangeAnnotation(
       color: Colors.green,
       y2: 12,
       y1: 12.1
     );
-    HorizontalRangeAnnotation horizontalRangeAnnotation2 = HorizontalRangeAnnotation(
+    final HorizontalRangeAnnotation horizontalRangeAnnotation2 = HorizontalRangeAnnotation(
       color: Colors.green,
       y2: 12,
       y1: 12.1
     );
 
-    RangeAnnotations rangeAnnotations1 = RangeAnnotations(
+    final RangeAnnotations rangeAnnotations1 = RangeAnnotations(
       horizontalRangeAnnotations: [
         horizontalRangeAnnotation1,
         horizontalRangeAnnotation2,
@@ -38,7 +38,7 @@ void main() {
         verticalRangeAnnotation2,
       ]
     );
-    RangeAnnotations rangeAnnotations2 = RangeAnnotations(
+    final RangeAnnotations rangeAnnotations2 = RangeAnnotations(
       horizontalRangeAnnotations: [
         horizontalRangeAnnotation1,
         horizontalRangeAnnotation2,
@@ -49,21 +49,21 @@ void main() {
       ]
     );
 
-    FlLine flLine1 = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
-    FlLine flLine1_clone = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
+    final FlLine flLine1 = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
+    final FlLine flLine1Clone = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
 
-    Function(double) checkToShowLine = (value) => true;
-    Function(double) getDrawingLine = (value) => FlLine();
+    final Function(double) checkToShowLine = (value) => true;
+    final Function(double) getDrawingLine = (value) => FlLine();
 
-    FlSpot flSpot1 = FlSpot(1, 1);
-    FlSpot flSpot1_clone = flSpot1.copyWith();
+    final FlSpot flSpot1 = FlSpot(1, 1);
+    final FlSpot flSpot1Clone = flSpot1.copyWith();
 
-    FlSpot flSpot2 = FlSpot(4, 2);
-    FlSpot flSpot2_clone = flSpot2.copyWith();
+    final FlSpot flSpot2 = FlSpot(4, 2);
+    final FlSpot flSpot2Clone = flSpot2.copyWith();
 
-    Function(double value) getTitles = (value) => 'sallam';
+    final Function(double value) getTitles = (value) => 'sallam';
 
-    SideTitles sideTitles1 = SideTitles(
+    final SideTitles sideTitles1 = SideTitles(
       margin: 1,
       reservedSize: 10,
       textStyle: TextStyle(color: Colors.green),
@@ -72,7 +72,7 @@ void main() {
       interval: 12,
       rotateAngle: 11,
     );
-    SideTitles sideTitles1_clone = SideTitles(
+    final SideTitles sideTitles1Clone = SideTitles(
       margin: 1,
       reservedSize: 10,
       textStyle: TextStyle(color: Colors.green),
@@ -81,7 +81,7 @@ void main() {
       interval: 12,
       rotateAngle: 11,
     );
-    SideTitles sideTitles2 = SideTitles(
+    final SideTitles sideTitles2 = SideTitles(
       margin: 1,
       reservedSize: 10,
       textStyle: TextStyle(color: Colors.green),
@@ -90,7 +90,7 @@ void main() {
       interval: 12,
       rotateAngle: 11,
     );
-    SideTitles sideTitles3 = SideTitles(
+    final SideTitles sideTitles3 = SideTitles(
       margin: 4,
       reservedSize: 10,
       textStyle: TextStyle(color: Colors.green),
@@ -99,7 +99,7 @@ void main() {
       interval: 12,
       rotateAngle: 11,
     );
-    SideTitles sideTitles4 = SideTitles(
+    final SideTitles sideTitles4 = SideTitles(
       margin: 1,
       reservedSize: 11,
       textStyle: TextStyle(color: Colors.green),
@@ -108,7 +108,7 @@ void main() {
       interval: 12,
       rotateAngle: 11,
     );
-    SideTitles sideTitles5 = SideTitles(
+    final SideTitles sideTitles5 = SideTitles(
       margin: 1,
       reservedSize: 10,
       textStyle: TextStyle(color: Colors.red),
@@ -117,7 +117,7 @@ void main() {
       interval: 12,
       rotateAngle: 11,
     );
-    SideTitles sideTitles6 = SideTitles(
+    final SideTitles sideTitles6 = SideTitles(
       margin: 1,
       reservedSize: 10,
       textStyle: TextStyle(color: Colors.green),
@@ -127,49 +127,49 @@ void main() {
       rotateAngle: 13,
     );
 
-    FlTitlesData flTitlesData1 = FlTitlesData(
+    final FlTitlesData flTitlesData1 = FlTitlesData(
       show: true,
       bottomTitles: sideTitles1,
       topTitles: sideTitles2,
       rightTitles: sideTitles3,
       leftTitles: sideTitles4,
     );
-    FlTitlesData flTitlesData1_clone = FlTitlesData(
+    final FlTitlesData flTitlesData1Clone = FlTitlesData(
       show: true,
-      bottomTitles: sideTitles1_clone,
+      bottomTitles: sideTitles1Clone,
       topTitles: sideTitles2,
       rightTitles: sideTitles3,
       leftTitles: sideTitles4,
     );
-    FlTitlesData flTitlesData2 = FlTitlesData(
+    final FlTitlesData flTitlesData2 = FlTitlesData(
       show: true,
       bottomTitles: null,
       topTitles: sideTitles2,
       rightTitles: sideTitles3,
       leftTitles: sideTitles4,
     );
-    FlTitlesData flTitlesData3 = FlTitlesData(
+    final FlTitlesData flTitlesData3 = FlTitlesData(
       show: true,
       bottomTitles: sideTitles1,
       topTitles: null,
       rightTitles: sideTitles3,
       leftTitles: sideTitles4,
     );
-    FlTitlesData flTitlesData4 = FlTitlesData(
+    final FlTitlesData flTitlesData4 = FlTitlesData(
       show: true,
       bottomTitles: sideTitles1,
       topTitles: sideTitles2,
       rightTitles: null,
       leftTitles: sideTitles4,
     );
-    FlTitlesData flTitlesData5 = FlTitlesData(
+    final FlTitlesData flTitlesData5 = FlTitlesData(
       show: true,
       bottomTitles: sideTitles1,
       topTitles: sideTitles2,
       rightTitles: sideTitles3,
       leftTitles: null,
     );
-    FlTitlesData flTitlesData6 = FlTitlesData(
+    final FlTitlesData flTitlesData6 = FlTitlesData(
       show: false,
       bottomTitles: sideTitles1,
       topTitles: sideTitles2,
@@ -177,7 +177,7 @@ void main() {
       leftTitles: sideTitles4,
     );
 
-    AxisTitle axisTitle1 = AxisTitle(
+    final AxisTitle axisTitle1 = AxisTitle(
       textStyle: TextStyle(color: Colors.green),
       reservedSize: 12,
       margin: 33,
@@ -185,7 +185,7 @@ void main() {
       titleText: 'sallam',
       textAlign: TextAlign.right,
     );
-    AxisTitle axisTitle1_clone = AxisTitle(
+    final AxisTitle axisTitle1Clone = AxisTitle(
       textStyle: TextStyle(color: Colors.green),
       reservedSize: 12,
       margin: 33,
@@ -194,7 +194,7 @@ void main() {
       textAlign: TextAlign.right,
     );
 
-    AxisTitle axisTitle2 = AxisTitle(
+    final AxisTitle axisTitle2 = AxisTitle(
       textStyle: TextStyle(color: Colors.green),
       reservedSize: 33,
       margin: 33,
@@ -202,7 +202,7 @@ void main() {
       titleText: 'sallam',
       textAlign: TextAlign.right,
     );
-    AxisTitle axisTitle3 = AxisTitle(
+    final AxisTitle axisTitle3 = AxisTitle(
       textStyle: TextStyle(color: Colors.red),
       reservedSize: 12,
       margin: 33,
@@ -210,7 +210,7 @@ void main() {
       titleText: 'sallam',
       textAlign: TextAlign.right,
     );
-    AxisTitle axisTitle4 = AxisTitle(
+    final AxisTitle axisTitle4 = AxisTitle(
       textStyle: TextStyle(color: Colors.green),
       reservedSize: 12,
       margin: 11,
@@ -218,7 +218,7 @@ void main() {
       titleText: 'sallam',
       textAlign: TextAlign.right,
     );
-    AxisTitle axisTitle5 = AxisTitle(
+    final AxisTitle axisTitle5 = AxisTitle(
       textStyle: TextStyle(color: Colors.green),
       reservedSize: 12,
       margin: 33,
@@ -226,7 +226,7 @@ void main() {
       titleText: 'sallam',
       textAlign: TextAlign.right,
     );
-    AxisTitle axisTitle6 = AxisTitle(
+    final AxisTitle axisTitle6 = AxisTitle(
       textStyle: TextStyle(color: Colors.green),
       reservedSize: 12,
       margin: 33,
@@ -234,7 +234,7 @@ void main() {
       titleText: 'sallam',
       textAlign: TextAlign.left,
     );
-    AxisTitle axisTitle7 = AxisTitle(
+    final AxisTitle axisTitle7 = AxisTitle(
       textStyle: TextStyle(color: Colors.green),
       reservedSize: 12,
       margin: 33,
@@ -242,7 +242,7 @@ void main() {
       titleText: 'sallamm',
       textAlign: TextAlign.right,
     );
-    AxisTitle axisTitle8 = AxisTitle(
+    final AxisTitle axisTitle8 = AxisTitle(
       textStyle: null,
       reservedSize: 12,
       margin: 33,
@@ -251,63 +251,63 @@ void main() {
       textAlign: TextAlign.right,
     );
 
-    FlAxisTitleData flAxisTitleData1 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData1 = FlAxisTitleData(
       show: true,
       topTitle: axisTitle1,
       rightTitle: axisTitle2,
       leftTitle: axisTitle3,
       bottomTitle: axisTitle4,
     );
-    FlAxisTitleData flAxisTitleData1_clone = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData1Clone = FlAxisTitleData(
       show: true,
-      topTitle: axisTitle1_clone,
+      topTitle: axisTitle1Clone,
       rightTitle: axisTitle2,
       leftTitle: axisTitle3,
       bottomTitle: axisTitle4,
     );
-    FlAxisTitleData flAxisTitleData2 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData2 = FlAxisTitleData(
       show: true,
       topTitle: null,
       rightTitle: axisTitle2,
       leftTitle: axisTitle3,
       bottomTitle: axisTitle4,
     );
-    FlAxisTitleData flAxisTitleData3 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData3 = FlAxisTitleData(
       show: true,
       topTitle: axisTitle1,
       rightTitle: null,
       leftTitle: axisTitle3,
       bottomTitle: axisTitle4,
     );
-    FlAxisTitleData flAxisTitleData4 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData4 = FlAxisTitleData(
       show: true,
       topTitle: axisTitle1,
       rightTitle: axisTitle2,
       leftTitle: null,
       bottomTitle: axisTitle4,
     );
-    FlAxisTitleData flAxisTitleData5 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData5 = FlAxisTitleData(
       show: true,
       topTitle: axisTitle1,
       rightTitle: axisTitle2,
       leftTitle: axisTitle3,
       bottomTitle: null,
     );
-    FlAxisTitleData flAxisTitleData6 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData6 = FlAxisTitleData(
       show: false,
       topTitle: axisTitle1,
       rightTitle: axisTitle2,
       leftTitle: axisTitle3,
       bottomTitle: axisTitle4,
     );
-    FlAxisTitleData flAxisTitleData7 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData7 = FlAxisTitleData(
       show: true,
       topTitle: axisTitle1,
       rightTitle: axisTitle2,
       leftTitle: axisTitle4,
       bottomTitle: axisTitle3,
     );
-    FlAxisTitleData flAxisTitleData8 = FlAxisTitleData(
+    final FlAxisTitleData flAxisTitleData8 = FlAxisTitleData(
       show: true,
       topTitle: axisTitle4,
       rightTitle: axisTitle2,
@@ -317,7 +317,7 @@ void main() {
 
 
     test('FlAxisTitleData equality test', () {
-      expect(flAxisTitleData1 == flAxisTitleData1_clone, true);
+      expect(flAxisTitleData1 == flAxisTitleData1Clone, true);
       expect(flAxisTitleData1 == flAxisTitleData2, false);
       expect(flAxisTitleData1 == flAxisTitleData3, false);
       expect(flAxisTitleData1 == flAxisTitleData4, false);
@@ -328,7 +328,7 @@ void main() {
     });
 
     test('AxisTitle equality test', () {
-      expect(axisTitle1 == axisTitle1_clone, true);
+      expect(axisTitle1 == axisTitle1Clone, true);
       expect(axisTitle1 == axisTitle2, false);
       expect(axisTitle1 == axisTitle3, false);
       expect(axisTitle1 == axisTitle4, false);
@@ -339,7 +339,7 @@ void main() {
     });
 
     test('FlTitlesData equality test', () {
-      expect(flTitlesData1 == flTitlesData1_clone, true);
+      expect(flTitlesData1 == flTitlesData1Clone, true);
       expect(flTitlesData1 == flTitlesData2, false);
       expect(flTitlesData1 == flTitlesData3, false);
       expect(flTitlesData1 == flTitlesData4, false);
@@ -348,7 +348,7 @@ void main() {
     });
 
     test('SideTitles equality test', () {
-      expect(sideTitles1 == sideTitles1_clone, true);
+      expect(sideTitles1 == sideTitles1Clone, true);
       expect(sideTitles1 == sideTitles2, false);
       expect(sideTitles1 == sideTitles3, false);
       expect(sideTitles1 == sideTitles4, false);
@@ -357,15 +357,15 @@ void main() {
     });
 
     test('FlSpot equality test', () {
-      expect(flSpot1 == flSpot1_clone, true);
+      expect(flSpot1 == flSpot1Clone, true);
 
       expect(flSpot1 == flSpot2, false);
 
-      expect(flSpot2 == flSpot2_clone, true);
+      expect(flSpot2 == flSpot2Clone, true);
     });
 
     test('FlGridData equality test', () {
-      FlGridData sample1 = FlGridData(
+      final FlGridData sample1 = FlGridData(
         show: true,
         verticalInterval: 12,
         horizontalInterval: 22,
@@ -377,7 +377,7 @@ void main() {
         getDrawingVerticalLine: null,
       );
 
-      FlGridData sample2 = FlGridData(
+      final FlGridData sample2 = FlGridData(
         show: true,
         verticalInterval: 12,
         horizontalInterval: 22,
@@ -394,7 +394,7 @@ void main() {
 
     test('FlLine equality test', () {
 
-      expect(flLine1 == flLine1_clone, true);
+      expect(flLine1 == flLine1Clone, true);
 
       expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 1.001, dashArray: [1, 2, 3]), false);
 
