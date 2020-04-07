@@ -3,7 +3,7 @@ name: Code Style
 on: [push, pull_request]
 
 jobs:
-  test-code-style:
+  check-code-style:
     runs-on: ubuntu-latest
 
     steps:
