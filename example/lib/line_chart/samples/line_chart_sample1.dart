@@ -50,7 +50,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                 const SizedBox(
                   height: 4,
                 ),
-                Text(
+                const Text(
                   'Monthly Sales',
                   style: TextStyle(
                       color: Colors.white,
@@ -109,8 +109,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: TextStyle(
-            color: const Color(0xff72719b),
+          textStyle: const TextStyle(
+            color: Color(0xff72719b),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -129,8 +129,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(
-            color: const Color(0xff75729e),
+          textStyle: const TextStyle(
+            color: Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -153,8 +153,8 @@ class LineChartSample1State extends State<LineChartSample1> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(
-          bottom: const BorderSide(
+        border: const Border(
+          bottom: BorderSide(
             color: Color(0xff4e4965),
             width: 4,
           ),
@@ -263,8 +263,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: TextStyle(
-            color: const Color(0xff72719b),
+          textStyle: const TextStyle(
+            color: Color(0xff72719b),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -283,8 +283,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(
-            color: const Color(0xff75729e),
+          textStyle: const TextStyle(
+            color: Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -309,8 +309,8 @@ class LineChartSample1State extends State<LineChartSample1> {
       ),
       borderData: FlBorderData(
           show: true,
-          border: Border(
-            bottom: const BorderSide(
+          border: const Border(
+            bottom: BorderSide(
               color: Color(0xff4e4965),
               width: 4,
             ),
