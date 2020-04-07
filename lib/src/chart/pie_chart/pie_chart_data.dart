@@ -32,7 +32,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
   final PieTouchData pieTouchData;
 
   /// We hold this value to determine weight of each [PieChartSectionData.value].
-  double sumValue;
+  double get sumValue =>
+      sections.map((data) => data.value).reduce((first, second) => first + second);
 
   /// [PieChart] draws some [sections] in a circle,
   /// and applies free space with radius [centerSpaceRadius],
@@ -59,8 +60,28 @@ class PieChartData extends BaseChartData with EquatableMixin {
         sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
-        super(borderData: borderData, touchData: pieTouchData ?? PieTouchData()) {
-    sumValue = sections.map((data) => data.value).reduce((first, second) => first + second);
+        super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
+
+  /// Copies current [PieChartData] to a new [PieChartData],
+  /// and replaces provided values.
+  PieChartData copyWith({
+    List<PieChartSectionData> sections,
+    double centerSpaceRadius,
+    Color centerSpaceColor,
+    double sectionsSpace,
+    double startDegreeOffset,
+    PieTouchData pieTouchData,
+    FlBorderData borderData,
+  }) {
+    return PieChartData(
+      sections: sections ?? this.sections,
+      centerSpaceRadius: centerSpaceRadius ?? this.centerSpaceRadius,
+      centerSpaceColor: centerSpaceColor ?? this.centerSpaceColor,
+      sectionsSpace: sectionsSpace ?? this.sectionsSpace,
+      startDegreeOffset: startDegreeOffset ?? this.startDegreeOffset,
+      pieTouchData: pieTouchData ?? this.pieTouchData,
+      borderData: borderData ?? this.borderData,
+    );
   }
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -88,10 +109,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
         centerSpaceRadius,
         centerSpaceColor,
         pieTouchData,
-        touchData,
         sectionsSpace,
         startDegreeOffset,
-        sumValue,
         borderData,
       ];
 }
@@ -231,7 +250,6 @@ class PieTouchData extends FlTouchData with EquatableMixin {
   @override
   List<Object> get props => [
         enabled,
-        touchCallback,
       ];
 }
 

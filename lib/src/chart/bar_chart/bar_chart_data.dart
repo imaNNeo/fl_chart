@@ -202,7 +202,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         alignment,
         titlesData,
         barTouchData,
-        touchData,
         axisTitleData,
         maxY,
         minY,
@@ -693,7 +692,7 @@ BarTooltipItem defaultBarTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
-  const TextStyle textStyle = TextStyle(
+  final TextStyle textStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
     fontSize: 14,

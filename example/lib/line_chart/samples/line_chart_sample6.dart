@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-// TODO(mhmdanas): fix this warning
 // ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
   final spots = [

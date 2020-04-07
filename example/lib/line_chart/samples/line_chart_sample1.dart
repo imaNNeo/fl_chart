@@ -232,8 +232,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         FlSpot(13, 2.5),
       ],
       isCurved: true,
-      colors: [
-        const Color(0xff27b6fc),
+      colors: const [
+        Color(0xff27b6fc),
       ],
       barWidth: 8,
       isStrokeCapRound: true,

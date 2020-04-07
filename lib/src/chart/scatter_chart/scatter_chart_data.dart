@@ -200,6 +200,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         maxX,
         minY,
         maxY,
+        rangeAnnotations,
       ];
 }
 
@@ -227,6 +228,23 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         radius = radius ?? 6,
         color = color ?? Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
         super(x, y);
+
+  @override
+  ScatterSpot copyWith({
+    double x,
+    double y,
+    bool show,
+    double radius,
+    Color color,
+  }) {
+    return ScatterSpot(
+      x ?? this.x,
+      y ?? this.y,
+      show: show ?? this.show,
+      radius: radius ?? this.radius,
+      color: color ?? this.color,
+    );
+  }
 
   /// Lerps a [ScatterSpot] based on [t] value, check [Tween.lerp].
   static ScatterSpot lerp(ScatterSpot a, ScatterSpot b, double t) {
@@ -297,11 +315,13 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
     bool enabled,
     LineTouchTooltipData touchTooltipData,
     double touchSpotThreshold,
+    bool handleBuiltInTouches,
     Function(ScatterTouchResponse) touchCallback,
   }) {
     return ScatterTouchData(
       enabled: enabled ?? this.enabled,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
+      handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       touchCallback: touchCallback ?? this.touchCallback,
     );
@@ -314,7 +334,6 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
         touchTooltipData,
         touchSpotThreshold,
         handleBuiltInTouches,
-        touchCallback,
       ];
 }
 

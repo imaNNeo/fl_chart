@@ -330,12 +330,10 @@ class FlSpot with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props {
-    return [
-      x,
-      y,
-    ];
-  }
+  List<Object> get props => [
+        x,
+        y,
+      ];
 
   /// Lerps a [FlSpot] based on [t] value, check [Tween.lerp].
   static FlSpot lerp(FlSpot a, FlSpot b, double t) {

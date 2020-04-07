@@ -120,9 +120,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     // Draw touch tooltip on most top spot
     for (int i = 0; i < data.showingTooltipIndicators.length; i++) {
-      MapEntry<int, List<LineBarSpot>> tooltipSpots = data.showingTooltipIndicators[i];
+      ShowingTooltipIndicators tooltipSpots = data.showingTooltipIndicators[i];
 
-      final List<LineBarSpot> showingBarSpots = tooltipSpots.value;
+      final List<LineBarSpot> showingBarSpots = tooltipSpots.showingSpots;
       if (showingBarSpots.isEmpty) {
         continue;
       }
@@ -133,7 +133,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           topSpot = barSpot;
         }
       }
-      tooltipSpots = MapEntry(tooltipSpots.key, barSpots);
+      tooltipSpots = ShowingTooltipIndicators(tooltipSpots.lineIndex, barSpots);
 
       _drawTouchTooltip(canvas, size, data.lineTouchData.touchTooltipData, topSpot, tooltipSpots);
     }
@@ -1016,7 +1016,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawTouchTooltip(Canvas canvas, Size viewSize, LineTouchTooltipData tooltipData,
-      FlSpot showOnSpot, MapEntry<int, List<LineBarSpot>> showingTooltipSpots) {
+      FlSpot showOnSpot, ShowingTooltipIndicators showingTooltipSpots) {
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
     const double textsBelowMargin = 4;
@@ -1025,12 +1025,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final List<TextPainter> drawingTextPainters = [];
 
     final List<LineTooltipItem> tooltipItems =
-        tooltipData.getTooltipItems(showingTooltipSpots.value);
-    if (tooltipItems.length != showingTooltipSpots.value.length) {
+        tooltipData.getTooltipItems(showingTooltipSpots.showingSpots);
+    if (tooltipItems.length != showingTooltipSpots.showingSpots.length) {
       throw Exception('tooltipItems and touchedSpots size should be same');
     }
 
-    for (int i = 0; i < showingTooltipSpots.value.length; i++) {
+    for (int i = 0; i < showingTooltipSpots.showingSpots.length; i++) {
       final LineTooltipItem tooltipItem = tooltipItems[i];
       if (tooltipItem == null) {
         continue;

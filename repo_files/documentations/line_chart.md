@@ -201,6 +201,12 @@ LineChart(
 |lineBarSpots|a list of [LineBarSpot](#LineBarSpot)|null|
 |touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
 
+### ShowingTooltipIndicators
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|lineIndex|Determines in which line these tooltips should be shown.|null|
+|showingSpots|Determines the spots that each tooltip should be shown.|null|
+
 
 ### some samples
 ----
