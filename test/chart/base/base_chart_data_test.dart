@@ -1,34 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../data_pool.dart';
 
 void main() {
   group('BaseChartData data equality check', () {
-    final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(
-      FlPanStart(Offset.zero),
-    );
-    final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(
-      FlPanStart(Offset.zero),
-    );
-
-    final FlTouchData touchData1 = FlTouchData(
-      false,
-    );
-    final FlTouchData touchData2 = FlTouchData(
-      false,
-    );
-
-    final FlBorderData borderData1 = FlBorderData(
-      show: true,
-      border: Border.all(color: Colors.green),
-    );
-    final FlBorderData borderData2 = FlBorderData(
-      show: true,
-      border: Border.all(color: Colors.green),
-    );
-
     test('FlBorderData equality test', () {
-      expect(borderData1 == borderData2, true);
+      expect(borderData1 == borderData1Clone, true);
 
       expect(
           borderData1 ==

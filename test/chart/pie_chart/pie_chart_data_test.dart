@@ -1,65 +1,35 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../data_pool.dart';
 
 void main() {
   group('PieChart data equality check', () {
     test('PieChartData equality test', () {
-      final PieChartData sample1 = PieChartData(
-        borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
-        startDegreeOffset: 0,
-        sections: [
-          PieChartSectionData(value: 12, color: Colors.red),
-          PieChartSectionData(value: 22, color: Colors.green),
-        ],
-        centerSpaceColor: Colors.white,
-        centerSpaceRadius: 12,
-        pieTouchData: PieTouchData(
-          enabled: false,
-        ),
-        sectionsSpace: 44,
-      );
 
-      final PieChartData sample2 = PieChartData(
-        borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
-        startDegreeOffset: 0,
-        sections: [
-          PieChartSectionData(value: 12, color: Colors.red),
-          PieChartSectionData(value: 22, color: Colors.green),
-        ],
-        centerSpaceColor: Colors.white,
-        centerSpaceRadius: 12,
-        pieTouchData: PieTouchData(
-          enabled: false,
-        ),
-        sectionsSpace: 44,
-      );
-
-      expect(sample1 == sample2, true);
-
-      expect(sample1 == sample2.copyWith(), true);
+      expect(pieChartData1 == pieChartData1Clone, true);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                   borderData: FlBorderData(show: false, border: Border.all(color: Colors.black))),
           true);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                   borderData: FlBorderData(show: true, border: Border.all(color: Colors.black))),
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 startDegreeOffset: 33,
               ),
           false);
 
       expect(
-          sample1 ==
+          pieChartData1 ==
               PieChartData(
                 borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
                 startDegreeOffset: 0,
@@ -74,15 +44,15 @@ void main() {
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 sections: [],
               ),
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 sections: [
                   PieChartSectionData(value: 12, color: Colors.red),
                   PieChartSectionData(value: 22, color: Colors.green),
@@ -91,8 +61,8 @@ void main() {
           true);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 sections: [
                   PieChartSectionData(value: 12, color: Colors.red),
                   PieChartSectionData(value: 22, color: Colors.green.withOpacity(0.99)),
@@ -101,8 +71,8 @@ void main() {
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 sections: [
                   PieChartSectionData(value: 22, color: Colors.green),
                   PieChartSectionData(value: 12, color: Colors.red),
@@ -111,29 +81,29 @@ void main() {
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 centerSpaceColor: Colors.cyan,
               ),
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 centerSpaceRadius: 44,
               ),
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 pieTouchData: PieTouchData(),
               ),
           false);
 
       expect(
-          sample1 ==
-              sample2.copyWith(
+          pieChartData1 ==
+              pieChartData1Clone.copyWith(
                 sectionsSpace: 44.000001,
               ),
           false);

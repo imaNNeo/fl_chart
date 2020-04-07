@@ -2,227 +2,46 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../data_pool.dart';
 
 void main() {
   group('ScatterChart data equality check', () {
-    final Function(ScatterSpot) getTooltipItems = (touchedSpot) => ScatterTooltipItem(
-          'test',
-          TextStyle(color: Colors.white),
-          23,
-        );
-
-    final Function(double) gridCheckToShowLine = (value) => true;
-    final Function(double) gridGetDrawingLine = (value) => FlLine();
-
+    
     test('ScatterChartData equality test', () {
-      final ScatterChartData sample = ScatterChartData(
-        minY: 0,
-        maxY: 12,
-        maxX: 22,
-        minX: 11,
-        axisTitleData: FlAxisTitleData(
-          show: true,
-          leftTitle: AxisTitle(
-            showTitle: true,
-            textStyle: TextStyle(color: Colors.red, fontSize: 33),
-            textAlign: TextAlign.left,
-            reservedSize: 22,
-            margin: 11,
-            titleText: 'title 1',
-          ),
-          bottomTitle: AxisTitle(
-            showTitle: false,
-            textStyle: TextStyle(color: Colors.grey, fontSize: 33),
-            textAlign: TextAlign.left,
-            reservedSize: 11,
-            margin: 11,
-            titleText: 'title 2',
-          ),
-          rightTitle: AxisTitle(
-            showTitle: false,
-            textStyle: TextStyle(color: Colors.blue, fontSize: 11),
-            textAlign: TextAlign.left,
-            reservedSize: 2,
-            margin: 1324,
-            titleText: 'title 3',
-          ),
-          topTitle: AxisTitle(
-            showTitle: true,
-            textStyle: TextStyle(color: Colors.green, fontSize: 33),
-            textAlign: TextAlign.left,
-            reservedSize: 23,
-            margin: 11,
-            titleText: 'title 4',
-          ),
-        ),
-        gridData: FlGridData(
-          show: false,
-          getDrawingHorizontalLine: gridGetDrawingLine,
-          getDrawingVerticalLine: gridGetDrawingLine,
-          checkToShowHorizontalLine: gridCheckToShowLine,
-          checkToShowVerticalLine: gridCheckToShowLine,
-          drawHorizontalLine: true,
-          drawVerticalLine: false,
-          horizontalInterval: 33,
-          verticalInterval: 1,
-        ),
-        backgroundColor: Colors.black,
-        clipToBorder: false,
-        borderData: FlBorderData(
-            show: true,
-            border: Border.all(
-              color: Colors.white,
-            )),
-        scatterSpots: [
-          ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
-          ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
-          ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
-        ],
-        scatterTouchData: ScatterTouchData(
-          enabled: true,
-          touchTooltipData: ScatterTouchTooltipData(
-            getTooltipItems: getTooltipItems,
-            fitInsideHorizontally: true,
-            fitInsideVertically: false,
-            maxContentWidth: 33,
-            tooltipBgColor: Colors.white,
-            tooltipPadding: const EdgeInsets.all(23),
-            tooltipRoundedRadius: 534,
-          ),
-          handleBuiltInTouches: false,
-          touchCallback: (response) {},
-          touchSpotThreshold: 12,
-        ),
-        showingTooltipIndicators: [0, 1, 2],
-        titlesData: FlTitlesData(
-          show: true,
-          leftTitles: SideTitles(showTitles: false),
-          rightTitles: SideTitles(reservedSize: 100, margin: 400, showTitles: true),
-          topTitles: SideTitles(showTitles: false),
-          bottomTitles: SideTitles(showTitles: false),
-        ),
-      );
-      final ScatterChartData sampleClone = ScatterChartData(
-        minY: 0,
-        maxY: 12,
-        maxX: 22,
-        minX: 11,
-        axisTitleData: FlAxisTitleData(
-          show: true,
-          leftTitle: AxisTitle(
-            showTitle: true,
-            textStyle: TextStyle(color: Colors.red, fontSize: 33),
-            textAlign: TextAlign.left,
-            reservedSize: 22,
-            margin: 11,
-            titleText: 'title 1',
-          ),
-          bottomTitle: AxisTitle(
-            showTitle: false,
-            textStyle: TextStyle(color: Colors.grey, fontSize: 33),
-            textAlign: TextAlign.left,
-            reservedSize: 11,
-            margin: 11,
-            titleText: 'title 2',
-          ),
-          rightTitle: AxisTitle(
-            showTitle: false,
-            textStyle: TextStyle(color: Colors.blue, fontSize: 11),
-            textAlign: TextAlign.left,
-            reservedSize: 2,
-            margin: 1324,
-            titleText: 'title 3',
-          ),
-          topTitle: AxisTitle(
-            showTitle: true,
-            textStyle: TextStyle(color: Colors.green, fontSize: 33),
-            textAlign: TextAlign.left,
-            reservedSize: 23,
-            margin: 11,
-            titleText: 'title 4',
-          ),
-        ),
-        gridData: FlGridData(
-          show: false,
-          getDrawingHorizontalLine: gridGetDrawingLine,
-          getDrawingVerticalLine: gridGetDrawingLine,
-          checkToShowHorizontalLine: gridCheckToShowLine,
-          checkToShowVerticalLine: gridCheckToShowLine,
-          drawHorizontalLine: true,
-          drawVerticalLine: false,
-          horizontalInterval: 33,
-          verticalInterval: 1,
-        ),
-        backgroundColor: Colors.black,
-        clipToBorder: false,
-        borderData: FlBorderData(
-            show: true,
-            border: Border.all(
-              color: Colors.white,
-            )),
-        scatterSpots: [
-          ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
-          ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
-          ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
-        ],
-        scatterTouchData: ScatterTouchData(
-          enabled: true,
-          touchTooltipData: ScatterTouchTooltipData(
-            getTooltipItems: getTooltipItems,
-            fitInsideHorizontally: true,
-            fitInsideVertically: false,
-            maxContentWidth: 33,
-            tooltipBgColor: Colors.white,
-            tooltipPadding: const EdgeInsets.all(23),
-            tooltipRoundedRadius: 534,
-          ),
-          handleBuiltInTouches: false,
-          touchCallback: (response) {},
-          touchSpotThreshold: 12,
-        ),
-        showingTooltipIndicators: [0, 1, 2],
-        titlesData: FlTitlesData(
-          show: true,
-          leftTitles: SideTitles(showTitles: false),
-          rightTitles: SideTitles(reservedSize: 100, margin: 400, showTitles: true),
-          topTitles: SideTitles(showTitles: false),
-          bottomTitles: SideTitles(showTitles: false),
-        ),
-      );
 
-      expect(sample == sampleClone, true);
-      expect(sample == sampleClone.copyWith(showingTooltipIndicators: []), false);
+      expect(scatterChartData1 == scatterChartData1Clone, true);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []), false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   borderData: FlBorderData(show: true, border: Border.all(color: Colors.green))),
           false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   borderData: FlBorderData(show: true, border: Border.all(color: Colors.white))),
           true);
-      expect(sample == sampleClone.copyWith(maxX: 444), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(maxX: 444), false);
       expect(
-          sample ==
-              sampleClone.copyWith(scatterSpots: [
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(scatterSpots: [
                 ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
                 ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
                 ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
               ]),
           true);
       expect(
-          sample ==
-              sampleClone.copyWith(scatterSpots: [
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(scatterSpots: [
                 ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
                 ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
                 ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
               ]),
           false);
-      expect(sample == sampleClone.copyWith(clipToBorder: true), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(clipToBorder: true), false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   gridData: FlGridData(
                 show: false,
                 getDrawingHorizontalLine: gridGetDrawingLine,
@@ -236,8 +55,8 @@ void main() {
               )),
           true);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   gridData: FlGridData(
                 show: true,
                 getDrawingHorizontalLine: gridGetDrawingLine,
@@ -251,8 +70,8 @@ void main() {
               )),
           false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   gridData: FlGridData(
                 show: false,
                 getDrawingHorizontalLine: (value) =>
@@ -268,8 +87,8 @@ void main() {
               )),
           false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   axisTitleData: FlAxisTitleData(
                 show: true,
                 leftTitle: AxisTitle(
@@ -307,8 +126,8 @@ void main() {
               )),
           true);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   axisTitleData: FlAxisTitleData(
                 show: true,
                 leftTitle: AxisTitle(
@@ -346,8 +165,8 @@ void main() {
               )),
           false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   axisTitleData: FlAxisTitleData(
                 show: true,
                 leftTitle: AxisTitle(
@@ -385,8 +204,8 @@ void main() {
               )),
           false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   axisTitleData: FlAxisTitleData(
                 show: true,
                 leftTitle: AxisTitle(
@@ -424,8 +243,8 @@ void main() {
               )),
           false);
       expect(
-          sample ==
-              sampleClone.copyWith(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
                   axisTitleData: FlAxisTitleData(
                 show: true,
                 leftTitle: AxisTitle(
@@ -463,9 +282,9 @@ void main() {
               )),
           false);
 
-      expect(sample == sampleClone.copyWith(showingTooltipIndicators: []), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []), false);
 
-      expect(sample == sampleClone.copyWith(showingTooltipIndicators: [2, 1, 0]), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: [2, 1, 0]), false);
     });
 
     test('ScatterSpot equality test', () {
@@ -571,7 +390,7 @@ void main() {
         maxContentWidth: 33,
         fitInsideVertically: true,
         fitInsideHorizontally: false,
-        getTooltipItems: getTooltipItems,
+        getTooltipItems: scatterChartGetTooltipItems,
       );
       final ScatterTouchTooltipData sample2 = ScatterTouchTooltipData(
         tooltipRoundedRadius: 23,
@@ -580,7 +399,7 @@ void main() {
         maxContentWidth: 33,
         fitInsideVertically: true,
         fitInsideHorizontally: false,
-        getTooltipItems: getTooltipItems,
+        getTooltipItems: scatterChartGetTooltipItems,
       );
       expect(sample1 == sample2, true);
     });
