@@ -2621,7 +2621,6 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
 );
 
 final Function(BarTouchResponse) barTouchCallback = (response) {
-  print(response);
 };
 
 final BarTouchData barTouchData1 = BarTouchData(

@@ -100,7 +100,6 @@ class LineChartSample1State extends State<LineChartSample1> {
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
         ),
         touchCallback: (LineTouchResponse touchResponse) {
-          print(touchResponse);
         },
         handleBuiltInTouches: true,
       ),
