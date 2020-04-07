@@ -42,6 +42,8 @@ follow when creating a PR:
 
 - Make a descriptive title that summarizes what changes were in the PR.
 
+- Link to issues that this PR will fix (if any).
+
 - If your PR adds a feature or fixes a bug, it must add one or more tests.
 
 - Change your code according to feedback (if any).
