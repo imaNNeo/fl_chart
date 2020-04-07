@@ -21,11 +21,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
         AspectRatio(
           aspectRatio: 1.70,
           child: Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
                   Radius.circular(18),
                 ),
-                color: const Color(0xff232d37)),
+                color: Color(0xff232d37)),
             child: Padding(
               padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
               child: LineChart(
@@ -78,7 +78,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           showTitles: true,
           reservedSize: 22,
           textStyle:
-              TextStyle(color: const Color(0xff68737d), fontWeight: FontWeight.bold, fontSize: 16),
+              const TextStyle(color: Color(0xff68737d), fontWeight: FontWeight.bold, fontSize: 16),
           getTitles: (value) {
             switch (value.toInt()) {
               case 2:
@@ -94,8 +94,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(
-            color: const Color(0xff67727d),
+          textStyle: const TextStyle(
+            color: Color(0xff67727d),
             fontWeight: FontWeight.bold,
             fontSize: 15,
           ),
@@ -172,7 +172,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           showTitles: true,
           reservedSize: 22,
           textStyle:
-              TextStyle(color: const Color(0xff68737d), fontWeight: FontWeight.bold, fontSize: 16),
+              const TextStyle(color: Color(0xff68737d), fontWeight: FontWeight.bold, fontSize: 16),
           getTitles: (value) {
             switch (value.toInt()) {
               case 2:
@@ -188,8 +188,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(
-            color: const Color(0xff67727d),
+          textStyle: const TextStyle(
+            color: Color(0xff67727d),
             fontWeight: FontWeight.bold,
             fontSize: 15,
           ),

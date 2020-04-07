@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 /// It holds data needed to draw a bar chart,
 /// including bar lines, colors, spaces, touches, ...
 class BarChartData extends AxisChartData {
-
   /// [BarChart] draws [barGroups] that each of them contains a list of [BarChartRodData].
   final List<BarChartGroupData> barGroups;
 
@@ -60,7 +59,7 @@ class BarChartData extends AxisChartData {
     RangeAnnotations rangeAnnotations = const RangeAnnotations(),
     Color backgroundColor,
   }) : super(
-    axisTitleData: axisTitleData,
+          axisTitleData: axisTitleData,
           gridData: gridData,
           borderData: borderData,
           rangeAnnotations: rangeAnnotations,
@@ -182,7 +181,6 @@ enum BarChartAlignment {
 /// if you want to have grouped bars, simply put them in each group,
 /// otherwise just pass one of them in each group.
 class BarChartGroupData {
-
   /// defines the group's value among the x axis (simply set it incrementally).
   @required
   final int x;
@@ -256,7 +254,6 @@ class BarChartGroupData {
 
 /// Holds data about rendering each rod (or bar) in the [BarChart].
 class BarChartRodData {
-
   /// [BarChart] renders rods vertically from zero to [y].
   final double y;
 
@@ -308,7 +305,7 @@ class BarChartRodData {
     BorderRadius borderRadius,
     this.backDrawRodData = const BackgroundBarChartRodData(),
     this.rodStackItem = const [],
-  }) :borderRadius = normalizeBorderRadius(borderRadius, width);
+  }) : borderRadius = normalizeBorderRadius(borderRadius, width);
 
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
@@ -348,7 +345,6 @@ class BarChartRodData {
 /// Each [BarChartRodData] can have a list of [BarChartRodStackItem] (with different colors
 /// and position) to represent a Stacked Chart rod,
 class BarChartRodStackItem {
-
   /// Renders a Stacked Chart section from [fromY]
   final double fromY;
 
@@ -403,7 +399,6 @@ class BarChartRodStackItem {
 /// it uses to have a bar with a passive color in rear of the rod,
 /// for example you can use it as the maximum value place holder in rear of your rod.
 class BackgroundBarChartRodData {
-
   /// Determines to show or hide this
   final bool show;
 
@@ -439,7 +434,6 @@ class BackgroundBarChartRodData {
 /// in a simple way, each chart captures the touch events, and passes a concrete
 /// instance of [FlTouchInput] to the painter, and gets a generated [BarTouchResponse].
 class BarTouchData extends FlTouchData {
-
   /// Configs of how touch tooltip popup.
   final BarTouchTooltipData touchTooltipData;
 
@@ -499,7 +493,6 @@ class BarTouchData extends FlTouchData {
 
 /// Holds representation data for showing tooltip popup on top of rods.
 class BarTouchTooltipData {
-
   /// The tooltip background color.
   final Color tooltipBgColor;
 
@@ -568,7 +561,7 @@ BarTooltipItem defaultBarTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
-  final TextStyle textStyle = TextStyle(
+  const TextStyle textStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
     fontSize: 14,
@@ -578,7 +571,6 @@ BarTooltipItem defaultBarTooltipItem(
 
 /// Holds data needed for showing custom tooltip content.
 class BarTooltipItem {
-
   /// Text of the content.
   final String text;
 
@@ -594,7 +586,6 @@ class BarTooltipItem {
 /// You can override [BarTouchData.touchCallback] to handle touch events,
 /// it gives you a [BarTouchResponse] and you can do whatever you want.
 class BarTouchResponse extends BaseTouchResponse {
-
   /// Gives information about the touched spot
   final BarTouchedSpot spot;
 
@@ -629,7 +620,6 @@ class BarTouchedSpot extends TouchedSpot {
     FlSpot spot,
     Offset offset,
   ) : super(spot, offset);
-
 }
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)
@@ -639,5 +629,4 @@ class BarChartDataTween extends Tween<BarChartData> {
   /// Lerps a [BarChartData] based on [t] value, check [Tween.lerp].
   @override
   BarChartData lerp(double t) => begin.lerp(begin, end, t);
-
 }

@@ -11,7 +11,6 @@ import 'scatter_chart_data.dart';
 /// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     with TouchHandler<ScatterTouchResponse> {
-
   /// [_spotsPaint] is responsible to draw scatter spots
   Paint _spotsPaint, _bgTouchTooltipPaint;
 

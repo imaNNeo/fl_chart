@@ -39,10 +39,10 @@ class LineChartSample1State extends State<LineChartSample1> {
                 const SizedBox(
                   height: 37,
                 ),
-                Text(
+                const Text(
                   'Unfold Shop 2018',
                   style: TextStyle(
-                    color: const Color(0xff827daa),
+                    color: Color(0xff827daa),
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
@@ -50,7 +50,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                 const SizedBox(
                   height: 4,
                 ),
-                Text(
+                const Text(
                   'Monthly Sales',
                   style: TextStyle(
                       color: Colors.white,
@@ -67,7 +67,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                     padding: const EdgeInsets.only(right: 16.0, left: 6.0),
                     child: LineChart(
                       isShowingMainData ? sampleData1() : sampleData2(),
-                      swapAnimationDuration: Duration(milliseconds: 250),
+                      swapAnimationDuration: const Duration(milliseconds: 250),
                     ),
                   ),
                 ),
@@ -111,8 +111,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: TextStyle(
-            color: const Color(0xff72719b),
+          textStyle: const TextStyle(
+            color: Color(0xff72719b),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -131,8 +131,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(
-            color: const Color(0xff75729e),
+          textStyle: const TextStyle(
+            color: Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -155,9 +155,9 @@ class LineChartSample1State extends State<LineChartSample1> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(
+        border: const Border(
           bottom: BorderSide(
-            color: const Color(0xff4e4965),
+            color: Color(0xff4e4965),
             width: 4,
           ),
           left: BorderSide(
@@ -180,7 +180,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   }
 
   List<LineChartBarData> linesBarData1() {
-    LineChartBarData lineChartBarData1 = const LineChartBarData(
+    const LineChartBarData lineChartBarData1 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 1.5),
@@ -203,7 +203,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
     );
-    final LineChartBarData lineChartBarData2 = LineChartBarData(
+    const LineChartBarData lineChartBarData2 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 2.8),
@@ -225,8 +225,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         Color(0x00aa4cfc),
       ]),
     );
-    LineChartBarData lineChartBarData3 = LineChartBarData(
-      spots: const [
+    const LineChartBarData lineChartBarData3 = LineChartBarData(
+      spots: [
         FlSpot(1, 2.8),
         FlSpot(3, 1.9),
         FlSpot(6, 3),
@@ -234,15 +234,15 @@ class LineChartSample1State extends State<LineChartSample1> {
         FlSpot(13, 2.5),
       ],
       isCurved: true,
-      colors: const [
+      colors: [
         Color(0xff27b6fc),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
-      dotData: const FlDotData(
+      dotData: FlDotData(
         show: false,
       ),
-      belowBarData: const BarAreaData(
+      belowBarData: BarAreaData(
         show: false,
       ),
     );
@@ -265,8 +265,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: TextStyle(
-            color: const Color(0xff72719b),
+          textStyle: const TextStyle(
+            color: Color(0xff72719b),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -285,8 +285,8 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(
-            color: const Color(0xff75729e),
+          textStyle: const TextStyle(
+            color: Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -311,9 +311,9 @@ class LineChartSample1State extends State<LineChartSample1> {
       ),
       borderData: FlBorderData(
           show: true,
-          border: Border(
+          border: const Border(
             bottom: BorderSide(
-              color: const Color(0xff4e4965),
+              color: Color(0xff4e4965),
               width: 4,
             ),
             left: BorderSide(

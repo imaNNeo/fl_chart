@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 /// Each touch gesture should be contained an offset,
 /// that determines the touch location in the screen.
 abstract class FlTouchInput {
-
   /// Determines the touch location in the screen.
   Offset getOffset();
-
 }
 
 /// Abstract class for long touches input
@@ -16,7 +14,6 @@ abstract class FlTouchLongInput extends FlTouchInput {}
 
 /// Represents a [GestureDetector.onLongPressStart] event.
 class FlLongPressStart extends FlTouchLongInput {
-
   /// It is a localized touch position inside our widget,
   /// it represents [LongPressStartDetails.localPosition].
   final Offset localPosition;
@@ -31,12 +28,10 @@ class FlLongPressStart extends FlTouchLongInput {
   Offset getOffset() {
     return localPosition;
   }
-
 }
 
 /// Represents a [GestureDetector.onLongPressMoveUpdate] event.
 class FlLongPressMoveUpdate extends FlTouchLongInput {
-
   /// It is a localized touch position inside our widget,
   /// it represents [LongPressMoveUpdateDetails.localPosition].
   final Offset localPosition;
@@ -51,12 +46,10 @@ class FlLongPressMoveUpdate extends FlTouchLongInput {
   Offset getOffset() {
     return localPosition;
   }
-
 }
 
 /// Represents a [GestureDetector.onLongPressEnd] event.
 class FlLongPressEnd extends FlTouchLongInput {
-
   /// It is a localized touch position inside our widget,
   /// it represents [LongPressEndDetails.localPosition].
   final Offset localPosition;
@@ -78,7 +71,6 @@ abstract class FlTouchNormalInput extends FlTouchInput {}
 
 /// Represents a [GestureDetector.onPanDown] event.
 class FlPanStart extends FlTouchNormalInput {
-
   /// It is a localized touch position inside our widget,
   /// it represents [DragDownDetails.localPosition].
   final Offset localPosition;
@@ -93,12 +85,10 @@ class FlPanStart extends FlTouchNormalInput {
   Offset getOffset() {
     return localPosition;
   }
-
 }
 
 /// Represents a [GestureDetector.onPanUpdate] event.
 class FlPanMoveUpdate extends FlTouchNormalInput {
-
   /// It is a localized touch position inside our widget,
   /// it represents [DragUpdateDetails.localPosition].
   final Offset localPosition;
@@ -117,7 +107,6 @@ class FlPanMoveUpdate extends FlTouchNormalInput {
 
 /// Represents a [GestureDetector.onPanEnd] event.
 class FlPanEnd extends FlTouchNormalInput {
-
   /// It is a localized touch position inside our widget.
   final Offset localPosition;
 
@@ -136,5 +125,4 @@ class FlPanEnd extends FlTouchNormalInput {
   Offset getOffset() {
     return localPosition;
   }
-
 }

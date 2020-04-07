@@ -181,7 +181,6 @@ class ScatterChartData extends AxisChartData {
 
 /// Defines information about a spot in the [ScatterChart]
 class ScatterSpot extends FlSpot {
-
   /// Determines show or hide the spot.
   final bool show;
 
@@ -294,7 +293,6 @@ class ScatterTouchResponse extends BaseTouchResponse {
 
 /// Holds representation data for showing tooltip popup on top of spots.
 class ScatterTouchTooltipData {
-
   /// The tooltip background color.
   final Color tooltipBgColor;
 
@@ -363,7 +361,6 @@ ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
 
 /// Holds data of showing each item in the tooltip popup.
 class ScatterTooltipItem {
-
   /// Showing text.
   final String text;
 

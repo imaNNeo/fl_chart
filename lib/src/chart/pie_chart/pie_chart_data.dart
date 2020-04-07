@@ -12,7 +12,6 @@ import 'pie_chart.dart';
 /// It holds data needed to draw a pie chart,
 /// including pie sections, colors, ...
 class PieChartData extends BaseChartData {
-
   /// Defines showing sections of the [PieChart].
   final List<PieChartSectionData> sections;
 
@@ -78,7 +77,6 @@ class PieChartData extends BaseChartData {
 
 /// Holds data related to drawing each [PieChart] section.
 class PieChartSectionData {
-
   /// It determines how much space it should occupy around the circle.
   ///
   /// This is depends on sum of all sections, each section should

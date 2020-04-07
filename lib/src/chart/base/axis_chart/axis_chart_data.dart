@@ -72,7 +72,6 @@ class FlAxisTitleData {
 
 /// Holds data for showing title of each side of charts.
 class AxisTitle {
-
   /// You can show or hide it using [showTitle],
   final bool showTitle;
 
@@ -118,7 +117,7 @@ class AxisTitle {
       titleText: b.titleText,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
-        b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
+          b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
       textAlign: b.textAlign,
       margin: lerpDouble(a.margin, b.margin, t),
     );
@@ -246,12 +245,10 @@ class FlSpot {
       lerpDouble(a.y, b.y, t),
     );
   }
-
 }
 
 /// Responsible to hold grid data,
 class FlGridData {
-
   /// Determines showing or hiding all horizontal and vertical lines.
   final bool show;
 
@@ -327,7 +324,6 @@ class FlGridData {
       checkToShowVerticalLine: b.checkToShowVerticalLine,
     );
   }
-
 }
 
 /// Determines showing or hiding specified line.
@@ -354,7 +350,6 @@ FlLine defaultGridLine(double value) {
 
 /// Defines style of a line.
 class FlLine {
-
   /// Defines color of the line.
   final Color color;
 
@@ -384,12 +379,10 @@ class FlLine {
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
-
 }
 
 /// holds information about touched spot on the axis based charts.
 abstract class TouchedSpot {
-
   /// Represents the spot inside our axis based chart,
   /// 0, 0 is bottom left, and 1, 1 is top right.
   final FlSpot spot;
@@ -425,17 +418,15 @@ class RangeAnnotations {
   static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
       horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
-        a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+          a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
       verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
-        a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+          a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
-
 }
 
 /// Defines an annotation region in y (vertical) axis.
 class HorizontalRangeAnnotation {
-
   /// Determines starting point in vertical (y) axis.
   final double y1;
 
@@ -455,19 +446,17 @@ class HorizontalRangeAnnotation {
 
   /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static HorizontalRangeAnnotation lerp(
-    HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+      HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
     return HorizontalRangeAnnotation(
       y1: lerpDouble(a.y1, b.y1, t),
       y2: lerpDouble(a.y2, b.y2, t),
       color: Color.lerp(a.color, b.color, t),
     );
   }
-
 }
 
 /// Defines an annotation region in x (horizontal) axis.
 class VerticalRangeAnnotation {
-
   /// Determines starting point in horizontal (x) axis.
   final double x1;
 
@@ -476,7 +465,6 @@ class VerticalRangeAnnotation {
 
   /// Fills the area with this color.
   final Color color;
-
 
   /// Annotates a vertical region from most bottom to most top point of the chart, and
   /// from [x1] to [x2], and fills the area with [color].
@@ -488,12 +476,11 @@ class VerticalRangeAnnotation {
 
   /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static VerticalRangeAnnotation lerp(
-    VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+      VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
     return VerticalRangeAnnotation(
       x1: lerpDouble(a.x1, b.x1, t),
       x2: lerpDouble(a.x2, b.x2, t),
       color: Color.lerp(a.color, b.color, t),
     );
   }
-
 }

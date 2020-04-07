@@ -17,7 +17,6 @@ import 'line_chart_data.dart';
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData>
     with TouchHandler<LineTouchResponse> {
-
   Paint _barPaint,
       _barAreaPaint,
       _barAreaLinesPaint,
@@ -140,7 +139,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _clipToBorder(ui.Canvas canvas, ui.Size size,) {
+  void _clipToBorder(
+    ui.Canvas canvas,
+    ui.Size size,
+  ) {
     final usableSize = getChartUsableDrawSize(size);
 
     double left = 0;
@@ -255,7 +257,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     for (int i = 0; i < barData.showingIndicators.length; i++) {
       final TouchedSpotIndicatorData indicatorData = indicatorsData[i];
       final int index = barData.showingIndicators[i];
-      FlSpot spot = barData.spots[index];
+      final FlSpot spot = barData.spots[index];
 
       if (indicatorData == null) {
         continue;
@@ -1223,5 +1225,4 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// [LineChartPainter] should repaint itself.
   @override
   bool shouldRepaint(LineChartPainter oldDelegate) => oldDelegate.data != data;
-
 }

@@ -20,7 +20,7 @@ class _ScatterChartSample2State extends State {
     return AspectRatio(
       aspectRatio: 1,
       child: Card(
-        color: Color(0xff222222),
+        color: const Color(0xff222222),
         child: ScatterChart(
           ScatterChartData(
             scatterSpots: [

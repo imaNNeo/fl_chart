@@ -66,16 +66,16 @@ class BarChartSample2State extends State<BarChartSample2> {
                   const SizedBox(
                     width: 38,
                   ),
-                  Text(
+                  const Text(
                     'Transactions',
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                   const SizedBox(
                     width: 4,
                   ),
-                  Text(
+                  const Text(
                     'state',
-                    style: TextStyle(color: const Color(0xff77839a), fontSize: 16),
+                    style: TextStyle(color: Color(0xff77839a), fontSize: 16),
                   ),
                 ],
               ),

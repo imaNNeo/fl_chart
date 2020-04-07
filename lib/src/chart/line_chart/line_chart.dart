@@ -9,7 +9,6 @@ import 'line_chart_painter.dart';
 
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
-
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;
 
@@ -24,7 +23,6 @@ class LineChart extends ImplicitlyAnimatedWidget {
   /// Creates a [_LineChartState]
   @override
   _LineChartState createState() => _LineChartState();
-
 }
 
 class _LineChartState extends AnimatedWidgetBaseState<LineChart> {

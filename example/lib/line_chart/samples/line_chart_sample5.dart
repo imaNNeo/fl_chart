@@ -9,7 +9,7 @@ class LineChartSample5 extends StatelessWidget {
     final lineBarsData = [
       LineChartBarData(
         showingIndicators: showIndexes,
-        spots: [
+        spots: const [
           FlSpot(0, 1),
           FlSpot(1, 2),
           FlSpot(2, 1.5),
@@ -20,10 +20,10 @@ class LineChartSample5 extends StatelessWidget {
         ],
         isCurved: true,
         barWidth: 4,
-        belowBarData: BarAreaData(
+        belowBarData: const BarAreaData(
           show: true,
         ),
-        dotData: FlDotData(show: false),
+        dotData: const FlDotData(show: false),
       ),
     ];
 
@@ -52,7 +52,7 @@ class LineChartSample5 extends StatelessWidget {
                 return lineBarsSpot.map((lineBarSpot) {
                   return LineTooltipItem(
                     lineBarSpot.y.toString(),
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   );
                 }).toList();
               },
@@ -85,7 +85,7 @@ class LineChartSample5 extends StatelessWidget {
                   }
                   return '';
                 },
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.blueGrey,
                   fontFamily: 'Digital',
