@@ -3,7 +3,6 @@ import '../data_pool.dart';
 
 void main() {
   group('LineChart data equality check', () {
-
     test('LineChartBarData equality test', () {
       expect(lineChartBarData1 == lineChartBarData1Clone, true);
       expect(lineChartBarData1 == lineChartBarData2, false);

@@ -5,7 +5,6 @@ import '../data_pool.dart';
 
 void main() {
   group('BarChart data equality check', () {
-
     test('BarChartGroupData equality test', () {
       expect(barChartGroupData1 == barChartGroupData1Clone, true);
       expect(barChartGroupData1 == barChartGroupData2, false);
@@ -85,7 +84,6 @@ void main() {
       expect(barTouchTooltipData1 == barTouchTooltipData7, false);
       expect(barTouchTooltipData1 == barTouchTooltipData8, false);
       expect(barTouchTooltipData1 == barTouchTooltipData9, false);
-
     });
 
     test('BarTooltipItem equality test', () {

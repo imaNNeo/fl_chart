@@ -4,14 +4,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
-VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
+    VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
 final VerticalRangeAnnotation verticalRangeAnnotation1Clone =
-VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
+    VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
 
 final HorizontalRangeAnnotation horizontalRangeAnnotation1 =
-HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
+    HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
 final HorizontalRangeAnnotation horizontalRangeAnnotation1Clone =
-HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
+    HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
 
 final RangeAnnotations rangeAnnotations1 = RangeAnnotations(horizontalRangeAnnotations: [
   horizontalRangeAnnotation1,
@@ -397,9 +397,9 @@ final FlBorderData borderData2 = FlBorderData(
 final Function(FlSpot) checkToShowSpotLine = (spot) => true;
 
 final BarAreaSpotsLine barAreaSpotsLine1 =
-BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
+    BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
 final BarAreaSpotsLine barAreaSpotsLine1Clone =
-BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
+    BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
 
 final BarAreaSpotsLine barAreaSpotsLine2 = BarAreaSpotsLine(
   show: true,
@@ -458,8 +458,7 @@ final BarAreaData barAreaData4 = BarAreaData(
   spotsLine: barAreaSpotsLine2,
 );
 
-final Function(FlSpot, double, LineChartBarData) getDotColor =
-  (spot, percent, bar) => Colors.green;
+final Function(FlSpot, double, LineChartBarData) getDotColor = (spot, percent, bar) => Colors.green;
 final Function(FlSpot spot) checkToShowDot = (spot) => true;
 
 final FlDotData flDotData1 = FlDotData(
@@ -872,8 +871,7 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData6 = TouchedSpotIndicatorD
 );
 
 final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', TextStyle(color: Colors.green));
-final LineTooltipItem lineTooltipItem1Clone =
-LineTooltipItem('', TextStyle(color: Colors.green));
+final LineTooltipItem lineTooltipItem1Clone = LineTooltipItem('', TextStyle(color: Colors.green));
 
 final LineTooltipItem lineTooltipItem2 = LineTooltipItem('ss', TextStyle(color: Colors.green));
 final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', TextStyle(color: Colors.blue));
@@ -948,7 +946,7 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
 final Function(LineTouchResponse) lineTouchCallback = (response) {};
 
 final Function(LineChartBarData barData, List<int> spotIndexes) getTouchedSpotIndicator =
-  (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
+    (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
 
 final LineTouchData lineTouchData1 = LineTouchData(
   enabled: true,
@@ -1983,7 +1981,6 @@ final PieChartData pieChartData1 = PieChartData(
 );
 final PieChartData pieChartData1Clone = pieChartData1.copyWith();
 
-
 final Function(double) gridCheckToShowLine = (value) => true;
 final Function(double) gridGetDrawingLine = (value) => FlLine();
 
@@ -2045,10 +2042,10 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
   backgroundColor: Colors.black,
   clipToBorder: false,
   borderData: FlBorderData(
-    show: true,
-    border: Border.all(
-      color: Colors.white,
-    )),
+      show: true,
+      border: Border.all(
+        color: Colors.white,
+      )),
   scatterSpots: [
     ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
     ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
@@ -2132,10 +2129,10 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
   backgroundColor: Colors.black,
   clipToBorder: false,
   borderData: FlBorderData(
-    show: true,
-    border: Border.all(
-      color: Colors.white,
-    )),
+      show: true,
+      border: Border.all(
+        color: Colors.white,
+      )),
   scatterSpots: [
     ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
     ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
@@ -2510,7 +2507,7 @@ BarTooltipItem getTooltipItem(
   int groupIndex,
   BarChartRodData rod,
   int rodIndex,
-  ) {
+) {
   final TextStyle textStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
@@ -2620,8 +2617,7 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipBottomMargin: 333,
 );
 
-final Function(BarTouchResponse) barTouchCallback = (response) {
-};
+final Function(BarTouchResponse) barTouchCallback = (response) {};
 
 final BarTouchData barTouchData1 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
@@ -2670,7 +2666,8 @@ final BarTouchData barTouchData5 = BarTouchData(
   enabled: false,
   allowTouchBarBackDraw: true,
   touchExtraThreshold: const EdgeInsets.all(12),
-);final BarTouchData barTouchData6 = BarTouchData(
+);
+final BarTouchData barTouchData6 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
   handleBuiltInTouches: false,
   touchCallback: barTouchCallback,
@@ -2703,7 +2700,6 @@ final BarTouchData barTouchData9 = BarTouchData(
   touchExtraThreshold: const EdgeInsets.only(left: 12),
 );
 
-
 final BarChartData barChartData1 = BarChartData(
   minY: 12,
   titlesData: flTitlesData1,
@@ -2723,13 +2719,12 @@ final BarChartData barChartData1 = BarChartData(
   groupsSpace: 23,
 );
 final BarChartData barChartData1Clone = barChartData1.copyWith(
-  titlesData: flTitlesData1Clone,
-  gridData: flGridData1Clone,
-  axisTitleData: flAxisTitleData1Clone,
-  borderData: borderData1Clone,
-  barTouchData: barTouchData1Clone,
-  rangeAnnotations: rangeAnnotations1Clone
-);
+    titlesData: flTitlesData1Clone,
+    gridData: flGridData1Clone,
+    axisTitleData: flAxisTitleData1Clone,
+    borderData: borderData1Clone,
+    barTouchData: barTouchData1Clone,
+    rangeAnnotations: rangeAnnotations1Clone);
 
 final BarChartData barChartData2 = barChartData1.copyWith(
   minY: 11,
@@ -2762,7 +2757,7 @@ final BarChartData barChartData11 = barChartData1.copyWith(
   barGroups: [],
 );
 final BarChartData barChartData12 = barChartData1.copyWith(
-  barGroups:  [
+  barGroups: [
     barChartGroupData3,
     barChartGroupData1,
     barChartGroupData2,

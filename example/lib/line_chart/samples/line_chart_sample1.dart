@@ -99,8 +99,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
         ),
-        touchCallback: (LineTouchResponse touchResponse) {
-        },
+        touchCallback: (LineTouchResponse touchResponse) {},
         handleBuiltInTouches: true,
       ),
       gridData: FlGridData(

@@ -6,11 +6,10 @@ import '../data_pool.dart';
 
 void main() {
   group('ScatterChart data equality check', () {
-    
     test('ScatterChartData equality test', () {
-
       expect(scatterChartData1 == scatterChartData1Clone, true);
-      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []),
+          false);
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
@@ -282,9 +281,12 @@ void main() {
               )),
           false);
 
-      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []),
+          false);
 
-      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: [2, 1, 0]), false);
+      expect(
+          scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: [2, 1, 0]),
+          false);
     });
 
     test('ScatterSpot equality test', () {

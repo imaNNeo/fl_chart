@@ -6,7 +6,6 @@ import '../data_pool.dart';
 void main() {
   group('PieChart data equality check', () {
     test('PieChartData equality test', () {
-
       expect(pieChartData1 == pieChartData1Clone, true);
 
       expect(
