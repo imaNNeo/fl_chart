@@ -5,12 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ScatterChart data equality check', () {
-
     final Function(ScatterSpot) getTooltipItems = (touchedSpot) => ScatterTooltipItem(
-      'test',
-      TextStyle(color: Colors.white),
-      23,
-    );
+          'test',
+          TextStyle(color: Colors.white),
+          23,
+        );
 
     final Function(double) gridCheckToShowLine = (value) => true;
     final Function(double) gridGetDrawingLine = (value) => FlLine();
@@ -70,10 +69,10 @@ void main() {
         backgroundColor: Colors.black,
         clipToBorder: false,
         borderData: FlBorderData(
-          show: true,
-          border: Border.all(
-            color: Colors.white,
-          )),
+            show: true,
+            border: Border.all(
+              color: Colors.white,
+            )),
         scatterSpots: [
           ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
           ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
@@ -157,10 +156,10 @@ void main() {
         backgroundColor: Colors.black,
         clipToBorder: false,
         borderData: FlBorderData(
-          show: true,
-          border: Border.all(
-            color: Colors.white,
-          )),
+            show: true,
+            border: Border.all(
+              color: Colors.white,
+            )),
         scatterSpots: [
           ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
           ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
@@ -194,285 +193,279 @@ void main() {
       expect(sample == sampleClone, true);
       expect(sample == sampleClone.copyWith(showingTooltipIndicators: []), false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            borderData: FlBorderData(show: true, border: Border.all(color: Colors.green))),
-        false);
+          sample ==
+              sampleClone.copyWith(
+                  borderData: FlBorderData(show: true, border: Border.all(color: Colors.green))),
+          false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            borderData: FlBorderData(show: true, border: Border.all(color: Colors.white))),
-        true);
+          sample ==
+              sampleClone.copyWith(
+                  borderData: FlBorderData(show: true, border: Border.all(color: Colors.white))),
+          true);
       expect(sample == sampleClone.copyWith(maxX: 444), false);
       expect(
-        sample ==
-          sampleClone.copyWith(scatterSpots: [
-            ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
-            ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
-            ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
-          ]),
-        true);
+          sample ==
+              sampleClone.copyWith(scatterSpots: [
+                ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
+                ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
+                ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
+              ]),
+          true);
       expect(
-        sample ==
-          sampleClone.copyWith(scatterSpots: [
-            ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
-            ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
-            ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
-          ]),
-        false);
+          sample ==
+              sampleClone.copyWith(scatterSpots: [
+                ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
+                ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
+                ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
+              ]),
+          false);
       expect(sample == sampleClone.copyWith(clipToBorder: true), false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            gridData: FlGridData(
-              show: false,
-              getDrawingHorizontalLine: gridGetDrawingLine,
-              getDrawingVerticalLine: gridGetDrawingLine,
-              checkToShowHorizontalLine: gridCheckToShowLine,
-              checkToShowVerticalLine: gridCheckToShowLine,
-              drawHorizontalLine: true,
-              drawVerticalLine: false,
-              horizontalInterval: 33,
-              verticalInterval: 1,
-            )),
-        true);
+          sample ==
+              sampleClone.copyWith(
+                  gridData: FlGridData(
+                show: false,
+                getDrawingHorizontalLine: gridGetDrawingLine,
+                getDrawingVerticalLine: gridGetDrawingLine,
+                checkToShowHorizontalLine: gridCheckToShowLine,
+                checkToShowVerticalLine: gridCheckToShowLine,
+                drawHorizontalLine: true,
+                drawVerticalLine: false,
+                horizontalInterval: 33,
+                verticalInterval: 1,
+              )),
+          true);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            gridData: FlGridData(
-              show: true,
-              getDrawingHorizontalLine: gridGetDrawingLine,
-              getDrawingVerticalLine: gridGetDrawingLine,
-              checkToShowHorizontalLine: gridCheckToShowLine,
-              checkToShowVerticalLine: gridCheckToShowLine,
-              drawHorizontalLine: true,
-              drawVerticalLine: false,
-              horizontalInterval: 33,
-              verticalInterval: 1,
-            )),
-        false);
+          sample ==
+              sampleClone.copyWith(
+                  gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: gridGetDrawingLine,
+                getDrawingVerticalLine: gridGetDrawingLine,
+                checkToShowHorizontalLine: gridCheckToShowLine,
+                checkToShowVerticalLine: gridCheckToShowLine,
+                drawHorizontalLine: true,
+                drawVerticalLine: false,
+                horizontalInterval: 33,
+                verticalInterval: 1,
+              )),
+          false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            gridData: FlGridData(
-              show: false,
-              getDrawingHorizontalLine: (value) =>
-                FlLine(color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
-              getDrawingVerticalLine: (value) =>
-                FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
-              checkToShowHorizontalLine: (value) => false,
-              checkToShowVerticalLine: (value) => true,
-              drawHorizontalLine: true,
-              drawVerticalLine: false,
-              horizontalInterval: 32,
-              verticalInterval: 1,
-            )),
-        false);
+          sample ==
+              sampleClone.copyWith(
+                  gridData: FlGridData(
+                show: false,
+                getDrawingHorizontalLine: (value) =>
+                    FlLine(color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
+                getDrawingVerticalLine: (value) =>
+                    FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
+                checkToShowHorizontalLine: (value) => false,
+                checkToShowVerticalLine: (value) => true,
+                drawHorizontalLine: true,
+                drawVerticalLine: false,
+                horizontalInterval: 32,
+                verticalInterval: 1,
+              )),
+          false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            axisTitleData: FlAxisTitleData(
-              show: true,
-              leftTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.red, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 22,
-                margin: 11,
-                titleText: 'title 1',
-              ),
-              bottomTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.grey, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 11,
-                margin: 11,
-                titleText: 'title 2',
-              ),
-              rightTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.blue, fontSize: 11),
-                textAlign: TextAlign.left,
-                reservedSize: 2,
-                margin: 1324,
-                titleText: 'title 3',
-              ),
-              topTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.green, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 23,
-                margin: 11,
-                titleText: 'title 4',
-              ),
-            )),
-        true);
+          sample ==
+              sampleClone.copyWith(
+                  axisTitleData: FlAxisTitleData(
+                show: true,
+                leftTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.red, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 22,
+                  margin: 11,
+                  titleText: 'title 1',
+                ),
+                bottomTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.grey, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 11,
+                  margin: 11,
+                  titleText: 'title 2',
+                ),
+                rightTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.blue, fontSize: 11),
+                  textAlign: TextAlign.left,
+                  reservedSize: 2,
+                  margin: 1324,
+                  titleText: 'title 3',
+                ),
+                topTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.green, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 23,
+                  margin: 11,
+                  titleText: 'title 4',
+                ),
+              )),
+          true);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            axisTitleData: FlAxisTitleData(
-              show: true,
-              leftTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.red, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 21,
-                margin: 11,
-                titleText: 'title 1',
-              ),
-              bottomTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.grey, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 11,
-                margin: 11,
-                titleText: 'title 2',
-              ),
-              rightTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.blue, fontSize: 11),
-                textAlign: TextAlign.left,
-                reservedSize: 2,
-                margin: 1324,
-                titleText: 'title 3',
-              ),
-              topTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.green, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 23,
-                margin: 11,
-                titleText: 'title 4',
-              ),
-            )),
-        false);
+          sample ==
+              sampleClone.copyWith(
+                  axisTitleData: FlAxisTitleData(
+                show: true,
+                leftTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.red, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 21,
+                  margin: 11,
+                  titleText: 'title 1',
+                ),
+                bottomTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.grey, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 11,
+                  margin: 11,
+                  titleText: 'title 2',
+                ),
+                rightTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.blue, fontSize: 11),
+                  textAlign: TextAlign.left,
+                  reservedSize: 2,
+                  margin: 1324,
+                  titleText: 'title 3',
+                ),
+                topTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.green, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 23,
+                  margin: 11,
+                  titleText: 'title 4',
+                ),
+              )),
+          false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            axisTitleData: FlAxisTitleData(
-              show: true,
-              leftTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.red, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 22,
-                margin: 11,
-                titleText: 'title 1',
-              ),
-              bottomTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.grey, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 11,
-                margin: 11,
-                titleText: 'title 23',
-              ),
-              rightTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.blue, fontSize: 11),
-                textAlign: TextAlign.left,
-                reservedSize: 2,
-                margin: 1324,
-                titleText: 'title 3',
-              ),
-              topTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.green, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 23,
-                margin: 11,
-                titleText: 'title 4',
-              ),
-            )),
-        false);
+          sample ==
+              sampleClone.copyWith(
+                  axisTitleData: FlAxisTitleData(
+                show: true,
+                leftTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.red, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 22,
+                  margin: 11,
+                  titleText: 'title 1',
+                ),
+                bottomTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.grey, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 11,
+                  margin: 11,
+                  titleText: 'title 23',
+                ),
+                rightTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.blue, fontSize: 11),
+                  textAlign: TextAlign.left,
+                  reservedSize: 2,
+                  margin: 1324,
+                  titleText: 'title 3',
+                ),
+                topTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.green, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 23,
+                  margin: 11,
+                  titleText: 'title 4',
+                ),
+              )),
+          false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            axisTitleData: FlAxisTitleData(
-              show: true,
-              leftTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.red, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 22,
-                margin: 11,
-                titleText: 'title 1',
-              ),
-              bottomTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.grey, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 11,
-                margin: 11,
-                titleText: 'title 2',
-              ),
-              rightTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.blue, fontSize: 11),
-                textAlign: TextAlign.right,
-                reservedSize: 2,
-                margin: 1324,
-                titleText: 'title 3',
-              ),
-              topTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.green, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 23,
-                margin: 11,
-                titleText: 'title 4',
-              ),
-            )),
-        false);
+          sample ==
+              sampleClone.copyWith(
+                  axisTitleData: FlAxisTitleData(
+                show: true,
+                leftTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.red, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 22,
+                  margin: 11,
+                  titleText: 'title 1',
+                ),
+                bottomTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.grey, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 11,
+                  margin: 11,
+                  titleText: 'title 2',
+                ),
+                rightTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.blue, fontSize: 11),
+                  textAlign: TextAlign.right,
+                  reservedSize: 2,
+                  margin: 1324,
+                  titleText: 'title 3',
+                ),
+                topTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.green, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 23,
+                  margin: 11,
+                  titleText: 'title 4',
+                ),
+              )),
+          false);
       expect(
-        sample ==
-          sampleClone.copyWith(
-            axisTitleData: FlAxisTitleData(
-              show: true,
-              leftTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.red, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 22,
-                margin: 11,
-                titleText: 'title 1',
-              ),
-              bottomTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.grey, fontSize: 33),
-                textAlign: TextAlign.left,
-                reservedSize: 11,
-                margin: 11,
-                titleText: 'title 2',
-              ),
-              rightTitle: AxisTitle(
-                showTitle: false,
-                textStyle: TextStyle(color: Colors.blue, fontSize: 11),
-                textAlign: TextAlign.left,
-                reservedSize: 2,
-                margin: 1324,
-                titleText: 'title 3',
-              ),
-              topTitle: AxisTitle(
-                showTitle: true,
-                textStyle: TextStyle(color: Colors.green, fontSize: 33.5),
-                textAlign: TextAlign.left,
-                reservedSize: 23,
-                margin: 11,
-                titleText: 'title 4',
-              ),
-            )),
-        false);
+          sample ==
+              sampleClone.copyWith(
+                  axisTitleData: FlAxisTitleData(
+                show: true,
+                leftTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.red, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 22,
+                  margin: 11,
+                  titleText: 'title 1',
+                ),
+                bottomTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.grey, fontSize: 33),
+                  textAlign: TextAlign.left,
+                  reservedSize: 11,
+                  margin: 11,
+                  titleText: 'title 2',
+                ),
+                rightTitle: AxisTitle(
+                  showTitle: false,
+                  textStyle: TextStyle(color: Colors.blue, fontSize: 11),
+                  textAlign: TextAlign.left,
+                  reservedSize: 2,
+                  margin: 1324,
+                  titleText: 'title 3',
+                ),
+                topTitle: AxisTitle(
+                  showTitle: true,
+                  textStyle: TextStyle(color: Colors.green, fontSize: 33.5),
+                  textAlign: TextAlign.left,
+                  reservedSize: 23,
+                  margin: 11,
+                  titleText: 'title 4',
+                ),
+              )),
+          false);
 
-      expect(
-        sample ==
-          sampleClone.copyWith( showingTooltipIndicators: []),
-        false);
+      expect(sample == sampleClone.copyWith(showingTooltipIndicators: []), false);
 
-      expect(
-        sample ==
-          sampleClone.copyWith( showingTooltipIndicators: [2, 1, 0]),
-        false);
+      expect(sample == sampleClone.copyWith(showingTooltipIndicators: [2, 1, 0]), false);
     });
 
     test('ScatterSpot equality test', () {
@@ -626,6 +619,5 @@ void main() {
       );
       expect(sample1 == changed, false);
     });
-
   });
 }

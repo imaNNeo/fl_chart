@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-
-  group('PieChart data equality check',() {
+  group('PieChart data equality check', () {
     test('PieChartData equality test', () {
       final PieChartData sample1 = PieChartData(
-        borderData: FlBorderData(show: false,border: Border.all(color: Colors.black)),
+        borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
         startDegreeOffset: 0,
         sections: [
           PieChartSectionData(value: 12, color: Colors.red),
@@ -15,7 +14,9 @@ void main() {
         ],
         centerSpaceColor: Colors.white,
         centerSpaceRadius: 12,
-        pieTouchData: PieTouchData(enabled: false,),
+        pieTouchData: PieTouchData(
+          enabled: false,
+        ),
         sectionsSpace: 44,
       );
 
@@ -28,7 +29,9 @@ void main() {
         ],
         centerSpaceColor: Colors.white,
         centerSpaceRadius: 12,
-        pieTouchData: PieTouchData(enabled: false,),
+        pieTouchData: PieTouchData(
+          enabled: false,
+        ),
         sectionsSpace: 44,
       );
 
@@ -36,69 +39,104 @@ void main() {
 
       expect(sample1 == sample2.copyWith(), true);
 
-      expect(sample1 == sample2.copyWith(
-        borderData: FlBorderData(show: false, border: Border.all(color: Colors.black))
-      ), true);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                  borderData: FlBorderData(show: false, border: Border.all(color: Colors.black))),
+          true);
 
-      expect(sample1 == sample2.copyWith(
-        borderData: FlBorderData(show: true, border: Border.all(color: Colors.black))
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                  borderData: FlBorderData(show: true, border: Border.all(color: Colors.black))),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        startDegreeOffset: 33,
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                startDegreeOffset: 33,
+              ),
+          false);
 
-      expect(sample1 == PieChartData(
-        borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
-        startDegreeOffset: 0,
-        sections: null,
-        centerSpaceColor: Colors.white,
-        centerSpaceRadius: 12,
-        pieTouchData: PieTouchData(enabled: false,),
-        sectionsSpace: 44,
-      ), false);
+      expect(
+          sample1 ==
+              PieChartData(
+                borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
+                startDegreeOffset: 0,
+                sections: null,
+                centerSpaceColor: Colors.white,
+                centerSpaceRadius: 12,
+                pieTouchData: PieTouchData(
+                  enabled: false,
+                ),
+                sectionsSpace: 44,
+              ),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        sections: [],
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                sections: [],
+              ),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        sections: [
-          PieChartSectionData(value: 12, color: Colors.red),
-          PieChartSectionData(value: 22, color: Colors.green),
-        ],
-      ), true);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                sections: [
+                  PieChartSectionData(value: 12, color: Colors.red),
+                  PieChartSectionData(value: 22, color: Colors.green),
+                ],
+              ),
+          true);
 
-      expect(sample1 == sample2.copyWith(
-        sections: [
-          PieChartSectionData(value: 12, color: Colors.red),
-          PieChartSectionData(value: 22, color: Colors.green.withOpacity(0.99)),
-        ],
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                sections: [
+                  PieChartSectionData(value: 12, color: Colors.red),
+                  PieChartSectionData(value: 22, color: Colors.green.withOpacity(0.99)),
+                ],
+              ),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        sections: [
-          PieChartSectionData(value: 22, color: Colors.green),
-          PieChartSectionData(value: 12, color: Colors.red),
-        ],
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                sections: [
+                  PieChartSectionData(value: 22, color: Colors.green),
+                  PieChartSectionData(value: 12, color: Colors.red),
+                ],
+              ),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        centerSpaceColor: Colors.cyan,
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                centerSpaceColor: Colors.cyan,
+              ),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        centerSpaceRadius: 44,
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                centerSpaceRadius: 44,
+              ),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        pieTouchData: PieTouchData(),
-      ), false);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                pieTouchData: PieTouchData(),
+              ),
+          false);
 
-      expect(sample1 == sample2.copyWith(
-        sectionsSpace: 44.000001,
-      ), false);
-
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                sectionsSpace: 44.000001,
+              ),
+          false);
     });
 
     test('PieChartSectionData equality test', () {
@@ -138,20 +176,24 @@ void main() {
 
       expect(sample1 == sample2.copyWith(titlePositionPercentageOffset: 4314), false);
 
-      expect(sample1 == PieChartSectionData(
-        color: Colors.red,
-        radius: 12,
-        showTitle: false,
-        value: 33,
-        title: 'testTitle',
-        titlePositionPercentageOffset: 10,
-        titleStyle: null,
-      ), false);
+      expect(
+          sample1 ==
+              PieChartSectionData(
+                color: Colors.red,
+                radius: 12,
+                showTitle: false,
+                value: 33,
+                title: 'testTitle',
+                titlePositionPercentageOffset: 10,
+                titleStyle: null,
+              ),
+          false);
 
       expect(sample1 == sample2.copyWith(titleStyle: TextStyle(color: Colors.green)), true);
 
-      expect(sample1 == sample2.copyWith(titleStyle: TextStyle(color: Colors.green.withOpacity(0.3))), false);
-
+      expect(
+          sample1 == sample2.copyWith(titleStyle: TextStyle(color: Colors.green.withOpacity(0.3))),
+          false);
     });
 
     test('PieTouchData equality test', () {
@@ -264,8 +306,6 @@ void main() {
       );
 
       expect(sample1 == changed, false);
-
     });
   });
-
 }

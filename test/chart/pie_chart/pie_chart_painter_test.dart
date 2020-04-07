@@ -8,14 +8,16 @@ void main() {
     test('test 1', () {
       const viewSize = Size(728, 728);
 
-      final PieChartData data = PieChartData(
-        sections: [
-          PieChartSectionData(),
-          PieChartSectionData(),
-          PieChartSectionData(),
-        ]
+      final PieChartData data = PieChartData(sections: [
+        PieChartSectionData(),
+        PieChartSectionData(),
+        PieChartSectionData(),
+      ]);
+      final PieChartPainter barChartPainter = PieChartPainter(
+        data,
+        data,
+        (s) {},
       );
-      final PieChartPainter barChartPainter = PieChartPainter(data, data, (s) {},);
       expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(728, 728));
     });
   });

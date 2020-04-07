@@ -61,8 +61,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         }
         final barRod = barGroup.barRods[j];
 
-        _drawTouchTooltip(canvas, size, _groupBarsPosition, targetData.barTouchData.touchTooltipData,
-            barGroup, i, barRod, j);
+        _drawTouchTooltip(canvas, size, _groupBarsPosition,
+            targetData.barTouchData.touchTooltipData, barGroup, i, barRod, j);
       }
     }
   }
@@ -201,29 +201,29 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             max(borderRadius.bottomLeft.y, borderRadius.bottomRight.y);
 
         RRect barRRect;
+
         /// Draw [BackgroundBarChartRodData]
         if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
-
           if (barRod.backDrawRodData.y > 0) {
             // positive
             final bottom = getPixelY(0, drawSize);
             final top = min(getPixelY(barRod.backDrawRodData.y, drawSize), bottom - cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
-              topLeft: borderRadius.topLeft,
-              topRight: borderRadius.topRight,
-              bottomLeft: borderRadius.bottomLeft,
-              bottomRight: borderRadius.bottomRight);
+                topLeft: borderRadius.topLeft,
+                topRight: borderRadius.topRight,
+                bottomLeft: borderRadius.bottomLeft,
+                bottomRight: borderRadius.bottomRight);
           } else {
             // negative
             final top = getPixelY(0, drawSize);
             final bottom = max(getPixelY(barRod.backDrawRodData.y, drawSize), top + cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
-              topLeft: borderRadius.topLeft,
-              topRight: borderRadius.topRight,
-              bottomLeft: borderRadius.bottomLeft,
-              bottomRight: borderRadius.bottomRight);
+                topLeft: borderRadius.topLeft,
+                topRight: borderRadius.topRight,
+                bottomLeft: borderRadius.bottomLeft,
+                bottomRight: borderRadius.bottomRight);
           }
 
           _barPaint.color = barRod.backDrawRodData.color;
@@ -232,27 +232,26 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
         // draw Main Rod
         if (barRod.y != 0) {
-
           if (barRod.y > 0) {
             // positive
             final bottom = getPixelY(0, drawSize);
             final top = min(getPixelY(barRod.y, drawSize), bottom - cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
-              topLeft: borderRadius.topLeft,
-              topRight: borderRadius.topRight,
-              bottomLeft: borderRadius.bottomLeft,
-              bottomRight: borderRadius.bottomRight);
+                topLeft: borderRadius.topLeft,
+                topRight: borderRadius.topRight,
+                bottomLeft: borderRadius.bottomLeft,
+                bottomRight: borderRadius.bottomRight);
           } else {
             // negative
             final top = getPixelY(0, drawSize);
             final bottom = max(getPixelY(barRod.y, drawSize), top + cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
-              topLeft: borderRadius.topLeft,
-              topRight: borderRadius.topRight,
-              bottomLeft: borderRadius.bottomLeft,
-              bottomRight: borderRadius.bottomRight);
+                topLeft: borderRadius.topLeft,
+                topRight: borderRadius.topRight,
+                bottomLeft: borderRadius.bottomLeft,
+                bottomRight: borderRadius.bottomRight);
           }
 
           _barPaint.color = barRod.color;
@@ -272,7 +271,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
               canvas.restore();
             }
           }
-
         }
       }
     }
@@ -435,15 +433,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     final double tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
 
     final double tooltipTop = isPositive
-      ? barOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin
-      : barOffset.dy + tooltipData.tooltipBottomMargin;
+        ? barOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin
+        : barOffset.dy + tooltipData.tooltipBottomMargin;
 
     /// draw the background rect with rounded radius
-    Rect rect = Rect.fromLTWH(
-        barOffset.dx - (tooltipWidth / 2),
-        tooltipTop,
-        tooltipWidth,
-        tooltipHeight);
+    Rect rect =
+        Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2), tooltipTop, tooltipWidth, tooltipHeight);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -612,12 +607,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
         bool isYInBarBackDrawBounds;
         if (isPositive) {
-          isYInBarBackDrawBounds =
-            (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
+          isYInBarBackDrawBounds = (touchedPoint.dy <= barBotY + touchExtraThreshold.bottom) &&
               (touchedPoint.dy >= backDrawBarY - touchExtraThreshold.top);
         } else {
-          isYInBarBackDrawBounds =
-            (touchedPoint.dy >= barTopY - touchExtraThreshold.top) &&
+          isYInBarBackDrawBounds = (touchedPoint.dy >= barTopY - touchExtraThreshold.top) &&
               (touchedPoint.dy <= backDrawBarY + touchExtraThreshold.bottom);
         }
 
@@ -645,7 +638,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// [BarChartPainter] should repaint itself.
   @override
   bool shouldRepaint(BarChartPainter oldDelegate) => oldDelegate.data != data;
-
 }
 
 class _GroupBarsPosition {

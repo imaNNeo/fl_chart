@@ -12,8 +12,7 @@ import 'pie_chart.dart';
 ///
 /// It holds data needed to draw a pie chart,
 /// including pie sections, colors, ...
-class PieChartData extends BaseChartData  with EquatableMixin {
-
+class PieChartData extends BaseChartData with EquatableMixin {
   /// Defines showing sections of the [PieChart].
   final List<PieChartSectionData> sections;
 
@@ -33,7 +32,8 @@ class PieChartData extends BaseChartData  with EquatableMixin {
   final PieTouchData pieTouchData;
 
   /// We hold this value to determine weight of each [PieChartSectionData.value].
-  double get sumValue => sections.map((data) => data.value).reduce((first, second) => first + second);
+  double get sumValue =>
+      sections.map((data) => data.value).reduce((first, second) => first + second);
 
   /// [PieChart] draws some [sections] in a circle,
   /// and applies free space with radius [centerSpaceRadius],
@@ -54,13 +54,13 @@ class PieChartData extends BaseChartData  with EquatableMixin {
     double startDegreeOffset,
     PieTouchData pieTouchData,
     FlBorderData borderData,
-  }) : sections = sections ?? const [],
-      centerSpaceRadius = centerSpaceRadius ?? double.nan,
-      centerSpaceColor = centerSpaceColor ?? Colors.transparent,
-      sectionsSpace = sectionsSpace ?? 2,
-      startDegreeOffset = startDegreeOffset ?? 0,
-      pieTouchData = pieTouchData ?? PieTouchData(),
-      super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
+  })  : sections = sections ?? const [],
+        centerSpaceRadius = centerSpaceRadius ?? double.nan,
+        centerSpaceColor = centerSpaceColor ?? Colors.transparent,
+        sectionsSpace = sectionsSpace ?? 2,
+        startDegreeOffset = startDegreeOffset ?? 0,
+        pieTouchData = pieTouchData ?? PieTouchData(),
+        super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
 
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.
@@ -105,20 +105,18 @@ class PieChartData extends BaseChartData  with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    sections,
-    centerSpaceRadius,
-    centerSpaceColor,
-    pieTouchData,
-    sectionsSpace,
-    startDegreeOffset,
-    borderData,
-  ];
-
+        sections,
+        centerSpaceRadius,
+        centerSpaceColor,
+        pieTouchData,
+        sectionsSpace,
+        startDegreeOffset,
+        borderData,
+      ];
 }
 
 /// Holds data related to drawing each [PieChart] section.
-class PieChartSectionData with EquatableMixin{
-
+class PieChartSectionData with EquatableMixin {
   /// It determines how much space it should occupy around the circle.
   ///
   /// This is depends on sum of all sections, each section should
@@ -169,15 +167,14 @@ class PieChartSectionData with EquatableMixin{
     TextStyle titleStyle,
     String title,
     double titlePositionPercentageOffset,
-  })
-    : value = value ?? 10,
-      color = color ?? Colors.red,
-      radius = radius ?? 40,
-      showTitle = showTitle ?? true,
-      titleStyle = titleStyle ??
-        const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-      title = title ?? '1',
-      titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5;
+  })  : value = value ?? 10,
+        color = color ?? Colors.red,
+        radius = radius ?? 40,
+        showTitle = showTitle ?? true,
+        titleStyle = titleStyle ??
+            const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        title = title ?? '1',
+        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5;
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
@@ -219,15 +216,14 @@ class PieChartSectionData with EquatableMixin{
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    value,
-    color,
-    radius,
-    showTitle,
-    titleStyle,
-    title,
-    titlePositionPercentageOffset,
-  ];
-
+        value,
+        color,
+        radius,
+        showTitle,
+        titleStyle,
+        title,
+        titlePositionPercentageOffset,
+      ];
 }
 
 /// Holds data to handle touch events, and touch responses in the [PieChart].
@@ -247,16 +243,14 @@ class PieTouchData extends FlTouchData with EquatableMixin {
   PieTouchData({
     bool enabled,
     Function(PieTouchResponse) touchCallback,
-  })
-    : touchCallback = touchCallback,
-      super(enabled ?? true);
+  })  : touchCallback = touchCallback,
+        super(enabled ?? true);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    enabled,
-  ];
-
+        enabled,
+      ];
 }
 
 /// Holds information about touch response in the [PieChart].
@@ -282,27 +276,27 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// [touchAngle] gives you angle of touch,
   /// and [touchRadius] gives you radius of the touch.
   /// [touchInput] is the type of happened touch.
-  PieTouchResponse(PieChartSectionData touchedSection,
+  PieTouchResponse(
+    PieChartSectionData touchedSection,
     int touchedSectionIndex,
     double touchAngle,
     double touchRadius,
-    FlTouchInput touchInput,)
-    : touchedSection = touchedSection,
-      touchedSectionIndex = touchedSectionIndex,
-      touchAngle = touchAngle,
-      touchRadius = touchRadius,
-      super(touchInput);
+    FlTouchInput touchInput,
+  )   : touchedSection = touchedSection,
+        touchedSectionIndex = touchedSectionIndex,
+        touchAngle = touchAngle,
+        touchRadius = touchRadius,
+        super(touchInput);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    touchedSection,
-    touchedSectionIndex,
-    touchAngle,
-    touchRadius,
-    touchInput,
-  ];
-
+        touchedSection,
+        touchedSectionIndex,
+        touchAngle,
+        touchRadius,
+        touchInput,
+      ];
 }
 
 /// It lerps a [PieChartData] to another [PieChartData] (handles animation for updating values)

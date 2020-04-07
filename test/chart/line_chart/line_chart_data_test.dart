@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-
   group('LineChart data equality check', () {
-
     final FlSpot flSpot1 = FlSpot(1, 1);
     final FlSpot flSpot1Clone = flSpot1.copyWith();
 
@@ -15,14 +13,10 @@ void main() {
 
     final Function(FlSpot) checkToShowSpotLine = (spot) => true;
 
-    final BarAreaSpotsLine barAreaSpotsLine1 = BarAreaSpotsLine(
-      show: true,
-      checkToShowSpotLine: checkToShowSpotLine
-    );
-    final BarAreaSpotsLine barAreaSpotsLine1Clone = BarAreaSpotsLine(
-      show: true,
-      checkToShowSpotLine: checkToShowSpotLine
-    );
+    final BarAreaSpotsLine barAreaSpotsLine1 =
+        BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
+    final BarAreaSpotsLine barAreaSpotsLine1Clone =
+        BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
 
     final BarAreaSpotsLine barAreaSpotsLine2 = BarAreaSpotsLine(
       show: true,
@@ -35,8 +29,8 @@ void main() {
       applyCutOffY: false,
       cutOffY: 12,
       gradientColorStops: [0, 0.5],
-      gradientFrom: const Offset(0,0),
-      gradientTo: const Offset(1,1),
+      gradientFrom: const Offset(0, 0),
+      gradientTo: const Offset(1, 1),
       spotsLine: barAreaSpotsLine1,
     );
     final BarAreaData barAreaData1Clone = BarAreaData(
@@ -45,8 +39,8 @@ void main() {
       applyCutOffY: false,
       cutOffY: 12,
       gradientColorStops: [0, 0.5],
-      gradientFrom: const Offset(0,0),
-      gradientTo: const Offset(1,1),
+      gradientFrom: const Offset(0, 0),
+      gradientTo: const Offset(1, 1),
       spotsLine: barAreaSpotsLine1,
     );
 
@@ -56,8 +50,8 @@ void main() {
       applyCutOffY: false,
       cutOffY: 12,
       gradientColorStops: [0, 0.5],
-      gradientFrom: const Offset(0,0),
-      gradientTo: const Offset(1,1),
+      gradientFrom: const Offset(0, 0),
+      gradientTo: const Offset(1, 1),
       spotsLine: barAreaSpotsLine2,
     );
     final BarAreaData barAreaData3 = BarAreaData(
@@ -66,8 +60,8 @@ void main() {
       applyCutOffY: false,
       cutOffY: 12,
       gradientColorStops: [0, 0.5],
-      gradientFrom: const Offset(0,0),
-      gradientTo: const Offset(1,1),
+      gradientFrom: const Offset(0, 0),
+      gradientTo: const Offset(1, 1),
       spotsLine: barAreaSpotsLine2,
     );
     final BarAreaData barAreaData4 = BarAreaData(
@@ -76,12 +70,13 @@ void main() {
       applyCutOffY: false,
       cutOffY: 12,
       gradientColorStops: [0],
-      gradientFrom: const Offset(0,0),
-      gradientTo: const Offset(1,1),
+      gradientFrom: const Offset(0, 0),
+      gradientTo: const Offset(1, 1),
       spotsLine: barAreaSpotsLine2,
     );
 
-    final Function(FlSpot, double, LineChartBarData) getDotColor = (spot, percent, bar) => Colors.green;
+    final Function(FlSpot, double, LineChartBarData) getDotColor =
+        (spot, percent, bar) => Colors.green;
     final Function(FlSpot spot) checkToShowDot = (spot) => true;
 
     final FlDotData flDotData1 = FlDotData(
@@ -443,37 +438,59 @@ void main() {
     );
 
     final TouchedSpotIndicatorData touchedSpotIndicatorData1 = TouchedSpotIndicatorData(
-      FlLine(color: Colors.red, dashArray: [],),
+      FlLine(
+        color: Colors.red,
+        dashArray: [],
+      ),
       FlDotData(dotSize: 12, checkToShowDot: checkToShowDot, show: true),
     );
     final TouchedSpotIndicatorData touchedSpotIndicatorData1Clone = TouchedSpotIndicatorData(
-      FlLine(color: Colors.red, dashArray: [],),
+      FlLine(
+        color: Colors.red,
+        dashArray: [],
+      ),
       FlDotData(dotSize: 12, checkToShowDot: checkToShowDot, show: true),
     );
 
     final TouchedSpotIndicatorData touchedSpotIndicatorData2 = TouchedSpotIndicatorData(
-      FlLine(color: Colors.red, dashArray: [],),
+      FlLine(
+        color: Colors.red,
+        dashArray: [],
+      ),
       FlDotData(dotSize: 12, checkToShowDot: null, show: true),
     );
     final TouchedSpotIndicatorData touchedSpotIndicatorData3 = TouchedSpotIndicatorData(
-      FlLine(color: Colors.red, dashArray: null,),
+      FlLine(
+        color: Colors.red,
+        dashArray: null,
+      ),
       FlDotData(dotSize: 12, checkToShowDot: checkToShowDot, show: true),
     );
     final TouchedSpotIndicatorData touchedSpotIndicatorData4 = TouchedSpotIndicatorData(
-      FlLine(color: Colors.green, dashArray: [],),
+      FlLine(
+        color: Colors.green,
+        dashArray: [],
+      ),
       FlDotData(dotSize: 12, checkToShowDot: checkToShowDot, show: true),
     );
     final TouchedSpotIndicatorData touchedSpotIndicatorData5 = TouchedSpotIndicatorData(
-      FlLine(color: Colors.red, dashArray: [],),
+      FlLine(
+        color: Colors.red,
+        dashArray: [],
+      ),
       FlDotData(dotSize: 12, checkToShowDot: checkToShowDot, show: false),
     );
     final TouchedSpotIndicatorData touchedSpotIndicatorData6 = TouchedSpotIndicatorData(
-      FlLine(color: Colors.red, dashArray: [],),
+      FlLine(
+        color: Colors.red,
+        dashArray: [],
+      ),
       FlDotData(dotSize: 12.01, checkToShowDot: checkToShowDot, show: true),
     );
 
     final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', TextStyle(color: Colors.green));
-    final LineTooltipItem lineTooltipItem1Clone = LineTooltipItem('', TextStyle(color: Colors.green));
+    final LineTooltipItem lineTooltipItem1Clone =
+        LineTooltipItem('', TextStyle(color: Colors.green));
 
     final LineTooltipItem lineTooltipItem2 = LineTooltipItem('ss', TextStyle(color: Colors.green));
     final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', TextStyle(color: Colors.blue));
@@ -487,7 +504,7 @@ void main() {
       tooltipPadding: const EdgeInsets.all(0.1),
       tooltipBgColor: Colors.green,
       maxContentWidth: 12,
-      getTooltipItems:getTooltipItems,
+      getTooltipItems: getTooltipItems,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       tooltipRoundedRadius: 12,
@@ -497,7 +514,7 @@ void main() {
       tooltipPadding: const EdgeInsets.all(0.1),
       tooltipBgColor: Colors.green,
       maxContentWidth: 12,
-      getTooltipItems:getTooltipItems,
+      getTooltipItems: getTooltipItems,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       tooltipRoundedRadius: 12,
@@ -508,7 +525,7 @@ void main() {
       tooltipPadding: const EdgeInsets.all(0.1),
       tooltipBgColor: Colors.red,
       maxContentWidth: 12,
-      getTooltipItems:getTooltipItems,
+      getTooltipItems: getTooltipItems,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       tooltipRoundedRadius: 12,
@@ -518,7 +535,7 @@ void main() {
       tooltipPadding: const EdgeInsets.all(0.2),
       tooltipBgColor: Colors.green,
       maxContentWidth: 12,
-      getTooltipItems:getTooltipItems,
+      getTooltipItems: getTooltipItems,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       tooltipRoundedRadius: 12,
@@ -528,7 +545,7 @@ void main() {
       tooltipPadding: const EdgeInsets.all(0.1),
       tooltipBgColor: Colors.green,
       maxContentWidth: 13,
-      getTooltipItems:getTooltipItems,
+      getTooltipItems: getTooltipItems,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       tooltipRoundedRadius: 12,
@@ -538,7 +555,7 @@ void main() {
       tooltipPadding: const EdgeInsets.all(0.1),
       tooltipBgColor: Colors.green,
       maxContentWidth: 12,
-      getTooltipItems:getTooltipItems,
+      getTooltipItems: getTooltipItems,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       tooltipRoundedRadius: 12,
@@ -548,7 +565,7 @@ void main() {
     final Function(LineTouchResponse) touchCallback = (response) {};
 
     final Function(LineChartBarData barData, List<int> spotIndexes) getTouchedSpotIndicator =
-      (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
+        (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
 
     final LineTouchData lineTouchData1 = LineTouchData(
       enabled: true,
@@ -1179,38 +1196,23 @@ void main() {
       bottomTitle: axisTitle4,
     );
 
-    final VerticalRangeAnnotation verticalRangeAnnotation1 = VerticalRangeAnnotation(
-      color: Colors.green,
-      x2: 12,
-      x1: 12.1
-    );
-    final VerticalRangeAnnotation verticalRangeAnnotation2 = VerticalRangeAnnotation(
-      color: Colors.green,
-      x2: 12,
-      x1: 12.1
-    );
+    final VerticalRangeAnnotation verticalRangeAnnotation1 =
+        VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
+    final VerticalRangeAnnotation verticalRangeAnnotation2 =
+        VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
 
-    final HorizontalRangeAnnotation horizontalRangeAnnotation1 = HorizontalRangeAnnotation(
-      color: Colors.green,
-      y2: 12,
-      y1: 12.1
-    );
-    final HorizontalRangeAnnotation horizontalRangeAnnotation2 = HorizontalRangeAnnotation(
-      color: Colors.green,
-      y2: 12,
-      y1: 12.1
-    );
+    final HorizontalRangeAnnotation horizontalRangeAnnotation1 =
+        HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
+    final HorizontalRangeAnnotation horizontalRangeAnnotation2 =
+        HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
 
-    final RangeAnnotations rangeAnnotations1 = RangeAnnotations(
-      horizontalRangeAnnotations: [
-        horizontalRangeAnnotation1,
-        horizontalRangeAnnotation2,
-      ],
-      verticalRangeAnnotations: [
-        verticalRangeAnnotation1,
-        verticalRangeAnnotation2,
-      ]
-    );
+    final RangeAnnotations rangeAnnotations1 = RangeAnnotations(horizontalRangeAnnotations: [
+      horizontalRangeAnnotation1,
+      horizontalRangeAnnotation2,
+    ], verticalRangeAnnotations: [
+      verticalRangeAnnotation1,
+      verticalRangeAnnotation2,
+    ]);
     final Function(double) checkToShowLine = (value) => true;
     final Function(double) getDrawingLine = (value) => FlLine();
 
@@ -1249,7 +1251,6 @@ void main() {
       getDrawingHorizontalLine: getDrawingLine,
       getDrawingVerticalLine: null,
     );
-
 
     final Function(double value) getTitles = (value) => 'sallam';
 
@@ -1322,22 +1323,28 @@ void main() {
     );
 
     final ShowingTooltipIndicators showingTooltipIndicator1 = ShowingTooltipIndicators(
-      1, [lineBarSpot1, lineBarSpot2],
+      1,
+      [lineBarSpot1, lineBarSpot2],
     );
     final ShowingTooltipIndicators showingTooltipIndicator1Clone = ShowingTooltipIndicators(
-      1, [lineBarSpot1, lineBarSpot2],
+      1,
+      [lineBarSpot1, lineBarSpot2],
     );
     final ShowingTooltipIndicators showingTooltipIndicator2 = ShowingTooltipIndicators(
-      1, null,
+      1,
+      null,
     );
     final ShowingTooltipIndicators showingTooltipIndicator3 = ShowingTooltipIndicators(
-      1, [],
+      1,
+      [],
     );
     final ShowingTooltipIndicators showingTooltipIndicator4 = ShowingTooltipIndicators(
-      1, [lineBarSpot2, lineBarSpot1],
+      1,
+      [lineBarSpot2, lineBarSpot1],
     );
     final ShowingTooltipIndicators showingTooltipIndicator5 = ShowingTooltipIndicators(
-      2, [lineBarSpot1, lineBarSpot2],
+      2,
+      [lineBarSpot1, lineBarSpot2],
     );
 
     final LineChartData lineChartData1 = LineChartData(
@@ -1810,14 +1817,12 @@ void main() {
     });
 
     test('BarAreaSpotsLine equality test', () {
-
       expect(barAreaSpotsLine1 == barAreaSpotsLine1Clone, true);
 
       expect(barAreaSpotsLine1 == barAreaSpotsLine2, false);
     });
 
     test('FlDotData equality test', () {
-
       expect(flDotData1 == flDotData1Clone, true);
 
       expect(flDotData1 == flDotData2, false);
@@ -1831,7 +1836,6 @@ void main() {
       expect(flDotData1 == flDotData5, false);
 
       expect(flDotData1 == flDotData6, false);
-
     });
 
     test('HorizontalLine equality test', () {
@@ -1972,7 +1976,5 @@ void main() {
       expect(lineChartData1 == lineChartData19, false);
       expect(lineChartData1 == lineChartData20, false);
     });
-
   });
-
 }

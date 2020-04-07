@@ -161,7 +161,8 @@ class _LineChartSample8State extends State<LineChartSample8> {
           tooltipBgColor: Colors.blueAccent,
         ),
       ),
-      borderData: FlBorderData(show: true, border: Border.all(color: const Color(0xffecf1fe), width: 1)),
+      borderData:
+          FlBorderData(show: true, border: Border.all(color: const Color(0xffecf1fe), width: 1)),
       minX: 0,
       maxX: 11,
       minY: 0,

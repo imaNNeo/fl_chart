@@ -1,53 +1,33 @@
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('AxisChartData data equality check',() {
+  group('AxisChartData data equality check', () {
+    final VerticalRangeAnnotation verticalRangeAnnotation1 =
+        VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
+    final VerticalRangeAnnotation verticalRangeAnnotation2 =
+        VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
 
-    final VerticalRangeAnnotation verticalRangeAnnotation1 = VerticalRangeAnnotation(
-      color: Colors.green,
-      x2: 12,
-      x1: 12.1
-    );
-    final VerticalRangeAnnotation verticalRangeAnnotation2 = VerticalRangeAnnotation(
-      color: Colors.green,
-      x2: 12,
-      x1: 12.1
-    );
+    final HorizontalRangeAnnotation horizontalRangeAnnotation1 =
+        HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
+    final HorizontalRangeAnnotation horizontalRangeAnnotation2 =
+        HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
 
-    final HorizontalRangeAnnotation horizontalRangeAnnotation1 = HorizontalRangeAnnotation(
-      color: Colors.green,
-      y2: 12,
-      y1: 12.1
-    );
-    final HorizontalRangeAnnotation horizontalRangeAnnotation2 = HorizontalRangeAnnotation(
-      color: Colors.green,
-      y2: 12,
-      y1: 12.1
-    );
-
-    final RangeAnnotations rangeAnnotations1 = RangeAnnotations(
-      horizontalRangeAnnotations: [
-        horizontalRangeAnnotation1,
-        horizontalRangeAnnotation2,
-      ],
-      verticalRangeAnnotations: [
-        verticalRangeAnnotation1,
-        verticalRangeAnnotation2,
-      ]
-    );
-    final RangeAnnotations rangeAnnotations2 = RangeAnnotations(
-      horizontalRangeAnnotations: [
-        horizontalRangeAnnotation1,
-        horizontalRangeAnnotation2,
-      ],
-      verticalRangeAnnotations: [
-        verticalRangeAnnotation1,
-        verticalRangeAnnotation2,
-      ]
-    );
+    final RangeAnnotations rangeAnnotations1 = RangeAnnotations(horizontalRangeAnnotations: [
+      horizontalRangeAnnotation1,
+      horizontalRangeAnnotation2,
+    ], verticalRangeAnnotations: [
+      verticalRangeAnnotation1,
+      verticalRangeAnnotation2,
+    ]);
+    final RangeAnnotations rangeAnnotations2 = RangeAnnotations(horizontalRangeAnnotations: [
+      horizontalRangeAnnotation1,
+      horizontalRangeAnnotation2,
+    ], verticalRangeAnnotations: [
+      verticalRangeAnnotation1,
+      verticalRangeAnnotation2,
+    ]);
 
     final FlLine flLine1 = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
     final FlLine flLine1Clone = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
@@ -315,7 +295,6 @@ void main() {
       bottomTitle: axisTitle1,
     );
 
-
     test('FlAxisTitleData equality test', () {
       expect(flAxisTitleData1 == flAxisTitleData1Clone, true);
       expect(flAxisTitleData1 == flAxisTitleData2, false);
@@ -393,12 +372,17 @@ void main() {
     });
 
     test('FlLine equality test', () {
-
       expect(flLine1 == flLine1Clone, true);
 
-      expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 1.001, dashArray: [1, 2, 3]), false);
+      expect(
+          flLine1 == FlLine(color: Colors.green, strokeWidth: 1.001, dashArray: [1, 2, 3]), false);
 
-      expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1,]), false);
+      expect(
+          flLine1 ==
+              FlLine(color: Colors.green, strokeWidth: 1, dashArray: [
+                1,
+              ]),
+          false);
 
       expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 1, dashArray: []), false);
 
@@ -407,118 +391,97 @@ void main() {
       expect(flLine1 == FlLine(color: Colors.white, strokeWidth: 1, dashArray: [1, 2, 3]), false);
 
       expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 100, dashArray: [1, 2, 3]), false);
-
     });
 
     test('RangeAnnotations equality test', () {
-
       expect(rangeAnnotations1 == rangeAnnotations2, true);
 
-      expect(rangeAnnotations1 == RangeAnnotations(
-        horizontalRangeAnnotations: [
-          horizontalRangeAnnotation2,
-          horizontalRangeAnnotation1,
-        ],
-        verticalRangeAnnotations: [
-          verticalRangeAnnotation2,
-          verticalRangeAnnotation1,
-        ]
-      ), true);
+      expect(
+          rangeAnnotations1 ==
+              RangeAnnotations(horizontalRangeAnnotations: [
+                horizontalRangeAnnotation2,
+                horizontalRangeAnnotation1,
+              ], verticalRangeAnnotations: [
+                verticalRangeAnnotation2,
+                verticalRangeAnnotation1,
+              ]),
+          true);
 
-      expect(rangeAnnotations1 == RangeAnnotations(
-        horizontalRangeAnnotations: [
-          horizontalRangeAnnotation2,
-        ],
-        verticalRangeAnnotations: [
-          verticalRangeAnnotation2,
-        ]
-      ), false);
+      expect(
+          rangeAnnotations1 ==
+              RangeAnnotations(horizontalRangeAnnotations: [
+                horizontalRangeAnnotation2,
+              ], verticalRangeAnnotations: [
+                verticalRangeAnnotation2,
+              ]),
+          false);
 
-      expect(rangeAnnotations1 == RangeAnnotations(
-        horizontalRangeAnnotations: [],
-        verticalRangeAnnotations: [
-          verticalRangeAnnotation1,
-          verticalRangeAnnotation2,
-        ]
-      ), false);
+      expect(
+          rangeAnnotations1 ==
+              RangeAnnotations(horizontalRangeAnnotations: [], verticalRangeAnnotations: [
+                verticalRangeAnnotation1,
+                verticalRangeAnnotation2,
+              ]),
+          false);
 
-      expect(rangeAnnotations1 == RangeAnnotations(
-        horizontalRangeAnnotations: [
-          horizontalRangeAnnotation1,
-          horizontalRangeAnnotation2,
-        ],
-        verticalRangeAnnotations: [
-          verticalRangeAnnotation1,
-          VerticalRangeAnnotation(
-            color: Colors.green,
-            x2: 12.01,
-            x1: 12.1
-          ),
-        ]
-      ), false);
-
+      expect(
+          rangeAnnotations1 ==
+              RangeAnnotations(horizontalRangeAnnotations: [
+                horizontalRangeAnnotation1,
+                horizontalRangeAnnotation2,
+              ], verticalRangeAnnotations: [
+                verticalRangeAnnotation1,
+                VerticalRangeAnnotation(color: Colors.green, x2: 12.01, x1: 12.1),
+              ]),
+          false);
     });
 
     test('HorizontalRangeAnnotation equality test', () {
-
       expect(horizontalRangeAnnotation1 == horizontalRangeAnnotation2, true);
 
-      expect(horizontalRangeAnnotation1 == HorizontalRangeAnnotation(
-        color: Colors.green,
-        y2: 12.1,
-        y1: 12.1
-      ), false);
+      expect(
+          horizontalRangeAnnotation1 ==
+              HorizontalRangeAnnotation(color: Colors.green, y2: 12.1, y1: 12.1),
+          false);
 
-      expect(horizontalRangeAnnotation1 == HorizontalRangeAnnotation(
-        color: Colors.green,
-        y2: 12.0,
-        y1: 12.1
-      ), true);
+      expect(
+          horizontalRangeAnnotation1 ==
+              HorizontalRangeAnnotation(color: Colors.green, y2: 12.0, y1: 12.1),
+          true);
 
-      expect(horizontalRangeAnnotation1 == HorizontalRangeAnnotation(
-        color: Colors.green,
-        y2: 12.1,
-        y1: 12.0
-      ), false);
+      expect(
+          horizontalRangeAnnotation1 ==
+              HorizontalRangeAnnotation(color: Colors.green, y2: 12.1, y1: 12.0),
+          false);
 
-      expect(horizontalRangeAnnotation1 == HorizontalRangeAnnotation(
-        color: Colors.green.withOpacity(0.5),
-        y2: 12.0,
-        y1: 12.1
-      ), false);
-
+      expect(
+          horizontalRangeAnnotation1 ==
+              HorizontalRangeAnnotation(color: Colors.green.withOpacity(0.5), y2: 12.0, y1: 12.1),
+          false);
     });
 
     test('VerticalRangeAnnotation equality test', () {
-
       expect(verticalRangeAnnotation1 == verticalRangeAnnotation2, true);
 
-      expect(verticalRangeAnnotation1 == VerticalRangeAnnotation(
-        color: Colors.green,
-        x2: 12.1,
-        x1: 12.1
-      ), false);
+      expect(
+          verticalRangeAnnotation1 ==
+              VerticalRangeAnnotation(color: Colors.green, x2: 12.1, x1: 12.1),
+          false);
 
-      expect(verticalRangeAnnotation1 == VerticalRangeAnnotation(
-        color: Colors.green,
-        x2: 12.0,
-        x1: 12.1
-      ), true);
+      expect(
+          verticalRangeAnnotation1 ==
+              VerticalRangeAnnotation(color: Colors.green, x2: 12.0, x1: 12.1),
+          true);
 
-      expect(verticalRangeAnnotation1 == VerticalRangeAnnotation(
-        color: Colors.green,
-        x2: 12.1,
-        x1: 12.0
-      ), false);
+      expect(
+          verticalRangeAnnotation1 ==
+              VerticalRangeAnnotation(color: Colors.green, x2: 12.1, x1: 12.0),
+          false);
 
-      expect(verticalRangeAnnotation1 == VerticalRangeAnnotation(
-        color: Colors.green.withOpacity(0.5),
-        x2: 12.0,
-        x1: 12.1
-      ), false);
-
+      expect(
+          verticalRangeAnnotation1 ==
+              VerticalRangeAnnotation(color: Colors.green.withOpacity(0.5), x2: 12.0, x1: 12.1),
+          false);
     });
-
   });
-
 }
