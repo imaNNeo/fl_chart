@@ -58,22 +58,22 @@ class BarChartData extends AxisChartData with EquatableMixin {
     FlBorderData borderData,
     RangeAnnotations rangeAnnotations,
     Color backgroundColor,
-  })
-    : barGroups = barGroups ?? const [],
-      groupsSpace = groupsSpace ?? 16,
-      alignment = alignment ?? BarChartAlignment.spaceBetween,
-      titlesData = titlesData ?? FlTitlesData(),
-      barTouchData = barTouchData ?? BarTouchData(),
-      super(
-      axisTitleData: axisTitleData ??  FlAxisTitleData(),
-      gridData: gridData ??  FlGridData(
-        show: false,
-      ),
-      borderData: borderData,
-      rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
-      backgroundColor: backgroundColor,
-      touchData: barTouchData ?? BarTouchData(),
-    ) {
+  })  : barGroups = barGroups ?? const [],
+        groupsSpace = groupsSpace ?? 16,
+        alignment = alignment ?? BarChartAlignment.spaceBetween,
+        titlesData = titlesData ?? FlTitlesData(),
+        barTouchData = barTouchData ?? BarTouchData(),
+        super(
+          axisTitleData: axisTitleData ?? FlAxisTitleData(),
+          gridData: gridData ??
+              FlGridData(
+                show: false,
+              ),
+          borderData: borderData,
+          rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
+          backgroundColor: backgroundColor,
+          touchData: barTouchData ?? BarTouchData(),
+        ) {
     initSuperMinMaxValues(maxY, minY);
   }
 
@@ -91,7 +91,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     }
 
     if (barGroups.isNotEmpty) {
-
       var canModifyMaxY = false;
       if (maxY == null) {
         maxY = barGroups[0].barRods[0].y;
@@ -107,7 +106,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
       for (int i = 0; i < barGroups.length; i++) {
         final BarChartGroupData barGroup = barGroups[i];
         for (int j = 0; j < barGroup.barRods.length; j++) {
-
           final BarChartRodData rod = barGroup.barRods[j];
 
           if (canModifyMaxY && rod.y > maxY) {
@@ -115,9 +113,9 @@ class BarChartData extends AxisChartData with EquatableMixin {
           }
 
           if (canModifyMaxY &&
-            rod.backDrawRodData.show &&
-            rod.backDrawRodData.y != null &&
-            rod.backDrawRodData.y > maxY) {
+              rod.backDrawRodData.show &&
+              rod.backDrawRodData.y != null &&
+              rod.backDrawRodData.y > maxY) {
             maxY = rod.backDrawRodData.y;
           }
 
@@ -126,9 +124,9 @@ class BarChartData extends AxisChartData with EquatableMixin {
           }
 
           if (canModifyMinY &&
-            rod.backDrawRodData.show &&
-            rod.backDrawRodData.y != null &&
-            rod.backDrawRodData.y < minY) {
+              rod.backDrawRodData.show &&
+              rod.backDrawRodData.y != null &&
+              rod.backDrawRodData.y < minY) {
             minY = rod.backDrawRodData.y;
           }
         }
@@ -199,21 +197,20 @@ class BarChartData extends AxisChartData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    barGroups,
-    groupsSpace,
-    alignment,
-    titlesData,
-    barTouchData,
-    touchData,
-    axisTitleData,
-    maxY,
-    minY,
-    gridData,
-    borderData,
-    rangeAnnotations,
-    backgroundColor,
-  ];
-
+        barGroups,
+        groupsSpace,
+        alignment,
+        titlesData,
+        barTouchData,
+        touchData,
+        axisTitleData,
+        maxY,
+        minY,
+        gridData,
+        borderData,
+        rangeAnnotations,
+        backgroundColor,
+      ];
 }
 
 /// defines arrangement of [barGroups], check [MainAxisAlignment] for more details.
@@ -260,12 +257,11 @@ class BarChartGroupData with EquatableMixin {
     List<BarChartRodData> barRods,
     double barsSpace,
     List<int> showingTooltipIndicators,
-  })
-    : x = x,
-      barRods = barRods ?? const [],
-      barsSpace = barsSpace ?? 2,
-      showingTooltipIndicators = showingTooltipIndicators ?? const [],
-      assert(x != null);
+  })  : x = x,
+        barRods = barRods ?? const [],
+        barsSpace = barsSpace ?? 2,
+        showingTooltipIndicators = showingTooltipIndicators ?? const [],
+        assert(x != null);
 
   /// width of the group (sum of all [BarChartRodData]'s width and spaces)
   double get width {
@@ -310,12 +306,11 @@ class BarChartGroupData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    x,
-    barRods,
-    barsSpace,
-    showingTooltipIndicators,
-  ];
-
+        x,
+        barRods,
+        barsSpace,
+        showingTooltipIndicators,
+      ];
 }
 
 /// Holds data about rendering each rod (or bar) in the [BarChart].
@@ -371,13 +366,12 @@ class BarChartRodData with EquatableMixin {
     BorderRadius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
     List<BarChartRodStackItem> rodStackItem,
-  })
-    : y = y,
-      color = color ?? Colors.blueAccent,
-      width = width ?? 8,
-      borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
-      backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-      rodStackItem = rodStackItem ?? const [];
+  })  : y = y,
+        color = color ?? Colors.blueAccent,
+        width = width ?? 8,
+        borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
+        backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
+        rodStackItem = rodStackItem ?? const [];
 
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
@@ -414,14 +408,13 @@ class BarChartRodData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    y,
-    color,
-    width,
-    borderRadius,
-    backDrawRodData,
-    rodStackItem,
-  ];
-
+        y,
+        color,
+        width,
+        borderRadius,
+        backDrawRodData,
+        rodStackItem,
+      ];
 }
 
 /// A colored section of Stacked Chart rod item
@@ -479,11 +472,10 @@ class BarChartRodStackItem with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    fromY,
-    toY,
-    color,
-  ];
-
+        fromY,
+        toY,
+        color,
+      ];
 }
 
 /// Holds values to draw a rod in rear of the main rod.
@@ -508,10 +500,9 @@ class BackgroundBarChartRodData with EquatableMixin {
     double y,
     bool show,
     Color color,
-  })
-    : y = y ?? 8,
-      show = show ?? false,
-      color = color ?? Colors.blueGrey;
+  })  : y = y ?? 8,
+        show = show ?? false,
+        color = color ?? Colors.blueGrey;
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
   static BackgroundBarChartRodData lerp(
@@ -526,11 +517,10 @@ class BackgroundBarChartRodData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    show,
-    y,
-    color,
-  ];
-
+        show,
+        y,
+        color,
+      ];
 }
 
 /// Holds data to handle touch events, and touch responses in the [BarChart].
@@ -573,13 +563,12 @@ class BarTouchData extends FlTouchData with EquatableMixin {
     bool allowTouchBarBackDraw,
     bool handleBuiltInTouches,
     Function(BarTouchResponse) touchCallback,
-  })
-    : touchTooltipData = touchTooltipData ?? BarTouchTooltipData(),
-      touchExtraThreshold = touchExtraThreshold ?? const EdgeInsets.all(4),
-      allowTouchBarBackDraw = allowTouchBarBackDraw ?? false,
-      handleBuiltInTouches = handleBuiltInTouches ?? true,
-      touchCallback = touchCallback,
-      super(enabled ?? true);
+  })  : touchTooltipData = touchTooltipData ?? BarTouchTooltipData(),
+        touchExtraThreshold = touchExtraThreshold ?? const EdgeInsets.all(4),
+        allowTouchBarBackDraw = allowTouchBarBackDraw ?? false,
+        handleBuiltInTouches = handleBuiltInTouches ?? true,
+        touchCallback = touchCallback,
+        super(enabled ?? true);
 
   /// Copies current [BarTouchData] to a new [BarTouchData],
   /// and replaces provided values.
@@ -604,14 +593,13 @@ class BarTouchData extends FlTouchData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    enabled,
-    touchTooltipData,
-    touchExtraThreshold,
-    allowTouchBarBackDraw,
-    handleBuiltInTouches,
-    touchCallback,
-  ];
-
+        enabled,
+        touchTooltipData,
+        touchExtraThreshold,
+        allowTouchBarBackDraw,
+        handleBuiltInTouches,
+        touchCallback,
+      ];
 }
 
 /// Holds representation data for showing tooltip popup on top of rods.
@@ -662,30 +650,28 @@ class BarTouchTooltipData with EquatableMixin {
     GetBarTooltipItem getTooltipItem,
     bool fitInsideHorizontally,
     bool fitInsideVertically,
-  })
-    : tooltipBgColor = tooltipBgColor ?? Colors.white,
-      tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
-      tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      tooltipBottomMargin = tooltipBottomMargin ?? 16,
-      maxContentWidth = maxContentWidth ?? 120,
-      getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
-      fitInsideHorizontally = fitInsideHorizontally ?? false,
-      fitInsideVertically = fitInsideVertically ?? false,
-      super();
+  })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
+        tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+        tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        tooltipBottomMargin = tooltipBottomMargin ?? 16,
+        maxContentWidth = maxContentWidth ?? 120,
+        getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
+        fitInsideHorizontally = fitInsideHorizontally ?? false,
+        fitInsideVertically = fitInsideVertically ?? false,
+        super();
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    tooltipBgColor,
-    tooltipRoundedRadius,
-    tooltipPadding,
-    tooltipBottomMargin,
-    maxContentWidth,
-    getTooltipItem,
-    fitInsideHorizontally,
-    fitInsideVertically,
-  ];
-
+        tooltipBgColor,
+        tooltipRoundedRadius,
+        tooltipPadding,
+        tooltipBottomMargin,
+        maxContentWidth,
+        getTooltipItem,
+        fitInsideHorizontally,
+        fitInsideVertically,
+      ];
 }
 
 /// Provides a [BarTooltipItem] for showing content inside the [BarTouchTooltipData].
@@ -725,16 +711,15 @@ class BarTooltipItem with EquatableMixin {
 
   /// content of the tooltip, is a [text] String with a [textStyle].
   BarTooltipItem(String text, TextStyle textStyle)
-    : text = text,
-      textStyle = textStyle;
+      : text = text,
+        textStyle = textStyle;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    text,
-    textStyle,
-  ];
-
+        text,
+        textStyle,
+      ];
 }
 
 /// Holds information about touch response in the [BarChart].
@@ -748,18 +733,18 @@ class BarTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
-  BarTouchResponse(BarTouchedSpot spot,
-    FlTouchInput touchInput,)
-    : spot = spot,
-      super(touchInput);
+  BarTouchResponse(
+    BarTouchedSpot spot,
+    FlTouchInput touchInput,
+  )   : spot = spot,
+        super(touchInput);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    spot,
-    touchInput,
-  ];
-
+        spot,
+        touchInput,
+      ];
 }
 
 /// It gives you information about the touched spot.
@@ -783,23 +768,22 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
     int touchedRodDataIndex,
     FlSpot spot,
     Offset offset,
-  ) : touchedBarGroup = touchedBarGroup,
-      touchedBarGroupIndex = touchedBarGroupIndex,
-      touchedRodData = touchedRodData,
-      touchedRodDataIndex = touchedRodDataIndex,
-      super(spot, offset);
+  )   : touchedBarGroup = touchedBarGroup,
+        touchedBarGroupIndex = touchedBarGroupIndex,
+        touchedRodData = touchedRodData,
+        touchedRodDataIndex = touchedRodDataIndex,
+        super(spot, offset);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
-    touchedBarGroup,
-    touchedBarGroupIndex,
-    touchedRodData,
-    touchedRodDataIndex,
-    spot,
-    offset,
-  ];
-
+        touchedBarGroup,
+        touchedBarGroupIndex,
+        touchedRodData,
+        touchedRodDataIndex,
+        spot,
+        offset,
+      ];
 }
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)

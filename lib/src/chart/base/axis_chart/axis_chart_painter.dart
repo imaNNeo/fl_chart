@@ -201,14 +201,14 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     final Size usableViewSize = getChartUsableDrawSize(viewSize);
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
-
       double verticalSeek = data.minX + data.gridData.verticalInterval;
 
       final double delta = data.maxX - data.minX;
       final int count = delta ~/ data.gridData.verticalInterval;
       final double lastPosition = count * verticalSeek;
       final bool lastPositionOverlapsWithBorder = lastPosition == data.maxX;
-      final end = lastPositionOverlapsWithBorder ? data.maxX - data.gridData.verticalInterval : data.maxX;
+      final end =
+          lastPositionOverlapsWithBorder ? data.maxX - data.gridData.verticalInterval : data.maxX;
 
       while (verticalSeek <= end) {
         if (data.gridData.checkToShowVerticalLine(verticalSeek)) {
@@ -229,7 +229,6 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalLine) {
-
       double horizontalSeek = data.minY + data.gridData.horizontalInterval;
 
       final double delta = data.maxY - data.minY;
@@ -237,7 +236,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final double lastPosition = count * horizontalSeek;
       final bool lastPositionOverlapsWithBorder = lastPosition == data.maxY;
 
-      final end = lastPositionOverlapsWithBorder ? data.maxY - data.gridData.horizontalInterval : data.maxY;
+      final end =
+          lastPositionOverlapsWithBorder ? data.maxY - data.gridData.horizontalInterval : data.maxY;
 
       while (horizontalSeek <= end) {
         if (data.gridData.checkToShowHorizontalLine(horizontalSeek)) {
