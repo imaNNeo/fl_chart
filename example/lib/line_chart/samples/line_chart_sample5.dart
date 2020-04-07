@@ -24,16 +24,16 @@ class LineChartSample5 extends StatelessWidget {
           belowBarData: BarAreaData(
             show: true,
             colors: [
-              Color(0xff12c2e9).withOpacity(0.4),
-              Color(0xffc471ed).withOpacity(0.4),
-              Color(0xfff64f59).withOpacity(0.4),
+              const Color(0xff12c2e9).withOpacity(0.4),
+              const Color(0xffc471ed).withOpacity(0.4),
+              const Color(0xfff64f59).withOpacity(0.4),
             ],
           ),
           dotData: FlDotData(show: false),
           colors: [
-            Color(0xff12c2e9),
-            Color(0xffc471ed),
-            Color(0xfff64f59),
+            const Color(0xff12c2e9),
+            const Color(0xffc471ed),
+            const Color(0xfff64f59),
           ],
           colorStops: [
             0.1,
@@ -85,7 +85,7 @@ class LineChartSample5 extends StatelessWidget {
                 return lineBarsSpot.map((lineBarSpot) {
                   return LineTooltipItem(
                     lineBarSpot.y.toString(),
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   );
                 }).toList();
               },

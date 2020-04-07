@@ -125,7 +125,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           )
         ],
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
           show: true, drawVerticalLine: false, drawHorizontalLine: false, verticalInterval: 1),
       titlesData: FlTitlesData(
         show: true,
@@ -151,7 +151,6 @@ class _LineChartSample8State extends State<LineChartSample8> {
         fullHeightTouchLine: true,
         getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
-            final FlSpot spot = barData.spots[spotIndex];
             return TouchedSpotIndicatorData(
               FlLine(color: Colors.orange, strokeWidth: 3),
               FlDotData(dotSize: 8, getDotColor: (spot, percent, barData) => Colors.deepOrange),

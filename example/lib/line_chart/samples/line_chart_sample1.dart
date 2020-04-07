@@ -179,7 +179,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   }
 
   List<LineChartBarData> linesBarData1() {
-    LineChartBarData lineChartBarData1 = LineChartBarData(
+    final LineChartBarData lineChartBarData1 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 1.5),
@@ -191,7 +191,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       isCurved: true,
       colors: [
-        Color(0xff4af699),
+        const Color(0xff4af699),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -202,7 +202,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
     );
-    const LineChartBarData lineChartBarData2 = LineChartBarData(
+    final LineChartBarData lineChartBarData2 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 2.8),
@@ -213,7 +213,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       isCurved: true,
       colors: [
-        Color(0xffaa4cfc),
+        const Color(0xffaa4cfc),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -221,10 +221,10 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
       belowBarData: BarAreaData(show: false, colors: [
-        Color(0x00aa4cfc),
+        const Color(0x00aa4cfc),
       ]),
     );
-    LineChartBarData lineChartBarData3 = LineChartBarData(
+    final LineChartBarData lineChartBarData3 = LineChartBarData(
       spots: [
         FlSpot(1, 2.8),
         FlSpot(3, 1.9),
@@ -234,7 +234,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       isCurved: true,
       colors: [
-        Color(0xff27b6fc),
+        const Color(0xff27b6fc),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -378,7 +378,7 @@ class LineChartSample1State extends State<LineChartSample1> {
           show: false,
         ),
         belowBarData: BarAreaData(show: true, colors: [
-          Color(0x33aa4cfc),
+          const Color(0x33aa4cfc),
         ]),
       ),
       LineChartBarData(

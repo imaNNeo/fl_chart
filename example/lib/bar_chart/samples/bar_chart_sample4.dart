@@ -308,7 +308,7 @@ class BarChartSample4State extends State<BarChartSample4> {
                 show: true,
                 checkToShowHorizontalLine: (value) => value % 10 == 0,
                 getDrawingHorizontalLine: (value) => FlLine(
-                  color: Color(0xffe7e8ec),
+                  color: const Color(0xffe7e8ec),
                   strokeWidth: 1,
                 ),
               ),
