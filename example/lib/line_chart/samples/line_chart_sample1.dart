@@ -99,12 +99,10 @@ class LineChartSample1State extends State<LineChartSample1> {
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
         ),
-        touchCallback: (LineTouchResponse touchResponse) {
-          print(touchResponse);
-        },
+        touchCallback: (LineTouchResponse touchResponse) {},
         handleBuiltInTouches: true,
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
         show: false,
       ),
       titlesData: FlTitlesData(
@@ -180,7 +178,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   }
 
   List<LineChartBarData> linesBarData1() {
-    const LineChartBarData lineChartBarData1 = LineChartBarData(
+    final LineChartBarData lineChartBarData1 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 1.5),
@@ -192,7 +190,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       isCurved: true,
       colors: [
-        Color(0xff4af699),
+        const Color(0xff4af699),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -203,7 +201,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
     );
-    const LineChartBarData lineChartBarData2 = LineChartBarData(
+    final LineChartBarData lineChartBarData2 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 2.8),
@@ -214,7 +212,7 @@ class LineChartSample1State extends State<LineChartSample1> {
       ],
       isCurved: true,
       colors: [
-        Color(0xffaa4cfc),
+        const Color(0xffaa4cfc),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -222,10 +220,10 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
       belowBarData: BarAreaData(show: false, colors: [
-        Color(0x00aa4cfc),
+        const Color(0x00aa4cfc),
       ]),
     );
-    const LineChartBarData lineChartBarData3 = LineChartBarData(
+    final LineChartBarData lineChartBarData3 = LineChartBarData(
       spots: [
         FlSpot(1, 2.8),
         FlSpot(3, 1.9),
@@ -234,7 +232,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         FlSpot(13, 2.5),
       ],
       isCurved: true,
-      colors: [
+      colors: const [
         Color(0xff27b6fc),
       ],
       barWidth: 8,
@@ -255,10 +253,10 @@ class LineChartSample1State extends State<LineChartSample1> {
 
   LineChartData sampleData2() {
     return LineChartData(
-      lineTouchData: const LineTouchData(
+      lineTouchData: LineTouchData(
         enabled: false,
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
         show: false,
       ),
       titlesData: FlTitlesData(
@@ -336,7 +334,7 @@ class LineChartSample1State extends State<LineChartSample1> {
 
   List<LineChartBarData> linesBarData2() {
     return [
-      const LineChartBarData(
+      LineChartBarData(
         spots: [
           FlSpot(1, 1),
           FlSpot(3, 4),
@@ -348,7 +346,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         isCurved: true,
         curveSmoothness: 0,
-        colors: [
+        colors: const [
           Color(0x444af699),
         ],
         barWidth: 4,
@@ -360,7 +358,7 @@ class LineChartSample1State extends State<LineChartSample1> {
           show: false,
         ),
       ),
-      const LineChartBarData(
+      LineChartBarData(
         spots: [
           FlSpot(1, 1),
           FlSpot(3, 2.8),
@@ -370,7 +368,7 @@ class LineChartSample1State extends State<LineChartSample1> {
           FlSpot(13, 3.9),
         ],
         isCurved: true,
-        colors: [
+        colors: const [
           Color(0x99aa4cfc),
         ],
         barWidth: 4,
@@ -379,10 +377,10 @@ class LineChartSample1State extends State<LineChartSample1> {
           show: false,
         ),
         belowBarData: BarAreaData(show: true, colors: [
-          Color(0x33aa4cfc),
+          const Color(0x33aa4cfc),
         ]),
       ),
-      const LineChartBarData(
+      LineChartBarData(
         spots: [
           FlSpot(1, 3.8),
           FlSpot(3, 1.9),
@@ -392,7 +390,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         isCurved: true,
         curveSmoothness: 0,
-        colors: [
+        colors: const [
           Color(0x4427b6fc),
         ],
         barWidth: 2,

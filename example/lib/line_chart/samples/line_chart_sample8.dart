@@ -125,7 +125,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           )
         ],
       ),
-      gridData: const FlGridData(
+      gridData: FlGridData(
           show: true, drawVerticalLine: false, drawHorizontalLine: false, verticalInterval: 1),
       titlesData: FlTitlesData(
         show: true,
@@ -151,13 +151,9 @@ class _LineChartSample8State extends State<LineChartSample8> {
         fullHeightTouchLine: true,
         getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
-            final FlSpot spot = barData.spots[spotIndex];
-            if (spot.x == 0 || spot.x == 6) {
-              return null;
-            }
             return TouchedSpotIndicatorData(
-              const FlLine(color: Colors.orange, strokeWidth: 3),
-              const FlDotData(dotSize: 8, dotColor: Colors.deepOrange),
+              FlLine(color: Colors.orange, strokeWidth: 3),
+              FlDotData(dotSize: 8, getDotColor: (spot, percent, barData) => Colors.deepOrange),
             );
           }).toList();
         },
@@ -173,7 +169,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
+          spots: [
             FlSpot(0, 1),
             FlSpot(2, 1),
             FlSpot(4.9, 5),
@@ -190,7 +186,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           colors: const [Color(0xff0F2BF6), Color(0xff0F2BF6)],
           barWidth: 2,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(

@@ -1,3 +1,14 @@
+## 0.9.0
+* Added `strokeWidth`, `getStrokeColor`, `getDotColor` in the [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), also removed `dotColor` from it (you should use `getDotColor` instead, it gives you more customizability), now we have more customizability on [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), check [line_chart_sample3](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-3-source-code), and [line_chart_sample5](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-5-source-code), #233, #99, #274.
+* Added `equatable` library to solve some equation issues.
+* Implemented negative values feature for the BarChart, #106, #103.
+* add Equatable for all models, it leads to have a better performance.
+* Fixed a minor touch bug in the [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md).
+* Fixed ScatterChart built-in touch behaviour.
+* Fixed drawing grid lines bug, #280.
+* Implemented [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata).`getDotColor` in a proper way, it returns a color based on the [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata) color, #274, #282.
+* Updated [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata).`showingTooltipIndicators` field type to list of [ShowingTooltipIndicators](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#showingtoltipindicators) to have a clean naming.
+
 ## 0.8.7
 * Added `show` property in the `VerticalLineLabel` and set default to `false`, #256.
 * Fixed bug, when the screen size is square, #258.

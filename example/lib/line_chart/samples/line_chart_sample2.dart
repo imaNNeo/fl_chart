@@ -60,14 +60,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
         show: true,
         drawVerticalLine: true,
         getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
+          return FlLine(
+            color: const Color(0xff37434d),
             strokeWidth: 1,
           );
         },
         getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
+          return FlLine(
+            color: const Color(0xff37434d),
             strokeWidth: 1,
           );
         },
@@ -122,7 +122,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
+          spots: [
             FlSpot(0, 3),
             FlSpot(2.6, 2),
             FlSpot(4.9, 5),
@@ -135,7 +135,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           colors: gradientColors,
           barWidth: 5,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(
@@ -149,19 +149,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   LineChartData avgData() {
     return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
+      lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
         show: true,
         drawHorizontalLine: true,
         getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
+          return FlLine(
+            color: const Color(0xff37434d),
             strokeWidth: 1,
           );
         },
         getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
+          return FlLine(
+            color: const Color(0xff37434d),
             strokeWidth: 1,
           );
         },
@@ -216,7 +216,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
+          spots: [
             FlSpot(0, 3.44),
             FlSpot(2.6, 3.44),
             FlSpot(4.9, 3.44),
@@ -232,7 +232,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           ],
           barWidth: 5,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(show: true, colors: [

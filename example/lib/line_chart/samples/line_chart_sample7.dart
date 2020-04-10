@@ -9,10 +9,10 @@ class LineChartSample7 extends StatelessWidget {
       height: 140,
       child: LineChart(
         LineChartData(
-          lineTouchData: const LineTouchData(enabled: false),
+          lineTouchData: LineTouchData(enabled: false),
           lineBarsData: [
             LineChartBarData(
-              spots: const [
+              spots: [
                 FlSpot(0, 4),
                 FlSpot(1, 3.5),
                 FlSpot(2, 4.5),
@@ -31,11 +31,11 @@ class LineChartSample7 extends StatelessWidget {
               colors: [
                 Colors.green,
               ],
-              dotData: const FlDotData(
+              dotData: FlDotData(
                 show: false,
               ),
             ),
-            const LineChartBarData(
+            LineChartBarData(
               spots: [
                 FlSpot(0, 0),
                 FlSpot(1, 3),
@@ -60,7 +60,7 @@ class LineChartSample7 extends StatelessWidget {
               ),
             ),
             LineChartBarData(
-              spots: const [
+              spots: [
                 FlSpot(0, 7),
                 FlSpot(1, 3),
                 FlSpot(2, 4),
@@ -79,7 +79,7 @@ class LineChartSample7 extends StatelessWidget {
               colors: [
                 Colors.red,
               ],
-              dotData: const FlDotData(
+              dotData: FlDotData(
                 show: false,
               ),
             ),

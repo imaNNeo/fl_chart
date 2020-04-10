@@ -264,7 +264,7 @@ class BarChartSample4State extends State<BarChartSample4> {
             BarChartData(
               alignment: BarChartAlignment.center,
               maxY: 35,
-              barTouchData: const BarTouchData(
+              barTouchData: BarTouchData(
                 enabled: false,
               ),
               titlesData: FlTitlesData(
@@ -307,8 +307,8 @@ class BarChartSample4State extends State<BarChartSample4> {
               gridData: FlGridData(
                 show: true,
                 checkToShowHorizontalLine: (value) => value % 10 == 0,
-                getDrawingHorizontalLine: (value) => const FlLine(
-                  color: Color(0xffe7e8ec),
+                getDrawingHorizontalLine: (value) => FlLine(
+                  color: const Color(0xffe7e8ec),
                   strokeWidth: 1,
                 ),
               ),

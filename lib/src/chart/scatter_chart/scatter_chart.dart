@@ -193,12 +193,12 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         touchResponse.touchInput is FlLongPressStart ||
         touchResponse.touchInput is FlLongPressMoveUpdate) {
       setState(() {
-        touchedSpots.clear();
+        touchedSpots = [];
         touchedSpots.add(touchResponse.touchedSpotIndex);
       });
     } else {
       setState(() {
-        touchedSpots.clear();
+        touchedSpots = [];
       });
     }
   }

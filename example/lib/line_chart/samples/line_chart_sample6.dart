@@ -1,21 +1,20 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-// TODO(mhmdanas): fix this warning
 // ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
   final spots = [
-    const FlSpot(0, 1),
-    const FlSpot(2, 5),
-    const FlSpot(4, 3),
-    const FlSpot(6, 5),
+    FlSpot(0, 1),
+    FlSpot(2, 5),
+    FlSpot(4, 3),
+    FlSpot(6, 5),
   ];
 
   final spots2 = [
-    const FlSpot(0, 3),
-    const FlSpot(2, 1),
-    const FlSpot(4, 2),
-    const FlSpot(6, 1),
+    FlSpot(0, 3),
+    FlSpot(2, 1),
+    FlSpot(4, 2),
+    FlSpot(6, 1),
   ];
 
   double minSpotX, maxSpotX;
@@ -74,7 +73,7 @@ class LineChartSample6 extends StatelessWidget {
             height: 200,
             child: LineChart(
               LineChartData(
-                lineTouchData: const LineTouchData(enabled: false),
+                lineTouchData: LineTouchData(enabled: false),
                 lineBarsData: [
                   LineChartBarData(
                     colors: [
@@ -85,12 +84,12 @@ class LineChartSample6 extends StatelessWidget {
                     isCurved: true,
                     isStrokeCapRound: true,
                     barWidth: 10,
-                    belowBarData: const BarAreaData(
+                    belowBarData: BarAreaData(
                       show: false,
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.deepOrange.withOpacity(0.5),
+                      getDotColor: (spot, percent, barData) => Colors.deepOrange.withOpacity(0.5),
                       dotSize: 12,
                     ),
                   ),
@@ -103,12 +102,12 @@ class LineChartSample6 extends StatelessWidget {
                     isCurved: true,
                     isStrokeCapRound: true,
                     barWidth: 10,
-                    belowBarData: const BarAreaData(
+                    belowBarData: BarAreaData(
                       show: false,
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.blue.withOpacity(0.5),
+                      getDotColor: (spot, percent, barData) => Colors.blue.withOpacity(0.5),
                       dotSize: 12,
                     ),
                   ),
@@ -147,7 +146,7 @@ class LineChartSample6 extends StatelessWidget {
                         color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
                     margin: 16,
                   ),
-                  bottomTitles: const SideTitles(showTitles: false),
+                  bottomTitles: SideTitles(showTitles: false),
                   topTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 28,
