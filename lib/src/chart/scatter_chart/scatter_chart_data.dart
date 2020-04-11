@@ -74,28 +74,24 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double maxY,
   ) {
     if (scatterSpots.isNotEmpty) {
-      var canModifyMinX = false;
-      if (minX == null) {
+      final canModifyMinX = minX == null;
+      if (canModifyMinX) {
         minX = scatterSpots[0].x;
-        canModifyMinX = true;
       }
 
-      var canModifyMaxX = false;
-      if (maxX == null) {
+      final canModifyMaxX = maxX == null;
+      if (canModifyMaxX) {
         maxX = scatterSpots[0].x;
-        canModifyMaxX = true;
       }
 
-      var canModifyMinY = false;
-      if (minY == null) {
+      final canModifyMinY = minY == null;
+      if (canModifyMinY) {
         minY = scatterSpots[0].y;
-        canModifyMinY = true;
       }
 
-      var canModifyMaxY = false;
-      if (maxY == null) {
+      final canModifyMaxY = maxY == null;
+      if (canModifyMaxY) {
         maxY = scatterSpots[0].y;
-        canModifyMaxY = true;
       }
 
       for (int j = 0; j < scatterSpots.length; j++) {
