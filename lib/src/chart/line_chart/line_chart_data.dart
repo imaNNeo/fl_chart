@@ -112,28 +112,24 @@ class LineChartData extends AxisChartData with EquatableMixin {
       }
     }
     if (lineBarsData.isNotEmpty) {
-      var canModifyMinX = false;
-      if (minX == null) {
+      final canModifyMinX = minX == null;
+      if (canModifyMinX) {
         minX = lineBarsData[0].spots[0].x;
-        canModifyMinX = true;
       }
 
-      var canModifyMaxX = false;
-      if (maxX == null) {
+      final canModifyMaxX = maxX == null;
+      if (canModifyMaxX) {
         maxX = lineBarsData[0].spots[0].x;
-        canModifyMaxX = true;
       }
 
-      var canModifyMinY = false;
-      if (minY == null) {
+      final canModifyMinY = minY == null;
+      if (canModifyMinY) {
         minY = lineBarsData[0].spots[0].y;
-        canModifyMinY = true;
       }
 
-      var canModifyMaxY = false;
-      if (maxY == null) {
+      final canModifyMaxY = maxY == null;
+      if (canModifyMaxY) {
         maxY = lineBarsData[0].spots[0].y;
-        canModifyMaxY = true;
       }
 
       for (int i = 0; i < lineBarsData.length; i++) {

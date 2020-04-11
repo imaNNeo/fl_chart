@@ -91,16 +91,14 @@ class BarChartData extends AxisChartData with EquatableMixin {
     }
 
     if (barGroups.isNotEmpty) {
-      var canModifyMaxY = false;
-      if (maxY == null) {
+      final canModifyMaxY = maxY == null;
+      if (canModifyMaxY) {
         maxY = barGroups[0].barRods[0].y;
-        canModifyMaxY = true;
       }
 
-      var canModifyMinY = false;
-      if (minY == null) {
+      final canModifyMinY = minY == null;
+      if (canModifyMinY) {
         minY = 0;
-        canModifyMinY = true;
       }
 
       for (int i = 0; i < barGroups.length; i++) {
