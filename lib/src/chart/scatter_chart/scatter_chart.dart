@@ -162,15 +162,11 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   }
 
   Size _getChartSize() {
-    if (_chartKey.currentContext != null) {
-      final RenderBox containerRenderBox = _chartKey.currentContext.findRenderObject();
-      if (containerRenderBox.hasSize) {
-        return containerRenderBox.size;
-      }
-      return null;
-    } else {
-      return null;
+    final RenderBox containerRenderBox = _chartKey.currentContext?.findRenderObject();
+    if (containerRenderBox != null && containerRenderBox.hasSize) {
+      return containerRenderBox.size;
     }
+    return null;
   }
 
   ScatterChartData _getDate() {
@@ -193,8 +189,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         touchResponse.touchInput is FlLongPressStart ||
         touchResponse.touchInput is FlLongPressMoveUpdate) {
       setState(() {
-        touchedSpots = [];
-        touchedSpots.add(touchResponse.touchedSpotIndex);
+        touchedSpots = [touchResponse.touchedSpotIndex];
       });
     } else {
       setState(() {
