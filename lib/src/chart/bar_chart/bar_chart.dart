@@ -170,15 +170,11 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   }
 
   Size _getChartSize() {
-    if (_chartKey.currentContext != null) {
-      final RenderBox containerRenderBox = _chartKey.currentContext.findRenderObject();
-      if (containerRenderBox.hasSize) {
-        return containerRenderBox.size;
-      }
-      return null;
-    } else {
-      return null;
+    final RenderBox containerRenderBox = _chartKey.currentContext?.findRenderObject();
+    if (containerRenderBox != null && containerRenderBox.hasSize) {
+      return containerRenderBox.size;
     }
+    return null;
   }
 
   BarChartData _getDate() {
