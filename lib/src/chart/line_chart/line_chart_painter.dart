@@ -236,7 +236,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     for (int i = 0; i < barData.spots.length; i++) {
       final FlSpot spot = barData.spots[i];
-      if (barData.dotData.checkToShowDot(spot)) {
+      if (barData.dotData.checkToShowDot(spot, barData)) {
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
 

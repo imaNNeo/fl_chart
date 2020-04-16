@@ -129,7 +129,7 @@ class LineChartSample3 extends StatelessWidget {
                       dotSize: 6,
                       strokeWidth: 4,
                       getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
-                      checkToShowDot: (spot) {
+                      checkToShowDot: (spot, barData) {
                         return spot.x != 0 && spot.x != 6;
                       }),
                 ),

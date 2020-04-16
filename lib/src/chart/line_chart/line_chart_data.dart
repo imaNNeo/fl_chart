@@ -794,10 +794,10 @@ class FlDotData with EquatableMixin {
 ///
 /// It gives you the checking [FlSpot] and you should decide to
 /// show or hide the dot on this spot by returning true or false.
-typedef CheckToShowDot = bool Function(FlSpot spot);
+typedef CheckToShowDot = bool Function(FlSpot spot, LineChartBarData barData);
 
 /// Shows all dots on spots.
-bool showAllDots(FlSpot spot) {
+bool showAllDots(FlSpot spot, LineChartBarData barData) {
   return true;
 }
 
