@@ -79,12 +79,14 @@ class LineChartSample3 extends StatelessWidget {
               extraLinesData: ExtraLinesData(horizontalLines: [
                 HorizontalLine(
                   y: 1.8,
-                  color: Colors.green.withOpacity(0.7),
-                  strokeWidth: 4,
+                  color: Colors.green.withOpacity(0.8),
+                  strokeWidth: 3,
+                  dashArray: [20, 2],
                 ),
               ]),
               lineBarsData: [
                 LineChartBarData(
+                  isStepLineChart: true,
                   spots: [
                     FlSpot(0, 1.3),
                     FlSpot(1, 1),
@@ -127,7 +129,7 @@ class LineChartSample3 extends StatelessWidget {
                       show: true,
                       getDotColor: (spot, percent, barData) => Colors.white,
                       dotSize: 6,
-                      strokeWidth: 4,
+                      strokeWidth: 3,
                       getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
                       checkToShowDot: (spot) {
                         return spot.x != 0 && spot.x != 6;
