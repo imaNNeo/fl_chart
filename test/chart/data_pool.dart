@@ -523,6 +523,27 @@ final FlDotData flDotData6 = FlDotData(
   checkToShowDot: null,
 );
 
+final Shadow shadow1 = Shadow(
+  color: Colors.red,
+  blurRadius: 12,
+);
+final Shadow shadow1Clone = Shadow(
+  color: Colors.red,
+  blurRadius: 12,
+);
+final Shadow shadow2 = Shadow(
+  color: Colors.green,
+  blurRadius: 12,
+);
+final Shadow shadow3 = Shadow(
+  color: Colors.red,
+  blurRadius: 14,
+);
+final Shadow shadow4 = Shadow(
+  color: Colors.red.withOpacity(0.5),
+  blurRadius: 12,
+);
+
 final LineChartBarData lineChartBarData1 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
@@ -532,6 +553,7 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
     flSpot1,
     flSpot2,
   ],
+  shadow: shadow1,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -554,6 +576,7 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
     flSpot1Clone,
     flSpot2,
   ],
+  shadow: shadow1Clone,
   aboveBarData: barAreaData1Clone,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -577,6 +600,7 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
     flSpot1,
     flSpot2,
   ],
+  shadow: shadow2,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -600,6 +624,7 @@ final LineChartBarData lineChartBarData3 = LineChartBarData(
     flSpot1,
     flSpot2,
   ],
+  shadow: shadow3,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -623,6 +648,7 @@ final LineChartBarData lineChartBarData4 = LineChartBarData(
     flSpot2,
     flSpot1,
   ],
+  shadow: shadow4,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
