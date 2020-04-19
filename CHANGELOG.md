@@ -1,4 +1,4 @@
-## The next version
+## 0.9.2
 * [Feature] Added `shadow` property in [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to have shadow effect in our [LineChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md), take a look at [LineChartSampl5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-5-source-code), #304.
 * [Feature] Added `isStepLineChart`, and `lineChartStepData` in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to support Step Line Chart, take a look at [lineChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-3-source-code), #303.
 * [Improvement] Added `barData` parameter to checkToShowDot Function in the [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata).
