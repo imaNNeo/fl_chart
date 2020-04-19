@@ -416,7 +416,7 @@ class LineChartBarData with EquatableMixin {
       isStrokeCapRound: b.isStrokeCapRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
       preventCurveOvershootingThreshold:
-      lerpDouble(a.preventCurveOvershootingThreshold, b.preventCurveOvershootingThreshold, t),
+          lerpDouble(a.preventCurveOvershootingThreshold, b.preventCurveOvershootingThreshold, t),
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),
@@ -467,7 +467,7 @@ class LineChartBarData with EquatableMixin {
       curveSmoothness: curveSmoothness ?? this.curveSmoothness,
       preventCurveOverShooting: preventCurveOverShooting ?? this.preventCurveOverShooting,
       preventCurveOvershootingThreshold:
-      preventCurveOvershootingThreshold ?? this.preventCurveOvershootingThreshold,
+          preventCurveOvershootingThreshold ?? this.preventCurveOvershootingThreshold,
       isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
       belowBarData: belowBarData ?? this.belowBarData,
       aboveBarData: aboveBarData ?? this.aboveBarData,
@@ -503,12 +503,11 @@ class LineChartBarData with EquatableMixin {
         shadow,
         isStepLineChart,
         lineChartStepData,
-    ];
+      ];
 }
 
 /// Holds data for representing a Step Line Chart, and works only if [LineChartBarData.isStepChart] is true.
 class LineChartStepData with EquatableMixin {
-
   /// Go to the next spot directly, with the current point's y value.
   static const stepDirectionForward = 0.0;
 

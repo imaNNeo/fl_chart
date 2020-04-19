@@ -342,13 +342,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
   /// Generates a path, based on [LineChartBarData.isStepChart] for step style, and normal style.
   Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
-    {Path appendToPath}) {
+      {Path appendToPath}) {
     if (barData.isStepLineChart) {
       return _generateStepBarPath(viewSize, barData, barSpots, appendToPath: appendToPath);
     } else {
       return _generateNormalBarPath(viewSize, barData, barSpots, appendToPath: appendToPath);
     }
   }
+
   /// firstly we generate the bar line that we should draw,
   /// then we reuse it to fill below bar space.
   /// there is two type of barPath that generate here,
@@ -425,10 +426,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     return path;
   }
-  
+
   /// generates a `Step Line Chart` bar style path.
   Path _generateStepBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
-    {Path appendToPath}) {
+      {Path appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
     final int size = barSpots.length;
@@ -453,25 +454,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize),
       );
 
-
       final stepDirection = barData.lineChartStepData.stepDirection;
 
       // middle
       if (current.dy == next.dy) {
         path.lineTo(next.dx, next.dy);
-      } else  {
+      } else {
         final deltaX = next.dx - current.dx;
 
         path.lineTo(current.dx + deltaX - (deltaX * stepDirection), current.dy);
         path.lineTo(current.dx + deltaX - (deltaX * stepDirection), next.dy);
         path.lineTo(next.dx, next.dy);
       }
-
     }
 
     return path;
   }
-  
 
   /// it generates below area path using a copy of [barPath],
   /// if cutOffY is provided by the [BarAreaData], it cut the area to the provided cutOffY value,
