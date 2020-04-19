@@ -1,3 +1,8 @@
+## The next version
+* Added `shadow` property in [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to have shadow effect in our [LineChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md), take a look at [LineChartSampl5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-5-source-code), #304.
+* Added `isStepLineChart`, and `lineChartStepData` in the [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to support Step Line Chart, take a look at [lineChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-3-source-code), #303.
+
+
 ## 0.9.0
 * Added `strokeWidth`, `getStrokeColor`, `getDotColor` in the [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), also removed `dotColor` from it (you should use `getDotColor` instead, it gives you more customizability), now we have more customizability on [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), check [line_chart_sample3](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-3-source-code), and [line_chart_sample5](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/line_chart.md#sample-5-source-code), #233, #99, #274.
 * Added `equatable` library to solve some equation issues.
