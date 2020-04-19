@@ -459,7 +459,7 @@ final BarAreaData barAreaData4 = BarAreaData(
 );
 
 final Function(FlSpot, double, LineChartBarData) getDotColor = (spot, percent, bar) => Colors.green;
-final Function(FlSpot spot) checkToShowDot = (spot) => true;
+final Function(FlSpot spot, LineChartBarData barData) checkToShowDot = (spot, barData) => true;
 
 final FlDotData flDotData1 = FlDotData(
   show: true,
