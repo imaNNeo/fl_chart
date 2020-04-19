@@ -315,6 +315,9 @@ class LineChartBarData with EquatableMixin {
   /// Determines the dash length and space respectively, fill it if you want to have dashed line.
   final List<int> dashArray;
 
+  /// Drops a shadow behind the bar line.
+  final Shadow shadow;
+
   /// [BarChart] draws some lines and overlaps them in the chart's view,
   /// You can have multiple lines by splitting them,
   /// put a [FlSpot.nullSpot] between each section.
@@ -369,6 +372,7 @@ class LineChartBarData with EquatableMixin {
     FlDotData dotData,
     List<int> showingIndicators,
     List<int> dashArray,
+    Shadow shadow,
   })  : spots = spots ?? const [],
         show = show ?? true,
         colors = colors ?? const [Colors.redAccent],
@@ -385,7 +389,8 @@ class LineChartBarData with EquatableMixin {
         aboveBarData = aboveBarData ?? BarAreaData(),
         dotData = dotData ?? FlDotData(),
         showingIndicators = showingIndicators ?? const [],
-        dashArray = dashArray;
+        dashArray = dashArray,
+        shadow = shadow ?? const Shadow();
 
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
@@ -407,6 +412,7 @@ class LineChartBarData with EquatableMixin {
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spots: lerpFlSpotList(a.spots, b.spots, t),
       showingIndicators: b.showingIndicators,
+      shadow: Shadow.lerp(a.shadow, b.shadow, t),
     );
   }
 
@@ -430,6 +436,7 @@ class LineChartBarData with EquatableMixin {
     FlDotData dotData,
     List<int> dashArray,
     List<int> showingIndicators,
+    Shadow shadow,
   }) {
     return LineChartBarData(
       spots: spots ?? this.spots,
@@ -450,6 +457,7 @@ class LineChartBarData with EquatableMixin {
       dashArray: dashArray ?? this.dashArray,
       dotData: dotData ?? this.dotData,
       showingIndicators: showingIndicators ?? this.showingIndicators,
+      shadow: shadow ?? this.shadow,
     );
   }
 
@@ -473,6 +481,7 @@ class LineChartBarData with EquatableMixin {
         dotData,
         showingIndicators,
         dashArray,
+        shadow,
       ];
 }
 

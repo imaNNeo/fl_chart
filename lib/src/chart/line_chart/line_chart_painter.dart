@@ -200,6 +200,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       _drawBelowBar(canvas, viewSize, belowBarPath, completelyFillAboveBarPath, barData);
       _drawAboveBar(canvas, viewSize, aboveBarPath, completelyFillBelowBarPath, barData);
+      _drawBarShadow(canvas, viewSize, barPath, barData);
       _drawBar(canvas, viewSize, barPath, barData);
     }
   }
@@ -696,6 +697,33 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     canvas.restore();
   }
 
+  /// draw the main bar line's shadow by the [barPath]
+  void _drawBarShadow(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+    if (!barData.show || barData.shadow.color.opacity == 0.0) {
+      return;
+    }
+
+    _barPaint.strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    _barPaint.color = barData.shadow.color;
+    _barPaint.shader = null;
+    _barPaint.strokeWidth = barData.barWidth;
+    _barPaint.color = barData.shadow.color;
+    _barPaint.maskFilter = MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(barData.shadow.blurRadius));
+
+    barPath = barPath.toDashedPath(barData.dashArray);
+
+    barPath = barPath.shift(barData.shadow.offset);
+
+    canvas.drawPath(
+      barPath,
+      _barPaint,
+    );
+  }
+
+  static double convertRadiusToSigma(double radius) {
+    return radius * 0.57735 + 0.5;
+  }
+
   /// draw the main bar line by the [barPath]
   void _drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
     if (!barData.show) {
@@ -741,6 +769,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       );
     }
 
+    _barPaint.maskFilter = null;
     _barPaint.strokeWidth = barData.barWidth;
     barPath = barPath.toDashedPath(barData.dashArray);
     canvas.drawPath(barPath, _barPaint);
