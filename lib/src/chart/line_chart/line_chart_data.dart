@@ -315,6 +315,15 @@ class LineChartBarData with EquatableMixin {
   /// Determines the dash length and space respectively, fill it if you want to have dashed line.
   final List<int> dashArray;
 
+  /// Drops a shadow behind the bar line.
+  final Shadow shadow;
+
+  /// If sets true, it draws the chart in Step Line Chart style, using [LineChartBarData.lineChartStepData].
+  final bool isStepLineChart;
+
+  /// Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.
+  final LineChartStepData lineChartStepData;
+
   /// [BarChart] draws some lines and overlaps them in the chart's view,
   /// You can have multiple lines by splitting them,
   /// put a [FlSpot.nullSpot] between each section.
@@ -351,6 +360,9 @@ class LineChartBarData with EquatableMixin {
   /// you want to show indicator on them.
   ///
   /// [LineChart] draws the lines with dashed effect if you fill [dashArray].
+  ///
+  /// If you want to have a Step Line Chart style, just set [isStepLineChart] true,
+  /// also you can tweak the [LineChartBarData.lineChartStepData].
   LineChartBarData({
     List<FlSpot> spots,
     bool show,
@@ -369,6 +381,9 @@ class LineChartBarData with EquatableMixin {
     FlDotData dotData,
     List<int> showingIndicators,
     List<int> dashArray,
+    Shadow shadow,
+    bool isStepLineChart,
+    LineChartStepData lineChartStepData,
   })  : spots = spots ?? const [],
         show = show ?? true,
         colors = colors ?? const [Colors.redAccent],
@@ -385,7 +400,10 @@ class LineChartBarData with EquatableMixin {
         aboveBarData = aboveBarData ?? BarAreaData(),
         dotData = dotData ?? FlDotData(),
         showingIndicators = showingIndicators ?? const [],
-        dashArray = dashArray;
+        dashArray = dashArray,
+        shadow = shadow ?? const Shadow(),
+        isStepLineChart = isStepLineChart ?? false,
+        lineChartStepData = lineChartStepData ?? LineChartStepData();
 
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
@@ -407,6 +425,9 @@ class LineChartBarData with EquatableMixin {
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spots: lerpFlSpotList(a.spots, b.spots, t),
       showingIndicators: b.showingIndicators,
+      shadow: Shadow.lerp(a.shadow, b.shadow, t),
+      isStepLineChart: b.isStepLineChart,
+      lineChartStepData: LineChartStepData.lerp(a.lineChartStepData, b.lineChartStepData, t),
     );
   }
 
@@ -430,6 +451,9 @@ class LineChartBarData with EquatableMixin {
     FlDotData dotData,
     List<int> dashArray,
     List<int> showingIndicators,
+    Shadow shadow,
+    bool isStepLineChart,
+    LineChartStepData lineChartStepData,
   }) {
     return LineChartBarData(
       spots: spots ?? this.spots,
@@ -450,6 +474,9 @@ class LineChartBarData with EquatableMixin {
       dashArray: dashArray ?? this.dashArray,
       dotData: dotData ?? this.dotData,
       showingIndicators: showingIndicators ?? this.showingIndicators,
+      shadow: shadow ?? this.shadow,
+      isStepLineChart: isStepLineChart ?? this.isStepLineChart,
+      lineChartStepData: lineChartStepData ?? this.lineChartStepData,
     );
   }
 
@@ -473,7 +500,39 @@ class LineChartBarData with EquatableMixin {
         dotData,
         showingIndicators,
         dashArray,
+        shadow,
+        isStepLineChart,
+        lineChartStepData,
       ];
+}
+
+/// Holds data for representing a Step Line Chart, and works only if [LineChartBarData.isStepChart] is true.
+class LineChartStepData with EquatableMixin {
+  /// Go to the next spot directly, with the current point's y value.
+  static const stepDirectionForward = 0.0;
+
+  /// Go to the half with the current spot y, and with the next spot y for the rest.
+  static const stepDirectionMiddle = 0.5;
+
+  /// Go to the next spot y and direct line to the next spot.
+  static const stepDirectionBackward = 1.0;
+
+  /// Determines the direction of each step;
+  final double stepDirection;
+
+  /// Determines the [stepDirection] of each step;
+  LineChartStepData({this.stepDirection = stepDirectionMiddle});
+
+  /// Lerps a [LineChartStepData] based on [t] value, check [Tween.lerp].
+  static LineChartStepData lerp(LineChartStepData a, LineChartStepData b, double t) {
+    return LineChartStepData(
+      stepDirection: lerpDouble(a.stepDirection, b.stepDirection, t),
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [stepDirection];
 }
 
 /// Holds data for filling an area (above or below) of the line with a color or gradient.
@@ -794,10 +853,10 @@ class FlDotData with EquatableMixin {
 ///
 /// It gives you the checking [FlSpot] and you should decide to
 /// show or hide the dot on this spot by returning true or false.
-typedef CheckToShowDot = bool Function(FlSpot spot);
+typedef CheckToShowDot = bool Function(FlSpot spot, LineChartBarData barData);
 
 /// Shows all dots on spots.
-bool showAllDots(FlSpot spot) {
+bool showAllDots(FlSpot spot, LineChartBarData barData) {
   return true;
 }
 

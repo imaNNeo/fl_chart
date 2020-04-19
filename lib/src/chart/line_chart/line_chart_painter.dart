@@ -200,6 +200,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       _drawBelowBar(canvas, viewSize, belowBarPath, completelyFillAboveBarPath, barData);
       _drawAboveBar(canvas, viewSize, aboveBarPath, completelyFillBelowBarPath, barData);
+      _drawBarShadow(canvas, viewSize, barPath, barData);
       _drawBar(canvas, viewSize, barPath, barData);
     }
   }
@@ -236,7 +237,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     for (int i = 0; i < barData.spots.length; i++) {
       final FlSpot spot = barData.spots[i];
-      if (barData.dotData.checkToShowDot(spot)) {
+      if (barData.dotData.checkToShowDot(spot, barData)) {
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
 
@@ -339,6 +340,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
+  /// Generates a path, based on [LineChartBarData.isStepChart] for step style, and normal style.
+  Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
+      {Path appendToPath}) {
+    if (barData.isStepLineChart) {
+      return _generateStepBarPath(viewSize, barData, barSpots, appendToPath: appendToPath);
+    } else {
+      return _generateNormalBarPath(viewSize, barData, barSpots, appendToPath: appendToPath);
+    }
+  }
+
   /// firstly we generate the bar line that we should draw,
   /// then we reuse it to fill below bar space.
   /// there is two type of barPath that generate here,
@@ -347,7 +358,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// and we use isCurved to find out how we should generate it,
   /// If you want to concatenate paths together for creating an area between
   /// multiple bars for example, you can pass the appendToPath
-  Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
+  Path _generateNormalBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
       {Path appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
@@ -411,6 +422,50 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         current.dx,
         current.dy,
       );
+    }
+
+    return path;
+  }
+
+  /// generates a `Step Line Chart` bar style path.
+  Path _generateStepBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
+      {Path appendToPath}) {
+    viewSize = getChartUsableDrawSize(viewSize);
+    final Path path = appendToPath ?? Path();
+    final int size = barSpots.length;
+
+    final double x = getPixelX(barSpots[0].x, viewSize);
+    final double y = getPixelY(barSpots[0].y, viewSize);
+    if (appendToPath == null) {
+      path.moveTo(x, y);
+    } else {
+      path.lineTo(x, y);
+    }
+    for (int i = 0; i < size; i++) {
+      /// CurrentSpot
+      final current = Offset(
+        getPixelX(barSpots[i].x, viewSize),
+        getPixelY(barSpots[i].y, viewSize),
+      );
+
+      /// next point
+      final next = Offset(
+        getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize),
+        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize),
+      );
+
+      final stepDirection = barData.lineChartStepData.stepDirection;
+
+      // middle
+      if (current.dy == next.dy) {
+        path.lineTo(next.dx, next.dy);
+      } else {
+        final deltaX = next.dx - current.dx;
+
+        path.lineTo(current.dx + deltaX - (deltaX * stepDirection), current.dy);
+        path.lineTo(current.dx + deltaX - (deltaX * stepDirection), next.dy);
+        path.lineTo(next.dx, next.dy);
+      }
     }
 
     return path;
@@ -696,6 +751,34 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     canvas.restore();
   }
 
+  /// draw the main bar line's shadow by the [barPath]
+  void _drawBarShadow(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+    if (!barData.show || barData.shadow.color.opacity == 0.0) {
+      return;
+    }
+
+    _barPaint.strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    _barPaint.color = barData.shadow.color;
+    _barPaint.shader = null;
+    _barPaint.strokeWidth = barData.barWidth;
+    _barPaint.color = barData.shadow.color;
+    _barPaint.maskFilter =
+        MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(barData.shadow.blurRadius));
+
+    barPath = barPath.toDashedPath(barData.dashArray);
+
+    barPath = barPath.shift(barData.shadow.offset);
+
+    canvas.drawPath(
+      barPath,
+      _barPaint,
+    );
+  }
+
+  static double convertRadiusToSigma(double radius) {
+    return radius * 0.57735 + 0.5;
+  }
+
   /// draw the main bar line by the [barPath]
   void _drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
     if (!barData.show) {
@@ -741,6 +824,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       );
     }
 
+    _barPaint.maskFilter = null;
     _barPaint.strokeWidth = barData.barWidth;
     barPath = barPath.toDashedPath(barData.dashArray);
     canvas.drawPath(barPath, _barPaint);

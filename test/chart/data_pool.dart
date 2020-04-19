@@ -459,7 +459,7 @@ final BarAreaData barAreaData4 = BarAreaData(
 );
 
 final Function(FlSpot, double, LineChartBarData) getDotColor = (spot, percent, bar) => Colors.green;
-final Function(FlSpot spot) checkToShowDot = (spot) => true;
+final Function(FlSpot spot, LineChartBarData barData) checkToShowDot = (spot, barData) => true;
 
 final FlDotData flDotData1 = FlDotData(
   show: true,
@@ -523,6 +523,39 @@ final FlDotData flDotData6 = FlDotData(
   checkToShowDot: null,
 );
 
+final Shadow shadow1 = Shadow(
+  color: Colors.red,
+  blurRadius: 12,
+);
+final Shadow shadow1Clone = Shadow(
+  color: Colors.red,
+  blurRadius: 12,
+);
+final Shadow shadow2 = Shadow(
+  color: Colors.green,
+  blurRadius: 12,
+);
+final Shadow shadow3 = Shadow(
+  color: Colors.red,
+  blurRadius: 14,
+);
+final Shadow shadow4 = Shadow(
+  color: Colors.red.withOpacity(0.5),
+  blurRadius: 12,
+);
+
+final LineChartStepData lineChartStepData1 = LineChartStepData(
+  stepDirection: LineChartStepData.stepDirectionMiddle,
+);
+
+final LineChartStepData lineChartStepData1Clone = LineChartStepData(
+  stepDirection: LineChartStepData.stepDirectionMiddle,
+);
+
+final LineChartStepData lineChartStepData2 = LineChartStepData(
+  stepDirection: LineChartStepData.stepDirectionForward,
+);
+
 final LineChartBarData lineChartBarData1 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
@@ -532,6 +565,8 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
     flSpot1,
     flSpot2,
   ],
+  shadow: shadow1,
+  isStepLineChart: false,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -554,6 +589,8 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
     flSpot1Clone,
     flSpot2,
   ],
+  shadow: shadow1Clone,
+  isStepLineChart: false,
   aboveBarData: barAreaData1Clone,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -577,6 +614,9 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
     flSpot1,
     flSpot2,
   ],
+  shadow: shadow2,
+  isStepLineChart: true,
+  lineChartStepData: lineChartStepData1,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -600,6 +640,9 @@ final LineChartBarData lineChartBarData3 = LineChartBarData(
     flSpot1,
     flSpot2,
   ],
+  shadow: shadow3,
+  isStepLineChart: true,
+  lineChartStepData: lineChartStepData2,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
@@ -623,6 +666,9 @@ final LineChartBarData lineChartBarData4 = LineChartBarData(
     flSpot2,
     flSpot1,
   ],
+  shadow: shadow4,
+  isStepLineChart: false,
+  lineChartStepData: lineChartStepData2,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   gradientFrom: const Offset(0, 0),
