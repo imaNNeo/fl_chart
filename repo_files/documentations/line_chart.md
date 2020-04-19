@@ -53,6 +53,13 @@ LineChart(
 |showingIndicators| show indicators based on provided indexes | []|
 |dashArray|A circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
 |shadow|It drops a shadow behind your bar, see [Shadow](https://api.flutter.dev/flutter/dart-ui/Shadow-class.html).|Shadow()|
+|isStepLineChart|If sets true, it draws the chart in Step Line Chart style, using `lineChartStepData`.|false|
+|lineChartStepData|Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.|[LineChartStepData](#LineChartStepData)()|
+
+### LineChartStepData
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|stepDirection|Determines the direction of each step, could be between 0.0 (forward), and 1.0 (backward)|LineChartStepData.stepDirectionMiddle|
 
 ### BetweenBarsData
 |PropName|Description|default value|

@@ -340,6 +340,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
+  /// Generates a path, based on [LineChartBarData.isStepChart] for step style, and normal style.
+  Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
+    {Path appendToPath}) {
+    if (barData.isStepLineChart) {
+      return _generateStepBarPath(viewSize, barData, barSpots, appendToPath: appendToPath);
+    } else {
+      return _generateNormalBarPath(viewSize, barData, barSpots, appendToPath: appendToPath);
+    }
+  }
   /// firstly we generate the bar line that we should draw,
   /// then we reuse it to fill below bar space.
   /// there is two type of barPath that generate here,
@@ -348,7 +357,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// and we use isCurved to find out how we should generate it,
   /// If you want to concatenate paths together for creating an area between
   /// multiple bars for example, you can pass the appendToPath
-  Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
+  Path _generateNormalBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
       {Path appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
@@ -416,6 +425,53 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     return path;
   }
+  
+  /// generates a `Step Line Chart` bar style path.
+  Path _generateStepBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
+    {Path appendToPath}) {
+    viewSize = getChartUsableDrawSize(viewSize);
+    final Path path = appendToPath ?? Path();
+    final int size = barSpots.length;
+
+    final double x = getPixelX(barSpots[0].x, viewSize);
+    final double y = getPixelY(barSpots[0].y, viewSize);
+    if (appendToPath == null) {
+      path.moveTo(x, y);
+    } else {
+      path.lineTo(x, y);
+    }
+    for (int i = 0; i < size; i++) {
+      /// CurrentSpot
+      final current = Offset(
+        getPixelX(barSpots[i].x, viewSize),
+        getPixelY(barSpots[i].y, viewSize),
+      );
+
+      /// next point
+      final next = Offset(
+        getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize),
+        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize),
+      );
+
+
+      final stepDirection = barData.lineChartStepData.stepDirection;
+
+      // middle
+      if (current.dy == next.dy) {
+        path.lineTo(next.dx, next.dy);
+      } else  {
+        final deltaX = next.dx - current.dx;
+
+        path.lineTo(current.dx + deltaX - (deltaX * stepDirection), current.dy);
+        path.lineTo(current.dx + deltaX - (deltaX * stepDirection), next.dy);
+        path.lineTo(next.dx, next.dy);
+      }
+
+    }
+
+    return path;
+  }
+  
 
   /// it generates below area path using a copy of [barPath],
   /// if cutOffY is provided by the [BarAreaData], it cut the area to the provided cutOffY value,
