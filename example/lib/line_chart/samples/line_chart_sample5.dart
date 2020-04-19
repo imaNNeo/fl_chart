@@ -21,6 +21,10 @@ class LineChartSample5 extends StatelessWidget {
           spots: allSpots,
           isCurved: true,
           barWidth: 4,
+          shadow: Shadow(
+            blurRadius: 8,
+            color: Colors.black,
+          ),
           belowBarData: BarAreaData(
             show: true,
             colors: [
