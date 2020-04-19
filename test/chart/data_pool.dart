@@ -544,7 +544,6 @@ final Shadow shadow4 = Shadow(
   blurRadius: 12,
 );
 
-
 final LineChartStepData lineChartStepData1 = LineChartStepData(
   stepDirection: LineChartStepData.stepDirectionMiddle,
 );
