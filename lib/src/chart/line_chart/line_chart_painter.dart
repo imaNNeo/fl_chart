@@ -708,7 +708,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     _barPaint.shader = null;
     _barPaint.strokeWidth = barData.barWidth;
     _barPaint.color = barData.shadow.color;
-    _barPaint.maskFilter = MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(barData.shadow.blurRadius));
+    _barPaint.maskFilter =
+        MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(barData.shadow.blurRadius));
 
     barPath = barPath.toDashedPath(barData.dashArray);
 

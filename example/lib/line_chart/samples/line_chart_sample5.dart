@@ -21,7 +21,7 @@ class LineChartSample5 extends StatelessWidget {
           spots: allSpots,
           isCurved: true,
           barWidth: 4,
-          shadow: Shadow(
+          shadow: const Shadow(
             blurRadius: 8,
             color: Colors.black,
           ),
