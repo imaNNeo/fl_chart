@@ -755,7 +755,7 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
   /// When touch happens, a [BarTouchedSpot] returns as a output,
   /// it tells you where the touch happened.
   /// [touchedBarGroup], and [touchedBarGroupIndex] tells you in which group touch happened,
-  /// [touchedRodData], and [touchedRodDataIndex] telss you in which rod touch happened.
+  /// [touchedRodData], and [touchedRodDataIndex] tells you in which rod touch happened.
   /// You can also have the touched x and y in the chart as a [FlSpot] using [spot] value,
   /// and you can have the local touch coordinates on the screen as a [Offset] using [offset] value.
   BarTouchedSpot(
