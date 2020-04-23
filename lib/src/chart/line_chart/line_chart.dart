@@ -40,7 +40,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   @override
   Widget build(BuildContext context) {
-    final LineChartData showingData = _getDate();
+    final LineChartData showingData = _getData();
     final LineTouchData touchData = showingData.lineTouchData;
 
     return GestureDetector(
@@ -173,7 +173,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     return null;
   }
 
-  LineChartData _getDate() {
+  LineChartData _getData() {
     final lineTouchData = widget.data.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       return widget.data.copyWith(
@@ -218,7 +218,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   void forEachTween(visitor) {
     _lineChartDataTween = visitor(
       _lineChartDataTween,
-      _getDate(),
+      _getData(),
       (dynamic value) => LineChartDataTween(begin: value),
     );
   }

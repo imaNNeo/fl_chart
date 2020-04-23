@@ -32,7 +32,7 @@ void main() {
     expect(getDefaultSize(const Size(1000, 1000)).width, closeTo(700, tolerance));
   });
 
-  test('translate roatted position', () {
+  test('translate rotated position', () {
     expect(translateRotatedPosition(100, 90), 25);
     expect(translateRotatedPosition(100, 0), 0);
   });

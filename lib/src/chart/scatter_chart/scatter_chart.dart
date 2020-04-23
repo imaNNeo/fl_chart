@@ -37,7 +37,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
 
   @override
   Widget build(BuildContext context) {
-    final ScatterChartData showingData = _getDate();
+    final ScatterChartData showingData = _getData();
     final ScatterTouchData touchData = showingData.scatterTouchData;
 
     return GestureDetector(
@@ -169,7 +169,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     return null;
   }
 
-  ScatterChartData _getDate() {
+  ScatterChartData _getData() {
     final scatterTouchData = widget.data.scatterTouchData;
     if (scatterTouchData.enabled && scatterTouchData.handleBuiltInTouches) {
       return widget.data.copyWith(
@@ -202,7 +202,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   void forEachTween(visitor) {
     _scatterChartDataTween = visitor(
       _scatterChartDataTween,
-      _getDate(),
+      _getData(),
       (dynamic value) => ScatterChartDataTween(begin: value),
     );
   }
