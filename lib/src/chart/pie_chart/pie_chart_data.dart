@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../base/base_chart/base_chart_data.dart';
@@ -57,7 +58,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.nan,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
-        sectionsSpace = sectionsSpace ?? 2,
+
+        /// we've disabled `groupSpace` on web, because some BlendModes are [not working](https://github.com/flutter/flutter/issues/56071) yet
+        sectionsSpace = kIsWeb ? 0 : sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
         super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
