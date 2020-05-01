@@ -1,4 +1,4 @@
-package com.example.example
+package com.ikhoshabi.fl_chart_demo
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

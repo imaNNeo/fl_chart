@@ -1,4 +1,3 @@
-import 'package:example/scatter_chart/scatter_chart_page.dart';
 import 'package:flutter/material.dart';
 
 import 'bar_chart/bar_chart_page.dart';
@@ -8,6 +7,7 @@ import 'line_chart/line_chart_page2.dart';
 import 'line_chart/line_chart_page3.dart';
 import 'line_chart/line_chart_page4.dart';
 import 'pie_chart/pie_chart_page.dart';
+import 'scatter_chart/scatter_chart_page.dart';
 
 void main() => runApp(MyApp());
 

@@ -1,6 +1,7 @@
-import 'package:example/scatter_chart/samples/scatter_chart_sample1.dart';
-import 'package:example/scatter_chart/samples/scatter_chart_sample2.dart';
 import 'package:flutter/material.dart';
+
+import 'samples/scatter_chart_sample1.dart';
+import 'samples/scatter_chart_sample2.dart';
 
 class ScatterChartPage extends StatelessWidget {
   final Color barColor = Colors.white;

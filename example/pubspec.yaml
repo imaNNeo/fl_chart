@@ -1,5 +1,5 @@
-name: example
-description: A new Flutter project.
+name: fl_chart_demo
+description: Represents [FL Chart](https://github.com/imaNNeoFighT/fl_chart)'s samples.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
