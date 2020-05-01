@@ -69,7 +69,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   }
 
   void _drawSections(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
-    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    if (data.sectionsSpace != 0) {
+      canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    }
+
     final Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     double tempAngle = data.startDegreeOffset;
@@ -99,7 +102,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       tempAngle += sweepAngle;
     }
 
-    _removeSectionsSpace(canvas, viewSize);
+    if (data.sectionsSpace != 0) {
+      _removeSectionsSpace(canvas, viewSize);
+    }
   }
 
   /// firstly the sections draw close to eachOther without any space,
