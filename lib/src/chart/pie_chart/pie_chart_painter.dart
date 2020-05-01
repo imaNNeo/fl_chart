@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -70,7 +69,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   }
 
   void _drawSections(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
-    print('${data.sectionsSpace} kIsWeb: $kIsWeb');
     if (data.sectionsSpace != 0) {
       canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     }
