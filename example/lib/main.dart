@@ -38,8 +38,16 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+List<MapEntry<Widget, String>> chartPages = [
+  MapEntry(LineChartPage(), 'Line Chart'),
+  MapEntry(BarChartPage(), 'Bar Chart'),
+  MapEntry(PieChartPage(), 'Pie Chart'),
+  MapEntry(ScatterChartPage(), 'Scatter Chart'),
+];
+
 class _MyHomePageState extends State<MyHomePage> {
   double menuWidth = 200;
+  Widget activePage = chartPages[0].key;
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +63,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   width: menuWidth,
                   height: double.infinity,
-                  child: LeftMenu(),
+                  child: LeftMenu(
+                    onMenuItemChange: (newIndex) {
+                      setState(() {
+                        activePage = chartPages[newIndex].key;
+                      });
+                    },
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: menuWidth),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: pageBgColor,
-                    borderRadius: const BorderRadius.only(
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(32),
                       bottomLeft: Radius.circular(32),
                     ),
                   ),
+                  child: activePage,
                 )
               ],
             );
@@ -106,20 +121,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class LeftMenu extends StatefulWidget {
   static const double paddingLeft = 24;
+  final OnMenuItemChange onMenuItemChange;
+
+  const LeftMenu({Key key, this.onMenuItemChange}) : super(key: key);
 
   @override
   _LeftMenuState createState() => _LeftMenuState();
 }
 
+typedef OnMenuItemChange = Function(int position);
+
 class _LeftMenuState extends State<LeftMenu> {
   int selectedPos = 0;
-
-  List<String> charts = [
-    'Line Chart',
-    'Bar Chart',
-    'Pie Chart',
-    'Scatter Chart',
-  ];
+  
+  List<String> charts = chartPages.map((e) => e.value).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +157,7 @@ class _LeftMenuState extends State<LeftMenu> {
                 onTap: () {
                   setState(() {
                     selectedPos = indexTitle.key;
+                    widget.onMenuItemChange(selectedPos);
                   });
                 },
               ),
@@ -184,7 +200,6 @@ class MenuRow extends StatelessWidget {
   final String text;
   final bool isSelected;
   final Function onTap;
-
   const MenuRow({Key key, this.text, this.isSelected = false, this.onTap}) : super(key: key);
 
   @override
@@ -210,6 +225,50 @@ class MenuRow extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LineChartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: const Center(
+        child: Text('LineChartPage'),
+      ),
+    );
+  }
+}
+
+class BarChartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: const Center(
+        child: Text('BarChartPage'),
+      ),
+    );
+  }
+}
+
+class PieChartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: const Center(
+        child: Text('PieChartPage'),
+      ),
+    );
+  }
+}
+
+class ScatterChartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: const Center(
+        child: Text('ScatterChartPage'),
       ),
     );
   }
