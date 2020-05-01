@@ -1,3 +1,6 @@
+## 0.9.4
+* [Bugfix] Fixed showing PieChart on web (we've ignored `groupSpace` on web, because some BlendModes are [not working](https://github.com/flutter/flutter/issues/56071) yet)
+
 ## 0.9.3
 * [BugFix] Fixed groupBarsPosition exception, #313.
 * [Improvement] Shadows default off, #316.
