@@ -233,6 +233,8 @@ class SideTitles with EquatableMixin {
   final double margin;
   final double interval;
   final double rotateAngle;
+  final double minY;
+  final double maxY;
 
   /// It draws some title on all axis, per each axis value,
   /// [showTitles] determines showing or hiding this side,
@@ -255,6 +257,8 @@ class SideTitles with EquatableMixin {
     double margin,
     double interval,
     double rotateAngle,
+    this.minY,
+    this.maxY,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,

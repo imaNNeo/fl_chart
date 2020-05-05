@@ -260,6 +260,9 @@ class LineChartBarData with EquatableMixin {
   /// put a [FlSpot.nullSpot] between each section.
   final List<FlSpot> spots;
 
+  /// Allow LineChartBarData to override the [LineChartData.minY], [LineChartData.maxY] in [LineChartData] multiple Y-Axis
+  final double minY, maxY;
+
   /// Determines to show or hide the line.
   final bool show;
 
@@ -364,6 +367,8 @@ class LineChartBarData with EquatableMixin {
   /// If you want to have a Step Line Chart style, just set [isStepLineChart] true,
   /// also you can tweak the [LineChartBarData.lineChartStepData].
   LineChartBarData({
+    this.minY,
+    this.maxY,
     List<FlSpot> spots,
     bool show,
     List<Color> colors,
@@ -408,6 +413,8 @@ class LineChartBarData with EquatableMixin {
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
     return LineChartBarData(
+      minY: b.minY,
+      maxY: b.maxY,
       show: b.show,
       barWidth: lerpDouble(a.barWidth, b.barWidth, t),
       belowBarData: BarAreaData.lerp(a.belowBarData, b.belowBarData, t),
@@ -434,6 +441,8 @@ class LineChartBarData with EquatableMixin {
   /// Copies current [LineChartBarData] to a new [LineChartBarData],
   /// and replaces provided values.
   LineChartBarData copyWith({
+    double minY,
+    double maxY,
     List<FlSpot> spots,
     bool show,
     List<Color> colors,
@@ -456,6 +465,8 @@ class LineChartBarData with EquatableMixin {
     LineChartStepData lineChartStepData,
   }) {
     return LineChartBarData(
+      minY: minY ?? this.minY,
+      maxY: maxY ?? this.maxY,
       spots: spots ?? this.spots,
       show: show ?? this.show,
       colors: colors ?? this.colors,

@@ -127,9 +127,18 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
       final List<LineBarSpot> barSpots = List.of(showingBarSpots);
-      FlSpot topSpot = barSpots[0];
+      LineBarSpot topSpot = barSpots[0];
       for (LineBarSpot barSpot in barSpots) {
-        if (barSpot.y > topSpot.y) {
+        final double minY = barSpot?.bar?.minY ?? data.minY;
+        final double maxY = barSpot?.bar?.maxY ?? data.maxY;
+
+        final double topSpotMinY = topSpot?.bar?.minY ?? data.minY;
+        final double topSpotMaxY = topSpot?.bar?.maxY ?? data.maxY;
+
+        /// calculate the y position in relative of minY/maxY
+        final double barSpotY = (barSpot.y - minY) / (maxY - minY);
+        final double topSpotY = (topSpot.y - topSpotMinY) / (topSpotMaxY - topSpotMinY);
+        if (barSpotY > topSpotY) {
           topSpot = barSpot;
         }
       }
@@ -239,7 +248,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final FlSpot spot = barData.spots[i];
       if (barData.dotData.checkToShowDot(spot, barData)) {
         final double x = getPixelX(spot.x, viewSize);
-        final double y = getPixelY(spot.y, viewSize);
+        final double y = getPixelY(spot.y, viewSize, minY: barData.minY, maxY: barData.maxY);
 
         final double xPercentInLine = ((x - getLeftOffsetDrawSize()) / barXDelta) * 100;
 
@@ -293,8 +302,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final double dotCircleSize = showingDots ? indicatorData.touchedSpotDotData.dotSize : 0;
 
       /// For drawing the dot
-      final Offset touchedSpot =
-          Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
+      final Offset touchedSpot = Offset(
+        getPixelX(spot.x, chartViewSize),
+        getPixelY(spot.y, chartViewSize, minY: barData.minY, maxY: barData.maxY),
+      );
 
       /// For drawing the indicator line
       final bottom = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
@@ -367,7 +378,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     var temp = const Offset(0.0, 0.0);
 
     final double x = getPixelX(barSpots[0].x, viewSize);
-    final double y = getPixelY(barSpots[0].y, viewSize);
+    final double y = getPixelY(barSpots[0].y, viewSize, minY: barData.minY, maxY: barData.maxY);
     if (appendToPath == null) {
       path.moveTo(x, y);
     } else {
@@ -377,19 +388,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       /// CurrentSpot
       final current = Offset(
         getPixelX(barSpots[i].x, viewSize),
-        getPixelY(barSpots[i].y, viewSize),
+        getPixelY(barSpots[i].y, viewSize, minY: barData.minY, maxY: barData.maxY),
       );
 
       /// previous spot
       final previous = Offset(
         getPixelX(barSpots[i - 1].x, viewSize),
-        getPixelY(barSpots[i - 1].y, viewSize),
+        getPixelY(barSpots[i - 1].y, viewSize, minY: barData.minY, maxY: barData.maxY),
       );
 
       /// next point
       final next = Offset(
         getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize),
-        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize),
+        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize,
+            minY: barData.minY, maxY: barData.maxY),
       );
 
       final controlPoint1 = previous + temp;
@@ -435,7 +447,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final int size = barSpots.length;
 
     final double x = getPixelX(barSpots[0].x, viewSize);
-    final double y = getPixelY(barSpots[0].y, viewSize);
+    final double y = getPixelY(barSpots[0].y, viewSize, minY: barData.minY, maxY: barData.maxY);
     if (appendToPath == null) {
       path.moveTo(x, y);
     } else {
@@ -445,13 +457,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       /// CurrentSpot
       final current = Offset(
         getPixelX(barSpots[i].x, viewSize),
-        getPixelY(barSpots[i].y, viewSize),
+        getPixelY(barSpots[i].y, viewSize, minY: barData.minY, maxY: barData.maxY),
       );
 
       /// next point
       final next = Offset(
         getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize),
-        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize),
+        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize,
+            minY: barData.minY, maxY: barData.maxY),
       );
 
       final stepDirection = barData.lineChartStepData.stepDirection;
@@ -486,7 +499,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     double x = getPixelX(barSpots[barSpots.length - 1].x, chartViewSize);
     double y;
     if (!fillCompletely && barData.belowBarData.applyCutOffY) {
-      y = getPixelY(barData.belowBarData.cutOffY, chartViewSize);
+      y = getPixelY(barData.belowBarData.cutOffY, chartViewSize,
+          minY: barData.minY, maxY: barData.maxY);
     } else {
       y = chartViewSize.height + getTopOffsetDrawSize();
     }
@@ -495,7 +509,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// Line To Bottom Left
     x = getPixelX(barSpots[0].x, chartViewSize);
     if (!fillCompletely && barData.belowBarData.applyCutOffY) {
-      y = getPixelY(barData.belowBarData.cutOffY, chartViewSize);
+      y = getPixelY(barData.belowBarData.cutOffY, chartViewSize,
+          minY: barData.minY, maxY: barData.maxY);
     } else {
       y = chartViewSize.height + getTopOffsetDrawSize();
     }
@@ -503,7 +518,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     /// Line To Top Left
     x = getPixelX(barSpots[0].x, chartViewSize);
-    y = getPixelY(barSpots[0].y, chartViewSize);
+    y = getPixelY(barSpots[0].y, chartViewSize, minY: barData.minY, maxY: barData.maxY);
     belowBarPath.lineTo(x, y);
     belowBarPath.close();
 
@@ -525,7 +540,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     double x = getPixelX(barSpots[barSpots.length - 1].x, chartViewSize);
     double y;
     if (!fillCompletely && barData.aboveBarData.applyCutOffY) {
-      y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize);
+      y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize,
+          minY: barData.minY, maxY: barData.maxY);
     } else {
       y = getTopOffsetDrawSize();
     }
@@ -534,7 +550,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// Line To Top Left
     x = getPixelX(barSpots[0].x, chartViewSize);
     if (!fillCompletely && barData.aboveBarData.applyCutOffY) {
-      y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize);
+      y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize,
+          minY: barData.minY, maxY: barData.maxY);
     } else {
       y = getTopOffsetDrawSize();
     }
@@ -542,7 +559,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     /// Line To Bottom Left
     x = getPixelX(barSpots[0].x, chartViewSize);
-    y = getPixelY(barSpots[0].y, chartViewSize);
+    y = getPixelY(barSpots[0].y, chartViewSize, minY: barData.minY, maxY: barData.maxY);
     aboveBarPath.lineTo(x, y);
     aboveBarPath.close();
 
@@ -612,7 +629,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         if (barData.belowBarData.spotsLine.checkToShowSpotLine(spot)) {
           final Offset from = Offset(
             getPixelX(spot.x, chartViewSize),
-            getPixelY(spot.y, chartViewSize),
+            getPixelY(spot.y, chartViewSize, minY: barData.minY, maxY: barData.maxY),
           );
 
           final double bottomPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
@@ -688,7 +705,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         if (barData.aboveBarData.spotsLine.checkToShowSpotLine(spot)) {
           final Offset from = Offset(
             getPixelX(spot.x, chartViewSize),
-            getPixelY(spot.y, chartViewSize),
+            getPixelY(spot.y, chartViewSize, minY: barData.minY, maxY: barData.maxY),
           );
 
           final Offset to = Offset(
@@ -839,10 +856,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
     if (leftTitles.showTitles) {
-      double verticalSeek = data.minY;
-      while (verticalSeek <= data.maxY) {
+      final double minY = leftTitles.minY ?? data.minY;
+      final double maxY = leftTitles.maxY ?? data.maxY;
+      double verticalSeek = minY;
+      while (verticalSeek <= maxY) {
         double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize);
+        double y = getPixelY(
+          verticalSeek,
+          viewSize,
+          minY: minY,
+          maxY: maxY,
+        );
 
         final String text = leftTitles.getTitles(verticalSeek);
 
@@ -902,10 +926,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     // Right Titles
     final rightTitles = targetData.titlesData.rightTitles;
     if (rightTitles.showTitles) {
-      double verticalSeek = data.minY;
-      while (verticalSeek <= data.maxY) {
+      final double minY = rightTitles.minY ?? data.minY;
+      final double maxY = rightTitles.maxY ?? data.maxY;
+      double verticalSeek = minY;
+      while (verticalSeek <= maxY) {
         double x = viewSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize);
+        double y = getPixelY(
+          verticalSeek,
+          viewSize,
+          minY: minY,
+          maxY: maxY,
+        );
 
         final String text = rightTitles.getTitles(verticalSeek);
 
@@ -1100,7 +1131,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawTouchTooltip(Canvas canvas, Size viewSize, LineTouchTooltipData tooltipData,
-      FlSpot showOnSpot, ShowingTooltipIndicators showingTooltipSpots) {
+      LineBarSpot showOnSpot, ShowingTooltipIndicators showingTooltipSpots) {
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
     const double textsBelowMargin = 4;
@@ -1155,7 +1186,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
     final Offset mostTopOffset = Offset(
       getPixelX(showOnSpot.x, chartUsableSize),
-      getPixelY(showOnSpot.y, chartUsableSize),
+      getPixelY(showOnSpot.y, chartUsableSize,
+          minY: showOnSpot?.bar?.minY, maxY: showOnSpot?.bar?.maxY),
     );
 
     final double tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;

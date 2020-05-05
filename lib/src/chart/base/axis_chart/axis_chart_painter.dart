@@ -335,14 +335,18 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   /// to the view base axis y.
   double getPixelY(
     double spotY,
-    Size chartUsableSize,
-  ) {
-    final double deltaY = data.maxY - data.minY;
+    Size chartUsableSize, {
+    double minY,
+    double maxY,
+  }) {
+    final double _maxY = maxY ?? data.maxY;
+    final double _minY = minY ?? data.minY;
+    final double deltaY = _maxY - _minY;
     if (deltaY == 0.0) {
       return chartUsableSize.height + getTopOffsetDrawSize();
     }
 
-    double y = ((spotY - data.minY) / deltaY) * chartUsableSize.height;
+    double y = ((spotY - _minY) / deltaY) * chartUsableSize.height;
     y = chartUsableSize.height - y;
     return y + getTopOffsetDrawSize();
   }
