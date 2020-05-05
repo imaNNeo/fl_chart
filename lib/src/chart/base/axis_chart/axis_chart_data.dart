@@ -231,6 +231,19 @@ class FlTitlesData with EquatableMixin {
       ];
 }
 
+/// Determines showing or hiding specified title.
+typedef CheckToShowTitle = bool Function(double minValue, double maxValue, SideTitles sideTitles, double value);
+
+/// The default [SideTitles.checkToShowTitle] function.
+///
+/// It determines showing or not showing specific title.
+bool defaultCheckToShowTitle(double minValue, double maxValue, SideTitles sideTitles, double value) {
+  if ((maxValue - minValue) % sideTitles.interval == 0) {
+    return true;
+  }
+  return value != maxValue;
+}
+
 /// Holds data for showing each side titles (a title per each axis value).
 class SideTitles with EquatableMixin {
   final bool showTitles;
@@ -240,6 +253,7 @@ class SideTitles with EquatableMixin {
   final double margin;
   final double interval;
   final double rotateAngle;
+  final CheckToShowTitle checkToShowTitle;
 
   /// It draws some title on all axis, per each axis value,
   /// [showTitles] determines showing or hiding this side,
@@ -252,6 +266,8 @@ class SideTitles with EquatableMixin {
   ///
   /// texts are showing with provided [interval],
   /// or you can let it be null to be calculated using [getEfficientInterval],
+  /// also you can decide to show or not a specific title,
+  /// using [checkToShowTitle].
   ///
   /// you can change rotation of drawing titles using [rotateAngle].
   SideTitles({
@@ -262,6 +278,7 @@ class SideTitles with EquatableMixin {
     double margin,
     double interval,
     double rotateAngle,
+    CheckToShowTitle checkToShowTitle,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
@@ -272,7 +289,8 @@ class SideTitles with EquatableMixin {
             ),
         margin = margin ?? 6,
         interval = interval,
-        rotateAngle = rotateAngle ?? 0.0 {
+        rotateAngle = rotateAngle ?? 0.0,
+      checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");
     }

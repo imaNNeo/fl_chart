@@ -289,29 +289,34 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, drawSize);
+        if (leftTitles.checkToShowTitle(data.minY, data.maxY, leftTitles, verticalSeek)) {
+          double x = 0 + getLeftOffsetDrawSize();
+          double y = getPixelY(verticalSeek, drawSize);
 
-        final String text = leftTitles.getTitles(verticalSeek);
+          final String text = leftTitles.getTitles(verticalSeek);
 
-        final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
+          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
             textDirection: TextDirection.ltr,
             textScaleFactor: textScale);
-        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
-        x -= tp.width + leftTitles.margin;
-        y -= tp.height / 2;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(leftTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
-
-        verticalSeek += leftInterval;
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+          x -= tp.width + leftTitles.margin;
+          y -= tp.height / 2;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(leftTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
+        if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
+          verticalSeek = data.maxY;
+        } else {
+          verticalSeek += leftInterval;
+        }
       }
     }
 
@@ -322,29 +327,34 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        double x = drawSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, drawSize);
+        if (rightTitles.checkToShowTitle(data.minY, data.maxY, rightTitles, verticalSeek)) {
+          double x = drawSize.width + getLeftOffsetDrawSize();
+          double y = getPixelY(verticalSeek, drawSize);
 
-        final String text = rightTitles.getTitles(verticalSeek);
+          final String text = rightTitles.getTitles(verticalSeek);
 
-        final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
+          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
             textDirection: TextDirection.ltr,
             textScaleFactor: textScale);
-        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
-        x += rightTitles.margin;
-        y -= tp.height / 2;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(rightTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
-
-        verticalSeek += rightInterval;
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+          x += rightTitles.margin;
+          y -= tp.height / 2;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(rightTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
+        if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
+          verticalSeek = data.maxY;
+        } else {
+          verticalSeek += rightInterval;
+        }
       }
     }
 
