@@ -2,6 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample3 extends StatelessWidget {
+
+  static double ratio = 2.0;
+
   final weekDays = [
     'Sat',
     'Sun',

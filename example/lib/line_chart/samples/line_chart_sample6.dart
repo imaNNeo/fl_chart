@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
+
+  static double ratio = 300 / 200;
+
   final spots = [
     FlSpot(0, 1),
     FlSpot(2, 5),

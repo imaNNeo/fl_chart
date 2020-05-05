@@ -8,6 +8,9 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LineChartSample8 extends StatefulWidget {
+
+  static double ratio = 1.70;
+
   @override
   _LineChartSample8State createState() => _LineChartSample8State();
 }
@@ -47,7 +50,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             return Stack(
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: 1.70,
+                  aspectRatio: LineChartSample8.ratio,
                   child: Container(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),

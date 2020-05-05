@@ -2,6 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample2 extends StatefulWidget {
+
+  static double ratio = 1.70;
+
   @override
   _LineChartSample2State createState() => _LineChartSample2State();
 }
@@ -19,7 +22,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 1.70,
+          aspectRatio: LineChartSample2.ratio,
           child: Container(
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(

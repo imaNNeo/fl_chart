@@ -1,4 +1,6 @@
+import 'package:fl_chart_demo/line_chart/samples/line_chart_sample1.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'bar_chart/bar_chart_page.dart';
@@ -7,6 +9,13 @@ import 'line_chart/line_chart_page.dart';
 import 'line_chart/line_chart_page2.dart';
 import 'line_chart/line_chart_page3.dart';
 import 'line_chart/line_chart_page4.dart';
+import 'line_chart/samples/line_chart_sample2.dart';
+import 'line_chart/samples/line_chart_sample3.dart';
+import 'line_chart/samples/line_chart_sample4.dart';
+import 'line_chart/samples/line_chart_sample5.dart';
+import 'line_chart/samples/line_chart_sample6.dart';
+import 'line_chart/samples/line_chart_sample7.dart';
+import 'line_chart/samples/line_chart_sample8.dart';
 import 'pie_chart/pie_chart_page.dart';
 import 'scatter_chart/scatter_chart_page.dart';
 import 'utils/AppColors.dart';
@@ -231,12 +240,37 @@ class MenuRow extends StatelessWidget {
 }
 
 class LineChartPage extends StatelessWidget {
+
+  double width = 300;
+
+  List<MapEntry<Widget, double>> widgetsRatioList = [
+    MapEntry(LineChartSample1(), LineChartSample1.ratio),
+    MapEntry(LineChartSample2(), LineChartSample2.ratio),
+    MapEntry(LineChartSample3(), LineChartSample3.ratio),
+    MapEntry(LineChartSample4(), LineChartSample4.ratio),
+    MapEntry(LineChartSample5(), LineChartSample5.ratio),
+    MapEntry(LineChartSample6(), LineChartSample6.ratio),
+    MapEntry(LineChartSample7(), LineChartSample7.ratio),
+    MapEntry(LineChartSample8(), LineChartSample8.ratio),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(
-        child: Text('LineChartPage'),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        int count = constraints.maxWidth ~/ width;
+
+        return StaggeredGridView.countBuilder(
+          crossAxisCount: count,
+          itemCount: widgetsRatioList.length,
+          shrinkWrap: false,
+          itemBuilder: (BuildContext context, int index) => widgetsRatioList[index].key,
+          staggeredTileBuilder: (int index) =>
+            StaggeredTile.count(1, 1 / widgetsRatioList[index].value),
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+        );
+      },
     );
   }
 }
