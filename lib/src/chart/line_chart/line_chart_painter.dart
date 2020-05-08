@@ -178,7 +178,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       if (barData.spots[i].isNotNull()) {
         barList.last.add(barData.spots[i]);
       } else {
-        if (i != 0 && i != barData.spots.length - 1) {
+        if ((i != 0 && i != barData.spots.length - 1) && barList.last.isNotEmpty) {
           barList.add(<FlSpot>[]);
         }
       }
