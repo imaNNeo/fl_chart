@@ -7,6 +7,7 @@ import 'line_chart/line_chart_page.dart';
 import 'line_chart/line_chart_page2.dart';
 import 'line_chart/line_chart_page3.dart';
 import 'line_chart/line_chart_page4.dart';
+import 'line_chart/line_chart_page5.dart';
 import 'pie_chart/pie_chart_page.dart';
 
 void main() => runApp(MyApp());
@@ -42,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
+            LineChartPage5(),
             LineChartPage(),
             BarChartPage(),
             BarChartPage2(),
