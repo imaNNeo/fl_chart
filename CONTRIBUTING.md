@@ -36,7 +36,7 @@ correctly and meets our guidelines. Our guidelines are:
 
 ## Creating a Pull Request
 
-Congratulations! Your code works meets our guidelines :100:. Now you have to
+Congratulations! Your code meets all of our guidelines :100:. Now you have to
 submit a pull request (or PR for short) to us. These are the steps you should
 follow when creating a PR:
 
@@ -48,5 +48,5 @@ follow when creating a PR:
 
 - Change your code according to feedback (if any).
 
-After you follow the above steps, your PR will be hopefully be merged. Thanks
-for contributing!
+After you follow the above steps, your PR will hopefully be merged. Thanks for
+contributing!
