@@ -776,6 +776,20 @@ Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarDat
   return color.darken();
 }
 
+/// The callback passed to get the shape of a [FlSpot]
+///
+/// The callback receives [FlSpot], which is the target spot,
+/// [LineChartBarData] is the chart's bar.
+/// [int] is the index position of the spot.
+/// It should return a [FlDotDataShape] that needs to be used for drawing target.
+typedef GetDotShapeCallback = FlDotDataShape Function(
+    FlSpot, double, LineChartBarData, int);
+
+FlDotDataShape _defaultGetDotShape(
+    FlSpot spot, double xPercentage, LineChartBarData bar, int index) {
+  return FlDotDataShape.Circle;
+}
+
 /// This class holds data about drawing spot dots on the drawing bar line.
 class FlDotData with EquatableMixin {
   /// Determines show or hide all dots.
@@ -798,6 +812,10 @@ class FlDotData with EquatableMixin {
   /// Checks to show or hide an individual dot.
   final CheckToShowDot checkToShowDot;
 
+  /// Callback which is called to set the shape of the given [FlSpot].
+  /// The [FlSpot] is provided as parameter to this callback
+  final GetDotShapeCallback getDotShape;
+
   /// set [show] false to prevent dots from drawing,
   /// [dotSize] determines the size of dots.
   /// if you want to show or hide dots in some spots,
@@ -818,12 +836,14 @@ class FlDotData with EquatableMixin {
     double strokeWidth,
     GetDotColorCallback getStrokeColor,
     GetDotColorCallback getDotColor,
+    GetDotShapeCallback getDotShape,
   })  : show = show ?? true,
         dotSize = dotSize ?? 4.0,
         checkToShowDot = checkToShowDot ?? showAllDots,
         strokeWidth = strokeWidth ?? 0.0,
         getStrokeColor = getStrokeColor ?? _defaultGetDotStrokeColor,
-        getDotColor = getDotColor ?? _defaultGetDotColor;
+        getDotColor = getDotColor ?? _defaultGetDotColor,
+        getDotShape = getDotShape ?? _defaultGetDotShape;
 
   /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
@@ -834,6 +854,7 @@ class FlDotData with EquatableMixin {
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       getDotColor: b.getDotColor,
       getStrokeColor: b.getStrokeColor,
+      getDotShape: b.getDotShape,
     );
   }
 
@@ -846,7 +867,13 @@ class FlDotData with EquatableMixin {
         getStrokeColor,
         getDotColor,
         checkToShowDot,
+        getDotShape,
       ];
+}
+
+enum FlDotDataShape {
+  Circle,
+  Square,
 }
 
 /// It determines showing or hiding [FlDotData] on the spots.
