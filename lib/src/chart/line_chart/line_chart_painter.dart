@@ -77,7 +77,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       return;
     }
 
-    if (data.clipToBorder.any) {
+    if (data.clipData.any) {
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
 
       _clipToBorder(canvas, size);
@@ -111,7 +111,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _drawTouchedSpotsIndicator(canvas, size, barData);
     }
 
-    if (data.clipToBorder.any) {
+    if (data.clipData.any) {
       canvas.restore();
     }
 
@@ -143,7 +143,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     ui.Canvas canvas,
     ui.Size size,
   ) {
-    final clip = data.clipToBorder;
+    final clip = data.clipData;
     final usableSize = getChartUsableDrawSize(size);
     final border = data.borderData.show ? data.borderData.border : null;
 

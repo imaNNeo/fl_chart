@@ -35,7 +35,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   /// on top of each [ScatterChartData.scatterSpots] using [showingTooltipIndicators],
   /// just put spot indices you want to show it on top of them.
   ///
-  /// [clipToBorder] forces the [LineChart] to draw lines inside the chart bounding box.
+  /// [clipData] forces the [LineChart] to draw lines inside the chart bounding box.
   ScatterChartData({
     List<ScatterSpot> scatterSpots,
     FlTitlesData titlesData,
@@ -48,7 +48,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double maxX,
     double minY,
     double maxY,
-    FlClipData clipToBorder,
+    FlClipData clipData,
     Color backgroundColor,
   })  : scatterSpots = scatterSpots ?? const [],
         titlesData = titlesData ?? FlTitlesData(),
@@ -59,7 +59,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           touchData: scatterTouchData ?? ScatterTouchData(),
           borderData: borderData,
           axisTitleData: axisTitleData ?? FlAxisTitleData(),
-          clipToBorder: clipToBorder ?? FlClipData.none(),
+          clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
         ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
@@ -137,7 +137,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         maxX: lerpDouble(a.maxX, b.maxX, t),
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
-        clipToBorder: b.clipToBorder,
+        clipData: b.clipData,
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
     } else {
@@ -155,7 +155,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     FlGridData gridData,
     FlBorderData borderData,
     FlAxisTitleData axisTitleData,
-    FlClipData clipToBorder,
+    FlClipData clipData,
     double minX,
     double maxX,
     double minY,
@@ -174,7 +174,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       maxX: maxX ?? this.maxX,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
-      clipToBorder: clipToBorder ?? this.clipToBorder,
+      clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
@@ -190,7 +190,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         touchData,
         borderData,
         axisTitleData,
-        clipToBorder,
+        clipData,
         backgroundColor,
         minX,
         maxX,

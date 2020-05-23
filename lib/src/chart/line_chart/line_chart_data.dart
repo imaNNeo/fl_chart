@@ -61,7 +61,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// they are useful in some scenarios, for example you can show average line, you can fill
   /// [extraLinesData] property to have your extra lines.
   ///
-  /// [clipToBorder] forces the [LineChart] to draw lines inside the chart bounding box.
+  /// [clipData] forces the [LineChart] to draw lines inside the chart bounding box.
   LineChartData({
     List<LineChartBarData> lineBarsData,
     List<BetweenBarsData> betweenBarsData,
@@ -72,7 +72,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlGridData gridData,
     FlBorderData borderData,
     FlAxisTitleData axisTitleData,
-    FlClipData clipToBorder,
+    FlClipData clipData,
     RangeAnnotations rangeAnnotations,
     double minX,
     double maxX,
@@ -90,7 +90,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
           touchData: lineTouchData ?? LineTouchData(),
           borderData: borderData,
           axisTitleData: axisTitleData ?? FlAxisTitleData(),
-          clipToBorder: clipToBorder ?? FlClipData.none(),
+          clipData: clipData ?? FlClipData.none(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
           backgroundColor: backgroundColor,
         ) {
@@ -174,7 +174,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         maxY: lerpDouble(a.maxY, b.maxY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        clipToBorder: b.clipToBorder,
+        clipData: b.clipData,
         extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
@@ -202,7 +202,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     LineTouchData lineTouchData,
     List<ShowingTooltipIndicators> showingTooltipIndicators,
     FlGridData gridData,
-    FlClipData clipToBorder,
+    FlClipData clipData,
     FlBorderData borderData,
     double minX,
     double maxX,
@@ -225,7 +225,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
       maxX: maxX ?? this.maxX,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
-      clipToBorder: clipToBorder ?? this.clipToBorder,
+      clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
@@ -247,7 +247,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         maxX,
         minY,
         maxY,
-        clipToBorder,
+        clipData,
         backgroundColor,
       ];
 }
