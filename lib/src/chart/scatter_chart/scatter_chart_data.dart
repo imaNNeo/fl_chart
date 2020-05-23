@@ -48,7 +48,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double maxX,
     double minY,
     double maxY,
-    bool clipToBorder,
+    FlClipData clipToBorder,
     Color backgroundColor,
   })  : scatterSpots = scatterSpots ?? const [],
         titlesData = titlesData ?? FlTitlesData(),
@@ -59,7 +59,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           touchData: scatterTouchData ?? ScatterTouchData(),
           borderData: borderData,
           axisTitleData: axisTitleData ?? FlAxisTitleData(),
-          clipToBorder: clipToBorder ?? false,
+          clipToBorder: clipToBorder ?? FlClipData.none(),
           backgroundColor: backgroundColor,
         ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
@@ -155,11 +155,11 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     FlGridData gridData,
     FlBorderData borderData,
     FlAxisTitleData axisTitleData,
+    FlClipData clipToBorder,
     double minX,
     double maxX,
     double minY,
     double maxY,
-    bool clipToBorder,
     Color backgroundColor,
   }) {
     return ScatterChartData(

@@ -37,7 +37,8 @@ void main() {
                 ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
               ]),
           false);
-      expect(scatterChartData1 == scatterChartData1Clone.copyWith(clipToBorder: true), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(clipToBorder: FlClipData.all()),
+          false);
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
