@@ -143,29 +143,33 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     ui.Canvas canvas,
     ui.Size size,
   ) {
+    final clip = data.clipToBorder;
     final usableSize = getChartUsableDrawSize(size);
+    final border = data.borderData.show ? data.borderData.border : null;
 
-    double left = 0;
-    double top = 0;
-    double right = 0;
-    double bottom = 0;
-    if (data.borderData.show) {
-      final border = data.borderData.border;
+    double left = 0.0;
+    double top = 0.0;
+    double right = size.width;
+    double bottom = size.height;
 
-      left = border?.left?.width ?? 0;
-      top = border?.top?.width ?? 0;
-      right = border?.right?.width ?? 0;
-      bottom = border?.bottom?.width ?? 0;
+    if (clip.left) {
+      final borderWidth = border?.left?.width ?? 0;
+      left = getLeftOffsetDrawSize() - (borderWidth / 2);
+    }
+    if (clip.top) {
+      final borderWidth = border?.top?.width ?? 0;
+      top = getTopOffsetDrawSize() - (borderWidth / 2);
+    }
+    if (clip.right) {
+      final borderWidth = border?.right?.width ?? 0;
+      right = getLeftOffsetDrawSize() + usableSize.width + (borderWidth / 2);
+    }
+    if (clip.bottom) {
+      final borderWidth = border?.bottom?.width ?? 0;
+      bottom = getTopOffsetDrawSize() + usableSize.height + (borderWidth / 2);
     }
 
-    final rect = Rect.fromLTRB(
-      getLeftOffsetDrawSize() - (left / 2),
-      getTopOffsetDrawSize() - (top / 2),
-      getLeftOffsetDrawSize() + usableSize.width + (right / 2),
-      getTopOffsetDrawSize() + usableSize.height + (bottom / 2),
-    );
-
-    canvas.clipRect(rect);
+    canvas.clipRect(Rect.fromLTRB(left, top, right, bottom));
   }
 
   void _drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
