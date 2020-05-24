@@ -65,6 +65,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
+    final leftInterval =
+        leftTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -90,12 +92,14 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
         tp.paint(canvas, Offset(x, y));
         canvas.restore();
 
-        verticalSeek += leftTitles.interval;
+        verticalSeek += leftInterval;
       }
     }
 
     // Top titles
     final topTitles = targetData.titlesData.topTitles;
+    final topInterval =
+        topTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (topTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
@@ -122,12 +126,14 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
         tp.paint(canvas, Offset(x, y));
         canvas.restore();
 
-        horizontalSeek += topTitles.interval;
+        horizontalSeek += topInterval;
       }
     }
 
     // Right Titles
     final rightTitles = targetData.titlesData.rightTitles;
+    final rightInterval =
+        rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -154,12 +160,14 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
         tp.paint(canvas, Offset(x, y));
         canvas.restore();
 
-        verticalSeek += rightTitles.interval;
+        verticalSeek += rightInterval;
       }
     }
 
     // Bottom titles
     final bottomTitles = targetData.titlesData.bottomTitles;
+    final bottomInterval =
+        bottomTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (bottomTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
@@ -186,7 +194,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
         tp.paint(canvas, Offset(x, y));
         canvas.restore();
 
-        horizontalSeek += bottomTitles.interval;
+        horizontalSeek += bottomInterval;
       }
     }
   }

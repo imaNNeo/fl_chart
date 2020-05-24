@@ -29,7 +29,7 @@
 |reservedSize| a reserved space to show titles|22|
 |textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) the style to use for title text |TextStyle(color: Colors.black, fontSize: 11)|
 |margin| margin between each title | 6|
-|interval| interval to display each title on a side  | 1.0 |
+|interval| interval to display each title on a side, left it null to be calculate automatically | null |
 |rotateAngle| the clockwise angle of rotating title in degrees   | 0.0 |
 
 
@@ -48,11 +48,11 @@ currently we have these touch behaviors:
 |:-------|:----------|:------------|
 |show|determines to show or hide the background grid data|true|
 |drawHorizontalLine|determines to show or hide the horizontal grid lines|true|
-|horizontalInterval|interval space of grid|1.0|
+|horizontalInterval|interval space of grid, left it null to be calculate automatically |null|
 |getDrawingHorizontalLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
 |checkToShowHorizontalLine|a function to check whether to show or hide the horizontal grid by giving the related axis value |showAllGrids|
 |drawVerticalLine|determines to show or hide the vertical grid lines|false|
-|verticalInterval|interval space of grid|1.0|
+|verticalInterval|interval space of grid, left it null to be calculate automatically |null|
 |getDrawingVerticalLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
 |checkToShowVerticalLine|a function to determine whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
 

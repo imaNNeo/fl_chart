@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -26,6 +27,12 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
 
   /// A background color which is drawn behind th chart.
   Color backgroundColor;
+
+  /// Difference of [maxY] and [minY]
+  double get verticalDiff => maxY - minY;
+
+  /// Difference of [maxX] and [minX]
+  double get horizontalDiff => maxX - minX;
 
   AxisChartData({
     FlGridData gridData,
@@ -243,8 +250,8 @@ class SideTitles with EquatableMixin {
   /// [textStyle] determines the text style of them,
   /// [margin] determines margin of texts from the border line,
   ///
-  /// by default, texts are showing with 1.0 interval,
-  /// you can change this value using [interval],
+  /// texts are showing with provided [interval],
+  /// or you can let it be null to be calculated using [getEfficientInterval],
   ///
   /// you can change rotation of drawing titles using [rotateAngle].
   SideTitles({
@@ -264,7 +271,7 @@ class SideTitles with EquatableMixin {
               fontSize: 11,
             ),
         margin = margin ?? 6,
-        interval = interval ?? 1.0,
+        interval = interval,
         rotateAngle = rotateAngle ?? 0.0;
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
@@ -352,7 +359,7 @@ class FlGridData with EquatableMixin {
   /// Determines showing or hiding all horizontal lines.
   final bool drawHorizontalLine;
 
-  /// Determines interval between horizontal lines.
+  /// Determines interval between horizontal lines, left it null to be auto calculated.
   final double horizontalInterval;
 
   /// Gives you a y value, and gets a [FlLine] that represents specified line.
@@ -364,7 +371,7 @@ class FlGridData with EquatableMixin {
   /// Determines showing or hiding all vertical lines.
   final bool drawVerticalLine;
 
-  /// Determines interval between vertical lines.
+  /// Determines interval between vertical lines, left it null to be auto calculated.
   final double verticalInterval;
 
   /// Gives you a x value, and gets a [FlLine] that represents specified line.
@@ -407,11 +414,11 @@ class FlGridData with EquatableMixin {
     CheckToShowGrid checkToShowVerticalLine,
   })  : show = show ?? true,
         drawHorizontalLine = drawHorizontalLine ?? true,
-        horizontalInterval = horizontalInterval ?? 1.0,
+        horizontalInterval = horizontalInterval,
         getDrawingHorizontalLine = getDrawingHorizontalLine ?? defaultGridLine,
         checkToShowHorizontalLine = checkToShowHorizontalLine ?? showAllGrids,
         drawVerticalLine = drawVerticalLine ?? false,
-        verticalInterval = verticalInterval ?? 1.0,
+        verticalInterval = verticalInterval,
         getDrawingVerticalLine = getDrawingVerticalLine ?? defaultGridLine,
         checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids;
 
