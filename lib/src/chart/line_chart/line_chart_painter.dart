@@ -173,12 +173,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     // handle nullability by splitting off the list into multiple
     // separate lists when separated by nulls
+    // don't seprate lists if the previous list is already empty
     // and ignore nulls when they're first or last
     for (int i = 0; i < barData.spots.length; i++) {
       if (barData.spots[i].isNotNull()) {
         barList.last.add(barData.spots[i]);
       } else {
-        if (i != 0 && i != barData.spots.length - 1) {
+          if ((i != 0 && i != barData.spots.length - 1) && barList.last.isNotEmpty) {
           barList.add(<FlSpot>[]);
         }
       }
