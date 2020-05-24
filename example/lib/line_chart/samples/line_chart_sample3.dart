@@ -12,6 +12,16 @@ class LineChartSample3 extends StatelessWidget {
     'Fri',
   ];
 
+  final List<double> yValues = [
+    1.3,
+    1,
+    1.8,
+    1.5,
+    2.2,
+    1.8,
+    3,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -87,15 +97,9 @@ class LineChartSample3 extends StatelessWidget {
               lineBarsData: [
                 LineChartBarData(
                   isStepLineChart: true,
-                  spots: [
-                    FlSpot(0, 1.3),
-                    FlSpot(1, 1),
-                    FlSpot(2, 1.8),
-                    FlSpot(3, 1.5),
-                    FlSpot(4, 2.2),
-                    FlSpot(5, 1.8),
-                    FlSpot(6, 3),
-                  ],
+                  spots: yValues.asMap().entries.map((e) {
+                    return FlSpot(e.key.toDouble(), e.value);
+                  }).toList(),
                   isCurved: false,
                   barWidth: 4,
                   colors: [
