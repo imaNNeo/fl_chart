@@ -72,12 +72,12 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlGridData gridData,
     FlBorderData borderData,
     FlAxisTitleData axisTitleData,
-    FlClipData clipData,
     RangeAnnotations rangeAnnotations,
     double minX,
     double maxX,
     double minY,
     double maxY,
+    FlClipData clipData,
     Color backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
@@ -90,8 +90,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
           touchData: lineTouchData ?? LineTouchData(),
           borderData: borderData,
           axisTitleData: axisTitleData ?? FlAxisTitleData(),
-          clipData: clipData ?? FlClipData.none(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
+          clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
         ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
@@ -202,12 +202,12 @@ class LineChartData extends AxisChartData with EquatableMixin {
     LineTouchData lineTouchData,
     List<ShowingTooltipIndicators> showingTooltipIndicators,
     FlGridData gridData,
-    FlClipData clipData,
     FlBorderData borderData,
     double minX,
     double maxX,
     double minY,
     double maxY,
+    FlClipData clipData,
     Color backgroundColor,
   }) {
     return LineChartData(

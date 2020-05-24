@@ -155,11 +155,11 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     FlGridData gridData,
     FlBorderData borderData,
     FlAxisTitleData axisTitleData,
-    FlClipData clipData,
     double minX,
     double maxX,
     double minY,
     double maxY,
+    FlClipData clipData,
     Color backgroundColor,
   }) {
     return ScatterChartData(

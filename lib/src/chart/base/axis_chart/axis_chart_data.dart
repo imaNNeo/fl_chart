@@ -35,8 +35,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     double maxX,
     double minY,
     double maxY,
-    Color backgroundColor,
     FlClipData clipData,
+    Color backgroundColor,
     FlBorderData borderData,
     FlTouchData touchData,
   })  : gridData = gridData ?? FlGridData(),
@@ -46,8 +46,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         maxX = maxX,
         minY = minY,
         maxY = maxY,
-        backgroundColor = backgroundColor,
         clipData = clipData ?? FlClipData.none(),
+        backgroundColor = backgroundColor,
         super(borderData: borderData, touchData: touchData);
 
   /// Used for equality check, see [EquatableMixin].
