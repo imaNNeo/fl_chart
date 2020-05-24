@@ -22,7 +22,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   double minY, maxY;
 
   /// clip the chart to the border (prevent draw outside the border)
-  bool clipToBorder;
+  FlClipData clipData;
 
   /// A background color which is drawn behind th chart.
   Color backgroundColor;
@@ -35,7 +35,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     double maxX,
     double minY,
     double maxY,
-    bool clipToBorder,
+    FlClipData clipData,
     Color backgroundColor,
     FlBorderData borderData,
     FlTouchData touchData,
@@ -46,7 +46,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         maxX = maxX,
         minY = minY,
         maxY = maxY,
-        clipToBorder = clipToBorder ?? false,
+        clipData = clipData ?? FlClipData.none(),
         backgroundColor = backgroundColor,
         super(borderData: borderData, touchData: touchData);
 
@@ -60,7 +60,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         maxX,
         minY,
         maxY,
-        clipToBorder,
+        clipData,
         backgroundColor,
         borderData,
         touchData,
