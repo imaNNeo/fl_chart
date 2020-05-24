@@ -18,7 +18,7 @@ analyzer:
     # see https://github.com/dart-lang/sdk/issues/28463
     - 'lib/i18n/stock_messages_*.dart'
     - 'lib/src/http/**'
-    - 'example/'
+    - 'example/**'
 
 linter:
   rules:
