@@ -1,3 +1,8 @@
+##
+* Auto calculate interval in [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) and [FlGridData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#flgriddata), instead of hard coding 1, to prevent some performance issues like #101, #322.
+* BREAKING CHANGE -> replaced `clipToBorder` with lipData in [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to support clipping 4 sides of a chart separately.
+
+
 ## 0.9.4
 * [Bugfix] Fixed showing PieChart on web (we've ignored `groupSpace` on web, because some BlendModes are [not working](https://github.com/flutter/flutter/issues/56071) yet)
 
