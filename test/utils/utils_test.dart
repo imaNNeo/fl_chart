@@ -52,4 +52,32 @@ void main() {
         ], null, 1.0),
         Colors.green);
   });
+
+  test('test getEfficientInterval', () {
+    expect(getEfficientInterval(472, 340), 5);
+    expect(getEfficientInterval(820, 10000), 100);
+    expect(getEfficientInterval(1024, 412345234), 5000000);
+    expect(getEfficientInterval(720, 812394712349), 10000000000);
+  });
+
+  test('test formatNumber', () {
+    expect(formatNumber(0), '0');
+    expect(formatNumber(423), '423');
+    expect(formatNumber(1000), '1K');
+    expect(formatNumber(1234), '1.2K');
+    expect(formatNumber(10000), '10K');
+    expect(formatNumber(41234), '41.2K');
+    expect(formatNumber(82349), '82.3K');
+    expect(formatNumber(82350), '82.3K');
+    expect(formatNumber(82351), '82.4K');
+    expect(formatNumber(100000), '100K');
+    expect(formatNumber(101000), '101K');
+    expect(formatNumber(2345123), '2.3M');
+    expect(formatNumber(2352123), '2.4M');
+    expect(formatNumber(521000000), '521M');
+    expect(formatNumber(4324512345), '4.3B');
+    expect(formatNumber(4000000000), '4B');
+    expect(formatNumber(823147521343), '823.1B');
+    expect(formatNumber(8231475213435), '8231.5B');
+  });
 }

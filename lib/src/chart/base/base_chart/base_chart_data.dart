@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
@@ -127,9 +128,9 @@ typedef GetTitleFunction = String Function(double value);
 
 /// The default [SideTitles.getTitles] function.
 ///
-/// It maps the axis number to a string and returns it.
+/// formats the axis number to a shorter string using [formatNumber].
 String defaultGetTitle(double value) {
-  return '$value';
+  return formatNumber(value);
 }
 
 /// This class holds the touch response details.

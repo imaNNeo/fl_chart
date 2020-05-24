@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -100,4 +101,80 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
     }
   }
   return colors.last;
+}
+
+/// Returns an efficient interval for showing axis titles, or grid lines or ...
+///
+/// If there isn't any provided interval, we use this function to calculate an interval to apply,
+/// using [axisViewSize] / [pixelPerInterval], we calculate the allowedCount lines in the axis,
+/// then using  [diffInYAxis] / allowedCount, we can find out how much interval we need,
+/// then we round that number by finding nearest number in this pattern:
+/// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
+int getEfficientInterval(double axisViewSize, double diffInYAxis, {double pixelPerInterval = 10}) {
+  final int allowedCount = axisViewSize ~/ pixelPerInterval;
+  final double accurateInterval = diffInYAxis / allowedCount;
+  return _roundInterval(accurateInterval);
+}
+
+int _roundInterval(double input) {
+  int count = 0;
+
+  if (input >= 10) {
+    count++;
+  }
+
+  while (input ~/ 100 != 0) {
+    input /= 10;
+    count++;
+  }
+
+  final double scaled = input >= 10 ? input.round() / 10 : input;
+
+  if (scaled >= 2.6) {
+    return 5 * pow(10, count);
+  } else if (scaled >= 1.6) {
+    return 2 * pow(10, count);
+  } else {
+    return 1 * pow(10, count);
+  }
+}
+
+/// billion number
+const double billion = 1000000000;
+
+/// million number
+const double million = 1000000;
+
+/// kilo (thousands) number
+const double kilo = 1000;
+
+/// Formats and add symbols (K, M, B) at the end of number.
+///
+/// if number is larger than [billion], it returns a short number like 13.3B,
+/// if number is larger than [million], it returns a short number line 43M,
+/// if number is larger than [kilo], it returns a short number like 4K,
+/// otherwise it returns number itself.
+/// also it removes .0, at the end of number for simplicity.
+String formatNumber(double number) {
+  String resultNumber;
+  String symbol;
+  if (number >= billion) {
+    resultNumber = (number / billion).toStringAsFixed(1);
+    symbol = 'B';
+  } else if (number >= million) {
+    resultNumber = (number / million).toStringAsFixed(1);
+    symbol = 'M';
+  } else if (number >= kilo) {
+    resultNumber = (number / kilo).toStringAsFixed(1);
+    symbol = 'K';
+  } else {
+    resultNumber = number.toStringAsFixed(1);
+    symbol = '';
+  }
+
+  if (resultNumber.endsWith('.0')) {
+    resultNumber = resultNumber.replaceAll('.0', '');
+  }
+
+  return resultNumber + symbol;
 }

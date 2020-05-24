@@ -284,6 +284,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
+    final leftInterval =
+        leftTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -309,12 +311,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         tp.paint(canvas, Offset(x, y));
         canvas.restore();
 
-        verticalSeek += leftTitles.interval;
+        verticalSeek += leftInterval;
       }
     }
 
     // Right Titles
     final rightTitles = targetData.titlesData.rightTitles;
+    final rightInterval =
+        rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -340,7 +344,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         tp.paint(canvas, Offset(x, y));
         canvas.restore();
 
-        verticalSeek += rightTitles.interval;
+        verticalSeek += rightInterval;
       }
     }
 
