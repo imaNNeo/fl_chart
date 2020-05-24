@@ -401,7 +401,7 @@ class LineChartBarData with EquatableMixin {
         dotData = dotData ?? FlDotData(),
         showingIndicators = showingIndicators ?? const [],
         dashArray = dashArray,
-        shadow = shadow ?? const Shadow(),
+        shadow = shadow ?? const Shadow(color: Colors.transparent),
         isStepLineChart = isStepLineChart ?? false,
         lineChartStepData = lineChartStepData ?? LineChartStepData();
 

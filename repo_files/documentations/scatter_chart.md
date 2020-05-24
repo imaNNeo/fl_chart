@@ -60,7 +60,7 @@ ScatterChart(
 
 
 ### ScatterTouchResponse
-###### you can listen to touch behaviors callback and retrieve this object when any touch action happend.
+###### you can listen to touch behaviors callback and retrieve this object when any touch action happened.
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |touchedSpot|touched [ScatterSpot](#ScatterSpot)|null|

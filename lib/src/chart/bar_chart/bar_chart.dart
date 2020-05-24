@@ -35,7 +35,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
   @override
   Widget build(BuildContext context) {
-    final BarChartData showingData = _getDate();
+    final BarChartData showingData = _getData();
     final BarTouchData touchData = showingData.barTouchData;
 
     return GestureDetector(
@@ -177,7 +177,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     return null;
   }
 
-  BarChartData _getDate() {
+  BarChartData _getData() {
     final barTouchData = widget.data.barTouchData;
     if (barTouchData.enabled && barTouchData.handleBuiltInTouches) {
       return widget.data.copyWith(

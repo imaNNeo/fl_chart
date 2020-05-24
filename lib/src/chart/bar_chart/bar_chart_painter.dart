@@ -568,9 +568,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// find the nearest spot base on the touched offset
   BarTouchedSpot _getNearestTouchedSpot(
       Size viewSize, Offset touchedPoint, List<_GroupBarsPosition> groupBarsPosition) {
-//    if (groupBarsPosition == null) {
-//      return null;
-//    }
+    if (groupBarsPosition == null) {
+      final List<double> groupsX = _calculateGroupsX(viewSize, data.barGroups, data.alignment);
+      groupBarsPosition = _calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
+    }
+
     final Size chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// Find the nearest barRod

@@ -37,7 +37,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
 
   @override
   Widget build(BuildContext context) {
-    final PieChartData showingData = _getDate();
+    final PieChartData showingData = _getData();
     final PieTouchData touchData = showingData.pieTouchData;
 
     return GestureDetector(
@@ -155,7 +155,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
 
   /// if builtIn touches are enabled, we should recreate our [pieChartData]
   /// to handle built in touches
-  PieChartData _getDate() {
+  PieChartData _getData() {
     return widget.data;
   }
 

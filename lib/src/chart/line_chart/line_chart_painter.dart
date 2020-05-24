@@ -185,7 +185,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     // paint each sublist that was built above
-    // bar is passed in seperately from barData
+    // bar is passed in separately from barData
     // because barData is the whole line
     // and bar is a piece of that line
     for (List<FlSpot> bar in barList) {

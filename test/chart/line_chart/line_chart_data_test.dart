@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import '../data_pool.dart';
 
 void main() {
@@ -100,13 +101,6 @@ void main() {
       expect(verticalLineLabel1 == verticalLineLabel5, false);
       expect(verticalLineLabel1 == verticalLineLabel6, false);
       expect(verticalLineLabel1 == verticalLineLabel7, false);
-    });
-
-    test('SizedPicture equality test', () {
-      expect(sizedPicture1 == sizedPicture1Clone, true);
-      expect(sizedPicture1 == sizedPicture2, false);
-      expect(sizedPicture1 == sizedPicture3, false);
-      expect(sizedPicture1 == sizedPicture4, false);
     });
 
     test('ExtraLinesData equality test', () {
