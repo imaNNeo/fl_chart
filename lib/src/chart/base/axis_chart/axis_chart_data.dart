@@ -5,8 +5,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
 import 'package:fl_chart/src/utils/utils.dart';
+import 'package:flutter/material.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -232,13 +232,15 @@ class FlTitlesData with EquatableMixin {
 }
 
 /// Determines showing or hiding specified title.
-typedef CheckToShowTitle = bool Function(double minValue, double maxValue, SideTitles sideTitles, double value);
+typedef CheckToShowTitle = bool Function(
+    double minValue, double maxValue, SideTitles sideTitles, double appliedInterval, double value);
 
 /// The default [SideTitles.checkToShowTitle] function.
 ///
 /// It determines showing or not showing specific title.
-bool defaultCheckToShowTitle(double minValue, double maxValue, SideTitles sideTitles, double value) {
-  if ((maxValue - minValue) % sideTitles.interval == 0) {
+bool defaultCheckToShowTitle(
+    double minValue, double maxValue, SideTitles sideTitles, double appliedInterval, double value) {
+  if ((maxValue - minValue) % appliedInterval == 0) {
     return true;
   }
   return value != maxValue;
@@ -290,7 +292,7 @@ class SideTitles with EquatableMixin {
         margin = margin ?? 6,
         interval = interval,
         rotateAngle = rotateAngle ?? 0.0,
-      checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle {
+        checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");
     }

@@ -289,7 +289,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        if (leftTitles.checkToShowTitle(data.minY, data.maxY, leftTitles, verticalSeek)) {
+        if (leftTitles.checkToShowTitle(
+            data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
           double x = 0 + getLeftOffsetDrawSize();
           double y = getPixelY(verticalSeek, drawSize);
 
@@ -297,10 +298,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
           final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
@@ -327,7 +328,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        if (rightTitles.checkToShowTitle(data.minY, data.maxY, rightTitles, verticalSeek)) {
+        if (rightTitles.checkToShowTitle(
+            data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
           double x = drawSize.width + getLeftOffsetDrawSize();
           double y = getPixelY(verticalSeek, drawSize);
 
@@ -335,10 +337,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
           final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x += rightTitles.margin;
           y -= tp.height / 2;
