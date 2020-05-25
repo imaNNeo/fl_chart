@@ -31,6 +31,7 @@
 |margin| margin between each title | 6|
 |interval| interval to display each title on a side, left it null to be calculate automatically | null |
 |rotateAngle| the clockwise angle of rotating title in degrees   | 0.0 |
+|checkToShowTitle| determines show or not show titles in the provided value | show all|
 
 
 

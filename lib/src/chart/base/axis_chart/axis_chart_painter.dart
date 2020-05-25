@@ -202,7 +202,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     final Size usableViewSize = getChartUsableDrawSize(viewSize);
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
-      final int verticalInterval = data.gridData.verticalInterval ??
+      final double verticalInterval = data.gridData.verticalInterval ??
           getEfficientInterval(viewSize.width, data.horizontalDiff);
       double verticalSeek = data.minX + verticalInterval;
 
@@ -231,7 +231,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalLine) {
-      final int horizontalInterval = data.gridData.horizontalInterval ??
+      final double horizontalInterval = data.gridData.horizontalInterval ??
           getEfficientInterval(viewSize.height, data.verticalDiff);
       double horizontalSeek = data.minY + horizontalInterval;
 

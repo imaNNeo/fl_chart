@@ -98,6 +98,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             strokeWidth: 2,
             dashArray: [5, 10],
             label: HorizontalLineLabel(
+              show: true,
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(right: 5, bottom: 5),
               style: const TextStyle(color: Colors.black, fontSize: 9),
@@ -107,11 +108,12 @@ class _LineChartSample8State extends State<LineChartSample8> {
         ],
         verticalLines: [
           VerticalLine(
-            x: 5.5,
+            x: 5.7,
             color: const Color.fromRGBO(197, 210, 214, 1),
             strokeWidth: 2,
             dashArray: [5, 10],
             label: VerticalLineLabel(
+              show: true,
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(left: 10, top: 5),
               style: const TextStyle(color: Colors.black, fontSize: 9),
@@ -133,8 +135,9 @@ class _LineChartSample8State extends State<LineChartSample8> {
           showTitles: true,
           reservedSize: 22,
           textStyle: TextStyle(color: Colors.black87, fontSize: 10),
-          interval: 2,
+          interval: 4,
           margin: 8,
+          checkToShowTitle: (minValue, maxValue, sideTitles, appliedInterval, value) => true,
         ),
         leftTitles: SideTitles(
           interval: 2,

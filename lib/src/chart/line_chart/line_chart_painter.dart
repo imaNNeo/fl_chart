@@ -241,7 +241,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     for (int i = 0; i < barData.spots.length; i++) {
       final FlSpot spot = barData.spots[i];
-      if (barData.dotData.checkToShowDot(spot, barData)) {
+      if (spot.isNotNull() && barData.dotData.checkToShowDot(spot, barData)) {
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
 
@@ -847,29 +847,35 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize);
+        if (leftTitles.checkToShowTitle(
+            data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
+          double x = 0 + getLeftOffsetDrawSize();
+          double y = getPixelY(verticalSeek, viewSize);
 
-        final String text = leftTitles.getTitles(verticalSeek);
+          final String text = leftTitles.getTitles(verticalSeek);
 
-        final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
-        x -= tp.width + leftTitles.margin;
-        y -= tp.height / 2;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(leftTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
-
-        verticalSeek += leftInterval;
+          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+          x -= tp.width + leftTitles.margin;
+          y -= tp.height / 2;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(leftTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
+        if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
+          verticalSeek = data.maxY;
+        } else {
+          verticalSeek += leftInterval;
+        }
       }
     }
 
@@ -880,30 +886,36 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     if (topTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
-        double x = getPixelX(horizontalSeek, viewSize);
-        double y = getTopOffsetDrawSize();
+        if (topTitles.checkToShowTitle(
+            data.minX, data.maxX, topTitles, topInterval, horizontalSeek)) {
+          double x = getPixelX(horizontalSeek, viewSize);
+          double y = getTopOffsetDrawSize();
 
-        final String text = topTitles.getTitles(horizontalSeek);
+          final String text = topTitles.getTitles(horizontalSeek);
 
-        final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout();
+          final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout();
 
-        x -= tp.width / 2;
-        y -= topTitles.margin + tp.height;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(topTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
-
-        horizontalSeek += topInterval;
+          x -= tp.width / 2;
+          y -= topTitles.margin + tp.height;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(topTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
+        if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
+          horizontalSeek = data.maxX;
+        } else {
+          horizontalSeek += topInterval;
+        }
       }
     }
 
@@ -914,30 +926,37 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        double x = viewSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize);
+        if (rightTitles.checkToShowTitle(
+            data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
+          double x = viewSize.width + getLeftOffsetDrawSize();
+          double y = getPixelY(verticalSeek, viewSize);
 
-        final String text = rightTitles.getTitles(verticalSeek);
+          final String text = rightTitles.getTitles(verticalSeek);
 
-        final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
-        x += rightTitles.margin;
-        y -= tp.height / 2;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(rightTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
+          x += rightTitles.margin;
+          y -= tp.height / 2;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(rightTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
 
-        verticalSeek += rightInterval;
+        if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
+          verticalSeek = data.maxY;
+        } else {
+          verticalSeek += rightInterval;
+        }
       }
     }
 
@@ -948,28 +967,35 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     if (bottomTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
-        double x = getPixelX(horizontalSeek, viewSize);
-        double y = viewSize.height + getTopOffsetDrawSize();
-        final String text = bottomTitles.getTitles(horizontalSeek);
-        final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout();
+        if (bottomTitles.checkToShowTitle(
+            data.minX, data.maxX, bottomTitles, bottomInterval, horizontalSeek)) {
+          double x = getPixelX(horizontalSeek, viewSize);
+          double y = viewSize.height + getTopOffsetDrawSize();
+          final String text = bottomTitles.getTitles(horizontalSeek);
+          final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout();
 
-        x -= tp.width / 2;
-        y += bottomTitles.margin;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(bottomTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
+          x -= tp.width / 2;
+          y += bottomTitles.margin;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(bottomTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
 
-        horizontalSeek += bottomInterval;
+        if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
+          horizontalSeek = data.maxX;
+        } else {
+          horizontalSeek += bottomInterval;
+        }
       }
     }
   }
