@@ -265,7 +265,11 @@ class SideTitles with EquatableMixin {
             ),
         margin = margin ?? 6,
         interval = interval ?? 1.0,
-        rotateAngle = rotateAngle ?? 0.0;
+        rotateAngle = rotateAngle ?? 0.0 {
+    if (interval == 0) {
+      throw ArgumentError("SideTitles.interval couldn't be zero");
+    }
+  }
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
@@ -413,7 +417,14 @@ class FlGridData with EquatableMixin {
         drawVerticalLine = drawVerticalLine ?? false,
         verticalInterval = verticalInterval ?? 1.0,
         getDrawingVerticalLine = getDrawingVerticalLine ?? defaultGridLine,
-        checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids;
+        checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids {
+    if (horizontalInterval == 0) {
+      throw ArgumentError("FlGridData.horizontalInterval couldn't be zero");
+    }
+    if (verticalInterval == 0) {
+      throw ArgumentError("FlGridData.verticalInterval couldn't be zero");
+    }
+  }
 
   /// Lerps a [FlGridData] based on [t] value, check [Tween.lerp].
   static FlGridData lerp(FlGridData a, FlGridData b, double t) {
