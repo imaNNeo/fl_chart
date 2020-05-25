@@ -25,7 +25,7 @@
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |showTitles| determines whether to show or hide the titles | false|
-|getTitles| a function to retrieve the title with given value on the related axis|defaultGetTitle|
+|getTitles| a function to retrieve the title with given value on the related axis, don't touch it if you want to have a number formatter by showing indicators for large numbers.|defaultGetTitle|
 |reservedSize| a reserved space to show titles|22|
 |textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) the style to use for title text |TextStyle(color: Colors.black, fontSize: 11)|
 |margin| margin between each title | 6|
