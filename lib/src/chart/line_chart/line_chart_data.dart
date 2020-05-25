@@ -776,17 +776,17 @@ Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarDat
   return color.darken();
 }
 
-/// The callback passed to get the shape of a [FlSpot]
+/// The callback passed to get the drawer of a [FlSpot]
 ///
 /// The callback receives [FlSpot], which is the target spot,
 /// [LineChartBarData] is the chart's bar.
 /// [int] is the index position of the spot.
-/// It should return a [FlDotDataShape] that needs to be used for drawing target.
-typedef GetDotShapeCallback = FlDotDataShape Function(FlSpot, double, LineChartBarData, int);
+/// It should return a [FlDotDrawer] that needs to be used for drawing target.
+typedef GetDotDrawerCallback = FlDotDrawer Function(FlSpot, double, LineChartBarData, int);
 
-FlDotDataShape _defaultGetDotShape(
-    FlSpot spot, double xPercentage, LineChartBarData bar, int index) {
-  return FlDotDataShape.Circle;
+FlDotDrawer _defaultGetDotDrawer(FlSpot spot, double xPercentage, LineChartBarData bar, int index) {
+  return FlDotCircleDrawer(
+      size: bar.dotData.dotSize, color: _defaultGetDotColor(spot, xPercentage, bar));
 }
 
 /// This class holds data about drawing spot dots on the drawing bar line.
@@ -811,9 +811,9 @@ class FlDotData with EquatableMixin {
   /// Checks to show or hide an individual dot.
   final CheckToShowDot checkToShowDot;
 
-  /// Callback which is called to set the shape of the given [FlSpot].
+  /// Callback which is called to set the drawer of the given [FlSpot].
   /// The [FlSpot] is provided as parameter to this callback
-  final GetDotShapeCallback getDotShape;
+  final GetDotDrawerCallback getDotDrawer;
 
   /// set [show] false to prevent dots from drawing,
   /// [dotSize] determines the size of dots.
@@ -835,14 +835,14 @@ class FlDotData with EquatableMixin {
     double strokeWidth,
     GetDotColorCallback getStrokeColor,
     GetDotColorCallback getDotColor,
-    GetDotShapeCallback getDotShape,
+    GetDotDrawerCallback getDotDrawer,
   })  : show = show ?? true,
         dotSize = dotSize ?? 4.0,
         checkToShowDot = checkToShowDot ?? showAllDots,
         strokeWidth = strokeWidth ?? 0.0,
         getStrokeColor = getStrokeColor ?? _defaultGetDotStrokeColor,
         getDotColor = getDotColor ?? _defaultGetDotColor,
-        getDotShape = getDotShape ?? _defaultGetDotShape;
+        getDotDrawer = getDotDrawer ?? _defaultGetDotDrawer;
 
   /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
@@ -853,7 +853,7 @@ class FlDotData with EquatableMixin {
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       getDotColor: b.getDotColor,
       getStrokeColor: b.getStrokeColor,
-      getDotShape: b.getDotShape,
+      getDotDrawer: b.getDotDrawer,
     );
   }
 
@@ -866,13 +866,82 @@ class FlDotData with EquatableMixin {
         getStrokeColor,
         getDotColor,
         checkToShowDot,
-        getDotShape,
+        getDotDrawer,
       ];
 }
 
-enum FlDotDataShape {
-  Circle,
-  Square,
+abstract class FlDotDrawer {
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas);
+}
+
+class FlDotCircleDrawer extends FlDotDrawer {
+  Color color;
+  double size;
+  Color strokeColor;
+  double strokeWidth;
+
+  FlDotCircleDrawer({
+    @required this.color,
+    this.size = 4.0,
+    this.strokeColor,
+    this.strokeWidth,
+  }) : assert(color != null);
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    if (strokeWidth != null) {
+      canvas.drawCircle(
+          offsetInCanvas,
+          size + (strokeWidth / 2),
+          Paint()
+            ..color = strokeColor ?? color
+            ..strokeWidth = strokeWidth
+            ..style = PaintingStyle.stroke);
+    }
+    canvas.drawCircle(
+        offsetInCanvas,
+        size,
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill);
+  }
+}
+
+class FlDotSquareDrawer extends FlDotDrawer {
+  Color color;
+  double size;
+  Color strokeColor;
+  double strokeWidth;
+
+  FlDotSquareDrawer({
+    @required this.color,
+    this.size = 4.0,
+    this.strokeColor,
+    this.strokeWidth,
+  }) : assert(color != null);
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    if (strokeWidth != null) {
+      canvas.drawRect(
+          Rect.fromCircle(
+            center: offsetInCanvas,
+            radius: (size / 2) + (strokeWidth / 2),
+          ),
+          Paint()
+            ..color = strokeColor ?? color
+            ..strokeWidth = strokeWidth
+            ..style = PaintingStyle.stroke);
+    }
+    canvas.drawRect(
+        Rect.fromCircle(
+          center: offsetInCanvas,
+          radius: size / 2,
+        ),
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill);
+  }
 }
 
 /// It determines showing or hiding [FlDotData] on the spots.

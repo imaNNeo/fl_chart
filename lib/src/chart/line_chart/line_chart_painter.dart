@@ -11,6 +11,7 @@ import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../fl_chart.dart';
 import '../../utils/utils.dart';
 import 'line_chart_data.dart';
 
@@ -243,48 +244,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         final double xPercentInLine = ((x - getLeftOffsetDrawSize()) / barXDelta) * 100;
 
-        final dotColor = barData.dotData.getDotColor(spot, xPercentInLine, barData);
+        final FlDotDrawer drawer = barData.dotData.getDotDrawer(spot, xPercentInLine, barData, i);
 
-        final FlDotDataShape shape = barData.dotData.getDotShape(spot, xPercentInLine, barData, i);
-
-        switch (shape) {
-          case FlDotDataShape.Circle:
-            if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
-              canvas.drawCircle(
-                  Offset(x, y),
-                  barData.dotData.dotSize + (barData.dotData.strokeWidth / 2),
-                  _dotPaint
-                    ..color = barData.dotData.getStrokeColor(spot, xPercentInLine, barData)
-                    ..strokeWidth = barData.dotData.strokeWidth
-                    ..style = PaintingStyle.stroke);
-            }
-
-            canvas.drawCircle(
-                Offset(x, y),
-                barData.dotData.dotSize,
-                _dotPaint
-                  ..color = dotColor
-                  ..style = PaintingStyle.fill);
-            break;
-          case FlDotDataShape.Square:
-            if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
-              canvas.drawRect(
-                  Rect.fromCircle(
-                      center: Offset(x, y),
-                      radius: barData.dotData.dotSize + (barData.dotData.strokeWidth / 2)),
-                  _dotPaint
-                    ..color = barData.dotData.getStrokeColor(spot, xPercentInLine, barData)
-                    ..strokeWidth = barData.dotData.strokeWidth
-                    ..style = PaintingStyle.stroke);
-            }
-
-            canvas.drawRect(
-                Rect.fromCircle(center: Offset(x, y), radius: barData.dotData.dotSize),
-                _dotPaint
-                  ..color = dotColor
-                  ..style = PaintingStyle.fill);
-            break;
-        }
+        drawer.draw(canvas, spot, Offset(x, y));
       }
     }
   }
