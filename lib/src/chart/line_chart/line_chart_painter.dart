@@ -249,14 +249,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         switch (shape) {
           case FlDotDataShape.Circle:
-            if (barData.dotData.getStrokeColor != null &&
-                barData.dotData.strokeWidth != null) {
+            if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
               canvas.drawCircle(
                   Offset(x, y),
                   barData.dotData.dotSize + (barData.dotData.strokeWidth / 2),
                   _dotPaint
-                    ..color = barData.dotData
-                        .getStrokeColor(spot, xPercentInLine, barData)
+                    ..color = barData.dotData.getStrokeColor(spot, xPercentInLine, barData)
                     ..strokeWidth = barData.dotData.strokeWidth
                     ..style = PaintingStyle.stroke);
             }
@@ -269,23 +267,19 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
                   ..style = PaintingStyle.fill);
             break;
           case FlDotDataShape.Square:
-            if (barData.dotData.getStrokeColor != null &&
-                barData.dotData.strokeWidth != null) {
+            if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
               canvas.drawRect(
                   Rect.fromCircle(
                       center: Offset(x, y),
-                      radius: barData.dotData.dotSize +
-                          (barData.dotData.strokeWidth / 2)),
+                      radius: barData.dotData.dotSize + (barData.dotData.strokeWidth / 2)),
                   _dotPaint
-                    ..color = barData.dotData
-                        .getStrokeColor(spot, xPercentInLine, barData)
+                    ..color = barData.dotData.getStrokeColor(spot, xPercentInLine, barData)
                     ..strokeWidth = barData.dotData.strokeWidth
                     ..style = PaintingStyle.stroke);
             }
 
             canvas.drawRect(
-                Rect.fromCircle(
-                    center: Offset(x, y), radius: barData.dotData.dotSize),
+                Rect.fromCircle(center: Offset(x, y), radius: barData.dotData.dotSize),
                 _dotPaint
                   ..color = dotColor
                   ..style = PaintingStyle.fill);

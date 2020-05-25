@@ -782,8 +782,7 @@ Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarDat
 /// [LineChartBarData] is the chart's bar.
 /// [int] is the index position of the spot.
 /// It should return a [FlDotDataShape] that needs to be used for drawing target.
-typedef GetDotShapeCallback = FlDotDataShape Function(
-    FlSpot, double, LineChartBarData, int);
+typedef GetDotShapeCallback = FlDotDataShape Function(FlSpot, double, LineChartBarData, int);
 
 FlDotDataShape _defaultGetDotShape(
     FlSpot spot, double xPercentage, LineChartBarData bar, int index) {
