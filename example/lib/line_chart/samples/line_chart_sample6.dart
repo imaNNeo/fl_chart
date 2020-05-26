@@ -89,8 +89,8 @@ class LineChartSample6 extends StatelessWidget {
                     ),
                     dotData: FlDotData(
                       show: true,
-                      getDotColor: (spot, percent, barData) => Colors.deepOrange.withOpacity(0.5),
-                      dotSize: 12,
+                      getDotDrawer: (spot, percent, barData, index) =>
+                          FlDotCircleDrawer(radius: 12, color: Colors.deepOrange.withOpacity(0.5)),
                     ),
                   ),
                   LineChartBarData(
@@ -107,8 +107,8 @@ class LineChartSample6 extends StatelessWidget {
                     ),
                     dotData: FlDotData(
                       show: true,
-                      getDotColor: (spot, percent, barData) => Colors.blue.withOpacity(0.5),
-                      dotSize: 12,
+                      getDotDrawer: (spot, percent, barData, index) =>
+                          FlDotCircleDrawer(radius: 12, color: Colors.blue.withOpacity(0.5)),
                     ),
                   ),
                 ],

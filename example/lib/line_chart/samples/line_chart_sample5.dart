@@ -69,12 +69,12 @@ class LineChartSample5 extends StatelessWidget {
                   ),
                   FlDotData(
                     show: true,
-                    dotSize: 8,
-                    strokeWidth: 2,
-                    getStrokeColor: (spot, percent, barData) => Colors.black,
-                    getDotColor: (spot, percent, barData) {
-                      return lerpGradient(barData.colors, barData.colorStops, percent / 100);
-                    },
+                    getDotDrawer: (spot, percent, barData, index) => FlDotCircleDrawer(
+                      radius: 8,
+                      color: lerpGradient(barData.colors, barData.colorStops, percent / 100),
+                      strokeWidth: 2,
+                      strokeColor: Colors.black,
+                    ),
                   ),
                 );
               }).toList();
