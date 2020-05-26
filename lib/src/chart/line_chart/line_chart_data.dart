@@ -5,7 +5,6 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
-import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -816,13 +815,13 @@ class FlDotData with EquatableMixin {
       ];
 }
 
-abstract class FlDotDrawer {
+abstract class FlDotDrawer with EquatableMixin {
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas);
 
   Size getSize(FlSpot spot);
 }
 
-class FlDotCircleDrawer extends FlDotDrawer with EquatableMixin {
+class FlDotCircleDrawer extends FlDotDrawer {
   Color color;
   double radius;
   Color strokeColor;
@@ -868,7 +867,7 @@ class FlDotCircleDrawer extends FlDotDrawer with EquatableMixin {
       ];
 }
 
-class FlDotSquareDrawer extends FlDotDrawer with EquatableMixin {
+class FlDotSquareDrawer extends FlDotDrawer {
   Color color;
   double size;
   Color strokeColor;

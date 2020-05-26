@@ -459,52 +459,48 @@ final BarAreaData barAreaData4 = BarAreaData(
 );
 
 final Function(FlSpot spot, LineChartBarData barData) checkToShowDot = (spot, barData) => true;
+final Function(FlSpot, double, LineChartBarData, int) getDotDrawer =
+    (spot, percent, barData, index) =>
+        FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 12);
+final Function(FlSpot, double, LineChartBarData, int) getDotDrawer5 =
+    (spot, percent, barData, index) =>
+        FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 14);
+final Function(FlSpot, double, LineChartBarData, int) getDotDrawer6 =
+    (spot, percent, barData, index) =>
+        FlDotCircleDrawer(radius: 44.01, color: Colors.green, strokeWidth: 14);
+final Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched =
+    (spot, percent, barData, index) => FlDotCircleDrawer(radius: 12, color: Colors.red);
+final Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched4 =
+    (spot, percent, barData, index) => FlDotCircleDrawer(radius: 12, color: Colors.green);
+final Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched6 =
+    (spot, percent, barData, index) => FlDotCircleDrawer(radius: 12.01, color: Colors.red);
 
 final FlDotData flDotData1 = FlDotData(
   show: true,
-  getDotDrawer: (spot, percent, barData, index) =>
-      FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 12),
+  getDotDrawer: getDotDrawer,
   checkToShowDot: checkToShowDot,
 );
 final FlDotData flDotData1Clone = FlDotData(
   show: true,
-  getDotDrawer: (spot, percent, barData, index) =>
-      FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 12),
-  checkToShowDot: checkToShowDot,
-);
-
-final FlDotData flDotData2 = FlDotData(
-  show: true,
-  getDotDrawer: (spot, percent, barData, index) =>
-      FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 12),
-  checkToShowDot: checkToShowDot,
-);
-
-final FlDotData flDotData3 = FlDotData(
-  show: true,
-  getDotDrawer: (spot, percent, barData, index) =>
-      FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 12),
+  getDotDrawer: getDotDrawer,
   checkToShowDot: checkToShowDot,
 );
 
 final FlDotData flDotData4 = FlDotData(
   show: true,
-  getDotDrawer: (spot, percent, barData, index) =>
-      FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 12),
+  getDotDrawer: getDotDrawer,
   checkToShowDot: null,
 );
 
 final FlDotData flDotData5 = FlDotData(
   show: true,
-  getDotDrawer: (spot, percent, barData, index) =>
-      FlDotCircleDrawer(radius: 44, color: Colors.green, strokeWidth: 14),
+  getDotDrawer: getDotDrawer5,
   checkToShowDot: null,
 );
 
 final FlDotData flDotData6 = FlDotData(
   show: true,
-  getDotDrawer: (spot, percent, barData, index) =>
-      FlDotCircleDrawer(radius: 44.01, color: Colors.green, strokeWidth: 14),
+  getDotDrawer: getDotDrawer6,
   checkToShowDot: null,
 );
 
@@ -706,7 +702,7 @@ final LineChartBarData lineChartBarData6 = LineChartBarData(
   gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
-  dotData: flDotData2,
+  dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
   preventCurveOverShooting: false,
@@ -855,22 +851,14 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData1 = TouchedSpotIndicatorD
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(
-      getDotDrawer: (spot, percent, barData, index) =>
-          FlDotCircleDrawer(radius: 12, color: Colors.red),
-      checkToShowDot: checkToShowDot,
-      show: true),
+  FlDotData(getDotDrawer: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData1Clone = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(
-      getDotDrawer: (spot, percent, barData, index) =>
-          FlDotCircleDrawer(radius: 12, color: Colors.red),
-      checkToShowDot: checkToShowDot,
-      show: true),
+  FlDotData(getDotDrawer: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
 );
 
 final TouchedSpotIndicatorData touchedSpotIndicatorData2 = TouchedSpotIndicatorData(
@@ -878,55 +866,35 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData2 = TouchedSpotIndicatorD
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(
-      getDotDrawer: (spot, percent, barData, index) =>
-          FlDotCircleDrawer(radius: 12, color: Colors.red),
-      checkToShowDot: null,
-      show: true),
+  FlDotData(getDotDrawer: getDotDrawerTouched, checkToShowDot: null, show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData3 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: null,
   ),
-  FlDotData(
-      getDotDrawer: (spot, percent, barData, index) =>
-          FlDotCircleDrawer(radius: 12, color: Colors.red),
-      checkToShowDot: checkToShowDot,
-      show: true),
+  FlDotData(getDotDrawer: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData4 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.green,
     dashArray: [],
   ),
-  FlDotData(
-      getDotDrawer: (spot, percent, barData, index) =>
-          FlDotCircleDrawer(radius: 12, color: Colors.green),
-      checkToShowDot: checkToShowDot,
-      show: true),
+  FlDotData(getDotDrawer: getDotDrawerTouched4, checkToShowDot: checkToShowDot, show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData5 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(
-      getDotDrawer: (spot, percent, barData, index) =>
-          FlDotCircleDrawer(radius: 12, color: Colors.red),
-      checkToShowDot: checkToShowDot,
-      show: false),
+  FlDotData(getDotDrawer: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: false),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData6 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(
-      getDotDrawer: (spot, percent, barData, index) =>
-          FlDotCircleDrawer(radius: 12.01, color: Colors.red),
-      checkToShowDot: checkToShowDot,
-      show: true),
+  FlDotData(getDotDrawer: getDotDrawerTouched6, checkToShowDot: checkToShowDot, show: true),
 );
 
 final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', TextStyle(color: Colors.green));
