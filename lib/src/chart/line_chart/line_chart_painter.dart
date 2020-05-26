@@ -22,7 +22,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _barAreaPaint,
       _barAreaLinesPaint,
       _clearBarAreaPaint,
-      _dotPaint,
       _extraLinesPaint,
       _touchLinePaint,
       _bgTouchTooltipPaint,
@@ -55,8 +54,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       ..style = PaintingStyle.fill
       ..color = const Color(0x000000000)
       ..blendMode = BlendMode.dstIn;
-
-    _dotPaint = Paint()..style = PaintingStyle.fill;
 
     _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 

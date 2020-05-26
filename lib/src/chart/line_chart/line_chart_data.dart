@@ -762,20 +762,6 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   }
 }
 
-/// If there is one color in [LineChartBarData.colors], it returns that color in a darker mode,
-/// otherwise it returns the color along the gradient colors based on the [xPercentage] in a darker mode.
-Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarData bar) {
-  Color color;
-  if (bar.colors == null || bar.colors.isEmpty) {
-    color = Colors.green;
-  } else if (bar.colors.length == 1) {
-    color = bar.colors[0];
-  } else {
-    color = lerpGradient(bar.colors, bar.colorStops, xPercentage / 100);
-  }
-  return color.darken();
-}
-
 /// The callback passed to get the drawer of a [FlSpot]
 ///
 /// The callback receives [FlSpot], which is the target spot,
@@ -836,7 +822,7 @@ abstract class FlDotDrawer {
   Size getSize(FlSpot spot);
 }
 
-class FlDotCircleDrawer extends FlDotDrawer {
+class FlDotCircleDrawer extends FlDotDrawer with EquatableMixin {
   Color color;
   double radius;
   Color strokeColor;
@@ -872,9 +858,17 @@ class FlDotCircleDrawer extends FlDotDrawer {
   Size getSize(FlSpot spot) {
     return Size(radius, radius);
   }
+
+  @override
+  List<Object> get props => [
+        color,
+        radius,
+        strokeColor,
+        strokeWidth,
+      ];
 }
 
-class FlDotSquareDrawer extends FlDotDrawer {
+class FlDotSquareDrawer extends FlDotDrawer with EquatableMixin {
   Color color;
   double size;
   Color strokeColor;
@@ -914,6 +908,14 @@ class FlDotSquareDrawer extends FlDotDrawer {
   Size getSize(FlSpot spot) {
     return Size(size, size);
   }
+
+  @override
+  List<Object> get props => [
+        color,
+        size,
+        strokeColor,
+        strokeWidth,
+      ];
 }
 
 /// It determines showing or hiding [FlDotData] on the spots.
