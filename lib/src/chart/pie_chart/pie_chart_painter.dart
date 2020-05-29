@@ -235,7 +235,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
     int foundSectionDataPosition;
 
     /// Find the nearest section base on the touch spot
-    double tempAngle = data.startDegreeOffset;
+    final relativeTouchAngle = (touchAngle - data.startDegreeOffset) % 360;
+    double tempAngle = 0.0;
     for (int i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
       double sectionAngle = sectionsAngle[i];
@@ -247,7 +248,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       final space = data.sectionsSpace / 2;
       final fromDegree = tempAngle + space;
       final toDegree = sectionAngle + tempAngle - space;
-      final isInDegree = touchAngle >= fromDegree && touchAngle <= toDegree;
+      final isInDegree = relativeTouchAngle >= fromDegree && relativeTouchAngle <= toDegree;
 
       /// radius criteria
       final centerRadius = _calculateCenterRadius(viewSize, data.centerSpaceRadius);
