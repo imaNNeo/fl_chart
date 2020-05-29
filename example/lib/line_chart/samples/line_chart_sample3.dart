@@ -63,10 +63,11 @@ class LineChartSample3 extends StatelessWidget {
                       return TouchedSpotIndicatorData(
                         FlLine(color: Colors.blue, strokeWidth: 4),
                         FlDotData(
-                          dotSize: 8,
-                          strokeWidth: 5,
-                          getDotColor: (spot, percent, barData) => Colors.white,
-                          getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
+                          getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                              radius: 8,
+                              color: Colors.white,
+                              strokeWidth: 5,
+                              strokeColor: Colors.deepOrange),
                         ),
                       );
                     }).toList();
@@ -131,10 +132,11 @@ class LineChartSample3 extends StatelessWidget {
                   ),
                   dotData: FlDotData(
                       show: true,
-                      getDotColor: (spot, percent, barData) => Colors.white,
-                      dotSize: 6,
-                      strokeWidth: 3,
-                      getStrokeColor: (spot, percent, barData) => Colors.deepOrange,
+                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                          radius: 6,
+                          color: Colors.white,
+                          strokeWidth: 3,
+                          strokeColor: Colors.deepOrange),
                       checkToShowDot: (spot, barData) {
                         return spot.x != 0 && spot.x != 6;
                       }),

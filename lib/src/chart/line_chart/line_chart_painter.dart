@@ -11,6 +11,7 @@ import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../fl_chart.dart';
 import '../../utils/utils.dart';
 import 'line_chart_data.dart';
 
@@ -21,7 +22,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _barAreaPaint,
       _barAreaLinesPaint,
       _clearBarAreaPaint,
-      _dotPaint,
       _extraLinesPaint,
       _touchLinePaint,
       _bgTouchTooltipPaint,
@@ -54,8 +54,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       ..style = PaintingStyle.fill
       ..color = const Color(0x000000000)
       ..blendMode = BlendMode.dstIn;
-
-    _dotPaint = Paint()..style = PaintingStyle.fill;
 
     _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -247,24 +245,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         final double xPercentInLine = ((x - getLeftOffsetDrawSize()) / barXDelta) * 100;
 
-        final dotColor = barData.dotData.getDotColor(spot, xPercentInLine, barData);
+        final FlDotPainter drawer = barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
 
-        if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
-          canvas.drawCircle(
-              Offset(x, y),
-              barData.dotData.dotSize + (barData.dotData.strokeWidth / 2),
-              _dotPaint
-                ..color = barData.dotData.getStrokeColor(spot, xPercentInLine, barData)
-                ..strokeWidth = barData.dotData.strokeWidth
-                ..style = PaintingStyle.stroke);
-        }
-
-        canvas.drawCircle(
-            Offset(x, y),
-            barData.dotData.dotSize,
-            _dotPaint
-              ..color = dotColor
-              ..style = PaintingStyle.fill);
+        drawer.draw(canvas, spot, Offset(x, y));
       }
     }
   }
@@ -292,13 +275,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
-      final bool showingDots =
-          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
-      final double dotCircleSize = showingDots ? indicatorData.touchedSpotDotData.dotSize : 0;
-
-      /// For drawing the dot
       final Offset touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
+
+      /// For drawing the dot
+      final bool showingDots =
+          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
+      double dotHeight = 0;
+      FlDotPainter drawer;
+
+      if (showingDots) {
+        final double xPercentInLine =
+            ((touchedSpot.dx - getLeftOffsetDrawSize()) / barXDelta) * 100;
+        drawer =
+            indicatorData.touchedSpotDotData.getDotPainter(spot, xPercentInLine, barData, index);
+        dotHeight = drawer.getSize(spot).height;
+      }
 
       /// For drawing the indicator line
       final bottom = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
@@ -306,7 +298,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       /// Draw to top or to the touchedSpot
       final Offset lineEnd =
-          data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotCircleSize);
+          data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotHeight);
 
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
@@ -316,30 +308,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       /// Draw the indicator dot
       if (showingDots) {
-        final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
-
-        final double xPercentInLine =
-            ((touchedSpot.dx - getLeftOffsetDrawSize()) / barXDelta) * 100;
-
-        if (indicatorData.touchedSpotDotData.getStrokeColor != null &&
-            indicatorData.touchedSpotDotData.strokeWidth != null) {
-          canvas.drawCircle(
-              touchedSpot,
-              indicatorData.touchedSpotDotData.dotSize +
-                  (indicatorData.touchedSpotDotData.strokeWidth / 2),
-              _dotPaint
-                ..color =
-                    indicatorData.touchedSpotDotData.getStrokeColor(spot, xPercentInLine, barData)
-                ..strokeWidth = indicatorData.touchedSpotDotData.strokeWidth
-                ..style = PaintingStyle.stroke);
-        }
-
-        canvas.drawCircle(
-            touchedSpot,
-            selectedSpotDotSize,
-            _dotPaint
-              ..color = indicatorData.touchedSpotDotData.getDotColor(spot, xPercentInLine, barData)
-              ..style = PaintingStyle.fill);
+        drawer.draw(canvas, spot, touchedSpot);
       }
     }
   }
