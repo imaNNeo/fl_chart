@@ -69,7 +69,7 @@ class LineChartSample5 extends StatelessWidget {
                   ),
                   FlDotData(
                     show: true,
-                    getDotDrawer: (spot, percent, barData, index) => FlDotCircleDrawer(
+                    getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
                       radius: 8,
                       color: lerpGradient(barData.colors, barData.colorStops, percent / 100),
                       strokeWidth: 2,

@@ -241,7 +241,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         final double xPercentInLine = ((x - getLeftOffsetDrawSize()) / barXDelta) * 100;
 
-        final FlDotDrawer drawer = barData.dotData.getDotDrawer(spot, xPercentInLine, barData, i);
+        final FlDotPainter drawer = barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
 
         drawer.draw(canvas, spot, Offset(x, y));
       }
@@ -278,13 +278,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final bool showingDots =
           indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
       double dotHeight = 0;
-      FlDotDrawer drawer;
+      FlDotPainter drawer;
 
       if (showingDots) {
         final double xPercentInLine =
             ((touchedSpot.dx - getLeftOffsetDrawSize()) / barXDelta) * 100;
         drawer =
-            indicatorData.touchedSpotDotData.getDotDrawer(spot, xPercentInLine, barData, index);
+            indicatorData.touchedSpotDotData.getDotPainter(spot, xPercentInLine, barData, index);
         dotHeight = drawer.getSize(spot).height;
       }
 

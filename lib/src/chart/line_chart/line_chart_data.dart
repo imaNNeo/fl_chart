@@ -5,6 +5,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -761,17 +762,35 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   }
 }
 
-/// The callback passed to get the drawer of a [FlSpot]
+/// If there is one color in [LineChartBarData.colors], it returns that color in a darker mode,
+/// otherwise it returns the color along the gradient colors based on the [xPercentage] in a darker mode.
+Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarData bar) {
+  Color color;
+  if (bar.colors == null || bar.colors.isEmpty) {
+    color = Colors.green;
+  } else if (bar.colors.length == 1) {
+    color = bar.colors[0];
+  } else {
+    color = lerpGradient(bar.colors, bar.colorStops, xPercentage / 100);
+  }
+  return color.darken();
+}
+
+/// The callback passed to get the painter of a [FlSpot]
 ///
 /// The callback receives [FlSpot], which is the target spot,
 /// [LineChartBarData] is the chart's bar.
 /// [int] is the index position of the spot.
-/// It should return a [FlDotDrawer] that needs to be used for drawing target.
-typedef GetDotDrawerCallback = FlDotDrawer Function(FlSpot, double, LineChartBarData, int);
+/// It should return a [FlDotPainter] that needs to be used for drawing target.
+typedef GetDotPainterCallback = FlDotPainter Function(FlSpot, double, LineChartBarData, int);
 
-FlDotDrawer _defaultGetDotDrawer(FlSpot spot, double xPercentage, LineChartBarData bar, int index,
+FlDotPainter _defaultGetDotPainter(FlSpot spot, double xPercentage, LineChartBarData bar, int index,
     {double size}) {
-  return FlDotCircleDrawer(radius: size, color: _defaultGetDotColor(spot, xPercentage, bar));
+  return FlDotCirclePainter(
+    radius: size,
+    color: _defaultGetDotColor(spot, xPercentage, bar),
+    strokeColor: _defaultGetDotStrokeColor(spot, xPercentage, bar),
+  );
 }
 
 /// This class holds data about drawing spot dots on the drawing bar line.
@@ -782,9 +801,9 @@ class FlDotData with EquatableMixin {
   /// Checks to show or hide an individual dot.
   final CheckToShowDot checkToShowDot;
 
-  /// Callback which is called to set the drawer of the given [FlSpot].
+  /// Callback which is called to set the painter of the given [FlSpot].
   /// The [FlSpot] is provided as parameter to this callback
-  final GetDotDrawerCallback getDotDrawer;
+  final GetDotPainterCallback getDotPainter;
 
   /// set [show] false to prevent dots from drawing,
   /// if you want to show or hide dots in some spots,
@@ -792,17 +811,17 @@ class FlDotData with EquatableMixin {
   FlDotData({
     bool show,
     CheckToShowDot checkToShowDot,
-    GetDotDrawerCallback getDotDrawer,
+    GetDotPainterCallback getDotPainter,
   })  : show = show ?? true,
         checkToShowDot = checkToShowDot ?? showAllDots,
-        getDotDrawer = getDotDrawer ?? _defaultGetDotDrawer;
+        getDotPainter = getDotPainter ?? _defaultGetDotPainter;
 
   /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
     return FlDotData(
       show: b.show,
       checkToShowDot: b.checkToShowDot,
-      getDotDrawer: b.getDotDrawer,
+      getDotPainter: b.getDotPainter,
     );
   }
 
@@ -811,28 +830,31 @@ class FlDotData with EquatableMixin {
   List<Object> get props => [
         show,
         checkToShowDot,
-        getDotDrawer,
+        getDotPainter,
       ];
 }
 
-abstract class FlDotDrawer with EquatableMixin {
+abstract class FlDotPainter with EquatableMixin {
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas);
 
   Size getSize(FlSpot spot);
 }
 
-class FlDotCircleDrawer extends FlDotDrawer {
+class FlDotCirclePainter extends FlDotPainter {
   Color color;
   double radius;
   Color strokeColor;
   double strokeWidth;
 
-  FlDotCircleDrawer({
-    @required this.color,
-    this.radius = 4.0,
-    this.strokeColor,
-    this.strokeWidth,
-  }) : assert(color != null);
+  FlDotCirclePainter({
+    Color color,
+    double radius,
+    Color strokeColor,
+    double strokeWidth,
+  })  : color = color ?? Colors.green,
+        radius = radius ?? 4.0,
+        strokeColor = strokeColor ?? Colors.green,
+        strokeWidth = strokeWidth ?? 1.0;
 
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
@@ -867,18 +889,21 @@ class FlDotCircleDrawer extends FlDotDrawer {
       ];
 }
 
-class FlDotSquareDrawer extends FlDotDrawer {
+class FlDotSquarePainter extends FlDotPainter {
   Color color;
   double size;
   Color strokeColor;
   double strokeWidth;
 
-  FlDotSquareDrawer({
-    @required this.color,
-    this.size = 4.0,
-    this.strokeColor,
-    this.strokeWidth,
-  }) : assert(color != null);
+  FlDotSquarePainter({
+    Color color,
+    double size,
+    Color strokeColor,
+    double strokeWidth,
+  })  : color = color ?? Colors.green,
+        size = size ?? 4.0,
+        strokeColor = strokeColor ?? Colors.green,
+        strokeWidth = strokeWidth ?? 1.0;
 
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
@@ -1398,8 +1423,8 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     }
 
     final dotData = FlDotData(
-        getDotDrawer: (spot, percent, bar, index) =>
-            _defaultGetDotDrawer(spot, percent, bar, index, size: dotSize));
+        getDotPainter: (spot, percent, bar, index) =>
+            _defaultGetDotPainter(spot, percent, bar, index, size: dotSize));
 
     return TouchedSpotIndicatorData(flLine, dotData);
   }).toList();

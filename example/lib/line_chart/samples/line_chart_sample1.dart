@@ -395,15 +395,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         ],
         barWidth: 2,
         isStrokeCapRound: true,
-        dotData: FlDotData(
-            show: true,
-            getDotDrawer: (spot, percentage, data, index) {
-              final FlDotDrawer circle = FlDotCircleDrawer(
-                  radius: 10, color: Colors.red, strokeWidth: 3, strokeColor: Colors.white);
-              final FlDotDrawer square = FlDotSquareDrawer(
-                  size: 20, color: Colors.green, strokeWidth: 2, strokeColor: Colors.orange);
-              return index % 2 == 0 ? circle : square;
-            }),
+        dotData: FlDotData(show: true),
         belowBarData: BarAreaData(
           show: false,
         ),
