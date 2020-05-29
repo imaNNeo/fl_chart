@@ -96,9 +96,8 @@ LineChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |show|determines to show or hide the dots|true|
-|dotColor|colors the showing dot|Colors.blue|
-|dotSize|size of showing dot|4.0|
 |checkToShowDot|a function to determine whether to show or hide the dot on the given spot|showAllDots|
+|getDotPainter|a function to determine how the dot is drawn on the given spot|_defaultGetDotPainter|
 
 
 ### HorizontalLine

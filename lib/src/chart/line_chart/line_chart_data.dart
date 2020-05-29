@@ -834,18 +834,35 @@ class FlDotData with EquatableMixin {
       ];
 }
 
+/// This class contains the interface that all DotPainters should conform to.
 abstract class FlDotPainter with EquatableMixin {
+  /// This method should be overriden to draw the dot shape.
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas);
 
+  /// This method should be overriden to return the size of the shape.
   Size getSize(FlSpot spot);
 }
 
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a circled shape
 class FlDotCirclePainter extends FlDotPainter {
+  /// The fill color to use for the circle
   Color color;
+
+  /// Customizes the radius of the circle
   double radius;
+
+  /// The stroke color to use for the circle
   Color strokeColor;
+
+  /// The stroke width to use for the circle
   double strokeWidth;
 
+  /// The color of the circle is determined determined by [color],
+  /// [radius] determines the radius of the circle.
+  /// You can have a stroke line around the circle,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of of the stroke with [strokeColor].
   FlDotCirclePainter({
     Color color,
     double radius,
@@ -853,9 +870,10 @@ class FlDotCirclePainter extends FlDotPainter {
     double strokeWidth,
   })  : color = color ?? Colors.green,
         radius = radius ?? 4.0,
-        strokeColor = strokeColor ?? Colors.green,
+        strokeColor = strokeColor ?? Colors.green.darken(),
         strokeWidth = strokeWidth ?? 1.0;
 
+  /// Implementation of the parent class to draw the circle
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
     if (strokeWidth != null) {
@@ -875,11 +893,13 @@ class FlDotCirclePainter extends FlDotPainter {
           ..style = PaintingStyle.fill);
   }
 
+  /// Implementation of the parent class to get the size of the circle
   @override
   Size getSize(FlSpot spot) {
     return Size(radius, radius);
   }
 
+  /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
         color,
@@ -889,12 +909,26 @@ class FlDotCirclePainter extends FlDotPainter {
       ];
 }
 
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a squared shape
 class FlDotSquarePainter extends FlDotPainter {
+  /// The fill color to use for the square
   Color color;
+
+  /// Customizes the size of the square
   double size;
+
+  /// The stroke color to use for the square
   Color strokeColor;
+
+  /// The stroke width to use for the square
   double strokeWidth;
 
+  /// The color of the square is determined determined by [color],
+  /// [size] determines the size of the square.
+  /// You can have a stroke line around the square,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of of the stroke with [strokeColor].
   FlDotSquarePainter({
     Color color,
     double size,
@@ -902,9 +936,10 @@ class FlDotSquarePainter extends FlDotPainter {
     double strokeWidth,
   })  : color = color ?? Colors.green,
         size = size ?? 4.0,
-        strokeColor = strokeColor ?? Colors.green,
+        strokeColor = strokeColor ?? Colors.green.darken(),
         strokeWidth = strokeWidth ?? 1.0;
 
+  /// Implementation of the parent class to draw the square
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
     if (strokeWidth != null) {
@@ -928,11 +963,13 @@ class FlDotSquarePainter extends FlDotPainter {
           ..style = PaintingStyle.fill);
   }
 
+  /// Implementation of the parent class to get the size of the square
   @override
   Size getSize(FlSpot spot) {
     return Size(size, size);
   }
 
+  /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
         color,
