@@ -37,6 +37,7 @@ class PieChart2State extends State {
                           }
                         });
                       }),
+                      startDegreeOffset: -90,
                       borderData: FlBorderData(
                         show: false,
                       ),
