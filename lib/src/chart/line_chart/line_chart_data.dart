@@ -113,43 +113,28 @@ class LineChartData extends AxisChartData with EquatableMixin {
     }
     if (lineBarsData.isNotEmpty) {
       final canModifyMinX = minX == null;
-      if (canModifyMinX) {
-        minX = lineBarsData[0].spots[0].x;
-      }
-
       final canModifyMaxX = maxX == null;
-      if (canModifyMaxX) {
-        maxX = lineBarsData[0].spots[0].x;
-      }
-
       final canModifyMinY = minY == null;
-      if (canModifyMinY) {
-        minY = lineBarsData[0].spots[0].y;
-      }
-
       final canModifyMaxY = maxY == null;
-      if (canModifyMaxY) {
-        maxY = lineBarsData[0].spots[0].y;
-      }
 
       for (int i = 0; i < lineBarsData.length; i++) {
         final LineChartBarData barData = lineBarsData[i];
         for (int j = 0; j < barData.spots.length; j++) {
           final FlSpot spot = barData.spots[j];
           if (spot.isNotNull()) {
-            if (canModifyMaxX && spot.x > maxX) {
+            if (canModifyMaxX && (maxX == null || spot.x > maxX)) {
               maxX = spot.x;
             }
 
-            if (canModifyMinX && spot.x < minX) {
+            if (canModifyMinX && (minX == null || spot.x < minX)) {
               minX = spot.x;
             }
 
-            if (canModifyMaxY && spot.y > maxY) {
+            if (canModifyMaxY && (maxY == null || spot.y > maxY)) {
               maxY = spot.y;
             }
 
-            if (canModifyMinY && spot.y < minY) {
+            if (canModifyMinY && (minY == null || spot.y < minY)) {
               minY = spot.y;
             }
           }
