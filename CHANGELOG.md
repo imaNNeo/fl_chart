@@ -3,7 +3,7 @@
 * [Bugfix] drawing dot on null spots
 * [Bugfix] Fixed LineChart have multiple NULL spot bug.
 * [Feature] `checkToShowTitle` property to the [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), for checking show or not show titles in the provided value, #331. see [LineChartSample8](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code).
-* [Feature] Added FlDotPainter,....
+* [Feature] Added compatibily to have customized shapes for [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), just override `FlDotData.etDotPainter` and pass your own painter or use built-in ones, see this [sample](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-3-source-code).
 * [Improvement] [BREAKING] Replaced `clipToBorder` with `clipData` in [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to support clipping 4 sides of a chart separately.
 
 ## 0.9.4

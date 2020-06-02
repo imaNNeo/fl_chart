@@ -63,11 +63,22 @@ class LineChartSample3 extends StatelessWidget {
                       return TouchedSpotIndicatorData(
                         FlLine(color: Colors.blue, strokeWidth: 4),
                         FlDotData(
-                          getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
-                              radius: 8,
-                              color: Colors.white,
-                              strokeWidth: 5,
-                              strokeColor: Colors.deepOrange),
+                          getDotPainter: (spot, percent, barData, index) {
+                            if (index % 2 == 0) {
+                              return FlDotCirclePainter(
+                                radius: 8,
+                                color: Colors.white,
+                                strokeWidth: 5,
+                                strokeColor: Colors.deepOrange);
+                            } else {
+                              return FlDotSquarePainter(
+                                size: 16,
+                                color: Colors.white,
+                                strokeWidth: 5,
+                                strokeColor: Colors.deepOrange,
+                              );
+                            }
+                          },
                         ),
                       );
                     }).toList();
@@ -132,11 +143,22 @@ class LineChartSample3 extends StatelessWidget {
                   ),
                   dotData: FlDotData(
                       show: true,
-                      getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
-                          radius: 6,
-                          color: Colors.white,
-                          strokeWidth: 3,
-                          strokeColor: Colors.deepOrange),
+                      getDotPainter: (spot, percent, barData, index) {
+                        if (index % 2 == 0) {
+                          return FlDotCirclePainter(
+                            radius: 6,
+                            color: Colors.white,
+                            strokeWidth: 3,
+                            strokeColor: Colors.deepOrange);
+                        } else {
+                          return FlDotSquarePainter(
+                            size: 12,
+                            color: Colors.white,
+                            strokeWidth: 3,
+                            strokeColor: Colors.deepOrange,
+                          );
+                        }
+                      },
                       checkToShowDot: (spot, barData) {
                         return spot.x != 0 && spot.x != 6;
                       }),
