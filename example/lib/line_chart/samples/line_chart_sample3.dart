@@ -66,10 +66,10 @@ class LineChartSample3 extends StatelessWidget {
                           getDotPainter: (spot, percent, barData, index) {
                             if (index % 2 == 0) {
                               return FlDotCirclePainter(
-                                radius: 8,
-                                color: Colors.white,
-                                strokeWidth: 5,
-                                strokeColor: Colors.deepOrange);
+                                  radius: 8,
+                                  color: Colors.white,
+                                  strokeWidth: 5,
+                                  strokeColor: Colors.deepOrange);
                             } else {
                               return FlDotSquarePainter(
                                 size: 16,
@@ -146,10 +146,10 @@ class LineChartSample3 extends StatelessWidget {
                       getDotPainter: (spot, percent, barData, index) {
                         if (index % 2 == 0) {
                           return FlDotCirclePainter(
-                            radius: 6,
-                            color: Colors.white,
-                            strokeWidth: 3,
-                            strokeColor: Colors.deepOrange);
+                              radius: 6,
+                              color: Colors.white,
+                              strokeWidth: 3,
+                              strokeColor: Colors.deepOrange);
                         } else {
                           return FlDotSquarePainter(
                             size: 12,
