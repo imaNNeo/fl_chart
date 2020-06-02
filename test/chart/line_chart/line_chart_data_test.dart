@@ -46,12 +46,6 @@ void main() {
     test('FlDotData equality test', () {
       expect(flDotData1 == flDotData1Clone, true);
 
-      expect(flDotData1 == flDotData2, false);
-
-      expect(flDotData1 == flDotData2, false);
-
-      expect(flDotData1 == flDotData3, false);
-
       expect(flDotData1 == flDotData4, false);
 
       expect(flDotData1 == flDotData5, false);

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
@@ -87,14 +88,49 @@ class FlTouchData with EquatableMixin {
       ];
 }
 
+/// Holds data to clipping chart around its borders.
+class FlClipData with EquatableMixin {
+  final bool top;
+  final bool bottom;
+  final bool left;
+  final bool right;
+
+  /// Creates data that clips specified sides
+  FlClipData({
+    @required this.top,
+    @required this.bottom,
+    @required this.left,
+    @required this.right,
+  });
+
+  /// Creates data that clips all sides
+  FlClipData.all() : this(top: true, bottom: true, left: true, right: true);
+
+  /// Creates data that clips only top and bottom side
+  FlClipData.vertical() : this(top: true, bottom: true, left: false, right: false);
+
+  /// Creates data that clips only left and right side
+  FlClipData.horizontal() : this(top: false, bottom: false, left: true, right: true);
+
+  /// Creates data that doesn't clip any side
+  FlClipData.none() : this(top: false, bottom: false, left: false, right: false);
+
+  /// Checks whether any of the sides should be clipped
+  bool get any => top || bottom || left || right;
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [top, bottom, left, right];
+}
+
 /// It gives you the axis value and gets a String value based on it.
 typedef GetTitleFunction = String Function(double value);
 
 /// The default [SideTitles.getTitles] function.
 ///
-/// It maps the axis number to a string and returns it.
+/// formats the axis number to a shorter string using [formatNumber].
 String defaultGetTitle(double value) {
-  return '$value';
+  return formatNumber(value);
 }
 
 /// This class holds the touch response details.

@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 /// This is the base class for axis base charts data
@@ -22,10 +23,16 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   double minY, maxY;
 
   /// clip the chart to the border (prevent draw outside the border)
-  bool clipToBorder;
+  FlClipData clipData;
 
   /// A background color which is drawn behind th chart.
   Color backgroundColor;
+
+  /// Difference of [maxY] and [minY]
+  double get verticalDiff => maxY - minY;
+
+  /// Difference of [maxX] and [minX]
+  double get horizontalDiff => maxX - minX;
 
   AxisChartData({
     FlGridData gridData,
@@ -35,7 +42,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     double maxX,
     double minY,
     double maxY,
-    bool clipToBorder,
+    FlClipData clipData,
     Color backgroundColor,
     FlBorderData borderData,
     FlTouchData touchData,
@@ -46,7 +53,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         maxX = maxX,
         minY = minY,
         maxY = maxY,
-        clipToBorder = clipToBorder ?? false,
+        clipData = clipData ?? FlClipData.none(),
         backgroundColor = backgroundColor,
         super(borderData: borderData, touchData: touchData);
 
@@ -60,7 +67,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         maxX,
         minY,
         maxY,
-        clipToBorder,
+        clipData,
         backgroundColor,
         borderData,
         touchData,
@@ -224,6 +231,21 @@ class FlTitlesData with EquatableMixin {
       ];
 }
 
+/// Determines showing or hiding specified title.
+typedef CheckToShowTitle = bool Function(
+    double minValue, double maxValue, SideTitles sideTitles, double appliedInterval, double value);
+
+/// The default [SideTitles.checkToShowTitle] function.
+///
+/// It determines showing or not showing specific title.
+bool defaultCheckToShowTitle(
+    double minValue, double maxValue, SideTitles sideTitles, double appliedInterval, double value) {
+  if ((maxValue - minValue) % appliedInterval == 0) {
+    return true;
+  }
+  return value != maxValue;
+}
+
 /// Holds data for showing each side titles (a title per each axis value).
 class SideTitles with EquatableMixin {
   final bool showTitles;
@@ -233,6 +255,7 @@ class SideTitles with EquatableMixin {
   final double margin;
   final double interval;
   final double rotateAngle;
+  final CheckToShowTitle checkToShowTitle;
 
   /// It draws some title on all axis, per each axis value,
   /// [showTitles] determines showing or hiding this side,
@@ -243,8 +266,10 @@ class SideTitles with EquatableMixin {
   /// [textStyle] determines the text style of them,
   /// [margin] determines margin of texts from the border line,
   ///
-  /// by default, texts are showing with 1.0 interval,
-  /// you can change this value using [interval],
+  /// texts are showing with provided [interval],
+  /// or you can let it be null to be calculated using [getEfficientInterval],
+  /// also you can decide to show or not a specific title,
+  /// using [checkToShowTitle].
   ///
   /// you can change rotation of drawing titles using [rotateAngle].
   SideTitles({
@@ -255,6 +280,7 @@ class SideTitles with EquatableMixin {
     double margin,
     double interval,
     double rotateAngle,
+    CheckToShowTitle checkToShowTitle,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
@@ -264,8 +290,13 @@ class SideTitles with EquatableMixin {
               fontSize: 11,
             ),
         margin = margin ?? 6,
-        interval = interval ?? 1.0,
-        rotateAngle = rotateAngle ?? 0.0;
+        interval = interval,
+        rotateAngle = rotateAngle ?? 0.0,
+        checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle {
+    if (interval == 0) {
+      throw ArgumentError("SideTitles.interval couldn't be zero");
+    }
+  }
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
@@ -277,6 +308,7 @@ class SideTitles with EquatableMixin {
       margin: lerpDouble(a.margin, b.margin, t),
       interval: lerpDouble(a.interval, b.interval, t),
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
+      checkToShowTitle: b.checkToShowTitle,
     );
   }
 
@@ -290,6 +322,7 @@ class SideTitles with EquatableMixin {
         margin,
         interval,
         rotateAngle,
+        checkToShowTitle,
       ];
 }
 
@@ -352,7 +385,7 @@ class FlGridData with EquatableMixin {
   /// Determines showing or hiding all horizontal lines.
   final bool drawHorizontalLine;
 
-  /// Determines interval between horizontal lines.
+  /// Determines interval between horizontal lines, left it null to be auto calculated.
   final double horizontalInterval;
 
   /// Gives you a y value, and gets a [FlLine] that represents specified line.
@@ -364,7 +397,7 @@ class FlGridData with EquatableMixin {
   /// Determines showing or hiding all vertical lines.
   final bool drawVerticalLine;
 
-  /// Determines interval between vertical lines.
+  /// Determines interval between vertical lines, left it null to be auto calculated.
   final double verticalInterval;
 
   /// Gives you a x value, and gets a [FlLine] that represents specified line.
@@ -407,13 +440,20 @@ class FlGridData with EquatableMixin {
     CheckToShowGrid checkToShowVerticalLine,
   })  : show = show ?? true,
         drawHorizontalLine = drawHorizontalLine ?? true,
-        horizontalInterval = horizontalInterval ?? 1.0,
+        horizontalInterval = horizontalInterval,
         getDrawingHorizontalLine = getDrawingHorizontalLine ?? defaultGridLine,
         checkToShowHorizontalLine = checkToShowHorizontalLine ?? showAllGrids,
         drawVerticalLine = drawVerticalLine ?? false,
-        verticalInterval = verticalInterval ?? 1.0,
+        verticalInterval = verticalInterval,
         getDrawingVerticalLine = getDrawingVerticalLine ?? defaultGridLine,
-        checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids;
+        checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids {
+    if (horizontalInterval == 0) {
+      throw ArgumentError("FlGridData.horizontalInterval couldn't be zero");
+    }
+    if (verticalInterval == 0) {
+      throw ArgumentError("FlGridData.verticalInterval couldn't be zero");
+    }
+  }
 
   /// Lerps a [FlGridData] based on [t] value, check [Tween.lerp].
   static FlGridData lerp(FlGridData a, FlGridData b, double t) {

@@ -11,6 +11,7 @@ import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../fl_chart.dart';
 import '../../utils/utils.dart';
 import 'line_chart_data.dart';
 
@@ -21,7 +22,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _barAreaPaint,
       _barAreaLinesPaint,
       _clearBarAreaPaint,
-      _dotPaint,
       _extraLinesPaint,
       _touchLinePaint,
       _bgTouchTooltipPaint,
@@ -55,8 +55,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       ..color = const Color(0x000000000)
       ..blendMode = BlendMode.dstIn;
 
-    _dotPaint = Paint()..style = PaintingStyle.fill;
-
     _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
     _touchLinePaint = Paint()
@@ -77,7 +75,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       return;
     }
 
-    if (data.clipToBorder) {
+    if (data.clipData.any) {
       canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
 
       _clipToBorder(canvas, size);
@@ -111,7 +109,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _drawTouchedSpotsIndicator(canvas, size, barData);
     }
 
-    if (data.clipToBorder) {
+    if (data.clipData.any) {
       canvas.restore();
     }
 
@@ -143,29 +141,33 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     ui.Canvas canvas,
     ui.Size size,
   ) {
+    final clip = data.clipData;
     final usableSize = getChartUsableDrawSize(size);
+    final border = data.borderData.show ? data.borderData.border : null;
 
-    double left = 0;
-    double top = 0;
-    double right = 0;
-    double bottom = 0;
-    if (data.borderData.show) {
-      final border = data.borderData.border;
+    double left = 0.0;
+    double top = 0.0;
+    double right = size.width;
+    double bottom = size.height;
 
-      left = border?.left?.width ?? 0;
-      top = border?.top?.width ?? 0;
-      right = border?.right?.width ?? 0;
-      bottom = border?.bottom?.width ?? 0;
+    if (clip.left) {
+      final borderWidth = border?.left?.width ?? 0;
+      left = getLeftOffsetDrawSize() - (borderWidth / 2);
+    }
+    if (clip.top) {
+      final borderWidth = border?.top?.width ?? 0;
+      top = getTopOffsetDrawSize() - (borderWidth / 2);
+    }
+    if (clip.right) {
+      final borderWidth = border?.right?.width ?? 0;
+      right = getLeftOffsetDrawSize() + usableSize.width + (borderWidth / 2);
+    }
+    if (clip.bottom) {
+      final borderWidth = border?.bottom?.width ?? 0;
+      bottom = getTopOffsetDrawSize() + usableSize.height + (borderWidth / 2);
     }
 
-    final rect = Rect.fromLTRB(
-      getLeftOffsetDrawSize() - (left / 2),
-      getTopOffsetDrawSize() - (top / 2),
-      getLeftOffsetDrawSize() + usableSize.width + (right / 2),
-      getTopOffsetDrawSize() + usableSize.height + (bottom / 2),
-    );
-
-    canvas.clipRect(rect);
+    canvas.clipRect(Rect.fromLTRB(left, top, right, bottom));
   }
 
   void _drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
@@ -173,15 +175,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     // handle nullability by splitting off the list into multiple
     // separate lists when separated by nulls
-    // and ignore nulls when they're first or last
-    for (int i = 0; i < barData.spots.length; i++) {
-      if (barData.spots[i].isNotNull()) {
-        barList.last.add(barData.spots[i]);
-      } else {
-        if (i != 0 && i != barData.spots.length - 1) {
-          barList.add(<FlSpot>[]);
-        }
+    for (var spot in barData.spots) {
+      if (spot.isNotNull()) {
+        barList.last.add(spot);
+      } else if (barList.last.isNotEmpty) {
+        barList.add([]);
       }
+    }
+    // remove last item if one or more last spots were null
+    if (barList.last.isEmpty) {
+      barList.removeLast();
     }
 
     // paint each sublist that was built above
@@ -237,30 +240,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     for (int i = 0; i < barData.spots.length; i++) {
       final FlSpot spot = barData.spots[i];
-      if (barData.dotData.checkToShowDot(spot, barData)) {
+      if (spot.isNotNull() && barData.dotData.checkToShowDot(spot, barData)) {
         final double x = getPixelX(spot.x, viewSize);
         final double y = getPixelY(spot.y, viewSize);
 
         final double xPercentInLine = ((x - getLeftOffsetDrawSize()) / barXDelta) * 100;
 
-        final dotColor = barData.dotData.getDotColor(spot, xPercentInLine, barData);
+        final FlDotPainter drawer = barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
 
-        if (barData.dotData.getStrokeColor != null && barData.dotData.strokeWidth != null) {
-          canvas.drawCircle(
-              Offset(x, y),
-              barData.dotData.dotSize + (barData.dotData.strokeWidth / 2),
-              _dotPaint
-                ..color = barData.dotData.getStrokeColor(spot, xPercentInLine, barData)
-                ..strokeWidth = barData.dotData.strokeWidth
-                ..style = PaintingStyle.stroke);
-        }
-
-        canvas.drawCircle(
-            Offset(x, y),
-            barData.dotData.dotSize,
-            _dotPaint
-              ..color = dotColor
-              ..style = PaintingStyle.fill);
+        drawer.draw(canvas, spot, Offset(x, y));
       }
     }
   }
@@ -288,13 +276,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
-      final bool showingDots =
-          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
-      final double dotCircleSize = showingDots ? indicatorData.touchedSpotDotData.dotSize : 0;
-
-      /// For drawing the dot
       final Offset touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
+
+      /// For drawing the dot
+      final bool showingDots =
+          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
+      double dotHeight = 0;
+      FlDotPainter drawer;
+
+      if (showingDots) {
+        final double xPercentInLine =
+            ((touchedSpot.dx - getLeftOffsetDrawSize()) / barXDelta) * 100;
+        drawer =
+            indicatorData.touchedSpotDotData.getDotPainter(spot, xPercentInLine, barData, index);
+        dotHeight = drawer.getSize(spot).height;
+      }
 
       /// For drawing the indicator line
       final bottom = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
@@ -302,7 +299,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       /// Draw to top or to the touchedSpot
       final Offset lineEnd =
-          data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotCircleSize);
+          data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotHeight / 2);
 
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
@@ -312,30 +309,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       /// Draw the indicator dot
       if (showingDots) {
-        final double selectedSpotDotSize = indicatorData.touchedSpotDotData.dotSize;
-
-        final double xPercentInLine =
-            ((touchedSpot.dx - getLeftOffsetDrawSize()) / barXDelta) * 100;
-
-        if (indicatorData.touchedSpotDotData.getStrokeColor != null &&
-            indicatorData.touchedSpotDotData.strokeWidth != null) {
-          canvas.drawCircle(
-              touchedSpot,
-              indicatorData.touchedSpotDotData.dotSize +
-                  (indicatorData.touchedSpotDotData.strokeWidth / 2),
-              _dotPaint
-                ..color =
-                    indicatorData.touchedSpotDotData.getStrokeColor(spot, xPercentInLine, barData)
-                ..strokeWidth = indicatorData.touchedSpotDotData.strokeWidth
-                ..style = PaintingStyle.stroke);
-        }
-
-        canvas.drawCircle(
-            touchedSpot,
-            selectedSpotDotSize,
-            _dotPaint
-              ..color = indicatorData.touchedSpotDotData.getDotColor(spot, xPercentInLine, barData)
-              ..style = PaintingStyle.fill);
+        drawer.draw(canvas, spot, touchedSpot);
       }
     }
   }
@@ -838,126 +812,160 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
+    final leftInterval =
+        leftTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        double x = 0 + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize);
+        if (leftTitles.checkToShowTitle(
+            data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
+          double x = 0 + getLeftOffsetDrawSize();
+          double y = getPixelY(verticalSeek, viewSize);
 
-        final String text = leftTitles.getTitles(verticalSeek);
+          final String text = leftTitles.getTitles(verticalSeek);
 
-        final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
-        x -= tp.width + leftTitles.margin;
-        y -= tp.height / 2;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(leftTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
-
-        verticalSeek += leftTitles.interval;
+          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+          x -= tp.width + leftTitles.margin;
+          y -= tp.height / 2;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(leftTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
+        if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
+          verticalSeek = data.maxY;
+        } else {
+          verticalSeek += leftInterval;
+        }
       }
     }
 
     // Top titles
     final topTitles = targetData.titlesData.topTitles;
+    final topInterval =
+        topTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (topTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
-        double x = getPixelX(horizontalSeek, viewSize);
-        double y = getTopOffsetDrawSize();
+        if (topTitles.checkToShowTitle(
+            data.minX, data.maxX, topTitles, topInterval, horizontalSeek)) {
+          double x = getPixelX(horizontalSeek, viewSize);
+          double y = getTopOffsetDrawSize();
 
-        final String text = topTitles.getTitles(horizontalSeek);
+          final String text = topTitles.getTitles(horizontalSeek);
 
-        final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout();
+          final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout();
 
-        x -= tp.width / 2;
-        y -= topTitles.margin + tp.height;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(topTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
-
-        horizontalSeek += topTitles.interval;
+          x -= tp.width / 2;
+          y -= topTitles.margin + tp.height;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(topTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
+        if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
+          horizontalSeek = data.maxX;
+        } else {
+          horizontalSeek += topInterval;
+        }
       }
     }
 
     // Right Titles
     final rightTitles = targetData.titlesData.rightTitles;
+    final rightInterval =
+        rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
-        double x = viewSize.width + getLeftOffsetDrawSize();
-        double y = getPixelY(verticalSeek, viewSize);
+        if (rightTitles.checkToShowTitle(
+            data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
+          double x = viewSize.width + getLeftOffsetDrawSize();
+          double y = getPixelY(verticalSeek, viewSize);
 
-        final String text = rightTitles.getTitles(verticalSeek);
+          final String text = rightTitles.getTitles(verticalSeek);
 
-        final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
-        x += rightTitles.margin;
-        y -= tp.height / 2;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(rightTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
+          x += rightTitles.margin;
+          y -= tp.height / 2;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(rightTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
 
-        verticalSeek += rightTitles.interval;
+        if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
+          verticalSeek = data.maxY;
+        } else {
+          verticalSeek += rightInterval;
+        }
       }
     }
 
     // Bottom titles
     final bottomTitles = targetData.titlesData.bottomTitles;
+    final bottomInterval =
+        bottomTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (bottomTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
-        double x = getPixelX(horizontalSeek, viewSize);
-        double y = viewSize.height + getTopOffsetDrawSize();
-        final String text = bottomTitles.getTitles(horizontalSeek);
-        final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
-        final TextPainter tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
-            textScaleFactor: textScale);
-        tp.layout();
+        if (bottomTitles.checkToShowTitle(
+            data.minX, data.maxX, bottomTitles, bottomInterval, horizontalSeek)) {
+          double x = getPixelX(horizontalSeek, viewSize);
+          double y = viewSize.height + getTopOffsetDrawSize();
+          final String text = bottomTitles.getTitles(horizontalSeek);
+          final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout();
 
-        x -= tp.width / 2;
-        y += bottomTitles.margin;
-        canvas.save();
-        canvas.translate(x + tp.width / 2, y + tp.height / 2);
-        canvas.rotate(radians(bottomTitles.rotateAngle));
-        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
-        tp.paint(canvas, Offset(x, y));
-        canvas.restore();
+          x -= tp.width / 2;
+          y += bottomTitles.margin;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(bottomTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
 
-        horizontalSeek += bottomTitles.interval;
+        if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
+          horizontalSeek = data.maxX;
+        } else {
+          horizontalSeek += bottomInterval;
+        }
       }
     }
   }

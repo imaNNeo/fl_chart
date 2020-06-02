@@ -61,7 +61,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// they are useful in some scenarios, for example you can show average line, you can fill
   /// [extraLinesData] property to have your extra lines.
   ///
-  /// [clipToBorder] forces the [LineChart] to draw lines inside the chart bounding box.
+  /// [clipData] forces the [LineChart] to draw lines inside the chart bounding box.
   LineChartData({
     List<LineChartBarData> lineBarsData,
     List<BetweenBarsData> betweenBarsData,
@@ -77,7 +77,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double maxX,
     double minY,
     double maxY,
-    bool clipToBorder,
+    FlClipData clipData,
     Color backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
@@ -91,7 +91,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
           borderData: borderData,
           axisTitleData: axisTitleData ?? FlAxisTitleData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
-          clipToBorder: clipToBorder ?? false,
+          clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
         ) {
     initSuperMinMaxValues(minX, maxX, minY, maxY);
@@ -113,43 +113,28 @@ class LineChartData extends AxisChartData with EquatableMixin {
     }
     if (lineBarsData.isNotEmpty) {
       final canModifyMinX = minX == null;
-      if (canModifyMinX) {
-        minX = lineBarsData[0].spots[0].x;
-      }
-
       final canModifyMaxX = maxX == null;
-      if (canModifyMaxX) {
-        maxX = lineBarsData[0].spots[0].x;
-      }
-
       final canModifyMinY = minY == null;
-      if (canModifyMinY) {
-        minY = lineBarsData[0].spots[0].y;
-      }
-
       final canModifyMaxY = maxY == null;
-      if (canModifyMaxY) {
-        maxY = lineBarsData[0].spots[0].y;
-      }
 
       for (int i = 0; i < lineBarsData.length; i++) {
         final LineChartBarData barData = lineBarsData[i];
         for (int j = 0; j < barData.spots.length; j++) {
           final FlSpot spot = barData.spots[j];
           if (spot.isNotNull()) {
-            if (canModifyMaxX && spot.x > maxX) {
+            if (canModifyMaxX && (maxX == null || spot.x > maxX)) {
               maxX = spot.x;
             }
 
-            if (canModifyMinX && spot.x < minX) {
+            if (canModifyMinX && (minX == null || spot.x < minX)) {
               minX = spot.x;
             }
 
-            if (canModifyMaxY && spot.y > maxY) {
+            if (canModifyMaxY && (maxY == null || spot.y > maxY)) {
               maxY = spot.y;
             }
 
-            if (canModifyMinY && spot.y < minY) {
+            if (canModifyMinY && (minY == null || spot.y < minY)) {
               minY = spot.y;
             }
           }
@@ -174,7 +159,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         maxY: lerpDouble(a.maxY, b.maxY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        clipToBorder: b.clipToBorder,
+        clipData: b.clipData,
         extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
@@ -207,7 +192,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double maxX,
     double minY,
     double maxY,
-    bool clipToBorder,
+    FlClipData clipData,
     Color backgroundColor,
   }) {
     return LineChartData(
@@ -225,7 +210,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
       maxX: maxX ?? this.maxX,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
-      clipToBorder: clipToBorder ?? this.clipToBorder,
+      clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
@@ -247,7 +232,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         maxX,
         minY,
         maxY,
-        clipToBorder,
+        clipData,
         backgroundColor,
       ];
 }
@@ -776,64 +761,52 @@ Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarDat
   return color.darken();
 }
 
+/// The callback passed to get the painter of a [FlSpot]
+///
+/// The callback receives [FlSpot], which is the target spot,
+/// [LineChartBarData] is the chart's bar.
+/// [int] is the index position of the spot.
+/// It should return a [FlDotPainter] that needs to be used for drawing target.
+typedef GetDotPainterCallback = FlDotPainter Function(FlSpot, double, LineChartBarData, int);
+
+FlDotPainter _defaultGetDotPainter(FlSpot spot, double xPercentage, LineChartBarData bar, int index,
+    {double size}) {
+  return FlDotCirclePainter(
+    radius: size,
+    color: _defaultGetDotColor(spot, xPercentage, bar),
+    strokeColor: _defaultGetDotStrokeColor(spot, xPercentage, bar),
+  );
+}
+
 /// This class holds data about drawing spot dots on the drawing bar line.
 class FlDotData with EquatableMixin {
   /// Determines show or hide all dots.
   final bool show;
 
-  // Customizes the size of the dot
-  final double dotSize;
-
-  /// The stroke width to use for the corresponding [FlSpot]
-  final double strokeWidth;
-
-  /// Callback which is called to the the stroke color of the given [FlSpot].
-  /// The [FlSpot] is provided as parameter to this callback
-  final GetDotColorCallback getStrokeColor;
-
-  /// Callback which is called to the the color of the given [FlSpot].
-  /// The [FlSpot] is provided as parameter to this callback
-  final GetDotColorCallback getDotColor;
-
   /// Checks to show or hide an individual dot.
   final CheckToShowDot checkToShowDot;
 
+  /// Callback which is called to set the painter of the given [FlSpot].
+  /// The [FlSpot] is provided as parameter to this callback
+  final GetDotPainterCallback getDotPainter;
+
   /// set [show] false to prevent dots from drawing,
-  /// [dotSize] determines the size of dots.
   /// if you want to show or hide dots in some spots,
   /// override [checkToShowDot] to handle it in your way.
-  ///
-  /// The color of dot determines by [getDotColor],
-  /// you can override it, it gives you a [FlSpot],
-  /// and you should decide to return a [Color].
-  ///
-  /// You can have stroke line around the dot,
-  /// by setting the thickness by [strokeWidth],
-  /// and you can implement [getStrokeColor] callback,
-  /// it gives you the [FlSpot], and you should decide to return a [Color].
   FlDotData({
     bool show,
-    double dotSize,
     CheckToShowDot checkToShowDot,
-    double strokeWidth,
-    GetDotColorCallback getStrokeColor,
-    GetDotColorCallback getDotColor,
+    GetDotPainterCallback getDotPainter,
   })  : show = show ?? true,
-        dotSize = dotSize ?? 4.0,
         checkToShowDot = checkToShowDot ?? showAllDots,
-        strokeWidth = strokeWidth ?? 0.0,
-        getStrokeColor = getStrokeColor ?? _defaultGetDotStrokeColor,
-        getDotColor = getDotColor ?? _defaultGetDotColor;
+        getDotPainter = getDotPainter ?? _defaultGetDotPainter;
 
   /// Lerps a [FlDotData] based on [t] value, check [Tween.lerp].
   static FlDotData lerp(FlDotData a, FlDotData b, double t) {
     return FlDotData(
       show: b.show,
       checkToShowDot: b.checkToShowDot,
-      dotSize: lerpDouble(a.dotSize, b.dotSize, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-      getDotColor: b.getDotColor,
-      getStrokeColor: b.getStrokeColor,
+      getDotPainter: b.getDotPainter,
     );
   }
 
@@ -841,11 +814,153 @@ class FlDotData with EquatableMixin {
   @override
   List<Object> get props => [
         show,
-        dotSize,
-        strokeWidth,
-        getStrokeColor,
-        getDotColor,
         checkToShowDot,
+        getDotPainter,
+      ];
+}
+
+/// This class contains the interface that all DotPainters should conform to.
+abstract class FlDotPainter with EquatableMixin {
+  /// This method should be overriden to draw the dot shape.
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas);
+
+  /// This method should be overriden to return the size of the shape.
+  Size getSize(FlSpot spot);
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a circled shape
+class FlDotCirclePainter extends FlDotPainter {
+  /// The fill color to use for the circle
+  Color color;
+
+  /// Customizes the radius of the circle
+  double radius;
+
+  /// The stroke color to use for the circle
+  Color strokeColor;
+
+  /// The stroke width to use for the circle
+  double strokeWidth;
+
+  /// The color of the circle is determined determined by [color],
+  /// [radius] determines the radius of the circle.
+  /// You can have a stroke line around the circle,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of of the stroke with [strokeColor].
+  FlDotCirclePainter({
+    Color color,
+    double radius,
+    Color strokeColor,
+    double strokeWidth,
+  })  : color = color ?? Colors.green,
+        radius = radius ?? 4.0,
+        strokeColor = strokeColor ?? Colors.green.darken(),
+        strokeWidth = strokeWidth ?? 1.0;
+
+  /// Implementation of the parent class to draw the circle
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    if (strokeWidth != null) {
+      canvas.drawCircle(
+          offsetInCanvas,
+          radius + (strokeWidth / 2),
+          Paint()
+            ..color = strokeColor ?? color
+            ..strokeWidth = strokeWidth
+            ..style = PaintingStyle.stroke);
+    }
+    canvas.drawCircle(
+        offsetInCanvas,
+        radius,
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill);
+  }
+
+  /// Implementation of the parent class to get the size of the circle
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(radius, radius);
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        color,
+        radius,
+        strokeColor,
+        strokeWidth,
+      ];
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a squared shape
+class FlDotSquarePainter extends FlDotPainter {
+  /// The fill color to use for the square
+  Color color;
+
+  /// Customizes the size of the square
+  double size;
+
+  /// The stroke color to use for the square
+  Color strokeColor;
+
+  /// The stroke width to use for the square
+  double strokeWidth;
+
+  /// The color of the square is determined determined by [color],
+  /// [size] determines the size of the square.
+  /// You can have a stroke line around the square,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of of the stroke with [strokeColor].
+  FlDotSquarePainter({
+    Color color,
+    double size,
+    Color strokeColor,
+    double strokeWidth,
+  })  : color = color ?? Colors.green,
+        size = size ?? 4.0,
+        strokeColor = strokeColor ?? Colors.green.darken(),
+        strokeWidth = strokeWidth ?? 1.0;
+
+  /// Implementation of the parent class to draw the square
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    if (strokeWidth != null) {
+      canvas.drawRect(
+          Rect.fromCircle(
+            center: offsetInCanvas,
+            radius: (size / 2) + (strokeWidth / 2),
+          ),
+          Paint()
+            ..color = strokeColor ?? color
+            ..strokeWidth = strokeWidth
+            ..style = PaintingStyle.stroke);
+    }
+    canvas.drawRect(
+        Rect.fromCircle(
+          center: offsetInCanvas,
+          radius: size / 2,
+        ),
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill);
+  }
+
+  /// Implementation of the parent class to get the size of the square
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(size, size);
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        color,
+        size,
+        strokeColor,
+        strokeWidth,
       ];
 }
 
@@ -1319,20 +1434,19 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     /// Indicator Line
     Color lineColor = barData.colors[0];
     if (barData.dotData.show) {
-      lineColor = barData.dotData.getDotColor(barData.spots[index], 0, barData);
+      lineColor = _defaultGetDotColor(barData.spots[index], 0, barData);
     }
     const double lineStrokeWidth = 4;
     final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
-    /// Indicator dot
     double dotSize = 10;
     if (barData.dotData.show) {
-      dotSize = barData.dotData.dotSize * 1.8;
+      dotSize = 4.0 * 1.8;
     }
+
     final dotData = FlDotData(
-      dotSize: dotSize,
-      getDotColor: (spot, percent, bar) => _defaultGetDotColor(spot, percent, bar),
-    );
+        getDotPainter: (spot, percent, bar, index) =>
+            _defaultGetDotPainter(spot, percent, bar, index, size: dotSize));
 
     return TouchedSpotIndicatorData(flLine, dotData);
   }).toList();
