@@ -80,9 +80,10 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
-  if (stops == null || stops.length != colors.length) {
+  final length = colors.length;
+  if (stops == null || stops.length != length) {
     /// provided gradientColorStops is invalid and we calculate it here
-    stops = List.generate(colors.length, (i) => (i + 1) / colors.length);
+    stops = List.generate(length, (i) => (i + 1) / length);
   }
 
   for (var s = 0; s < stops.length - 1; s++) {
