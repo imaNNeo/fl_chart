@@ -1,9 +1,14 @@
+## 0.10.1
+* [Improvement] Show barGroups `x` value instead of `index` in bottom titles, #342.
+* [Improvement] [BREAKING] Use `double.infinity` instead of `double.nan` for letting `enterSpaceRadius` be as large as possible in the (PieChartData)[https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartdata], #377.
+* [Bugfix] Fixed PieChart bug with 1 section, #368.
+
 ## 0.10.0
 * [IMPORTANT] **BLACK LIVES MATTER**
 * [Improvement] Auto calculate interval in [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) and [FlGridData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#flgriddata), instead of hard coding 1, to prevent some performance issues like #101, #322. see [BarChartSample4](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-4-source-code).
 * [Bugfix] drawing dot on null spots
 * [Bugfix] Fixed LineChart have multiple NULL spot bug.
-* [Feature] `checkToShowTitle` property to the [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), for checking show or not show titles in the provided value, #331. see [LineChartSample8](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code).
+* [Feature] Added `checkToShowTitle` property to the [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), for checking show or not show titles in the provided value, #331. see [LineChartSample8](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code).
 * [Feature] Added compatibily to have customized shapes for [FlDotData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#fldotdata), just override `FlDotData.etDotPainter` and pass your own painter or use built-in ones, see this [sample](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-3-source-code).
 * [Improvement] [BREAKING] Replaced `clipToBorder` with `clipData` in [LineChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartdata) to support clipping 4 sides of a chart separately.
 
