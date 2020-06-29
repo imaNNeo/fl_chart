@@ -1,5 +1,6 @@
 #
 * [Improvement] Show barGroups `x` value instead of `index` in bottom titles, #342.
+* [Bugfix] Fixed PieChart bug with 1 section, #368.
 
 ## 0.10.0
 * [IMPORTANT] **BLACK LIVES MATTER**

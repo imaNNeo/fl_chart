@@ -69,7 +69,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   }
 
   void _drawSections(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
-    if (data.sectionsSpace != 0) {
+    final shouldDrawSeparators = data.sectionsSpace != 0 && data.sections.length != 1;
+
+
+    if (shouldDrawSeparators) {
       canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     }
 
@@ -102,7 +105,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       tempAngle += sweepAngle;
     }
 
-    if (data.sectionsSpace != 0) {
+    if (shouldDrawSeparators) {
       _removeSectionsSpace(canvas, viewSize);
     }
   }
@@ -242,7 +245,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       double sectionAngle = sectionsAngle[i];
 
       tempAngle %= 360;
-      sectionAngle %= 360;
+      if (data.sections.length == 1) {
+        sectionAngle = 360;
+      } else {
+        sectionAngle %= 360;
+      }
 
       /// degree criteria
       final space = data.sectionsSpace / 2;
