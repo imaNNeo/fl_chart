@@ -80,14 +80,10 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
-  if (stops == null || stops.length != colors.length) {
-    stops = [];
-
+  final length = colors.length;
+  if (stops == null || stops.length != length) {
     /// provided gradientColorStops is invalid and we calculate it here
-    colors.asMap().forEach((index, color) {
-      final percent = 1.0 / colors.length;
-      stops.add(percent * (index + 1));
-    });
+    stops = List.generate(length, (i) => (i + 1) / length);
   }
 
   for (var s = 0; s < stops.length - 1; s++) {
@@ -136,7 +132,7 @@ int _roundInterval(double input) {
   } else if (scaled >= 1.6) {
     return 2 * pow(10, count);
   } else {
-    return 1 * pow(10, count);
+    return pow(10, count);
   }
 }
 
@@ -174,7 +170,7 @@ String formatNumber(double number) {
   }
 
   if (resultNumber.endsWith('.0')) {
-    resultNumber = resultNumber.replaceAll('.0', '');
+    resultNumber = resultNumber.substring(0, resultNumber.length - 2);
   }
 
   return resultNumber + symbol;
