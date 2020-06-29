@@ -1,3 +1,6 @@
+#
+* [Improvement] Show barGroups `x` value instead of `index` in bottom titles, #342.
+
 ## 0.10.0
 * [IMPORTANT] **BLACK LIVES MATTER**
 * [Improvement] Auto calculate interval in [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) and [FlGridData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#flgriddata), instead of hard coding 1, to prevent some performance issues like #101, #322. see [BarChartSample4](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-4-source-code).

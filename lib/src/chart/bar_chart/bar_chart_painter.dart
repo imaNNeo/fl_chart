@@ -366,7 +366,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       for (int index = 0; index < groupBarsPosition.length; index++) {
         final _GroupBarsPosition groupBarPos = groupBarsPosition[index];
 
-        final String text = bottomTitles.getTitles(index.toDouble());
+        final String text = bottomTitles.getTitles(data.barGroups[index].x.toDouble());
         final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
         final TextPainter tp = TextPainter(
             text: span,
