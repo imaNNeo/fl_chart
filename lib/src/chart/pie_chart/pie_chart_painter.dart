@@ -71,7 +71,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   void _drawSections(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
     final shouldDrawSeparators = data.sectionsSpace != 0 && data.sections.length != 1;
 
-
     if (shouldDrawSeparators) {
       canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     }
