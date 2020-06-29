@@ -188,7 +188,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   }
 
   double _calculateCenterRadius(Size viewSize, double givenCenterRadius) {
-    if (!givenCenterRadius.isNaN) {
+    if (!givenCenterRadius.isInfinite) {
       return givenCenterRadius;
     }
 
