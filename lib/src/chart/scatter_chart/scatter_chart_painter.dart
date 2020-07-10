@@ -229,6 +229,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     }
     final chartUsableSize = getChartUsableDrawSize(viewSize);
     for (final ScatterSpot scatterSpot in data.scatterSpots) {
+      if (!scatterSpot.show) {
+        continue;
+      }
       final double pixelX = getPixelX(scatterSpot.x, chartUsableSize);
       final double pixelY = getPixelY(scatterSpot.y, chartUsableSize);
 
