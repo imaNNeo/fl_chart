@@ -78,7 +78,7 @@ void main() {
         data,
         (s) {},
       );
-      expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(790, 678));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(790, 438));
     });
 
     test('test 5', () {
@@ -97,7 +97,7 @@ void main() {
         data,
         (s) {},
       );
-      expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(600, 400));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(600, 320));
     });
   });
 }
