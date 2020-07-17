@@ -35,6 +35,32 @@ class BarChartSample5State extends State<BarChartSample5> {
               ),
               titlesData: FlTitlesData(
                 show: true,
+                topTitles: SideTitles(
+                  showTitles: true,
+                  textStyle: const TextStyle(color: Colors.white, fontSize: 10),
+                  margin: 10,
+                  rotateAngle: 0,
+                  getTitles: (double value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return 'Mon';
+                      case 1:
+                        return 'Tue';
+                      case 2:
+                        return 'Wed';
+                      case 3:
+                        return 'Thu';
+                      case 4:
+                        return 'Fri';
+                      case 5:
+                        return 'Sat';
+                      case 6:
+                        return 'Sun';
+                      default:
+                        return '';
+                    }
+                  },
+                ),
                 bottomTitles: SideTitles(
                   showTitles: true,
                   textStyle: const TextStyle(color: Colors.white, fontSize: 10),
