@@ -258,9 +258,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           canvas.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
-          if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
-            for (int i = 0; i < barRod.rodStackItem.length; i++) {
-              final stackItem = barRod.rodStackItem[i];
+          if (barRod.rodStackItems != null && barRod.rodStackItems.isNotEmpty) {
+            for (int i = 0; i < barRod.rodStackItems.length; i++) {
+              final stackItem = barRod.rodStackItems[i];
               final stackFromY = getPixelY(stackItem.fromY, drawSize);
               final stackToY = getPixelY(stackItem.toY, drawSize);
 
@@ -689,7 +689,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           final nearestSpot = FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
           final nearestSpotPos = Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
 
-          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
+          int touchedStackIndex = -1;
+          BarChartRodStackItem touchedStack;
+          for (int stackIndex = 0; stackIndex < nearestBarRod.rodStackItems.length; stackIndex++) {
+            final BarChartRodStackItem stackItem = nearestBarRod.rodStackItems[stackIndex];
+            final fromPixel = getPixelY(stackItem.fromY, chartViewSize);
+            final toPixel = getPixelY(stackItem.toY, chartViewSize);
+            if (touchedPoint.dy <= fromPixel && touchedPoint.dy >= toPixel) {
+              touchedStackIndex = stackIndex;
+              touchedStack = stackItem;
+              break;
+            }
+          }
+
+          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, touchedStack, touchedStackIndex,
+              nearestSpot, nearestSpotPos);
         }
       }
     }
