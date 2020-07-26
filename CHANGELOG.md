@@ -1,6 +1,7 @@
 ## {newVersion}
-* [Improvement] allowed to have topTitles in the [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md), see [BarChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code), #394.
-* [Improvement] [BREAKING] renamed `rodStackItem` to `rodStackItems` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata). 
+* [Improvement] Allowed to have topTitles in the [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md), see [BarChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code), #394.
+* [Improvement] Added `touchedStackItem` and `touchedStackItemIndex` properties in the [BarTouchedSpot](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartouchedspot) to determine in which [BarChartRodStackItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartrodstackitem) click happened, #393. 
+* [Improvement] [BREAKING] Renamed `rodStackItem` to `rodStackItems` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata). 
 
 ## 0.10.1
 * [Improvement] Show barGroups `x` value instead of `index` in bottom titles, #342.

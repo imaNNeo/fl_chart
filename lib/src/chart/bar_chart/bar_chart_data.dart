@@ -752,10 +752,18 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
   final BarChartRodData touchedRodData;
   final int touchedRodDataIndex;
 
+  /// It can be null, if nothing found
+  final BarChartRodStackItem touchedStackItem;
+
+  /// It can be -1, if nothing found
+  final int touchedStackItemIndex;
+
   /// When touch happens, a [BarTouchedSpot] returns as a output,
   /// it tells you where the touch happened.
-  /// [touchedBarGroup], and [touchedBarGroupIndex] tells you in which group touch happened,
-  /// [touchedRodData], and [touchedRodDataIndex] tells you in which rod touch happened.
+  /// [touchedBarGroup], and [touchedBarGroupIndex] tell you in which group touch happened,
+  /// [touchedRodData], and [touchedRodDataIndex] tell you in which rod touch happened,
+  /// [touchedStackItem], and [touchedStackItemIndex] tell you in which rod stack touch happened
+  /// ([touchedStackItemIndex] means nothing found).
   /// You can also have the touched x and y in the chart as a [FlSpot] using [spot] value,
   /// and you can have the local touch coordinates on the screen as a [Offset] using [offset] value.
   BarTouchedSpot(
@@ -763,12 +771,16 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
     int touchedBarGroupIndex,
     BarChartRodData touchedRodData,
     int touchedRodDataIndex,
+    BarChartRodStackItem touchedStackItem,
+    int touchedStackItemIndex,
     FlSpot spot,
     Offset offset,
   )   : touchedBarGroup = touchedBarGroup,
         touchedBarGroupIndex = touchedBarGroupIndex,
         touchedRodData = touchedRodData,
         touchedRodDataIndex = touchedRodDataIndex,
+        touchedStackItem = touchedStackItem,
+        touchedStackItemIndex = touchedStackItemIndex,
         super(spot, offset);
 
   /// Used for equality check, see [EquatableMixin].
@@ -778,6 +790,8 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
         touchedBarGroupIndex,
         touchedRodData,
         touchedRodDataIndex,
+        touchedStackItem,
+        touchedStackItemIndex,
         spot,
         offset,
       ];
