@@ -109,6 +109,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |touchedBarGroupIndex| index of touched barGroup| null|
 |touchedRodData|the [BarChartRodData](#BarChartRodData) that user touched its spot|null|
 |touchedRodDataIndex| index of touchedRod | null|
+|touchedStackItem| [BarChartRodStackItem](#BarChartRodStackItem) is the touched stack (if you have stacked bar chart) |null|
+|touchedStackItemIndex| index of barChartRodStackItem, -1 if nothing found | -1|
 
 
 ### Some Samples
