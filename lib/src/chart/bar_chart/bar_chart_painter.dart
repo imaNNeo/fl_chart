@@ -702,7 +702,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             }
           }
 
-          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, touchedStack, touchedStackIndex, nearestSpot, nearestSpotPos);
+          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, touchedStack, touchedStackIndex,
+              nearestSpot, nearestSpotPos);
         }
       }
     }

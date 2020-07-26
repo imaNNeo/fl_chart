@@ -378,7 +378,7 @@ class BarChartRodData with EquatableMixin {
     double width,
     Radius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
-    List<BarChartRodStackItem> rodStackItem,
+    List<BarChartRodStackItem> rodStackItems,
   }) {
     return BarChartRodData(
       y: y ?? this.y,
@@ -386,7 +386,7 @@ class BarChartRodData with EquatableMixin {
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
-      rodStackItems: rodStackItem ?? this.rodStackItems,
+      rodStackItems: rodStackItems ?? this.rodStackItems,
     );
   }
 
