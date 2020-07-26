@@ -2229,7 +2229,7 @@ final BarChartRodData barChartRodData1 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2237,7 +2237,7 @@ final BarChartRodData barChartRodData1 = BarChartRodData(
 );
 
 final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1Clone,
     barChartRodStackItem2,
   ],
@@ -2248,7 +2248,7 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
   y: 1132,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2259,7 +2259,7 @@ final BarChartRodData barChartRodData3 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem2,
   ],
   backDrawRodData: backgroundBarChartRodData1,
@@ -2269,7 +2269,7 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem2,
     barChartRodStackItem1,
   ],
@@ -2280,7 +2280,7 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
   y: 12,
   width: 55,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2291,7 +2291,7 @@ final BarChartRodData barChartRodData6 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: null,
+  rodStackItems: null,
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData7 = BarChartRodData(
@@ -2299,7 +2299,7 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2310,7 +2310,7 @@ final BarChartRodData barChartRodData8 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(14)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],

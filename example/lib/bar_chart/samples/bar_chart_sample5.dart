@@ -141,7 +141,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: [
+                      rodStackItems: [
                         BarChartRodStackItem(0, 2, const Color(0xff2bdb90)),
                         BarChartRodStackItem(2, 5, const Color(0xffffdd80)),
                         BarChartRodStackItem(5, 7.5, const Color(0xffff4d94)),
@@ -158,7 +158,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6)),
-                      rodStackItem: [
+                      rodStackItems: [
                         BarChartRodStackItem(0, -1.8, const Color(0xff2bdb90)),
                         BarChartRodStackItem(-1.8, -4.5, const Color(0xffffdd80)),
                         BarChartRodStackItem(-4.5, -7.5, const Color(0xffff4d94)),
@@ -175,7 +175,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: [
+                      rodStackItems: [
                         BarChartRodStackItem(0, 1.5, const Color(0xff2bdb90)),
                         BarChartRodStackItem(1.5, 3.5, const Color(0xffffdd80)),
                         BarChartRodStackItem(3.5, 7, const Color(0xffff4d94)),
@@ -192,7 +192,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: [
+                      rodStackItems: [
                         BarChartRodStackItem(0, 1.5, const Color(0xff2bdb90)),
                         BarChartRodStackItem(1.5, 3, const Color(0xffffdd80)),
                         BarChartRodStackItem(3, 7, const Color(0xffff4d94)),
@@ -209,7 +209,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6)),
-                      rodStackItem: [
+                      rodStackItems: [
                         BarChartRodStackItem(0, -2, const Color(0xff2bdb90)),
                         BarChartRodStackItem(-2, -4, const Color(0xffffdd80)),
                         BarChartRodStackItem(-4, -9, const Color(0xffff4d94)),
@@ -226,7 +226,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6)),
-                      rodStackItem: [
+                      rodStackItems: [
                         BarChartRodStackItem(0, -1.2, const Color(0xff2bdb90)),
                         BarChartRodStackItem(-1.2, -2.7, const Color(0xffffdd80)),
                         BarChartRodStackItem(-2.7, -7, const Color(0xffff4d94)),
@@ -243,7 +243,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6), topRight: Radius.circular(6)),
-                      rodStackItem: [
+                      rodStackItems: [
                         BarChartRodStackItem(0, 1.2, const Color(0xff2bdb90)),
                         BarChartRodStackItem(1.2, 6, const Color(0xffffdd80)),
                         BarChartRodStackItem(6, 11, const Color(0xffff4d94)),

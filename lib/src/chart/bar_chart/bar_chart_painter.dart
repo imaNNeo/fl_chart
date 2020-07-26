@@ -258,9 +258,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           canvas.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
-          if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
-            for (int i = 0; i < barRod.rodStackItem.length; i++) {
-              final stackItem = barRod.rodStackItem[i];
+          if (barRod.rodStackItems != null && barRod.rodStackItems.isNotEmpty) {
+            for (int i = 0; i < barRod.rodStackItems.length; i++) {
+              final stackItem = barRod.rodStackItems[i];
               final stackFromY = getPixelY(stackItem.fromY, drawSize);
               final stackToY = getPixelY(stackItem.toY, drawSize);
 

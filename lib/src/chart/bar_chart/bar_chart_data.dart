@@ -330,8 +330,8 @@ class BarChartRodData with EquatableMixin {
   final BackgroundBarChartRodData backDrawRodData;
 
   /// If you are a fan of stacked charts (If you don't know what is it, google it),
-  /// you can fill up the [rodStackItem] to have a Stacked Chart.
-  final List<BarChartRodStackItem> rodStackItem;
+  /// you can fill up the [rodStackItems] to have a Stacked Chart.
+  final List<BarChartRodStackItem> rodStackItems;
 
   /// [BarChart] renders rods vertically from zero to [y],
   /// and the x is equivalent to the [BarChartGroupData.x] value.
@@ -343,13 +343,13 @@ class BarChartRodData with EquatableMixin {
   /// for example you can use it as the maximum value place holder.
   ///
   /// If you are a fan of stacked charts (If you don't know what is it, google it),
-  /// you can fill up the [rodStackItem] to have a Stacked Chart.
+  /// you can fill up the [rodStackItems] to have a Stacked Chart.
   /// for example if you want to have a Stacked Chart with three colors:
   /// ```
   /// BarChartRodData(
   ///   y: 9,
   ///   color: Colors.grey,
-  ///   rodStackItem: [
+  ///   rodStackItems: [
   ///     BarChartRodStackItem(0, 3, Colors.red),
   ///     BarChartRodStackItem(3, 6, Colors.green),
   ///     BarChartRodStackItem(6, 9, Colors.blue),
@@ -362,13 +362,13 @@ class BarChartRodData with EquatableMixin {
     double width,
     BorderRadius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
-    List<BarChartRodStackItem> rodStackItem,
+    List<BarChartRodStackItem> rodStackItems,
   })  : y = y,
         color = color ?? Colors.blueAccent,
         width = width ?? 8,
         borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-        rodStackItem = rodStackItem ?? const [];
+        rodStackItems = rodStackItems ?? const [];
 
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
@@ -386,7 +386,7 @@ class BarChartRodData with EquatableMixin {
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
-      rodStackItem: rodStackItem ?? this.rodStackItem,
+      rodStackItems: rodStackItem ?? this.rodStackItems,
     );
   }
 
@@ -398,7 +398,7 @@ class BarChartRodData with EquatableMixin {
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       y: lerpDouble(a.y, b.y, t),
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
-      rodStackItem: lerpBarChartRodStackList(a.rodStackItem, b.rodStackItem, t),
+      rodStackItems: lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
     );
   }
 
@@ -410,7 +410,7 @@ class BarChartRodData with EquatableMixin {
         width,
         borderRadius,
         backDrawRodData,
-        rodStackItem,
+        rodStackItems,
       ];
 }
 
@@ -434,7 +434,7 @@ class BarChartRodStackItem with EquatableMixin {
   /// BarChartRodData(
   ///   y: 9,
   ///   color: Colors.grey,
-  ///   rodStackItem: [
+  ///   rodStackItems: [
   ///     BarChartRodStackItem(0, 3, Colors.red),
   ///     BarChartRodStackItem(3, 6, Colors.green),
   ///     BarChartRodStackItem(6, 9, Colors.blue),

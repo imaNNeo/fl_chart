@@ -1,5 +1,6 @@
 ## {newVersion}
 * [Improvement] allowed to have topTitles in the [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md), see [BarChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code), #394.
+* [Improvement] [BREAKING] renamed `rodStackItem` to `rodStackItems` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata). 
 
 ## 0.10.1
 * [Improvement] Show barGroups `x` value instead of `index` in bottom titles, #342.
