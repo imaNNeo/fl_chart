@@ -258,9 +258,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           canvas.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
-          if (barRod.rodStackItem != null && barRod.rodStackItem.isNotEmpty) {
-            for (int i = 0; i < barRod.rodStackItem.length; i++) {
-              final stackItem = barRod.rodStackItem[i];
+          if (barRod.rodStackItems != null && barRod.rodStackItems.isNotEmpty) {
+            for (int i = 0; i < barRod.rodStackItems.length; i++) {
+              final stackItem = barRod.rodStackItems[i];
               final stackFromY = getPixelY(stackItem.fromY, drawSize);
               final stackToY = getPixelY(stackItem.toY, drawSize);
 
@@ -318,6 +318,34 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         } else {
           verticalSeek += leftInterval;
         }
+      }
+    }
+
+    // Top Titles
+    final topTitles = targetData.titlesData.topTitles;
+    if (topTitles.showTitles) {
+      for (int index = 0; index < groupBarsPosition.length; index++) {
+        final _GroupBarsPosition groupBarPos = groupBarsPosition[index];
+
+        final String text = topTitles.getTitles(data.barGroups[index].x.toDouble());
+        final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+        final TextPainter tp = TextPainter(
+            text: span,
+            textAlign: TextAlign.center,
+            textDirection: TextDirection.ltr,
+            textScaleFactor: textScale);
+        tp.layout();
+        double x = groupBarPos.groupX;
+        const double y = 0;
+
+        x -= tp.width / 2;
+        canvas.save();
+        canvas.translate(x + tp.width / 2, y + tp.height / 2);
+        canvas.rotate(radians(topTitles.rotateAngle));
+        canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        x += translateRotatedPosition(tp.width, topTitles.rotateAngle);
+        tp.paint(canvas, Offset(x, y));
+        canvas.restore();
       }
     }
 
@@ -550,6 +578,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       if (bottomSide.showTitles) {
         sum += bottomSide.reservedSize + bottomSide.margin;
       }
+
+      final topSide = data.titlesData.topTitles;
+      if (topSide.showTitles) {
+        sum += topSide.reservedSize + topSide.margin;
+      }
     }
     return sum;
   }
@@ -564,6 +597,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     final leftTitles = data.titlesData.leftTitles;
     if (data.titlesData.show && leftTitles.showTitles) {
       sum += leftTitles.reservedSize + leftTitles.margin;
+    }
+
+    return sum;
+  }
+
+  /// calculate top offset for draw the chart,
+  /// maybe we want to show both top and bottom titles,
+  /// then just the top titles will effect on this function.
+  @override
+  double getTopOffsetDrawSize() {
+    var sum = super.getTopOffsetDrawSize();
+
+    final topTitles = data.titlesData.topTitles;
+    if (data.titlesData.show && topTitles.showTitles) {
+      sum += topTitles.reservedSize + topTitles.margin;
     }
 
     return sum;
@@ -641,7 +689,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           final nearestSpot = FlSpot(nearestGroup.x.toDouble(), nearestBarRod.y);
           final nearestSpotPos = Offset(barX, getPixelY(nearestSpot.y, chartViewSize));
 
-          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, nearestSpot, nearestSpotPos);
+          int touchedStackIndex = -1;
+          BarChartRodStackItem touchedStack;
+          for (int stackIndex = 0; stackIndex < nearestBarRod.rodStackItems.length; stackIndex++) {
+            final BarChartRodStackItem stackItem = nearestBarRod.rodStackItems[stackIndex];
+            final fromPixel = getPixelY(stackItem.fromY, chartViewSize);
+            final toPixel = getPixelY(stackItem.toY, chartViewSize);
+            if (touchedPoint.dy <= fromPixel && touchedPoint.dy >= toPixel) {
+              touchedStackIndex = stackIndex;
+              touchedStack = stackItem;
+              break;
+            }
+          }
+
+          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, touchedStack, touchedStackIndex,
+              nearestSpot, nearestSpotPos);
         }
       }
     }

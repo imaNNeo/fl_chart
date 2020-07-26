@@ -1,3 +1,10 @@
+## 0.11.0
+* [Bugfix] Prevent show ScatterSpot if show is false, #385.
+* [Improvement] Set default centerSpaceRadius to double.infinity in [PieChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartdata), #384.
+* [Improvement] Allowed to have topTitles in the [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md), see [BarChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code), #394.
+* [Improvement] Added `touchedStackItem` and `touchedStackItemIndex` properties in the [BarTouchedSpot](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartouchedspot) to determine in which [BarChartRodStackItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartrodstackitem) click happened, #393. 
+* [Improvement] [BREAKING] Renamed `rodStackItem` to `rodStackItems` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata). 
+
 ## 0.10.1
 * [Improvement] Show barGroups `x` value instead of `index` in bottom titles, #342.
 * [Improvement] [BREAKING] Use `double.infinity` instead of `double.nan` for letting `enterSpaceRadius` be as large as possible in the (PieChartData)[https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartdata], #377.

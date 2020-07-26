@@ -2229,7 +2229,7 @@ final BarChartRodData barChartRodData1 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2237,7 +2237,7 @@ final BarChartRodData barChartRodData1 = BarChartRodData(
 );
 
 final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1Clone,
     barChartRodStackItem2,
   ],
@@ -2248,7 +2248,7 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
   y: 1132,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2259,7 +2259,7 @@ final BarChartRodData barChartRodData3 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem2,
   ],
   backDrawRodData: backgroundBarChartRodData1,
@@ -2269,7 +2269,7 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem2,
     barChartRodStackItem1,
   ],
@@ -2280,7 +2280,7 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
   y: 12,
   width: 55,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2291,7 +2291,7 @@ final BarChartRodData barChartRodData6 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: null,
+  rodStackItems: null,
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData7 = BarChartRodData(
@@ -2299,7 +2299,7 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2310,7 +2310,7 @@ final BarChartRodData barChartRodData8 = BarChartRodData(
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(14)),
-  rodStackItem: [
+  rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
   ],
@@ -2427,6 +2427,8 @@ final BarTouchedSpot barTouchedSpot1 = BarTouchedSpot(
   1,
   barChartRodData1,
   2,
+  barChartRodStackItem1,
+  1,
   flSpot1,
   Offset.zero,
 );
@@ -2435,6 +2437,8 @@ final BarTouchedSpot barTouchedSpot1Clone = BarTouchedSpot(
   1,
   barChartRodData1Clone,
   2,
+  barChartRodStackItem1Clone,
+  1,
   flSpot1Clone,
   Offset.zero,
 );
@@ -2442,6 +2446,8 @@ final BarTouchedSpot barTouchedSpot2 = BarTouchedSpot(
   barChartGroupData2,
   1,
   barChartRodData1,
+  2,
+  barChartRodStackItem2,
   2,
   flSpot1,
   Offset.zero,
@@ -2451,6 +2457,8 @@ final BarTouchedSpot barTouchedSpot3 = BarTouchedSpot(
   1,
   barChartRodData2,
   2,
+  barChartRodStackItem2,
+  2,
   flSpot1,
   Offset.zero,
 );
@@ -2458,6 +2466,8 @@ final BarTouchedSpot barTouchedSpot4 = BarTouchedSpot(
   barChartGroupData1,
   2,
   barChartRodData1,
+  2,
+  barChartRodStackItem2,
   2,
   flSpot1,
   Offset.zero,
@@ -2467,6 +2477,8 @@ final BarTouchedSpot barTouchedSpot5 = BarTouchedSpot(
   1,
   barChartRodData1,
   3,
+  barChartRodStackItem2,
+  2,
   flSpot1,
   Offset.zero,
 );
@@ -2475,6 +2487,8 @@ final BarTouchedSpot barTouchedSpot6 = BarTouchedSpot(
   1,
   barChartRodData1,
   2,
+  barChartRodStackItem2,
+  2,
   flSpot2,
   Offset.zero,
 );
@@ -2482,6 +2496,8 @@ final BarTouchedSpot barTouchedSpot7 = BarTouchedSpot(
   barChartGroupData1,
   1,
   barChartRodData1,
+  2,
+  barChartRodStackItem2,
   2,
   flSpot1,
   const Offset(1, 10),

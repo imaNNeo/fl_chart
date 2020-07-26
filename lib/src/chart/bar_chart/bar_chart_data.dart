@@ -330,8 +330,8 @@ class BarChartRodData with EquatableMixin {
   final BackgroundBarChartRodData backDrawRodData;
 
   /// If you are a fan of stacked charts (If you don't know what is it, google it),
-  /// you can fill up the [rodStackItem] to have a Stacked Chart.
-  final List<BarChartRodStackItem> rodStackItem;
+  /// you can fill up the [rodStackItems] to have a Stacked Chart.
+  final List<BarChartRodStackItem> rodStackItems;
 
   /// [BarChart] renders rods vertically from zero to [y],
   /// and the x is equivalent to the [BarChartGroupData.x] value.
@@ -343,13 +343,13 @@ class BarChartRodData with EquatableMixin {
   /// for example you can use it as the maximum value place holder.
   ///
   /// If you are a fan of stacked charts (If you don't know what is it, google it),
-  /// you can fill up the [rodStackItem] to have a Stacked Chart.
+  /// you can fill up the [rodStackItems] to have a Stacked Chart.
   /// for example if you want to have a Stacked Chart with three colors:
   /// ```
   /// BarChartRodData(
   ///   y: 9,
   ///   color: Colors.grey,
-  ///   rodStackItem: [
+  ///   rodStackItems: [
   ///     BarChartRodStackItem(0, 3, Colors.red),
   ///     BarChartRodStackItem(3, 6, Colors.green),
   ///     BarChartRodStackItem(6, 9, Colors.blue),
@@ -362,13 +362,13 @@ class BarChartRodData with EquatableMixin {
     double width,
     BorderRadius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
-    List<BarChartRodStackItem> rodStackItem,
+    List<BarChartRodStackItem> rodStackItems,
   })  : y = y,
         color = color ?? Colors.blueAccent,
         width = width ?? 8,
         borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-        rodStackItem = rodStackItem ?? const [];
+        rodStackItems = rodStackItems ?? const [];
 
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
@@ -378,7 +378,7 @@ class BarChartRodData with EquatableMixin {
     double width,
     Radius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
-    List<BarChartRodStackItem> rodStackItem,
+    List<BarChartRodStackItem> rodStackItems,
   }) {
     return BarChartRodData(
       y: y ?? this.y,
@@ -386,7 +386,7 @@ class BarChartRodData with EquatableMixin {
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
-      rodStackItem: rodStackItem ?? this.rodStackItem,
+      rodStackItems: rodStackItems ?? this.rodStackItems,
     );
   }
 
@@ -398,7 +398,7 @@ class BarChartRodData with EquatableMixin {
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       y: lerpDouble(a.y, b.y, t),
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
-      rodStackItem: lerpBarChartRodStackList(a.rodStackItem, b.rodStackItem, t),
+      rodStackItems: lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
     );
   }
 
@@ -410,7 +410,7 @@ class BarChartRodData with EquatableMixin {
         width,
         borderRadius,
         backDrawRodData,
-        rodStackItem,
+        rodStackItems,
       ];
 }
 
@@ -434,7 +434,7 @@ class BarChartRodStackItem with EquatableMixin {
   /// BarChartRodData(
   ///   y: 9,
   ///   color: Colors.grey,
-  ///   rodStackItem: [
+  ///   rodStackItems: [
   ///     BarChartRodStackItem(0, 3, Colors.red),
   ///     BarChartRodStackItem(3, 6, Colors.green),
   ///     BarChartRodStackItem(6, 9, Colors.blue),
@@ -752,10 +752,18 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
   final BarChartRodData touchedRodData;
   final int touchedRodDataIndex;
 
+  /// It can be null, if nothing found
+  final BarChartRodStackItem touchedStackItem;
+
+  /// It can be -1, if nothing found
+  final int touchedStackItemIndex;
+
   /// When touch happens, a [BarTouchedSpot] returns as a output,
   /// it tells you where the touch happened.
-  /// [touchedBarGroup], and [touchedBarGroupIndex] tells you in which group touch happened,
-  /// [touchedRodData], and [touchedRodDataIndex] tells you in which rod touch happened.
+  /// [touchedBarGroup], and [touchedBarGroupIndex] tell you in which group touch happened,
+  /// [touchedRodData], and [touchedRodDataIndex] tell you in which rod touch happened,
+  /// [touchedStackItem], and [touchedStackItemIndex] tell you in which rod stack touch happened
+  /// ([touchedStackItemIndex] means nothing found).
   /// You can also have the touched x and y in the chart as a [FlSpot] using [spot] value,
   /// and you can have the local touch coordinates on the screen as a [Offset] using [offset] value.
   BarTouchedSpot(
@@ -763,12 +771,16 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
     int touchedBarGroupIndex,
     BarChartRodData touchedRodData,
     int touchedRodDataIndex,
+    BarChartRodStackItem touchedStackItem,
+    int touchedStackItemIndex,
     FlSpot spot,
     Offset offset,
   )   : touchedBarGroup = touchedBarGroup,
         touchedBarGroupIndex = touchedBarGroupIndex,
         touchedRodData = touchedRodData,
         touchedRodDataIndex = touchedRodDataIndex,
+        touchedStackItem = touchedStackItem,
+        touchedStackItemIndex = touchedStackItemIndex,
         super(spot, offset);
 
   /// Used for equality check, see [EquatableMixin].
@@ -778,6 +790,8 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
         touchedBarGroupIndex,
         touchedRodData,
         touchedRodDataIndex,
+        touchedStackItem,
+        touchedStackItemIndex,
         spot,
         offset,
       ];
