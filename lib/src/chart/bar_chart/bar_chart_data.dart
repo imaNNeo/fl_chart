@@ -266,8 +266,7 @@ class BarChartGroupData with EquatableMixin {
       return 0;
     }
 
-    final double sumWidth =
-        barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
+    final double sumWidth = barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
     final double spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;
@@ -295,8 +294,7 @@ class BarChartGroupData with EquatableMixin {
       x: (a.x + (b.x - a.x) * t).round(),
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
-      showingTooltipIndicators:
-          lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
+      showingTooltipIndicators: lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
     );
   }
 
@@ -314,9 +312,15 @@ class BarChartGroupData with EquatableMixin {
 class BarChartRodData with EquatableMixin {
   /// [BarChart] renders rods vertically from zero to [y].
   final double y;
-
+//
   /// [BarChart] renders each rods using this [color].
   final Color color;
+
+  /// [BarChart] renders each rods using this [gradient].
+  final Gradient gradient;
+
+  /// [BarChart] checks to show [gradient].
+  final bool showGradient;
 
   /// [BarChart] renders each rods with this value.
   final double width;
@@ -359,12 +363,16 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData({
     double y,
     Color color,
+    Gradient gradient,
+    bool showGradient,
     double width,
     BorderRadius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
     List<BarChartRodStackItem> rodStackItems,
   })  : y = y,
         color = color ?? Colors.blueAccent,
+        gradient = gradient ?? LinearGradient(colors: [Colors.blueAccent, Colors.blueAccent]),
+        showGradient = showGradient ?? false,
         width = width ?? 8,
         borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
@@ -375,6 +383,8 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData copyWith({
     double y,
     Color color,
+    Gradient gradient,
+    bool showGradient,
     double width,
     Radius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
@@ -383,6 +393,8 @@ class BarChartRodData with EquatableMixin {
     return BarChartRodData(
       y: y ?? this.y,
       color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
+      showGradient: showGradient ?? this.showGradient,
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
@@ -502,8 +514,7 @@ class BackgroundBarChartRodData with EquatableMixin {
         color = color ?? Colors.blueGrey;
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
-  static BackgroundBarChartRodData lerp(
-      BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
+  static BackgroundBarChartRodData lerp(BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
       y: lerpDouble(a.y, b.y, t),
       color: Color.lerp(a.color, b.color, t),
