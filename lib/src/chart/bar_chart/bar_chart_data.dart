@@ -178,8 +178,10 @@ class BarChartData extends AxisChartData with EquatableMixin {
         groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
         alignment: b.alignment,
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
-        axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
-        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
+        axisTitleData:
+            FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
+        rangeAnnotations:
+            RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         barTouchData: b.barTouchData,
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
@@ -266,7 +268,9 @@ class BarChartGroupData with EquatableMixin {
       return 0;
     }
 
-    final double sumWidth = barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
+    final double sumWidth = barRods
+        .map((rodData) => rodData.width)
+        .reduce((first, second) => first + second);
     final double spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;
@@ -284,17 +288,20 @@ class BarChartGroupData with EquatableMixin {
       x: x ?? this.x,
       barRods: barRods ?? this.barRods,
       barsSpace: barsSpace ?? this.barsSpace,
-      showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
+      showingTooltipIndicators:
+          showingTooltipIndicators ?? this.showingTooltipIndicators,
     );
   }
 
   /// Lerps a [BarChartGroupData] based on [t] value, check [Tween.lerp].
-  static BarChartGroupData lerp(BarChartGroupData a, BarChartGroupData b, double t) {
+  static BarChartGroupData lerp(
+      BarChartGroupData a, BarChartGroupData b, double t) {
     return BarChartGroupData(
       x: (a.x + (b.x - a.x) * t).round(),
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
-      showingTooltipIndicators: lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
+      showingTooltipIndicators: lerpIntList(
+          a.showingTooltipIndicators, b.showingTooltipIndicators, t),
     );
   }
 
@@ -371,7 +378,8 @@ class BarChartRodData with EquatableMixin {
     List<BarChartRodStackItem> rodStackItems,
   })  : y = y,
         color = color ?? Colors.blueAccent,
-        gradient = gradient ?? LinearGradient(colors: [Colors.blueAccent, Colors.blueAccent]),
+        gradient = gradient ??
+            LinearGradient(colors: [Colors.blueAccent, Colors.blueAccent]),
         showGradient = showGradient ?? false,
         width = width ?? 8,
         borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
@@ -409,8 +417,10 @@ class BarChartRodData with EquatableMixin {
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       y: lerpDouble(a.y, b.y, t),
-      backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
-      rodStackItems: lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
+      backDrawRodData: BackgroundBarChartRodData.lerp(
+          a.backDrawRodData, b.backDrawRodData, t),
+      rodStackItems:
+          lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
     );
   }
 
@@ -470,7 +480,8 @@ class BarChartRodStackItem with EquatableMixin {
   }
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
-  static BarChartRodStackItem lerp(BarChartRodStackItem a, BarChartRodStackItem b, double t) {
+  static BarChartRodStackItem lerp(
+      BarChartRodStackItem a, BarChartRodStackItem b, double t) {
     return BarChartRodStackItem(
       lerpDouble(a.fromY, b.fromY, t),
       lerpDouble(a.toY, b.toY, t),
@@ -514,7 +525,8 @@ class BackgroundBarChartRodData with EquatableMixin {
         color = color ?? Colors.blueGrey;
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
-  static BackgroundBarChartRodData lerp(BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
+  static BackgroundBarChartRodData lerp(
+      BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
       y: lerpDouble(a.y, b.y, t),
       color: Color.lerp(a.color, b.color, t),
@@ -592,7 +604,8 @@ class BarTouchData extends FlTouchData with EquatableMixin {
       enabled: enabled ?? this.enabled,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       touchExtraThreshold: touchExtraThreshold ?? this.touchExtraThreshold,
-      allowTouchBarBackDraw: allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
+      allowTouchBarBackDraw:
+          allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchCallback: touchCallback ?? this.touchCallback,
     );
@@ -660,7 +673,8 @@ class BarTouchTooltipData with EquatableMixin {
     bool fitInsideVertically,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
-        tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        tooltipPadding = tooltipPadding ??
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipBottomMargin = tooltipBottomMargin ?? 16,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
@@ -810,7 +824,8 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)
 class BarChartDataTween extends Tween<BarChartData> {
-  BarChartDataTween({BarChartData begin, BarChartData end}) : super(begin: begin, end: end);
+  BarChartDataTween({BarChartData begin, BarChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [BarChartData] based on [t] value, check [Tween.lerp].
   @override
