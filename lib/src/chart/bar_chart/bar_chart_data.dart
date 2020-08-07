@@ -322,10 +322,7 @@ class BarChartRodData with EquatableMixin {
 
   /// if the gradient mode is enabled (if you have more than one color)
   /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
-  /// you can determine where the gradient should start and end,
-  /// values are available between 0 to 1,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right
+  /// you can determine where the gradient should start and end.
   final Alignment gradientFrom;
   final Alignment gradientTo;
 
