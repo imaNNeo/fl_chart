@@ -51,7 +51,7 @@ final Function(double value) getTitles = (value) => 'sallam';
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -60,7 +60,7 @@ final SideTitles sideTitles1 = SideTitles(
 final SideTitles sideTitles1Clone = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -69,7 +69,7 @@ final SideTitles sideTitles1Clone = SideTitles(
 final SideTitles sideTitles2 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   showTitles: false,
   getTitles: null,
   interval: 12,
@@ -78,7 +78,7 @@ final SideTitles sideTitles2 = SideTitles(
 final SideTitles sideTitles3 = SideTitles(
   margin: 4,
   reservedSize: 10,
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -87,7 +87,7 @@ final SideTitles sideTitles3 = SideTitles(
 final SideTitles sideTitles4 = SideTitles(
   margin: 1,
   reservedSize: 11,
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -96,7 +96,7 @@ final SideTitles sideTitles4 = SideTitles(
 final SideTitles sideTitles5 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: TextStyle(color: Colors.red),
+  textStyle: const TextStyle(color: Colors.red),
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -105,7 +105,7 @@ final SideTitles sideTitles5 = SideTitles(
 final SideTitles sideTitles6 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -163,7 +163,7 @@ final FlTitlesData flTitlesData6 = FlTitlesData(
 );
 
 final AxisTitle axisTitle1 = AxisTitle(
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   reservedSize: 12,
   margin: 33,
   showTitle: true,
@@ -171,7 +171,7 @@ final AxisTitle axisTitle1 = AxisTitle(
   textAlign: TextAlign.right,
 );
 final AxisTitle axisTitle1Clone = AxisTitle(
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   reservedSize: 12,
   margin: 33,
   showTitle: true,
@@ -180,7 +180,7 @@ final AxisTitle axisTitle1Clone = AxisTitle(
 );
 
 final AxisTitle axisTitle2 = AxisTitle(
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   reservedSize: 33,
   margin: 33,
   showTitle: true,
@@ -188,7 +188,7 @@ final AxisTitle axisTitle2 = AxisTitle(
   textAlign: TextAlign.right,
 );
 final AxisTitle axisTitle3 = AxisTitle(
-  textStyle: TextStyle(color: Colors.red),
+  textStyle: const TextStyle(color: Colors.red),
   reservedSize: 12,
   margin: 33,
   showTitle: true,
@@ -196,7 +196,7 @@ final AxisTitle axisTitle3 = AxisTitle(
   textAlign: TextAlign.right,
 );
 final AxisTitle axisTitle4 = AxisTitle(
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   reservedSize: 12,
   margin: 11,
   showTitle: true,
@@ -204,7 +204,7 @@ final AxisTitle axisTitle4 = AxisTitle(
   textAlign: TextAlign.right,
 );
 final AxisTitle axisTitle5 = AxisTitle(
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   reservedSize: 12,
   margin: 33,
   showTitle: false,
@@ -212,7 +212,7 @@ final AxisTitle axisTitle5 = AxisTitle(
   textAlign: TextAlign.right,
 );
 final AxisTitle axisTitle6 = AxisTitle(
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   reservedSize: 12,
   margin: 33,
   showTitle: true,
@@ -220,7 +220,7 @@ final AxisTitle axisTitle6 = AxisTitle(
   textAlign: TextAlign.left,
 );
 final AxisTitle axisTitle7 = AxisTitle(
-  textStyle: TextStyle(color: Colors.green),
+  textStyle: const TextStyle(color: Colors.green),
   reservedSize: 12,
   margin: 33,
   showTitle: true,
@@ -504,19 +504,19 @@ final FlDotData flDotData6 = FlDotData(
   checkToShowDot: null,
 );
 
-final Shadow shadow1 = Shadow(
+const Shadow shadow1 = Shadow(
   color: Colors.red,
   blurRadius: 12,
 );
-final Shadow shadow1Clone = Shadow(
+const Shadow shadow1Clone = Shadow(
   color: Colors.red,
   blurRadius: 12,
 );
-final Shadow shadow2 = Shadow(
+const Shadow shadow2 = Shadow(
   color: Colors.green,
   blurRadius: 12,
 );
-final Shadow shadow3 = Shadow(
+const Shadow shadow3 = Shadow(
   color: Colors.red,
   blurRadius: 14,
 );
@@ -897,11 +897,11 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData6 = TouchedSpotIndicatorD
   FlDotData(getDotPainter: getDotDrawerTouched6, checkToShowDot: checkToShowDot, show: true),
 );
 
-final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', TextStyle(color: Colors.green));
-final LineTooltipItem lineTooltipItem1Clone = LineTooltipItem('', TextStyle(color: Colors.green));
+final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', const TextStyle(color: Colors.green));
+final LineTooltipItem lineTooltipItem1Clone = LineTooltipItem('', const TextStyle(color: Colors.green));
 
-final LineTooltipItem lineTooltipItem2 = LineTooltipItem('ss', TextStyle(color: Colors.green));
-final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', TextStyle(color: Colors.blue));
+final LineTooltipItem lineTooltipItem2 = LineTooltipItem('ss', const TextStyle(color: Colors.green));
+final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', const TextStyle(color: Colors.blue));
 final LineTooltipItem lineTooltipItem4 = LineTooltipItem('', null);
 
 final Function(List<LineBarSpot> touchedSpots) lineChartGetTooltipItems = (list) {
@@ -1054,21 +1054,21 @@ final Function(VerticalLine) verticalLabelResolver = (horizontalLine) => 'test';
 
 final HorizontalLineLabel horizontalLineLabel1 = HorizontalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel1Clone = HorizontalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel2 = HorizontalLineLabel(
   show: false,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
@@ -1082,28 +1082,28 @@ final HorizontalLineLabel horizontalLineLabel3 = HorizontalLineLabel(
 );
 final HorizontalLineLabel horizontalLineLabel4 = HorizontalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: null,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel5 = HorizontalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.bottomRight,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel6 = HorizontalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(44),
 );
 final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
   show: false,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
@@ -1111,21 +1111,21 @@ final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
 
 final VerticalLineLabel verticalLineLabel1 = VerticalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel1Clone = VerticalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel2 = VerticalLineLabel(
   show: false,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
@@ -1139,28 +1139,28 @@ final VerticalLineLabel verticalLineLabel3 = VerticalLineLabel(
 );
 final VerticalLineLabel verticalLineLabel4 = VerticalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: null,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel5 = VerticalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.bottomRight,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel6 = VerticalLineLabel(
   show: true,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(44),
 );
 final VerticalLineLabel verticalLineLabel7 = VerticalLineLabel(
   show: false,
-  style: TextStyle(color: Colors.green),
+  style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
@@ -2012,7 +2012,7 @@ final Function(double) gridCheckToShowLine = (value) => true;
 final Function(double) gridGetDrawingLine = (value) => FlLine();
 
 final Function(ScatterSpot touchedSpots) scatterChartGetTooltipItems = (list) {
-  return ScatterTooltipItem('check', TextStyle(color: Colors.blue), 23);
+  return ScatterTooltipItem('check', const TextStyle(color: Colors.blue), 23);
 };
 
 final ScatterChartData scatterChartData1 = ScatterChartData(
@@ -2024,7 +2024,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     show: true,
     leftTitle: AxisTitle(
       showTitle: true,
-      textStyle: TextStyle(color: Colors.red, fontSize: 33),
+      textStyle: const TextStyle(color: Colors.red, fontSize: 33),
       textAlign: TextAlign.left,
       reservedSize: 22,
       margin: 11,
@@ -2032,7 +2032,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     ),
     bottomTitle: AxisTitle(
       showTitle: false,
-      textStyle: TextStyle(color: Colors.grey, fontSize: 33),
+      textStyle: const TextStyle(color: Colors.grey, fontSize: 33),
       textAlign: TextAlign.left,
       reservedSize: 11,
       margin: 11,
@@ -2040,7 +2040,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     ),
     rightTitle: AxisTitle(
       showTitle: false,
-      textStyle: TextStyle(color: Colors.blue, fontSize: 11),
+      textStyle: const TextStyle(color: Colors.blue, fontSize: 11),
       textAlign: TextAlign.left,
       reservedSize: 2,
       margin: 1324,
@@ -2048,7 +2048,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     ),
     topTitle: AxisTitle(
       showTitle: true,
-      textStyle: TextStyle(color: Colors.green, fontSize: 33),
+      textStyle: const TextStyle(color: Colors.green, fontSize: 33),
       textAlign: TextAlign.left,
       reservedSize: 23,
       margin: 11,
@@ -2111,7 +2111,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     show: true,
     leftTitle: AxisTitle(
       showTitle: true,
-      textStyle: TextStyle(color: Colors.red, fontSize: 33),
+      textStyle: const TextStyle(color: Colors.red, fontSize: 33),
       textAlign: TextAlign.left,
       reservedSize: 22,
       margin: 11,
@@ -2119,7 +2119,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     ),
     bottomTitle: AxisTitle(
       showTitle: false,
-      textStyle: TextStyle(color: Colors.grey, fontSize: 33),
+      textStyle: const TextStyle(color: Colors.grey, fontSize: 33),
       textAlign: TextAlign.left,
       reservedSize: 11,
       margin: 11,
@@ -2127,7 +2127,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     ),
     rightTitle: AxisTitle(
       showTitle: false,
-      textStyle: TextStyle(color: Colors.blue, fontSize: 11),
+      textStyle: const TextStyle(color: Colors.blue, fontSize: 11),
       textAlign: TextAlign.left,
       reservedSize: 2,
       margin: 1324,
@@ -2135,7 +2135,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     ),
     topTitle: AxisTitle(
       showTitle: true,
-      textStyle: TextStyle(color: Colors.green, fontSize: 33),
+      textStyle: const TextStyle(color: Colors.green, fontSize: 33),
       textAlign: TextAlign.left,
       reservedSize: 23,
       margin: 11,
@@ -2522,23 +2522,23 @@ final BarTouchResponse barTouchResponse3 = BarTouchResponse(
 
 final BarTooltipItem barTooltipItem1 = BarTooltipItem(
   'pashmam 1',
-  TextStyle(color: Colors.red),
+  const TextStyle(color: Colors.red),
 );
 final BarTooltipItem barTooltipItem1Clone = BarTooltipItem(
   'pashmam 1',
-  TextStyle(color: Colors.red),
+  const TextStyle(color: Colors.red),
 );
 final BarTooltipItem barTooltipItem2 = BarTooltipItem(
   'pashmam 2',
-  TextStyle(color: Colors.red),
+  const TextStyle(color: Colors.red),
 );
 final BarTooltipItem barTooltipItem3 = BarTooltipItem(
   'pashmam 1',
-  TextStyle(color: Colors.green),
+  const TextStyle(color: Colors.green),
 );
 final BarTooltipItem barTooltipItem4 = BarTooltipItem(
   null,
-  TextStyle(color: Colors.red),
+  const TextStyle(color: Colors.red),
 );
 final BarTooltipItem barTooltipItem5 = BarTooltipItem(
   'pashmam 1',
