@@ -898,9 +898,11 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData6 = TouchedSpotIndicatorD
 );
 
 final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', const TextStyle(color: Colors.green));
-final LineTooltipItem lineTooltipItem1Clone = LineTooltipItem('', const TextStyle(color: Colors.green));
+final LineTooltipItem lineTooltipItem1Clone =
+    LineTooltipItem('', const TextStyle(color: Colors.green));
 
-final LineTooltipItem lineTooltipItem2 = LineTooltipItem('ss', const TextStyle(color: Colors.green));
+final LineTooltipItem lineTooltipItem2 =
+    LineTooltipItem('ss', const TextStyle(color: Colors.green));
 final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', const TextStyle(color: Colors.blue));
 final LineTooltipItem lineTooltipItem4 = LineTooltipItem('', null);
 
