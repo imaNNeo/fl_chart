@@ -95,7 +95,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     // Draw touch tooltip on most top spot
     for (int i = 0; i < data.showingTooltipIndicators.length; i++) {
-      ShowingTooltipIndicators tooltipSpots = data.showingTooltipIndicators[i];
+      final ShowingTooltipIndicators tooltipSpots = data.showingTooltipIndicators[i];
 
       final List<LineBarSpot> showingBarSpots = tooltipSpots.showingSpots;
       if (showingBarSpots.isEmpty) {
