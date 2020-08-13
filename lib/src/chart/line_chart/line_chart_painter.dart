@@ -1169,12 +1169,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final double tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
     final double tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
 
+    /// Calculate tooltip position
+    double tooltipLeftPostion = mostTopOffset.dx - (tooltipWidth / 2);
+    TextAlign textAlign = TextAlign.center;
+    if (tooltipLeftPostion < 0) {
+      tooltipLeftPostion = viewSize.width - chartUsableSize.width;
+      textAlign = TextAlign.left;
+    } else if (tooltipLeftPostion + tooltipWidth > (viewSize.width)) {
+      tooltipLeftPostion = viewSize.width - tooltipWidth;
+      textAlign = TextAlign.right;
+    }
+    final tooltipTopPostion = mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin;
+
     /// draw the background rect with rounded radius
     Rect rect = Rect.fromLTWH(
-        mostTopOffset.dx - (tooltipWidth / 2),
-        mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
-        tooltipWidth,
-        tooltipHeight);
+      tooltipLeftPostion,
+      tooltipTopPostion,
+      tooltipWidth,
+      tooltipHeight,
+    );
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -1228,10 +1241,26 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     /// draw the texts one by one in below of each other
     double topPosSeek = tooltipData.tooltipPadding.top;
+
+    const double minimumTextMargin = 3;
+
     for (TextPainter tp in drawingTextPainters) {
+      /// Calculate text position inside tooltip container
+      double textHorisontalOffset;
+      if (tooltipData.tooltipTextAlignCenter) {
+        textHorisontalOffset = rect.center.dx - (tp.width / 2);
+      } else if (textAlign == TextAlign.left) {
+        textHorisontalOffset = tooltipLeftPostion + minimumTextMargin;
+      } else if (textAlign == TextAlign.right) {
+        textHorisontalOffset = viewSize.width - tp.width - minimumTextMargin;
+      } else if (textAlign == TextAlign.center) {
+        textHorisontalOffset = rect.center.dx - (tp.width / 2);
+      }
+      final double textVerticalOffset = rect.topCenter.dy + topPosSeek; // always on center
+
       final drawOffset = Offset(
-        rect.center.dx - (tp.width / 2),
-        rect.topCenter.dy + topPosSeek,
+        textHorisontalOffset,
+        textVerticalOffset,
       );
       tp.paint(canvas, drawOffset);
       topPosSeek += tp.height;
