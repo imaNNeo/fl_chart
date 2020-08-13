@@ -68,6 +68,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     _imagePaint = Paint();
   }
 
+  bool touchActive = false;
+
   /// Paints [LineChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
@@ -89,6 +91,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
       _drawExtraLines(canvas, size);
+    }
+
+    // Draw touch tooltip on most top spot
+    for (int i = 0; i < data.showingTooltipIndicators.length; i++) {
+      ShowingTooltipIndicators tooltipSpots = data.showingTooltipIndicators[i];
+
+      final List<LineBarSpot> showingBarSpots = tooltipSpots.showingSpots;
+      if (showingBarSpots.isEmpty) {
+        continue;
+      }
+      touchActive = true;
     }
 
     /// draw each line independently on the chart
@@ -771,7 +784,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// the gradient color,
     /// if we have one color, solid color will apply,
     /// but if we have more than one color, gradient will apply.
-    if (barData.colors.length == 1) {
+    if (touchActive && barData.touchColors != null && barData.touchColors.length == 1) {
+      _barPaint.color = barData.touchColors[0];
+      _barPaint.shader = null;
+    } else if (barData.colors.length == 1) {
       _barPaint.color = barData.colors[0];
       _barPaint.shader = null;
     } else {

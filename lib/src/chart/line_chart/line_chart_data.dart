@@ -252,6 +252,9 @@ class LineChartBarData with EquatableMixin {
   /// otherwise it gradients between provided colors for drawing the line.
   final List<Color> colors;
 
+  /// Determines the bar color when
+  final List<Color> touchColors;
+
   /// Determines the gradient color stops, if multiple [colors] provided.
   final List<double> colorStops;
 
@@ -352,6 +355,7 @@ class LineChartBarData with EquatableMixin {
     List<FlSpot> spots,
     bool show,
     List<Color> colors,
+    List<Color> touchColors,
     List<double> colorStops,
     Offset gradientFrom,
     Offset gradientTo,
@@ -373,6 +377,7 @@ class LineChartBarData with EquatableMixin {
         show = show ?? true,
         colors = colors ?? const [Colors.redAccent],
         colorStops = colorStops,
+        touchColors = touchColors,
         gradientFrom = gradientFrom ?? const Offset(0, 0),
         gradientTo = gradientTo ?? const Offset(1, 0),
         barWidth = barWidth ?? 2.0,
@@ -405,6 +410,7 @@ class LineChartBarData with EquatableMixin {
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),
+      touchColors: lerpColorList(a.touchColors, b.touchColors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
@@ -422,6 +428,7 @@ class LineChartBarData with EquatableMixin {
     List<FlSpot> spots,
     bool show,
     List<Color> colors,
+    List<Color> touchColors,
     List<double> colorStops,
     Offset gradientFrom,
     Offset gradientTo,
@@ -444,6 +451,7 @@ class LineChartBarData with EquatableMixin {
       spots: spots ?? this.spots,
       show: show ?? this.show,
       colors: colors ?? this.colors,
+      touchColors: touchColors ?? this.touchColors,
       colorStops: colorStops ?? this.colorStops,
       gradientFrom: gradientFrom ?? this.gradientFrom,
       gradientTo: gradientTo ?? this.gradientTo,
@@ -471,6 +479,7 @@ class LineChartBarData with EquatableMixin {
         spots,
         show,
         colors,
+        touchColors,
         colorStops,
         gradientFrom,
         gradientTo,
