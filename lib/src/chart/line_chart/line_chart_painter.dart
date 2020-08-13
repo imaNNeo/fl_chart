@@ -1184,7 +1184,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       tooltipLeftPostion = viewSize.width - tooltipWidth;
       textAlign = TextAlign.right;
     }
-    final tooltipTopPostion = mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin;
+    double tooltipTopPostion;
+    if (tooltipData.tooltipBoxTopPositioned) {
+      tooltipTopPostion = 0 - tooltipHeight - tooltipData.tooltipBottomMargin;
+    } else {
+      tooltipTopPostion = mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin;
+    }
+    //final tooltipTopPostion = mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin;
 
     /// draw the background rect with rounded radius
     Rect rect = Rect.fromLTWH(
@@ -1261,13 +1267,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       } else if (textAlign == TextAlign.center) {
         textHorisontalOffset = rect.center.dx - (tp.width / 2);
       }
-
-      double textVerticalOffset;
-      if (tooltipData.tooltipBoxTopPositioned) {
-        textVerticalOffset = 0 - tooltipHeight - tooltipData.tooltipBottomMargin;
-      } else {
-        textVerticalOffset = rect.topCenter.dy + topPosSeek;
-      }
+      final double textVerticalOffset = rect.topCenter.dy + topPosSeek; // always on center
 
       final drawOffset = Offset(
         textHorisontalOffset,
