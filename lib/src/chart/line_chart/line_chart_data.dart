@@ -1347,6 +1347,9 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// and goes through the targeted spot.
   final bool fullHeightTouchLine;
 
+  /// Sets the indicator line will have round corners
+  final bool roundTouchLineConers;
+
   /// Informs the touchResponses
   final Function(LineTouchResponse) touchCallback;
 
@@ -1371,12 +1374,14 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     double touchSpotThreshold,
     bool fullHeightTouchLine,
     bool handleBuiltInTouches,
+    bool roundTouchLineConers,
     Function(LineTouchResponse) touchCallback,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
         fullHeightTouchLine = fullHeightTouchLine ?? false,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
+        roundTouchLineConers = roundTouchLineConers ?? false,
         touchCallback = touchCallback,
         super(enabled ?? true);
 
@@ -1389,6 +1394,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     double touchSpotThreshold,
     bool fullHeightTouchLine,
     bool handleBuiltInTouches,
+    bool roundTouchLineConers,
     Function(LineTouchResponse) touchCallback,
   }) {
     return LineTouchData(
@@ -1398,6 +1404,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       fullHeightTouchLine: fullHeightTouchLine ?? this.fullHeightTouchLine,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
+      roundTouchLineConers: roundTouchLineConers ?? this.roundTouchLineConers,
       touchCallback: touchCallback ?? this.touchCallback,
     );
   }
@@ -1410,6 +1417,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
         touchSpotThreshold,
         handleBuiltInTouches,
         fullHeightTouchLine,
+        roundTouchLineConers,
         touchCallback,
         enabled,
       ];
