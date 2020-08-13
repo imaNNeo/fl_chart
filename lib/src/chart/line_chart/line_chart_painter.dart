@@ -1261,7 +1261,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       } else if (textAlign == TextAlign.center) {
         textHorisontalOffset = rect.center.dx - (tp.width / 2);
       }
-      final double textVerticalOffset = rect.topCenter.dy + topPosSeek; // always on center
+
+      double textVerticalOffset;
+      if (tooltipData.tooltipBoxTopPositioned) {
+        textVerticalOffset = 0 - tooltipHeight - tooltipData.tooltipBottomMargin;
+      } else {
+        textVerticalOffset = rect.topCenter.dy + topPosSeek;
+      }
 
       final drawOffset = Offset(
         textHorisontalOffset,
