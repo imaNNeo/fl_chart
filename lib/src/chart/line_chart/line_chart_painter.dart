@@ -1176,6 +1176,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         tooltipWidth,
         tooltipHeight);
 
+    TextAlign alignInsideBox = TextAlign.center;
+    double tooltipLeftPostion = mostTopOffset.dx - (tooltipWidth / 2);
+
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
         final shiftAmount = 0 - rect.left;
@@ -1185,6 +1188,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           rect.right + shiftAmount,
           rect.bottom,
         );
+
+        alignInsideBox = TextAlign.left;
+        tooltipLeftPostion = viewSize.width - chartUsableSize.width;
       }
 
       if (rect.right > viewSize.width) {
@@ -1195,6 +1201,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           rect.right - shiftAmount,
           rect.bottom,
         );
+
+        alignInsideBox = TextAlign.right;
+        tooltipLeftPostion = viewSize.width - tooltipWidth;
       }
     }
 
@@ -1226,12 +1235,29 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
     canvas.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
+    const double minimumTextMargin = 3;
+
     /// draw the texts one by one in below of each other
     double topPosSeek = tooltipData.tooltipPadding.top;
     for (TextPainter tp in drawingTextPainters) {
+      /// Calculate horizontal text position inside tooltip box
+      double textHorisontalOffset;
+      if (tooltipData.tooltipTextAlignCenter) {
+        textHorisontalOffset = rect.center.dx - (tp.width / 2);
+      } else if (alignInsideBox == TextAlign.left) {
+        textHorisontalOffset = tooltipLeftPostion + minimumTextMargin;
+      } else if (alignInsideBox == TextAlign.right) {
+        textHorisontalOffset = viewSize.width - tp.width - minimumTextMargin;
+      } else if (alignInsideBox == TextAlign.center) {
+        textHorisontalOffset = rect.center.dx - (tp.width / 2);
+      }
+
+      /// Calculate vertical text position inside tooltip box
+      final double textVerticalOffset = rect.topCenter.dy + topPosSeek;
+
       final drawOffset = Offset(
-        rect.center.dx - (tp.width / 2),
-        rect.topCenter.dy + topPosSeek,
+        textHorisontalOffset,
+        textVerticalOffset,
       );
       tp.paint(canvas, drawOffset);
       topPosSeek += tp.height;

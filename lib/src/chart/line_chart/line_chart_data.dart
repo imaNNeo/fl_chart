@@ -1478,6 +1478,9 @@ class LineTouchTooltipData with EquatableMixin {
   /// Forces the tooltip to shift vertically inside the chart, if overflow happens.
   final bool fitInsideVertically;
 
+  /// Align text inside tooltipbox to center or to the corners, default 'true'
+  final bool tooltipTextAlignCenter;
+
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
@@ -1500,6 +1503,7 @@ class LineTouchTooltipData with EquatableMixin {
     GetLineTooltipItems getTooltipItems,
     bool fitInsideHorizontally,
     bool fitInsideVertically,
+    bool tooltipTextAlignCenter,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -1508,6 +1512,7 @@ class LineTouchTooltipData with EquatableMixin {
         getTooltipItems = getTooltipItems ?? defaultLineTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
+        tooltipTextAlignCenter = tooltipTextAlignCenter ?? true,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -1521,6 +1526,7 @@ class LineTouchTooltipData with EquatableMixin {
         getTooltipItems,
         fitInsideHorizontally,
         fitInsideVertically,
+        tooltipTextAlignCenter,
       ];
 }
 
