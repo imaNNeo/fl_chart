@@ -252,6 +252,9 @@ class LineChartBarData with EquatableMixin {
   /// otherwise it gradients between provided colors for drawing the line.
   final List<Color> colors;
 
+  /// Determines the color of drawing line, when chart touched.
+  final List<Color> touchColors;
+
   /// Determines the gradient color stops, if multiple [colors] provided.
   final List<double> colorStops;
 
@@ -352,6 +355,7 @@ class LineChartBarData with EquatableMixin {
     List<FlSpot> spots,
     bool show,
     List<Color> colors,
+    List<Color> touchColors,
     List<double> colorStops,
     Offset gradientFrom,
     Offset gradientTo,
@@ -372,6 +376,7 @@ class LineChartBarData with EquatableMixin {
   })  : spots = spots ?? const [],
         show = show ?? true,
         colors = colors ?? const [Colors.redAccent],
+        touchColors = touchColors,
         colorStops = colorStops,
         gradientFrom = gradientFrom ?? const Offset(0, 0),
         gradientTo = gradientTo ?? const Offset(1, 0),
@@ -405,6 +410,7 @@ class LineChartBarData with EquatableMixin {
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       colors: lerpColorList(a.colors, b.colors, t),
+      touchColors: lerpColorList(a.touchColors, b.touchColors, t),
       colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
@@ -422,6 +428,7 @@ class LineChartBarData with EquatableMixin {
     List<FlSpot> spots,
     bool show,
     List<Color> colors,
+    List<Color> touchColors,
     List<double> colorStops,
     Offset gradientFrom,
     Offset gradientTo,
@@ -444,6 +451,7 @@ class LineChartBarData with EquatableMixin {
       spots: spots ?? this.spots,
       show: show ?? this.show,
       colors: colors ?? this.colors,
+      touchColors: touchColors ?? this.touchColors,
       colorStops: colorStops ?? this.colorStops,
       gradientFrom: gradientFrom ?? this.gradientFrom,
       gradientTo: gradientTo ?? this.gradientTo,
@@ -471,6 +479,7 @@ class LineChartBarData with EquatableMixin {
         spots,
         show,
         colors,
+        touchColors,
         colorStops,
         gradientFrom,
         gradientTo,
@@ -529,6 +538,9 @@ class BarAreaData with EquatableMixin {
   /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
   final List<Color> colors;
 
+  /// Determines the below bar area color, when chart touched.
+  final List<Color> touchColors;
+
   /// if the gradient mode is enabled (if you have more than one color)
   /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
   /// you can determine where the gradient should start and end,
@@ -568,6 +580,7 @@ class BarAreaData with EquatableMixin {
   BarAreaData({
     bool show,
     List<Color> colors,
+    List<Color> touchColors,
     Offset gradientFrom,
     Offset gradientTo,
     List<double> gradientColorStops,
@@ -576,6 +589,7 @@ class BarAreaData with EquatableMixin {
     bool applyCutOffY,
   })  : show = show ?? false,
         colors = colors ?? [Colors.blueGrey],
+        touchColors = touchColors,
         gradientFrom = gradientFrom ?? const Offset(0, 0),
         gradientTo = gradientTo ?? const Offset(1, 0),
         gradientColorStops = gradientColorStops,
@@ -592,6 +606,7 @@ class BarAreaData with EquatableMixin {
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spotsLine: BarAreaSpotsLine.lerp(a.spotsLine, b.spotsLine, t),
       colors: lerpColorList(a.colors, b.colors, t),
+      touchColors: lerpColorList(a.touchColors, b.touchColors, t),
       gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
       cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t),
       applyCutOffY: b.applyCutOffY,
@@ -603,6 +618,7 @@ class BarAreaData with EquatableMixin {
   List<Object> get props => [
         show,
         colors,
+        touchColors,
         gradientFrom,
         gradientTo,
         gradientColorStops,

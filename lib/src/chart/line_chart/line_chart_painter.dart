@@ -68,6 +68,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     _imagePaint = Paint();
   }
 
+  bool touchActive = false;
+
   /// Paints [LineChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
@@ -89,6 +91,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
       _drawExtraLines(canvas, size);
+    }
+
+    /// Check, that chart on touch
+    if (data.showingTooltipIndicators.isNotEmpty) {
+      touchActive = data.showingTooltipIndicators[0].showingSpots.isNotEmpty;
     }
 
     /// draw each line independently on the chart
@@ -536,7 +543,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     /// here we update the [belowBarPaint] to draw the solid color
     /// or the gradient based on the [BarAreaData] class.
-    if (barData.belowBarData.colors.length == 1) {
+    if (touchActive &&
+        barData.belowBarData.touchColors != null &&
+        barData.belowBarData.touchColors.length == 1) {
+      _barAreaPaint.color = barData.belowBarData.touchColors[0];
+      _barAreaPaint.shader = null;
+    } else if (barData.belowBarData.colors.length == 1) {
       _barAreaPaint.color = barData.belowBarData.colors[0];
       _barAreaPaint.shader = null;
     } else {
@@ -552,6 +564,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         stops = barData.belowBarData.gradientColorStops;
       }
 
+      List<Color> color;
+      if (touchActive && barData.belowBarData.touchColors != null) {
+        color = barData.belowBarData.touchColors;
+      } else {
+        color = barData.belowBarData.colors;
+      }
+
       final from = barData.belowBarData.gradientFrom;
       final to = barData.belowBarData.gradientTo;
       _barAreaPaint.shader = ui.Gradient.linear(
@@ -563,7 +582,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
-        barData.belowBarData.colors,
+        color,
         stops,
       );
     }
@@ -766,7 +785,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// the gradient color,
     /// if we have one color, solid color will apply,
     /// but if we have more than one color, gradient will apply.
-    if (barData.colors.length == 1) {
+    if (touchActive && barData.touchColors != null && barData.touchColors.length == 1) {
+      _barPaint.color = barData.touchColors[0];
+      _barPaint.shader = null;
+    } else if (barData.colors.length == 1) {
       _barPaint.color = barData.colors[0];
       _barPaint.shader = null;
     } else {
