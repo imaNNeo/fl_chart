@@ -116,7 +116,7 @@ void main() {
         value: 33,
         title: 'testTitle',
         titlePositionPercentageOffset: 10,
-        titleStyle: TextStyle(color: Colors.green),
+        titleStyle: const TextStyle(color: Colors.green),
       );
 
       final PieChartSectionData sample2 = PieChartSectionData(
@@ -126,7 +126,7 @@ void main() {
         value: 33,
         title: 'testTitle',
         titlePositionPercentageOffset: 10,
-        titleStyle: TextStyle(color: Colors.green),
+        titleStyle: const TextStyle(color: Colors.green),
       );
 
       expect(sample1 == sample2, true);
@@ -158,7 +158,7 @@ void main() {
               ),
           false);
 
-      expect(sample1 == sample2.copyWith(titleStyle: TextStyle(color: Colors.green)), true);
+      expect(sample1 == sample2.copyWith(titleStyle: const TextStyle(color: Colors.green)), true);
 
       expect(
           sample1 == sample2.copyWith(titleStyle: TextStyle(color: Colors.green.withOpacity(0.3))),
