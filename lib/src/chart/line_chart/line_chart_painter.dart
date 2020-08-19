@@ -304,6 +304,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
+      /// Add round corners
+      if (data.lineTouchData.roundTouchLineConers) {
+        _touchLinePaint.strokeCap = StrokeCap.round;
+      }
+
       canvas.drawDashedLine(
           bottom, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 

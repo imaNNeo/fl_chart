@@ -1347,6 +1347,9 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// and goes through the targeted spot.
   final bool fullHeightTouchLine;
 
+  /// Sets the indicator line will have round corners on the ends, default 'false'.
+  final bool roundTouchLineConers;
+
   /// Informs the touchResponses
   final Function(LineTouchResponse) touchCallback;
 
@@ -1372,12 +1375,14 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     bool fullHeightTouchLine,
     bool handleBuiltInTouches,
     Function(LineTouchResponse) touchCallback,
+    bool roundTouchLineConers,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
         fullHeightTouchLine = fullHeightTouchLine ?? false,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         touchCallback = touchCallback,
+        roundTouchLineConers = roundTouchLineConers ?? false,
         super(enabled ?? true);
 
   /// Copies current [LineTouchData] to a new [LineTouchData],
@@ -1390,6 +1395,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     bool fullHeightTouchLine,
     bool handleBuiltInTouches,
     Function(LineTouchResponse) touchCallback,
+    bool roundTouchLineConers,
   }) {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
@@ -1399,6 +1405,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
       fullHeightTouchLine: fullHeightTouchLine ?? this.fullHeightTouchLine,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchCallback: touchCallback ?? this.touchCallback,
+      roundTouchLineConers: roundTouchLineConers ?? this.roundTouchLineConers,
     );
   }
 
@@ -1412,6 +1419,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
         fullHeightTouchLine,
         touchCallback,
         enabled,
+        roundTouchLineConers,
       ];
 }
 
