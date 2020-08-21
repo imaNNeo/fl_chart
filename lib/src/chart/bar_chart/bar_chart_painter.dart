@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -226,19 +227,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomRight: borderRadius.bottomRight);
           }
 
-          if (barRod.colors.length > 1) {
-            final rect = Rect.fromLTRB(
-              barRRect.left,
-              barRRect.top,
-              barRRect.right,
-              barRRect.bottom,
-            );
-            _barPaint.shader = LinearGradient(colors: [
-              barRod.backDrawRodData.color,
-              barRod.backDrawRodData.color,
-            ]).createShader(rect);
-          } else
-            _barPaint.color = barRod.backDrawRodData.color;
+          if (barRod.backDrawRodData.colors.length > 1) {
+            final rect = barRRect.getRect();
+            _barPaint.shader = LinearGradient(
+              colors: barRod.backDrawRodData.colors,
+              begin: barRod.backDrawRodData.gradientFrom,
+              end: barRod.backDrawRodData.gradientTo,
+              stops: barRod.backDrawRodData.gradientColorStops,
+            ).createShader(rect);
+          } else {
+            _barPaint.color = barRod.backDrawRodData.colors[0];
+          }
 
           canvas.drawRRect(barRRect, _barPaint);
         }
@@ -266,15 +265,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomLeft: borderRadius.bottomLeft,
                 bottomRight: borderRadius.bottomRight);
           }
-          if (barRod.colors.length == 1)
+          if (barRod.colors.length == 1) {
             _barPaint.color = barRod.colors[0];
-          else {
-            final rect = Rect.fromLTRB(
-              barRRect.left,
-              barRRect.top,
-              barRRect.right,
-              barRRect.bottom,
-            );
+          } else {
+            final rect = barRRect.getRect();
             _barPaint.shader = LinearGradient(
               colors: barRod.colors,
               begin: barRod.gradientFrom,

@@ -2207,22 +2207,22 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 = BackgroundBarChartRodData(
   y: 21,
-  color: Colors.blue,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData1Clone = BackgroundBarChartRodData(
   y: 21,
-  color: Colors.blue,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData2 = BackgroundBarChartRodData(
   y: 44,
-  color: Colors.red,
+  colors: [Colors.red],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData3 = BackgroundBarChartRodData(
   y: 44,
-  color: Colors.green,
+  colors: [Colors.green],
   show: true,
 );
 

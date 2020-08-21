@@ -517,8 +517,20 @@ class BackgroundBarChartRodData with EquatableMixin {
   /// [y] is the height of this rod
   final double y;
 
-  /// it will be rendered with filled [color]
-  final Color color;
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw.
+  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
+  final List<Color> colors;
+
+  /// if the gradient mode is enabled (if you have more than one color)
+  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
+  /// you can determine where the gradient should start and end.
+  final Alignment gradientFrom;
+  final Alignment gradientTo;
+
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
+  final List<double> gradientColorStops;
 
   /// It will be rendered in rear of the main rod,
   /// with [y] as the height, and [color] as the fill color,
@@ -526,17 +538,26 @@ class BackgroundBarChartRodData with EquatableMixin {
   BackgroundBarChartRodData({
     double y,
     bool show,
-    Color color,
+    List<Color> colors,
+    Alignment gradientFrom,
+    Alignment gradientTo,
+    List<double> gradientColorStops,
   })  : y = y ?? 8,
         show = show ?? false,
-        color = color ?? Colors.blueGrey;
+        colors = colors ?? [Colors.blueAccent],
+        gradientFrom = gradientFrom,
+        gradientTo = gradientTo,
+        gradientColorStops = gradientColorStops;
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
   static BackgroundBarChartRodData lerp(
       BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
       y: lerpDouble(a.y, b.y, t),
-      color: Color.lerp(a.color, b.color, t),
+      gradientFrom: Alignment.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Alignment.lerp(a.gradientTo, b.gradientTo, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
       show: b.show,
     );
   }
@@ -546,7 +567,10 @@ class BackgroundBarChartRodData with EquatableMixin {
   List<Object> get props => [
         show,
         y,
-        color,
+        colors,
+        gradientTo,
+        gradientFrom,
+        gradientColorStops,
       ];
 }
 

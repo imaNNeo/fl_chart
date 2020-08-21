@@ -203,12 +203,12 @@ class BarChartSample2State extends State<BarChartSample2> {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
         y: y1,
-        color: leftBarColor,
+        colors: [leftBarColor],
         width: width,
       ),
       BarChartRodData(
         y: y2,
-        color: rightBarColor,
+        colors: [rightBarColor],
         width: width,
       ),
     ]);
