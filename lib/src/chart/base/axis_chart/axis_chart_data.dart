@@ -515,6 +515,9 @@ class FlLine with EquatableMixin {
   /// Defines thickness of the line.
   final double strokeWidth;
 
+  /// Sets the indicator line will have round corners on the ends, default 'false'.
+  final bool roundTouchLineConers;
+
   /// Defines dash effect of the line.
   ///
   /// it is a circular array of dash offsets and lengths.
@@ -528,9 +531,10 @@ class FlLine with EquatableMixin {
   /// it is a circular array of dash offsets and lengths.
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
-  FlLine({Color color, double strokeWidth, List<int> dashArray})
+  FlLine({Color color, double strokeWidth, List<int> dashArray, bool roundTouchLineConers})
       : color = color ?? Colors.black,
         strokeWidth = strokeWidth ?? 2,
+        roundTouchLineConers = roundTouchLineConers ?? false,
         dashArray = dashArray;
 
   /// Lerps a [FlLine] based on [t] value, check [Tween.lerp].
@@ -539,6 +543,7 @@ class FlLine with EquatableMixin {
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      roundTouchLineConers: b.roundTouchLineConers,
     );
   }
 
@@ -548,6 +553,7 @@ class FlLine with EquatableMixin {
         color,
         strokeWidth,
         dashArray,
+        roundTouchLineConers,
       ];
 }
 

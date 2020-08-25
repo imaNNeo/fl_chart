@@ -294,7 +294,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       }
 
       /// For drawing the indicator line
-      final bottom = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
+      double roundCapOffset = 0;
+      if (indicatorData.indicatorBelowLine.roundTouchLineConers) {
+        roundCapOffset = indicatorData.indicatorBelowLine.strokeWidth / 2;
+      }
+      final bottom =
+          Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height - roundCapOffset);
       final top = Offset(getPixelX(spot.x, chartViewSize), getTopOffsetDrawSize());
 
       /// Draw to top or to the touchedSpot
@@ -305,7 +310,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
       /// Add round corners
-      if (data.lineTouchData.roundTouchLineConers) {
+      if (indicatorData.indicatorBelowLine.roundTouchLineConers) {
         _touchLinePaint.strokeCap = StrokeCap.round;
       }
 
