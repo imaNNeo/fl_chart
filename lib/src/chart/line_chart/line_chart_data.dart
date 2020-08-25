@@ -1479,7 +1479,7 @@ class LineTouchTooltipData with EquatableMixin {
   final bool fitInsideVertically;
 
   /// Forces the tooltip container to top of the line, default 'false'
-  final bool tooltipBoxTopPositioned;
+  final bool showOnTopOfTheChartBoxArea;
 
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
@@ -1503,7 +1503,7 @@ class LineTouchTooltipData with EquatableMixin {
     GetLineTooltipItems getTooltipItems,
     bool fitInsideHorizontally,
     bool fitInsideVertically,
-    bool tooltipBoxTopPositioned,
+    bool showOnTopOfTheChartBoxArea,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -1512,7 +1512,7 @@ class LineTouchTooltipData with EquatableMixin {
         getTooltipItems = getTooltipItems ?? defaultLineTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
-        tooltipBoxTopPositioned = tooltipBoxTopPositioned ?? false,
+        showOnTopOfTheChartBoxArea = showOnTopOfTheChartBoxArea ?? false,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -1526,7 +1526,7 @@ class LineTouchTooltipData with EquatableMixin {
         getTooltipItems,
         fitInsideHorizontally,
         fitInsideVertically,
-        tooltipBoxTopPositioned,
+        showOnTopOfTheChartBoxArea,
       ];
 }
 
