@@ -1,4 +1,4 @@
-## new version
+## 0.11.1
 * [Bugfix] Fixed drawing BarChart rods with providing minY (for positive), maxY (for negative) values bug, #404.
 * [Bugfix] Fixed example app build fail error, by upgrading flutter_svg package to `0.18.1`
 
