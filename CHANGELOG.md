@@ -1,3 +1,6 @@
+## new version
+* [Bugfix] Fixed drawing BarChart rods with providing minY (for positive), maxY (for negative) values bug, #404.
+
 ## 0.11.0
 * [Bugfix] Prevent show ScatterSpot if show is false, #385.
 * [Improvement] Set default centerSpaceRadius to double.infinity in [PieChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartdata), #384.
