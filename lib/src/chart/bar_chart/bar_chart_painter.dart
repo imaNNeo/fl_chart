@@ -206,7 +206,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         if (barRod.backDrawRodData.show && barRod.backDrawRodData.y != 0) {
           if (barRod.backDrawRodData.y > 0) {
             // positive
-            final bottom = getPixelY(0, drawSize);
+            final bottom = getPixelY(max(data.minY, 0), drawSize);
             final top = min(getPixelY(barRod.backDrawRodData.y, drawSize), bottom - cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
@@ -216,7 +216,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomRight: borderRadius.bottomRight);
           } else {
             // negative
-            final top = getPixelY(0, drawSize);
+            final top = getPixelY(min(data.maxY, 0), drawSize);
             final bottom = max(getPixelY(barRod.backDrawRodData.y, drawSize), top + cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
@@ -234,7 +234,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         if (barRod.y != 0) {
           if (barRod.y > 0) {
             // positive
-            final bottom = getPixelY(0, drawSize);
+            final bottom = getPixelY(max(data.minY, 0), drawSize);
             final top = min(getPixelY(barRod.y, drawSize), bottom - cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
@@ -244,7 +244,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomRight: borderRadius.bottomRight);
           } else {
             // negative
-            final top = getPixelY(0, drawSize);
+            final top = getPixelY(min(data.maxY, 0), drawSize);
             final bottom = max(getPixelY(barRod.y, drawSize), top + cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
