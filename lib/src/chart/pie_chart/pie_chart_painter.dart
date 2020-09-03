@@ -12,6 +12,8 @@ import 'pie_chart_data.dart';
 class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<PieTouchResponse> {
   Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
+  GetTitleOffsetsFunction _titleOffsetsProvider;
+
   /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
@@ -23,10 +25,20 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler) touchHandler,
-      {double textScale})
-      : super(data, targetData, textScale: textScale) {
+  PieChartPainter(
+    PieChartData data,
+    PieChartData targetData,
+    Function(TouchHandler) touchHandler, {
+    double textScale,
+    GetTitleOffsetsFunction titleOffsetsProvider,
+  }) : super(
+          data,
+          targetData,
+          textScale: textScale,
+        ) {
     touchHandler(this);
+
+    _titleOffsetsProvider = titleOffsetsProvider;
 
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -154,8 +166,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
   void _drawTexts(Canvas canvas, Size viewSize) {
     final Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
+    final Map<int, Offset> titleOffsets = <int, Offset>{};
 
     double tempAngle = data.startDegreeOffset;
+
     for (int i = 0; i < data.sections.length; i++) {
       final PieChartSectionData section = data.sections[i];
       final double startAngle = tempAngle;
@@ -178,11 +192,21 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
             textAlign: TextAlign.center,
             textDirection: TextDirection.ltr,
             textScaleFactor: textScale);
+
         tp.layout();
-        tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));
+
+        final Offset tpOffset = sectionCenterOffset - Offset(tp.width / 2, tp.height / 2);
+
+        tp.paint(canvas, tpOffset);
+
+        if (section.titleWidget != null) {
+          titleOffsets[i] = tpOffset;
+        }
       }
 
       tempAngle += sweepAngle;
+
+      _titleOffsetsProvider(titleOffsets);
     }
   }
 

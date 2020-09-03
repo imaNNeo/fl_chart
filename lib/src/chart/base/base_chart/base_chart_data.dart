@@ -147,6 +147,8 @@ TextStyle defaultGetTitleTextStyle(double value) {
   );
 }
 
+typedef GetTitleOffsetsFunction = void Function(Map<int, Offset> offsetsMap);
+
 /// This class holds the touch response details.
 ///
 /// Specific touch details should be hold on the concrete child classes.

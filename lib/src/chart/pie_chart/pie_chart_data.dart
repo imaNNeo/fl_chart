@@ -141,6 +141,8 @@ class PieChartSectionData with EquatableMixin {
   /// Defines text of showing title at the middle of section.
   final String title;
 
+  final Widget titleWidget;
+
   /// Defines position of showing title in the section.
   ///
   /// It should be between 0.0 to 1.0,
@@ -169,6 +171,7 @@ class PieChartSectionData with EquatableMixin {
     bool showTitle,
     TextStyle titleStyle,
     String title,
+    Widget titleWidget,
     double titlePositionPercentageOffset,
   })  : value = value ?? 10,
         color = color ?? Colors.red,
@@ -176,7 +179,8 @@ class PieChartSectionData with EquatableMixin {
         showTitle = showTitle ?? true,
         titleStyle = titleStyle ??
             const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-        title = title ?? '1',
+        title = titleWidget != null ? '' : (title ?? value.toString()),
+        titleWidget = titleWidget,
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5;
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
@@ -188,6 +192,7 @@ class PieChartSectionData with EquatableMixin {
     bool showTitle,
     TextStyle titleStyle,
     String title,
+    Widget titleWidget,
     double titlePositionPercentageOffset,
   }) {
     return PieChartSectionData(
@@ -197,6 +202,7 @@ class PieChartSectionData with EquatableMixin {
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
       title: title ?? this.title,
+      titleWidget: titleWidget ?? this.titleWidget,
       titlePositionPercentageOffset:
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
     );
@@ -211,6 +217,7 @@ class PieChartSectionData with EquatableMixin {
       showTitle: b.showTitle,
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
       title: b.title,
+      titleWidget: b.titleWidget,
       titlePositionPercentageOffset:
           lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
     );
@@ -225,6 +232,7 @@ class PieChartSectionData with EquatableMixin {
         showTitle,
         titleStyle,
         title,
+        titleWidget,
         titlePositionPercentageOffset,
       ];
 }

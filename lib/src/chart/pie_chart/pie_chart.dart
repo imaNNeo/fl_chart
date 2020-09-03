@@ -32,8 +32,18 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   /// this is used to map the touch events to [PieTouchResponse]
   TouchHandler _touchHandler;
 
+  Map<int, Offset> _titleWidgetOffsets = <int, Offset>{};
+
   /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +134,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           touchData.touchCallback(response);
         }
       },
-      child: CustomPaint(
+
+      /* child: CustomPaint(
         key: _chartKey,
         size: getDefaultSize(MediaQuery.of(context).size),
         painter: PieChartPainter(
@@ -137,6 +148,48 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           },
           textScale: MediaQuery.of(context).textScaleFactor,
         ),
+      ), */
+
+      child: CustomPaint(
+        key: _chartKey,
+        size: getDefaultSize(MediaQuery.of(context).size),
+        painter: PieChartPainter(
+          _pieChartDataTween.evaluate(animation),
+          showingData,
+          (touchHandler) {
+            setState(() {
+              _touchHandler = touchHandler;
+            });
+          },
+          textScale: MediaQuery.of(context).textScaleFactor,
+          titleOffsetsProvider: (offsetsMap) {
+            _titleWidgetOffsets = Map.from(offsetsMap);
+          },
+        ),
+        child: _titleWidgetOffsets.isEmpty
+            ? null
+            : Container(
+                child: CustomMultiChildLayout(
+                  delegate: TitleWidgetsDelegate(
+                    titleWidgetsCount: _titleWidgetOffsets.length,
+                    titleWidgetsOffsets: _titleWidgetOffsets,
+                  ),
+                  children: [
+                    ...List.generate(
+                      _titleWidgetOffsets.length,
+                      (index) {
+                        final int _key = _titleWidgetOffsets.keys.elementAt(index);
+                        final Widget _titleWidget = widget.data.sections[_key].titleWidget;
+
+                        return LayoutId(
+                          id: _key,
+                          child: _titleWidget ?? Container(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -166,5 +219,40 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
       widget.data,
       (dynamic value) => PieChartDataTween(begin: value),
     );
+  }
+}
+
+class TitleWidgetsDelegate extends MultiChildLayoutDelegate {
+  final int titleWidgetsCount;
+  final Map<int, Offset> titleWidgetsOffsets;
+
+  TitleWidgetsDelegate({
+    this.titleWidgetsCount,
+    this.titleWidgetsOffsets,
+  });
+
+  @override
+  void performLayout(Size size) {
+    for (int index = 0; index < titleWidgetsCount; index++) {
+      final int _key = titleWidgetsOffsets.keys.elementAt(index);
+
+      layoutChild(
+        _key,
+        BoxConstraints(
+          maxWidth: size.width,
+          maxHeight: size.height,
+        ),
+      );
+
+      positionChild(
+        _key,
+        titleWidgetsOffsets[_key],
+      );
+    }
+  }
+
+  @override
+  bool shouldRelayout(TitleWidgetsDelegate oldDelegate) {
+    return oldDelegate.titleWidgetsOffsets != titleWidgetsOffsets;
   }
 }
