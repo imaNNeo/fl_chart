@@ -317,18 +317,22 @@ class BarChartRodData with EquatableMixin {
 
   /// if you pass just one color, the solid color will be used,
   /// or if you pass more than one color, we use gradient mode to draw.
-  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
+  /// then the [gradientFrom], [gradientTo] and [colorStops] is important,
   final List<Color> colors;
 
-  /// if the gradient mode is enabled (if you have more than one color)
-  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
-  /// you can determine where the gradient should start and end.
-  final Alignment gradientFrom;
-  final Alignment gradientTo;
+  /// Determines the start point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientFrom;
+
+  /// Determines the end point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientTo;
 
   /// if more than one color provided gradientColorStops will hold
   /// stop points of the gradient.
-  final List<double> gradientColorStops;
+  final List<double> colorStops;
 
   /// [BarChart] renders each rods with this value.
   final double width;
@@ -371,18 +375,18 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData({
     double y,
     List<Color> colors,
-    Alignment gradientFrom,
-    Alignment gradientTo,
+    Offset gradientFrom,
+    Offset gradientTo,
     List<double> gradientColorStops,
     double width,
     BorderRadius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
     List<BarChartRodStackItem> rodStackItems,
   })  : y = y,
-        colors = colors ?? [Colors.blueGrey],
-        gradientFrom = gradientFrom ?? Alignment.topCenter,
-        gradientTo = gradientTo ?? Alignment.bottomCenter,
-        gradientColorStops = gradientColorStops,
+        colors = colors ?? [Colors.blueAccent],
+        gradientFrom = gradientFrom ?? const Offset(0, 0),
+        gradientTo = gradientTo ?? const Offset(1, 0),
+        colorStops = gradientColorStops,
         width = width ?? 8,
         borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
@@ -395,7 +399,7 @@ class BarChartRodData with EquatableMixin {
     List<Color> colors,
     Offset gradientFrom,
     Offset gradientTo,
-    List<double> gradientColorStops,
+    List<double> colorStops,
     double width,
     Radius borderRadius,
     BackgroundBarChartRodData backDrawRodData,
@@ -406,7 +410,7 @@ class BarChartRodData with EquatableMixin {
       colors: colors ?? this.colors,
       gradientFrom: gradientFrom ?? this.gradientFrom,
       gradientTo: gradientTo ?? this.gradientTo,
-      gradientColorStops: gradientColorStops ?? this.gradientColorStops,
+      gradientColorStops: colorStops ?? this.colorStops,
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
@@ -417,10 +421,10 @@ class BarChartRodData with EquatableMixin {
   /// Lerps a [BarChartRodData] based on [t] value, check [Tween.lerp].
   static BarChartRodData lerp(BarChartRodData a, BarChartRodData b, double t) {
     return BarChartRodData(
-      gradientFrom: Alignment.lerp(a.gradientFrom, b.gradientFrom, t),
-      gradientTo: Alignment.lerp(a.gradientTo, b.gradientTo, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       colors: lerpColorList(a.colors, b.colors, t),
-      gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+      gradientColorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       y: lerpDouble(a.y, b.y, t),
@@ -440,7 +444,7 @@ class BarChartRodData with EquatableMixin {
         colors,
         gradientFrom,
         gradientTo,
-        gradientColorStops,
+        colorStops,
       ];
 }
 
@@ -519,18 +523,22 @@ class BackgroundBarChartRodData with EquatableMixin {
 
   /// if you pass just one color, the solid color will be used,
   /// or if you pass more than one color, we use gradient mode to draw.
-  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
+  /// then the [gradientFrom], [gradientTo] and [colorStops] is important,
   final List<Color> colors;
 
-  /// if the gradient mode is enabled (if you have more than one color)
-  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
-  /// you can determine where the gradient should start and end.
-  final Alignment gradientFrom;
-  final Alignment gradientTo;
+  /// Determines the start point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientFrom;
+
+  /// Determines the end point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientTo;
 
   /// if more than one color provided gradientColorStops will hold
   /// stop points of the gradient.
-  final List<double> gradientColorStops;
+  final List<double> colorStops;
 
   /// It will be rendered in rear of the main rod,
   /// with [y] as the height, and [color] as the fill color,
@@ -539,25 +547,25 @@ class BackgroundBarChartRodData with EquatableMixin {
     double y,
     bool show,
     List<Color> colors,
-    Alignment gradientFrom,
-    Alignment gradientTo,
-    List<double> gradientColorStops,
+    Offset gradientFrom,
+    Offset gradientTo,
+    List<double> colorStops,
   })  : y = y ?? 8,
         show = show ?? false,
-        colors = colors ?? [Colors.blueAccent],
-        gradientFrom = gradientFrom,
-        gradientTo = gradientTo,
-        gradientColorStops = gradientColorStops;
+        colors = colors ?? [Colors.blueGrey],
+        gradientFrom = gradientFrom ?? const Offset(0, 0),
+        gradientTo = gradientTo ?? const Offset(1, 0),
+        colorStops = colorStops;
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
   static BackgroundBarChartRodData lerp(
       BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
       y: lerpDouble(a.y, b.y, t),
-      gradientFrom: Alignment.lerp(a.gradientFrom, b.gradientFrom, t),
-      gradientTo: Alignment.lerp(a.gradientTo, b.gradientTo, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       colors: lerpColorList(a.colors, b.colors, t),
-      gradientColorStops: lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+      colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       show: b.show,
     );
   }
@@ -570,7 +578,7 @@ class BackgroundBarChartRodData with EquatableMixin {
         colors,
         gradientTo,
         gradientFrom,
-        gradientColorStops,
+        colorStops,
       ];
 }
 

@@ -1,10 +1,10 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
-import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -227,16 +227,24 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomRight: borderRadius.bottomRight);
           }
 
-          if (barRod.backDrawRodData.colors.length > 1) {
-            final rect = barRRect.getRect();
-            _barPaint.shader = LinearGradient(
-              colors: barRod.backDrawRodData.colors,
-              begin: barRod.backDrawRodData.gradientFrom,
-              end: barRod.backDrawRodData.gradientTo,
-              stops: barRod.backDrawRodData.gradientColorStops,
-            ).createShader(rect);
-          } else {
+          if (barRod.backDrawRodData.colors.length == 1) {
             _barPaint.color = barRod.backDrawRodData.colors[0];
+            _barPaint.shader = null;
+          } else {
+            final from = barRod.backDrawRodData.gradientFrom;
+            final to = barRod.backDrawRodData.gradientTo;
+            _barPaint.shader = ui.Gradient.linear(
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * from.dx),
+                getTopOffsetDrawSize() + (drawSize.height * from.dy),
+              ),
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * to.dx),
+                getTopOffsetDrawSize() + (drawSize.height * to.dy),
+              ),
+              barRod.backDrawRodData.colors,
+              barRod.backDrawRodData.colorStops,
+            );
           }
 
           canvas.drawRRect(barRRect, _barPaint);
@@ -267,14 +275,22 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           }
           if (barRod.colors.length == 1) {
             _barPaint.color = barRod.colors[0];
+            _barPaint.shader = null;
           } else {
-            final rect = barRRect.getRect();
-            _barPaint.shader = LinearGradient(
-              colors: barRod.colors,
-              begin: barRod.gradientFrom,
-              end: barRod.gradientTo,
-              stops: barRod.gradientColorStops,
-            ).createShader(rect);
+            final from = barRod.gradientFrom;
+            final to = barRod.gradientTo;
+            _barPaint.shader = ui.Gradient.linear(
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * from.dx),
+                getTopOffsetDrawSize() + (drawSize.height * from.dy),
+              ),
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * to.dx),
+                getTopOffsetDrawSize() + (drawSize.height * to.dy),
+              ),
+              barRod.colors,
+              barRod.colorStops,
+            );
           }
           canvas.drawRRect(barRRect, _barPaint);
 
