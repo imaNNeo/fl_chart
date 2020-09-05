@@ -9,6 +9,7 @@ import 'pie_chart_data.dart';
 
 /// Renders a pie chart as a widget, using provided [PieChartData].
 class PieChart extends ImplicitlyAnimatedWidget {
+  /// Default duration to reuse externally.
   static const defaultDuration = Duration(milliseconds: 150);
 
   /// Determines how the [PieChart] should be look like.
@@ -28,20 +29,22 @@ class PieChart extends ImplicitlyAnimatedWidget {
 }
 
 class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
-  /// we handle under the hood animations (implicit animations) via this tween,
+  /// We handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [PieChartData] to the new one.
   PieChartDataTween _pieChartDataTween;
 
-  /// this is used to map the touch events to [PieTouchResponse]
+  /// This is used to map the touch events to [PieTouchResponse]
   TouchHandler _touchHandler;
 
-  Map<int, Offset> _titleWidgetOffsets = <int, Offset>{};
+  /// For storing the badge widgets' offsets.
+  Map<int, Offset> _badgeWidgetsOffsets = <int, Offset>{};
 
   /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
 
   @override
   void initState() {
+    /// Make sure that [_badgeWidgetsOffsets] is updated.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {});
     });
@@ -149,28 +152,33 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
             });
           },
           textScale: MediaQuery.of(context).textScaleFactor,
-          titleOffsetsProvider: (offsetsMap) {
-            _titleWidgetOffsets = Map.from(offsetsMap);
+          badgeWidgetsOffsetsProvider: (offsetsMap) {
+            /// Store badge widget offsets from painter.
+            _badgeWidgetsOffsets = Map.from(offsetsMap);
           },
         ),
-        child: _titleWidgetOffsets.isEmpty
+        child: _badgeWidgetsOffsets.isEmpty
             ? null
             : Container(
                 child: CustomMultiChildLayout(
-                  delegate: TitleWidgetsDelegate(
-                    titleWidgetsCount: _titleWidgetOffsets.length,
-                    titleWidgetsOffsets: _titleWidgetOffsets,
+                  delegate: BadgeWidgetsDelegate(
+                    badgeWidgetsCount: _badgeWidgetsOffsets.length,
+                    badgeWidgetsOffsets: _badgeWidgetsOffsets,
                   ),
                   children: [
                     ...List.generate(
-                      _titleWidgetOffsets.length,
+                      _badgeWidgetsOffsets.length,
                       (index) {
-                        final int _key = _titleWidgetOffsets.keys.elementAt(index);
-                        final Widget _titleWidget = widget.data.sections[_key].titleWidget;
+                        final int _key = _badgeWidgetsOffsets.keys.elementAt(index);
+                        final Widget _badgeWidget = widget.data.sections[_key].badgeWidget;
+
+                        if (_badgeWidget == null) {
+                          return null;
+                        }
 
                         return LayoutId(
                           id: _key,
-                          child: _titleWidget ?? Container(),
+                          child: _badgeWidget,
                         );
                       },
                     ),
@@ -209,19 +217,20 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   }
 }
 
-class TitleWidgetsDelegate extends MultiChildLayoutDelegate {
-  final int titleWidgetsCount;
-  final Map<int, Offset> titleWidgetsOffsets;
+/// Positions the badge widgets on their respective sections.
+class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
+  final int badgeWidgetsCount;
+  final Map<int, Offset> badgeWidgetsOffsets;
 
-  TitleWidgetsDelegate({
-    this.titleWidgetsCount,
-    this.titleWidgetsOffsets,
+  BadgeWidgetsDelegate({
+    this.badgeWidgetsCount,
+    this.badgeWidgetsOffsets,
   });
 
   @override
   void performLayout(Size size) {
-    for (int index = 0; index < titleWidgetsCount; index++) {
-      final int _key = titleWidgetsOffsets.keys.elementAt(index);
+    for (int index = 0; index < badgeWidgetsCount; index++) {
+      final int _key = badgeWidgetsOffsets.keys.elementAt(index);
 
       final Size _size = layoutChild(
         _key,
@@ -234,15 +243,15 @@ class TitleWidgetsDelegate extends MultiChildLayoutDelegate {
       positionChild(
         _key,
         Offset(
-          titleWidgetsOffsets[_key].dx - (_size.width / 2),
-          titleWidgetsOffsets[_key].dy - (_size.height / 2),
+          badgeWidgetsOffsets[_key].dx - (_size.width / 2),
+          badgeWidgetsOffsets[_key].dy - (_size.height / 2),
         ),
       );
     }
   }
 
   @override
-  bool shouldRelayout(TitleWidgetsDelegate oldDelegate) {
-    return oldDelegate.titleWidgetsOffsets != titleWidgetsOffsets;
+  bool shouldRelayout(BadgeWidgetsDelegate oldDelegate) {
+    return oldDelegate.badgeWidgetsOffsets != badgeWidgetsOffsets;
   }
 }

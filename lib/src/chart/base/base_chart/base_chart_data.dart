@@ -147,7 +147,8 @@ TextStyle defaultGetTitleTextStyle(double value) {
   );
 }
 
-typedef GetTitleOffsetsFunction = void Function(Map<int, Offset> offsetsMap);
+/// The signature for a callback that provides a map of position offsets.
+typedef GetPositionOffsetsFunction = void Function(Map<int, Offset> offsetsMap);
 
 /// This class holds the touch response details.
 ///

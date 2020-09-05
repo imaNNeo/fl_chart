@@ -12,7 +12,8 @@ import 'pie_chart_data.dart';
 class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<PieTouchResponse> {
   Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
-  GetTitleOffsetsFunction _titleOffsetsProvider;
+  /// A callback that provides position offsets for the badge widgets.
+  GetPositionOffsetsFunction _badgeWidgetsOffsetsProvider;
 
   /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
@@ -30,7 +31,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
     PieChartData targetData,
     Function(TouchHandler) touchHandler, {
     double textScale,
-    GetTitleOffsetsFunction titleOffsetsProvider,
+    GetPositionOffsetsFunction badgeWidgetsOffsetsProvider,
   }) : super(
           data,
           targetData,
@@ -38,7 +39,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
         ) {
     touchHandler(this);
 
-    _titleOffsetsProvider = titleOffsetsProvider;
+    _badgeWidgetsOffsetsProvider = badgeWidgetsOffsetsProvider;
 
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -166,7 +167,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
   void _drawTexts(Canvas canvas, Size viewSize) {
     final Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
-    final Map<int, Offset> titleOffsets = <int, Offset>{};
+    final Map<int, Offset> badgeWidgetsOffsets = <int, Offset>{};
 
     double tempAngle = data.startDegreeOffset;
 
@@ -175,23 +176,25 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       final double startAngle = tempAngle;
       final double sweepAngle = 360 * (section.value / data.sumValue);
       final double sectionCenterAngle = startAngle + (sweepAngle / 2);
-      final Offset sectionCenterOffset = center +
+
+      Offset sectionCenter(double percentageOffset) =>
+          center +
           Offset(
             math.cos(radians(sectionCenterAngle)) *
                 (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
-                    (section.radius * section.titlePositionPercentageOffset)),
+                    (section.radius * percentageOffset)),
             math.sin(radians(sectionCenterAngle)) *
                 (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
-                    (section.radius * section.titlePositionPercentageOffset)),
+                    (section.radius * percentageOffset)),
           );
 
-      if (section.showTitle) {
-        final bool hasTitleWidget = section.titleWidget != null;
+      final Offset sectionCenterOffsetTitle = sectionCenter(section.titlePositionPercentageOffset);
+      final Offset sectionCenterOffsetBadgeWidget =
+          sectionCenter(section.badgePositionPercentageOffset);
 
+      if (section.showTitle) {
         final TextSpan span = TextSpan(
-          style: section.titleStyle.copyWith(
-            fontSize: hasTitleWidget ? 0 : section.titleStyle.fontSize,
-          ),
+          style: section.titleStyle,
           text: section.title,
         );
         final TextPainter tp = TextPainter(
@@ -201,18 +204,17 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
             textScaleFactor: textScale);
 
         tp.layout();
+        tp.paint(canvas, sectionCenterOffsetTitle - Offset(tp.width / 2, tp.height / 2));
+      }
 
-        tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));
-
-        if (hasTitleWidget) {
-          titleOffsets[i] = sectionCenterOffset;
-        }
+      if (section.badgeWidget != null) {
+        badgeWidgetsOffsets[i] = sectionCenterOffsetBadgeWidget;
       }
 
       tempAngle += sweepAngle;
-
-      _titleOffsetsProvider(titleOffsets);
     }
+
+    _badgeWidgetsOffsetsProvider(badgeWidgetsOffsets);
   }
 
   double _calculateCenterRadius(Size viewSize, double givenCenterRadius) {

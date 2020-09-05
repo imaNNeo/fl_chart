@@ -54,7 +54,7 @@ class PieChartSample3State extends State {
             color: const Color(0xff0293ee),
             value: 40,
             title: '40%',
-            titleWidget: AnimatedContainer(
+            badgeWidget: AnimatedContainer(
               duration: PieChart.defaultDuration,
               width: widgetSize,
               height: widgetSize,
@@ -63,7 +63,7 @@ class PieChartSample3State extends State {
                 shape: BoxShape.circle,
               ),
             ),
-            titlePositionPercentageOffset: .98,
+            badgePositionPercentageOffset: .98,
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
@@ -82,16 +82,16 @@ class PieChartSample3State extends State {
             color: const Color(0xff845bef),
             value: 16,
             title: '16%',
-            titleWidget: AnimatedContainer(
+            badgeWidget: AnimatedContainer(
               duration: PieChart.defaultDuration,
               width: widgetSize,
               height: widgetSize,
               decoration: const BoxDecoration(
-                color: Colors.yellow,
+                color: Colors.red,
                 shape: BoxShape.circle,
               ),
             ),
-            titlePositionPercentageOffset: .98,
+            badgePositionPercentageOffset: .98,
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
