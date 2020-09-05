@@ -186,7 +186,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
           );
 
       if (section.showTitle) {
-        final TextSpan span = TextSpan(style: section.titleStyle, text: section.title);
+        final bool hasTitleWidget = section.titleWidget != null;
+
+        final TextSpan span = TextSpan(
+          style: section.titleStyle.copyWith(
+            fontSize: hasTitleWidget ? 0 : section.titleStyle.fontSize,
+          ),
+          text: section.title,
+        );
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
@@ -195,12 +202,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
         tp.layout();
 
-        final Offset tpOffset = sectionCenterOffset - Offset(tp.width / 2, tp.height / 2);
+        tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));
 
-        tp.paint(canvas, tpOffset);
-
-        if (section.titleWidget != null) {
-          titleOffsets[i] = tpOffset;
+        if (hasTitleWidget) {
+          titleOffsets[i] = sectionCenterOffset;
         }
       }
 

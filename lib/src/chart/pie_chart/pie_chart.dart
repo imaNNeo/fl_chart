@@ -1,13 +1,16 @@
+import 'package:flutter/material.dart';
+
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 import 'pie_chart_data.dart';
 
 /// Renders a pie chart as a widget, using provided [PieChartData].
 class PieChart extends ImplicitlyAnimatedWidget {
+  static const defaultDuration = Duration(milliseconds: 150);
+
   /// Determines how the [PieChart] should be look like.
   final PieChartData data;
 
@@ -16,7 +19,7 @@ class PieChart extends ImplicitlyAnimatedWidget {
   /// new values with animation, and duration is [swapAnimationDuration].
   const PieChart(
     this.data, {
-    Duration swapAnimationDuration = const Duration(milliseconds: 150),
+    Duration swapAnimationDuration = defaultDuration,
   }) : super(duration: swapAnimationDuration);
 
   /// Creates a [_PieChartState]
@@ -134,22 +137,6 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           touchData.touchCallback(response);
         }
       },
-
-      /* child: CustomPaint(
-        key: _chartKey,
-        size: getDefaultSize(MediaQuery.of(context).size),
-        painter: PieChartPainter(
-          _pieChartDataTween.evaluate(animation),
-          showingData,
-          (touchHandler) {
-            setState(() {
-              _touchHandler = touchHandler;
-            });
-          },
-          textScale: MediaQuery.of(context).textScaleFactor,
-        ),
-      ), */
-
       child: CustomPaint(
         key: _chartKey,
         size: getDefaultSize(MediaQuery.of(context).size),
@@ -236,7 +223,7 @@ class TitleWidgetsDelegate extends MultiChildLayoutDelegate {
     for (int index = 0; index < titleWidgetsCount; index++) {
       final int _key = titleWidgetsOffsets.keys.elementAt(index);
 
-      layoutChild(
+      final Size _size = layoutChild(
         _key,
         BoxConstraints(
           maxWidth: size.width,
@@ -246,7 +233,10 @@ class TitleWidgetsDelegate extends MultiChildLayoutDelegate {
 
       positionChild(
         _key,
-        titleWidgetsOffsets[_key],
+        Offset(
+          titleWidgetsOffsets[_key].dx - (_size.width / 2),
+          titleWidgetsOffsets[_key].dy - (_size.height / 2),
+        ),
       );
     }
   }

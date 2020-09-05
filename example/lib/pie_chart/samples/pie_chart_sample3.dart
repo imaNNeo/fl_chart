@@ -46,6 +46,7 @@ class PieChartSample3State extends State {
       final isTouched = i == touchedIndex;
       final double fontSize = isTouched ? 25 : 16;
       final double radius = isTouched ? 110 : 100;
+      final double widgetSize = isTouched ? 55 : 40;
 
       switch (i) {
         case 0:
@@ -53,12 +54,16 @@ class PieChartSample3State extends State {
             color: const Color(0xff0293ee),
             value: 40,
             title: '40%',
-            titleWidget: Container(
-              color: Colors.red.withOpacity(.5),
-              width: 20,
-              height: 20,
+            titleWidget: AnimatedContainer(
+              duration: PieChart.defaultDuration,
+              width: widgetSize,
+              height: widgetSize,
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
             ),
-            // titlePositionPercentageOffset: 1.2,
+            titlePositionPercentageOffset: .98,
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
@@ -77,11 +82,16 @@ class PieChartSample3State extends State {
             color: const Color(0xff845bef),
             value: 16,
             title: '16%',
-            titleWidget: Container(
-              color: Colors.yellow.withOpacity(.5),
-              width: 25,
-              height: 25,
+            titleWidget: AnimatedContainer(
+              duration: PieChart.defaultDuration,
+              width: widgetSize,
+              height: widgetSize,
+              decoration: const BoxDecoration(
+                color: Colors.yellow,
+                shape: BoxShape.circle,
+              ),
             ),
+            titlePositionPercentageOffset: .98,
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
