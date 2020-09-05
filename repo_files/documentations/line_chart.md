@@ -179,6 +179,7 @@ LineChart(
  |getTooltipItems|a callback that retrieve list of [LineTooltipItem](#LineTooltipItem) by the given list of [LineBarSpot](#LineBarSpot) |defaultLineTooltipItem|
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
+ |showOnTopOfTheChartBoxArea| forces the tooltip container to top of the line| false|
 
 ### LineTooltipItem
 |PropName|Description|default value|
