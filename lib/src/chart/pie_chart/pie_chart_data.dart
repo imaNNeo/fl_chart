@@ -141,7 +141,10 @@ class PieChartSectionData with EquatableMixin {
   /// Defines text of showing title at the middle of section.
   final String title;
 
-  /// Defines widget of badge widget at the middle of section.
+  /// Defines a widget that represents the section.
+  ///
+  /// This can be anything from a text, an image, an animation, and even a combination of widgets.
+  /// Use AnimatedWidgets to animate this widget.
   final Widget badgeWidget;
 
   /// Defines position of showing title in the section.
