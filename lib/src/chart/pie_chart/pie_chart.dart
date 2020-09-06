@@ -159,31 +159,29 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         ),
         child: _badgeWidgetsOffsets.isEmpty
             ? null
-            : Container(
-                child: CustomMultiChildLayout(
-                  delegate: BadgeWidgetsDelegate(
-                    badgeWidgetsCount: _badgeWidgetsOffsets.length,
-                    badgeWidgetsOffsets: _badgeWidgetsOffsets,
-                  ),
-                  children: [
-                    ...List.generate(
-                      _badgeWidgetsOffsets.length,
-                      (index) {
-                        final int _key = _badgeWidgetsOffsets.keys.elementAt(index);
-                        final Widget _badgeWidget = widget.data.sections[_key].badgeWidget;
-
-                        if (_badgeWidget == null) {
-                          return null;
-                        }
-
-                        return LayoutId(
-                          id: _key,
-                          child: _badgeWidget,
-                        );
-                      },
-                    ),
-                  ],
+            : CustomMultiChildLayout(
+                delegate: BadgeWidgetsDelegate(
+                  badgeWidgetsCount: _badgeWidgetsOffsets.length,
+                  badgeWidgetsOffsets: _badgeWidgetsOffsets,
                 ),
+                children: [
+                  ...List.generate(
+                    _badgeWidgetsOffsets.length,
+                    (index) {
+                      final int _key = _badgeWidgetsOffsets.keys.elementAt(index);
+                      final Widget _badgeWidget = widget.data.sections[_key].badgeWidget;
+
+                      if (_badgeWidget == null) {
+                        return null;
+                      }
+
+                      return LayoutId(
+                        id: _key,
+                        child: _badgeWidget,
+                      );
+                    },
+                  ),
+                ],
               ),
       ),
     );
