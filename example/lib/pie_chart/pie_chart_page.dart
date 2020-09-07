@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'samples/pie_chart_sample1.dart';
 import 'samples/pie_chart_sample2.dart';
+import 'samples/pie_chart_sample3.dart';
 
 class PieChartPage extends StatelessWidget {
   final Color barColor = Colors.white;
@@ -39,6 +40,10 @@ class PieChartPage extends StatelessWidget {
               height: 12,
             ),
             PieChartSample2(),
+            const SizedBox(
+              height: 12,
+            ),
+            PieChartSample3(),
           ],
         ),
       ),

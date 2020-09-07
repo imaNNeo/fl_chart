@@ -65,7 +65,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
     _drawCenterSpace(canvas, size);
     _drawSections(canvas, size, sectionsAngle);
-    _drawTexts(canvas, size);
+    _calculateOverlays(canvas, size);
   }
 
   List<double> _calculateSectionsAngle(List<PieChartSectionData> sections, double sumValue) {
@@ -165,7 +165,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
     canvas.restore();
   }
 
-  void _drawTexts(Canvas canvas, Size viewSize) {
+  /// Calculates layout of overlaying elements, includes:
+  /// - title text
+  /// - badge widget positions
+  void _calculateOverlays(Canvas canvas, Size viewSize) {
     final Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
     final Map<int, Offset> badgeWidgetsOffsets = <int, Offset>{};
 
