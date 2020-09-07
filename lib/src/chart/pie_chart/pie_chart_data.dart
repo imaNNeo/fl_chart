@@ -175,6 +175,11 @@ class PieChartSectionData with EquatableMixin {
   /// it should be between 0.0 to 1.0,
   /// 0.0 means near the center,
   /// 1.0 means near the outside of the [PieChart].
+  ///
+  /// If [badgeWidget] is not null, it draws a widget at the middle of section,
+  /// by default it draws the widget at the middle of section, but you can change the
+  /// [badgePositionPercentageOffset] to have your desire design,
+  /// the value works the same way as [titlePositionPercentageOffset].
   PieChartSectionData({
     double value,
     Color color,
