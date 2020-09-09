@@ -244,7 +244,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
       double sectionAngle = sectionsAngle[i];
 
       tempAngle %= 360;
-      if (data.sections.length == 1) {
+      bool onlyOne = (data.sections.length == 1);
+      int numOfNonZeroSec = 0;
+      data.sections.forEach((s) { numOfNonZeroSec += (s.value > 0.0) ? 1 : 0 });
+      if (onlyOne || (numOfNonZeroSec < 2)) {
         sectionAngle = 360;
       } else {
         sectionAngle %= 360;
