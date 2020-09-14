@@ -129,6 +129,9 @@ class PieChartSectionData with EquatableMixin {
   /// Defines the color of section.
   final Color color;
 
+  /// Defines the gradient color of section
+  final Gradient gradient;
+
   /// Defines the radius of section.
   final double radius;
 
@@ -165,6 +168,7 @@ class PieChartSectionData with EquatableMixin {
   PieChartSectionData({
     double value,
     Color color,
+    Gradient gradient,
     double radius,
     bool showTitle,
     TextStyle titleStyle,
@@ -172,6 +176,7 @@ class PieChartSectionData with EquatableMixin {
     double titlePositionPercentageOffset,
   })  : value = value ?? 10,
         color = color ?? Colors.red,
+        gradient = gradient ?? LinearGradient(colors: [color ?? Colors.red, color ?? Colors.red]),
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
         titleStyle = titleStyle ??
@@ -184,6 +189,7 @@ class PieChartSectionData with EquatableMixin {
   PieChartSectionData copyWith({
     double value,
     Color color,
+    Gradient gradient,
     double radius,
     bool showTitle,
     TextStyle titleStyle,
@@ -193,6 +199,7 @@ class PieChartSectionData with EquatableMixin {
     return PieChartSectionData(
       value: value ?? this.value,
       color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
       radius: radius ?? this.radius,
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
