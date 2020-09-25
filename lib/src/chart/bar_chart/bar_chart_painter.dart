@@ -233,6 +233,19 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           } else {
             final from = barRod.backDrawRodData.gradientFrom;
             final to = barRod.backDrawRodData.gradientTo;
+
+            List<double> stops = [];
+            if (barRod.backDrawRodData.colorStops == null ||
+                barRod.backDrawRodData.colorStops.length != barRod.backDrawRodData.colors.length) {
+              /// provided colorStops is invalid and we calculate it here
+              barRod.backDrawRodData.colors.asMap().forEach((index, color) {
+                final percent = 1.0 / barRod.backDrawRodData.colors.length;
+                stops.add(percent * index);
+              });
+            } else {
+              stops = barRod.backDrawRodData.colorStops;
+            }
+
             _barPaint.shader = ui.Gradient.linear(
               Offset(
                 getLeftOffsetDrawSize() + (drawSize.width * from.dx),
@@ -243,7 +256,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 getTopOffsetDrawSize() + (drawSize.height * to.dy),
               ),
               barRod.backDrawRodData.colors,
-              barRod.backDrawRodData.colorStops,
+              stops,
             );
           }
 
@@ -279,6 +292,19 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           } else {
             final from = barRod.gradientFrom;
             final to = barRod.gradientTo;
+
+            List<double> stops = [];
+            if (barRod.colorStops == null ||
+                barRod.colorStops.length != barRod.colors.length) {
+              /// provided colorStops is invalid and we calculate it here
+              barRod.colors.asMap().forEach((index, color) {
+                final percent = 1.0 / barRod.colors.length;
+                stops.add(percent * index);
+              });
+            } else {
+              stops = barRod.colorStops;
+            }
+
             _barPaint.shader = ui.Gradient.linear(
               Offset(
                 getLeftOffsetDrawSize() + (drawSize.width * from.dx),
@@ -289,7 +315,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 getTopOffsetDrawSize() + (drawSize.height * to.dy),
               ),
               barRod.colors,
-              barRod.colorStops,
+              stops,
             );
           }
           canvas.drawRRect(barRRect, _barPaint);
