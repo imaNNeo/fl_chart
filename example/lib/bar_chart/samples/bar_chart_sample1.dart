@@ -195,7 +195,8 @@ class BarChartSample1State extends State<BarChartSample1> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          getTextStyles: (value) =>
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
@@ -238,7 +239,8 @@ class BarChartSample1State extends State<BarChartSample1> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          getTextStyles: (value) =>
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {

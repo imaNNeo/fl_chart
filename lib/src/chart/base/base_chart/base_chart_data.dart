@@ -133,6 +133,20 @@ String defaultGetTitle(double value) {
   return formatNumber(value);
 }
 
+/// It gives you the axis value and gets a TextStyle based on given value
+/// (you can customize a specific title using this).
+typedef GetTitleTextStyleFunction = TextStyle Function(double value);
+
+/// The default [SideTitles.getTextStyles] function.
+///
+/// returns a black TextStyle with 11 fontSize for all values.
+TextStyle defaultGetTitleTextStyle(double value) {
+  return const TextStyle(
+    color: Colors.black,
+    fontSize: 11,
+  );
+}
+
 /// This class holds the touch response details.
 ///
 /// Specific touch details should be hold on the concrete child classes.

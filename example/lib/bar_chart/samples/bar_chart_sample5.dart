@@ -37,7 +37,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                 show: true,
                 topTitles: SideTitles(
                   showTitles: true,
-                  textStyle: const TextStyle(color: Colors.white, fontSize: 10),
+                  getTextStyles: (value) => const TextStyle(color: Colors.white, fontSize: 10),
                   margin: 10,
                   rotateAngle: 0,
                   getTitles: (double value) {
@@ -63,7 +63,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                 ),
                 bottomTitles: SideTitles(
                   showTitles: true,
-                  textStyle: const TextStyle(color: Colors.white, fontSize: 10),
+                  getTextStyles: (value) => const TextStyle(color: Colors.white, fontSize: 10),
                   margin: 10,
                   rotateAngle: 0,
                   getTitles: (double value) {
@@ -89,7 +89,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                 ),
                 leftTitles: SideTitles(
                   showTitles: true,
-                  textStyle: const TextStyle(color: Colors.white, fontSize: 10),
+                  getTextStyles: (value) => const TextStyle(color: Colors.white, fontSize: 10),
                   rotateAngle: 45,
                   getTitles: (double value) {
                     if (value == 0) {
@@ -103,7 +103,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                 ),
                 rightTitles: SideTitles(
                   showTitles: true,
-                  textStyle: const TextStyle(color: Colors.white, fontSize: 10),
+                  getTextStyles: (value) => const TextStyle(color: Colors.white, fontSize: 10),
                   rotateAngle: 90,
                   getTitles: (double value) {
                     if (value == 0) {
