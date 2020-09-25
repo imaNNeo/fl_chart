@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import '../data_pool.dart';
 
 void main() {
@@ -47,7 +48,7 @@ void main() {
 
       final changed = BackgroundBarChartRodData(
         y: 21,
-        color: Colors.blue,
+        colors: [Colors.blue],
         show: false,
       );
 
@@ -55,7 +56,7 @@ void main() {
 
       final changed2 = BackgroundBarChartRodData(
         y: 22,
-        color: Colors.blue,
+        colors: [Colors.blue],
         show: true,
       );
 

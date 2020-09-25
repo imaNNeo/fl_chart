@@ -2207,27 +2207,27 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 = BackgroundBarChartRodData(
   y: 21,
-  color: Colors.blue,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData1Clone = BackgroundBarChartRodData(
   y: 21,
-  color: Colors.blue,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData2 = BackgroundBarChartRodData(
   y: 44,
-  color: Colors.red,
+  colors: [Colors.red],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData3 = BackgroundBarChartRodData(
   y: 44,
-  color: Colors.green,
+  colors: [Colors.green],
   show: true,
 );
 
 final BarChartRodData barChartRodData1 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2246,7 +2246,7 @@ final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
 );
 
 final BarChartRodData barChartRodData2 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 1132,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2257,7 +2257,7 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData3 = BarChartRodData(
-  color: Colors.green,
+  colors: [Colors.green],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2267,7 +2267,7 @@ final BarChartRodData barChartRodData3 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData4 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2278,7 +2278,7 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData5 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 55,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2289,7 +2289,7 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData6 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2297,7 +2297,7 @@ final BarChartRodData barChartRodData6 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData7 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2308,7 +2308,7 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData2,
 );
 final BarChartRodData barChartRodData8 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(14)),

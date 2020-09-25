@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
@@ -226,7 +227,26 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomRight: borderRadius.bottomRight);
           }
 
-          _barPaint.color = barRod.backDrawRodData.color;
+          if (barRod.backDrawRodData.colors.length == 1) {
+            _barPaint.color = barRod.backDrawRodData.colors[0];
+            _barPaint.shader = null;
+          } else {
+            final from = barRod.backDrawRodData.gradientFrom;
+            final to = barRod.backDrawRodData.gradientTo;
+            _barPaint.shader = ui.Gradient.linear(
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * from.dx),
+                getTopOffsetDrawSize() + (drawSize.height * from.dy),
+              ),
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * to.dx),
+                getTopOffsetDrawSize() + (drawSize.height * to.dy),
+              ),
+              barRod.backDrawRodData.colors,
+              barRod.backDrawRodData.colorStops,
+            );
+          }
+
           canvas.drawRRect(barRRect, _barPaint);
         }
 
@@ -253,8 +273,25 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomLeft: borderRadius.bottomLeft,
                 bottomRight: borderRadius.bottomRight);
           }
-
-          _barPaint.color = barRod.color;
+          if (barRod.colors.length == 1) {
+            _barPaint.color = barRod.colors[0];
+            _barPaint.shader = null;
+          } else {
+            final from = barRod.gradientFrom;
+            final to = barRod.gradientTo;
+            _barPaint.shader = ui.Gradient.linear(
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * from.dx),
+                getTopOffsetDrawSize() + (drawSize.height * from.dy),
+              ),
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * to.dx),
+                getTopOffsetDrawSize() + (drawSize.height * to.dy),
+              ),
+              barRod.colors,
+              barRod.colorStops,
+            );
+          }
           canvas.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
