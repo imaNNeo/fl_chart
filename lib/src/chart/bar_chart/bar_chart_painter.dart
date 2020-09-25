@@ -294,8 +294,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
             final to = barRod.gradientTo;
 
             List<double> stops = [];
-            if (barRod.colorStops == null ||
-                barRod.colorStops.length != barRod.colors.length) {
+            if (barRod.colorStops == null || barRod.colorStops.length != barRod.colors.length) {
               /// provided colorStops is invalid and we calculate it here
               barRod.colors.asMap().forEach((index, color) {
                 final percent = 1.0 / barRod.colors.length;
