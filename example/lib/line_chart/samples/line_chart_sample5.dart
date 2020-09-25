@@ -150,7 +150,7 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
     /// provided gradientColorStops is invalid and we calculate it here
     colors.asMap().forEach((index, color) {
       final percent = 1.0 / colors.length;
-      stops.add(percent * (index + 1));
+      stops.add(percent * index);
     });
   }
 

@@ -545,8 +545,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           barData.belowBarData.gradientColorStops.length != barData.belowBarData.colors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
         barData.belowBarData.colors.asMap().forEach((index, color) {
-          final percent = 1.0 / barData.colors.length;
-          stops.add(percent * (index + 1));
+          final percent = 1.0 / barData.belowBarData.colors.length;
+          stops.add(percent * index);
         });
       } else {
         stops = barData.belowBarData.gradientColorStops;
@@ -627,7 +627,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         /// provided gradientColorStops is invalid and we calculate it here
         barData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / barData.colors.length;
-          stops.add(percent * (index + 1));
+          stops.add(percent * index);
         });
       } else {
         stops = barData.aboveBarData.gradientColorStops;
@@ -696,7 +696,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         /// provided gradientColorStops is invalid and we calculate it here
         betweenBarsData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / betweenBarsData.colors.length;
-          stops.add(percent * (index + 1));
+          stops.add(percent * index);
         });
       } else {
         stops = betweenBarsData.gradientColorStops;
@@ -774,8 +774,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       if (barData.colorStops == null || barData.colorStops.length != barData.colors.length) {
         /// provided colorStops is invalid and we calculate it here
         barData.colors.asMap().forEach((index, color) {
-          final double ss = 1.0 / barData.colors.length;
-          stops.add(ss * (index + 1));
+          final double percent = 1.0 / barData.colors.length;
+          stops.add(percent * index);
         });
       } else {
         stops = barData.colorStops;
