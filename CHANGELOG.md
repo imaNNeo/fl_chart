@@ -1,3 +1,6 @@
+## new version
+[Improvement] [BREAKING] Replaced `color` property with `colors` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), and [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata) to support gradient in BarChart, instead of solid color, #166. Check [BarChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-3-source-code)
+
 ## 0.11.1
 * [Bugfix] Fixed drawing BarChart rods with providing minY (for positive), maxY (for negative) values bug, #404.
 * [Bugfix] Fixed example app build fail error, by upgrading flutter_svg package to `0.18.1`
