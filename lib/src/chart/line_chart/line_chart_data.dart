@@ -396,6 +396,7 @@ class LineChartBarData with EquatableMixin {
       show: b.show,
       barWidth: lerpDouble(a.barWidth, b.barWidth, t),
       belowBarData: BarAreaData.lerp(a.belowBarData, b.belowBarData, t),
+      aboveBarData: BarAreaData.lerp(a.aboveBarData, b.aboveBarData, t),
       curveSmoothness: b.curveSmoothness,
       isCurved: b.isCurved,
       isStrokeCapRound: b.isStrokeCapRound,

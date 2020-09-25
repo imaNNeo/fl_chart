@@ -649,12 +649,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       );
     }
 
-    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    if (barData.aboveBarData.applyCutOffY) {
+      canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    }
+
     canvas.drawPath(aboveBarPath, _barAreaPaint);
 
     // clear the above area that get out of the bar line
-    canvas.drawPath(filledBelowBarPath, _clearBarAreaPaint);
-    canvas.restore();
+    if (barData.aboveBarData.applyCutOffY) {
+      canvas.drawPath(filledBelowBarPath, _clearBarAreaPaint);
+      canvas.restore();
+    }
 
     /// draw above spots line
     if (barData.aboveBarData.spotsLine != null && barData.aboveBarData.spotsLine.show) {
