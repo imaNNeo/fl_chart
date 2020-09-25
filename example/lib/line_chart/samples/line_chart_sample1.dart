@@ -20,10 +20,10 @@ class LineChartSample1State extends State<LineChartSample1> {
     return AspectRatio(
       aspectRatio: 1.23,
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(18)),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(18)),
           gradient: LinearGradient(
-            colors: const [
+            colors: [
               Color(0xff2c274c),
               Color(0xff46426c),
             ],
@@ -109,7 +109,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: const TextStyle(
+          getTextStyles: (value) => const TextStyle(
             color: Color(0xff72719b),
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -129,7 +129,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: const TextStyle(
+          getTextStyles: (value) => const TextStyle(
             color: Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,
@@ -263,7 +263,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: const TextStyle(
+          getTextStyles: (value) => const TextStyle(
             color: Color(0xff72719b),
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -283,7 +283,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: const TextStyle(
+          getTextStyles: (value) => const TextStyle(
             color: Color(0xff75729e),
             fontWeight: FontWeight.bold,
             fontSize: 14,

@@ -95,8 +95,8 @@ class LineChartSample7 extends StatelessWidget {
           titlesData: FlTitlesData(
             bottomTitles: SideTitles(
                 showTitles: true,
-                textStyle:
-                    TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
+                getTextStyles: (value) => const TextStyle(
+                    fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
                 getTitles: (value) {
                   switch (value.toInt()) {
                     case 0:

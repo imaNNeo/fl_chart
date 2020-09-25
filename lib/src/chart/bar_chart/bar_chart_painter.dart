@@ -358,7 +358,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           final String text = leftTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+          final TextSpan span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -389,8 +389,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       for (int index = 0; index < groupBarsPosition.length; index++) {
         final _GroupBarsPosition groupBarPos = groupBarsPosition[index];
 
-        final String text = topTitles.getTitles(data.barGroups[index].x.toDouble());
-        final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+        final xValue = data.barGroups[index].x.toDouble();
+        final String text = topTitles.getTitles(xValue);
+        final TextSpan span = TextSpan(style: topTitles.getTextStyles(xValue), text: text);
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
@@ -425,7 +426,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           final String text = rightTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -456,8 +458,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       for (int index = 0; index < groupBarsPosition.length; index++) {
         final _GroupBarsPosition groupBarPos = groupBarsPosition[index];
 
-        final String text = bottomTitles.getTitles(data.barGroups[index].x.toDouble());
-        final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+        final xValue = data.barGroups[index].x.toDouble();
+        final String text = bottomTitles.getTitles(xValue);
+        final TextSpan span = TextSpan(style: bottomTitles.getTextStyles(xValue), text: text);
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,

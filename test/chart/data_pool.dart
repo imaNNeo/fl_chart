@@ -47,11 +47,12 @@ final FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
 final Function(double value) getTitles = (value) => 'sallam';
+final Function(double value) getTextStyles = (value) => const TextStyle(color: Colors.green);
 
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -60,7 +61,7 @@ final SideTitles sideTitles1 = SideTitles(
 final SideTitles sideTitles1Clone = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -69,7 +70,7 @@ final SideTitles sideTitles1Clone = SideTitles(
 final SideTitles sideTitles2 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: null,
   interval: 12,
@@ -78,7 +79,7 @@ final SideTitles sideTitles2 = SideTitles(
 final SideTitles sideTitles3 = SideTitles(
   margin: 4,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -87,7 +88,7 @@ final SideTitles sideTitles3 = SideTitles(
 final SideTitles sideTitles4 = SideTitles(
   margin: 1,
   reservedSize: 11,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -96,16 +97,16 @@ final SideTitles sideTitles4 = SideTitles(
 final SideTitles sideTitles5 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.red),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
-  rotateAngle: 11,
+  rotateAngle: 101110,
 );
 final SideTitles sideTitles6 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,

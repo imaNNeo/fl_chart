@@ -119,12 +119,12 @@ class LineChartSample5 extends StatelessWidget {
                   }
                   return '';
                 },
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey,
-                  fontFamily: 'Digital',
-                  fontSize: 18,
-                )),
+                getTextStyles: (value) => const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey,
+                      fontFamily: 'Digital',
+                      fontSize: 18,
+                    )),
           ),
           axisTitleData: FlAxisTitleData(
             rightTitle: AxisTitle(showTitle: true, titleText: 'count'),

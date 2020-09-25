@@ -214,14 +214,14 @@ class LineChartSample3 extends StatelessWidget {
 
                     return '';
                   },
-                  textStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                  getTextStyles: (value) => const TextStyle(color: Colors.black, fontSize: 10),
                 ),
                 bottomTitles: SideTitles(
                   showTitles: true,
                   getTitles: (value) {
                     return weekDays[value.toInt()];
                   },
-                  textStyle: const TextStyle(
+                  getTextStyles: (value) => const TextStyle(
                     color: Colors.deepOrange,
                     fontWeight: FontWeight.bold,
                   ),

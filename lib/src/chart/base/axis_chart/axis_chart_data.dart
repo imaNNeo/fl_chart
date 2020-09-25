@@ -251,7 +251,7 @@ class SideTitles with EquatableMixin {
   final bool showTitles;
   final GetTitleFunction getTitles;
   final double reservedSize;
-  final TextStyle textStyle;
+  final GetTitleTextStyleFunction getTextStyles;
   final double margin;
   final double interval;
   final double rotateAngle;
@@ -263,7 +263,10 @@ class SideTitles with EquatableMixin {
   /// it gives you an axis value (double value), and you should return a string.
   ///
   /// [reservedSize] determines how much space they needed,
-  /// [textStyle] determines the text style of them,
+  /// [getTextStyles] determines the text style of them,
+  /// It gives you an axis value (double value), and you should return a TextStyle based on it,
+  /// It works just like [getTitles]
+  ///
   /// [margin] determines margin of texts from the border line,
   ///
   /// texts are showing with provided [interval],
@@ -276,7 +279,7 @@ class SideTitles with EquatableMixin {
     bool showTitles,
     GetTitleFunction getTitles,
     double reservedSize,
-    TextStyle textStyle,
+    GetTitleTextStyleFunction getTextStyles,
     double margin,
     double interval,
     double rotateAngle,
@@ -284,11 +287,7 @@ class SideTitles with EquatableMixin {
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
-        textStyle = textStyle ??
-            const TextStyle(
-              color: Colors.black,
-              fontSize: 11,
-            ),
+        getTextStyles = getTextStyles ?? defaultGetTitleTextStyle,
         margin = margin ?? 6,
         interval = interval,
         rotateAngle = rotateAngle ?? 0.0,
@@ -304,7 +303,7 @@ class SideTitles with EquatableMixin {
       showTitles: b.showTitles,
       getTitles: b.getTitles,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
-      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
+      getTextStyles: b.getTextStyles,
       margin: lerpDouble(a.margin, b.margin, t),
       interval: lerpDouble(a.interval, b.interval, t),
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
@@ -318,7 +317,7 @@ class SideTitles with EquatableMixin {
         showTitles,
         getTitles,
         reservedSize,
-        textStyle,
+        getTextStyles,
         margin,
         interval,
         rotateAngle,

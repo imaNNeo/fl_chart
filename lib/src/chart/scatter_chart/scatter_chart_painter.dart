@@ -77,7 +77,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           final String text = leftTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+          final TextSpan span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -116,7 +116,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           final String text = topTitles.getTitles(horizontalSeek);
 
-          final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: topTitles.getTextStyles(horizontalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -156,7 +157,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           final String text = rightTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -196,7 +198,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           final String text = bottomTitles.getTitles(horizontalSeek);
 
-          final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: bottomTitles.getTextStyles(horizontalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
