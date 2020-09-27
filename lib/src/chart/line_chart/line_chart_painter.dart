@@ -1226,14 +1226,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// draw the texts one by one in below of each other
     double topPosSeek = tooltipData.tooltipPadding.top;
 
-    double offsetLeft = mostTopOffset.dx;
-    if (offsetLeft + tp.width > viewSize.width) {
-      offsetLeft = viewSize.width - tp.width;
-    }
-
     for (TextPainter tp in drawingTextPainters) {
+      double offsetLeft = mostTopOffset.dx;
+      if (offsetLeft + tp.width > viewSize.width) {
+        offsetLeft = viewSize.width - tp.width;
+      }
       final drawOffset = Offset(
-        rect.center.dx - (tp.width / 2),
+        offsetLeft,
         rect.topCenter.dy + topPosSeek,
       );
       tp.paint(canvas, drawOffset);
