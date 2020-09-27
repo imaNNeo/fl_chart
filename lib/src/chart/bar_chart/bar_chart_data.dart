@@ -690,32 +690,26 @@ BarTooltipItem defaultBarTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
-  const TextStyle textStyle = TextStyle(
-    color: Colors.black,
-    fontWeight: FontWeight.bold,
-    fontSize: 14,
-  );
-  return BarTooltipItem(rod.y.toString(), textStyle);
+  return BarTooltipItem(RichText(
+      text: new TextSpan(
+          style: new TextStyle(fontSize: 14.0, color: Colors.black, fontFamily: 'Montserrat'),
+          children: <TextSpan>[
+        new TextSpan(text: rod.y.toString()),
+      ])));
 }
 
 /// Holds data needed for showing custom tooltip content.
 class BarTooltipItem with EquatableMixin {
   /// Text of the content.
-  final String text;
-
-  /// TextStyle of the showing content.
-  final TextStyle textStyle;
+  final RichText text;
 
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(String text, TextStyle textStyle)
-      : text = text,
-        textStyle = textStyle;
+  BarTooltipItem(RichText text) : text = text;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
         text,
-        textStyle,
       ];
 }
 
