@@ -429,7 +429,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   ) {
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
-    const double textsBelowMargin = 4;
+    const double textsBelowMargin = 0;
 
     final BarTooltipItem tooltipItem = tooltipData.getTooltipItem(
       showOnBarGroup,
@@ -442,9 +442,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       return;
     }
 
-    final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
     final TextPainter tp = TextPainter(
-        text: span,
+        text: tooltipItem.text.text,
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
         textScaleFactor: textScale);
@@ -470,7 +469,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       groupPositions[barGroupIndex].barsX[barRodIndex],
       getPixelY(showOnRodData.y, chartUsableSize),
     );
-
     final isPositive = showOnRodData.y > 0;
 
     final double tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
@@ -481,9 +479,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         : barOffset.dy + tooltipData.tooltipBottomMargin;
 
     /// draw the background rect with rounded radius
-    Rect rect =
-        Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2), tooltipTop, tooltipWidth, tooltipHeight);
-
+    Rect rect = Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2),
+        -(tooltipHeight + tooltipData.tooltipBottomMargin), tooltipWidth, tooltipHeight);
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
         final shiftAmount = 0 - rect.left;
@@ -536,8 +533,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
     /// draw the texts one by one in below of each other
     final double top = tooltipData.tooltipPadding.top;
+
+    double offsetLeft = barOffset.dx;
+    if (offsetLeft + tp.width > viewSize.width) {
+      offsetLeft = viewSize.width - tp.width;
+    }
+    print(rect.topLeft.dx);
     final drawOffset = Offset(
-      rect.center.dx - (tp.width / 2),
+      offsetLeft,
       rect.topCenter.dy + top,
     );
     tp.paint(canvas, drawOffset);
