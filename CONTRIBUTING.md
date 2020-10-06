@@ -33,6 +33,7 @@ correctly and meets our guidelines. Our guidelines are:
 - The code should be formatted correctly. For Visual Studio Code users, this is
   automatically enforced. Otherwise, you can run this command inside the
   project from the command line: `flutter format --line-length 100 .`.
+  We use `flutter format --set-exit-if-changed --dry-run --line-length 100 .` command in CI.
 
 ## Creating a Pull Request
 

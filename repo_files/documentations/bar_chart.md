@@ -45,7 +45,10 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |y|endY position of the bar on vertical axis (height of the bar)|null|
-|color|colors the rod bar|Colors.blueAccent|
+|colors|colors the rod bar, if multiple colors provided it will be gradient|[Colors.blueAccent]|
+|colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |width|stroke width of the rod bar|8|
 |borderRadius|Determines the edge rounding of the bar corners, see [BorderRadius](https://api.flutter.dev/flutter/painting/BorderRadius-class.html). When `null`, it defaults to completely round bars. |null|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
@@ -57,7 +60,10 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |:-------|:----------|:------------|
 |y|same as [BarChartRodData](#BarChartRodData)'s y|8|
 |show|determines to show or hide this section|false|
-|color|same as [BarChartRodData](#BarChartRodData)'s color|Colors.blueGrey|
+|colors|same as [BarChartRodData](#BarChartRodData)'s colors|[Colors.blueGrey]|
+|colorStops|same as [BarChartRodData](#BarChartRodData)'s colorStops|null|
+|gradientFrom|same as [BarChartRodData](#BarChartRodData)'s gradientFrom|Offset(0, 0)|
+|gradientTo|same as [BarChartRodData](#BarChartRodData)'s gradientTo|Offset(1, 0)|
 
 ### BarChartRodStackItem
 |PropName|Description|default value|

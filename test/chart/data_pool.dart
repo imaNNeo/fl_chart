@@ -47,11 +47,12 @@ final FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
 final Function(double value) getTitles = (value) => 'sallam';
+final Function(double value) getTextStyles = (value) => const TextStyle(color: Colors.green);
 
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -60,7 +61,7 @@ final SideTitles sideTitles1 = SideTitles(
 final SideTitles sideTitles1Clone = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -69,7 +70,7 @@ final SideTitles sideTitles1Clone = SideTitles(
 final SideTitles sideTitles2 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: null,
   interval: 12,
@@ -78,7 +79,7 @@ final SideTitles sideTitles2 = SideTitles(
 final SideTitles sideTitles3 = SideTitles(
   margin: 4,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -87,7 +88,7 @@ final SideTitles sideTitles3 = SideTitles(
 final SideTitles sideTitles4 = SideTitles(
   margin: 1,
   reservedSize: 11,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -96,16 +97,16 @@ final SideTitles sideTitles4 = SideTitles(
 final SideTitles sideTitles5 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.red),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
-  rotateAngle: 11,
+  rotateAngle: 101110,
 );
 final SideTitles sideTitles6 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  textStyle: const TextStyle(color: Colors.green),
+  getTextStyles: getTextStyles,
   showTitles: false,
   getTitles: getTitles,
   interval: 12,
@@ -2207,27 +2208,27 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 = BackgroundBarChartRodData(
   y: 21,
-  color: Colors.blue,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData1Clone = BackgroundBarChartRodData(
   y: 21,
-  color: Colors.blue,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData2 = BackgroundBarChartRodData(
   y: 44,
-  color: Colors.red,
+  colors: [Colors.red],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData3 = BackgroundBarChartRodData(
   y: 44,
-  color: Colors.green,
+  colors: [Colors.green],
   show: true,
 );
 
 final BarChartRodData barChartRodData1 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2246,7 +2247,7 @@ final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
 );
 
 final BarChartRodData barChartRodData2 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 1132,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2257,7 +2258,7 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData3 = BarChartRodData(
-  color: Colors.green,
+  colors: [Colors.green],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2267,7 +2268,7 @@ final BarChartRodData barChartRodData3 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData4 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2278,7 +2279,7 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData5 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 55,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2289,7 +2290,7 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData6 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2297,7 +2298,7 @@ final BarChartRodData barChartRodData6 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData7 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -2308,7 +2309,7 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData2,
 );
 final BarChartRodData barChartRodData8 = BarChartRodData(
-  color: Colors.red,
+  colors: [Colors.red],
   y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(14)),

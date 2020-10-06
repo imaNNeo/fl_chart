@@ -1,13 +1,17 @@
+import 'package:flutter/material.dart';
+
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 import 'pie_chart_data.dart';
 
 /// Renders a pie chart as a widget, using provided [PieChartData].
 class PieChart extends ImplicitlyAnimatedWidget {
+  /// Default duration to reuse externally.
+  static const defaultDuration = Duration(milliseconds: 150);
+
   /// Determines how the [PieChart] should be look like.
   final PieChartData data;
 
@@ -16,7 +20,7 @@ class PieChart extends ImplicitlyAnimatedWidget {
   /// new values with animation, and duration is [swapAnimationDuration].
   const PieChart(
     this.data, {
-    Duration swapAnimationDuration = const Duration(milliseconds: 150),
+    Duration swapAnimationDuration = defaultDuration,
   }) : super(duration: swapAnimationDuration);
 
   /// Creates a [_PieChartState]
@@ -25,15 +29,27 @@ class PieChart extends ImplicitlyAnimatedWidget {
 }
 
 class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
-  /// we handle under the hood animations (implicit animations) via this tween,
+  /// We handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [PieChartData] to the new one.
   PieChartDataTween _pieChartDataTween;
 
-  /// this is used to map the touch events to [PieTouchResponse]
+  /// This is used to map the touch events to [PieTouchResponse]
   TouchHandler _touchHandler;
+
+  /// For storing the badge widgets' offsets.
+  Map<int, Offset> _badgeWidgetsOffsets = <int, Offset>{};
 
   /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
+
+  @override
+  void initState() {
+    /// Make sure that [_badgeWidgetsOffsets] is updated.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +152,35 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
             });
           },
           textScale: MediaQuery.of(context).textScaleFactor,
+          badgeWidgetsOffsetsProvider: (offsetsMap) {
+            /// Store badge widget offsets from painter.
+            _badgeWidgetsOffsets = Map.from(offsetsMap);
+          },
         ),
+        child: _badgeWidgetsOffsets.isEmpty
+            ? null
+            : CustomMultiChildLayout(
+                delegate: BadgeWidgetsDelegate(
+                  badgeWidgetsCount: _badgeWidgetsOffsets.length,
+                  badgeWidgetsOffsets: _badgeWidgetsOffsets,
+                ),
+                children: List.generate(
+                  _badgeWidgetsOffsets.length,
+                  (index) {
+                    final int _key = _badgeWidgetsOffsets.keys.elementAt(index);
+                    final Widget _badgeWidget = widget.data.sections[_key].badgeWidget;
+
+                    if (_badgeWidget == null) {
+                      return null;
+                    }
+
+                    return LayoutId(
+                      id: _key,
+                      child: _badgeWidget,
+                    );
+                  },
+                ),
+              ),
       ),
     );
   }
@@ -166,5 +210,44 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
       widget.data,
       (dynamic value) => PieChartDataTween(begin: value),
     );
+  }
+}
+
+/// Positions the badge widgets on their respective sections.
+class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
+  final int badgeWidgetsCount;
+  final Map<int, Offset> badgeWidgetsOffsets;
+
+  BadgeWidgetsDelegate({
+    this.badgeWidgetsCount,
+    this.badgeWidgetsOffsets,
+  });
+
+  @override
+  void performLayout(Size size) {
+    for (int index = 0; index < badgeWidgetsCount; index++) {
+      final int _key = badgeWidgetsOffsets.keys.elementAt(index);
+
+      final Size _size = layoutChild(
+        _key,
+        BoxConstraints(
+          maxWidth: size.width,
+          maxHeight: size.height,
+        ),
+      );
+
+      positionChild(
+        _key,
+        Offset(
+          badgeWidgetsOffsets[_key].dx - (_size.width / 2),
+          badgeWidgetsOffsets[_key].dy - (_size.height / 2),
+        ),
+      );
+    }
+  }
+
+  @override
+  bool shouldRelayout(BadgeWidgetsDelegate oldDelegate) {
+    return oldDelegate.badgeWidgetsOffsets != badgeWidgetsOffsets;
   }
 }

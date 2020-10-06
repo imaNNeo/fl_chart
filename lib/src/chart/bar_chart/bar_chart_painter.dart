@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
@@ -226,7 +227,39 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomRight: borderRadius.bottomRight);
           }
 
-          _barPaint.color = barRod.backDrawRodData.color;
+          if (barRod.backDrawRodData.colors.length == 1) {
+            _barPaint.color = barRod.backDrawRodData.colors[0];
+            _barPaint.shader = null;
+          } else {
+            final from = barRod.backDrawRodData.gradientFrom;
+            final to = barRod.backDrawRodData.gradientTo;
+
+            List<double> stops = [];
+            if (barRod.backDrawRodData.colorStops == null ||
+                barRod.backDrawRodData.colorStops.length != barRod.backDrawRodData.colors.length) {
+              /// provided colorStops is invalid and we calculate it here
+              barRod.backDrawRodData.colors.asMap().forEach((index, color) {
+                final percent = 1.0 / barRod.backDrawRodData.colors.length;
+                stops.add(percent * index);
+              });
+            } else {
+              stops = barRod.backDrawRodData.colorStops;
+            }
+
+            _barPaint.shader = ui.Gradient.linear(
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * from.dx),
+                getTopOffsetDrawSize() + (drawSize.height * from.dy),
+              ),
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * to.dx),
+                getTopOffsetDrawSize() + (drawSize.height * to.dy),
+              ),
+              barRod.backDrawRodData.colors,
+              stops,
+            );
+          }
+
           canvas.drawRRect(barRRect, _barPaint);
         }
 
@@ -253,8 +286,37 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
                 bottomLeft: borderRadius.bottomLeft,
                 bottomRight: borderRadius.bottomRight);
           }
+          if (barRod.colors.length == 1) {
+            _barPaint.color = barRod.colors[0];
+            _barPaint.shader = null;
+          } else {
+            final from = barRod.gradientFrom;
+            final to = barRod.gradientTo;
 
-          _barPaint.color = barRod.color;
+            List<double> stops = [];
+            if (barRod.colorStops == null || barRod.colorStops.length != barRod.colors.length) {
+              /// provided colorStops is invalid and we calculate it here
+              barRod.colors.asMap().forEach((index, color) {
+                final percent = 1.0 / barRod.colors.length;
+                stops.add(percent * index);
+              });
+            } else {
+              stops = barRod.colorStops;
+            }
+
+            _barPaint.shader = ui.Gradient.linear(
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * from.dx),
+                getTopOffsetDrawSize() + (drawSize.height * from.dy),
+              ),
+              Offset(
+                getLeftOffsetDrawSize() + (drawSize.width * to.dx),
+                getTopOffsetDrawSize() + (drawSize.height * to.dy),
+              ),
+              barRod.colors,
+              stops,
+            );
+          }
           canvas.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
@@ -296,7 +358,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           final String text = leftTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+          final TextSpan span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -327,8 +389,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       for (int index = 0; index < groupBarsPosition.length; index++) {
         final _GroupBarsPosition groupBarPos = groupBarsPosition[index];
 
-        final String text = topTitles.getTitles(data.barGroups[index].x.toDouble());
-        final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+        final xValue = data.barGroups[index].x.toDouble();
+        final String text = topTitles.getTitles(xValue);
+        final TextSpan span = TextSpan(style: topTitles.getTextStyles(xValue), text: text);
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
@@ -363,7 +426,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
           final String text = rightTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -394,8 +458,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       for (int index = 0; index < groupBarsPosition.length; index++) {
         final _GroupBarsPosition groupBarPos = groupBarsPosition[index];
 
-        final String text = bottomTitles.getTitles(data.barGroups[index].x.toDouble());
-        final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+        final xValue = data.barGroups[index].x.toDouble();
+        final String text = bottomTitles.getTitles(xValue);
+        final TextSpan span = TextSpan(style: bottomTitles.getTextStyles(xValue), text: text);
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,

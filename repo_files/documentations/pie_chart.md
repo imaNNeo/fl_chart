@@ -33,8 +33,10 @@ PieChart(
 |radius| the width radius of each section|40|
 |showTitle| determines to show or hide the titles on each section|true|
 |titleStyle| TextStyle of the titles| TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)|
-|title| title of the section| "1"|
+|title| title of the section| value|
+|badgeWidget| badge component of the section| null|
 |titlePositionPercentageOffset|the place of the title in the section, this field should be between 0 and 1|0.5|
+|badgePositionPercentageOffset|the place of the badge component in the section, this field should be between 0 and 1|0.5|
 
 
 ### PieTouchData ([read about touch handling](handle_touches.md))
@@ -61,3 +63,7 @@ PieChart(
 
 ##### Sample 2 ([Source Code](/example/lib/pie_chart/samples/pie_chart_sample2.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_2.gif" width="300" >
+
+
+##### Sample 3 ([Source Code](/example/lib/pie_chart/samples/pie_chart_sample3.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_3.gif" width="300" >

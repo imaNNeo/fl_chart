@@ -396,6 +396,7 @@ class LineChartBarData with EquatableMixin {
       show: b.show,
       barWidth: lerpDouble(a.barWidth, b.barWidth, t),
       belowBarData: BarAreaData.lerp(a.belowBarData, b.belowBarData, t),
+      aboveBarData: BarAreaData.lerp(a.aboveBarData, b.aboveBarData, t),
       curveSmoothness: b.curveSmoothness,
       isCurved: b.isCurved,
       isStrokeCapRound: b.isStrokeCapRound,
@@ -1478,6 +1479,9 @@ class LineTouchTooltipData with EquatableMixin {
   /// Forces the tooltip to shift vertically inside the chart, if overflow happens.
   final bool fitInsideVertically;
 
+  /// Forces the tooltip container to top of the line, default 'false'
+  final bool showOnTopOfTheChartBoxArea;
+
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
@@ -1500,6 +1504,7 @@ class LineTouchTooltipData with EquatableMixin {
     GetLineTooltipItems getTooltipItems,
     bool fitInsideHorizontally,
     bool fitInsideVertically,
+    bool showOnTopOfTheChartBoxArea,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -1508,6 +1513,7 @@ class LineTouchTooltipData with EquatableMixin {
         getTooltipItems = getTooltipItems ?? defaultLineTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
+        showOnTopOfTheChartBoxArea = showOnTopOfTheChartBoxArea ?? false,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -1521,6 +1527,7 @@ class LineTouchTooltipData with EquatableMixin {
         getTooltipItems,
         fitInsideHorizontally,
         fitInsideVertically,
+        showOnTopOfTheChartBoxArea,
       ];
 }
 

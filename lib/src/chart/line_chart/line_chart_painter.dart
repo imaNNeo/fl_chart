@@ -545,8 +545,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           barData.belowBarData.gradientColorStops.length != barData.belowBarData.colors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
         barData.belowBarData.colors.asMap().forEach((index, color) {
-          final percent = 1.0 / barData.colors.length;
-          stops.add(percent * (index + 1));
+          final percent = 1.0 / barData.belowBarData.colors.length;
+          stops.add(percent * index);
         });
       } else {
         stops = barData.belowBarData.gradientColorStops;
@@ -627,7 +627,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         /// provided gradientColorStops is invalid and we calculate it here
         barData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / barData.colors.length;
-          stops.add(percent * (index + 1));
+          stops.add(percent * index);
         });
       } else {
         stops = barData.aboveBarData.gradientColorStops;
@@ -649,12 +649,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       );
     }
 
-    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    if (barData.aboveBarData.applyCutOffY) {
+      canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    }
+
     canvas.drawPath(aboveBarPath, _barAreaPaint);
 
     // clear the above area that get out of the bar line
-    canvas.drawPath(filledBelowBarPath, _clearBarAreaPaint);
-    canvas.restore();
+    if (barData.aboveBarData.applyCutOffY) {
+      canvas.drawPath(filledBelowBarPath, _clearBarAreaPaint);
+      canvas.restore();
+    }
 
     /// draw above spots line
     if (barData.aboveBarData.spotsLine != null && barData.aboveBarData.spotsLine.show) {
@@ -696,7 +701,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         /// provided gradientColorStops is invalid and we calculate it here
         betweenBarsData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / betweenBarsData.colors.length;
-          stops.add(percent * (index + 1));
+          stops.add(percent * index);
         });
       } else {
         stops = betweenBarsData.gradientColorStops;
@@ -774,8 +779,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       if (barData.colorStops == null || barData.colorStops.length != barData.colors.length) {
         /// provided colorStops is invalid and we calculate it here
         barData.colors.asMap().forEach((index, color) {
-          final double ss = 1.0 / barData.colors.length;
-          stops.add(ss * (index + 1));
+          final double percent = 1.0 / barData.colors.length;
+          stops.add(percent * index);
         });
       } else {
         stops = barData.colorStops;
@@ -824,7 +829,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           final String text = leftTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
+          final TextSpan span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -863,7 +868,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           final String text = topTitles.getTitles(horizontalSeek);
 
-          final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: topTitles.getTextStyles(horizontalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -903,7 +909,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           final String text = rightTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -942,7 +949,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           double x = getPixelX(horizontalSeek, viewSize);
           double y = viewSize.height + getTopOffsetDrawSize();
           final String text = bottomTitles.getTitles(horizontalSeek);
-          final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
+          final TextSpan span =
+              TextSpan(style: bottomTitles.getTextStyles(horizontalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -1169,12 +1177,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final double tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
     final double tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
 
+    double tooltipTopPosition;
+    if (tooltipData.showOnTopOfTheChartBoxArea) {
+      tooltipTopPosition = 0 - tooltipHeight - tooltipData.tooltipBottomMargin;
+    } else {
+      tooltipTopPosition = mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin;
+    }
+
     /// draw the background rect with rounded radius
     Rect rect = Rect.fromLTWH(
-        mostTopOffset.dx - (tooltipWidth / 2),
-        mostTopOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin,
-        tooltipWidth,
-        tooltipHeight);
+      mostTopOffset.dx - (tooltipWidth / 2),
+      tooltipTopPosition,
+      tooltipWidth,
+      tooltipHeight,
+    );
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {

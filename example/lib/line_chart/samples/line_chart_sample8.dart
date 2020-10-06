@@ -134,7 +134,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          textStyle: TextStyle(color: Colors.black87, fontSize: 10),
+          getTextStyles: (value) => const TextStyle(color: Colors.black87, fontSize: 10),
           interval: 4,
           margin: 8,
           checkToShowTitle: (minValue, maxValue, sideTitles, appliedInterval, value) => true,
@@ -142,7 +142,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
         leftTitles: SideTitles(
           interval: 2,
           showTitles: true,
-          textStyle: TextStyle(
+          getTextStyles: (value) => const TextStyle(
             color: Colors.black87,
             fontSize: 10,
           ),

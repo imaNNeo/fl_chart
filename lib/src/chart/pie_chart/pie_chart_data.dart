@@ -141,12 +141,25 @@ class PieChartSectionData with EquatableMixin {
   /// Defines text of showing title at the middle of section.
   final String title;
 
+  /// Defines a widget that represents the section.
+  ///
+  /// This can be anything from a text, an image, an animation, and even a combination of widgets.
+  /// Use AnimatedWidgets to animate this widget.
+  final Widget badgeWidget;
+
   /// Defines position of showing title in the section.
   ///
   /// It should be between 0.0 to 1.0,
   /// 0.0 means near the center,
   /// 1.0 means near the outside of the [PieChart].
   final double titlePositionPercentageOffset;
+
+  /// Defines position of badge widget in the section.
+  ///
+  /// It should be between 0.0 to 1.0,
+  /// 0.0 means near the center,
+  /// 1.0 means near the outside of the [PieChart].
+  final double badgePositionPercentageOffset;
 
   /// [PieChart] draws section from right side of the circle (0 degrees),
   /// each section have a [value] that determines how much it should occupy,
@@ -162,6 +175,11 @@ class PieChartSectionData with EquatableMixin {
   /// it should be between 0.0 to 1.0,
   /// 0.0 means near the center,
   /// 1.0 means near the outside of the [PieChart].
+  ///
+  /// If [badgeWidget] is not null, it draws a widget at the middle of section,
+  /// by default it draws the widget at the middle of section, but you can change the
+  /// [badgePositionPercentageOffset] to have your desire design,
+  /// the value works the same way as [titlePositionPercentageOffset].
   PieChartSectionData({
     double value,
     Color color,
@@ -169,15 +187,19 @@ class PieChartSectionData with EquatableMixin {
     bool showTitle,
     TextStyle titleStyle,
     String title,
+    Widget badgeWidget,
     double titlePositionPercentageOffset,
+    double badgePositionPercentageOffset,
   })  : value = value ?? 10,
         color = color ?? Colors.red,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
         titleStyle = titleStyle ??
             const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-        title = title ?? '1',
-        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5;
+        title = title ?? value.toString(),
+        badgeWidget = badgeWidget,
+        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
@@ -188,7 +210,9 @@ class PieChartSectionData with EquatableMixin {
     bool showTitle,
     TextStyle titleStyle,
     String title,
+    Widget badgeWidget,
     double titlePositionPercentageOffset,
+    double badgePositionPercentageOffset,
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
@@ -197,8 +221,11 @@ class PieChartSectionData with EquatableMixin {
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
       title: title ?? this.title,
+      badgeWidget: badgeWidget ?? this.badgeWidget,
       titlePositionPercentageOffset:
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+      badgePositionPercentageOffset:
+          badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
     );
   }
 
@@ -211,8 +238,11 @@ class PieChartSectionData with EquatableMixin {
       showTitle: b.showTitle,
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
       title: b.title,
+      badgeWidget: b.badgeWidget,
       titlePositionPercentageOffset:
           lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+      badgePositionPercentageOffset:
+          lerpDouble(a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
     );
   }
 
@@ -225,7 +255,9 @@ class PieChartSectionData with EquatableMixin {
         showTitle,
         titleStyle,
         title,
+        badgeWidget,
         titlePositionPercentageOffset,
+        badgePositionPercentageOffset,
       ];
 }
 
