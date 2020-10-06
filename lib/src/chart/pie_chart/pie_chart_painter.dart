@@ -12,6 +12,9 @@ import 'pie_chart_data.dart';
 class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<PieTouchResponse> {
   Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
+  /// A callback that provides position offsets for the badge widgets.
+  GetPositionOffsetsFunction _badgeWidgetsOffsetsProvider;
+
   /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
@@ -23,10 +26,20 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler) touchHandler,
-      {double textScale})
-      : super(data, targetData, textScale: textScale) {
+  PieChartPainter(
+    PieChartData data,
+    PieChartData targetData,
+    Function(TouchHandler) touchHandler, {
+    double textScale,
+    GetPositionOffsetsFunction badgeWidgetsOffsetsProvider,
+  }) : super(
+          data,
+          targetData,
+          textScale: textScale,
+        ) {
     touchHandler(this);
+
+    _badgeWidgetsOffsetsProvider = badgeWidgetsOffsetsProvider;
 
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -52,7 +65,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
 
     _drawCenterSpace(canvas, size);
     _drawSections(canvas, size, sectionsAngle);
-    _drawTexts(canvas, size);
+    _calculateOverlays(canvas, size);
   }
 
   List<double> _calculateSectionsAngle(List<PieChartSectionData> sections, double sumValue) {
@@ -152,38 +165,59 @@ class PieChartPainter extends BaseChartPainter<PieChartData> with TouchHandler<P
     canvas.restore();
   }
 
-  void _drawTexts(Canvas canvas, Size viewSize) {
+  /// Calculates layout of overlaying elements, includes:
+  /// - title text
+  /// - badge widget positions
+  void _calculateOverlays(Canvas canvas, Size viewSize) {
     final Offset center = Offset(viewSize.width / 2, viewSize.height / 2);
+    final Map<int, Offset> badgeWidgetsOffsets = <int, Offset>{};
 
     double tempAngle = data.startDegreeOffset;
+
     for (int i = 0; i < data.sections.length; i++) {
       final PieChartSectionData section = data.sections[i];
       final double startAngle = tempAngle;
       final double sweepAngle = 360 * (section.value / data.sumValue);
       final double sectionCenterAngle = startAngle + (sweepAngle / 2);
-      final Offset sectionCenterOffset = center +
+
+      Offset sectionCenter(double percentageOffset) =>
+          center +
           Offset(
             math.cos(radians(sectionCenterAngle)) *
                 (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
-                    (section.radius * section.titlePositionPercentageOffset)),
+                    (section.radius * percentageOffset)),
             math.sin(radians(sectionCenterAngle)) *
                 (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
-                    (section.radius * section.titlePositionPercentageOffset)),
+                    (section.radius * percentageOffset)),
           );
 
+      final Offset sectionCenterOffsetTitle = sectionCenter(section.titlePositionPercentageOffset);
+      final Offset sectionCenterOffsetBadgeWidget =
+          sectionCenter(section.badgePositionPercentageOffset);
+
       if (section.showTitle) {
-        final TextSpan span = TextSpan(style: section.titleStyle, text: section.title);
+        final TextSpan span = TextSpan(
+          style: section.titleStyle,
+          text: section.title,
+        );
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
             textDirection: TextDirection.ltr,
             textScaleFactor: textScale);
+
         tp.layout();
-        tp.paint(canvas, sectionCenterOffset - Offset(tp.width / 2, tp.height / 2));
+        tp.paint(canvas, sectionCenterOffsetTitle - Offset(tp.width / 2, tp.height / 2));
+      }
+
+      if (section.badgeWidget != null) {
+        badgeWidgetsOffsets[i] = sectionCenterOffsetBadgeWidget;
       }
 
       tempAngle += sweepAngle;
     }
+
+    _badgeWidgetsOffsetsProvider(badgeWidgetsOffsets);
   }
 
   double _calculateCenterRadius(Size viewSize, double givenCenterRadius) {
