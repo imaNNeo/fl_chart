@@ -1,4 +1,4 @@
-## new version
+## 0.12.0
 * [Improvement] [BREAKING] Replaced `color` property with `colors` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), and [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata) to support gradient in BarChart, instead of solid color, #166. Check [BarChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-3-source-code)
 * [Improvement] Improved gradient stops calculating algorithm.
 * [Improvement] [BREAKING] Changed SideTitle's `textStyle` property to `getTextStyles` getter (it gives you the axis value, and you must return a TextStyle based on it), It helps you to have a different style for specific text, #439. Check it here [LineChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-3-source-code)
