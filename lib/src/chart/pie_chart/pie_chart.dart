@@ -46,7 +46,9 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   void initState() {
     /// Make sure that [_badgeWidgetsOffsets] is updated.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     super.initState();
   }
