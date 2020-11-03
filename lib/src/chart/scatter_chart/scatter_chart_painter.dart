@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -43,9 +44,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
 
-    drawAxisTitles(canvas, size);
-    _drawTitles(canvas, size);
-    _drawSpots(canvas, size);
+    final canvasWrapper = CanvasWrapper(canvas, size);
+
+    drawAxisTitles(canvasWrapper);
+    _drawTitles(canvasWrapper);
+    _drawSpots(canvasWrapper);
 
     for (int i = 0; i < targetData.scatterSpots.length; i++) {
       if (!targetData.showingTooltipIndicators.contains(i)) {
@@ -53,15 +56,15 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
       }
 
       final ScatterSpot scatterSpot = targetData.scatterSpots[i];
-      _drawTouchTooltip(canvas, size, targetData.scatterTouchData.touchTooltipData, scatterSpot);
+      _drawTouchTooltip(canvasWrapper, targetData.scatterTouchData.touchTooltipData, scatterSpot);
     }
   }
 
-  void _drawTitles(Canvas canvas, Size viewSize) {
+  void _drawTitles(CanvasWrapper canvasWrapper) {
     if (!targetData.titlesData.show) {
       return;
     }
-    viewSize = getChartUsableDrawSize(viewSize);
+    final viewSize = getChartUsableDrawSize(canvasWrapper.size);
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
@@ -86,13 +89,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(leftTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(leftTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -127,13 +130,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           x -= tp.width / 2;
           y -= topTitles.margin + tp.height;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(topTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(topTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
@@ -168,13 +171,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           x += rightTitles.margin;
           y -= tp.height / 2;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(rightTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(rightTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -209,13 +212,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           x -= tp.width / 2;
           y += bottomTitles.margin;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(bottomTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(bottomTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
@@ -226,10 +229,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     }
   }
 
-  void _drawSpots(Canvas canvas, Size viewSize) {
+  void _drawSpots(CanvasWrapper canvasWrapper) {
     if (data.scatterSpots == null) {
       return;
     }
+    final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
     for (final ScatterSpot scatterSpot in data.scatterSpots) {
       if (!scatterSpot.show) {
@@ -240,7 +244,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
       _spotsPaint.color = scatterSpot.color;
 
-      canvas.drawCircle(
+      canvasWrapper.drawCircle(
         Offset(pixelX, pixelY),
         scatterSpot.radius,
         _spotsPaint,
@@ -249,8 +253,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   }
 
   void _drawTouchTooltip(
-      Canvas canvas, Size viewSize, ScatterTouchTooltipData tooltipData, ScatterSpot showOnSpot) {
-    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+      CanvasWrapper canvasWrapper, ScatterTouchTooltipData tooltipData, ScatterSpot showOnSpot) {
+    final viewSize = canvasWrapper.size;
+    final chartUsableSize = getChartUsableDrawSize(viewSize);
 
     final ScatterTooltipItem tooltipItem = tooltipData.getTooltipItems(showOnSpot);
 
@@ -332,14 +337,14 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final RRect roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvas.drawRRect(roundedRect, _bgTouchTooltipPaint);
+    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
     /// draw the texts one by one in below of each other
     final drawOffset = Offset(
       rect.center.dx - (drawingTextPainter.width / 2),
       rect.topCenter.dy + tooltipData.tooltipPadding.top,
     );
-    drawingTextPainter.paint(canvas, drawOffset);
+    canvasWrapper.drawText(drawingTextPainter, drawOffset);
   }
 
   /// We add our needed horizontal space to parent needed.

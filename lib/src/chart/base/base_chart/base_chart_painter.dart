@@ -1,3 +1,4 @@
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_data.dart';
@@ -20,14 +21,16 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// Paints [BaseChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
-    _drawViewBorder(canvas, size);
+    final canvasWrapper = CanvasWrapper(canvas, size);
+    _drawViewBorder(canvasWrapper);
   }
 
-  void _drawViewBorder(Canvas canvas, Size viewSize) {
+  void _drawViewBorder(CanvasWrapper canvasWrapper) {
     if (!data.borderData.show) {
       return;
     }
 
+    final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     final topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
@@ -42,7 +45,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (topBorder.width != 0.0) {
       _borderPaint.color = topBorder.color;
       _borderPaint.strokeWidth = topBorder.width;
-      canvas.drawLine(topLeft, topRight, _borderPaint);
+      canvasWrapper.drawLine(topLeft, topRight, _borderPaint);
     }
 
     /// Draw Right Line
@@ -50,7 +53,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (rightBorder.width != 0.0) {
       _borderPaint.color = rightBorder.color;
       _borderPaint.strokeWidth = rightBorder.width;
-      canvas.drawLine(topRight, bottomRight, _borderPaint);
+      canvasWrapper.drawLine(topRight, bottomRight, _borderPaint);
     }
 
     /// Draw Bottom Line
@@ -58,7 +61,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (bottomBorder.width != 0.0) {
       _borderPaint.color = bottomBorder.color;
       _borderPaint.strokeWidth = bottomBorder.width;
-      canvas.drawLine(bottomRight, bottomLeft, _borderPaint);
+      canvasWrapper.drawLine(bottomRight, bottomLeft, _borderPaint);
     }
 
     /// Draw Left Line
@@ -66,7 +69,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (leftBorder.width != 0.0) {
       _borderPaint.color = leftBorder.color;
       _borderPaint.strokeWidth = leftBorder.width;
-      canvas.drawLine(bottomLeft, topLeft, _borderPaint);
+      canvasWrapper.drawLine(bottomLeft, topLeft, _borderPaint);
     }
   }
 

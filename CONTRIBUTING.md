@@ -21,6 +21,14 @@ an issue before starting writing your code. This helps us and the
 community to discuss the issue and choose what is deemed to be the
 best solution.
 
+## Drawing architecture
+We have a *_chart_painter.dart class per each chart type. It draws elements into the Canvas.
+Because we wanted to test draw functions we made the CanvasWrapper class.
+CanvasWrapper class holds a canvas and all draw functions proxied through it.
+You should use it in your draw functions, Instead of direct accessing to canvas.
+It makes writing tests for draw functions possible.
+
+
 ## Checking Your Code's Quality
 
 After you have made your changes, you have to make sure your code works
