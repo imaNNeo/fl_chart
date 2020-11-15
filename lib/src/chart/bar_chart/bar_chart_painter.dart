@@ -49,7 +49,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       return;
     }
 
-    final List<double> groupsX = _calculateGroupsX(size, data.barGroups, data.alignment);
+    final List<double> groupsX = calculateGroupsX(size, data.barGroups, data.alignment);
     _groupBarsPosition = _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
 
     _drawBars(canvasWrapper, _groupBarsPosition);
@@ -71,7 +71,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   }
 
   /// Calculates groups position for showing in the x axis using [alignment].
-  List<double> _calculateGroupsX(
+  @visibleForTesting
+  List<double> calculateGroupsX(
       Size viewSize, List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
     final Size drawSize = getChartUsableDrawSize(viewSize);
 
@@ -702,7 +703,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   BarTouchedSpot _getNearestTouchedSpot(
       Size viewSize, Offset touchedPoint, List<_GroupBarsPosition> groupBarsPosition) {
     if (groupBarsPosition == null) {
-      final List<double> groupsX = _calculateGroupsX(viewSize, data.barGroups, data.alignment);
+      final List<double> groupsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
       groupBarsPosition = _calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
     }
 

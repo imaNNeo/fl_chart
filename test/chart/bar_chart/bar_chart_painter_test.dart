@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../data_pool.dart';
 
 void main() {
   group('BarChart usable size', () {
@@ -98,6 +99,56 @@ void main() {
         (s) {},
       );
       expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(600, 320));
+    });
+  });
+
+  group('_calculateGroupsX test', () {
+    const delta = 0.01;
+
+    test('test center', () {
+      final data = barChartData1.copyWith(
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+      );
+
+      // groupSpace = 23.0
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      final barGroups = [
+        barChartGroupData1, // Widths = [32, 32, 32, 32], barSpace = 23, sumWidth = 197
+        barChartGroupData2, // Widths = [32, 32, 32, 32], barSpace = 23, sumWidth = 197
+        barChartGroupData3, // Widths = [32, 32, 32, 32], barSpace = 23, sumWidth = 197
+      ]; // Sum Width = 637
+      const size = Size(800, 20);
+
+      final xValues = painter.calculateGroupsX(size, barGroups, BarChartAlignment.center);
+      expect(xValues, [
+        closeTo(180, delta),
+        closeTo(400, delta),
+        closeTo(620, delta),
+      ]);
+    });
+
+    test('test spaceAround', () {
+      final data = barChartData1.copyWith(
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+      );
+
+      // groupSpace = 23.0
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      final barGroups = [
+        barChartGroupData1, // Widths = [32, 32, 32, 32], barSpace = 23, sumWidth = 197
+        barChartGroupData2, // Widths = [32, 32, 32, 32], barSpace = 23, sumWidth = 197
+        barChartGroupData3, // Widths = [32, 32, 32, 32], barSpace = 23, sumWidth = 197
+      ]; // Sum Width = 637
+      const size = Size(800, 20);
+
+      final xValues = painter.calculateGroupsX(size, barGroups, BarChartAlignment.spaceAround);
+      expect(xValues, [
+        closeTo(133.33, delta),
+        closeTo(400, delta),
+        closeTo(666.66, delta),
+      ]);
     });
   });
 }
