@@ -309,6 +309,11 @@ class LineChartBarData with EquatableMixin {
   /// Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.
   final LineChartStepData lineChartStepData;
 
+  /// If sets true,it will use the easyInOut way to cruve the line.
+  final bool isEasyInOut;
+
+  final bool toColorLineByDataY;
+
   /// [BarChart] draws some lines and overlaps them in the chart's view,
   /// You can have multiple lines by splitting them,
   /// put a [FlSpot.nullSpot] between each section.
@@ -369,6 +374,8 @@ class LineChartBarData with EquatableMixin {
     Shadow shadow,
     bool isStepLineChart,
     LineChartStepData lineChartStepData,
+    bool isEasyInOut,
+    bool toColorLineByDataY,
   })  : spots = spots ?? const [],
         show = show ?? true,
         colors = colors ?? const [Colors.redAccent],
@@ -388,7 +395,9 @@ class LineChartBarData with EquatableMixin {
         dashArray = dashArray,
         shadow = shadow ?? const Shadow(color: Colors.transparent),
         isStepLineChart = isStepLineChart ?? false,
-        lineChartStepData = lineChartStepData ?? LineChartStepData();
+        lineChartStepData = lineChartStepData ?? LineChartStepData(),
+        isEasyInOut = isEasyInOut ?? false,
+        toColorLineByDataY = toColorLineByDataY ?? false;
 
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(LineChartBarData a, LineChartBarData b, double t) {
@@ -414,6 +423,8 @@ class LineChartBarData with EquatableMixin {
       shadow: Shadow.lerp(a.shadow, b.shadow, t),
       isStepLineChart: b.isStepLineChart,
       lineChartStepData: LineChartStepData.lerp(a.lineChartStepData, b.lineChartStepData, t),
+      isEasyInOut: b.isEasyInOut,
+      toColorLineByDataY: b.toColorLineByDataY,
     );
   }
 
@@ -440,6 +451,8 @@ class LineChartBarData with EquatableMixin {
     Shadow shadow,
     bool isStepLineChart,
     LineChartStepData lineChartStepData,
+    bool isEasyInOut,
+    bool toColorLineByDataY,
   }) {
     return LineChartBarData(
       spots: spots ?? this.spots,
@@ -463,6 +476,8 @@ class LineChartBarData with EquatableMixin {
       shadow: shadow ?? this.shadow,
       isStepLineChart: isStepLineChart ?? this.isStepLineChart,
       lineChartStepData: lineChartStepData ?? this.lineChartStepData,
+      isEasyInOut: isEasyInOut ?? this.isEasyInOut,
+      toColorLineByDataY: toColorLineByDataY ?? this.toColorLineByDataY,
     );
   }
 
@@ -489,6 +504,8 @@ class LineChartBarData with EquatableMixin {
         shadow,
         isStepLineChart,
         lineChartStepData,
+        isEasyInOut,
+        toColorLineByDataY,
       ];
 }
 

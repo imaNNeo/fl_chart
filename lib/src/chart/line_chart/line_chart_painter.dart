@@ -338,7 +338,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final Path path = appendToPath ?? Path();
     final int size = barSpots.length;
 
-    var temp = const Offset(0.0, 0.0);
+    var temp = const Offset(1.0, 1.0);
 
     final double x = getPixelX(barSpots[0].x, viewSize);
     final double y = getPixelY(barSpots[0].y, viewSize);
@@ -366,7 +366,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize),
       );
 
-      final controlPoint1 = previous + temp;
+      final controlPoint1 = barData.isEasyInOut
+          ? Offset((previous.dx + current.dx) / 2, previous.dy)
+          : (previous + temp);
 
       /// if the isCurved is false, we set 0 for smoothness,
       /// it means we should not have any smoothness then we face with
@@ -386,7 +388,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         }
       }
 
-      final controlPoint2 = current - temp;
+      final controlPoint2 =
+          barData.isEasyInOut ? Offset((previous.dx + current.dx) / 2, current.dy) : current - temp;
 
       path.cubicTo(
         controlPoint1.dx,
@@ -760,6 +763,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
   /// draw the main bar line by the [barPath]
   void _drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+    Paint _maskedColorPaint = Paint();
+
     if (!barData.show) {
       return;
     }
@@ -771,42 +776,67 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// the gradient color,
     /// if we have one color, solid color will apply,
     /// but if we have more than one color, gradient will apply.
-    if (barData.colors.length == 1) {
-      _barPaint.color = barData.colors[0];
-      _barPaint.shader = null;
-    } else {
-      List<double> stops = [];
-      if (barData.colorStops == null || barData.colorStops.length != barData.colors.length) {
-        /// provided colorStops is invalid and we calculate it here
-        barData.colors.asMap().forEach((index, color) {
-          final double percent = 1.0 / barData.colors.length;
-          stops.add(percent * index);
-        });
+    if (!barData.toColorLineByDataY) {
+      if (barData.colors.length == 1) {
+        _barPaint.color = barData.colors[0];
+        _barPaint.shader = null;
       } else {
-        stops = barData.colorStops;
+        List<double> stops = [];
+        if (barData.colorStops == null || barData.colorStops.length != barData.colors.length) {
+          /// provided colorStops is invalid and we calculate it here
+          barData.colors.asMap().forEach((index, color) {
+            final double percent = 1.0 / barData.colors.length;
+            stops.add(percent * index);
+          });
+        } else {
+          stops = barData.colorStops;
+        }
+
+        final from = barData.gradientFrom;
+        final to = barData.gradientTo;
+
+        _barPaint.shader = ui.Gradient.linear(
+          Offset(
+            getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
+            getTopOffsetDrawSize() + (chartViewSize.height * from.dy),
+          ),
+          Offset(
+            getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
+            getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
+          ),
+          barData.colors,
+          stops,
+        );
       }
-
-      final from = barData.gradientFrom;
-      final to = barData.gradientTo;
-
-      _barPaint.shader = ui.Gradient.linear(
-        Offset(
-          getLeftOffsetDrawSize() + (chartViewSize.width * from.dx),
-          getTopOffsetDrawSize() + (chartViewSize.height * from.dy),
-        ),
-        Offset(
-          getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
-          getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
-        ),
-        barData.colors,
-        stops,
-      );
+    } else {
+      if (barData.colors.length == 1) {
+        _maskedColorPaint.color = barData.colors[0];
+        _maskedColorPaint.shader = null;
+      } else {
+        _maskedColorPaint.shader = ui.Gradient.linear(
+          Offset(viewSize.width / 2, 0),
+          Offset(viewSize.width / 2, viewSize.height),
+          barData.colors,
+          barData.colorStops,
+        );
+      }
     }
 
     _barPaint.maskFilter = null;
     _barPaint.strokeWidth = barData.barWidth;
     barPath = barPath.toDashedPath(barData.dashArray);
+
+    if (barData.toColorLineByDataY) {
+      canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    }
     canvas.drawPath(barPath, _barPaint);
+
+    if (barData.toColorLineByDataY) {
+      canvas.drawPaint(
+        _maskedColorPaint..blendMode = BlendMode.srcIn,
+      );
+      canvas.restore();
+    }
   }
 
   void _drawTitles(Canvas canvas, Size viewSize) {
