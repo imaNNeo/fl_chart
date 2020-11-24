@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/radar_chart/radar_chart_darta.dart';
+import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 
 List<Color> lerpColorList(List<Color> a, List<Color> b, double t) {
