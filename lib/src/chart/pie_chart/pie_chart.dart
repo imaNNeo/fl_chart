@@ -36,22 +36,13 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   /// This is used to map the touch events to [PieTouchResponse]
   TouchHandler _touchHandler;
 
-  /// For storing the badge widgets' offsets.
-  Map<int, Offset> _badgeWidgetsOffsets = <int, Offset>{};
+  /// This is used to retrieve the offsets for puting widgets upon the chart.
+  ///
+  /// exposes [PieChartWidgetsPositionHandler.getBadgeOffsets] to retrieve the badge widgets position.
+  PieChartWidgetsPositionHandler _widgetsPositionHandler;
 
   /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
-
-  @override
-  void initState() {
-    /// Make sure that [_badgeWidgetsOffsets] is updated.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        setState(() {});
-      }
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,37 +145,59 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
             });
           },
           textScale: MediaQuery.of(context).textScaleFactor,
-          badgeWidgetsOffsetsProvider: (offsetsMap) {
-            /// Store badge widget offsets from painter.
-            _badgeWidgetsOffsets = Map.from(offsetsMap);
+          widgetsPositionHandler: (widgetPositionHandler) {
+            setState(() {
+              _widgetsPositionHandler = widgetPositionHandler;
+            });
           },
         ),
-        child: _badgeWidgetsOffsets.isEmpty
-            ? null
-            : CustomMultiChildLayout(
-                delegate: BadgeWidgetsDelegate(
-                  badgeWidgetsCount: _badgeWidgetsOffsets.length,
-                  badgeWidgetsOffsets: _badgeWidgetsOffsets,
-                ),
-                children: List.generate(
-                  _badgeWidgetsOffsets.length,
-                  (index) {
-                    final int _key = _badgeWidgetsOffsets.keys.elementAt(index);
-                    final Widget _badgeWidget = widget.data.sections[_key].badgeWidget;
-
-                    if (_badgeWidget == null) {
-                      return null;
-                    }
-
-                    return LayoutId(
-                      id: _key,
-                      child: _badgeWidget,
-                    );
-                  },
-                ),
-              ),
+        child: badgeWidgets(),
       ),
     );
+  }
+
+  Widget badgeWidgets() {
+    final chartSize = _getChartSize();
+    if (chartSize != null && _widgetsPositionHandler != null) {
+      final offsetsMap = _widgetsPositionHandler.getBadgeOffsets(chartSize);
+      if (offsetsMap.isNotEmpty) {
+        return CustomMultiChildLayout(
+          delegate: BadgeWidgetsDelegate(
+            badgeWidgetsCount: offsetsMap.length,
+            badgeWidgetsOffsets: offsetsMap,
+          ),
+          children: List.generate(
+            offsetsMap.length,
+            (index) {
+              final int _key = offsetsMap.keys.elementAt(index);
+
+              if (offsetsMap.length != _getData().sections.length) {
+                return LayoutId(
+                  id: _key,
+                  child: Container(),
+                );
+              }
+
+              final Widget _badgeWidget = _getData().sections[_key].badgeWidget;
+
+              if (_badgeWidget == null) {
+                return LayoutId(
+                  id: _key,
+                  child: Container(),
+                );
+              }
+
+              return LayoutId(
+                id: _key,
+                child: _badgeWidget,
+              );
+            },
+          ),
+        );
+      }
+    }
+
+    return null;
   }
 
   bool _canHandleTouch(PieTouchResponse response, PieTouchData touchData) {
