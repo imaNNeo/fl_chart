@@ -688,6 +688,9 @@ class BarAreaSpotsLine with EquatableMixin {
   /// Checks to show or hide lines on the spots.
   final CheckToShowSpotLine checkToShowSpotLine;
 
+  /// Determines to inherit the cutOff properties from its parent [BarAreaData]
+  final bool applyCutOffY;
+
   /// If [show] is true, [LineChart] draws some lines on above or below the spots,
   /// you can customize the appearance of the lines using [flLineStyle]
   /// and you can decide to show or hide the lines on each spot using [checkToShowSpotLine].
@@ -695,9 +698,11 @@ class BarAreaSpotsLine with EquatableMixin {
     bool show,
     FlLine flLineStyle,
     CheckToShowSpotLine checkToShowSpotLine,
+    bool applyCutOffY,
   })  : show = show ?? false,
         flLineStyle = flLineStyle ?? FlLine(),
-        checkToShowSpotLine = checkToShowSpotLine ?? showAllSpotsBelowLine;
+        checkToShowSpotLine = checkToShowSpotLine ?? showAllSpotsBelowLine,
+        applyCutOffY = applyCutOffY ?? true;
 
   /// Lerps a [BarAreaSpotsLine] based on [t] value, check [Tween.lerp].
   static BarAreaSpotsLine lerp(BarAreaSpotsLine a, BarAreaSpotsLine b, double t) {
@@ -705,6 +710,7 @@ class BarAreaSpotsLine with EquatableMixin {
       show: b.show,
       checkToShowSpotLine: b.checkToShowSpotLine,
       flLineStyle: FlLine.lerp(a.flLineStyle, b.flLineStyle, t),
+      applyCutOffY: b.applyCutOffY,
     );
   }
 
@@ -714,6 +720,7 @@ class BarAreaSpotsLine with EquatableMixin {
         show,
         flLineStyle,
         checkToShowSpotLine,
+        applyCutOffY,
       ];
 }
 
