@@ -573,6 +573,221 @@ void main() {
     });
   });
 
+  group('getExtraNeededHorizontalSpace test', () {
+    test('test1', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(show: false),
+          titlesData: FlTitlesData(
+            show: true,
+            leftTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            rightTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: true),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getExtraNeededHorizontalSpace(), 58);
+    });
+
+    test('test2', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+              show: true,
+              leftTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 15,
+                margin: 0,
+              ),
+              rightTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 0,
+                margin: 40,
+              )),
+          titlesData: FlTitlesData(
+            show: true,
+            leftTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            rightTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: false),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getExtraNeededHorizontalSpace(), 65);
+    });
+
+    test('test3', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+            show: false,
+          ),
+          titlesData: FlTitlesData(
+            show: false,
+            leftTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            rightTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: false),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getExtraNeededHorizontalSpace(), 0);
+    });
+  });
+
+  group('getExtraNeededVerticalSpace test', () {
+    test('test1', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(show: false),
+          titlesData: FlTitlesData(
+            show: true,
+            topTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            bottomTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: true),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getExtraNeededVerticalSpace(), 58);
+    });
+
+    test('test2', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+              show: true,
+              topTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 15,
+                margin: 0,
+              ),
+              bottomTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 0,
+                margin: 40,
+              )),
+          titlesData: FlTitlesData(
+            show: true,
+            topTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            bottomTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: false),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getExtraNeededVerticalSpace(), 65);
+    });
+
+    test('test3', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+            show: false,
+          ),
+          titlesData: FlTitlesData(
+            show: false,
+            topTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            bottomTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: false),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getExtraNeededVerticalSpace(), 0);
+    });
+  });
+
+  group('getLeftOffsetDrawSize test', () {
+    test('test1', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(show: false),
+          titlesData: FlTitlesData(
+            show: true,
+            leftTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            rightTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: true),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getLeftOffsetDrawSize(), 10);
+    });
+
+    test('test2', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+              show: true,
+              leftTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 15,
+                margin: 0,
+              ),
+              rightTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 0,
+                margin: 40,
+              )),
+          titlesData: FlTitlesData(
+            show: true,
+            leftTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: false),
+            rightTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: true),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getLeftOffsetDrawSize(), 15);
+    });
+
+    test('test3', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+            show: false,
+          ),
+          titlesData: FlTitlesData(
+            show: false,
+            leftTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: false),
+            rightTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: true),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getLeftOffsetDrawSize(), 0);
+    });
+  });
+
+  group('getTopOffsetDrawSize test', () {
+    test('test1', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(show: false),
+          titlesData: FlTitlesData(
+            show: true,
+            topTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
+            bottomTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: true),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getTopOffsetDrawSize(), 10);
+    });
+
+    test('test2', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+              show: true,
+              topTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 15,
+                margin: 0,
+              ),
+              bottomTitle: AxisTitle(
+                showTitle: true,
+                reservedSize: 0,
+                margin: 40,
+              )),
+          titlesData: FlTitlesData(
+            show: true,
+            topTitles: SideTitles(reservedSize: 10, margin: 20, showTitles: true),
+            bottomTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: false),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getTopOffsetDrawSize(), 45);
+    });
+
+    test('test3', () {
+      final data = barChartData1.copyWith(
+          axisTitleData: FlAxisTitleData(
+            show: false,
+          ),
+          titlesData: FlTitlesData(
+            show: false,
+            topTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: false),
+            bottomTitles: SideTitles(reservedSize: 40, margin: 8, showTitles: true),
+          ));
+      final painter = BarChartPainter(data, data, (touchHandler) {});
+      expect(painter.getTopOffsetDrawSize(), 0);
+    });
+  });
+
+  test('handleTouch test', () {
+    final painter = BarChartPainter(barChartData1, barChartData1, (touchHandler) {});
+    final response =
+        painter.handleTouch(FlLongPressMoveUpdate(const Offset(100, 100)), const Size(800, 400));
+    expect(response.touchInput, FlLongPressMoveUpdate(const Offset(100, 100)));
+
+    final response2 =
+        painter.handleTouch(FlPanMoveUpdate(const Offset(100, 100)), const Size(800, 400));
+    expect(response2.touchInput, FlPanMoveUpdate(const Offset(100, 100)));
+  });
+
   group('getNearestTouchedSpot test', () {
     final data = barChartData1.copyWith(
       titlesData: FlTitlesData(show: false),
@@ -725,7 +940,8 @@ void main() {
 
   test('shouldRepaint test', () {
     final painter1 = BarChartPainter(barChartData1, barChartData1, (touchHandler) {});
-    final painter1Clone = BarChartPainter(barChartData1Clone, barChartData1Clone, (touchHandler) {});
+    final painter1Clone =
+        BarChartPainter(barChartData1Clone, barChartData1Clone, (touchHandler) {});
     final painter2 = BarChartPainter(barChartData2, barChartData2, (touchHandler) {});
     expect(painter1.shouldRepaint(painter1Clone), false);
     expect(painter1.shouldRepaint(painter2), true);
