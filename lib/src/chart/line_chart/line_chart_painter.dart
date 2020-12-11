@@ -590,10 +590,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           );
 
           final double bottomPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
-          final Offset to = Offset(
-            getPixelX(spot.x, chartViewSize),
-            viewSize.height - bottomPadding,
-          );
+          Offset to;
+
+          // Check applyCutOffY
+          if (barData.belowBarData.spotsLine.applyCutOffY && barData.belowBarData.applyCutOffY) {
+            to = Offset(
+              getPixelX(spot.x, chartViewSize),
+              getPixelY(barData.belowBarData.cutOffY, chartViewSize),
+            );
+          } else {
+            to = Offset(
+              getPixelX(spot.x, chartViewSize),
+              viewSize.height - bottomPadding,
+            );
+          }
 
           _barAreaLinesPaint.color = barData.belowBarData.spotsLine.flLineStyle.color;
           _barAreaLinesPaint.strokeWidth = barData.belowBarData.spotsLine.flLineStyle.strokeWidth;
@@ -670,10 +680,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
             getPixelY(spot.y, chartViewSize),
           );
 
-          final Offset to = Offset(
-            getPixelX(spot.x, chartViewSize),
-            getTopOffsetDrawSize(),
-          );
+          Offset to;
+
+          // Check applyCutOffY
+          if (barData.aboveBarData.spotsLine.applyCutOffY && barData.aboveBarData.applyCutOffY) {
+            to = Offset(
+              getPixelX(spot.x, chartViewSize),
+              getPixelY(barData.aboveBarData.cutOffY, chartViewSize),
+            );
+          } else {
+            to = Offset(
+              getPixelX(spot.x, chartViewSize),
+              getTopOffsetDrawSize(),
+            );
+          }
 
           _barAreaLinesPaint.color = barData.aboveBarData.spotsLine.flLineStyle.color;
           _barAreaLinesPaint.strokeWidth = barData.aboveBarData.spotsLine.flLineStyle.strokeWidth;
