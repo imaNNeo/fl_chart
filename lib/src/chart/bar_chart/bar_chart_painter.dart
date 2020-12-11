@@ -55,20 +55,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
     drawBars(canvasWrapper, _groupBarsPosition);
     drawAxisTitles(canvasWrapper);
-    _drawTitles(canvasWrapper, _groupBarsPosition);
-
-    for (int i = 0; i < targetData.barGroups.length; i++) {
-      final barGroup = targetData.barGroups[i];
-      for (int j = 0; j < barGroup.barRods.length; j++) {
-        if (!barGroup.showingTooltipIndicators.contains(j)) {
-          continue;
-        }
-        final barRod = barGroup.barRods[j];
-
-        _drawTouchTooltip(canvasWrapper, _groupBarsPosition,
-            targetData.barTouchData.touchTooltipData, barGroup, i, barRod, j);
-      }
-    }
+    drawTitles(canvasWrapper, _groupBarsPosition);
+    drawTooltips(canvasWrapper, _groupBarsPosition);
   }
 
   /// Calculates groups position for showing in the x axis using [alignment].
@@ -345,7 +333,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
   }
 
-  void _drawTitles(CanvasWrapper canvasWrapper, List<GroupBarsPosition> groupBarsPosition) {
+  @visibleForTesting
+  void drawTitles(CanvasWrapper canvasWrapper, List<GroupBarsPosition> groupBarsPosition) {
     if (!targetData.titlesData.show) {
       return;
     }
@@ -490,7 +479,24 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     }
   }
 
-  void _drawTouchTooltip(
+  @visibleForTesting
+  void drawTooltips(CanvasWrapper canvasWrapper, List<GroupBarsPosition> groupBarsPosition) {
+    for (int i = 0; i < targetData.barGroups.length; i++) {
+      final barGroup = targetData.barGroups[i];
+      for (int j = 0; j < barGroup.barRods.length; j++) {
+        if (!barGroup.showingTooltipIndicators.contains(j)) {
+          continue;
+        }
+        final barRod = barGroup.barRods[j];
+
+        drawTouchTooltip(canvasWrapper, groupBarsPosition, targetData.barTouchData.touchTooltipData,
+            barGroup, i, barRod, j);
+      }
+    }
+  }
+
+  @visibleForTesting
+  void drawTouchTooltip(
     CanvasWrapper canvasWrapper,
     List<GroupBarsPosition> groupPositions,
     BarTouchTooltipData tooltipData,
@@ -698,12 +704,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   @override
   BarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
     final BarTouchedSpot touchedSpot =
-        _getNearestTouchedSpot(size, touchInput.getOffset(), _groupBarsPosition);
+        getNearestTouchedSpot(size, touchInput.getOffset(), _groupBarsPosition);
     return BarTouchResponse(touchedSpot, touchInput);
   }
 
   /// find the nearest spot base on the touched offset
-  BarTouchedSpot _getNearestTouchedSpot(
+  @visibleForTesting
+  BarTouchedSpot getNearestTouchedSpot(
       Size viewSize, Offset touchedPoint, List<GroupBarsPosition> groupBarsPosition) {
     if (groupBarsPosition == null) {
       final List<double> groupsX = calculateGroupsX(viewSize, data.barGroups, data.alignment);
@@ -801,7 +808,7 @@ class GroupBarsPosition with EquatableMixin {
 
   @override
   List<Object> get props => [
-    groupX,
-    barsX,
-  ];
+        groupX,
+        barsX,
+      ];
 }
