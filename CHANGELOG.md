@@ -1,3 +1,9 @@
+## 0.12.1
+* [Bugfix] Fixed PieChart badges bug with re-implementing the solution, #507
+* [Bugfix] Fix the setState issue using PieChart in the ListView, #467
+* [Bugfix] Fixed formatNumber bug for negative numbers, #486.
+* [Improvement] Added applyCutOffY property in [BarAreaSpotsLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareaspotsline) to inherit cutOffY property of its parent, #478.
+
 ## 0.12.0
 * [Improvement] [BREAKING] Replaced `color` property with `colors` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), and [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata) to support gradient in BarChart, instead of solid color, #166. Check [BarChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-3-source-code)
 * [Improvement] Improved gradient stops calculating algorithm.
