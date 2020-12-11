@@ -90,7 +90,7 @@ LineChart(
 |show|determines show or hide the below, or above spots line|true|
 |flLineStyle|a [FlLine](base_chart.md#FlLine) object that determines style of the line|[Colors.blueGrey]|
 |checkToShowSpotLine|a function to determine whether to show or hide the below or above line on the given spot|showAllSpotsBelowLine|
-
+|applyCutOffY|Determines to inherit the cutOff properties from its parent [BarAreaData](#BarAreaData)|true|
 
 ### FlDotData
 |PropName|Description|default value|

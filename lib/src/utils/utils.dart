@@ -153,6 +153,12 @@ const double kilo = 1000;
 /// otherwise it returns number itself.
 /// also it removes .0, at the end of number for simplicity.
 String formatNumber(double number) {
+  final isNegative = number < 0;
+
+  if (isNegative) {
+    number = number.abs();
+  }
+
   String resultNumber;
   String symbol;
   if (number >= billion) {
@@ -171,6 +177,10 @@ String formatNumber(double number) {
 
   if (resultNumber.endsWith('.0')) {
     resultNumber = resultNumber.substring(0, resultNumber.length - 2);
+  }
+
+  if (isNegative) {
+    resultNumber = '-$resultNumber';
   }
 
   return resultNumber + symbol;
