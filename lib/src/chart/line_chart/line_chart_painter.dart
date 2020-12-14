@@ -8,6 +8,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -71,24 +72,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// Paints [LineChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
+    final canvasWrapper = CanvasWrapper(canvas, size);
     if (data.lineBarsData.isEmpty) {
       return;
     }
 
     if (data.clipData.any) {
-      canvas.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
+      canvasWrapper.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
 
-      _clipToBorder(canvas, size);
+      _clipToBorder(canvasWrapper);
     }
 
     super.paint(canvas, size);
 
     for (BetweenBarsData betweenBarsData in data.betweenBarsData) {
-      _drawBetweenBarsArea(canvas, size, data, betweenBarsData);
+      _drawBetweenBarsArea(canvasWrapper, data, betweenBarsData);
     }
 
     if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
-      _drawExtraLines(canvas, size);
+      _drawExtraLines(canvasWrapper);
     }
 
     /// draw each line independently on the chart
@@ -99,22 +101,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         continue;
       }
 
-      _drawBarLine(canvas, size, barData);
-      _drawDots(canvas, size, barData);
+      _drawBarLine(canvasWrapper, barData);
+      _drawDots(canvasWrapper, barData);
 
       if (data.extraLinesData != null && data.extraLinesData.extraLinesOnTop) {
-        _drawExtraLines(canvas, size);
+        _drawExtraLines(canvasWrapper);
       }
 
-      _drawTouchedSpotsIndicator(canvas, size, barData);
+      _drawTouchedSpotsIndicator(canvasWrapper, barData);
     }
 
     if (data.clipData.any) {
-      canvas.restore();
+      canvasWrapper.restore();
     }
 
-    drawAxisTitles(canvas, size);
-    _drawTitles(canvas, size);
+    drawAxisTitles(canvasWrapper);
+    _drawTitles(canvasWrapper);
 
     // Draw touch tooltip on most top spot
     for (int i = 0; i < data.showingTooltipIndicators.length; i++) {
@@ -133,14 +135,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       }
       tooltipSpots = ShowingTooltipIndicators(tooltipSpots.lineIndex, barSpots);
 
-      _drawTouchTooltip(canvas, size, data.lineTouchData.touchTooltipData, topSpot, tooltipSpots);
+      _drawTouchTooltip(canvasWrapper, data.lineTouchData.touchTooltipData, topSpot, tooltipSpots);
     }
   }
 
-  void _clipToBorder(
-    ui.Canvas canvas,
-    ui.Size size,
-  ) {
+  void _clipToBorder(CanvasWrapper canvasWrapper) {
+    final size = canvasWrapper.size;
     final clip = data.clipData;
     final usableSize = getChartUsableDrawSize(size);
     final border = data.borderData.show ? data.borderData.border : null;
@@ -167,10 +167,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       bottom = getTopOffsetDrawSize() + usableSize.height + (borderWidth / 2);
     }
 
-    canvas.clipRect(Rect.fromLTRB(left, top, right, bottom));
+    canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
   }
 
-  void _drawBarLine(Canvas canvas, Size viewSize, LineChartBarData barData) {
+  void _drawBarLine(CanvasWrapper canvasWrapper, LineChartBarData barData) {
+    final viewSize = canvasWrapper.size;
     final List<List<FlSpot>> barList = [[]];
 
     // handle nullability by splitting off the list into multiple
@@ -201,15 +202,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final completelyFillAboveBarPath =
           _generateAboveBarPath(viewSize, barData, barPath, bar, fillCompletely: true);
 
-      _drawBelowBar(canvas, viewSize, belowBarPath, completelyFillAboveBarPath, barData);
-      _drawAboveBar(canvas, viewSize, aboveBarPath, completelyFillBelowBarPath, barData);
-      _drawBarShadow(canvas, viewSize, barPath, barData);
-      _drawBar(canvas, viewSize, barPath, barData);
+      _drawBelowBar(canvasWrapper, belowBarPath, completelyFillAboveBarPath, barData);
+      _drawAboveBar(canvasWrapper, aboveBarPath, completelyFillBelowBarPath, barData);
+      _drawBarShadow(canvasWrapper, barPath, barData);
+      _drawBar(canvasWrapper, barPath, barData);
     }
   }
 
   void _drawBetweenBarsArea(
-      Canvas canvas, Size viewSize, LineChartData data, BetweenBarsData betweenBarsData) {
+      CanvasWrapper canvasWrapper, LineChartData data, BetweenBarsData betweenBarsData) {
+    final viewSize = canvasWrapper.size;
     final LineChartBarData fromBarData = data.lineBarsData[betweenBarsData.fromIndex];
     final LineChartBarData toBarData = data.lineBarsData[betweenBarsData.toIndex];
 
@@ -227,14 +229,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       appendToPath: fromBarPath,
     );
 
-    _drawBetweenBar(canvas, viewSize, barPath, betweenBarsData);
+    _drawBetweenBar(canvasWrapper, barPath, betweenBarsData);
   }
 
-  void _drawDots(Canvas canvas, Size viewSize, LineChartBarData barData) {
+  void _drawDots(CanvasWrapper canvasWrapper, LineChartBarData barData) {
     if (!barData.dotData.show || barData.spots == null || barData.spots.isEmpty) {
       return;
     }
-    viewSize = getChartUsableDrawSize(viewSize);
+    final viewSize = getChartUsableDrawSize(canvasWrapper.size);
 
     final barXDelta = _getBarLineXLength(barData, viewSize);
 
@@ -246,15 +248,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         final double xPercentInLine = ((x - getLeftOffsetDrawSize()) / barXDelta) * 100;
 
-        final FlDotPainter drawer = barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
+        final FlDotPainter painter =
+            barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
 
-        drawer.draw(canvas, spot, Offset(x, y));
+        canvasWrapper.drawDot(painter, spot, Offset(x, y));
       }
     }
   }
 
-  void _drawTouchedSpotsIndicator(Canvas canvas, Size viewSize, LineChartBarData barData) {
-    final Size chartViewSize = getChartUsableDrawSize(viewSize);
+  void _drawTouchedSpotsIndicator(CanvasWrapper canvasWrapper, LineChartBarData barData) {
+    final viewSize = canvasWrapper.size;
+    final chartViewSize = getChartUsableDrawSize(viewSize);
 
     final barXDelta = _getBarLineXLength(barData, viewSize);
 
@@ -283,14 +287,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final bool showingDots =
           indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
       double dotHeight = 0;
-      FlDotPainter drawer;
+      FlDotPainter dotPainter;
 
       if (showingDots) {
         final double xPercentInLine =
             ((touchedSpot.dx - getLeftOffsetDrawSize()) / barXDelta) * 100;
-        drawer =
+        dotPainter =
             indicatorData.touchedSpotDotData.getDotPainter(spot, xPercentInLine, barData, index);
-        dotHeight = drawer.getSize(spot).height;
+        dotHeight = dotPainter.getSize(spot).height;
       }
 
       /// For drawing the indicator line
@@ -304,12 +308,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
 
-      canvas.drawDashedLine(
+      canvasWrapper.drawDashedLine(
           bottom, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
       if (showingDots) {
-        drawer.draw(canvas, spot, touchedSpot);
+        canvasWrapper.drawDot(dotPainter, spot, touchedSpot);
       }
     }
   }
@@ -526,12 +530,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// firstly we draw [belowBarPath], then if cutOffY value is provided in [BarAreaData],
   /// [belowBarPath] maybe draw over the main bar line,
   /// then to fix the problem we use [filledAboveBarPath] to clear the above section from this draw.
-  void _drawBelowBar(Canvas canvas, Size viewSize, Path belowBarPath, Path filledAboveBarPath,
+  void _drawBelowBar(CanvasWrapper canvasWrapper, Path belowBarPath, Path filledAboveBarPath,
       LineChartBarData barData) {
     if (!barData.belowBarData.show) {
       return;
     }
 
+    final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// here we update the [belowBarPaint] to draw the solid color
@@ -569,15 +574,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     if (barData.belowBarData.applyCutOffY) {
-      canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+      canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     }
 
-    canvas.drawPath(belowBarPath, _barAreaPaint);
+    canvasWrapper.drawPath(belowBarPath, _barAreaPaint);
 
     // clear the above area that get out of the bar line
     if (barData.belowBarData.applyCutOffY) {
-      canvas.drawPath(filledAboveBarPath, _clearBarAreaPaint);
-      canvas.restore();
+      canvasWrapper.drawPath(filledAboveBarPath, _clearBarAreaPaint);
+      canvasWrapper.restore();
     }
 
     /// draw below spots line
@@ -608,7 +613,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           _barAreaLinesPaint.color = barData.belowBarData.spotsLine.flLineStyle.color;
           _barAreaLinesPaint.strokeWidth = barData.belowBarData.spotsLine.flLineStyle.strokeWidth;
 
-          canvas.drawDashedLine(
+          canvasWrapper.drawDashedLine(
               from, to, _barAreaLinesPaint, barData.belowBarData.spotsLine.flLineStyle.dashArray);
         }
       }
@@ -618,11 +623,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// firstly we draw [aboveBarPath], then if cutOffY value is provided in [BarAreaData],
   /// [aboveBarPath] maybe draw over the main bar line,
   /// then to fix the problem we use [filledBelowBarPath] to clear the above section from this draw.
-  void _drawAboveBar(Canvas canvas, Size viewSize, Path aboveBarPath, Path filledBelowBarPath,
+  void _drawAboveBar(CanvasWrapper canvasWrapper, Path aboveBarPath, Path filledBelowBarPath,
       LineChartBarData barData) {
     if (!barData.aboveBarData.show) {
       return;
     }
+
+    final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// here we update the [aboveBarPaint] to draw the solid color
@@ -660,15 +667,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     if (barData.aboveBarData.applyCutOffY) {
-      canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+      canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
     }
 
-    canvas.drawPath(aboveBarPath, _barAreaPaint);
+    canvasWrapper.drawPath(aboveBarPath, _barAreaPaint);
 
     // clear the above area that get out of the bar line
     if (barData.aboveBarData.applyCutOffY) {
-      canvas.drawPath(filledBelowBarPath, _clearBarAreaPaint);
-      canvas.restore();
+      canvasWrapper.drawPath(filledBelowBarPath, _clearBarAreaPaint);
+      canvasWrapper.restore();
     }
 
     /// draw above spots line
@@ -698,7 +705,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           _barAreaLinesPaint.color = barData.aboveBarData.spotsLine.flLineStyle.color;
           _barAreaLinesPaint.strokeWidth = barData.aboveBarData.spotsLine.flLineStyle.strokeWidth;
 
-          canvas.drawDashedLine(
+          canvasWrapper.drawDashedLine(
               from, to, _barAreaLinesPaint, barData.aboveBarData.spotsLine.flLineStyle.dashArray);
         }
       }
@@ -706,7 +713,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawBetweenBar(
-      Canvas canvas, Size viewSize, Path aboveBarPath, BetweenBarsData betweenBarsData) {
+      CanvasWrapper canvasWrapper, Path aboveBarPath, BetweenBarsData betweenBarsData) {
+    final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     /// here we update the [betweenBarsData] to draw the solid color
@@ -743,15 +751,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       );
     }
 
-    canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
-    canvas.drawPath(aboveBarPath, _barAreaPaint);
+    canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+    canvasWrapper.drawPath(aboveBarPath, _barAreaPaint);
 
     // clear the above area that get out of the bar line
-    canvas.restore();
+    canvasWrapper.restore();
   }
 
   /// draw the main bar line's shadow by the [barPath]
-  void _drawBarShadow(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+  void _drawBarShadow(CanvasWrapper canvasWrapper, Path barPath, LineChartBarData barData) {
     if (!barData.show || barData.shadow.color.opacity == 0.0) {
       return;
     }
@@ -768,7 +776,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     barPath = barPath.shift(barData.shadow.offset);
 
-    canvas.drawPath(
+    canvasWrapper.drawPath(
       barPath,
       _barPaint,
     );
@@ -779,10 +787,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   /// draw the main bar line by the [barPath]
-  void _drawBar(Canvas canvas, Size viewSize, Path barPath, LineChartBarData barData) {
+  void _drawBar(CanvasWrapper canvasWrapper, Path barPath, LineChartBarData barData) {
     if (!barData.show) {
       return;
     }
+    final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     _barPaint.strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
@@ -826,14 +835,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     _barPaint.maskFilter = null;
     _barPaint.strokeWidth = barData.barWidth;
     barPath = barPath.toDashedPath(barData.dashArray);
-    canvas.drawPath(barPath, _barPaint);
+    canvasWrapper.drawPath(barPath, _barPaint);
   }
 
-  void _drawTitles(Canvas canvas, Size viewSize) {
+  void _drawTitles(CanvasWrapper canvasWrapper) {
     if (!targetData.titlesData.show) {
       return;
     }
-    viewSize = getChartUsableDrawSize(viewSize);
+    final viewSize = getChartUsableDrawSize(canvasWrapper.size);
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
@@ -858,13 +867,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(leftTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(leftTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -899,13 +908,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           x -= tp.width / 2;
           y -= topTitles.margin + tp.height;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(topTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(topTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
@@ -940,13 +949,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           x += rightTitles.margin;
           y -= tp.height / 2;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(rightTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(rightTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
 
         if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
@@ -980,13 +989,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           x -= tp.width / 2;
           y += bottomTitles.margin;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(bottomTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(bottomTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
 
         if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
@@ -998,11 +1007,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _drawExtraLines(Canvas canvas, Size viewSize) {
+  void _drawExtraLines(CanvasWrapper canvasWrapper) {
     if (data.extraLinesData == null) {
       return;
     }
 
+    final viewSize = canvasWrapper.size;
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
     if (data.extraLinesData.horizontalLines.isNotEmpty) {
@@ -1017,7 +1027,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         _extraLinesPaint.color = line.color;
         _extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        canvas.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
+        canvasWrapper.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
 
         if (line.sizedPicture != null) {
           final double centerX = line.sizedPicture.width / 2;
@@ -1025,17 +1035,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           final double xPosition = leftChartPadding - centerX;
           final double yPosition = to.dy - centerY;
 
-          canvas.save();
-          canvas.translate(xPosition, yPosition);
-          canvas.drawPicture(line.sizedPicture.picture);
-          canvas.restore();
+          canvasWrapper.save();
+          canvasWrapper.translate(xPosition, yPosition);
+          canvasWrapper.drawPicture(line.sizedPicture.picture);
+          canvasWrapper.restore();
         }
 
         if (line.image != null) {
           final double centerX = line.image.width / 2;
           final double centerY = line.image.height / 2;
           final Offset centeredImageOffset = Offset(leftChartPadding - centerX, to.dy - centerY);
-          canvas.drawImage(line.image, centeredImageOffset, _imagePaint);
+          canvasWrapper.drawImage(line.image, centeredImageOffset, _imagePaint);
         }
 
         if (line.label != null && line.label.show) {
@@ -1054,17 +1064,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           );
 
           tp.layout();
-          tp.paint(
-            canvas,
-            label.alignment.withinRect(
-              Rect.fromLTRB(
-                from.dx + padding.left,
-                from.dy - padding.bottom - tp.height,
-                to.dx - padding.right - tp.width,
-                to.dy + padding.top,
-              ),
-            ),
-          );
+          canvasWrapper.drawText(
+              tp,
+              label.alignment.withinRect(
+                Rect.fromLTRB(
+                  from.dx + padding.left,
+                  from.dy - padding.bottom - tp.height,
+                  to.dx - padding.right - tp.width,
+                  to.dy + padding.top,
+                ),
+              ));
         }
       }
     }
@@ -1081,7 +1090,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         _extraLinesPaint.color = line.color;
         _extraLinesPaint.strokeWidth = line.strokeWidth;
 
-        canvas.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
+        canvasWrapper.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
 
         if (line.sizedPicture != null) {
           final double centerX = line.sizedPicture.width / 2;
@@ -1089,17 +1098,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           final double xPosition = to.dx - centerX;
           final double yPosition = viewSize.height - bottomChartPadding - centerY;
 
-          canvas.save();
-          canvas.translate(xPosition, yPosition);
-          canvas.drawPicture(line.sizedPicture.picture);
-          canvas.restore();
+          canvasWrapper.save();
+          canvasWrapper.translate(xPosition, yPosition);
+          canvasWrapper.drawPicture(line.sizedPicture.picture);
+          canvasWrapper.restore();
         }
         if (line.image != null) {
           final double centerX = line.image.width / 2;
           final double centerY = line.image.height / 2;
           final Offset centeredImageOffset =
               Offset(to.dx - centerX, viewSize.height - bottomChartPadding - centerY);
-          canvas.drawImage(line.image, centeredImageOffset, _imagePaint);
+          canvasWrapper.drawImage(line.image, centeredImageOffset, _imagePaint);
         }
 
         if (line.label != null && line.label.show) {
@@ -1119,8 +1128,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           tp.layout();
 
-          tp.paint(
-            canvas,
+          canvasWrapper.drawText(
+            tp,
             label.alignment.withinRect(
               Rect.fromLTRB(
                 to.dx - padding.right - tp.width,
@@ -1135,9 +1144,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
   }
 
-  void _drawTouchTooltip(Canvas canvas, Size viewSize, LineTouchTooltipData tooltipData,
+  void _drawTouchTooltip(CanvasWrapper canvasWrapper, LineTouchTooltipData tooltipData,
       FlSpot showOnSpot, ShowingTooltipIndicators showingTooltipSpots) {
-    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+    final viewSize = canvasWrapper.size;
+    final chartUsableSize = getChartUsableDrawSize(viewSize);
 
     const double textsBelowMargin = 4;
 
@@ -1260,7 +1270,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final RRect roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvas.drawRRect(roundedRect, _bgTouchTooltipPaint);
+    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
     /// draw the texts one by one in below of each other
     double topPosSeek = tooltipData.tooltipPadding.top;
@@ -1269,7 +1279,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         rect.center.dx - (tp.width / 2),
         rect.topCenter.dy + topPosSeek,
       );
-      tp.paint(canvas, drawOffset);
+      canvasWrapper.drawText(tp, drawOffset);
       topPosSeek += tp.height;
       topPosSeek += textsBelowMargin;
     }
