@@ -41,7 +41,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
         getTopOffsetDrawSize() + chartViewSize.height);
 
     /// Draw Top Line
-    final BorderSide topBorder = data.borderData.border.top;
+    final topBorder = data.borderData.border.top;
     if (topBorder.width != 0.0) {
       _borderPaint.color = topBorder.color;
       _borderPaint.strokeWidth = topBorder.width;
@@ -49,7 +49,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     }
 
     /// Draw Right Line
-    final BorderSide rightBorder = data.borderData.border.right;
+    final rightBorder = data.borderData.border.right;
     if (rightBorder.width != 0.0) {
       _borderPaint.color = rightBorder.color;
       _borderPaint.strokeWidth = rightBorder.width;
@@ -57,7 +57,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     }
 
     /// Draw Bottom Line
-    final BorderSide bottomBorder = data.borderData.border.bottom;
+    final bottomBorder = data.borderData.border.bottom;
     if (bottomBorder.width != 0.0) {
       _borderPaint.color = bottomBorder.color;
       _borderPaint.strokeWidth = bottomBorder.width;
@@ -65,7 +65,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     }
 
     /// Draw Left Line
-    final BorderSide leftBorder = data.borderData.border.left;
+    final leftBorder = data.borderData.border.left;
     if (leftBorder.width != 0.0) {
       _borderPaint.color = leftBorder.color;
       _borderPaint.strokeWidth = leftBorder.width;

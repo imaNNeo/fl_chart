@@ -40,12 +40,12 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   @override
   Widget build(BuildContext context) {
-    final LineChartData showingData = _getData();
-    final LineTouchData touchData = showingData.lineTouchData;
+    final showingData = _getData();
+    final touchData = showingData.lineTouchData;
 
     return GestureDetector(
       onLongPressStart: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -57,7 +57,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
       },
       onLongPressEnd: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -69,7 +69,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
       },
       onLongPressMoveUpdate: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -81,7 +81,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
       },
       onPanCancel: () {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -93,7 +93,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
       },
       onPanEnd: (DragEndDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -105,7 +105,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
       },
       onPanDown: (DragDownDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -117,7 +117,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -197,7 +197,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         sortedLineSpots.sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
 
         _showingTouchedIndicators.clear();
-        for (int i = 0; i < touchResponse.lineBarSpots.length; i++) {
+        for (var i = 0; i < touchResponse.lineBarSpots.length; i++) {
           final touchedBarSpot = touchResponse.lineBarSpots[i];
           final barPos = touchedBarSpot.barIndex;
           _showingTouchedIndicators[barPos] = [touchedBarSpot.spotIndex];

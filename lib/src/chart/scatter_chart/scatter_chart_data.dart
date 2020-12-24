@@ -94,8 +94,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         maxY = scatterSpots[0].y;
       }
 
-      for (int j = 0; j < scatterSpots.length; j++) {
-        final ScatterSpot spot = scatterSpots[j];
+      for (var j = 0; j < scatterSpots.length; j++) {
+        final spot = scatterSpots[j];
         if (canModifyMaxX && spot.x > maxX) {
           maxX = spot.x;
         }
@@ -443,7 +443,7 @@ ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
   if (touchedSpot == null) {
     return null;
   }
-  final TextStyle textStyle = TextStyle(
+  final textStyle = TextStyle(
     color: touchedSpot.color,
     fontWeight: FontWeight.bold,
     fontSize: 14,

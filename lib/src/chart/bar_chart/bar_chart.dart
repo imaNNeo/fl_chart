@@ -35,12 +35,12 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
   @override
   Widget build(BuildContext context) {
-    final BarChartData showingData = _getData();
-    final BarTouchData touchData = showingData.barTouchData;
+    final showingData = _getData();
+    final touchData = showingData.barTouchData;
 
     return GestureDetector(
       onLongPressStart: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -52,7 +52,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         }
       },
       onLongPressEnd: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -64,7 +64,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         }
       },
       onLongPressMoveUpdate: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -76,7 +76,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         }
       },
       onPanCancel: () {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -88,7 +88,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         }
       },
       onPanEnd: (DragEndDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -100,7 +100,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         }
       },
       onPanDown: (DragDownDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -112,7 +112,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -153,8 +153,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
       return barChartData;
     }
 
-    final List<BarChartGroupData> newGroups = [];
-    for (int i = 0; i < barChartData.barGroups.length; i++) {
+    final newGroups = <BarChartGroupData>[];
+    for (var i = 0; i < barChartData.barGroups.length; i++) {
       final group = barChartData.barGroups[i];
 
       newGroups.add(
