@@ -45,6 +45,17 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   final GlobalKey _chartKey = GlobalKey();
 
   @override
+  void initState() {
+    /// Make sure that [_widgetsPositionHandler] is updated.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final PieChartData showingData = _getData();
     final PieTouchData touchData = showingData.pieTouchData;
