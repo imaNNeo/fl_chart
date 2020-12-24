@@ -83,8 +83,8 @@ class BarChartData extends AxisChartData with EquatableMixin {
     double maxY,
     double minY,
   ) {
-    for (int i = 0; i < barGroups.length; i++) {
-      final BarChartGroupData barData = barGroups[i];
+    for (var i = 0; i < barGroups.length; i++) {
+      final barData = barGroups[i];
       if (barData.barRods == null || barData.barRods.isEmpty) {
         throw Exception('barRods could not be null or empty');
       }
@@ -101,10 +101,10 @@ class BarChartData extends AxisChartData with EquatableMixin {
         minY = 0;
       }
 
-      for (int i = 0; i < barGroups.length; i++) {
-        final BarChartGroupData barGroup = barGroups[i];
-        for (int j = 0; j < barGroup.barRods.length; j++) {
-          final BarChartRodData rod = barGroup.barRods[j];
+      for (var i = 0; i < barGroups.length; i++) {
+        final barGroup = barGroups[i];
+        for (var j = 0; j < barGroup.barRods.length; j++) {
+          final rod = barGroup.barRods[j];
 
           if (canModifyMaxY && rod.y > maxY) {
             maxY = rod.y;
@@ -266,9 +266,9 @@ class BarChartGroupData with EquatableMixin {
       return 0;
     }
 
-    final double sumWidth =
+    final sumWidth =
         barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
-    final double spaces = (barRods.length - 1) * barsSpace;
+    final spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;
   }
@@ -752,7 +752,7 @@ BarTooltipItem defaultBarTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
-  const TextStyle textStyle = TextStyle(
+  const textStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
     fontSize: 14,
