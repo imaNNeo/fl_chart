@@ -1,3 +1,6 @@
+## newVersion
+* [Bugfix] Fixed PieChart badges draw in first frame problem, #513.
+
 ## 0.12.1
 * [Bugfix] Fixed PieChart badges bug with re-implementing the solution, #507
 * [Bugfix] Fix the setState issue using PieChart in the ListView, #467
