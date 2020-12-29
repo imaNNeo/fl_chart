@@ -250,6 +250,7 @@ bool defaultCheckToShowTitle(
 class SideTitles with EquatableMixin {
   final bool showTitles;
   final GetTitleFunction getTitles;
+  final TextDirection textDirection;
   final double reservedSize;
   final GetTitleTextStyleFunction getTextStyles;
   final double margin;
@@ -278,6 +279,7 @@ class SideTitles with EquatableMixin {
   SideTitles({
     bool showTitles,
     GetTitleFunction getTitles,
+    TextDirection textDirection,
     double reservedSize,
     GetTitleTextStyleFunction getTextStyles,
     double margin,
@@ -286,6 +288,7 @@ class SideTitles with EquatableMixin {
     CheckToShowTitle checkToShowTitle,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
+        textDirection = textDirection ?? TextDirection.ltr,
         reservedSize = reservedSize ?? 22,
         getTextStyles = getTextStyles ?? defaultGetTitleTextStyle,
         margin = margin ?? 6,
@@ -302,6 +305,7 @@ class SideTitles with EquatableMixin {
     return SideTitles(
       showTitles: b.showTitles,
       getTitles: b.getTitles,
+      textDirection: b.textDirection,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       getTextStyles: b.getTextStyles,
       margin: lerpDouble(a.margin, b.margin, t),
@@ -316,6 +320,7 @@ class SideTitles with EquatableMixin {
   List<Object> get props => [
         showTitles,
         getTitles,
+        textDirection,
         reservedSize,
         getTextStyles,
         margin,

@@ -45,6 +45,13 @@ void main() {
       expect(sideTitles1 == sideTitles6, false);
     });
 
+    test('SideTitles TextDirection equality test', () {
+      expect(sideTitles7 == sideTitles6, false);
+      expect(sideTitles7 == sideTitles7Clone, true);
+      expect(sideTitles7.textDirection == sideTitles6.textDirection, false);
+      expect(sideTitles7.textDirection == sideTitles7Clone.textDirection, true);
+    });
+
     test('FlSpot equality test', () {
       expect(flSpot1 == flSpot1Clone, true);
 

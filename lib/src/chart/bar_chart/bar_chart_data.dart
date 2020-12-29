@@ -757,7 +757,7 @@ BarTooltipItem defaultBarTooltipItem(
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return BarTooltipItem(rod.y.toString(), textStyle);
+  return BarTooltipItem(rod.y.toString(), textStyle, textDirection: TextDirection.ltr);
 }
 
 /// Holds data needed for showing custom tooltip content.
@@ -768,10 +768,14 @@ class BarTooltipItem with EquatableMixin {
   /// TextStyle of the showing content.
   final TextStyle textStyle;
 
+  /// TextDirection of showing content
+  final TextDirection textDirection;
+
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(String text, TextStyle textStyle)
+  BarTooltipItem(String text, TextStyle textStyle, {TextDirection textDirection})
       : text = text,
-        textStyle = textStyle;
+        textStyle = textStyle,
+  textDirection = textDirection ?? TextDirection.ltr;
 
   /// Used for equality check, see [EquatableMixin].
   @override

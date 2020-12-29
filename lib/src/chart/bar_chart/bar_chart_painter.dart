@@ -366,7 +366,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: leftTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
@@ -399,7 +399,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
+            textDirection: topTitles.textDirection,
             textScaleFactor: textScale);
         tp.layout();
         double x = groupBarPos.groupX;
@@ -435,7 +435,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: rightTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x += rightTitles.margin;
@@ -468,7 +468,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         final TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
+            textDirection: bottomTitles.textDirection,
             textScaleFactor: textScale);
         tp.layout();
         double x = groupBarPos.groupX;
@@ -515,7 +515,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     final TextPainter tp = TextPainter(
         text: span,
         textAlign: TextAlign.center,
-        textDirection: TextDirection.ltr,
+        textDirection: tooltipItem.textDirection,
         textScaleFactor: textScale);
     tp.layout(maxWidth: tooltipData.maxContentWidth);
 

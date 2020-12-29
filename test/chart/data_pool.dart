@@ -112,7 +112,26 @@ final SideTitles sideTitles6 = SideTitles(
   interval: 12,
   rotateAngle: 13,
 );
-
+final SideTitles sideTitles7 = SideTitles(
+  margin: 1,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  textDirection: TextDirection.rtl,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 13,
+);
+final SideTitles sideTitles7Clone = SideTitles(
+  margin: 1,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  textDirection: TextDirection.rtl,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 13,
+);
 final FlTitlesData flTitlesData1 = FlTitlesData(
   show: true,
   bottomTitles: sideTitles1,
