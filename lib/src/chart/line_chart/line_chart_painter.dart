@@ -862,7 +862,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: leftTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
@@ -902,7 +902,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: topTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout();
 
@@ -943,7 +943,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: rightTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
@@ -983,7 +983,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: bottomTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout();
 
@@ -1170,7 +1170,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: TextAlign.center,
-          textDirection: TextDirection.ltr,
+          textDirection: tooltipItem.textDirection,
           textScaleFactor: textScale);
       tp.layout(maxWidth: tooltipData.maxContentWidth);
       drawingTextPainters.add(tp);

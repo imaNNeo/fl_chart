@@ -84,7 +84,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: leftTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
@@ -124,7 +124,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: topTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout();
 
@@ -165,7 +165,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: rightTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
@@ -206,7 +206,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: bottomTitles.textDirection,
               textScaleFactor: textScale);
           tp.layout();
 
@@ -267,7 +267,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final TextPainter drawingTextPainter = TextPainter(
         text: span,
         textAlign: TextAlign.center,
-        textDirection: TextDirection.ltr,
+        textDirection: tooltipItem.textDirection,
         textScaleFactor: textScale);
     drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
 

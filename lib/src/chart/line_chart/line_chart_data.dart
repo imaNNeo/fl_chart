@@ -1607,8 +1607,12 @@ class LineTooltipItem with EquatableMixin {
   /// Style of showing text.
   final TextStyle textStyle;
 
+  /// text direction od showing text
+  final TextDirection textDirection;
+
   /// Shows a [text] with [textStyle] as a row in the tooltip popup.
-  LineTooltipItem(this.text, this.textStyle);
+  LineTooltipItem(this.text, this.textStyle,
+      {this.textDirection = TextDirection.ltr});
 
   /// Used for equality check, see [EquatableMixin].
   @override

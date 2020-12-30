@@ -463,15 +463,20 @@ class ScatterTooltipItem with EquatableMixin {
   /// Defines bottom space from spot.
   final double bottomMargin;
 
+  /// TextDirection of showing text.
+  final TextDirection textDirection;
+
   /// Shows a [text] with [textStyle] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   ScatterTooltipItem(
     String text,
     TextStyle textStyle,
     double bottomMargin,
-  )   : text = text,
+      {TextDirection textDirection})
+      : text = text,
         textStyle = textStyle,
-        bottomMargin = bottomMargin;
+        bottomMargin = bottomMargin,
+        textDirection = textDirection ?? TextDirection.ltr;
 
   /// Used for equality check, see [EquatableMixin].
   @override
