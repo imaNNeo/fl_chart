@@ -20,6 +20,16 @@ class _RadarChartSampleState extends State<RadarChartSample> {
             dataSets: showingDataSets(),
             tickCount: 4,
             getTitle: (index) => '$index + values',
+            gridData: const BorderSide(color: Colors.black, width: 1.5),
+            titlePositionPercentageOffset: 0.3,
+            ticksTextStyle: const TextStyle(
+              color: Colors.deepPurple,
+              fontSize: 10,
+            ),
+            titleTextStyle: const TextStyle(
+              color: Colors.blue,
+              fontSize: 14,
+            ),
           ),
         ),
       ),
@@ -31,10 +41,10 @@ class _RadarChartSampleState extends State<RadarChartSample> {
       RadarDataSet(
         dataEntries: [
           RadarEntry(value: 5),
-          RadarEntry(value: 1),
+          RadarEntry(value: 28),
           RadarEntry(value: 25),
         ],
-        strokeWidth: 3,
+        borderWidth: 3,
         color: Colors.red,
       ),
       RadarDataSet(
@@ -43,7 +53,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
           RadarEntry(value: 20),
           RadarEntry(value: 30),
         ],
-        strokeWidth: 3,
+        borderWidth: 3,
         color: Colors.orange,
       ),
     ];

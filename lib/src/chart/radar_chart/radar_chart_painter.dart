@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'dart:math' show pi, cos, sin, min;
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const defaultGraphColors = [
@@ -14,9 +12,10 @@ const defaultGraphColors = [
   Colors.orange,
 ];
 
+//ToDo(payam) : Refactor code
 class RadarChartPainter extends BaseChartPainter<RadarChartData>
     with TouchHandler<RadarTouchResponse> {
-  final Paint _outlinePaint, _backgroundPaint, _tickPaint;
+  final Paint _outlinePaint, _backgroundPaint, _gridPaint;
   final TextPainter _ticksTextPaint;
 
   //ToDo(payam) : add touchHandle function here
@@ -29,16 +28,16 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
           ..style = PaintingStyle.fill
           ..isAntiAlias = true,
         _outlinePaint = Paint()
-          ..color = data.borderData.border.top.color
+          ..color = data?.borderData?.border?.top?.color ?? Colors.black
+          ..strokeWidth = data?.borderData?.border?.top?.width ?? 2
           ..style = PaintingStyle.stroke
-          ..strokeWidth = data.borderData.border.top.width
+          ..isAntiAlias = true,
+        _gridPaint = Paint()
+          ..color = data?.gridData?.color ?? Colors.black
+          ..strokeWidth = data?.gridData?.width ?? 2
+          ..style = PaintingStyle.stroke
           ..isAntiAlias = true,
         _ticksTextPaint = TextPainter(),
-        _tickPaint = Paint()
-          ..color = Colors.blue
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2
-          ..isAntiAlias = true,
         super(data, targetData, textScale: textScale);
 
   @override
@@ -73,16 +72,16 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
     final tickDistance = radius / (ticks.length);
 
-    log('ticks: ${ticks.toString()}');
-
+    final ticksStyle = data.ticksTextStyle ?? const TextStyle(fontSize: 10, color: Colors.black);
     ticks.sublist(0, ticks.length - 1).asMap().forEach((index, tick) {
       final tickRadius = tickDistance * (index + 1);
-      canvas.drawCircle(centerOffset, tickRadius, _tickPaint);
+      canvas.drawCircle(centerOffset, tickRadius, _gridPaint);
       _ticksTextPaint
         ..text = TextSpan(
-          text: tick.toString(),
-          style: const TextStyle(fontSize: 10, color: Colors.black),
+          text: tick.toStringAsFixed(1),
+          style: ticksStyle,
         )
+        //ToDo(payam) : calculate offsetValue with _ticksTextPaint
         ..textDirection = TextDirection.ltr
         ..layout(minWidth: 0, maxWidth: size.width)
         ..paint(canvas, Offset(centerX + 5, centerY - tickRadius - 12));
@@ -106,7 +105,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
       final gridOffset = Offset(endX, endY);
 
-      canvas.drawLine(centerOffset, gridOffset, _tickPaint);
+      canvas.drawLine(centerOffset, gridOffset, _gridPaint);
     }
   }
 
@@ -123,7 +122,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
     for (int index = 0; index < data.titleCount; index++) {
       final title = data?.getTitle(index);
-      const style = TextStyle(fontSize: 14, color: Colors.red);
+      final style = data?.titleTextStyle ?? const TextStyle(fontSize: 14, color: Colors.black);
       final xAngle = cos(angle * index - pi / 2);
       final yAngle = sin(angle * index - pi / 2);
 
@@ -137,7 +136,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
       tp.layout();
       canvas.save();
-      const threshold = 1.15;
+      final titlePositionPercentageOffset = data?.titlePositionPercentageOffset ?? 0.2;
+      final threshold = 1.0 + titlePositionPercentageOffset;
       final featureOffset = Offset(
         centerX + threshold * radius * xAngle,
         centerY + threshold * radius * yAngle,
@@ -162,10 +162,15 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
         ..color = graph.color.withOpacity(0.3)
         ..style = PaintingStyle.fill;
 
-      final graphOutlinePaint = Paint()
+      final graphBorderPaint = Paint()
         ..color = graph.color
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.0
+        ..isAntiAlias = true;
+
+      final graphPointPaint = Paint()
+        ..color = graph.color
+        ..style = PaintingStyle.fill
         ..isAntiAlias = true;
 
       final scale = radius / data.maxEntry.value;
@@ -175,18 +180,36 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
       path.moveTo(centerX, centerY - scaledPoint);
 
+
+      canvas.drawCircle(
+        Offset(centerX, centerY - scaledPoint),
+        graph.entryRadius,
+        graphPointPaint,
+      );
+
       graph.dataEntries.asMap().forEach((index, point) {
         if (index == 0) return;
         final xAngle = cos(angle * index - pi / 2);
         final yAngle = sin(angle * index - pi / 2);
         final scaledPoint = scale * point.value;
 
-        path.lineTo(centerX + scaledPoint * xAngle, centerY + scaledPoint * yAngle);
+        final pointOffset = Offset(
+          centerX + scaledPoint * xAngle,
+          centerY + scaledPoint * yAngle,
+        );
+
+        path.lineTo(pointOffset.dx, pointOffset.dy);
+
+        canvas.drawCircle(
+          pointOffset,
+          graph.entryRadius,
+          graphPointPaint,
+        );
       });
 
       path.close();
       canvas.drawPath(path, graphPaint);
-      canvas.drawPath(path, graphOutlinePaint);
+      canvas.drawPath(path, graphBorderPaint);
     });
   }
 

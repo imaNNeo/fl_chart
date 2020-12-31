@@ -9,31 +9,54 @@ import 'package:flutter/painting.dart';
 typedef GetTitleByIndexFunction = String Function(int index);
 
 class RadarChartData extends BaseChartData {
-  //ToDo(payam) : add description for asserts
+  //ToDo(payam) : document data classes
   RadarChartData({
     this.dataSets = const [],
     this.getTitle,
     @required this.titleCount,
     @required this.tickCount,
     this.fillColor = Colors.transparent,
+    this.gridData = const BorderSide(color: Colors.black, width: 2),
+    this.ticksTextStyle = const TextStyle(color: Colors.black, fontSize: 9),
+    this.titleTextStyle = const TextStyle(color: Colors.black, fontSize: 12),
+    this.titlePositionPercentageOffset = 0.2,
     FlTouchData touchData,
     FlBorderData borderData,
-  })  : assert(titleCount != null),
-        assert(tickCount != null),
+  })  : assert(dataSets != null, "the dataSets field can't be null"),
+        assert(titleCount != null && titleCount >= 2 , "RadarChart need's more then 2 titles"),
+        assert(tickCount != null && tickCount >= 2, "RadarChart need's more then 2 ticks"),
+        assert(titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1, 'titlePositionPercentageOffset must be something between 0 and 1 '),
         assert(
           dataSets.firstWhere(
                 (element) => element.dataEntries.length != titleCount,
                 orElse: () => null,
               ) ==
               null,
+          'dataSets value count must be equal to titleCount value'
         ),
         super(borderData: borderData, touchData: touchData);
 
   final List<RadarDataSet> dataSets;
-  final GetTitleByIndexFunction getTitle;
+
   final Color fillColor;
+
+  final GetTitleByIndexFunction getTitle;
   final int titleCount;
+  final TextStyle titleTextStyle;
+
+  /// the [titlePositionPercentageOffset] is the place of showing title on the section
+  /// the degree is statically on the center of each section,
+  /// but the radius of drawing is depend of this field,
+  /// this field should be between 0 and 1,
+  /// if it is 0 the title will be drawn near the inside section,
+  /// if it is 1 the title will be drawn near the outside of section,
+  /// the default value is 0.5, means it draw on the center of section.
+  final double titlePositionPercentageOffset;
+
   final int tickCount;
+  final TextStyle ticksTextStyle;
+
+  final BorderSide gridData;
 
   RadarEntry get maxEntry {
     var maximum = dataSets.first.dataEntries.first;
@@ -57,11 +80,21 @@ class RadarChartData extends BaseChartData {
   RadarChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is RadarChartData && b is RadarChartData && t != null) {
       return RadarChartData(
+        dataSets: lerpRadarDataSetList(a.dataSets, b.dataSets, t),
+        fillColor: Color.lerp(a.fillColor, b.fillColor, t),
         getTitle: b.getTitle,
         titleCount: lerpInt(a.titleCount, b.titleCount, t),
+        titleTextStyle: TextStyle.lerp(a.titleTextStyle, b.titleTextStyle, t),
+        titlePositionPercentageOffset: lerpDouble(
+          a.titlePositionPercentageOffset,
+          b.titlePositionPercentageOffset,
+          t,
+        ),
         tickCount: lerpInt(a.tickCount, b.tickCount, t),
-        fillColor: Color.lerp(a.fillColor, b.fillColor, t),
-        dataSets: lerpRadarDataSetList(a.dataSets, b.dataSets, t),
+        ticksTextStyle: TextStyle.lerp(a.ticksTextStyle, b.titleTextStyle, t),
+        gridData: BorderSide.lerp(a.gridData, b.gridData, t),
+        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        touchData: b.touchData,
       );
     } else {
       throw Exception('Illegal State');
@@ -72,19 +105,22 @@ class RadarChartData extends BaseChartData {
 class RadarDataSet {
   final List<RadarEntry> dataEntries;
   final Color color;
-  final double strokeWidth;
+  final double borderWidth;
+  final double entryRadius;
 
-  RadarDataSet({
+  const RadarDataSet({
     this.dataEntries = const [],
-    this.color,
-    this.strokeWidth,
+    @required this.color,
+    this.borderWidth = 2,
+    this.entryRadius= 5.0,
   });
 
   static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
     return RadarDataSet(
       dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
       color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
+      entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
     );
   }
 }
@@ -92,7 +128,7 @@ class RadarDataSet {
 class RadarEntry {
   final double value;
 
-  RadarEntry({this.value = 0});
+  const RadarEntry({this.value = 0});
 
   static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) {
     return RadarEntry(value: lerpDouble(a.value, b.value, t));
