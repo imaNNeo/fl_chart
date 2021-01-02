@@ -19,7 +19,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     RadarChartData data,
     RadarChartData targetData,
     Function(TouchHandler) touchHandler, {
-    double textScale,
+    double textScale =1 ,
   })  : _backgroundPaint = Paint()
           ..color = data.fillColor
           ..style = PaintingStyle.fill
@@ -169,7 +169,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   }
 
   void drawDataSets(Size size, Canvas canvas) {
-
     // we will use dataSetsPosition to draw the graphs
     dataSetsPosition.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
@@ -222,7 +221,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   @override
   RadarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
-    final touchedSpot = _getNearestTouchSpot(size, touchInput.getOffset(), null);
+    final touchedSpot = _getNearestTouchSpot(size, touchInput.getOffset(), dataSetsPosition);
     return RadarTouchResponse(touchedSpot, touchInput);
   }
 
@@ -231,6 +230,25 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     Offset touchedPoint,
     List<RadarDataSetsPosition> radarDataSetsPosition,
   ) {
+    for (int i = 0; i < radarDataSetsPosition.length; i++) {
+      final dataSetPosition = radarDataSetsPosition[i];
+      for (int j = 0; j < dataSetPosition.entriesOffset.length; j++) {
+        final entryOffset = dataSetPosition.entriesOffset[j];
+        if ((touchedPoint.dx - entryOffset.dx).abs() <=
+                targetData.radarTouchData.touchSpotThreshold &&
+            (touchedPoint.dy - entryOffset.dy).abs() <=
+                targetData.radarTouchData.touchSpotThreshold) {
+          return RadarTouchedSpot(
+            targetData.dataSets[i],
+            i,
+            targetData.dataSets[i].dataEntries[j],
+            j,
+            FlSpot(entryOffset.dx, entryOffset.dy),
+            entryOffset,
+          );
+        }
+      }
+    }
     return null;
   }
 
