@@ -14,7 +14,6 @@ class RadarChart extends StatefulWidget {
   _RadarChartState createState() => _RadarChartState();
 }
 
-
 //ToDo(payam) : handle animation
 //ToDo(payam) : handle touch
 class _RadarChartState extends State<RadarChart> {
@@ -37,6 +36,11 @@ class _RadarChartState extends State<RadarChart> {
         widget.data,
         //ToDo(payam) : update it for animations
         widget.data,
+        (touchHandler) {
+          setState(() {
+            _touchHandler = touchHandler;
+          });
+        },
         textScale: MediaQuery.of(context).textScaleFactor,
       ),
     );

@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 typedef GetTitleByIndexFunction = String Function(int index);
 
@@ -20,21 +19,24 @@ class RadarChartData extends BaseChartData {
     this.ticksTextStyle = const TextStyle(color: Colors.black, fontSize: 9),
     this.titleTextStyle = const TextStyle(color: Colors.black, fontSize: 12),
     this.titlePositionPercentageOffset = 0.2,
-    FlTouchData touchData,
+    this.radarTouchData,
     FlBorderData borderData,
   })  : assert(dataSets != null, "the dataSets field can't be null"),
-        assert(titleCount != null && titleCount >= 2 , "RadarChart need's more then 2 titles"),
+        assert(titleCount != null && titleCount >= 2, "RadarChart need's more then 2 titles"),
         assert(tickCount != null && tickCount >= 2, "RadarChart need's more then 2 ticks"),
-        assert(titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1, 'titlePositionPercentageOffset must be something between 0 and 1 '),
+        assert(
+          titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1,
+          'titlePositionPercentageOffset must be something between 0 and 1 ',
+        ),
         assert(
           dataSets.firstWhere(
                 (element) => element.dataEntries.length != titleCount,
                 orElse: () => null,
               ) ==
               null,
-          'dataSets value count must be equal to titleCount value'
+          'dataSets value count must be equal to titleCount value',
         ),
-        super(borderData: borderData, touchData: touchData);
+        super(borderData: borderData, touchData: radarTouchData);
 
   final List<RadarDataSet> dataSets;
 
@@ -57,6 +59,8 @@ class RadarChartData extends BaseChartData {
   final TextStyle ticksTextStyle;
 
   final BorderSide gridData;
+
+  final RadarTouchData radarTouchData;
 
   RadarEntry get maxEntry {
     var maximum = dataSets.first.dataEntries.first;
@@ -94,7 +98,7 @@ class RadarChartData extends BaseChartData {
         ticksTextStyle: TextStyle.lerp(a.ticksTextStyle, b.titleTextStyle, t),
         gridData: BorderSide.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        touchData: b.touchData,
+        radarTouchData: b.radarTouchData,
       );
     } else {
       throw Exception('Illegal State');
@@ -112,7 +116,7 @@ class RadarDataSet {
     this.dataEntries = const [],
     @required this.color,
     this.borderWidth = 2,
-    this.entryRadius= 5.0,
+    this.entryRadius = 5.0,
   });
 
   static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
@@ -139,10 +143,14 @@ class RadarTouchData extends FlTouchData {
   /// you can implement it to receive touches callback
   final Function(RadarTouchResponse) touchCallback;
 
+  /// we find the nearest spots on touched position based on this threshold
+  final double touchSpotThreshold;
+
   const RadarTouchData({
     bool enabled = true,
     bool enableNormalTouch = true,
     this.touchCallback,
+    this.touchSpotThreshold = 10,
   }) : super(enabled, enableNormalTouch);
 }
 

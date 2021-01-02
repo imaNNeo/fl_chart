@@ -112,6 +112,9 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
 }
 
 mixin TouchHandler<T extends BaseTouchResponse> {
-  T handleTouch(FlTouchInput touchInput, Size size,) =>
-    throw UnsupportedError('not implemented');
+  T handleTouch(
+    FlTouchInput touchInput,
+    Size size,
+  ) =>
+      throw UnsupportedError('not implemented');
 }

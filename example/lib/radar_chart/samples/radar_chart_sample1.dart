@@ -38,7 +38,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
 
   List<RadarDataSet> showingDataSets() {
     return [
-      RadarDataSet(
+      const RadarDataSet(
         dataEntries: [
           RadarEntry(value: 5),
           RadarEntry(value: 28),
@@ -47,7 +47,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
         borderWidth: 3,
         color: Colors.red,
       ),
-      RadarDataSet(
+      const RadarDataSet(
         dataEntries: [
           RadarEntry(value: 18),
           RadarEntry(value: 20),
