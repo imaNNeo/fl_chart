@@ -95,7 +95,7 @@ class RadarChartData extends BaseChartData {
           t,
         ),
         tickCount: lerpInt(a.tickCount, b.tickCount, t),
-        ticksTextStyle: TextStyle.lerp(a.ticksTextStyle, b.titleTextStyle, t),
+        ticksTextStyle: TextStyle.lerp(a.ticksTextStyle, b.ticksTextStyle, t),
         gridData: BorderSide.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         radarTouchData: b.radarTouchData,

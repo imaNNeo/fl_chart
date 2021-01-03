@@ -31,21 +31,23 @@ class _RadarChartSampleState extends State<RadarChartSample> {
                 fontSize: 10,
               ),
               titleTextStyle: const TextStyle(
-                color: Colors.blue,
+                color: Colors.red,
                 fontSize: 14,
               ),
               radarTouchData: RadarTouchData(touchCallback: (response) {
-                setState(() {
-                  log('response type: ${response.touchInput}');
+                log('response type: ${response.touchInput}');
 
-                  if (response.touchedSpot != null &&
-                      response.touchInput is! FlPanEnd &&
-                      response.touchInput is! FlLongPressEnd) {
+                if (response.touchedSpot != null &&
+                    response.touchInput is! FlPanEnd &&
+                    response.touchInput is! FlLongPressEnd) {
+                  setState(() {
                     touchedDataSetIndex = response?.touchedSpot?.touchedDataSetIndex ?? -1;
-                  } else {
+                  });
+                } else {
+                  setState(() {
                     touchedDataSetIndex = -1;
-                  }
-                });
+                  });
+                }
               })),
         ),
       ),
@@ -60,7 +62,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
           const RadarEntry(value: 28),
           const RadarEntry(value: 25),
         ],
-        borderWidth: 3,
+        borderWidth: touchedDataSetIndex == 0 ? 4 : 3,
         color: Colors.red,
         entryRadius: (touchedDataSetIndex == 0) ? 6.0 : 3.0,
       ),
@@ -70,7 +72,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
           const RadarEntry(value: 20),
           const RadarEntry(value: 30),
         ],
-        borderWidth: 3,
+        borderWidth: touchedDataSetIndex == 1 ? 4 : 3,
         color: Colors.orange,
         entryRadius: (touchedDataSetIndex == 1) ? 6.0 : 3.0,
       ),

@@ -5,18 +5,20 @@ import 'package:fl_chart/src/chart/radar_chart/radar_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-//ToDo(payam) : extend this widget from [ImplicitlyAnimatedWidget]
-class RadarChart extends StatefulWidget {
+class RadarChart extends ImplicitlyAnimatedWidget {
   final RadarChartData data;
 
-  const RadarChart(this.data, {Key key}) : super(key: key);
+  const RadarChart(
+    this.data, {
+    Key key,
+    Duration swapAnimationDuration = const Duration(milliseconds: 150),
+  }) : super(key: key, duration: swapAnimationDuration);
 
   @override
   _RadarChartState createState() => _RadarChartState();
 }
 
-//ToDo(payam) : handle animation
-class _RadarChartState extends State<RadarChart> {
+class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [PieChartData] to the new one.
   RadarChartDataTween _radarChartDataTween;
@@ -116,9 +118,8 @@ class _RadarChartState extends State<RadarChart> {
         key: _chartKey,
         size: getDefaultSize(context),
         painter: RadarChartPainter(
-          widget.data,
-          //ToDo(payam) : update it for animations
-          widget.data,
+          _radarChartDataTween.evaluate(animation),
+          showingData,
           (touchHandler) {
             setState(() {
               _touchHandler = touchHandler;
@@ -148,5 +149,14 @@ class _RadarChartState extends State<RadarChart> {
 
   bool _canHandleTouch(RadarTouchResponse response, RadarTouchData touchData) {
     return response != null && touchData != null && touchData.touchCallback != null;
+  }
+
+  @override
+  void forEachTween(visitor) {
+    _radarChartDataTween = visitor(
+      _radarChartDataTween,
+      widget.data,
+      (dynamic value) => RadarChartDataTween(begin: value),
+    );
   }
 }

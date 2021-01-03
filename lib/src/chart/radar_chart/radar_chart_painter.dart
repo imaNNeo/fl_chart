@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math' show pi, cos, sin, min;
 import 'dart:ui';
 
@@ -14,6 +15,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   final TextPainter _ticksTextPaint, _titleTextPaint;
 
   List<RadarDataSetsPosition> dataSetsPosition;
+
+
 
   RadarChartPainter(
     RadarChartData data,
@@ -97,11 +100,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     });
   }
 
-  double radarCenterY(Size size) => size.height / 2.0;
 
-  double radarCenterX(Size size) => size.width / 2.0;
-
-  double radarRadius(Size size) => min(radarCenterX(size), radarCenterY(size)) * 0.7;
 
   void drawGrids(Size size, Canvas canvas) {
     final centerX = radarCenterX(size);
@@ -179,7 +178,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
       _graphBorderPaint
         ..color = graph.color
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.0
+        ..strokeWidth = graph.borderWidth
         ..isAntiAlias = true;
 
       _graphPointPaint
@@ -224,6 +223,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     final touchedSpot = _getNearestTouchSpot(size, touchInput.getOffset(), dataSetsPosition);
     return RadarTouchResponse(touchedSpot, touchInput);
   }
+
+  double radarCenterY(Size size) => size.height / 2.0;
+
+  double radarCenterX(Size size) => size.width / 2.0;
+
+  double radarRadius(Size size) => min(radarCenterX(size), radarCenterY(size)) * 0.7;
 
   RadarTouchedSpot _getNearestTouchSpot(
     Size viewSize,
@@ -289,9 +294,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   @override
   bool shouldRepaint(RadarChartPainter oldDelegate) {
-    //ToDo(payam) : override this method
-    return true;
+    final repaint = oldDelegate.data != data;
+    log('repaint radar chart: $repaint');
+    return repaint;
   }
+
+
 }
 
 class RadarDataSetsPosition {
