@@ -11,15 +11,17 @@ class RadarChartData extends BaseChartData {
   //ToDo(payam) : document data classes
   RadarChartData({
     this.dataSets = const [],
+    this.fillColor = Colors.transparent,
+    this.chartBorderData = const BorderSide(color: Colors.black, width: 2),
+    this.radarTouchData,
     this.getTitle,
     @required this.titleCount,
-    @required this.tickCount,
-    this.fillColor = Colors.transparent,
-    this.gridData = const BorderSide(color: Colors.black, width: 2),
-    this.ticksTextStyle = const TextStyle(color: Colors.black, fontSize: 9),
     this.titleTextStyle = const TextStyle(color: Colors.black, fontSize: 12),
     this.titlePositionPercentageOffset = 0.2,
-    this.radarTouchData,
+    @required this.tickCount,
+    this.ticksTextStyle = const TextStyle(color: Colors.black, fontSize: 9),
+    this.tickBorderData = const BorderSide(color: Colors.black, width: 2),
+    this.gridBorderData = const BorderSide(color: Colors.black, width: 2),
     FlBorderData borderData,
   })  : assert(dataSets != null, "the dataSets field can't be null"),
         assert(titleCount != null && titleCount >= 2, "RadarChart need's more then 2 titles"),
@@ -41,6 +43,7 @@ class RadarChartData extends BaseChartData {
   final List<RadarDataSet> dataSets;
 
   final Color fillColor;
+  final BorderSide chartBorderData;
 
   final GetTitleByIndexFunction getTitle;
   final int titleCount;
@@ -57,8 +60,9 @@ class RadarChartData extends BaseChartData {
 
   final int tickCount;
   final TextStyle ticksTextStyle;
+  final BorderSide tickBorderData;
 
-  final BorderSide gridData;
+  final BorderSide gridBorderData;
 
   final RadarTouchData radarTouchData;
 
@@ -96,7 +100,9 @@ class RadarChartData extends BaseChartData {
         ),
         tickCount: lerpInt(a.tickCount, b.tickCount, t),
         ticksTextStyle: TextStyle.lerp(a.ticksTextStyle, b.ticksTextStyle, t),
-        gridData: BorderSide.lerp(a.gridData, b.gridData, t),
+        gridBorderData: BorderSide.lerp(a.gridBorderData, b.gridBorderData, t),
+        chartBorderData: BorderSide.lerp(a.chartBorderData, b.chartBorderData, t),
+        tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         radarTouchData: b.radarTouchData,
       );
@@ -107,22 +113,25 @@ class RadarChartData extends BaseChartData {
 }
 
 class RadarDataSet {
-  final List<RadarEntry> dataEntries;
-  final Color color;
-  final double borderWidth;
-  final double entryRadius;
-
   const RadarDataSet({
     this.dataEntries = const [],
-    @required this.color,
+    @required this.fillColor,
+    @required this.borderColor,
     this.borderWidth = 2,
     this.entryRadius = 5.0,
   });
 
+  final List<RadarEntry> dataEntries;
+  final Color fillColor;
+  final Color borderColor;
+  final double borderWidth;
+  final double entryRadius;
+
   static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
     return RadarDataSet(
       dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
-      color: Color.lerp(a.color, b.color, t),
+      fillColor: Color.lerp(a.fillColor, b.fillColor, t),
+      borderColor: Color.lerp(a.borderColor, b.borderColor, t),
       borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
       entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
     );

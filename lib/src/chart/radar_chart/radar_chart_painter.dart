@@ -10,31 +10,34 @@ import '../../../fl_chart.dart';
 
 class RadarChartPainter extends BaseChartPainter<RadarChartData>
     with TouchHandler<RadarTouchResponse> {
-  final Paint _borderPaint, _backgroundPaint, _gridPaint;
+  final Paint _borderPaint, _backgroundPaint, _gridPaint, _tickPaint;
   final Paint _graphPaint, _graphBorderPaint, _graphPointPaint;
   final TextPainter _ticksTextPaint, _titleTextPaint;
 
   List<RadarDataSetsPosition> dataSetsPosition;
 
-
-
   RadarChartPainter(
     RadarChartData data,
     RadarChartData targetData,
     Function(TouchHandler) touchHandler, {
-    double textScale =1 ,
+    double textScale = 1,
   })  : _backgroundPaint = Paint()
           ..color = data.fillColor
           ..style = PaintingStyle.fill
           ..isAntiAlias = true,
         _borderPaint = Paint()
-          ..color = data?.borderData?.border?.top?.color ?? Colors.black
-          ..strokeWidth = data?.borderData?.border?.top?.width ?? 2
+          ..color = data?.chartBorderData?.color ?? Colors.black
+          ..strokeWidth = data?.chartBorderData?.width ?? 2
           ..style = PaintingStyle.stroke
           ..isAntiAlias = true,
         _gridPaint = Paint()
-          ..color = data?.gridData?.color ?? Colors.black
-          ..strokeWidth = data?.gridData?.width ?? 2
+          ..color = data?.gridBorderData?.color ?? Colors.black
+          ..strokeWidth = data?.gridBorderData?.width ?? 2
+          ..style = PaintingStyle.stroke
+          ..isAntiAlias = true,
+        _tickPaint = Paint()
+          ..color = data?.tickBorderData?.color ?? Colors.black
+          ..strokeWidth = data?.tickBorderData?.width ?? 2
           ..style = PaintingStyle.stroke
           ..isAntiAlias = true,
         _graphPaint = Paint(),
@@ -87,7 +90,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     final ticksStyle = data.ticksTextStyle ?? const TextStyle(fontSize: 10, color: Colors.black);
     ticks.sublist(0, ticks.length - 1).asMap().forEach((index, tick) {
       final tickRadius = tickDistance * (index + 1);
-      canvas.drawCircle(centerOffset, tickRadius, _gridPaint);
+      canvas.drawCircle(centerOffset, tickRadius, _tickPaint);
       _ticksTextPaint
         ..text = TextSpan(
           text: tick.toStringAsFixed(1),
@@ -99,8 +102,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
           canvas, Offset(centerX + 5, centerY - tickRadius - _ticksTextPaint.height));
     });
   }
-
-
 
   void drawGrids(Size size, Canvas canvas) {
     final centerX = radarCenterX(size);
@@ -172,17 +173,17 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     dataSetsPosition.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
       _graphPaint
-        ..color = graph.color.withOpacity(0.3)
+        ..color = graph.fillColor.withOpacity(graph.fillColor.opacity - 0.2)
         ..style = PaintingStyle.fill;
 
       _graphBorderPaint
-        ..color = graph.color
+        ..color = graph?.borderColor ?? graph.fillColor
         ..style = PaintingStyle.stroke
         ..strokeWidth = graph.borderWidth
         ..isAntiAlias = true;
 
       _graphPointPaint
-        ..color = graph.color
+        ..color = _graphBorderPaint.color
         ..style = PaintingStyle.fill
         ..isAntiAlias = true;
 
@@ -220,6 +221,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   @override
   RadarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
+    if (size == null || (dataSetsPosition?.isEmpty ?? true)) return null;
+
     final touchedSpot = _getNearestTouchSpot(size, touchInput.getOffset(), dataSetsPosition);
     return RadarTouchResponse(touchedSpot, touchInput);
   }
@@ -228,7 +231,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   double radarCenterX(Size size) => size.width / 2.0;
 
-  double radarRadius(Size size) => min(radarCenterX(size), radarCenterY(size)) * 0.7;
+  double radarRadius(Size size) => min(radarCenterX(size), radarCenterY(size)) * 0.8;
 
   RadarTouchedSpot _getNearestTouchSpot(
     Size viewSize,
@@ -298,8 +301,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     log('repaint radar chart: $repaint');
     return repaint;
   }
-
-
 }
 
 class RadarDataSetsPosition {
