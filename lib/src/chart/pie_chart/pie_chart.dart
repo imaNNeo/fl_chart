@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
+import 'package:flutter/material.dart';
 
 import 'pie_chart_data.dart';
 
@@ -66,8 +65,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         if (chartSize == null) {
           return;
         }
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlLongPressStart(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -78,8 +77,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlLongPressEnd(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -90,8 +89,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlLongPressMoveUpdate(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -103,7 +102,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
 
         final PieTouchResponse response = _touchHandler?.handleTouch(
-            FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)), chartSize);
+            FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)),
+            chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -114,8 +114,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlPanEnd(Offset.zero, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -126,8 +126,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlPanStart(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -138,8 +138,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
+        final PieTouchResponse response = _touchHandler?.handleTouch(
+            FlPanMoveUpdate(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
@@ -162,14 +162,18 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
             });
           },
         ),
-        child: badgeWidgets(),
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return badgeWidgets(constraints);
+          },
+        ),
       ),
     );
   }
 
-  Widget badgeWidgets() {
-    final chartSize = _getChartSize();
-    if (chartSize != null && _widgetsPositionHandler != null) {
+  Widget badgeWidgets(BoxConstraints constraints) {
+    final chartSize = constraints.biggest;
+    if (_widgetsPositionHandler != null) {
       final offsetsMap = _widgetsPositionHandler.getBadgeOffsets(chartSize);
       if (offsetsMap.isNotEmpty) {
         return CustomMultiChildLayout(
@@ -212,11 +216,14 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   }
 
   bool _canHandleTouch(PieTouchResponse response, PieTouchData touchData) {
-    return response != null && touchData != null && touchData.touchCallback != null;
+    return response != null &&
+        touchData != null &&
+        touchData.touchCallback != null;
   }
 
   Size _getChartSize() {
-    final RenderBox containerRenderBox = _chartKey.currentContext?.findRenderObject();
+    final RenderBox containerRenderBox =
+        _chartKey.currentContext?.findRenderObject();
     if (containerRenderBox != null && containerRenderBox.hasSize) {
       return containerRenderBox.size;
     }
