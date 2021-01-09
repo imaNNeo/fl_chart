@@ -26,8 +26,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  ScatterChartPainter(
-      ScatterChartData data, ScatterChartData targetData, Function(TouchHandler) touchHandler,
+  ScatterChartPainter(ScatterChartData data, ScatterChartData targetData,
+      Function(TouchHandler) touchHandler,
       {double textScale})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);
@@ -56,7 +56,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
       }
 
       final ScatterSpot scatterSpot = targetData.scatterSpots[i];
-      _drawTouchTooltip(canvasWrapper, targetData.scatterTouchData.touchTooltipData, scatterSpot);
+      _drawTouchTooltip(canvasWrapper,
+          targetData.scatterTouchData.touchTooltipData, scatterSpot);
     }
   }
 
@@ -68,8 +69,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
-    final leftInterval =
-        leftTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
+    final leftInterval = leftTitles.interval ??
+        getEfficientInterval(viewSize.height, data.verticalDiff);
     if (leftTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -80,7 +81,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           final String text = leftTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
+          final TextSpan span = TextSpan(
+              style: leftTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -97,7 +99,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           canvasWrapper.drawText(tp, Offset(x, y));
           canvasWrapper.restore();
         }
-        if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
+        if (data.maxY - verticalSeek < leftInterval &&
+            data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
         } else {
           verticalSeek += leftInterval;
@@ -107,8 +110,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     // Top titles
     final topTitles = targetData.titlesData.topTitles;
-    final topInterval =
-        topTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
+    final topInterval = topTitles.interval ??
+        getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (topTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
@@ -119,8 +122,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           final String text = topTitles.getTitles(horizontalSeek);
 
-          final TextSpan span =
-              TextSpan(style: topTitles.getTextStyles(horizontalSeek), text: text);
+          final TextSpan span = TextSpan(
+              style: topTitles.getTextStyles(horizontalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -138,7 +141,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           canvasWrapper.drawText(tp, Offset(x, y));
           canvasWrapper.restore();
         }
-        if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
+        if (data.maxX - horizontalSeek < topInterval &&
+            data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
         } else {
           horizontalSeek += topInterval;
@@ -148,8 +152,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     // Right Titles
     final rightTitles = targetData.titlesData.rightTitles;
-    final rightInterval =
-        rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
+    final rightInterval = rightTitles.interval ??
+        getEfficientInterval(viewSize.height, data.verticalDiff);
     if (rightTitles.showTitles) {
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
@@ -160,8 +164,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
           final String text = rightTitles.getTitles(verticalSeek);
 
-          final TextSpan span =
-              TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+          final TextSpan span = TextSpan(
+              style: rightTitles.getTextStyles(verticalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -179,7 +183,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           canvasWrapper.drawText(tp, Offset(x, y));
           canvasWrapper.restore();
         }
-        if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
+        if (data.maxY - verticalSeek < rightInterval &&
+            data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
         } else {
           verticalSeek += rightInterval;
@@ -189,20 +194,20 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     // Bottom titles
     final bottomTitles = targetData.titlesData.bottomTitles;
-    final bottomInterval =
-        bottomTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
+    final bottomInterval = bottomTitles.interval ??
+        getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (bottomTitles.showTitles) {
       double horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
-        if (bottomTitles.checkToShowTitle(
-            data.minX, data.maxX, bottomTitles, bottomInterval, horizontalSeek)) {
+        if (bottomTitles.checkToShowTitle(data.minX, data.maxX, bottomTitles,
+            bottomInterval, horizontalSeek)) {
           double x = getPixelX(horizontalSeek, viewSize);
           double y = viewSize.height + getTopOffsetDrawSize();
 
           final String text = bottomTitles.getTitles(horizontalSeek);
 
-          final TextSpan span =
-              TextSpan(style: bottomTitles.getTextStyles(horizontalSeek), text: text);
+          final TextSpan span = TextSpan(
+              style: bottomTitles.getTextStyles(horizontalSeek), text: text);
           final TextPainter tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -220,7 +225,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
           canvasWrapper.drawText(tp, Offset(x, y));
           canvasWrapper.restore();
         }
-        if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
+        if (data.maxX - horizontalSeek < bottomInterval &&
+            data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
         } else {
           horizontalSeek += bottomInterval;
@@ -252,18 +258,20 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     }
   }
 
-  void _drawTouchTooltip(
-      CanvasWrapper canvasWrapper, ScatterTouchTooltipData tooltipData, ScatterSpot showOnSpot) {
+  void _drawTouchTooltip(CanvasWrapper canvasWrapper,
+      ScatterTouchTooltipData tooltipData, ScatterSpot showOnSpot) {
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
 
-    final ScatterTooltipItem tooltipItem = tooltipData.getTooltipItems(showOnSpot);
+    final ScatterTooltipItem tooltipItem =
+        tooltipData.getTooltipItems(showOnSpot);
 
     if (tooltipItem == null) {
       return;
     }
 
-    final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
+    final TextSpan span =
+        TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
     final TextPainter drawingTextPainter = TextPainter(
         text: span,
         textAlign: TextAlign.center,
@@ -286,8 +294,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final double tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
     /// draw the background rect with rounded radius
-    Rect rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2),
-        mostTopOffset.dy - tooltipHeight - tooltipItem.bottomMargin, tooltipWidth, tooltipHeight);
+    Rect rect = Rect.fromLTWH(
+        mostTopOffset.dx - (tooltipWidth / 2),
+        mostTopOffset.dy - tooltipHeight - tooltipItem.bottomMargin,
+        tooltipWidth,
+        tooltipHeight);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -335,7 +346,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
     final RRect roundedRect = RRect.fromRectAndCorners(rect,
-        topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
+        topLeft: radius,
+        topRight: radius,
+        bottomLeft: radius,
+        bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
     canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
@@ -451,5 +465,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// If there is a change in the [ScatterChartData],
   /// [ScatterChartPainter] should repaint itself.
   @override
-  bool shouldRepaint(ScatterChartPainter oldDelegate) => oldDelegate.data != data;
+  bool shouldRepaint(ScatterChartPainter oldDelegate) =>
+      oldDelegate.data != data;
 }

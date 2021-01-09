@@ -40,7 +40,8 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 
   Radius topLeft;
   if (borderRadius.topLeft != null &&
-      (borderRadius.topLeft.x > width / 2 || borderRadius.topLeft.y > width / 2)) {
+      (borderRadius.topLeft.x > width / 2 ||
+          borderRadius.topLeft.y > width / 2)) {
     topLeft = Radius.circular(width / 2);
   } else {
     topLeft = borderRadius.topLeft;
@@ -48,7 +49,8 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 
   Radius topRight;
   if ((borderRadius.topRight != null) &&
-      (borderRadius.topRight.x > width / 2 || borderRadius.topRight.y > width / 2)) {
+      (borderRadius.topRight.x > width / 2 ||
+          borderRadius.topRight.y > width / 2)) {
     topRight = Radius.circular(width / 2);
   } else {
     topRight = borderRadius.topRight;
@@ -56,7 +58,8 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 
   Radius bottomLeft;
   if ((borderRadius.bottomLeft != null) &&
-      (borderRadius.bottomLeft.x > width / 2 || borderRadius.bottomLeft.y > width / 2)) {
+      (borderRadius.bottomLeft.x > width / 2 ||
+          borderRadius.bottomLeft.y > width / 2)) {
     bottomLeft = Radius.circular(width / 2);
   } else {
     bottomLeft = borderRadius.bottomLeft;
@@ -64,7 +67,8 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 
   Radius bottomRight;
   if ((borderRadius.bottomRight != null) &&
-      (borderRadius.bottomRight.x > width / 2 || borderRadius.bottomRight.y > width / 2)) {
+      (borderRadius.bottomRight.x > width / 2 ||
+          borderRadius.bottomRight.y > width / 2)) {
     bottomRight = Radius.circular(width / 2);
   } else {
     bottomRight = borderRadius.bottomRight;

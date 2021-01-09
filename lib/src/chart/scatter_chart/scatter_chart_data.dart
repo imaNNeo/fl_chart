@@ -128,11 +128,12 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         scatterSpots: lerpScatterSpotList(a.scatterSpots, b.scatterSpots, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         scatterTouchData: b.scatterTouchData,
-        showingTooltipIndicators:
-            lerpIntList(a.showingTooltipIndicators, b.showingTooltipIndicators, t),
+        showingTooltipIndicators: lerpIntList(
+            a.showingTooltipIndicators, b.showingTooltipIndicators, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        axisTitleData: FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
+        axisTitleData:
+            FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         minX: lerpDouble(a.minX, b.minX, t),
         maxX: lerpDouble(a.maxX, b.maxX, t),
         minY: lerpDouble(a.minY, b.minY, t),
@@ -166,7 +167,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       scatterSpots: scatterSpots ?? this.scatterSpots,
       titlesData: titlesData ?? this.titlesData,
       scatterTouchData: scatterTouchData ?? this.scatterTouchData,
-      showingTooltipIndicators: showingTooltipIndicators ?? this.showingTooltipIndicators,
+      showingTooltipIndicators:
+          showingTooltipIndicators ?? this.showingTooltipIndicators,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
       axisTitleData: axisTitleData ?? this.axisTitleData,
@@ -222,7 +224,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     Color color,
   })  : show = show ?? true,
         radius = radius ?? 6,
-        color = color ?? Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
+        color = color ??
+            Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
         super(x, y);
 
   @override
@@ -410,7 +413,8 @@ class ScatterTouchTooltipData with EquatableMixin {
     bool fitInsideVertically,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
-        tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        tooltipPadding = tooltipPadding ??
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItems = getTooltipItems ?? defaultScatterTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
@@ -436,7 +440,8 @@ class ScatterTouchTooltipData with EquatableMixin {
 /// [touchedSpot] that touch happened on,
 /// then you should and pass your custom [ScatterTooltipItem]
 /// to show it inside the tooltip popup.
-typedef GetScatterTooltipItems = ScatterTooltipItem Function(ScatterSpot touchedSpot);
+typedef GetScatterTooltipItems = ScatterTooltipItem Function(
+    ScatterSpot touchedSpot);
 
 /// Default implementation for [ScatterTouchTooltipData.getTooltipItems].
 ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
@@ -448,8 +453,8 @@ ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return ScatterTooltipItem(
-      '${touchedSpot.radius.toInt()}', textStyle, touchedSpot.radius + (touchedSpot.radius * 0.2));
+  return ScatterTooltipItem('${touchedSpot.radius.toInt()}', textStyle,
+      touchedSpot.radius + (touchedSpot.radius * 0.2));
 }
 
 /// Holds data of showing each item in the tooltip popup.

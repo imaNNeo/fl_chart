@@ -107,13 +107,16 @@ class FlClipData with EquatableMixin {
   FlClipData.all() : this(top: true, bottom: true, left: true, right: true);
 
   /// Creates data that clips only top and bottom side
-  FlClipData.vertical() : this(top: true, bottom: true, left: false, right: false);
+  FlClipData.vertical()
+      : this(top: true, bottom: true, left: false, right: false);
 
   /// Creates data that clips only left and right side
-  FlClipData.horizontal() : this(top: false, bottom: false, left: true, right: true);
+  FlClipData.horizontal()
+      : this(top: false, bottom: false, left: true, right: true);
 
   /// Creates data that doesn't clip any side
-  FlClipData.none() : this(top: false, bottom: false, left: false, right: false);
+  FlClipData.none()
+      : this(top: false, bottom: false, left: false, right: false);
 
   /// Checks whether any of the sides should be clipped
   bool get any => top || bottom || left || right;
