@@ -75,7 +75,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       Size viewSize, List<BarChartGroupData> barGroups, BarChartAlignment alignment) {
     final Size drawSize = getChartUsableDrawSize(viewSize);
 
-    final List<double> groupsX = List<double>(barGroups.length);
+    final List<double> groupsX = List.filled(barGroups.length, null);
 
     final double leftTextsSpace = getLeftOffsetDrawSize();
 
