@@ -13,29 +13,34 @@ final HorizontalRangeAnnotation horizontalRangeAnnotation1 =
 final HorizontalRangeAnnotation horizontalRangeAnnotation1Clone =
     HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
 
-final RangeAnnotations rangeAnnotations1 = RangeAnnotations(horizontalRangeAnnotations: [
+final RangeAnnotations rangeAnnotations1 =
+    RangeAnnotations(horizontalRangeAnnotations: [
   horizontalRangeAnnotation1,
   horizontalRangeAnnotation1Clone,
 ], verticalRangeAnnotations: [
   verticalRangeAnnotation1,
   verticalRangeAnnotation1Clone,
 ]);
-final RangeAnnotations rangeAnnotations1Clone = RangeAnnotations(horizontalRangeAnnotations: [
+final RangeAnnotations rangeAnnotations1Clone =
+    RangeAnnotations(horizontalRangeAnnotations: [
   horizontalRangeAnnotation1,
   horizontalRangeAnnotation1Clone,
 ], verticalRangeAnnotations: [
   verticalRangeAnnotation1,
   verticalRangeAnnotation1Clone,
 ]);
-final RangeAnnotations rangeAnnotations2 = RangeAnnotations(horizontalRangeAnnotations: [
+final RangeAnnotations rangeAnnotations2 =
+    RangeAnnotations(horizontalRangeAnnotations: [
   horizontalRangeAnnotation1Clone,
 ], verticalRangeAnnotations: [
   verticalRangeAnnotation1,
   verticalRangeAnnotation1Clone,
 ]);
 
-final FlLine flLine1 = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
-final FlLine flLine1Clone = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
+final FlLine flLine1 =
+    FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
+final FlLine flLine1Clone =
+    FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
 
 final Function(double) checkToShowLine = (value) => true;
 final Function(double) getDrawingLine = (value) => FlLine();
@@ -47,7 +52,8 @@ final FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
 final Function(double value) getTitles = (value) => 'sallam';
-final Function(double value) getTextStyles = (value) => const TextStyle(color: Colors.green);
+final Function(double value) getTextStyles =
+    (value) => const TextStyle(color: Colors.green);
 
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
@@ -459,7 +465,8 @@ final BarAreaData barAreaData4 = BarAreaData(
   spotsLine: barAreaSpotsLine2,
 );
 
-final Function(FlSpot spot, LineChartBarData barData) checkToShowDot = (spot, barData) => true;
+final Function(FlSpot spot, LineChartBarData barData) checkToShowDot =
+    (spot, barData) => true;
 final Function(FlSpot, double, LineChartBarData, int) getDotDrawer =
     (spot, percent, barData, index) =>
         FlDotCirclePainter(radius: 44, color: Colors.green, strokeWidth: 12);
@@ -470,11 +477,14 @@ final Function(FlSpot, double, LineChartBarData, int) getDotDrawer6 =
     (spot, percent, barData, index) =>
         FlDotCirclePainter(radius: 44.01, color: Colors.green, strokeWidth: 14);
 final Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched =
-    (spot, percent, barData, index) => FlDotCirclePainter(radius: 12, color: Colors.red);
+    (spot, percent, barData, index) =>
+        FlDotCirclePainter(radius: 12, color: Colors.red);
 final Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched4 =
-    (spot, percent, barData, index) => FlDotCirclePainter(radius: 12, color: Colors.green);
+    (spot, percent, barData, index) =>
+        FlDotCirclePainter(radius: 12, color: Colors.green);
 final Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched6 =
-    (spot, percent, barData, index) => FlDotCirclePainter(radius: 12.01, color: Colors.red);
+    (spot, percent, barData, index) =>
+        FlDotCirclePainter(radius: 12.01, color: Colors.red);
 
 final FlDotData flDotData1 = FlDotData(
   show: true,
@@ -847,67 +857,96 @@ final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
   FlPanStart(const Offset(0, 100)),
 );
 
-final TouchedSpotIndicatorData touchedSpotIndicatorData1 = TouchedSpotIndicatorData(
+final TouchedSpotIndicatorData touchedSpotIndicatorData1 =
+    TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter: getDotDrawerTouched,
+      checkToShowDot: checkToShowDot,
+      show: true),
 );
-final TouchedSpotIndicatorData touchedSpotIndicatorData1Clone = TouchedSpotIndicatorData(
+final TouchedSpotIndicatorData touchedSpotIndicatorData1Clone =
+    TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter: getDotDrawerTouched,
+      checkToShowDot: checkToShowDot,
+      show: true),
 );
 
-final TouchedSpotIndicatorData touchedSpotIndicatorData2 = TouchedSpotIndicatorData(
+final TouchedSpotIndicatorData touchedSpotIndicatorData2 =
+    TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: null, show: true),
+  FlDotData(
+      getDotPainter: getDotDrawerTouched, checkToShowDot: null, show: true),
 );
-final TouchedSpotIndicatorData touchedSpotIndicatorData3 = TouchedSpotIndicatorData(
+final TouchedSpotIndicatorData touchedSpotIndicatorData3 =
+    TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: null,
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter: getDotDrawerTouched,
+      checkToShowDot: checkToShowDot,
+      show: true),
 );
-final TouchedSpotIndicatorData touchedSpotIndicatorData4 = TouchedSpotIndicatorData(
+final TouchedSpotIndicatorData touchedSpotIndicatorData4 =
+    TouchedSpotIndicatorData(
   FlLine(
     color: Colors.green,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched4, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter: getDotDrawerTouched4,
+      checkToShowDot: checkToShowDot,
+      show: true),
 );
-final TouchedSpotIndicatorData touchedSpotIndicatorData5 = TouchedSpotIndicatorData(
+final TouchedSpotIndicatorData touchedSpotIndicatorData5 =
+    TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: false),
+  FlDotData(
+      getDotPainter: getDotDrawerTouched,
+      checkToShowDot: checkToShowDot,
+      show: false),
 );
-final TouchedSpotIndicatorData touchedSpotIndicatorData6 = TouchedSpotIndicatorData(
+final TouchedSpotIndicatorData touchedSpotIndicatorData6 =
+    TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched6, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter: getDotDrawerTouched6,
+      checkToShowDot: checkToShowDot,
+      show: true),
 );
 
-final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', const TextStyle(color: Colors.green));
+final LineTooltipItem lineTooltipItem1 =
+    LineTooltipItem('', const TextStyle(color: Colors.green));
 final LineTooltipItem lineTooltipItem1Clone =
     LineTooltipItem('', const TextStyle(color: Colors.green));
 
 final LineTooltipItem lineTooltipItem2 =
     LineTooltipItem('ss', const TextStyle(color: Colors.green));
-final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', const TextStyle(color: Colors.blue));
+final LineTooltipItem lineTooltipItem3 =
+    LineTooltipItem('', const TextStyle(color: Colors.blue));
 final LineTooltipItem lineTooltipItem4 = LineTooltipItem('', null);
 
-final Function(List<LineBarSpot> touchedSpots) lineChartGetTooltipItems = (list) {
+final Function(List<LineBarSpot> touchedSpots) lineChartGetTooltipItems =
+    (list) {
   return list.map((s) => lineTooltipItem1).toList();
 };
 
@@ -975,8 +1014,9 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
 
 final Function(LineTouchResponse) lineTouchCallback = (response) {};
 
-final Function(LineChartBarData barData, List<int> spotIndexes) getTouchedSpotIndicator =
-    (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
+final Function(LineChartBarData barData, List<int> spotIndexes)
+    getTouchedSpotIndicator = (barData, indexes) =>
+        indexes.map((i) => touchedSpotIndicatorData1).toList();
 
 final LineTouchData lineTouchData1 = LineTouchData(
   enabled: true,
@@ -1052,7 +1092,8 @@ final LineTouchData lineTouchData7 = LineTouchData(
   fullHeightTouchLine: true,
 );
 
-final Function(HorizontalLine) horizontalLabelResolver = (horizontalLine) => 'test';
+final Function(HorizontalLine) horizontalLabelResolver =
+    (horizontalLine) => 'test';
 final Function(VerticalLine) verticalLabelResolver = (horizontalLine) => 'test';
 
 final HorizontalLineLabel horizontalLineLabel1 = HorizontalLineLabel(
@@ -1534,27 +1575,33 @@ final BetweenBarsData betweenBarsData8 = BetweenBarsData(
   colors: [],
 );
 
-final ShowingTooltipIndicators showingTooltipIndicator1 = ShowingTooltipIndicators(
+final ShowingTooltipIndicators showingTooltipIndicator1 =
+    ShowingTooltipIndicators(
   1,
   [lineBarSpot1, lineBarSpot2],
 );
-final ShowingTooltipIndicators showingTooltipIndicator1Clone = ShowingTooltipIndicators(
+final ShowingTooltipIndicators showingTooltipIndicator1Clone =
+    ShowingTooltipIndicators(
   1,
   [lineBarSpot1, lineBarSpot2],
 );
-final ShowingTooltipIndicators showingTooltipIndicator2 = ShowingTooltipIndicators(
+final ShowingTooltipIndicators showingTooltipIndicator2 =
+    ShowingTooltipIndicators(
   1,
   null,
 );
-final ShowingTooltipIndicators showingTooltipIndicator3 = ShowingTooltipIndicators(
+final ShowingTooltipIndicators showingTooltipIndicator3 =
+    ShowingTooltipIndicators(
   1,
   [],
 );
-final ShowingTooltipIndicators showingTooltipIndicator4 = ShowingTooltipIndicators(
+final ShowingTooltipIndicators showingTooltipIndicator4 =
+    ShowingTooltipIndicators(
   1,
   [lineBarSpot2, lineBarSpot1],
 );
-final ShowingTooltipIndicators showingTooltipIndicator5 = ShowingTooltipIndicators(
+final ShowingTooltipIndicators showingTooltipIndicator5 =
+    ShowingTooltipIndicators(
   2,
   [lineBarSpot1, lineBarSpot2],
 );
@@ -1996,7 +2043,8 @@ final LineChartData lineChartData20 = LineChartData(
 );
 
 final PieChartData pieChartData1 = PieChartData(
-  borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
+  borderData:
+      FlBorderData(show: false, border: Border.all(color: Colors.black)),
   startDegreeOffset: 0,
   sections: [
     PieChartSectionData(value: 12, color: Colors.red),
@@ -2198,7 +2246,8 @@ final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
   2,
   Colors.green,
 );
-final BarChartRodStackItem barChartRodStackItem1Clone = barChartRodStackItem1.copyWith();
+final BarChartRodStackItem barChartRodStackItem1Clone =
+    barChartRodStackItem1.copyWith();
 
 final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
   2,
@@ -2206,22 +2255,26 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
   Colors.green,
 );
 
-final BackgroundBarChartRodData backgroundBarChartRodData1 = BackgroundBarChartRodData(
+final BackgroundBarChartRodData backgroundBarChartRodData1 =
+    BackgroundBarChartRodData(
   y: 21,
   colors: [Colors.blue],
   show: true,
 );
-final BackgroundBarChartRodData backgroundBarChartRodData1Clone = BackgroundBarChartRodData(
+final BackgroundBarChartRodData backgroundBarChartRodData1Clone =
+    BackgroundBarChartRodData(
   y: 21,
   colors: [Colors.blue],
   show: true,
 );
-final BackgroundBarChartRodData backgroundBarChartRodData2 = BackgroundBarChartRodData(
+final BackgroundBarChartRodData backgroundBarChartRodData2 =
+    BackgroundBarChartRodData(
   y: 44,
   colors: [Colors.red],
   show: true,
 );
-final BackgroundBarChartRodData backgroundBarChartRodData3 = BackgroundBarChartRodData(
+final BackgroundBarChartRodData backgroundBarChartRodData3 =
+    BackgroundBarChartRodData(
   y: 44,
   colors: [Colors.green],
   show: true,

@@ -18,7 +18,8 @@ void main() {
         data,
         (s) {},
       );
-      expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(728, 728));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize),
+          const Size(728, 728));
     });
   });
 }

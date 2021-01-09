@@ -20,16 +20,23 @@ void main() {
   });
 
   test('test default size', () {
-    expect(getDefaultSize(const Size(1080, 1920)).width, closeTo(756, tolerance));
-    expect(getDefaultSize(const Size(1080, 1920)).height, closeTo(756, tolerance));
+    expect(
+        getDefaultSize(const Size(1080, 1920)).width, closeTo(756, tolerance));
+    expect(
+        getDefaultSize(const Size(1080, 1920)).height, closeTo(756, tolerance));
 
-    expect(getDefaultSize(const Size(728, 1080)).width, closeTo(509.6, tolerance));
-    expect(getDefaultSize(const Size(728, 1080)).height, closeTo(509.6, tolerance));
+    expect(
+        getDefaultSize(const Size(728, 1080)).width, closeTo(509.6, tolerance));
+    expect(getDefaultSize(const Size(728, 1080)).height,
+        closeTo(509.6, tolerance));
 
-    expect(getDefaultSize(const Size(2560, 1600)).width, closeTo(1120, tolerance));
-    expect(getDefaultSize(const Size(2560, 1600)).height, closeTo(1120, tolerance));
+    expect(
+        getDefaultSize(const Size(2560, 1600)).width, closeTo(1120, tolerance));
+    expect(getDefaultSize(const Size(2560, 1600)).height,
+        closeTo(1120, tolerance));
 
-    expect(getDefaultSize(const Size(1000, 1000)).width, closeTo(700, tolerance));
+    expect(
+        getDefaultSize(const Size(1000, 1000)).width, closeTo(700, tolerance));
   });
 
   test('translate rotated position', () {

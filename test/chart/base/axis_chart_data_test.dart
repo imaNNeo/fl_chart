@@ -65,7 +65,12 @@ void main() {
       expect(flLine1 == flLine1Clone, true);
 
       expect(
-          flLine1 == FlLine(color: Colors.green, strokeWidth: 1.001, dashArray: [1, 2, 3]), false);
+          flLine1 ==
+              FlLine(
+                  color: Colors.green,
+                  strokeWidth: 1.001,
+                  dashArray: [1, 2, 3]),
+          false);
 
       expect(
           flLine1 ==
@@ -74,13 +79,25 @@ void main() {
               ]),
           false);
 
-      expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 1, dashArray: []), false);
+      expect(
+          flLine1 == FlLine(color: Colors.green, strokeWidth: 1, dashArray: []),
+          false);
 
-      expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 1, dashArray: null), false);
+      expect(
+          flLine1 ==
+              FlLine(color: Colors.green, strokeWidth: 1, dashArray: null),
+          false);
 
-      expect(flLine1 == FlLine(color: Colors.white, strokeWidth: 1, dashArray: [1, 2, 3]), false);
+      expect(
+          flLine1 ==
+              FlLine(color: Colors.white, strokeWidth: 1, dashArray: [1, 2, 3]),
+          false);
 
-      expect(flLine1 == FlLine(color: Colors.green, strokeWidth: 100, dashArray: [1, 2, 3]), false);
+      expect(
+          flLine1 ==
+              FlLine(
+                  color: Colors.green, strokeWidth: 100, dashArray: [1, 2, 3]),
+          false);
     });
 
     test('RangeAnnotations equality test', () {
@@ -110,10 +127,12 @@ void main() {
 
       expect(
           rangeAnnotations1 ==
-              RangeAnnotations(horizontalRangeAnnotations: [], verticalRangeAnnotations: [
-                verticalRangeAnnotation1,
-                verticalRangeAnnotation1Clone,
-              ]),
+              RangeAnnotations(
+                  horizontalRangeAnnotations: [],
+                  verticalRangeAnnotations: [
+                    verticalRangeAnnotation1,
+                    verticalRangeAnnotation1Clone,
+                  ]),
           false);
 
       expect(
@@ -123,32 +142,38 @@ void main() {
                 horizontalRangeAnnotation1Clone,
               ], verticalRangeAnnotations: [
                 verticalRangeAnnotation1,
-                VerticalRangeAnnotation(color: Colors.green, x2: 12.01, x1: 12.1),
+                VerticalRangeAnnotation(
+                    color: Colors.green, x2: 12.01, x1: 12.1),
               ]),
           false);
     });
 
     test('HorizontalRangeAnnotation equality test', () {
-      expect(horizontalRangeAnnotation1 == horizontalRangeAnnotation1Clone, true);
+      expect(
+          horizontalRangeAnnotation1 == horizontalRangeAnnotation1Clone, true);
 
       expect(
           horizontalRangeAnnotation1 ==
-              HorizontalRangeAnnotation(color: Colors.green, y2: 12.1, y1: 12.1),
+              HorizontalRangeAnnotation(
+                  color: Colors.green, y2: 12.1, y1: 12.1),
           false);
 
       expect(
           horizontalRangeAnnotation1 ==
-              HorizontalRangeAnnotation(color: Colors.green, y2: 12.0, y1: 12.1),
+              HorizontalRangeAnnotation(
+                  color: Colors.green, y2: 12.0, y1: 12.1),
           true);
 
       expect(
           horizontalRangeAnnotation1 ==
-              HorizontalRangeAnnotation(color: Colors.green, y2: 12.1, y1: 12.0),
+              HorizontalRangeAnnotation(
+                  color: Colors.green, y2: 12.1, y1: 12.0),
           false);
 
       expect(
           horizontalRangeAnnotation1 ==
-              HorizontalRangeAnnotation(color: Colors.green.withOpacity(0.5), y2: 12.0, y1: 12.1),
+              HorizontalRangeAnnotation(
+                  color: Colors.green.withOpacity(0.5), y2: 12.0, y1: 12.1),
           false);
     });
 
@@ -172,7 +197,8 @@ void main() {
 
       expect(
           verticalRangeAnnotation1 ==
-              VerticalRangeAnnotation(color: Colors.green.withOpacity(0.5), x2: 12.0, x1: 12.1),
+              VerticalRangeAnnotation(
+                  color: Colors.green.withOpacity(0.5), x2: 12.0, x1: 12.1),
           false);
     });
   });

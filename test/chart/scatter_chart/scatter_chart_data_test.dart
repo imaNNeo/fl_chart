@@ -9,37 +9,48 @@ void main() {
   group('ScatterChart data equality check', () {
     test('ScatterChartData equality test', () {
       expect(scatterChartData1 == scatterChartData1Clone, true);
-      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []),
+      expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(showingTooltipIndicators: []),
           false);
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
-                  borderData: FlBorderData(show: true, border: Border.all(color: Colors.green))),
+                  borderData: FlBorderData(
+                      show: true, border: Border.all(color: Colors.green))),
           false);
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
-                  borderData: FlBorderData(show: true, border: Border.all(color: Colors.white))),
+                  borderData: FlBorderData(
+                      show: true, border: Border.all(color: Colors.white))),
           true);
-      expect(scatterChartData1 == scatterChartData1Clone.copyWith(maxX: 444), false);
+      expect(scatterChartData1 == scatterChartData1Clone.copyWith(maxX: 444),
+          false);
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(scatterSpots: [
-                ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
-                ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
+                ScatterSpot(0, 0,
+                    show: false, radius: 33, color: Colors.yellow),
+                ScatterSpot(2, 2,
+                    show: false, radius: 11, color: Colors.purple),
                 ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
               ]),
           true);
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(scatterSpots: [
-                ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
-                ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
+                ScatterSpot(2, 2,
+                    show: false, radius: 11, color: Colors.purple),
+                ScatterSpot(0, 0,
+                    show: false, radius: 33, color: Colors.yellow),
                 ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
               ]),
           false);
       expect(
-          scatterChartData1 == scatterChartData1Clone.copyWith(clipData: FlClipData.all()), false);
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(clipData: FlClipData.all()),
+          false);
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
@@ -75,10 +86,10 @@ void main() {
               scatterChartData1Clone.copyWith(
                   gridData: FlGridData(
                 show: false,
-                getDrawingHorizontalLine: (value) =>
-                    FlLine(color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
-                getDrawingVerticalLine: (value) =>
-                    FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
+                getDrawingHorizontalLine: (value) => FlLine(
+                    color: Colors.green, strokeWidth: 12, dashArray: [1, 2]),
+                getDrawingVerticalLine: (value) => FlLine(
+                    color: Colors.yellow, strokeWidth: 33, dashArray: [0, 1]),
                 checkToShowHorizontalLine: (value) => false,
                 checkToShowVerticalLine: (value) => true,
                 drawHorizontalLine: true,
@@ -274,7 +285,8 @@ void main() {
                 ),
                 topTitle: AxisTitle(
                   showTitle: true,
-                  textStyle: const TextStyle(color: Colors.green, fontSize: 33.5),
+                  textStyle:
+                      const TextStyle(color: Colors.green, fontSize: 33.5),
                   textAlign: TextAlign.left,
                   reservedSize: 23,
                   margin: 11,
@@ -283,11 +295,15 @@ void main() {
               )),
           false);
 
-      expect(scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: []),
+      expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(showingTooltipIndicators: []),
           false);
 
       expect(
-          scatterChartData1 == scatterChartData1Clone.copyWith(showingTooltipIndicators: [2, 1, 0]),
+          scatterChartData1 ==
+              scatterChartData1Clone
+                  .copyWith(showingTooltipIndicators: [2, 1, 0]),
           false);
     });
 

@@ -12,13 +12,15 @@ void main() {
       expect(
           pieChartData1 ==
               pieChartData1Clone.copyWith(
-                  borderData: FlBorderData(show: false, border: Border.all(color: Colors.black))),
+                  borderData: FlBorderData(
+                      show: false, border: Border.all(color: Colors.black))),
           true);
 
       expect(
           pieChartData1 ==
               pieChartData1Clone.copyWith(
-                  borderData: FlBorderData(show: true, border: Border.all(color: Colors.black))),
+                  borderData: FlBorderData(
+                      show: true, border: Border.all(color: Colors.black))),
           false);
 
       expect(
@@ -31,7 +33,8 @@ void main() {
       expect(
           pieChartData1 ==
               PieChartData(
-                borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
+                borderData: FlBorderData(
+                    show: false, border: Border.all(color: Colors.black)),
                 startDegreeOffset: 0,
                 sections: null,
                 centerSpaceColor: Colors.white,
@@ -65,7 +68,8 @@ void main() {
               pieChartData1Clone.copyWith(
                 sections: [
                   PieChartSectionData(value: 12, color: Colors.red),
-                  PieChartSectionData(value: 22, color: Colors.green.withOpacity(0.99)),
+                  PieChartSectionData(
+                      value: 22, color: Colors.green.withOpacity(0.99)),
                 ],
               ),
           false);
@@ -154,7 +158,8 @@ void main() {
 
       expect(sample1 == sample2.copyWith(value: 12), false);
 
-      expect(sample1 == sample2.copyWith(titlePositionPercentageOffset: 4314), false);
+      expect(sample1 == sample2.copyWith(titlePositionPercentageOffset: 4314),
+          false);
 
       expect(
         sample1 ==
@@ -176,7 +181,8 @@ void main() {
         false,
       );
 
-      expect(sample1 == sample2.copyWith(badgePositionPercentageOffset: 4314), false);
+      expect(sample1 == sample2.copyWith(badgePositionPercentageOffset: 4314),
+          false);
 
       expect(
           sample1 ==
@@ -197,10 +203,16 @@ void main() {
               ),
           false);
 
-      expect(sample1 == sample2.copyWith(titleStyle: const TextStyle(color: Colors.green)), true);
+      expect(
+          sample1 ==
+              sample2.copyWith(
+                  titleStyle: const TextStyle(color: Colors.green)),
+          true);
 
       expect(
-          sample1 == sample2.copyWith(titleStyle: TextStyle(color: Colors.green.withOpacity(0.3))),
+          sample1 ==
+              sample2.copyWith(
+                  titleStyle: TextStyle(color: Colors.green.withOpacity(0.3))),
           false);
     });
 
