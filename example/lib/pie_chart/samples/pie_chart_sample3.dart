@@ -1,7 +1,7 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:fl_chart/fl_chart.dart';
 
 /// Icons by svgrepo.com (https://www.svgrepo.com/collection/job-and-professions-3/)
 class PieChartSample3 extends StatefulWidget {
@@ -24,8 +24,7 @@ class PieChartSample3State extends State {
             PieChartData(
                 pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
                   setState(() {
-                    if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                        pieTouchResponse.touchInput is FlPanEnd) {
+                    if (pieTouchResponse.touchInput is FlLongPressEnd || pieTouchResponse.touchInput is FlPanEnd) {
                       touchedIndex = -1;
                     } else {
                       touchedIndex = pieTouchResponse.touchedSectionIndex;
@@ -58,8 +57,7 @@ class PieChartSample3State extends State {
             value: 40,
             title: '40%',
             radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            titleStyle: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/ophthalmology-svgrepo-com.svg',
               size: widgetSize,
@@ -73,8 +71,7 @@ class PieChartSample3State extends State {
             value: 30,
             title: '30%',
             radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            titleStyle: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/librarian-svgrepo-com.svg',
               size: widgetSize,
@@ -88,8 +85,7 @@ class PieChartSample3State extends State {
             value: 16,
             title: '16%',
             radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            titleStyle: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/fitness-svgrepo-com.svg',
               size: widgetSize,
@@ -103,8 +99,7 @@ class PieChartSample3State extends State {
             value: 15,
             title: '15%',
             radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            titleStyle: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/worker-svgrepo-com.svg',
               size: widgetSize,
@@ -154,10 +149,12 @@ class _Badge extends StatelessWidget {
       ),
       padding: EdgeInsets.all(size * .15),
       child: Center(
-        child: SvgPicture.asset(
-          svgAsset,
-          fit: BoxFit.contain,
-        ),
+        child: kIsWeb
+            ? Image.network(svgAsset, fit: BoxFit.contain)
+            : SvgPicture.asset(
+                svgAsset,
+                fit: BoxFit.contain,
+              ),
       ),
     );
   }
