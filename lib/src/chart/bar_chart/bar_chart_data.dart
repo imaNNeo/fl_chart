@@ -768,16 +768,21 @@ class BarTooltipItem with EquatableMixin {
   /// TextStyle of the showing content.
   final TextStyle textStyle;
 
+  /// List<InlineSpan> for more flexibility in showing content.
+  final List<InlineSpan> children;
+
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(String text, TextStyle textStyle)
+  BarTooltipItem(String text, TextStyle textStyle, [List<InlineSpan> children])
       : text = text,
-        textStyle = textStyle;
+        textStyle = textStyle,
+        children = children;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object> get props => [
         text,
         textStyle,
+        children,
       ];
 }
 
