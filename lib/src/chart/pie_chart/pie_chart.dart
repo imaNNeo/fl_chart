@@ -57,12 +57,12 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
 
   @override
   Widget build(BuildContext context) {
-    final PieChartData showingData = _getData();
-    final PieTouchData touchData = showingData.pieTouchData;
+    final showingData = _getData();
+    final touchData = showingData.pieTouchData;
 
     return GestureDetector(
       onLongPressStart: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -73,7 +73,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onLongPressEnd: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -85,7 +85,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onLongPressMoveUpdate: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -97,7 +97,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onPanCancel: () {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -109,7 +109,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onPanEnd: (DragEndDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -121,7 +121,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onPanDown: (DragDownDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -133,7 +133,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -180,7 +180,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           children: List.generate(
             offsetsMap.length,
             (index) {
-              final int _key = offsetsMap.keys.elementAt(index);
+              final _key = offsetsMap.keys.elementAt(index);
 
               if (offsetsMap.length != _getData().sections.length) {
                 return LayoutId(
@@ -189,7 +189,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
                 );
               }
 
-              final Widget _badgeWidget = _getData().sections[_key].badgeWidget;
+              final _badgeWidget = _getData().sections[_key].badgeWidget;
 
               if (_badgeWidget == null) {
                 return LayoutId(
@@ -251,10 +251,10 @@ class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
 
   @override
   void performLayout(Size size) {
-    for (int index = 0; index < badgeWidgetsCount; index++) {
-      final int _key = badgeWidgetsOffsets.keys.elementAt(index);
+    for (var index = 0; index < badgeWidgetsCount; index++) {
+      final _key = badgeWidgetsOffsets.keys.elementAt(index);
 
-      final Size _size = layoutChild(
+      final _size = layoutChild(
         _key,
         BoxConstraints(
           maxWidth: size.width,

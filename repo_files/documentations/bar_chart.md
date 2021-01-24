@@ -25,7 +25,7 @@ BarChart(
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
-|maxY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
+|minY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
 
 
 ### BarChartGroupData

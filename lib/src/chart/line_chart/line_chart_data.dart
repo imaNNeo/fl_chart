@@ -105,8 +105,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double minY,
     double maxY,
   ) {
-    for (int i = 0; i < lineBarsData.length; i++) {
-      final LineChartBarData lineBarChart = lineBarsData[i];
+    for (var i = 0; i < lineBarsData.length; i++) {
+      final lineBarChart = lineBarsData[i];
       if (lineBarChart.spots == null || lineBarChart.spots.isEmpty) {
         throw Exception('spots could not be null or empty');
       }
@@ -117,10 +117,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
       final canModifyMinY = minY == null;
       final canModifyMaxY = maxY == null;
 
-      for (int i = 0; i < lineBarsData.length; i++) {
-        final LineChartBarData barData = lineBarsData[i];
-        for (int j = 0; j < barData.spots.length; j++) {
-          final FlSpot spot = barData.spots[j];
+      for (var i = 0; i < lineBarsData.length; i++) {
+        final barData = lineBarsData[i];
+        for (var j = 0; j < barData.spots.length; j++) {
+          final spot = barData.spots[j];
           if (spot.isNotNull()) {
             if (canModifyMaxX && (maxX == null || spot.x > maxX)) {
               maxX = spot.x;
@@ -1440,14 +1440,14 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
   }
   return indicators.map((int index) {
     /// Indicator Line
-    Color lineColor = barData.colors[0];
+    var lineColor = barData.colors[0];
     if (barData.dotData.show) {
       lineColor = _defaultGetDotColor(barData.spots[index], 0, barData);
     }
-    const double lineStrokeWidth = 4;
-    final FlLine flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
+    const lineStrokeWidth = 4.0;
+    final flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
-    double dotSize = 10;
+    var dotSize = 10.0;
     if (barData.dotData.show) {
       dotSize = 4.0 * 1.8;
     }
@@ -1557,7 +1557,7 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
     if (touchedSpot == null) {
       return null;
     }
-    final TextStyle textStyle = TextStyle(
+    final textStyle = TextStyle(
       color: touchedSpot.bar.colors[0],
       fontWeight: FontWeight.bold,
       fontSize: 14,
