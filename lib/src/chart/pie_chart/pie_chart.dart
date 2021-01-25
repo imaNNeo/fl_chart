@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
+import 'package:flutter/material.dart';
 
 import 'pie_chart_data.dart';
 
@@ -162,14 +161,18 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
             });
           },
         ),
-        child: badgeWidgets(),
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return badgeWidgets(constraints);
+          },
+        ),
       ),
     );
   }
 
-  Widget badgeWidgets() {
-    final chartSize = _getChartSize();
-    if (chartSize != null && _widgetsPositionHandler != null) {
+  Widget badgeWidgets(BoxConstraints constraints) {
+    final chartSize = constraints.biggest;
+    if (_widgetsPositionHandler != null) {
       final offsetsMap = _widgetsPositionHandler.getBadgeOffsets(chartSize);
       if (offsetsMap.isNotEmpty) {
         return CustomMultiChildLayout(
