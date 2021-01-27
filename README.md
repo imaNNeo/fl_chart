@@ -67,7 +67,7 @@ flutter packages get
 ### And the last but not least 🔥
 ##### :beer: pull requests are welcome!
 
-#### :moneybag: Donation (bitcoin) :moneybag:
+#### :moneybag: Donation (bitcoin) :moneybag: 加入测试
 ##### I work on this project in my free time because I have my personal life and job. You can push me to work more by donating.
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bitcoin_public_key.png" width="180" >
 
