@@ -31,7 +31,8 @@ class BarChartSample4State extends State<BarChartSample4> {
                 show: true,
                 bottomTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (value) => const TextStyle(color: Color(0xff939393), fontSize: 10),
+                  getTextStyles: (value) =>
+                      const TextStyle(color: Color(0xff939393), fontSize: 10),
                   margin: 10,
                   getTitles: (double value) {
                     switch (value.toInt()) {
@@ -123,7 +124,14 @@ class BarChartSample4State extends State<BarChartSample4> {
               rodStackItems: [
                 BarChartRodStackItem(0, 2000000000.5, dark),
                 BarChartRodStackItem(2000000000.5, 17000000000.5, normal),
-                BarChartRodStackItem(17000000000.5, 32000000000, light),
+                BarChartRodStackItem(
+                  17000000000.5,
+                  32000000000,
+                  light,
+                  textColor: const Color(0xffffffff),
+                  textMark: "ces",
+                  textSize: 10,
+                ),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
         ],
