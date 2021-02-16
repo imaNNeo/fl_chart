@@ -1,3 +1,6 @@
+## 1.0.0--nullsafety.0
+* [Feature] Null Safety support
+
 ## 0.12.2
 * [Bugfix] Fixed PieChart badges draw in first frame problem, #513.
 * [Improvement] Use CanvasWrapper to proxy draw functions (It does not have any effect on the result, it makes the code testable)
