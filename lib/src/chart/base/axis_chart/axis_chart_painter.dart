@@ -16,12 +16,12 @@ import 'axis_chart_data.dart';
 /// [data] is the currently showing data (it may produced by an animation using lerp function),
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainter<D> {
-  Paint _gridPaint, _backgroundPaint;
+  late Paint _gridPaint, _backgroundPaint;
 
   /// [_rangeAnnotationPaint] draws range annotations;
-  Paint _rangeAnnotationPaint;
+  late Paint _rangeAnnotationPaint;
 
-  AxisChartPainter(D data, D targetData, {double textScale})
+  AxisChartPainter(D data, D targetData, {double? textScale})
       : super(data, targetData, textScale: textScale) {
     _gridPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -46,12 +46,12 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   /// AxisTitle is a title to describe each axis,
   /// It can be larger then axis values titles.
   void drawAxisTitles(CanvasWrapper canvasWrapper) {
-    if (!data.axisTitleData.show) {
+    if (!data.axisTitleData!.show) {
       return;
     }
     final viewSize = getChartUsableDrawSize(canvasWrapper.size);
 
-    final axisTitles = data.axisTitleData;
+    final axisTitles = data.axisTitleData!;
 
     // Left Title
     final leftTitle = axisTitles.leftTitle;
@@ -61,7 +61,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           text: span,
           textAlign: leftTitle.textAlign,
           textDirection: TextDirection.ltr,
-          textScaleFactor: textScale);
+          textScaleFactor: textScale!);
       tp.layout(minWidth: viewSize.height);
       canvasWrapper.save();
       canvasWrapper.rotate(-math.pi * 0.5);
@@ -78,7 +78,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           text: span,
           textAlign: topTitle.textAlign,
           textDirection: TextDirection.ltr,
-          textScaleFactor: textScale);
+          textScaleFactor: textScale!);
       tp.layout(minWidth: viewSize.width);
       canvasWrapper.drawText(
           tp, Offset(getLeftOffsetDrawSize(), topTitle.reservedSize - tp.height));
@@ -92,7 +92,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           text: span,
           textAlign: rightTitle.textAlign,
           textDirection: TextDirection.ltr,
-          textScaleFactor: textScale);
+          textScaleFactor: textScale!);
       tp.layout(minWidth: viewSize.height);
       canvasWrapper.save();
       canvasWrapper.rotate(-math.pi * 0.5);
@@ -111,7 +111,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           text: span,
           textAlign: bottomTitle.textAlign,
           textDirection: TextDirection.ltr,
-          textScaleFactor: textScale);
+          textScaleFactor: textScale!);
       tp.layout(minWidth: viewSize.width);
       canvasWrapper.drawText(
           tp,
@@ -128,13 +128,13 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   double getExtraNeededHorizontalSpace() {
     double sum = super.getExtraNeededHorizontalSpace();
 
-    if (data.axisTitleData.show) {
-      final leftSide = data.axisTitleData.leftTitle;
+    if (data.axisTitleData!.show) {
+      final leftSide = data.axisTitleData!.leftTitle;
       if (leftSide.showTitle) {
         sum += leftSide.reservedSize + leftSide.margin;
       }
 
-      final rightSide = data.axisTitleData.rightTitle;
+      final rightSide = data.axisTitleData!.rightTitle;
       if (rightSide.showTitle) {
         sum += rightSide.reservedSize + rightSide.margin;
       }
@@ -151,13 +151,13 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   double getExtraNeededVerticalSpace() {
     double sum = super.getExtraNeededVerticalSpace();
 
-    if (data.axisTitleData.show) {
-      final topSide = data.axisTitleData.topTitle;
+    if (data.axisTitleData!.show) {
+      final topSide = data.axisTitleData!.topTitle;
       if (topSide.showTitle) {
         sum += topSide.reservedSize + topSide.margin;
       }
 
-      final bottomSide = data.axisTitleData.bottomTitle;
+      final bottomSide = data.axisTitleData!.bottomTitle;
       if (bottomSide.showTitle) {
         sum += bottomSide.reservedSize + bottomSide.margin;
       }
@@ -174,8 +174,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   double getLeftOffsetDrawSize() {
     var sum = super.getLeftOffsetDrawSize();
 
-    final leftAxisTitle = data.axisTitleData.leftTitle;
-    if (data.axisTitleData.show && leftAxisTitle.showTitle) {
+    final leftAxisTitle = data.axisTitleData!.leftTitle;
+    if (data.axisTitleData!.show && leftAxisTitle.showTitle) {
       sum += leftAxisTitle.reservedSize + leftAxisTitle.margin;
     }
 
@@ -190,8 +190,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   double getTopOffsetDrawSize() {
     var sum = super.getTopOffsetDrawSize();
 
-    final topAxisTitle = data.axisTitleData.topTitle;
-    if (data.axisTitleData.show && topAxisTitle.showTitle) {
+    final topAxisTitle = data.axisTitleData!.topTitle;
+    if (data.axisTitleData!.show && topAxisTitle.showTitle) {
       sum += topAxisTitle.reservedSize + topAxisTitle.margin;
     }
 
@@ -199,7 +199,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   }
 
   void _drawGrid(CanvasWrapper canvasWrapper) {
-    if (!data.gridData.show || data.gridData == null) {
+    if (!data.gridData.show) {
       return;
     }
     final viewSize = canvasWrapper.size;
@@ -275,7 +275,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
     final viewSize = canvasWrapper.size;
     final Size usableViewSize = getChartUsableDrawSize(viewSize);
-    _backgroundPaint.color = data.backgroundColor;
+    _backgroundPaint.color = data.backgroundColor!;
     canvasWrapper.drawRect(
       Rect.fromLTWH(
         getLeftOffsetDrawSize(),
@@ -288,10 +288,6 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   }
 
   void _drawRangeAnnotation(CanvasWrapper canvasWrapper) {
-    if (data.rangeAnnotations == null) {
-      return;
-    }
-
     final viewSize = canvasWrapper.size;
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
@@ -334,18 +330,18 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   /// With this function we can convert our [FlSpot] x
   /// to the view base axis x .
   /// the view 0, 0 is on the top/left, but the spots is bottom/left
-  double getPixelX(double spotX, Size chartUsableSize) {
+  double getPixelX(double? spotX, Size chartUsableSize) {
     final double deltaX = data.maxX - data.minX;
     if (deltaX == 0.0) {
       return getLeftOffsetDrawSize();
     }
-    return (((spotX - data.minX) / deltaX) * chartUsableSize.width) + getLeftOffsetDrawSize();
+    return (((spotX! - data.minX) / deltaX) * chartUsableSize.width) + getLeftOffsetDrawSize();
   }
 
   /// With this function we can convert our [FlSpot] y
   /// to the view base axis y.
   double getPixelY(
-    double spotY,
+    double? spotY,
     Size chartUsableSize,
   ) {
     final double deltaY = data.maxY - data.minY;
@@ -353,7 +349,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       return chartUsableSize.height + getTopOffsetDrawSize();
     }
 
-    double y = ((spotY - data.minY) / deltaY) * chartUsableSize.height;
+    double y = ((spotY! - data.minY) / deltaY) * chartUsableSize.height;
     y = chartUsableSize.height - y;
     return y + getTopOffsetDrawSize();
   }

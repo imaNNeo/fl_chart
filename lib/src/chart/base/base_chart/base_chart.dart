@@ -12,8 +12,8 @@ abstract class BaseChart {
   /// [baseChartData] is the currently showing data (it may produced by an animation using lerp function),
   /// [targetBaseChartData] is the target data, that animation is going to show (if animating)
   BaseChartPainter painter({
-    BaseChartData baseChartData,
-    BaseChartData targetBaseChartData,
+    BaseChartData? baseChartData,
+    BaseChartData? targetBaseChartData,
   });
 
   /// get the data of the concrete chart

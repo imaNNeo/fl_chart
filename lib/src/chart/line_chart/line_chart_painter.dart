@@ -19,7 +19,7 @@ import 'line_chart_data.dart';
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData>
     with TouchHandler<LineTouchResponse> {
-  Paint _barPaint,
+  late Paint _barPaint,
       _barAreaPaint,
       _barAreaLinesPaint,
       _clearBarAreaPaint,
@@ -41,7 +41,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// the system's font size.
   LineChartPainter(
       LineChartData data, LineChartData targetData, Function(TouchHandler) touchHandler,
-      {double textScale})
+      {double? textScale})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
@@ -89,7 +89,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _drawBetweenBarsArea(canvasWrapper, data, betweenBarsData);
     }
 
-    if (data.extraLinesData != null && !data.extraLinesData.extraLinesOnTop) {
+    if (!data.extraLinesData.extraLinesOnTop) {
       _drawExtraLines(canvasWrapper);
     }
 
@@ -104,7 +104,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _drawBarLine(canvasWrapper, barData);
       _drawDots(canvasWrapper, barData);
 
-      if (data.extraLinesData != null && data.extraLinesData.extraLinesOnTop) {
+      if (data.extraLinesData.extraLinesOnTop) {
         _drawExtraLines(canvasWrapper);
       }
 
@@ -129,7 +129,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final List<LineBarSpot> barSpots = List.of(showingBarSpots);
       FlSpot topSpot = barSpots[0];
       for (LineBarSpot barSpot in barSpots) {
-        if (barSpot.y > topSpot.y) {
+        if (barSpot.y! > topSpot.y!) {
           topSpot = barSpot;
         }
       }
@@ -151,19 +151,19 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     double bottom = size.height;
 
     if (clip.left) {
-      final borderWidth = border?.left?.width ?? 0;
+      final borderWidth = border?.left.width ?? 0;
       left = getLeftOffsetDrawSize() - (borderWidth / 2);
     }
     if (clip.top) {
-      final borderWidth = border?.top?.width ?? 0;
+      final borderWidth = border?.top.width ?? 0;
       top = getTopOffsetDrawSize() - (borderWidth / 2);
     }
     if (clip.right) {
-      final borderWidth = border?.right?.width ?? 0;
+      final borderWidth = border?.right.width ?? 0;
       right = getLeftOffsetDrawSize() + usableSize.width + (borderWidth / 2);
     }
     if (clip.bottom) {
-      final borderWidth = border?.bottom?.width ?? 0;
+      final borderWidth = border?.bottom.width ?? 0;
       bottom = getTopOffsetDrawSize() + usableSize.height + (borderWidth / 2);
     }
 
@@ -233,7 +233,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawDots(CanvasWrapper canvasWrapper, LineChartBarData barData) {
-    if (!barData.dotData.show || barData.spots == null || barData.spots.isEmpty) {
+    if (!barData.dotData.show || barData.spots.isEmpty) {
       return;
     }
     final viewSize = getChartUsableDrawSize(canvasWrapper.size);
@@ -276,18 +276,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final int index = barData.showingIndicators[i];
       final FlSpot spot = barData.spots[index];
 
-      if (indicatorData == null) {
-        continue;
-      }
-
       final Offset touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
 
       /// For drawing the dot
-      final bool showingDots =
-          indicatorData.touchedSpotDotData != null && indicatorData.touchedSpotDotData.show;
+      final bool showingDots = indicatorData.touchedSpotDotData.show;
       double dotHeight = 0;
-      FlDotPainter dotPainter;
+      late FlDotPainter dotPainter;
 
       if (showingDots) {
         final double xPercentInLine =
@@ -320,7 +315,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
   /// Generates a path, based on [LineChartBarData.isStepChart] for step style, and normal style.
   Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
-      {Path appendToPath}) {
+      {Path? appendToPath}) {
     if (barData.isStepLineChart) {
       return _generateStepBarPath(viewSize, barData, barSpots, appendToPath: appendToPath);
     } else {
@@ -337,7 +332,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// If you want to concatenate paths together for creating an area between
   /// multiple bars for example, you can pass the appendToPath
   Path _generateNormalBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
-      {Path appendToPath}) {
+      {Path? appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
     final int size = barSpots.length;
@@ -407,7 +402,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
   /// generates a `Step Line Chart` bar style path.
   Path _generateStepBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
-      {Path appendToPath}) {
+      {Path? appendToPath}) {
     viewSize = getChartUsableDrawSize(viewSize);
     final Path path = appendToPath ?? Path();
     final int size = barSpots.length;
@@ -440,7 +435,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       } else {
         final deltaX = next.dx - current.dx;
 
-        path.lineTo(current.dx + deltaX - (deltaX * stepDirection), current.dy);
+        path.lineTo(current.dx + deltaX - (deltaX * stepDirection!), current.dy);
         path.lineTo(current.dx + deltaX - (deltaX * stepDirection), next.dy);
         path.lineTo(next.dx, next.dy);
       }
@@ -542,16 +537,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// here we update the [belowBarPaint] to draw the solid color
     /// or the gradient based on the [BarAreaData] class.
     if (barData.belowBarData.colors.length == 1) {
-      _barAreaPaint.color = barData.belowBarData.colors[0];
+      _barAreaPaint.color = barData.belowBarData.colors[0]!;
       _barAreaPaint.shader = null;
     } else {
-      List<double> stops = [];
+      List<double?>? stops = [];
       if (barData.belowBarData.gradientColorStops == null ||
-          barData.belowBarData.gradientColorStops.length != barData.belowBarData.colors.length) {
+          barData.belowBarData.gradientColorStops!.length != barData.belowBarData.colors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
         barData.belowBarData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / barData.belowBarData.colors.length;
-          stops.add(percent * index);
+          stops!.add(percent * index);
         });
       } else {
         stops = barData.belowBarData.gradientColorStops;
@@ -568,8 +563,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
-        barData.belowBarData.colors,
-        stops,
+        barData.belowBarData.colors as List<ui.Color>,
+        stops as List<double>?,
       );
     }
 
@@ -586,7 +581,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     /// draw below spots line
-    if (barData.belowBarData.spotsLine != null && barData.belowBarData.spotsLine.show) {
+    if (barData.belowBarData.spotsLine.show) {
       for (FlSpot spot in barData.spots) {
         if (barData.belowBarData.spotsLine.checkToShowSpotLine(spot)) {
           final Offset from = Offset(
@@ -635,16 +630,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// here we update the [aboveBarPaint] to draw the solid color
     /// or the gradient based on the [BarAreaData] class.
     if (barData.aboveBarData.colors.length == 1) {
-      _barAreaPaint.color = barData.aboveBarData.colors[0];
+      _barAreaPaint.color = barData.aboveBarData.colors[0]!;
       _barAreaPaint.shader = null;
     } else {
-      List<double> stops = [];
+      List<double?>? stops = [];
       if (barData.aboveBarData.gradientColorStops == null ||
-          barData.aboveBarData.gradientColorStops.length != barData.aboveBarData.colors.length) {
+          barData.aboveBarData.gradientColorStops!.length != barData.aboveBarData.colors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
         barData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / barData.colors.length;
-          stops.add(percent * index);
+          stops!.add(percent * index);
         });
       } else {
         stops = barData.aboveBarData.gradientColorStops;
@@ -661,8 +656,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
-        barData.aboveBarData.colors,
-        stops,
+        barData.aboveBarData.colors as List<ui.Color>,
+        stops as List<double>?,
       );
     }
 
@@ -679,7 +674,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
 
     /// draw above spots line
-    if (barData.aboveBarData.spotsLine != null && barData.aboveBarData.spotsLine.show) {
+    if (barData.aboveBarData.spotsLine.show) {
       for (FlSpot spot in barData.spots) {
         if (barData.aboveBarData.spotsLine.checkToShowSpotLine(spot)) {
           final Offset from = Offset(
@@ -720,16 +715,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// here we update the [betweenBarsData] to draw the solid color
     /// or the gradient based on the [BetweenBarsData] class.
     if (betweenBarsData.colors.length == 1) {
-      _barAreaPaint.color = betweenBarsData.colors[0];
+      _barAreaPaint.color = betweenBarsData.colors[0]!;
       _barAreaPaint.shader = null;
     } else {
-      List<double> stops = [];
+      List<double?>? stops = [];
       if (betweenBarsData.gradientColorStops == null ||
-          betweenBarsData.gradientColorStops.length != betweenBarsData.colors.length) {
+          betweenBarsData.gradientColorStops!.length != betweenBarsData.colors.length) {
         /// provided gradientColorStops is invalid and we calculate it here
         betweenBarsData.colors.asMap().forEach((index, color) {
           final percent = 1.0 / betweenBarsData.colors.length;
-          stops.add(percent * index);
+          stops!.add(percent * index);
         });
       } else {
         stops = betweenBarsData.gradientColorStops;
@@ -746,8 +741,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
-        betweenBarsData.colors,
-        stops,
+        betweenBarsData.colors as List<ui.Color>,
+        stops as List<double>?,
       );
     }
 
@@ -801,15 +796,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     /// if we have one color, solid color will apply,
     /// but if we have more than one color, gradient will apply.
     if (barData.colors.length == 1) {
-      _barPaint.color = barData.colors[0];
+      _barPaint.color = barData.colors[0]!;
       _barPaint.shader = null;
     } else {
-      List<double> stops = [];
-      if (barData.colorStops == null || barData.colorStops.length != barData.colors.length) {
+      List<double?>? stops = [];
+      if (barData.colorStops == null || barData.colorStops!.length != barData.colors.length) {
         /// provided colorStops is invalid and we calculate it here
         barData.colors.asMap().forEach((index, color) {
           final double percent = 1.0 / barData.colors.length;
-          stops.add(percent * index);
+          stops!.add(percent * index);
         });
       } else {
         stops = barData.colorStops;
@@ -827,8 +822,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           getLeftOffsetDrawSize() + (chartViewSize.width * to.dx),
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
-        barData.colors,
-        stops,
+        barData.colors as List<ui.Color>,
+        stops as List<double>?,
       );
     }
 
@@ -863,7 +858,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
@@ -903,7 +898,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout();
 
           x -= tp.width / 2;
@@ -944,7 +939,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
           x += rightTitles.margin;
@@ -984,7 +979,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout();
 
           x -= tp.width / 2;
@@ -1008,10 +1003,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawExtraLines(CanvasWrapper canvasWrapper) {
-    if (data.extraLinesData == null) {
-      return;
-    }
-
     final viewSize = canvasWrapper.size;
     final Size chartUsableSize = getChartUsableDrawSize(viewSize);
 
@@ -1030,28 +1021,28 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         canvasWrapper.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
 
         if (line.sizedPicture != null) {
-          final double centerX = line.sizedPicture.width / 2;
-          final double centerY = line.sizedPicture.height / 2;
+          final double centerX = line.sizedPicture!.width! / 2;
+          final double centerY = line.sizedPicture!.height / 2;
           final double xPosition = leftChartPadding - centerX;
           final double yPosition = to.dy - centerY;
 
           canvasWrapper.save();
           canvasWrapper.translate(xPosition, yPosition);
-          canvasWrapper.drawPicture(line.sizedPicture.picture);
+          canvasWrapper.drawPicture(line.sizedPicture!.picture!);
           canvasWrapper.restore();
         }
 
         if (line.image != null) {
-          final double centerX = line.image.width / 2;
-          final double centerY = line.image.height / 2;
+          final double centerX = line.image!.width / 2;
+          final double centerY = line.image!.height / 2;
           final Offset centeredImageOffset = Offset(leftChartPadding - centerX, to.dy - centerY);
-          canvasWrapper.drawImage(line.image, centeredImageOffset, _imagePaint);
+          canvasWrapper.drawImage(line.image!, centeredImageOffset, _imagePaint);
         }
 
-        if (line.label != null && line.label.show) {
+        if (line.label.show!) {
           final HorizontalLineLabel label = line.label;
           final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
+          final EdgeInsets padding = label.padding as EdgeInsets? ?? EdgeInsets.zero;
 
           final TextSpan span = TextSpan(
             text: label.labelResolver(line),
@@ -1066,7 +1057,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           tp.layout();
           canvasWrapper.drawText(
               tp,
-              label.alignment.withinRect(
+              label.alignment!.withinRect(
                 Rect.fromLTRB(
                   from.dx + padding.left,
                   from.dy - padding.bottom - tp.height,
@@ -1093,28 +1084,28 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         canvasWrapper.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
 
         if (line.sizedPicture != null) {
-          final double centerX = line.sizedPicture.width / 2;
-          final double centerY = line.sizedPicture.height / 2;
+          final double centerX = line.sizedPicture!.width! / 2;
+          final double centerY = line.sizedPicture!.height / 2;
           final double xPosition = to.dx - centerX;
           final double yPosition = viewSize.height - bottomChartPadding - centerY;
 
           canvasWrapper.save();
           canvasWrapper.translate(xPosition, yPosition);
-          canvasWrapper.drawPicture(line.sizedPicture.picture);
+          canvasWrapper.drawPicture(line.sizedPicture!.picture!);
           canvasWrapper.restore();
         }
         if (line.image != null) {
-          final double centerX = line.image.width / 2;
-          final double centerY = line.image.height / 2;
+          final double centerX = line.image!.width / 2;
+          final double centerY = line.image!.height / 2;
           final Offset centeredImageOffset =
               Offset(to.dx - centerX, viewSize.height - bottomChartPadding - centerY);
-          canvasWrapper.drawImage(line.image, centeredImageOffset, _imagePaint);
+          canvasWrapper.drawImage(line.image!, centeredImageOffset, _imagePaint);
         }
 
-        if (line.label != null && line.label.show) {
+        if (line.label.show!) {
           final VerticalLineLabel label = line.label;
           final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
+          final EdgeInsets padding = label.padding as EdgeInsets? ?? EdgeInsets.zero;
 
           final TextSpan span = TextSpan(
             text: label.labelResolver(line),
@@ -1130,7 +1121,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           canvasWrapper.drawText(
             tp,
-            label.alignment.withinRect(
+            label.alignment!.withinRect(
               Rect.fromLTRB(
                 to.dx - padding.right - tp.width,
                 from.dy + padding.top - topChartPadding,
@@ -1162,16 +1153,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     for (int i = 0; i < showingTooltipSpots.showingSpots.length; i++) {
       final LineTooltipItem tooltipItem = tooltipItems[i];
-      if (tooltipItem == null) {
-        continue;
-      }
 
       final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
       final TextPainter tp = TextPainter(
           text: span,
           textAlign: TextAlign.center,
           textDirection: TextDirection.ltr,
-          textScaleFactor: textScale);
+          textScaleFactor: textScale!);
       tp.layout(maxWidth: tooltipData.maxContentWidth);
       drawingTextPainters.add(tp);
     }
@@ -1286,7 +1274,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   double _getBarLineXLength(LineChartBarData barData, Size chartUsableSize) {
-    if (barData.spots == null || barData.spots.isEmpty) {
+    if (barData.spots.isEmpty) {
       return 0.0;
     }
 
@@ -1388,7 +1376,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final barData = data.lineBarsData[i];
 
       // find the nearest spot on touch area in this bar line
-      final LineBarSpot foundTouchedSpot =
+      final LineBarSpot? foundTouchedSpot =
           _getNearestTouchedSpot(size, touchInput.getOffset(), barData, i);
       if (foundTouchedSpot != null) {
         touchedSpots.add(foundTouchedSpot);
@@ -1399,7 +1387,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   /// find the nearest spot base on the touched offset
-  LineBarSpot _getNearestTouchedSpot(
+  LineBarSpot? _getNearestTouchedSpot(
       Size viewSize, Offset touchedPoint, LineChartBarData barData, int barDataPosition) {
     if (!barData.show) {
       return null;

@@ -13,7 +13,7 @@ import 'scatter_chart_data.dart';
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     with TouchHandler<ScatterTouchResponse> {
   /// [_spotsPaint] is responsible to draw scatter spots
-  Paint _spotsPaint, _bgTouchTooltipPaint;
+  late Paint _spotsPaint, _bgTouchTooltipPaint;
 
   /// Paints [data] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
@@ -28,7 +28,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// the system's font size.
   ScatterChartPainter(
       ScatterChartData data, ScatterChartData targetData, Function(TouchHandler) touchHandler,
-      {double textScale})
+      {double? textScale})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
@@ -85,7 +85,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
@@ -125,7 +125,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout();
 
           x -= tp.width / 2;
@@ -166,7 +166,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
           x += rightTitles.margin;
@@ -207,7 +207,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: textScale!);
           tp.layout();
 
           x -= tp.width / 2;
@@ -230,9 +230,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   }
 
   void _drawSpots(CanvasWrapper canvasWrapper) {
-    if (data.scatterSpots == null) {
-      return;
-    }
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
     for (final ScatterSpot scatterSpot in data.scatterSpots) {
@@ -259,16 +256,12 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     final ScatterTooltipItem tooltipItem = tooltipData.getTooltipItems(showOnSpot);
 
-    if (tooltipItem == null) {
-      return;
-    }
-
     final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
     final TextPainter drawingTextPainter = TextPainter(
         text: span,
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
-        textScaleFactor: textScale);
+        textScaleFactor: textScale!);
     drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
 
     final width = drawingTextPainter.width;

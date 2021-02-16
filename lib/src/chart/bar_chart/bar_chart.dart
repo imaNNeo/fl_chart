@@ -25,9 +25,9 @@ class BarChart extends ImplicitlyAnimatedWidget {
 class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [BarChartData] to the new one.
-  BarChartDataTween _barChartDataTween;
+  BarChartDataTween? _barChartDataTween;
 
-  TouchHandler _touchHandler;
+  late TouchHandler _touchHandler;
 
   final GlobalKey _chartKey = GlobalKey();
 
@@ -40,94 +40,105 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
     return GestureDetector(
       onLongPressStart: (d) {
-        final Size chartSize = _getChartSize();
+        final Size? chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
+        final response = _touchHandler.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+        if (response is BarTouchResponse) {
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback!(response);
+          }
         }
       },
       onLongPressEnd: (d) {
-        final Size chartSize = _getChartSize();
+        final Size? chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
+        final response = _touchHandler.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
+        if (response is BarTouchResponse) {
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback!(response);
+          }
         }
       },
       onLongPressMoveUpdate: (d) {
-        final Size chartSize = _getChartSize();
+        final Size? chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
+        final response =
+            _touchHandler.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
+        if (response is BarTouchResponse) {
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback!(response);
+          }
         }
       },
       onPanCancel: () {
-        final Size chartSize = _getChartSize();
+        final Size? chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final BarTouchResponse response = _touchHandler?.handleTouch(
+        final response = _touchHandler.handleTouch(
             FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
+        if (response is BarTouchResponse) {
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback!(response);
+          }
         }
       },
       onPanEnd: (DragEndDetails details) {
-        final Size chartSize = _getChartSize();
+        final Size? chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
+        final response =
+            _touchHandler.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+        if (response is BarTouchResponse) {
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback!(response);
+          }
         }
       },
       onPanDown: (DragDownDetails details) {
-        final Size chartSize = _getChartSize();
+        final Size? chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
+        final response = _touchHandler.handleTouch(FlPanStart(details.localPosition), chartSize);
+        if (response is BarTouchResponse) {
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback!(response);
+          }
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
-        final Size chartSize = _getChartSize();
+        final Size? chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
+        final response =
+            _touchHandler.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
+        if (response is BarTouchResponse) {
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback!(response);
+          }
         }
       },
       child: CustomPaint(
         key: _chartKey,
         size: getDefaultSize(MediaQuery.of(context).size),
         painter: BarChartPainter(
-          _withTouchedIndicators(_barChartDataTween.evaluate(animation)),
+          _withTouchedIndicators(_barChartDataTween!.evaluate(animation)!),
           _withTouchedIndicators(showingData),
           (touchHandler) {
             setState(() {
@@ -140,15 +151,11 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     );
   }
 
-  bool _canHandleTouch(BarTouchResponse response, BarTouchData touchData) {
-    return response != null && touchData != null && touchData.touchCallback != null;
+  bool _canHandleTouch(BarTouchResponse? response, BarTouchData touchData) {
+    return response != null && touchData.touchCallback != null;
   }
 
   BarChartData _withTouchedIndicators(BarChartData barChartData) {
-    if (barChartData == null) {
-      return barChartData;
-    }
-
     if (!barChartData.barTouchData.enabled || !barChartData.barTouchData.handleBuiltInTouches) {
       return barChartData;
     }
@@ -169,10 +176,12 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     );
   }
 
-  Size _getChartSize() {
-    final RenderBox containerRenderBox = _chartKey.currentContext?.findRenderObject();
-    if (containerRenderBox != null && containerRenderBox.hasSize) {
-      return containerRenderBox.size;
+  Size? _getChartSize() {
+    final containerRenderBox = _chartKey.currentContext?.findRenderObject();
+    if (containerRenderBox is RenderBox) {
+      if (containerRenderBox.hasSize) {
+        return containerRenderBox.size;
+      }
     }
     return null;
   }
@@ -187,12 +196,12 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     return widget.data;
   }
 
-  void _handleBuiltInTouch(BarTouchResponse touchResponse) {
+  void _handleBuiltInTouch(BarTouchResponse? touchResponse) {
     if (widget.data.barTouchData.touchCallback != null) {
-      widget.data.barTouchData.touchCallback(touchResponse);
+      widget.data.barTouchData.touchCallback!(touchResponse);
     }
 
-    if (touchResponse.touchInput is FlPanStart ||
+    if (touchResponse!.touchInput is FlPanStart ||
         touchResponse.touchInput is FlPanMoveUpdate ||
         touchResponse.touchInput is FlLongPressStart ||
         touchResponse.touchInput is FlLongPressMoveUpdate) {
@@ -201,8 +210,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
           _showingTouchedTooltips.clear();
           return;
         }
-        final groupIndex = touchResponse.spot.touchedBarGroupIndex;
-        final rodIndex = touchResponse.spot.touchedRodDataIndex;
+        final groupIndex = touchResponse.spot!.touchedBarGroupIndex;
+        final rodIndex = touchResponse.spot!.touchedRodDataIndex;
 
         _showingTouchedTooltips.clear();
         _showingTouchedTooltips[groupIndex] = [rodIndex];
@@ -216,10 +225,13 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
   @override
   void forEachTween(visitor) {
-    _barChartDataTween = visitor(
+    final _tween = visitor(
       _barChartDataTween,
       widget.data,
       (dynamic value) => BarChartDataTween(begin: value),
     );
+    if (_tween is BarChartDataTween) {
+      _barChartDataTween = _tween;
+    }
   }
 }

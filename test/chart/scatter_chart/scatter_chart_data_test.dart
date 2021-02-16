@@ -45,10 +45,10 @@ void main() {
               scatterChartData1Clone.copyWith(
                   gridData: FlGridData(
                 show: false,
-                getDrawingHorizontalLine: gridGetDrawingLine,
-                getDrawingVerticalLine: gridGetDrawingLine,
-                checkToShowHorizontalLine: gridCheckToShowLine,
-                checkToShowVerticalLine: gridCheckToShowLine,
+                getDrawingHorizontalLine: gridGetDrawingLine as FlLine Function(double)?,
+                getDrawingVerticalLine: gridGetDrawingLine as FlLine Function(double)?,
+                checkToShowHorizontalLine: gridCheckToShowLine as bool Function(double)?,
+                checkToShowVerticalLine: gridCheckToShowLine as bool Function(double)?,
                 drawHorizontalLine: true,
                 drawVerticalLine: false,
                 horizontalInterval: 33,
@@ -60,10 +60,10 @@ void main() {
               scatterChartData1Clone.copyWith(
                   gridData: FlGridData(
                 show: true,
-                getDrawingHorizontalLine: gridGetDrawingLine,
-                getDrawingVerticalLine: gridGetDrawingLine,
-                checkToShowHorizontalLine: gridCheckToShowLine,
-                checkToShowVerticalLine: gridCheckToShowLine,
+                getDrawingHorizontalLine: gridGetDrawingLine as FlLine Function(double)?,
+                getDrawingVerticalLine: gridGetDrawingLine as FlLine Function(double)?,
+                checkToShowHorizontalLine: gridCheckToShowLine as bool Function(double)?,
+                checkToShowVerticalLine: gridCheckToShowLine as bool Function(double)?,
                 drawHorizontalLine: true,
                 drawVerticalLine: false,
                 horizontalInterval: 33,
@@ -394,7 +394,7 @@ void main() {
         maxContentWidth: 33,
         fitInsideVertically: true,
         fitInsideHorizontally: false,
-        getTooltipItems: scatterChartGetTooltipItems,
+        getTooltipItems: scatterChartGetTooltipItems as ScatterTooltipItem Function(ScatterSpot)?,
       );
       final ScatterTouchTooltipData sample2 = ScatterTouchTooltipData(
         tooltipRoundedRadius: 23,
@@ -403,7 +403,7 @@ void main() {
         maxContentWidth: 33,
         fitInsideVertically: true,
         fitInsideHorizontally: false,
-        getTooltipItems: scatterChartGetTooltipItems,
+        getTooltipItems: scatterChartGetTooltipItems as ScatterTooltipItem Function(ScatterSpot)?,
       );
       expect(sample1 == sample2, true);
     });

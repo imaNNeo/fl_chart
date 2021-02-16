@@ -10,8 +10,8 @@ import 'touch_input.dart';
 abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   final D data;
   final D targetData;
-  Paint _borderPaint;
-  double textScale;
+  late Paint _borderPaint;
+  double? textScale;
 
   /// Draws some basic things line border
   BaseChartPainter(this.data, this.targetData, {this.textScale = 1}) : super() {

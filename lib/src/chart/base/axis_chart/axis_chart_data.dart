@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 /// each child have to set it in their constructor.
 abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlGridData gridData;
-  final FlAxisTitleData axisTitleData;
+  final FlAxisTitleData? axisTitleData;
   final RangeAnnotations rangeAnnotations;
 
   double minX, maxX;
@@ -26,7 +26,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   FlClipData clipData;
 
   /// A background color which is drawn behind th chart.
-  Color backgroundColor;
+  Color? backgroundColor;
 
   /// Difference of [maxY] and [minY]
   double get verticalDiff => maxY - minY;
@@ -35,31 +35,31 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   double get horizontalDiff => maxX - minX;
 
   AxisChartData({
-    FlGridData gridData,
-    FlAxisTitleData axisTitleData,
-    RangeAnnotations rangeAnnotations,
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-    FlClipData clipData,
-    Color backgroundColor,
-    FlBorderData borderData,
-    FlTouchData touchData,
+    FlGridData? gridData,
+    FlAxisTitleData? axisTitleData,
+    RangeAnnotations? rangeAnnotations,
+    double? minX,
+    double? maxX,
+    double? minY,
+    double? maxY,
+    FlClipData? clipData,
+    Color? backgroundColor,
+    FlBorderData? borderData,
+    FlTouchData? touchData,
   })  : gridData = gridData ?? FlGridData(),
         axisTitleData = axisTitleData,
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
-        minX = minX,
-        maxX = maxX,
-        minY = minY,
-        maxY = maxY,
+        minX = minX ?? 0,
+        maxX = maxX ?? 0,
+        minY = minY ?? 0,
+        maxY = maxY ?? 0,
         clipData = clipData ?? FlClipData.none(),
         backgroundColor = backgroundColor,
         super(borderData: borderData, touchData: touchData);
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         gridData,
         axisTitleData,
         rangeAnnotations,
@@ -84,11 +84,11 @@ class FlAxisTitleData with EquatableMixin {
   /// [leftTitle], [topTitle], [rightTitle], [bottomTitle] determines
   /// title for left, top, right, bottom axis sides respectively.
   FlAxisTitleData({
-    bool show,
-    AxisTitle leftTitle,
-    AxisTitle topTitle,
-    AxisTitle rightTitle,
-    AxisTitle bottomTitle,
+    bool? show,
+    AxisTitle? leftTitle,
+    AxisTitle? topTitle,
+    AxisTitle? rightTitle,
+    AxisTitle? bottomTitle,
   })  : show = show ?? true,
         leftTitle = leftTitle ?? AxisTitle(reservedSize: 16),
         topTitle = topTitle ?? AxisTitle(reservedSize: 16),
@@ -146,12 +146,12 @@ class AxisTitle with EquatableMixin {
   /// some calculations.
   /// [margin] determines margin of this title.
   AxisTitle({
-    bool showTitle,
-    String titleText,
-    double reservedSize,
-    TextStyle textStyle,
-    TextAlign textAlign,
-    double margin,
+    bool? showTitle,
+    String? titleText,
+    double? reservedSize,
+    TextStyle? textStyle,
+    TextAlign? textAlign,
+    double? margin,
   })  : showTitle = showTitle ?? false,
         titleText = titleText ?? '',
         reservedSize = reservedSize ?? 14,
@@ -198,11 +198,11 @@ class FlTitlesData with EquatableMixin {
   /// [leftTitles], [topTitles], [rightTitles], [bottomTitles] defines
   /// side titles of left, top, right, bottom sides respectively.
   FlTitlesData({
-    bool show,
-    SideTitles leftTitles,
-    SideTitles topTitles,
-    SideTitles rightTitles,
-    SideTitles bottomTitles,
+    bool? show,
+    SideTitles? leftTitles,
+    SideTitles? topTitles,
+    SideTitles? rightTitles,
+    SideTitles? bottomTitles,
   })  : show = show ?? true,
         leftTitles = leftTitles ?? SideTitles(reservedSize: 40, showTitles: true),
         topTitles = topTitles ?? SideTitles(reservedSize: 6),
@@ -253,7 +253,7 @@ class SideTitles with EquatableMixin {
   final double reservedSize;
   final GetTitleTextStyleFunction getTextStyles;
   final double margin;
-  final double interval;
+  final double? interval;
   final double rotateAngle;
   final CheckToShowTitle checkToShowTitle;
 
@@ -276,14 +276,14 @@ class SideTitles with EquatableMixin {
   ///
   /// you can change rotation of drawing titles using [rotateAngle].
   SideTitles({
-    bool showTitles,
-    GetTitleFunction getTitles,
-    double reservedSize,
-    GetTitleTextStyleFunction getTextStyles,
-    double margin,
-    double interval,
-    double rotateAngle,
-    CheckToShowTitle checkToShowTitle,
+    bool? showTitles,
+    GetTitleFunction? getTitles,
+    double? reservedSize,
+    GetTitleTextStyleFunction? getTextStyles,
+    double? margin,
+    double? interval,
+    double? rotateAngle,
+    CheckToShowTitle? checkToShowTitle,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
@@ -313,7 +313,7 @@ class SideTitles with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         showTitles,
         getTitles,
         reservedSize,
@@ -327,23 +327,23 @@ class SideTitles with EquatableMixin {
 
 /// Represents a conceptual position in cartesian (axis based) space.
 class FlSpot with EquatableMixin {
-  final double x;
-  final double y;
+  final double? x;
+  final double? y;
 
   /// [x] determines cartesian (axis based) horizontally position
   /// 0 means most left point of the chart
   ///
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
-  FlSpot(double x, double y)
+  FlSpot(double? x, double? y)
       : x = x,
         y = y;
 
   /// Copies current [FlSpot] to a new [FlSpot],
   /// and replaces provided values.
   FlSpot copyWith({
-    double x,
-    double y,
+    double? x,
+    double? y,
   }) {
     return FlSpot(
       x ?? this.x,
@@ -368,7 +368,7 @@ class FlSpot with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         x,
         y,
       ];
@@ -391,7 +391,7 @@ class FlGridData with EquatableMixin {
   final bool drawHorizontalLine;
 
   /// Determines interval between horizontal lines, left it null to be auto calculated.
-  final double horizontalInterval;
+  final double? horizontalInterval;
 
   /// Gives you a y value, and gets a [FlLine] that represents specified line.
   final GetDrawingGridLine getDrawingHorizontalLine;
@@ -403,7 +403,7 @@ class FlGridData with EquatableMixin {
   final bool drawVerticalLine;
 
   /// Determines interval between vertical lines, left it null to be auto calculated.
-  final double verticalInterval;
+  final double? verticalInterval;
 
   /// Gives you a x value, and gets a [FlLine] that represents specified line.
   final GetDrawingGridLine getDrawingVerticalLine;
@@ -434,15 +434,15 @@ class FlGridData with EquatableMixin {
   /// showing or hiding specified line.
   /// or you can hide all vertical lines by setting [drawVerticalLine] false.
   FlGridData({
-    bool show,
-    bool drawHorizontalLine,
-    double horizontalInterval,
-    GetDrawingGridLine getDrawingHorizontalLine,
-    CheckToShowGrid checkToShowHorizontalLine,
-    bool drawVerticalLine,
-    double verticalInterval,
-    GetDrawingGridLine getDrawingVerticalLine,
-    CheckToShowGrid checkToShowVerticalLine,
+    bool? show,
+    bool? drawHorizontalLine,
+    double? horizontalInterval,
+    GetDrawingGridLine? getDrawingHorizontalLine,
+    CheckToShowGrid? checkToShowHorizontalLine,
+    bool? drawVerticalLine,
+    double? verticalInterval,
+    GetDrawingGridLine? getDrawingVerticalLine,
+    CheckToShowGrid? checkToShowVerticalLine,
   })  : show = show ?? true,
         drawHorizontalLine = drawHorizontalLine ?? true,
         horizontalInterval = horizontalInterval,
@@ -477,7 +477,7 @@ class FlGridData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         show,
         drawHorizontalLine,
         horizontalInterval,
@@ -525,7 +525,7 @@ class FlLine with EquatableMixin {
   /// it is a circular array of dash offsets and lengths.
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
-  final List<int> dashArray;
+  final List<int>? dashArray;
 
   /// Renders a line, color it by [color],
   /// thickness is defined by [strokeWidth],
@@ -533,7 +533,7 @@ class FlLine with EquatableMixin {
   /// it is a circular array of dash offsets and lengths.
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
-  FlLine({Color color, double strokeWidth, List<int> dashArray})
+  FlLine({Color? color, double? strokeWidth, List<int>? dashArray})
       : color = color ?? Colors.black,
         strokeWidth = strokeWidth ?? 2,
         dashArray = dashArray;
@@ -549,7 +549,7 @@ class FlLine with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         color,
         strokeWidth,
         dashArray,
@@ -579,7 +579,7 @@ abstract class TouchedSpot with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         spot,
         offset,
       ];
@@ -593,8 +593,8 @@ class RangeAnnotations with EquatableMixin {
   /// Axis based charts can annotate some horizontal and vertical regions,
   /// using [horizontalRangeAnnotations], and [verticalRangeAnnotations] respectively.
   RangeAnnotations({
-    List<HorizontalRangeAnnotation> horizontalRangeAnnotations,
-    List<VerticalRangeAnnotation> verticalRangeAnnotations,
+    List<HorizontalRangeAnnotation>? horizontalRangeAnnotations,
+    List<VerticalRangeAnnotation>? verticalRangeAnnotations,
   })  : horizontalRangeAnnotations = horizontalRangeAnnotations ?? const [],
         verticalRangeAnnotations = verticalRangeAnnotations ?? const [];
 
@@ -619,10 +619,10 @@ class RangeAnnotations with EquatableMixin {
 /// Defines an annotation region in y (vertical) axis.
 class HorizontalRangeAnnotation with EquatableMixin {
   /// Determines starting point in vertical (y) axis.
-  final double y1;
+  final double? y1;
 
   /// Determines ending point in vertical (y) axis.
-  final double y2;
+  final double? y2;
 
   /// Fills the area with this color.
   final Color color;
@@ -630,9 +630,9 @@ class HorizontalRangeAnnotation with EquatableMixin {
   /// Annotates a horizontal region from most left to most right point of the chart, and
   /// from [y1] to [y2], and fills the area with [color].
   HorizontalRangeAnnotation({
-    double y1,
-    double y2,
-    Color color,
+    double? y1,
+    double? y2,
+    Color? color,
   })  : y1 = y1,
         y2 = y2,
         color = color ?? Colors.white;
@@ -649,7 +649,7 @@ class HorizontalRangeAnnotation with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         y1,
         y2,
         color,
@@ -659,10 +659,10 @@ class HorizontalRangeAnnotation with EquatableMixin {
 /// Defines an annotation region in x (horizontal) axis.
 class VerticalRangeAnnotation with EquatableMixin {
   /// Determines starting point in horizontal (x) axis.
-  final double x1;
+  final double? x1;
 
   /// Determines ending point in horizontal (x) axis.
-  final double x2;
+  final double? x2;
 
   /// Fills the area with this color.
   final Color color;
@@ -670,9 +670,9 @@ class VerticalRangeAnnotation with EquatableMixin {
   /// Annotates a vertical region from most bottom to most top point of the chart, and
   /// from [x1] to [x2], and fills the area with [color].
   VerticalRangeAnnotation({
-    double x1,
-    double x2,
-    Color color,
+    double? x1,
+    double? x2,
+    Color? color,
   })  : x1 = x1,
         x2 = x2,
         color = color ?? Colors.white;
@@ -689,7 +689,7 @@ class VerticalRangeAnnotation with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         x1,
         x2,
         color,

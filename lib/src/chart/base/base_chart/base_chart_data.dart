@@ -14,13 +14,13 @@ abstract class BaseChartData with EquatableMixin {
   FlBorderData borderData;
 
   /// Holds data needed to touch behavior and responses.
-  FlTouchData touchData;
+  FlTouchData? touchData;
 
   /// It draws 4 borders around your chart, you can customize it using [borderData],
   /// [touchData] defines the touch behavior and responses.
   BaseChartData({
-    FlBorderData borderData,
-    FlTouchData touchData,
+    FlBorderData? borderData,
+    FlTouchData? touchData,
   })  : borderData = borderData ?? FlBorderData(),
         touchData = touchData;
 
@@ -28,7 +28,7 @@ abstract class BaseChartData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         borderData,
         touchData,
       ];
@@ -42,8 +42,8 @@ class FlBorderData with EquatableMixin {
   /// [show] Determines showing or hiding border around the chart.
   /// [border] Determines the visual look of 4 borders, see [Border].
   FlBorderData({
-    bool show,
-    Border border,
+    bool? show,
+    Border? border,
   })  : show = show ?? true,
         border = border ??
             Border.all(
@@ -54,7 +54,6 @@ class FlBorderData with EquatableMixin {
 
   /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
   static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
-    assert(a != null && b != null && t != null);
     return FlBorderData(
       show: b.show,
       border: Border.lerp(a.border, b.border, t),
@@ -83,7 +82,7 @@ class FlTouchData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         enabled,
       ];
 }
@@ -97,10 +96,10 @@ class FlClipData with EquatableMixin {
 
   /// Creates data that clips specified sides
   FlClipData({
-    @required this.top,
-    @required this.bottom,
-    @required this.left,
-    @required this.right,
+    required this.top,
+    required this.bottom,
+    required this.left,
+    required this.right,
   });
 
   /// Creates data that clips all sides
@@ -151,13 +150,13 @@ TextStyle defaultGetTitleTextStyle(double value) {
 ///
 /// Specific touch details should be hold on the concrete child classes.
 class BaseTouchResponse with EquatableMixin {
-  final FlTouchInput touchInput;
+  final FlTouchInput? touchInput;
 
-  BaseTouchResponse(FlTouchInput touchInput) : touchInput = touchInput;
+  BaseTouchResponse(FlTouchInput? touchInput) : touchInput = touchInput;
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         touchInput,
       ];
 }

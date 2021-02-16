@@ -52,25 +52,25 @@ final Function(double value) getTextStyles = (value) => const TextStyle(color: C
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  getTextStyles: getTextStyles,
+  getTextStyles: getTextStyles as TextStyle Function(double)?,
   showTitles: false,
-  getTitles: getTitles,
+  getTitles: getTitles as String Function(double)?,
   interval: 12,
   rotateAngle: 11,
 );
 final SideTitles sideTitles1Clone = SideTitles(
   margin: 1,
   reservedSize: 10,
-  getTextStyles: getTextStyles,
+  getTextStyles: getTextStyles as TextStyle Function(double)?,
   showTitles: false,
-  getTitles: getTitles,
+  getTitles: getTitles as String Function(double)?,
   interval: 12,
   rotateAngle: 11,
 );
 final SideTitles sideTitles2 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  getTextStyles: getTextStyles,
+  getTextStyles: getTextStyles as TextStyle Function(double)?,
   showTitles: false,
   getTitles: null,
   interval: 12,
@@ -79,36 +79,36 @@ final SideTitles sideTitles2 = SideTitles(
 final SideTitles sideTitles3 = SideTitles(
   margin: 4,
   reservedSize: 10,
-  getTextStyles: getTextStyles,
+  getTextStyles: getTextStyles as TextStyle Function(double)?,
   showTitles: false,
-  getTitles: getTitles,
+  getTitles: getTitles as String Function(double)?,
   interval: 12,
   rotateAngle: 11,
 );
 final SideTitles sideTitles4 = SideTitles(
   margin: 1,
   reservedSize: 11,
-  getTextStyles: getTextStyles,
+  getTextStyles: getTextStyles as TextStyle Function(double)?,
   showTitles: false,
-  getTitles: getTitles,
+  getTitles: getTitles as String Function(double)?,
   interval: 12,
   rotateAngle: 11,
 );
 final SideTitles sideTitles5 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  getTextStyles: getTextStyles,
+  getTextStyles: getTextStyles as TextStyle Function(double)?,
   showTitles: false,
-  getTitles: getTitles,
+  getTitles: getTitles as String Function(double)?,
   interval: 12,
   rotateAngle: 101110,
 );
 final SideTitles sideTitles6 = SideTitles(
   margin: 1,
   reservedSize: 10,
-  getTextStyles: getTextStyles,
+  getTextStyles: getTextStyles as TextStyle Function(double)?,
   showTitles: false,
-  getTitles: getTitles,
+  getTitles: getTitles as String Function(double)?,
   interval: 12,
   rotateAngle: 13,
 );
@@ -307,9 +307,9 @@ final FlGridData flGridData1 = FlGridData(
   horizontalInterval: 22,
   drawVerticalLine: false,
   drawHorizontalLine: true,
-  checkToShowVerticalLine: checkToShowLine,
+  checkToShowVerticalLine: checkToShowLine as bool Function(double)?,
   checkToShowHorizontalLine: null,
-  getDrawingHorizontalLine: getDrawingLine,
+  getDrawingHorizontalLine: getDrawingLine as FlLine Function(double)?,
   getDrawingVerticalLine: null,
 );
 final FlGridData flGridData1Clone = FlGridData(
@@ -318,9 +318,9 @@ final FlGridData flGridData1Clone = FlGridData(
   horizontalInterval: 22,
   drawVerticalLine: false,
   drawHorizontalLine: true,
-  checkToShowVerticalLine: checkToShowLine,
+  checkToShowVerticalLine: checkToShowLine as bool Function(double)?,
   checkToShowHorizontalLine: null,
-  getDrawingHorizontalLine: getDrawingLine,
+  getDrawingHorizontalLine: getDrawingLine as FlLine Function(double)?,
   getDrawingVerticalLine: null,
 );
 final FlGridData flGridData2 = FlGridData(
@@ -329,9 +329,9 @@ final FlGridData flGridData2 = FlGridData(
   horizontalInterval: 22,
   drawVerticalLine: false,
   drawHorizontalLine: true,
-  checkToShowVerticalLine: checkToShowLine,
+  checkToShowVerticalLine: checkToShowLine as bool Function(double)?,
   checkToShowHorizontalLine: null,
-  getDrawingHorizontalLine: getDrawingLine,
+  getDrawingHorizontalLine: getDrawingLine as FlLine Function(double)?,
   getDrawingVerticalLine: (value) => flLine1,
 );
 final FlGridData flGridData3 = FlGridData(
@@ -340,9 +340,9 @@ final FlGridData flGridData3 = FlGridData(
   horizontalInterval: 43,
   drawVerticalLine: false,
   drawHorizontalLine: true,
-  checkToShowVerticalLine: checkToShowLine,
+  checkToShowVerticalLine: checkToShowLine as bool Function(double)?,
   checkToShowHorizontalLine: null,
-  getDrawingHorizontalLine: getDrawingLine,
+  getDrawingHorizontalLine: getDrawingLine as FlLine Function(double)?,
   getDrawingVerticalLine: null,
 );
 final FlGridData flGridData4 = FlGridData(
@@ -353,7 +353,7 @@ final FlGridData flGridData4 = FlGridData(
   drawHorizontalLine: true,
   checkToShowVerticalLine: null,
   checkToShowHorizontalLine: null,
-  getDrawingHorizontalLine: getDrawingLine,
+  getDrawingHorizontalLine: getDrawingLine as FlLine Function(double)?,
   getDrawingVerticalLine: null,
 );
 final FlGridData flGridData5 = FlGridData(
@@ -362,9 +362,9 @@ final FlGridData flGridData5 = FlGridData(
   horizontalInterval: 22,
   drawVerticalLine: true,
   drawHorizontalLine: true,
-  checkToShowVerticalLine: checkToShowLine,
+  checkToShowVerticalLine: checkToShowLine as bool Function(double)?,
   checkToShowHorizontalLine: null,
-  getDrawingHorizontalLine: getDrawingLine,
+  getDrawingHorizontalLine: getDrawingLine as FlLine Function(double)?,
   getDrawingVerticalLine: null,
 );
 
@@ -397,10 +397,10 @@ final FlBorderData borderData2 = FlBorderData(
 
 final Function(FlSpot) checkToShowSpotLine = (spot) => true;
 
-final BarAreaSpotsLine barAreaSpotsLine1 =
-    BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
-final BarAreaSpotsLine barAreaSpotsLine1Clone =
-    BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
+final BarAreaSpotsLine barAreaSpotsLine1 = BarAreaSpotsLine(
+    show: true, checkToShowSpotLine: checkToShowSpotLine as bool Function(FlSpot)?);
+final BarAreaSpotsLine barAreaSpotsLine1Clone = BarAreaSpotsLine(
+    show: true, checkToShowSpotLine: checkToShowSpotLine as bool Function(FlSpot)?);
 
 final BarAreaSpotsLine barAreaSpotsLine2 = BarAreaSpotsLine(
   show: true,
@@ -478,30 +478,30 @@ final Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched6 =
 
 final FlDotData flDotData1 = FlDotData(
   show: true,
-  getDotPainter: getDotDrawer,
-  checkToShowDot: checkToShowDot,
+  getDotPainter: getDotDrawer as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+  checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
 );
 final FlDotData flDotData1Clone = FlDotData(
   show: true,
-  getDotPainter: getDotDrawer,
-  checkToShowDot: checkToShowDot,
+  getDotPainter: getDotDrawer as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+  checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
 );
 
 final FlDotData flDotData4 = FlDotData(
   show: true,
-  getDotPainter: getDotDrawer,
+  getDotPainter: getDotDrawer as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
   checkToShowDot: null,
 );
 
 final FlDotData flDotData5 = FlDotData(
   show: true,
-  getDotPainter: getDotDrawer5,
+  getDotPainter: getDotDrawer5 as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
   checkToShowDot: null,
 );
 
 final FlDotData flDotData6 = FlDotData(
   show: true,
-  getDotPainter: getDotDrawer6,
+  getDotPainter: getDotDrawer6 as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
   checkToShowDot: null,
 );
 
@@ -852,14 +852,22 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData1 = TouchedSpotIndicatorD
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter:
+          getDotDrawerTouched as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+      checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
+      show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData1Clone = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter:
+          getDotDrawerTouched as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+      checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
+      show: true),
 );
 
 final TouchedSpotIndicatorData touchedSpotIndicatorData2 = TouchedSpotIndicatorData(
@@ -867,35 +875,55 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData2 = TouchedSpotIndicatorD
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: null, show: true),
+  FlDotData(
+      getDotPainter:
+          getDotDrawerTouched as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+      checkToShowDot: null,
+      show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData3 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: null,
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter:
+          getDotDrawerTouched as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+      checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
+      show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData4 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.green,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched4, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter:
+          getDotDrawerTouched4 as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+      checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
+      show: true),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData5 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched, checkToShowDot: checkToShowDot, show: false),
+  FlDotData(
+      getDotPainter:
+          getDotDrawerTouched as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+      checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
+      show: false),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData6 = TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
     dashArray: [],
   ),
-  FlDotData(getDotPainter: getDotDrawerTouched6, checkToShowDot: checkToShowDot, show: true),
+  FlDotData(
+      getDotPainter:
+          getDotDrawerTouched6 as FlDotPainter Function(FlSpot, double, LineChartBarData, int)?,
+      checkToShowDot: checkToShowDot as bool Function(FlSpot, LineChartBarData)?,
+      show: true),
 );
 
 final LineTooltipItem lineTooltipItem1 = LineTooltipItem('', const TextStyle(color: Colors.green));
@@ -915,7 +943,7 @@ final LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
   tooltipBgColor: Colors.green,
   maxContentWidth: 12,
-  getTooltipItems: lineChartGetTooltipItems,
+  getTooltipItems: lineChartGetTooltipItems as List<LineTooltipItem> Function(List<LineBarSpot>),
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
@@ -925,7 +953,7 @@ final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
   tooltipBgColor: Colors.green,
   maxContentWidth: 12,
-  getTooltipItems: lineChartGetTooltipItems,
+  getTooltipItems: lineChartGetTooltipItems as List<LineTooltipItem> Function(List<LineBarSpot>),
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
@@ -936,7 +964,7 @@ final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
   tooltipBgColor: Colors.red,
   maxContentWidth: 12,
-  getTooltipItems: lineChartGetTooltipItems,
+  getTooltipItems: lineChartGetTooltipItems as List<LineTooltipItem> Function(List<LineBarSpot>),
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
@@ -946,7 +974,7 @@ final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.2),
   tooltipBgColor: Colors.green,
   maxContentWidth: 12,
-  getTooltipItems: lineChartGetTooltipItems,
+  getTooltipItems: lineChartGetTooltipItems as List<LineTooltipItem> Function(List<LineBarSpot>),
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
@@ -956,7 +984,7 @@ final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
   tooltipBgColor: Colors.green,
   maxContentWidth: 13,
-  getTooltipItems: lineChartGetTooltipItems,
+  getTooltipItems: lineChartGetTooltipItems as List<LineTooltipItem> Function(List<LineBarSpot>),
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
@@ -966,14 +994,14 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
   tooltipBgColor: Colors.green,
   maxContentWidth: 12,
-  getTooltipItems: lineChartGetTooltipItems,
+  getTooltipItems: lineChartGetTooltipItems as List<LineTooltipItem> Function(List<LineBarSpot>),
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipBottomMargin: 34,
 );
 
-final Function(LineTouchResponse) lineTouchCallback = (response) {};
+final Function(LineTouchResponse?) lineTouchCallback = (response) {};
 
 final Function(LineChartBarData barData, List<int> spotIndexes) getTouchedSpotIndicator =
     (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
@@ -981,7 +1009,8 @@ final Function(LineChartBarData barData, List<int> spotIndexes) getTouchedSpotIn
 final LineTouchData lineTouchData1 = LineTouchData(
   enabled: true,
   touchCallback: lineTouchCallback,
-  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  getTouchedSpotIndicator: getTouchedSpotIndicator as List<TouchedSpotIndicatorData> Function(
+      LineChartBarData, List<int>)?,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
@@ -990,7 +1019,8 @@ final LineTouchData lineTouchData1 = LineTouchData(
 final LineTouchData lineTouchData1Clone = LineTouchData(
   enabled: true,
   touchCallback: lineTouchCallback,
-  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  getTouchedSpotIndicator: getTouchedSpotIndicator as List<TouchedSpotIndicatorData> Function(
+      LineChartBarData, List<int>)?,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
@@ -1000,7 +1030,8 @@ final LineTouchData lineTouchData1Clone = LineTouchData(
 final LineTouchData lineTouchData2 = LineTouchData(
   enabled: true,
   touchCallback: null,
-  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  getTouchedSpotIndicator: getTouchedSpotIndicator as List<TouchedSpotIndicatorData> Function(
+      LineChartBarData, List<int>)?,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
@@ -1018,7 +1049,8 @@ final LineTouchData lineTouchData3 = LineTouchData(
 final LineTouchData lineTouchData4 = LineTouchData(
   enabled: true,
   touchCallback: lineTouchCallback,
-  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  getTouchedSpotIndicator: getTouchedSpotIndicator as List<TouchedSpotIndicatorData> Function(
+      LineChartBarData, List<int>)?,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: null,
@@ -1027,7 +1059,8 @@ final LineTouchData lineTouchData4 = LineTouchData(
 final LineTouchData lineTouchData5 = LineTouchData(
   enabled: true,
   touchCallback: lineTouchCallback,
-  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  getTouchedSpotIndicator: getTouchedSpotIndicator as List<TouchedSpotIndicatorData> Function(
+      LineChartBarData, List<int>)?,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12.001,
   touchTooltipData: lineTouchTooltipData1,
@@ -1036,7 +1069,8 @@ final LineTouchData lineTouchData5 = LineTouchData(
 final LineTouchData lineTouchData6 = LineTouchData(
   enabled: true,
   touchCallback: lineTouchCallback,
-  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  getTouchedSpotIndicator: getTouchedSpotIndicator as List<TouchedSpotIndicatorData> Function(
+      LineChartBarData, List<int>)?,
   handleBuiltInTouches: true,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
@@ -1045,7 +1079,8 @@ final LineTouchData lineTouchData6 = LineTouchData(
 final LineTouchData lineTouchData7 = LineTouchData(
   enabled: true,
   touchCallback: lineTouchCallback,
-  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  getTouchedSpotIndicator: getTouchedSpotIndicator as List<TouchedSpotIndicatorData> Function(
+      LineChartBarData, List<int>)?,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
@@ -1058,28 +1093,28 @@ final Function(VerticalLine) verticalLabelResolver = (horizontalLine) => 'test';
 final HorizontalLineLabel horizontalLineLabel1 = HorizontalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: horizontalLabelResolver,
+  labelResolver: horizontalLabelResolver as String Function(HorizontalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel1Clone = HorizontalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: horizontalLabelResolver,
+  labelResolver: horizontalLabelResolver as String Function(HorizontalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel2 = HorizontalLineLabel(
   show: false,
   style: const TextStyle(color: Colors.green),
-  labelResolver: horizontalLabelResolver,
+  labelResolver: horizontalLabelResolver as String Function(HorizontalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel3 = HorizontalLineLabel(
   show: true,
   style: null,
-  labelResolver: horizontalLabelResolver,
+  labelResolver: horizontalLabelResolver as String Function(HorizontalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
@@ -1093,21 +1128,21 @@ final HorizontalLineLabel horizontalLineLabel4 = HorizontalLineLabel(
 final HorizontalLineLabel horizontalLineLabel5 = HorizontalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: horizontalLabelResolver,
+  labelResolver: horizontalLabelResolver as String Function(HorizontalLine)?,
   alignment: Alignment.bottomRight,
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel6 = HorizontalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: horizontalLabelResolver,
+  labelResolver: horizontalLabelResolver as String Function(HorizontalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(44),
 );
 final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
   show: false,
   style: const TextStyle(color: Colors.green),
-  labelResolver: horizontalLabelResolver,
+  labelResolver: horizontalLabelResolver as String Function(HorizontalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
@@ -1115,28 +1150,28 @@ final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
 final VerticalLineLabel verticalLineLabel1 = VerticalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: verticalLabelResolver,
+  labelResolver: verticalLabelResolver as String Function(VerticalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel1Clone = VerticalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: verticalLabelResolver,
+  labelResolver: verticalLabelResolver as String Function(VerticalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel2 = VerticalLineLabel(
   show: false,
   style: const TextStyle(color: Colors.green),
-  labelResolver: verticalLabelResolver,
+  labelResolver: verticalLabelResolver as String Function(VerticalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel3 = VerticalLineLabel(
   show: true,
   style: null,
-  labelResolver: verticalLabelResolver,
+  labelResolver: verticalLabelResolver as String Function(VerticalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
@@ -1150,21 +1185,21 @@ final VerticalLineLabel verticalLineLabel4 = VerticalLineLabel(
 final VerticalLineLabel verticalLineLabel5 = VerticalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: verticalLabelResolver,
+  labelResolver: verticalLabelResolver as String Function(VerticalLine)?,
   alignment: Alignment.bottomRight,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel6 = VerticalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: verticalLabelResolver,
+  labelResolver: verticalLabelResolver as String Function(VerticalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(44),
 );
 final VerticalLineLabel verticalLineLabel7 = VerticalLineLabel(
   show: false,
   style: const TextStyle(color: Colors.green),
-  labelResolver: verticalLabelResolver,
+  labelResolver: verticalLabelResolver as String Function(VerticalLine)?,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
@@ -2060,10 +2095,10 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
   ),
   gridData: FlGridData(
     show: false,
-    getDrawingHorizontalLine: gridGetDrawingLine,
-    getDrawingVerticalLine: gridGetDrawingLine,
-    checkToShowHorizontalLine: gridCheckToShowLine,
-    checkToShowVerticalLine: gridCheckToShowLine,
+    getDrawingHorizontalLine: gridGetDrawingLine as FlLine Function(double)?,
+    getDrawingVerticalLine: gridGetDrawingLine as FlLine Function(double)?,
+    checkToShowHorizontalLine: gridCheckToShowLine as bool Function(double)?,
+    checkToShowVerticalLine: gridCheckToShowLine as bool Function(double)?,
     drawHorizontalLine: true,
     drawVerticalLine: false,
     horizontalInterval: 33,
@@ -2084,7 +2119,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
   scatterTouchData: ScatterTouchData(
     enabled: true,
     touchTooltipData: ScatterTouchTooltipData(
-      getTooltipItems: scatterChartGetTooltipItems,
+      getTooltipItems: scatterChartGetTooltipItems as ScatterTooltipItem Function(ScatterSpot)?,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       maxContentWidth: 33,
@@ -2147,10 +2182,10 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
   ),
   gridData: FlGridData(
     show: false,
-    getDrawingHorizontalLine: gridGetDrawingLine,
-    getDrawingVerticalLine: gridGetDrawingLine,
-    checkToShowHorizontalLine: gridCheckToShowLine,
-    checkToShowVerticalLine: gridCheckToShowLine,
+    getDrawingHorizontalLine: gridGetDrawingLine as FlLine Function(double)?,
+    getDrawingVerticalLine: gridGetDrawingLine as FlLine Function(double)?,
+    checkToShowHorizontalLine: gridCheckToShowLine as bool Function(double)?,
+    checkToShowVerticalLine: gridCheckToShowLine as bool Function(double)?,
     drawHorizontalLine: true,
     drawVerticalLine: false,
     horizontalInterval: 33,
@@ -2171,7 +2206,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
   scatterTouchData: ScatterTouchData(
     enabled: true,
     touchTooltipData: ScatterTouchTooltipData(
-      getTooltipItems: scatterChartGetTooltipItems,
+      getTooltipItems: scatterChartGetTooltipItems as ScatterTooltipItem Function(ScatterSpot)?,
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       maxContentWidth: 33,
@@ -2663,7 +2698,7 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipBottomMargin: 333,
 );
 
-final Function(BarTouchResponse) barTouchCallback = (response) {};
+final Function(BarTouchResponse?) barTouchCallback = (response) {};
 
 final BarTouchData barTouchData1 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
