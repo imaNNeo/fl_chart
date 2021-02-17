@@ -272,7 +272,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
   /// This function draws a colored background behind the chart.
   void _drawBackground(CanvasWrapper canvasWrapper) {
-    if (data.backgroundColor == null) {
+    if (data.backgroundColor.opacity == 0.0) {
       return;
     }
 
