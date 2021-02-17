@@ -1,4 +1,4 @@
-## newVersion
+## 0.12.3
 * [Bugfix] Fixed PieChart exception bug on sections tap, #514.
 * [Bugfix] Fixed PieChart badges problem, #538.
 * [Bugfix] Fixed Bug of drawing lines with strokeWidth zero, #558.
