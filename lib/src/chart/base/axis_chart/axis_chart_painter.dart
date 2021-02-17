@@ -4,6 +4,7 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +57,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Left Title
     final leftTitle = axisTitles.leftTitle;
     if (leftTitle.showTitle) {
-      final TextSpan span = TextSpan(style: leftTitle.textStyle, text: leftTitle.titleText);
-      final TextPainter tp = TextPainter(
+      final span = TextSpan(style: leftTitle.textStyle, text: leftTitle.titleText);
+      final tp = TextPainter(
           text: span,
           textAlign: leftTitle.textAlign,
           textDirection: TextDirection.ltr,
@@ -73,8 +74,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Top title
     final topTitle = axisTitles.topTitle;
     if (topTitle.showTitle) {
-      final TextSpan span = TextSpan(style: topTitle.textStyle, text: topTitle.titleText);
-      final TextPainter tp = TextPainter(
+      final span = TextSpan(style: topTitle.textStyle, text: topTitle.titleText);
+      final tp = TextPainter(
           text: span,
           textAlign: topTitle.textAlign,
           textDirection: TextDirection.ltr,
@@ -87,8 +88,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Right Title
     final rightTitle = axisTitles.rightTitle;
     if (rightTitle.showTitle) {
-      final TextSpan span = TextSpan(style: rightTitle.textStyle, text: rightTitle.titleText);
-      final TextPainter tp = TextPainter(
+      final span = TextSpan(style: rightTitle.textStyle, text: rightTitle.titleText);
+      final tp = TextPainter(
           text: span,
           textAlign: rightTitle.textAlign,
           textDirection: TextDirection.ltr,
@@ -106,8 +107,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Bottom title
     final bottomTitle = axisTitles.bottomTitle;
     if (bottomTitle.showTitle) {
-      final TextSpan span = TextSpan(style: bottomTitle.textStyle, text: bottomTitle.titleText);
-      final TextPainter tp = TextPainter(
+      final span = TextSpan(style: bottomTitle.textStyle, text: bottomTitle.titleText);
+      final tp = TextPainter(
           text: span,
           textAlign: bottomTitle.textAlign,
           textDirection: TextDirection.ltr,
@@ -126,7 +127,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   /// It returns extra needed spaces in left and right side of the chart.
   @override
   double getExtraNeededHorizontalSpace() {
-    double sum = super.getExtraNeededHorizontalSpace();
+    var sum = super.getExtraNeededHorizontalSpace();
 
     if (data.axisTitleData.show) {
       final leftSide = data.axisTitleData.leftTitle;
@@ -149,7 +150,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   /// It returns extra needed spaces in bottom and top side of the chart.
   @override
   double getExtraNeededVerticalSpace() {
-    double sum = super.getExtraNeededVerticalSpace();
+    var sum = super.getExtraNeededVerticalSpace();
 
     if (data.axisTitleData.show) {
       final topSide = data.axisTitleData.topTitle;
@@ -206,27 +207,28 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     final usableViewSize = getChartUsableDrawSize(viewSize);
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
-      final double verticalInterval = data.gridData.verticalInterval ??
+      final verticalInterval = data.gridData.verticalInterval ??
           getEfficientInterval(viewSize.width, data.horizontalDiff);
-      double verticalSeek = data.minX + verticalInterval;
+      var verticalSeek = data.minX + verticalInterval;
 
-      final double delta = data.maxX - data.minX;
-      final int count = delta ~/ verticalInterval;
-      final double lastPosition = count * verticalSeek;
-      final bool lastPositionOverlapsWithBorder = lastPosition == data.maxX;
+      final delta = data.maxX - data.minX;
+      final count = delta ~/ verticalInterval;
+      final lastPosition = count * verticalSeek;
+      final lastPositionOverlapsWithBorder = lastPosition == data.maxX;
       final end = lastPositionOverlapsWithBorder ? data.maxX - verticalInterval : data.maxX;
 
       while (verticalSeek <= end) {
         if (data.gridData.checkToShowVerticalLine(verticalSeek)) {
-          final FlLine flLineStyle = data.gridData.getDrawingVerticalLine(verticalSeek);
+          final flLineStyle = data.gridData.getDrawingVerticalLine(verticalSeek);
           _gridPaint.color = flLineStyle.color;
           _gridPaint.strokeWidth = flLineStyle.strokeWidth;
+          _gridPaint.transparentIfWidthIsZero();
 
-          final double bothX = getPixelX(verticalSeek, usableViewSize);
-          final double x1 = bothX;
-          final double y1 = 0 + getTopOffsetDrawSize();
-          final double x2 = bothX;
-          final double y2 = usableViewSize.height + getTopOffsetDrawSize();
+          final bothX = getPixelX(verticalSeek, usableViewSize);
+          final x1 = bothX;
+          final y1 = 0 + getTopOffsetDrawSize();
+          final x2 = bothX;
+          final y2 = usableViewSize.height + getTopOffsetDrawSize();
           canvasWrapper.drawDashedLine(
               Offset(x1, y1), Offset(x2, y2), _gridPaint, flLineStyle.dashArray);
         }
@@ -236,28 +238,29 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalLine) {
-      final double horizontalInterval = data.gridData.horizontalInterval ??
+      final horizontalInterval = data.gridData.horizontalInterval ??
           getEfficientInterval(viewSize.height, data.verticalDiff);
-      double horizontalSeek = data.minY + horizontalInterval;
+      var horizontalSeek = data.minY + horizontalInterval;
 
-      final double delta = data.maxY - data.minY;
-      final int count = delta ~/ horizontalInterval;
-      final double lastPosition = count * horizontalSeek;
-      final bool lastPositionOverlapsWithBorder = lastPosition == data.maxY;
+      final delta = data.maxY - data.minY;
+      final count = delta ~/ horizontalInterval;
+      final lastPosition = count * horizontalSeek;
+      final lastPositionOverlapsWithBorder = lastPosition == data.maxY;
 
       final end = lastPositionOverlapsWithBorder ? data.maxY - horizontalInterval : data.maxY;
 
       while (horizontalSeek <= end) {
         if (data.gridData.checkToShowHorizontalLine(horizontalSeek)) {
-          final FlLine flLine = data.gridData.getDrawingHorizontalLine(horizontalSeek);
+          final flLine = data.gridData.getDrawingHorizontalLine(horizontalSeek);
           _gridPaint.color = flLine.color;
           _gridPaint.strokeWidth = flLine.strokeWidth;
+          _gridPaint.transparentIfWidthIsZero();
 
-          final double bothY = getPixelY(horizontalSeek, usableViewSize);
-          final double x1 = 0 + getLeftOffsetDrawSize();
-          final double y1 = bothY;
-          final double x2 = usableViewSize.width + getLeftOffsetDrawSize();
-          final double y2 = bothY;
+          final bothY = getPixelY(horizontalSeek, usableViewSize);
+          final x1 = 0 + getLeftOffsetDrawSize();
+          final y1 = bothY;
+          final x2 = usableViewSize.width + getLeftOffsetDrawSize();
+          final y2 = bothY;
           canvasWrapper.drawDashedLine(
               Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
         }
@@ -274,7 +277,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     }
 
     final viewSize = canvasWrapper.size;
-    final Size usableViewSize = getChartUsableDrawSize(viewSize);
+    final usableViewSize = getChartUsableDrawSize(viewSize);
     _backgroundPaint.color = data.backgroundColor;
     canvasWrapper.drawRect(
       Rect.fromLTWH(
@@ -293,18 +296,18 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     }
 
     final viewSize = canvasWrapper.size;
-    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+    final chartUsableSize = getChartUsableDrawSize(viewSize);
 
     if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
-      for (VerticalRangeAnnotation annotation in data.rangeAnnotations.verticalRangeAnnotations) {
-        final double topChartPadding = getTopOffsetDrawSize();
-        final Offset from = Offset(getPixelX(annotation.x1, chartUsableSize), topChartPadding);
+      for (var annotation in data.rangeAnnotations.verticalRangeAnnotations) {
+        final topChartPadding = getTopOffsetDrawSize();
+        final from = Offset(getPixelX(annotation.x1, chartUsableSize), topChartPadding);
 
-        final double bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
-        final Offset to = Offset(
+        final bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
+        final to = Offset(
             getPixelX(annotation.x2, chartUsableSize), viewSize.height - bottomChartPadding); //9
 
-        final Rect rect = Rect.fromPoints(from, to);
+        final rect = Rect.fromPoints(from, to);
 
         _rangeAnnotationPaint.color = annotation.color;
 
@@ -313,16 +316,15 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     }
 
     if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
-      for (HorizontalRangeAnnotation annotation
-          in data.rangeAnnotations.horizontalRangeAnnotations) {
-        final double leftChartPadding = getLeftOffsetDrawSize();
-        final Offset from = Offset(leftChartPadding, getPixelY(annotation.y1, chartUsableSize));
+      for (var annotation in data.rangeAnnotations.horizontalRangeAnnotations) {
+        final leftChartPadding = getLeftOffsetDrawSize();
+        final from = Offset(leftChartPadding, getPixelY(annotation.y1, chartUsableSize));
 
-        final double rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
-        final Offset to =
+        final rightChartPadding = getExtraNeededHorizontalSpace() - getLeftOffsetDrawSize();
+        final to =
             Offset(viewSize.width - rightChartPadding, getPixelY(annotation.y2, chartUsableSize));
 
-        final Rect rect = Rect.fromPoints(from, to);
+        final rect = Rect.fromPoints(from, to);
 
         _rangeAnnotationPaint.color = annotation.color;
 
@@ -335,7 +337,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   /// to the view base axis x .
   /// the view 0, 0 is on the top/left, but the spots is bottom/left
   double getPixelX(double spotX, Size chartUsableSize) {
-    final double deltaX = data.maxX - data.minX;
+    final deltaX = data.maxX - data.minX;
     if (deltaX == 0.0) {
       return getLeftOffsetDrawSize();
     }
@@ -348,12 +350,12 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     double spotY,
     Size chartUsableSize,
   ) {
-    final double deltaY = data.maxY - data.minY;
+    final deltaY = data.maxY - data.minY;
     if (deltaY == 0.0) {
       return chartUsableSize.height + getTopOffsetDrawSize();
     }
 
-    double y = ((spotY - data.minY) / deltaY) * chartUsableSize.height;
+    var y = ((spotY - data.minY) / deltaY) * chartUsableSize.height;
     y = chartUsableSize.height - y;
     return y + getTopOffsetDrawSize();
   }

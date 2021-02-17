@@ -35,48 +35,24 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
   @override
   Widget build(BuildContext context) {
-    final BarChartData showingData = _getData();
-    final BarTouchData touchData = showingData.barTouchData;
+    final showingData = _getData();
+    final touchData = showingData.barTouchData;
 
-    return GestureDetector(
-      onLongPressStart: (d) {
-        final Size chartSize = _getChartSize();
+    return MouseRegion(
+      onEnter: (e) {
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
         final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+            _touchHandler?.handleTouch(FlPanStart(e.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
-      onLongPressEnd: (d) {
-        final Size chartSize = _getChartSize();
-        if (chartSize == null) {
-          return;
-        }
-
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
-      },
-      onLongPressMoveUpdate: (d) {
-        final Size chartSize = _getChartSize();
-        if (chartSize == null) {
-          return;
-        }
-
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
-      },
-      onPanCancel: () {
-        final Size chartSize = _getChartSize();
+      onExit: (e) {
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -87,54 +63,116 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
           touchData.touchCallback(response);
         }
       },
-      onPanEnd: (DragEndDetails details) {
-        final Size chartSize = _getChartSize();
+      onHover: (e) {
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
         final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+            _touchHandler?.handleTouch(FlPanMoveUpdate(e.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
-      onPanDown: (DragDownDetails details) {
-        final Size chartSize = _getChartSize();
-        if (chartSize == null) {
-          return;
-        }
+      child: GestureDetector(
+        onLongPressStart: (d) {
+          final chartSize = _getChartSize();
+          if (chartSize == null) {
+            return;
+          }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
-      },
-      onPanUpdate: (DragUpdateDetails details) {
-        final Size chartSize = _getChartSize();
-        if (chartSize == null) {
-          return;
-        }
+          final BarTouchResponse response =
+              _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback(response);
+          }
+        },
+        onLongPressEnd: (d) {
+          final chartSize = _getChartSize();
+          if (chartSize == null) {
+            return;
+          }
 
-        final BarTouchResponse response =
-            _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
-      },
-      child: CustomPaint(
-        key: _chartKey,
-        size: getDefaultSize(MediaQuery.of(context).size),
-        painter: BarChartPainter(
-          _withTouchedIndicators(_barChartDataTween.evaluate(animation)),
-          _withTouchedIndicators(showingData),
-          (touchHandler) {
-            setState(() {
-              _touchHandler = touchHandler;
-            });
-          },
-          textScale: MediaQuery.of(context).textScaleFactor,
+          final BarTouchResponse response =
+              _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback(response);
+          }
+        },
+        onLongPressMoveUpdate: (d) {
+          final chartSize = _getChartSize();
+          if (chartSize == null) {
+            return;
+          }
+
+          final BarTouchResponse response =
+              _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback(response);
+          }
+        },
+        onPanCancel: () {
+          final chartSize = _getChartSize();
+          if (chartSize == null) {
+            return;
+          }
+
+          final BarTouchResponse response = _touchHandler?.handleTouch(
+              FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)), chartSize);
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback(response);
+          }
+        },
+        onPanEnd: (DragEndDetails details) {
+          final chartSize = _getChartSize();
+          if (chartSize == null) {
+            return;
+          }
+
+          final BarTouchResponse response =
+              _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback(response);
+          }
+        },
+        onPanDown: (DragDownDetails details) {
+          final chartSize = _getChartSize();
+          if (chartSize == null) {
+            return;
+          }
+
+          final BarTouchResponse response =
+              _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback(response);
+          }
+        },
+        onPanUpdate: (DragUpdateDetails details) {
+          final chartSize = _getChartSize();
+          if (chartSize == null) {
+            return;
+          }
+
+          final BarTouchResponse response =
+              _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
+          if (_canHandleTouch(response, touchData)) {
+            touchData.touchCallback(response);
+          }
+        },
+        child: CustomPaint(
+          key: _chartKey,
+          size: getDefaultSize(MediaQuery.of(context).size),
+          painter: BarChartPainter(
+            _withTouchedIndicators(_barChartDataTween.evaluate(animation)),
+            _withTouchedIndicators(showingData),
+            (touchHandler) {
+              setState(() {
+                _touchHandler = touchHandler;
+              });
+            },
+            textScale: MediaQuery.of(context).textScaleFactor,
+          ),
         ),
       ),
     );
@@ -153,8 +191,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
       return barChartData;
     }
 
-    final List<BarChartGroupData> newGroups = [];
-    for (int i = 0; i < barChartData.barGroups.length; i++) {
+    final newGroups = <BarChartGroupData>[];
+    for (var i = 0; i < barChartData.barGroups.length; i++) {
       final group = barChartData.barGroups[i];
 
       newGroups.add(
