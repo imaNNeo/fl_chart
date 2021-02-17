@@ -1,6 +1,6 @@
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'base_chart_data.dart';
 import 'touch_input.dart';
 
@@ -45,6 +45,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (topBorder.width != 0.0) {
       _borderPaint.color = topBorder.color;
       _borderPaint.strokeWidth = topBorder.width;
+      _borderPaint.transparentIfWidthIsZero();
       canvasWrapper.drawLine(topLeft, topRight, _borderPaint);
     }
 
@@ -53,6 +54,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (rightBorder.width != 0.0) {
       _borderPaint.color = rightBorder.color;
       _borderPaint.strokeWidth = rightBorder.width;
+      _borderPaint.transparentIfWidthIsZero();
       canvasWrapper.drawLine(topRight, bottomRight, _borderPaint);
     }
 
@@ -61,6 +63,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (bottomBorder.width != 0.0) {
       _borderPaint.color = bottomBorder.color;
       _borderPaint.strokeWidth = bottomBorder.width;
+      _borderPaint.transparentIfWidthIsZero();
       canvasWrapper.drawLine(bottomRight, bottomLeft, _borderPaint);
     }
 
@@ -69,6 +72,7 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     if (leftBorder.width != 0.0) {
       _borderPaint.color = leftBorder.color;
       _borderPaint.strokeWidth = leftBorder.width;
+      _borderPaint.transparentIfWidthIsZero();
       canvasWrapper.drawLine(bottomLeft, topLeft, _borderPaint);
     }
   }

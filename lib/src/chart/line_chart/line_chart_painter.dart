@@ -8,6 +8,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -305,6 +306,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
+      _touchLinePaint.transparentIfWidthIsZero();
 
       canvasWrapper.drawDashedLine(
           bottom, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
@@ -610,6 +612,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           _barAreaLinesPaint.color = barData.belowBarData.spotsLine.flLineStyle.color;
           _barAreaLinesPaint.strokeWidth = barData.belowBarData.spotsLine.flLineStyle.strokeWidth;
+          _barAreaLinesPaint.transparentIfWidthIsZero();
 
           canvasWrapper.drawDashedLine(
               from, to, _barAreaLinesPaint, barData.belowBarData.spotsLine.flLineStyle.dashArray);
@@ -702,6 +705,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
           _barAreaLinesPaint.color = barData.aboveBarData.spotsLine.flLineStyle.color;
           _barAreaLinesPaint.strokeWidth = barData.aboveBarData.spotsLine.flLineStyle.strokeWidth;
+          _barAreaLinesPaint.transparentIfWidthIsZero();
 
           canvasWrapper.drawDashedLine(
               from, to, _barAreaLinesPaint, barData.aboveBarData.spotsLine.flLineStyle.dashArray);
@@ -832,6 +836,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     _barPaint.maskFilter = null;
     _barPaint.strokeWidth = barData.barWidth;
+    _barPaint.transparentIfWidthIsZero();
+
     barPath = barPath.toDashedPath(barData.dashArray);
     canvasWrapper.drawPath(barPath, _barPaint);
   }
@@ -1020,6 +1026,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         _extraLinesPaint.color = line.color;
         _extraLinesPaint.strokeWidth = line.strokeWidth;
+        _extraLinesPaint.transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
 
@@ -1082,6 +1089,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
         _extraLinesPaint.color = line.color;
         _extraLinesPaint.strokeWidth = line.strokeWidth;
+        _extraLinesPaint.transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(from, to, _extraLinesPaint, line.dashArray);
 

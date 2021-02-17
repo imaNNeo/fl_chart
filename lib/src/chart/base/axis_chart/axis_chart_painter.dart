@@ -4,6 +4,7 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -221,6 +222,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           final flLineStyle = data.gridData.getDrawingVerticalLine(verticalSeek);
           _gridPaint.color = flLineStyle.color;
           _gridPaint.strokeWidth = flLineStyle.strokeWidth;
+          _gridPaint.transparentIfWidthIsZero();
 
           final bothX = getPixelX(verticalSeek, usableViewSize);
           final x1 = bothX;
@@ -252,6 +254,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           final flLine = data.gridData.getDrawingHorizontalLine(horizontalSeek);
           _gridPaint.color = flLine.color;
           _gridPaint.strokeWidth = flLine.strokeWidth;
+          _gridPaint.transparentIfWidthIsZero();
 
           final bothY = getPixelY(horizontalSeek, usableViewSize);
           final x1 = 0 + getLeftOffsetDrawSize();

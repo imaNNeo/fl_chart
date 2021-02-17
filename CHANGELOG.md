@@ -1,6 +1,7 @@
 ## newVersion
 * [Bugfix] Fixed PieChart exception bug on sections tap, #514.
 * [Bugfix] Fixed PieChart badges problem, #538.
+* [Bugfix] Fixed Bug of drawing lines with strokeWidth zero, #558.
 * [Improvement] Updated example app to support web.
 * [Improvement] Show tooltips on mouse hover on Web, and Desktop.
 
