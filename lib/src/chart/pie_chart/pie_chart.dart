@@ -249,7 +249,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
       }
     }
 
-    return null;
+    return SizedBox();
   }
 
   bool _canHandleTouch(PieTouchResponse response, PieTouchData touchData) {
