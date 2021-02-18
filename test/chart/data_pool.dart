@@ -2018,6 +2018,13 @@ final Function(ScatterSpot touchedSpots) scatterChartGetTooltipItems = (list) {
   return ScatterTooltipItem('check', const TextStyle(color: Colors.blue), 23);
 };
 
+final ScatterSpot scatterSpot1 = ScatterSpot(1, 40);
+final ScatterSpot scatterSpot1Clone = ScatterSpot(1, 40);
+final ScatterSpot scatterSpot2 = ScatterSpot(-4, -8);
+final ScatterSpot scatterSpot2Clone = scatterSpot2.copyWith();
+final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
+final ScatterSpot scatterSpot4 = ScatterSpot(-0, 0);
+
 final ScatterChartData scatterChartData1 = ScatterChartData(
   minY: 0,
   maxY: 12,
