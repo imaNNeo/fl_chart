@@ -1,3 +1,6 @@
+## Null Safety
+* [BREAKING] You cannot set null value on FlSpot anymore.
+
 ## 0.12.3
 * [Bugfix] Fixed PieChart exception bug on sections tap, #514.
 * [Bugfix] Fixed PieChart badges problem, #538.
