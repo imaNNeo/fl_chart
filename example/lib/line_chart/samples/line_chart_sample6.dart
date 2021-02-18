@@ -1,19 +1,20 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
   final spots = [
-    const FlSpot(0, 1),
-    const FlSpot(2, 5),
-    const FlSpot(4, 3),
-    const FlSpot(6, 5),
+    FlSpot(0, 1),
+    FlSpot(2, 5),
+    FlSpot(4, 3),
+    FlSpot(6, 5),
   ];
 
   final spots2 = [
-    const FlSpot(0, 3),
-    const FlSpot(2, 1),
-    const FlSpot(4, 2),
-    const FlSpot(6, 1),
+    FlSpot(0, 3),
+    FlSpot(2, 1),
+    FlSpot(4, 2),
+    FlSpot(6, 1),
   ];
 
   double minSpotX, maxSpotX;
@@ -47,14 +48,16 @@ class LineChartSample6 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [
-        BoxShadow(
-          color: Colors.black,
-          blurRadius: 10,
-          spreadRadius: 0,
-        )
-      ]),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 10,
+              spreadRadius: 0,
+            )
+          ]),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -70,7 +73,7 @@ class LineChartSample6 extends StatelessWidget {
             height: 200,
             child: LineChart(
               LineChartData(
-                lineTouchData: const LineTouchData(enabled: false),
+                lineTouchData: LineTouchData(enabled: false),
                 lineBarsData: [
                   LineChartBarData(
                     colors: [
@@ -81,13 +84,13 @@ class LineChartSample6 extends StatelessWidget {
                     isCurved: true,
                     isStrokeCapRound: true,
                     barWidth: 10,
-                    belowBarData: const BarAreaData(
+                    belowBarData: BarAreaData(
                       show: false,
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.deepOrange.withOpacity(0.5),
-                      dotSize: 12,
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(radius: 12, color: Colors.deepOrange.withOpacity(0.5)),
                     ),
                   ),
                   LineChartBarData(
@@ -99,13 +102,13 @@ class LineChartSample6 extends StatelessWidget {
                     isCurved: true,
                     isStrokeCapRound: true,
                     barWidth: 10,
-                    belowBarData: const BarAreaData(
+                    belowBarData: BarAreaData(
                       show: false,
                     ),
                     dotData: FlDotData(
                       show: true,
-                      dotColor: Colors.blue.withOpacity(0.5),
-                      dotSize: 12,
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(radius: 12, color: Colors.blue.withOpacity(0.5)),
                     ),
                   ),
                 ],
@@ -123,7 +126,7 @@ class LineChartSample6 extends StatelessWidget {
 
                       return intValue.toString();
                     },
-                    textStyle: const TextStyle(
+                    getTextStyles: (value) => const TextStyle(
                         color: Colors.deepOrange, fontWeight: FontWeight.bold, fontSize: 18),
                     margin: 16,
                   ),
@@ -139,16 +142,17 @@ class LineChartSample6 extends StatelessWidget {
 
                       return intValue.toString();
                     },
-                    textStyle: const TextStyle(
+                    getTextStyles: (value) => const TextStyle(
                         color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
                     margin: 16,
                   ),
-                  bottomTitles: const SideTitles(showTitles: false),
+                  bottomTitles: SideTitles(showTitles: false),
                   topTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 28,
                     margin: 8,
-                    textStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    getTextStyles: (value) =>
+                        const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     getTitles: (double value) {
                       return value.toInt().toString();
                     },
@@ -167,13 +171,14 @@ class LineChartSample6 extends StatelessWidget {
                       return true;
                     }),
                 borderData: FlBorderData(
-                    show: true,
-                    border: Border(
-                      left: BorderSide(color: Colors.black),
-                      top: BorderSide(color: Colors.black),
-                      bottom: BorderSide(color: Colors.transparent),
-                      right: BorderSide(color: Colors.transparent),
-                    )),
+                  show: true,
+                  border: const Border(
+                    left: BorderSide(color: Colors.black),
+                    top: BorderSide(color: Colors.black),
+                    bottom: BorderSide(color: Colors.transparent),
+                    right: BorderSide(color: Colors.transparent),
+                  ),
+                ),
               ),
             ),
           ),

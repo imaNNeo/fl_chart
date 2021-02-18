@@ -116,7 +116,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
+        size: getDefaultSize(MediaQuery.of(context).size),
         painter: RadarChartPainter(
           _radarChartDataTween.evaluate(animation),
           showingData,

@@ -9,10 +9,10 @@ class LineChartSample7 extends StatelessWidget {
       height: 140,
       child: LineChart(
         LineChartData(
-          lineTouchData: const LineTouchData(enabled: false),
+          lineTouchData: LineTouchData(enabled: false),
           lineBarsData: [
             LineChartBarData(
-              spots: const [
+              spots: [
                 FlSpot(0, 4),
                 FlSpot(1, 3.5),
                 FlSpot(2, 4.5),
@@ -31,11 +31,11 @@ class LineChartSample7 extends StatelessWidget {
               colors: [
                 Colors.green,
               ],
-              dotData: const FlDotData(
+              dotData: FlDotData(
                 show: false,
               ),
             ),
-            const LineChartBarData(
+            LineChartBarData(
               spots: [
                 FlSpot(0, 0),
                 FlSpot(1, 3),
@@ -60,7 +60,7 @@ class LineChartSample7 extends StatelessWidget {
               ),
             ),
             LineChartBarData(
-              spots: const [
+              spots: [
                 FlSpot(0, 7),
                 FlSpot(1, 3),
                 FlSpot(2, 4),
@@ -79,15 +79,15 @@ class LineChartSample7 extends StatelessWidget {
               colors: [
                 Colors.red,
               ],
-              dotData: const FlDotData(
+              dotData: FlDotData(
                 show: false,
               ),
             ),
           ],
           betweenBarsData: [
             BetweenBarsData(
-                fromIndex: 0,
-                toIndex: 2,
+              fromIndex: 0,
+              toIndex: 2,
               colors: [Colors.red.withOpacity(0.3)],
             )
           ],
@@ -95,8 +95,8 @@ class LineChartSample7 extends StatelessWidget {
           titlesData: FlTitlesData(
             bottomTitles: SideTitles(
                 showTitles: true,
-                textStyle:
-                    TextStyle(fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
+                getTextStyles: (value) => const TextStyle(
+                    fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
                 getTitles: (value) {
                   switch (value.toInt()) {
                     case 0:
@@ -135,10 +135,11 @@ class LineChartSample7 extends StatelessWidget {
             ),
           ),
           gridData: FlGridData(
-              show: true,
-              checkToShowHorizontalLine: (double value) {
-                return value == 1 || value == 6 || value == 4 || value == 5;
-              }),
+            show: true,
+            checkToShowHorizontalLine: (double value) {
+              return value == 1 || value == 6 || value == 4 || value == 5;
+            },
+          ),
         ),
       ),
     );

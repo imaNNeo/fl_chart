@@ -9,3 +9,9 @@ ios/.generated/
 ios/Flutter/Generated.xcconfig
 ios/Runner/GeneratedPluginRegistrant.*
 pubspec.lock
+.vscode/launch.json
+example/android/.project
+example/android/.settings/org.eclipse.buildship.core.prefs
+example/android/app/.classpath
+example/android/app/.project
+example/android/app/.settings/org.eclipse.buildship.core.prefs

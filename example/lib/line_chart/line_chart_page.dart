@@ -10,17 +10,17 @@ class LineChartPage extends StatelessWidget {
       color: const Color(0xff262545),
       child: ListView(
         children: <Widget>[
-          Align(
+          const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                 left: 36.0,
                 top: 24,
               ),
               child: Text(
                 'Line Chart',
                 style: TextStyle(
-                    color: const Color(
+                    color: Color(
                       0xff6f6f97,
                     ),
                     fontSize: 32,

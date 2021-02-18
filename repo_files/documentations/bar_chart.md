@@ -3,7 +3,7 @@
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
 
 ### How to use
-```
+```dart
 BarChart(
   BarChartData(
     // read about it in the below section
@@ -19,11 +19,13 @@ BarChart(
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
+|rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
 |backgroundColor| a background color which is drawn behind the chart| null |
 |barTouchData| [BarTouchData](#BarTouchData) holds the touch interactivity details|BarTouchData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
+|minY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
 
 
 ### BarChartGroupData
@@ -43,9 +45,12 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |y|endY position of the bar on vertical axis (height of the bar)|null|
-|color|colors the rod bar|Colors.blueAccent|
+|colors|colors the rod bar, if multiple colors provided it will be gradient|[Colors.blueAccent]|
+|colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |width|stroke width of the rod bar|8|
-|isRound|determines that the bar lines is round or qubic |true|
+|borderRadius|Determines the edge rounding of the bar corners, see [BorderRadius](https://api.flutter.dev/flutter/painting/BorderRadius-class.html). When `null`, it defaults to completely round bars. |null|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
 |rodStackItem|if you want to have stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
 
@@ -55,7 +60,10 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |:-------|:----------|:------------|
 |y|same as [BarChartRodData](#BarChartRodData)'s y|8|
 |show|determines to show or hide this section|false|
-|color|same as [BarChartRodData](#BarChartRodData)'s color|Colors.blueGrey|
+|colors|same as [BarChartRodData](#BarChartRodData)'s colors|[Colors.blueGrey]|
+|colorStops|same as [BarChartRodData](#BarChartRodData)'s colorStops|null|
+|gradientFrom|same as [BarChartRodData](#BarChartRodData)'s gradientFrom|Offset(0, 0)|
+|gradientTo|same as [BarChartRodData](#BarChartRodData)'s gradientTo|Offset(1, 0)|
 
 ### BarChartRodStackItem
 |PropName|Description|default value|
@@ -68,7 +76,6 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|enableNormalTouch| set it false if you just want to handle long press|true|
 |touchTooltipData|a [BarTouchTooltipData](#BarTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|BarTouchTooltipData()|
 |touchExtraThreshold|an [EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) class to hold a bounding threshold of touch accuracy|EdgeInsets.all(4)|
 |allowTouchBarBackDraw| if sets true, touch works on backdraw bar line| false |
@@ -84,6 +91,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve [BarTooltipItem](#BarTooltipItem) by the given [BarChartGroupData](#BarChartGroupData), groupIndex, [BarChartRodData](#BarChartRodData) and rodIndex |defaultBarTooltipItem|
+ |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
+ |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
 
 ### BarTooltipItem
 |PropName|Description|default value|
@@ -106,6 +115,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |touchedBarGroupIndex| index of touched barGroup| null|
 |touchedRodData|the [BarChartRodData](#BarChartRodData) that user touched its spot|null|
 |touchedRodDataIndex| index of touchedRod | null|
+|touchedStackItem| [BarChartRodStackItem](#BarChartRodStackItem) is the touched stack (if you have stacked bar chart) |null|
+|touchedStackItemIndex| index of barChartRodStackItem, -1 if nothing found | -1|
 
 
 ### Some Samples

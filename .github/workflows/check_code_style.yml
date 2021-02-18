@@ -1,0 +1,20 @@
+name: Code Style
+
+on: [push, pull_request]
+
+jobs:
+  check-code-style:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - name: Check formattting
+        run: flutter format --set-exit-if-changed --dry-run --line-length 100 .
+      - name: Get packages
+        run: flutter pub get
+      - name: Analyze the source code
+        run: flutter analyze

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/foundation.dart';
@@ -69,17 +70,22 @@ class RadarChartData extends BaseChartData {
   RadarEntry get maxEntry {
     var maximum = dataSets.first.dataEntries.first;
 
-    for (final dataSet in dataSets)
-      for (final entry in dataSet.dataEntries) if (entry.value > maximum.value) maximum = entry;
-
+    for (final dataSet in dataSets) {
+      for (final entry in dataSet.dataEntries) {
+        if (entry.value > maximum.value) maximum = entry;
+      }
+    }
     return maximum;
   }
 
   RadarEntry get minEntry {
     var minimum = dataSets.first.dataEntries.first;
 
-    for (final dataSet in dataSets)
-      for (final entry in dataSet.dataEntries) if (entry.value < minimum.value) minimum = entry;
+    for (final dataSet in dataSets) {
+      for (final entry in dataSet.dataEntries) {
+        if (entry.value < minimum.value) minimum = entry;
+      }
+    }
 
     return minimum;
   }
@@ -110,9 +116,28 @@ class RadarChartData extends BaseChartData {
       throw Exception('Illegal State');
     }
   }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        borderData,
+        touchData,
+        dataSets,
+        fillColor,
+        chartBorderData,
+        getTitle,
+        titleCount,
+        titleTextStyle,
+        titlePositionPercentageOffset,
+        tickCount,
+        ticksTextStyle,
+        tickBorderData,
+        gridBorderData,
+        radarTouchData,
+      ];
 }
 
-class RadarDataSet {
+class RadarDataSet extends Equatable {
   const RadarDataSet({
     this.dataEntries = const [],
     @required this.fillColor,
@@ -136,9 +161,18 @@ class RadarDataSet {
       entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
     );
   }
+
+  @override
+  List<Object> get props => [
+        dataEntries,
+        fillColor,
+        borderColor,
+        borderWidth,
+        entryRadius,
+      ];
 }
 
-class RadarEntry {
+class RadarEntry extends Equatable {
   final double value;
 
   const RadarEntry({this.value = 0});
@@ -146,6 +180,9 @@ class RadarEntry {
   static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) {
     return RadarEntry(value: lerpDouble(a.value, b.value, t));
   }
+
+  @override
+  List<Object> get props => [value];
 }
 
 class RadarTouchData extends FlTouchData {
@@ -155,12 +192,22 @@ class RadarTouchData extends FlTouchData {
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
 
-  const RadarTouchData({
+  final bool enableNormalTouch;
+
+  RadarTouchData({
     bool enabled = true,
-    bool enableNormalTouch = true,
+    this.enableNormalTouch,
     this.touchCallback,
     this.touchSpotThreshold = 10,
-  }) : super(enabled, enableNormalTouch);
+  }) : super(enabled);
+
+  @override
+  List<Object> get props => [
+        enabled,
+        touchSpotThreshold,
+        enableNormalTouch,
+        touchCallback,
+      ];
 }
 
 class RadarTouchResponse extends BaseTouchResponse {
@@ -170,6 +217,12 @@ class RadarTouchResponse extends BaseTouchResponse {
     this.touchedSpot,
     FlTouchInput touchInput,
   ) : super(touchInput);
+
+  @override
+  List<Object> get props => [
+        touchedSpot,
+        touchInput,
+      ];
 }
 
 class RadarTouchedSpot extends TouchedSpot {
@@ -188,10 +241,19 @@ class RadarTouchedSpot extends TouchedSpot {
     Offset offset,
   ) : super(spot, offset);
 
-  @override
   Color getColor() {
     return Colors.black;
   }
+
+  @override
+  List<Object> get props => [
+        spot,
+        offset,
+        touchedDataSet,
+        touchedDataSetIndex,
+        touchedRadarEntry,
+        touchedRadarEntryIndex,
+      ];
 }
 
 class RadarChartDataTween extends Tween<RadarChartData> {

@@ -6,19 +6,25 @@ import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 
+/// Renders a pie chart as a widget, using provided [ScatterChartData].
 class ScatterChart extends ImplicitlyAnimatedWidget {
+  /// Determines how the [ScatterChart] should be look like.
   final ScatterChartData data;
 
+  /// [data] determines how the [ScatterChart] should be look like,
+  /// when you make any change in the [ScatterChartData], it updates
+  /// new values with animation, and duration is [swapAnimationDuration].
   const ScatterChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(duration: swapAnimationDuration);
 
+  /// Creates a [_ScatterChartState]
   @override
-  ScatterChartState createState() => ScatterChartState();
+  _ScatterChartState createState() => _ScatterChartState();
 }
 
-class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
+class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [ScatterChartData] to the new one.
   ScatterChartDataTween _scatterChartDataTween;
@@ -26,94 +32,91 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   TouchHandler<ScatterTouchResponse> _touchHandler;
 
   final GlobalKey _chartKey = GlobalKey();
-  
+
   List<int> touchedSpots = [];
 
   @override
   Widget build(BuildContext context) {
-    final ScatterChartData showingData = _getDate();
-    final ScatterTouchData touchData = showingData.scatterTouchData;
+    final showingData = _getData();
+    final touchData = showingData.scatterTouchData;
 
     return GestureDetector(
       onLongPressStart: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final ScatterTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+        final response = _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onLongPressEnd: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final ScatterTouchResponse response =
-            _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
+        final response = _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onLongPressMoveUpdate: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final ScatterTouchResponse response =
+        final response =
             _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanCancel: () {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final ScatterTouchResponse response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, Velocity(pixelsPerSecond: Offset.zero)), chartSize);
+        final response = _touchHandler?.handleTouch(
+            FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanEnd: (DragEndDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final ScatterTouchResponse response =
+        final response =
             _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanDown: (DragDownDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final ScatterTouchResponse response =
-            _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
+        final response = _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
 
-        final ScatterTouchResponse response =
+        final response =
             _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
         if (_canHandleTouch(response, touchData)) {
           touchData.touchCallback(response);
@@ -121,7 +124,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       },
       child: CustomPaint(
         key: _chartKey,
-        size: getDefaultSize(context),
+        size: getDefaultSize(MediaQuery.of(context).size),
         painter: ScatterChartPainter(
           _withTouchedIndicators(_scatterChartDataTween.evaluate(animation)),
           _withTouchedIndicators(showingData),
@@ -145,7 +148,8 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       return scatterChartData;
     }
 
-    if (!scatterChartData.scatterTouchData.enabled || !scatterChartData.scatterTouchData.handleBuiltInTouches) {
+    if (!scatterChartData.scatterTouchData.enabled ||
+        !scatterChartData.scatterTouchData.handleBuiltInTouches) {
       return scatterChartData;
     }
 
@@ -155,18 +159,14 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   }
 
   Size _getChartSize() {
-    if (_chartKey.currentContext != null) {
-      final RenderBox containerRenderBox = _chartKey.currentContext.findRenderObject();
-      if (containerRenderBox.hasSize) {
-        return containerRenderBox.size;
-      }
-      return null;
-    } else {
-      return null;
+    final RenderBox containerRenderBox = _chartKey.currentContext?.findRenderObject();
+    if (containerRenderBox != null && containerRenderBox.hasSize) {
+      return containerRenderBox.size;
     }
+    return null;
   }
 
-  ScatterChartData _getDate() {
+  ScatterChartData _getData() {
     final scatterTouchData = widget.data.scatterTouchData;
     if (scatterTouchData.enabled && scatterTouchData.handleBuiltInTouches) {
       return widget.data.copyWith(
@@ -186,12 +186,11 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         touchResponse.touchInput is FlLongPressStart ||
         touchResponse.touchInput is FlLongPressMoveUpdate) {
       setState(() {
-        touchedSpots.clear();
-        touchedSpots.add(touchResponse.touchedSpotIndex);
+        touchedSpots = [touchResponse.touchedSpotIndex];
       });
     } else {
       setState(() {
-        touchedSpots.clear();
+        touchedSpots = [];
       });
     }
   }
@@ -200,7 +199,7 @@ class ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   void forEachTween(visitor) {
     _scatterChartDataTween = visitor(
       _scatterChartDataTween,
-      _getDate(),
+      _getData(),
       (dynamic value) => ScatterChartDataTween(begin: value),
     );
   }

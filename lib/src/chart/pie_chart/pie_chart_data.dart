@@ -1,45 +1,93 @@
-import 'dart:async';
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../base/base_chart/base_chart_data.dart';
 import 'pie_chart.dart';
 
-/// Holds all data needed to draw [PieChart],
-class PieChartData extends BaseChartData {
+/// [PieChart] needs this class to render itself.
+///
+/// It holds data needed to draw a pie chart,
+/// including pie sections, colors, ...
+class PieChartData extends BaseChartData with EquatableMixin {
+  /// Defines showing sections of the [PieChart].
   final List<PieChartSectionData> sections;
-  final double centerSpaceRadius;
-  final Color centerSpaceColor;
-  final PieTouchData pieTouchData;
 
-  /// space between sections together
+  /// Radius of free space in center of the circle.
+  final double centerSpaceRadius;
+
+  /// Color of free space in center of the circle.
+  final Color centerSpaceColor;
+
+  /// Defines gap between sections.
   final double sectionsSpace;
 
-  /// determines where the sections will be drawn value should be (0 to 360),
-  /// the default value is 0, it means the sections
-  /// will be drawn from 0 degree (zero degree is right/center of a circle).
+  /// [PieChart] draws [sections] from zero degree (right side of the circle) clockwise.
   final double startDegreeOffset;
 
-  /// we hold this value to determine weight of each [FlBorderData.value].
-  double sumValue;
+  /// Handles touch behaviors and responses.
+  final PieTouchData pieTouchData;
 
+  /// We hold this value to determine weight of each [PieChartSectionData.value].
+  double get sumValue =>
+      sections.map((data) => data.value).reduce((first, second) => first + second);
+
+  /// [PieChart] draws some [sections] in a circle,
+  /// and applies free space with radius [centerSpaceRadius],
+  /// and color [centerSpaceColor] in the center of the circle,
+  /// if you don't want it, set [centerSpaceRadius] to zero.
+  ///
+  /// It draws [sections] from zero degree (right side of the circle) clockwise,
+  /// you can change the starting point, by changing [startDegreeOffset] (in degrees).
+  ///
+  /// You can define a gap between [sections] by setting [sectionsSpace].
+  ///
+  /// You can modify [pieTouchData] to customize touch behaviors and responses.
   PieChartData({
-    this.sections = const [],
-    this.centerSpaceRadius = 80,
-    this.centerSpaceColor = Colors.transparent,
-    this.sectionsSpace = 2,
-    this.startDegreeOffset = 0,
-    this.pieTouchData = const PieTouchData(),
+    List<PieChartSectionData> sections,
+    double centerSpaceRadius,
+    Color centerSpaceColor,
+    double sectionsSpace,
+    double startDegreeOffset,
+    PieTouchData pieTouchData,
     FlBorderData borderData,
-  }) : super(borderData: borderData, touchData: pieTouchData) {
-    sumValue = sections
-        .map((data) => data.value)
-        .reduce((first, second) => first + second);
+  })  : sections = sections ?? const [],
+        centerSpaceRadius = centerSpaceRadius ?? double.infinity,
+        centerSpaceColor = centerSpaceColor ?? Colors.transparent,
+
+        /// we've disabled `groupSpace` on web, because some BlendModes are [not working](https://github.com/flutter/flutter/issues/56071) yet
+        sectionsSpace = kIsWeb ? 0 : sectionsSpace ?? 2,
+        startDegreeOffset = startDegreeOffset ?? 0,
+        pieTouchData = pieTouchData ?? PieTouchData(),
+        super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
+
+  /// Copies current [PieChartData] to a new [PieChartData],
+  /// and replaces provided values.
+  PieChartData copyWith({
+    List<PieChartSectionData> sections,
+    double centerSpaceRadius,
+    Color centerSpaceColor,
+    double sectionsSpace,
+    double startDegreeOffset,
+    PieTouchData pieTouchData,
+    FlBorderData borderData,
+  }) {
+    return PieChartData(
+      sections: sections ?? this.sections,
+      centerSpaceRadius: centerSpaceRadius ?? this.centerSpaceRadius,
+      centerSpaceColor: centerSpaceColor ?? this.centerSpaceColor,
+      sectionsSpace: sectionsSpace ?? this.sectionsSpace,
+      startDegreeOffset: startDegreeOffset ?? this.startDegreeOffset,
+      pieTouchData: pieTouchData ?? this.pieTouchData,
+      borderData: borderData ?? this.borderData,
+    );
   }
 
+  /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is PieChartData && b is PieChartData && t != null) {
@@ -56,44 +104,105 @@ class PieChartData extends BaseChartData {
       throw Exception('Illegal State');
     }
   }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        sections,
+        centerSpaceRadius,
+        centerSpaceColor,
+        pieTouchData,
+        sectionsSpace,
+        startDegreeOffset,
+        borderData,
+      ];
 }
 
-/***** PieChartSectionData *****/
-
-/// this class holds data about each section of the pie chart,
-class PieChartSectionData {
-  /// the [value] is weight of the section,
-  /// for example if all values is 25, and we have 4 section,
-  /// then the sum is 100 and each section takes 1/4 of whole circle (360/4) degree.
+/// Holds data related to drawing each [PieChart] section.
+class PieChartSectionData with EquatableMixin {
+  /// It determines how much space it should occupy around the circle.
+  ///
+  /// This is depends on sum of all sections, each section should
+  /// occupy ([value] / sumValues) * 360 degrees.
   final double value;
+
+  /// Defines the color of section.
   final Color color;
 
-  /// the [radius] is the width radius of each section
+  /// Defines the radius of section.
   final double radius;
+
+  /// Defines show or hide the title of section.
   final bool showTitle;
+
+  /// Defines style of showing title of section.
   final TextStyle titleStyle;
+
+  /// Defines text of showing title at the middle of section.
   final String title;
 
-  /// the [titlePositionPercentageOffset] is the place of showing title on the section
-  /// the degree is statically on the center of each section,
-  /// but the radius of drawing is depend of this field,
-  /// this field should be between 0 and 1,
-  /// if it is 0 the title will be drawn near the inside section,
-  /// if it is 1 the title will be drawn near the outside of section,
-  /// the default value is 0.5, means it draw on the center of section.
+  /// Defines a widget that represents the section.
+  ///
+  /// This can be anything from a text, an image, an animation, and even a combination of widgets.
+  /// Use AnimatedWidgets to animate this widget.
+  final Widget badgeWidget;
+
+  /// Defines position of showing title in the section.
+  ///
+  /// It should be between 0.0 to 1.0,
+  /// 0.0 means near the center,
+  /// 1.0 means near the outside of the [PieChart].
   final double titlePositionPercentageOffset;
 
-  PieChartSectionData({
-    this.value = 10,
-    this.color = Colors.red,
-    this.radius = 40,
-    this.showTitle = true,
-    this.titleStyle = const TextStyle(
-        color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-    this.title = '1',
-    this.titlePositionPercentageOffset = 0.5,
-  });
+  /// Defines position of badge widget in the section.
+  ///
+  /// It should be between 0.0 to 1.0,
+  /// 0.0 means near the center,
+  /// 1.0 means near the outside of the [PieChart].
+  final double badgePositionPercentageOffset;
 
+  /// [PieChart] draws section from right side of the circle (0 degrees),
+  /// each section have a [value] that determines how much it should occupy,
+  /// this is depends on sum of all sections, each section should
+  /// occupy ([value] / sumValues) * 360 degrees.
+  ///
+  /// It draws this section with filled [color], and [radius].
+  ///
+  /// If [showTitle] is true, it draws a title at the middle of section,
+  /// you can set the text using [title], and set the style using [titleStyle],
+  /// by default it draws texts at the middle of section, but you can change the
+  /// [titlePositionPercentageOffset] to have your desire design,
+  /// it should be between 0.0 to 1.0,
+  /// 0.0 means near the center,
+  /// 1.0 means near the outside of the [PieChart].
+  ///
+  /// If [badgeWidget] is not null, it draws a widget at the middle of section,
+  /// by default it draws the widget at the middle of section, but you can change the
+  /// [badgePositionPercentageOffset] to have your desire design,
+  /// the value works the same way as [titlePositionPercentageOffset].
+  PieChartSectionData({
+    double value,
+    Color color,
+    double radius,
+    bool showTitle,
+    TextStyle titleStyle,
+    String title,
+    Widget badgeWidget,
+    double titlePositionPercentageOffset,
+    double badgePositionPercentageOffset,
+  })  : value = value ?? 10,
+        color = color ?? Colors.red,
+        radius = radius ?? 40,
+        showTitle = showTitle ?? true,
+        titleStyle = titleStyle ??
+            const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        title = title ?? value.toString(),
+        badgeWidget = badgeWidget,
+        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
+
+  /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
+  /// and replaces provided values.
   PieChartSectionData copyWith({
     double value,
     Color color,
@@ -101,7 +210,9 @@ class PieChartSectionData {
     bool showTitle,
     TextStyle titleStyle,
     String title,
+    Widget badgeWidget,
     double titlePositionPercentageOffset,
+    double badgePositionPercentageOffset,
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
@@ -110,40 +221,78 @@ class PieChartSectionData {
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
       title: title ?? this.title,
+      badgeWidget: badgeWidget ?? this.badgeWidget,
       titlePositionPercentageOffset:
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+      badgePositionPercentageOffset:
+          badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
     );
   }
 
+  /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
   static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
     return PieChartSectionData(
+      value: lerpDouble(a.value, b.value, t),
       color: Color.lerp(a.color, b.color, t),
       radius: lerpDouble(a.radius, b.radius, t),
       showTitle: b.showTitle,
-      title: b.title,
-      titlePositionPercentageOffset: lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
-      value: lerpDouble(a.value, b.value, t),
+      title: b.title,
+      badgeWidget: b.badgeWidget,
+      titlePositionPercentageOffset:
+          lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+      badgePositionPercentageOffset:
+          lerpDouble(a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
     );
   }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        value,
+        color,
+        radius,
+        showTitle,
+        titleStyle,
+        title,
+        badgeWidget,
+        titlePositionPercentageOffset,
+        badgePositionPercentageOffset,
+      ];
 }
 
-/// holds data for handling touch events on the [PieChart]
-class PieTouchData extends FlTouchData {
-
+/// Holds data to handle touch events, and touch responses in the [PieChart].
+///
+/// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+/// in a simple way, each chart captures the touch events, and passes a concrete
+/// instance of [FlTouchInput] to the painter, and gets a generated [PieTouchResponse].
+class PieTouchData extends FlTouchData with EquatableMixin {
   /// you can implement it to receive touches callback
   final Function(PieTouchResponse) touchCallback;
-  
-  const PieTouchData({
-    bool enabled = true,
-    bool enableNormalTouch = true,
-    this.touchCallback,
-  }) : super(enabled, enableNormalTouch);
+
+  /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// You can listen to touch events using [touchCallback],
+  /// It gives you a [PieTouchResponse] that contains some
+  /// useful information about happened touch.
+  PieTouchData({
+    bool enabled,
+    Function(PieTouchResponse) touchCallback,
+  })  : touchCallback = touchCallback,
+        super(enabled ?? true);
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        enabled,
+      ];
 }
 
-/// holds the data of touch response on the [PieChart]
-/// used in the [PieTouchData] in a [StreamSink]
-class PieTouchResponse extends BaseTouchResponse {
+/// Holds information about touch response in the [PieChart].
+///
+/// You can override [PieTouchData.touchCallback] to handle touch events,
+/// it gives you a [PieTouchResponse] and you can do whatever you want.
+class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// touch happened on this section
   final PieChartSectionData touchedSection;
 
@@ -156,20 +305,40 @@ class PieTouchResponse extends BaseTouchResponse {
   /// touch happened with this radius on the [PieChart]
   final double touchRadius;
 
+  /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
+  /// that contains [touchedSection], [touchedSectionIndex] that tells
+  /// you touch happened on which section,
+  /// [touchAngle] gives you angle of touch,
+  /// and [touchRadius] gives you radius of the touch.
+  /// [touchInput] is the type of happened touch.
   PieTouchResponse(
-    this.touchedSection,
-    this.touchedSectionIndex,
-    this.touchAngle,
-    this.touchRadius,
+    PieChartSectionData touchedSection,
+    int touchedSectionIndex,
+    double touchAngle,
+    double touchRadius,
     FlTouchInput touchInput,
-  ) : super(touchInput);
+  )   : touchedSection = touchedSection,
+        touchedSectionIndex = touchedSectionIndex,
+        touchAngle = touchAngle,
+        touchRadius = touchRadius,
+        super(touchInput);
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        touchedSection,
+        touchedSectionIndex,
+        touchAngle,
+        touchRadius,
+        touchInput,
+      ];
 }
 
+/// It lerps a [PieChartData] to another [PieChartData] (handles animation for updating values)
 class PieChartDataTween extends Tween<PieChartData> {
-
   PieChartDataTween({PieChartData begin, PieChartData end}) : super(begin: begin, end: end);
 
+  /// Lerps a [PieChartData] based on [t] value, check [Tween.lerp].
   @override
   PieChartData lerp(double t) => begin.lerp(begin, end, t);
-
 }

@@ -1,53 +1,58 @@
-import 'dart:ui';
-
-import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
-import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
+import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
 import 'touch_input.dart';
 
-/// This class holds all data needed to [BaseChartPainter],
-/// in this phase just the [FlBorderData] provided
-/// to drawing chart border line,
-/// see inherited samples:
-/// [LineChartData], [BarChartData], [PieChartData]
-abstract class BaseChartData {
+/// This class holds all data needed for [BaseChartPainter].
+///
+/// In this phase we draw the border,
+/// and handle touches in an abstract way.
+abstract class BaseChartData with EquatableMixin {
+  /// Holds data to drawing border around the chart.
   FlBorderData borderData;
+
+  /// Holds data needed to touch behavior and responses.
   FlTouchData touchData;
 
+  /// It draws 4 borders around your chart, you can customize it using [borderData],
+  /// [touchData] defines the touch behavior and responses.
   BaseChartData({
-    this.borderData,
-    this.touchData,
-  }) {
-    borderData ??= FlBorderData();
-  }
+    FlBorderData borderData,
+    FlTouchData touchData,
+  })  : borderData = borderData ?? FlBorderData(),
+        touchData = touchData;
 
-  /// this function is used for animate between current and target data,
-  /// used in the [BaseChartDataTween]
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        borderData,
+        touchData,
+      ];
 }
 
-/***** BorderData *****/
-
-/// Border Data that contains
-/// used the [Border] class to draw each side of border.
-class FlBorderData {
+/// Holds data to drawing border around the chart.
+class FlBorderData with EquatableMixin {
   final bool show;
   Border border;
 
+  /// [show] Determines showing or hiding border around the chart.
+  /// [border] Determines the visual look of 4 borders, see [Border].
   FlBorderData({
-    this.show = true,
-    this.border,
-  }) {
-    border ??= Border.all(
-      color: Colors.black,
-      width: 1.0,
-      style: BorderStyle.solid,
-    );
-  }
+    bool show,
+    Border border,
+  })  : show = show ?? true,
+        border = border ??
+            Border.all(
+              color: Colors.black,
+              width: 1.0,
+              style: BorderStyle.solid,
+            );
 
+  /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
   static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
     assert(a != null && b != null && t != null);
     return FlBorderData(
@@ -56,164 +61,103 @@ class FlBorderData {
     );
   }
 
-  
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        show,
+        border,
+      ];
 }
 
-/***** TouchData *****/
-
-/// holds information about touch on the chart
-class FlTouchData {
-  /// determines enable or disable the touch in the chart
+/// Holds data to handle touch events, and touch responses in abstract way.
+///
+/// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+/// in a simple way, each chart captures the touch events, and passes a concrete
+/// instance of [FlTouchInput] to the painter, and gets a generated [BaseTouchResponse].
+class FlTouchData with EquatableMixin {
+  /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
-  /// determines that charts should respond to normal touch events or not
-  final bool enableNormalTouch;
+  /// You can disable or enable the touch system using [enabled] flag,
+  FlTouchData(bool enabled) : enabled = enabled;
 
-  const FlTouchData(this.enabled, this.enableNormalTouch);
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        enabled,
+      ];
 }
 
-///***** AxisTitleData *****/
+/// Holds data to clipping chart around its borders.
+class FlClipData with EquatableMixin {
+  final bool top;
+  final bool bottom;
+  final bool left;
+  final bool right;
 
-/// This class holds data about the description for each axis of the chart.
-class FlAxisTitleData {
-  final bool show;
-
-  final AxisTitle leftTitle, topTitle, rightTitle, bottomTitle;
-
-  const FlAxisTitleData({
-    this.show = true,
-    this.leftTitle = const AxisTitle(reservedSize: 16),
-    this.topTitle = const AxisTitle(reservedSize: 16),
-    this.rightTitle = const AxisTitle(reservedSize: 16),
-    this.bottomTitle = const AxisTitle(reservedSize: 16),
+  /// Creates data that clips specified sides
+  FlClipData({
+    @required this.top,
+    @required this.bottom,
+    @required this.left,
+    @required this.right,
   });
 
-  static FlAxisTitleData lerp(FlAxisTitleData a, FlAxisTitleData b, double t) {
-    return FlAxisTitleData(
-      show: b.show,
-      leftTitle: AxisTitle.lerp(a.leftTitle, b.leftTitle, t),
-      rightTitle: AxisTitle.lerp(a.rightTitle, b.rightTitle, t),
-      bottomTitle: AxisTitle.lerp(a.bottomTitle, b.bottomTitle, t),
-      topTitle: AxisTitle.lerp(a.topTitle, b.topTitle, t),
-    );
-  }
+  /// Creates data that clips all sides
+  FlClipData.all() : this(top: true, bottom: true, left: true, right: true);
+
+  /// Creates data that clips only top and bottom side
+  FlClipData.vertical() : this(top: true, bottom: true, left: false, right: false);
+
+  /// Creates data that clips only left and right side
+  FlClipData.horizontal() : this(top: false, bottom: false, left: true, right: true);
+
+  /// Creates data that doesn't clip any side
+  FlClipData.none() : this(top: false, bottom: false, left: false, right: false);
+
+  /// Checks whether any of the sides should be clipped
+  bool get any => top || bottom || left || right;
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [top, bottom, left, right];
 }
 
-/// specify each axis titles data
-class AxisTitle {
-  final bool showTitle;
-  final double reservedSize;
-  final TextStyle textStyle;
-  final TextAlign textAlign;
-  final double margin;
-  final String titleText;
-
-  const AxisTitle({
-    this.showTitle = false,
-    this.titleText = '',
-    this.reservedSize = 14,
-    this.textStyle = const TextStyle(
-      color: Colors.black,
-      fontSize: 11,
-    ),
-    this.textAlign = TextAlign.center,
-    this.margin = 4,
-  });
-
-  static AxisTitle lerp(AxisTitle a, AxisTitle b, double t) {
-    return AxisTitle(
-      showTitle: b.showTitle,
-      titleText: b.titleText,
-      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
-      textStyle: TextStyle.lerp(
-          a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
-          b.textStyle.copyWith(fontSize: b.textStyle.fontSize),
-          t),
-      textAlign: b.textAlign,
-      margin: lerpDouble(a.margin, b.margin, t),
-    );
-  }
-}
-
-/***** TitlesData *****/
-
-/// we use this typedef to determine which titles
-/// we should show (according to the value),
-/// we pass the value and get a boolean to show the title for that value.
+/// It gives you the axis value and gets a String value based on it.
 typedef GetTitleFunction = String Function(double value);
 
+/// The default [SideTitles.getTitles] function.
+///
+/// formats the axis number to a shorter string using [formatNumber].
 String defaultGetTitle(double value) {
-  return '$value';
+  return formatNumber(value);
 }
 
-/// This class is responsible to hold data about showing titles.
-/// titles show on the each side of chart
-class FlTitlesData {
-  final bool show;
+/// It gives you the axis value and gets a TextStyle based on given value
+/// (you can customize a specific title using this).
+typedef GetTitleTextStyleFunction = TextStyle Function(double value);
 
-  final SideTitles leftTitles, topTitles, rightTitles, bottomTitles;
-
-  const FlTitlesData({
-    this.show = true,
-    this.leftTitles = const SideTitles(reservedSize: 40, showTitles: true),
-    this.topTitles = const SideTitles(reservedSize: 6),
-    this.rightTitles = const SideTitles(
-      reservedSize: 40,
-    ),
-    this.bottomTitles = const SideTitles(reservedSize: 22, showTitles: true),
-  });
-
-  static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
-    return FlTitlesData(
-      show: b.show,
-      leftTitles: SideTitles.lerp(a.leftTitles, b.leftTitles, t),
-      rightTitles: SideTitles.lerp(a.rightTitles, b.rightTitles, t),
-      bottomTitles: SideTitles.lerp(a.bottomTitles, b.bottomTitles, t),
-      topTitles: SideTitles.lerp(a.topTitles, b.topTitles, t),
-    );
-  }
+/// The default [SideTitles.getTextStyles] function.
+///
+/// returns a black TextStyle with 11 fontSize for all values.
+TextStyle defaultGetTitleTextStyle(double value) {
+  return const TextStyle(
+    color: Colors.black,
+    fontSize: 11,
+  );
 }
 
-/// specify each side titles data
-class SideTitles {
-  final bool showTitles;
-  final GetTitleFunction getTitles;
-  final double reservedSize;
-  final TextStyle textStyle;
-  final double margin;
-  final double interval;
-  final double rotateAngle;
-
-  const SideTitles({
-    this.showTitles = false,
-    this.getTitles = defaultGetTitle,
-    this.reservedSize = 22,
-    this.textStyle = const TextStyle(
-      color: Colors.black,
-      fontSize: 11,
-    ),
-    this.margin = 6,
-    this.interval = 1.0,
-    this.rotateAngle = 0.0,
-  });
-
-  static SideTitles lerp(SideTitles a, SideTitles b, double t) {
-    return SideTitles(
-      showTitles: b.showTitles,
-      getTitles: b.getTitles,
-      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
-      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
-      margin: lerpDouble(a.margin, b.margin, t),
-      interval: lerpDouble(a.interval, b.interval, t),
-      rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
-    );
-  }
-}
-
-/// this class holds the touch response details,
-/// specific touch details should be hold on the concrete child classes
-class BaseTouchResponse {
+/// This class holds the touch response details.
+///
+/// Specific touch details should be hold on the concrete child classes.
+class BaseTouchResponse with EquatableMixin {
   final FlTouchInput touchInput;
 
-  BaseTouchResponse(this.touchInput);
+  BaseTouchResponse(FlTouchInput touchInput) : touchInput = touchInput;
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object> get props => [
+        touchInput,
+      ];
 }

@@ -66,16 +66,16 @@ class BarChartSample2State extends State<BarChartSample2> {
                   const SizedBox(
                     width: 38,
                   ),
-                  Text(
+                  const Text(
                     'Transactions',
                     style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                   const SizedBox(
                     width: 4,
                   ),
-                  Text(
+                  const Text(
                     'state',
-                    style: TextStyle(color: const Color(0xff77839a), fontSize: 16),
+                    style: TextStyle(color: Color(0xff77839a), fontSize: 16),
                   ),
                 ],
               ),
@@ -89,53 +89,53 @@ class BarChartSample2State extends State<BarChartSample2> {
                     BarChartData(
                       maxY: 20,
                       barTouchData: BarTouchData(
-                        touchTooltipData: BarTouchTooltipData(
+                          touchTooltipData: BarTouchTooltipData(
                             tooltipBgColor: Colors.grey,
                             getTooltipItem: (_a, _b, _c, _d) => null,
-                        ),
-                        touchCallback: (response) {
-                          if (response.spot == null) {
+                          ),
+                          touchCallback: (response) {
+                            if (response.spot == null) {
+                              setState(() {
+                                touchedGroupIndex = -1;
+                                showingBarGroups = List.of(rawBarGroups);
+                              });
+                              return;
+                            }
+
+                            touchedGroupIndex = response.spot.touchedBarGroupIndex;
+
                             setState(() {
-                              touchedGroupIndex = -1;
-                              showingBarGroups = List.of(rawBarGroups);
-                            });
-                            return;
-                          }
+                              if (response.touchInput is FlLongPressEnd ||
+                                  response.touchInput is FlPanEnd) {
+                                touchedGroupIndex = -1;
+                                showingBarGroups = List.of(rawBarGroups);
+                              } else {
+                                showingBarGroups = List.of(rawBarGroups);
+                                if (touchedGroupIndex != -1) {
+                                  double sum = 0;
+                                  for (BarChartRodData rod
+                                      in showingBarGroups[touchedGroupIndex].barRods) {
+                                    sum += rod.y;
+                                  }
+                                  final avg =
+                                      sum / showingBarGroups[touchedGroupIndex].barRods.length;
 
-                          touchedGroupIndex = response.spot.touchedBarGroupIndex;
-
-                          setState(() {
-                            if (response.touchInput is FlLongPressEnd || response.touchInput is FlPanEnd) {
-                              touchedGroupIndex = -1;
-                              showingBarGroups = List.of(rawBarGroups);
-                            } else {
-                              showingBarGroups = List.of(rawBarGroups);
-                              if (touchedGroupIndex != -1) {
-                                double sum = 0;
-                                for (BarChartRodData rod in showingBarGroups[touchedGroupIndex].barRods) {
-                                  sum += rod.y;
-                                }
-                                final avg = sum / showingBarGroups[touchedGroupIndex].barRods.length;
-
-                                showingBarGroups[touchedGroupIndex] =
-                                  showingBarGroups[touchedGroupIndex].copyWith(
+                                  showingBarGroups[touchedGroupIndex] =
+                                      showingBarGroups[touchedGroupIndex].copyWith(
                                     barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
                                       return rod.copyWith(y: avg);
                                     }).toList(),
                                   );
+                                }
                               }
-                            }
-                          });
-                        }
-                      ),
+                            });
+                          }),
                       titlesData: FlTitlesData(
                         show: true,
                         bottomTitles: SideTitles(
                           showTitles: true,
-                          textStyle: TextStyle(
-                              color: const Color(0xff7589a2),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
+                          getTextStyles: (value) => const TextStyle(
+                              color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
                           margin: 20,
                           getTitles: (double value) {
                             switch (value.toInt()) {
@@ -160,10 +160,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
-                          textStyle: TextStyle(
-                              color: const Color(0xff7589a2),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
+                          getTextStyles: (value) => const TextStyle(
+                              color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
                           margin: 32,
                           reservedSize: 14,
                           getTitles: (value) {
@@ -201,15 +199,13 @@ class BarChartSample2State extends State<BarChartSample2> {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
         y: y1,
-        color: leftBarColor,
+        colors: [leftBarColor],
         width: width,
-        isRound: true,
       ),
       BarChartRodData(
         y: y2,
-        color: rightBarColor,
+        colors: [rightBarColor],
         width: width,
-        isRound: true,
       ),
     ]);
   }

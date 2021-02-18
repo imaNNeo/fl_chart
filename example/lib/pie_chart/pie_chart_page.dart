@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'samples/pie_chart_sample1.dart';
 import 'samples/pie_chart_sample2.dart';
+import 'samples/pie_chart_sample3.dart';
 
 class PieChartPage extends StatelessWidget {
   final Color barColor = Colors.white;
@@ -16,14 +17,14 @@ class PieChartPage extends StatelessWidget {
         padding: const EdgeInsets.all(28.0),
         child: ListView(
           children: <Widget>[
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: EdgeInsets.only(left: 8.0),
                 child: Text(
                   'Pie Chart',
                   style: TextStyle(
-                      color: const Color(
+                      color: Color(
                         0xff333333,
                       ),
                       fontSize: 32,
@@ -39,6 +40,10 @@ class PieChartPage extends StatelessWidget {
               height: 12,
             ),
             PieChartSample2(),
+            const SizedBox(
+              height: 12,
+            ),
+            PieChartSample3(),
           ],
         ),
       ),

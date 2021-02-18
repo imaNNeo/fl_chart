@@ -7,7 +7,7 @@
 
 
 #### The Touch Flow
-When user touches on the chart, touch will handle by the painter to determine which elements of the chart is touched and it makes an object that contains touch informations (for example a [LineTouchResponse](line_chart.md#LineTouchResponse), you can listen to the `touchCallback` provided in each ChartTouchData classes like [LineTouchData](line_chart.md#linetouchdata-read-about-touch-handling).
+When user touches on the chart, touch will handle by the painter to determine which elements of the chart is touched and it makes an object that contains touch information (for example a [LineTouchResponse](line_chart.md#LineTouchResponse), you can listen to the `touchCallback` provided in each ChartTouchData classes like [LineTouchData](line_chart.md#linetouchdata-read-about-touch-handling).
 
 If you set `handleBuiltInTouches` true, it will handle touch by showing a tooltip or an indicator on the touched spot (in the line and bar chart), you can also handle your own touch handling along with the built in touches.
 
@@ -15,7 +15,7 @@ If you set `handleBuiltInTouches` true, it will handle touch by showing a toolti
 #### How to use? (for example in `LineChart`)
 ##### In the Line and Bar Charts we show a built in tooltip on the touched spots, then you just need to config how to show it, just fill the `touchTooltipData` in the `LineTouchData`.
 #####
-```
+```dart
 LineChart(
   LineChartData(
     lineTouchData: LineTouchData(
@@ -30,7 +30,7 @@ LineChart(
 )
 ```
 ##### But if you want more customization on touch behaviors, implement the `touchCallback` and handle it.
-```
+```dart
 
 LineChart(
   LineChartData(
