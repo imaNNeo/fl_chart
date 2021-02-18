@@ -12,6 +12,7 @@ import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'line_chart_helper.dart';
 
 import '../../../fl_chart.dart';
 import '../../utils/utils.dart';
@@ -806,17 +807,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       _barPaint.color = barData.colors[0];
       _barPaint.shader = null;
     } else {
-      var stops = <double>[];
-      if (barData.colorStops == null || barData.colorStops.length != barData.colors.length) {
-        /// provided colorStops is invalid and we calculate it here
-        barData.colors.asMap().forEach((index, color) {
-          final percent = 1.0 / barData.colors.length;
-          stops.add(percent * index);
-        });
-      } else {
-        stops = barData.colorStops;
-      }
-
       final from = barData.gradientFrom;
       final to = barData.gradientTo;
 
@@ -830,7 +820,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           getTopOffsetDrawSize() + (chartViewSize.height * to.dy),
         ),
         barData.colors,
-        stops,
+        barData.getColorStops(),
       );
     }
 
