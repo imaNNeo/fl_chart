@@ -821,12 +821,12 @@ class FlDotCirclePainter extends FlDotPainter {
   /// Implementation of the parent class to draw the circle
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    if (strokeWidth != null) {
+    if (strokeWidth != 0.0 && strokeColor.opacity != 0.0) {
       canvas.drawCircle(
           offsetInCanvas,
           radius + (strokeWidth / 2),
           Paint()
-            ..color = strokeColor ?? color
+            ..color = strokeColor
             ..strokeWidth = strokeWidth
             ..style = PaintingStyle.stroke);
     }
@@ -894,7 +894,7 @@ class FlDotSquarePainter extends FlDotPainter {
             radius: (size / 2) + (strokeWidth / 2),
           ),
           Paint()
-            ..color = strokeColor ?? color
+            ..color = strokeColor
             ..strokeWidth = strokeWidth
             ..style = PaintingStyle.stroke);
     }
