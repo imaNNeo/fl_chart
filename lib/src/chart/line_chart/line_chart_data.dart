@@ -1084,7 +1084,7 @@ class VerticalLine extends FlLine with EquatableMixin {
     Color color,
     double strokeWidth,
     List<int> dashArray,
-    this.extraVerticalOffset,
+    this.extraVerticalOffset = 0,
     this.image,
     this.sizedPicture,
   })  : label = label ?? VerticalLineLabel(),
