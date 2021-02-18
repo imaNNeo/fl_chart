@@ -30,15 +30,15 @@ class PieChart extends ImplicitlyAnimatedWidget {
 class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   /// We handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [PieChartData] to the new one.
-  PieChartDataTween _pieChartDataTween;
+  late PieChartDataTween _pieChartDataTween;
 
   /// This is used to map the touch events to [PieTouchResponse]
-  TouchHandler _touchHandler;
+  TouchHandler<PieTouchResponse>? _touchHandler;
 
   /// This is used to retrieve the offsets for puting widgets upon the chart.
   ///
   /// exposes [PieChartWidgetsPositionHandler.getBadgeOffsets] to retrieve the badge widgets position.
-  PieChartWidgetsPositionHandler _widgetsPositionHandler;
+  PieChartWidgetsPositionHandler? _widgetsPositionHandler;
 
   /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
@@ -46,7 +46,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   @override
   void initState() {
     /// Make sure that [_widgetsPositionHandler] is updated.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (mounted) {
         setState(() {});
       }
@@ -62,123 +62,99 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
     return MouseRegion(
       onEnter: (e) {
         final chartSize = _getChartSize();
-        if (chartSize == null) {
+        if (chartSize == null || _touchHandler == null) {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanStart(e.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
+        final response = _touchHandler!.handleTouch(FlPanStart(e.localPosition), chartSize);
+        touchData.touchCallback?.call(response);
       },
       onExit: (e) {
         final chartSize = _getChartSize();
-        if (chartSize == null) {
+        if (chartSize == null || _touchHandler == null) {
           return;
         }
 
-        final PieTouchResponse response = _touchHandler?.handleTouch(
+        final response = _touchHandler!.handleTouch(
             FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
+        touchData.touchCallback?.call(response);
       },
       onHover: (e) {
         final chartSize = _getChartSize();
-        if (chartSize == null) {
+        if (chartSize == null || _touchHandler == null) {
           return;
         }
 
-        final PieTouchResponse response =
-            _touchHandler?.handleTouch(FlPanMoveUpdate(e.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
+        final response = _touchHandler!.handleTouch(FlPanMoveUpdate(e.localPosition), chartSize);
+        touchData.touchCallback?.call(response);
       },
       child: GestureDetector(
         onLongPressStart: (d) {
           final chartSize = _getChartSize();
-          if (chartSize == null) {
+          if (chartSize == null || _touchHandler == null) {
             return;
           }
-          final PieTouchResponse response =
-              _touchHandler?.handleTouch(FlLongPressStart(d.localPosition), chartSize);
-          if (_canHandleTouch(response, touchData)) {
-            touchData.touchCallback(response);
-          }
+          final response = _touchHandler!.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+          touchData.touchCallback?.call(response);
         },
         onLongPressEnd: (d) {
           final chartSize = _getChartSize();
-          if (chartSize == null) {
+          if (chartSize == null || _touchHandler == null) {
             return;
           }
 
-          final PieTouchResponse response =
-              _touchHandler?.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
-          if (_canHandleTouch(response, touchData)) {
-            touchData.touchCallback(response);
-          }
+          final response = _touchHandler!.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
+          touchData.touchCallback?.call(response);
         },
         onLongPressMoveUpdate: (d) {
           final chartSize = _getChartSize();
-          if (chartSize == null) {
+          if (chartSize == null || _touchHandler == null) {
             return;
           }
 
-          final PieTouchResponse response =
-              _touchHandler?.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
-          if (_canHandleTouch(response, touchData)) {
-            touchData.touchCallback(response);
-          }
+          final response =
+              _touchHandler!.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
+          touchData.touchCallback?.call(response);
         },
         onPanCancel: () {
           final chartSize = _getChartSize();
-          if (chartSize == null) {
+          if (chartSize == null || _touchHandler == null) {
             return;
           }
 
-          final PieTouchResponse response = _touchHandler?.handleTouch(
+          final response = _touchHandler!.handleTouch(
               FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)), chartSize);
-          if (_canHandleTouch(response, touchData)) {
-            touchData.touchCallback(response);
-          }
+          touchData.touchCallback?.call(response);
         },
         onPanEnd: (DragEndDetails details) {
           final chartSize = _getChartSize();
-          if (chartSize == null) {
+          if (chartSize == null || _touchHandler == null) {
             return;
           }
 
-          final PieTouchResponse response =
-              _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
-          if (_canHandleTouch(response, touchData)) {
-            touchData.touchCallback(response);
-          }
+          final response =
+              _touchHandler!.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+          touchData.touchCallback?.call(response);
         },
         onPanDown: (DragDownDetails details) {
           final chartSize = _getChartSize();
-          if (chartSize == null) {
+          if (chartSize == null || _touchHandler == null) {
             return;
           }
 
-          final PieTouchResponse response =
-              _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
-          if (_canHandleTouch(response, touchData)) {
-            touchData.touchCallback(response);
-          }
+          final response =
+              _touchHandler!.handleTouch(FlPanStart(details.localPosition), chartSize);
+          touchData.touchCallback?.call(response);
         },
         onPanUpdate: (DragUpdateDetails details) {
           final chartSize = _getChartSize();
-          if (chartSize == null) {
+          if (chartSize == null || _touchHandler == null) {
             return;
           }
 
-          final PieTouchResponse response =
-              _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
-          if (_canHandleTouch(response, touchData)) {
-            touchData.touchCallback(response);
-          }
+          final response =
+              _touchHandler!.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
+          touchData.touchCallback?.call(response);
         },
         child: CustomPaint(
           key: _chartKey,
@@ -210,55 +186,54 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
 
   Widget badgeWidgets(BoxConstraints constraints) {
     final chartSize = constraints.biggest;
-    if (_widgetsPositionHandler != null) {
-      final offsetsMap = _widgetsPositionHandler.getBadgeOffsets(chartSize);
-      if (offsetsMap.isNotEmpty) {
-        return CustomMultiChildLayout(
-          delegate: BadgeWidgetsDelegate(
-            badgeWidgetsCount: offsetsMap.length,
-            badgeWidgetsOffsets: offsetsMap,
-          ),
-          children: List.generate(
-            offsetsMap.length,
-            (index) {
-              final _key = offsetsMap.keys.elementAt(index);
-
-              if (offsetsMap.length != _getData().sections.length) {
-                return LayoutId(
-                  id: _key,
-                  child: Container(),
-                );
-              }
-
-              final _badgeWidget = _getData().sections[_key].badgeWidget;
-
-              if (_badgeWidget == null) {
-                return LayoutId(
-                  id: _key,
-                  child: Container(),
-                );
-              }
-
-              return LayoutId(
-                id: _key,
-                child: _badgeWidget,
-              );
-            },
-          ),
-        );
-      }
+    if (_widgetsPositionHandler == null) {
+      return SizedBox();
     }
+    final offsetsMap = _widgetsPositionHandler!.getBadgeOffsets(chartSize);
+    if (offsetsMap.isEmpty) {
+      return SizedBox();
+    }
+    return CustomMultiChildLayout(
+      delegate: BadgeWidgetsDelegate(
+        badgeWidgetsCount: offsetsMap.length,
+        badgeWidgetsOffsets: offsetsMap,
+      ),
+      children: List.generate(
+        offsetsMap.length,
+        (index) {
+          final _key = offsetsMap.keys.elementAt(index);
 
-    return SizedBox();
+          if (offsetsMap.length != _getData().sections.length) {
+            return LayoutId(
+              id: _key,
+              child: Container(),
+            );
+          }
+
+          final _badgeWidget = _getData().sections[_key].badgeWidget;
+
+          if (_badgeWidget == null) {
+            return LayoutId(
+              id: _key,
+              child: Container(),
+            );
+          }
+
+          return LayoutId(
+            id: _key,
+            child: _badgeWidget,
+          );
+        },
+      ),
+    );
   }
 
-  bool _canHandleTouch(PieTouchResponse response, PieTouchData touchData) {
-    return response != null && touchData != null && touchData.touchCallback != null;
-  }
-
-  Size _getChartSize() {
-    final RenderBox containerRenderBox = _chartKey.currentContext?.findRenderObject();
-    if (containerRenderBox != null && containerRenderBox.hasSize) {
+  Size? _getChartSize() {
+    final containerRenderBox = _chartKey.currentContext?.findRenderObject();
+    if (containerRenderBox == null || containerRenderBox is! RenderBox) {
+      return null;
+    }
+    if (containerRenderBox.hasSize) {
       return containerRenderBox.size;
     }
     return null;
@@ -275,8 +250,11 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
     _pieChartDataTween = visitor(
       _pieChartDataTween,
       widget.data,
-      (dynamic value) => PieChartDataTween(begin: value),
-    );
+      (dynamic value) => PieChartDataTween(
+          begin: value,
+          end: widget.data
+      ),
+    ) as PieChartDataTween;
   }
 }
 
@@ -286,8 +264,8 @@ class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
   final Map<int, Offset> badgeWidgetsOffsets;
 
   BadgeWidgetsDelegate({
-    this.badgeWidgetsCount,
-    this.badgeWidgetsOffsets,
+    required this.badgeWidgetsCount,
+    required this.badgeWidgetsOffsets,
   });
 
   @override
@@ -306,8 +284,8 @@ class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
       positionChild(
         _key,
         Offset(
-          badgeWidgetsOffsets[_key].dx - (_size.width / 2),
-          badgeWidgetsOffsets[_key].dy - (_size.height / 2),
+          badgeWidgetsOffsets[_key]!.dx - (_size.width / 2),
+          badgeWidgetsOffsets[_key]!.dy - (_size.height / 2),
         ),
       );
     }
