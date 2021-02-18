@@ -730,13 +730,13 @@ class BarTooltipItem with EquatableMixin {
 /// it gives you a [BarTouchResponse] and you can do whatever you want.
 class BarTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// Gives information about the touched spot
-  final BarTouchedSpot spot;
+  final BarTouchedSpot? spot;
 
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
   BarTouchResponse(
-    BarTouchedSpot spot,
+    BarTouchedSpot? spot,
     FlTouchInput touchInput,
   )   : spot = spot,
         super(touchInput);
@@ -758,7 +758,7 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
   final int touchedRodDataIndex;
 
   /// It can be null, if nothing found
-  final BarChartRodStackItem touchedStackItem;
+  final BarChartRodStackItem? touchedStackItem;
 
   /// It can be -1, if nothing found
   final int touchedStackItemIndex;
@@ -776,7 +776,7 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
     int touchedBarGroupIndex,
     BarChartRodData touchedRodData,
     int touchedRodDataIndex,
-    BarChartRodStackItem touchedStackItem,
+    BarChartRodStackItem? touchedStackItem,
     int touchedStackItemIndex,
     FlSpot spot,
     Offset offset,
