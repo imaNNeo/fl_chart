@@ -361,7 +361,7 @@ class FlSpot with EquatableMixin {
   static FlSpot nullSpot = FlSpot(double.nan, double.nan);
 
   /// Determines if [x] or [y] is null.
-  bool isNull() => x == double.nan || y == double.nan;
+  bool isNull() => this == nullSpot;
 
   /// Determines if [x] and [y] is not null.
   bool isNotNull() => !isNull();
