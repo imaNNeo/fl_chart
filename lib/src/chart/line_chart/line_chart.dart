@@ -28,7 +28,7 @@ class LineChart extends ImplicitlyAnimatedWidget {
 class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [LineChartData] to the new one.
-  late LineChartDataTween _lineChartDataTween;
+  LineChartDataTween? _lineChartDataTween;
 
   TouchHandler<LineTouchResponse>? _touchHandler;
 
@@ -145,7 +145,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         child: CustomPaint(
           key: _chartKey,
           size: getDefaultSize(MediaQuery.of(context).size),
-          painter: LineChartPainter(_withTouchedIndicators(_lineChartDataTween.evaluate(animation)),
+          painter: LineChartPainter(_withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
               _withTouchedIndicators(showingData), (touchHandler) {
             setState(() {
               _touchHandler = touchHandler;
@@ -223,7 +223,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   }
 
   @override
-  void forEachTween(visitor) {
+  void forEachTween(TweenVisitor<dynamic> visitor) {
     _lineChartDataTween = visitor(
       _lineChartDataTween,
       _getData(),

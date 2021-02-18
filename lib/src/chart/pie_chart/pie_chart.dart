@@ -30,7 +30,7 @@ class PieChart extends ImplicitlyAnimatedWidget {
 class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   /// We handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [PieChartData] to the new one.
-  late PieChartDataTween _pieChartDataTween;
+  PieChartDataTween? _pieChartDataTween;
 
   /// This is used to map the touch events to [PieTouchResponse]
   TouchHandler<PieTouchResponse>? _touchHandler;
@@ -160,7 +160,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
           key: _chartKey,
           size: getDefaultSize(MediaQuery.of(context).size),
           painter: PieChartPainter(
-            _pieChartDataTween.evaluate(animation),
+            _pieChartDataTween!.evaluate(animation),
             showingData,
             (touchHandler) {
               setState(() {

@@ -27,7 +27,7 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
 class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [ScatterChartData] to the new one.
-  late ScatterChartDataTween _scatterChartDataTween;
+  ScatterChartDataTween? _scatterChartDataTween;
 
   TouchHandler<ScatterTouchResponse>? _touchHandler;
 
@@ -112,7 +112,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         key: _chartKey,
         size: getDefaultSize(MediaQuery.of(context).size),
         painter: ScatterChartPainter(
-          _withTouchedIndicators(_scatterChartDataTween.evaluate(animation)),
+          _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
           _withTouchedIndicators(showingData),
           (touchHandler) {
             setState(() {
