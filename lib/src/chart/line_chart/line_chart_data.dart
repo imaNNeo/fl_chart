@@ -1386,7 +1386,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
 /// in the given [barData], you should return a list of [TouchedSpotIndicatorData],
 /// length of this list should be equal to the [spotIndexes.length],
 /// each [TouchedSpotIndicatorData] determines the look of showing indicator.
-typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData> Function(
+typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData?> Function(
     LineChartBarData barData, List<int> spotIndexes);
 
 /// Default presentation of touched indicators.

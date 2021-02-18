@@ -387,10 +387,10 @@ class ScatterTouchTooltipData with EquatableMixin {
 /// [touchedSpot] that touch happened on,
 /// then you should and pass your custom [ScatterTooltipItem]
 /// to show it inside the tooltip popup.
-typedef GetScatterTooltipItems = ScatterTooltipItem Function(ScatterSpot touchedSpot);
+typedef GetScatterTooltipItems = ScatterTooltipItem? Function(ScatterSpot touchedSpot);
 
 /// Default implementation for [ScatterTouchTooltipData.getTooltipItems].
-ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
+ScatterTooltipItem? defaultScatterTooltipItem(ScatterSpot touchedSpot) {
   final textStyle = TextStyle(
     color: touchedSpot.color,
     fontWeight: FontWeight.bold,

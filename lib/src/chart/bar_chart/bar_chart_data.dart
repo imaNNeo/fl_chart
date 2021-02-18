@@ -681,7 +681,7 @@ class BarTouchTooltipData with EquatableMixin {
 /// You can override [BarTouchTooltipData.getTooltipItem], it gives you
 /// [group], [groupIndex], [rod], and [rodIndex] that touch happened on,
 /// then you should and pass your custom [BarTooltipItem] to show inside the tooltip popup.
-typedef GetBarTooltipItem = BarTooltipItem Function(
+typedef GetBarTooltipItem = BarTooltipItem? Function(
   BarChartGroupData group,
   int groupIndex,
   BarChartRodData rod,
@@ -689,7 +689,7 @@ typedef GetBarTooltipItem = BarTooltipItem Function(
 );
 
 /// Default implementation for [BarTouchTooltipData.getTooltipItem].
-BarTooltipItem defaultBarTooltipItem(
+BarTooltipItem? defaultBarTooltipItem(
   BarChartGroupData group,
   int groupIndex,
   BarChartRodData rod,

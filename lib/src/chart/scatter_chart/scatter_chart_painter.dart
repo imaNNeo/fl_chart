@@ -227,9 +227,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   }
 
   void _drawSpots(CanvasWrapper canvasWrapper) {
-    if (data.scatterSpots == null) {
-      return;
-    }
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
     for (final scatterSpot in data.scatterSpots) {
