@@ -703,7 +703,7 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   } else if (bar.colors.length == 1) {
     return bar.colors[0];
   } else {
-    return lerpGradient(bar.colors, bar.getColorStops(), xPercentage / 100);
+    return lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
   }
 }
 
@@ -716,7 +716,7 @@ Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarDat
   } else if (bar.colors.length == 1) {
     color = bar.colors[0];
   } else {
-    color = lerpGradient(bar.colors, bar.getColorStops(), xPercentage / 100);
+    color = lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
   }
   return color.darken();
 }
@@ -1502,7 +1502,7 @@ class LineTouchTooltipData with EquatableMixin {
 /// then you should and pass your custom [LineTooltipItem] list
 /// (length should be equal to the [touchedSpots.length]),
 /// to show inside the tooltip popup.
-typedef GetLineTooltipItems = List<LineTooltipItem> Function(List<LineBarSpot> touchedSpots);
+typedef GetLineTooltipItems = List<LineTooltipItem?> Function(List<LineBarSpot> touchedSpots);
 
 /// Default implementation for [LineTouchTooltipData.getTooltipItems].
 List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
