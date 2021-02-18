@@ -25,7 +25,7 @@ class BarChart extends ImplicitlyAnimatedWidget {
 class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [BarChartData] to the new one.
-  late BarChartDataTween _barChartDataTween;
+  BarChartDataTween? _barChartDataTween;
 
   TouchHandler<BarTouchResponse>? _touchHandler;
 
@@ -136,7 +136,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
           key: _chartKey,
           size: getDefaultSize(MediaQuery.of(context).size),
           painter: BarChartPainter(
-            _withTouchedIndicators(_barChartDataTween.evaluate(animation)),
+            _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
             _withTouchedIndicators(showingData),
             (touchHandler) {
               setState(() {
