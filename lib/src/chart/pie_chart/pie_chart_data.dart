@@ -294,7 +294,7 @@ class PieTouchData extends FlTouchData with EquatableMixin {
 /// it gives you a [PieTouchResponse] and you can do whatever you want.
 class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// touch happened on this section
-  final PieChartSectionData touchedSection;
+  final PieChartSectionData? touchedSection;
 
   /// touch happened on this position
   final int touchedSectionIndex;
@@ -312,7 +312,7 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// and [touchRadius] gives you radius of the touch.
   /// [touchInput] is the type of happened touch.
   PieTouchResponse(
-    PieChartSectionData touchedSection,
+    PieChartSectionData? touchedSection,
     int touchedSectionIndex,
     double touchAngle,
     double touchRadius,

@@ -289,7 +289,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
 class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
-  final ScatterSpot touchedSpot;
+  final ScatterSpot? touchedSpot;
   final int touchedSpotIndex;
 
   /// If touch happens, [ScatterChart] processes it internally and
@@ -301,7 +301,7 @@ class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// [touchInput] is the type of happened touch.
   ScatterTouchResponse(
     FlTouchInput touchInput,
-    ScatterSpot touchedSpot,
+    ScatterSpot? touchedSpot,
     int touchedSpotIndex,
   )   : touchedSpot = touchedSpot,
         touchedSpotIndex = touchedSpotIndex,
