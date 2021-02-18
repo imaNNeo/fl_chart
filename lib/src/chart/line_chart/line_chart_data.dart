@@ -1064,6 +1064,10 @@ class VerticalLine extends FlLine with EquatableMixin {
   /// Draws a text label over the line.
   final VerticalLineLabel label;
 
+  /// Additional vertical offset, what can be used to draw outside of the chart area, for example if
+  /// the vertical line should go all the way to the top of the screen.
+  final double extraVerticalOffset;
+
   /// [LineChart] draws vertical lines from bottom to top side of the chart
   /// in the provided [x] value, and color it using [color].
   /// You can define the thickness using [strokeWidth]
@@ -1080,6 +1084,7 @@ class VerticalLine extends FlLine with EquatableMixin {
     Color color,
     double strokeWidth,
     List<int> dashArray,
+    this.extraVerticalOffset,
     this.image,
     this.sizedPicture,
   })  : label = label ?? VerticalLineLabel(),
@@ -1089,6 +1094,7 @@ class VerticalLine extends FlLine with EquatableMixin {
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
       x: lerpDouble(a.x, b.x, t),
+      extraVerticalOffset: lerpDouble(a.x, b.x, t),
       label: VerticalLineLabel.lerp(a.label, b.label, t),
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),

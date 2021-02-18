@@ -1082,7 +1082,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     if (data.extraLinesData.verticalLines.isNotEmpty) {
       for (var line in data.extraLinesData.verticalLines) {
         final topChartPadding = getTopOffsetDrawSize();
-        final from = Offset(getPixelX(line.x, chartUsableSize), topChartPadding);
+        final from = Offset(
+          getPixelX(line.x, chartUsableSize),
+          topChartPadding - line.extraVerticalOffset,
+        );
 
         final bottomChartPadding = getExtraNeededVerticalSpace() - getTopOffsetDrawSize();
         final to = Offset(getPixelX(line.x, chartUsableSize), viewSize.height - bottomChartPadding);
