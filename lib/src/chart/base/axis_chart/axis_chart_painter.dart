@@ -17,12 +17,12 @@ import 'axis_chart_data.dart';
 /// [data] is the currently showing data (it may produced by an animation using lerp function),
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainter<D> {
-  Paint _gridPaint, _backgroundPaint;
+  late Paint _gridPaint, _backgroundPaint;
 
   /// [_rangeAnnotationPaint] draws range annotations;
-  Paint _rangeAnnotationPaint;
+  late Paint _rangeAnnotationPaint;
 
-  AxisChartPainter(D data, D targetData, {double textScale})
+  AxisChartPainter(D data, D targetData, {required double textScale})
       : super(data, targetData, textScale: textScale) {
     _gridPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -200,7 +200,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   }
 
   void _drawGrid(CanvasWrapper canvasWrapper) {
-    if (!data.gridData.show || data.gridData == null) {
+    if (!data.gridData.show) {
       return;
     }
     final viewSize = canvasWrapper.size;
@@ -291,10 +291,6 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   }
 
   void _drawRangeAnnotation(CanvasWrapper canvasWrapper) {
-    if (data.rangeAnnotations == null) {
-      return;
-    }
-
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
 
