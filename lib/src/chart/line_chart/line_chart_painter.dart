@@ -277,6 +277,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final index = barData.showingIndicators[i];
       final spot = barData.spots[index];
 
+      if (indicatorData == null) {
+        continue;
+      }
+
       final touchedSpot =
           Offset(getPixelX(spot.x, chartViewSize), getPixelY(spot.y, chartViewSize));
 

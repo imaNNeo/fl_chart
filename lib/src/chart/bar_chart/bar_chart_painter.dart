@@ -484,6 +484,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       barRodIndex,
     );
 
+    if (tooltipItem == null) {
+      return;
+    }
+
     final span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
     final tp = TextPainter(
         text: span,

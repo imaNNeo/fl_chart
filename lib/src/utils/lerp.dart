@@ -51,7 +51,7 @@ List<int>? lerpIntList(List<int>? a, List<int>? b, double t) => _lerpList(a, b, 
 /// Lerps [int] list based on [t] value, check [Tween.lerp].
 int lerpInt(int a, int b, double t) => (a + (b - a) * t).round();
 
-double _lerpNonNullDouble(double a, double b, double t) => _lerpNonNullDouble(a, b, t);
+double _lerpNonNullDouble(double a, double b, double t) => lerpDouble(a, b, t)!;
 
 /// Lerps [FlSpot] list based on [t] value, check [Tween.lerp].
 List<FlSpot>? lerpFlSpotList(List<FlSpot>? a, List<FlSpot>? b, double t) =>
