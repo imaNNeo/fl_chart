@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/utils/list_wrapper.dart';
 
 import 'line_chart_data.dart';
 
@@ -8,15 +9,17 @@ class LineChartHelper {
   /// Contains List of cached results, base on [List<LineChartBarData>]
   ///
   /// We use it to prevent redundant calculations
-  static final Map<List<LineChartBarData>, LineChartMinMaxAxisValues> _cachedResults = {};
+  static final Map<ListWrapper<LineChartBarData>, LineChartMinMaxAxisValues> _cachedResults = {};
 
   static LineChartMinMaxAxisValues calculateMaxAxisValues(List<LineChartBarData> lineBarsData) {
     if (lineBarsData.isEmpty) {
       return LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
-    if (_cachedResults.containsKey(lineBarsData)) {
-      return _cachedResults[lineBarsData]!.copyWith(readFromCache: true);
+    var listWrapper = lineBarsData.toWrapperClass();
+
+    if (_cachedResults.containsKey(listWrapper)) {
+      return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
     }
 
     for (var i = 0; i < lineBarsData.length; i++) {
@@ -57,7 +60,7 @@ class LineChartHelper {
     }
 
     final result = LineChartMinMaxAxisValues(minX, maxX, minY, maxY);
-    _cachedResults[lineBarsData] = result;
+    _cachedResults[listWrapper] = result;
     return result;
   }
 

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/utils/list_wrapper.dart';
 
 import 'scatter_chart_data.dart';
 
@@ -8,7 +9,7 @@ class ScatterChartHelper {
   /// Contains List of cached results, base on [List<ScatterSpot>]
   /// 
   /// We use it to prevent redundant calculations
-  static final Map<List<ScatterSpot>, ScatterChartMinMaxAxisValues> _cachedResults = {};
+  static final Map<ListWrapper<ScatterSpot>, ScatterChartMinMaxAxisValues> _cachedResults = {};
 
   /// Calculates minX, maxX, minY, and maxY based on [scatterSpots],
   /// returns cached values, to prevent redundant calculations.
@@ -16,8 +17,11 @@ class ScatterChartHelper {
     if (scatterSpots.isEmpty) {
       return ScatterChartMinMaxAxisValues(0, 0, 0, 0);
     }
-    if (_cachedResults.containsKey(scatterSpots)) {
-      return _cachedResults[scatterSpots]!.copyWith(readFromCache: true);
+
+    var listWrapper = scatterSpots.toWrapperClass();
+
+    if (_cachedResults.containsKey(listWrapper)) {
+      return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
     }
 
     var minX = scatterSpots[0].x;
@@ -44,7 +48,7 @@ class ScatterChartHelper {
     }
 
     final result = ScatterChartMinMaxAxisValues(minX, maxX, minY, maxY);
-    _cachedResults[scatterSpots] = result;
+    _cachedResults[listWrapper] = result;
     return result;
   }
 

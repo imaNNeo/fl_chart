@@ -103,7 +103,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
   LineChartData lerp(BaseChartData a, BaseChartData b, double t) {
-    if (a is LineChartData && b is LineChartData && t != null) {
+    if (a is LineChartData && b is LineChartData) {
       return LineChartData(
         minX: lerpDouble(a.minX, b.minX, t),
         maxX: lerpDouble(a.maxX, b.maxX, t),
@@ -1392,9 +1392,6 @@ typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData?> Function(
 /// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     LineChartBarData barData, List<int> indicators) {
-  if (indicators == null) {
-    return [];
-  }
   return indicators.map((int index) {
     /// Indicator Line
     var lineColor = barData.colors[0];
