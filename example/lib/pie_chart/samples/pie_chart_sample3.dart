@@ -10,7 +10,7 @@ class PieChartSample3 extends StatefulWidget {
 }
 
 class PieChartSample3State extends State {
-  int touchedIndex;
+  int touchedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,9 @@ class PieChartSample3State extends State {
             title: '40%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/ophthalmology-svgrepo-com.svg',
               size: widgetSize,
@@ -74,7 +76,9 @@ class PieChartSample3State extends State {
             title: '30%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/librarian-svgrepo-com.svg',
               size: widgetSize,
@@ -89,7 +93,9 @@ class PieChartSample3State extends State {
             title: '16%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/fitness-svgrepo-com.svg',
               size: widgetSize,
@@ -97,14 +103,16 @@ class PieChartSample3State extends State {
             ),
             badgePositionPercentageOffset: .98,
           );
-        case 3:
+        default:
           return PieChartSectionData(
             color: const Color(0xff13d38e),
             value: 15,
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/worker-svgrepo-com.svg',
               size: widgetSize,
@@ -112,8 +120,6 @@ class PieChartSample3State extends State {
             ),
             badgePositionPercentageOffset: .98,
           );
-        default:
-          return null;
       }
     });
   }
@@ -126,9 +132,9 @@ class _Badge extends StatelessWidget {
 
   const _Badge(
     this.svgAsset, {
-    Key key,
-    @required this.size,
-    @required this.borderColor,
+    Key? key,
+    required this.size,
+    required this.borderColor,
   }) : super(key: key);
 
   @override

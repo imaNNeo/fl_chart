@@ -7,7 +7,7 @@ class LineChartSample1 extends StatefulWidget {
 }
 
 class LineChartSample1State extends State<LineChartSample1> {
-  bool isShowingMainData;
+  late bool isShowingMainData;
 
   @override
   void initState() {

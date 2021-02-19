@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -57,9 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _controller.addListener(() {
       setState(() {
-        _currentPage = _controller.page.round();
+        _currentPage = _controller.page!.round();
       });
     });
+    super.initState();
   }
 
   @override
@@ -67,7 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: SafeArea(
         child: PageView(
-          physics: kIsWeb ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
+          physics: kIsWeb
+              ? NeverScrollableScrollPhysics()
+              : AlwaysScrollableScrollPhysics(),
           controller: _controller,
           children: _pages,
         ),
@@ -82,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   Visibility(
                     visible: _currentPage != 0,
                     child: FloatingActionButton(
-                      onPressed: () => _controller.previousPage(duration: _duration, curve: _curve),
+                      onPressed: () => _controller.previousPage(
+                          duration: _duration, curve: _curve),
                       child: Icon(Icons.chevron_left_rounded),
                     ),
                   ),
@@ -90,7 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   Visibility(
                     visible: _currentPage != _pages.length - 1,
                     child: FloatingActionButton(
-                      onPressed: () => _controller.nextPage(duration: _duration, curve: _curve),
+                      onPressed: () => _controller.nextPage(
+                          duration: _duration, curve: _curve),
                       child: Icon(Icons.chevron_right_rounded),
                     ),
                   ),

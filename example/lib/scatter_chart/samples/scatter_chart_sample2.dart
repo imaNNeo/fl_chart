@@ -7,7 +7,7 @@ class ScatterChartSample2 extends StatefulWidget {
 }
 
 class _ScatterChartSample2State extends State {
-  int touchedIndex;
+  int touchedIndex = -1;
 
   Color greyColor = Colors.grey;
 
@@ -38,7 +38,8 @@ class _ScatterChartSample2State extends State {
               ScatterSpot(
                 4,
                 5,
-                color: selectedSpots.contains(2) ? Colors.purpleAccent : greyColor,
+                color:
+                    selectedSpots.contains(2) ? Colors.purpleAccent : greyColor,
                 radius: 8,
               ),
               ScatterSpot(
@@ -56,7 +57,9 @@ class _ScatterChartSample2State extends State {
               ScatterSpot(
                 7,
                 2,
-                color: selectedSpots.contains(5) ? Colors.lightGreenAccent : greyColor,
+                color: selectedSpots.contains(5)
+                    ? Colors.lightGreenAccent
+                    : greyColor,
                 radius: 18,
               ),
               ScatterSpot(
@@ -68,7 +71,8 @@ class _ScatterChartSample2State extends State {
               ScatterSpot(
                 2,
                 8,
-                color: selectedSpots.contains(7) ? Colors.tealAccent : greyColor,
+                color:
+                    selectedSpots.contains(7) ? Colors.tealAccent : greyColor,
                 radius: 22,
               ),
             ],
@@ -83,10 +87,12 @@ class _ScatterChartSample2State extends State {
               show: true,
               drawHorizontalLine: true,
               checkToShowHorizontalLine: (value) => true,
-              getDrawingHorizontalLine: (value) => FlLine(color: Colors.white.withOpacity(0.1)),
+              getDrawingHorizontalLine: (value) =>
+                  FlLine(color: Colors.white.withOpacity(0.1)),
               drawVerticalLine: true,
               checkToShowVerticalLine: (value) => true,
-              getDrawingVerticalLine: (value) => FlLine(color: Colors.white.withOpacity(0.1)),
+              getDrawingVerticalLine: (value) =>
+                  FlLine(color: Colors.white.withOpacity(0.1)),
             ),
             titlesData: FlTitlesData(
               show: false,
@@ -99,12 +105,12 @@ class _ScatterChartSample2State extends State {
                 tooltipBgColor: Colors.black,
               ),
               touchCallback: (ScatterTouchResponse touchResponse) {
-                if (touchResponse.touchInput is FlPanStart) {
+                var touchInput = touchResponse.touchInput;
+                if (touchInput is FlPanStart) {
                   lastPanStartOnIndex = touchResponse.touchedSpotIndex;
-                } else if (touchResponse.touchInput is FlPanEnd) {
-                  final FlPanEnd flPanEnd = touchResponse.touchInput;
-
-                  if (flPanEnd.velocity.pixelsPerSecond <= const Offset(4, 4)) {
+                } else if (touchInput is FlPanEnd) {
+                  if (touchInput.velocity.pixelsPerSecond <=
+                      const Offset(4, 4)) {
                     // Tap happened
                     setState(() {
                       if (selectedSpots.contains(lastPanStartOnIndex)) {

@@ -46,7 +46,9 @@ class BarChartSample3State extends State<BarChartSample3> {
               bottomTitles: SideTitles(
                 showTitles: true,
                 getTextStyles: (value) => const TextStyle(
-                    color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
+                    color: Color(0xff7589a2),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
                 margin: 20,
                 getTitles: (double value) {
                   switch (value.toInt()) {
@@ -78,42 +80,54 @@ class BarChartSample3State extends State<BarChartSample3> {
               BarChartGroupData(
                 x: 0,
                 barRods: [
-                  BarChartRodData(y: 8, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                  BarChartRodData(
+                      y: 8,
+                      colors: [Colors.lightBlueAccent, Colors.greenAccent])
                 ],
                 showingTooltipIndicators: [0],
               ),
               BarChartGroupData(
                 x: 1,
                 barRods: [
-                  BarChartRodData(y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                  BarChartRodData(
+                      y: 10,
+                      colors: [Colors.lightBlueAccent, Colors.greenAccent])
                 ],
                 showingTooltipIndicators: [0],
               ),
               BarChartGroupData(
                 x: 2,
                 barRods: [
-                  BarChartRodData(y: 14, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                  BarChartRodData(
+                      y: 14,
+                      colors: [Colors.lightBlueAccent, Colors.greenAccent])
                 ],
                 showingTooltipIndicators: [0],
               ),
               BarChartGroupData(
                 x: 3,
                 barRods: [
-                  BarChartRodData(y: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                  BarChartRodData(
+                      y: 15,
+                      colors: [Colors.lightBlueAccent, Colors.greenAccent])
                 ],
                 showingTooltipIndicators: [0],
               ),
               BarChartGroupData(
                 x: 3,
                 barRods: [
-                  BarChartRodData(y: 13, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                  BarChartRodData(
+                      y: 13,
+                      colors: [Colors.lightBlueAccent, Colors.greenAccent])
                 ],
                 showingTooltipIndicators: [0],
               ),
               BarChartGroupData(
                 x: 3,
                 barRods: [
-                  BarChartRodData(y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                  BarChartRodData(
+                      y: 10,
+                      colors: [Colors.lightBlueAccent, Colors.greenAccent])
                 ],
                 showingTooltipIndicators: [0],
               ),
