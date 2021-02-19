@@ -1,5 +1,6 @@
-## Null Safety
-* [BREAKING] You cannot set null value on FlSpot anymore.
+## 0.20.0-nullsafety1
+* [BREAKING] **We have migrated our project to null-safety. You may need to change your source-code to compile**. check [migration guide](https://dart.dev/null-safety/migration-guide).
+* [BREAKING] You cannot set null value on FlSpot any more (use FlSpot.nullSpot instead).
 
 ## 0.12.3
 * [Bugfix] Fixed PieChart exception bug on sections tap, #514.
