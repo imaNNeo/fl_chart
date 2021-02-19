@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Check caching of BarChartHelper.calculateMaxAxisValues', () {
-
     test('Test read from cache1', () {
       final barGroups1 = [barChartGroupData1];
       final result1 = BarChartHelper.calculateMaxAxisValues(barGroups1);
@@ -33,15 +32,13 @@ void main() {
 
     test('Test validity 2', () {
       final barGroups = [
-        barChartGroupData1.copyWith(
-          barRods: [
-            BarChartRodData(y: -10),
-            BarChartRodData(y: -40),
-            BarChartRodData(y: 0),
-            BarChartRodData(y: 10),
-            BarChartRodData(y: 5),
-          ]
-        )
+        barChartGroupData1.copyWith(barRods: [
+          BarChartRodData(y: -10),
+          BarChartRodData(y: -40),
+          BarChartRodData(y: 0),
+          BarChartRodData(y: 10),
+          BarChartRodData(y: 5),
+        ])
       ];
       final result = BarChartHelper.calculateMaxAxisValues(barGroups);
       expect(result.minY, -40);

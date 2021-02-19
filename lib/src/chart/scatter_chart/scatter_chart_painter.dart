@@ -26,8 +26,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  ScatterChartPainter(
-      ScatterChartData data, ScatterChartData targetData, Function(TouchHandler<ScatterTouchResponse>) touchHandler,
+  ScatterChartPainter(ScatterChartData data, ScatterChartData targetData,
+      Function(TouchHandler<ScatterTouchResponse>) touchHandler,
       {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);

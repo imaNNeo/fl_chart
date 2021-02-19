@@ -59,27 +59,25 @@ class BarChartData extends AxisChartData with EquatableMixin {
     FlBorderData? borderData,
     RangeAnnotations? rangeAnnotations,
     Color? backgroundColor,
-  })
-      : barGroups = barGroups ?? const [],
+  })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceBetween,
         titlesData = titlesData ?? FlTitlesData(),
         barTouchData = barTouchData ?? BarTouchData(),
         super(
-          axisTitleData: axisTitleData ?? FlAxisTitleData(),
-          gridData: gridData ??
-              FlGridData(
-                show: false,
-              ),
-          borderData: borderData,
-          rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
-          backgroundColor: backgroundColor,
-          touchData: barTouchData ?? BarTouchData(),
-          minX: 0,
-          maxX: 1,
-          maxY: maxY ?? BarChartHelper.calculateMaxAxisValues(barGroups ?? []).maxY,
-          minY: minY ?? BarChartHelper.calculateMaxAxisValues(barGroups ?? []).minY
-      );
+            axisTitleData: axisTitleData ?? FlAxisTitleData(),
+            gridData: gridData ??
+                FlGridData(
+                  show: false,
+                ),
+            borderData: borderData,
+            rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
+            backgroundColor: backgroundColor,
+            touchData: barTouchData ?? BarTouchData(),
+            minX: 0,
+            maxX: 1,
+            maxY: maxY ?? BarChartHelper.calculateMaxAxisValues(barGroups ?? []).maxY,
+            minY: minY ?? BarChartHelper.calculateMaxAxisValues(barGroups ?? []).minY);
 
   /// Copies current [BarChartData] to a new [BarChartData],
   /// and replaces provided values.
@@ -804,10 +802,8 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)
 class BarChartDataTween extends Tween<BarChartData> {
-  BarChartDataTween({
-    required BarChartData begin,
-    required BarChartData end
-  }) : super(begin: begin, end: end);
+  BarChartDataTween({required BarChartData begin, required BarChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [BarChartData] based on [t] value, check [Tween.lerp].
   @override

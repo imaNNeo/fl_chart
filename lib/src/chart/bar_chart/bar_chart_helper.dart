@@ -5,9 +5,8 @@ import 'bar_chart_data.dart';
 
 /// Contains anything that helps BarChart works
 class BarChartHelper {
-  
   /// Contains List of cached results, base on [List<BarChartGroupData>]
-  /// 
+  ///
   /// We use it to prevent redundant calculations
   static final Map<ListWrapper<BarChartGroupData>, BarChartMinMaxAxisValues> _cachedResults = {};
 
@@ -32,6 +31,7 @@ class BarChartHelper {
 
     var maxY = barGroups[0].barRods[0].y;
     var minY = 0.0;
+
     for (var i = 0; i < barGroups.length; i++) {
       final barGroup = barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
@@ -59,7 +59,6 @@ class BarChartHelper {
     _cachedResults[listWrapper] = result;
     return result;
   }
-
 }
 
 /// Holds minY, and maxY for use in [BarChartData]
@@ -71,17 +70,9 @@ class BarChartMinMaxAxisValues with EquatableMixin {
   BarChartMinMaxAxisValues(this.minY, this.maxY, {this.readFromCache = false});
 
   @override
-  List<Object?> get props => [
-    minY,
-    maxY,
-    readFromCache
-  ];
+  List<Object?> get props => [minY, maxY, readFromCache];
 
-  BarChartMinMaxAxisValues copyWith({
-    double? minY,
-    double? maxY,
-    bool? readFromCache
-  }) {
+  BarChartMinMaxAxisValues copyWith({double? minY, double? maxY, bool? readFromCache}) {
     return BarChartMinMaxAxisValues(
       minY ?? this.minY,
       maxY ?? this.maxY,

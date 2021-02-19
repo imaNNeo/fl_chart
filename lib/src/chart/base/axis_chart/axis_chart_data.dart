@@ -46,7 +46,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     Color? backgroundColor,
     FlBorderData? borderData,
     required FlTouchData touchData,
-  })  : gridData = gridData ?? FlGridData(),
+  })   : gridData = gridData ?? FlGridData(),
         axisTitleData = axisTitleData,
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
         minX = minX,

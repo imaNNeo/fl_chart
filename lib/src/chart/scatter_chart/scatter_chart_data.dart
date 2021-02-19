@@ -69,8 +69,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           maxY: maxY ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? const []).maxY,
         );
 
-
-
   /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(BaseChartData a, BaseChartData b, double t) {
@@ -432,10 +430,8 @@ class ScatterTooltipItem with EquatableMixin {
 
 /// It lerps a [ScatterChartData] to another [ScatterChartData] (handles animation for updating values)
 class ScatterChartDataTween extends Tween<ScatterChartData> {
-  ScatterChartDataTween({
-    required ScatterChartData begin,
-    required ScatterChartData end
-  }) : super(begin: begin, end: end);
+  ScatterChartDataTween({required ScatterChartData begin, required ScatterChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override

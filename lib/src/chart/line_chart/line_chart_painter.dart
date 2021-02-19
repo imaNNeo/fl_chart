@@ -41,8 +41,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  LineChartPainter(
-      LineChartData data, LineChartData targetData, Function(TouchHandler<LineTouchResponse>) touchHandler,
+  LineChartPainter(LineChartData data, LineChartData targetData,
+      Function(TouchHandler<LineTouchResponse>) touchHandler,
       {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);

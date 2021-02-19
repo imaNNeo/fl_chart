@@ -5,9 +5,8 @@ import 'scatter_chart_data.dart';
 
 /// Contains anything that helps ScatterChart works
 class ScatterChartHelper {
-
   /// Contains List of cached results, base on [List<ScatterSpot>]
-  /// 
+  ///
   /// We use it to prevent redundant calculations
   static final Map<ListWrapper<ScatterSpot>, ScatterChartMinMaxAxisValues> _cachedResults = {};
 
@@ -51,7 +50,6 @@ class ScatterChartHelper {
     _cachedResults[listWrapper] = result;
     return result;
   }
-
 }
 
 /// Holds minX, maxX, minY, and maxY for use in [ScatterChartData]
@@ -63,29 +61,18 @@ class ScatterChartMinMaxAxisValues with EquatableMixin {
   final bool readFromCache;
 
   ScatterChartMinMaxAxisValues(
-      this.minX,
-      this.maxX,
-      this.minY,
-      this.maxY, {
-        this.readFromCache = false,
-      });
+    this.minX,
+    this.maxX,
+    this.minY,
+    this.maxY, {
+    this.readFromCache = false,
+  });
 
   @override
-  List<Object?> get props => [
-    minX,
-    maxX,
-    minY,
-    maxY,
-    readFromCache
-  ];
+  List<Object?> get props => [minX, maxX, minY, maxY, readFromCache];
 
-  ScatterChartMinMaxAxisValues copyWith({
-    double? minX,
-    double? maxX,
-    double? minY,
-    double? maxY,
-    bool? readFromCache
-  }) {
+  ScatterChartMinMaxAxisValues copyWith(
+      {double? minX, double? maxX, double? minY, double? maxY, bool? readFromCache}) {
     return ScatterChartMinMaxAxisValues(
       minX ?? this.minX,
       maxX ?? this.maxX,
