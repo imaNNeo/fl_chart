@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/utils/list_wrapper.dart';
 
 import 'bar_chart_data.dart';
 
@@ -8,7 +9,7 @@ class BarChartHelper {
   /// Contains List of cached results, base on [List<BarChartGroupData>]
   /// 
   /// We use it to prevent redundant calculations
-  static final Map<List<BarChartGroupData>, BarChartMinMaxAxisValues> _cachedResults = {};
+  static final Map<ListWrapper<BarChartGroupData>, BarChartMinMaxAxisValues> _cachedResults = {};
 
   /// Calculates minY, and maxY based on [barGroups],
   /// returns cached values, to prevent redundant calculations.
@@ -16,8 +17,11 @@ class BarChartHelper {
     if (barGroups.isEmpty) {
       return BarChartMinMaxAxisValues(0, 0);
     }
-    if (_cachedResults.containsKey(barGroups)) {
-      return _cachedResults[barGroups]!.copyWith(readFromCache: true);
+
+    var listWrapper = barGroups.toWrapperClass();
+
+    if (_cachedResults.containsKey(listWrapper)) {
+      return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
     }
     for (var i = 0; i < barGroups.length; i++) {
       final barData = barGroups[i];
@@ -28,7 +32,6 @@ class BarChartHelper {
 
     var maxY = barGroups[0].barRods[0].y;
     var minY = 0.0;
-    
     for (var i = 0; i < barGroups.length; i++) {
       final barGroup = barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
@@ -53,7 +56,7 @@ class BarChartHelper {
     }
 
     final result = BarChartMinMaxAxisValues(minY, maxY);
-    _cachedResults[barGroups] = result;
+    _cachedResults[listWrapper] = result;
     return result;
   }
 

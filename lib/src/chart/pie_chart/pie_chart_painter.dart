@@ -32,11 +32,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
           targetData,
           textScale: textScale,
         ) {
-    touchHandler(this);
 
-    if (widgetsPositionHandler != null) {
-      widgetsPositionHandler(this);
-    }
+    touchHandler(this);
+    widgetsPositionHandler(this);
 
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 

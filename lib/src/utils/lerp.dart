@@ -4,23 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:flutter/animation.dart';
-import 'package:flutter/foundation.dart';
 
 List<T>? _lerpList<T>(List<T>? a, List<T>? b, double t, {required T Function(T, T, double) lerp}) {
-  if (a != null && b != null && a.length == b.length) {
-    return List.generate(a.length, (i) {
-      return lerp(a[i], b[i], t);
-    });
-  } else if (a != null && b != null) {
-    return List.generate(b.length, (i) {
-      return lerp(i >= a.length ? b[i] : a[i], b[i], t);
-    });
-  } else {
-    return b;
-  }
-}
-
-List<T?>? _lerpNullableContentList<T>(List<T?>? a, List<T?>? b, double t, {required T? Function(T?, T?, double) lerp}) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return lerp(a[i], b[i], t);
