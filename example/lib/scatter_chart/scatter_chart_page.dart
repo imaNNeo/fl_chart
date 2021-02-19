@@ -32,13 +32,11 @@ class ScatterChartPage extends StatelessWidget {
             height: 9,
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
+            padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
             child: ScatterChartSample1(),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
+            padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
             child: ScatterChartSample2(),
           )
         ],

@@ -64,8 +64,7 @@ class PieChartSample1State extends State {
                 aspectRatio: 1,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData:
-                          PieTouchData(touchCallback: (pieTouchResponse) {
+                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
                         setState(() {
                           if (pieTouchResponse.touchInput is FlLongPressEnd ||
                               pieTouchResponse.touchInput is FlPanEnd) {
@@ -105,9 +104,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 80,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff044d7c)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff044d7c)),
               titlePositionPercentageOffset: 0.55,
             );
           case 1:
@@ -117,9 +114,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 65,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff90672d)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff90672d)),
               titlePositionPercentageOffset: 0.55,
             );
           case 2:
@@ -129,9 +124,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 60,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff4c3788)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff4c3788)),
               titlePositionPercentageOffset: 0.6,
             );
           default:
@@ -141,9 +134,7 @@ class PieChartSample1State extends State {
               title: '',
               radius: 70,
               titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff0c7f55)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xff0c7f55)),
               titlePositionPercentageOffset: 0.55,
             );
         }

@@ -68,9 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: SafeArea(
         child: PageView(
-          physics: kIsWeb
-              ? NeverScrollableScrollPhysics()
-              : AlwaysScrollableScrollPhysics(),
+          physics: kIsWeb ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
           controller: _controller,
           children: _pages,
         ),
@@ -85,8 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Visibility(
                     visible: _currentPage != 0,
                     child: FloatingActionButton(
-                      onPressed: () => _controller.previousPage(
-                          duration: _duration, curve: _curve),
+                      onPressed: () => _controller.previousPage(duration: _duration, curve: _curve),
                       child: Icon(Icons.chevron_left_rounded),
                     ),
                   ),
@@ -94,8 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Visibility(
                     visible: _currentPage != _pages.length - 1,
                     child: FloatingActionButton(
-                      onPressed: () => _controller.nextPage(
-                          duration: _duration, curve: _curve),
+                      onPressed: () => _controller.nextPage(duration: _duration, curve: _curve),
                       child: Icon(Icons.chevron_right_rounded),
                     ),
                   ),
