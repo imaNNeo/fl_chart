@@ -2,7 +2,6 @@ import 'bar_chart_data.dart';
 
 /// Extensions on [BackgroundBarChartRodData]
 extension BackgroundBarChartRodDataExtension on BackgroundBarChartRodData {
-
   /// Returns colorStops
   ///
   /// if [colorStops] provided, returns it directly,
@@ -20,12 +19,10 @@ extension BackgroundBarChartRodDataExtension on BackgroundBarChartRodData {
     }
     return stops;
   }
-
 }
 
 /// Extensions on [BarChartRodData]
 extension BarChartRodDataExtension on BarChartRodData {
-
   /// Returns colorStops
   ///
   /// if [colorStops] provided, returns it directly,
@@ -43,5 +40,4 @@ extension BarChartRodDataExtension on BarChartRodData {
     }
     return stops;
   }
-
 }

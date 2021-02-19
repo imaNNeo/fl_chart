@@ -142,8 +142,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
             return;
           }
 
-          final response =
-              _touchHandler!.handleTouch(FlPanStart(details.localPosition), chartSize);
+          final response = _touchHandler!.handleTouch(FlPanStart(details.localPosition), chartSize);
           touchData.touchCallback?.call(response);
         },
         onPanUpdate: (DragUpdateDetails details) {
@@ -250,10 +249,7 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
     _pieChartDataTween = visitor(
       _pieChartDataTween,
       widget.data,
-      (dynamic value) => PieChartDataTween(
-          begin: value,
-          end: widget.data
-      ),
+      (dynamic value) => PieChartDataTween(begin: value, end: widget.data),
     ) as PieChartDataTween;
   }
 }

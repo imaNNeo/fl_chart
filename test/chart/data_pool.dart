@@ -47,7 +47,8 @@ final FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
 final String Function(double value) getTitles = (value) => 'sallam';
-final TextStyle Function(double value) getTextStyles = (value) => const TextStyle(color: Colors.green);
+final TextStyle Function(double value) getTextStyles =
+    (value) => const TextStyle(color: Colors.green);
 
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
@@ -907,7 +908,8 @@ final LineTooltipItem lineTooltipItem2 =
 final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', const TextStyle(color: Colors.blue));
 final LineTooltipItem lineTooltipItem4 = LineTooltipItem('', const TextStyle(fontSize: 33));
 
-final List<LineTooltipItem?> Function(List<LineBarSpot> touchedSpots) lineChartGetTooltipItems = (list) {
+final List<LineTooltipItem?> Function(List<LineBarSpot> touchedSpots) lineChartGetTooltipItems =
+    (list) {
   return list.map((s) => lineTooltipItem1).toList();
 };
 
@@ -975,7 +977,8 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
 
 final Function(LineTouchResponse) lineTouchCallback = (response) {};
 
-final List<TouchedSpotIndicatorData?> Function(LineChartBarData barData, List<int> spotIndexes) getTouchedSpotIndicator =
+final List<TouchedSpotIndicatorData?> Function(LineChartBarData barData, List<int> spotIndexes)
+    getTouchedSpotIndicator =
     (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
 
 final LineTouchData lineTouchData1 = LineTouchData(

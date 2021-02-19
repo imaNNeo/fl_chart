@@ -336,10 +336,8 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
 
 /// It lerps a [PieChartData] to another [PieChartData] (handles animation for updating values)
 class PieChartDataTween extends Tween<PieChartData> {
-  PieChartDataTween({
-    required PieChartData begin,
-    required PieChartData end
-  }) : super(begin: begin, end: end);
+  PieChartDataTween({required PieChartData begin, required PieChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [PieChartData] based on [t] value, check [Tween.lerp].
   @override

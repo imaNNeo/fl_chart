@@ -17,8 +17,7 @@ void main() {
         data,
         data,
         (s) {},
-        widgetsPositionHandler: (widgetPositionHandler) {
-        },
+        widgetsPositionHandler: (widgetPositionHandler) {},
       );
       expect(barChartPainter.getChartUsableDrawSize(viewSize), const Size(728, 728));
     });

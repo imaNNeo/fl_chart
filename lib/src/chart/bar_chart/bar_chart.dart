@@ -92,7 +92,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
             return;
           }
 
-          final response = _touchHandler!.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
+          final response =
+              _touchHandler!.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
           touchData.touchCallback?.call(response);
         },
         onPanCancel: () {
@@ -111,7 +112,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
             return;
           }
 
-          final response = _touchHandler!.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+          final response =
+              _touchHandler!.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
           touchData.touchCallback?.call(response);
         },
         onPanDown: (DragDownDetails details) {
@@ -129,7 +131,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
             return;
           }
 
-          final response = _touchHandler!.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
+          final response =
+              _touchHandler!.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
           touchData.touchCallback?.call(response);
         },
         child: CustomPaint(
@@ -223,10 +226,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     _barChartDataTween = visitor(
       _barChartDataTween,
       widget.data,
-      (dynamic value) => BarChartDataTween(
-          begin: value,
-          end: widget.data
-      ),
+      (dynamic value) => BarChartDataTween(begin: value, end: widget.data),
     ) as BarChartDataTween;
   }
 }

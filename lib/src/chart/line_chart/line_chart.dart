@@ -59,7 +59,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
           return;
         }
 
-        final response = _touchHandler!.handleTouch(FlPanEnd(Offset.zero, Velocity.zero), chartSize);
+        final response =
+            _touchHandler!.handleTouch(FlPanEnd(Offset.zero, Velocity.zero), chartSize);
         touchData.touchCallback?.call(response);
       },
       onHover: (e) {
@@ -68,8 +69,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
           return;
         }
 
-        final response =
-            _touchHandler!.handleTouch(FlPanMoveUpdate(e.localPosition), chartSize);
+        final response = _touchHandler!.handleTouch(FlPanMoveUpdate(e.localPosition), chartSize);
         touchData.touchCallback?.call(response);
       },
       child: GestureDetector(
@@ -79,8 +79,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             return;
           }
 
-          final response =
-              _touchHandler!.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+          final response = _touchHandler!.handleTouch(FlLongPressStart(d.localPosition), chartSize);
           touchData.touchCallback?.call(response);
         },
         onLongPressEnd: (d) {
@@ -89,8 +88,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             return;
           }
 
-          final response =
-              _touchHandler!.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
+          final response = _touchHandler!.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
           touchData.touchCallback?.call(response);
         },
         onLongPressMoveUpdate: (d) {
@@ -120,7 +118,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
           }
 
           final response =
-          _touchHandler!.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+              _touchHandler!.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
           touchData.touchCallback?.call(response);
         },
         onPanDown: (DragDownDetails details) {
@@ -145,7 +143,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         child: CustomPaint(
           key: _chartKey,
           size: getDefaultSize(MediaQuery.of(context).size),
-          painter: LineChartPainter(_withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
+          painter: LineChartPainter(
+              _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
               _withTouchedIndicators(showingData), (touchHandler) {
             setState(() {
               _touchHandler = touchHandler;
@@ -227,10 +226,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     _lineChartDataTween = visitor(
       _lineChartDataTween,
       _getData(),
-      (dynamic value) => LineChartDataTween(
-          begin: value,
-          end: widget.data
-      ),
+      (dynamic value) => LineChartDataTween(begin: value, end: widget.data),
     ) as LineChartDataTween;
   }
 }

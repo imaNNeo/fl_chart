@@ -21,7 +21,7 @@ abstract class BaseChartData with EquatableMixin {
   BaseChartData({
     FlBorderData? borderData,
     required FlTouchData touchData,
-  })  : borderData = borderData ?? FlBorderData(),
+  })   : borderData = borderData ?? FlBorderData(),
         touchData = touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);

@@ -25,14 +25,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler<PieTouchResponse>) touchHandler,
-      {required Function(PieChartWidgetsPositionHandler) widgetsPositionHandler, double textScale = 1})
+  PieChartPainter(PieChartData data, PieChartData targetData,
+      Function(TouchHandler<PieTouchResponse>) touchHandler,
+      {required Function(PieChartWidgetsPositionHandler) widgetsPositionHandler,
+      double textScale = 1})
       : super(
           data,
           targetData,
           textScale: textScale,
         ) {
-
     touchHandler(this);
     widgetsPositionHandler(this);
 

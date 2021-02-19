@@ -1081,12 +1081,8 @@ abstract class FlLineLabel with EquatableMixin {
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
   /// [show] determines showing label or not.
-  FlLineLabel({
-    required this.show,
-    required this.padding,
-    required this.style,
-    required this.alignment
-  });
+  FlLineLabel(
+      {required this.show, required this.padding, required this.style, required this.alignment});
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1637,10 +1633,8 @@ class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)
 class LineChartDataTween extends Tween<LineChartData> {
-  LineChartDataTween({
-    required LineChartData begin,
-    required LineChartData end
-  }) : super(begin: begin, end: end);
+  LineChartDataTween({required LineChartData begin, required LineChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [LineChartData] based on [t] value, check [Tween.lerp].
   @override

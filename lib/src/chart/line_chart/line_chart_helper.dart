@@ -5,7 +5,6 @@ import 'line_chart_data.dart';
 
 /// Contains anything that helps LineChart works
 class LineChartHelper {
-
   /// Contains List of cached results, base on [List<LineChartBarData>]
   ///
   /// We use it to prevent redundant calculations
@@ -28,7 +27,6 @@ class LineChartHelper {
         throw Exception('spots could not be null or empty');
       }
     }
-
 
     var minX = lineBarsData[0].spots[0].x;
     var maxX = lineBarsData[0].spots[0].x;
@@ -63,7 +61,6 @@ class LineChartHelper {
     _cachedResults[listWrapper] = result;
     return result;
   }
-
 }
 
 /// Holds minX, maxX, minY, and maxY for use in [LineChartData]
@@ -83,21 +80,10 @@ class LineChartMinMaxAxisValues with EquatableMixin {
   });
 
   @override
-  List<Object?> get props => [
-    minX,
-    maxX,
-    minY,
-    maxY,
-    readFromCache
-  ];
+  List<Object?> get props => [minX, maxX, minY, maxY, readFromCache];
 
-  LineChartMinMaxAxisValues copyWith({
-    double? minX,
-    double? maxX,
-    double? minY,
-    double? maxY,
-    bool? readFromCache
-  }) {
+  LineChartMinMaxAxisValues copyWith(
+      {double? minX, double? maxX, double? minY, double? maxY, bool? readFromCache}) {
     return LineChartMinMaxAxisValues(
       minX ?? this.minX,
       maxX ?? this.maxX,
@@ -110,7 +96,6 @@ class LineChartMinMaxAxisValues with EquatableMixin {
 
 /// Extensions on [LineChartBarData]
 extension LineChartDataExtension on LineChartBarData {
-
   /// Returns colorStops
   ///
   /// if [colorStops] provided, returns it directly,
@@ -128,12 +113,10 @@ extension LineChartDataExtension on LineChartBarData {
     }
     return stops;
   }
-
 }
 
 /// Extensions on [BarAreaData]
 extension BarAreaDataExtension on BarAreaData {
-
   /// Returns colorStops
   ///
   /// if [colorStops] provided, returns it directly,
@@ -151,12 +134,10 @@ extension BarAreaDataExtension on BarAreaData {
     }
     return stops;
   }
-
 }
 
 /// Extensions on [BetweenBarsData]
 extension BetweenBarsDataExtension on BetweenBarsData {
-
   /// Returns colorStops
   ///
   /// if [colorStops] provided, returns it directly,
@@ -174,5 +155,4 @@ extension BetweenBarsDataExtension on BetweenBarsData {
     }
     return stops;
   }
-
 }

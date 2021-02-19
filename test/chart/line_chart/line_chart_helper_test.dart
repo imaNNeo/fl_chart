@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Check caching of LineChartHelper.calculateMaxAxisValues', () {
-
     test('Test read from cache1', () {
       final lineBars1 = [lineChartBarData1];
       final result1 = LineChartHelper.calculateMaxAxisValues(lineBars1);
@@ -37,13 +36,11 @@ void main() {
 
     test('Test validity 2', () {
       final lineBars = [
-        lineChartBarData1.copyWith(
-            spots: [
-              FlSpot(3, 4),
-              FlSpot(-3, 50),
-              FlSpot(14, -10),
-            ]
-        )
+        lineChartBarData1.copyWith(spots: [
+          FlSpot(3, 4),
+          FlSpot(-3, 50),
+          FlSpot(14, -10),
+        ])
       ];
       final result = LineChartHelper.calculateMaxAxisValues(lineBars);
       expect(result.minX, -3);

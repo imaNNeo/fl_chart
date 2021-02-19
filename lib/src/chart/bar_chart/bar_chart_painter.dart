@@ -14,7 +14,7 @@ import '../../utils/utils.dart';
 
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
- late Paint _barPaint, _bgTouchTooltipPaint;
+  late Paint _barPaint, _bgTouchTooltipPaint;
 
   List<_GroupBarsPosition>? _groupBarsPosition;
 
@@ -29,7 +29,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  BarChartPainter(BarChartData data, BarChartData targetData, Function(TouchHandler<BarTouchResponse>) touchHandler,
+  BarChartPainter(BarChartData data, BarChartData targetData,
+      Function(TouchHandler<BarTouchResponse>) touchHandler,
       {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);

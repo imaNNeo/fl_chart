@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Check caching of ScatterChartHelper.calculateMaxAxisValues', () {
-
     // final ScatterSpot scatterSpot1 = ScatterSpot(1, 40);
     // final ScatterSpot scatterSpot2 = ScatterSpot(-4, -8);
     // final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
