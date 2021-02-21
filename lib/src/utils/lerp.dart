@@ -93,22 +93,10 @@ List<BarChartRodStackItem> lerpBarChartRodStackList(
         List<BarChartRodStackItem> a, List<BarChartRodStackItem> b, double t) =>
     _lerpList(a, b, t, lerp: BarChartRodStackItem.lerp);
 
-List<RadarEntry> lerpRadarEntryList(List<RadarEntry> a, List<RadarEntry> b, double t) {
-  if (a != null && b != null && a.length == b.length) {
-    return List.generate(a.length, (i) {
-      return RadarEntry.lerp(a[i], b[i], t);
-    });
-  } else {
-    return b;
-  }
-}
+/// Lerps [RadarDataSet] list based on [t] value, check [Tween.lerp].
+List<RadarDataSet> lerpRadarDataSetList(List<RadarDataSet> a, List<RadarDataSet> b, double t) =>
+    _lerpList(a, b, t, lerp: RadarDataSet.lerp);
 
-List<RadarDataSet> lerpRadarDataSetList(List<RadarDataSet> a, List<RadarDataSet> b, double t) {
-  if (a != null && b != null && a.length == b.length) {
-    return List.generate(a.length, (i) {
-      return RadarDataSet.lerp(a[i], b[i], t);
-    });
-  } else {
-    return b;
-  }
-}
+/// Lerps [RadarEntry] list based on [t] value, check [Tween.lerp].
+List<RadarEntry> lerpRadarEntryList(List<RadarEntry> a, List<RadarEntry> b, double t) =>
+    _lerpList(a, b, t, lerp: RadarEntry.lerp);

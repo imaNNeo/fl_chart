@@ -36,7 +36,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
 
     return GestureDetector(
       onLongPressStart: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) return;
 
         final RadarTouchResponse response = _touchHandler?.handleTouch(
@@ -47,7 +47,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
         if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
       },
       onLongPressEnd: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) return;
 
         final RadarTouchResponse response = _touchHandler?.handleTouch(
@@ -58,7 +58,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
         if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
       },
       onLongPressMoveUpdate: (d) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) return;
 
         final RadarTouchResponse response = _touchHandler?.handleTouch(
@@ -69,7 +69,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
         if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
       },
       onPanCancel: () {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) return;
 
         final RadarTouchResponse response = _touchHandler?.handleTouch(
@@ -80,7 +80,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
         if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
       },
       onPanEnd: (DragEndDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -92,7 +92,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
         }
       },
       onPanDown: (DragDownDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }
@@ -103,7 +103,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
         }
       },
       onPanUpdate: (DragUpdateDetails details) {
-        final Size chartSize = _getChartSize();
+        final chartSize = _getChartSize();
         if (chartSize == null) {
           return;
         }

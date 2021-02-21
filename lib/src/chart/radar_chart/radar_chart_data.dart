@@ -5,49 +5,18 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/src/extensions/list_extension.dart';
 
 typedef GetTitleByIndexFunction = String Function(int index);
 
+//ToDo(payam) : document data classes
 class RadarChartData extends BaseChartData {
-  //ToDo(payam) : document data classes
-  RadarChartData({
-    this.dataSets = const [],
-    this.fillColor = Colors.transparent,
-    this.chartBorderData = const BorderSide(color: Colors.black, width: 2),
-    this.radarTouchData,
-    this.getTitle,
-    @required this.titleCount,
-    this.titleTextStyle = const TextStyle(color: Colors.black, fontSize: 12),
-    this.titlePositionPercentageOffset = 0.2,
-    @required this.tickCount,
-    this.ticksTextStyle = const TextStyle(color: Colors.black, fontSize: 9),
-    this.tickBorderData = const BorderSide(color: Colors.black, width: 2),
-    this.gridBorderData = const BorderSide(color: Colors.black, width: 2),
-    FlBorderData borderData,
-  })  : assert(dataSets != null, "the dataSets field can't be null"),
-        assert(titleCount != null && titleCount >= 2, "RadarChart need's more then 2 titles"),
-        assert(tickCount != null && tickCount >= 2, "RadarChart need's more then 2 ticks"),
-        assert(
-          titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1,
-          'titlePositionPercentageOffset must be something between 0 and 1 ',
-        ),
-        assert(
-          dataSets.firstWhere(
-                (element) => element.dataEntries.length != titleCount,
-                orElse: () => null,
-              ) ==
-              null,
-          'dataSets value count must be equal to titleCount value',
-        ),
-        super(borderData: borderData, touchData: radarTouchData);
-
   final List<RadarDataSet> dataSets;
 
-  final Color fillColor;
-  final BorderSide chartBorderData;
+  final Color radarBackgroundColor;
+  final BorderSide radarBorderData;
 
   final GetTitleByIndexFunction getTitle;
-  final int titleCount;
   final TextStyle titleTextStyle;
 
   /// the [titlePositionPercentageOffset] is the place of showing title on the section
@@ -66,6 +35,38 @@ class RadarChartData extends BaseChartData {
   final BorderSide gridBorderData;
 
   final RadarTouchData radarTouchData;
+
+  RadarChartData({
+    @required List<RadarDataSet> dataSets,
+    Color radarBackgroundColor,
+    BorderSide radarBorderData,
+    GetTitleByIndexFunction getTitle,
+    TextStyle titleTextStyle,
+    double titlePositionPercentageOffset,
+    int tickCount,
+    TextStyle ticksTextStyle,
+    BorderSide tickBorderData,
+    BorderSide gridBorderData,
+    RadarTouchData radarTouchData,
+    FlBorderData borderData,
+  })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
+        assert(tickCount == null || tickCount >= 1, "RadarChart need's at least 1 tick"),
+        assert(
+          titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1,
+          'titlePositionPercentageOffset must be something between 0 and 1 ',
+        ),
+        dataSets = dataSets ?? const [],
+        radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
+        radarBorderData = radarBorderData ?? const BorderSide(color: Colors.black, width: 2),
+        radarTouchData = radarTouchData ?? RadarTouchData(),
+        getTitle = getTitle,
+        titleTextStyle = titleTextStyle ?? const TextStyle(color: Colors.black, fontSize: 12),
+        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
+        tickCount = tickCount ?? 1,
+        ticksTextStyle = ticksTextStyle ?? const TextStyle(fontSize: 10, color: Colors.black),
+        tickBorderData = tickBorderData ?? const BorderSide(color: Colors.black, width: 2),
+        gridBorderData = gridBorderData ?? const BorderSide(color: Colors.black, width: 2),
+        super(borderData: borderData, touchData: radarTouchData);
 
   RadarEntry get maxEntry {
     var maximum = dataSets.first.dataEntries.first;
@@ -90,14 +91,15 @@ class RadarChartData extends BaseChartData {
     return minimum;
   }
 
+  int get titleCount => dataSets[0].dataEntries.length;
+
   @override
   RadarChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is RadarChartData && b is RadarChartData && t != null) {
       return RadarChartData(
         dataSets: lerpRadarDataSetList(a.dataSets, b.dataSets, t),
-        fillColor: Color.lerp(a.fillColor, b.fillColor, t),
+        radarBackgroundColor: Color.lerp(a.radarBackgroundColor, b.radarBackgroundColor, t),
         getTitle: b.getTitle,
-        titleCount: lerpInt(a.titleCount, b.titleCount, t),
         titleTextStyle: TextStyle.lerp(a.titleTextStyle, b.titleTextStyle, t),
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,
@@ -107,7 +109,7 @@ class RadarChartData extends BaseChartData {
         tickCount: lerpInt(a.tickCount, b.tickCount, t),
         ticksTextStyle: TextStyle.lerp(a.ticksTextStyle, b.ticksTextStyle, t),
         gridBorderData: BorderSide.lerp(a.gridBorderData, b.gridBorderData, t),
-        chartBorderData: BorderSide.lerp(a.chartBorderData, b.chartBorderData, t),
+        radarBorderData: BorderSide.lerp(a.radarBorderData, b.radarBorderData, t),
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         radarTouchData: b.radarTouchData,
@@ -123,10 +125,9 @@ class RadarChartData extends BaseChartData {
         borderData,
         touchData,
         dataSets,
-        fillColor,
-        chartBorderData,
+        radarBackgroundColor,
+        radarBorderData,
         getTitle,
-        titleCount,
         titleTextStyle,
         titlePositionPercentageOffset,
         tickCount,
@@ -138,19 +139,23 @@ class RadarChartData extends BaseChartData {
 }
 
 class RadarDataSet extends Equatable {
-  const RadarDataSet({
-    this.dataEntries = const [],
-    @required this.fillColor,
-    @required this.borderColor,
-    this.borderWidth = 2,
-    this.entryRadius = 5.0,
-  });
-
   final List<RadarEntry> dataEntries;
   final Color fillColor;
   final Color borderColor;
   final double borderWidth;
   final double entryRadius;
+
+  const RadarDataSet({
+    List<RadarEntry> dataEntries,
+    Color fillColor,
+    Color borderColor,
+    double borderWidth,
+    double entryRadius,
+  })  : dataEntries = dataEntries ?? const [],
+        fillColor = fillColor,
+        borderColor = borderColor,
+        borderWidth = borderWidth ?? 2,
+        entryRadius = entryRadius ?? 5.0;
 
   static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
     return RadarDataSet(
@@ -175,7 +180,7 @@ class RadarDataSet extends Equatable {
 class RadarEntry extends Equatable {
   final double value;
 
-  const RadarEntry({this.value = 0});
+  const RadarEntry({double value}) : value = value ?? 0;
 
   static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) {
     return RadarEntry(value: lerpDouble(a.value, b.value, t));
@@ -192,20 +197,18 @@ class RadarTouchData extends FlTouchData {
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
 
-  final bool enableNormalTouch;
-
   RadarTouchData({
-    bool enabled = true,
-    this.enableNormalTouch,
-    this.touchCallback,
-    this.touchSpotThreshold = 10,
-  }) : super(enabled);
+    bool enabled,
+    Function(RadarTouchResponse) touchCallback,
+    double touchSpotThreshold,
+  })  : touchCallback = touchCallback,
+        touchSpotThreshold = touchSpotThreshold ?? 10,
+        super(enabled ?? true);
 
   @override
   List<Object> get props => [
         enabled,
         touchSpotThreshold,
-        enableNormalTouch,
         touchCallback,
       ];
 }
@@ -214,9 +217,10 @@ class RadarTouchResponse extends BaseTouchResponse {
   final RadarTouchedSpot touchedSpot;
 
   RadarTouchResponse(
-    this.touchedSpot,
+    RadarTouchedSpot touchedSpot,
     FlTouchInput touchInput,
-  ) : super(touchInput);
+  )   : touchedSpot = touchedSpot,
+        super(touchInput);
 
   @override
   List<Object> get props => [
@@ -233,13 +237,17 @@ class RadarTouchedSpot extends TouchedSpot {
   final int touchedRadarEntryIndex;
 
   RadarTouchedSpot(
-    this.touchedDataSet,
-    this.touchedDataSetIndex,
-    this.touchedRadarEntry,
-    this.touchedRadarEntryIndex,
+    RadarDataSet touchedDataSet,
+    int touchedDataSetIndex,
+    RadarEntry touchedRadarEntry,
+    int touchedRadarEntryIndex,
     FlSpot spot,
     Offset offset,
-  ) : super(spot, offset);
+  )   : touchedDataSet = touchedDataSet,
+        touchedDataSetIndex = touchedDataSetIndex,
+        touchedRadarEntry = touchedRadarEntry,
+        touchedRadarEntryIndex = touchedRadarEntryIndex,
+        super(spot, offset);
 
   Color getColor() {
     return Colors.black;

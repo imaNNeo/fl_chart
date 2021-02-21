@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'dart:math' show pi, cos, sin, min;
 import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../fl_chart.dart';
@@ -22,24 +22,21 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     Function(TouchHandler) touchHandler, {
     double textScale = 1,
   })  : _backgroundPaint = Paint()
-          ..color = data.fillColor
+          ..color = data.radarBackgroundColor
           ..style = PaintingStyle.fill
           ..isAntiAlias = true,
         _borderPaint = Paint()
-          ..color = data?.chartBorderData?.color ?? Colors.black
-          ..strokeWidth = data?.chartBorderData?.width ?? 2
-          ..style = PaintingStyle.stroke
-          ..isAntiAlias = true,
+          ..color = data?.radarBorderData?.color ?? Colors.black
+          ..strokeWidth = data?.radarBorderData?.width ?? 2
+          ..style = PaintingStyle.stroke,
         _gridPaint = Paint()
           ..color = data?.gridBorderData?.color ?? Colors.black
           ..strokeWidth = data?.gridBorderData?.width ?? 2
-          ..style = PaintingStyle.stroke
-          ..isAntiAlias = true,
+          ..style = PaintingStyle.stroke,
         _tickPaint = Paint()
           ..color = data?.tickBorderData?.color ?? Colors.black
           ..strokeWidth = data?.tickBorderData?.width ?? 2
-          ..style = PaintingStyle.stroke
-          ..isAntiAlias = true,
+          ..style = PaintingStyle.stroke,
         _graphPaint = Paint(),
         _graphBorderPaint = Paint(),
         _graphPointPaint = Paint(),
@@ -53,28 +50,34 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
 
-    if (data.dataSets.isEmpty) return;
+    if (data.dataSets.isEmpty) {
+      return;
+    }
 
-    dataSetsPosition = _calculateDataSetsPosition(size);
+    final canvasWrapper = CanvasWrapper(canvas, size);
 
-    drawTicks(size, canvas);
-    drawGrids(size, canvas);
-    drawTitles(size, canvas);
-    drawDataSets(size, canvas);
+    dataSetsPosition = _calculateDataSetsPosition(canvasWrapper.size);
+
+    _drawGrids(canvasWrapper);
+    _drawTicks(canvasWrapper);
+    _drawTitles(canvasWrapper);
+    _drawDataSets(canvasWrapper);
   }
 
-  void drawTicks(Size size, Canvas canvas) {
-    final centerX = radarCenterX(size);
-    final centerY = radarCenterY(size);
+  void _drawTicks(CanvasWrapper canvasWrapper) {
+    final size = canvasWrapper.size;
+
+    final centerX = _radarCenterX(size);
+    final centerY = _radarCenterY(size);
     final centerOffset = Offset(centerX, centerY);
 
     /// controls Radar chart size
-    final radius = radarRadius(size);
+    final radius = _radarRadius(size);
 
     //draw radar background
-    canvas.drawCircle(centerOffset, radius, _backgroundPaint);
+    canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
     //draw radar border
-    canvas.drawCircle(centerOffset, radius, _borderPaint);
+    canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
 
     final dataSetMaxValue = data.maxEntry.value;
     final dataSetMinValue = data.minEntry.value;
@@ -82,56 +85,64 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
     final ticks = <double>[];
 
-    for (var tick = dataSetMinValue; tick <= dataSetMaxValue; tick = tick + tickSpace)
+    for (var tick = dataSetMinValue; tick <= dataSetMaxValue; tick = tick + tickSpace) {
       ticks.add(tick);
+    }
 
     final tickDistance = radius / (ticks.length);
 
-    final ticksStyle = data.ticksTextStyle ?? const TextStyle(fontSize: 10, color: Colors.black);
-    ticks.sublist(0, ticks.length - 1).asMap().forEach((index, tick) {
-      final tickRadius = tickDistance * (index + 1);
-      canvas.drawCircle(centerOffset, tickRadius, _tickPaint);
-      _ticksTextPaint
-        ..text = TextSpan(
-          text: tick.toStringAsFixed(1),
-          style: ticksStyle,
-        )
-        ..textDirection = TextDirection.ltr;
-      _ticksTextPaint.layout(minWidth: 0, maxWidth: size.width);
-      _ticksTextPaint.paint(
-          canvas, Offset(centerX + 5, centerY - tickRadius - _ticksTextPaint.height));
-    });
+    ticks.sublist(0, ticks.length - 1).asMap().forEach(
+      (index, tick) {
+        final tickRadius = tickDistance * (index + 1);
+        canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
+        _ticksTextPaint
+          ..text = TextSpan(
+            text: tick.toStringAsFixed(1),
+            style: data.ticksTextStyle,
+          )
+          ..textDirection = TextDirection.ltr;
+        _ticksTextPaint.layout(minWidth: 0, maxWidth: size.width);
+        canvasWrapper.drawText(
+          _ticksTextPaint,
+          Offset(centerX + 5, centerY - tickRadius - _ticksTextPaint.height),
+        );
+      },
+    );
   }
 
-  void drawGrids(Size size, Canvas canvas) {
-    final centerX = radarCenterX(size);
-    final centerY = radarCenterY(size);
+  void _drawGrids(CanvasWrapper canvasWrapper) {
+    final size = canvasWrapper.size;
+
+    final centerX = _radarCenterX(size);
+    final centerY = _radarCenterY(size);
     final centerOffset = Offset(centerX, centerY);
 
     /// controls Radar chart size
-    final radius = radarRadius(size);
+    final radius = _radarRadius(size);
 
     final angle = (2 * pi) / data.titleCount;
 
     //drawing grids
-    for (int index = 0; index < data.titleCount; index++) {
+    for (var index = 0; index < data.titleCount; index++) {
       final endX = centerX + radius * cos(angle * index - pi / 2);
       final endY = centerY + radius * sin(angle * index - pi / 2);
 
       final gridOffset = Offset(endX, endY);
 
-      canvas.drawLine(centerOffset, gridOffset, _gridPaint);
+      canvasWrapper.drawLine(centerOffset, gridOffset, _gridPaint);
     }
   }
 
-  void drawTitles(Size size, Canvas canvas) {
+  void _drawTitles(CanvasWrapper canvasWrapper) {
     if (data?.getTitle == null) return;
 
-    final centerX = radarCenterX(size);
-    final centerY = radarCenterY(size);
+    final size = canvasWrapper.size;
+
+    final centerX = _radarCenterX(size);
+    final centerY = _radarCenterY(size);
 
     /// controls Radar chart size
-    final radius = radarRadius(size);
+    final radius = _radarRadius(size);
 
     final angle = (2 * pi) / data.titleCount;
 
@@ -142,7 +153,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
       ..textDirection = TextDirection.ltr
       ..textScaleFactor = textScale;
 
-    for (int index = 0; index < data.titleCount; index++) {
+    for (var index = 0; index < data.titleCount; index++) {
       final title = data?.getTitle(index);
       final xAngle = cos(angle * index - pi / 2);
       final yAngle = sin(angle * index - pi / 2);
@@ -150,25 +161,25 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
       final span = TextSpan(text: title, style: style);
       _titleTextPaint.text = span;
       _titleTextPaint.layout();
-      canvas.save();
+      canvasWrapper.save();
       final titlePositionPercentageOffset = data?.titlePositionPercentageOffset ?? 0.2;
       final threshold = 1.0 + titlePositionPercentageOffset;
       final featureOffset = Offset(
         centerX + threshold * radius * xAngle,
         centerY + threshold * radius * yAngle,
       );
-      canvas.translate(featureOffset.dx, featureOffset.dy);
-      canvas.rotate(angle * index);
+      canvasWrapper.translate(featureOffset.dx, featureOffset.dy);
+      canvasWrapper.rotate(angle * index);
 
-      _titleTextPaint.paint(
-        canvas,
+      canvasWrapper.drawText(
+        _titleTextPaint,
         Offset.zero - Offset(_titleTextPaint.width / 2, _titleTextPaint.height / 2),
       );
-      canvas.restore();
+      canvasWrapper.restore();
     }
   }
 
-  void drawDataSets(Size size, Canvas canvas) {
+  void _drawDataSets(CanvasWrapper canvasWrapper) {
     // we will use dataSetsPosition to draw the graphs
     dataSetsPosition.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
@@ -179,13 +190,11 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
       _graphBorderPaint
         ..color = graph?.borderColor ?? graph.fillColor
         ..style = PaintingStyle.stroke
-        ..strokeWidth = graph.borderWidth
-        ..isAntiAlias = true;
+        ..strokeWidth = graph.borderWidth;
 
       _graphPointPaint
         ..color = _graphBorderPaint.color
-        ..style = PaintingStyle.fill
-        ..isAntiAlias = true;
+        ..style = PaintingStyle.fill;
 
       final path = Path();
 
@@ -196,7 +205,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
       path.moveTo(firstOffset.dx, firstOffset.dy);
 
-      canvas.drawCircle(
+      canvasWrapper.drawCircle(
         firstOffset,
         graph.entryRadius,
         _graphPointPaint,
@@ -206,7 +215,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
         path.lineTo(pointOffset.dx, pointOffset.dy);
 
-        canvas.drawCircle(
+        canvasWrapper.drawCircle(
           pointOffset,
           graph.entryRadius,
           _graphPointPaint,
@@ -214,8 +223,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
       });
 
       path.close();
-      canvas.drawPath(path, _graphPaint);
-      canvas.drawPath(path, _graphBorderPaint);
+      canvasWrapper.drawPath(path, _graphPaint);
+      canvasWrapper.drawPath(path, _graphBorderPaint);
     });
   }
 
@@ -227,20 +236,20 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     return RadarTouchResponse(touchedSpot, touchInput);
   }
 
-  double radarCenterY(Size size) => size.height / 2.0;
+  double _radarCenterY(Size size) => size.height / 2.0;
 
-  double radarCenterX(Size size) => size.width / 2.0;
+  double _radarCenterX(Size size) => size.width / 2.0;
 
-  double radarRadius(Size size) => min(radarCenterX(size), radarCenterY(size)) * 0.8;
+  double _radarRadius(Size size) => min(_radarCenterX(size), _radarCenterY(size)) * 0.8;
 
   RadarTouchedSpot _getNearestTouchSpot(
     Size viewSize,
     Offset touchedPoint,
     List<RadarDataSetsPosition> radarDataSetsPosition,
   ) {
-    for (int i = 0; i < radarDataSetsPosition.length; i++) {
+    for (var i = 0; i < radarDataSetsPosition.length; i++) {
       final dataSetPosition = radarDataSetsPosition[i];
-      for (int j = 0; j < dataSetPosition.entriesOffset.length; j++) {
+      for (var j = 0; j < dataSetPosition.entriesOffset.length; j++) {
         final entryOffset = dataSetPosition.entriesOffset[j];
         if ((touchedPoint.dx - entryOffset.dx).abs() <=
                 targetData.radarTouchData.touchSpotThreshold &&
@@ -263,19 +272,22 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   List<RadarDataSetsPosition> _calculateDataSetsPosition(Size viewSize) {
     if (viewSize == null || data?.dataSets == null) return null;
 
-    final centerX = radarCenterX(viewSize);
-    final centerY = radarCenterY(viewSize);
-    final radius = radarRadius(viewSize);
+    final centerX = _radarCenterX(viewSize);
+    final centerY = _radarCenterY(viewSize);
+    final radius = _radarRadius(viewSize);
 
     final scale = radius / data.maxEntry.value;
     final angle = (2 * pi) / data.titleCount;
 
-    final dataSetsPosition = List<RadarDataSetsPosition>(data.dataSets.length);
-    for (int i = 0; i < data.dataSets.length; i++) {
+    final dataSetsPosition = List<RadarDataSetsPosition>.filled(
+      data.dataSets.length,
+      RadarDataSetsPosition([]),
+    );
+    for (var i = 0; i < data.dataSets.length; i++) {
       final dataSet = data.dataSets[i];
-      final entriesOffset = List<Offset>(dataSet.dataEntries.length);
+      final entriesOffset = List<Offset>.filled(dataSet.dataEntries.length, Offset.zero);
 
-      for (int j = 0; j < dataSet.dataEntries.length; j++) {
+      for (var j = 0; j < dataSet.dataEntries.length; j++) {
         final point = dataSet.dataEntries[j];
 
         final xAngle = cos(angle * j - pi / 2);
@@ -296,11 +308,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   }
 
   @override
-  bool shouldRepaint(RadarChartPainter oldDelegate) {
-    final repaint = oldDelegate.data != data;
-    log('repaint radar chart: $repaint');
-    return repaint;
-  }
+  bool shouldRepaint(RadarChartPainter oldDelegate) => oldDelegate.data != data;
 }
 
 class RadarDataSetsPosition {

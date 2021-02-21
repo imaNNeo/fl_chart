@@ -9,12 +9,12 @@ const boxingColor = Color(0xff83dea7);
 const entertainmentColor = Colors.white70;
 const offRoadColor = Color(0xFFFFF59D);
 
-class RadarChartSample extends StatefulWidget {
+class RadarChartSample1 extends StatefulWidget {
   @override
-  _RadarChartSampleState createState() => _RadarChartSampleState();
+  _RadarChartSample1State createState() => _RadarChartSample1State();
 }
 
-class _RadarChartSampleState extends State<RadarChartSample> {
+class _RadarChartSample1State extends State<RadarChartSample1> {
   int selectedDataSetIndex = -1;
 
   @override
@@ -26,7 +26,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
               setState(() {
                 selectedDataSetIndex = -1;
               });
@@ -50,14 +50,13 @@ class _RadarChartSampleState extends State<RadarChartSample> {
                   return MapEntry(
                     index,
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           selectedDataSetIndex = index;
                         });
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-
                         margin: const EdgeInsets.symmetric(vertical: 2),
                         height: 26,
                         decoration: BoxDecoration(
@@ -70,7 +69,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
                           children: [
                             AnimatedContainer(
                               duration: const Duration(milliseconds: 400),
-                               curve: Curves.easeInToLinear,
+                              curve: Curves.easeInToLinear,
                               padding: EdgeInsets.all(isSelected ? 8 : 6),
                               decoration: BoxDecoration(
                                 color: value.color,
@@ -113,10 +112,9 @@ class _RadarChartSampleState extends State<RadarChartSample> {
                   }
                 }),
                 dataSets: showingDataSets(),
-                fillColor: Colors.transparent,
+                radarBackgroundColor: Colors.transparent,
                 borderData: FlBorderData(show: false),
-                chartBorderData: const BorderSide(color: Colors.transparent),
-                titleCount: 3,
+                radarBorderData: const BorderSide(color: Colors.transparent),
                 titlePositionPercentageOffset: 0.2,
                 titleTextStyle: const TextStyle(color: titleColor, fontSize: 14),
                 getTitle: (index) {
@@ -131,7 +129,7 @@ class _RadarChartSampleState extends State<RadarChartSample> {
                       return '';
                   }
                 },
-                tickCount: 4,
+                tickCount: 1,
                 ticksTextStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
                 tickBorderData: const BorderSide(color: Colors.transparent),
                 gridBorderData: const BorderSide(color: gridColor, width: 2),

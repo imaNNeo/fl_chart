@@ -5,11 +5,12 @@ class RadarChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: const Color(0xff231f49),
-        child: ListView(
-          children: [
-            RadarChartSample(),
-          ],
-        ));
+      color: const Color(0xff231f49),
+      child: ListView(
+        children: [
+          RadarChartSample1(),
+        ],
+      ),
+    );
   }
 }
