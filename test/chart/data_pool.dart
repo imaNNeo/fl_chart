@@ -2817,7 +2817,13 @@ final BarChartData barChartData14 = barChartData1.copyWith(
 );
 
 final RadarDataSet radarDataSet1 = RadarDataSet(
-  dataEntries: [RadarEntry(0), RadarEntry(1), RadarEntry(2), RadarEntry(3), RadarEntry(4)],
+  dataEntries: [
+    RadarEntry(value: 0),
+    RadarEntry(value: 1),
+    RadarEntry(value: 2),
+    RadarEntry(value: 3),
+    RadarEntry(value: 4),
+  ],
   borderColor: Colors.blue,
   borderWidth: 3,
   entryRadius: 3,
@@ -2827,7 +2833,13 @@ final RadarDataSet radarDataSet1 = RadarDataSet(
 final RadarDataSet radarDataSet1Clone = radarDataSet1.copyWith();
 
 final RadarDataSet radarDataSet2 = RadarDataSet(
-  dataEntries: [RadarEntry(10), RadarEntry(9), RadarEntry(8), RadarEntry(7), RadarEntry(6)],
+  dataEntries: [
+    RadarEntry(value: 10),
+    RadarEntry(value: 9),
+    RadarEntry(value: 8),
+    RadarEntry(value: 7),
+    RadarEntry(value: 6),
+  ],
   borderColor: Colors.red,
   borderWidth: 5,
   entryRadius: 5,
