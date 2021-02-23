@@ -93,6 +93,36 @@ class RadarChartData extends BaseChartData {
 
   int get titleCount => dataSets[0].dataEntries.length;
 
+  RadarChartData copyWith({
+    @required List<RadarDataSet> dataSets,
+    Color radarBackgroundColor,
+    BorderSide radarBorderData,
+    GetTitleByIndexFunction getTitle,
+    TextStyle titleTextStyle,
+    double titlePositionPercentageOffset,
+    int tickCount,
+    TextStyle ticksTextStyle,
+    BorderSide tickBorderData,
+    BorderSide gridBorderData,
+    RadarTouchData radarTouchData,
+    FlBorderData borderData,
+  }) =>
+      RadarChartData(
+        dataSets: dataSets ?? this.dataSets,
+        radarBackgroundColor: radarBackgroundColor ?? this.radarBackgroundColor,
+        radarBorderData: radarBorderData ?? this.radarBorderData,
+        getTitle: getTitle ?? this.getTitle,
+        titleTextStyle: titleTextStyle ?? this.titleTextStyle,
+        titlePositionPercentageOffset:
+            titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+        tickCount: tickCount ?? this.tickCount,
+        ticksTextStyle: ticksTextStyle ?? this.ticksTextStyle,
+        tickBorderData: tickBorderData ?? this.tickBorderData,
+        gridBorderData: gridBorderData ?? this.gridBorderData,
+        radarTouchData: radarTouchData ?? this.radarTouchData,
+        borderData: borderData ?? this.borderData,
+      );
+
   @override
   RadarChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is RadarChartData && b is RadarChartData && t != null) {
@@ -157,6 +187,21 @@ class RadarDataSet extends Equatable {
         borderWidth = borderWidth ?? 2,
         entryRadius = entryRadius ?? 5.0;
 
+  RadarDataSet copyWith({
+    List<RadarEntry> dataEntries,
+    Color fillColor,
+    Color borderColor,
+    double borderWidth,
+    double entryRadius,
+  }) =>
+      RadarDataSet(
+        dataEntries: dataEntries ?? this.dataEntries,
+        fillColor: fillColor ?? this.fillColor,
+        borderColor: borderColor ?? this.borderColor,
+        borderWidth: borderWidth ?? this.borderWidth,
+        entryRadius: entryRadius ?? this.entryRadius,
+      );
+
   static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
     return RadarDataSet(
       dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
@@ -181,6 +226,8 @@ class RadarEntry extends Equatable {
   final double value;
 
   const RadarEntry({double value}) : value = value ?? 0;
+
+  RadarEntry copyWith({double value}) => RadarEntry(value: value ?? this.value);
 
   static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) {
     return RadarEntry(value: lerpDouble(a.value, b.value, t));
