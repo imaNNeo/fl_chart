@@ -94,7 +94,7 @@ class RadarChartData extends BaseChartData {
   int get titleCount => dataSets[0].dataEntries.length;
 
   RadarChartData copyWith({
-    @required List<RadarDataSet> dataSets,
+    List<RadarDataSet> dataSets,
     Color radarBackgroundColor,
     BorderSide radarBorderData,
     GetTitleByIndexFunction getTitle,
