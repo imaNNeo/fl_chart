@@ -2862,6 +2862,71 @@ final RadarTouchData radarTouchData1Clone = radarTouchData1;
 
 final Function(RadarTouchResponse) radarTouchCallback = (response) {};
 
+final radarTouchedSpot1 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpotClone1 = radarTouchedSpot1;
+
+final radarTouchedSpot2 = RadarTouchedSpot(
+  radarDataSet2,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot3 = RadarTouchedSpot(
+  radarDataSet1,
+  1,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot4 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.last,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot5 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  1,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot6 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot2,
+  Offset.zero,
+);
+
+final radarTouchedSpot7 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  const Offset(3, 5),
+);
+
 final RadarChartData radarChartData1 = RadarChartData(
   dataSets: [radarDataSet1],
   radarBackgroundColor: Colors.yellow,
