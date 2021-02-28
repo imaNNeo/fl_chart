@@ -52,7 +52,7 @@ class RadarChartData extends BaseChartData {
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(tickCount == null || tickCount >= 1, "RadarChart need's at least 1 tick"),
         assert(
-          titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1,
+          titlePositionPercentageOffset==null || titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1,
           'titlePositionPercentageOffset must be something between 0 and 1 ',
         ),
         dataSets = dataSets ?? const [],
