@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../../../fl_chart.dart';
 
+/// Paints [RadarChartData] in the canvas, it can be used in a [CustomPainter]
 class RadarChartPainter extends BaseChartPainter<RadarChartData>
     with TouchHandler<RadarTouchResponse> {
   final Paint _borderPaint, _backgroundPaint, _gridPaint, _tickPaint;
@@ -16,6 +17,17 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   List<RadarDataSetsPosition> dataSetsPosition;
 
+  /// Paints [data] into canvas, it is the animating [RadarChartData],
+  /// [targetData] is the animation's target and remains the same
+  /// during animation, then we should use it  when we need to show
+  /// tooltips or something like that, because [data] is changing constantly.
+  ///
+  /// [touchHandler] passes a [TouchHandler] to the parent,
+  /// parent will use it for touch handling flow.
+  ///
+  /// [textScale] used for scaling texts inside the chart,
+  /// parent can use [MediaQuery.textScaleFactor] to respect
+  /// the system's font size.
   RadarChartPainter(
     RadarChartData data,
     RadarChartData targetData,
@@ -46,6 +58,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     touchHandler(this);
   }
 
+  /// Paints [RadarChartData] into the provided canvas.
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
@@ -74,9 +87,10 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     /// controls Radar chart size
     final radius = _radarRadius(size);
 
-    //draw radar background
+    /// draw radar background
     canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
-    //draw radar border
+
+    /// draw radar border
     canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
 
     final dataSetMaxValue = data.maxEntry.value;

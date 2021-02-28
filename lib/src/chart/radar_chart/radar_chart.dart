@@ -5,9 +5,14 @@ import 'package:fl_chart/src/chart/radar_chart/radar_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+/// Renders a radar chart as a widget, using provided [RadarChartData].
 class RadarChart extends ImplicitlyAnimatedWidget {
+  /// Determines how the [RadarChart] should be look like.
   final RadarChartData data;
 
+  /// [data] determines how the [RadarChart] should be look like,
+  /// when you make any change in the [RadarChart], it updates
+  /// new values with animation, and duration is [swapAnimationDuration].
   const RadarChart(
     this.data, {
     Key key,
@@ -20,10 +25,10 @@ class RadarChart extends ImplicitlyAnimatedWidget {
 
 class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
-  /// it lerps between the old [PieChartData] to the new one.
+  /// it lerps between the old [RadarChartData] to the new one.
   RadarChartDataTween _radarChartDataTween;
 
-  /// this is used to map the touch events to [PieTouchResponse]
+  /// this is used to map the touch events to [RadarChartResponse]
   TouchHandler _touchHandler;
 
   /// this is used to retrieve the chart size to handle the touches
