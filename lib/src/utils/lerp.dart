@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
@@ -91,3 +92,11 @@ List<ScatterSpot> lerpScatterSpotList(List<ScatterSpot> a, List<ScatterSpot> b, 
 List<BarChartRodStackItem> lerpBarChartRodStackList(
         List<BarChartRodStackItem> a, List<BarChartRodStackItem> b, double t) =>
     _lerpList(a, b, t, lerp: BarChartRodStackItem.lerp);
+
+/// Lerps [RadarDataSet] list based on [t] value, check [Tween.lerp].
+List<RadarDataSet> lerpRadarDataSetList(List<RadarDataSet> a, List<RadarDataSet> b, double t) =>
+    _lerpList(a, b, t, lerp: RadarDataSet.lerp);
+
+/// Lerps [RadarEntry] list based on [t] value, check [Tween.lerp].
+List<RadarEntry> lerpRadarEntryList(List<RadarEntry> a, List<RadarEntry> b, double t) =>
+    _lerpList(a, b, t, lerp: RadarEntry.lerp);

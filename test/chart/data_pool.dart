@@ -2815,3 +2815,146 @@ final BarChartData barChartData13 = barChartData1.copyWith(
 final BarChartData barChartData14 = barChartData1.copyWith(
   groupsSpace: 444,
 );
+
+final RadarDataSet radarDataSet1 = RadarDataSet(
+  dataEntries: [
+    RadarEntry(value: 0),
+    RadarEntry(value: 1),
+    RadarEntry(value: 2),
+    RadarEntry(value: 3),
+    RadarEntry(value: 4),
+  ],
+  borderColor: Colors.blue,
+  borderWidth: 3,
+  entryRadius: 3,
+  fillColor: Colors.grey,
+);
+
+final RadarDataSet radarDataSet1Clone = radarDataSet1.copyWith();
+
+final RadarDataSet radarDataSet2 = RadarDataSet(
+  dataEntries: [
+    RadarEntry(value: 10),
+    RadarEntry(value: 9),
+    RadarEntry(value: 8),
+    RadarEntry(value: 7),
+    RadarEntry(value: 6),
+  ],
+  borderColor: Colors.red,
+  borderWidth: 5,
+  entryRadius: 5,
+  fillColor: Colors.black,
+);
+
+final RadarTouchData radarTouchData1 = RadarTouchData(
+  enabled: true,
+  touchCallback: radarTouchCallback,
+  touchSpotThreshold: 12,
+);
+
+final RadarTouchData radarTouchData2 = RadarTouchData(
+  enabled: false,
+  touchCallback: radarTouchCallback,
+  touchSpotThreshold: 5,
+);
+
+final RadarTouchData radarTouchData1Clone = radarTouchData1;
+
+final Function(RadarTouchResponse) radarTouchCallback = (response) {};
+
+final radarTouchedSpot1 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpotClone1 = radarTouchedSpot1;
+
+final radarTouchedSpot2 = RadarTouchedSpot(
+  radarDataSet2,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot3 = RadarTouchedSpot(
+  radarDataSet1,
+  1,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot4 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.last,
+  0,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot5 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  1,
+  flSpot1,
+  Offset.zero,
+);
+
+final radarTouchedSpot6 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot2,
+  Offset.zero,
+);
+
+final radarTouchedSpot7 = RadarTouchedSpot(
+  radarDataSet1,
+  0,
+  radarDataSet1.dataEntries.first,
+  0,
+  flSpot1,
+  const Offset(3, 5),
+);
+
+final RadarChartData radarChartData1 = RadarChartData(
+  dataSets: [radarDataSet1],
+  radarBackgroundColor: Colors.yellow,
+  radarBorderData: BorderSide(color: Colors.purple, width: 5),
+  borderData: borderData1,
+  gridBorderData: BorderSide(color: Colors.blue, width: 2),
+  getTitle: (index) => 'testTitle',
+  titlePositionPercentageOffset: 0.2,
+  titleTextStyle: TextStyle(color: Colors.white, fontSize: 12),
+  radarTouchData: radarTouchData1,
+  tickCount: 5,
+  tickBorderData: BorderSide(color: Colors.black, width: 4),
+  ticksTextStyle: TextStyle(color: Colors.white, fontSize: 12),
+);
+
+final RadarChartData radarChartData1Clone = radarChartData1.copyWith();
+
+final RadarChartData radarChartData2 = RadarChartData(
+  dataSets: [radarDataSet2],
+  radarBackgroundColor: Colors.blue,
+  radarBorderData: BorderSide(color: Colors.pink, width: 3),
+  borderData: borderData1,
+  gridBorderData: BorderSide(color: Colors.red, width: 3),
+  getTitle: (index) => 'testTitle2',
+  titlePositionPercentageOffset: 0.5,
+  titleTextStyle: TextStyle(color: Colors.black, fontSize: 5),
+  radarTouchData: radarTouchData2,
+  tickCount: 1,
+  tickBorderData: BorderSide(color: Colors.pink, width: 2),
+  ticksTextStyle: TextStyle(color: Colors.purple, fontSize: 10),
+);
