@@ -31,7 +31,7 @@ class FlLongPressStart extends FlTouchLongInput with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         localPosition,
       ];
 }
@@ -54,7 +54,7 @@ class FlLongPressMoveUpdate extends FlTouchLongInput with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         localPosition,
       ];
 }
@@ -77,7 +77,7 @@ class FlLongPressEnd extends FlTouchLongInput with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         localPosition,
       ];
 }
@@ -103,7 +103,7 @@ class FlPanStart extends FlTouchNormalInput with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         localPosition,
       ];
 }
@@ -126,7 +126,7 @@ class FlPanMoveUpdate extends FlTouchNormalInput with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         localPosition,
       ];
 }
@@ -153,7 +153,7 @@ class FlPanEnd extends FlTouchNormalInput with EquatableMixin {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         localPosition,
         velocity,
       ];

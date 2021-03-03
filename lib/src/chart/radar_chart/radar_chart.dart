@@ -15,7 +15,7 @@ class RadarChart extends ImplicitlyAnimatedWidget {
   /// new values with animation, and duration is [swapAnimationDuration].
   const RadarChart(
     this.data, {
-    Key key,
+    Key? key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
   }) : super(key: key, duration: swapAnimationDuration);
 
@@ -26,10 +26,10 @@ class RadarChart extends ImplicitlyAnimatedWidget {
 class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [RadarChartData] to the new one.
-  RadarChartDataTween _radarChartDataTween;
+  RadarChartDataTween? _radarChartDataTween;
 
   /// this is used to map the touch events to [RadarChartResponse]
-  TouchHandler _touchHandler;
+  TouchHandler<RadarTouchResponse>? _touchHandler;
 
   /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
@@ -42,88 +42,80 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
     return GestureDetector(
       onLongPressStart: (d) {
         final chartSize = _getChartSize();
-        if (chartSize == null) return;
+        if (chartSize == null || _touchHandler == null) {
+          return;
+        }
 
-        final RadarTouchResponse response = _touchHandler?.handleTouch(
-          FlLongPressStart(d.localPosition),
-          chartSize,
-        );
-
-        if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
+        final response = _touchHandler!.handleTouch(FlLongPressStart(d.localPosition), chartSize);
+        touchData.touchCallback?.call(response);
       },
       onLongPressEnd: (d) {
         final chartSize = _getChartSize();
-        if (chartSize == null) return;
+        if (chartSize == null || _touchHandler == null) {
+          return;
+        }
 
-        final RadarTouchResponse response = _touchHandler?.handleTouch(
-          FlLongPressEnd(d.localPosition),
-          chartSize,
-        );
-
-        if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
+        final response = _touchHandler!.handleTouch(FlLongPressEnd(d.localPosition), chartSize);
+        touchData.touchCallback?.call(response);
       },
       onLongPressMoveUpdate: (d) {
         final chartSize = _getChartSize();
-        if (chartSize == null) return;
+        if (chartSize == null || _touchHandler == null) {
+          return;
+        }
 
-        final RadarTouchResponse response = _touchHandler?.handleTouch(
+        final response = _touchHandler!.handleTouch(
           FlLongPressMoveUpdate(d.localPosition),
           chartSize,
         );
-
-        if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
+        touchData.touchCallback?.call(response);
       },
       onPanCancel: () {
         final chartSize = _getChartSize();
-        if (chartSize == null) return;
+        if (chartSize == null || _touchHandler == null) {
+          return;
+        }
 
-        final RadarTouchResponse response = _touchHandler?.handleTouch(
+        final response = _touchHandler!.handleTouch(
           FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)),
           chartSize,
         );
-
-        if (_canHandleTouch(response, touchData)) touchData.touchCallback(response);
+        touchData.touchCallback?.call(response);
       },
       onPanEnd: (DragEndDetails details) {
         final chartSize = _getChartSize();
-        if (chartSize == null) {
+        if (chartSize == null || _touchHandler == null) {
           return;
         }
 
         final response =
-            _touchHandler?.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
+            _touchHandler!.handleTouch(FlPanEnd(Offset.zero, details.velocity), chartSize);
+        touchData.touchCallback?.call(response);
       },
       onPanDown: (DragDownDetails details) {
         final chartSize = _getChartSize();
-        if (chartSize == null) {
+        if (chartSize == null || _touchHandler == null) {
           return;
         }
 
-        final response = _touchHandler?.handleTouch(FlPanStart(details.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
+        final response = _touchHandler!.handleTouch(FlPanStart(details.localPosition), chartSize);
+        touchData.touchCallback?.call(response);
       },
       onPanUpdate: (DragUpdateDetails details) {
         final chartSize = _getChartSize();
-        if (chartSize == null) {
+        if (chartSize == null || _touchHandler == null) {
           return;
         }
 
         final response =
-            _touchHandler?.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
-        if (_canHandleTouch(response, touchData)) {
-          touchData.touchCallback(response);
-        }
+            _touchHandler!.handleTouch(FlPanMoveUpdate(details.localPosition), chartSize);
+        touchData.touchCallback?.call(response);
       },
       child: CustomPaint(
         key: _chartKey,
         size: getDefaultSize(MediaQuery.of(context).size),
         painter: RadarChartPainter(
-          _radarChartDataTween.evaluate(animation),
+          _radarChartDataTween!.evaluate(animation),
           showingData,
           (touchHandler) {
             setState(() {
@@ -140,20 +132,15 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
     return widget.data;
   }
 
-  Size _getChartSize() {
-    if (_chartKey.currentContext != null) {
-      final RenderBox containerRenderBox = _chartKey.currentContext.findRenderObject();
-      if (containerRenderBox.hasSize) {
-        return containerRenderBox.size;
-      }
-      return null;
-    } else {
+  Size? _getChartSize() {
+    final containerRenderBox = _chartKey.currentContext?.findRenderObject();
+    if (containerRenderBox == null || containerRenderBox is! RenderBox) {
       return null;
     }
-  }
-
-  bool _canHandleTouch(RadarTouchResponse response, RadarTouchData touchData) {
-    return response != null && touchData != null && touchData.touchCallback != null;
+    if (containerRenderBox.hasSize) {
+      return containerRenderBox.size;
+    }
+    return null;
   }
 
   @override
@@ -161,7 +148,7 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
     _radarChartDataTween = visitor(
       _radarChartDataTween,
       widget.data,
-      (dynamic value) => RadarChartDataTween(begin: value),
-    );
+      (dynamic value) => RadarChartDataTween(begin: value, end: widget.data),
+    ) as RadarChartDataTween;
   }
 }

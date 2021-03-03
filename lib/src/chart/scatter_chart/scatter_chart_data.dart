@@ -6,6 +6,8 @@ import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
+import 'scatter_chart_helper.dart';
+
 /// [ScatterChart] needs this class to render itself.
 ///
 /// It holds data needed to draw a scatter chart,
@@ -37,19 +39,19 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   ///
   /// [clipData] forces the [LineChart] to draw lines inside the chart bounding box.
   ScatterChartData({
-    List<ScatterSpot> scatterSpots,
-    FlTitlesData titlesData,
-    ScatterTouchData scatterTouchData,
-    List<int> showingTooltipIndicators,
-    FlGridData gridData,
-    FlBorderData borderData,
-    FlAxisTitleData axisTitleData,
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-    FlClipData clipData,
-    Color backgroundColor,
+    List<ScatterSpot>? scatterSpots,
+    FlTitlesData? titlesData,
+    ScatterTouchData? scatterTouchData,
+    List<int>? showingTooltipIndicators,
+    FlGridData? gridData,
+    FlBorderData? borderData,
+    FlAxisTitleData? axisTitleData,
+    double? minX,
+    double? maxX,
+    double? minY,
+    double? maxY,
+    FlClipData? clipData,
+    Color? backgroundColor,
   })  : scatterSpots = scatterSpots ?? const [],
         titlesData = titlesData ?? FlTitlesData(),
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
@@ -61,69 +63,16 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           axisTitleData: axisTitleData ?? FlAxisTitleData(),
           clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
-        ) {
-    initSuperMinMaxValues(minX, maxX, minY, maxY);
-  }
-
-  /// fills [minX], [maxX], [minY], [maxY] if they are null,
-  /// based on the provided [scatterSpots].
-  void initSuperMinMaxValues(
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-  ) {
-    if (scatterSpots.isNotEmpty) {
-      final canModifyMinX = minX == null;
-      if (canModifyMinX) {
-        minX = scatterSpots[0].x;
-      }
-
-      final canModifyMaxX = maxX == null;
-      if (canModifyMaxX) {
-        maxX = scatterSpots[0].x;
-      }
-
-      final canModifyMinY = minY == null;
-      if (canModifyMinY) {
-        minY = scatterSpots[0].y;
-      }
-
-      final canModifyMaxY = maxY == null;
-      if (canModifyMaxY) {
-        maxY = scatterSpots[0].y;
-      }
-
-      for (var j = 0; j < scatterSpots.length; j++) {
-        final spot = scatterSpots[j];
-        if (canModifyMaxX && spot.x > maxX) {
-          maxX = spot.x;
-        }
-
-        if (canModifyMinX && spot.x < minX) {
-          minX = spot.x;
-        }
-
-        if (canModifyMaxY && spot.y > maxY) {
-          maxY = spot.y;
-        }
-
-        if (canModifyMinY && spot.y < minY) {
-          minY = spot.y;
-        }
-      }
-    }
-
-    super.minX = minX ?? 0;
-    super.maxX = maxX ?? 1;
-    super.minY = minY ?? 0;
-    super.maxY = maxY ?? 1;
-  }
+          minX: minX ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? const []).minX,
+          maxX: maxX ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? const []).maxX,
+          minY: minY ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? const []).minY,
+          maxY: maxY ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? const []).maxY,
+        );
 
   /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(BaseChartData a, BaseChartData b, double t) {
-    if (a is ScatterChartData && b is ScatterChartData && t != null) {
+    if (a is ScatterChartData && b is ScatterChartData) {
       return ScatterChartData(
         scatterSpots: lerpScatterSpotList(a.scatterSpots, b.scatterSpots, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
@@ -148,19 +97,19 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   /// Copies current [ScatterChartData] to a new [ScatterChartData],
   /// and replaces provided values.
   ScatterChartData copyWith({
-    List<ScatterSpot> scatterSpots,
-    FlTitlesData titlesData,
-    ScatterTouchData scatterTouchData,
-    List<int> showingTooltipIndicators,
-    FlGridData gridData,
-    FlBorderData borderData,
-    FlAxisTitleData axisTitleData,
-    double minX,
-    double maxX,
-    double minY,
-    double maxY,
-    FlClipData clipData,
-    Color backgroundColor,
+    List<ScatterSpot>? scatterSpots,
+    FlTitlesData? titlesData,
+    ScatterTouchData? scatterTouchData,
+    List<int>? showingTooltipIndicators,
+    FlGridData? gridData,
+    FlBorderData? borderData,
+    FlAxisTitleData? axisTitleData,
+    double? minX,
+    double? maxX,
+    double? minY,
+    double? maxY,
+    FlClipData? clipData,
+    Color? backgroundColor,
   }) {
     return ScatterChartData(
       scatterSpots: scatterSpots ?? this.scatterSpots,
@@ -181,7 +130,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         scatterSpots,
         titlesData,
         scatterTouchData,
@@ -217,9 +166,9 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   ScatterSpot(
     double x,
     double y, {
-    bool show,
-    double radius,
-    Color color,
+    bool? show,
+    double? radius,
+    Color? color,
   })  : show = show ?? true,
         radius = radius ?? 6,
         color = color ?? Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
@@ -227,11 +176,11 @@ class ScatterSpot extends FlSpot with EquatableMixin {
 
   @override
   ScatterSpot copyWith({
-    double x,
-    double y,
-    bool show,
-    double radius,
-    Color color,
+    double? x,
+    double? y,
+    bool? show,
+    double? radius,
+    Color? color,
   }) {
     return ScatterSpot(
       x ?? this.x,
@@ -245,8 +194,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   /// Lerps a [ScatterSpot] based on [t] value, check [Tween.lerp].
   static ScatterSpot lerp(ScatterSpot a, ScatterSpot b, double t) {
     return ScatterSpot(
-      lerpDouble(a.x, b.x, t),
-      lerpDouble(a.y, b.y, t),
+      lerpDouble(a.x, b.x, t)!,
+      lerpDouble(a.y, b.y, t)!,
       show: b.show,
       radius: lerpDouble(a.radius, b.radius, t),
       color: Color.lerp(a.color, b.color, t),
@@ -255,7 +204,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         x,
         y,
         show,
@@ -281,7 +230,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   final bool handleBuiltInTouches;
 
   /// you can implement it to receive touches callback
-  final Function(ScatterTouchResponse) touchCallback;
+  final Function(ScatterTouchResponse)? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [ScatterChart] shows a tooltip popup on top of the spots if
@@ -294,11 +243,11 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   /// It gives you a [ScatterTouchResponse] that contains some
   /// useful information about happened touch.
   ScatterTouchData({
-    bool enabled,
-    ScatterTouchTooltipData touchTooltipData,
-    double touchSpotThreshold,
-    bool handleBuiltInTouches,
-    Function(ScatterTouchResponse) touchCallback,
+    bool? enabled,
+    ScatterTouchTooltipData? touchTooltipData,
+    double? touchSpotThreshold,
+    bool? handleBuiltInTouches,
+    Function(ScatterTouchResponse)? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? ScatterTouchTooltipData(),
         touchSpotThreshold = touchSpotThreshold ?? 10,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
@@ -308,11 +257,11 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
   /// and replaces provided values.
   ScatterTouchData copyWith({
-    bool enabled,
-    LineTouchTooltipData touchTooltipData,
-    double touchSpotThreshold,
-    bool handleBuiltInTouches,
-    Function(ScatterTouchResponse) touchCallback,
+    bool? enabled,
+    ScatterTouchTooltipData? touchTooltipData,
+    double? touchSpotThreshold,
+    bool? handleBuiltInTouches,
+    Function(ScatterTouchResponse)? touchCallback,
   }) {
     return ScatterTouchData(
       enabled: enabled ?? this.enabled,
@@ -325,7 +274,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         enabled,
         touchTooltipData,
         touchSpotThreshold,
@@ -338,7 +287,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
 class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
-  final ScatterSpot touchedSpot;
+  final ScatterSpot? touchedSpot;
   final int touchedSpotIndex;
 
   /// If touch happens, [ScatterChart] processes it internally and
@@ -350,7 +299,7 @@ class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// [touchInput] is the type of happened touch.
   ScatterTouchResponse(
     FlTouchInput touchInput,
-    ScatterSpot touchedSpot,
+    ScatterSpot? touchedSpot,
     int touchedSpotIndex,
   )   : touchedSpot = touchedSpot,
         touchedSpotIndex = touchedSpotIndex,
@@ -358,7 +307,7 @@ class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         touchInput,
         touchedSpot,
         touchedSpotIndex,
@@ -401,13 +350,13 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   ScatterTouchTooltipData({
-    Color tooltipBgColor,
-    double tooltipRoundedRadius,
-    EdgeInsets tooltipPadding,
-    double maxContentWidth,
-    GetScatterTooltipItems getTooltipItems,
-    bool fitInsideHorizontally,
-    bool fitInsideVertically,
+    Color? tooltipBgColor,
+    double? tooltipRoundedRadius,
+    EdgeInsets? tooltipPadding,
+    double? maxContentWidth,
+    GetScatterTooltipItems? getTooltipItems,
+    bool? fitInsideHorizontally,
+    bool? fitInsideVertically,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -419,7 +368,7 @@ class ScatterTouchTooltipData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
@@ -436,13 +385,10 @@ class ScatterTouchTooltipData with EquatableMixin {
 /// [touchedSpot] that touch happened on,
 /// then you should and pass your custom [ScatterTooltipItem]
 /// to show it inside the tooltip popup.
-typedef GetScatterTooltipItems = ScatterTooltipItem Function(ScatterSpot touchedSpot);
+typedef GetScatterTooltipItems = ScatterTooltipItem? Function(ScatterSpot touchedSpot);
 
 /// Default implementation for [ScatterTouchTooltipData.getTooltipItems].
-ScatterTooltipItem defaultScatterTooltipItem(ScatterSpot touchedSpot) {
-  if (touchedSpot == null) {
-    return null;
-  }
+ScatterTooltipItem? defaultScatterTooltipItem(ScatterSpot touchedSpot) {
   final textStyle = TextStyle(
     color: touchedSpot.color,
     fontWeight: FontWeight.bold,
@@ -475,7 +421,7 @@ class ScatterTooltipItem with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         text,
         textStyle,
         bottomMargin,
@@ -484,12 +430,12 @@ class ScatterTooltipItem with EquatableMixin {
 
 /// It lerps a [ScatterChartData] to another [ScatterChartData] (handles animation for updating values)
 class ScatterChartDataTween extends Tween<ScatterChartData> {
-  ScatterChartDataTween({ScatterChartData begin, ScatterChartData end})
+  ScatterChartDataTween({required ScatterChartData begin, required ScatterChartData end})
       : super(begin: begin, end: end);
 
   /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(double t) {
-    return begin.lerp(begin, end, t);
+    return begin!.lerp(begin!, end!, t);
   }
 }

@@ -12,7 +12,7 @@ import 'pie_chart_data.dart';
 /// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
 class PieChartPainter extends BaseChartPainter<PieChartData>
     with TouchHandler<PieTouchResponse>, PieChartWidgetsPositionHandler {
-  Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
+  late Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
   /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
@@ -25,18 +25,17 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  PieChartPainter(PieChartData data, PieChartData targetData, Function(TouchHandler) touchHandler,
-      {Function(PieChartWidgetsPositionHandler) widgetsPositionHandler, double textScale})
+  PieChartPainter(PieChartData data, PieChartData targetData,
+      Function(TouchHandler<PieTouchResponse>) touchHandler,
+      {required Function(PieChartWidgetsPositionHandler) widgetsPositionHandler,
+      double textScale = 1})
       : super(
           data,
           targetData,
           textScale: textScale,
         ) {
     touchHandler(this);
-
-    if (widgetsPositionHandler != null) {
-      widgetsPositionHandler(this);
-    }
+    widgetsPositionHandler(this);
 
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -249,10 +248,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
       Size viewSize, FlTouchInput touchInput, List<double> sectionsAngle) {
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
-    if (touchInput.getOffset() == null) {
-      return null;
-    }
-
     final touchedPoint2 = touchInput.getOffset() - center;
 
     final touchX = touchedPoint2.dx;
@@ -262,8 +257,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
     var touchAngle = degrees(math.atan2(touchY, touchX));
     touchAngle = touchAngle < 0 ? (180 - touchAngle.abs()) + 180 : touchAngle;
 
-    PieChartSectionData foundSectionData;
-    int foundSectionDataPosition;
+    PieChartSectionData? foundSectionData;
+    var foundSectionDataPosition = -1;
 
     /// Find the nearest section base on the touch spot
     final relativeTouchAngle = (touchAngle - data.startDegreeOffset) % 360;

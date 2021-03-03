@@ -15,7 +15,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   final Paint _graphPaint, _graphBorderPaint, _graphPointPaint;
   final TextPainter _ticksTextPaint, _titleTextPaint;
 
-  List<RadarDataSetsPosition> dataSetsPosition;
+  List<RadarDataSetsPosition>? dataSetsPosition;
 
   /// Paints [data] into canvas, it is the animating [RadarChartData],
   /// [targetData] is the animation's target and remains the same
@@ -31,23 +31,23 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   RadarChartPainter(
     RadarChartData data,
     RadarChartData targetData,
-    Function(TouchHandler) touchHandler, {
+    Function(TouchHandler<RadarTouchResponse>) touchHandler, {
     double textScale = 1,
   })  : _backgroundPaint = Paint()
           ..color = data.radarBackgroundColor
           ..style = PaintingStyle.fill
           ..isAntiAlias = true,
         _borderPaint = Paint()
-          ..color = data?.radarBorderData?.color ?? Colors.black
-          ..strokeWidth = data?.radarBorderData?.width ?? 2
+          ..color = data.radarBorderData.color
+          ..strokeWidth = data.radarBorderData.width
           ..style = PaintingStyle.stroke,
         _gridPaint = Paint()
-          ..color = data?.gridBorderData?.color ?? Colors.black
-          ..strokeWidth = data?.gridBorderData?.width ?? 2
+          ..color = data.gridBorderData.color
+          ..strokeWidth = data.gridBorderData.width
           ..style = PaintingStyle.stroke,
         _tickPaint = Paint()
-          ..color = data?.tickBorderData?.color ?? Colors.black
-          ..strokeWidth = data?.tickBorderData?.width ?? 2
+          ..color = data.tickBorderData.color
+          ..strokeWidth = data.tickBorderData.width
           ..style = PaintingStyle.stroke,
         _graphPaint = Paint(),
         _graphBorderPaint = Paint(),
@@ -148,7 +148,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   }
 
   void _drawTitles(CanvasWrapper canvasWrapper) {
-    if (data?.getTitle == null) return;
+    if (data.getTitle == null) return;
 
     final size = canvasWrapper.size;
 
@@ -160,7 +160,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
     final angle = (2 * pi) / data.titleCount;
 
-    final style = data?.titleTextStyle ?? const TextStyle(fontSize: 14, color: Colors.black);
+    final style = data.titleTextStyle;
 
     _titleTextPaint
       ..textAlign = TextAlign.center
@@ -168,7 +168,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
       ..textScaleFactor = textScale;
 
     for (var index = 0; index < data.titleCount; index++) {
-      final title = data?.getTitle(index);
+      final title = data.getTitle!(index);
       final xAngle = cos(angle * index - pi / 2);
       final yAngle = sin(angle * index - pi / 2);
 
@@ -176,7 +176,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
       _titleTextPaint.text = span;
       _titleTextPaint.layout();
       canvasWrapper.save();
-      final titlePositionPercentageOffset = data?.titlePositionPercentageOffset ?? 0.2;
+      final titlePositionPercentageOffset = data.titlePositionPercentageOffset;
       final threshold = 1.0 + titlePositionPercentageOffset;
       final featureOffset = Offset(
         centerX + threshold * radius * xAngle,
@@ -195,14 +195,14 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   void _drawDataSets(CanvasWrapper canvasWrapper) {
     // we will use dataSetsPosition to draw the graphs
-    dataSetsPosition.asMap().forEach((index, dataSetOffset) {
+    dataSetsPosition!.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
       _graphPaint
         ..color = graph.fillColor.withOpacity(graph.fillColor.opacity - 0.2)
         ..style = PaintingStyle.fill;
 
       _graphBorderPaint
-        ..color = graph?.borderColor ?? graph.fillColor
+        ..color = graph.borderColor
         ..style = PaintingStyle.stroke
         ..strokeWidth = graph.borderWidth;
 
@@ -244,8 +244,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   @override
   RadarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
-    if (size == null || (dataSetsPosition?.isEmpty ?? true)) return null;
-
     final touchedSpot = _getNearestTouchSpot(size, touchInput.getOffset(), dataSetsPosition);
     return RadarTouchResponse(touchedSpot, touchInput);
   }
@@ -256,11 +254,13 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
   double _radarRadius(Size size) => min(_radarCenterX(size), _radarCenterY(size)) * 0.8;
 
-  RadarTouchedSpot _getNearestTouchSpot(
+  RadarTouchedSpot? _getNearestTouchSpot(
     Size viewSize,
     Offset touchedPoint,
-    List<RadarDataSetsPosition> radarDataSetsPosition,
+    List<RadarDataSetsPosition>? radarDataSetsPosition,
   ) {
+    radarDataSetsPosition ??= _calculateDataSetsPosition(viewSize);
+
     for (var i = 0; i < radarDataSetsPosition.length; i++) {
       final dataSetPosition = radarDataSetsPosition[i];
       for (var j = 0; j < dataSetPosition.entriesOffset.length; j++) {
@@ -284,8 +284,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   }
 
   List<RadarDataSetsPosition> _calculateDataSetsPosition(Size viewSize) {
-    if (viewSize == null || data?.dataSets == null) return null;
-
     final centerX = _radarCenterX(viewSize);
     final centerY = _radarCenterY(viewSize);
     final radius = _radarRadius(viewSize);

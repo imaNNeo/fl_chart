@@ -11,7 +11,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          channel: "stable"
+          channel: "beta"
       - name: Check formattting
         run: flutter format --set-exit-if-changed --dry-run --line-length 100 .
       - name: Get packages

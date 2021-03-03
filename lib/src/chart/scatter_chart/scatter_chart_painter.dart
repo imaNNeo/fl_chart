@@ -13,7 +13,7 @@ import 'scatter_chart_data.dart';
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     with TouchHandler<ScatterTouchResponse> {
   /// [_spotsPaint] is responsible to draw scatter spots
-  Paint _spotsPaint, _bgTouchTooltipPaint;
+  late Paint _spotsPaint, _bgTouchTooltipPaint;
 
   /// Paints [data] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
@@ -26,9 +26,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  ScatterChartPainter(
-      ScatterChartData data, ScatterChartData targetData, Function(TouchHandler) touchHandler,
-      {double textScale})
+  ScatterChartPainter(ScatterChartData data, ScatterChartData targetData,
+      Function(TouchHandler<ScatterTouchResponse>) touchHandler,
+      {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
     touchHandler(this);
 
@@ -227,9 +227,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   }
 
   void _drawSpots(CanvasWrapper canvasWrapper) {
-    if (data.scatterSpots == null) {
-      return;
-    }
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize);
     for (final scatterSpot in data.scatterSpots) {
