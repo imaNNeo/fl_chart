@@ -11,7 +11,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          channel: "beta"
+          channel: "stable"
       - name: Get packages
         run: flutter pub get
       - name: Run tests
