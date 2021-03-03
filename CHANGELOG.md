@@ -1,3 +1,7 @@
+## 0.20.0
+* [BREAKING] We now support flutter version 2.0 (null-safety), check out the [migration guide](https://dart.dev/null-safety/migration-guide).
+* [NEW_CHART] We have added [RadarChart](https://github.com/payam-zahedi/fl_chart/blob/master/repo_files/documentations/radar_chart.md). Thanks to [Payam Zahedi](https://github.com/payam-zahedi)!
+
 ## 0.20.0-nullsafety1
 * [BREAKING] **We have migrated our project to null-safety. You may need to change your source-code to compile**. check [migration guide](https://dart.dev/null-safety/migration-guide).
 * [BREAKING] You cannot set null value on FlSpot any more (use FlSpot.nullSpot instead).
