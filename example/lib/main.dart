@@ -45,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final _duration = Duration(milliseconds: 300);
   final _curve = Curves.easeInOutCubic;
   final _pages = [
-    RadarChartPage(),
     LineChartPage(),
     BarChartPage(),
     BarChartPage2(),
@@ -54,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     LineChartPage3(),
     LineChartPage4(),
     ScatterChartPage(),
+    RadarChartPage(),
   ];
 
   @override
