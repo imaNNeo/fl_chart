@@ -1,44 +1,43 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
+import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
+import 'package:fl_chart/src/chart/radar_chart/radar_chart_painter.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-/// Renders a pie chart as a widget, using provided [ScatterChartData].
-class ScatterChart extends ImplicitlyAnimatedWidget {
-  /// Determines how the [ScatterChart] should be look like.
-  final ScatterChartData data;
+/// Renders a radar chart as a widget, using provided [RadarChartData].
+class RadarChart extends ImplicitlyAnimatedWidget {
+  /// Determines how the [RadarChart] should be look like.
+  final RadarChartData data;
 
-  /// [data] determines how the [ScatterChart] should be look like,
-  /// when you make any change in the [ScatterChartData], it updates
+  /// [data] determines how the [RadarChart] should be look like,
+  /// when you make any change in the [RadarChart], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
-  const ScatterChart(
+  const RadarChart(
     this.data, {
+    Key? key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
-  }) : super(duration: swapAnimationDuration);
+  }) : super(key: key, duration: swapAnimationDuration);
 
-  /// Creates a [_ScatterChartState]
   @override
-  _ScatterChartState createState() => _ScatterChartState();
+  _RadarChartState createState() => _RadarChartState();
 }
 
-class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
+class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
-  /// it lerps between the old [ScatterChartData] to the new one.
-  ScatterChartDataTween? _scatterChartDataTween;
+  /// it lerps between the old [RadarChartData] to the new one.
+  RadarChartDataTween? _radarChartDataTween;
 
-  TouchHandler<ScatterTouchResponse>? _touchHandler;
+  /// this is used to map the touch events to [RadarChartResponse]
+  TouchHandler<RadarTouchResponse>? _touchHandler;
 
+  /// this is used to retrieve the chart size to handle the touches
   final GlobalKey _chartKey = GlobalKey();
-
-  List<int> touchedSpots = [];
 
   @override
   Widget build(BuildContext context) {
-    final showingData = _getData();
-    final touchData = showingData.scatterTouchData;
+    final showingData = _getDate();
+    final touchData = showingData.radarTouchData;
 
     return GestureDetector(
       onLongPressStart: (d) {
@@ -65,8 +64,10 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
           return;
         }
 
-        final response =
-            _touchHandler!.handleTouch(FlLongPressMoveUpdate(d.localPosition), chartSize);
+        final response = _touchHandler!.handleTouch(
+          FlLongPressMoveUpdate(d.localPosition),
+          chartSize,
+        );
         touchData.touchCallback?.call(response);
       },
       onPanCancel: () {
@@ -76,7 +77,9 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         }
 
         final response = _touchHandler!.handleTouch(
-            FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)), chartSize);
+          FlPanEnd(Offset.zero, const Velocity(pixelsPerSecond: Offset.zero)),
+          chartSize,
+        );
         touchData.touchCallback?.call(response);
       },
       onPanEnd: (DragEndDetails details) {
@@ -111,9 +114,9 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       child: CustomPaint(
         key: _chartKey,
         size: getDefaultSize(MediaQuery.of(context).size),
-        painter: ScatterChartPainter(
-          _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
-          _withTouchedIndicators(showingData),
+        painter: RadarChartPainter(
+          _radarChartDataTween!.evaluate(animation),
+          showingData,
           (touchHandler) {
             setState(() {
               _touchHandler = touchHandler;
@@ -125,15 +128,8 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     );
   }
 
-  ScatterChartData _withTouchedIndicators(ScatterChartData scatterChartData) {
-    if (!scatterChartData.scatterTouchData.enabled ||
-        !scatterChartData.scatterTouchData.handleBuiltInTouches) {
-      return scatterChartData;
-    }
-
-    return scatterChartData.copyWith(
-      showingTooltipIndicators: touchedSpots,
-    );
+  RadarChartData _getDate() {
+    return widget.data;
   }
 
   Size? _getChartSize() {
@@ -147,39 +143,12 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     return null;
   }
 
-  ScatterChartData _getData() {
-    final scatterTouchData = widget.data.scatterTouchData;
-    if (scatterTouchData.enabled && scatterTouchData.handleBuiltInTouches) {
-      return widget.data.copyWith(
-        scatterTouchData: widget.data.scatterTouchData.copyWith(touchCallback: _handleBuiltInTouch),
-      );
-    }
-    return widget.data;
-  }
-
-  void _handleBuiltInTouch(ScatterTouchResponse touchResponse) {
-    widget.data.scatterTouchData.touchCallback?.call(touchResponse);
-
-    if (touchResponse.touchInput is FlPanStart ||
-        touchResponse.touchInput is FlPanMoveUpdate ||
-        touchResponse.touchInput is FlLongPressStart ||
-        touchResponse.touchInput is FlLongPressMoveUpdate) {
-      setState(() {
-        touchedSpots = [touchResponse.touchedSpotIndex];
-      });
-    } else {
-      setState(() {
-        touchedSpots = [];
-      });
-    }
-  }
-
   @override
   void forEachTween(visitor) {
-    _scatterChartDataTween = visitor(
-      _scatterChartDataTween,
-      _getData(),
-      (dynamic value) => ScatterChartDataTween(begin: value, end: widget.data),
-    ) as ScatterChartDataTween;
+    _radarChartDataTween = visitor(
+      _radarChartDataTween,
+      widget.data,
+      (dynamic value) => RadarChartDataTween(begin: value, end: widget.data),
+    ) as RadarChartDataTween;
   }
 }

@@ -48,13 +48,13 @@ class PieChartData extends BaseChartData with EquatableMixin {
   ///
   /// You can modify [pieTouchData] to customize touch behaviors and responses.
   PieChartData({
-    List<PieChartSectionData> sections,
-    double centerSpaceRadius,
-    Color centerSpaceColor,
-    double sectionsSpace,
-    double startDegreeOffset,
-    PieTouchData pieTouchData,
-    FlBorderData borderData,
+    List<PieChartSectionData>? sections,
+    double? centerSpaceRadius,
+    Color? centerSpaceColor,
+    double? sectionsSpace,
+    double? startDegreeOffset,
+    PieTouchData? pieTouchData,
+    FlBorderData? borderData,
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
@@ -68,13 +68,13 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.
   PieChartData copyWith({
-    List<PieChartSectionData> sections,
-    double centerSpaceRadius,
-    Color centerSpaceColor,
-    double sectionsSpace,
-    double startDegreeOffset,
-    PieTouchData pieTouchData,
-    FlBorderData borderData,
+    List<PieChartSectionData>? sections,
+    double? centerSpaceRadius,
+    Color? centerSpaceColor,
+    double? sectionsSpace,
+    double? startDegreeOffset,
+    PieTouchData? pieTouchData,
+    FlBorderData? borderData,
   }) {
     return PieChartData(
       sections: sections ?? this.sections,
@@ -89,8 +89,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
-  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
-    if (a is PieChartData && b is PieChartData && t != null) {
+  PieChartData lerp(BaseChartData a, BaseChartData b, double t) {
+    if (a is PieChartData && b is PieChartData) {
       return PieChartData(
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         centerSpaceColor: Color.lerp(a.centerSpaceColor, b.centerSpaceColor, t),
@@ -107,7 +107,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         sections,
         centerSpaceRadius,
         centerSpaceColor,
@@ -145,7 +145,7 @@ class PieChartSectionData with EquatableMixin {
   ///
   /// This can be anything from a text, an image, an animation, and even a combination of widgets.
   /// Use AnimatedWidgets to animate this widget.
-  final Widget badgeWidget;
+  final Widget? badgeWidget;
 
   /// Defines position of showing title in the section.
   ///
@@ -181,15 +181,15 @@ class PieChartSectionData with EquatableMixin {
   /// [badgePositionPercentageOffset] to have your desire design,
   /// the value works the same way as [titlePositionPercentageOffset].
   PieChartSectionData({
-    double value,
-    Color color,
-    double radius,
-    bool showTitle,
-    TextStyle titleStyle,
-    String title,
-    Widget badgeWidget,
-    double titlePositionPercentageOffset,
-    double badgePositionPercentageOffset,
+    double? value,
+    Color? color,
+    double? radius,
+    bool? showTitle,
+    TextStyle? titleStyle,
+    String? title,
+    Widget? badgeWidget,
+    double? titlePositionPercentageOffset,
+    double? badgePositionPercentageOffset,
   })  : value = value ?? 10,
         color = color ?? Colors.red,
         radius = radius ?? 40,
@@ -204,15 +204,15 @@ class PieChartSectionData with EquatableMixin {
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
-    double value,
-    Color color,
-    double radius,
-    bool showTitle,
-    TextStyle titleStyle,
-    String title,
-    Widget badgeWidget,
-    double titlePositionPercentageOffset,
-    double badgePositionPercentageOffset,
+    double? value,
+    Color? color,
+    double? radius,
+    bool? showTitle,
+    TextStyle? titleStyle,
+    String? title,
+    Widget? badgeWidget,
+    double? titlePositionPercentageOffset,
+    double? badgePositionPercentageOffset,
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
@@ -248,7 +248,7 @@ class PieChartSectionData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         value,
         color,
         radius,
@@ -268,7 +268,7 @@ class PieChartSectionData with EquatableMixin {
 /// instance of [FlTouchInput] to the painter, and gets a generated [PieTouchResponse].
 class PieTouchData extends FlTouchData with EquatableMixin {
   /// you can implement it to receive touches callback
-  final Function(PieTouchResponse) touchCallback;
+  final Function(PieTouchResponse)? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   ///
@@ -276,14 +276,14 @@ class PieTouchData extends FlTouchData with EquatableMixin {
   /// It gives you a [PieTouchResponse] that contains some
   /// useful information about happened touch.
   PieTouchData({
-    bool enabled,
-    Function(PieTouchResponse) touchCallback,
+    bool? enabled,
+    Function(PieTouchResponse)? touchCallback,
   })  : touchCallback = touchCallback,
         super(enabled ?? true);
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         enabled,
       ];
 }
@@ -294,7 +294,7 @@ class PieTouchData extends FlTouchData with EquatableMixin {
 /// it gives you a [PieTouchResponse] and you can do whatever you want.
 class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// touch happened on this section
-  final PieChartSectionData touchedSection;
+  final PieChartSectionData? touchedSection;
 
   /// touch happened on this position
   final int touchedSectionIndex;
@@ -312,7 +312,7 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// and [touchRadius] gives you radius of the touch.
   /// [touchInput] is the type of happened touch.
   PieTouchResponse(
-    PieChartSectionData touchedSection,
+    PieChartSectionData? touchedSection,
     int touchedSectionIndex,
     double touchAngle,
     double touchRadius,
@@ -325,7 +325,7 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         touchedSection,
         touchedSectionIndex,
         touchAngle,
@@ -336,9 +336,10 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
 
 /// It lerps a [PieChartData] to another [PieChartData] (handles animation for updating values)
 class PieChartDataTween extends Tween<PieChartData> {
-  PieChartDataTween({PieChartData begin, PieChartData end}) : super(begin: begin, end: end);
+  PieChartDataTween({required PieChartData begin, required PieChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [PieChartData] based on [t] value, check [Tween.lerp].
   @override
-  PieChartData lerp(double t) => begin.lerp(begin, end, t);
+  PieChartData lerp(double t) => begin!.lerp(begin!, end!, t);
 }

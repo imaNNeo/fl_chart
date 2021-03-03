@@ -19,16 +19,16 @@ abstract class BaseChartData with EquatableMixin {
   /// It draws 4 borders around your chart, you can customize it using [borderData],
   /// [touchData] defines the touch behavior and responses.
   BaseChartData({
-    FlBorderData borderData,
-    FlTouchData touchData,
-  })  : borderData = borderData ?? FlBorderData(),
+    FlBorderData? borderData,
+    required FlTouchData touchData,
+  })   : borderData = borderData ?? FlBorderData(),
         touchData = touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         borderData,
         touchData,
       ];
@@ -42,8 +42,8 @@ class FlBorderData with EquatableMixin {
   /// [show] Determines showing or hiding border around the chart.
   /// [border] Determines the visual look of 4 borders, see [Border].
   FlBorderData({
-    bool show,
-    Border border,
+    bool? show,
+    Border? border,
   })  : show = show ?? true,
         border = border ??
             Border.all(
@@ -54,7 +54,6 @@ class FlBorderData with EquatableMixin {
 
   /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
   static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
-    assert(a != null && b != null && t != null);
     return FlBorderData(
       show: b.show,
       border: Border.lerp(a.border, b.border, t),
@@ -63,7 +62,7 @@ class FlBorderData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         show,
         border,
       ];
@@ -83,7 +82,7 @@ class FlTouchData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         enabled,
       ];
 }
@@ -97,10 +96,10 @@ class FlClipData with EquatableMixin {
 
   /// Creates data that clips specified sides
   FlClipData({
-    @required this.top,
-    @required this.bottom,
-    @required this.left,
-    @required this.right,
+    required this.top,
+    required this.bottom,
+    required this.left,
+    required this.right,
   });
 
   /// Creates data that clips all sides
@@ -120,7 +119,7 @@ class FlClipData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [top, bottom, left, right];
+  List<Object?> get props => [top, bottom, left, right];
 }
 
 /// It gives you the axis value and gets a String value based on it.
@@ -157,7 +156,7 @@ class BaseTouchResponse with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         touchInput,
       ];
 }
