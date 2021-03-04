@@ -709,10 +709,17 @@ class BarTooltipItem with EquatableMixin {
   /// TextStyle of the showing content.
   final TextStyle textStyle;
 
+  /// List<TextSpan>
+  final List<TextSpan>? textSpanChildren;
+
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(String text, TextStyle textStyle)
-      : text = text,
-        textStyle = textStyle;
+  BarTooltipItem(
+    String text,
+    TextStyle textStyle, {
+    List<TextSpan>? textSpanChildren,
+  })  : text = text,
+        textStyle = textStyle,
+        textSpanChildren = textSpanChildren;
 
   /// Used for equality check, see [EquatableMixin].
   @override
