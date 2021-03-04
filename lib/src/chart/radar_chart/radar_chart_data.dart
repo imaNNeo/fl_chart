@@ -23,7 +23,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// [radarBorderData] is used to draw [RadarChart] border
   final BorderSide radarBorderData;
 
-  /// [getTitle] is used to draw titles near the [RadarChart]
+  /// [getTitle] is used to draw titles outside the [RadarChart]
   /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [String]
   /// for each [index]
   ///
@@ -47,7 +47,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   final TextStyle titleTextStyle;
 
   /// the [titlePositionPercentageOffset] is the place of showing title on the [RadarChart]
-  /// the degree is statically on the end of Radar Line,
+  /// The higher the value of this field, the more titles move away from the chart.
   /// this field should be between 0 and 1,
   /// if it is 0 the title will be drawn near the inside section,
   /// if it is 1 the title will be drawn near the outside of section,
