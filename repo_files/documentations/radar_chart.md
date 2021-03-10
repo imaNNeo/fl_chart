@@ -25,7 +25,7 @@ RadarChart(
 |gridBorderData|Style of the grid borders|BorderSide(color: Colors.black, width: 2)|
 |radarTouchData|Handles touch behaviors and responses.|RadarTouchData()|
 
-###RadarDataSet
+### RadarDataSet
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |dataEntries|Each RadarDataSet contains list of [RadarEntries ](#RadarEntry) that is shown in RadarChart.|[]|
@@ -34,7 +34,7 @@ RadarChart(
 |borderWidth|defines the width of [RadarDataSet](#RadarDataSet) border.|2.0|
 |entryRadius|defines the radius of each [RadarEntries ](#RadarEntry).|5.0|
 
-###RadarEntry
+### RadarEntry
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |value| RadarChart uses this field to render every point in chart.| null |
