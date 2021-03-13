@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
@@ -19,8 +17,7 @@ import '../../utils/utils.dart';
 import 'line_chart_data.dart';
 
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
-class LineChartPainter extends AxisChartPainter<LineChartData>
-    with TouchHandler<LineTouchResponse> {
+class LineChartPainter extends AxisChartPainter<LineChartData> {
   late Paint _barPaint,
       _barAreaPaint,
       _barAreaLinesPaint,
@@ -35,18 +32,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   /// during animation, then we should use it  when we need to show
   /// tooltips or something like that, because [data] is changing constantly.
   ///
-  /// [touchHandler] passes a [TouchHandler] to the parent,
-  /// parent will use it for touch handling flow.
-  ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  LineChartPainter(LineChartData data, LineChartData targetData,
-      Function(TouchHandler<LineTouchResponse>) touchHandler,
-      {double textScale = 1})
+  LineChartPainter(LineChartData data, LineChartData targetData, {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
-    touchHandler(this);
-
     _barPaint = Paint()..style = PaintingStyle.stroke;
 
     _barAreaPaint = Paint()..style = PaintingStyle.fill;
@@ -1324,13 +1314,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     return sum;
   }
 
-  /// Makes a [LineTouchResponse] based on the provided [FlTouchInput]
+  /// Makes a [LineTouchResponse] based on the provided [PointerEvent]
   ///
-  /// Processes [FlTouchInput.getOffset] and checks
+  /// Processes [PointerEvent.localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [LineTouchResponse] from the elements that has been touched.
-  @override
-  LineTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
+  LineTouchResponse handleTouch(PointerEvent touchInput, Size size) {
     /// it holds list of nearest touched spots of each line
     /// and we use it to draw touch stuff on them
     final touchedSpots = <LineBarSpot>[];
@@ -1340,7 +1329,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final barData = data.lineBarsData[i];
 
       // find the nearest spot on touch area in this bar line
-      final foundTouchedSpot = _getNearestTouchedSpot(size, touchInput.getOffset(), barData, i);
+      final foundTouchedSpot = _getNearestTouchedSpot(size, touchInput.localPosition, barData, i);
       if (foundTouchedSpot != null) {
         touchedSpots.add(foundTouchedSpot);
       }
@@ -1371,11 +1360,4 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
 
     return null;
   }
-
-  /// Determines should it redraw the chart or not.
-  ///
-  /// If there is a change in the [LineChartData],
-  /// [LineChartPainter] should repaint itself.
-  @override
-  bool shouldRepaint(LineChartPainter oldDelegate) => oldDelegate.data != data;
 }

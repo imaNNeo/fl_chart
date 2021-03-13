@@ -2,12 +2,12 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'base_chart_data.dart';
-import 'touch_input.dart';
+import 'chart_painter.dart';
 
 /// Base class of our painters.
 ///
 /// It is responsible to do basic jobs, like drawing borders of charts.
-abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
+abstract class BaseChartPainter<D extends BaseChartData> extends ChartPainter {
   final D data;
   final D targetData;
   late Paint _borderPaint;
@@ -105,12 +105,4 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
   double getTopOffsetDrawSize() => 0;
-}
-
-mixin TouchHandler<T extends BaseTouchResponse> {
-  T handleTouch(
-    FlTouchInput touchInput,
-    Size size,
-  ) =>
-      throw UnsupportedError('not implemented');
 }
