@@ -709,16 +709,18 @@ class BarTooltipItem with EquatableMixin {
   /// TextStyle of the showing content.
   final TextStyle textStyle;
 
+  /// TextAlign of the showing content.
+  final TextAlign textAlign;
+
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(String text, TextStyle textStyle)
-      : text = text,
-        textStyle = textStyle;
+  BarTooltipItem(this.text, this.textStyle, {this.textAlign = TextAlign.center});
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         text,
         textStyle,
+        textAlign,
       ];
 }
 

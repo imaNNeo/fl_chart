@@ -1118,7 +1118,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       final span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
       final tp = TextPainter(
           text: span,
-          textAlign: TextAlign.center,
+          textAlign: tooltipItem.textAlign,
           textDirection: TextDirection.ltr,
           textScaleFactor: textScale);
       tp.layout(maxWidth: tooltipData.maxContentWidth);
