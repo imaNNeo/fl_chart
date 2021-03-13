@@ -10,8 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'pie_chart_data.dart';
 
 /// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
-class PieChartPainter extends BaseChartPainter<PieChartData>
-    with TouchHandler<PieTouchResponse>, PieChartWidgetsPositionHandler {
+class PieChartPainter extends BaseChartPainter<PieChartData> {
   late Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
   /// Paints [data] into canvas, it is the animating [PieChartData],
@@ -19,24 +18,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
   /// during animation, then we should use it  when we need to show
   /// tooltips or something like that, because [data] is changing constantly.
   ///
-  /// [touchHandler] passes a [TouchHandler] to the parent,
-  /// parent will use it for touch handling flow.
-  ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  PieChartPainter(PieChartData data, PieChartData targetData,
-      Function(TouchHandler<PieTouchResponse>) touchHandler,
-      {required Function(PieChartWidgetsPositionHandler) widgetsPositionHandler,
-      double textScale = 1})
+  PieChartPainter(PieChartData data, PieChartData targetData, {double textScale = 1})
       : super(
           data,
           targetData,
           textScale: textScale,
         ) {
-    touchHandler(this);
-    widgetsPositionHandler(this);
-
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
     _sectionsSpaceClearPaint = Paint()
@@ -234,21 +224,20 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
 
   /// Makes a [PieTouchResponse] based on the provided [FlTouchInput]
   ///
-  /// Processes [FlTouchInput.getOffset] and checks
+  /// Processes [PointerEvent.localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [PieTouchResponse] from the elements that has been touched.
-  @override
-  PieTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
+  PieTouchResponse handleTouch(PointerEvent touchInput, Size size) {
     final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
     return _getTouchedDetails(size, touchInput, sectionsAngle);
   }
 
   /// find touched section by the value of [touchInputNotifier]
   PieTouchResponse _getTouchedDetails(
-      Size viewSize, FlTouchInput touchInput, List<double> sectionsAngle) {
+      Size viewSize, PointerEvent touchInput, List<double> sectionsAngle) {
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
-    final touchedPoint2 = touchInput.getOffset() - center;
+    final touchedPoint2 = touchInput.localPosition - center;
 
     final touchX = touchedPoint2.dx;
     final touchY = touchedPoint2.dy;
@@ -297,54 +286,4 @@ class PieChartPainter extends BaseChartPainter<PieChartData>
     return PieTouchResponse(
         foundSectionData, foundSectionDataPosition, touchAngle, touchR, touchInput);
   }
-
-  /// Exposes offset for laying out the badge widgets upon the chart.
-  @override
-  Map<int, Offset> getBadgeOffsets(Size viewSize) {
-    final center = Offset(viewSize.width / 2, viewSize.height / 2);
-    final badgeWidgetsOffsets = <int, Offset>{};
-
-    var tempAngle = data.startDegreeOffset;
-
-    for (var i = 0; i < data.sections.length; i++) {
-      final section = data.sections[i];
-      final startAngle = tempAngle;
-      final sweepAngle = 360 * (section.value / data.sumValue);
-      final sectionCenterAngle = startAngle + (sweepAngle / 2);
-
-      Offset sectionCenter(double percentageOffset) =>
-          center +
-          Offset(
-            math.cos(radians(sectionCenterAngle)) *
-                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
-                    (section.radius * percentageOffset)),
-            math.sin(radians(sectionCenterAngle)) *
-                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
-                    (section.radius * percentageOffset)),
-          );
-
-      final sectionCenterOffsetBadgeWidget = sectionCenter(section.badgePositionPercentageOffset);
-
-      if (section.badgeWidget != null) {
-        badgeWidgetsOffsets[i] = sectionCenterOffsetBadgeWidget;
-      }
-
-      tempAngle += sweepAngle;
-    }
-
-    return badgeWidgetsOffsets;
-  }
-
-  /// Determines should it redraw the chart or not.
-  ///
-  /// If there is a change in the [PieChartData],
-  /// [PieChartPainter] should repaint itself.
-  @override
-  bool shouldRepaint(PieChartPainter oldDelegate) => oldDelegate.data != data;
-}
-
-/// Responsible to expose offset positions for laying out the widgets upon the chart.
-mixin PieChartWidgetsPositionHandler {
-  /// Exposes offset for laying out the badge widgets upon the chart.
-  Map<int, Offset> getBadgeOffsets(Size size) => throw UnsupportedError('not implemented');
 }

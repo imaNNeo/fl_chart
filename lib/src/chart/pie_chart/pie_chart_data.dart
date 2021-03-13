@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -261,6 +260,9 @@ class PieChartSectionData with EquatableMixin {
       ];
 }
 
+/// [PieChart]'s touch callback.
+typedef PieTouchCallback = void Function(PieTouchResponse);
+
 /// Holds data to handle touch events, and touch responses in the [PieChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
@@ -277,7 +279,7 @@ class PieTouchData extends FlTouchData with EquatableMixin {
   /// useful information about happened touch.
   PieTouchData({
     bool? enabled,
-    Function(PieTouchResponse)? touchCallback,
+    PieTouchCallback? touchCallback,
   })  : touchCallback = touchCallback,
         super(enabled ?? true);
 
@@ -316,7 +318,7 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
     int touchedSectionIndex,
     double touchAngle,
     double touchRadius,
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
   )   : touchedSection = touchedSection,
         touchedSectionIndex = touchedSectionIndex,
         touchAngle = touchAngle,
