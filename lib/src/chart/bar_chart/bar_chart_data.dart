@@ -715,7 +715,7 @@ BarTooltipItem? defaultBarTooltipItem(
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return BarTooltipItem(rod.y.toString(), textStyle);
+  return BarTooltipItem(rod.y.toString(), textStyle, TextAlign.center);
 }
 
 /// Holds data needed for showing custom tooltip content.
@@ -726,16 +726,21 @@ class BarTooltipItem with EquatableMixin {
   /// TextStyle of the showing content.
   final TextStyle textStyle;
 
+  /// TextAlign of the showing content.
+  final TextAlign textAlign;
+
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(String text, TextStyle textStyle)
+  BarTooltipItem(String text, TextStyle textStyle, TextAlign textAlign)
       : text = text,
-        textStyle = textStyle;
+        textStyle = textStyle,
+        textAlign = textAlign;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         text,
         textStyle,
+        textAlign,
       ];
 }
 
