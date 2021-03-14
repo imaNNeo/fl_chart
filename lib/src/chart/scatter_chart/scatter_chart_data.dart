@@ -282,6 +282,9 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
       ];
 }
 
+/// [ScatterChart]'s touch callback.
+typedef ScatterTouchCallback = void Function(ScatterTouchResponse);
+
 /// Holds information about touch response in the [ScatterChart].
 ///
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
@@ -298,7 +301,7 @@ class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
   ///
   /// [touchInput] is the type of happened touch.
   ScatterTouchResponse(
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
     ScatterSpot? touchedSpot,
     int touchedSpotIndex,
   )   : touchedSpot = touchedSpot,

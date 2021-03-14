@@ -1,7 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,8 +8,7 @@ import '../../utils/utils.dart';
 import 'scatter_chart_data.dart';
 
 /// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
-class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
-    with TouchHandler<ScatterTouchResponse> {
+class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// [_spotsPaint] is responsible to draw scatter spots
   late Paint _spotsPaint, _bgTouchTooltipPaint;
 
@@ -20,18 +17,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// during animation, then we should use it  when we need to show
   /// tooltips or something like that, because [data] is changing constantly.
   ///
-  /// [touchHandler] passes a [TouchHandler] to the parent,
-  /// parent will use it for touch handling flow.
-  ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  ScatterChartPainter(ScatterChartData data, ScatterChartData targetData,
-      Function(TouchHandler<ScatterTouchResponse>) touchHandler,
-      {double textScale = 1})
+  ScatterChartPainter(ScatterChartData data, ScatterChartData targetData, {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
-    touchHandler(this);
-
     _spotsPaint = Paint()..style = PaintingStyle.fill;
 
     _bgTouchTooltipPaint = Paint()
@@ -419,8 +409,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// Processes [FlTouchInput.getOffset] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [ScatterTouchResponse] from the elements that has been touched.
-  @override
-  ScatterTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
+  ScatterTouchResponse handleTouch(PointerEvent touchInput, Size size) {
     final chartViewSize = getChartUsableDrawSize(size);
 
     for (var i = 0; i < data.scatterSpots.length; i++) {
@@ -429,9 +418,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
       final spotPixelX = getPixelX(spot.x, chartViewSize);
       final spotPixelY = getPixelY(spot.y, chartViewSize);
 
-      if ((touchInput.getOffset().dx - spotPixelX).abs() <=
+      if ((touchInput.localPosition.dx - spotPixelX).abs() <=
               (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold &&
-          (touchInput.getOffset().dy - spotPixelY).abs() <=
+          (touchInput.localPosition.dy - spotPixelY).abs() <=
               (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold) {
         return ScatterTouchResponse(touchInput, spot, i);
       }
@@ -439,11 +428,4 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
     return ScatterTouchResponse(touchInput, null, -1);
   }
-
-  /// Determines should it redraw the chart or not.
-  ///
-  /// If there is a change in the [ScatterChartData],
-  /// [ScatterChartPainter] should repaint itself.
-  @override
-  bool shouldRepaint(ScatterChartPainter oldDelegate) => oldDelegate.data != data;
 }
