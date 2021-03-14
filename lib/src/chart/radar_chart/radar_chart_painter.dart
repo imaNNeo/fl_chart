@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 import '../../../fl_chart.dart';
 
 /// Paints [RadarChartData] in the canvas, it can be used in a [CustomPainter]
-class RadarChartPainter extends BaseChartPainter<RadarChartData>
-    with TouchHandler<RadarTouchResponse> {
+class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   final Paint _borderPaint, _backgroundPaint, _gridPaint, _tickPaint;
   final Paint _graphPaint, _graphBorderPaint, _graphPointPaint;
   final TextPainter _ticksTextPaint, _titleTextPaint;
@@ -22,16 +21,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
   /// during animation, then we should use it  when we need to show
   /// tooltips or something like that, because [data] is changing constantly.
   ///
-  /// [touchHandler] passes a [TouchHandler] to the parent,
-  /// parent will use it for touch handling flow.
-  ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
   RadarChartPainter(
     RadarChartData data,
-    RadarChartData targetData,
-    Function(TouchHandler<RadarTouchResponse>) touchHandler, {
+    RadarChartData targetData, {
     double textScale = 1,
   })  : _backgroundPaint = Paint()
           ..color = data.radarBackgroundColor
@@ -54,9 +49,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
         _graphPointPaint = Paint(),
         _ticksTextPaint = TextPainter(),
         _titleTextPaint = TextPainter(),
-        super(data, targetData, textScale: textScale) {
-    touchHandler(this);
-  }
+        super(data, targetData, textScale: textScale);
 
   /// Paints [RadarChartData] into the provided canvas.
   @override
@@ -242,9 +235,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
     });
   }
 
-  @override
-  RadarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
-    final touchedSpot = _getNearestTouchSpot(size, touchInput.getOffset(), dataSetsPosition);
+  RadarTouchResponse handleTouch(PointerEvent touchInput, Size size) {
+    final touchedSpot = _getNearestTouchSpot(size, touchInput.localPosition, dataSetsPosition);
     return RadarTouchResponse(touchedSpot, touchInput);
   }
 
@@ -318,9 +310,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData>
 
     return dataSetsPosition;
   }
-
-  @override
-  bool shouldRepaint(RadarChartPainter oldDelegate) => oldDelegate.data != data;
 }
 
 class RadarDataSetsPosition {
