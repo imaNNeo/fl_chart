@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/gestures.dart';
 
 /// Icons by svgrepo.com (https://www.svgrepo.com/collection/job-and-professions-3/)
 class PieChartSample3 extends StatefulWidget {
@@ -24,8 +25,8 @@ class PieChartSample3State extends State {
             PieChartData(
                 pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
                   setState(() {
-                    if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                        pieTouchResponse.touchInput is FlPanEnd) {
+                    if (pieTouchResponse.touchInput is PointerExitEvent ||
+                        pieTouchResponse.touchInput is PointerUpEvent) {
                       touchedIndex = -1;
                     } else {
                       touchedIndex = pieTouchResponse.touchedSectionIndex;
