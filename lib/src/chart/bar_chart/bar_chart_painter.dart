@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +12,7 @@ import 'bar_chart_extensions.dart';
 import '../../utils/utils.dart';
 
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
-class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<BarTouchResponse> {
+class BarChartPainter extends AxisChartPainter<BarChartData> {
   late Paint _barPaint, _bgTouchTooltipPaint;
 
   List<_GroupBarsPosition>? _groupBarsPosition;
@@ -23,17 +22,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
   /// during animation, then we should use it  when we need to show
   /// tooltips or something like that, because [data] is changing constantly.
   ///
-  /// [touchHandler] passes a [TouchHandler] to the parent,
-  /// parent will use it for touch handling flow.
-  ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  BarChartPainter(BarChartData data, BarChartData targetData,
-      Function(TouchHandler<BarTouchResponse>) touchHandler,
-      {double textScale = 1})
+  BarChartPainter(BarChartData data, BarChartData targetData, {double textScale = 1})
       : super(data, targetData, textScale: textScale) {
-    touchHandler(this);
     _barPaint = Paint()..style = PaintingStyle.fill;
 
     _bgTouchTooltipPaint = Paint()
@@ -670,12 +663,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
   /// Makes a [BarTouchResponse] based on the provided [FlTouchInput]
   ///
-  /// Processes [FlTouchInput.getOffset] and checks
+  /// Processes [PointerEvent.localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [BarTouchResponse] from the elements that has been touched.
-  @override
-  BarTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
-    final touchedSpot = _getNearestTouchedSpot(size, touchInput.getOffset(), _groupBarsPosition);
+  BarTouchResponse handleTouch(PointerEvent touchInput, Size size) {
+    final touchedSpot = _getNearestTouchedSpot(size, touchInput.localPosition, _groupBarsPosition);
     return BarTouchResponse(touchedSpot, touchInput);
   }
 
@@ -760,13 +752,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
 
     return null;
   }
-
-  /// Determines should it redraw the chart or not.
-  ///
-  /// If there is a change in the [BarChartData],
-  /// [BarChartPainter] should repaint itself.
-  @override
-  bool shouldRepaint(BarChartPainter oldDelegate) => oldDelegate.data != data;
 }
 
 class _GroupBarsPosition {

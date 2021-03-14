@@ -5,7 +5,6 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -741,6 +740,9 @@ class BarTooltipItem with EquatableMixin {
       ];
 }
 
+/// [BarChart]'s touch callback.
+typedef BarTouchCallback = void Function(BarTouchResponse);
+
 /// Holds information about touch response in the [BarChart].
 ///
 /// You can override [BarTouchData.touchCallback] to handle touch events,
@@ -754,7 +756,7 @@ class BarTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// [touchInput] is the type of happened touch.
   BarTouchResponse(
     BarTouchedSpot? spot,
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
   )   : spot = spot,
         super(touchInput);
 
