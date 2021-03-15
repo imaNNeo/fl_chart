@@ -518,14 +518,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       getPixelY(showOnRodData.y, chartUsableSize),
     );
 
-    final isPositive = showOnRodData.y > 0;
-
     final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
 
-    final tooltipTop = isPositive
-        ? barOffset.dy - tooltipHeight - tooltipData.tooltipBottomMargin
-        : barOffset.dy + tooltipData.tooltipBottomMargin;
+    final zeroY = getPixelY(0, chartUsableSize);
+    final barTopY = min(zeroY, barOffset.dy);
+    final barBottomY = max(zeroY, barOffset.dy);
+    final onTop = tooltipData.direction == TooltipDirection.top ||
+        (tooltipData.direction == TooltipDirection.auto && showOnRodData.y > 0);
+    final tooltipTop = onTop
+        ? barTopY - tooltipHeight - tooltipData.tooltipMargin
+        : barBottomY + tooltipData.tooltipMargin;
 
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types

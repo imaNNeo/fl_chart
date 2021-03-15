@@ -602,6 +602,18 @@ class BarTouchData extends FlTouchData with EquatableMixin {
       ];
 }
 
+/// Controls showing tooltip on top or bottom.
+enum TooltipDirection {
+  /// Tooltip shows on top if value is positive, on bottom if value is negative.
+  auto,
+
+  /// Tooltip always shows on top.
+  top,
+
+  /// Tooltip always shows on bottom.
+  bottom,
+}
+
 /// Holds representation data for showing tooltip popup on top of rods.
 class BarTouchTooltipData with EquatableMixin {
   /// The tooltip background color.
@@ -614,7 +626,7 @@ class BarTouchTooltipData with EquatableMixin {
   final EdgeInsets tooltipPadding;
 
   /// Applies a bottom margin for showing tooltip on top of rods.
-  final double tooltipBottomMargin;
+  final double tooltipMargin;
 
   /// Restricts the tooltip's width.
   final double maxContentWidth;
@@ -628,13 +640,16 @@ class BarTouchTooltipData with EquatableMixin {
   /// Forces the tooltip to shift vertically inside the chart, if overflow happens.
   final bool fitInsideVertically;
 
+  /// Controls showing tooltip on top or bottom, default is auto.
+  final TooltipDirection direction;
+
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
   /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
-  /// or If you want to have a bottom margin, set [tooltipBottomMargin].
+  /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -645,19 +660,21 @@ class BarTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
-    double? tooltipBottomMargin,
+    double? tooltipMargin,
     double? maxContentWidth,
     GetBarTooltipItem? getTooltipItem,
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
+    TooltipDirection? direction,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipBottomMargin = tooltipBottomMargin ?? 16,
+        tooltipMargin = tooltipMargin ?? 16,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
+        direction = direction ?? TooltipDirection.auto,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -666,7 +683,7 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipBottomMargin,
+        tooltipMargin,
         maxContentWidth,
         getTooltipItem,
         fitInsideHorizontally,

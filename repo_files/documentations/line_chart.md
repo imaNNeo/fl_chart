@@ -174,7 +174,7 @@ LineChart(
  |tooltipBgColor|background color of the tooltip bubble|Colors.white|
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
- |tooltipBottomMargin|bottom margin of the tooltip (to the top of most top spot)|16|
+ |tooltipMargin|bottom margin of the tooltip (to the top of most top spot)|16|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve list of [LineTooltipItem](#LineTooltipItem) by the given list of [LineBarSpot](#LineBarSpot) |defaultLineTooltipItem|
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
