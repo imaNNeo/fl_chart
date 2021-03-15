@@ -164,7 +164,9 @@ LineChart(
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
-|fullHeightTouchLine| set `true` to show the line in full height mode | false|
+|getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
+|getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
+|touchLineEndAtDot| whether to avoid the touch line to overlap with the dot| true|
 |touchCallback| listen to this callback to retrieve touch events, it gives you a [LineTouchResponse](#LineTouchResponse)| null|
 
 

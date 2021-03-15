@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
@@ -297,19 +298,26 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
       }
 
       /// For drawing the indicator line
-      final bottom = Offset(touchedSpot.dx, getTopOffsetDrawSize() + chartViewSize.height);
-      final top = Offset(getPixelX(spot.x, chartViewSize), getTopOffsetDrawSize());
-
-      /// Draw to top or to the touchedSpot
-      final lineEnd =
-          data.lineTouchData.fullHeightTouchLine ? top : touchedSpot + Offset(0, dotHeight / 2);
+      final lineStartY =
+          min(data.maxY, max(data.minY, data.lineTouchData.getTouchLineStart(barData, index)));
+      final lineEndY =
+          min(data.maxY, max(data.minY, data.lineTouchData.getTouchLineEnd(barData, index)));
+      final lineStart = Offset(touchedSpot.dx, getPixelY(lineStartY, chartViewSize));
+      var lineEnd = Offset(touchedSpot.dx, getPixelY(lineEndY, chartViewSize));
+      if (data.lineTouchData.touchLineEndAtDot) {
+        if (lineStart.dy < lineEnd.dy) {
+          lineEnd -= Offset(0, dotHeight / 2);
+        } else {
+          lineEnd += Offset(0, dotHeight / 2);
+        }
+      }
 
       _touchLinePaint.color = indicatorData.indicatorBelowLine.color;
       _touchLinePaint.strokeWidth = indicatorData.indicatorBelowLine.strokeWidth;
       _touchLinePaint.transparentIfWidthIsZero();
 
       canvasWrapper.drawDashedLine(
-          bottom, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
+          lineStart, lineEnd, _touchLinePaint, indicatorData.indicatorBelowLine.dashArray);
 
       /// Draw the indicator dot
       if (showingDots) {

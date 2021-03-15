@@ -988,7 +988,6 @@ final LineTouchData lineTouchData1 = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
-  fullHeightTouchLine: false,
 );
 final LineTouchData lineTouchData1Clone = LineTouchData(
   enabled: true,
@@ -997,7 +996,6 @@ final LineTouchData lineTouchData1Clone = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
-  fullHeightTouchLine: false,
 );
 
 final LineTouchData lineTouchData2 = LineTouchData(
@@ -1007,7 +1005,6 @@ final LineTouchData lineTouchData2 = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
-  fullHeightTouchLine: false,
 );
 final LineTouchData lineTouchData3 = LineTouchData(
   enabled: true,
@@ -1016,7 +1013,6 @@ final LineTouchData lineTouchData3 = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
-  fullHeightTouchLine: false,
 );
 final LineTouchData lineTouchData4 = LineTouchData(
   enabled: true,
@@ -1025,7 +1021,6 @@ final LineTouchData lineTouchData4 = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: null,
-  fullHeightTouchLine: false,
 );
 final LineTouchData lineTouchData5 = LineTouchData(
   enabled: true,
@@ -1034,7 +1029,6 @@ final LineTouchData lineTouchData5 = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12.001,
   touchTooltipData: lineTouchTooltipData1,
-  fullHeightTouchLine: false,
 );
 final LineTouchData lineTouchData6 = LineTouchData(
   enabled: true,
@@ -1043,7 +1037,6 @@ final LineTouchData lineTouchData6 = LineTouchData(
   handleBuiltInTouches: true,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
-  fullHeightTouchLine: false,
 );
 final LineTouchData lineTouchData7 = LineTouchData(
   enabled: true,
@@ -1052,7 +1045,8 @@ final LineTouchData lineTouchData7 = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
-  fullHeightTouchLine: true,
+  getTouchLineEnd: (barData, index) => double.infinity,
+  touchLineEndAtDot: false,
 );
 
 final String Function(HorizontalLine) horizontalLabelResolver = (horizontalLine) => 'test';
