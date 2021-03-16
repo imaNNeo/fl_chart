@@ -1550,8 +1550,11 @@ class LineTooltipItem with EquatableMixin {
   /// Style of showing text.
   final TextStyle textStyle;
 
+  /// Align of showing text.
+  final TextAlign textAlign;
+
   /// Shows a [text] with [textStyle] as a row in the tooltip popup.
-  LineTooltipItem(this.text, this.textStyle);
+  LineTooltipItem(this.text, this.textStyle, {this.textAlign = TextAlign.center});
 
   /// Used for equality check, see [EquatableMixin].
   @override
