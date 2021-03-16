@@ -260,7 +260,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
     final drawingTextPainter = TextPainter(
         text: span,
-        textAlign: TextAlign.center,
+        textAlign: tooltipItem.textAlign,
         textDirection: TextDirection.ltr,
         textScaleFactor: textScale);
     drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
