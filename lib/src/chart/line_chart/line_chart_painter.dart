@@ -258,6 +258,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawTouchedSpotsIndicator(CanvasWrapper canvasWrapper, LineChartBarData barData) {
+    if (barData.showingIndicators.isEmpty) {
+      return;
+    }
     final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
