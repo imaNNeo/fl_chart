@@ -841,7 +841,7 @@ class FlDotCirclePainter extends FlDotPainter {
   /// Implementation of the parent class to get the size of the circle
   @override
   Size getSize(FlSpot spot) {
-    return Size(radius, radius);
+    return Size(radius * 2, radius * 2);
   }
 
   /// Used for equality check, see [EquatableMixin].
