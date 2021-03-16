@@ -22,8 +22,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
 
   Future<ui.Image> loadImage(String asset) async {
     final ByteData data = await rootBundle.load(asset);
-    final ui.Codec codec =
-        await ui.instantiateImageCodec(data.buffer.asUint8List());
+    final ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
     final ui.FrameInfo fi = await codec.getNextFrame();
     return fi.image;
   }
@@ -51,8 +50,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
                   aspectRatio: 1.70,
                   child: Container(
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          right: 18.0, left: 12.0, top: 24, bottom: 12),
+                      padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
                       child: LineChart(
                         mainData(imageSnapshot.data),
                       ),
@@ -130,21 +128,16 @@ class _LineChartSample8State extends State<LineChartSample8> {
         ],
       ),
       gridData: FlGridData(
-          show: true,
-          drawVerticalLine: false,
-          drawHorizontalLine: false,
-          verticalInterval: 1),
+          show: true, drawVerticalLine: false, drawHorizontalLine: false, verticalInterval: 1),
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          getTextStyles: (value) =>
-              const TextStyle(color: Colors.black87, fontSize: 10),
+          getTextStyles: (value) => const TextStyle(color: Colors.black87, fontSize: 10),
           interval: 4,
           margin: 8,
-          checkToShowTitle:
-              (minValue, maxValue, sideTitles, appliedInterval, value) => true,
+          checkToShowTitle: (minValue, maxValue, sideTitles, appliedInterval, value) => true,
         ),
         leftTitles: SideTitles(
           interval: 2,
@@ -160,8 +153,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
       lineTouchData: LineTouchData(
         getTouchLineEnd: (data, index) => double.infinity,
         touchLineEndAtDot: false,
-        getTouchedSpotIndicator:
-            (LineChartBarData barData, List<int> spotIndexes) {
+        getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
             return TouchedSpotIndicatorData(
               FlLine(color: Colors.orange, strokeWidth: 3),
@@ -175,9 +167,8 @@ class _LineChartSample8State extends State<LineChartSample8> {
           tooltipBgColor: Colors.blueAccent,
         ),
       ),
-      borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: const Color(0xffecf1fe), width: 1)),
+      borderData:
+          FlBorderData(show: true, border: Border.all(color: const Color(0xffecf1fe), width: 1)),
       minX: 0,
       maxX: 11,
       minY: 0,
@@ -206,8 +197,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           ),
           belowBarData: BarAreaData(
             show: false,
-            colors:
-                gradientColors.map((color) => color.withOpacity(0.5)).toList(),
+            colors: gradientColors.map((color) => color.withOpacity(0.5)).toList(),
           ),
         ),
       ],
