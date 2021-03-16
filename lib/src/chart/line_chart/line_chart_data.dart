@@ -1422,7 +1422,7 @@ class LineTouchTooltipData with EquatableMixin {
   final EdgeInsets tooltipPadding;
 
   /// Applies a bottom margin for showing tooltip on top of rods.
-  final double tooltipBottomMargin;
+  final double tooltipMargin;
 
   /// Restricts the tooltip's width.
   final double maxContentWidth;
@@ -1445,7 +1445,7 @@ class LineTouchTooltipData with EquatableMixin {
   /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
-  /// or If you want to have a bottom margin, set [tooltipBottomMargin].
+  /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -1456,7 +1456,7 @@ class LineTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
-    double? tooltipBottomMargin,
+    double? tooltipMargin,
     double? maxContentWidth,
     GetLineTooltipItems? getTooltipItems,
     bool? fitInsideHorizontally,
@@ -1465,7 +1465,7 @@ class LineTouchTooltipData with EquatableMixin {
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipBottomMargin = tooltipBottomMargin ?? 16,
+        tooltipMargin = tooltipMargin ?? 16,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItems = getTooltipItems ?? defaultLineTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
@@ -1479,7 +1479,7 @@ class LineTouchTooltipData with EquatableMixin {
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipBottomMargin,
+        tooltipMargin,
         maxContentWidth,
         getTooltipItems,
         fitInsideHorizontally,
