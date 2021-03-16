@@ -524,9 +524,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
     final zeroY = getPixelY(0, chartUsableSize);
     final barTopY = min(zeroY, barOffset.dy);
     final barBottomY = max(zeroY, barOffset.dy);
-    final onTop = tooltipData.direction == TooltipDirection.top ||
+    final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
         (tooltipData.direction == TooltipDirection.auto && showOnRodData.y > 0);
-    final tooltipTop = onTop
+    final tooltipTop = drawTooltipOnTop
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
         : barBottomY + tooltipData.tooltipMargin;
 
