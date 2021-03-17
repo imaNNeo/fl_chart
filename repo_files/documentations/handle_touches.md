@@ -6,8 +6,10 @@
 
 
 
-#### The Touch Flow
-When user touches on the chart, touch will handle by the painter to determine which elements of the chart is touched and it makes an object that contains touch information (for example a [LineTouchResponse](line_chart.md#LineTouchResponse), you can listen to the `touchCallback` provided in each ChartTouchData classes like [LineTouchData](line_chart.md#linetouchdata-read-about-touch-handling).
+#### The Interaction Flow
+When an interaction happens, our renderers give us a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html).
+We pass it to correspond painter class. Then it calculates and gives us a TouchResponse (per interaction).
+Then we call the touchCallback function that provided through the chart's data.
 
 If you set `handleBuiltInTouches` true, it will handle touch by showing a tooltip or an indicator on the touched spot (in the line and bar chart), you can also handle your own touch handling along with the built in touches.
 
