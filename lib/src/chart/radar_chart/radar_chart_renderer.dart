@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -65,7 +66,11 @@ class RenderRadarChart extends RenderBox {
     _touchCallback = value;
   }
 
-  late RadarChartPainter _painter;
+  final _painter = RadarChartPainter();
+
+  PaintHolder<RadarChartData> get paintHolder {
+    return PaintHolder(data, targetData, textScale);
+  }
 
   @override
   void performLayout() {
@@ -82,10 +87,7 @@ class RenderRadarChart extends RenderBox {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-
-    _painter = RadarChartPainter(data, targetData, textScale: textScale);
-    _painter.paint(canvas, size);
-
+    _painter.paint(canvas, size, paintHolder);
     canvas.restore();
   }
 
@@ -94,6 +96,6 @@ class RenderRadarChart extends RenderBox {
 
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    _touchCallback?.call(_painter.handleTouch(event, size));
+    _touchCallback?.call(_painter.handleTouch(event, size, paintHolder));
   }
 }

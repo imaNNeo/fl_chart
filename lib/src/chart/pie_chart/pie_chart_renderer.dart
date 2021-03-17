@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -48,8 +49,7 @@ class RenderPieChart extends RenderBox
       : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        _touchCallback = touchCallback,
-        _painter = PieChartPainter(data, targetData, textScale: textScale);
+        _touchCallback = touchCallback;
 
   PieChartData get data => _data;
   PieChartData _data;
@@ -82,7 +82,11 @@ class RenderPieChart extends RenderBox
     _touchCallback = value;
   }
 
-  late PieChartPainter _painter;
+  final _painter = PieChartPainter();
+
+  PaintHolder<PieChartData> get paintHolder {
+    return PaintHolder(data, targetData, textScale);
+  }
 
   @override
   void setupParentData(RenderBox child) {
@@ -99,7 +103,7 @@ class RenderPieChart extends RenderBox
     final childConstraints = constraints.loosen();
 
     var counter = 0;
-    var badgeOffsets = _painter.getBadgeOffsets(size);
+    var badgeOffsets = _painter.getBadgeOffsets(size, paintHolder);
     while (child != null) {
       child.layout(childConstraints, parentUsesSize: true);
       final childParentData = child.parentData! as MultiChildLayoutParentData;
@@ -124,10 +128,7 @@ class RenderPieChart extends RenderBox
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-
-    _painter = PieChartPainter(data, targetData, textScale: textScale);
-    _painter.paint(canvas, size);
-
+    _painter.paint(canvas, size, paintHolder);
     canvas.restore();
     defaultPaint(context, offset);
   }
@@ -137,6 +138,6 @@ class RenderPieChart extends RenderBox
 
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    _touchCallback?.call(_painter.handleTouch(event, size));
+    _touchCallback?.call(_painter.handleTouch(event, size, paintHolder));
   }
 }

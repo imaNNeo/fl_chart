@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -64,7 +65,11 @@ class RenderLineChart extends RenderBox {
     _touchCallback = value;
   }
 
-  late LineChartPainter _painter;
+  final _painter = LineChartPainter();
+
+  PaintHolder<LineChartData> get paintHolder {
+    return PaintHolder(data, targetData, textScale);
+  }
 
   @override
   void performLayout() {
@@ -81,10 +86,7 @@ class RenderLineChart extends RenderBox {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-
-    _painter = LineChartPainter(data, targetData, textScale: textScale);
-    _painter.paint(canvas, size);
-
+    _painter.paint(canvas, size, paintHolder);
     canvas.restore();
   }
 
@@ -93,6 +95,6 @@ class RenderLineChart extends RenderBox {
 
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    _touchCallback?.call(_painter.handleTouch(event, size));
+    _touchCallback?.call(_painter.handleTouch(event, size, paintHolder));
   }
 }
