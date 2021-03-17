@@ -286,4 +286,39 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     return PieTouchResponse(
         foundSectionData, foundSectionDataPosition, touchAngle, touchR, touchInput);
   }
+
+  /// Exposes offset for laying out the badge widgets upon the chart.
+  Map<int, Offset> getBadgeOffsets(Size viewSize) {
+    final center = viewSize.center(Offset.zero);
+    final badgeWidgetsOffsets = <int, Offset>{};
+
+    var tempAngle = data.startDegreeOffset;
+
+    final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
+    for (var i = 0; i < data.sections.length; i++) {
+      final section = data.sections[i];
+      final startAngle = tempAngle;
+      final sweepAngle = sectionsAngle[i];
+      final sectionCenterAngle = startAngle + (sweepAngle / 2);
+
+      Offset sectionCenter(double percentageOffset) =>
+          center +
+          Offset(
+            math.cos(radians(sectionCenterAngle)) *
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
+                    (section.radius * percentageOffset)),
+            math.sin(radians(sectionCenterAngle)) *
+                (_calculateCenterRadius(viewSize, data.centerSpaceRadius) +
+                    (section.radius * percentageOffset)),
+          );
+
+      final sectionCenterOffsetBadgeWidget = sectionCenter(section.badgePositionPercentageOffset);
+
+      badgeWidgetsOffsets[i] = sectionCenterOffsetBadgeWidget;
+
+      tempAngle += sweepAngle;
+    }
+
+    return badgeWidgetsOffsets;
+  }
 }

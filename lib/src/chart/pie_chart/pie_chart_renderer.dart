@@ -6,13 +6,16 @@ import 'package:flutter/rendering.dart';
 
 import 'pie_chart_painter.dart';
 
-class PieChartLeaf extends LeafRenderObjectWidget {
-  const PieChartLeaf({
+class PieChartLeaf extends MultiChildRenderObjectWidget {
+  PieChartLeaf({
     Key? key,
     required this.data,
     required this.targetData,
     this.touchCallback,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          children: targetData.sections.map((e) => e.badgeWidget).toList(),
+        );
 
   final PieChartData data, targetData;
 
@@ -36,20 +39,25 @@ class PieChartLeaf extends LeafRenderObjectWidget {
   }
 }
 
-class RenderPieChart extends RenderBox {
+class RenderPieChart extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData> {
   RenderPieChart(
       PieChartData data, PieChartData targetData, double textScale, PieTouchCallback? touchCallback)
       : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        _touchCallback = touchCallback;
+        _touchCallback = touchCallback,
+        _painter = PieChartPainter(data, targetData, textScale: textScale);
 
   PieChartData get data => _data;
   PieChartData _data;
   set data(PieChartData value) {
     if (_data == value) return;
     _data = value;
-    markNeedsPaint();
+    // We must update layout to draw badges correctly!
+    markNeedsLayout();
   }
 
   PieChartData get targetData => _targetData;
@@ -57,7 +65,8 @@ class RenderPieChart extends RenderBox {
   set targetData(PieChartData value) {
     if (_targetData == value) return;
     _targetData = value;
-    markNeedsPaint();
+    // We must update layout to draw badges correctly!
+    markNeedsLayout();
   }
 
   double get textScale => _textScale;
@@ -76,13 +85,38 @@ class RenderPieChart extends RenderBox {
   late PieChartPainter _painter;
 
   @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! MultiChildLayoutParentData) {
+      child.parentData = MultiChildLayoutParentData();
+    }
+  }
+
+  @override
   void performLayout() {
+    var child = firstChild;
     size = computeDryLayout(constraints);
+
+    final childConstraints = constraints.loosen();
+
+    var counter = 0;
+    var badgeOffsets = _painter.getBadgeOffsets(size);
+    while (child != null) {
+      child.layout(childConstraints, parentUsesSize: true);
+      final childParentData = child.parentData! as MultiChildLayoutParentData;
+      final sizeOffset = Offset(child.size.width / 2, child.size.height / 2);
+      childParentData.offset = badgeOffsets[counter++]! - sizeOffset;
+      child = childParentData.nextSibling;
+    }
   }
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
     return Size(constraints.maxWidth, constraints.maxHeight);
+  }
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+    return defaultHitTestChildren(result, position: position);
   }
 
   @override
@@ -95,6 +129,7 @@ class RenderPieChart extends RenderBox {
     _painter.paint(canvas, size);
 
     canvas.restore();
+    defaultPaint(context, offset);
   }
 
   @override

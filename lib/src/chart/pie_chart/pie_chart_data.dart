@@ -144,7 +144,7 @@ class PieChartSectionData with EquatableMixin {
   ///
   /// This can be anything from a text, an image, an animation, and even a combination of widgets.
   /// Use AnimatedWidgets to animate this widget.
-  final Widget? badgeWidget;
+  final Widget badgeWidget;
 
   /// Defines position of showing title in the section.
   ///
@@ -196,7 +196,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle = titleStyle ??
             const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         title = title ?? value.toString(),
-        badgeWidget = badgeWidget,
+        badgeWidget = badgeWidget ?? Container(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
