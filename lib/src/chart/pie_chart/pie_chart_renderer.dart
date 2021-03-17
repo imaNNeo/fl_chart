@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 
 import 'pie_chart_painter.dart';
 
+/// Low level PieChart Widget.
 class PieChartLeaf extends MultiChildRenderObjectWidget {
   PieChartLeaf({
     Key? key,
@@ -40,6 +41,7 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
   }
 }
 
+/// Renders our PieChart, also handles hitTest.
 class RenderPieChart extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,

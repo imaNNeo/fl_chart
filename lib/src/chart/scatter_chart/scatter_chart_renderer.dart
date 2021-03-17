@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 
 import 'scatter_chart_painter.dart';
 
+/// Low level ScatterChart Widget.
 class ScatterChartLeaf extends LeafRenderObjectWidget {
   const ScatterChartLeaf(
       {Key? key, required this.data, required this.targetData, this.touchCallback})
@@ -30,6 +31,7 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
   }
 }
 
+/// Renders our ScatterChart, also handles hitTest.
 class RenderScatterChart extends RenderBox {
   RenderScatterChart(ScatterChartData data, ScatterChartData targetData, double textScale,
       ScatterTouchCallback? touchCallback)

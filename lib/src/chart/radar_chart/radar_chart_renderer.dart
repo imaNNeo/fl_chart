@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 
 import 'radar_chart_painter.dart';
 
+/// Low level RadarChart Widget.
 class RadarChartLeaf extends LeafRenderObjectWidget {
   const RadarChartLeaf({Key? key, required this.data, required this.targetData, this.touchCallback})
       : super(key: key);
@@ -29,6 +30,7 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
   }
 }
 
+/// Renders our RadarChart, also handles hitTest.
 class RenderRadarChart extends RenderBox {
   RenderRadarChart(RadarChartData data, RadarChartData targetData, double textScale,
       RadarTouchCallback? touchCallback)

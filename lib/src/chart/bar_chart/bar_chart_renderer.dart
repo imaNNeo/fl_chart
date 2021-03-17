@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 
 import 'bar_chart_painter.dart';
 
+/// Low level BarChart Widget.
 class BarChartLeaf extends LeafRenderObjectWidget {
   const BarChartLeaf({Key? key, required this.data, required this.targetData, this.touchCallback})
       : super(key: key);
@@ -29,6 +30,7 @@ class BarChartLeaf extends LeafRenderObjectWidget {
   }
 }
 
+/// Renders our BarChart, also handles hitTest.
 class RenderBarChart extends RenderBox {
   RenderBarChart(
       BarChartData data, BarChartData targetData, double textScale, BarTouchCallback? touchCallback)

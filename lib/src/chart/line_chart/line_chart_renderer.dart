@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 
+/// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
   const LineChartLeaf({Key? key, required this.data, required this.targetData, this.touchCallback})
       : super(key: key);
@@ -28,6 +29,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
   }
 }
 
+/// Renders our LineChart, also handles hitTest.
 class RenderLineChart extends RenderBox {
   RenderLineChart(LineChartData data, LineChartData targetData, double textScale,
       LineTouchCallback? touchCallback)
