@@ -31,12 +31,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
   /// Paints [ScatterChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size, PaintHolder<ScatterChartData> holder) {
-    super.paint(canvas, size, holder);
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
+    super.paint(canvasWrapper, holder);
     final targetData = holder.targetData;
-
-    final canvasWrapper = CanvasWrapper(canvas, size);
-
     drawAxisTitles(canvasWrapper, holder);
     _drawTitles(canvasWrapper, holder);
     _drawSpots(canvasWrapper, holder);

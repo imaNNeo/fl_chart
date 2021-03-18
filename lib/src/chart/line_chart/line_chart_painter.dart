@@ -63,20 +63,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
   /// Paints [LineChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size, PaintHolder<LineChartData> holder) {
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<LineChartData> holder) {
     final data = holder.data;
-    final canvasWrapper = CanvasWrapper(canvas, size);
     if (data.lineBarsData.isEmpty) {
       return;
     }
 
     if (data.clipData.any) {
-      canvasWrapper.saveLayer(Rect.fromLTWH(0, -40, size.width + 40, size.height + 40), Paint());
+      canvasWrapper.saveLayer(
+        Rect.fromLTWH(0, -40, canvasWrapper.size.width + 40, canvasWrapper.size.height + 40),
+        Paint(),
+      );
 
       _clipToBorder(canvasWrapper, holder);
     }
 
-    super.paint(canvas, size, holder);
+    super.paint(canvasWrapper, holder);
 
     for (var betweenBarsData in data.betweenBarsData) {
       _drawBetweenBarsArea(canvasWrapper, data, betweenBarsData, holder);

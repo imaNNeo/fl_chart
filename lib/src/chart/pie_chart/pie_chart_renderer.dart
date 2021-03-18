@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -132,7 +133,7 @@ class RenderPieChart extends RenderBox
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(canvas, size, paintHolder);
+    _painter.paint(CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
     defaultPaint(context, offset);
   }

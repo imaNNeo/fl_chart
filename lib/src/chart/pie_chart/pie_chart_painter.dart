@@ -34,14 +34,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
   /// Paints [PieChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size, PaintHolder<PieChartData> holder) {
-    super.paint(canvas, size, holder);
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<PieChartData> holder) {
+    super.paint(canvasWrapper, holder);
     final data = holder.data;
     if (data.sections.isEmpty) {
       return;
     }
-
-    final canvasWrapper = CanvasWrapper(canvas, size);
 
     final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
 

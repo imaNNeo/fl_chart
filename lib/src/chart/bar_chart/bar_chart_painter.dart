@@ -36,18 +36,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   /// Paints [BarChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size, PaintHolder<BarChartData> holder) {
-    super.paint(canvas, size, holder);
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<BarChartData> holder) {
+    super.paint(canvasWrapper, holder);
     final data = holder.data;
     final targetData = holder.targetData;
-    final canvasWrapper = CanvasWrapper(canvas, size);
 
     if (data.barGroups.isEmpty) {
       return;
     }
 
-    final groupsX = _calculateGroupsX(size, data.barGroups, data.alignment, holder);
-    _groupBarsPosition = _calculateGroupAndBarsPosition(size, groupsX, data.barGroups);
+    final groupsX = _calculateGroupsX(canvasWrapper.size, data.barGroups, data.alignment, holder);
+    _groupBarsPosition =
+        _calculateGroupAndBarsPosition(canvasWrapper.size, groupsX, data.barGroups);
 
     _drawBars(canvasWrapper, _groupBarsPosition!, holder);
     drawAxisTitles(canvasWrapper, holder);
