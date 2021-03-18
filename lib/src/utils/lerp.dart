@@ -28,8 +28,9 @@ Color lerpColor(Color a, Color b, double t) => Color.lerp(a, b, t)!;
 
 /// Lerps [double] list based on [t] value, allows [double.infinity].
 double? lerpDoubleAllowInfinity(double? a, double? b, double t) {
-  if (a == b || (a?.isNaN == true) && (b?.isNaN == true))
+  if (a == b || (a?.isNaN == true) && (b?.isNaN == true)) {
     return a?.toDouble();
+  }
 
   if (a!.isInfinite || b!.isInfinite) {
     return b;
