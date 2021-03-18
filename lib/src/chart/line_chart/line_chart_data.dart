@@ -1615,7 +1615,7 @@ typedef LineTouchCallback = void Function(LineTouchResponse);
 ///
 /// You can override [LineTouchData.touchCallback] to handle touch events,
 /// it gives you a [LineTouchResponse] and you can do whatever you want.
-class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
+class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
   final List<LineBarSpot> lineBarSpots;
@@ -1627,13 +1627,6 @@ class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
     this.lineBarSpots,
     PointerEvent touchInput,
   ) : super(touchInput);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        lineBarSpots,
-        touchInput,
-      ];
 }
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)

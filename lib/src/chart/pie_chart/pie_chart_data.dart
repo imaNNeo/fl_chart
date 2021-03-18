@@ -118,7 +118,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
 }
 
 /// Holds data related to drawing each [PieChart] section.
-class PieChartSectionData with EquatableMixin {
+class PieChartSectionData {
   /// It determines how much space it should occupy around the circle.
   ///
   /// This is depends on sum of all sections, each section should
@@ -244,20 +244,6 @@ class PieChartSectionData with EquatableMixin {
           lerpDouble(a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
     );
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        value,
-        color,
-        radius,
-        showTitle,
-        titleStyle,
-        title,
-        badgeWidget,
-        titlePositionPercentageOffset,
-        badgePositionPercentageOffset,
-      ];
 }
 
 /// [PieChart]'s touch callback.

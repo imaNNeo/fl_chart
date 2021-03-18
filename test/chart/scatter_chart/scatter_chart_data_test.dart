@@ -353,33 +353,33 @@ void main() {
 
     test('ScatterTouchResponse equality test', () {
       final ScatterTouchResponse sample1 = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
+        new PointerDownEvent(position: const Offset(0, 0)),
         ScatterSpot(3, 4),
         1,
       );
       final ScatterTouchResponse sample2 = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
+        new PointerDownEvent(position: const Offset(0, 0)),
         ScatterSpot(3, 4),
         1,
       );
-      expect(sample1 == sample2, true);
+      expect(sample1 == sample2, false);
 
       ScatterTouchResponse sampleChanged = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 3)),
+        new PointerDownEvent(position: const Offset(0, 3)),
         ScatterSpot(3, 4),
         1,
       );
       expect(sample1 == sampleChanged, false);
 
       sampleChanged = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
+        new PointerDownEvent(position: const Offset(0, 0)),
         ScatterSpot(0, 4),
         1,
       );
       expect(sample1 == sampleChanged, false);
 
       sampleChanged = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
+        new PointerDownEvent(position: const Offset(0, 0)),
         ScatterSpot(3, 4),
         5,
       );

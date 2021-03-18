@@ -367,7 +367,7 @@ typedef RadarTouchCallback = void Function(RadarTouchResponse);
 ///
 /// You can override [RadarTouchData.touchCallback] to handle touch events,
 /// it gives you a [RadarTouchResponse] and you can do whatever you want.
-class RadarTouchResponse extends BaseTouchResponse with EquatableMixin {
+class RadarTouchResponse extends BaseTouchResponse {
   /// touch happened on this spot. this spot has useful information about spot or entry
   final RadarTouchedSpot? touchedSpot;
 
@@ -379,13 +379,6 @@ class RadarTouchResponse extends BaseTouchResponse with EquatableMixin {
     PointerEvent touchInput,
   )   : touchedSpot = touchedSpot,
         super(touchInput);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchedSpot,
-        touchInput,
-      ];
 }
 
 /// It gives you information about the touched spot.

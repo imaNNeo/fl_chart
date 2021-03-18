@@ -747,7 +747,7 @@ typedef BarTouchCallback = void Function(BarTouchResponse);
 ///
 /// You can override [BarTouchData.touchCallback] to handle touch events,
 /// it gives you a [BarTouchResponse] and you can do whatever you want.
-class BarTouchResponse extends BaseTouchResponse with EquatableMixin {
+class BarTouchResponse extends BaseTouchResponse {
   /// Gives information about the touched spot
   final BarTouchedSpot? spot;
 
@@ -759,13 +759,6 @@ class BarTouchResponse extends BaseTouchResponse with EquatableMixin {
     PointerEvent touchInput,
   )   : spot = spot,
         super(touchInput);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        spot,
-        touchInput,
-      ];
 }
 
 /// It gives you information about the touched spot.

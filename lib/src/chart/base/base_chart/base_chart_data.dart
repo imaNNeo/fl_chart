@@ -148,14 +148,8 @@ TextStyle defaultGetTitleTextStyle(double value) {
 /// This class holds the touch response details.
 ///
 /// Specific touch details should be hold on the concrete child classes.
-class BaseTouchResponse with EquatableMixin {
+class BaseTouchResponse {
   final PointerEvent touchInput;
 
   BaseTouchResponse(PointerEvent touchInput) : touchInput = touchInput;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchInput,
-      ];
 }

@@ -289,7 +289,7 @@ typedef ScatterTouchCallback = void Function(ScatterTouchResponse);
 ///
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
-class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
+class ScatterTouchResponse extends BaseTouchResponse {
   final ScatterSpot? touchedSpot;
   final int touchedSpotIndex;
 
@@ -307,14 +307,6 @@ class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
   )   : touchedSpot = touchedSpot,
         touchedSpotIndex = touchedSpotIndex,
         super(touchInput);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchInput,
-        touchedSpot,
-        touchedSpotIndex,
-      ];
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.

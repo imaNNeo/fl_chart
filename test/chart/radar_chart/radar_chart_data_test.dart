@@ -154,26 +154,26 @@ void main() {
     test('RadarTouchResponse equality test', () {
       final sample1 = RadarTouchResponse(
         radarTouchedSpot1,
-        FlPanStart(const Offset(0, 1)),
+        new PointerDownEvent(position: const Offset(0, 1)),
       );
 
       RadarTouchResponse changed = RadarTouchResponse(
         radarTouchedSpot1,
-        FlPanStart(const Offset(0, 1)),
+        new PointerDownEvent(position: const Offset(0, 1)),
       );
 
-      expect(sample1 == changed, true);
+      expect(sample1 == changed, false);
 
       changed = RadarTouchResponse(
         radarTouchedSpot2,
-        FlPanStart(const Offset(0, 1)),
+        new PointerDownEvent(position: const Offset(0, 1)),
       );
 
       expect(sample1 == changed, false);
 
       changed = RadarTouchResponse(
         radarTouchedSpot1,
-        FlPanStart(const Offset(1, 1)),
+        new PointerDownEvent(position: const Offset(1, 1)),
       );
 
       expect(sample1 == changed, false);
