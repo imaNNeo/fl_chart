@@ -360,11 +360,14 @@ class RadarTouchData extends FlTouchData with EquatableMixin {
       ];
 }
 
+/// [RadarChart]'s touch callback.
+typedef RadarTouchCallback = void Function(RadarTouchResponse);
+
 /// Holds information about touch response in the [RadarTouchResponse].
 ///
 /// You can override [RadarTouchData.touchCallback] to handle touch events,
 /// it gives you a [RadarTouchResponse] and you can do whatever you want.
-class RadarTouchResponse extends BaseTouchResponse with EquatableMixin {
+class RadarTouchResponse extends BaseTouchResponse {
   /// touch happened on this spot. this spot has useful information about spot or entry
   final RadarTouchedSpot? touchedSpot;
 
@@ -373,16 +376,9 @@ class RadarTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// [touchInput] is the type of happened touch.
   RadarTouchResponse(
     RadarTouchedSpot? touchedSpot,
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
   )   : touchedSpot = touchedSpot,
         super(touchInput);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchedSpot,
-        touchInput,
-      ];
 }
 
 /// It gives you information about the touched spot.

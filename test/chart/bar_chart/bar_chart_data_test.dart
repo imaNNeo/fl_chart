@@ -96,9 +96,8 @@ void main() {
     });
 
     test('BarTouchResponse equality test', () {
-      expect(barTouchResponse1 == barTouchResponse1Clone, true);
+      expect(barTouchResponse1 == barTouchResponse1Clone, false);
       expect(barTouchResponse1 == barTouchResponse2, false);
-      expect(barTouchResponse1 == barTouchResponse3, false);
     });
 
     test('BarTouchedSpot equality test', () {

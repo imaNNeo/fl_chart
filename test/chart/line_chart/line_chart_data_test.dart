@@ -155,7 +155,7 @@ void main() {
     });
 
     test('LineTouchResponse equality test', () {
-      expect(lineTouchResponse1 == lineTouchResponse1Clone, true);
+      expect(lineTouchResponse1 == lineTouchResponse1Clone, false);
       expect(lineTouchResponse1 == lineTouchResponse2, false);
       expect(lineTouchResponse1 == lineTouchResponse3, false);
       expect(lineTouchResponse1 == lineTouchResponse4, false);

@@ -282,11 +282,14 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
       ];
 }
 
+/// [ScatterChart]'s touch callback.
+typedef ScatterTouchCallback = void Function(ScatterTouchResponse);
+
 /// Holds information about touch response in the [ScatterChart].
 ///
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
-class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
+class ScatterTouchResponse extends BaseTouchResponse {
   final ScatterSpot? touchedSpot;
   final int touchedSpotIndex;
 
@@ -298,20 +301,12 @@ class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
   ///
   /// [touchInput] is the type of happened touch.
   ScatterTouchResponse(
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
     ScatterSpot? touchedSpot,
     int touchedSpotIndex,
   )   : touchedSpot = touchedSpot,
         touchedSpotIndex = touchedSpotIndex,
         super(touchInput);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchInput,
-        touchedSpot,
-        touchedSpotIndex,
-      ];
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.

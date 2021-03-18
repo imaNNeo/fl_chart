@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
@@ -1309,7 +1308,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   final bool fullHeightTouchLine;
 
   /// Informs the touchResponses
-  final Function(LineTouchResponse)? touchCallback;
+  final LineTouchCallback? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [LineChart] shows a tooltip popup on top of the spots if
@@ -1332,7 +1331,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     double? touchSpotThreshold,
     bool? fullHeightTouchLine,
     bool? handleBuiltInTouches,
-    Function(LineTouchResponse)? touchCallback,
+    LineTouchCallback? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
@@ -1609,11 +1608,14 @@ class ShowingTooltipIndicators with EquatableMixin {
   List<Object?> get props => [lineIndex, showingSpots];
 }
 
+/// [LineChart]'s touch callback.
+typedef LineTouchCallback = void Function(LineTouchResponse);
+
 /// Holds information about touch response in the [LineChart].
 ///
 /// You can override [LineTouchData.touchCallback] to handle touch events,
 /// it gives you a [LineTouchResponse] and you can do whatever you want.
-class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
+class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
   final List<LineBarSpot> lineBarSpots;
@@ -1623,15 +1625,8 @@ class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
   /// [touchInput] is the type of happened touch.
   LineTouchResponse(
     this.lineBarSpots,
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
   ) : super(touchInput);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        lineBarSpots,
-        touchInput,
-      ];
 }
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)

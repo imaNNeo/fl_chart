@@ -3,7 +3,6 @@ import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
-import 'touch_input.dart';
 
 /// This class holds all data needed for [BaseChartPainter].
 ///
@@ -149,14 +148,8 @@ TextStyle defaultGetTitleTextStyle(double value) {
 /// This class holds the touch response details.
 ///
 /// Specific touch details should be hold on the concrete child classes.
-class BaseTouchResponse with EquatableMixin {
-  final FlTouchInput touchInput;
+class BaseTouchResponse {
+  final PointerEvent touchInput;
 
-  BaseTouchResponse(FlTouchInput touchInput) : touchInput = touchInput;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchInput,
-      ];
+  BaseTouchResponse(PointerEvent touchInput) : touchInput = touchInput;
 }

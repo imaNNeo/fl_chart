@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +118,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
 }
 
 /// Holds data related to drawing each [PieChart] section.
-class PieChartSectionData with EquatableMixin {
+class PieChartSectionData {
   /// It determines how much space it should occupy around the circle.
   ///
   /// This is depends on sum of all sections, each section should
@@ -145,7 +144,7 @@ class PieChartSectionData with EquatableMixin {
   ///
   /// This can be anything from a text, an image, an animation, and even a combination of widgets.
   /// Use AnimatedWidgets to animate this widget.
-  final Widget? badgeWidget;
+  final Widget badgeWidget;
 
   /// Defines position of showing title in the section.
   ///
@@ -197,7 +196,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle = titleStyle ??
             const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         title = title ?? value.toString(),
-        badgeWidget = badgeWidget,
+        badgeWidget = badgeWidget ?? Container(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
@@ -245,21 +244,10 @@ class PieChartSectionData with EquatableMixin {
           lerpDouble(a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
     );
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        value,
-        color,
-        radius,
-        showTitle,
-        titleStyle,
-        title,
-        badgeWidget,
-        titlePositionPercentageOffset,
-        badgePositionPercentageOffset,
-      ];
 }
+
+/// [PieChart]'s touch callback.
+typedef PieTouchCallback = void Function(PieTouchResponse);
 
 /// Holds data to handle touch events, and touch responses in the [PieChart].
 ///
@@ -277,7 +265,7 @@ class PieTouchData extends FlTouchData with EquatableMixin {
   /// useful information about happened touch.
   PieTouchData({
     bool? enabled,
-    Function(PieTouchResponse)? touchCallback,
+    PieTouchCallback? touchCallback,
   })  : touchCallback = touchCallback,
         super(enabled ?? true);
 
@@ -316,7 +304,7 @@ class PieTouchResponse extends BaseTouchResponse with EquatableMixin {
     int touchedSectionIndex,
     double touchAngle,
     double touchRadius,
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
   )   : touchedSection = touchedSection,
         touchedSectionIndex = touchedSectionIndex,
         touchAngle = touchAngle,

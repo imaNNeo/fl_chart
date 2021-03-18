@@ -99,21 +99,18 @@ class _ScatterChartSample2State extends State {
                 tooltipBgColor: Colors.black,
               ),
               touchCallback: (ScatterTouchResponse touchResponse) {
-                if (touchResponse.touchInput is FlPanStart) {
+                if (touchResponse.touchInput is PointerDownEvent) {
                   lastPanStartOnIndex = touchResponse.touchedSpotIndex;
-                } else if (touchResponse.touchInput is FlPanEnd) {
-                  final FlPanEnd flPanEnd = touchResponse.touchInput;
-
-                  if (flPanEnd.velocity.pixelsPerSecond <= const Offset(4, 4)) {
-                    // Tap happened
-                    setState(() {
-                      if (selectedSpots.contains(lastPanStartOnIndex)) {
-                        selectedSpots.remove(lastPanStartOnIndex);
-                      } else {
-                        selectedSpots.add(lastPanStartOnIndex);
-                      }
-                    });
-                  }
+                } else if (touchResponse.touchInput is PointerUpEvent) {
+                  final PointerUpEvent PointerUpEven = touchResponse.touchInput;
+                  // Tap happened
+                  setState(() {
+                    if (selectedSpots.contains(lastPanStartOnIndex)) {
+                      selectedSpots.remove(lastPanStartOnIndex);
+                    } else {
+                      selectedSpots.add(lastPanStartOnIndex);
+                    }
+                  });
                 }
               },
             ),
