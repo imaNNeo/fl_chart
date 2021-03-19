@@ -754,11 +754,27 @@ class BarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   BarTouchResponse(
     BarTouchedSpot? spot,
     PointerEvent touchInput,
+    bool clickHappened,
   )   : spot = spot,
-        super(touchInput);
+        super(touchInput, clickHappened);
+
+  /// Copies current [BarTouchResponse] to a new [BarTouchResponse],
+  /// and replaces provided values.
+  BarTouchResponse copyWith({
+    BarTouchedSpot? spot,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return BarTouchResponse(
+      spot ?? this.spot,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It gives you information about the touched spot.
