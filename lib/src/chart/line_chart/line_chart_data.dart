@@ -1287,8 +1287,8 @@ class ExtraLinesData with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in the [LineChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [LineTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
 class LineTouchData extends FlTouchData with EquatableMixin {
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;

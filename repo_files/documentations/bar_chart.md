@@ -107,8 +107,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |spot|a [BarTouchedSpot](#BarTouchedSpot) class to hold data about touched spot| null |
-|touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
-
+|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
+|clickHappened|If we detect a click event, this property is tru|false|
 
 ### BarTouchedSpot
 |PropName|Description|default value|

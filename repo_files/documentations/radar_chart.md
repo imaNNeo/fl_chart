@@ -51,6 +51,8 @@ RadarChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |touchedSpot|the [RadarTouchedSpot](#RadarTouchedSpot) that user touched| null |
+|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
+|clickHappened|If we detect a click event, this property is true|false|
 
 ### RadarTouchedSpot
 |PropName|Description|default value|

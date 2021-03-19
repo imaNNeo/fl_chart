@@ -48,12 +48,17 @@ PieChart(
 ### PieTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|sectionData|the [PieChartSectionData](#PieChartSectionData) that user touched| null |
+|touchedSection|Instance of [PieTouchedSection](#PieTouchedSection) which holds data about the touched section|null|
+|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
+|clickHappened|If we detect a click event, this property is tru|false|
+
+### PieTouchedSection
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|touchedSection|the [PieChartSectionData](#PieChartSectionData) that user touched| null |
 |touchedSectionIndex| index of the touched section | null|
 |touchAngle|the angle of the touch|null|
 |touchRadius| the radius of the touch|null|
-|touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
-
 
 ### some samples
 ----

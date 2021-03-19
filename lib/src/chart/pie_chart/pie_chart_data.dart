@@ -252,8 +252,8 @@ typedef PieTouchCallback = void Function(PieTouchResponse);
 /// Holds data to handle touch events, and touch responses in the [PieChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [PieTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [PieTouchResponse].
 class PieTouchData extends FlTouchData with EquatableMixin {
   /// you can implement it to receive touches callback
   final Function(PieTouchResponse)? touchCallback;

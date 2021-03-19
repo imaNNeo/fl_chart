@@ -369,14 +369,8 @@ final FlGridData flGridData5 = FlGridData(
   getDrawingVerticalLine: null,
 );
 
-final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(
-  new PointerDownEvent(),
-  false
-);
-final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(
-  new PointerUpEvent(),
-  true
-);
+final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(new PointerDownEvent(), false);
+final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(new PointerUpEvent(), true);
 
 final FlTouchData touchData1 = FlTouchData(
   false,
