@@ -290,23 +290,58 @@ typedef ScatterTouchCallback = void Function(ScatterTouchResponse);
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
 class ScatterTouchResponse extends BaseTouchResponse {
-  final ScatterSpot? touchedSpot;
-  final int touchedSpotIndex;
+  final ScatterTouchedSpot? touchedSpot;
 
   /// If touch happens, [ScatterChart] processes it internally and
   /// passes out a [ScatterTouchResponse], it gives you information about the touched spot.
   ///
-  /// [touchedSpot], and [touchedSpotIndex] tells you
+  /// [touchedSpot] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
   ///
   /// [touchInput] is the type of happened touch.
+  ///
+  /// [clickHappened] will be true, if we detect a click event.
   ScatterTouchResponse(
     PointerEvent touchInput,
-    ScatterSpot? touchedSpot,
-    int touchedSpotIndex,
+    ScatterTouchedSpot? touchedSpot,
+    bool clickHappened,
   )   : touchedSpot = touchedSpot,
-        touchedSpotIndex = touchedSpotIndex,
-        super(touchInput);
+        super(touchInput, clickHappened);
+
+  /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
+  /// and replaces provided values.
+  ScatterTouchResponse copyWith({
+    PointerEvent? touchInput,
+    ScatterTouchedSpot? touchedSpot,
+    bool? clickHappened,
+  }) {
+    return ScatterTouchResponse(
+      touchInput ?? this.touchInput,
+      touchedSpot ?? this.touchedSpot,
+      clickHappened ?? this.clickHappened,
+    );
+  }
+}
+
+/// Holds the touched spot data
+class ScatterTouchedSpot with EquatableMixin {
+
+  /// Touch happened on this spot
+  final ScatterSpot spot;
+
+  /// Touch happened on this spot index
+  final int spotIndex;
+
+  /// [spot], and [spotIndex] tells you
+  /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
+  ScatterTouchedSpot(this.spot, this.spotIndex);
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+    spot,
+    spotIndex,
+  ];
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.

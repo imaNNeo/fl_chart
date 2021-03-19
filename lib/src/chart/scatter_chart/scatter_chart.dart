@@ -64,11 +64,12 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   void _handleBuiltInTouch(ScatterTouchResponse touchResponse) {
     widget.data.scatterTouchData.touchCallback?.call(touchResponse);
 
-    if (touchResponse.touchInput is PointerDownEvent ||
+    final desiredTouch = touchResponse.touchInput is PointerDownEvent ||
         touchResponse.touchInput is PointerMoveEvent ||
-        touchResponse.touchInput is PointerHoverEvent) {
+        touchResponse.touchInput is PointerHoverEvent;
+    if (desiredTouch && touchResponse.touchedSpot != null) {
       setState(() {
-        touchedSpots = [touchResponse.touchedSpotIndex];
+        touchedSpots = [touchResponse.touchedSpot!.spotIndex];
       });
     } else {
       setState(() {
