@@ -35,16 +35,5 @@ void main() {
               ),
           false);
     });
-
-    test('BaseTouchResponse equality test', () {
-      expect(baseTouchResponse1 == baseTouchResponse2, false);
-
-      expect(
-          baseTouchResponse1 ==
-              BaseTouchResponse(
-                new PointerDownEvent(position: const Offset(0.0, 1.0)),
-              ),
-          false);
-    });
   });
 }

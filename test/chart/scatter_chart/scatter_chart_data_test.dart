@@ -351,41 +351,6 @@ void main() {
           false);
     });
 
-    test('ScatterTouchResponse equality test', () {
-      final ScatterTouchResponse sample1 = ScatterTouchResponse(
-        new PointerDownEvent(position: const Offset(0, 0)),
-        ScatterSpot(3, 4),
-        1,
-      );
-      final ScatterTouchResponse sample2 = ScatterTouchResponse(
-        new PointerDownEvent(position: const Offset(0, 0)),
-        ScatterSpot(3, 4),
-        1,
-      );
-      expect(sample1 == sample2, false);
-
-      ScatterTouchResponse sampleChanged = ScatterTouchResponse(
-        new PointerDownEvent(position: const Offset(0, 3)),
-        ScatterSpot(3, 4),
-        1,
-      );
-      expect(sample1 == sampleChanged, false);
-
-      sampleChanged = ScatterTouchResponse(
-        new PointerDownEvent(position: const Offset(0, 0)),
-        ScatterSpot(0, 4),
-        1,
-      );
-      expect(sample1 == sampleChanged, false);
-
-      sampleChanged = ScatterTouchResponse(
-        new PointerDownEvent(position: const Offset(0, 0)),
-        ScatterSpot(3, 4),
-        5,
-      );
-      expect(sample1 == sampleChanged, false);
-    });
-
     test('ScatterTouchTooltipData equality test', () {
       final ScatterTouchTooltipData sample1 = ScatterTouchTooltipData(
         tooltipRoundedRadius: 23,
