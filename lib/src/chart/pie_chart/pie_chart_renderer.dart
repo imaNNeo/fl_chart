@@ -90,6 +90,8 @@ class RenderPieChart extends RenderBox
     return PaintHolder(data, targetData, textScale);
   }
 
+  PieTouchedSection? _lastTouchedSpot;
+
   @override
   void setupParentData(RenderBox child) {
     if (child.parentData is! MultiChildLayoutParentData) {
@@ -140,6 +142,27 @@ class RenderPieChart extends RenderBox
 
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    _touchCallback?.call(_painter.handleTouch(event, size, paintHolder));
+    if (_touchCallback == null) {
+      return;
+    }
+    var response = PieTouchResponse(null, event, false);
+
+    var touchedSection = _painter.handleTouch(event, size, paintHolder);
+    if (touchedSection == null) {
+      _touchCallback!.call(response);
+      return;
+    }
+    response = response.copyWith(touchedSection: touchedSection);
+
+    if (event is PointerDownEvent) {
+      _lastTouchedSpot = touchedSection;
+    } else if (event is PointerUpEvent) {
+      if (_lastTouchedSpot == touchedSection) {
+        response = response.copyWith(clickHappened: true);
+      }
+      _lastTouchedSpot = null;
+    }
+
+    _touchCallback!.call(response);
   }
 }
