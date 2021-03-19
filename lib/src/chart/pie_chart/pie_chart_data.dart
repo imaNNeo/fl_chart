@@ -294,11 +294,11 @@ class PieTouchedSection with EquatableMixin {
   /// [touchAngle] gives you angle of touch,
   /// and [touchRadius] gives you radius of the touch.
   PieTouchedSection(
-      PieChartSectionData? touchedSection,
-      int touchedSectionIndex,
-      double touchAngle,
-      double touchRadius,
-      ) : touchedSection = touchedSection,
+    PieChartSectionData? touchedSection,
+    int touchedSectionIndex,
+    double touchAngle,
+    double touchRadius,
+  )   : touchedSection = touchedSection,
         touchedSectionIndex = touchedSectionIndex,
         touchAngle = touchAngle,
         touchRadius = touchRadius;
@@ -306,11 +306,11 @@ class PieTouchedSection with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-    touchedSection,
-    touchedSectionIndex,
-    touchAngle,
-    touchRadius,
-  ];
+        touchedSection,
+        touchedSectionIndex,
+        touchAngle,
+        touchRadius,
+      ];
 }
 
 /// Holds information about touch response in the [PieChart].
@@ -318,7 +318,6 @@ class PieTouchedSection with EquatableMixin {
 /// You can override [PieTouchData.touchCallback] to handle touch events,
 /// it gives you a [PieTouchResponse] and you can do whatever you want.
 class PieTouchResponse extends BaseTouchResponse {
-
   /// Contains information about touched section, like index, angle, radius, ...
   final PieTouchedSection? touchedSection;
 

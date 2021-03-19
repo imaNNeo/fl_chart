@@ -690,10 +690,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   ///
   /// Returns null if finds nothing!
   BarTouchedSpot? handleTouch(
-      PointerEvent touchInput,
-      Size viewSize,
-      PaintHolder<BarChartData> holder,
-      ) {
+    PointerEvent touchInput,
+    Size viewSize,
+    PaintHolder<BarChartData> holder,
+  ) {
     final data = holder.data;
     final targetData = holder.targetData;
     final touchedPoint = touchInput.localPosition;

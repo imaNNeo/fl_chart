@@ -325,7 +325,6 @@ class ScatterTouchResponse extends BaseTouchResponse {
 
 /// Holds the touched spot data
 class ScatterTouchedSpot with EquatableMixin {
-
   /// Touch happened on this spot
   final ScatterSpot spot;
 
@@ -339,9 +338,9 @@ class ScatterTouchedSpot with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-    spot,
-    spotIndex,
-  ];
+        spot,
+        spotIndex,
+      ];
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.

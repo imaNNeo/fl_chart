@@ -110,7 +110,9 @@ class RenderRadarChart extends RenderBox {
       _touchCallback!.call(response);
       return;
     }
-    response = response.copyWith(touchedSpot: touchedSpot,);
+    response = response.copyWith(
+      touchedSpot: touchedSpot,
+    );
 
     if (event is PointerDownEvent) {
       _lastTouchedSpot = touchedSpot;

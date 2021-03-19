@@ -422,7 +422,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// Processes [touchInput.localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [ScatterTouchedSpot] from the elements that has been touched.
-  /// 
+  ///
   /// Returns null if finds nothing!
   ScatterTouchedSpot? handleTouch(
     PointerEvent touchInput,
