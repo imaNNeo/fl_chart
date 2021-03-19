@@ -150,6 +150,9 @@ TextStyle defaultGetTitleTextStyle(double value) {
 /// Specific touch details should be hold on the concrete child classes.
 class BaseTouchResponse {
   final PointerEvent touchInput;
+  final bool clickHappened;
 
-  BaseTouchResponse(PointerEvent touchInput) : touchInput = touchInput;
+  BaseTouchResponse(PointerEvent touchInput, bool isClickHappened)
+      : touchInput = touchInput,
+        clickHappened = isClickHappened;
 }
