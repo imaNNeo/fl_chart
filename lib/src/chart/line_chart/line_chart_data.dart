@@ -1618,15 +1618,31 @@ typedef LineTouchCallback = void Function(LineTouchResponse);
 class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
-  final List<LineBarSpot> lineBarSpots;
+  final List<LineBarSpot>? lineBarSpots;
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   LineTouchResponse(
     this.lineBarSpots,
     PointerEvent touchInput,
-  ) : super(touchInput);
+    bool clickHappened,
+  ) : super(touchInput, clickHappened);
+
+  /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
+  /// and replaces provided values.
+  LineTouchResponse copyWith({
+    List<LineBarSpot>? lineBarSpots,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return LineTouchResponse(
+      lineBarSpots ?? this.lineBarSpots,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)
