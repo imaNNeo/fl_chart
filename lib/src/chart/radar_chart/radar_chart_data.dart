@@ -374,11 +374,27 @@ class RadarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   RadarTouchResponse(
     RadarTouchedSpot? touchedSpot,
     PointerEvent touchInput,
+    bool clickHappened,
   )   : touchedSpot = touchedSpot,
-        super(touchInput);
+        super(touchInput, clickHappened);
+
+  /// Copies current [RadarTouchResponse] to a new [RadarTouchResponse],
+  /// and replaces provided values.
+  RadarTouchResponse copyWith({
+    RadarTouchedSpot? touchedSpot,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return RadarTouchResponse(
+      touchedSpot ?? this.touchedSpot,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It gives you information about the touched spot.
