@@ -525,8 +525,8 @@ class BackgroundBarChartRodData with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in the [BarChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [BarTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [BarTouchResponse].
 class BarTouchData extends FlTouchData with EquatableMixin {
   /// Configs of how touch tooltip popup.
   final BarTouchTooltipData touchTooltipData;
@@ -754,11 +754,27 @@ class BarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   BarTouchResponse(
     BarTouchedSpot? spot,
     PointerEvent touchInput,
+    bool clickHappened,
   )   : spot = spot,
-        super(touchInput);
+        super(touchInput, clickHappened);
+
+  /// Copies current [BarTouchResponse] to a new [BarTouchResponse],
+  /// and replaces provided values.
+  BarTouchResponse copyWith({
+    BarTouchedSpot? spot,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return BarTouchResponse(
+      spot ?? this.spot,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It gives you information about the touched spot.

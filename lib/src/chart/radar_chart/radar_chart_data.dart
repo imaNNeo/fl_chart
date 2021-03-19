@@ -329,8 +329,8 @@ class RadarEntry with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in the [RadarChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [RadarTouchData].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
 class RadarTouchData extends FlTouchData with EquatableMixin {
   /// you can implement it to receive touches callback
   final Function(RadarTouchResponse)? touchCallback;
@@ -374,11 +374,27 @@ class RadarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   RadarTouchResponse(
     RadarTouchedSpot? touchedSpot,
     PointerEvent touchInput,
+    bool clickHappened,
   )   : touchedSpot = touchedSpot,
-        super(touchInput);
+        super(touchInput, clickHappened);
+
+  /// Copies current [RadarTouchResponse] to a new [RadarTouchResponse],
+  /// and replaces provided values.
+  RadarTouchResponse copyWith({
+    RadarTouchedSpot? touchedSpot,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return RadarTouchResponse(
+      touchedSpot ?? this.touchedSpot,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It gives you information about the touched spot.

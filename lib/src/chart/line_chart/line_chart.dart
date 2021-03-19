@@ -72,16 +72,17 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   void _handleBuiltInTouch(LineTouchResponse touchResponse) {
     widget.data.lineTouchData.touchCallback?.call(touchResponse);
 
-    if (touchResponse.touchInput is PointerDownEvent ||
+    final desiredTouch = touchResponse.touchInput is PointerDownEvent ||
         touchResponse.touchInput is PointerMoveEvent ||
-        touchResponse.touchInput is PointerHoverEvent) {
+        touchResponse.touchInput is PointerHoverEvent;
+    if (desiredTouch && touchResponse.lineBarSpots != null) {
       setState(() {
-        final sortedLineSpots = List.of(touchResponse.lineBarSpots);
+        final sortedLineSpots = List.of(touchResponse.lineBarSpots!);
         sortedLineSpots.sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
 
         _showingTouchedIndicators.clear();
-        for (var i = 0; i < touchResponse.lineBarSpots.length; i++) {
-          final touchedBarSpot = touchResponse.lineBarSpots[i];
+        for (var i = 0; i < touchResponse.lineBarSpots!.length; i++) {
+          final touchedBarSpot = touchResponse.lineBarSpots![i];
           final barPos = touchedBarSpot.barIndex;
           _showingTouchedIndicators[barPos] = [touchedBarSpot.spotIndex];
         }

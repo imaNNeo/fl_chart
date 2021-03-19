@@ -95,11 +95,6 @@ void main() {
       expect(barTooltipItem1 == barTooltipItem5, false);
     });
 
-    test('BarTouchResponse equality test', () {
-      expect(barTouchResponse1 == barTouchResponse1Clone, false);
-      expect(barTouchResponse1 == barTouchResponse2, false);
-    });
-
     test('BarTouchedSpot equality test', () {
       expect(barTouchedSpot1 == barTouchedSpot1Clone, true);
       expect(barTouchedSpot1 == barTouchedSpot2, false);

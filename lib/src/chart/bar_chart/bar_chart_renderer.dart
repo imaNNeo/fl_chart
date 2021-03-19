@@ -74,6 +74,8 @@ class RenderBarChart extends RenderBox {
     return PaintHolder(data, targetData, textScale);
   }
 
+  BarTouchedSpot? _lastTouchedSpot;
+
   @override
   void performLayout() {
     size = computeDryLayout(constraints);
@@ -98,6 +100,27 @@ class RenderBarChart extends RenderBox {
 
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    _touchCallback?.call(_painter.handleTouch(event, size, paintHolder));
+    if (_touchCallback == null) {
+      return;
+    }
+    var response = BarTouchResponse(null, event, false);
+
+    var touchedSpot = _painter.handleTouch(event, size, paintHolder);
+    if (touchedSpot == null) {
+      _touchCallback!.call(response);
+      return;
+    }
+    response = response.copyWith(spot: touchedSpot);
+
+    if (event is PointerDownEvent) {
+      _lastTouchedSpot = touchedSpot;
+    } else if (event is PointerUpEvent) {
+      if (_lastTouchedSpot == touchedSpot) {
+        response = response.copyWith(clickHappened: true);
+      }
+      _lastTouchedSpot = null;
+    }
+
+    _touchCallback!.call(response);
   }
 }

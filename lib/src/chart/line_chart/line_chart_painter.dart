@@ -1370,7 +1370,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// Processes [PointerEvent.localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [LineTouchResponse] from the elements that has been touched.
-  LineTouchResponse handleTouch(
+  List<LineBarSpot>? handleTouch(
     PointerEvent touchInput,
     Size size,
     PaintHolder<LineChartData> holder,
@@ -1393,7 +1393,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
     }
 
-    return LineTouchResponse(touchedSpots, touchInput);
+    return touchedSpots.isEmpty ? null : touchedSpots;
   }
 
   /// find the nearest spot base on the touched offset

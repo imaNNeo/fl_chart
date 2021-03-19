@@ -220,23 +220,23 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     return centerRadius;
   }
 
-  /// Makes a [PieTouchResponse] based on the provided [FlTouchInput]
+  /// Makes a [PieTouchedSection] based on the provided [touchInput]
   ///
   /// Processes [PointerEvent.localPosition] and checks
   /// the elements of the chart that are near the offset,
-  /// then makes a [PieTouchResponse] from the elements that has been touched.
-  PieTouchResponse handleTouch(
+  /// then makes a [PieTouchedSection] from the elements that has been touched.
+  PieTouchedSection? handleTouch(
     PointerEvent touchInput,
     Size size,
     PaintHolder<PieChartData> holder,
   ) {
     final data = holder.data;
     final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
-    return _getTouchedDetails(size, touchInput, sectionsAngle, holder);
+    return _getTouchedSection(size, touchInput, sectionsAngle, holder);
   }
 
   /// find touched section by the value of [touchInputNotifier]
-  PieTouchResponse _getTouchedDetails(
+  PieTouchedSection? _getTouchedSection(
     Size viewSize,
     PointerEvent touchInput,
     List<double> sectionsAngle,
@@ -291,8 +291,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       tempAngle += sectionAngle;
     }
 
-    return PieTouchResponse(
-        foundSectionData, foundSectionDataPosition, touchAngle, touchR, touchInput);
+    return PieTouchedSection(foundSectionData, foundSectionDataPosition, touchAngle, touchR);
   }
 
   /// Exposes offset for laying out the badge widgets upon the chart.

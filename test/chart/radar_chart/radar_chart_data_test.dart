@@ -151,34 +151,6 @@ void main() {
           false);
     });
 
-    test('RadarTouchResponse equality test', () {
-      final sample1 = RadarTouchResponse(
-        radarTouchedSpot1,
-        new PointerDownEvent(position: const Offset(0, 1)),
-      );
-
-      RadarTouchResponse changed = RadarTouchResponse(
-        radarTouchedSpot1,
-        new PointerDownEvent(position: const Offset(0, 1)),
-      );
-
-      expect(sample1 == changed, false);
-
-      changed = RadarTouchResponse(
-        radarTouchedSpot2,
-        new PointerDownEvent(position: const Offset(0, 1)),
-      );
-
-      expect(sample1 == changed, false);
-
-      changed = RadarTouchResponse(
-        radarTouchedSpot1,
-        new PointerDownEvent(position: const Offset(1, 1)),
-      );
-
-      expect(sample1 == changed, false);
-    });
-
     test('RadarTouchedSpot equality test', () {
       expect(radarTouchedSpot1 == radarTouchedSpotClone1, true);
       expect(radarTouchedSpot1 == radarTouchedSpot2, false);

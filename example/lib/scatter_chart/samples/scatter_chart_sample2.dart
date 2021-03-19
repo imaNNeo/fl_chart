@@ -13,8 +13,6 @@ class _ScatterChartSample2State extends State {
 
   List<int> selectedSpots = [];
 
-  int lastPanStartOnIndex = -1;
-
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -99,16 +97,14 @@ class _ScatterChartSample2State extends State {
                 tooltipBgColor: Colors.black,
               ),
               touchCallback: (ScatterTouchResponse touchResponse) {
-                if (touchResponse.touchInput is PointerDownEvent) {
-                  lastPanStartOnIndex = touchResponse.touchedSpotIndex;
-                } else if (touchResponse.touchInput is PointerUpEvent) {
-                  final PointerUpEvent PointerUpEven = touchResponse.touchInput;
+                if (touchResponse.clickHappened && touchResponse.touchedSpot != null) {
+                  final sectionIndex = touchResponse.touchedSpot.spotIndex;
                   // Tap happened
                   setState(() {
-                    if (selectedSpots.contains(lastPanStartOnIndex)) {
-                      selectedSpots.remove(lastPanStartOnIndex);
+                    if (selectedSpots.contains(sectionIndex)) {
+                      selectedSpots.remove(sectionIndex);
                     } else {
-                      selectedSpots.add(lastPanStartOnIndex);
+                      selectedSpots.add(sectionIndex);
                     }
                   });
                 }

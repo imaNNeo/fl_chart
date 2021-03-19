@@ -73,6 +73,8 @@ class RenderLineChart extends RenderBox {
     return PaintHolder(data, targetData, textScale);
   }
 
+  List<LineBarSpot>? _lastTouchedSpots;
+
   @override
   void performLayout() {
     size = computeDryLayout(constraints);
@@ -97,6 +99,27 @@ class RenderLineChart extends RenderBox {
 
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    _touchCallback?.call(_painter.handleTouch(event, size, paintHolder));
+    if (_touchCallback == null) {
+      return;
+    }
+    var response = LineTouchResponse(null, event, false);
+
+    var touchedSpots = _painter.handleTouch(event, size, paintHolder);
+    if (touchedSpots == null || touchedSpots.isEmpty) {
+      _touchCallback!.call(response);
+      return;
+    }
+    response = response.copyWith(lineBarSpots: touchedSpots);
+
+    if (event is PointerDownEvent) {
+      _lastTouchedSpots = touchedSpots;
+    } else if (event is PointerUpEvent) {
+      if (_lastTouchedSpots == touchedSpots) {
+        response = response.copyWith(clickHappened: true);
+      }
+      _lastTouchedSpots = null;
+    }
+
+    _touchCallback!.call(response);
   }
 }

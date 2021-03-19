@@ -369,12 +369,8 @@ final FlGridData flGridData5 = FlGridData(
   getDrawingVerticalLine: null,
 );
 
-final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(
-  new PointerDownEvent(),
-);
-final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(
-  new PointerUpEvent(),
-);
+final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(new PointerDownEvent(), false);
+final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(new PointerUpEvent(), true);
 
 final FlTouchData touchData1 = FlTouchData(
   false,
@@ -810,6 +806,7 @@ final LineTouchResponse lineTouchResponse1 = LineTouchResponse(
     lineBarSpot2,
   ],
   new PointerDownEvent(),
+  false,
 );
 final LineTouchResponse lineTouchResponse1Clone = LineTouchResponse(
   [
@@ -817,6 +814,7 @@ final LineTouchResponse lineTouchResponse1Clone = LineTouchResponse(
     lineBarSpot2,
   ],
   new PointerDownEvent(),
+  false,
 );
 
 final LineTouchResponse lineTouchResponse2 = LineTouchResponse(
@@ -825,17 +823,23 @@ final LineTouchResponse lineTouchResponse2 = LineTouchResponse(
     lineBarSpot1,
   ],
   new PointerDownEvent(),
+  false,
 );
 
 final LineTouchResponse lineTouchResponse3 = LineTouchResponse(
   [],
   new PointerDownEvent(position: Offset.zero),
+  false,
 );
 
-final LineTouchResponse lineTouchResponse4 = LineTouchResponse([
-  lineBarSpot1,
-  lineBarSpot2,
-], new PointerMoveEvent(position: const Offset(1, 2), delta: Offset(1, 1)));
+final LineTouchResponse lineTouchResponse4 = LineTouchResponse(
+  [
+    lineBarSpot1,
+    lineBarSpot2,
+  ],
+  new PointerMoveEvent(position: const Offset(1, 2), delta: Offset(1, 1)),
+  false,
+);
 
 final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
   [
@@ -843,6 +847,7 @@ final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
     lineBarSpot2,
   ],
   new PointerDownEvent(position: const Offset(0, 100)),
+  false,
 );
 
 final TouchedSpotIndicatorData touchedSpotIndicatorData1 = TouchedSpotIndicatorData(
@@ -2516,14 +2521,17 @@ final BarTouchedSpot barTouchedSpot7 = BarTouchedSpot(
 final BarTouchResponse barTouchResponse1 = BarTouchResponse(
   barTouchedSpot1,
   new PointerDownEvent(position: const Offset(0, 1)),
+  false,
 );
 final BarTouchResponse barTouchResponse1Clone = BarTouchResponse(
   barTouchedSpot1Clone,
   new PointerDownEvent(position: const Offset(0, 1)),
+  false,
 );
 final BarTouchResponse barTouchResponse2 = BarTouchResponse(
   barTouchedSpot2,
   new PointerDownEvent(position: const Offset(0, 1)),
+  false,
 );
 
 final BarTooltipItem barTooltipItem1 = BarTooltipItem(

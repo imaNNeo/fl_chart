@@ -682,36 +682,31 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     return sum;
   }
 
-  /// Makes a [BarTouchResponse] based on the provided [FlTouchInput]
+  /// Makes a [BarTouchedSpot] based on the provided [touchInput]
   ///
   /// Processes [PointerEvent.localPosition] and checks
   /// the elements of the chart that are near the offset,
-  /// then makes a [BarTouchResponse] from the elements that has been touched.
-  BarTouchResponse handleTouch(
+  /// then makes a [BarTouchedSpot] from the elements that has been touched.
+  ///
+  /// Returns null if finds nothing!
+  BarTouchedSpot? handleTouch(
     PointerEvent touchInput,
-    Size size,
+    Size viewSize,
     PaintHolder<BarChartData> holder,
   ) {
-    final touchedSpot =
-        _getNearestTouchedSpot(size, touchInput.localPosition, _groupBarsPosition, holder);
-    return BarTouchResponse(touchedSpot, touchInput);
-  }
-
-  /// find the nearest spot base on the touched offset
-  BarTouchedSpot? _getNearestTouchedSpot(Size viewSize, Offset touchedPoint,
-      List<_GroupBarsPosition>? groupBarsPosition, PaintHolder<BarChartData> holder) {
     final data = holder.data;
     final targetData = holder.targetData;
-    if (groupBarsPosition == null) {
+    final touchedPoint = touchInput.localPosition;
+    if (_groupBarsPosition == null) {
       final groupsX = _calculateGroupsX(viewSize, data.barGroups, data.alignment, holder);
-      groupBarsPosition = _calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
+      _groupBarsPosition = _calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
     }
 
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
     /// Find the nearest barRod
-    for (var i = 0; i < groupBarsPosition.length; i++) {
-      final groupBarPos = groupBarsPosition[i];
+    for (var i = 0; i < _groupBarsPosition!.length; i++) {
+      final groupBarPos = _groupBarsPosition![i];
       for (var j = 0; j < groupBarPos.barsX.length; j++) {
         final barX = groupBarPos.barsX[j];
         final barWidth = targetData.barGroups[i].barRods[j].width;

@@ -208,7 +208,8 @@ LineChart(
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |lineBarSpots|a list of [LineBarSpot](#LineBarSpot)|null|
-|touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
+|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
+|clickHappened|If we detect a click event, this property is true|false|
 
 ### ShowingTooltipIndicators
 |PropName|Description|default value|

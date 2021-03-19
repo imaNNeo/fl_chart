@@ -97,9 +97,10 @@ class _LineChartSample3State extends State<LineChartSample3> {
                         }).toList();
                       }),
                   touchCallback: (LineTouchResponse lineTouch) {
-                    if (lineTouch.lineBarSpots.length == 1 &&
-                        lineTouch.touchInput is! PointerExitEvent &&
-                        lineTouch.touchInput is! PointerUpEvent) {
+                    final desiredTouch = lineTouch.touchInput is! PointerExitEvent &&
+                        lineTouch.touchInput is! PointerUpEvent;
+
+                    if (desiredTouch && lineTouch.lineBarSpots != null) {
                       final value = lineTouch.lineBarSpots[0].x;
 
                       if (value == 0 || value == 6) {

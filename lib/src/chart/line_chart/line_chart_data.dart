@@ -1287,8 +1287,8 @@ class ExtraLinesData with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in the [LineChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [LineTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
 class LineTouchData extends FlTouchData with EquatableMixin {
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;
@@ -1618,15 +1618,31 @@ typedef LineTouchCallback = void Function(LineTouchResponse);
 class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
-  final List<LineBarSpot> lineBarSpots;
+  final List<LineBarSpot>? lineBarSpots;
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   LineTouchResponse(
     this.lineBarSpots,
     PointerEvent touchInput,
-  ) : super(touchInput);
+    bool clickHappened,
+  ) : super(touchInput, clickHappened);
+
+  /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
+  /// and replaces provided values.
+  LineTouchResponse copyWith({
+    List<LineBarSpot>? lineBarSpots,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return LineTouchResponse(
+      lineBarSpots ?? this.lineBarSpots,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)

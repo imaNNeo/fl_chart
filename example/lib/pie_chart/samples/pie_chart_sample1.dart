@@ -66,11 +66,12 @@ class PieChartSample1State extends State {
                   PieChartData(
                       pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
                         setState(() {
-                          if (pieTouchResponse.touchInput is PointerExitEvent ||
-                              pieTouchResponse.touchInput is PointerUpEvent) {
-                            touchedIndex = -1;
+                          final desiredTouch = pieTouchResponse.touchInput is! PointerExitEvent &&
+                              pieTouchResponse.touchInput is! PointerUpEvent;
+                          if (desiredTouch && pieTouchResponse.touchedSection != null) {
+                            touchedIndex = pieTouchResponse.touchedSection.touchedSectionIndex;
                           } else {
-                            touchedIndex = pieTouchResponse.touchedSectionIndex;
+                            touchedIndex = -1;
                           }
                         });
                       }),
