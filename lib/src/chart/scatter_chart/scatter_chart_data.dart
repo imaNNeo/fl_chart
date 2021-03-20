@@ -409,15 +409,20 @@ class ScatterTooltipItem with EquatableMixin {
   /// Defines bottom space from spot.
   final double bottomMargin;
 
-  /// Shows a [text] with [textStyle] in the tooltip popup,
+  /// List<InlineSpan> add further style and format to the text of the tooltip
+  final List<InlineSpan>? children;
+
+  /// Shows a [text] with [textStyle] and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   ScatterTooltipItem(
     String text,
     TextStyle textStyle,
-    double bottomMargin,
-  )   : text = text,
+    double bottomMargin, {
+    List<InlineSpan>? children,
+  })  : text = text,
         textStyle = textStyle,
-        bottomMargin = bottomMargin;
+        bottomMargin = bottomMargin,
+        children = children;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -425,6 +430,7 @@ class ScatterTooltipItem with EquatableMixin {
         text,
         textStyle,
         bottomMargin,
+        children,
       ];
 }
 
