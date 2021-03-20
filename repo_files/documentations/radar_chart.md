@@ -5,10 +5,16 @@
 ```dart
 RadarChart(
   RadarChartData(
-    // read about it in the below section
+    // read about it in the RadarChartData section
   ),
+  swapAnimationDuration: Duration(milliseconds: 150), // Optional
+  swapAnimationCurve: Curves.linear, // Optional
 );
 ```
+
+### Implicit Animations
+When you change the chart's state, it animates to the new state internally (using [implicit animations](https://flutter.dev/docs/development/ui/animations/implicit-animations)). You can control the animation [duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [curve](https://api.flutter.dev/flutter/animation/Curves-class.html) using optional `swapAnimationDuration` and `swapAnimationCurve` properties, respectively.
+
 
 ### RadarChartData
 |PropName		|Description	|default value|

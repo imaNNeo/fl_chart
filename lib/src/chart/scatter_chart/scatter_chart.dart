@@ -12,10 +12,13 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [ScatterChart] should be look like,
   /// when you make any change in the [ScatterChartData], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
+  /// also you can change the [swapAnimationCurve]
+  /// which default is [Curves.linear].
   const ScatterChart(
     this.data, {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
-  }) : super(duration: swapAnimationDuration);
+    Curve swapAnimationCurve = Curves.linear,
+  }) : super(duration: swapAnimationDuration, curve: swapAnimationCurve);
 
   /// Creates a [_ScatterChartState]
   @override

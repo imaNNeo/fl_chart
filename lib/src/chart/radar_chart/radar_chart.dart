@@ -10,11 +10,18 @@ class RadarChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [RadarChart] should be look like,
   /// when you make any change in the [RadarChart], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
+  /// also you can change the [swapAnimationCurve]
+  /// which default is [Curves.linear].
   const RadarChart(
     this.data, {
     Key? key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
-  }) : super(key: key, duration: swapAnimationDuration);
+    Curve swapAnimationCurve = Curves.linear,
+  }) : super(
+      key: key,
+      duration: swapAnimationDuration,
+      curve: swapAnimationCurve,
+  );
 
   @override
   _RadarChartState createState() => _RadarChartState();

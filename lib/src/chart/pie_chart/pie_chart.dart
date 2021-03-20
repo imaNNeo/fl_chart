@@ -14,10 +14,13 @@ class PieChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [PieChart] should be look like,
   /// when you make any change in the [PieChartData], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
+  /// also you can change the [swapAnimationCurve]
+  /// which default is [Curves.linear].
   const PieChart(
     this.data, {
     Duration swapAnimationDuration = defaultDuration,
-  }) : super(duration: swapAnimationDuration);
+    Curve swapAnimationCurve = Curves.linear,
+  }) : super(duration: swapAnimationDuration, curve: swapAnimationCurve);
 
   /// Creates a [_PieChartState]
   @override
