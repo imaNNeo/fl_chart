@@ -1550,8 +1550,15 @@ class LineTooltipItem with EquatableMixin {
   /// Style of showing text.
   final TextStyle textStyle;
 
-  /// Shows a [text] with [textStyle] as a row in the tooltip popup.
-  LineTooltipItem(this.text, this.textStyle);
+  /// List<InlineSpan> add further style and format to the text of the tooltip
+  final List<InlineSpan>? children;
+
+  /// Shows a [text] with [textStyle] and optional List<InlineSpan> [children] as a row in the tooltip popup.
+  LineTooltipItem(
+    this.text,
+    this.textStyle, {
+    this.children,
+  });
 
   /// Used for equality check, see [EquatableMixin].
   @override
