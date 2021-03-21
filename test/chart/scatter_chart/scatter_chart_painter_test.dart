@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 
 void main() {
   group('ScatterChart usable size', () {
@@ -16,12 +17,9 @@ void main() {
         bottomTitles: SideTitles(showTitles: false),
       ));
 
-      final ScatterChartPainter scatterChartPainter = ScatterChartPainter(
-        data,
-        data,
-        (s) {},
-      );
-      expect(scatterChartPainter.getChartUsableDrawSize(viewSize), const Size(644, 728));
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(644, 728));
     });
 
     test('test 2', () {
@@ -35,12 +33,9 @@ void main() {
         bottomTitles: SideTitles(showTitles: false),
       ));
 
-      final ScatterChartPainter scatterChartPainter = ScatterChartPainter(
-        data,
-        data,
-        (s) {},
-      );
-      expect(scatterChartPainter.getChartUsableDrawSize(viewSize), const Size(1958, 2020));
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(1958, 2020));
     });
 
     test('test 3', () {
@@ -54,12 +49,9 @@ void main() {
         bottomTitles: SideTitles(showTitles: false),
       ));
 
-      final ScatterChartPainter scatterChartPainter = ScatterChartPainter(
-        data,
-        data,
-        (s) {},
-      );
-      expect(scatterChartPainter.getChartUsableDrawSize(viewSize), const Size(500, 1000));
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(500, 1000));
     });
 
     test('test 4', () {
@@ -73,12 +65,9 @@ void main() {
         bottomTitles: SideTitles(reservedSize: 10, margin: 312, showTitles: true),
       ));
 
-      final ScatterChartPainter scatterChartPainter = ScatterChartPainter(
-        data,
-        data,
-        (s) {},
-      );
-      expect(scatterChartPainter.getChartUsableDrawSize(viewSize), const Size(790, 438));
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(790, 438));
     });
 
     test('test 5', () {
@@ -92,12 +81,9 @@ void main() {
         bottomTitles: SideTitles(reservedSize: 10, margin: 312, showTitles: false),
       ));
 
-      final ScatterChartPainter scatterChartPainter = ScatterChartPainter(
-        data,
-        data,
-        (s) {},
-      );
-      expect(scatterChartPainter.getChartUsableDrawSize(viewSize), const Size(600, 320));
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(600, 320));
     });
   });
 }

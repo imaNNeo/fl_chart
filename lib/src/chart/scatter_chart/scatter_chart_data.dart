@@ -216,8 +216,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in the [ScatterChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [ScatterTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [ScatterTouchResponse].
 class ScatterTouchData extends FlTouchData with EquatableMixin {
   /// show a tooltip on touched spots
   final ScatterTouchTooltipData touchTooltipData;
@@ -282,35 +282,64 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
       ];
 }
 
+/// [ScatterChart]'s touch callback.
+typedef ScatterTouchCallback = void Function(ScatterTouchResponse);
+
 /// Holds information about touch response in the [ScatterChart].
 ///
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
-class ScatterTouchResponse extends BaseTouchResponse with EquatableMixin {
-  final ScatterSpot? touchedSpot;
-  final int touchedSpotIndex;
+class ScatterTouchResponse extends BaseTouchResponse {
+  final ScatterTouchedSpot? touchedSpot;
 
   /// If touch happens, [ScatterChart] processes it internally and
   /// passes out a [ScatterTouchResponse], it gives you information about the touched spot.
   ///
-  /// [touchedSpot], and [touchedSpotIndex] tells you
+  /// [touchedSpot] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
   ///
   /// [touchInput] is the type of happened touch.
+  ///
+  /// [clickHappened] will be true, if we detect a click event.
   ScatterTouchResponse(
-    FlTouchInput touchInput,
-    ScatterSpot? touchedSpot,
-    int touchedSpotIndex,
+    PointerEvent touchInput,
+    ScatterTouchedSpot? touchedSpot,
+    bool clickHappened,
   )   : touchedSpot = touchedSpot,
-        touchedSpotIndex = touchedSpotIndex,
-        super(touchInput);
+        super(touchInput, clickHappened);
+
+  /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
+  /// and replaces provided values.
+  ScatterTouchResponse copyWith({
+    PointerEvent? touchInput,
+    ScatterTouchedSpot? touchedSpot,
+    bool? clickHappened,
+  }) {
+    return ScatterTouchResponse(
+      touchInput ?? this.touchInput,
+      touchedSpot ?? this.touchedSpot,
+      clickHappened ?? this.clickHappened,
+    );
+  }
+}
+
+/// Holds the touched spot data
+class ScatterTouchedSpot with EquatableMixin {
+  /// Touch happened on this spot
+  final ScatterSpot spot;
+
+  /// Touch happened on this spot index
+  final int spotIndex;
+
+  /// [spot], and [spotIndex] tells you
+  /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
+  ScatterTouchedSpot(this.spot, this.spotIndex);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        touchInput,
-        touchedSpot,
-        touchedSpotIndex,
+        spot,
+        spotIndex,
       ];
 }
 
@@ -409,6 +438,9 @@ class ScatterTooltipItem with EquatableMixin {
   /// Defines bottom space from spot.
   final double bottomMargin;
 
+  /// Style of showing text.
+  final TextAlign textAlign;
+
   /// List<InlineSpan> add further style and format to the text of the tooltip
   final List<InlineSpan>? children;
 
@@ -418,10 +450,12 @@ class ScatterTooltipItem with EquatableMixin {
     String text,
     TextStyle textStyle,
     double bottomMargin, {
+    TextAlign textAlign = TextAlign.center,
     List<InlineSpan>? children,
   })  : text = text,
         textStyle = textStyle,
         bottomMargin = bottomMargin,
+        textAlign = textAlign,
         children = children;
 
   /// Used for equality check, see [EquatableMixin].
@@ -430,6 +464,7 @@ class ScatterTooltipItem with EquatableMixin {
         text,
         textStyle,
         bottomMargin,
+        textAlign,
         children,
       ];
 }

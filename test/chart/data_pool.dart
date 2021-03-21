@@ -369,12 +369,8 @@ final FlGridData flGridData5 = FlGridData(
   getDrawingVerticalLine: null,
 );
 
-final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(
-  FlPanStart(Offset.zero),
-);
-final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(
-  FlPanStart(Offset.zero),
-);
+final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(new PointerDownEvent(), false);
+final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(new PointerUpEvent(), true);
 
 final FlTouchData touchData1 = FlTouchData(
   false,
@@ -809,14 +805,16 @@ final LineTouchResponse lineTouchResponse1 = LineTouchResponse(
     lineBarSpot1,
     lineBarSpot2,
   ],
-  FlPanStart(Offset.zero),
+  new PointerDownEvent(),
+  false,
 );
 final LineTouchResponse lineTouchResponse1Clone = LineTouchResponse(
   [
     lineBarSpot1Clone,
     lineBarSpot2,
   ],
-  FlPanStart(Offset.zero),
+  new PointerDownEvent(),
+  false,
 );
 
 final LineTouchResponse lineTouchResponse2 = LineTouchResponse(
@@ -824,12 +822,14 @@ final LineTouchResponse lineTouchResponse2 = LineTouchResponse(
     lineBarSpot2,
     lineBarSpot1,
   ],
-  FlPanStart(Offset.zero),
+  new PointerDownEvent(),
+  false,
 );
 
 final LineTouchResponse lineTouchResponse3 = LineTouchResponse(
   [],
-  FlPanStart(Offset.zero),
+  new PointerDownEvent(position: Offset.zero),
+  false,
 );
 
 final LineTouchResponse lineTouchResponse4 = LineTouchResponse(
@@ -837,7 +837,8 @@ final LineTouchResponse lineTouchResponse4 = LineTouchResponse(
     lineBarSpot1,
     lineBarSpot2,
   ],
-  FlPanEnd(Offset(1, 2), Velocity(pixelsPerSecond: Offset(1, 1))),
+  new PointerMoveEvent(position: const Offset(1, 2), delta: Offset(1, 1)),
+  false,
 );
 
 final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
@@ -845,7 +846,8 @@ final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
     lineBarSpot1,
     lineBarSpot2,
   ],
-  FlPanStart(const Offset(0, 100)),
+  new PointerDownEvent(position: const Offset(0, 100)),
+  false,
 );
 
 final TouchedSpotIndicatorData touchedSpotIndicatorData1 = TouchedSpotIndicatorData(
@@ -921,7 +923,7 @@ final LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
-  tooltipBottomMargin: 33,
+  tooltipMargin: 33,
 );
 final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -931,7 +933,7 @@ final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
-  tooltipBottomMargin: 33,
+  tooltipMargin: 33,
 );
 
 final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
@@ -942,7 +944,7 @@ final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
-  tooltipBottomMargin: 33,
+  tooltipMargin: 33,
 );
 final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.2),
@@ -952,7 +954,7 @@ final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
-  tooltipBottomMargin: 33,
+  tooltipMargin: 33,
 );
 final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -962,7 +964,7 @@ final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
-  tooltipBottomMargin: 33,
+  tooltipMargin: 33,
 );
 final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -972,7 +974,7 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   fitInsideHorizontally: true,
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
-  tooltipBottomMargin: 34,
+  tooltipMargin: 34,
 );
 
 final Function(LineTouchResponse) lineTouchCallback = (response) {};
@@ -2518,19 +2520,18 @@ final BarTouchedSpot barTouchedSpot7 = BarTouchedSpot(
 
 final BarTouchResponse barTouchResponse1 = BarTouchResponse(
   barTouchedSpot1,
-  FlPanStart(const Offset(0, 1)),
+  new PointerDownEvent(position: const Offset(0, 1)),
+  false,
 );
 final BarTouchResponse barTouchResponse1Clone = BarTouchResponse(
   barTouchedSpot1Clone,
-  FlPanStart(const Offset(0, 1)),
+  new PointerDownEvent(position: const Offset(0, 1)),
+  false,
 );
 final BarTouchResponse barTouchResponse2 = BarTouchResponse(
   barTouchedSpot2,
-  FlPanStart(const Offset(0, 1)),
-);
-final BarTouchResponse barTouchResponse3 = BarTouchResponse(
-  barTouchedSpot1,
-  FlPanStart(const Offset(0.1, 1)),
+  new PointerDownEvent(position: const Offset(0, 1)),
+  false,
 );
 
 final BarTooltipItem barTooltipItem1 = BarTooltipItem(
@@ -2580,7 +2581,7 @@ final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2590,7 +2591,7 @@ final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   tooltipRoundedRadius: 13,
@@ -2600,7 +2601,7 @@ final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2610,7 +2611,7 @@ final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2620,7 +2621,7 @@ final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2630,7 +2631,7 @@ final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2640,7 +2641,7 @@ final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   tooltipBgColor: Colors.blue,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2650,7 +2651,7 @@ final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: null,
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2660,7 +2661,7 @@ final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: null,
-  tooltipBottomMargin: 12,
+  tooltipMargin: 12,
 );
 final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2670,7 +2671,7 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipBottomMargin: 333,
+  tooltipMargin: 333,
 );
 
 final Function(BarTouchResponse) barTouchCallback = (response) {};

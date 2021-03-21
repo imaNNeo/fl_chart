@@ -23,7 +23,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// [radarBorderData] is used to draw [RadarChart] border
   final BorderSide radarBorderData;
 
-  /// [getTitle] is used to draw titles near the [RadarChart]
+  /// [getTitle] is used to draw titles outside the [RadarChart]
   /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [String]
   /// for each [index]
   ///
@@ -47,7 +47,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   final TextStyle titleTextStyle;
 
   /// the [titlePositionPercentageOffset] is the place of showing title on the [RadarChart]
-  /// the degree is statically on the end of Radar Line,
+  /// The higher the value of this field, the more titles move away from the chart.
   /// this field should be between 0 and 1,
   /// if it is 0 the title will be drawn near the inside section,
   /// if it is 1 the title will be drawn near the outside of section,
@@ -329,8 +329,8 @@ class RadarEntry with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in the [RadarChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [RadarTouchData].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
 class RadarTouchData extends FlTouchData with EquatableMixin {
   /// you can implement it to receive touches callback
   final Function(RadarTouchResponse)? touchCallback;
@@ -360,29 +360,41 @@ class RadarTouchData extends FlTouchData with EquatableMixin {
       ];
 }
 
+/// [RadarChart]'s touch callback.
+typedef RadarTouchCallback = void Function(RadarTouchResponse);
+
 /// Holds information about touch response in the [RadarTouchResponse].
 ///
 /// You can override [RadarTouchData.touchCallback] to handle touch events,
 /// it gives you a [RadarTouchResponse] and you can do whatever you want.
-class RadarTouchResponse extends BaseTouchResponse with EquatableMixin {
+class RadarTouchResponse extends BaseTouchResponse {
   /// touch happened on this spot. this spot has useful information about spot or entry
   final RadarTouchedSpot? touchedSpot;
 
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   RadarTouchResponse(
     RadarTouchedSpot? touchedSpot,
-    FlTouchInput touchInput,
+    PointerEvent touchInput,
+    bool clickHappened,
   )   : touchedSpot = touchedSpot,
-        super(touchInput);
+        super(touchInput, clickHappened);
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchedSpot,
-        touchInput,
-      ];
+  /// Copies current [RadarTouchResponse] to a new [RadarTouchResponse],
+  /// and replaces provided values.
+  RadarTouchResponse copyWith({
+    RadarTouchedSpot? touchedSpot,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return RadarTouchResponse(
+      touchedSpot ?? this.touchedSpot,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It gives you information about the touched spot.

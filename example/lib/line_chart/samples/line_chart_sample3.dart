@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 class LineChartSample3 extends StatefulWidget {
   final weekDays = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
@@ -121,9 +122,10 @@ class _LineChartSample3State extends State<LineChartSample3> {
                         }).toList();
                       }),
                   touchCallback: (LineTouchResponse lineTouch) {
-                    if (lineTouch.lineBarSpots.length == 1 &&
-                        lineTouch.touchInput is! FlLongPressEnd &&
-                        lineTouch.touchInput is! FlPanEnd) {
+                    final desiredTouch = lineTouch.touchInput is! PointerExitEvent &&
+                        lineTouch.touchInput is! PointerUpEvent;
+
+                    if (desiredTouch && lineTouch.lineBarSpots != null) {
                       final value = lineTouch.lineBarSpots[0].x;
 
                       if (value == 0 || value == 6) {
