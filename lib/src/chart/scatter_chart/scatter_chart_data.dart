@@ -438,7 +438,7 @@ class ScatterTooltipItem with EquatableMixin {
   /// Defines bottom space from spot.
   final double bottomMargin;
 
-  /// Style of showing text.
+  /// TextAlign of the showing content.
   final TextAlign textAlign;
 
   /// List<InlineSpan> add further style and format to the text of the tooltip
