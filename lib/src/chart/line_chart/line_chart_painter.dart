@@ -1153,7 +1153,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         continue;
       }
 
-      final span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
+      final span = TextSpan(
+        style: tooltipItem.textStyle,
+        text: tooltipItem.text,
+        children: tooltipItem.children,
+      );
+
       final tp = TextPainter(
           text: span,
           textAlign: tooltipItem.textAlign,

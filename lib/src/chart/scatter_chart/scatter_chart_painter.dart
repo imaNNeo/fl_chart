@@ -253,7 +253,12 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       return;
     }
 
-    final span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
+    final span = TextSpan(
+      style: tooltipItem.textStyle,
+      text: tooltipItem.text,
+      children: tooltipItem.children,
+    );
+
     final drawingTextPainter = TextPainter(
         text: span,
         textAlign: tooltipItem.textAlign,

@@ -1552,14 +1552,24 @@ class LineTooltipItem with EquatableMixin {
   /// Align of showing text.
   final TextAlign textAlign;
 
-  /// Shows a [text] with [textStyle] as a row in the tooltip popup.
-  LineTooltipItem(this.text, this.textStyle, {this.textAlign = TextAlign.center});
+  /// List<TextSpan> add further style and format to the text of the tooltip
+  final List<TextSpan>? children;
+
+  /// Shows a [text] with [textStyle] and optional [children] as a row in the tooltip popup.
+  LineTooltipItem(
+    this.text,
+    this.textStyle, {
+    this.textAlign = TextAlign.center,
+    this.children,
+  });
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         text,
         textStyle,
+        textAlign,
+        children,
       ];
 }
 

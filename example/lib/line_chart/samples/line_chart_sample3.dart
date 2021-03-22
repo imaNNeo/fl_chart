@@ -91,8 +91,33 @@ class _LineChartSample3State extends State<LineChartSample3> {
                           }
 
                           return LineTooltipItem(
-                            '${widget.weekDays[flSpot.x.toInt()]} \n${flSpot.y} k calories',
-                            const TextStyle(color: Colors.white),
+                            '${widget.weekDays[flSpot.x.toInt()]} \n',
+                            const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: flSpot.y.toString(),
+                                style: TextStyle(
+                                  color: Colors.grey[100],
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' k ',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'calories',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           );
                         }).toList();
                       }),

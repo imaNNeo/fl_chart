@@ -728,8 +728,16 @@ class BarTooltipItem with EquatableMixin {
   /// TextAlign of the showing content.
   final TextAlign textAlign;
 
-  /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(this.text, this.textStyle, {this.textAlign = TextAlign.center});
+  /// List<TextSpan> add further style and format to the text of the tooltip
+  final List<TextSpan>? children;
+
+  /// content of the tooltip, is a [text] String with a [textStyle] and optional [children].
+  BarTooltipItem(
+    this.text,
+    this.textStyle, {
+    this.textAlign = TextAlign.center,
+    this.children,
+  });
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -737,6 +745,7 @@ class BarTooltipItem with EquatableMixin {
         text,
         textStyle,
         textAlign,
+        children,
       ];
 }
 

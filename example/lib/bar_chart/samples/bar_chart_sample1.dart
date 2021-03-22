@@ -177,7 +177,23 @@ class BarChartSample1State extends State<BarChartSample1> {
                   break;
               }
               return BarTooltipItem(
-                  weekDay + '\n' + (rod.y - 1).toString(), TextStyle(color: Colors.yellow));
+                weekDay + '\n',
+                TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+                children: <InlineSpan>[
+                  TextSpan(
+                    text: (rod.y - 1).toString(),
+                    style: TextStyle(
+                      color: Colors.yellow,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              );
             }),
         touchCallback: (barTouchResponse) {
           setState(() {

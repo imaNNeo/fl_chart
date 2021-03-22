@@ -62,6 +62,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |text|text string of each row in the tooltip bubble|null|
 |textStyle|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the showing text row|null|
 |bottomMargin| bottom margin of the tooltip (to the top of most top spot) | radius / 2|
+|children|[List<TextSpan>](https://api.flutter.dev/flutter/painting/InlineSpan-class.html) pass additional InlineSpan children for a more advance tooltip|null|
 
 
 ### ScatterTouchResponse
