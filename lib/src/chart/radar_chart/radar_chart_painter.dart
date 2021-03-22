@@ -44,15 +44,13 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   /// Paints [RadarChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size, PaintHolder<RadarChartData> holder) {
-    super.paint(canvas, size, holder);
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+    super.paint(canvasWrapper, holder);
     final data = holder.data;
 
     if (data.dataSets.isEmpty) {
       return;
     }
-
-    final canvasWrapper = CanvasWrapper(canvas, size);
 
     dataSetsPosition = _calculateDataSetsPosition(canvasWrapper.size, holder);
 

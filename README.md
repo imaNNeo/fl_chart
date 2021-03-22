@@ -41,7 +41,7 @@ Thank you all!
 
 ```yml
 dependencies:
-  fl_chart: ^0.20.1
+  fl_chart: ^0.30.0
 ```
 
 

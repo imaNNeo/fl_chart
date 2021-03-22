@@ -47,12 +47,18 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    return PieChartLeaf(
-      data: _pieChartDataTween!.evaluate(animation),
-      targetData: showingData,
-      touchCallback: (response) {
-        showingData.pieTouchData.touchCallback?.call(response);
-      },
+    /// Wr wrapped our chart with [GestureDetector], and onLongPressStart callback.
+    /// because we wanted to lock the widget from being scrolled when user long presses on it.
+    /// If we found a solution for solve this issue, then we can remove this undoubtedly.
+    return GestureDetector(
+      onLongPressStart: (details) {},
+      child: PieChartLeaf(
+        data: _pieChartDataTween!.evaluate(animation),
+        targetData: showingData,
+        touchCallback: (response) {
+          showingData.pieTouchData.touchCallback?.call(response);
+        },
+      ),
     );
   }
 
