@@ -1308,12 +1308,8 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   final GetTouchLineY getTouchLineStart;
 
   /// The end point on y axis of the touch line. By default, line ends at the touched point.
-  /// Though the line's length will be reduce to avoid overlap with the dot if
-  /// [touchLineEndAtDot] is true.
+  /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
   final GetTouchLineY getTouchLineEnd;
-
-  /// Sets to avoid the touch line to overlap with the dot. Default is true.
-  final bool touchLineEndAtDot;
 
   /// Informs the touchResponses
   final LineTouchCallback? touchCallback;
@@ -1338,7 +1334,6 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     bool? handleBuiltInTouches,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
-    bool? touchLineEndAtDot,
     LineTouchCallback? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
@@ -1346,7 +1341,6 @@ class LineTouchData extends FlTouchData with EquatableMixin {
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
-        touchLineEndAtDot = touchLineEndAtDot ?? true,
         touchCallback = touchCallback,
         super(enabled ?? true);
 
@@ -1359,7 +1353,6 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     double? touchSpotThreshold,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
-    bool? touchLineEndAtDot,
     bool? handleBuiltInTouches,
     Function(LineTouchResponse)? touchCallback,
   }) {
@@ -1370,7 +1363,6 @@ class LineTouchData extends FlTouchData with EquatableMixin {
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
       getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
-      touchLineEndAtDot: touchLineEndAtDot ?? this.touchLineEndAtDot,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchCallback: touchCallback ?? this.touchCallback,
     );
@@ -1385,7 +1377,6 @@ class LineTouchData extends FlTouchData with EquatableMixin {
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
-        touchLineEndAtDot,
         touchCallback,
         enabled,
       ];

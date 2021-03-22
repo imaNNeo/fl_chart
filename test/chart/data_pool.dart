@@ -1048,7 +1048,6 @@ final LineTouchData lineTouchData7 = LineTouchData(
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
   getTouchLineEnd: (barData, index) => double.infinity,
-  touchLineEndAtDot: false,
 );
 
 final String Function(HorizontalLine) horizontalLabelResolver = (horizontalLine) => 'test';

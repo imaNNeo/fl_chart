@@ -152,7 +152,6 @@ class _LineChartSample8State extends State<LineChartSample8> {
       ),
       lineTouchData: LineTouchData(
         getTouchLineEnd: (data, index) => double.infinity,
-        touchLineEndAtDot: false,
         getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
             return TouchedSpotIndicatorData(
