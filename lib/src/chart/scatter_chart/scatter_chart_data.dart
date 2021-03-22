@@ -441,8 +441,8 @@ class ScatterTooltipItem with EquatableMixin {
   /// TextAlign of the showing content.
   final TextAlign textAlign;
 
-  /// List<InlineSpan> add further style and format to the text of the tooltip
-  final List<InlineSpan>? children;
+  /// List<TextSpan> add further style and format to the text of the tooltip
+  final List<TextSpan>? children;
 
   /// Shows a [text] with [textStyle] and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
@@ -451,7 +451,7 @@ class ScatterTooltipItem with EquatableMixin {
     TextStyle textStyle,
     double bottomMargin, {
     TextAlign textAlign = TextAlign.center,
-    List<InlineSpan>? children,
+    List<TextSpan>? children,
   })  : text = text,
         textStyle = textStyle,
         bottomMargin = bottomMargin,
