@@ -58,7 +58,7 @@ void main() {
                   PieChartSectionData(value: 22, color: Colors.green),
                 ],
               ),
-          true);
+          false);
 
       expect(
           pieChartData1 ==
@@ -109,101 +109,6 @@ void main() {
           false);
     });
 
-    test('PieChartSectionData equality test', () {
-      final Widget _badge = Container(
-        color: Colors.green,
-        width: 20,
-        height: 20,
-      );
-
-      final PieChartSectionData sample1 = PieChartSectionData(
-        color: Colors.red,
-        radius: 12,
-        showTitle: false,
-        value: 33,
-        title: 'testTitle',
-        titlePositionPercentageOffset: 10,
-        titleStyle: const TextStyle(color: Colors.green),
-        badgeWidget: _badge,
-        badgePositionPercentageOffset: 10,
-      );
-
-      final PieChartSectionData sample2 = PieChartSectionData(
-        color: Colors.red,
-        radius: 12,
-        showTitle: false,
-        value: 33,
-        title: 'testTitle',
-        titlePositionPercentageOffset: 10,
-        titleStyle: const TextStyle(color: Colors.green),
-        badgeWidget: _badge,
-        badgePositionPercentageOffset: 10,
-      );
-
-      expect(sample1 == sample2, true);
-
-      expect(sample1 == sample2.copyWith(color: Colors.white), false);
-
-      expect(sample1 == sample2.copyWith(radius: 12), true);
-
-      expect(sample1 == sample2.copyWith(radius: 11), false);
-
-      expect(sample1 == sample2.copyWith(title: 'testTitle'), true);
-
-      expect(sample1 == sample2.copyWith(title: 'testTitle.'), false);
-
-      expect(sample1 == sample2.copyWith(value: 12), false);
-
-      expect(sample1 == sample2.copyWith(titlePositionPercentageOffset: 4314), false);
-
-      expect(
-        sample1 ==
-            sample2.copyWith(
-              badgeWidget: _badge,
-            ),
-        true,
-      );
-
-      expect(
-        sample1 ==
-            sample2.copyWith(
-              badgeWidget: Container(
-                color: Colors.blue,
-                width: 25,
-                height: 25,
-              ),
-            ),
-        false,
-      );
-
-      expect(sample1 == sample2.copyWith(badgePositionPercentageOffset: 4314), false);
-
-      expect(
-          sample1 ==
-              PieChartSectionData(
-                color: Colors.red,
-                radius: 12,
-                showTitle: false,
-                value: 33,
-                title: 'testTitle',
-                titlePositionPercentageOffset: 10,
-                titleStyle: null,
-                badgeWidget: Container(
-                  color: Colors.green,
-                  width: 20,
-                  height: 20,
-                ),
-                badgePositionPercentageOffset: 10,
-              ),
-          false);
-
-      expect(sample1 == sample2.copyWith(titleStyle: const TextStyle(color: Colors.green)), true);
-
-      expect(
-          sample1 == sample2.copyWith(titleStyle: TextStyle(color: Colors.green.withOpacity(0.3))),
-          false);
-    });
-
     test('PieTouchData equality test', () {
       final PieTouchData sample1 = PieTouchData(
         touchCallback: (response) {},
@@ -221,99 +126,6 @@ void main() {
         enabled: false,
       );
       expect(sample1 == disabled, false);
-    });
-
-    test('PieTouchResponse equality test', () {
-      final PieTouchResponse sample1 = PieTouchResponse(
-        PieChartSectionData(
-          color: Colors.green,
-          title: 'test',
-          radius: 12,
-        ),
-        1,
-        12.0,
-        30,
-        FlPanStart(const Offset(0, 1)),
-      );
-      final PieTouchResponse sample2 = PieTouchResponse(
-        PieChartSectionData(
-          color: Colors.green,
-          title: 'test',
-          radius: 12,
-        ),
-        1,
-        12.0,
-        30,
-        FlPanStart(const Offset(0, 1)),
-      );
-
-      expect(sample1 == sample2, true);
-
-      PieTouchResponse changed = PieTouchResponse(
-        PieChartSectionData(
-          color: Colors.green,
-          title: 'asdf',
-          radius: 12,
-        ),
-        1,
-        12.0,
-        30,
-        FlPanStart(const Offset(0, 1)),
-      );
-
-      expect(sample1 == changed, false);
-
-      changed = PieTouchResponse(
-        PieChartSectionData(
-          color: Colors.red,
-          title: 'test',
-          radius: 12,
-        ),
-        1,
-        12.0,
-        30,
-        FlPanStart(const Offset(0, 1)),
-      );
-
-      expect(sample1 == changed, false);
-
-      changed = PieTouchResponse(
-        PieChartSectionData(
-          color: Colors.green,
-          title: 'test',
-          radius: 12,
-        ),
-        1,
-        12.1,
-        30,
-        FlPanStart(const Offset(0, 1)),
-      );
-
-      expect(sample1 == changed, false);
-
-      changed = PieTouchResponse(
-        PieChartSectionData(
-          color: Colors.green,
-          title: 'test',
-          radius: 12,
-        ),
-        1,
-        12.0,
-        30,
-        FlPanStart(const Offset(0, 1.1)),
-      );
-
-      expect(sample1 == changed, false);
-
-      changed = PieTouchResponse(
-        null,
-        1,
-        12.0,
-        30,
-        FlPanStart(const Offset(0, 1)),
-      );
-
-      expect(sample1 == changed, false);
     });
   });
 }

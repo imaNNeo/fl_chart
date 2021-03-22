@@ -3,7 +3,6 @@ import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
-import 'touch_input.dart';
 
 /// This class holds all data needed for [BaseChartPainter].
 ///
@@ -71,8 +70,8 @@ class FlBorderData with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in abstract way.
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [BaseTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
 class FlTouchData with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
@@ -149,14 +148,11 @@ TextStyle defaultGetTitleTextStyle(double value) {
 /// This class holds the touch response details.
 ///
 /// Specific touch details should be hold on the concrete child classes.
-class BaseTouchResponse with EquatableMixin {
-  final FlTouchInput touchInput;
+class BaseTouchResponse {
+  final PointerEvent touchInput;
+  final bool clickHappened;
 
-  BaseTouchResponse(FlTouchInput touchInput) : touchInput = touchInput;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchInput,
-      ];
+  BaseTouchResponse(PointerEvent touchInput, bool isClickHappened)
+      : touchInput = touchInput,
+        clickHappened = isClickHappened;
 }

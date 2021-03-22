@@ -10,6 +10,9 @@ click and learn more about them.
 
 - [PieChart](pie_chart.md)
 
+
+- [RadarChart](radar_chart.md)
+
 -----------
 
 - [Handle Touches](handle_touches.md)

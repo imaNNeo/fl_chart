@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
@@ -841,7 +840,7 @@ class FlDotCirclePainter extends FlDotPainter {
   /// Implementation of the parent class to get the size of the circle
   @override
   Size getSize(FlSpot spot) {
-    return Size(radius, radius);
+    return Size(radius * 2, radius * 2);
   }
 
   /// Used for equality check, see [EquatableMixin].
@@ -1288,8 +1287,8 @@ class ExtraLinesData with EquatableMixin {
 /// Holds data to handle touch events, and touch responses in the [LineChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [LineTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
 class LineTouchData extends FlTouchData with EquatableMixin {
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;
@@ -1309,7 +1308,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   final bool fullHeightTouchLine;
 
   /// Informs the touchResponses
-  final Function(LineTouchResponse)? touchCallback;
+  final LineTouchCallback? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [LineChart] shows a tooltip popup on top of the spots if
@@ -1332,7 +1331,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     double? touchSpotThreshold,
     bool? fullHeightTouchLine,
     bool? handleBuiltInTouches,
-    Function(LineTouchResponse)? touchCallback,
+    LineTouchCallback? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
@@ -1422,7 +1421,7 @@ class LineTouchTooltipData with EquatableMixin {
   final EdgeInsets tooltipPadding;
 
   /// Applies a bottom margin for showing tooltip on top of rods.
-  final double tooltipBottomMargin;
+  final double tooltipMargin;
 
   /// Restricts the tooltip's width.
   final double maxContentWidth;
@@ -1445,7 +1444,7 @@ class LineTouchTooltipData with EquatableMixin {
   /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
-  /// or If you want to have a bottom margin, set [tooltipBottomMargin].
+  /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -1456,7 +1455,7 @@ class LineTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
-    double? tooltipBottomMargin,
+    double? tooltipMargin,
     double? maxContentWidth,
     GetLineTooltipItems? getTooltipItems,
     bool? fitInsideHorizontally,
@@ -1465,7 +1464,7 @@ class LineTouchTooltipData with EquatableMixin {
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipBottomMargin = tooltipBottomMargin ?? 16,
+        tooltipMargin = tooltipMargin ?? 16,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItems = getTooltipItems ?? defaultLineTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
@@ -1479,7 +1478,7 @@ class LineTouchTooltipData with EquatableMixin {
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipBottomMargin,
+        tooltipMargin,
         maxContentWidth,
         getTooltipItems,
         fitInsideHorizontally,
@@ -1550,8 +1549,11 @@ class LineTooltipItem with EquatableMixin {
   /// Style of showing text.
   final TextStyle textStyle;
 
+  /// Align of showing text.
+  final TextAlign textAlign;
+
   /// Shows a [text] with [textStyle] as a row in the tooltip popup.
-  LineTooltipItem(this.text, this.textStyle);
+  LineTooltipItem(this.text, this.textStyle, {this.textAlign = TextAlign.center});
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1606,29 +1608,41 @@ class ShowingTooltipIndicators with EquatableMixin {
   List<Object?> get props => [lineIndex, showingSpots];
 }
 
+/// [LineChart]'s touch callback.
+typedef LineTouchCallback = void Function(LineTouchResponse);
+
 /// Holds information about touch response in the [LineChart].
 ///
 /// You can override [LineTouchData.touchCallback] to handle touch events,
 /// it gives you a [LineTouchResponse] and you can do whatever you want.
-class LineTouchResponse extends BaseTouchResponse with EquatableMixin {
+class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
-  final List<LineBarSpot> lineBarSpots;
+  final List<LineBarSpot>? lineBarSpots;
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   LineTouchResponse(
     this.lineBarSpots,
-    FlTouchInput touchInput,
-  ) : super(touchInput);
+    PointerEvent touchInput,
+    bool clickHappened,
+  ) : super(touchInput, clickHappened);
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        lineBarSpots,
-        touchInput,
-      ];
+  /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
+  /// and replaces provided values.
+  LineTouchResponse copyWith({
+    List<LineBarSpot>? lineBarSpots,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return LineTouchResponse(
+      lineBarSpots ?? this.lineBarSpots,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)
