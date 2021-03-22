@@ -1552,8 +1552,8 @@ class LineTooltipItem with EquatableMixin {
   /// Align of showing text.
   final TextAlign textAlign;
 
-  /// List<InlineSpan> add further style and format to the text of the tooltip
-  final List<InlineSpan>? children;
+  /// List<TextSpan> add further style and format to the text of the tooltip
+  final List<TextSpan>? children;
 
   /// Shows a [text] with [textStyle] and optional [children] as a row in the tooltip popup.
   LineTooltipItem(
