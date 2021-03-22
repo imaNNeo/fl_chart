@@ -18,10 +18,10 @@ class RadarChart extends ImplicitlyAnimatedWidget {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
   }) : super(
-      key: key,
-      duration: swapAnimationDuration,
-      curve: swapAnimationCurve,
-  );
+          key: key,
+          duration: swapAnimationDuration,
+          curve: swapAnimationCurve,
+        );
 
   @override
   _RadarChartState createState() => _RadarChartState();
