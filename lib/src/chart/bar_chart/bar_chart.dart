@@ -35,10 +35,16 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    return BarChartLeaf(
-      data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
-      targetData: _withTouchedIndicators(showingData),
-      touchCallback: _handleBuiltInTouch,
+    /// Wr wrapped our chart with [GestureDetector], and onLongPressStart callback.
+    /// because we wanted to lock the widget from being scrolled when user long presses on it.
+    /// If we found a solution for solve this issue, then we can remove this undoubtedly.
+    return GestureDetector(
+      onLongPressStart: (details) {},
+      child: BarChartLeaf(
+        data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
+        targetData: _withTouchedIndicators(showingData),
+        touchCallback: _handleBuiltInTouch,
+      ),
     );
   }
 
