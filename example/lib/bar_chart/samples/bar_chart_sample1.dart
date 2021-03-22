@@ -183,7 +183,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
-                children: <InlineSpan>[
+                children: <TextSpan>[
                   TextSpan(
                     text: (rod.y - 1).toString(),
                     style: TextStyle(
