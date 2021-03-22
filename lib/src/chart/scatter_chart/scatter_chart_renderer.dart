@@ -102,6 +102,7 @@ class RenderScatterChart extends RenderBox {
 
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
+    assert(debugHandleEvent(event, entry));
     if (_touchCallback == null) {
       return;
     }
