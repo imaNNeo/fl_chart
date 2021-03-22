@@ -728,8 +728,8 @@ class BarTooltipItem with EquatableMixin {
   /// TextAlign of the showing content.
   final TextAlign textAlign;
 
-  /// List<InlineSpan> add further style and format to the text of the tooltip
-  final List<InlineSpan>? children;
+  /// List<TextSpan> add further style and format to the text of the tooltip
+  final List<TextSpan>? children;
 
   /// content of the tooltip, is a [text] String with a [textStyle] and optional [children].
   BarTooltipItem(

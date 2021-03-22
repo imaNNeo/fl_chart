@@ -106,7 +106,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |text|text string of each row in the tooltip bubble|null|
 |textStyle|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the showing text row|null|
 |textAlign|[TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) of the showing text row|TextAlign.center|
-|children|[List<InlineSpan>](https://api.flutter.dev/flutter/painting/InlineSpan-class.html) pass additional InlineSpan children for a more advance tooltip|null|
+|children|[List<TextSpan>](https://api.flutter.dev/flutter/painting/InlineSpan-class.html) pass additional InlineSpan children for a more advance tooltip|null|
 
 
 ### BarTouchResponse
