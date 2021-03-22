@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:path_drawing/path_drawing.dart';
+import 'package:fl_chart/src/utils/path_drawing/dash_path.dart';
 
 /// Defines extensions on the [Path]
 extension DashedPath on Path {
