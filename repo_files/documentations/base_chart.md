@@ -34,13 +34,6 @@
 |checkToShowTitle| determines show or not show titles in the provided value | show all|
 
 
-
-### FlTouchInput
-an abstract class that contains a [Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) with x and y of touched point, there is some concrete classes to distinguish between touch behaviours,
-currently we have these touch behaviors:
-`FlLongPressStart`, `FlLongPressMoveUpdate`, `FlLongPressEnd`, `FlPanStart`, `FlPanMoveUpdate`, `FlPanEnd`.
-
-
 # AxisChart (Line and Bar Charts)
 
 
