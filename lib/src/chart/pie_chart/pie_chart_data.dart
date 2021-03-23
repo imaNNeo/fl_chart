@@ -61,9 +61,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
-
-        /// we've disabled `groupSpace` on web, because some BlendModes are [not working](https://github.com/flutter/flutter/issues/56071) yet
-        sectionsSpace = kIsWeb ? 0 : sectionsSpace ?? 2,
+        sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
         super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
