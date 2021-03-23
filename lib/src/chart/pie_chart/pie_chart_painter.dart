@@ -7,12 +7,12 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'pie_chart_data.dart';
+import 'package:fl_chart/src/extensions/border_side_extensions.dart';
 
 /// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
 class PieChartPainter extends BaseChartPainter<PieChartData> {
-  late Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
+  late Paint _sectionPaint, _sectionBorderPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
   /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
@@ -125,6 +125,17 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       _sectionPaint.style = PaintingStyle.fill;
       canvasWrapper.drawPath(sectionPath, _sectionPaint);
+
+      _drawSectionBorders(
+          canvasWrapper,
+          holder,
+          center,
+          sectionPath,
+          section,
+          startRadians,
+          endRadians,
+      );
+
       tempAngle += sectionDegree;
     }
 
@@ -151,6 +162,72 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
       ..moveTo(startLine.from.dx, startLine.from.dy)
       ..close();
+  }
+
+  void _drawSectionBorders(
+      CanvasWrapper canvasWrapper,
+      PaintHolder<PieChartData> holder,
+      Offset center,
+      Path sectionPath,
+      PieChartSectionData section,
+      double startRadians,
+      double endRadians,
+      ) {
+    final data = holder.data;
+    final viewSize = canvasWrapper.size;
+    final sweepRadians = endRadians - startRadians;
+    if (!section.borderData.anyVisible) {
+      return;
+    }
+
+    canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+
+    // Draw Left Border
+    final leftSide = section.borderData.left;
+    if (leftSide.isVisible()) {
+      final leftDirection = Offset(math.cos(startRadians), math.sin(startRadians));
+      final leftStart = center + leftDirection * _calculateCenterRadius(viewSize, holder);
+      final leftEnd =
+          leftStart + leftDirection * section.radius;
+      _sectionPaint.color = leftSide.color;
+      _sectionPaint.strokeWidth = leftSide.width * 2;
+      canvasWrapper.drawLine(leftStart, leftEnd, _sectionPaint);
+    }
+
+    // Draw Right Border
+    final rightSide = section.borderData.right;
+    if (rightSide.isVisible()) {
+      final rightDirection = Offset(math.cos(endRadians), math.sin(endRadians));
+      final rightStart = center + rightDirection * data.centerSpaceRadius;
+      final rightEnd =
+          rightStart + rightDirection * section.radius;
+      _sectionPaint.color = rightSide.color;
+      _sectionPaint.strokeWidth = rightSide.width * 2;
+      canvasWrapper.drawLine(rightStart, rightEnd, _sectionPaint);
+    }
+
+    // Draw Facing Border
+    // final facingSide = section.borderData.facing;
+    // if (facingSide.isVisible()) {
+    //   _sectionPaint.color = facingSide.color;
+    //   _sectionPaint.strokeWidth = facingSide.width;
+    //   canvasWrapper.drawArc(
+    //     Rect.fromCircle(
+    //       center: center,
+    //       radius: _calculateCenterRadius(viewSize, holder)
+    //           + section.radius - (_sectionPaint.strokeWidth / 2),
+    //     ),
+    //     startRadians,
+    //     sweepRadians,
+    //     false,
+    //     _sectionPaint,
+    //   );
+    // }
+
+    // _sectionsSpaceClearPaint.blendMode = BlendMode.srcOut;
+    // _sectionsSpaceClearPaint.style = PaintingStyle.fill;
+    // canvasWrapper.drawPath(sectionPath, _sectionsSpaceClearPaint);
+    canvasWrapper.restore();
   }
 
   /// firstly the sections draw close to eachOther without any space,

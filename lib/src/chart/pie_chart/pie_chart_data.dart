@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../base/base_chart/base_chart_data.dart';
 import 'pie_chart.dart';
+import 'package:fl_chart/src/extensions/border_side_extensions.dart';
 
 /// [PieChart] needs this class to render itself.
 ///
@@ -159,6 +160,9 @@ class PieChartSectionData {
   /// 0.0 means near the center,
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
+  
+  /// Defines the borders stroke (color, width) of this section.
+  final PieSectionBorderData borderData;
 
   /// [PieChart] draws section from right side of the circle (0 degrees),
   /// each section have a [value] that determines how much it should occupy,
@@ -189,6 +193,7 @@ class PieChartSectionData {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    PieSectionBorderData? borderData,
   })  : value = value ?? 10,
         color = color ?? Colors.red,
         radius = radius ?? 40,
@@ -198,7 +203,8 @@ class PieChartSectionData {
         title = title ?? value.toString(),
         badgeWidget = badgeWidget ?? Container(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
-        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5,
+        borderData = borderData ?? PieSectionBorderData();
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
@@ -212,6 +218,7 @@ class PieChartSectionData {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    PieSectionBorderData? borderData,
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
@@ -225,6 +232,7 @@ class PieChartSectionData {
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
       badgePositionPercentageOffset:
           badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
+      borderData: borderData ?? this.borderData,
     );
   }
 
@@ -242,8 +250,41 @@ class PieChartSectionData {
           lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
       badgePositionPercentageOffset:
           lerpDouble(a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
+      borderData: PieSectionBorderData.lerp(a.borderData, b.borderData, t),
     );
   }
+}
+
+class PieSectionBorderData with EquatableMixin {
+  final BorderSide left;
+  final BorderSide right;
+  final BorderSide facing;
+
+  bool get anyVisible {
+    return left.isVisible() || left.isVisible() || facing.isVisible();
+  }
+
+  PieSectionBorderData({
+    this.left = BorderSide.none,
+    this.right = BorderSide.none,
+    this.facing = BorderSide.none,
+  });
+
+  /// Lerps a [PieSectionBorderData] based on [t] value, check [Tween.lerp].
+  static PieSectionBorderData lerp(PieSectionBorderData a, PieSectionBorderData b, double t) {
+    return PieSectionBorderData(
+        left: BorderSide.lerp(a.left, b.left, t),
+        right: BorderSide.lerp(a.right, b.right, t),
+        facing: BorderSide.lerp(a.facing, b.facing, t),
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    left,
+    right,
+    facing,
+  ];
 }
 
 /// [PieChart]'s touch callback.

@@ -118,6 +118,11 @@ class PieChart2State extends State {
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+              borderData: PieSectionBorderData(
+                facing: BorderSide(color: Colors.black.withOpacity(1), width: 8,),
+                left: BorderSide(color: Colors.black, width: 14),
+                right: BorderSide(color: Colors.black, width: 14),
+              )
           );
         case 2:
           return PieChartSectionData(

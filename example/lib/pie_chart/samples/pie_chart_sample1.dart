@@ -79,7 +79,7 @@ class PieChartSample1State extends State {
                       borderData: FlBorderData(
                         show: false,
                       ),
-                      sectionsSpace: 1,
+                      sectionsSpace: 10,
                       centerSpaceRadius: 0,
                       sections: showingSections()),
                 ),
