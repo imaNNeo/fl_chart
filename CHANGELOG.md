@@ -1,5 +1,15 @@
 ## newVersion
 * [IMPROVEMENT] Added `children` property in the [LineTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetooltipitem), [BarTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartooltipitem) and [ScatterTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertooltipitem) which accepts a list of [TextSpan](https://api.flutter.dev/flutter/painting/TextSpan-class.html). It allows you to have more customized texts inside the tooltip. See [BarChartSample1](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) and [ScatterSample2](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#sample-2-source-code).
+* [IMPROVEMENT] Added `getTouchLineStart` and `getTouchLineEnd` in [LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling) to give more customizability over showing the touch lines. see [SampleLineChart9](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code).
+* [BREAKING] Removed `fullHeightTouchLine` property from [LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling). Now you can have a full line with following snippet:
+```dart
+LineTouchData(
+  ...
+  getTouchLineStart: (barData, index) => -double.infinity // default: from bottom,
+  getTouchLineEnd: (barData, index) => double.infinity //to top,
+  ...
+)
+```
 
 ## 0.30.0
 * [IMPROVEMENT] We now use [RenderObject](https://api.flutter.dev/flutter/rendering/RenderObject-class.html) as our default drawing system. It brings a lot of stability. Such as size handling, hitTest handling (touches), and It makes us possible to paint Widgets inside our chart (It might fix #383, #556, #582, #584, #591).
