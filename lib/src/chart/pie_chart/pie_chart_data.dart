@@ -54,7 +54,10 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
-  })  : assert(!_sectionsContainsZero(sections), "section's value can't be zero", ),
+  })  : assert(
+          !_sectionsContainsZero(sections),
+          "section's value can't be zero",
+        ),
         sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,

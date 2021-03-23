@@ -73,7 +73,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     PaintHolder<PieChartData> holder,
   ) {
     final data = holder.data;
-    final shouldDrawSeparators = data.sectionsSpace != 0 && data.sections.length != 1;
+    final shouldDrawSeparators = data.sectionsSpace != 0 && data.sections.length > 1;
 
     final viewSize = canvasWrapper.size;
 
@@ -99,8 +99,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         radius: centerRadius,
       );
 
-      _sectionPaint.color = section.color;
-      _sectionPaint.strokeWidth = section.radius;
+      if (sectionDegree == 360) {
+        _sectionPaint.color = section.color;
+        _sectionPaint.strokeWidth = section.radius;
+        _sectionPaint.style = PaintingStyle.stroke;
+        canvasWrapper.drawCircle(center, centerRadius + section.radius / 2, _sectionPaint);
+        return;
+      }
 
       final startRadians = radians(tempAngle);
       final sweepRadians = radians(sectionDegree);
@@ -112,13 +117,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final startLine = Line(startLineFrom, startLineTo);
 
       final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
-      final endLineFrom = center + endLineDirection * data.centerSpaceRadius;
+      final endLineFrom = center + endLineDirection * centerRadius;
       final endLineTo = endLineFrom + endLineDirection * section.radius;
       final endLine = Line(endLineFrom, endLineTo);
 
       final sectionPath = _generateSectionPath(
           startLine, endLine, startRadians, endRadians, sectionRadiusRect, centerRadiusRect);
 
+      _sectionPaint.color = section.color;
       _sectionPaint.style = PaintingStyle.fill;
       canvasWrapper.drawPath(sectionPath, _sectionPaint);
       tempAngle += sectionDegree;

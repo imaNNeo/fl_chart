@@ -110,11 +110,15 @@ class RenderPieChart extends RenderBox
     var counter = 0;
     var badgeOffsets = _painter.getBadgeOffsets(size, paintHolder);
     while (child != null) {
+      if (counter >= badgeOffsets.length) {
+        break;
+      }
       child.layout(childConstraints, parentUsesSize: true);
       final childParentData = child.parentData! as MultiChildLayoutParentData;
       final sizeOffset = Offset(child.size.width / 2, child.size.height / 2);
-      childParentData.offset = badgeOffsets[counter++]! - sizeOffset;
+      childParentData.offset = badgeOffsets[counter]! - sizeOffset;
       child = childParentData.nextSibling;
+      counter++;
     }
   }
 
