@@ -780,10 +780,10 @@ class FlDotData with EquatableMixin {
 
 /// This class contains the interface that all DotPainters should conform to.
 abstract class FlDotPainter with EquatableMixin {
-  /// This method should be overriden to draw the dot shape.
+  /// This method should be overridden to draw the dot shape.
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas);
 
-  /// This method should be overriden to return the size of the shape.
+  /// This method should be overridden to return the size of the shape.
   Size getSize(FlSpot spot);
 }
 
@@ -1303,9 +1303,13 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// [LineTouchResponse] shows a tooltip popup above the touched spot.
   final bool handleBuiltInTouches;
 
-  /// Sets the indicator line full height, from bottom to top of the chart,
-  /// and goes through the targeted spot.
-  final bool fullHeightTouchLine;
+  /// The starting point on y axis of the touch line. By default, line starts on the bottom of
+  /// the chart.
+  final GetTouchLineY getTouchLineStart;
+
+  /// The end point on y axis of the touch line. By default, line ends at the touched point.
+  /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
+  final GetTouchLineY getTouchLineEnd;
 
   /// Informs the touchResponses
   final LineTouchCallback? touchCallback;
@@ -1315,10 +1319,8 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// touch occurs (or you can show it manually using, [LineChartData.showingTooltipIndicators])
   /// and also it shows an indicator (contains a thicker line and larger dot on the targeted spot),
   /// You can define how this indicator looks like through [getTouchedSpotIndicator] callback,
-  /// You can customize this tooltip using [touchTooltipData], indicator lines starts from  bottom
-  /// of the chart to the targeted spot, you can change this behavior by [fullHeightTouchLine],
-  /// if [fullHeightTouchLine] sets true, the line goes from bottom to top of the chart,
-  /// and goes through the targeted spot.
+  /// You can customize this tooltip using [touchTooltipData], indicator lines starts from position
+  /// controlled by [getTouchLineStart] and ends at position controlled by [getTouchLineEnd].
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
   ///
   /// You can listen to touch events using [touchCallback],
@@ -1329,14 +1331,16 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
-    bool? fullHeightTouchLine,
     bool? handleBuiltInTouches,
+    GetTouchLineY? getTouchLineStart,
+    GetTouchLineY? getTouchLineEnd,
     LineTouchCallback? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
-        fullHeightTouchLine = fullHeightTouchLine ?? false,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
+        getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
+        getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
         touchCallback = touchCallback,
         super(enabled ?? true);
 
@@ -1347,7 +1351,8 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
-    bool? fullHeightTouchLine,
+    GetTouchLineY? getTouchLineStart,
+    GetTouchLineY? getTouchLineEnd,
     bool? handleBuiltInTouches,
     Function(LineTouchResponse)? touchCallback,
   }) {
@@ -1356,7 +1361,8 @@ class LineTouchData extends FlTouchData with EquatableMixin {
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
-      fullHeightTouchLine: fullHeightTouchLine ?? this.fullHeightTouchLine,
+      getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
+      getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchCallback: touchCallback ?? this.touchCallback,
     );
@@ -1369,7 +1375,8 @@ class LineTouchData extends FlTouchData with EquatableMixin {
         getTouchedSpotIndicator,
         touchSpotThreshold,
         handleBuiltInTouches,
-        fullHeightTouchLine,
+        getTouchLineStart,
+        getTouchLineEnd,
         touchCallback,
         enabled,
       ];
@@ -1383,6 +1390,9 @@ class LineTouchData extends FlTouchData with EquatableMixin {
 /// each [TouchedSpotIndicatorData] determines the look of showing indicator.
 typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData?> Function(
     LineChartBarData barData, List<int> spotIndexes);
+
+/// Used for determine the touch indicator line's starting/end point.
+typedef GetTouchLineY = double Function(LineChartBarData barData, int spotIndex);
 
 /// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
@@ -1407,6 +1417,16 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
 
     return TouchedSpotIndicatorData(flLine, dotData);
   }).toList();
+}
+
+/// By default line starts from the bottom of the chart.
+double defaultGetTouchLineStart(LineChartBarData barData, int spotIndex) {
+  return -double.infinity;
+}
+
+/// By default line ends at the touched point.
+double defaultGetTouchLineEnd(LineChartBarData barData, int spotIndex) {
+  return barData.spots[spotIndex].y;
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
