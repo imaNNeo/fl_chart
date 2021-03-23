@@ -39,14 +39,18 @@ It makes draw functions testable.
 After you have made your changes, you have to make sure your code works
 correctly and meets our guidelines. Our guidelines are:
 
-- Make sure the code passes the tests. To run tests, run `flutter test`.
+You can simply run `make checkstyle`, and if you faced any formatting problem, run `make format`.
 
-- Make sure to run `flutter analyze` and resolve any warnings or errors.
+##### Run `make checkstyle` to ensure that your code is formatted correctly
+- It runs `flutter analyze` to verify that there is no any warning or error.
+- It runs `flutter format --set-exit-if-changed --dry-run --line-length 100 .` to verify that code has formatted correctly.
 
-- The code should be formatted correctly. For Visual Studio Code users, this is
-  automatically enforced. Otherwise, you can run this command inside the
-  project from the command line: `flutter format --line-length 100 .`.
-  We use `flutter format --set-exit-if-changed --dry-run --line-length 100 .` command in CI.
+#### Run `make format` to reformat the code
+- It runs `flutter format --line-length 100 .` to format your code with 100 characters limit.
+
+
+#### Run `make runTests` to ensure that all tests are passing.
+- It runs `flutter test` under the hood.
 
 ## Creating a Pull Request
 
