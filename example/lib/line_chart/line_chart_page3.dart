@@ -9,9 +9,8 @@ class LineChartPage3 extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 28, vertical: 18),
           children: <Widget>[
             const Text(
               'LineChart (reversed)',
