@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -86,30 +87,70 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final section = data.sections[i];
       final sectionDegree = sectionsAngle[i];
 
-      final rect = Rect.fromCircle(
+      final sectionRadiusRect = Rect.fromCircle(
         center: center,
-        radius: _calculateCenterRadius(viewSize, holder) + (section.radius / 2),
+        radius: _calculateCenterRadius(viewSize, holder) + section.radius,
+      );
+
+      final centerRadiusRect = Rect.fromCircle(
+          center: center,
+          radius: _calculateCenterRadius(viewSize, holder),
       );
 
       _sectionPaint.color = section.color;
       _sectionPaint.strokeWidth = section.radius;
 
-      final startAngle = tempAngle;
-      final sweepAngle = sectionDegree;
-      canvasWrapper.drawArc(
-        rect,
-        radians(startAngle),
-        radians(sweepAngle),
-        false,
-        _sectionPaint,
+      final startRadians = radians(tempAngle);
+      final sweepRadians = radians(sectionDegree);
+      final endRadians = startRadians + sweepRadians;
+
+      final startLineDirection = Offset(math.cos(startRadians), math.sin(startRadians));
+      final startLineFrom =  center + startLineDirection * _calculateCenterRadius(viewSize, holder);
+      final startLineTo = startLineFrom + startLineDirection * section.radius;
+      final startLine = Line(startLineFrom, startLineTo);
+
+      final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
+      final endLineFrom = center + endLineDirection * data.centerSpaceRadius;
+      final endLineTo = endLineFrom + endLineDirection * section.radius;
+      final endLine = Line(endLineFrom, endLineTo);
+
+      final sectionPath = _generateSectionPath(
+        startLine,
+        endLine,
+        startRadians,
+        endRadians,
+        sectionRadiusRect,
+        centerRadiusRect
       );
 
-      tempAngle += sweepAngle;
+      _sectionPaint.style = PaintingStyle.fill;
+      canvasWrapper.drawPath(sectionPath, _sectionPaint);
+      tempAngle += sectionDegree;
     }
 
     if (shouldDrawSeparators) {
       _removeSectionsSpace(canvasWrapper, holder);
     }
+  }
+
+  /// Generates a path around a section
+  Path _generateSectionPath(
+    Line startLine,
+    Line endLine,
+    double startRadians,
+    double endRadians,
+    Rect sectionRadiusRect,
+    Rect centerRadiusRect,
+  ) {
+    final sweepRadians = endRadians - startRadians;
+    return Path()
+      ..moveTo(startLine.from.dx, startLine.from.dy)
+      ..lineTo(startLine.to.dx, startLine.to.dy)
+      ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+      ..lineTo(endLine.from.dx, endLine.from.dy)
+      ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+      ..moveTo(startLine.from.dx, startLine.from.dy)
+      ..close();
   }
 
   /// firstly the sections draw close to eachOther without any space,
