@@ -63,7 +63,10 @@ class PieChartData extends BaseChartData with EquatableMixin {
         sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
-        super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
+        super(
+          borderData: borderData ?? FlBorderData(show: false),
+          touchData: pieTouchData ?? PieTouchData(),
+        );
 
   /// Returns true if find any zero value in the list.
   static bool _sectionsContainsZero(List<PieChartSectionData>? list) {

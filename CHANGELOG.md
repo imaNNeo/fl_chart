@@ -4,6 +4,7 @@
 * [IMPROVEMENT] Enabled `sectionsSpace` in PieChart for the web.
 * [IMPROVEMENT] Added [Makefile](https://makefiletutorial.com) commands which makes it comfortable for verifying your code before push (It is related to contributors, red more about it in [CONTRIBUTING.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md)).
 * [BUGFIX] Fixed some bugs on drawing PieChart (for example when we have only one section), #582, 
+* [BREAKING] Border of pieChart now is hide by default (you can show it using `borderData: FlBorderData(show: true)`.
 * [BREAKING] You cannot set `0` value on [PieChartSectionData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartsectiondata).value anymore, instead remove it from list.
 * [BREAKING] Removed `fullHeightTouchLine` property from [LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling). Now you can have a full line with following snippet:
 ```dart
