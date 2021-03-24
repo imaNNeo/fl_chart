@@ -335,6 +335,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final center = viewSize.center(Offset.zero);
     final badgeWidgetsOffsets = <int, Offset>{};
 
+    if (data.sections.isEmpty) {
+      return badgeWidgetsOffsets;
+    }
+
     var tempAngle = data.startDegreeOffset;
 
     final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
