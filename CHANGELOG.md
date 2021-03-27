@@ -1,3 +1,47 @@
+## 0.30.0
+* [IMPROVEMENT] We now use [RenderObject](https://api.flutter.dev/flutter/rendering/RenderObject-class.html) as our default drawing system. It brings a lot of stability. Such as size handling, hitTest handling (touches), and It makes us possible to paint Widgets inside our chart (It might fix #383, #556, #582, #584, #591).
+* [IMPROVEMENT] Added [Radar Chart Documentations](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md)
+* [IMPROVEMENT] Added `textAlign` property in the [BarTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartooltipitem), [LineTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetooltipitem), and [ScatterTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertooltipitem), default is `TextAlign.center`.
+* [IMPROVEMENT] Added `direction` property in the [BarTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartouchtooltipdata), and [LineTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchtooltipdata) to specify the position of the tooltip (can be `auto`, `top`, `bottom`), default is `auto`.
+* [IMPROVEMENT] Updated touch flow, we now use [hitTest](https://api.flutter.dev/flutter/rendering/RenderProxyBoxWithHitTestBehavior/hitTest.html) for handling touch and interactions.
+* [IMPROVEMENT] Added 'clickHappened' property in all of our TouchResponses (such as [LineTouchResponse](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#LineTouchResponse), [BarTouchResponse](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartouchresponse), ...), #210.
+* [IMPROVEMENT] Added `swapAnimationCurve` property to all chart widgets which handles the built-in animation [Curve](https://api.flutter.dev/flutter/animation/Curves-class.html), #436.
+* [BREAKING] Some properties in [ScatterTouchResponse](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertouchresponse), and [PieTouchResponse](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#pietouchresponse) moved to a wrapper class, you need to access them through that wrapper class.
+* [BREAKING] Renamed `tooltipBottomMargin` to `tooltipMargin` property in the [BarTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartouchtooltipdata), and [LineTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchtooltipdata)
+* [Bugfix] Fixed `double.infinity` in [PieChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartdata) .centerSpaceRadius, #584. 
+
+## 0.20.1
+* [BREAKING] We now support flutter version 2.0 (null-safety), check out the [migration guide](https://dart.dev/null-safety/migration-guide).
+* [NEW_CHART] We have added [RadarChart](https://github.com/payam-zahedi/fl_chart/blob/master/repo_files/documentations/radar_chart.md). Thanks to [Payam Zahedi](https://github.com/payam-zahedi)!
+
+## 0.20.0-nullsafety1
+* [BREAKING] **We have migrated our project to null-safety. You may need to change your source-code to compile**. check [migration guide](https://dart.dev/null-safety/migration-guide).
+* [BREAKING] You cannot set null value on FlSpot any more (use FlSpot.nullSpot instead).
+
+## 0.12.3
+* [Bugfix] Fixed PieChart exception bug on sections tap, #514.
+* [Bugfix] Fixed PieChart badges problem, #538.
+* [Bugfix] Fixed Bug of drawing lines with strokeWidth zero, #558.
+* [Improvement] Updated example app to support web.
+* [Improvement] Show tooltips on mouse hover on Web, and Desktop.
+
+## 0.12.2
+* [Bugfix] Fixed PieChart badges draw in first frame problem, #513.
+* [Improvement] Use CanvasWrapper to proxy draw functions (It does not have any effect on the result, it makes the code testable)
+
+## 0.12.1
+* [Bugfix] Fixed PieChart badges bug with re-implementing the solution, #507
+* [Bugfix] Fix the setState issue using PieChart in the ListView, #467
+* [Bugfix] Fixed formatNumber bug for negative numbers, #486.
+* [Improvement] Added applyCutOffY property in [BarAreaSpotsLine](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#barareaspotsline) to inherit cutOffY property of its parent, #478.
+
+## 0.12.0
+* [Improvement] [BREAKING] Replaced `color` property with `colors` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), and [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata) to support gradient in BarChart, instead of solid color, #166. Check [BarChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-3-source-code)
+* [Improvement] Improved gradient stops calculating algorithm.
+* [Improvement] [BREAKING] Changed SideTitle's `textStyle` property to `getTextStyles` getter (it gives you the axis value, and you must return a TextStyle based on it), It helps you to have a different style for specific text, #439. Check it here [LineChartSample3](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-3-source-code)
+* [Improvement] Added `badgeWidget`, and `badgePositionPercentageOffset` in each [PieChartSectionData](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/pie_chart.md#piechartsectiondata) to provide a widget to show in the chart, see [this sample](https://github.com/imaNNeoFighT/fl_chart/blob/dev/repo_files/documentations/pie_chart.md#sample-3-source-code), #443. Providing a widget is an important step in our library, if it works perfectly, we will aplly this solution on other parts. Then I appreciate any feedback.
+* [Bugfix] Fixed aboveBarArea flickers after setState, #440.
+
 ## 0.11.1
 * [Bugfix] Fixed drawing BarChart rods with providing minY (for positive), maxY (for negative) values bug, #404.
 * [Bugfix] Fixed example app build fail error, by upgrading flutter_svg package to `0.18.1`

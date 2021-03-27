@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 class BarChartSample2 extends StatefulWidget {
   @override
@@ -105,8 +106,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                             touchedGroupIndex = response.spot.touchedBarGroupIndex;
 
                             setState(() {
-                              if (response.touchInput is FlLongPressEnd ||
-                                  response.touchInput is FlPanEnd) {
+                              if (response.touchInput is PointerExitEvent ||
+                                  response.touchInput is PointerUpEvent) {
                                 touchedGroupIndex = -1;
                                 showingBarGroups = List.of(rawBarGroups);
                               } else {
@@ -134,10 +135,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                         show: true,
                         bottomTitles: SideTitles(
                           showTitles: true,
-                          textStyle: TextStyle(
-                              color: const Color(0xff7589a2),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
+                          getTextStyles: (value) => const TextStyle(
+                              color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
                           margin: 20,
                           getTitles: (double value) {
                             switch (value.toInt()) {
@@ -162,10 +161,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
-                          textStyle: TextStyle(
-                              color: const Color(0xff7589a2),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
+                          getTextStyles: (value) => const TextStyle(
+                              color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
                           margin: 32,
                           reservedSize: 14,
                           getTitles: (value) {
@@ -203,12 +200,12 @@ class BarChartSample2State extends State<BarChartSample2> {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
         y: y1,
-        color: leftBarColor,
+        colors: [leftBarColor],
         width: width,
       ),
       BarChartRodData(
         y: y2,
-        color: rightBarColor,
+        colors: [rightBarColor],
         width: width,
       ),
     ]);

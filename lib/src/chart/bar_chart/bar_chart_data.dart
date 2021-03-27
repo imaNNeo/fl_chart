@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -46,112 +46,53 @@ class BarChartData extends AxisChartData with EquatableMixin {
   ///
   /// You can modify [barTouchData] to customize touch behaviors and responses.
   BarChartData({
-    List<BarChartGroupData> barGroups,
-    double groupsSpace,
-    BarChartAlignment alignment,
-    FlTitlesData titlesData,
-    BarTouchData barTouchData,
-    FlAxisTitleData axisTitleData,
-    double maxY,
-    double minY,
-    FlGridData gridData,
-    FlBorderData borderData,
-    RangeAnnotations rangeAnnotations,
-    Color backgroundColor,
+    List<BarChartGroupData>? barGroups,
+    double? groupsSpace,
+    BarChartAlignment? alignment,
+    FlTitlesData? titlesData,
+    BarTouchData? barTouchData,
+    FlAxisTitleData? axisTitleData,
+    double? maxY,
+    double? minY,
+    FlGridData? gridData,
+    FlBorderData? borderData,
+    RangeAnnotations? rangeAnnotations,
+    Color? backgroundColor,
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceBetween,
         titlesData = titlesData ?? FlTitlesData(),
         barTouchData = barTouchData ?? BarTouchData(),
         super(
-          axisTitleData: axisTitleData ?? FlAxisTitleData(),
-          gridData: gridData ??
-              FlGridData(
-                show: false,
-              ),
-          borderData: borderData,
-          rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
-          backgroundColor: backgroundColor,
-          touchData: barTouchData ?? BarTouchData(),
-        ) {
-    initSuperMinMaxValues(maxY, minY);
-  }
-
-  /// fills [minX], [maxX], [minY], [maxY] if they are null,
-  /// based on the provided [barGroups].
-  void initSuperMinMaxValues(
-    double maxY,
-    double minY,
-  ) {
-    for (int i = 0; i < barGroups.length; i++) {
-      final BarChartGroupData barData = barGroups[i];
-      if (barData.barRods == null || barData.barRods.isEmpty) {
-        throw Exception('barRods could not be null or empty');
-      }
-    }
-
-    if (barGroups.isNotEmpty) {
-      final canModifyMaxY = maxY == null;
-      if (canModifyMaxY) {
-        maxY = barGroups[0].barRods[0].y;
-      }
-
-      final canModifyMinY = minY == null;
-      if (canModifyMinY) {
-        minY = 0;
-      }
-
-      for (int i = 0; i < barGroups.length; i++) {
-        final BarChartGroupData barGroup = barGroups[i];
-        for (int j = 0; j < barGroup.barRods.length; j++) {
-          final BarChartRodData rod = barGroup.barRods[j];
-
-          if (canModifyMaxY && rod.y > maxY) {
-            maxY = rod.y;
-          }
-
-          if (canModifyMaxY &&
-              rod.backDrawRodData.show &&
-              rod.backDrawRodData.y != null &&
-              rod.backDrawRodData.y > maxY) {
-            maxY = rod.backDrawRodData.y;
-          }
-
-          if (canModifyMinY && rod.y < minY) {
-            minY = rod.y;
-          }
-
-          if (canModifyMinY &&
-              rod.backDrawRodData.show &&
-              rod.backDrawRodData.y != null &&
-              rod.backDrawRodData.y < minY) {
-            minY = rod.backDrawRodData.y;
-          }
-        }
-      }
-    }
-
-    super.minX = 0;
-    super.maxX = 1;
-    super.minY = minY ?? 0;
-    super.maxY = maxY ?? 1;
-  }
+            axisTitleData: axisTitleData ?? FlAxisTitleData(),
+            gridData: gridData ??
+                FlGridData(
+                  show: false,
+                ),
+            borderData: borderData,
+            rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
+            backgroundColor: backgroundColor,
+            touchData: barTouchData ?? BarTouchData(),
+            minX: 0,
+            maxX: 1,
+            maxY: maxY ?? BarChartHelper.calculateMaxAxisValues(barGroups ?? []).maxY,
+            minY: minY ?? BarChartHelper.calculateMaxAxisValues(barGroups ?? []).minY);
 
   /// Copies current [BarChartData] to a new [BarChartData],
   /// and replaces provided values.
   BarChartData copyWith({
-    List<BarChartGroupData> barGroups,
-    double groupsSpace,
-    BarChartAlignment alignment,
-    FlTitlesData titlesData,
-    FlAxisTitleData axisTitleData,
-    RangeAnnotations rangeAnnotations,
-    BarTouchData barTouchData,
-    FlGridData gridData,
-    FlBorderData borderData,
-    double maxY,
-    double minY,
-    Color backgroundColor,
+    List<BarChartGroupData>? barGroups,
+    double? groupsSpace,
+    BarChartAlignment? alignment,
+    FlTitlesData? titlesData,
+    FlAxisTitleData? axisTitleData,
+    RangeAnnotations? rangeAnnotations,
+    BarTouchData? barTouchData,
+    FlGridData? gridData,
+    FlBorderData? borderData,
+    double? maxY,
+    double? minY,
+    Color? backgroundColor,
   }) {
     return BarChartData(
       barGroups: barGroups ?? this.barGroups,
@@ -171,8 +112,8 @@ class BarChartData extends AxisChartData with EquatableMixin {
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
-  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) {
-    if (a is BarChartData && b is BarChartData && t != null) {
+  BarChartData lerp(BaseChartData a, BaseChartData b, double t) {
+    if (a is BarChartData && b is BarChartData) {
       return BarChartData(
         barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
         groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
@@ -194,7 +135,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         barGroups,
         groupsSpace,
         alignment,
@@ -250,15 +191,14 @@ class BarChartGroupData with EquatableMixin {
   /// on top of each [BarChartRodData] using [showingTooltipIndicators],
   /// just put indices you want to show it on top of them.
   BarChartGroupData({
-    @required int x,
-    List<BarChartRodData> barRods,
-    double barsSpace,
-    List<int> showingTooltipIndicators,
+    required int x,
+    List<BarChartRodData>? barRods,
+    double? barsSpace,
+    List<int>? showingTooltipIndicators,
   })  : x = x,
         barRods = barRods ?? const [],
         barsSpace = barsSpace ?? 2,
-        showingTooltipIndicators = showingTooltipIndicators ?? const [],
-        assert(x != null);
+        showingTooltipIndicators = showingTooltipIndicators ?? const [];
 
   /// width of the group (sum of all [BarChartRodData]'s width and spaces)
   double get width {
@@ -266,9 +206,9 @@ class BarChartGroupData with EquatableMixin {
       return 0;
     }
 
-    final double sumWidth =
+    final sumWidth =
         barRods.map((rodData) => rodData.width).reduce((first, second) => first + second);
-    final double spaces = (barRods.length - 1) * barsSpace;
+    final spaces = (barRods.length - 1) * barsSpace;
 
     return sumWidth + spaces;
   }
@@ -276,10 +216,10 @@ class BarChartGroupData with EquatableMixin {
   /// Copies current [BarChartGroupData] to a new [BarChartGroupData],
   /// and replaces provided values.
   BarChartGroupData copyWith({
-    int x,
-    List<BarChartRodData> barRods,
-    double barsSpace,
-    List<int> showingTooltipIndicators,
+    int? x,
+    List<BarChartRodData>? barRods,
+    double? barsSpace,
+    List<int>? showingTooltipIndicators,
   }) {
     return BarChartGroupData(
       x: x ?? this.x,
@@ -302,7 +242,7 @@ class BarChartGroupData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         x,
         barRods,
         barsSpace,
@@ -315,14 +255,30 @@ class BarChartRodData with EquatableMixin {
   /// [BarChart] renders rods vertically from zero to [y].
   final double y;
 
-  /// [BarChart] renders each rods using this [color].
-  final Color color;
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw.
+  /// then the [gradientFrom], [gradientTo] and [colorStops] is important,
+  final List<Color> colors;
+
+  /// Determines the start point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientFrom;
+
+  /// Determines the end point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientTo;
+
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
+  final List<double>? colorStops;
 
   /// [BarChart] renders each rods with this value.
   final double width;
 
   /// If you want to have a rounded rod, set this value.
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
 
   /// If you want to have a bar drawn in rear of this rod, use [backDrawRodData],
   /// it uses to have a bar with a passive color in rear of the rod,
@@ -357,14 +313,20 @@ class BarChartRodData with EquatableMixin {
   /// )
   /// ```
   BarChartRodData({
-    double y,
-    Color color,
-    double width,
-    BorderRadius borderRadius,
-    BackgroundBarChartRodData backDrawRodData,
-    List<BarChartRodStackItem> rodStackItems,
+    required double y,
+    List<Color>? colors,
+    Offset? gradientFrom,
+    Offset? gradientTo,
+    List<double>? gradientColorStops,
+    double? width,
+    BorderRadius? borderRadius,
+    BackgroundBarChartRodData? backDrawRodData,
+    List<BarChartRodStackItem>? rodStackItems,
   })  : y = y,
-        color = color ?? Colors.blueAccent,
+        colors = colors ?? [Colors.blueAccent],
+        gradientFrom = gradientFrom ?? const Offset(0.5, 1),
+        gradientTo = gradientTo ?? const Offset(0.5, 0),
+        colorStops = gradientColorStops,
         width = width ?? 8,
         borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
@@ -373,16 +335,22 @@ class BarChartRodData with EquatableMixin {
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
   BarChartRodData copyWith({
-    double y,
-    Color color,
-    double width,
-    Radius borderRadius,
-    BackgroundBarChartRodData backDrawRodData,
-    List<BarChartRodStackItem> rodStackItems,
+    double? y,
+    List<Color>? colors,
+    Offset? gradientFrom,
+    Offset? gradientTo,
+    List<double>? colorStops,
+    double? width,
+    BorderRadius? borderRadius,
+    BackgroundBarChartRodData? backDrawRodData,
+    List<BarChartRodStackItem>? rodStackItems,
   }) {
     return BarChartRodData(
       y: y ?? this.y,
-      color: color ?? this.color,
+      colors: colors ?? this.colors,
+      gradientFrom: gradientFrom ?? this.gradientFrom,
+      gradientTo: gradientTo ?? this.gradientTo,
+      gradientColorStops: colorStops ?? this.colorStops,
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
@@ -393,10 +361,13 @@ class BarChartRodData with EquatableMixin {
   /// Lerps a [BarChartRodData] based on [t] value, check [Tween.lerp].
   static BarChartRodData lerp(BarChartRodData a, BarChartRodData b, double t) {
     return BarChartRodData(
-      color: Color.lerp(a.color, b.color, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      gradientColorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
-      y: lerpDouble(a.y, b.y, t),
+      y: lerpDouble(a.y, b.y, t)!,
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
       rodStackItems: lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
     );
@@ -404,13 +375,16 @@ class BarChartRodData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         y,
-        color,
         width,
         borderRadius,
         backDrawRodData,
         rodStackItems,
+        colors,
+        gradientFrom,
+        gradientTo,
+        colorStops,
       ];
 }
 
@@ -446,9 +420,9 @@ class BarChartRodStackItem with EquatableMixin {
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
   BarChartRodStackItem copyWith({
-    double fromY,
-    double toY,
-    Color color,
+    double? fromY,
+    double? toY,
+    Color? color,
   }) {
     return BarChartRodStackItem(
       fromY ?? this.fromY,
@@ -460,15 +434,15 @@ class BarChartRodStackItem with EquatableMixin {
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
   static BarChartRodStackItem lerp(BarChartRodStackItem a, BarChartRodStackItem b, double t) {
     return BarChartRodStackItem(
-      lerpDouble(a.fromY, b.fromY, t),
-      lerpDouble(a.toY, b.toY, t),
-      Color.lerp(a.color, b.color, t),
+      lerpDouble(a.fromY, b.fromY, t)!,
+      lerpDouble(a.toY, b.toY, t)!,
+      Color.lerp(a.color, b.color, t)!,
     );
   }
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         fromY,
         toY,
         color,
@@ -487,44 +461,72 @@ class BackgroundBarChartRodData with EquatableMixin {
   /// [y] is the height of this rod
   final double y;
 
-  /// it will be rendered with filled [color]
-  final Color color;
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw.
+  /// then the [gradientFrom], [gradientTo] and [colorStops] is important,
+  final List<Color> colors;
+
+  /// Determines the start point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientFrom;
+
+  /// Determines the end point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientTo;
+
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
+  final List<double>? colorStops;
 
   /// It will be rendered in rear of the main rod,
   /// with [y] as the height, and [color] as the fill color,
   /// you prevent to show it, using [show] property.
   BackgroundBarChartRodData({
-    double y,
-    bool show,
-    Color color,
+    double? y,
+    bool? show,
+    List<Color>? colors,
+    Offset? gradientFrom,
+    Offset? gradientTo,
+    List<double>? colorStops,
   })  : y = y ?? 8,
         show = show ?? false,
-        color = color ?? Colors.blueGrey;
+        colors = colors ?? [Colors.blueGrey],
+        gradientFrom = gradientFrom ?? const Offset(0, 0),
+        gradientTo = gradientTo ?? const Offset(1, 0),
+        colorStops = colorStops;
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
   static BackgroundBarChartRodData lerp(
       BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
       y: lerpDouble(a.y, b.y, t),
-      color: Color.lerp(a.color, b.color, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       show: b.show,
     );
   }
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         show,
         y,
-        color,
+        colors,
+        gradientTo,
+        gradientFrom,
+        colorStops,
       ];
 }
 
 /// Holds data to handle touch events, and touch responses in the [BarChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
-/// in a simple way, each chart captures the touch events, and passes a concrete
-/// instance of [FlTouchInput] to the painter, and gets a generated [BarTouchResponse].
+/// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
+/// to the painter, and gets touched spot, and wraps it into a concrete [BarTouchResponse].
 class BarTouchData extends FlTouchData with EquatableMixin {
   /// Configs of how touch tooltip popup.
   final BarTouchTooltipData touchTooltipData;
@@ -540,7 +542,7 @@ class BarTouchData extends FlTouchData with EquatableMixin {
   final bool handleBuiltInTouches;
 
   /// Informs the touchResponses
-  final Function(BarTouchResponse) touchCallback;
+  final Function(BarTouchResponse)? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [BarChart] shows a tooltip popup on top of the bars if
@@ -554,12 +556,12 @@ class BarTouchData extends FlTouchData with EquatableMixin {
   /// It gives you a [BarTouchResponse] that contains some
   /// useful information about happened touch.
   BarTouchData({
-    bool enabled,
-    BarTouchTooltipData touchTooltipData,
-    EdgeInsets touchExtraThreshold,
-    bool allowTouchBarBackDraw,
-    bool handleBuiltInTouches,
-    Function(BarTouchResponse) touchCallback,
+    bool? enabled,
+    BarTouchTooltipData? touchTooltipData,
+    EdgeInsets? touchExtraThreshold,
+    bool? allowTouchBarBackDraw,
+    bool? handleBuiltInTouches,
+    Function(BarTouchResponse)? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? BarTouchTooltipData(),
         touchExtraThreshold = touchExtraThreshold ?? const EdgeInsets.all(4),
         allowTouchBarBackDraw = allowTouchBarBackDraw ?? false,
@@ -570,12 +572,12 @@ class BarTouchData extends FlTouchData with EquatableMixin {
   /// Copies current [BarTouchData] to a new [BarTouchData],
   /// and replaces provided values.
   BarTouchData copyWith({
-    bool enabled,
-    BarTouchTooltipData touchTooltipData,
-    EdgeInsets touchExtraThreshold,
-    bool allowTouchBarBackDraw,
-    bool handleBuiltInTouches,
-    Function(BarTouchResponse) touchCallback,
+    bool? enabled,
+    BarTouchTooltipData? touchTooltipData,
+    EdgeInsets? touchExtraThreshold,
+    bool? allowTouchBarBackDraw,
+    bool? handleBuiltInTouches,
+    Function(BarTouchResponse)? touchCallback,
   }) {
     return BarTouchData(
       enabled: enabled ?? this.enabled,
@@ -589,7 +591,7 @@ class BarTouchData extends FlTouchData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         enabled,
         touchTooltipData,
         touchExtraThreshold,
@@ -597,6 +599,18 @@ class BarTouchData extends FlTouchData with EquatableMixin {
         handleBuiltInTouches,
         touchCallback,
       ];
+}
+
+/// Controls showing tooltip on top or bottom.
+enum TooltipDirection {
+  /// Tooltip shows on top if value is positive, on bottom if value is negative.
+  auto,
+
+  /// Tooltip always shows on top.
+  top,
+
+  /// Tooltip always shows on bottom.
+  bottom,
 }
 
 /// Holds representation data for showing tooltip popup on top of rods.
@@ -611,7 +625,7 @@ class BarTouchTooltipData with EquatableMixin {
   final EdgeInsets tooltipPadding;
 
   /// Applies a bottom margin for showing tooltip on top of rods.
-  final double tooltipBottomMargin;
+  final double tooltipMargin;
 
   /// Restricts the tooltip's width.
   final double maxContentWidth;
@@ -625,13 +639,16 @@ class BarTouchTooltipData with EquatableMixin {
   /// Forces the tooltip to shift vertically inside the chart, if overflow happens.
   final bool fitInsideVertically;
 
+  /// Controls showing tooltip on top or bottom, default is auto.
+  final TooltipDirection direction;
+
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
   /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
-  /// or If you want to have a bottom margin, set [tooltipBottomMargin].
+  /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -639,31 +656,33 @@ class BarTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   BarTouchTooltipData({
-    Color tooltipBgColor,
-    double tooltipRoundedRadius,
-    EdgeInsets tooltipPadding,
-    double tooltipBottomMargin,
-    double maxContentWidth,
-    GetBarTooltipItem getTooltipItem,
-    bool fitInsideHorizontally,
-    bool fitInsideVertically,
+    Color? tooltipBgColor,
+    double? tooltipRoundedRadius,
+    EdgeInsets? tooltipPadding,
+    double? tooltipMargin,
+    double? maxContentWidth,
+    GetBarTooltipItem? getTooltipItem,
+    bool? fitInsideHorizontally,
+    bool? fitInsideVertically,
+    TooltipDirection? direction,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipBottomMargin = tooltipBottomMargin ?? 16,
+        tooltipMargin = tooltipMargin ?? 16,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
+        direction = direction ?? TooltipDirection.auto,
         super();
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipBottomMargin,
+        tooltipMargin,
         maxContentWidth,
         getTooltipItem,
         fitInsideHorizontally,
@@ -676,7 +695,7 @@ class BarTouchTooltipData with EquatableMixin {
 /// You can override [BarTouchTooltipData.getTooltipItem], it gives you
 /// [group], [groupIndex], [rod], and [rodIndex] that touch happened on,
 /// then you should and pass your custom [BarTooltipItem] to show inside the tooltip popup.
-typedef GetBarTooltipItem = BarTooltipItem Function(
+typedef GetBarTooltipItem = BarTooltipItem? Function(
   BarChartGroupData group,
   int groupIndex,
   BarChartRodData rod,
@@ -684,7 +703,7 @@ typedef GetBarTooltipItem = BarTooltipItem Function(
 );
 
 /// Default implementation for [BarTouchTooltipData.getTooltipItem].
-BarTooltipItem defaultBarTooltipItem(
+BarTooltipItem? defaultBarTooltipItem(
   BarChartGroupData group,
   int groupIndex,
   BarChartRodData rod,
@@ -703,39 +722,58 @@ class BarTooltipItem with EquatableMixin {
   /// Text of the content.
   final RichText text;
 
+  /// TextAlign of the showing content.
+  final TextAlign textAlign;
+
   /// content of the tooltip, is a [text] String with a [textStyle].
-  BarTooltipItem(RichText text) : text = text;
+
+  BarTooltipItem(this.text, this.textStyle, {this.textAlign = TextAlign.center});
+
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         text,
+        textStyle,
+        textAlign,
       ];
 }
+
+/// [BarChart]'s touch callback.
+typedef BarTouchCallback = void Function(BarTouchResponse);
 
 /// Holds information about touch response in the [BarChart].
 ///
 /// You can override [BarTouchData.touchCallback] to handle touch events,
 /// it gives you a [BarTouchResponse] and you can do whatever you want.
-class BarTouchResponse extends BaseTouchResponse with EquatableMixin {
+class BarTouchResponse extends BaseTouchResponse {
   /// Gives information about the touched spot
-  final BarTouchedSpot spot;
+  final BarTouchedSpot? spot;
 
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
   /// [touchInput] is the type of happened touch.
+  /// [clickHappened] will be true, if we detect a click event.
   BarTouchResponse(
-    BarTouchedSpot spot,
-    FlTouchInput touchInput,
+    BarTouchedSpot? spot,
+    PointerEvent touchInput,
+    bool clickHappened,
   )   : spot = spot,
-        super(touchInput);
+        super(touchInput, clickHappened);
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object> get props => [
-        spot,
-        touchInput,
-      ];
+  /// Copies current [BarTouchResponse] to a new [BarTouchResponse],
+  /// and replaces provided values.
+  BarTouchResponse copyWith({
+    BarTouchedSpot? spot,
+    PointerEvent? touchInput,
+    bool? clickHappened,
+  }) {
+    return BarTouchResponse(
+      spot ?? this.spot,
+      touchInput ?? this.touchInput,
+      clickHappened ?? this.clickHappened,
+    );
+  }
 }
 
 /// It gives you information about the touched spot.
@@ -747,7 +785,7 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
   final int touchedRodDataIndex;
 
   /// It can be null, if nothing found
-  final BarChartRodStackItem touchedStackItem;
+  final BarChartRodStackItem? touchedStackItem;
 
   /// It can be -1, if nothing found
   final int touchedStackItemIndex;
@@ -765,7 +803,7 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
     int touchedBarGroupIndex,
     BarChartRodData touchedRodData,
     int touchedRodDataIndex,
-    BarChartRodStackItem touchedStackItem,
+    BarChartRodStackItem? touchedStackItem,
     int touchedStackItemIndex,
     FlSpot spot,
     Offset offset,
@@ -779,7 +817,7 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         touchedBarGroup,
         touchedBarGroupIndex,
         touchedRodData,
@@ -793,9 +831,10 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)
 class BarChartDataTween extends Tween<BarChartData> {
-  BarChartDataTween({BarChartData begin, BarChartData end}) : super(begin: begin, end: end);
+  BarChartDataTween({required BarChartData begin, required BarChartData end})
+      : super(begin: begin, end: end);
 
   /// Lerps a [BarChartData] based on [t] value, check [Tween.lerp].
   @override
-  BarChartData lerp(double t) => begin.lerp(begin, end, t);
+  BarChartData lerp(double t) => begin!.lerp(begin!, end!, t);
 }

@@ -33,38 +33,34 @@ double translateRotatedPosition(double size, double degree) {
 }
 
 /// Decreases [borderRadius] to <= width / 2
-BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
+BorderRadius? normalizeBorderRadius(BorderRadius? borderRadius, double width) {
   if (borderRadius == null) {
     return null;
   }
 
   Radius topLeft;
-  if (borderRadius.topLeft != null &&
-      (borderRadius.topLeft.x > width / 2 || borderRadius.topLeft.y > width / 2)) {
+  if (borderRadius.topLeft.x > width / 2 || borderRadius.topLeft.y > width / 2) {
     topLeft = Radius.circular(width / 2);
   } else {
     topLeft = borderRadius.topLeft;
   }
 
   Radius topRight;
-  if ((borderRadius.topRight != null) &&
-      (borderRadius.topRight.x > width / 2 || borderRadius.topRight.y > width / 2)) {
+  if (borderRadius.topRight.x > width / 2 || borderRadius.topRight.y > width / 2) {
     topRight = Radius.circular(width / 2);
   } else {
     topRight = borderRadius.topRight;
   }
 
   Radius bottomLeft;
-  if ((borderRadius.bottomLeft != null) &&
-      (borderRadius.bottomLeft.x > width / 2 || borderRadius.bottomLeft.y > width / 2)) {
+  if (borderRadius.bottomLeft.x > width / 2 || borderRadius.bottomLeft.y > width / 2) {
     bottomLeft = Radius.circular(width / 2);
   } else {
     bottomLeft = borderRadius.bottomLeft;
   }
 
   Radius bottomRight;
-  if ((borderRadius.bottomRight != null) &&
-      (borderRadius.bottomRight.x > width / 2 || borderRadius.bottomRight.y > width / 2)) {
+  if (borderRadius.bottomRight.x > width / 2 || borderRadius.bottomRight.y > width / 2) {
     bottomRight = Radius.circular(width / 2);
   } else {
     bottomRight = borderRadius.bottomRight;
@@ -81,7 +77,7 @@ BorderRadius normalizeBorderRadius(BorderRadius borderRadius, double width) {
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
   final length = colors.length;
-  if (stops == null || stops.length != length) {
+  if (stops.length != length) {
     /// provided gradientColorStops is invalid and we calculate it here
     stops = List.generate(length, (i) => (i + 1) / length);
   }
@@ -93,7 +89,7 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
       return leftColor;
     } else if (t < rightStop) {
       final sectionT = (t - leftStop) / (rightStop - leftStop);
-      return Color.lerp(leftColor, rightColor, sectionT);
+      return Color.lerp(leftColor, rightColor, sectionT)!;
     }
   }
   return colors.last;
@@ -108,13 +104,13 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
 /// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
 double getEfficientInterval(double axisViewSize, double diffInYAxis,
     {double pixelPerInterval = 10}) {
-  final int allowedCount = axisViewSize ~/ pixelPerInterval;
-  final double accurateInterval = diffInYAxis / allowedCount;
+  final allowedCount = axisViewSize ~/ pixelPerInterval;
+  final accurateInterval = diffInYAxis / allowedCount;
   return _roundInterval(accurateInterval).toDouble();
 }
 
 int _roundInterval(double input) {
-  int count = 0;
+  var count = 0;
 
   if (input >= 10) {
     count++;
@@ -125,14 +121,14 @@ int _roundInterval(double input) {
     count++;
   }
 
-  final double scaled = input >= 10 ? input.round() / 10 : input;
+  final scaled = input >= 10 ? input.round() / 10 : input;
 
   if (scaled >= 2.6) {
-    return 5 * pow(10, count);
+    return 5 * pow(10, count).toInt();
   } else if (scaled >= 1.6) {
-    return 2 * pow(10, count);
+    return 2 * pow(10, count).toInt();
   } else {
-    return pow(10, count);
+    return pow(10, count).toInt();
   }
 }
 
@@ -153,6 +149,12 @@ const double kilo = 1000;
 /// otherwise it returns number itself.
 /// also it removes .0, at the end of number for simplicity.
 String formatNumber(double number) {
+  final isNegative = number < 0;
+
+  if (isNegative) {
+    number = number.abs();
+  }
+
   String resultNumber;
   String symbol;
   if (number >= billion) {
@@ -171,6 +173,10 @@ String formatNumber(double number) {
 
   if (resultNumber.endsWith('.0')) {
     resultNumber = resultNumber.substring(0, resultNumber.length - 2);
+  }
+
+  if (isNegative) {
+    resultNumber = '-$resultNumber';
   }
 
   return resultNumber + symbol;

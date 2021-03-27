@@ -1,72 +1,79 @@
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'base_chart_data.dart';
-import 'touch_input.dart';
 
 /// Base class of our painters.
 ///
-/// It is responsible to do basic jobs, like drawing borders of charts.
-abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
-  final D data;
-  final D targetData;
-  Paint _borderPaint;
-  double textScale;
+/// It is responsible to do basic draws, like drawing borders of charts.
+class BaseChartPainter<D extends BaseChartData> {
+  late Paint _borderPaint;
 
-  /// Draws some basic things line border
-  BaseChartPainter(this.data, this.targetData, {this.textScale = 1}) : super() {
+  /// Draws some basic elements like border
+  BaseChartPainter() : super() {
     _borderPaint = Paint()..style = PaintingStyle.stroke;
   }
 
-  /// Paints [BaseChartData] into the provided canvas.
-  @override
-  void paint(Canvas canvas, Size size) {
-    _drawViewBorder(canvas, size);
+  // Paints [BaseChartData] into the provided canvas.
+  void paint(Canvas canvas, Size size, PaintHolder<D> holder) {
+    final canvasWrapper = CanvasWrapper(canvas, size);
+    _drawViewBorder(canvasWrapper, holder.data.borderData, holder);
   }
 
-  void _drawViewBorder(Canvas canvas, Size viewSize) {
-    if (!data.borderData.show) {
+  void _drawViewBorder(
+    CanvasWrapper canvasWrapper,
+    FlBorderData borderData,
+    PaintHolder<D> holder,
+  ) {
+    if (!borderData.show) {
       return;
     }
 
-    final chartViewSize = getChartUsableDrawSize(viewSize);
+    final viewSize = canvasWrapper.size;
+    final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
-    final topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
-    final topRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
+    final topLeft = Offset(getLeftOffsetDrawSize(holder), getTopOffsetDrawSize(holder));
+    final topRight =
+        Offset(getLeftOffsetDrawSize(holder) + chartViewSize.width, getTopOffsetDrawSize(holder));
     final bottomLeft =
-        Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
-    final bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
-        getTopOffsetDrawSize() + chartViewSize.height);
+        Offset(getLeftOffsetDrawSize(holder), getTopOffsetDrawSize(holder) + chartViewSize.height);
+    final bottomRight = Offset(getLeftOffsetDrawSize(holder) + chartViewSize.width,
+        getTopOffsetDrawSize(holder) + chartViewSize.height);
 
     /// Draw Top Line
-    final BorderSide topBorder = data.borderData.border.top;
+    final topBorder = borderData.border.top;
     if (topBorder.width != 0.0) {
       _borderPaint.color = topBorder.color;
       _borderPaint.strokeWidth = topBorder.width;
-      canvas.drawLine(topLeft, topRight, _borderPaint);
+      _borderPaint.transparentIfWidthIsZero();
+      canvasWrapper.drawLine(topLeft, topRight, _borderPaint);
     }
 
     /// Draw Right Line
-    final BorderSide rightBorder = data.borderData.border.right;
+    final rightBorder = borderData.border.right;
     if (rightBorder.width != 0.0) {
       _borderPaint.color = rightBorder.color;
       _borderPaint.strokeWidth = rightBorder.width;
-      canvas.drawLine(topRight, bottomRight, _borderPaint);
+      _borderPaint.transparentIfWidthIsZero();
+      canvasWrapper.drawLine(topRight, bottomRight, _borderPaint);
     }
 
     /// Draw Bottom Line
-    final BorderSide bottomBorder = data.borderData.border.bottom;
+    final bottomBorder = borderData.border.bottom;
     if (bottomBorder.width != 0.0) {
       _borderPaint.color = bottomBorder.color;
       _borderPaint.strokeWidth = bottomBorder.width;
-      canvas.drawLine(bottomRight, bottomLeft, _borderPaint);
+      _borderPaint.transparentIfWidthIsZero();
+      canvasWrapper.drawLine(bottomRight, bottomLeft, _borderPaint);
     }
 
     /// Draw Left Line
-    final BorderSide leftBorder = data.borderData.border.left;
+    final leftBorder = borderData.border.left;
     if (leftBorder.width != 0.0) {
       _borderPaint.color = leftBorder.color;
       _borderPaint.strokeWidth = leftBorder.width;
-      canvas.drawLine(bottomLeft, topLeft, _borderPaint);
+      _borderPaint.transparentIfWidthIsZero();
+      canvasWrapper.drawLine(bottomLeft, topLeft, _borderPaint);
     }
   }
 
@@ -75,35 +82,42 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
   /// is the needed space to draw horizontal and vertical
   /// stuff around our chart.
   /// then we subtract them from raw [viewSize]
-  Size getChartUsableDrawSize(Size viewSize) {
-    final usableWidth = viewSize.width - getExtraNeededHorizontalSpace();
-    final usableHeight = viewSize.height - getExtraNeededVerticalSpace();
+  Size getChartUsableDrawSize(Size viewSize, PaintHolder<D> holder) {
+    final usableWidth = viewSize.width - getExtraNeededHorizontalSpace(holder);
+    final usableHeight = viewSize.height - getExtraNeededVerticalSpace(holder);
     return Size(usableWidth, usableHeight);
   }
 
   /// Extra space needed to show horizontal contents around the chart,
   /// like: left, right padding, left, right titles, and so on,
-  double getExtraNeededHorizontalSpace() => 0;
+  double getExtraNeededHorizontalSpace(PaintHolder<D> holder) => 0;
 
   /// Extra space needed to show vertical contents around the chart,
   /// like: top, bottom padding, top, bottom titles, and so on,
-  double getExtraNeededVerticalSpace() => 0;
+  double getExtraNeededVerticalSpace(PaintHolder<D> holder) => 0;
 
   /// Left offset to draw the chart's main content
   /// we should use this to offset our x axis when we drawing the chart,
   /// and the width space we can use to draw chart is[getChartUsableDrawSize.width]
-  double getLeftOffsetDrawSize() => 0;
+  double getLeftOffsetDrawSize(PaintHolder<D> holder) => 0;
 
   /// Top offset to draw the chart's main content
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
-  double getTopOffsetDrawSize() => 0;
+  double getTopOffsetDrawSize(PaintHolder<D> holder) => 0;
 }
 
-mixin TouchHandler<T extends BaseTouchResponse> {
-  T handleTouch(
-    FlTouchInput touchInput,
-    Size size,
-  ) =>
-      throw UnsupportedError('not implemented');
+/// Holds data for painting on canvas
+class PaintHolder<Data extends BaseChartData> {
+  /// [data] is what we need to show frame by frame (it might be changed by an animator)
+  final Data data;
+
+  /// [targetData] is the target of animation that is playing.
+  final Data targetData;
+
+  /// system [textScale]
+  final double textScale;
+
+  /// Holds data for painting on canvas
+  PaintHolder(this.data, this.targetData, this.textScale);
 }

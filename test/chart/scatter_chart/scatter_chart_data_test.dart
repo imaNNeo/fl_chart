@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import '../data_pool.dart';
 
 void main() {
@@ -348,41 +349,6 @@ void main() {
                 handleBuiltInTouches: true,
               ),
           false);
-    });
-
-    test('ScatterTouchResponse equality test', () {
-      final ScatterTouchResponse sample1 = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
-        ScatterSpot(3, 4),
-        1,
-      );
-      final ScatterTouchResponse sample2 = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
-        ScatterSpot(3, 4),
-        1,
-      );
-      expect(sample1 == sample2, true);
-
-      ScatterTouchResponse sampleChanged = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 3)),
-        ScatterSpot(3, 4),
-        1,
-      );
-      expect(sample1 == sampleChanged, false);
-
-      sampleChanged = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
-        ScatterSpot(0, 4),
-        1,
-      );
-      expect(sample1 == sampleChanged, false);
-
-      sampleChanged = ScatterTouchResponse(
-        FlPanStart(const Offset(0, 0)),
-        ScatterSpot(3, 4),
-        5,
-      );
-      expect(sample1 == sampleChanged, false);
     });
 
     test('ScatterTouchTooltipData equality test', () {

@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/touch_input.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -9,28 +9,19 @@ import '../../utils/utils.dart';
 import 'scatter_chart_data.dart';
 
 /// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
-class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
-    with TouchHandler<ScatterTouchResponse> {
+class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// [_spotsPaint] is responsible to draw scatter spots
-  Paint _spotsPaint, _bgTouchTooltipPaint;
+  late Paint _spotsPaint, _bgTouchTooltipPaint;
 
   /// Paints [data] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
   /// tooltips or something like that, because [data] is changing constantly.
   ///
-  /// [touchHandler] passes a [TouchHandler] to the parent,
-  /// parent will use it for touch handling flow.
-  ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  ScatterChartPainter(
-      ScatterChartData data, ScatterChartData targetData, Function(TouchHandler) touchHandler,
-      {double textScale})
-      : super(data, targetData, textScale: textScale) {
-    touchHandler(this);
-
+  ScatterChartPainter() : super() {
     _spotsPaint = Paint()..style = PaintingStyle.fill;
 
     _bgTouchTooltipPaint = Paint()
@@ -40,59 +31,69 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
 
   /// Paints [ScatterChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size) {
-    super.paint(canvas, size);
+  void paint(Canvas canvas, Size size, PaintHolder<ScatterChartData> holder) {
+    super.paint(canvas, size, holder);
+    final targetData = holder.targetData;
 
-    drawAxisTitles(canvas, size);
-    _drawTitles(canvas, size);
-    _drawSpots(canvas, size);
+    final canvasWrapper = CanvasWrapper(canvas, size);
 
-    for (int i = 0; i < targetData.scatterSpots.length; i++) {
+    drawAxisTitles(canvasWrapper, holder);
+    _drawTitles(canvasWrapper, holder);
+    _drawSpots(canvasWrapper, holder);
+
+    for (var i = 0; i < targetData.scatterSpots.length; i++) {
       if (!targetData.showingTooltipIndicators.contains(i)) {
         continue;
       }
 
-      final ScatterSpot scatterSpot = targetData.scatterSpots[i];
-      _drawTouchTooltip(canvas, size, targetData.scatterTouchData.touchTooltipData, scatterSpot);
+      final scatterSpot = targetData.scatterSpots[i];
+      _drawTouchTooltip(
+        canvasWrapper,
+        targetData.scatterTouchData.touchTooltipData,
+        scatterSpot,
+        holder,
+      );
     }
   }
 
-  void _drawTitles(Canvas canvas, Size viewSize) {
+  void _drawTitles(CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
+    final data = holder.data;
+    final targetData = holder.targetData;
     if (!targetData.titlesData.show) {
       return;
     }
-    viewSize = getChartUsableDrawSize(viewSize);
+    final viewSize = getChartUsableDrawSize(canvasWrapper.size, holder);
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
     final leftInterval =
         leftTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (leftTitles.showTitles) {
-      double verticalSeek = data.minY;
+      var verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
         if (leftTitles.checkToShowTitle(
             data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
-          double x = 0 + getLeftOffsetDrawSize();
-          double y = getPixelY(verticalSeek, viewSize);
+          var x = 0 + getLeftOffsetDrawSize(holder);
+          var y = getPixelY(verticalSeek, viewSize, holder);
 
-          final String text = leftTitles.getTitles(verticalSeek);
+          final text = leftTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: leftTitles.textStyle, text: text);
-          final TextPainter tp = TextPainter(
+          final span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
+          final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
-          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+              textScaleFactor: holder.textScale);
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(leftTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(leftTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -107,32 +108,32 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final topInterval =
         topTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (topTitles.showTitles) {
-      double horizontalSeek = data.minX;
+      var horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
         if (topTitles.checkToShowTitle(
             data.minX, data.maxX, topTitles, topInterval, horizontalSeek)) {
-          double x = getPixelX(horizontalSeek, viewSize);
-          double y = getTopOffsetDrawSize();
+          var x = getPixelX(horizontalSeek, viewSize, holder);
+          var y = getTopOffsetDrawSize(holder);
 
-          final String text = topTitles.getTitles(horizontalSeek);
+          final text = topTitles.getTitles(horizontalSeek);
 
-          final TextSpan span = TextSpan(style: topTitles.textStyle, text: text);
-          final TextPainter tp = TextPainter(
+          final span = TextSpan(style: topTitles.getTextStyles(horizontalSeek), text: text);
+          final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: holder.textScale);
           tp.layout();
 
           x -= tp.width / 2;
           y -= topTitles.margin + tp.height;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(topTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(topTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
@@ -147,32 +148,32 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final rightInterval =
         rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (rightTitles.showTitles) {
-      double verticalSeek = data.minY;
+      var verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
         if (rightTitles.checkToShowTitle(
             data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
-          double x = viewSize.width + getLeftOffsetDrawSize();
-          double y = getPixelY(verticalSeek, viewSize);
+          var x = viewSize.width + getLeftOffsetDrawSize(holder);
+          var y = getPixelY(verticalSeek, viewSize, holder);
 
-          final String text = rightTitles.getTitles(verticalSeek);
+          final text = rightTitles.getTitles(verticalSeek);
 
-          final TextSpan span = TextSpan(style: rightTitles.textStyle, text: text);
-          final TextPainter tp = TextPainter(
+          final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+          final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
-          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+              textScaleFactor: holder.textScale);
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
 
           x += rightTitles.margin;
           y -= tp.height / 2;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(rightTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(rightTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -187,32 +188,32 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     final bottomInterval =
         bottomTitles.interval ?? getEfficientInterval(viewSize.width, data.horizontalDiff);
     if (bottomTitles.showTitles) {
-      double horizontalSeek = data.minX;
+      var horizontalSeek = data.minX;
       while (horizontalSeek <= data.maxX) {
         if (bottomTitles.checkToShowTitle(
             data.minX, data.maxX, bottomTitles, bottomInterval, horizontalSeek)) {
-          double x = getPixelX(horizontalSeek, viewSize);
-          double y = viewSize.height + getTopOffsetDrawSize();
+          var x = getPixelX(horizontalSeek, viewSize, holder);
+          var y = viewSize.height + getTopOffsetDrawSize(holder);
 
-          final String text = bottomTitles.getTitles(horizontalSeek);
+          final text = bottomTitles.getTitles(horizontalSeek);
 
-          final TextSpan span = TextSpan(style: bottomTitles.textStyle, text: text);
-          final TextPainter tp = TextPainter(
+          final span = TextSpan(style: bottomTitles.getTextStyles(horizontalSeek), text: text);
+          final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
               textDirection: TextDirection.ltr,
-              textScaleFactor: textScale);
+              textScaleFactor: holder.textScale);
           tp.layout();
 
           x -= tp.width / 2;
           y += bottomTitles.margin;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(bottomTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          canvasWrapper.save();
+          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+          canvasWrapper.rotate(radians(bottomTitles.rotateAngle));
+          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
           x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          canvasWrapper.drawText(tp, Offset(x, y));
+          canvasWrapper.restore();
         }
         if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
@@ -223,21 +224,20 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     }
   }
 
-  void _drawSpots(Canvas canvas, Size viewSize) {
-    if (data.scatterSpots == null) {
-      return;
-    }
-    final chartUsableSize = getChartUsableDrawSize(viewSize);
-    for (final ScatterSpot scatterSpot in data.scatterSpots) {
+  void _drawSpots(CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
+    final data = holder.data;
+    final viewSize = canvasWrapper.size;
+    final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
+    for (final scatterSpot in data.scatterSpots) {
       if (!scatterSpot.show) {
         continue;
       }
-      final double pixelX = getPixelX(scatterSpot.x, chartUsableSize);
-      final double pixelY = getPixelY(scatterSpot.y, chartUsableSize);
+      final pixelX = getPixelX(scatterSpot.x, chartUsableSize, holder);
+      final pixelY = getPixelY(scatterSpot.y, chartUsableSize, holder);
 
       _spotsPaint.color = scatterSpot.color;
 
-      canvas.drawCircle(
+      canvasWrapper.drawCircle(
         Offset(pixelX, pixelY),
         scatterSpot.radius,
         _spotsPaint,
@@ -245,22 +245,23 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     }
   }
 
-  void _drawTouchTooltip(
-      Canvas canvas, Size viewSize, ScatterTouchTooltipData tooltipData, ScatterSpot showOnSpot) {
-    final Size chartUsableSize = getChartUsableDrawSize(viewSize);
+  void _drawTouchTooltip(CanvasWrapper canvasWrapper, ScatterTouchTooltipData tooltipData,
+      ScatterSpot showOnSpot, PaintHolder<ScatterChartData> holder) {
+    final viewSize = canvasWrapper.size;
+    final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
 
-    final ScatterTooltipItem tooltipItem = tooltipData.getTooltipItems(showOnSpot);
+    final tooltipItem = tooltipData.getTooltipItems(showOnSpot);
 
     if (tooltipItem == null) {
       return;
     }
 
-    final TextSpan span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
-    final TextPainter drawingTextPainter = TextPainter(
+    final span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
+    final drawingTextPainter = TextPainter(
         text: span,
-        textAlign: TextAlign.center,
+        textAlign: tooltipItem.textAlign,
         textDirection: TextDirection.ltr,
-        textScaleFactor: textScale);
+        textScaleFactor: holder.textScale);
     drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
 
     final width = drawingTextPainter.width;
@@ -269,16 +270,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final Offset mostTopOffset = Offset(
-      getPixelX(showOnSpot.x, chartUsableSize),
-      getPixelY(showOnSpot.y, chartUsableSize),
+    final mostTopOffset = Offset(
+      getPixelX(showOnSpot.x, chartUsableSize, holder),
+      getPixelY(showOnSpot.y, chartUsableSize, holder),
     );
 
-    final double tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
-    final double tooltipHeight = height + tooltipData.tooltipPadding.vertical;
+    final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
+    final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
     /// draw the background rect with rounded radius
-    Rect rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2),
+    var rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2),
         mostTopOffset.dy - tooltipHeight - tooltipItem.bottomMargin, tooltipWidth, tooltipHeight);
 
     if (tooltipData.fitInsideHorizontally) {
@@ -325,18 +326,18 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
       }
     }
 
-    final Radius radius = Radius.circular(tooltipData.tooltipRoundedRadius);
-    final RRect roundedRect = RRect.fromRectAndCorners(rect,
+    final radius = Radius.circular(tooltipData.tooltipRoundedRadius);
+    final roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvas.drawRRect(roundedRect, _bgTouchTooltipPaint);
+    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
     /// draw the texts one by one in below of each other
     final drawOffset = Offset(
       rect.center.dx - (drawingTextPainter.width / 2),
       rect.topCenter.dy + tooltipData.tooltipPadding.top,
     );
-    drawingTextPainter.paint(canvas, drawOffset);
+    canvasWrapper.drawText(drawingTextPainter, drawOffset);
   }
 
   /// We add our needed horizontal space to parent needed.
@@ -345,8 +346,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// the left space is [getLeftOffsetDrawSize],
   /// and the whole space is [getExtraNeededHorizontalSpace]
   @override
-  double getExtraNeededHorizontalSpace() {
-    double sum = super.getExtraNeededHorizontalSpace();
+  double getExtraNeededHorizontalSpace(PaintHolder<ScatterChartData> holder) {
+    final data = holder.data;
+    var sum = super.getExtraNeededHorizontalSpace(holder);
     if (data.titlesData.show) {
       final leftSide = data.titlesData.leftTitles;
       if (leftSide.showTitles) {
@@ -367,8 +369,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// the top space is [getTopOffsetDrawSize()],
   /// and the whole space is [getExtraNeededVerticalSpace]
   @override
-  double getExtraNeededVerticalSpace() {
-    double sum = super.getExtraNeededVerticalSpace();
+  double getExtraNeededVerticalSpace(PaintHolder<ScatterChartData> holder) {
+    final data = holder.data;
+    var sum = super.getExtraNeededVerticalSpace(holder);
     if (data.titlesData.show) {
       final topSide = data.titlesData.topTitles;
       if (topSide.showTitles) {
@@ -387,8 +390,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// maybe we want to show both left and right titles,
   /// then just the left titles will effect on this function.
   @override
-  double getLeftOffsetDrawSize() {
-    var sum = super.getLeftOffsetDrawSize();
+  double getLeftOffsetDrawSize(PaintHolder<ScatterChartData> holder) {
+    final data = holder.data;
+    var sum = super.getLeftOffsetDrawSize(holder);
 
     final leftTitles = data.titlesData.leftTitles;
     if (data.titlesData.show && leftTitles.showTitles) {
@@ -401,8 +405,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
   /// maybe we want to show both top and bottom titles,
   /// then just the top titles will effect on this function.
   @override
-  double getTopOffsetDrawSize() {
-    var sum = super.getTopOffsetDrawSize();
+  double getTopOffsetDrawSize(PaintHolder<ScatterChartData> holder) {
+    final data = holder.data;
+    var sum = super.getTopOffsetDrawSize(holder);
 
     final topTitles = data.titlesData.topTitles;
     if (data.titlesData.show && topTitles.showTitles) {
@@ -412,36 +417,34 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData>
     return sum;
   }
 
-  /// Makes a [ScatterTouchResponse] based on the provided [FlTouchInput]
+  /// Makes a [ScatterTouchedSpot] based on the provided [touchInput]
   ///
-  /// Processes [FlTouchInput.getOffset] and checks
+  /// Processes [touchInput.localPosition] and checks
   /// the elements of the chart that are near the offset,
-  /// then makes a [ScatterTouchResponse] from the elements that has been touched.
-  @override
-  ScatterTouchResponse handleTouch(FlTouchInput touchInput, Size size) {
-    final Size chartViewSize = getChartUsableDrawSize(size);
+  /// then makes a [ScatterTouchedSpot] from the elements that has been touched.
+  ///
+  /// Returns null if finds nothing!
+  ScatterTouchedSpot? handleTouch(
+    PointerEvent touchInput,
+    Size size,
+    PaintHolder<ScatterChartData> holder,
+  ) {
+    final data = holder.data;
+    final chartViewSize = getChartUsableDrawSize(size, holder);
 
-    for (int i = 0; i < data.scatterSpots.length; i++) {
+    for (var i = 0; i < data.scatterSpots.length; i++) {
       final spot = data.scatterSpots[i];
 
-      final spotPixelX = getPixelX(spot.x, chartViewSize);
-      final spotPixelY = getPixelY(spot.y, chartViewSize);
+      final spotPixelX = getPixelX(spot.x, chartViewSize, holder);
+      final spotPixelY = getPixelY(spot.y, chartViewSize, holder);
 
-      if ((touchInput.getOffset().dx - spotPixelX).abs() <=
+      if ((touchInput.localPosition.dx - spotPixelX).abs() <=
               (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold &&
-          (touchInput.getOffset().dy - spotPixelY).abs() <=
+          (touchInput.localPosition.dy - spotPixelY).abs() <=
               (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold) {
-        return ScatterTouchResponse(touchInput, spot, i);
+        return ScatterTouchedSpot(spot, i);
       }
     }
-
-    return ScatterTouchResponse(touchInput, null, -1);
+    return null;
   }
-
-  /// Determines should it redraw the chart or not.
-  ///
-  /// If there is a change in the [ScatterChartData],
-  /// [ScatterChartPainter] should repaint itself.
-  @override
-  bool shouldRepaint(ScatterChartPainter oldDelegate) => oldDelegate.data != data;
 }

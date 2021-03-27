@@ -6,10 +6,15 @@
 ```dart
 ScatterChart(
   ScatterChartData(
-    // read about it in the below section
+    // read about it in the ScatterChartData section
   ),
+  swapAnimationDuration: Duration(milliseconds: 150), // Optional
+  swapAnimationCurve: Curves.linear, // Optional
 );
 ```
+
+### Implicit Animations
+When you change the chart's state, it animates to the new state internally (using [implicit animations](https://flutter.dev/docs/development/ui/animations/implicit-animations)). You can control the animation [duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [curve](https://api.flutter.dev/flutter/animation/Curves-class.html) using optional `swapAnimationDuration` and `swapAnimationCurve` properties, respectively.
 
 ### ScatterChartData
 |PropName		|Description	|default value|
@@ -63,10 +68,15 @@ ScatterChart(
 ###### you can listen to touch behaviors callback and retrieve this object when any touch action happened.
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|touchedSpot|touched [ScatterSpot](#ScatterSpot)|null|
-|touchedSpotIndex|index of touched [ScatterSpot](#ScatterSpot)|null|
-|touchInput|a [FlTouchInput](base_chart.md#FlTouchInput) that is the touch behaviour|null|
+|touchedSpot|Instance of [ScatterTouchedSpot](#ScatterTouchedSpot) which holds data about the touched section|null|
+|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
+|clickHappened|If we detect a click event, this property is true|false|
 
+### ScatterTouchedSpot
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|spot|touched [ScatterSpot](#ScatterSpot)|null|
+|spotIndex|index of touched [ScatterSpot](#ScatterSpot)|null|
 
 ### some samples
 ----
