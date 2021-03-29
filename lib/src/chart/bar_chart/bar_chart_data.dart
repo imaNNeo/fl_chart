@@ -709,12 +709,14 @@ BarTooltipItem? defaultBarTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
-  return BarTooltipItem(RichText(
-      text: new TextSpan(
-          style: new TextStyle(fontSize: 14.0, color: Colors.black, fontFamily: 'Montserrat'),
-          children: <TextSpan>[
-        new TextSpan(text: rod.y.toString()),
-      ])));
+  return BarTooltipItem(
+      RichText(
+          text: new TextSpan(
+              style: new TextStyle(fontSize: 14.0, color: Colors.black, fontFamily: 'Montserrat'),
+              children: <TextSpan>[
+            new TextSpan(text: rod.y.toString()),
+          ])),
+      TextStyle(fontSize: 14.0, color: Colors.black, fontFamily: 'Montserrat'));
 }
 
 /// Holds data needed for showing custom tooltip content.
@@ -726,9 +728,9 @@ class BarTooltipItem with EquatableMixin {
   final TextAlign textAlign;
 
   /// content of the tooltip, is a [text] String with a [textStyle].
+  final TextStyle textStyle;
 
   BarTooltipItem(this.text, this.textStyle, {this.textAlign = TextAlign.center});
-
 
   /// Used for equality check, see [EquatableMixin].
   @override

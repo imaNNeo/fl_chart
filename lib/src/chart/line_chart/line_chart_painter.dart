@@ -1202,8 +1202,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     /// draw the background rect with rounded radius
 
     Rect rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2),
-        -(tooltipHeight + tooltipData.tooltipBottomMargin), tooltipWidth, tooltipHeight);
-
+        -(tooltipHeight + tooltipData.tooltipMargin), tooltipWidth, tooltipHeight);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {

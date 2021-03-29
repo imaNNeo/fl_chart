@@ -488,7 +488,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     const double textsBelowMargin = 0;
 
-
     final tooltipItem = tooltipData.getTooltipItem(
       showOnBarGroup,
       barGroupIndex,
@@ -544,7 +543,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     /// draw the background rect with rounded radius
 
     Rect rect = Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2),
-        -(tooltipHeight + tooltipData.tooltipBottomMargin), tooltipWidth, tooltipHeight);
+        -(tooltipHeight + tooltipData.tooltipMargin), tooltipWidth, tooltipHeight);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
