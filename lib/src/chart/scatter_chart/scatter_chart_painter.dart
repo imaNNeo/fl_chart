@@ -79,7 +79,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x -= tp.width + leftTitles.margin;
@@ -118,7 +118,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: topTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout();
 
@@ -158,7 +158,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: rightTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
 
@@ -198,7 +198,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: bottomTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout();
 

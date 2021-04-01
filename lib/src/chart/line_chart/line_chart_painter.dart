@@ -858,7 +858,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x -= tp.width + leftTitles.margin;
@@ -897,7 +897,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: topTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout();
 
@@ -937,7 +937,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: rightTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
 
@@ -976,7 +976,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: bottomTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout();
 

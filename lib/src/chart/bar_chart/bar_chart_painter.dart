@@ -353,7 +353,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x -= tp.width + leftTitles.margin;
@@ -386,7 +386,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
+            textDirection: topTitles.textDirection,
             textScaleFactor: holder.textScale);
         tp.layout();
         var x = groupBarPos.groupX;
@@ -421,7 +421,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: rightTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x += rightTitles.margin;
@@ -455,7 +455,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
-            textDirection: TextDirection.ltr,
+            textDirection: bottomTitles.textDirection,
             textScaleFactor: holder.textScale);
         tp.layout();
         var x = groupBarPos.groupX;
