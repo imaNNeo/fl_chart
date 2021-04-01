@@ -728,14 +728,19 @@ class BarTooltipItem with EquatableMixin {
   /// TextAlign of the showing content.
   final TextAlign textAlign;
 
+  /// Direction of showing text.
+  final TextDirection textDirection;
+
   /// List<TextSpan> add further style and format to the text of the tooltip
   final List<TextSpan>? children;
 
-  /// content of the tooltip, is a [text] String with a [textStyle] and optional [children].
+  /// content of the tooltip, is a [text] String with a [textStyle],
+  /// [textDirection] and optional [children].
   BarTooltipItem(
     this.text,
     this.textStyle, {
     this.textAlign = TextAlign.center,
+    this.textDirection = TextDirection.ltr,
     this.children,
   });
 
@@ -745,6 +750,7 @@ class BarTooltipItem with EquatableMixin {
         text,
         textStyle,
         textAlign,
+        textDirection,
         children,
       ];
 }

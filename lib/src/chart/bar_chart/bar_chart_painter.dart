@@ -508,7 +508,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final tp = TextPainter(
         text: span,
         textAlign: tooltipItem.textAlign,
-        textDirection: TextDirection.ltr,
+        textDirection: tooltipItem.textDirection,
         textScaleFactor: holder.textScale);
     tp.layout(maxWidth: tooltipData.maxContentWidth);
 

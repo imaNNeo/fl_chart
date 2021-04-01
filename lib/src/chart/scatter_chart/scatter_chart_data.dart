@@ -441,21 +441,26 @@ class ScatterTooltipItem with EquatableMixin {
   /// TextAlign of the showing content.
   final TextAlign textAlign;
 
+  /// Direction of showing text.
+  final TextDirection textDirection;
+
   /// List<TextSpan> add further style and format to the text of the tooltip
   final List<TextSpan>? children;
 
-  /// Shows a [text] with [textStyle] and optional [children] in the tooltip popup,
+  /// Shows a [text] with [textStyle], [textDirection],  and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   ScatterTooltipItem(
     String text,
     TextStyle textStyle,
     double bottomMargin, {
-    TextAlign textAlign = TextAlign.center,
+    TextAlign? textAlign,
+    TextDirection? textDirection,
     List<TextSpan>? children,
   })  : text = text,
         textStyle = textStyle,
         bottomMargin = bottomMargin,
-        textAlign = textAlign,
+        textAlign = textAlign ?? TextAlign.center,
+        textDirection = textDirection ?? TextDirection.ltr,
         children = children;
 
   /// Used for equality check, see [EquatableMixin].

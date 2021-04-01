@@ -1628,14 +1628,19 @@ class LineTooltipItem with EquatableMixin {
   /// Align of showing text.
   final TextAlign textAlign;
 
+  /// Direction of showing text.
+  final TextDirection textDirection;
+
   /// List<TextSpan> add further style and format to the text of the tooltip
   final List<TextSpan>? children;
 
-  /// Shows a [text] with [textStyle] and optional [children] as a row in the tooltip popup.
+  /// Shows a [text] with [textStyle], [textDirection],
+  /// and optional [children] as a row in the tooltip popup.
   LineTooltipItem(
     this.text,
     this.textStyle, {
     this.textAlign = TextAlign.center,
+    this.textDirection = TextDirection.ltr,
     this.children,
   });
 
@@ -1645,6 +1650,7 @@ class LineTooltipItem with EquatableMixin {
         text,
         textStyle,
         textAlign,
+        textDirection,
         children,
       ];
 }
