@@ -32,10 +32,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
   /// Paints [AxisChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size, PaintHolder<D> holder) {
-    super.paint(canvas, size, holder);
-    final canvasWrapper = CanvasWrapper(canvas, size);
-
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
+    super.paint(canvasWrapper, holder);
     _drawBackground(canvasWrapper, holder);
     _drawRangeAnnotation(canvasWrapper, holder);
     _drawGrid(canvasWrapper, holder);
@@ -61,7 +59,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: leftTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: leftTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.height);
       canvasWrapper.save();
@@ -80,7 +78,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: topTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: topTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.width);
       canvasWrapper.drawText(
@@ -94,7 +92,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: rightTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: rightTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.height);
       canvasWrapper.save();
@@ -113,7 +111,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: bottomTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: bottomTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.width);
       canvasWrapper.drawText(

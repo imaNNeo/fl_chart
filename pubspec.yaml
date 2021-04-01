@@ -1,6 +1,6 @@
 name: fl_chart
 description: A powerful Flutter chart library, currently supporting Line Chart, Bar Chart and Pie Chart.
-version: 0.30.0
+version: 0.35.0
 homepage: https://github.com/imaNNeoFighT/fl_chart
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
 
   equatable: ^2.0.0
-  pedantic: ^1.10.0
+  pedantic: ^1.11.0
 
 dev_dependencies:
   flutter_test:

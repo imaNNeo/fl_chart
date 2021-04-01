@@ -134,6 +134,9 @@ class AxisTitle with EquatableMixin {
   /// Determines alignment of this title.
   final TextAlign textAlign;
 
+  /// Determines direction of this title
+  final TextDirection textDirection;
+
   /// Determines margin of this title.
   final double margin;
 
@@ -141,6 +144,7 @@ class AxisTitle with EquatableMixin {
   /// [titleText] determines the text, and
   /// [textStyle] determines the style of this.
   /// [textAlign] determines alignment of this title,
+  /// [textDirection] determines direction of this title.
   /// [BaseChartPainter] uses [reservedSize] for assigning
   /// a space for drawing this side title, it used for
   /// some calculations.
@@ -150,6 +154,7 @@ class AxisTitle with EquatableMixin {
     String? titleText,
     double? reservedSize,
     TextStyle? textStyle,
+    TextDirection? textDirection,
     TextAlign? textAlign,
     double? margin,
   })  : showTitle = showTitle ?? false,
@@ -160,6 +165,7 @@ class AxisTitle with EquatableMixin {
               color: Colors.black,
               fontSize: 11,
             ),
+        textDirection = textDirection ?? TextDirection.ltr,
         textAlign = textAlign ?? TextAlign.center,
         margin = margin ?? 4;
 
@@ -171,6 +177,7 @@ class AxisTitle with EquatableMixin {
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
           b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
+      textDirection: b.textDirection,
       textAlign: b.textAlign,
       margin: lerpDouble(a.margin, b.margin, t),
     );
@@ -252,6 +259,7 @@ class SideTitles with EquatableMixin {
   final GetTitleFunction getTitles;
   final double reservedSize;
   final GetTitleTextStyleFunction getTextStyles;
+  final TextDirection textDirection;
   final double margin;
   final double? interval;
   final double rotateAngle;
@@ -267,6 +275,9 @@ class SideTitles with EquatableMixin {
   /// It gives you an axis value (double value), and you should return a TextStyle based on it,
   /// It works just like [getTitles]
   ///
+  /// [textDirection] specifies the direction of showing text.
+  /// it applies on all showing titles in this side.
+  ///
   /// [margin] determines margin of texts from the border line,
   ///
   /// texts are showing with provided [interval],
@@ -280,6 +291,7 @@ class SideTitles with EquatableMixin {
     GetTitleFunction? getTitles,
     double? reservedSize,
     GetTitleTextStyleFunction? getTextStyles,
+    TextDirection? textDirection,
     double? margin,
     double? interval,
     double? rotateAngle,
@@ -288,6 +300,7 @@ class SideTitles with EquatableMixin {
         getTitles = getTitles ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
         getTextStyles = getTextStyles ?? defaultGetTitleTextStyle,
+        textDirection = textDirection ?? TextDirection.ltr,
         margin = margin ?? 6,
         interval = interval,
         rotateAngle = rotateAngle ?? 0.0,
@@ -304,6 +317,7 @@ class SideTitles with EquatableMixin {
       getTitles: b.getTitles,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       getTextStyles: b.getTextStyles,
+      textDirection: b.textDirection,
       margin: lerpDouble(a.margin, b.margin, t),
       interval: lerpDouble(a.interval, b.interval, t),
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),

@@ -95,6 +95,43 @@ class _ScatterChartSample2State extends State {
               handleBuiltInTouches: false,
               touchTooltipData: ScatterTouchTooltipData(
                 tooltipBgColor: Colors.black,
+                getTooltipItems: (ScatterSpot touchedBarSpot) {
+                  return ScatterTooltipItem(
+                    'X: ',
+                    TextStyle(
+                      height: 1.2,
+                      color: Colors.grey[100],
+                      fontStyle: FontStyle.italic,
+                    ),
+                    10,
+                    children: [
+                      TextSpan(
+                        text: '${touchedBarSpot.x.toInt()} \n',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Y: ',
+                        style: TextStyle(
+                          height: 1.2,
+                          color: Colors.grey[100],
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      TextSpan(
+                        text: touchedBarSpot.y.toInt().toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
               touchCallback: (ScatterTouchResponse touchResponse) {
                 if (touchResponse.clickHappened && touchResponse.touchedSpot != null) {

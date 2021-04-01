@@ -15,8 +15,7 @@ class BaseChartPainter<D extends BaseChartData> {
   }
 
   // Paints [BaseChartData] into the provided canvas.
-  void paint(Canvas canvas, Size size, PaintHolder<D> holder) {
-    final canvasWrapper = CanvasWrapper(canvas, size);
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     _drawViewBorder(canvasWrapper, holder.data.borderData, holder);
   }
 

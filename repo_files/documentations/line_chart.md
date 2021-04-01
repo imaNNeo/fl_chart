@@ -169,7 +169,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
-|fullHeightTouchLine| set `true` to show the line in full height mode | false|
+|getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
+|getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
 |touchCallback| listen to this callback to retrieve touch events, it gives you a [LineTouchResponse](#LineTouchResponse)| null|
 
 
@@ -192,6 +193,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |text|text string of each row in the tooltip bubble|null|
 |textStyle|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the showing text row|null|
 |textAlign|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) of the showing text row|TextAlign.center|
+|textDirection|[TextDirection](https://api.flutter.dev/flutter/dart-ui/TextDirection-class.html) of the showing text row|TextDirection.ltr|
+|children|[List<TextSpan>](https://api.flutter.dev/flutter/painting/InlineSpan-class.html) pass additional InlineSpan children for a more advance tooltip|null|
 
 ### TouchedSpotIndicatorData
 |PropName|Description|default value|
@@ -259,3 +262,6 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ##### Sample 8 ([Source Code](/example/lib/line_chart/samples/line_chart_sample8.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
+
+##### Sample 9 ([Source Code](/example/lib/line_chart/samples/line_chart_sample9.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_9.gif" width="300" >

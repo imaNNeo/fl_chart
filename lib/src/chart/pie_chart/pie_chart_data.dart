@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../base/base_chart/base_chart_data.dart';
@@ -54,15 +53,28 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
-  })  : sections = sections ?? const [],
+  })  : assert(
+          !_sectionsContainsZero(sections),
+          "section's value can't be zero",
+        ),
+        sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
-
-        /// we've disabled `groupSpace` on web, because some BlendModes are [not working](https://github.com/flutter/flutter/issues/56071) yet
-        sectionsSpace = kIsWeb ? 0 : sectionsSpace ?? 2,
+        sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
-        super(borderData: borderData, touchData: pieTouchData ?? PieTouchData());
+        super(
+          borderData: borderData ?? FlBorderData(show: false),
+          touchData: pieTouchData ?? PieTouchData(),
+        );
+
+  /// Returns true if find any zero value in the list.
+  static bool _sectionsContainsZero(List<PieChartSectionData>? list) {
+    if (list == null) {
+      return false;
+    }
+    return list.any((element) => element.value == 0);
+  }
 
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.
@@ -123,6 +135,8 @@ class PieChartSectionData {
   ///
   /// This is depends on sum of all sections, each section should
   /// occupy ([value] / sumValues) * 360 degrees.
+  ///
+  /// value can not be null.
   final double value;
 
   /// Defines the color of section.

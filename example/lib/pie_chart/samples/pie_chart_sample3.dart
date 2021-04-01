@@ -156,12 +156,10 @@ class _Badge extends StatelessWidget {
       ),
       padding: EdgeInsets.all(size * .15),
       child: Center(
-        child: kIsWeb
-            ? Image.network(svgAsset, fit: BoxFit.contain)
-            : SvgPicture.asset(
-                svgAsset,
-                fit: BoxFit.contain,
-              ),
+        child: SvgPicture.asset(
+          svgAsset,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }

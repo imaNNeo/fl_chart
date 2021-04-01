@@ -31,12 +31,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
   /// Paints [ScatterChartData] into the provided canvas.
   @override
-  void paint(Canvas canvas, Size size, PaintHolder<ScatterChartData> holder) {
-    super.paint(canvas, size, holder);
+  void paint(CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
+    super.paint(canvasWrapper, holder);
     final targetData = holder.targetData;
-
-    final canvasWrapper = CanvasWrapper(canvas, size);
-
     drawAxisTitles(canvasWrapper, holder);
     _drawTitles(canvasWrapper, holder);
     _drawSpots(canvasWrapper, holder);
@@ -82,7 +79,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x -= tp.width + leftTitles.margin;
@@ -121,7 +118,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: topTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout();
 
@@ -161,7 +158,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: rightTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
 
@@ -201,7 +198,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
-              textDirection: TextDirection.ltr,
+              textDirection: bottomTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout();
 
@@ -256,11 +253,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       return;
     }
 
-    final span = TextSpan(style: tooltipItem.textStyle, text: tooltipItem.text);
+    final span = TextSpan(
+      style: tooltipItem.textStyle,
+      text: tooltipItem.text,
+      children: tooltipItem.children,
+    );
+
     final drawingTextPainter = TextPainter(
         text: span,
         textAlign: tooltipItem.textAlign,
-        textDirection: TextDirection.ltr,
+        textDirection: tooltipItem.textDirection,
         textScaleFactor: holder.textScale);
     drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
 
