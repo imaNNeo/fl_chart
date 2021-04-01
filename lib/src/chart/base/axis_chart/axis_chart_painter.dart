@@ -59,7 +59,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: leftTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: leftTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.height);
       canvasWrapper.save();
@@ -78,7 +78,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: topTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: topTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.width);
       canvasWrapper.drawText(
@@ -92,7 +92,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: rightTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: rightTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.height);
       canvasWrapper.save();
@@ -111,7 +111,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
       final tp = TextPainter(
           text: span,
           textAlign: bottomTitle.textAlign,
-          textDirection: TextDirection.ltr,
+          textDirection: bottomTitle.textDirection,
           textScaleFactor: holder.textScale);
       tp.layout(minWidth: viewSize.width);
       canvasWrapper.drawText(

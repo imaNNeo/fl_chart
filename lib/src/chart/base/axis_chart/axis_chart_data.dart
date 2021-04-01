@@ -134,6 +134,9 @@ class AxisTitle with EquatableMixin {
   /// Determines alignment of this title.
   final TextAlign textAlign;
 
+  /// Determines direction of this title
+  final TextDirection textDirection;
+
   /// Determines margin of this title.
   final double margin;
 
@@ -141,6 +144,7 @@ class AxisTitle with EquatableMixin {
   /// [titleText] determines the text, and
   /// [textStyle] determines the style of this.
   /// [textAlign] determines alignment of this title,
+  /// [textDirection] determines direction of this title.
   /// [BaseChartPainter] uses [reservedSize] for assigning
   /// a space for drawing this side title, it used for
   /// some calculations.
@@ -161,6 +165,7 @@ class AxisTitle with EquatableMixin {
               color: Colors.black,
               fontSize: 11,
             ),
+        textDirection = textDirection ?? TextDirection.ltr,
         textAlign = textAlign ?? TextAlign.center,
         margin = margin ?? 4;
 
@@ -172,6 +177,7 @@ class AxisTitle with EquatableMixin {
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       textStyle: TextStyle.lerp(a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
           b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
+      textDirection: b.textDirection,
       textAlign: b.textAlign,
       margin: lerpDouble(a.margin, b.margin, t),
     );
