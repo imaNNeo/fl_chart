@@ -923,6 +923,62 @@ class FlDotSquarePainter extends FlDotPainter {
       ];
 }
 
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a cross (X mark) shape
+class FlDotCrossPainter extends FlDotPainter {
+  /// The fill color to use for the X mark
+  Color color;
+
+  /// Determines size (width and height) of shape.
+  double size;
+
+  /// Determines thickness of X mark.
+  double width;
+
+  /// The [color] and [width] properties determines the color and thickness of the cross shape,
+  /// [size] determines the width and height of the shape.
+  FlDotCrossPainter({
+    Color? color,
+    double? size,
+    double? width,
+  })  : color = color ?? Colors.green,
+        size = size ?? 8.0,
+        width = width ?? 2.0;
+
+  /// Implementation of the parent class to draw the cross
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    final path = Path()
+      ..moveTo(offsetInCanvas.dx, offsetInCanvas.dy)
+      ..relativeMoveTo(-size / 2, -size / 2)
+      ..relativeLineTo(size, size)
+      ..moveTo(offsetInCanvas.dx, offsetInCanvas.dy)
+      ..relativeMoveTo(size / 2, -size / 2)
+      ..relativeLineTo(-size, size);
+
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = width
+      ..color = color;
+
+    canvas.drawPath(path, paint);
+  }
+
+  /// Implementation of the parent class to get the size of the circle
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(size, size);
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        color,
+        size,
+        width,
+      ];
+}
+
 /// It determines showing or hiding [FlDotData] on the spots.
 ///
 /// It gives you the checking [FlSpot] and you should decide to
