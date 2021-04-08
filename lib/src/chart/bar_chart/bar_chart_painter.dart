@@ -546,14 +546,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         : barBottomY + tooltipData.tooltipMargin;
 
     final parallelTooltipTop = drawTooltipOnTop
-      ? barTopY - tooltipHeight * 0.5 - tooltipWidth * 0.25 - tooltipData.tooltipMargin
-      : barBottomY - tooltipHeight * 0.5 + tooltipWidth * 0.75 + tooltipData.tooltipMargin;
+        ? barTopY - tooltipHeight * 0.5 - tooltipWidth * 0.25 - tooltipData.tooltipMargin
+        : barBottomY - tooltipHeight * 0.5 + tooltipWidth * 0.75 + tooltipData.tooltipMargin;
 
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types
     Rect rect = tooltipData.parallelToBar
-      ? Rect.fromLTWH(barOffset.dx, parallelTooltipTop, tooltipWidth, tooltipHeight)
-      : Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2), tooltipTop, tooltipWidth, tooltipHeight);
+        ? Rect.fromLTWH(barOffset.dx, parallelTooltipTop, tooltipWidth, tooltipHeight)
+        : Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2), tooltipTop, tooltipWidth, tooltipHeight);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -615,7 +615,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
       canvasWrapper.rotate(radians(angle));
       canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        x += translateRotatedPosition(tp.width, angle);
+      x += translateRotatedPosition(tp.width, angle);
       canvasWrapper.drawText(tp, Offset(x, y));
       canvasWrapper.restore();
     } else {
