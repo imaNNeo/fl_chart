@@ -642,6 +642,9 @@ class BarTouchTooltipData with EquatableMixin {
   /// Controls showing tooltip on top or bottom, default is auto.
   final TooltipDirection direction;
 
+  /// Whether tooltip should be written parallel to bar or perpendicular to it.
+  final bool parallelToBar;
+
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
@@ -665,6 +668,7 @@ class BarTouchTooltipData with EquatableMixin {
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
     TooltipDirection? direction,
+    bool? parallelToBar,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -674,6 +678,7 @@ class BarTouchTooltipData with EquatableMixin {
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
         direction = direction ?? TooltipDirection.auto,
+        parallelToBar = parallelToBar ?? false,
         super();
 
   /// Used for equality check, see [EquatableMixin].
