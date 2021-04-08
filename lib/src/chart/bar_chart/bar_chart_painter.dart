@@ -545,10 +545,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
         : barBottomY + tooltipData.tooltipMargin;
 
+    final parallelTooltipTop = drawTooltipOnTop
+      ? barTopY - tooltipHeight * 0.5 - tooltipWidth * 0.25 - tooltipData.tooltipMargin
+      : barBottomY - tooltipHeight * 0.5 + tooltipWidth * 0.75 + tooltipData.tooltipMargin;
+
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types
-    Rect rect =
-        Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2), tooltipTop, tooltipWidth, tooltipHeight);
+    Rect rect = tooltipData.parallelToBar
+      ? Rect.fromLTWH(barOffset.dx, parallelTooltipTop, tooltipWidth, tooltipHeight)
+      : Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2), tooltipTop, tooltipWidth, tooltipHeight);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -601,12 +606,26 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
     /// draw the texts one by one in below of each other
-    final top = tooltipData.tooltipPadding.top;
-    final drawOffset = Offset(
-      rect.center.dx - (tp.width / 2),
-      rect.topCenter.dy + top,
-    );
-    canvasWrapper.drawText(tp, drawOffset);
+    if (tooltipData.parallelToBar) {
+      var x = rect.left + tooltipData.tooltipPadding.left;
+      var y = rect.top + tooltipData.tooltipPadding.top;
+      final angle = tooltipData.parallelToBar ? -90.0 : 0.0;
+      x -= tp.width / 2;
+      canvasWrapper.save();
+      canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
+      canvasWrapper.rotate(radians(angle));
+      canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+        x += translateRotatedPosition(tp.width, angle);
+      canvasWrapper.drawText(tp, Offset(x, y));
+      canvasWrapper.restore();
+    } else {
+      final top = tooltipData.tooltipPadding.top;
+      final drawOffset = Offset(
+        rect.center.dx - (tp.width / 2),
+        rect.topCenter.dy + top,
+      );
+      canvasWrapper.drawText(tp, drawOffset);
+    }
   }
 
   /// We add our needed horizontal space to parent needed.
