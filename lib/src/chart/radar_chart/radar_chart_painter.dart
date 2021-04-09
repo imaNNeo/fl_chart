@@ -71,9 +71,14 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     /// controls Radar chart size
     final radius = _radarRadius(size);
 
-    /// draw radar background
     _backgroundPaint.color = data.radarBackgroundColor;
+
+    /// draw radar background
     canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
+
+    _borderPaint
+      ..color = data.radarBorderData.color
+      ..strokeWidth = data.radarBorderData.width;
 
     /// draw radar border
     canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
@@ -90,11 +95,15 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     final tickDistance = radius / (ticks.length);
 
+    _tickPaint
+      ..color = data.tickBorderData.color
+      ..strokeWidth = data.tickBorderData.width;
+
+    /// draw radar ticks
     ticks.sublist(0, ticks.length - 1).asMap().forEach(
       (index, tick) {
         final tickRadius = tickDistance * (index + 1);
-        _tickPaint.color = data.tickBorderData.color;
-        _tickPaint.strokeWidth = data.tickBorderData.width;
+
         canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
         _ticksTextPaint
           ..text = TextSpan(
@@ -124,15 +133,16 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     final angle = (2 * pi) / data.titleCount;
 
-    //drawing grids
+    /// drawing grids
     for (var index = 0; index < data.titleCount; index++) {
       final endX = centerX + radius * cos(angle * index - pi / 2);
       final endY = centerY + radius * sin(angle * index - pi / 2);
 
       final gridOffset = Offset(endX, endY);
 
-      _gridPaint.color = data.gridBorderData.color;
-      _gridPaint.strokeWidth = data.gridBorderData.width;
+      _gridPaint
+        ..color = data.gridBorderData.color
+        ..strokeWidth = data.gridBorderData.width;
       canvasWrapper.drawLine(centerOffset, gridOffset, _gridPaint);
     }
   }
