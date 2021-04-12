@@ -198,16 +198,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     // and bar is a piece of that line
     for (var bar in barList) {
       final barPath = _generateBarPath(viewSize, barData, bar, holder);
-
       final belowBarPath = _generateBelowBarPath(viewSize, barData, barPath, bar, holder);
-      final completelyFillBelowBarPath =
-          _generateBelowBarPath(viewSize, barData, barPath, bar, holder, fillCompletely: true);
       final aboveBarPath = _generateAboveBarPath(viewSize, barData, barPath, bar, holder);
-      final completelyFillAboveBarPath =
-          _generateAboveBarPath(viewSize, barData, barPath, bar, holder, fillCompletely: true);
 
-      _drawBelowBar(canvasWrapper, belowBarPath, completelyFillAboveBarPath, holder, barData);
-      _drawAboveBar(canvasWrapper, aboveBarPath, completelyFillBelowBarPath, holder, barData);
+      _drawBelowBar(canvasWrapper, belowBarPath, holder, barData);
+      _drawAboveBar(canvasWrapper, aboveBarPath, holder, barData);
       _drawBarShadow(canvasWrapper, barPath, barData);
       _drawBar(canvasWrapper, barPath, barData, holder);
     }
@@ -346,15 +341,27 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
   }
 
+  double _clip(double value, double? minValue, double? maxValue) {
+    var result = value;
+    if (minValue != null) {
+      result = max(value, minValue);
+    }
+    if (maxValue != null) {
+      result = min(value, maxValue);
+    }
+    return result;
+  }
+
   /// Generates a path, based on [LineChartBarData.isStepChart] for step style, and normal style.
   Path _generateBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
       PaintHolder<LineChartData> holder,
-      {Path? appendToPath}) {
+      {Path? appendToPath, double? minY, double? maxY}) {
     if (barData.isStepLineChart) {
-      return _generateStepBarPath(viewSize, barData, barSpots, holder, appendToPath: appendToPath);
+      return _generateStepBarPath(viewSize, barData, barSpots, holder,
+          appendToPath: appendToPath, minY: minY, maxY: maxY);
     } else {
       return _generateNormalBarPath(viewSize, barData, barSpots, holder,
-          appendToPath: appendToPath);
+          appendToPath: appendToPath, minY: minY, maxY: maxY);
     }
   }
 
@@ -368,7 +375,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// multiple bars for example, you can pass the appendToPath
   Path _generateNormalBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
       PaintHolder<LineChartData> holder,
-      {Path? appendToPath}) {
+      {Path? appendToPath, double? minY, double? maxY}) {
     viewSize = getChartUsableDrawSize(viewSize, holder);
     final path = appendToPath ?? Path();
     final size = barSpots.length;
@@ -376,7 +383,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     var temp = const Offset(0.0, 0.0);
 
     final x = getPixelX(barSpots[0].x, viewSize, holder);
-    final y = getPixelY(barSpots[0].y, viewSize, holder);
+    final y = getPixelY(_clip(barSpots[0].y, minY, maxY), viewSize, holder);
     if (appendToPath == null) {
       path.moveTo(x, y);
     } else {
@@ -386,19 +393,19 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       /// CurrentSpot
       final current = Offset(
         getPixelX(barSpots[i].x, viewSize, holder),
-        getPixelY(barSpots[i].y, viewSize, holder),
+        getPixelY(_clip(barSpots[i].y, minY, maxY), viewSize, holder),
       );
 
       /// previous spot
       final previous = Offset(
         getPixelX(barSpots[i - 1].x, viewSize, holder),
-        getPixelY(barSpots[i - 1].y, viewSize, holder),
+        getPixelY(_clip(barSpots[i - 1].y, minY, maxY), viewSize, holder),
       );
 
       /// next point
       final next = Offset(
         getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize, holder),
-        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize, holder),
+        getPixelY(_clip(barSpots[i + 1 < size ? i + 1 : i].y, minY, maxY), viewSize, holder),
       );
 
       final controlPoint1 = previous + temp;
@@ -439,13 +446,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// generates a `Step Line Chart` bar style path.
   Path _generateStepBarPath(Size viewSize, LineChartBarData barData, List<FlSpot> barSpots,
       PaintHolder<LineChartData> holder,
-      {Path? appendToPath}) {
+      {Path? appendToPath, double? minY, double? maxY}) {
     viewSize = getChartUsableDrawSize(viewSize, holder);
     final path = appendToPath ?? Path();
     final size = barSpots.length;
 
     final x = getPixelX(barSpots[0].x, viewSize, holder);
-    final y = getPixelY(barSpots[0].y, viewSize, holder);
+    final y = getPixelY(_clip(barSpots[0].y, minY, maxY), viewSize, holder);
     if (appendToPath == null) {
       path.moveTo(x, y);
     } else {
@@ -455,13 +462,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       /// CurrentSpot
       final current = Offset(
         getPixelX(barSpots[i].x, viewSize, holder),
-        getPixelY(barSpots[i].y, viewSize, holder),
+        getPixelY(_clip(barSpots[i].y, minY, maxY), viewSize, holder),
       );
 
       /// next point
       final next = Offset(
         getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize, holder),
-        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize, holder),
+        getPixelY(_clip(barSpots[i + 1 < size ? i + 1 : i].y, minY, maxY), viewSize, holder),
       );
 
       final stepDirection = barData.lineChartStepData.stepDirection;
@@ -481,21 +488,23 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     return path;
   }
 
-  /// it generates below area path using a copy of [barPath],
-  /// if cutOffY is provided by the [BarAreaData], it cut the area to the provided cutOffY value,
-  /// if [fillCompletely] is true, the cutOffY will be ignored,
-  /// and a completely filled path will return,
+  /// Generate below bar path by clipping the bar path to either the cutOffY, or to the bottom of the graph.
   Path _generateBelowBarPath(Size viewSize, LineChartBarData barData, Path barPath,
-      List<FlSpot> barSpots, PaintHolder<LineChartData> holder,
-      {bool fillCompletely = false}) {
-    final belowBarPath = Path.from(barPath);
+      List<FlSpot> barSpots, PaintHolder<LineChartData> holder) {
+    Path belowBarPath;
+    if (barData.belowBarData.applyCutOffY) {
+      belowBarPath =
+          _generateBarPath(viewSize, barData, barSpots, holder, minY: barData.belowBarData.cutOffY);
+    } else {
+      belowBarPath = Path.from(barPath);
+    }
 
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
     /// Line To Bottom Right
     var x = getPixelX(barSpots[barSpots.length - 1].x, chartViewSize, holder);
     double y;
-    if (!fillCompletely && barData.belowBarData.applyCutOffY) {
+    if (barData.belowBarData.applyCutOffY) {
       y = getPixelY(barData.belowBarData.cutOffY, chartViewSize, holder);
     } else {
       y = chartViewSize.height + getTopOffsetDrawSize(holder);
@@ -504,7 +513,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     /// Line To Bottom Left
     x = getPixelX(barSpots[0].x, chartViewSize, holder);
-    if (!fillCompletely && barData.belowBarData.applyCutOffY) {
+    if (barData.belowBarData.applyCutOffY) {
       y = getPixelY(barData.belowBarData.cutOffY, chartViewSize, holder);
     } else {
       y = chartViewSize.height + getTopOffsetDrawSize(holder);
@@ -520,21 +529,23 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     return belowBarPath;
   }
 
-  /// it generates above area path using a copy of [barPath],
-  /// if cutOffY is provided by the [BarAreaData], it cut the area to the provided cutOffY value,
-  /// if [fillCompletely] is true, the cutOffY will be ignored,
-  /// and a completely filled path will return,
+  /// Generate above bar path by clipping the bar path to either the cutOffY, or to the top of the graph.
   Path _generateAboveBarPath(Size viewSize, LineChartBarData barData, Path barPath,
-      List<FlSpot> barSpots, PaintHolder<LineChartData> holder,
-      {bool fillCompletely = false}) {
-    final aboveBarPath = Path.from(barPath);
+      List<FlSpot> barSpots, PaintHolder<LineChartData> holder) {
+    Path aboveBarPath;
+    if (barData.belowBarData.applyCutOffY) {
+      aboveBarPath =
+          _generateBarPath(viewSize, barData, barSpots, holder, maxY: barData.belowBarData.cutOffY);
+    } else {
+      aboveBarPath = Path.from(barPath);
+    }
 
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
     /// Line To Top Right
     var x = getPixelX(barSpots[barSpots.length - 1].x, chartViewSize, holder);
     double y;
-    if (!fillCompletely && barData.aboveBarData.applyCutOffY) {
+    if (barData.aboveBarData.applyCutOffY) {
       y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize, holder);
     } else {
       y = getTopOffsetDrawSize(holder);
@@ -543,7 +554,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     /// Line To Top Left
     x = getPixelX(barSpots[0].x, chartViewSize, holder);
-    if (!fillCompletely && barData.aboveBarData.applyCutOffY) {
+    if (barData.aboveBarData.applyCutOffY) {
       y = getPixelY(barData.aboveBarData.cutOffY, chartViewSize, holder);
     } else {
       y = getTopOffsetDrawSize(holder);
@@ -562,7 +573,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// firstly we draw [belowBarPath], then if cutOffY value is provided in [BarAreaData],
   /// [belowBarPath] maybe draw over the main bar line,
   /// then to fix the problem we use [filledAboveBarPath] to clear the above section from this draw.
-  void _drawBelowBar(CanvasWrapper canvasWrapper, Path belowBarPath, Path filledAboveBarPath,
+  void _drawBelowBar(CanvasWrapper canvasWrapper, Path belowBarPath,
       PaintHolder<LineChartData> holder, LineChartBarData barData) {
     if (!barData.belowBarData.show) {
       return;
@@ -593,17 +604,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       );
     }
 
-    if (barData.belowBarData.applyCutOffY) {
-      canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
-    }
-
     canvasWrapper.drawPath(belowBarPath, _barAreaPaint);
-
-    // clear the above area that get out of the bar line
-    if (barData.belowBarData.applyCutOffY) {
-      canvasWrapper.drawPath(filledAboveBarPath, _clearBarAreaPaint);
-      canvasWrapper.restore();
-    }
 
     /// draw below spots line
     if (barData.belowBarData.spotsLine.show) {
@@ -644,7 +645,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// firstly we draw [aboveBarPath], then if cutOffY value is provided in [BarAreaData],
   /// [aboveBarPath] maybe draw over the main bar line,
   /// then to fix the problem we use [filledBelowBarPath] to clear the above section from this draw.
-  void _drawAboveBar(CanvasWrapper canvasWrapper, Path aboveBarPath, Path filledBelowBarPath,
+  void _drawAboveBar(CanvasWrapper canvasWrapper, Path aboveBarPath,
       PaintHolder<LineChartData> holder, LineChartBarData barData) {
     if (!barData.aboveBarData.show) {
       return;
@@ -675,17 +676,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       );
     }
 
-    if (barData.aboveBarData.applyCutOffY) {
-      canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
-    }
-
     canvasWrapper.drawPath(aboveBarPath, _barAreaPaint);
-
-    // clear the above area that get out of the bar line
-    if (barData.aboveBarData.applyCutOffY) {
-      canvasWrapper.drawPath(filledBelowBarPath, _clearBarAreaPaint);
-      canvasWrapper.restore();
-    }
 
     /// draw above spots line
     if (barData.aboveBarData.spotsLine.show) {
