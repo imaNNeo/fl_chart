@@ -11,6 +11,11 @@ typedef GetTitleByIndexFunction = String Function(int index);
 
 typedef GetTickTitleFunction = String Function(int index, double tick);
 
+typedef GetTitleAngleByIndexFunction = double Function(double angle, int index);
+
+String _defaultGetTickTitle(int index, double tick) => tick.toStringAsFixed(1);
+double _defaultTitleAngle(double angle, int index) => angle * index;
+
 /// [RadarChart] needs this class to render itself.
 ///
 /// It holds data needed to draw a radar chart,
@@ -73,7 +78,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   final RadarTouchData radarTouchData;
 
   /// Defines a rotation angle of the title outside of [RadarChart]
-  final double? titleAngle;
+  final GetTitleAngleByIndexFunction titleAngle;
 
   /// [getTickTitle] is used to draw tick titles
   /// [getTickTitle] is type of [GetTickTitleFunction] so you should return a valid [String]
@@ -93,7 +98,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   ///   }
   /// }
   /// ```
-  final GetTickTitleFunction? getTickTitle;
+  final GetTickTitleFunction getTickTitle;
 
   /// It's triggered when title that is drawn outside the [RadarChart] is pressed
   final Function(String)? onTitleTap;
@@ -156,7 +161,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
     FlBorderData? borderData,
-    double? titleAngle,
+    GetTitleAngleByIndexFunction? titleAngle,
     String Function(int, double)? getTickTitle,
     Function(String)? onTitleTap,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
@@ -177,8 +182,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         ticksTextStyle = ticksTextStyle ?? const TextStyle(fontSize: 10, color: Colors.black),
         tickBorderData = tickBorderData ?? const BorderSide(color: Colors.black, width: 2),
         gridBorderData = gridBorderData ?? const BorderSide(color: Colors.black, width: 2),
-        titleAngle = titleAngle,
-        getTickTitle = getTickTitle,
+        titleAngle = titleAngle ?? _defaultTitleAngle,
+        getTickTitle = getTickTitle ?? _defaultGetTickTitle,
         onTitleTap = onTitleTap,
         super(borderData: borderData, touchData: radarTouchData ?? RadarTouchData());
 
@@ -197,7 +202,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
     FlBorderData? borderData,
-    double? titleAngle,
+    GetTitleAngleByIndexFunction? titleAngle,
     GetTickTitleFunction? getTickTitle,
     Function(String)? onTitleTap,
   }) =>

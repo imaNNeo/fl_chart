@@ -108,7 +108,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
         _ticksTextPaint
           ..text = TextSpan(
-            text: data.getTickTitle?.call(index, tick) ?? tick.toStringAsFixed(1),
+            text: data.getTickTitle(index, tick),
             style: data.ticksTextStyle,
           )
           ..textDirection = TextDirection.ltr;
@@ -189,7 +189,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       );
       _titlesPosition[index] = featureOffset;
       canvasWrapper.translate(featureOffset.dx, featureOffset.dy);
-      canvasWrapper.rotate(data.titleAngle ?? (angle * index));
+      canvasWrapper.rotate(data.titleAngle(angle, index));
       canvasWrapper.drawText(
         _titleTextPaint,
         Offset.zero - Offset(_titleTextPaint.width / 2, _titleTextPaint.height / 2),
@@ -262,7 +262,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   void _triggerTitleTap(bool isDownEvent, Offset touchedPoint, PaintHolder<RadarChartData> holder) {
     if (isDownEvent || _titlesPosition.isEmpty) return;
-
     final targetData = holder.targetData;
     final data = holder.data;
 
