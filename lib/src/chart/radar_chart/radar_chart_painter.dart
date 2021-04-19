@@ -15,6 +15,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   late TextPainter _ticksTextPaint, _titleTextPaint;
 
   List<RadarDataSetsPosition>? dataSetsPosition;
+  final List<Offset> _titlesPosition = [];
 
   /// Paints [data] into canvas, it is the animating [RadarChartData],
   /// [targetData] is the animation's target and remains the same
@@ -107,7 +108,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
         _ticksTextPaint
           ..text = TextSpan(
-            text: tick.toStringAsFixed(1),
+            text: data.getTickTitle?.call(index, tick) ?? tick.toStringAsFixed(1),
             style: data.ticksTextStyle,
           )
           ..textDirection = TextDirection.ltr;
@@ -168,6 +169,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       ..textDirection = TextDirection.ltr
       ..textScaleFactor = holder.textScale;
 
+    _titlesPosition
+      ..clear()
+      ..addAll(List<Offset>.filled(data.titleCount, Offset.zero));
     for (var index = 0; index < data.titleCount; index++) {
       final title = data.getTitle!(index);
       final xAngle = cos(angle * index - pi / 2);
@@ -183,9 +187,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         centerX + threshold * radius * xAngle,
         centerY + threshold * radius * yAngle,
       );
+      _titlesPosition[index] = featureOffset;
       canvasWrapper.translate(featureOffset.dx, featureOffset.dy);
-      canvasWrapper.rotate(angle * index);
-
+      canvasWrapper.rotate(data.titleAngle ?? (angle * index));
       canvasWrapper.drawText(
         _titleTextPaint,
         Offset.zero - Offset(_titleTextPaint.width / 2, _titleTextPaint.height / 2),
@@ -246,6 +250,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   RadarTouchedSpot? handleTouch(
       PointerEvent touchInput, Size size, PaintHolder<RadarChartData> holder) {
+    _triggerTitleTap(touchInput.down, touchInput.localPosition, holder);
     return _getNearestTouchSpot(size, touchInput.localPosition, dataSetsPosition, holder);
   }
 
@@ -254,6 +259,23 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   double _radarCenterX(Size size) => size.width / 2.0;
 
   double _radarRadius(Size size) => min(_radarCenterX(size), _radarCenterY(size)) * 0.8;
+
+  void _triggerTitleTap(bool isDownEvent, Offset touchedPoint, PaintHolder<RadarChartData> holder) {
+    if (isDownEvent || _titlesPosition.isEmpty) return;
+
+    final targetData = holder.targetData;
+    final data = holder.data;
+
+    for (var i = 0; i < _titlesPosition.length; i++) {
+      final entryOffset = _titlesPosition[i];
+      if ((touchedPoint.dx - entryOffset.dx).abs() <=
+              targetData.radarTouchData.touchSpotThreshold &&
+          (touchedPoint.dy - entryOffset.dy).abs() <=
+              targetData.radarTouchData.touchSpotThreshold) {
+        data.onTitleTap?.call(data.getTitle!(i));
+      }
+    }
+  }
 
   RadarTouchedSpot? _getNearestTouchSpot(
     Size viewSize,
@@ -317,7 +339,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
           centerX + scaledPoint * xAngle,
           centerY + scaledPoint * yAngle,
         );
-
         entriesOffset[j] = entryOffset;
       }
       dataSetsPosition[i] = RadarDataSetsPosition(entriesOffset);
@@ -331,4 +352,10 @@ class RadarDataSetsPosition {
   final List<Offset> entriesOffset;
 
   const RadarDataSetsPosition(this.entriesOffset);
+}
+
+class RadarTitlePosition {
+  final List<Offset> entriesOffset;
+
+  const RadarTitlePosition(this.entriesOffset);
 }
