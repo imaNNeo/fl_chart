@@ -353,9 +353,3 @@ class RadarDataSetsPosition {
 
   const RadarDataSetsPosition(this.entriesOffset);
 }
-
-class RadarTitlePosition {
-  final List<Offset> entriesOffset;
-
-  const RadarTitlePosition(this.entriesOffset);
-}
