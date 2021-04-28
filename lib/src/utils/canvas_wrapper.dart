@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart' hide Image;
 
 /// Proxies Canvas functions
@@ -64,7 +65,18 @@ class CanvasWrapper {
   /// Paints a text on the [Canvas]
   ///
   /// Gets a [TextPainter] and call its [TextPainter.paint] using our canvas
-  void drawText(TextPainter tp, Offset offset) => tp.paint(canvas, offset);
+  void drawText(TextPainter tp, Offset offset, [double? rotateAngle]) {
+    if (rotateAngle == null) {
+      tp.paint(canvas, offset);
+    } else {
+      save();
+      translate(offset.dx + tp.width / 2, offset.dy + tp.height / 2);
+      rotate(radians(rotateAngle));
+      translate(-offset.dx - tp.width / 2, -offset.dy - tp.height / 2);
+      tp.paint(canvas, offset);
+      restore();
+    }
+  }
 
   /// Paints a dot using customized [FlDotPainter]
   ///
