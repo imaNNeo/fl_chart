@@ -445,7 +445,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     // Bottom titles
     final bottomTitles = targetData.titlesData.bottomTitles;
     if (bottomTitles.showTitles) {
-      for (var index = 0; index < groupBarsPosition.length; index++) {
+      final interval = bottomTitles.interval?.toInt() ?? 1;
+
+      for (var index = 0; index < groupBarsPosition.length; index += interval) {
         final groupBarPos = groupBarsPosition[index];
 
         final xValue = data.barGroups[index].x.toDouble();
