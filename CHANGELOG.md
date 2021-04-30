@@ -1,4 +1,4 @@
-## newVersion
+## 0.36.0
 * **BUGFIX** Fixed bug of lerping FlSpot.nullSpot, #487.
 * **BUGFIX** Fixed showing tooltip problem when animating chart, #647.
 * **BUGFIX** Fixed RadarChart drawing problem, #627.
