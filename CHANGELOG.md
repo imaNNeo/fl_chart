@@ -1,6 +1,7 @@
 ## newVersion
 * **BUGFIX** Fixed bug of lerping FlSpot.nullSpot, #487.
 * **BUGFIX** Fixed showing tooltip problem when animating chart, #647.
+* **BUGFIX** Fixed RadarChart drawing problem, #627.
 * **IMPROVEMENT** Now [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#SideTitles).`interval` is working correctly in bottomTitles in the BarChart, #648.
 * **BREAKING** You should provide `spotsIndices` instead of `showingSpots` in [ShowingTooltipIndicators](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#showingtooltipindicators).
 
