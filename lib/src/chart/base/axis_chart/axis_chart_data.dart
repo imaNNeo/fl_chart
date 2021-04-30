@@ -389,6 +389,14 @@ class FlSpot with EquatableMixin {
 
   /// Lerps a [FlSpot] based on [t] value, check [Tween.lerp].
   static FlSpot lerp(FlSpot a, FlSpot b, double t) {
+    if (a == FlSpot.nullSpot) {
+      return b;
+    }
+
+    if (b == FlSpot.nullSpot) {
+      return a;
+    }
+
     return FlSpot(
       lerpDouble(a.x, b.x, t)!,
       lerpDouble(a.y, b.y, t)!,

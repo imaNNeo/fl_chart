@@ -1,3 +1,10 @@
+## 0.36.0
+* **BUGFIX** Fixed bug of lerping FlSpot.nullSpot, #487.
+* **BUGFIX** Fixed showing tooltip problem when animating chart, #647.
+* **BUGFIX** Fixed RadarChart drawing problem, #627.
+* **IMPROVEMENT** Now [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#SideTitles).`interval` is working correctly in bottomTitles in the BarChart, #648.
+* **BREAKING** You should provide `spotsIndices` instead of `showingSpots` in [ShowingTooltipIndicators](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#showingtooltipindicators).
+
 ## 0.35.0
 * **IMPROVEMENT** Added `children` property in the [LineTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetooltipitem), [BarTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartooltipitem) and [ScatterTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertooltipitem) which accepts a list of [TextSpan](https://api.flutter.dev/flutter/painting/TextSpan-class.html). It allows you to have more customized texts inside the tooltip. See [BarChartSample1](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) and [ScatterSample2](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#sample-2-source-code), #72, #294.
 * **IMPROVEMENT** Added `getTouchLineStart` and `getTouchLineEnd` in [LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling) to give more customizability over showing the touch lines. see [SampleLineChart9](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-8-source-code).

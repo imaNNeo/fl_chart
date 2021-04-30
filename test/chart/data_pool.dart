@@ -1534,11 +1534,11 @@ final BetweenBarsData betweenBarsData8 = BetweenBarsData(
 
 final ShowingTooltipIndicators showingTooltipIndicator1 = ShowingTooltipIndicators(
   1,
-  [lineBarSpot1, lineBarSpot2],
+  [1, 2],
 );
 final ShowingTooltipIndicators showingTooltipIndicator1Clone = ShowingTooltipIndicators(
   1,
-  [lineBarSpot1, lineBarSpot2],
+  [1, 2],
 );
 final ShowingTooltipIndicators showingTooltipIndicator2 = ShowingTooltipIndicators(
   33,
@@ -1550,11 +1550,11 @@ final ShowingTooltipIndicators showingTooltipIndicator3 = ShowingTooltipIndicato
 );
 final ShowingTooltipIndicators showingTooltipIndicator4 = ShowingTooltipIndicators(
   1,
-  [lineBarSpot2, lineBarSpot1],
+  [2, 1],
 );
 final ShowingTooltipIndicators showingTooltipIndicator5 = ShowingTooltipIndicators(
   2,
-  [lineBarSpot1, lineBarSpot2],
+  [1, 2],
 );
 
 final LineChartData lineChartData1 = LineChartData(
