@@ -108,7 +108,7 @@ class RenderLineChart extends RenderBox {
 
     var touchedSpots = _painter.handleTouch(event, size, paintHolder);
     if (touchedSpots == null || touchedSpots.isEmpty) {
-      _touchCallback!.call(response);
+      _touchCallback?.call(response);
       return;
     }
     response = response.copyWith(lineBarSpots: touchedSpots);
@@ -122,6 +122,6 @@ class RenderLineChart extends RenderBox {
       _lastTouchedSpots = null;
     }
 
-    _touchCallback!.call(response);
+    _touchCallback?.call(response);
   }
 }

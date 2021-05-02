@@ -1,5 +1,6 @@
 ## newVersion
 * **IMPROVEMENT** Allow to set zero value on PieChartSectionData (we remove zero sections instead of crashing), #640.
+* **BUGFIX** Fix NPE crash in our renderers touchCallback, #651. 
 
 ## 0.36.0
 * **BUGFIX** Fixed bug of lerping FlSpot.nullSpot, #487.

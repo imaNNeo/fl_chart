@@ -155,7 +155,7 @@ class RenderPieChart extends RenderBox
 
     var touchedSection = _painter.handleTouch(event, size, paintHolder);
     if (touchedSection == null) {
-      _touchCallback!.call(response);
+      _touchCallback?.call(response);
       return;
     }
     response = response.copyWith(touchedSection: touchedSection);
@@ -169,6 +169,6 @@ class RenderPieChart extends RenderBox
       _lastTouchedSpot = null;
     }
 
-    _touchCallback!.call(response);
+    _touchCallback?.call(response);
   }
 }
