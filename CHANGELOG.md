@@ -1,3 +1,6 @@
+## newVersion
+* **IMPROVEMENT** Allow to set zero value on PieChartSectionData (we remove zero sections instead of crashing), #640.
+
 ## 0.36.0
 * **BUGFIX** Fixed bug of lerping FlSpot.nullSpot, #487.
 * **BUGFIX** Fixed showing tooltip problem when animating chart, #647.
