@@ -66,8 +66,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   @override
   void paint(CanvasWrapper canvasWrapper, PaintHolder<LineChartData> holder) {
     final data = holder.data;
-    final targetData = holder.targetData;
-    if (data.lineBarsData.isEmpty || targetData.lineBarsData.isEmpty) {
+    if (data.lineBarsData.isEmpty) {
       return;
     }
 
@@ -116,28 +115,24 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     _drawTitles(canvasWrapper, holder);
 
     // Draw touch tooltip on most top spot
-    for (var i = 0; i < targetData.showingTooltipIndicators.length; i++) {
-      var tooltipSpots = targetData.showingTooltipIndicators[i];
+    for (var i = 0; i < data.showingTooltipIndicators.length; i++) {
+      var tooltipSpots = data.showingTooltipIndicators[i];
 
-      final showingBarSpots = tooltipSpots.spotsIndices;
+      final showingBarSpots = tooltipSpots.showingSpots;
       if (showingBarSpots.isEmpty) {
         continue;
       }
-      final barSpotsIndex = List<int>.of(showingBarSpots);
-      final line = targetData.lineBarsData[tooltipSpots.lineIndex];
-      var topSpot = line.spots[barSpotsIndex.first];
-      for (var index in barSpotsIndex) {
-        final checkingSpot = line.spots[index];
-        if (checkingSpot.y > topSpot.y) {
-          print(index);
-          topSpot = checkingSpot;
+      final barSpots = List<LineBarSpot>.of(showingBarSpots);
+      FlSpot topSpot = barSpots[0];
+      for (var barSpot in barSpots) {
+        if (barSpot.y > topSpot.y) {
+          topSpot = barSpot;
         }
       }
-      tooltipSpots = ShowingTooltipIndicators(tooltipSpots.lineIndex, barSpotsIndex);
+      tooltipSpots = ShowingTooltipIndicators(barSpots);
 
       _drawTouchTooltip(
         canvasWrapper,
-        line,
         data.lineTouchData.touchTooltipData,
         topSpot,
         tooltipSpots,
@@ -1147,7 +1142,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
   void _drawTouchTooltip(
       CanvasWrapper canvasWrapper,
-      LineChartBarData barLine,
       LineTouchTooltipData tooltipData,
       FlSpot showOnSpot,
       ShowingTooltipIndicators showingTooltipSpots,
@@ -1160,17 +1154,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
 
-    final barLineIndex = showingTooltipSpots.lineIndex;
-
-    final lineBarSpots = showingTooltipSpots.spotsIndices
-        .map((index) => LineBarSpot(barLine, barLineIndex, barLine.spots[index]))
-        .toList();
-    final tooltipItems = tooltipData.getTooltipItems(lineBarSpots);
-    if (tooltipItems.length != showingTooltipSpots.spotsIndices.length) {
+    final tooltipItems = tooltipData.getTooltipItems(showingTooltipSpots.showingSpots);
+    if (tooltipItems.length != showingTooltipSpots.showingSpots.length) {
       throw Exception('tooltipItems and touchedSpots size should be same');
     }
 
-    for (var i = 0; i < showingTooltipSpots.spotsIndices.length; i++) {
+    for (var i = 0; i < showingTooltipSpots.showingSpots.length; i++) {
       final tooltipItem = tooltipItems[i];
       if (tooltipItem == null) {
         continue;

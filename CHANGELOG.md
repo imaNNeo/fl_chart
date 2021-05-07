@@ -1,6 +1,8 @@
 ## newVersion
 * **IMPROVEMENT** Allow to set zero value on PieChartSectionData (we remove zero sections instead of crashing), #640.
 * **BUGFIX** Fix NPE crash in our renderers touchCallback, #651. 
+* **BUGFIX** Fix line index problem in LineChart, #665. (It has appeared in `0.36.0`, we had to revert 2nd change of `0.36.0`)
+* **BREAKING** Remove unused `lineIndex` property from (ShowingTooltipIndicators)[https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#showingtooltipindicators].
 
 ## 0.36.0
 * **BUGFIX** Fixed bug of lerping FlSpot.nullSpot, #487.

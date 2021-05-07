@@ -54,8 +54,9 @@ class LineChartSample5 extends StatelessWidget {
       child: LineChart(
         LineChartData(
           showingTooltipIndicators: showIndexes.map((index) {
-            return ShowingTooltipIndicators(0, [
-              index,
+            return ShowingTooltipIndicators([
+              LineBarSpot(
+                  tooltipsOnBar, lineBarsData.indexOf(tooltipsOnBar), tooltipsOnBar.spots[index]),
             ]);
           }).toList(),
           lineTouchData: LineTouchData(

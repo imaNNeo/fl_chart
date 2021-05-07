@@ -1682,22 +1682,16 @@ class TouchedSpotIndicatorData with EquatableMixin {
 
 /// Holds data for showing tooltips over a line
 class ShowingTooltipIndicators with EquatableMixin {
-  /// Determines in which line these tooltips should be shown.
-  final int lineIndex;
-
   /// Determines the spots that each tooltip should be shown.
-  final List<int> spotsIndices;
+  final List<LineBarSpot> showingSpots;
 
   /// [LineChart] shows some tooltips over each [LineChartBarData],
-  /// [lineIndex] determines the index of [LineChartBarData],
-  /// and [spotsIndices] determines in which spots this tooltip should be shown.
-  ShowingTooltipIndicators(int lineIndex, List<int> spotsIndices)
-      : lineIndex = lineIndex,
-        spotsIndices = spotsIndices;
+  /// and [showingSpots] determines in which spots this tooltip should be shown.
+  ShowingTooltipIndicators(List<LineBarSpot> showingSpots) : showingSpots = showingSpots;
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [lineIndex, spotsIndices];
+  List<Object?> get props => [showingSpots];
 }
 
 /// [LineChart]'s touch callback.
