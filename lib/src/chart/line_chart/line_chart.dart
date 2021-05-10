@@ -97,8 +97,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         }
 
         _showingTouchedTooltips.clear();
-        _showingTouchedTooltips
-            .add(ShowingTooltipIndicators(0, sortedLineSpots.map((e) => e.spotIndex).toList()));
+        _showingTouchedTooltips.add(ShowingTooltipIndicators(sortedLineSpots));
       });
     } else {
       setState(() {

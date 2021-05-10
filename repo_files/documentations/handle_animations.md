@@ -7,11 +7,13 @@
 We handle all animations Implicitly, This is power of the [ImplicitlyAnimatedWidget](https://api.flutter.dev/flutter/widgets/ImplicitlyAnimatedWidget-class.html), just like [AnimatedContainer](https://api.flutter.dev/flutter/widgets/AnimatedContainer-class.html). It means you don't need to do anything, just change any value and the animation is handled under the hood, if you are curious about it, check the source code, reading the source code is the best way to learn things.
 
 
-##### Duration
-we added an optional argument in the `FlChart` class called  `swapAnimationDuration`, this is a [Duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) class that you can set the duration of the animation. the default value is `150 ms`, you can change it to fit your requirements.
+##### Properties
+You can change the [Duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [Curve](https://api.flutter.dev/flutter/animation/Curves-class.html) of animation using `swapAnimationDuration` and `swapAnimationCurve` properties respectively.
+
 ```dart
 LineChart(
   swapAnimationDuration: Duration(milliseconds: 150),
+  swapAnimationCurve = Curves.linear,
   LineChartData(
     isShowingMainData ? sampleData1() : sampleData2(),
   ),
@@ -20,4 +22,4 @@ LineChart(
 
 ##### How to disable
 
-If you want to disable animation, I you should set the duration `0`.
+If you want to disable the animations, you can set `Duration.zero` as `swapAnimationDuration`.

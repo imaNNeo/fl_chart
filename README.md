@@ -1,5 +1,4 @@
-# FL Chart
-
+💥 A library to draw fantastic charts in Flutter  💥
 
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
@@ -7,20 +6,17 @@
 
 ![FL Chart Logo](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/landing_logo.jpg)
 
-
-💥 A library to draw fantastic charts in Flutter  💥
-
 ### Chart Types
 
 |LineChart	|BarChart		|PieChart		|
 |:------------:|:------------:|:-------------:|
 |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-1-source-code) [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-2-source-code)  |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_2.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-2-source-code)  | [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_1.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#sample-1-source-code) [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_2.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#sample-2-source-code) |
-|[Read More](repo_files/documentations/line_chart.md)|[Read More](repo_files/documentations/bar_chart.md)|[Read More](repo_files/documentations/pie_chart.md)|
+|[Read More](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md)|[Read More](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md)|[Read More](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md)|
 
 |ScatterChart	|RadarChart| Coming Soon|
 |:------------:|:------------:|:-------------:|
 |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_1.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#sample-1-source-code) [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_2.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#sample-2-source-code)  |	![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/radar_chart/radar_chart_sample_1.jpg)  ![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/blank.jpg)|![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/blank.jpg) ![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/blank.jpg)|
-|[Read More](repo_files/documentations/scatter_chart.md)|[Read More](repo_files/documentations/radar_chart.md)||
+|[Read More](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md)|[Read More](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md)||
 
 Banner designed by [Soheil Saffar](https://www.linkedin.com/in/soheilsaffar), and
 samples inspired from
@@ -41,7 +37,7 @@ Thank you all!
 
 ```yml
 dependencies:
-  fl_chart: ^0.36.0
+  fl_chart: ^0.36.1
 ```
 
 
@@ -53,9 +49,9 @@ flutter packages get
 ```
 
 ### 3 - Learn it like a charm
-##### Read the docs from [here](repo_files/documentations/index.md)
+##### Read the docs from [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/index.md)
 
-##### - [Animations](repo_files/documentations/handle_animations.md)
+##### - [Animations](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_animations.md)
 |Sample1	|Sample2		|Sample3		|
 |:------------:|:------------:|:-------------:|
 |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-1-source-code)   |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-2-source-code) | [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) |
@@ -72,5 +68,5 @@ flutter packages get
 
 ### Contributing
 
-Check out [CONTRIBUTING.md](CONTRIBUTING.md), which contains a guide for those
+Check out [CONTRIBUTING.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md), which contains a guide for those
 who wish to contribute to FL Chart. Thanks in advance!
