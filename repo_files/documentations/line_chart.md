@@ -265,5 +265,5 @@ When you change the chart's state, it animates to the new state internally (usin
 ##### Sample 9 ([Source Code](/example/lib/line_chart/samples/line_chart_sample9.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_9.gif" width="300" >
 
-##### Sample 9 ([Source Code](/example/lib/line_chart/samples/line_chart_sample10.dart))
+##### Sample 10 ([Source Code](/example/lib/line_chart/samples/line_chart_sample10.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >
