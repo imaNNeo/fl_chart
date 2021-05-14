@@ -9,7 +9,7 @@ class PieChartSample1 extends StatefulWidget {
 }
 
 class PieChartSample1State extends State {
-  int touchedIndex;
+  int touchedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class PieChartSample1State extends State {
                           final desiredTouch = pieTouchResponse.touchInput is! PointerExitEvent &&
                               pieTouchResponse.touchInput is! PointerUpEvent;
                           if (desiredTouch && pieTouchResponse.touchedSection != null) {
-                            touchedIndex = pieTouchResponse.touchedSection.touchedSectionIndex;
+                            touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
                           } else {
                             touchedIndex = -1;
                           }
@@ -96,7 +96,7 @@ class PieChartSample1State extends State {
       4,
       (i) {
         final isTouched = i == touchedIndex;
-        final double opacity = isTouched ? 1 : 0.6;
+        final opacity = isTouched ? 1.0 : 0.6;
         switch (i) {
           case 0:
             return PieChartSectionData(
@@ -139,7 +139,7 @@ class PieChartSample1State extends State {
               titlePositionPercentageOffset: 0.55,
             );
           default:
-            return null;
+            throw Error();
         }
       },
     );

@@ -12,10 +12,10 @@ class BarChartSample2State extends State<BarChartSample2> {
   final Color rightBarColor = const Color(0xffff5182);
   final double width = 7;
 
-  List<BarChartGroupData> rawBarGroups;
-  List<BarChartGroupData> showingBarGroups;
+  late List<BarChartGroupData> rawBarGroups;
+  late List<BarChartGroupData> showingBarGroups;
 
-  int touchedGroupIndex;
+  int touchedGroupIndex = -1;
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                               return;
                             }
 
-                            touchedGroupIndex = response.spot.touchedBarGroupIndex;
+                            touchedGroupIndex = response.spot!.touchedBarGroupIndex;
 
                             setState(() {
                               if (response.touchInput is PointerExitEvent ||
@@ -113,9 +113,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                               } else {
                                 showingBarGroups = List.of(rawBarGroups);
                                 if (touchedGroupIndex != -1) {
-                                  double sum = 0;
-                                  for (BarChartRodData rod
-                                      in showingBarGroups[touchedGroupIndex].barRods) {
+                                  var sum = 0.0;
+                                  for (var rod in showingBarGroups[touchedGroupIndex].barRods) {
                                     sum += rod.y;
                                   }
                                   final avg =
@@ -212,8 +211,8 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   Widget makeTransactionsIcon() {
-    const double width = 4.5;
-    const double space = 3.5;
+    const width = 4.5;
+    const space = 3.5;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,

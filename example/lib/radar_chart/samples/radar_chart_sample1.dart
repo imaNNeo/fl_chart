@@ -104,7 +104,7 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                       response.touchInput is! PointerUpEvent &&
                       response.touchInput is! PointerExitEvent) {
                     setState(() {
-                      selectedDataSetIndex = response?.touchedSpot?.touchedDataSetIndex ?? -1;
+                      selectedDataSetIndex = response.touchedSpot?.touchedDataSetIndex ?? -1;
                     });
                   } else {
                     setState(() {
@@ -144,14 +144,17 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
   }
 
   List<RadarDataSet> showingDataSets() {
-    final List<RadarDataSet> dataSets = List(rawDataSets().length);
-    rawDataSets().asMap().forEach((index, rawDataSet) {
+    return rawDataSets().asMap().entries.map((entry) {
+      var index = entry.key;
+      var rawDataSet = entry.value;
+
       final isSelected = index == selectedDataSetIndex
           ? true
           : selectedDataSetIndex == -1
               ? true
               : false;
-      dataSets[index] = RadarDataSet(
+
+      return RadarDataSet(
         fillColor:
             isSelected ? rawDataSet.color.withOpacity(0.4) : rawDataSet.color.withOpacity(0.25),
         borderColor: isSelected ? rawDataSet.color : rawDataSet.color.withOpacity(0.25),
@@ -159,8 +162,7 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
         dataEntries: rawDataSet.values.map((e) => RadarEntry(value: e)).toList(),
         borderWidth: isSelected ? 2.3 : 2,
       );
-    });
-    return dataSets;
+    }).toList();
   }
 
   List<RawDataSet> rawDataSets() {
@@ -220,8 +222,8 @@ class RawDataSet {
   final List<double> values;
 
   RawDataSet({
-    this.title,
-    this.color,
-    this.values,
+    required this.title,
+    required this.color,
+    required this.values,
   });
 }

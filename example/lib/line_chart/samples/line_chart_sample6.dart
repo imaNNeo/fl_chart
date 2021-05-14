@@ -17,8 +17,8 @@ class LineChartSample6 extends StatelessWidget {
     FlSpot(6, 1),
   ];
 
-  double minSpotX, maxSpotX;
-  double minSpotY, maxSpotY;
+  late double minSpotX, maxSpotX;
+  late double minSpotY, maxSpotY;
 
   LineChartSample6() {
     minSpotX = spots.first.x;
@@ -26,7 +26,7 @@ class LineChartSample6 extends StatelessWidget {
     minSpotY = spots.first.y;
     maxSpotY = spots.first.y;
 
-    for (FlSpot spot in spots) {
+    for (var spot in spots) {
       if (spot.x > maxSpotX) {
         maxSpotX = spot.x;
       }

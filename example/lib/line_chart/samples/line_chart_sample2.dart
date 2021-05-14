@@ -37,7 +37,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         SizedBox(
           width: 60,
           height: 34,
-          child: FlatButton(
+          child: TextButton(
             onPressed: () {
               setState(() {
                 showAvg = !showAvg;
@@ -227,8 +227,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
           ],
           isCurved: true,
           colors: [
-            ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2),
-            ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2),
+            ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2)!,
+            ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2)!,
           ],
           barWidth: 5,
           isStrokeCapRound: true,
@@ -236,8 +236,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
             show: false,
           ),
           belowBarData: BarAreaData(show: true, colors: [
-            ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2).withOpacity(0.1),
-            ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2).withOpacity(0.1),
+            ColorTween(begin: gradientColors[0], end: gradientColors[1])
+                .lerp(0.2)!
+                .withOpacity(0.1),
+            ColorTween(begin: gradientColors[0], end: gradientColors[1])
+                .lerp(0.2)!
+                .withOpacity(0.1),
           ]),
         ),
       ],
