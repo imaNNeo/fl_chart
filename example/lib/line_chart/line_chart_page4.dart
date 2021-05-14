@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 
-import '../bar_chart/samples/bar_chart_sample3.dart';
-import '../bar_chart/samples/bar_chart_sample4.dart';
-import '../bar_chart/samples/bar_chart_sample5.dart';
+import 'samples/line_chart_sample10.dart';
 
 class LineChartPage4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView(
-        padding: const EdgeInsets.all(24),
-        children: <Widget>[
-          BarChartSample3(),
-          const SizedBox(
-            height: 18,
-          ),
-          BarChartSample4(),
-          const SizedBox(
-            height: 18,
-          ),
-          BarChartSample5(),
-        ],
+    return Container(
+      color: Colors.white,
+      child: Center(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+          children: <Widget>[
+            const Text(
+              'LineChart (real time)',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+            const SizedBox(
+              height: 52,
+            ),
+            LineChartSample10(),
+            const SizedBox(
+              height: 52,
+            ),
+          ],
+        ),
       ),
     );
   }
