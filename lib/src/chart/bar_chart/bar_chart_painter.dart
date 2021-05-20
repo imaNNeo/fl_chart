@@ -578,13 +578,20 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+
+    final rotationOffset = calculateRotationOffset(rect.size, tooltipData.rotateAngle);
+    canvasWrapper.drawRRect(
+      roundedRect,
+      _bgTouchTooltipPaint,
+      tooltipData.rotateAngle,
+      Offset(0, rotationOffset.dy),
+    );
 
     /// draw the texts one by one in below of each other
     final top = tooltipData.tooltipPadding.top;
     final drawOffset = Offset(
       rect.center.dx - (tp.width / 2),
-      rect.topCenter.dy + top,
+      rect.topCenter.dy + top + rotationOffset.dy,
     );
     canvasWrapper.drawText(tp, drawOffset, tooltipData.rotateAngle);
   }

@@ -18,7 +18,19 @@ class CanvasWrapper {
   );
 
   /// Directly calls [Canvas.drawRRect]
-  void drawRRect(RRect rrect, Paint paint) => canvas.drawRRect(rrect, paint);
+  void drawRRect(RRect rrect, Paint paint, [double? rotateAngle, Offset? offset]) {
+    if (rotateAngle == null) {
+      canvas.drawRRect(rrect, paint);
+    } else {
+      offset ??= Offset(0, 0);
+      save();
+      translate(rrect.left + rrect.width / 2 + offset.dx, rrect.top + rrect.height / 2 + offset.dy);
+      rotate(radians(rotateAngle));
+      translate(-rrect.left - rrect.width / 2, -rrect.top - rrect.height / 2);
+      canvas.drawRRect(rrect, paint);
+      restore();
+    }
+  }
 
   /// Directly calls [Canvas.save]
   void save() => canvas.save();
