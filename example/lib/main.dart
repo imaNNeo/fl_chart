@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'bar_chart/bar_chart_page.dart';
 import 'bar_chart/bar_chart_page2.dart';
+import 'bar_chart/bar_chart_page3.dart';
 import 'line_chart/line_chart_page.dart';
 import 'line_chart/line_chart_page2.dart';
 import 'line_chart/line_chart_page3.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -52,15 +53,17 @@ class _MyHomePageState extends State<MyHomePage> {
     LineChartPage2(),
     LineChartPage3(),
     LineChartPage4(),
+    BarChartPage3(),
     ScatterChartPage(),
     RadarChartPage(),
   ];
 
   @override
   void initState() {
+    super.initState();
     _controller.addListener(() {
       setState(() {
-        _currentPage = _controller.page.round();
+        _currentPage = _controller.page!.round();
       });
     });
   }

@@ -14,7 +14,7 @@ You can search in issues to make sure there isn't any already opened issue with 
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Provide us a completely reproducible code (contains the main function) in a file, it helps us to find the bug immediately.
+Provide us a completely reproducible code (contains the main function) in a `main.dart` file, it helps us to find the bug immediately.
 
 **Screenshots**
 If applicable, add screenshots, or videoshots to help explain your problem.

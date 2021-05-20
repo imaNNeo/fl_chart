@@ -7,7 +7,7 @@ class ScatterChartSample2 extends StatefulWidget {
 }
 
 class _ScatterChartSample2State extends State {
-  int touchedIndex;
+  int touchedIndex = -1;
 
   Color greyColor = Colors.grey;
 
@@ -135,7 +135,7 @@ class _ScatterChartSample2State extends State {
               ),
               touchCallback: (ScatterTouchResponse touchResponse) {
                 if (touchResponse.clickHappened && touchResponse.touchedSpot != null) {
-                  final sectionIndex = touchResponse.touchedSpot.spotIndex;
+                  final sectionIndex = touchResponse.touchedSpot!.spotIndex;
                   // Tap happened
                   setState(() {
                     if (selectedSpots.contains(sectionIndex)) {

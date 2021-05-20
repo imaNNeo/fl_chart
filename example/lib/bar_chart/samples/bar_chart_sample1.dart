@@ -22,7 +22,7 @@ class BarChartSample1State extends State<BarChartSample1> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
 
-  int touchedIndex;
+  int touchedIndex = -1;
 
   bool isPlaying = false;
 
@@ -142,7 +142,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           case 6:
             return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
           default:
-            return null;
+            return throw Error();
         }
       });
 
@@ -175,6 +175,8 @@ class BarChartSample1State extends State<BarChartSample1> {
                 case 6:
                   weekDay = 'Sunday';
                   break;
+                default:
+                  throw Error();
               }
               return BarTooltipItem(
                 weekDay + '\n',
@@ -200,7 +202,7 @@ class BarChartSample1State extends State<BarChartSample1> {
             if (barTouchResponse.spot != null &&
                 barTouchResponse.touchInput is! PointerUpEvent &&
                 barTouchResponse.touchInput is! PointerExitEvent) {
-              touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+              touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
             } else {
               touchedIndex = -1;
             }
@@ -310,7 +312,7 @@ class BarChartSample1State extends State<BarChartSample1> {
             return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
                 barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
           default:
-            return null;
+            return throw Error();
         }
       }),
     );
@@ -320,7 +322,7 @@ class BarChartSample1State extends State<BarChartSample1> {
     setState(() {});
     await Future<dynamic>.delayed(animDuration + const Duration(milliseconds: 50));
     if (isPlaying) {
-      refreshState();
+      await refreshState();
     }
   }
 }

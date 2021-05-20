@@ -6,7 +6,7 @@ import 'dart:math';
 class LineChartSample9 extends StatelessWidget {
   final spots = List.generate(101, (i) => (i - 50) / 10).map((x) => FlSpot(x, sin(x))).toList();
 
-  LineChartSample9() {}
+  LineChartSample9();
 
   @override
   Widget build(BuildContext context) {

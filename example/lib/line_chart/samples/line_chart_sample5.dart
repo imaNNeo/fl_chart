@@ -46,7 +46,7 @@ class LineChartSample5 extends StatelessWidget {
           ]),
     ];
 
-    final LineChartBarData tooltipsOnBar = lineBarsData[0];
+    final tooltipsOnBar = lineBarsData[0];
 
     return SizedBox(
       width: 300,
@@ -54,7 +54,7 @@ class LineChartSample5 extends StatelessWidget {
       child: LineChart(
         LineChartData(
           showingTooltipIndicators: showIndexes.map((index) {
-            return ShowingTooltipIndicators(index, [
+            return ShowingTooltipIndicators([
               LineBarSpot(
                   tooltipsOnBar, lineBarsData.indexOf(tooltipsOnBar), tooltipsOnBar.spots[index]),
             ]);
@@ -71,7 +71,7 @@ class LineChartSample5 extends StatelessWidget {
                     show: true,
                     getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
                       radius: 8,
-                      color: lerpGradient(barData.colors, barData.colorStops, percent / 100),
+                      color: lerpGradient(barData.colors, barData.colorStops!, percent / 100),
                       strokeWidth: 2,
                       strokeColor: Colors.black,
                     ),
@@ -144,7 +144,7 @@ class LineChartSample5 extends StatelessWidget {
 
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
-  if (stops == null || stops.length != colors.length) {
+  if (stops.length != colors.length) {
     stops = [];
 
     /// provided gradientColorStops is invalid and we calculate it here
@@ -161,7 +161,7 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
       return leftColor;
     } else if (t < rightStop) {
       final sectionT = (t - leftStop) / (rightStop - leftStop);
-      return Color.lerp(leftColor, rightColor, sectionT);
+      return Color.lerp(leftColor, rightColor, sectionT)!;
     }
   }
   return colors.last;

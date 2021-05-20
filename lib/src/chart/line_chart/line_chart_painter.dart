@@ -129,7 +129,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           topSpot = barSpot;
         }
       }
-      tooltipSpots = ShowingTooltipIndicators(tooltipSpots.lineIndex, barSpots);
+      tooltipSpots = ShowingTooltipIndicators(barSpots);
 
       _drawTouchTooltip(
         canvasWrapper,

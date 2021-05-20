@@ -1,11 +1,10 @@
-name: Code Style
+name: Code Style Push
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   check-code-style:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v1
       - name: Setup Flutter
@@ -18,3 +17,4 @@ jobs:
         run: flutter pub get
       - name: Analyze the source code
         run: flutter analyze
+

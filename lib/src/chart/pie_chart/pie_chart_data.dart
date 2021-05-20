@@ -53,11 +53,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
-  })  : assert(
-          !_sectionsContainsZero(sections),
-          "section's value can't be zero",
-        ),
-        sections = sections ?? const [],
+  })  : sections = sections?.where((section) => section.value != 0).toList() ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
@@ -67,14 +63,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
           borderData: borderData ?? FlBorderData(show: false),
           touchData: pieTouchData ?? PieTouchData(),
         );
-
-  /// Returns true if find any zero value in the list.
-  static bool _sectionsContainsZero(List<PieChartSectionData>? list) {
-    if (list == null) {
-      return false;
-    }
-    return list.any((element) => element.value == 0);
-  }
 
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.

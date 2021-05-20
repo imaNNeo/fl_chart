@@ -110,7 +110,7 @@ class RenderScatterChart extends RenderBox {
 
     var touchedSpot = _painter.handleTouch(event, size, paintHolder);
     if (touchedSpot == null) {
-      _touchCallback!.call(response);
+      _touchCallback?.call(response);
       return;
     }
     response = response.copyWith(touchedSpot: touchedSpot);
@@ -124,6 +124,6 @@ class RenderScatterChart extends RenderBox {
       _lastTouchedSpot = null;
     }
 
-    _touchCallback!.call(response);
+    _touchCallback?.call(response);
   }
 }

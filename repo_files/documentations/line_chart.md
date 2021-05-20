@@ -26,7 +26,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
-|showingTooltipIndicators| show the tooltip based on provided position(x), and list of [LineBarSpot](#LineBarSpot)| [] |
+|showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot)| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
@@ -222,7 +222,6 @@ When you change the chart's state, it animates to the new state internally (usin
 ### ShowingTooltipIndicators
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|lineIndex|Determines in which line these tooltips should be shown.|null|
 |showingSpots|Determines the spots that each tooltip should be shown.|null|
 
 
@@ -265,3 +264,6 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ##### Sample 9 ([Source Code](/example/lib/line_chart/samples/line_chart_sample9.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_9.gif" width="300" >
+
+##### Sample 10 ([Source Code](/example/lib/line_chart/samples/line_chart_sample10.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >

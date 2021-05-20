@@ -141,6 +141,7 @@ int _roundInterval(double input) {
 }
 
 /// billion number
+/// in short scale (https://en.wikipedia.org/wiki/Billion)
 const double billion = 1000000000;
 
 /// million number
