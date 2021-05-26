@@ -581,21 +581,28 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
 
-    final rotationOffset = calculateRotationOffset(rect.size, tooltipData.rotateAngle);
-    canvasWrapper.drawRRect(
-      roundedRect,
-      _bgTouchTooltipPaint,
-      tooltipData.rotateAngle,
-      Offset(0, rotationOffset.dy),
-    );
+    final rotateAngle = tooltipData.rotateAngle;
+    final rectRotationOffset = Offset(0, calculateRotationOffset(rect.size, rotateAngle).dy);
+    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+    final textRotationOffset = calculateRotationOffset(tp.size, rotateAngle);
 
     /// draw the texts one by one in below of each other
     final top = tooltipData.tooltipPadding.top;
     final drawOffset = Offset(
       rect.center.dx - (tp.width / 2),
-      rect.topCenter.dy + top + rotationOffset.dy,
+      rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
     );
-    canvasWrapper.drawText(tp, drawOffset, tooltipData.rotateAngle);
+    canvasWrapper.drawRotated(
+      size: rect.size,
+      rotationOffset: rectRotationOffset,
+      drawOffset: rectDrawOffset,
+      angle: rotateAngle,
+      drawCallback: () {
+        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+        canvasWrapper.drawText(tp, drawOffset);
+      },
+    );
   }
 
   /// We add our needed horizontal space to parent needed.

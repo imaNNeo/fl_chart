@@ -18,18 +18,8 @@ class CanvasWrapper {
   );
 
   /// Directly calls [Canvas.drawRRect]
-  void drawRRect(RRect rrect, Paint paint, [double? rotateAngle, Offset? offset]) {
-    if (rotateAngle == null) {
-      canvas.drawRRect(rrect, paint);
-    } else {
-      offset ??= Offset(0, 0);
-      save();
-      translate(rrect.left + rrect.width / 2 + offset.dx, rrect.top + rrect.height / 2 + offset.dy);
-      rotate(radians(rotateAngle));
-      translate(-rrect.left - rrect.width / 2, -rrect.top - rrect.height / 2);
-      canvas.drawRRect(rrect, paint);
-      restore();
-    }
+  void drawRRect(RRect rrect, Paint paint) {
+    canvas.drawRRect(rrect, paint);
   }
 
   /// Directly calls [Canvas.save]
@@ -81,12 +71,14 @@ class CanvasWrapper {
     if (rotateAngle == null) {
       tp.paint(canvas, offset);
     } else {
-      save();
-      translate(offset.dx + tp.width / 2, offset.dy + tp.height / 2);
-      rotate(radians(rotateAngle));
-      translate(-offset.dx - tp.width / 2, -offset.dy - tp.height / 2);
-      tp.paint(canvas, offset);
-      restore();
+      drawRotated(
+        size: tp.size,
+        drawOffset: offset,
+        angle: rotateAngle,
+        drawCallback: () {
+          tp.paint(canvas, offset);
+        },
+      );
     }
   }
 
@@ -96,5 +88,27 @@ class CanvasWrapper {
   /// with the [offset]
   void drawDot(FlDotPainter painter, FlSpot spot, Offset offset) {
     painter.draw(canvas, spot, offset);
+  }
+
+  /// Handles performing multiple draw actions rotated.
+  void drawRotated({
+    required Size size,
+    Offset rotationOffset = const Offset(0, 0),
+    Offset drawOffset = const Offset(0, 0),
+    required double angle,
+    required void Function() drawCallback,
+  }) {
+    save();
+    translate(
+      rotationOffset.dx + drawOffset.dx + size.width / 2,
+      rotationOffset.dy + drawOffset.dy + size.height / 2,
+    );
+    rotate(radians(angle));
+    translate(
+      -drawOffset.dx - size.width / 2,
+      -drawOffset.dy - size.height / 2,
+    );
+    drawCallback();
+    restore();
   }
 }
