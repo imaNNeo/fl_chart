@@ -18,9 +18,7 @@ class CanvasWrapper {
   );
 
   /// Directly calls [Canvas.drawRRect]
-  void drawRRect(RRect rrect, Paint paint) {
-    canvas.drawRRect(rrect, paint);
-  }
+  void drawRRect(RRect rrect, Paint paint) => canvas.drawRRect(rrect, paint);
 
   /// Directly calls [Canvas.save]
   void save() => canvas.save();
