@@ -1,4 +1,4 @@
-package com.example.example
+package dev.flchart.example
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
