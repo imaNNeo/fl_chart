@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 import 'bar_chart_painter.dart';
 
@@ -32,7 +33,7 @@ class BarChartLeaf extends LeafRenderObjectWidget {
 }
 
 /// Renders our BarChart, also handles hitTest.
-class RenderBarChart extends RenderBox {
+class RenderBarChart extends RenderBox implements MouseTrackerAnnotation {
   RenderBarChart(
       BarChartData data, BarChartData targetData, double textScale, BarTouchCallback? touchCallback)
       : _data = data,
@@ -42,6 +43,7 @@ class RenderBarChart extends RenderBox {
 
   BarChartData get data => _data;
   BarChartData _data;
+
   set data(BarChartData value) {
     if (_data == value) return;
     _data = value;
@@ -50,6 +52,7 @@ class RenderBarChart extends RenderBox {
 
   BarChartData get targetData => _targetData;
   BarChartData _targetData;
+
   set targetData(BarChartData value) {
     if (_targetData == value) return;
     _targetData = value;
@@ -58,6 +61,7 @@ class RenderBarChart extends RenderBox {
 
   double get textScale => _textScale;
   double _textScale;
+
   set textScale(double value) {
     if (_textScale == value) return;
     _textScale = value;
@@ -65,6 +69,7 @@ class RenderBarChart extends RenderBox {
   }
 
   BarTouchCallback? _touchCallback;
+
   set touchCallback(BarTouchCallback? value) {
     _touchCallback = value;
   }
@@ -76,6 +81,8 @@ class RenderBarChart extends RenderBox {
   }
 
   BarTouchedSpot? _lastTouchedSpot;
+
+  late bool _validForMouseTracker;
 
   @override
   void performLayout() {
@@ -102,6 +109,24 @@ class RenderBarChart extends RenderBox {
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
     assert(debugHandleEvent(event, entry));
+    _handleEvent(event);
+  }
+
+  @override
+  PointerExitEventListener? get onExit => (PointerExitEvent event) {
+        _handleEvent(event);
+      };
+
+  @override
+  PointerEnterEventListener? get onEnter => null;
+
+  @override
+  MouseCursor get cursor => MouseCursor.defer;
+
+  @override
+  bool get validForMouseTracker => _validForMouseTracker;
+
+  void _handleEvent(PointerEvent event) {
     if (_touchCallback == null) {
       return;
     }
@@ -124,5 +149,17 @@ class RenderBarChart extends RenderBox {
     }
 
     _touchCallback?.call(response);
+  }
+
+  @override
+  void attach(PipelineOwner owner) {
+    super.attach(owner);
+    _validForMouseTracker = true;
+  }
+
+  @override
+  void detach() {
+    _validForMouseTracker = false;
+    super.detach();
   }
 }
