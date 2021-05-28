@@ -1,3 +1,7 @@
+## newVersion
+* **IMPROVEMENT** Support `onMouseExit` event in all charts.
+
+
 ## 0.36.1
 * **IMPROVEMENT** Allow to set zero value on PieChartSectionData (we remove zero sections instead of crashing), #640.
 * **BUGFIX** Fix NPE crash in our renderers touchCallback, #651. 
