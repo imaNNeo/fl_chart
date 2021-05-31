@@ -692,6 +692,7 @@ class BarTouchTooltipData with EquatableMixin {
         getTooltipItem,
         fitInsideHorizontally,
         fitInsideVertically,
+        rotateAngle,
       ];
 }
 
