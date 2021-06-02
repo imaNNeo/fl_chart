@@ -8,11 +8,13 @@ Make sure you have Flutter installed and on your path.
 
 Follow these steps to clone FL Chart and set up the development environment:
 
-1. Clone the project: `git clone https://github.com/imaNNeoFighT/fl_chart.git`
+1. Fork the repository
 
-2. Go into the cloned directory: `cd fl_chart`
+2. Clone the project, you can find it in your repositories: `git clone https://github.com/your-username/fl_chart.git`
 
-3. Install all packages: `flutter packages get`
+3. Go into the cloned directory: `cd fl_chart`
+
+4. Install all packages: `flutter packages get`
 
 ## Before Modifying the Code
 
