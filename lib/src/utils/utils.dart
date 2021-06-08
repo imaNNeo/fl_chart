@@ -32,6 +32,14 @@ double translateRotatedPosition(double size, double degree) {
   return (size / 4) * math.sin(radians(degree.abs()));
 }
 
+Offset calculateRotationOffset(Size size, double degree) {
+  final rotatedHeight =
+      (size.width * math.sin(radians(degree))).abs() + (size.height * cos(radians(degree))).abs();
+  final rotatedWidth =
+      (size.width * cos(radians(degree))).abs() + (size.height * sin(radians(degree))).abs();
+  return Offset((size.width - rotatedWidth) / 2, (size.height - rotatedHeight) / 2);
+}
+
 /// Decreases [borderRadius] to <= width / 2
 BorderRadius? normalizeBorderRadius(BorderRadius? borderRadius, double width) {
   if (borderRadius == null) {

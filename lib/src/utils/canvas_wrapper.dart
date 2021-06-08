@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart' hide Image;
 
 /// Proxies Canvas functions
@@ -64,7 +65,20 @@ class CanvasWrapper {
   /// Paints a text on the [Canvas]
   ///
   /// Gets a [TextPainter] and call its [TextPainter.paint] using our canvas
-  void drawText(TextPainter tp, Offset offset) => tp.paint(canvas, offset);
+  void drawText(TextPainter tp, Offset offset, [double? rotateAngle]) {
+    if (rotateAngle == null) {
+      tp.paint(canvas, offset);
+    } else {
+      drawRotated(
+        size: tp.size,
+        drawOffset: offset,
+        angle: rotateAngle,
+        drawCallback: () {
+          tp.paint(canvas, offset);
+        },
+      );
+    }
+  }
 
   /// Paints a dot using customized [FlDotPainter]
   ///
@@ -72,5 +86,27 @@ class CanvasWrapper {
   /// with the [offset]
   void drawDot(FlDotPainter painter, FlSpot spot, Offset offset) {
     painter.draw(canvas, spot, offset);
+  }
+
+  /// Handles performing multiple draw actions rotated.
+  void drawRotated({
+    required Size size,
+    Offset rotationOffset = const Offset(0, 0),
+    Offset drawOffset = const Offset(0, 0),
+    required double angle,
+    required void Function() drawCallback,
+  }) {
+    save();
+    translate(
+      rotationOffset.dx + drawOffset.dx + size.width / 2,
+      rotationOffset.dy + drawOffset.dy + size.height / 2,
+    );
+    rotate(radians(angle));
+    translate(
+      -drawOffset.dx - size.width / 2,
+      -drawOffset.dy - size.height / 2,
+    );
+    drawCallback();
+    restore();
   }
 }
