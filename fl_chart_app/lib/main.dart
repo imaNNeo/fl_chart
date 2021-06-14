@@ -3,6 +3,8 @@ import 'package:fl_chart_app/menu_row.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'resources/app_resources.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -32,7 +34,15 @@ class HomePage extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: Container(
         child: Center(
-          child: Text('FL Chart'),
+          child: Column(
+            children: [
+              MenuRow(text: 'Line', svgPath: AppAssets.icLineChart, isSelected: true,),
+              MenuRow(text: 'Bar', svgPath: AppAssets.icBarChart, isSelected: false,),
+              MenuRow(text: 'Pie', svgPath: AppAssets.icPieChart, isSelected: false,),
+              MenuRow(text: 'Scatter', svgPath: AppAssets.icScatterChart, isSelected: false,),
+              MenuRow(text: 'Radar', svgPath: AppAssets.icRadarChart, isSelected: false,),
+            ],
+          ),
         ),
       ),
     );
