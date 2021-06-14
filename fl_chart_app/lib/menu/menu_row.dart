@@ -7,12 +7,14 @@ class MenuRow extends StatelessWidget {
   final String text;
   final String svgPath;
   final bool isSelected;
+  final VoidCallback onTap;
 
   const MenuRow({
     Key? key,
     required this.text,
     required this.svgPath,
     required this.isSelected,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class MenuRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: AppDimens.menuRowVerticalSpace),
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           height: AppDimens.menuRowHeight,
           child: Row(
