@@ -5,28 +5,24 @@ import 'package:flutter/material.dart';
 import 'menu_row.dart';
 
 class AppMenu extends StatefulWidget {
-  final items = const [
-    _MenuItem('Line', AppAssets.icLineChart),
-    _MenuItem('Bar', AppAssets.icBarChart),
-    _MenuItem('Pie', AppAssets.icPieChart),
-    _MenuItem('Scatter', AppAssets.icScatterChart),
-    _MenuItem('Radar', AppAssets.icRadarChart),
-  ];
+  final List<ChartMenuItem> menuItems;
+  final bool isStandAlonePage;
+  final int currentSelectedIndex;
+  final Function(int, ChartMenuItem) onItemSelected;
 
-  const AppMenu({Key? key}) : super(key: key);
+  const AppMenu({
+    Key? key,
+    required this.menuItems,
+    required this.isStandAlonePage,
+    required this.currentSelectedIndex,
+    required this.onItemSelected,
+  }) : super(key: key);
 
   @override
   _AppMenuState createState() => _AppMenuState();
 }
 
 class _AppMenuState extends State<AppMenu> {
-  late int selectedIndex;
-
-  @override
-  void initState() {
-    selectedIndex = 0;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +37,18 @@ class _AppMenuState extends State<AppMenu> {
         Expanded(
           child: ListView.builder(
             itemBuilder: (context, position) {
-              final menuItem = widget.items[position];
+              final menuItem = widget.menuItems[position];
               return MenuRow(
                 text: menuItem.text,
                 svgPath: menuItem.iconPath,
-                isSelected: selectedIndex == position,
+                isSelected: widget.currentSelectedIndex == position,
+                isSelectable: !widget.isStandAlonePage,
                 onTap: () {
-                  _onListItemTap(position);
+                  widget.onItemSelected(position, menuItem);
                 },
               );
             },
-            itemCount: widget.items.length,
+            itemCount: widget.menuItems.length,
           ),
         ),
         Container(
@@ -87,17 +84,12 @@ class _AppMenuState extends State<AppMenu> {
       ],
     );
   }
-
-  void _onListItemTap(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
 }
 
-class _MenuItem {
+class ChartMenuItem {
+  final String slug;
   final String text;
   final String iconPath;
 
-  const _MenuItem(this.text, this.iconPath);
+  const ChartMenuItem(this.slug, this.text, this.iconPath);
 }
