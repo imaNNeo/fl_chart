@@ -1,6 +1,9 @@
 class AppDimens {
-  static final double menuRowHeight = 56;
-  static final double menuRowVerticalSpace = 18.5;
-  static final double menuIconSize = 36;
-  static final double menuTextSize = 24;
+  static const double menuMaxNeededWidth = 400;
+  static const double menuRowHeight = 56;
+  static const double menuRowVerticalSpace = 18.5;
+  static const double menuIconSize = 36;
+  static const double menuTextSize = 24;
+
+  static const double chartBoxMinWidth = 350;
 }

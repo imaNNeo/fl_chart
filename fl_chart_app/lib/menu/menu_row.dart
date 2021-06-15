@@ -8,6 +8,7 @@ class MenuRow extends StatelessWidget {
   final String svgPath;
   final bool isSelected;
   final VoidCallback onTap;
+  final bool isSelectable;
 
   const MenuRow({
     Key? key,
@@ -15,7 +16,10 @@ class MenuRow extends StatelessWidget {
     required this.svgPath,
     required this.isSelected,
     required this.onTap,
+    required this.isSelectable,
   }) : super(key: key);
+
+  bool get _showSelectedState => isSelectable && isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class MenuRow extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: isSelected ? AppColors.flCyan : Colors.white,
+                  color: _showSelectedState ? AppColors.flCyan : Colors.white,
                   fontSize: AppDimens.menuTextSize,
                 ),
               ),
