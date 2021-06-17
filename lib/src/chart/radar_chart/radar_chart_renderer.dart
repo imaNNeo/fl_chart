@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 import 'radar_chart_painter.dart';
 
@@ -32,7 +33,7 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
 }
 
 /// Renders our RadarChart, also handles hitTest.
-class RenderRadarChart extends RenderBox {
+class RenderRadarChart extends RenderBox implements MouseTrackerAnnotation {
   RenderRadarChart(RadarChartData data, RadarChartData targetData, double textScale,
       RadarTouchCallback? touchCallback)
       : _data = data,
@@ -77,6 +78,8 @@ class RenderRadarChart extends RenderBox {
 
   RadarTouchedSpot? _lastTouchedSpot;
 
+  late bool _validForMouseTracker;
+
   @override
   void performLayout() {
     size = computeDryLayout(constraints);
@@ -102,6 +105,24 @@ class RenderRadarChart extends RenderBox {
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
     assert(debugHandleEvent(event, entry));
+    _handleEvent(event);
+  }
+
+  @override
+  PointerExitEventListener? get onExit => (PointerExitEvent event) {
+        _handleEvent(event);
+      };
+
+  @override
+  PointerEnterEventListener? get onEnter => null;
+
+  @override
+  MouseCursor get cursor => MouseCursor.defer;
+
+  @override
+  bool get validForMouseTracker => _validForMouseTracker;
+
+  void _handleEvent(PointerEvent event) {
     if (_touchCallback == null) {
       return;
     }
@@ -126,5 +147,17 @@ class RenderRadarChart extends RenderBox {
     }
 
     _touchCallback?.call(response);
+  }
+
+  @override
+  void attach(PipelineOwner owner) {
+    super.attach(owner);
+    _validForMouseTracker = true;
+  }
+
+  @override
+  void detach() {
+    _validForMouseTracker = false;
+    super.detach();
   }
 }

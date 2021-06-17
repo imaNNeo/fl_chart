@@ -1,3 +1,9 @@
+## 0.36.2
+* **IMPROVEMENT** Support `onMouseExit` event in all charts.
+* **IMPROVEMENT** Add `rotateAngle` property in [LineTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchtooltipdata), [BarTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartouchtooltipdata), [ScatterTouchTooltipData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#scattertouchtooltipdata), #260, #679.
+* **BUGFIX** Fix PieChart section index problem, when there is a section with 0 value, #697.
+
+
 ## 0.36.1
 * **IMPROVEMENT** Allow to set zero value on PieChartSectionData (we remove zero sections instead of crashing), #640.
 * **BUGFIX** Fix NPE crash in our renderers touchCallback, #651. 

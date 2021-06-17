@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'dart:math';
 import 'dart:ui' as ui;
 
@@ -8,9 +9,9 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'bar_chart_extensions.dart';
 
 import '../../utils/utils.dart';
+import 'bar_chart_extensions.dart';
 
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> {
@@ -358,13 +359,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
-          canvasWrapper.save();
-          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-          canvasWrapper.rotate(radians(leftTitles.rotateAngle));
-          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-          y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          canvasWrapper.drawText(tp, Offset(x, y));
-          canvasWrapper.restore();
+          x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
+          canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
         }
         if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -390,16 +386,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             textScaleFactor: holder.textScale);
         tp.layout();
         var x = groupBarPos.groupX;
-        const y = 0.0;
+        var y = 0.0;
 
         x -= tp.width / 2;
-        canvasWrapper.save();
-        canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-        canvasWrapper.rotate(radians(topTitles.rotateAngle));
-        canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        x += translateRotatedPosition(tp.width, topTitles.rotateAngle);
-        canvasWrapper.drawText(tp, Offset(x, y));
-        canvasWrapper.restore();
+        y += calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
+        canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
       }
     }
 
@@ -426,13 +417,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x += rightTitles.margin;
           y -= tp.height / 2;
-          canvasWrapper.save();
-          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-          canvasWrapper.rotate(radians(rightTitles.rotateAngle));
-          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-          y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          canvasWrapper.drawText(tp, Offset(x, y));
-          canvasWrapper.restore();
+          x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
+          canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
         }
         if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -461,16 +447,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             textScaleFactor: holder.textScale);
         tp.layout();
         var x = groupBarPos.groupX;
-        final y = drawSize.height + getTopOffsetDrawSize(holder) + bottomTitles.margin;
-
+        var y = drawSize.height + getTopOffsetDrawSize(holder) + bottomTitles.margin;
         x -= tp.width / 2;
-        canvasWrapper.save();
-        canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-        canvasWrapper.rotate(radians(bottomTitles.rotateAngle));
-        canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-        x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
-        canvasWrapper.drawText(tp, Offset(x, y));
-        canvasWrapper.restore();
+        y -= calculateRotationOffset(tp.size, bottomTitles.rotateAngle).dy;
+        canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
       }
     }
   }
@@ -600,15 +580,29 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+
+    final rotateAngle = tooltipData.rotateAngle;
+    final rectRotationOffset = Offset(0, calculateRotationOffset(rect.size, rotateAngle).dy);
+    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+    final textRotationOffset = calculateRotationOffset(tp.size, rotateAngle);
 
     /// draw the texts one by one in below of each other
     final top = tooltipData.tooltipPadding.top;
     final drawOffset = Offset(
       rect.center.dx - (tp.width / 2),
-      rect.topCenter.dy + top,
+      rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
     );
-    canvasWrapper.drawText(tp, drawOffset);
+    canvasWrapper.drawRotated(
+      size: rect.size,
+      rotationOffset: rectRotationOffset,
+      drawOffset: rectDrawOffset,
+      angle: rotateAngle,
+      drawCallback: () {
+        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+        canvasWrapper.drawText(tp, drawOffset);
+      },
+    );
   }
 
   /// We add our needed horizontal space to parent needed.

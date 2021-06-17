@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 import 'pie_chart_painter.dart';
 
@@ -46,7 +47,8 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
 class RenderPieChart extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
-        RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData> {
+        RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData>
+    implements MouseTrackerAnnotation {
   RenderPieChart(
       PieChartData data, PieChartData targetData, double textScale, PieTouchCallback? touchCallback)
       : _data = data,
@@ -92,6 +94,8 @@ class RenderPieChart extends RenderBox
   }
 
   PieTouchedSection? _lastTouchedSpot;
+
+  late bool _validForMouseTracker;
 
   @override
   void setupParentData(RenderBox child) {
@@ -148,6 +152,24 @@ class RenderPieChart extends RenderBox
   @override
   void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
     assert(debugHandleEvent(event, entry));
+    _handleEvent(event);
+  }
+
+  @override
+  PointerExitEventListener? get onExit => (PointerExitEvent event) {
+        _handleEvent(event);
+      };
+
+  @override
+  PointerEnterEventListener? get onEnter => null;
+
+  @override
+  MouseCursor get cursor => MouseCursor.defer;
+
+  @override
+  bool get validForMouseTracker => _validForMouseTracker;
+
+  void _handleEvent(PointerEvent event) {
     if (_touchCallback == null) {
       return;
     }
@@ -170,5 +192,17 @@ class RenderPieChart extends RenderBox
     }
 
     _touchCallback?.call(response);
+  }
+
+  @override
+  void attach(PipelineOwner owner) {
+    super.attach(owner);
+    _validForMouseTracker = true;
+  }
+
+  @override
+  void detach() {
+    _validForMouseTracker = false;
+    super.detach();
   }
 }

@@ -11,6 +11,7 @@ import 'line_chart/line_chart_page2.dart';
 import 'line_chart/line_chart_page3.dart';
 import 'line_chart/line_chart_page4.dart';
 import 'pie_chart/pie_chart_page.dart';
+import 'utils/platform_info.dart';
 import 'scatter_chart/scatter_chart_page.dart';
 
 void main() => runApp(MyApp());
@@ -58,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
     RadarChartPage(),
   ];
 
+  bool get isDesktopOrWeb => PlatformInfo().isDesktopOS() || PlatformInfo().isWeb();
+
   @override
   void initState() {
     super.initState();
@@ -73,12 +76,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: SafeArea(
         child: PageView(
-          physics: kIsWeb ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
+          physics:
+              isDesktopOrWeb ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
           controller: _controller,
           children: _pages,
         ),
       ),
-      bottomNavigationBar: kIsWeb
+      bottomNavigationBar: isDesktopOrWeb
           ? Container(
               padding: EdgeInsets.all(16),
               color: Colors.transparent,

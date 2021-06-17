@@ -87,6 +87,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
+      if (section.value == 0) {
+        continue;
+      }
       final sectionDegree = sectionsAngle[i];
 
       final sectionRadiusRect = Rect.fromCircle(
@@ -212,6 +215,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
+      if (section.value == 0) {
+        continue;
+      }
       final startAngle = tempAngle;
       final sweepAngle = 360 * (section.value / data.sumValue);
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
