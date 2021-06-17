@@ -863,13 +863,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
           x -= tp.width + leftTitles.margin;
           y -= tp.height / 2;
-          canvasWrapper.save();
-          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-          canvasWrapper.rotate(radians(leftTitles.rotateAngle));
-          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-          y -= translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          canvasWrapper.drawText(tp, Offset(x, y));
-          canvasWrapper.restore();
+          x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
+          canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
         }
         if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
           verticalSeek = data.maxY;
@@ -903,13 +898,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           x -= tp.width / 2;
           y -= topTitles.margin + tp.height;
-          canvasWrapper.save();
-          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-          canvasWrapper.rotate(radians(topTitles.rotateAngle));
-          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-          x -= translateRotatedPosition(tp.width, topTitles.rotateAngle);
-          canvasWrapper.drawText(tp, Offset(x, y));
-          canvasWrapper.restore();
+          y += calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
+          canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
         }
         if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
           horizontalSeek = data.maxX;
@@ -943,13 +933,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           x += rightTitles.margin;
           y -= tp.height / 2;
-          canvasWrapper.save();
-          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-          canvasWrapper.rotate(radians(rightTitles.rotateAngle));
-          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-          y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          canvasWrapper.drawText(tp, Offset(x, y));
-          canvasWrapper.restore();
+          x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
+          canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
         }
 
         if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
@@ -982,13 +967,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           x -= tp.width / 2;
           y += bottomTitles.margin;
-          canvasWrapper.save();
-          canvasWrapper.translate(x + tp.width / 2, y + tp.height / 2);
-          canvasWrapper.rotate(radians(bottomTitles.rotateAngle));
-          canvasWrapper.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-          x += translateRotatedPosition(tp.width, bottomTitles.rotateAngle);
-          canvasWrapper.drawText(tp, Offset(x, y));
-          canvasWrapper.restore();
+          y -= calculateRotationOffset(tp.size, bottomTitles.rotateAngle).dy;
+          canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
         }
 
         if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
@@ -1274,16 +1254,40 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+
+    final rotateAngle = tooltipData.rotateAngle;
+    final rectRotationOffset = Offset(0, calculateRotationOffset(rect.size, rotateAngle).dy);
+    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+    final textRotationOffset = calculateRotationOffset(rect.size, rotateAngle);
+
+    canvasWrapper.drawRotated(
+      size: rect.size,
+      rotationOffset: rectRotationOffset,
+      drawOffset: rectDrawOffset,
+      angle: rotateAngle,
+      drawCallback: () {
+        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+      },
+    );
 
     /// draw the texts one by one in below of each other
     var topPosSeek = tooltipData.tooltipPadding.top;
     for (var tp in drawingTextPainters) {
       final drawOffset = Offset(
         rect.center.dx - (tp.width / 2),
-        rect.topCenter.dy + topPosSeek,
+        rect.topCenter.dy + topPosSeek - textRotationOffset.dy + rectRotationOffset.dy,
       );
-      canvasWrapper.drawText(tp, drawOffset);
+
+      canvasWrapper.drawRotated(
+        size: rect.size,
+        rotationOffset: rectRotationOffset,
+        drawOffset: rectDrawOffset,
+        angle: rotateAngle,
+        drawCallback: () {
+          canvasWrapper.drawText(tp, drawOffset);
+        },
+      );
       topPosSeek += tp.height;
       topPosSeek += textsBelowMargin;
     }
