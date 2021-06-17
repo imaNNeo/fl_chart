@@ -332,14 +332,30 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
 
-    /// draw the texts one by one in below of each other
+    final rotateAngle = tooltipData.rotateAngle;
+    final rectRotationOffset = Offset(0, calculateRotationOffset(rect.size, rotateAngle).dy);
+    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+    final textRotationOffset = calculateRotationOffset(drawingTextPainter.size, rotateAngle);
+
     final drawOffset = Offset(
       rect.center.dx - (drawingTextPainter.width / 2),
-      rect.topCenter.dy + tooltipData.tooltipPadding.top,
+      rect.topCenter.dy +
+          tooltipData.tooltipPadding.top -
+          textRotationOffset.dy +
+          rectRotationOffset.dy,
     );
-    canvasWrapper.drawText(drawingTextPainter, drawOffset);
+    canvasWrapper.drawRotated(
+      size: rect.size,
+      rotationOffset: rectRotationOffset,
+      drawOffset: rectDrawOffset,
+      angle: rotateAngle,
+      drawCallback: () {
+        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+        canvasWrapper.drawText(drawingTextPainter, drawOffset);
+      },
+    );
   }
 
   /// We add our needed horizontal space to parent needed.
