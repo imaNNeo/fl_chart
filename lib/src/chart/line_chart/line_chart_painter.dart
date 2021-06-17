@@ -1274,16 +1274,40 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final roundedRect = RRect.fromRectAndCorners(rect,
         topLeft: radius, topRight: radius, bottomLeft: radius, bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
-    canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+
+    final rotateAngle = tooltipData.rotateAngle;
+    final rectRotationOffset = Offset(0, calculateRotationOffset(rect.size, rotateAngle).dy);
+    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+    final textRotationOffset = calculateRotationOffset(rect.size, rotateAngle);
+
+    canvasWrapper.drawRotated(
+      size: rect.size,
+      rotationOffset: rectRotationOffset,
+      drawOffset: rectDrawOffset,
+      angle: rotateAngle,
+      drawCallback: () {
+        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+      },
+    );
 
     /// draw the texts one by one in below of each other
     var topPosSeek = tooltipData.tooltipPadding.top;
     for (var tp in drawingTextPainters) {
       final drawOffset = Offset(
         rect.center.dx - (tp.width / 2),
-        rect.topCenter.dy + topPosSeek,
+        rect.topCenter.dy + topPosSeek - textRotationOffset.dy + rectRotationOffset.dy,
       );
-      canvasWrapper.drawText(tp, drawOffset);
+
+      canvasWrapper.drawRotated(
+        size: rect.size,
+        rotationOffset: rectRotationOffset,
+        drawOffset: rectDrawOffset,
+        angle: rotateAngle,
+        drawCallback: () {
+          canvasWrapper.drawText(tp, drawOffset);
+        },
+      );
       topPosSeek += tp.height;
       topPosSeek += textsBelowMargin;
     }
