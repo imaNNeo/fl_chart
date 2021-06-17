@@ -1,5 +1,6 @@
 ## newVersion
 * **IMPROVEMENT** Support `onMouseExit` event in all charts.
+* **BUGFIX** Fix PieChart section index problem, when there is a section with 0 value, #697.
 
 
 ## 0.36.1
