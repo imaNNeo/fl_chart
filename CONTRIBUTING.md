@@ -35,7 +35,8 @@ CanvasWrapper class holds a canvas and all draw functions proxies through it.
 You should use it for drawing on the canvas, Instead of direct accessing to canvas.
 It makes draw functions testable.
 
-<iframe src="https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/preview" width="100%" height="600" allow="autoplay"></iframe>
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/architecture/fl_chart_architecture.jpg" />
+
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
 
