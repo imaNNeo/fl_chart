@@ -260,7 +260,11 @@ class RadarDataSet with EquatableMixin {
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
-  })  : dataEntries = dataEntries ?? const [],
+  })  : assert(
+          dataEntries == null || dataEntries.length == 0 || dataEntries.length >= 3,
+          'Radar needs at least 3 RadarEntry',
+        ),
+        dataEntries = dataEntries ?? const [],
         fillColor = fillColor ?? Colors.black12,
         borderColor = borderColor ?? Colors.blueAccent,
         borderWidth = borderWidth ?? 2.0,
