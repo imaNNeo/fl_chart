@@ -12,7 +12,7 @@ import 'pie_chart_data.dart';
 
 /// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
 class PieChartPainter extends BaseChartPainter<PieChartData> {
-  late Paint _sectionPaint, _sectionsSpaceClearPaint, _centerSpacePaint;
+  late Paint _sectionPaint, _sectionStrokePaint, _sectionsSpaceClearPaint, _centerSpacePaint;
 
   /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
@@ -24,6 +24,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// the system's font size.
   PieChartPainter() : super() {
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
+
+    _sectionStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _sectionsSpaceClearPaint = Paint()
       ..style = PaintingStyle.fill
@@ -130,6 +132,19 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       _sectionPaint.color = section.color;
       _sectionPaint.style = PaintingStyle.fill;
       canvasWrapper.drawPath(sectionPath, _sectionPaint);
+
+      if (section.borderSide.width != 0.0 && section.borderSide.color.opacity != 0.0) {
+        canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+        canvasWrapper.clipPath(sectionPath);
+
+        _sectionStrokePaint.strokeWidth = section.borderSide.width * 2;
+        _sectionStrokePaint.color = section.borderSide.color;
+        canvasWrapper.drawPath(
+          sectionPath,
+          _sectionStrokePaint,
+        );
+        canvasWrapper.restore();
+      }
       tempAngle += sectionDegree;
     }
 
