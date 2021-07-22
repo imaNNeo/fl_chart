@@ -1,4 +1,4 @@
-## newVersion
+## 0.36.3
 * **IMPROVEMENT** Show proper error message when there is less than 3 [RadarEntry](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#radarentry) in [RadarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md), #694.
 * **IMPROVEMENT** Added `borderSide` property in [PieChartSectionData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartsectiondata) to draw strokes around each section, #606.
 
