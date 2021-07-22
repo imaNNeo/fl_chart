@@ -15,7 +15,7 @@ import 'bar_chart_extensions.dart';
 
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> {
-  late Paint _barPaint, _bgTouchTooltipPaint;
+  late Paint _barPaint, _barStrokePaint, _bgTouchTooltipPaint;
 
   List<_GroupBarsPosition>? _groupBarsPosition;
 
@@ -29,6 +29,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// the system's font size.
   BarChartPainter() : super() {
     _barPaint = Paint()..style = PaintingStyle.fill;
+    _barStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
@@ -199,6 +200,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final barRod = barGroup.barRods[j];
         final widthHalf = barRod.width / 2;
         final borderRadius = barRod.borderRadius ?? BorderRadius.circular(barRod.width / 2);
+        final borderSide = barRod.borderSide;
 
         final x = groupBarsPosition[i].barsX[j];
 
@@ -304,6 +306,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           }
           canvasWrapper.drawRRect(barRRect, _barPaint);
 
+          // draw border stroke
+          if (borderSide.width > 0 && borderSide.color.opacity > 0) {
+            _barStrokePaint.color = borderSide.color;
+            _barStrokePaint.strokeWidth = borderSide.width;
+            canvasWrapper.drawRRect(barRRect, _barStrokePaint);
+          }
+
           // draw rod stack
           if (barRod.rodStackItems.isNotEmpty) {
             for (var i = 0; i < barRod.rodStackItems.length; i++) {
@@ -316,6 +325,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               canvasWrapper.clipRect(Rect.fromLTRB(left, stackToY, right, stackFromY));
               canvasWrapper.drawRRect(barRRect, _barPaint);
               canvasWrapper.restore();
+
+              // draw border stroke for each stack item
+              _drawStackItemBorderStroke(
+                  canvasWrapper,
+                  stackItem,
+                  i,
+                  barRod.rodStackItems.length,
+                  barRod.width,
+                  barRRect,
+                  drawSize,
+                  holder
+              );
             }
           }
         }
@@ -603,6 +624,53 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         canvasWrapper.drawText(tp, drawOffset);
       },
     );
+  }
+
+  void _drawStackItemBorderStroke(
+      CanvasWrapper canvasWrapper,
+      BarChartRodStackItem stackItem,
+      int index,
+      int rodStacksSize,
+      double barThickSize,
+      RRect barRRect,
+      Size drawSize,
+      PaintHolder<BarChartData> holder
+  ) {
+    if (stackItem.borderSide.width == 0 || stackItem.borderSide.color.opacity == 0) return;
+    RRect strokeBarRect;
+    if (index == 0) {
+      strokeBarRect = RRect.fromLTRBAndCorners(
+          barRRect.left,
+          getPixelY(stackItem.toY, drawSize, holder),
+          barRRect.right,
+          getPixelY(stackItem.fromY, drawSize, holder),
+          bottomLeft: stackItem.fromY < stackItem.toY ? barRRect.blRadius : Radius.zero,
+          bottomRight: stackItem.fromY < stackItem.toY ? barRRect.brRadius : Radius.zero,
+          topLeft: stackItem.fromY < stackItem.toY ? Radius.zero : barRRect.tlRadius,
+          topRight: stackItem.fromY < stackItem.toY ? Radius.zero : barRRect.trRadius,
+      );
+    } else if (index == rodStacksSize -1) {
+      strokeBarRect = RRect.fromLTRBAndCorners(
+          barRRect.left,
+          max(getPixelY(stackItem.toY, drawSize, holder), barRRect.top),
+          barRRect.right,
+          getPixelY(stackItem.fromY, drawSize, holder),
+        bottomLeft: stackItem.fromY < stackItem.toY ? Radius.zero : barRRect.blRadius,
+        bottomRight: stackItem.fromY < stackItem.toY ? Radius.zero : barRRect.brRadius,
+        topLeft: stackItem.fromY < stackItem.toY ? barRRect.tlRadius : Radius.zero,
+        topRight: stackItem.fromY < stackItem.toY ? barRRect.trRadius : Radius.zero,
+      );
+    } else {
+      strokeBarRect = RRect.fromLTRBR(
+          barRRect.left,
+          getPixelY(stackItem.toY, drawSize, holder),
+          barRRect.right,
+          getPixelY(stackItem.fromY, drawSize, holder),
+          Radius.zero);
+    }
+    _barStrokePaint.color = stackItem.borderSide.color;
+    _barStrokePaint.strokeWidth = min(stackItem.borderSide.width, barThickSize/2);
+    canvasWrapper.drawRRect(strokeBarRect, _barStrokePaint);
   }
 
   /// We add our needed horizontal space to parent needed.
