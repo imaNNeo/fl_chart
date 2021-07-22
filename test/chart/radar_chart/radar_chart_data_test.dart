@@ -93,9 +93,16 @@ void main() {
       expect(radarDataSet1 == radarDataSet2, false);
 
       expect(
-          radarDataSet1 == radarDataSet1Clone.copyWith(dataEntries: [RadarEntry(value: 5)]), false);
-
-      expect(radarDataSet1 == radarDataSet1Clone.copyWith(dataEntries: []), false);
+        radarDataSet1 ==
+            radarDataSet1Clone.copyWith(
+              dataEntries: [
+                RadarEntry(value: 5),
+                RadarEntry(value: 5),
+                RadarEntry(value: 5),
+              ],
+            ),
+        false,
+      );
 
       expect(radarDataSet1 == radarDataSet1Clone.copyWith(fillColor: Colors.grey), true);
 
