@@ -48,6 +48,10 @@ class CanvasWrapper {
   /// Directly calls [Canvas.drawImage]
   void drawImage(Image image, Offset offset, Paint paint) => canvas.drawImage(image, offset, paint);
 
+  /// Directly calls [Canvas.clipPath]
+  void clipPath(Path path, {bool doAntiAlias = true}) =>
+      canvas.clipPath(path, doAntiAlias: doAntiAlias);
+
   /// Directly calls [Canvas.drawRect]
   void drawRect(Rect rect, Paint paint) => canvas.drawRect(rect, paint);
 
