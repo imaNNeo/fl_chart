@@ -82,6 +82,25 @@ BorderRadius? normalizeBorderRadius(BorderRadius? borderRadius, double width) {
   );
 }
 
+/// Default value for BorderSide where borderSide value is not exists
+const BorderSide DefaultBorderSide = BorderSide(width: 0);
+
+/// Decreases [borderSide] to <= width / 2
+BorderSide normalizeBorderSide(BorderSide? borderSide, double width) {
+  if (borderSide == null) {
+    return DefaultBorderSide;
+  }
+
+  double borderWidth;
+  if (borderSide.width > width / 2) {
+    borderWidth = width / 2.toDouble();
+  } else {
+    borderWidth = borderSide.width;
+  }
+
+  return borderSide.copyWith(width: borderWidth);
+}
+
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
   final length = colors.length;
