@@ -142,6 +142,9 @@ class PieChartSectionData {
   /// Defines text of showing title at the middle of section.
   final String title;
 
+  /// Defines border stroke around the section
+  final BorderSide borderSide;
+
   /// Defines a widget that represents the section.
   ///
   /// This can be anything from a text, an image, an animation, and even a combination of widgets.
@@ -188,6 +191,7 @@ class PieChartSectionData {
     bool? showTitle,
     TextStyle? titleStyle,
     String? title,
+    BorderSide? borderSide,
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
@@ -198,6 +202,7 @@ class PieChartSectionData {
         titleStyle = titleStyle ??
             const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         title = title ?? value.toString(),
+        borderSide = borderSide ?? BorderSide(width: 0),
         badgeWidget = badgeWidget ?? Container(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
@@ -211,6 +216,7 @@ class PieChartSectionData {
     bool? showTitle,
     TextStyle? titleStyle,
     String? title,
+    BorderSide? borderSide,
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
@@ -222,6 +228,7 @@ class PieChartSectionData {
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
       title: title ?? this.title,
+      borderSide: borderSide ?? this.borderSide,
       badgeWidget: badgeWidget ?? this.badgeWidget,
       titlePositionPercentageOffset:
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
@@ -239,6 +246,7 @@ class PieChartSectionData {
       showTitle: b.showTitle,
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
       title: b.title,
+      borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       badgeWidget: b.badgeWidget,
       titlePositionPercentageOffset:
           lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
