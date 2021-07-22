@@ -280,6 +280,9 @@ class BarChartRodData with EquatableMixin {
   /// If you want to have a rounded rod, set this value.
   final BorderRadius? borderRadius;
 
+  /// If you want to have a border for rod, set this value.
+  final BorderSide borderSide;
+
   /// If you want to have a bar drawn in rear of this rod, use [backDrawRodData],
   /// it uses to have a bar with a passive color in rear of the rod,
   /// for example you can use it as the maximum value place holder.
@@ -292,7 +295,7 @@ class BarChartRodData with EquatableMixin {
   /// [BarChart] renders rods vertically from zero to [y],
   /// and the x is equivalent to the [BarChartGroupData.x] value.
   ///
-  /// It renders each rod using [color], [width], and [borderRadius] for rounding corners.
+  /// It renders each rod using [color], [width], and [borderRadius] for rounding corners and also [borderSide] for stroke border.
   ///
   /// If you want to have a bar drawn in rear of this rod, use [backDrawRodData],
   /// it uses to have a bar with a passive color in rear of the rod,
@@ -320,6 +323,7 @@ class BarChartRodData with EquatableMixin {
     List<double>? gradientColorStops,
     double? width,
     BorderRadius? borderRadius,
+    BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
   })  : y = y,
@@ -329,6 +333,7 @@ class BarChartRodData with EquatableMixin {
         colorStops = gradientColorStops,
         width = width ?? 8,
         borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
+        borderSide = normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
         rodStackItems = rodStackItems ?? const [];
 
@@ -342,6 +347,7 @@ class BarChartRodData with EquatableMixin {
     List<double>? colorStops,
     double? width,
     BorderRadius? borderRadius,
+    BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
   }) {
@@ -353,6 +359,7 @@ class BarChartRodData with EquatableMixin {
       gradientColorStops: colorStops ?? this.colorStops,
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
+      borderSide: borderSide ?? this.borderSide,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
       rodStackItems: rodStackItems ?? this.rodStackItems,
     );
@@ -367,6 +374,7 @@ class BarChartRodData with EquatableMixin {
       gradientColorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
+      borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       y: lerpDouble(a.y, b.y, t)!,
       backDrawRodData: BackgroundBarChartRodData.lerp(a.backDrawRodData, b.backDrawRodData, t),
       rodStackItems: lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
@@ -379,6 +387,7 @@ class BarChartRodData with EquatableMixin {
         y,
         width,
         borderRadius,
+        borderSide,
         backDrawRodData,
         rodStackItems,
         colors,
@@ -402,6 +411,9 @@ class BarChartRodStackItem with EquatableMixin {
   /// Renders a Stacked Chart section with [color]
   final Color color;
 
+  /// Renders border stroke for a Stacked Chart section
+  final BorderSide borderSide;
+
   /// Renders a section of Stacked Chart from [fromY] to [toY] with [color]
   /// for example if you want to have a Stacked Chart with three colors:
   /// ```
@@ -415,7 +427,7 @@ class BarChartRodStackItem with EquatableMixin {
   ///   ]
   /// )
   /// ```
-  BarChartRodStackItem(this.fromY, this.toY, this.color);
+  BarChartRodStackItem(this.fromY, this.toY, this.color, [this.borderSide = DefaultBorderSide]);
 
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
@@ -423,11 +435,13 @@ class BarChartRodStackItem with EquatableMixin {
     double? fromY,
     double? toY,
     Color? color,
+    BorderSide? borderSide
   }) {
     return BarChartRodStackItem(
       fromY ?? this.fromY,
       toY ?? this.toY,
       color ?? this.color,
+      borderSide ?? this.borderSide
     );
   }
 
@@ -437,6 +451,7 @@ class BarChartRodStackItem with EquatableMixin {
       lerpDouble(a.fromY, b.fromY, t)!,
       lerpDouble(a.toY, b.toY, t)!,
       Color.lerp(a.color, b.color, t)!,
+      BorderSide.lerp(a.borderSide, b.borderSide, t)
     );
   }
 
@@ -446,9 +461,9 @@ class BarChartRodStackItem with EquatableMixin {
         fromY,
         toY,
         color,
+        borderSide
       ];
 }
-
 /// Holds values to draw a rod in rear of the main rod.
 ///
 /// If you want to have a bar drawn in rear of the main rod, use [BarChartRodData.backDrawRodData],
