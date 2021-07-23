@@ -431,39 +431,23 @@ class BarChartRodStackItem with EquatableMixin {
 
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
-  BarChartRodStackItem copyWith({
-    double? fromY,
-    double? toY,
-    Color? color,
-    BorderSide? borderSide
-  }) {
+  BarChartRodStackItem copyWith(
+      {double? fromY, double? toY, Color? color, BorderSide? borderSide}) {
     return BarChartRodStackItem(
-      fromY ?? this.fromY,
-      toY ?? this.toY,
-      color ?? this.color,
-      borderSide ?? this.borderSide
-    );
+        fromY ?? this.fromY, toY ?? this.toY, color ?? this.color, borderSide ?? this.borderSide);
   }
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
   static BarChartRodStackItem lerp(BarChartRodStackItem a, BarChartRodStackItem b, double t) {
-    return BarChartRodStackItem(
-      lerpDouble(a.fromY, b.fromY, t)!,
-      lerpDouble(a.toY, b.toY, t)!,
-      Color.lerp(a.color, b.color, t)!,
-      BorderSide.lerp(a.borderSide, b.borderSide, t)
-    );
+    return BarChartRodStackItem(lerpDouble(a.fromY, b.fromY, t)!, lerpDouble(a.toY, b.toY, t)!,
+        Color.lerp(a.color, b.color, t)!, BorderSide.lerp(a.borderSide, b.borderSide, t));
   }
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [
-        fromY,
-        toY,
-        color,
-        borderSide
-      ];
+  List<Object?> get props => [fromY, toY, color, borderSide];
 }
+
 /// Holds values to draw a rod in rear of the main rod.
 ///
 /// If you want to have a bar drawn in rear of the main rod, use [BarChartRodData.backDrawRodData],
