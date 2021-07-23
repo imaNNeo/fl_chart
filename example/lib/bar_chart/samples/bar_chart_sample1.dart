@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:example/utils/color_extensions.dart';
 
 class BarChartSample1 extends StatefulWidget {
   final List<Color> availableColors = [
@@ -114,6 +115,9 @@ class BarChartSample1State extends State<BarChartSample1> {
           y: isTouched ? y + 1 : y,
           colors: isTouched ? [Colors.yellow] : [barColor],
           width: width,
+          borderSide: isTouched
+              ? BorderSide(color: Colors.yellow.darken(), width: 1)
+              : BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: 20,
