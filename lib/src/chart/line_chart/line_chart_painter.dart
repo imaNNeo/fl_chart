@@ -849,9 +849,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       while (verticalSeek <= data.maxY) {
         if (leftTitles.checkToShowTitle(
             data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
-          var x = 0 + getLeftOffsetDrawSize(holder);
-          var y = getPixelY(verticalSeek, viewSize, holder);
-
           final text = leftTitles.getTitles(verticalSeek);
 
           final span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
@@ -861,9 +858,18 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
-          x -= tp.width + leftTitles.margin;
+
+          double x;
+          if (leftTitles.alignLeftTitlesToLeft) {
+            x = 0;
+          } else {
+            x = getLeftOffsetDrawSize(holder);
+            x -= tp.width + leftTitles.margin;
+            x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
+          }
+
+          var y = getPixelY(verticalSeek, viewSize, holder);
           y -= tp.height / 2;
-          x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
           canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
         }
         if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
@@ -918,9 +924,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       while (verticalSeek <= data.maxY) {
         if (rightTitles.checkToShowTitle(
             data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
-          var x = viewSize.width + getLeftOffsetDrawSize(holder);
-          var y = getPixelY(verticalSeek, viewSize, holder);
-
           final text = rightTitles.getTitles(verticalSeek);
 
           final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
@@ -931,9 +934,18 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               textScaleFactor: holder.textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
 
-          x += rightTitles.margin;
+          double x;
+          if (rightTitles.alignRightTitlesToRight) {
+            x = canvasWrapper.size.width - tp.width;
+          } else {
+            x = viewSize.width + getLeftOffsetDrawSize(holder);
+            x += rightTitles.margin;
+            x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
+          }
+
+          var y = getPixelY(verticalSeek, viewSize, holder);
+
           y -= tp.height / 2;
-          x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
           canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
         }
 

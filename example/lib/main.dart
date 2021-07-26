@@ -1,3 +1,4 @@
+import 'package:example/line_chart/line_chart_page5.dart';
 import 'package:example/radar_chart/radar_chart_page.dart';
 import 'package:example/scatter_chart/scatter_chart_page.dart';
 import 'package:flutter/foundation.dart';
@@ -54,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     LineChartPage2(),
     LineChartPage3(),
     LineChartPage4(),
+    LineChartPage5(),
     BarChartPage3(),
     ScatterChartPage(),
     RadarChartPage(),
