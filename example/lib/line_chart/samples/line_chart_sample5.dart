@@ -144,12 +144,17 @@ class LineChartSample5 extends StatelessWidget {
 
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
+  if (colors.isEmpty) {
+    return Colors.green;
+  } else if (colors.length == 1) {
+    return colors[0];
+  }
+
   if (stops.length != colors.length) {
     stops = [];
-
     /// provided gradientColorStops is invalid and we calculate it here
     colors.asMap().forEach((index, color) {
-      final percent = 1.0 / colors.length;
+      final percent = 1.0 / (colors.length - 1);
       stops.add(percent * index);
     });
   }
