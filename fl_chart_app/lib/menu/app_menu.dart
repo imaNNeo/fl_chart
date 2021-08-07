@@ -26,62 +26,65 @@ class _AppMenuState extends State<AppMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AspectRatio(
-          aspectRatio: 3,
-          child: Center(
-            child: FlChartBanner(),
+    return Container(
+      color: AppColors.background,
+      child: Column(
+        children: [
+          AspectRatio(
+            aspectRatio: 3,
+            child: Center(
+              child: FlChartBanner(),
+            ),
           ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, position) {
-              final menuItem = widget.menuItems[position];
-              return MenuRow(
-                text: menuItem.text,
-                svgPath: menuItem.iconPath,
-                isSelected: widget.currentSelectedIndex == position,
-                isSelectable: !widget.isStandAlonePage,
-                onTap: () {
-                  widget.onItemSelected(position, menuItem);
-                },
-              );
-            },
-            itemCount: widget.menuItems.length,
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, position) {
+                final menuItem = widget.menuItems[position];
+                return MenuRow(
+                  text: menuItem.text,
+                  svgPath: menuItem.iconPath,
+                  isSelected: widget.currentSelectedIndex == position,
+                  isSelectable: !widget.isStandAlonePage,
+                  onTap: () {
+                    widget.onItemSelected(position, menuItem);
+                  },
+                );
+              },
+              itemCount: widget.menuItems.length,
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'FL Chart v 1.00 - update to get the latest features!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
+          Container(
+            margin: EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'FL Chart v 1.00 - update to get the latest features!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Update',
-                  style: TextStyle(
-                    color: AppColors.flCyan,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Update',
+                    style: TextStyle(
+                      color: AppColors.flCyan,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ],
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
