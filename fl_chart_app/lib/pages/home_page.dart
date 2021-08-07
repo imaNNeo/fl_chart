@@ -78,7 +78,12 @@ class _HomePageState extends State<HomePage> {
                   child: appMenuWidget,
                 )
               : null,
-          appBar: AppBar(),
+          appBar: needDrawer
+              ? AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.blueGrey,
+                )
+              : null,
         );
       },
     );
