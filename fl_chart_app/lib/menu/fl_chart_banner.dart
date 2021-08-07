@@ -16,10 +16,21 @@ class FlChartBanner extends StatelessWidget {
 
       return Row(
         children: [
-          SizedBox(width: imageSize,),
-          Image.asset(AppAssets.flChartLogoIcon, width: imageSize, height: imageSize,),
-          SizedBox(width: space,),
-          SvgPicture.asset(AppAssets.flChartLogoText, width: textWidth,),
+          SizedBox(
+            width: imageSize,
+          ),
+          Image.asset(
+            AppAssets.flChartLogoIcon,
+            width: imageSize,
+            height: imageSize,
+          ),
+          SizedBox(
+            width: space,
+          ),
+          SvgPicture.asset(
+            AppAssets.flChartLogoText,
+            width: textWidth,
+          ),
         ],
       );
     });

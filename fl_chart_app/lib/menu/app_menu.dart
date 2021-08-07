@@ -23,7 +23,6 @@ class AppMenu extends StatefulWidget {
 }
 
 class _AppMenuState extends State<AppMenu> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
