@@ -6,13 +6,19 @@ class AppHelper {
   static const String RADAR_CHART_SLUG = 'radar_chart';
 
   static String getChartName(String chartSlug) {
-    switch(chartSlug) {
-      case LINE_CHART_SLUG: return 'Line Chart';
-      case BAR_CHART_SLUG: return 'Bar Chart';
-      case PIE_CHART_SLUG: return 'Pie Chart';
-      case SCATTER_CHART_SLUG: return 'Scatter Chart';
-      case RADAR_CHART_SLUG: return 'Radar Chart';
-      default: throw StateError('Invalid chartSlug');
+    switch (chartSlug) {
+      case LINE_CHART_SLUG:
+        return 'Line Chart';
+      case BAR_CHART_SLUG:
+        return 'Bar Chart';
+      case PIE_CHART_SLUG:
+        return 'Pie Chart';
+      case SCATTER_CHART_SLUG:
+        return 'Scatter Chart';
+      case RADAR_CHART_SLUG:
+        return 'Radar Chart';
+      default:
+        throw StateError('Invalid chartSlug');
     }
   }
 }
