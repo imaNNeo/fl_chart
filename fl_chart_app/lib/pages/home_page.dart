@@ -31,58 +31,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: LayoutBuilder(builder: (context, constraints) {
-        if (constraints.maxWidth > AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth) {
-          return Row(
-            children: [
-              SizedBox(
-                width: AppDimens.menuMaxNeededWidth,
-                child: AppMenu(
-                  menuItems: menuItems,
-                  isStandAlonePage: false,
-                  currentSelectedIndex: selectedMenuIndex,
-                  onItemSelected: (newIndex, chartMenuItem) {
-                    setState(() {
-                      selectedMenuIndex = newIndex;
-                    });
-                  },
-                ),
-              ),
-              Expanded(
-                child: IndexedStack(
-                  index: selectedMenuIndex,
-                  children: menuItems
-                      .map(
-                        (e) => ChartSamplesPage(
-                          chartSlug: e.slug,
-                          isStandAlonePage: false,
-                        ),
-                      )
-                      .toList(),
-                ),
-              )
-            ],
-          );
-        } else {
-          return AppMenu(
-            menuItems: menuItems,
-            isStandAlonePage: true,
-            currentSelectedIndex: selectedMenuIndex,
-            onItemSelected: (newIndex, chartMenuItem) {
-              Navigator.of(context).push<void>(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => ChartSamplesPage(
-                    chartSlug: chartMenuItem.slug,
-                    isStandAlonePage: true,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final needDrawer = constraints.maxWidth <= AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
+        final appMenuWidget = AppMenu(
+          menuItems: menuItems,
+          isStandAlonePage: false,
+          currentSelectedIndex: selectedMenuIndex,
+          onItemSelected: (newIndex, chartMenuItem) {
+            setState(() {
+              selectedMenuIndex = newIndex;
+            });
+            if (needDrawer) {
+              /// to close the drawer
+              Navigator.of(context).pop();
+            }
+          },
+        );
+        final samplesSectionWidget = IndexedStack(
+          index: selectedMenuIndex,
+          children: menuItems.map((e) => ChartSamplesPage(chartSlug: e.slug, isStandAlonePage: false)).toList(),
+        );
+
+        final body = needDrawer
+            ? samplesSectionWidget
+            : Row(
+                children: [
+                  SizedBox(
+                    width: AppDimens.menuMaxNeededWidth,
+                    child: appMenuWidget,
                   ),
-                ),
+                  Expanded(
+                    child: samplesSectionWidget,
+                  )
+                ],
               );
-            },
-          );
-        }
-      }),
+
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          body: body,
+          drawer: needDrawer ? Drawer(child: appMenuWidget,) : null,
+          appBar: AppBar(),
+        );
+      },
     );
   }
 }
