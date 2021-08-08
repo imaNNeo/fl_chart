@@ -16,11 +16,11 @@ class _HomePageState extends State<HomePage> {
   late int selectedMenuIndex;
 
   final menuItems = const [
-    ChartMenuItem(AppHelper.LINE_CHART_SLUG, 'Line', AppAssets.icLineChart),
-    ChartMenuItem(AppHelper.BAR_CHART_SLUG, 'Bar', AppAssets.icBarChart),
-    ChartMenuItem(AppHelper.PIE_CHART_SLUG, 'Pie', AppAssets.icPieChart),
-    ChartMenuItem(AppHelper.SCATTER_CHART_SLUG, 'Scatter', AppAssets.icScatterChart),
-    ChartMenuItem(AppHelper.RADAR_CHART_SLUG, 'Radar', AppAssets.icRadarChart),
+    ChartMenuItem(ChartType.LINE, 'Line', AppAssets.icLineChart),
+    ChartMenuItem(ChartType.BAR, 'Bar', AppAssets.icBarChart),
+    ChartMenuItem(ChartType.PIE, 'Pie', AppAssets.icPieChart),
+    ChartMenuItem(ChartType.SCATTER, 'Scatter', AppAssets.icScatterChart),
+    ChartMenuItem(ChartType.RADAR, 'Radar', AppAssets.icRadarChart),
   ];
 
   @override
@@ -33,7 +33,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final needsDrawer = constraints.maxWidth <= AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
+        final needsDrawer =
+            constraints.maxWidth <= AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
         final appMenuWidget = AppMenu(
           menuItems: menuItems,
           currentSelectedIndex: selectedMenuIndex,
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         );
         final samplesSectionWidget = IndexedStack(
           index: selectedMenuIndex,
-          children: menuItems.map((e) => ChartSamplesPage(chartSlug: e.slug)).toList(),
+          children: menuItems.map((e) => ChartSamplesPage(chartSlug: e.chartType)).toList(),
         );
 
         final body = needsDrawer
