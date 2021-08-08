@@ -33,17 +33,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final needDrawer =
+        final needsDrawer =
             constraints.maxWidth <= AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
         final appMenuWidget = AppMenu(
           menuItems: menuItems,
-          isStandAlonePage: false,
           currentSelectedIndex: selectedMenuIndex,
           onItemSelected: (newIndex, chartMenuItem) {
             setState(() {
               selectedMenuIndex = newIndex;
             });
-            if (needDrawer) {
+            if (needsDrawer) {
               /// to close the drawer
               Navigator.of(context).pop();
             }
@@ -52,11 +51,11 @@ class _HomePageState extends State<HomePage> {
         final samplesSectionWidget = IndexedStack(
           index: selectedMenuIndex,
           children: menuItems
-              .map((e) => ChartSamplesPage(chartSlug: e.slug, isStandAlonePage: false))
+              .map((e) => ChartSamplesPage(chartSlug: e.slug))
               .toList(),
         );
 
-        final body = needDrawer
+        final body = needsDrawer
             ? samplesSectionWidget
             : Row(
                 children: [
@@ -73,12 +72,12 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
           backgroundColor: AppColors.background,
           body: body,
-          drawer: needDrawer
+          drawer: needsDrawer
               ? Drawer(
                   child: appMenuWidget,
                 )
               : null,
-          appBar: needDrawer
+          appBar: needsDrawer
               ? AppBar(
                   elevation: 0,
                   backgroundColor: Colors.blueGrey,

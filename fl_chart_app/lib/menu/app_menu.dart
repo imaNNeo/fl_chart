@@ -6,14 +6,12 @@ import 'menu_row.dart';
 
 class AppMenu extends StatefulWidget {
   final List<ChartMenuItem> menuItems;
-  final bool isStandAlonePage;
   final int currentSelectedIndex;
   final Function(int, ChartMenuItem) onItemSelected;
 
   const AppMenu({
     Key? key,
     required this.menuItems,
-    required this.isStandAlonePage,
     required this.currentSelectedIndex,
     required this.onItemSelected,
   }) : super(key: key);
@@ -43,7 +41,6 @@ class _AppMenuState extends State<AppMenu> {
                   text: menuItem.text,
                   svgPath: menuItem.iconPath,
                   isSelected: widget.currentSelectedIndex == position,
-                  isSelectable: !widget.isStandAlonePage,
                   onTap: () {
                     widget.onItemSelected(position, menuItem);
                   },
