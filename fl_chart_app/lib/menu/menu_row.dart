@@ -8,7 +8,6 @@ class MenuRow extends StatelessWidget {
   final String svgPath;
   final bool isSelected;
   final VoidCallback onTap;
-  final bool isSelectable;
 
   const MenuRow({
     Key? key,
@@ -16,41 +15,43 @@ class MenuRow extends StatelessWidget {
     required this.svgPath,
     required this.isSelected,
     required this.onTap,
-    required this.isSelectable,
   }) : super(key: key);
 
-  bool get _showSelectedState => isSelectable && isSelected;
+  bool get _showSelectedState => isSelected;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: AppDimens.menuRowVerticalSpace),
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          height: AppDimens.menuRowHeight,
-          child: Row(
-            children: [
-              SizedBox(
-                width: 36,
-              ),
-              SvgPicture.asset(
-                svgPath,
-                width: AppDimens.menuIconSize,
-                height: AppDimens.menuIconSize,
-                color: AppColors.flCyan,
-              ),
-              SizedBox(
-                width: 18,
-              ),
-              Text(
-                text,
-                style: TextStyle(
-                  color: _showSelectedState ? AppColors.flCyan : Colors.white,
-                  fontSize: AppDimens.menuTextSize,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            height: AppDimens.menuRowHeight,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 36,
                 ),
-              ),
-            ],
+                SvgPicture.asset(
+                  svgPath,
+                  width: AppDimens.menuIconSize,
+                  height: AppDimens.menuIconSize,
+                  color: AppColors.flCyan,
+                ),
+                SizedBox(
+                  width: 18,
+                ),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: _showSelectedState ? AppColors.flCyan : Colors.white,
+                    fontSize: AppDimens.menuTextSize,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

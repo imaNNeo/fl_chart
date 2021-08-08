@@ -3,18 +3,15 @@ import 'package:flutter/material.dart';
 
 class ChartSamplesPage extends StatelessWidget {
   final String chartSlug;
-  final bool isStandAlonePage;
 
   const ChartSamplesPage({
     Key? key,
     required this.chartSlug,
-    required this.isStandAlonePage,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isStandAlonePage ? AppBar() : null,
       backgroundColor: Colors.blueGrey,
       body: Container(
         child: Center(
