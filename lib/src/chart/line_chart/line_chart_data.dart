@@ -698,7 +698,7 @@ typedef GetDotColorCallback = Color Function(FlSpot, double, LineChartBarData);
 /// otherwise it returns the color along the gradient colors based on the [xPercentage].
 Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   if (bar.colors.isEmpty) {
-    return Colors.green;
+    throw ArgumentError('"colors" is empty.');
   } else if (bar.colors.length == 1) {
     return bar.colors[0];
   } else {
@@ -711,7 +711,7 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
 Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarData bar) {
   Color color;
   if (bar.colors.isEmpty) {
-    color = Colors.green;
+    throw ArgumentError('"colors" is empty.');
   } else if (bar.colors.length == 1) {
     color = bar.colors[0];
   } else {
