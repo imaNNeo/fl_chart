@@ -12,7 +12,7 @@ class ChartSamplesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.transparent,
       body: Container(
         child: Center(
           child: Text(
