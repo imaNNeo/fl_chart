@@ -33,8 +33,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final needsDrawer =
-            constraints.maxWidth <= AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
+        final needsDrawer = constraints.maxWidth <= AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
         final appMenuWidget = AppMenu(
           menuItems: menuItems,
           currentSelectedIndex: selectedMenuIndex,
@@ -50,9 +49,7 @@ class _HomePageState extends State<HomePage> {
         );
         final samplesSectionWidget = IndexedStack(
           index: selectedMenuIndex,
-          children: menuItems
-              .map((e) => ChartSamplesPage(chartSlug: e.slug))
-              .toList(),
+          children: menuItems.map((e) => ChartSamplesPage(chartSlug: e.slug)).toList(),
         );
 
         final body = needsDrawer
@@ -70,7 +67,7 @@ class _HomePageState extends State<HomePage> {
               );
 
         return Scaffold(
-          backgroundColor: AppColors.background,
+          backgroundColor: Color(0xFF1B2339),
           body: body,
           drawer: needsDrawer
               ? Drawer(
@@ -80,7 +77,8 @@ class _HomePageState extends State<HomePage> {
           appBar: needsDrawer
               ? AppBar(
                   elevation: 0,
-                  backgroundColor: Colors.blueGrey,
+                  backgroundColor: Colors.transparent,
+                  title: Text('${menuItems[selectedMenuIndex].text} Chart'),
                 )
               : null,
         );
