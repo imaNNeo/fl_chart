@@ -1,5 +1,6 @@
 import 'package:fl_chart_app/menu/fl_chart_banner.dart';
 import 'package:fl_chart_app/resources/app_resources.dart';
+import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'menu_row.dart';
@@ -86,9 +87,9 @@ class _AppMenuState extends State<AppMenu> {
 }
 
 class ChartMenuItem {
-  final String slug;
+  final ChartType chartType;
   final String text;
   final String iconPath;
 
-  const ChartMenuItem(this.slug, this.text, this.iconPath);
+  const ChartMenuItem(this.chartType, this.text, this.iconPath);
 }

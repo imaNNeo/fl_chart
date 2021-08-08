@@ -1,21 +1,17 @@
-class AppHelper {
-  static const String LINE_CHART_SLUG = 'line_chart';
-  static const String BAR_CHART_SLUG = 'bar_chart';
-  static const String PIE_CHART_SLUG = 'pie_chart';
-  static const String SCATTER_CHART_SLUG = 'scatter_chart';
-  static const String RADAR_CHART_SLUG = 'radar_chart';
+enum ChartType { LINE, BAR, PIE, SCATTER, RADAR }
 
-  static String getChartName(String chartSlug) {
-    switch (chartSlug) {
-      case LINE_CHART_SLUG:
+class AppHelper {
+  static String getChartName(ChartType chart) {
+    switch (chart) {
+      case ChartType.LINE:
         return 'Line Chart';
-      case BAR_CHART_SLUG:
+      case ChartType.BAR:
         return 'Bar Chart';
-      case PIE_CHART_SLUG:
+      case ChartType.PIE:
         return 'Pie Chart';
-      case SCATTER_CHART_SLUG:
+      case ChartType.SCATTER:
         return 'Scatter Chart';
-      case RADAR_CHART_SLUG:
+      case ChartType.RADAR:
         return 'Radar Chart';
       default:
         throw StateError('Invalid chartSlug');
