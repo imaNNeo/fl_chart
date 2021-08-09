@@ -15,12 +15,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late int selectedMenuIndex;
 
-  final menuItems = const [
-    ChartMenuItem(ChartType.LINE, 'Line', AppAssets.icLineChart),
-    ChartMenuItem(ChartType.BAR, 'Bar', AppAssets.icBarChart),
-    ChartMenuItem(ChartType.PIE, 'Pie', AppAssets.icPieChart),
-    ChartMenuItem(ChartType.SCATTER, 'Scatter', AppAssets.icScatterChart),
-    ChartMenuItem(ChartType.RADAR, 'Radar', AppAssets.icRadarChart),
+  final menuItems = [
+    ChartMenuItem(ChartType.LINE, ChartType.LINE.getSimpleName(), AppAssets.icLineChart),
+    ChartMenuItem(ChartType.BAR, ChartType.BAR.getSimpleName(), AppAssets.icBarChart),
+    ChartMenuItem(ChartType.PIE, ChartType.PIE.getSimpleName(), AppAssets.icPieChart),
+    ChartMenuItem(ChartType.SCATTER, ChartType.SCATTER.getSimpleName(), AppAssets.icScatterChart),
+    ChartMenuItem(ChartType.RADAR, ChartType.RADAR.getSimpleName(), AppAssets.icRadarChart),
   ];
 
   @override
@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedMenu = menuItems[selectedMenuIndex];
     return LayoutBuilder(
       builder: (context, constraints) {
         final needsDrawer =
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         );
         final samplesSectionWidget = IndexedStack(
           index: selectedMenuIndex,
-          children: menuItems.map((e) => ChartSamplesPage(chartSlug: e.chartType)).toList(),
+          children: menuItems.map((e) => ChartSamplesPage(chartType: e.chartType)).toList(),
         );
 
         final body = needsDrawer
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
               ? AppBar(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  title: Text('${menuItems[selectedMenuIndex].text} Chart'),
+                  title: Text(selectedMenu.chartType.getName()),
                 )
               : null,
         );

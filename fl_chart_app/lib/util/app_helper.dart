@@ -1,20 +1,21 @@
 enum ChartType { LINE, BAR, PIE, SCATTER, RADAR }
 
-class AppHelper {
-  static String getChartName(ChartType chart) {
-    switch (chart) {
+extension ChartTypeExtension on ChartType {
+
+  String getName() => '${getSimpleName()} Chart';
+
+  String getSimpleName() {
+    switch (this) {
       case ChartType.LINE:
-        return 'Line Chart';
+        return 'Line';
       case ChartType.BAR:
-        return 'Bar Chart';
+        return 'Bar';
       case ChartType.PIE:
-        return 'Pie Chart';
+        return 'Pie';
       case ChartType.SCATTER:
-        return 'Scatter Chart';
+        return 'Scatter';
       case ChartType.RADAR:
-        return 'Radar Chart';
-      default:
-        throw StateError('Invalid chartSlug');
+        return 'Radar';
     }
   }
 }
