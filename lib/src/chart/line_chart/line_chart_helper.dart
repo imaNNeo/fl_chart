@@ -103,11 +103,15 @@ extension LineChartDataExtension on LineChartBarData {
   List<double> getSafeColorStops() {
     var stops = <double>[];
     if (colorStops == null || colorStops!.length != colors.length) {
-      /// provided colorStops is invalid and we calculate it here
-      colors.asMap().forEach((index, color) {
-        final percent = 1.0 / colors.length;
-        stops.add(percent * index);
-      });
+      if (colors.length > 1) {
+        /// provided colorStops is invalid and we calculate it here
+        colors.asMap().forEach((index, color) {
+          final percent = 1.0 / (colors.length - 1);
+          stops.add(percent * index);
+        });
+      } else {
+        throw ArgumentError('"colors" must have length > 1.');
+      }
     } else {
       stops = colorStops!;
     }
@@ -124,11 +128,15 @@ extension BarAreaDataExtension on BarAreaData {
   List<double> getSafeColorStops() {
     var stops = <double>[];
     if (gradientColorStops == null || gradientColorStops!.length != colors.length) {
-      /// provided colorStops is invalid and we calculate it here
-      colors.asMap().forEach((index, color) {
-        final percent = 1.0 / colors.length;
-        stops.add(percent * index);
-      });
+      if (colors.length > 1) {
+        /// provided colorStops is invalid and we calculate it here
+        colors.asMap().forEach((index, color) {
+          final percent = 1.0 / (colors.length - 1);
+          stops.add(percent * index);
+        });
+      } else {
+        throw ArgumentError('"colors" must have length > 1.');
+      }
     } else {
       stops = gradientColorStops!;
     }
@@ -145,11 +153,15 @@ extension BetweenBarsDataExtension on BetweenBarsData {
   List<double> getSafeColorStops() {
     var stops = <double>[];
     if (gradientColorStops == null || gradientColorStops!.length != colors.length) {
-      /// provided colorStops is invalid and we calculate it here
-      colors.asMap().forEach((index, color) {
-        final percent = 1.0 / colors.length;
-        stops.add(percent * index);
-      });
+      if (colors.length > 1) {
+        /// provided colorStops is invalid and we calculate it here
+        colors.asMap().forEach((index, color) {
+          final percent = 1.0 / (colors.length - 1);
+          stops.add(percent * index);
+        });
+      } else {
+        throw ArgumentError('"colors" must have length > 1.');
+      }
     } else {
       stops = gradientColorStops!;
     }
