@@ -1,7 +1,6 @@
 enum ChartType { LINE, BAR, PIE, SCATTER, RADAR }
 
 extension ChartTypeExtension on ChartType {
-
   String getName() => '${getSimpleName()} Chart';
 
   String getSimpleName() {
