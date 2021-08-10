@@ -25,13 +25,15 @@ class _AppMenuState extends State<AppMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.background,
+      color: AppColors.menuBackground,
       child: Column(
         children: [
-          AspectRatio(
-            aspectRatio: 3,
-            child: Center(
-              child: FlChartBanner(),
+          SafeArea(
+            child: AspectRatio(
+              aspectRatio: 3,
+              child: Center(
+                child: FlChartBanner(),
+              ),
             ),
           ),
           Expanded(
