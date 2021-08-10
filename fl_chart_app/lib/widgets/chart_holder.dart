@@ -1,4 +1,5 @@
 import 'package:fl_chart_app/resources/app_dimens.dart';
+import 'package:fl_chart_app/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class ChartHolder extends StatelessWidget {
@@ -15,7 +16,7 @@ class ChartHolder extends StatelessWidget {
       builder: (context, constraints) {
         return Container(
           decoration: BoxDecoration(
-            color: Color(0xFF282E45),
+            color: AppColors.holdersBackground,
             borderRadius: BorderRadius.all(Radius.circular(AppDimens.defaultRadius)),
           ),
           child: child,

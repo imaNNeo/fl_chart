@@ -69,7 +69,6 @@ class _HomePageState extends State<HomePage> {
               );
 
         return Scaffold(
-          backgroundColor: Color(0xFF1B2339),
           body: body,
           drawer: needsDrawer
               ? Drawer(

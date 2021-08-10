@@ -1,3 +1,4 @@
+import 'package:fl_chart_app/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,10 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        brightness: Brightness.dark,
         textTheme: GoogleFonts.assistantTextTheme(
           Theme.of(context).textTheme,
         ),
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: AppColors.background,
       ),
       home: HomePage(),
     );
