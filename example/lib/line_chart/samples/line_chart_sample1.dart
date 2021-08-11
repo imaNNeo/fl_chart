@@ -9,26 +9,24 @@ class _LineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      isShowingMainData ? sampleData1() : sampleData2(),
+      isShowingMainData ? sampleData1 : sampleData2(),
       swapAnimationDuration: const Duration(milliseconds: 250),
     );
   }
 
-  LineChartData sampleData1() {
-    return LineChartData(
-      lineTouchData: lineTouchData1(),
-      gridData: FlGridData(show: false),
-      titlesData: titlesData1(),
-      borderData: borderData(),
-      lineBarsData: linesBarData1(),
-      minX: 0,
-      maxX: 14,
-      maxY: 4,
-      minY: 0,
-    );
-  }
+  LineChartData get sampleData1 => LineChartData(
+        lineTouchData: lineTouchData1,
+        gridData: FlGridData(show: false),
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: linesBarData1,
+        minX: 0,
+        maxX: 14,
+        maxY: 4,
+        minY: 0,
+      );
 
-  LineTouchData lineTouchData1() => LineTouchData(
+  LineTouchData get lineTouchData1 => LineTouchData(
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
         ),
@@ -36,7 +34,7 @@ class _LineChart extends StatelessWidget {
         handleBuiltInTouches: true,
       );
 
-  FlTitlesData titlesData1() => FlTitlesData(
+  FlTitlesData get titlesData1 => FlTitlesData(
         bottomTitles: bottomTitles(),
         leftTitles: leftTitles(
           getTitles: (value) {
@@ -55,11 +53,11 @@ class _LineChart extends StatelessWidget {
         ),
       );
 
-  List<LineChartBarData> linesBarData1() => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-    lineChartBarData1_3,
-  ];
+  List<LineChartBarData> get linesBarData1 => [
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+        lineChartBarData1_3,
+      ];
 
   LineChartData sampleData2() {
     return LineChartData(
@@ -89,7 +87,7 @@ class _LineChart extends StatelessWidget {
           },
         ),
       ),
-      borderData: borderData(),
+      borderData: borderData,
       minX: 0,
       maxX: 14,
       maxY: 6,
@@ -207,93 +205,91 @@ class _LineChart extends StatelessWidget {
     );
   }
 
-  FlBorderData borderData() {
-    return FlBorderData(
-      show: true,
-      border: const Border(
-        bottom: BorderSide(
-          color: Color(0xff4e4965),
-          width: 4,
+  FlBorderData get borderData => FlBorderData(
+        show: true,
+        border: const Border(
+          bottom: BorderSide(
+            color: Color(0xff4e4965),
+            width: 4,
+          ),
+          left: BorderSide(
+            color: Colors.transparent,
+          ),
+          right: BorderSide(
+            color: Colors.transparent,
+          ),
+          top: BorderSide(
+            color: Colors.transparent,
+          ),
         ),
-        left: BorderSide(
-          color: Colors.transparent,
-        ),
-        right: BorderSide(
-          color: Colors.transparent,
-        ),
-        top: BorderSide(
-          color: Colors.transparent,
-        ),
-      ),
-    );
-  }
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    spots: [
-      FlSpot(1, 1),
-      FlSpot(3, 1.5),
-      FlSpot(5, 1.4),
-      FlSpot(7, 3.4),
-      FlSpot(10, 2),
-      FlSpot(12, 2.2),
-      FlSpot(13, 1.8),
-    ],
-    isCurved: true,
-    colors: [const Color(0xff4af699)],
-    barWidth: 8,
-    isStrokeCapRound: true,
-    dotData: FlDotData(
-      show: false,
-    ),
-    belowBarData: BarAreaData(
-      show: false,
-    ),
-  );
+        spots: [
+          FlSpot(1, 1),
+          FlSpot(3, 1.5),
+          FlSpot(5, 1.4),
+          FlSpot(7, 3.4),
+          FlSpot(10, 2),
+          FlSpot(12, 2.2),
+          FlSpot(13, 1.8),
+        ],
+        isCurved: true,
+        colors: [const Color(0xff4af699)],
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: FlDotData(
+          show: false,
+        ),
+        belowBarData: BarAreaData(
+          show: false,
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    spots: [
-      FlSpot(1, 1),
-      FlSpot(3, 2.8),
-      FlSpot(7, 1.2),
-      FlSpot(10, 2.8),
-      FlSpot(12, 2.6),
-      FlSpot(13, 3.9),
-    ],
-    isCurved: true,
-    colors: [
-      const Color(0xffaa4cfc),
-    ],
-    barWidth: 8,
-    isStrokeCapRound: true,
-    dotData: FlDotData(
-      show: false,
-    ),
-    belowBarData: BarAreaData(show: false, colors: [
-      const Color(0x00aa4cfc),
-    ]),
-  );
+        spots: [
+          FlSpot(1, 1),
+          FlSpot(3, 2.8),
+          FlSpot(7, 1.2),
+          FlSpot(10, 2.8),
+          FlSpot(12, 2.6),
+          FlSpot(13, 3.9),
+        ],
+        isCurved: true,
+        colors: [
+          const Color(0xffaa4cfc),
+        ],
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: FlDotData(
+          show: false,
+        ),
+        belowBarData: BarAreaData(show: false, colors: [
+          const Color(0x00aa4cfc),
+        ]),
+      );
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
-    spots: [
-      FlSpot(1, 2.8),
-      FlSpot(3, 1.9),
-      FlSpot(6, 3),
-      FlSpot(10, 1.3),
-      FlSpot(13, 2.5),
-    ],
-    isCurved: true,
-    colors: const [
-      Color(0xff27b6fc),
-    ],
-    barWidth: 8,
-    isStrokeCapRound: true,
-    dotData: FlDotData(
-      show: false,
-    ),
-    belowBarData: BarAreaData(
-      show: false,
-    ),
-  );
+        spots: [
+          FlSpot(1, 2.8),
+          FlSpot(3, 1.9),
+          FlSpot(6, 3),
+          FlSpot(10, 1.3),
+          FlSpot(13, 2.5),
+        ],
+        isCurved: true,
+        colors: const [
+          Color(0xff27b6fc),
+        ],
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: FlDotData(
+          show: false,
+        ),
+        belowBarData: BarAreaData(
+          show: false,
+        ),
+      );
 }
 
 class LineChartSample1 extends StatefulWidget {
