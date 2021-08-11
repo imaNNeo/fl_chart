@@ -27,27 +27,7 @@ class _LineChart extends StatelessWidget {
         show: false,
       ),
       titlesData: FlTitlesData(
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-          margin: 10,
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'SEPT';
-              case 7:
-                return 'OCT';
-              case 12:
-                return 'DEC';
-            }
-            return '';
-          },
-        ),
+        bottomTitles: bottomTitles(),
         leftTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value) => const TextStyle(
@@ -181,27 +161,7 @@ class _LineChart extends StatelessWidget {
         show: false,
       ),
       titlesData: FlTitlesData(
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-          margin: 10,
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'SEPT';
-              case 7:
-                return 'OCT';
-              case 12:
-                return 'DEC';
-            }
-            return '';
-          },
-        ),
+        bottomTitles: bottomTitles(),
         leftTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value) => const TextStyle(
@@ -322,6 +282,30 @@ class _LineChart extends StatelessWidget {
         ),
       ),
     ];
+  }
+
+  SideTitles bottomTitles() {
+    return SideTitles(
+      showTitles: true,
+      reservedSize: 22,
+      getTextStyles: (value) => const TextStyle(
+        color: Color(0xff72719b),
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
+      margin: 10,
+      getTitles: (value) {
+        switch (value.toInt()) {
+          case 2:
+            return 'SEPT';
+          case 7:
+            return 'OCT';
+          case 12:
+            return 'DEC';
+        }
+        return '';
+      },
+    );
   }
 }
 
