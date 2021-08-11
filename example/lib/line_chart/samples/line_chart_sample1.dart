@@ -16,7 +16,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartData get sampleData1 => LineChartData(
         lineTouchData: lineTouchData1,
-        gridData: FlGridData(show: false),
+        gridData: gridData,
         titlesData: titlesData1,
         borderData: borderData,
         lineBarsData: linesBarData1,
@@ -64,9 +64,7 @@ class _LineChart extends StatelessWidget {
       lineTouchData: LineTouchData(
         enabled: false,
       ),
-      gridData: FlGridData(
-        show: false,
-      ),
+      gridData: gridData,
       titlesData: FlTitlesData(
         bottomTitles: bottomTitles(),
         leftTitles: leftTitles(
@@ -204,6 +202,10 @@ class _LineChart extends StatelessWidget {
       },
     );
   }
+
+  FlGridData get gridData => FlGridData(
+        show: false,
+      );
 
   FlBorderData get borderData => FlBorderData(
         show: true,
