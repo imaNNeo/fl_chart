@@ -19,12 +19,26 @@ class _LineChart extends StatelessWidget {
         gridData: gridData,
         titlesData: titlesData1,
         borderData: borderData,
-        lineBarsData: linesBarData1,
+        lineBarsData: lineBarsData1,
         minX: 0,
         maxX: 14,
         maxY: 4,
         minY: 0,
       );
+
+  LineChartData sampleData2() {
+    return LineChartData(
+      lineTouchData: lineTouchData2,
+      gridData: gridData,
+      titlesData: titlesData2,
+      borderData: borderData,
+      lineBarsData: lineBarsData2,
+      minX: 0,
+      maxX: 14,
+      maxY: 6,
+      minY: 0,
+    );
+  }
 
   LineTouchData get lineTouchData1 => LineTouchData(
         touchTooltipData: LineTouchTooltipData(
@@ -53,25 +67,11 @@ class _LineChart extends StatelessWidget {
         ),
       );
 
-  List<LineChartBarData> get linesBarData1 => [
+  List<LineChartBarData> get lineBarsData1 => [
         lineChartBarData1_1,
         lineChartBarData1_2,
         lineChartBarData1_3,
       ];
-
-  LineChartData sampleData2() {
-    return LineChartData(
-      lineTouchData: lineTouchData2,
-      gridData: gridData,
-      titlesData: titlesData2,
-      borderData: borderData,
-      lineBarsData: linesBarData2,
-      minX: 0,
-      maxX: 14,
-      maxY: 6,
-      minY: 0,
-    );
-  }
 
   LineTouchData get lineTouchData2 => LineTouchData(
         enabled: false,
@@ -98,49 +98,45 @@ class _LineChart extends StatelessWidget {
         ),
       );
 
-  List<LineChartBarData> get linesBarData2 => [
+  List<LineChartBarData> get lineBarsData2 => [
         lineChartBarData2_1,
         lineChartBarData2_2,
         lineChartBarData2_3,
       ];
 
-  SideTitles leftTitles({required GetTitleFunction getTitles}) {
-    return SideTitles(
-      showTitles: true,
-      getTextStyles: (value) => const TextStyle(
-        color: Color(0xff75729e),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
-      getTitles: getTitles,
-      margin: 8,
-      reservedSize: 30,
-    );
-  }
+  SideTitles leftTitles({required GetTitleFunction getTitles}) => SideTitles(
+        showTitles: true,
+        getTextStyles: (value) => const TextStyle(
+          color: Color(0xff75729e),
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+        ),
+        getTitles: getTitles,
+        margin: 8,
+        reservedSize: 30,
+      );
 
-  SideTitles bottomTitles() {
-    return SideTitles(
-      showTitles: true,
-      reservedSize: 22,
-      getTextStyles: (value) => const TextStyle(
-        color: Color(0xff72719b),
-        fontWeight: FontWeight.bold,
-        fontSize: 16,
-      ),
-      margin: 10,
-      getTitles: (value) {
-        switch (value.toInt()) {
-          case 2:
-            return 'SEPT';
-          case 7:
-            return 'OCT';
-          case 12:
-            return 'DEC';
-        }
-        return '';
-      },
-    );
-  }
+  SideTitles bottomTitles() => SideTitles(
+        showTitles: true,
+        reservedSize: 22,
+        getTextStyles: (value) => const TextStyle(
+          color: Color(0xff72719b),
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+        margin: 10,
+        getTitles: (value) {
+          switch (value.toInt()) {
+            case 2:
+              return 'SEPT';
+            case 7:
+              return 'OCT';
+            case 12:
+              return 'DEC';
+          }
+          return '';
+        },
+      );
 
   FlGridData get gridData => FlGridData(
         show: false,
