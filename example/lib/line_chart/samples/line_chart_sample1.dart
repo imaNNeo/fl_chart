@@ -28,13 +28,7 @@ class _LineChart extends StatelessWidget {
       ),
       titlesData: FlTitlesData(
         bottomTitles: bottomTitles(),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
+        leftTitles: leftTitles(
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
@@ -48,8 +42,6 @@ class _LineChart extends StatelessWidget {
             }
             return '';
           },
-          margin: 8,
-          reservedSize: 30,
         ),
       ),
       borderData: FlBorderData(
@@ -162,13 +154,7 @@ class _LineChart extends StatelessWidget {
       ),
       titlesData: FlTitlesData(
         bottomTitles: bottomTitles(),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
+        leftTitles: leftTitles(
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
@@ -184,8 +170,6 @@ class _LineChart extends StatelessWidget {
             }
             return '';
           },
-          margin: 8,
-          reservedSize: 30,
         ),
       ),
       borderData: FlBorderData(
@@ -282,6 +266,20 @@ class _LineChart extends StatelessWidget {
         ),
       ),
     ];
+  }
+
+  SideTitles leftTitles({required GetTitleFunction getTitles}) {
+    return SideTitles(
+      showTitles: true,
+      getTextStyles: (value) => const TextStyle(
+        color: Color(0xff75729e),
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+      getTitles: getTitles,
+      margin: 8,
+      reservedSize: 30,
+    );
   }
 
   SideTitles bottomTitles() {
