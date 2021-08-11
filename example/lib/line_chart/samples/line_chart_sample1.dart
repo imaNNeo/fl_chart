@@ -16,17 +16,29 @@ class _LineChart extends StatelessWidget {
 
   LineChartData sampleData1() {
     return LineChartData(
-      lineTouchData: LineTouchData(
-        touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
-        ),
-        touchCallback: (LineTouchResponse touchResponse) {},
-        handleBuiltInTouches: true,
+      lineTouchData: lineTouchData1(),
+      gridData: FlGridData(show: false),
+      titlesData: titlesData1(),
+      borderData: borderData(),
+      minX: 0,
+      maxX: 14,
+      maxY: 4,
+      minY: 0,
+      lineBarsData: linesBarData1(),
+    );
+  }
+
+  LineTouchData lineTouchData1() {
+    return LineTouchData(
+      touchTooltipData: LineTouchTooltipData(
+        tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
       ),
-      gridData: FlGridData(
-        show: false,
-      ),
-      titlesData: FlTitlesData(
+      touchCallback: (LineTouchResponse touchResponse) {},
+      handleBuiltInTouches: true,
+    );
+  }
+
+  FlTitlesData titlesData1() => FlTitlesData(
         bottomTitles: bottomTitles(),
         leftTitles: leftTitles(
           getTitles: (value) {
@@ -43,15 +55,7 @@ class _LineChart extends StatelessWidget {
             return '';
           },
         ),
-      ),
-      borderData: borderData(),
-      minX: 0,
-      maxX: 14,
-      maxY: 4,
-      minY: 0,
-      lineBarsData: linesBarData1(),
-    );
-  }
+      );
 
   List<LineChartBarData> linesBarData1() {
     final lineChartBarData1 = LineChartBarData(
@@ -66,7 +70,7 @@ class _LineChart extends StatelessWidget {
       ],
       isCurved: true,
       colors: [
-        const Color(0xff4af699),
+        const Color(0xff4af699)
       ],
       barWidth: 8,
       isStrokeCapRound: true,
