@@ -44,24 +44,7 @@ class _LineChart extends StatelessWidget {
           },
         ),
       ),
-      borderData: FlBorderData(
-        show: true,
-        border: const Border(
-          bottom: BorderSide(
-            color: Color(0xff4e4965),
-            width: 4,
-          ),
-          left: BorderSide(
-            color: Colors.transparent,
-          ),
-          right: BorderSide(
-            color: Colors.transparent,
-          ),
-          top: BorderSide(
-            color: Colors.transparent,
-          ),
-        ),
-      ),
+      borderData: borderData(),
       minX: 0,
       maxX: 14,
       maxY: 4,
@@ -172,23 +155,7 @@ class _LineChart extends StatelessWidget {
           },
         ),
       ),
-      borderData: FlBorderData(
-          show: true,
-          border: const Border(
-            bottom: BorderSide(
-              color: Color(0xff4e4965),
-              width: 4,
-            ),
-            left: BorderSide(
-              color: Colors.transparent,
-            ),
-            right: BorderSide(
-              color: Colors.transparent,
-            ),
-            top: BorderSide(
-              color: Colors.transparent,
-            ),
-          )),
+      borderData: borderData(),
       minX: 0,
       maxX: 14,
       maxY: 6,
@@ -303,6 +270,27 @@ class _LineChart extends StatelessWidget {
         }
         return '';
       },
+    );
+  }
+
+  FlBorderData borderData() {
+    return FlBorderData(
+      show: true,
+      border: const Border(
+        bottom: BorderSide(
+          color: Color(0xff4e4965),
+          width: 4,
+        ),
+        left: BorderSide(
+          color: Colors.transparent,
+        ),
+        right: BorderSide(
+          color: Colors.transparent,
+        ),
+        top: BorderSide(
+          color: Colors.transparent,
+        ),
+      ),
     );
   }
 }
