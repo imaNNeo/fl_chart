@@ -128,8 +128,8 @@ class AxisTitle with EquatableMixin {
   /// Defines how much space it needed to draw.
   final double reservedSize;
 
-  /// Determines the style of this.
-  final TextStyle textStyle;
+  /// Determines the style of this title, if it is null, we try to read TextStyle from theme.
+  final TextStyle? textStyle;
 
   /// Determines alignment of this title.
   final TextAlign textAlign;
@@ -160,11 +160,7 @@ class AxisTitle with EquatableMixin {
   })  : showTitle = showTitle ?? false,
         titleText = titleText ?? '',
         reservedSize = reservedSize ?? 14,
-        textStyle = textStyle ??
-            const TextStyle(
-              color: Colors.black,
-              fontSize: 11,
-            ),
+        textStyle = textStyle,
         textDirection = textDirection ?? TextDirection.ltr,
         textAlign = textAlign ?? TextAlign.center,
         margin = margin ?? 4;
@@ -175,8 +171,7 @@ class AxisTitle with EquatableMixin {
       showTitle: b.showTitle,
       titleText: b.titleText,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
-      textStyle: TextStyle.lerp(a.textStyle.copyWith(fontSize: a.textStyle.fontSize),
-          b.textStyle.copyWith(fontSize: b.textStyle.fontSize), t),
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t),
       textDirection: b.textDirection,
       textAlign: b.textAlign,
       margin: lerpDouble(a.margin, b.margin, t),
