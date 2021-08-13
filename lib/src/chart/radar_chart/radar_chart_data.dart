@@ -254,19 +254,19 @@ class RadarDataSet with EquatableMixin {
   ///
   /// the [RadarDataSet] can have custom border. for changing border of [RadarDataSet]
   /// you can modify the [borderColor] and [borderWidth].
-  const RadarDataSet({
+  RadarDataSet({
     List<RadarEntry>? dataEntries,
     Color? fillColor,
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
   })  : assert(
-          dataEntries == null || dataEntries.length == 0 || dataEntries.length >= 3,
+          dataEntries == null || dataEntries.isEmpty || dataEntries.length >= 3,
           'Radar needs at least 3 RadarEntry',
         ),
         dataEntries = dataEntries ?? const [],
-        fillColor = fillColor ?? Colors.black12,
-        borderColor = borderColor ?? Colors.blueAccent,
+        fillColor = fillColor ?? Colors.cyan.withOpacity(0.2),
+        borderColor = borderColor ?? Colors.cyan,
         borderWidth = borderWidth ?? 2.0,
         entryRadius = entryRadius ?? 5.0;
 

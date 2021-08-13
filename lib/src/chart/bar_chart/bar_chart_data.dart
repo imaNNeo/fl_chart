@@ -8,6 +8,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 
 /// [BarChart] needs this class to render itself.
 ///
@@ -327,7 +328,7 @@ class BarChartRodData with EquatableMixin {
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
   })  : y = y,
-        colors = colors ?? [Colors.blueAccent],
+        colors = colors ?? [Colors.cyan],
         gradientFrom = gradientFrom ?? const Offset(0.5, 1),
         gradientTo = gradientTo ?? const Offset(0.5, 0),
         colorStops = gradientColorStops,
@@ -668,7 +669,7 @@ class BarTouchTooltipData with EquatableMixin {
     bool? fitInsideVertically,
     TooltipDirection? direction,
     double? rotateAngle,
-  })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
+  })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipMargin = tooltipMargin ?? 16,
@@ -714,8 +715,8 @@ BarTooltipItem? defaultBarTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
-  const textStyle = TextStyle(
-    color: Colors.black,
+  final textStyle = TextStyle(
+    color: rod.colors.first,
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
