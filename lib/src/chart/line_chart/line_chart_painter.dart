@@ -112,7 +112,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     drawAxisTitles(canvasWrapper, holder);
-    _drawTitles(canvasWrapper, holder);
+    _drawTitles(context, canvasWrapper, holder);
 
     // Draw touch tooltip on most top spot
     for (var i = 0; i < data.showingTooltipIndicators.length; i++) {
@@ -832,7 +832,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     canvasWrapper.drawPath(barPath, _barPaint);
   }
 
-  void _drawTitles(CanvasWrapper canvasWrapper, PaintHolder<LineChartData> holder) {
+  void _drawTitles(
+      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<LineChartData> holder) {
     final targetData = holder.targetData;
     final data = holder.data;
     if (!targetData.titlesData.show) {
@@ -854,7 +855,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           final text = leftTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, leftTitles.getTextStyles(context, verticalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -888,7 +892,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           final text = topTitles.getTitles(horizontalSeek);
 
-          final span = TextSpan(style: topTitles.getTextStyles(horizontalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, topTitles.getTextStyles(context, horizontalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -923,7 +930,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           final text = rightTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, rightTitles.getTextStyles(context, verticalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -957,7 +967,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           var x = getPixelX(horizontalSeek, viewSize, holder);
           var y = viewSize.height + getTopOffsetDrawSize(holder);
           final text = bottomTitles.getTitles(horizontalSeek);
-          final span = TextSpan(style: bottomTitles.getTextStyles(horizontalSeek), text: text);
+          final span = TextSpan(
+              style: getThemeAwareTextStyle(
+                  context, bottomTitles.getTextStyles(context, horizontalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,

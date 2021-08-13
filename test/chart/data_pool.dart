@@ -47,8 +47,8 @@ final FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
 final String Function(double value) getTitles = (value) => 'sallam';
-final TextStyle Function(double value) getTextStyles =
-    (value) => const TextStyle(color: Colors.green);
+final TextStyle Function(BuildContext context, double value) getTextStyles =
+    (context, value) => const TextStyle(color: Colors.green);
 
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
