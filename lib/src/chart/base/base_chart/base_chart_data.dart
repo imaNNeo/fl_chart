@@ -132,18 +132,15 @@ String defaultGetTitle(double value) {
 }
 
 /// It gives you the axis value and gets a TextStyle based on given value
+///
+/// If you return null, we try to provide an inherited TextStyle using theme.
 /// (you can customize a specific title using this).
-typedef GetTitleTextStyleFunction = TextStyle Function(double value);
+typedef GetTitleTextStyleFunction = TextStyle? Function(BuildContext context, double value);
 
 /// The default [SideTitles.getTextStyles] function.
 ///
 /// returns a black TextStyle with 11 fontSize for all values.
-TextStyle defaultGetTitleTextStyle(double value) {
-  return const TextStyle(
-    color: Colors.black,
-    fontSize: 11,
-  );
-}
+TextStyle? defaultGetTitleTextStyle(BuildContext context, double value) => null;
 
 /// This class holds the touch response details.
 ///

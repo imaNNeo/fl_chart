@@ -119,7 +119,7 @@ class LineChartSample5 extends StatelessWidget {
                   }
                   return '';
                 },
-                getTextStyles: (value) => const TextStyle(
+                getTextStyles: (context, value) => const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blueGrey,
                       fontFamily: 'Digital',

@@ -53,7 +53,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     _drawBars(canvasWrapper, _groupBarsPosition!, holder);
     drawAxisTitles(canvasWrapper, holder);
-    _drawTitles(canvasWrapper, _groupBarsPosition!, holder);
+    _drawTitles(context, canvasWrapper, _groupBarsPosition!, holder);
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
       final barGroup = targetData.barGroups[i];
@@ -337,6 +337,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   }
 
   void _drawTitles(
+    BuildContext context,
     CanvasWrapper canvasWrapper,
     List<_GroupBarsPosition> groupBarsPosition,
     PaintHolder<BarChartData> holder,
@@ -363,7 +364,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
           final text = leftTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, leftTitles.getTextStyles(context, verticalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -391,7 +395,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
         final xValue = data.barGroups[index].x.toDouble();
         final text = topTitles.getTitles(xValue);
-        final span = TextSpan(style: topTitles.getTextStyles(xValue), text: text);
+        final span = TextSpan(
+            style: getThemeAwareTextStyle(context, topTitles.getTextStyles(context, xValue)),
+            text: text);
         final tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
@@ -421,7 +427,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
           final text = rightTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, rightTitles.getTextStyles(context, verticalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -452,7 +461,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final xValue = data.barGroups[index].x.toDouble();
         final text = bottomTitles.getTitles(xValue);
         // ignore: omit_local_variable_types
-        final span = TextSpan(style: bottomTitles.getTextStyles(xValue), text: text);
+        final span = TextSpan(
+            style: getThemeAwareTextStyle(context, bottomTitles.getTextStyles(context, xValue)),
+            text: text);
         final tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,

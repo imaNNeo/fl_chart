@@ -209,3 +209,16 @@ String formatNumber(double number) {
 
   return resultNumber + symbol;
 }
+
+/// Returns a TextStyle based on provided [context], if [style] provided we try to merge it.
+TextStyle getThemeAwareTextStyle(BuildContext context, TextStyle? style) {
+  final defaultTextStyle = DefaultTextStyle.of(context);
+  var effectiveTextStyle = style;
+  if (style == null || style.inherit) {
+    effectiveTextStyle = defaultTextStyle.style.merge(style);
+  }
+  if (MediaQuery.boldTextOverride(context)) {
+    effectiveTextStyle = effectiveTextStyle!.merge(const TextStyle(fontWeight: FontWeight.bold));
+  }
+  return effectiveTextStyle ??= defaultTextStyle.style;
+}

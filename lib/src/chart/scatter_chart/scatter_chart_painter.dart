@@ -36,7 +36,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     super.paint(context, canvasWrapper, holder);
     final targetData = holder.targetData;
     drawAxisTitles(canvasWrapper, holder);
-    _drawTitles(canvasWrapper, holder);
+    _drawTitles(context, canvasWrapper, holder);
     _drawSpots(canvasWrapper, holder);
 
     for (var i = 0; i < targetData.scatterSpots.length; i++) {
@@ -54,7 +54,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
   }
 
-  void _drawTitles(CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
+  void _drawTitles(
+      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
     final data = holder.data;
     final targetData = holder.targetData;
     if (!targetData.titlesData.show) {
@@ -76,7 +77,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
           final text = leftTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(style: leftTitles.getTextStyles(verticalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, leftTitles.getTextStyles(context, verticalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -111,7 +115,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
           final text = topTitles.getTitles(horizontalSeek);
 
-          final span = TextSpan(style: topTitles.getTextStyles(horizontalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, topTitles.getTextStyles(context, horizontalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -146,7 +153,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
           final text = rightTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(style: rightTitles.getTextStyles(verticalSeek), text: text);
+          final span = TextSpan(
+              style:
+                  getThemeAwareTextStyle(context, rightTitles.getTextStyles(context, verticalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
@@ -181,7 +191,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
           final text = bottomTitles.getTitles(horizontalSeek);
 
-          final span = TextSpan(style: bottomTitles.getTextStyles(horizontalSeek), text: text);
+          final span = TextSpan(
+              style: getThemeAwareTextStyle(
+                  context, bottomTitles.getTextStyles(context, horizontalSeek)),
+              text: text);
           final tp = TextPainter(
               text: span,
               textAlign: TextAlign.center,
