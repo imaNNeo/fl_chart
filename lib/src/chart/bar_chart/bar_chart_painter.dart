@@ -38,8 +38,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   /// Paints [BarChartData] into the provided canvas.
   @override
-  void paint(CanvasWrapper canvasWrapper, PaintHolder<BarChartData> holder) {
-    super.paint(canvasWrapper, holder);
+  void paint(BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<BarChartData> holder) {
+    super.paint(context, canvasWrapper, holder);
     final data = holder.data;
     final targetData = holder.targetData;
 

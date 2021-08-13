@@ -37,8 +37,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
   /// Paints [PieChartData] into the provided canvas.
   @override
-  void paint(CanvasWrapper canvasWrapper, PaintHolder<PieChartData> holder) {
-    super.paint(canvasWrapper, holder);
+  void paint(BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<PieChartData> holder) {
+    super.paint(context, canvasWrapper, holder);
     final data = holder.data;
     if (data.sections.isEmpty) {
       return;
