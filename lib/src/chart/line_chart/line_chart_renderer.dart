@@ -18,8 +18,8 @@ class LineChartLeaf extends LeafRenderObjectWidget {
   final LineTouchCallback? touchCallback;
 
   @override
-  RenderLineChart createRenderObject(BuildContext context) =>
-      RenderLineChart(data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
+  RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
+      context, data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
 
   @override
   void updateRenderObject(BuildContext context, RenderLineChart renderObject) {
@@ -33,12 +33,15 @@ class LineChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our LineChart, also handles hitTest.
 class RenderLineChart extends RenderBox implements MouseTrackerAnnotation {
-  RenderLineChart(LineChartData data, LineChartData targetData, double textScale,
-      LineTouchCallback? touchCallback)
-      : _data = data,
+  RenderLineChart(BuildContext context, LineChartData data, LineChartData targetData,
+      double textScale, LineTouchCallback? touchCallback)
+      : _buildContext = context,
+        _data = data,
         _targetData = targetData,
         _textScale = textScale,
         _touchCallback = touchCallback;
+
+  final BuildContext _buildContext;
 
   LineChartData get data => _data;
   LineChartData _data;
@@ -94,7 +97,7 @@ class RenderLineChart extends RenderBox implements MouseTrackerAnnotation {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 

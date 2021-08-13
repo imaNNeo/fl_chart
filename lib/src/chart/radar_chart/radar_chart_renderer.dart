@@ -19,8 +19,8 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
   final RadarTouchCallback? touchCallback;
 
   @override
-  RenderRadarChart createRenderObject(BuildContext context) =>
-      RenderRadarChart(data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
+  RenderRadarChart createRenderObject(BuildContext context) => RenderRadarChart(
+      context, data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
 
   @override
   void updateRenderObject(BuildContext context, RenderRadarChart renderObject) {
@@ -34,12 +34,15 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our RadarChart, also handles hitTest.
 class RenderRadarChart extends RenderBox implements MouseTrackerAnnotation {
-  RenderRadarChart(RadarChartData data, RadarChartData targetData, double textScale,
-      RadarTouchCallback? touchCallback)
-      : _data = data,
+  RenderRadarChart(BuildContext context, RadarChartData data, RadarChartData targetData,
+      double textScale, RadarTouchCallback? touchCallback)
+      : _buildContext = context,
+        _data = data,
         _targetData = targetData,
         _textScale = textScale,
         _touchCallback = touchCallback;
+
+  final BuildContext _buildContext;
 
   RadarChartData get data => _data;
   RadarChartData _data;
@@ -95,7 +98,7 @@ class RenderRadarChart extends RenderBox implements MouseTrackerAnnotation {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 
