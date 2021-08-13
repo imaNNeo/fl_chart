@@ -43,7 +43,7 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
   ///
   /// AxisTitle is a title to describe each axis,
   /// It can be larger then axis values titles.
-  void drawAxisTitles(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
+  void drawAxisTitles(BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
     if (!data.axisTitleData.show) {
       return;
@@ -55,7 +55,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Left Title
     final leftTitle = axisTitles.leftTitle;
     if (leftTitle.showTitle) {
-      final span = TextSpan(style: leftTitle.textStyle, text: leftTitle.titleText);
+      final span = TextSpan(
+          style: getThemeAwareTextStyle(context, leftTitle.textStyle), text: leftTitle.titleText);
       final tp = TextPainter(
           text: span,
           textAlign: leftTitle.textAlign,
@@ -74,7 +75,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Top title
     final topTitle = axisTitles.topTitle;
     if (topTitle.showTitle) {
-      final span = TextSpan(style: topTitle.textStyle, text: topTitle.titleText);
+      final span = TextSpan(
+          style: getThemeAwareTextStyle(context, topTitle.textStyle), text: topTitle.titleText);
       final tp = TextPainter(
           text: span,
           textAlign: topTitle.textAlign,
@@ -88,7 +90,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Right Title
     final rightTitle = axisTitles.rightTitle;
     if (rightTitle.showTitle) {
-      final span = TextSpan(style: rightTitle.textStyle, text: rightTitle.titleText);
+      final span = TextSpan(
+          style: getThemeAwareTextStyle(context, rightTitle.textStyle), text: rightTitle.titleText);
       final tp = TextPainter(
           text: span,
           textAlign: rightTitle.textAlign,
@@ -107,7 +110,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     // Bottom title
     final bottomTitle = axisTitles.bottomTitle;
     if (bottomTitle.showTitle) {
-      final span = TextSpan(style: bottomTitle.textStyle, text: bottomTitle.titleText);
+      final span = TextSpan(
+          style: getThemeAwareTextStyle(context, bottomTitle.textStyle),
+          text: bottomTitle.titleText);
       final tp = TextPainter(
           text: span,
           textAlign: bottomTitle.textAlign,
