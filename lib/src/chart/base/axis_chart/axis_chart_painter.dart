@@ -32,8 +32,8 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
 
   /// Paints [AxisChartData] into the provided canvas.
   @override
-  void paint(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
-    super.paint(canvasWrapper, holder);
+  void paint(BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
+    super.paint(context, canvasWrapper, holder);
     _drawBackground(canvasWrapper, holder);
     _drawRangeAnnotation(canvasWrapper, holder);
     _drawGrid(canvasWrapper, holder);
