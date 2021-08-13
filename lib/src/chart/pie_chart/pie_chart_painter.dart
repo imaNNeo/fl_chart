@@ -49,7 +49,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     _drawCenterSpace(canvasWrapper, holder);
     _drawSections(canvasWrapper, sectionsAngle, centerRadius, holder);
-    _drawTexts(canvasWrapper, holder, centerRadius);
+    _drawTexts(context, canvasWrapper, holder, centerRadius);
   }
 
   List<double> _calculateSectionsAngle(List<PieChartSectionData> sections, double sumValue) {
@@ -218,6 +218,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// - title text
   /// - badge widget positions
   void _drawTexts(
+    BuildContext context,
     CanvasWrapper canvasWrapper,
     PaintHolder<PieChartData> holder,
     double centerRadius,
@@ -250,7 +251,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       if (section.showTitle) {
         final span = TextSpan(
-          style: section.titleStyle,
+          style: getThemeAwareTextStyle(context, section.titleStyle),
           text: section.title,
         );
         final tp = TextPainter(

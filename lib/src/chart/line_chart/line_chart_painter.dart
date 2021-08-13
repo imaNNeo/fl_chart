@@ -86,7 +86,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     if (!data.extraLinesData.extraLinesOnTop) {
-      _drawExtraLines(canvasWrapper, holder);
+      _drawExtraLines(context, canvasWrapper, holder);
     }
 
     /// draw each line independently on the chart
@@ -101,7 +101,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       _drawDots(canvasWrapper, barData, holder);
 
       if (data.extraLinesData.extraLinesOnTop) {
-        _drawExtraLines(canvasWrapper, holder);
+        _drawExtraLines(context, canvasWrapper, holder);
       }
 
       _drawTouchedSpotsIndicator(canvasWrapper, barData, holder);
@@ -132,6 +132,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       tooltipSpots = ShowingTooltipIndicators(barSpots);
 
       _drawTouchTooltip(
+        context,
         canvasWrapper,
         data.lineTouchData.touchTooltipData,
         topSpot,
@@ -993,7 +994,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
   }
 
-  void _drawExtraLines(CanvasWrapper canvasWrapper, PaintHolder<LineChartData> holder) {
+  void _drawExtraLines(
+      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<LineChartData> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
@@ -1040,7 +1042,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: style,
+            style: getThemeAwareTextStyle(context, style),
           );
 
           final tp = TextPainter(
@@ -1107,7 +1109,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: style,
+            style: getThemeAwareTextStyle(context, style),
           );
 
           final tp = TextPainter(
@@ -1134,6 +1136,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   }
 
   void _drawTouchTooltip(
+      BuildContext context,
       CanvasWrapper canvasWrapper,
       LineTouchTooltipData tooltipData,
       FlSpot showOnSpot,
@@ -1159,7 +1162,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
 
       final span = TextSpan(
-        style: tooltipItem.textStyle,
+        style: getThemeAwareTextStyle(context, tooltipItem.textStyle),
         text: tooltipItem.text,
         children: tooltipItem.children,
       );
