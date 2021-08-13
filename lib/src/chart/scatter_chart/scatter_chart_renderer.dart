@@ -20,8 +20,8 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
   final ScatterTouchCallback? touchCallback;
 
   @override
-  RenderScatterChart createRenderObject(BuildContext context) =>
-      RenderScatterChart(data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
+  RenderScatterChart createRenderObject(BuildContext context) => RenderScatterChart(
+      context, data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
 
   @override
   void updateRenderObject(BuildContext context, RenderScatterChart renderObject) {
@@ -35,12 +35,15 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our ScatterChart, also handles hitTest.
 class RenderScatterChart extends RenderBox implements MouseTrackerAnnotation {
-  RenderScatterChart(ScatterChartData data, ScatterChartData targetData, double textScale,
-      ScatterTouchCallback? touchCallback)
-      : _data = data,
+  RenderScatterChart(BuildContext context, ScatterChartData data, ScatterChartData targetData,
+      double textScale, ScatterTouchCallback? touchCallback)
+      : _buildContext = context,
+        _data = data,
         _targetData = targetData,
         _textScale = textScale,
         _touchCallback = touchCallback;
+
+  final BuildContext _buildContext;
 
   ScatterChartData get data => _data;
   ScatterChartData _data;
@@ -96,7 +99,7 @@ class RenderScatterChart extends RenderBox implements MouseTrackerAnnotation {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 

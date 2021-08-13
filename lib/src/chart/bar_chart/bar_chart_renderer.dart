@@ -19,8 +19,8 @@ class BarChartLeaf extends LeafRenderObjectWidget {
   final BarTouchCallback? touchCallback;
 
   @override
-  RenderBarChart createRenderObject(BuildContext context) =>
-      RenderBarChart(data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
+  RenderBarChart createRenderObject(BuildContext context) => RenderBarChart(
+      context, data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
 
   @override
   void updateRenderObject(BuildContext context, RenderBarChart renderObject) {
@@ -35,11 +35,18 @@ class BarChartLeaf extends LeafRenderObjectWidget {
 /// Renders our BarChart, also handles hitTest.
 class RenderBarChart extends RenderBox implements MouseTrackerAnnotation {
   RenderBarChart(
-      BarChartData data, BarChartData targetData, double textScale, BarTouchCallback? touchCallback)
-      : _data = data,
+    BuildContext context,
+    BarChartData data,
+    BarChartData targetData,
+    double textScale,
+    BarTouchCallback? touchCallback,
+  )   : _buildContext = context,
+        _data = data,
         _targetData = targetData,
         _textScale = textScale,
         _touchCallback = touchCallback;
+
+  final BuildContext _buildContext;
 
   BarChartData get data => _data;
   BarChartData _data;
@@ -99,7 +106,7 @@ class RenderBarChart extends RenderBox implements MouseTrackerAnnotation {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 

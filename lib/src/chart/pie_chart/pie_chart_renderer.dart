@@ -27,6 +27,7 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
 
   @override
   RenderPieChart createRenderObject(BuildContext context) => RenderPieChart(
+        context,
         data,
         targetData,
         MediaQuery.of(context).textScaleFactor,
@@ -50,11 +51,18 @@ class RenderPieChart extends RenderBox
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData>
     implements MouseTrackerAnnotation {
   RenderPieChart(
-      PieChartData data, PieChartData targetData, double textScale, PieTouchCallback? touchCallback)
-      : _data = data,
+    BuildContext context,
+    PieChartData data,
+    PieChartData targetData,
+    double textScale,
+    PieTouchCallback? touchCallback,
+  )   : _buildContext = context,
+        _data = data,
         _targetData = targetData,
         _textScale = textScale,
         _touchCallback = touchCallback;
+
+  final BuildContext _buildContext;
 
   PieChartData get data => _data;
   PieChartData _data;
@@ -141,7 +149,7 @@ class RenderPieChart extends RenderBox
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
     defaultPaint(context, offset);
   }
