@@ -44,7 +44,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   final GetTitleByIndexFunction? getTitle;
 
   /// Defines style of showing [RadarChart] titles.
-  final TextStyle titleTextStyle;
+  final TextStyle? titleTextStyle;
 
   /// the [titlePositionPercentageOffset] is the place of showing title on the [RadarChart]
   /// The higher the value of this field, the more titles move away from the chart.
@@ -59,7 +59,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   final int tickCount;
 
   /// Defines style of showing [RadarChart] tick titles.
-  final TextStyle ticksTextStyle;
+  final TextStyle? ticksTextStyle;
 
   /// Defines style of showing [RadarChart] tick borders.
   final BorderSide tickBorderData;
@@ -140,10 +140,10 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBorderData = radarBorderData ?? const BorderSide(color: Colors.black, width: 2),
         radarTouchData = radarTouchData ?? RadarTouchData(),
         getTitle = getTitle,
-        titleTextStyle = titleTextStyle ?? const TextStyle(color: Colors.black, fontSize: 12),
+        titleTextStyle = titleTextStyle,
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
         tickCount = tickCount ?? 1,
-        ticksTextStyle = ticksTextStyle ?? const TextStyle(fontSize: 10, color: Colors.black),
+        ticksTextStyle = ticksTextStyle,
         tickBorderData = tickBorderData ?? const BorderSide(color: Colors.black, width: 2),
         gridBorderData = gridBorderData ?? const BorderSide(color: Colors.black, width: 2),
         super(borderData: borderData, touchData: radarTouchData ?? RadarTouchData());

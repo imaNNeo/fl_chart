@@ -210,12 +210,12 @@ String formatNumber(double number) {
   return resultNumber + symbol;
 }
 
-/// Returns a TextStyle based on provided [context], if [style] provided we try to merge it.
-TextStyle getThemeAwareTextStyle(BuildContext context, TextStyle? style) {
+/// Returns a TextStyle based on provided [context], if [providedStyle] provided we try to merge it.
+TextStyle getThemeAwareTextStyle(BuildContext context, TextStyle? providedStyle) {
   final defaultTextStyle = DefaultTextStyle.of(context);
-  var effectiveTextStyle = style;
-  if (style == null || style.inherit) {
-    effectiveTextStyle = defaultTextStyle.style.merge(style);
+  var effectiveTextStyle = providedStyle;
+  if (providedStyle == null || providedStyle.inherit) {
+    effectiveTextStyle = defaultTextStyle.style.merge(providedStyle);
   }
   if (MediaQuery.boldTextOverride(context)) {
     effectiveTextStyle = effectiveTextStyle!.merge(const TextStyle(fontWeight: FontWeight.bold));

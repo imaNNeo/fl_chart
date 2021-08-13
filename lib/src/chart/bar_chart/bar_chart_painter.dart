@@ -63,7 +63,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         }
         final barRod = barGroup.barRods[j];
 
-        _drawTouchTooltip(canvasWrapper, _groupBarsPosition!,
+        _drawTouchTooltip(context, canvasWrapper, _groupBarsPosition!,
             targetData.barTouchData.touchTooltipData, barGroup, i, barRod, j, holder);
       }
     }
@@ -480,6 +480,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   }
 
   void _drawTouchTooltip(
+    BuildContext context,
     CanvasWrapper canvasWrapper,
     List<_GroupBarsPosition> groupPositions,
     BarTouchTooltipData tooltipData,
@@ -506,7 +507,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     final span = TextSpan(
-      style: tooltipItem.textStyle,
+      style: getThemeAwareTextStyle(context, tooltipItem.textStyle),
       text: tooltipItem.text,
       children: tooltipItem.children,
     );
