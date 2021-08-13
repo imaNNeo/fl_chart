@@ -111,7 +111,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       canvasWrapper.restore();
     }
 
-    drawAxisTitles(canvasWrapper, holder);
+    drawAxisTitles(context, canvasWrapper, holder);
     _drawTitles(context, canvasWrapper, holder);
 
     // Draw touch tooltip on most top spot

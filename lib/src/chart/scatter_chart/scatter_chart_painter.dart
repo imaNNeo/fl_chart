@@ -35,7 +35,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
     super.paint(context, canvasWrapper, holder);
     final targetData = holder.targetData;
-    drawAxisTitles(canvasWrapper, holder);
+    drawAxisTitles(context, canvasWrapper, holder);
     _drawTitles(context, canvasWrapper, holder);
     _drawSpots(canvasWrapper, holder);
 
