@@ -56,14 +56,14 @@ class LineChartSample9 extends StatelessWidget {
               titlesData: FlTitlesData(
                 leftTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (value) => const TextStyle(
+                  getTextStyles: (context, value) => const TextStyle(
                       color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
                   margin: 16,
                 ),
                 rightTitles: SideTitles(showTitles: false),
                 bottomTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (value) => const TextStyle(
+                  getTextStyles: (context, value) => const TextStyle(
                       color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
                   margin: 16,
                 ),

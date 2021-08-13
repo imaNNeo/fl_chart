@@ -261,14 +261,15 @@ class _LineChartSample3State extends State<LineChartSample3> {
 
                     return '';
                   },
-                  getTextStyles: (value) => const TextStyle(color: Colors.black, fontSize: 10),
+                  getTextStyles: (context, value) =>
+                      const TextStyle(color: Colors.black, fontSize: 10),
                 ),
                 bottomTitles: SideTitles(
                   showTitles: true,
                   getTitles: (value) {
                     return widget.weekDays[value.toInt()];
                   },
-                  getTextStyles: (value) {
+                  getTextStyles: (context, value) {
                     final isTouched = value == touchedValue;
                     return TextStyle(
                       color: isTouched ? Colors.deepOrange : Colors.deepOrange.withOpacity(0.5),
