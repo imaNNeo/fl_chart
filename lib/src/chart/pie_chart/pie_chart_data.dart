@@ -196,7 +196,7 @@ class PieChartSectionData {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
   })  : value = value ?? 10,
-        color = color ?? Colors.red,
+        color = color ?? Colors.cyan,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
         titleStyle = titleStyle,
