@@ -204,7 +204,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     dataSetsPosition!.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
       _graphPaint
-        ..color = graph.fillColor.withOpacity(graph.fillColor.opacity - 0.2)
+        ..color = graph.fillColor.withOpacity(graph.fillColor.opacity)
         ..style = PaintingStyle.fill;
 
       _graphBorderPaint

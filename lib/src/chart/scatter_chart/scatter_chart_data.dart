@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 
 import 'scatter_chart_helper.dart';
 
@@ -390,7 +391,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
     double? rotateAngle,
-  })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
+  })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         maxContentWidth = maxContentWidth ?? 120,
