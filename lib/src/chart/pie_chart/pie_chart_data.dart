@@ -137,7 +137,7 @@ class PieChartSectionData {
   final bool showTitle;
 
   /// Defines style of showing title of section.
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
 
   /// Defines text of showing title at the middle of section.
   final String title;
@@ -199,8 +199,7 @@ class PieChartSectionData {
         color = color ?? Colors.red,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
-        titleStyle = titleStyle ??
-            const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        titleStyle = titleStyle,
         title = title ?? value.toString(),
         borderSide = borderSide ?? BorderSide(width: 0),
         badgeWidget = badgeWidget ?? Container(),
