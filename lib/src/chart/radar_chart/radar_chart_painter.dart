@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../../fl_chart.dart';
@@ -56,12 +57,13 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     dataSetsPosition = _calculateDataSetsPosition(canvasWrapper.size, holder);
 
     _drawGrids(canvasWrapper, holder);
-    _drawTicks(canvasWrapper, holder);
-    _drawTitles(canvasWrapper, holder);
+    _drawTicks(context, canvasWrapper, holder);
+    _drawTitles(context, canvasWrapper, holder);
     _drawDataSets(canvasWrapper, holder);
   }
 
-  void _drawTicks(CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+  void _drawTicks(
+      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     final size = canvasWrapper.size;
 
@@ -109,7 +111,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         _ticksTextPaint
           ..text = TextSpan(
             text: tick.toStringAsFixed(1),
-            style: data.ticksTextStyle,
+            style: getThemeAwareTextStyle(context, data.ticksTextStyle),
           )
           ..textDirection = TextDirection.ltr;
         _ticksTextPaint.layout(minWidth: 0, maxWidth: size.width);
@@ -148,7 +150,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     }
   }
 
-  void _drawTitles(CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+  void _drawTitles(
+      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     if (data.getTitle == null) return;
 
@@ -162,7 +165,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     final angle = (2 * pi) / data.titleCount;
 
-    final style = data.titleTextStyle;
+    final style = getThemeAwareTextStyle(context, data.titleTextStyle);
 
     _titleTextPaint
       ..textAlign = TextAlign.center

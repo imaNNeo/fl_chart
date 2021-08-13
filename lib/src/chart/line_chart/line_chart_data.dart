@@ -1127,7 +1127,7 @@ abstract class FlLineLabel with EquatableMixin {
   final EdgeInsetsGeometry padding;
 
   /// Sets style of the drawing text.
-  final TextStyle style;
+  final TextStyle? style;
 
   /// Aligns the text on the line.
   final Alignment alignment;
@@ -1173,12 +1173,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         super(
           show: show,
           padding: padding ?? const EdgeInsets.all(6),
-          style: style ??
-              const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
+          style: style,
           alignment: alignment ?? Alignment.topLeft,
         );
 

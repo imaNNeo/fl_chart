@@ -46,6 +46,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
       final scatterSpot = targetData.scatterSpots[i];
       _drawTouchTooltip(
+        context,
         canvasWrapper,
         targetData.scatterTouchData.touchTooltipData,
         scatterSpot,
@@ -237,8 +238,12 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
   }
 
-  void _drawTouchTooltip(CanvasWrapper canvasWrapper, ScatterTouchTooltipData tooltipData,
-      ScatterSpot showOnSpot, PaintHolder<ScatterChartData> holder) {
+  void _drawTouchTooltip(
+      BuildContext context,
+      CanvasWrapper canvasWrapper,
+      ScatterTouchTooltipData tooltipData,
+      ScatterSpot showOnSpot,
+      PaintHolder<ScatterChartData> holder) {
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
 
@@ -249,7 +254,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
 
     final span = TextSpan(
-      style: tooltipItem.textStyle,
+      style: getThemeAwareTextStyle(context, tooltipItem.textStyle),
       text: tooltipItem.text,
       children: tooltipItem.children,
     );
