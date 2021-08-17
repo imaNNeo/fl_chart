@@ -7,3 +7,7 @@ format:
 
 runTests:
 	flutter test
+
+checkoutToPR:
+	git fetch origin pull/$(id)/head:pr-$(id); \
+	git checkout pr-$(id)
