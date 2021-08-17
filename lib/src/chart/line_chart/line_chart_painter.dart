@@ -860,8 +860,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               textAlign: TextAlign.center,
               textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale);
-          tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
-          x -= tp.width + leftTitles.margin;
+          tp.layout(maxWidth: getTextWidth(holder));
+
+          //Calculate the title margin
+          if(data.titlesData.leftTitles.overlapChart){
+            x += leftTitles.margin;
+          }else{
+            x -= tp.width + leftTitles.margin;
+          }
+
           y -= tp.height / 2;
           x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
           canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
@@ -1322,6 +1329,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     var sum = super.getExtraNeededHorizontalSpace(holder);
     if (data.titlesData.show) {
       final leftSide = data.titlesData.leftTitles;
+      if (leftSide.showTitles&&!data.titlesData.leftTitles.overlapChart) {
+        sum += leftSide.reservedSize + leftSide.margin;
+      }
+
+      final rightSide = data.titlesData.rightTitles;
+      if (rightSide.showTitles) {
+        sum += rightSide.reservedSize + rightSide.margin;
+      }
+    }
+    return sum;
+  }
+
+
+  @override
+  double getTextWidth(PaintHolder<LineChartData> holder) {
+    final data = holder.data;
+    var sum = super.getExtraNeededHorizontalSpace(holder);
+    if (data.titlesData.show) {
+      final leftSide = data.titlesData.leftTitles;
       if (leftSide.showTitles) {
         sum += leftSide.reservedSize + leftSide.margin;
       }
@@ -1366,7 +1392,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     var sum = super.getLeftOffsetDrawSize(holder);
 
     final leftTitles = data.titlesData.leftTitles;
-    if (data.titlesData.show && leftTitles.showTitles) {
+    if (data.titlesData.show && leftTitles.showTitles&&!leftTitles.overlapChart) {
       sum += leftTitles.reservedSize + leftTitles.margin;
     }
     return sum;

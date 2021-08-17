@@ -91,6 +91,9 @@ class BaseChartPainter<D extends BaseChartData> {
   /// like: left, right padding, left, right titles, and so on,
   double getExtraNeededHorizontalSpace(PaintHolder<D> holder) => 0;
 
+  /// Gets the text width on the different size
+  double getTextWidth(PaintHolder<D> holder) => 0;
+
   /// Extra space needed to show vertical contents around the chart,
   /// like: top, bottom padding, top, bottom titles, and so on,
   double getExtraNeededVerticalSpace(PaintHolder<D> holder) => 0;

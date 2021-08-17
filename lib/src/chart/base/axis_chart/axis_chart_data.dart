@@ -264,6 +264,7 @@ class SideTitles with EquatableMixin {
   final double? interval;
   final double rotateAngle;
   final CheckToShowTitle checkToShowTitle;
+  final bool overlapChart;
 
   /// It draws some title on all axis, per each axis value,
   /// [showTitles] determines showing or hiding this side,
@@ -286,6 +287,9 @@ class SideTitles with EquatableMixin {
   /// using [checkToShowTitle].
   ///
   /// you can change rotation of drawing titles using [rotateAngle].
+  ///
+  /// [overlapChart] enables the titles to overlap the chart meaning the titles are above the chart
+  /// defaults to false
   SideTitles({
     bool? showTitles,
     GetTitleFunction? getTitles,
@@ -295,6 +299,7 @@ class SideTitles with EquatableMixin {
     double? margin,
     double? interval,
     double? rotateAngle,
+    bool? overlapChart = false,
     CheckToShowTitle? checkToShowTitle,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
@@ -304,6 +309,7 @@ class SideTitles with EquatableMixin {
         margin = margin ?? 6,
         interval = interval,
         rotateAngle = rotateAngle ?? 0.0,
+        overlapChart = overlapChart ?? false,
         checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");
@@ -623,10 +629,10 @@ class RangeAnnotations with EquatableMixin {
   /// Lerps a [RangeAnnotations] based on [t] value, check [Tween.lerp].
   static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
-      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
-          a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
-      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
-          a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+      horizontalRangeAnnotations:
+          lerpHorizontalRangeAnnotationList(a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+      verticalRangeAnnotations:
+          lerpVerticalRangeAnnotationList(a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
 
@@ -660,8 +666,7 @@ class HorizontalRangeAnnotation with EquatableMixin {
         color = color ?? Colors.white;
 
   /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
-  static HorizontalRangeAnnotation lerp(
-      HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+  static HorizontalRangeAnnotation lerp(HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
     return HorizontalRangeAnnotation(
       y1: lerpDouble(a.y1, b.y1, t)!,
       y2: lerpDouble(a.y2, b.y2, t)!,
@@ -700,8 +705,7 @@ class VerticalRangeAnnotation with EquatableMixin {
         color = color ?? Colors.white;
 
   /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].
-  static VerticalRangeAnnotation lerp(
-      VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+  static VerticalRangeAnnotation lerp(VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
     return VerticalRangeAnnotation(
       x1: lerpDouble(a.x1, b.x1, t)!,
       x2: lerpDouble(a.x2, b.x2, t)!,

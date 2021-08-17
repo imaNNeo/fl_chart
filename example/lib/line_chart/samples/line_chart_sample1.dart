@@ -105,8 +105,9 @@ class _LineChart extends StatelessWidget {
   SideTitles leftTitles({required GetTitleFunction getTitles}) => SideTitles(
         getTitles: getTitles,
         showTitles: true,
-        margin: 8,
+        margin: 4,
         reservedSize: 30,
+        overlapChart: true,
         getTextStyles: (value) => const TextStyle(
           color: Color(0xff75729e),
           fontWeight: FontWeight.bold,

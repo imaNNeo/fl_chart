@@ -145,6 +145,28 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
     return sum;
   }
 
+  /// Gets the text width of the drawn titles
+  /// Will draw the titles according to those widths
+  @override
+  double getTextWidth(PaintHolder<D> holder) {
+    final data = holder.data;
+    var sum = super.getTextWidth(holder);
+
+    if (data.axisTitleData.show) {
+      final leftSide = data.axisTitleData.leftTitle;
+      if (leftSide.showTitle) {
+        sum += leftSide.reservedSize + leftSide.margin;
+      }
+
+      final rightSide = data.axisTitleData.rightTitle;
+      if (rightSide.showTitle) {
+        sum += rightSide.reservedSize + rightSide.margin;
+      }
+    }
+
+    return sum;
+  }
+
   /// Returns needed extra space in the bottom and tom side of the chart.
   ///
   /// We need some extra spaces around the chart, for showing titles, ...
