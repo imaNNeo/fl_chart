@@ -337,7 +337,7 @@ class RadarEntry with EquatableMixin {
 /// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
 class RadarTouchData extends FlTouchData with EquatableMixin {
   /// you can implement it to receive touches callback
-  final Function(RadarTouchResponse)? touchCallback;
+  final BaseTouchCallback<RadarTouchResponse>? touchCallback;
 
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
@@ -349,7 +349,7 @@ class RadarTouchData extends FlTouchData with EquatableMixin {
   /// useful information about happened touch.
   RadarTouchData({
     bool? enabled,
-    Function(RadarTouchResponse)? touchCallback,
+    BaseTouchCallback<RadarTouchResponse>? touchCallback,
     double? touchSpotThreshold,
   })  : touchCallback = touchCallback,
         touchSpotThreshold = touchSpotThreshold ?? 10,
@@ -377,26 +377,15 @@ class RadarTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
-  /// [touchInput] is the type of happened touch.
-  /// [clickHappened] will be true, if we detect a click event.
-  RadarTouchResponse(
-    RadarTouchedSpot? touchedSpot,
-    PointerEvent touchInput,
-    bool clickHappened,
-  )   : touchedSpot = touchedSpot,
-        super(touchInput, clickHappened);
+  RadarTouchResponse(RadarTouchedSpot? touchedSpot): touchedSpot = touchedSpot, super();
 
   /// Copies current [RadarTouchResponse] to a new [RadarTouchResponse],
   /// and replaces provided values.
   RadarTouchResponse copyWith({
     RadarTouchedSpot? touchedSpot,
-    PointerEvent? touchInput,
-    bool? clickHappened,
   }) {
     return RadarTouchResponse(
       touchedSpot ?? this.touchedSpot,
-      touchInput ?? this.touchInput,
-      clickHappened ?? this.clickHappened,
     );
   }
 }
