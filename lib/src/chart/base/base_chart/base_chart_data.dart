@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -142,14 +144,10 @@ typedef GetTitleTextStyleFunction = TextStyle? Function(BuildContext context, do
 /// returns a black TextStyle with 11 fontSize for all values.
 TextStyle? defaultGetTitleTextStyle(BuildContext context, double value) => null;
 
-/// This class holds the touch response details.
-///
-/// Specific touch details should be hold on the concrete child classes.
-class BaseTouchResponse {
-  final PointerEvent touchInput;
-  final bool clickHappened;
+/// Chart's touch callback.
+typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(FlTouchEvent, R?);
 
-  BaseTouchResponse(PointerEvent touchInput, bool isClickHappened)
-      : touchInput = touchInput,
-        clickHappened = isClickHappened;
+/// This class holds the touch response details of charts.
+abstract class BaseTouchResponse {
+  BaseTouchResponse();
 }
