@@ -298,16 +298,16 @@ class ScatterTouchResponse extends BaseTouchResponse {
   ///
   /// [touchedSpot] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
-  ScatterTouchResponse(ScatterTouchedSpot? touchedSpot): touchedSpot = touchedSpot, super();
+  ScatterTouchResponse(ScatterTouchedSpot? touchedSpot)
+      : touchedSpot = touchedSpot,
+        super();
 
   /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
   /// and replaces provided values.
   ScatterTouchResponse copyWith({
     ScatterTouchedSpot? touchedSpot,
   }) {
-    return ScatterTouchResponse(
-      touchedSpot ?? this.touchedSpot
-    );
+    return ScatterTouchResponse(touchedSpot ?? this.touchedSpot);
   }
 }
 
