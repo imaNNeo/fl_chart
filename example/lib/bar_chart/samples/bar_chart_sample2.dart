@@ -126,10 +126,10 @@ class BarChartSample2State extends State<BarChartSample2> {
 
                                 showingBarGroups[touchedGroupIndex] =
                                     showingBarGroups[touchedGroupIndex].copyWith(
-                                      barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                                        return rod.copyWith(y: avg);
-                                      }).toList(),
-                                    );
+                                  barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
+                                    return rod.copyWith(y: avg);
+                                  }).toList(),
+                                );
                               }
                             });
                           }),

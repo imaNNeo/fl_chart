@@ -29,12 +29,13 @@ class LineChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our LineChart, also handles hitTest.
 class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
-  RenderLineChart(BuildContext context, LineChartData data, LineChartData targetData,
-      double textScale)
+  RenderLineChart(
+      BuildContext context, LineChartData data, LineChartData targetData, double textScale)
       : _buildContext = context,
         _data = data,
         _targetData = targetData,
-        _textScale = textScale, super(targetData.lineTouchData.touchCallback);
+        _textScale = textScale,
+        super(targetData.lineTouchData.touchCallback);
 
   final BuildContext _buildContext;
 
@@ -83,5 +84,4 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     var touchedSpots = _painter.handleTouch(localPosition, size, paintHolder);
     return LineTouchResponse(touchedSpots);
   }
-
 }

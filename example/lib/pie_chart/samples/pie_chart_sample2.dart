@@ -26,14 +26,17 @@ class PieChart2State extends State {
                 aspectRatio: 1,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData: PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      pieTouchData:
+                          PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
                         setState(() {
                           final desiredTouch = event is! FlPanEndEvent &&
                               event is! FlPanCancelEvent &&
                               event is! FlPointerExitEvent &&
                               event is! FlLongPressEnd &&
                               event is! FlTapCancelEvent;
-                          if (!desiredTouch || pieTouchResponse == null || pieTouchResponse.touchedSection == null) {
+                          if (!desiredTouch ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
                             touchedIndex = -1;
                             return;
                           }

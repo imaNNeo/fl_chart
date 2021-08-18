@@ -328,7 +328,9 @@ class PieTouchResponse extends BaseTouchResponse {
   final PieTouchedSection? touchedSection;
 
   /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
-  PieTouchResponse(PieTouchedSection? touchedSection) : touchedSection = touchedSection, super();
+  PieTouchResponse(PieTouchedSection? touchedSection)
+      : touchedSection = touchedSection,
+        super();
 
   /// Copies current [PieTouchResponse] to a new [PieTouchResponse],
   /// and replaces provided values.
