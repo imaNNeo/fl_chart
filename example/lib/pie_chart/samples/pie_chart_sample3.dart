@@ -23,15 +23,18 @@ class PieChartSample3State extends State {
           aspectRatio: 1,
           child: PieChart(
             PieChartData(
-                pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                pieTouchData: PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   setState(() {
-                    final desiredTouch = pieTouchResponse.touchInput is! PointerExitEvent &&
-                        pieTouchResponse.touchInput is! PointerUpEvent;
-                    if (desiredTouch && pieTouchResponse.touchedSection != null) {
-                      touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
-                    } else {
+                    final desiredTouch = event is! FlPanEndEvent &&
+                        event is! FlPanCancelEvent &&
+                        event is! FlPointerExitEvent &&
+                        event is! FlLongPressEnd &&
+                        event is! FlTapCancelEvent;
+                    if (!desiredTouch || pieTouchResponse == null || pieTouchResponse.touchedSection == null) {
                       touchedIndex = -1;
+                      return;
                     }
+                    touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
                   });
                 }),
                 borderData: FlBorderData(
