@@ -86,13 +86,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   void _handleBuiltInTouch(FlTouchEvent event, BarTouchResponse? touchResponse) {
     _providedTouchCallback?.call(event, touchResponse);
 
-    final desiredTouch = event is! FlPanEndEvent &&
-        event is! FlPanCancelEvent &&
-        event is! FlPointerExitEvent &&
-        event is! FlLongPressEnd &&
-        event is! FlTapCancelEvent;
-
-    if (!desiredTouch || touchResponse == null || touchResponse.spot == null) {
+    if (!event.isInterestedForInteractions || touchResponse == null || touchResponse.spot == null) {
       _showingTouchedTooltips.clear();
       return;
     }

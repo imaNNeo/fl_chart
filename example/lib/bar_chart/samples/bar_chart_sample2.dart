@@ -105,12 +105,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                             touchedGroupIndex = response.spot!.touchedBarGroupIndex;
 
                             setState(() {
-                              final desiredTouch = event is! FlPanEndEvent &&
-                                  event is! FlPanCancelEvent &&
-                                  event is! FlPointerExitEvent &&
-                                  event is! FlLongPressEnd &&
-                                  event is! FlTapCancelEvent;
-                              if (!desiredTouch) {
+                              if (!event.isInterestedForInteractions) {
                                 touchedGroupIndex = -1;
                                 showingBarGroups = List.of(rawBarGroups);
                                 return;

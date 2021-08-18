@@ -25,12 +25,7 @@ class PieChartSample3State extends State {
             PieChartData(
                 pieTouchData: PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   setState(() {
-                    final desiredTouch = event is! FlPanEndEvent &&
-                        event is! FlPanCancelEvent &&
-                        event is! FlPointerExitEvent &&
-                        event is! FlLongPressEnd &&
-                        event is! FlTapCancelEvent;
-                    if (!desiredTouch ||
+                    if (!event.isInterestedForInteractions ||
                         pieTouchResponse == null ||
                         pieTouchResponse.touchedSection == null) {
                       touchedIndex = -1;
