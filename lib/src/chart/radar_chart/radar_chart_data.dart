@@ -377,7 +377,9 @@ class RadarTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
-  RadarTouchResponse(RadarTouchedSpot? touchedSpot): touchedSpot = touchedSpot, super();
+  RadarTouchResponse(RadarTouchedSpot? touchedSpot)
+      : touchedSpot = touchedSpot,
+        super();
 
   /// Copies current [RadarTouchResponse] to a new [RadarTouchResponse],
   /// and replaces provided values.

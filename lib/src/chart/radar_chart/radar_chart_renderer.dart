@@ -30,7 +30,8 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our RadarChart, also handles hitTest.
 class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
-  RenderRadarChart(BuildContext context, RadarChartData data, RadarChartData targetData, double textScale)
+  RenderRadarChart(
+      BuildContext context, RadarChartData data, RadarChartData targetData, double textScale)
       : _buildContext = context,
         _data = data,
         _targetData = targetData,

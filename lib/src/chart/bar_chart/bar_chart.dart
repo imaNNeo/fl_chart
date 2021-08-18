@@ -33,7 +33,6 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<BarTouchResponse>? _providedTouchCallback;
 
-
   final Map<int, List<int>> _showingTouchedTooltips = {};
 
   @override
