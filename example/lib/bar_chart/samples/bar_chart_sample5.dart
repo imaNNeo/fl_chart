@@ -33,13 +33,9 @@ class BarChartSample5State extends State<BarChartSample5> {
               groupsSpace: 12,
               barTouchData: BarTouchData(
                 touchCallback: (FlTouchEvent event, barTouchResponse) {
-                  final desiredTouch = event is! FlPanEndEvent &&
-                      event is! FlPanCancelEvent &&
-                      event is! FlPointerExitEvent &&
-                      event is! FlLongPressEnd &&
-                      event is! FlTapCancelEvent;
-
-                  if (!desiredTouch || barTouchResponse == null || barTouchResponse.spot == null) {
+                  if (!event.isInterestedForInteractions ||
+                      barTouchResponse == null ||
+                      barTouchResponse.spot == null) {
                     setState(() {
                       touchedIndex = -1;
                     });

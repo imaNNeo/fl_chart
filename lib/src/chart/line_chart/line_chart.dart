@@ -85,13 +85,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   void _handleBuiltInTouch(FlTouchEvent event, LineTouchResponse? touchResponse) {
     _providedTouchCallback?.call(event, touchResponse);
 
-    final desiredTouch = event is! FlPanEndEvent &&
-        event is! FlPanCancelEvent &&
-        event is! FlPointerExitEvent &&
-        event is! FlLongPressEnd &&
-        event is! FlTapCancelEvent;
-
-    if (!desiredTouch ||
+    if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
       setState(() {

@@ -122,13 +122,9 @@ class _LineChartSample3State extends State<LineChartSample3> {
                         }).toList();
                       }),
                   touchCallback: (FlTouchEvent event, LineTouchResponse? lineTouch) {
-                    final desiredTouch = event is! FlPanEndEvent &&
-                        event is! FlPanCancelEvent &&
-                        event is! FlPointerExitEvent &&
-                        event is! FlLongPressEnd &&
-                        event is! FlTapCancelEvent;
-
-                    if (!desiredTouch || lineTouch == null || lineTouch.lineBarSpots == null) {
+                    if (!event.isInterestedForInteractions ||
+                        lineTouch == null ||
+                        lineTouch.lineBarSpots == null) {
                       setState(() {
                         touchedValue = -1;
                       });
