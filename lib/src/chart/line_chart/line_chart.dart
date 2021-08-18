@@ -91,7 +91,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         event is! FlLongPressEnd &&
         event is! FlTapCancelEvent;
 
-    if (!desiredTouch || touchResponse?.lineBarSpots == null || touchResponse!.lineBarSpots!.isEmpty) {
+    if (!desiredTouch ||
+        touchResponse?.lineBarSpots == null ||
+        touchResponse!.lineBarSpots!.isEmpty) {
       setState(() {
         _showingTouchedTooltips.clear();
         _showingTouchedIndicators.clear();
