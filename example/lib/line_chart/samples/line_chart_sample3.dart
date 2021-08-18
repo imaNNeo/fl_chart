@@ -121,28 +121,31 @@ class _LineChartSample3State extends State<LineChartSample3> {
                           );
                         }).toList();
                       }),
-                  touchCallback: (LineTouchResponse lineTouch) {
-                    final desiredTouch = lineTouch.touchInput is! PointerExitEvent &&
-                        lineTouch.touchInput is! PointerUpEvent;
+                  touchCallback: (FlTouchEvent event, LineTouchResponse? lineTouch) {
+                    final desiredTouch = event is! FlPanEndEvent &&
+                        event is! FlPanCancelEvent &&
+                        event is! FlPointerExitEvent &&
+                        event is! FlLongPressEnd &&
+                        event is! FlTapCancelEvent;
 
-                    if (desiredTouch && lineTouch.lineBarSpots != null) {
-                      final value = lineTouch.lineBarSpots![0].x;
-
-                      if (value == 0 || value == 6) {
-                        setState(() {
-                          touchedValue = -1;
-                        });
-                        return null;
-                      }
-
-                      setState(() {
-                        touchedValue = value;
-                      });
-                    } else {
+                    if (!desiredTouch || lineTouch == null || lineTouch.lineBarSpots == null) {
                       setState(() {
                         touchedValue = -1;
                       });
+                      return;
                     }
+                    final value = lineTouch.lineBarSpots![0].x;
+
+                    if (value == 0 || value == 6) {
+                      setState(() {
+                        touchedValue = -1;
+                      });
+                      return null;
+                    }
+
+                    setState(() {
+                      touchedValue = value;
+                    });
                   }),
               extraLinesData: ExtraLinesData(horizontalLines: [
                 HorizontalLine(
