@@ -111,7 +111,7 @@ void main() {
 
     test('PieTouchData equality test', () {
       final PieTouchData sample1 = PieTouchData(
-        touchCallback: (response) {},
+        touchCallback: (event, response) {},
         enabled: true,
       );
       final PieTouchData sample2 = PieTouchData(
