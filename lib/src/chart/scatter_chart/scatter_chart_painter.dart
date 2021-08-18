@@ -435,15 +435,15 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     return sum;
   }
 
-  /// Makes a [ScatterTouchedSpot] based on the provided [touchInput]
+  /// Makes a [ScatterTouchedSpot] based on the provided [localPosition]
   ///
-  /// Processes [touchInput.localPosition] and checks
+  /// Processes [localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [ScatterTouchedSpot] from the elements that has been touched.
   ///
   /// Returns null if finds nothing!
   ScatterTouchedSpot? handleTouch(
-    PointerEvent touchInput,
+    Offset localPosition,
     Size size,
     PaintHolder<ScatterChartData> holder,
   ) {
@@ -456,9 +456,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       final spotPixelX = getPixelX(spot.x, chartViewSize, holder);
       final spotPixelY = getPixelY(spot.y, chartViewSize, holder);
 
-      if ((touchInput.localPosition.dx - spotPixelX).abs() <=
+      if ((localPosition.dx - spotPixelX).abs() <=
               (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold &&
-          (touchInput.localPosition.dy - spotPixelY).abs() <=
+          (localPosition.dy - spotPixelY).abs() <=
               (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold) {
         return ScatterTouchedSpot(spot, i);
       }

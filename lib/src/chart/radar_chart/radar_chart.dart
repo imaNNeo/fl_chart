@@ -44,7 +44,6 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
       child: RadarChartLeaf(
         data: _radarChartDataTween!.evaluate(animation),
         targetData: showingData,
-        touchCallback: showingData.radarTouchData.touchCallback,
       ),
     );
   }
