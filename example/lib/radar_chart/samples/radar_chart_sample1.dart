@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 
 const gridColor = Color(0xff68739f);
 const titleColor = Color(0xff8c95db);
@@ -99,18 +98,21 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
             aspectRatio: 1.3,
             child: RadarChart(
               RadarChartData(
-                radarTouchData: RadarTouchData(touchCallback: (response) {
-                  if (response.touchedSpot != null &&
-                      response.touchInput is! PointerUpEvent &&
-                      response.touchInput is! PointerExitEvent) {
-                    setState(() {
-                      selectedDataSetIndex = response.touchedSpot?.touchedDataSetIndex ?? -1;
-                    });
-                  } else {
+                radarTouchData: RadarTouchData(touchCallback: (FlTouchEvent event, response) {
+                  final desiredTouch = event is! FlPanEndEvent &&
+                      event is! FlPanCancelEvent &&
+                      event is! FlPointerExitEvent &&
+                      event is! FlLongPressEnd &&
+                      event is! FlTapCancelEvent;
+                  if (!desiredTouch) {
                     setState(() {
                       selectedDataSetIndex = -1;
                     });
+                    return;
                   }
+                  setState(() {
+                    selectedDataSetIndex = response?.touchedSpot?.touchedDataSetIndex ?? -1;
+                  });
                 }),
                 dataSets: showingDataSets(),
                 radarBackgroundColor: Colors.transparent,

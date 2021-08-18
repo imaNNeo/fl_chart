@@ -133,10 +133,12 @@ class _ScatterChartSample2State extends State {
                   );
                 },
               ),
-              touchCallback: (ScatterTouchResponse touchResponse) {
-                if (touchResponse.clickHappened && touchResponse.touchedSpot != null) {
+              touchCallback: (FlTouchEvent event, ScatterTouchResponse? touchResponse) {
+                if (touchResponse == null || touchResponse.touchedSpot == null) {
+                  return;
+                }
+                if (event is FlTapUpEvent) {
                   final sectionIndex = touchResponse.touchedSpot!.spotIndex;
-                  // Tap happened
                   setState(() {
                     if (selectedSpots.contains(sectionIndex)) {
                       selectedSpots.remove(sectionIndex);
