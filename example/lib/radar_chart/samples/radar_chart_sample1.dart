@@ -99,12 +99,7 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
             child: RadarChart(
               RadarChartData(
                 radarTouchData: RadarTouchData(touchCallback: (FlTouchEvent event, response) {
-                  final desiredTouch = event is! FlPanEndEvent &&
-                      event is! FlPanCancelEvent &&
-                      event is! FlPointerExitEvent &&
-                      event is! FlLongPressEnd &&
-                      event is! FlTapCancelEvent;
-                  if (!desiredTouch) {
+                  if (!event.isInterestedForInteractions) {
                     setState(() {
                       selectedDataSetIndex = -1;
                     });
