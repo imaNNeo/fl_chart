@@ -43,15 +43,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    /// Wr wrapped our chart with [GestureDetector], and onLongPressStart callback.
-    /// because we wanted to lock the widget from being scrolled when user long presses on it.
-    /// If we found a solution for solve this issue, then we can remove this undoubtedly.
-    return GestureDetector(
-      onLongPressStart: (details) {},
-      child: LineChartLeaf(
-        data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
-        targetData: _withTouchedIndicators(showingData),
-      ),
+    return LineChartLeaf(
+      data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
+      targetData: _withTouchedIndicators(showingData),
     );
   }
 
