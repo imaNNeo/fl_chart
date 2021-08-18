@@ -77,9 +77,8 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   void _handleBuiltInTouch(FlTouchEvent event, ScatterTouchResponse? touchResponse) {
     _providedTouchCallback?.call(event, touchResponse);
 
-    final desiredTouch = event is FlPanDownEvent ||
-        event is FlPanUpdateEvent ||
-        event is FlPointerHoverEvent;
+    final desiredTouch =
+        event is FlPanDownEvent || event is FlPanUpdateEvent || event is FlPointerHoverEvent;
 
     if (!desiredTouch || touchResponse == null || touchResponse.touchedSpot == null) {
       setState(() {

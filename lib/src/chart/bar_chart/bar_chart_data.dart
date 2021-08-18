@@ -771,7 +771,9 @@ class BarTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
-  BarTouchResponse(BarTouchedSpot? spot) : spot = spot, super();
+  BarTouchResponse(BarTouchedSpot? spot)
+      : spot = spot,
+        super();
 
   /// Copies current [BarTouchResponse] to a new [BarTouchResponse],
   /// and replaces provided values.

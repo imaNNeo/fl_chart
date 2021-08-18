@@ -30,7 +30,9 @@ class PieChartSample3State extends State {
                         event is! FlPointerExitEvent &&
                         event is! FlLongPressEnd &&
                         event is! FlTapCancelEvent;
-                    if (!desiredTouch || pieTouchResponse == null || pieTouchResponse.touchedSection == null) {
+                    if (!desiredTouch ||
+                        pieTouchResponse == null ||
+                        pieTouchResponse.touchedSection == null) {
                       touchedIndex = -1;
                       return;
                     }
