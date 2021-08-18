@@ -542,7 +542,7 @@ class BarTouchData extends FlTouchData with EquatableMixin {
   final bool handleBuiltInTouches;
 
   /// Informs the touchResponses
-  final Function(BarTouchResponse)? touchCallback;
+  final BaseTouchCallback<BarTouchResponse>? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [BarChart] shows a tooltip popup on top of the bars if
@@ -561,7 +561,7 @@ class BarTouchData extends FlTouchData with EquatableMixin {
     EdgeInsets? touchExtraThreshold,
     bool? allowTouchBarBackDraw,
     bool? handleBuiltInTouches,
-    Function(BarTouchResponse)? touchCallback,
+    BaseTouchCallback<BarTouchResponse>? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? BarTouchTooltipData(),
         touchExtraThreshold = touchExtraThreshold ?? const EdgeInsets.all(4),
         allowTouchBarBackDraw = allowTouchBarBackDraw ?? false,
@@ -577,7 +577,7 @@ class BarTouchData extends FlTouchData with EquatableMixin {
     EdgeInsets? touchExtraThreshold,
     bool? allowTouchBarBackDraw,
     bool? handleBuiltInTouches,
-    Function(BarTouchResponse)? touchCallback,
+    BaseTouchCallback<BarTouchResponse>? touchCallback,
   }) {
     return BarTouchData(
       enabled: enabled ?? this.enabled,
@@ -761,9 +761,6 @@ class BarTooltipItem with EquatableMixin {
       ];
 }
 
-/// [BarChart]'s touch callback.
-typedef BarTouchCallback = void Function(BarTouchResponse);
-
 /// Holds information about touch response in the [BarChart].
 ///
 /// You can override [BarTouchData.touchCallback] to handle touch events,
@@ -774,26 +771,15 @@ class BarTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
-  /// [touchInput] is the type of happened touch.
-  /// [clickHappened] will be true, if we detect a click event.
-  BarTouchResponse(
-    BarTouchedSpot? spot,
-    PointerEvent touchInput,
-    bool clickHappened,
-  )   : spot = spot,
-        super(touchInput, clickHappened);
+  BarTouchResponse(BarTouchedSpot? spot) : spot = spot, super();
 
   /// Copies current [BarTouchResponse] to a new [BarTouchResponse],
   /// and replaces provided values.
   BarTouchResponse copyWith({
     BarTouchedSpot? spot,
-    PointerEvent? touchInput,
-    bool? clickHappened,
   }) {
     return BarTouchResponse(
       spot ?? this.spot,
-      touchInput ?? this.touchInput,
-      clickHappened ?? this.clickHappened,
     );
   }
 }

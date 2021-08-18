@@ -248,9 +248,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     });
   }
 
-  RadarTouchedSpot? handleTouch(
-      PointerEvent touchInput, Size size, PaintHolder<RadarChartData> holder) {
-    return _getNearestTouchSpot(size, touchInput.localPosition, dataSetsPosition, holder);
+  RadarTouchedSpot? handleTouch(Offset localPosition, Size size, PaintHolder<RadarChartData> holder) {
+    return _getNearestTouchSpot(size, localPosition, dataSetsPosition, holder);
   }
 
   double _radarCenterY(Size size) => size.height / 2.0;

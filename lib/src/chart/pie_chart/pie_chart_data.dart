@@ -255,9 +255,6 @@ class PieChartSectionData {
   }
 }
 
-/// [PieChart]'s touch callback.
-typedef PieTouchCallback = void Function(PieTouchResponse);
-
 /// Holds data to handle touch events, and touch responses in the [PieChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
@@ -265,7 +262,7 @@ typedef PieTouchCallback = void Function(PieTouchResponse);
 /// to the painter, and gets touched spot, and wraps it into a concrete [PieTouchResponse].
 class PieTouchData extends FlTouchData with EquatableMixin {
   /// you can implement it to receive touches callback
-  final Function(PieTouchResponse)? touchCallback;
+  final BaseTouchCallback<PieTouchResponse>? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   ///
@@ -274,7 +271,7 @@ class PieTouchData extends FlTouchData with EquatableMixin {
   /// useful information about happened touch.
   PieTouchData({
     bool? enabled,
-    PieTouchCallback? touchCallback,
+    BaseTouchCallback<PieTouchResponse>? touchCallback,
   })  : touchCallback = touchCallback,
         super(enabled ?? true);
 
@@ -331,29 +328,15 @@ class PieTouchResponse extends BaseTouchResponse {
   final PieTouchedSection? touchedSection;
 
   /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
-  /// that contains [touchedSection], [touchedSectionIndex] that tells
-  /// you touch happened on which section,
-  /// [touchAngle] gives you angle of touch,
-  /// and [touchRadius] gives you radius of the touch.
-  /// [touchInput] is the type of happened touch.
-  PieTouchResponse(
-    PieTouchedSection? touchedSection,
-    PointerEvent touchInput,
-    bool clickHappened,
-  )   : touchedSection = touchedSection,
-        super(touchInput, clickHappened);
+  PieTouchResponse(PieTouchedSection? touchedSection) : touchedSection = touchedSection, super();
 
   /// Copies current [PieTouchResponse] to a new [PieTouchResponse],
   /// and replaces provided values.
   PieTouchResponse copyWith({
     PieTouchedSection? touchedSection,
-    PointerEvent? touchInput,
-    bool? clickHappened,
   }) {
     return PieTouchResponse(
       touchedSection ?? this.touchedSection,
-      touchInput ?? this.touchInput,
-      clickHappened ?? this.clickHappened,
     );
   }
 }
