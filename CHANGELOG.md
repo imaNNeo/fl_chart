@@ -1,7 +1,7 @@
 ## New Version
 * **IMPROVEMENT** Added `borderSide` property in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#BarChartRodData) and [BarChartRodStackItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#BarChartRodStackItem) to draw strokes around each bar and rod stack items, #714.
 * **IMPROVEMENT** Now all textStyles are nullable and theme-aware by default, #269.
-* **BUGFIX** Fixed `colorStops` calculation which used in gradient colors.
+* **BUGFIX** Fixed `colorStops` calculation which used in gradient colors, #732.
 
 ## 0.36.3
 * **IMPROVEMENT** Show proper error message when there is less than 3 [RadarEntry](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#radarentry) in [RadarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md), #694.
