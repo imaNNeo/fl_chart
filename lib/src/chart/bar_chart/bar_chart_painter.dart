@@ -45,6 +45,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData>
   @override
   void paint(Canvas canvas, Size size) {
     super.paint(canvas, size);
+
     final canvasWrapper = CanvasWrapper(canvas, size);
 
     if (data.barGroups.isEmpty) {
@@ -200,7 +201,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData>
       CanvasWrapper canvasWrapper, List<_GroupBarsPosition> groupBarsPosition) {
     final viewSize = canvasWrapper.size;
     final drawSize = getChartUsableDrawSize(viewSize);
-
+    print("drawSize:$drawSize");
     for (int i = 0; i < data.barGroups.length; i++) {
       final barGroup = data.barGroups[i];
       for (int j = 0; j < barGroup.barRods.length; j++) {
@@ -278,7 +279,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData>
               stops,
             );
           }
-
+          print("drawRRect$barRRect");
           canvasWrapper.drawRRect(barRRect, _barPaint);
         }
 
@@ -339,6 +340,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData>
               stops,
             );
           }
+          print("barRRect$barRRect");
           canvasWrapper.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
@@ -349,9 +351,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData>
               final stackToY = getPixelY(stackItem.toY, drawSize);
 
               _barPaint.color = stackItem.color;
+              var rect = Rect.fromLTRB(left, stackToY, right, stackFromY);
               canvasWrapper.save();
-              canvasWrapper
-                  .clipRect(Rect.fromLTRB(left, stackToY, right, stackFromY));
+              //  canvasWrapper.clipRect(rect);
+
               if (stackItem.hasCorner ?? false) {
                 var _barRRect = RRect.fromLTRBAndCorners(
                     left, stackToY, right, stackFromY,
@@ -359,9 +362,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData>
                     topRight: borderRadius.topRight,
                     bottomLeft: borderRadius.topLeft,
                     bottomRight: borderRadius.topLeft);
+
                 canvasWrapper.drawRRect(_barRRect, _barPaint);
               } else {
-                canvasWrapper.drawRRect(barRRect, _barPaint);
+                // canvasWrapper.clipRect(rect);
+                var _barRRect = RRect.fromLTRBAndCorners(
+                    left, stackToY, right, stackFromY,
+                    topLeft: Radius.zero,
+                    topRight: Radius.zero,
+                    bottomLeft: Radius.zero,
+                    bottomRight: Radius.zero);
+
+                canvasWrapper.drawRRect(_barRRect, _barPaint);
               }
 
               if (stackItem.textMark != null && stackItem.textMark.isNotEmpty) {
@@ -384,8 +396,59 @@ class BarChartPainter extends AxisChartPainter<BarChartData>
                 textPainter.layout();
                 var d = textPainter.width / 2;
                 var e = textPainter.height / 2;
-                // print('dy:$dy****dx:$dx***${stackItem.textMark} ****e$e');
-                canvasWrapper.drawText(textPainter, Offset(dx - d, dy - e));
+                print('textPainter:${textPainter.height}**rect$rect');
+
+                if (textPainter.height > rect.height) {
+                  final linePaint = Paint()
+                    ..isAntiAlias = false
+                    ..strokeWidth = 0.5
+                    ..color = stackItem.color;
+                  print('canvasWrapper${canvasWrapper.size}');
+                  canvasWrapper.drawLine(
+                      Offset(rect.right, rect.bottom - rect.height / 2),
+                      Offset(textPainter.width / 2 + rect.right,
+                          rect.bottom - rect.height / 2),
+                      linePaint);
+                  //
+                  // canvasWrapper.drawLine(
+                  //     Offset(150, 150), Offset(0, 0), linePaint);
+
+                  canvasWrapper.drawLine(
+                      Offset(textPainter.width / 2 + rect.right,
+                          rect.bottom - rect.height / 2),
+                      Offset(
+                          textPainter.width + rect.right,
+                          rect.bottom -
+                              rect.height / 2 -
+                              textPainter.height / 2 * i),
+                      linePaint);
+                  // TextPainter textPainters=  TextPainter
+                  final TextSpan spanp = TextSpan(
+                      style: TextStyle(
+                        fontSize: stackItem.textSize,
+                        color: stackItem.color,
+                      ),
+                      text: stackItem.textMark);
+                  final TextPainter textPainterP = TextPainter(
+                      text: spanp,
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.ltr,
+                      textScaleFactor: textScale);
+                  textPainterP.layout();
+                  var offset = Offset(
+                      textPainter.width + rect.right,
+                      rect.bottom -
+                          rect.height / 2 -
+                          textPainter.height / 2 * i -
+                          textPainter.height / 2);
+                  canvasWrapper.drawText(textPainterP, offset);
+                  print('offset:$offset**textPainterP$textPainterP');
+                } else {
+                  var offset = Offset(dx - d, dy - e);
+                  canvasWrapper.drawText(textPainter, offset);
+                  print(
+                      'dy:$dy****dx:$dx***${stackItem.textMark} ****e$offset');
+                }
               }
 
               canvasWrapper.restore();

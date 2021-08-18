@@ -34,9 +34,10 @@ abstract class BaseChartPainter<D extends BaseChartData> extends CustomPainter {
     final chartViewSize = getChartUsableDrawSize(viewSize);
 
     final topLeft = Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize());
-    final topRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
-    final bottomLeft =
-        Offset(getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
+    final topRight = Offset(
+        getLeftOffsetDrawSize() + chartViewSize.width, getTopOffsetDrawSize());
+    final bottomLeft = Offset(
+        getLeftOffsetDrawSize(), getTopOffsetDrawSize() + chartViewSize.height);
     final bottomRight = Offset(getLeftOffsetDrawSize() + chartViewSize.width,
         getTopOffsetDrawSize() + chartViewSize.height);
 
