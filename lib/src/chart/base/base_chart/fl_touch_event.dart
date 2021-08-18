@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 
@@ -9,6 +12,22 @@ abstract class FlTouchEvent {
   /// doesn't have any position (their details come from flutter engine).
   /// That's why this field is nullable
   Offset? get localPosition => null;
+
+  /// excludes exit or up events to show interactions on charts
+  bool get isInterestedForInteractions {
+    final isDesktopOrWeb = kIsWeb || Platform.isLinux || Platform.isMacOS || Platform.isWindows;
+
+    if (isDesktopOrWeb && this is FlTapUpEvent) {
+      return true;
+    }
+
+    return this is! FlPanEndEvent &&
+        this is! FlPanCancelEvent &&
+        this is! FlPointerExitEvent &&
+        this is! FlLongPressEnd &&
+        this is! FlTapUpEvent &&
+        this is! FlTapCancelEvent;
+  }
 }
 
 /// It is something like [GestureDragDownCallback] which contains [DragDownDetails]

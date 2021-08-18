@@ -201,13 +201,10 @@ class BarChartSample1State extends State<BarChartSample1> {
               );
             }),
         touchCallback: (FlTouchEvent event, barTouchResponse) {
-          final desiredTouch = event is! FlPanEndEvent &&
-              event is! FlPanCancelEvent &&
-              event is! FlPointerExitEvent &&
-              event is! FlLongPressEnd &&
-              event is! FlTapCancelEvent;
           setState(() {
-            if (!desiredTouch || barTouchResponse == null || barTouchResponse.spot == null) {
+            if (!event.isInterestedForInteractions ||
+                barTouchResponse == null ||
+                barTouchResponse.spot == null) {
               touchedIndex = -1;
               return;
             }
