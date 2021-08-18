@@ -39,7 +39,6 @@ class _LineChart extends StatelessWidget {
       );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-        touchCallback: (LineTouchResponse touchResponse) {},
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),

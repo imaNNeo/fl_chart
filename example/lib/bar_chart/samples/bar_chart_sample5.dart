@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample5 extends StatefulWidget {
@@ -33,15 +32,21 @@ class BarChartSample5State extends State<BarChartSample5> {
               minY: -20,
               groupsSpace: 12,
               barTouchData: BarTouchData(
-                touchCallback: (barTouchResponse) {
-                  setState(() {
-                    if (barTouchResponse.spot != null &&
-                        barTouchResponse.touchInput is! PointerUpEvent &&
-                        barTouchResponse.touchInput is! PointerExitEvent) {
-                      touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
-                    } else {
+                touchCallback: (FlTouchEvent event, barTouchResponse) {
+                  final desiredTouch = event is! FlPanEndEvent &&
+                      event is! FlPanCancelEvent &&
+                      event is! FlPointerExitEvent &&
+                      event is! FlLongPressEnd &&
+                      event is! FlTapCancelEvent;
+
+                  if (!desiredTouch || barTouchResponse == null || barTouchResponse.spot == null) {
+                    setState(() {
                       touchedIndex = -1;
-                    }
+                    });
+                    return;
+                  }
+                  setState(() {
+                    touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
                   });
                 },
               ),
