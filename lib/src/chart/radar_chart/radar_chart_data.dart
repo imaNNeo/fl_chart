@@ -364,9 +364,6 @@ class RadarTouchData extends FlTouchData with EquatableMixin {
       ];
 }
 
-/// [RadarChart]'s touch callback.
-typedef RadarTouchCallback = void Function(RadarTouchResponse);
-
 /// Holds information about touch response in the [RadarTouchResponse].
 ///
 /// You can override [RadarTouchData.touchCallback] to handle touch events,

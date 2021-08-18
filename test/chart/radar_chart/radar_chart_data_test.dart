@@ -152,7 +152,7 @@ void main() {
           radarTouchData1 ==
               RadarTouchData(
                 enabled: true,
-                touchCallback: (value) {},
+                touchCallback: (event, value) {},
                 touchSpotThreshold: 12,
               ),
           false);

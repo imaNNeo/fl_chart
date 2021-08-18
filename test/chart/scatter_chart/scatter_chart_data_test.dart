@@ -328,7 +328,7 @@ void main() {
       expect(
           sample ==
               sampleClone.copyWith(
-                touchCallback: (response) {},
+                touchCallback: (event, response) {},
               ),
           true);
       expect(
