@@ -231,7 +231,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   final bool handleBuiltInTouches;
 
   /// you can implement it to receive touches callback
-  final Function(ScatterTouchResponse)? touchCallback;
+  final BaseTouchCallback<ScatterTouchResponse>? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [ScatterChart] shows a tooltip popup on top of the spots if
@@ -248,7 +248,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
-    Function(ScatterTouchResponse)? touchCallback,
+    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? ScatterTouchTooltipData(),
         touchSpotThreshold = touchSpotThreshold ?? 10,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
@@ -262,7 +262,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
-    Function(ScatterTouchResponse)? touchCallback,
+    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
   }) {
     return ScatterTouchData(
       enabled: enabled ?? this.enabled,
@@ -298,28 +298,15 @@ class ScatterTouchResponse extends BaseTouchResponse {
   ///
   /// [touchedSpot] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
-  ///
-  /// [touchInput] is the type of happened touch.
-  ///
-  /// [clickHappened] will be true, if we detect a click event.
-  ScatterTouchResponse(
-    PointerEvent touchInput,
-    ScatterTouchedSpot? touchedSpot,
-    bool clickHappened,
-  )   : touchedSpot = touchedSpot,
-        super(touchInput, clickHappened);
+  ScatterTouchResponse(ScatterTouchedSpot? touchedSpot): touchedSpot = touchedSpot, super();
 
   /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
   /// and replaces provided values.
   ScatterTouchResponse copyWith({
-    PointerEvent? touchInput,
     ScatterTouchedSpot? touchedSpot,
-    bool? clickHappened,
   }) {
     return ScatterTouchResponse(
-      touchInput ?? this.touchInput,
-      touchedSpot ?? this.touchedSpot,
-      clickHappened ?? this.clickHappened,
+      touchedSpot ?? this.touchedSpot
     );
   }
 }

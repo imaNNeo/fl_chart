@@ -277,32 +277,32 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     return (viewSize.shortestSide - (maxRadius * 2)) / 2;
   }
 
-  /// Makes a [PieTouchedSection] based on the provided [touchInput]
+  /// Makes a [PieTouchedSection] based on the provided [localPosition]
   ///
-  /// Processes [PointerEvent.localPosition] and checks
+  /// Processes [localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [PieTouchedSection] from the elements that has been touched.
   PieTouchedSection? handleTouch(
-    PointerEvent touchInput,
+    Offset localPosition,
     Size size,
     PaintHolder<PieChartData> holder,
   ) {
     final data = holder.data;
     final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
-    return _getTouchedSection(size, touchInput, sectionsAngle, holder);
+    return _getTouchedSection(size, localPosition, sectionsAngle, holder);
   }
 
   /// find touched section by the value of [touchInputNotifier]
   PieTouchedSection? _getTouchedSection(
     Size viewSize,
-    PointerEvent touchInput,
+    Offset localPosition,
     List<double> sectionsAngle,
     PaintHolder<PieChartData> holder,
   ) {
     final data = holder.data;
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
-    final touchedPoint2 = touchInput.localPosition - center;
+    final touchedPoint2 = localPosition - center;
 
     final touchX = touchedPoint2.dx;
     final touchY = touchedPoint2.dy;

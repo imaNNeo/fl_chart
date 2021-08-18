@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
+import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
 class BarChart extends ImplicitlyAnimatedWidget {
@@ -29,6 +29,11 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   /// it lerps between the old [BarChartData] to the new one.
   BarChartDataTween? _barChartDataTween;
 
+  /// If [BarTouchData.handleBuiltInTouches] is true, we override the callback to handle touches internally,
+  /// but we need to keep the provided callback to notify it too.
+  BaseTouchCallback<BarTouchResponse>? _providedTouchCallback;
+
+
   final Map<int, List<int>> _showingTouchedTooltips = {};
 
   @override
@@ -43,7 +48,6 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
       child: BarChartLeaf(
         data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
-        touchCallback: _handleBuiltInTouch,
       ),
     );
   }
@@ -72,6 +76,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   BarChartData _getData() {
     final barTouchData = widget.data.barTouchData;
     if (barTouchData.enabled && barTouchData.handleBuiltInTouches) {
+      _providedTouchCallback = barTouchData.touchCallback;
       return widget.data.copyWith(
         barTouchData: widget.data.barTouchData.copyWith(touchCallback: _handleBuiltInTouch),
       );
@@ -79,29 +84,27 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     return widget.data;
   }
 
-  void _handleBuiltInTouch(BarTouchResponse touchResponse) {
-    widget.data.barTouchData.touchCallback?.call(touchResponse);
+  void _handleBuiltInTouch(FlTouchEvent event, BarTouchResponse? touchResponse) {
+    _providedTouchCallback?.call(event, touchResponse);
 
-    if (touchResponse.touchInput is PointerDownEvent ||
-        touchResponse.touchInput is PointerMoveEvent ||
-        touchResponse.touchInput is PointerHoverEvent) {
-      setState(() {
-        final spot = touchResponse.spot;
-        if (spot == null) {
-          _showingTouchedTooltips.clear();
-          return;
-        }
-        final groupIndex = spot.touchedBarGroupIndex;
-        final rodIndex = spot.touchedRodDataIndex;
+    final desiredTouch = event is! FlPanEndEvent &&
+        event is! FlPanCancelEvent &&
+        event is! FlPointerExitEvent &&
+        event is! FlLongPressEnd &&
+        event is! FlTapCancelEvent;
 
-        _showingTouchedTooltips.clear();
-        _showingTouchedTooltips[groupIndex] = [rodIndex];
-      });
-    } else {
-      setState(() {
-        _showingTouchedTooltips.clear();
-      });
+    if (!desiredTouch || touchResponse == null || touchResponse.spot == null) {
+      _showingTouchedTooltips.clear();
+      return;
     }
+    setState(() {
+      final spot = touchResponse.spot!;
+      final groupIndex = spot.touchedBarGroupIndex;
+      final rodIndex = spot.touchedRodDataIndex;
+
+      _showingTouchedTooltips.clear();
+      _showingTouchedTooltips[groupIndex] = [rodIndex];
+    });
   }
 
   @override
