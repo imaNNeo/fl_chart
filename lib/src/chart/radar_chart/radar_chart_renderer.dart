@@ -1,46 +1,41 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 
 import 'radar_chart_painter.dart';
 
 /// Low level RadarChart Widget.
 class RadarChartLeaf extends LeafRenderObjectWidget {
-  const RadarChartLeaf({Key? key, required this.data, required this.targetData, this.touchCallback})
-      : super(key: key);
+  const RadarChartLeaf({Key? key, required this.data, required this.targetData}) : super(key: key);
 
   final RadarChartData data, targetData;
 
-  final RadarTouchCallback? touchCallback;
-
   @override
-  RenderRadarChart createRenderObject(BuildContext context) => RenderRadarChart(
-      context, data, targetData, MediaQuery.of(context).textScaleFactor, touchCallback);
+  RenderRadarChart createRenderObject(BuildContext context) =>
+      RenderRadarChart(context, data, targetData, MediaQuery.of(context).textScaleFactor);
 
   @override
   void updateRenderObject(BuildContext context, RenderRadarChart renderObject) {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor
-      ..touchCallback = touchCallback;
+      ..textScale = MediaQuery.of(context).textScaleFactor;
   }
 }
 
 /// Renders our RadarChart, also handles hitTest.
-class RenderRadarChart extends RenderBox implements MouseTrackerAnnotation {
-  RenderRadarChart(BuildContext context, RadarChartData data, RadarChartData targetData,
-      double textScale, RadarTouchCallback? touchCallback)
+class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
+  RenderRadarChart(BuildContext context, RadarChartData data, RadarChartData targetData, double textScale)
       : _buildContext = context,
         _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        _touchCallback = touchCallback;
+        super(targetData.radarTouchData.touchCallback);
 
   final BuildContext _buildContext;
 
@@ -57,6 +52,7 @@ class RenderRadarChart extends RenderBox implements MouseTrackerAnnotation {
   set targetData(RadarChartData value) {
     if (_targetData == value) return;
     _targetData = value;
+    super.touchCallback = _targetData.radarTouchData.touchCallback;
     markNeedsPaint();
   }
 
@@ -68,29 +64,10 @@ class RenderRadarChart extends RenderBox implements MouseTrackerAnnotation {
     markNeedsPaint();
   }
 
-  RadarTouchCallback? _touchCallback;
-  set touchCallback(RadarTouchCallback? value) {
-    _touchCallback = value;
-  }
-
   final _painter = RadarChartPainter();
 
   PaintHolder<RadarChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
-  }
-
-  RadarTouchedSpot? _lastTouchedSpot;
-
-  late bool _validForMouseTracker;
-
-  @override
-  void performLayout() {
-    size = computeDryLayout(constraints);
-  }
-
-  @override
-  Size computeDryLayout(BoxConstraints constraints) {
-    return Size(constraints.maxWidth, constraints.maxHeight);
   }
 
   @override
@@ -103,64 +80,8 @@ class RenderRadarChart extends RenderBox implements MouseTrackerAnnotation {
   }
 
   @override
-  bool hitTestSelf(Offset position) => true;
-
-  @override
-  void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    assert(debugHandleEvent(event, entry));
-    _handleEvent(event);
-  }
-
-  @override
-  PointerExitEventListener? get onExit => (PointerExitEvent event) {
-        _handleEvent(event);
-      };
-
-  @override
-  PointerEnterEventListener? get onEnter => null;
-
-  @override
-  MouseCursor get cursor => MouseCursor.defer;
-
-  @override
-  bool get validForMouseTracker => _validForMouseTracker;
-
-  void _handleEvent(PointerEvent event) {
-    if (_touchCallback == null) {
-      return;
-    }
-    var response = RadarTouchResponse(null, event, false);
-
-    var touchedSpot = _painter.handleTouch(event, size, paintHolder);
-    if (touchedSpot == null) {
-      _touchCallback?.call(response);
-      return;
-    }
-    response = response.copyWith(
-      touchedSpot: touchedSpot,
-    );
-
-    if (event is PointerDownEvent) {
-      _lastTouchedSpot = touchedSpot;
-    } else if (event is PointerUpEvent) {
-      if (_lastTouchedSpot == touchedSpot) {
-        response = response.copyWith(clickHappened: true);
-      }
-      _lastTouchedSpot = null;
-    }
-
-    _touchCallback?.call(response);
-  }
-
-  @override
-  void attach(PipelineOwner owner) {
-    super.attach(owner);
-    _validForMouseTracker = true;
-  }
-
-  @override
-  void detach() {
-    _validForMouseTracker = false;
-    super.detach();
+  RadarTouchResponse getResponseAtLocation(Offset localPosition) {
+    var touchedSpot = _painter.handleTouch(localPosition, size, paintHolder);
+    return RadarTouchResponse(touchedSpot);
   }
 }

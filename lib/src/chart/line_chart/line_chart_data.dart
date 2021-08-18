@@ -1363,7 +1363,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   final GetTouchLineY getTouchLineEnd;
 
   /// Informs the touchResponses
-  final LineTouchCallback? touchCallback;
+  final BaseTouchCallback<LineTouchResponse>? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
   /// if [handleBuiltInTouches] is true, [LineChart] shows a tooltip popup on top of the spots if
@@ -1385,7 +1385,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     bool? handleBuiltInTouches,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
-    LineTouchCallback? touchCallback,
+    BaseTouchCallback<LineTouchResponse>? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
@@ -1405,7 +1405,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
     bool? handleBuiltInTouches,
-    Function(LineTouchResponse)? touchCallback,
+    BaseTouchCallback<LineTouchResponse>? touchCallback,
   }) {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
@@ -1695,9 +1695,6 @@ class ShowingTooltipIndicators with EquatableMixin {
   List<Object?> get props => [showingSpots];
 }
 
-/// [LineChart]'s touch callback.
-typedef LineTouchCallback = void Function(LineTouchResponse);
-
 /// Holds information about touch response in the [LineChart].
 ///
 /// You can override [LineTouchData.touchCallback] to handle touch events,
@@ -1709,25 +1706,15 @@ class LineTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
-  /// [touchInput] is the type of happened touch.
-  /// [clickHappened] will be true, if we detect a click event.
-  LineTouchResponse(
-    this.lineBarSpots,
-    PointerEvent touchInput,
-    bool clickHappened,
-  ) : super(touchInput, clickHappened);
+  LineTouchResponse(this.lineBarSpots) : super();
 
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
     List<LineBarSpot>? lineBarSpots,
-    PointerEvent? touchInput,
-    bool? clickHappened,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,
-      touchInput ?? this.touchInput,
-      clickHappened ?? this.clickHappened,
     );
   }
 }

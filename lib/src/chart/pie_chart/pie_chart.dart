@@ -55,9 +55,6 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
       child: PieChartLeaf(
         data: _pieChartDataTween!.evaluate(animation),
         targetData: showingData,
-        touchCallback: (response) {
-          showingData.pieTouchData.touchCallback?.call(response);
-        },
       ),
     );
   }

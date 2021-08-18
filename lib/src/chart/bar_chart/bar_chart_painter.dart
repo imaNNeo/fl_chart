@@ -750,21 +750,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     return sum;
   }
 
-  /// Makes a [BarTouchedSpot] based on the provided [touchInput]
+  /// Makes a [BarTouchedSpot] based on the provided [localPosition]
   ///
-  /// Processes [PointerEvent.localPosition] and checks
+  /// Processes [localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [BarTouchedSpot] from the elements that has been touched.
   ///
   /// Returns null if finds nothing!
   BarTouchedSpot? handleTouch(
-    PointerEvent touchInput,
+    Offset localPosition,
     Size viewSize,
     PaintHolder<BarChartData> holder,
   ) {
     final data = holder.data;
     final targetData = holder.targetData;
-    final touchedPoint = touchInput.localPosition;
+    final touchedPoint = localPosition;
     if (_groupBarsPosition == null) {
       final groupsX = _calculateGroupsX(viewSize, data.barGroups, data.alignment, holder);
       _groupBarsPosition = _calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
