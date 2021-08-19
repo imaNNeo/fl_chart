@@ -93,6 +93,11 @@ class _ScatterChartSample2State extends State {
             scatterTouchData: ScatterTouchData(
               enabled: true,
               handleBuiltInTouches: false,
+              mouseCursorResolver: (FlTouchEvent touchEvent, ScatterTouchResponse? response) {
+                return response == null || response.touchedSpot == null
+                    ? MouseCursor.defer
+                    : SystemMouseCursors.click;
+              },
               touchTooltipData: ScatterTouchTooltipData(
                 tooltipBgColor: Colors.black,
                 getTooltipItems: (ScatterSpot touchedBarSpot) {
