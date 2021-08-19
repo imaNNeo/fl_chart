@@ -122,3 +122,23 @@ Can be used to display a title text for each axis. Titles for the vertical axes 
 |x1|start interval of vertical rectangle|null|
 |x2|end interval of vertical rectangle|null|
 |color|color of the rectangle|Colors.white|
+
+### FlTouchEvent
+Base class for all supported touch/pointer events.
+
+|PropName|Description|Inspired from|
+|:-------|:----------|:----------|
+|FlPanDownEvent|Contains information of happened touch gesture|[GestureDragDownCallback](https://api.flutter.dev/flutter/gestures/GestureDragDownCallback.html)|
+|FlPanStartEvent|When a pointer has contacted the screen and has begun to move.|[GestureDragStartCallback](https://api.flutter.dev/flutter/gestures/GestureDragStartCallback.html)|
+|FlPanUpdateEvent|When a pointer that is in contact with the screen and moving has moved again.|[GestureDragUpdateCallback](https://api.flutter.dev/flutter/gestures/GestureDragUpdateCallback.html)|
+|FlPanCancelEvent|When the pointer that previously triggered a `FlPanStartEvent` did not complete.|[GestureDragCancelCallback](https://api.flutter.dev/flutter/gestures/GestureDragCancelCallback.html)|
+|FlPanEndEvent|When a pointer that was previously in contact with the screen and moving is no longer in contact with the screen.|[GestureDragEndCallback](https://api.flutter.dev/flutter/gestures/GestureDragEndCallback.html)|
+|FlTapDownEvent|When a pointer that might cause a tap has contacted the screen.|[GestureTapDownCallback](https://api.flutter.dev/flutter/gestures/GestureTapDownCallback.html)|
+|FlTapCancelEvent|When the pointer that previously triggered a `FlTapDownEvent` will not end up causing a tap.|[GestureTapCancelCallback](https://api.flutter.dev/flutter/gestures/GestureTapCancelCallback.html)|
+|FlTapUpEvent|When a pointer that will trigger a tap has stopped contacting the screen.|[GestureTapUpCallback](https://api.flutter.dev/flutter/gestures/GestureTapUpCallback.html)|
+|FlLongPressStart|Called When a pointer has remained in contact with the screen at the same location for a long period of time.|[GestureLongPressStartCallback](https://api.flutter.dev/flutter/gestures/GestureLongPressStartCallback.html)|
+|FlLongPressMoveUpdate|When a pointer is moving after being held in contact at the same location for a long period of time. Reports the new position and its offset from the original down position.|[GestureLongPressMoveUpdateCallback](https://api.flutter.dev/flutter/gestures/GestureLongPressMoveUpdateCallback.html)|
+|FlLongPressEnd|When a pointer stops contacting the screen after a long press gesture was detected. Also reports the position where the pointer stopped contacting the screen.|[GestureLongPressEndCallback](https://api.flutter.dev/flutter/gestures/GestureLongPressEndCallback.html)|
+|FlPointerEnterEvent|The pointer has moved with respect to the device while the pointer is or is not in contact with the device, and it has entered our chart.|[PointerEnterEventListener](https://api.flutter.dev/flutter/services/PointerEnterEventListener.html)|
+|FlPointerHoverEvent|The pointer has moved with respect to the device while the pointer is not in contact with the device.|[PointerHoverEventListener](https://api.flutter.dev/flutter/services/PointerHoverEventListener.html)|
+|FlPointerExitEvent|The pointer has moved with respect to the device while the pointer is or is not in contact with the device, and exited our chart.|[PointerExitEventListener](https://api.flutter.dev/flutter/services/PointerExitEventListener.html)|
