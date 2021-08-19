@@ -33,7 +33,10 @@ abstract class FlTouchEvent {
   }
 }
 
-/// It is something like [GestureDragDownCallback] which contains [DragDownDetails]
+/// When a pointer has contacted the screen and might begin to move
+///
+/// The [details] object provides the position of the touch.
+/// Inspired from [GestureDragDownCallback]
 class FlPanDownEvent extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final DragDownDetails details;
@@ -45,7 +48,11 @@ class FlPanDownEvent extends FlTouchEvent {
   FlPanDownEvent(this.details);
 }
 
-/// It is something like [GestureDragStartCallback] which contains [DragStartDetails]
+/// When a pointer has contacted the screen and has begun to move.
+///
+/// The [details] object provides the position of the touch when it first
+/// touched the surface.
+/// Inspired from [GestureDragStartCallback].
 class FlPanStartEvent extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final DragStartDetails details;
@@ -58,7 +65,12 @@ class FlPanStartEvent extends FlTouchEvent {
   FlPanStartEvent(this.details);
 }
 
-/// It is something like [GestureDragUpdateCallback] which contains [DragUpdateDetails]
+/// When a pointer that is in contact with the screen and moving
+/// has moved again.
+///
+/// The [details] object provides the position of the touch and the distance it
+/// has traveled since the last update.
+/// Inspired from [GestureDragUpdateCallback]
 class FlPanUpdateEvent extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final DragUpdateDetails details;
@@ -70,10 +82,16 @@ class FlPanUpdateEvent extends FlTouchEvent {
   FlPanUpdateEvent(this.details);
 }
 
-/// It is something like [GestureDragCancelCallback]
+/// When the pointer that previously triggered a [FlPanStartEvent] did not complete.
+/// Inspired from [GestureDragCancelCallback]
 class FlPanCancelEvent extends FlTouchEvent {}
 
-/// It is something like [GestureDragEndCallback] which contains [DragEndDetails]
+/// When a pointer that was previously in contact with the screen
+/// and moving is no longer in contact with the screen.
+///
+/// The velocity at which the pointer was moving when it stopped contacting
+/// the screen is available in the [details].
+/// Inspired from [GestureDragEndCallback]
 class FlPanEndEvent extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final DragEndDetails details;
@@ -81,7 +99,12 @@ class FlPanEndEvent extends FlTouchEvent {
   FlPanEndEvent(this.details);
 }
 
-/// It is something like [GestureTapDownCallback] which contains [TapDownDetails]
+/// When a pointer that might cause a tap has contacted the
+/// screen.
+///
+/// The position at which the pointer contacted the screen is available in the
+/// [details].
+/// Inspired from [GestureTapDownCallback]
 class FlTapDownEvent extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final TapDownDetails details;
@@ -93,10 +116,16 @@ class FlTapDownEvent extends FlTouchEvent {
   FlTapDownEvent(this.details);
 }
 
-/// It is something like [GestureTapCancelCallback]
+/// When the pointer that previously triggered a [FlTapDownEvent] will not end up causing a tap.
+/// Inspired from [GestureTapCancelCallback]
 class FlTapCancelEvent extends FlTouchEvent {}
 
-/// It is something like [GestureTapUpCallback] which contains [TapUpDetails]
+/// When a pointer that will trigger a tap has stopped contacting
+/// the screen.
+///
+/// The position at which the pointer stopped contacting the screen is available
+/// in the [details].
+/// Inspired from [GestureTapUpCallback]
 class FlTapUpEvent extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final TapUpDetails details;
@@ -108,7 +137,12 @@ class FlTapUpEvent extends FlTouchEvent {
   FlTapUpEvent(this.details);
 }
 
-/// It is something like [GestureLongPressStartCallback] which contains [LongPressStartDetails]
+/// Called When a pointer has remained in contact with the screen at the
+/// same location for a long period of time.
+///
+/// Details are available in the [details].
+///
+/// Inspired from [GestureLongPressStartCallback]
 class FlLongPressStart extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final LongPressStartDetails details;
@@ -120,7 +154,13 @@ class FlLongPressStart extends FlTouchEvent {
   FlLongPressStart(this.details);
 }
 
-/// It is something like [GestureLongPressMoveUpdateCallback] which contains [LongPressMoveUpdateDetails]
+/// When a pointer is moving after being held in contact at the same
+/// location for a long period of time. Reports the new position and its offset
+/// from the original down position.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [GestureLongPressMoveUpdateCallback]
 class FlLongPressMoveUpdate extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final LongPressMoveUpdateDetails details;
@@ -132,7 +172,13 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
   FlLongPressMoveUpdate(this.details);
 }
 
-/// It is something like [GestureLongPressEndCallback] which contains [LongPressEndDetails]
+/// When a pointer stops contacting the screen after a long press
+/// gesture was detected. Also reports the position where the pointer stopped
+/// contacting the screen.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [GestureLongPressEndCallback]
 class FlLongPressEnd extends FlTouchEvent {
   /// Contains information of happened touch gesture
   final LongPressEndDetails details;
@@ -144,7 +190,12 @@ class FlLongPressEnd extends FlTouchEvent {
   FlLongPressEnd(this.details);
 }
 
-/// It is something like [PointerEnterEventListener] which contains [PointerEnterEvent]
+/// The pointer has moved with respect to the device while the pointer is or is
+/// not in contact with the device, and it has entered our chart.
+///
+/// Details are available in the [event]
+///
+/// Inspired from [PointerEnterEventListener]
 class FlPointerEnterEvent extends FlTouchEvent {
   /// Contains information of happened pointer event
   final PointerEnterEvent event;
@@ -156,7 +207,12 @@ class FlPointerEnterEvent extends FlTouchEvent {
   FlPointerEnterEvent(this.event);
 }
 
-/// It is something like [PointerHoverEventListener] which contains [PointerHoverEvent]
+/// The pointer has moved with respect to the device while the pointer is not
+/// in contact with the device.
+///
+/// Details are available in the [event]
+///
+/// Inspired from [PointerHoverEventListener]
 class FlPointerHoverEvent extends FlTouchEvent {
   /// Contains information of happened pointer event
   final PointerHoverEvent event;
@@ -168,7 +224,10 @@ class FlPointerHoverEvent extends FlTouchEvent {
   FlPointerHoverEvent(this.event);
 }
 
-/// It is something like [PointerExitEventListener] which contains [PointerExitEvent]
+/// The pointer has moved with respect to the device while the pointer is or is
+/// not in contact with the device, and exited our chart.
+///
+/// Inspired from [PointerExitEventListener] which contains [PointerExitEvent]
 class FlPointerExitEvent extends FlTouchEvent {
   /// Contains information of happened pointer event
   final PointerExitEvent event;

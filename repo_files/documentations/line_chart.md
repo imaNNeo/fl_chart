@@ -171,7 +171,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
 |getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
-|touchCallback| listen to this callback to retrieve touch events, it gives you a [LineTouchResponse](#LineTouchResponse)| null|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [LineTouchResponse](#LineTouchResponse)| null|
 
 
 ### LineTouchTooltipData
@@ -212,12 +212,9 @@ When you change the chart's state, it animates to the new state internally (usin
 
 
 ### LineTouchResponse
-###### you can listen to touch behaviors stream and retrieve this object when any touch action happend.
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |lineBarSpots|a list of [LineBarSpot](#LineBarSpot)|null|
-|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
-|clickHappened|If we detect a click event, this property is true|false|
 
 ### ShowingTooltipIndicators
 |PropName|Description|default value|
