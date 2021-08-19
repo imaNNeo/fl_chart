@@ -47,7 +47,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
     final centerRadius = _calculateCenterRadius(canvasWrapper.size, holder);
 
-    _drawCenterSpace(canvasWrapper, holder);
+    _drawCenterSpace(canvasWrapper, centerRadius, holder);
     _drawSections(canvasWrapper, sectionsAngle, centerRadius, holder);
     _drawTexts(context, canvasWrapper, holder, centerRadius);
   }
@@ -58,15 +58,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }).toList();
   }
 
-  void _drawCenterSpace(CanvasWrapper canvasWrapper, PaintHolder<PieChartData> holder) {
+  void _drawCenterSpace(
+      CanvasWrapper canvasWrapper, double centerRadius, PaintHolder<PieChartData> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final centerX = viewSize.width / 2;
     final centerY = viewSize.height / 2;
 
     _centerSpacePaint.color = data.centerSpaceColor;
-    canvasWrapper.drawCircle(
-        Offset(centerX, centerY), _calculateCenterRadius(viewSize, holder), _centerSpacePaint);
+    canvasWrapper.drawCircle(Offset(centerX, centerY), centerRadius, _centerSpacePaint);
   }
 
   void _drawSections(
