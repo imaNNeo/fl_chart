@@ -17,6 +17,9 @@ abstract class FlTouchEvent {
   bool get isInterestedForInteractions {
     final isDesktopOrWeb = kIsWeb || Platform.isLinux || Platform.isMacOS || Platform.isWindows;
 
+    /// In desktop when mouse hovers into a chart element using [FlPointerHoverEvent], we show the interaction
+    /// and when tap happens at the same position, interaction will be dismissed because of [FlTapUpEvent].
+    /// That's why we exclude it on desktop or web
     if (isDesktopOrWeb && this is FlTapUpEvent) {
       return true;
     }
