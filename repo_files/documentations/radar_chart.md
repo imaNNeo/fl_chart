@@ -49,7 +49,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|touchCallback| listen to this callback to retrieve touch events, it gives you a [RadarTouchResponse](#RadarTouchResponse)| null|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [RadarTouchResponse](#RadarTouchResponse)| null|
 |touchSpotThreshold|the threshold of the touch accuracy. we find the nearest spots on touched position based on this field.|10|
 
 
@@ -57,8 +57,6 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |touchedSpot|the [RadarTouchedSpot](#RadarTouchedSpot) that user touched| null |
-|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
-|clickHappened|If we detect a click event, this property is true|false|
 
 ### RadarTouchedSpot
 |PropName|Description|default value|
