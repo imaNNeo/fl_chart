@@ -50,14 +50,12 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|touchCallback| listen to this callback to retrieve touch events, it gives you a [PieTouchResponse](#PieTouchResponse)| null|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [PieTouchResponse](#PieTouchResponse)| null|
 
 ### PieTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |touchedSection|Instance of [PieTouchedSection](#PieTouchedSection) which holds data about the touched section|null|
-|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
-|clickHappened|If we detect a click event, this property is tru|false|
 
 ### PieTouchedSection
 |PropName|Description|default value|

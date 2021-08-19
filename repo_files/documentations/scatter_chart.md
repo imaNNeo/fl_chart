@@ -42,8 +42,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |touchTooltipData|a [ScatterTouchTooltipData](#ScatterTouchTooltipData), that determines how show the tooltip on top of touched spot (appearance of the showing tooltip bubble)|ScatterTouchTooltipData()|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
-|touchCallback| listen to this callback to retrieve touch events, it gives you a [ScatterTouchResponse](#ScatterTouchResponse)| null|
-
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)| null|
 
 ### ScatterTouchTooltipData
 |PropName|Description|default value|
@@ -71,8 +70,6 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |touchedSpot|Instance of [ScatterTouchedSpot](#ScatterTouchedSpot) which holds data about the touched section|null|
-|touchInput|a [PointerEvent](https://api.flutter.dev/flutter/gestures/PointerEvent-class.html) that is the touch behaviour|null|
-|clickHappened|If we detect a click event, this property is true|false|
 
 ### ScatterTouchedSpot
 |PropName|Description|default value|
