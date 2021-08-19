@@ -369,13 +369,6 @@ final FlGridData flGridData5 = FlGridData(
   getDrawingVerticalLine: null,
 );
 
-final FlTouchData touchData1 = FlTouchData(
-  false,
-);
-final FlTouchData touchData2 = FlTouchData(
-  false,
-);
-
 final FlBorderData borderData1 = FlBorderData(
   show: true,
   border: Border.all(color: Colors.green),
