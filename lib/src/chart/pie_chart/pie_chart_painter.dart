@@ -65,7 +65,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final centerY = viewSize.height / 2;
 
     _centerSpacePaint.color = data.centerSpaceColor;
-    canvasWrapper.drawCircle(Offset(centerX, centerY), data.centerSpaceRadius, _centerSpacePaint);
+    canvasWrapper.drawCircle(
+        Offset(centerX, centerY), _calculateCenterRadius(viewSize, holder), _centerSpacePaint);
   }
 
   void _drawSections(
