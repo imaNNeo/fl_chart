@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
@@ -1340,7 +1341,7 @@ class ExtraLinesData with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
-class LineTouchData extends FlTouchData with EquatableMixin {
+class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;
 
@@ -1366,6 +1367,10 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   final BaseTouchCallback<LineTouchResponse>? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [LineTouchResponse]
+  ///
   /// if [handleBuiltInTouches] is true, [LineChart] shows a tooltip popup on top of the spots if
   /// touch occurs (or you can show it manually using, [LineChartData.showingTooltipIndicators])
   /// and also it shows an indicator (contains a thicker line and larger dot on the targeted spot),
@@ -1379,6 +1384,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// useful information about happened touch.
   LineTouchData({
     bool? enabled,
+    MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
@@ -1393,12 +1399,16 @@ class LineTouchData extends FlTouchData with EquatableMixin {
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
         touchCallback = touchCallback,
-        super(enabled ?? true);
+        super(
+          enabled ?? true,
+          mouseCursorResolver: mouseCursorResolver,
+        );
 
   /// Copies current [LineTouchData] to a new [LineTouchData],
   /// and replaces provided values.
   LineTouchData copyWith({
     bool? enabled,
+    MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
@@ -1409,6 +1419,7 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   }) {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
+      mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
@@ -1422,6 +1433,8 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
+        enabled,
+        mouseCursorResolver,
         touchTooltipData,
         getTouchedSpotIndicator,
         touchSpotThreshold,
@@ -1429,7 +1442,6 @@ class LineTouchData extends FlTouchData with EquatableMixin {
         getTouchLineStart,
         getTouchLineEnd,
         touchCallback,
-        enabled,
       ];
 }
 

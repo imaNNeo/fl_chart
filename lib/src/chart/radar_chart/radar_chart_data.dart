@@ -335,7 +335,7 @@ class RadarEntry with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
-class RadarTouchData extends FlTouchData with EquatableMixin {
+class RadarTouchData extends FlTouchData<RadarTouchResponse> with EquatableMixin {
   /// you can implement it to receive touches callback
   final BaseTouchCallback<RadarTouchResponse>? touchCallback;
 
@@ -344,21 +344,29 @@ class RadarTouchData extends FlTouchData with EquatableMixin {
 
   /// You can disable or enable the touch system using [enabled] flag,
   ///
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [RadarTouchResponse]
+  ///
   /// You can listen to touch events using [touchCallback],
   /// It gives you a [RadarTouchResponse] that contains some
   /// useful information about happened touch.
   RadarTouchData({
     bool? enabled,
+    MouseCursorResolver<RadarTouchResponse>? mouseCursorResolver,
     BaseTouchCallback<RadarTouchResponse>? touchCallback,
     double? touchSpotThreshold,
   })  : touchCallback = touchCallback,
         touchSpotThreshold = touchSpotThreshold ?? 10,
-        super(enabled ?? true);
+        super(
+          enabled ?? true,
+          mouseCursorResolver: mouseCursorResolver,
+        );
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        mouseCursorResolver,
         touchSpotThreshold,
         touchCallback,
       ];

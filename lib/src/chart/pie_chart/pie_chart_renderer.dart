@@ -51,7 +51,10 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
         _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.pieTouchData.touchCallback);
+        super(
+          targetData.pieTouchData.touchCallback,
+          targetData.pieTouchData.mouseCursorResolver,
+        );
 
   final BuildContext _buildContext;
 
@@ -70,6 +73,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     if (_targetData == value) return;
     _targetData = value;
     super.touchCallback = _targetData.pieTouchData.touchCallback;
+    super.mouseCursorResolver = _targetData.pieTouchData.mouseCursorResolver;
     // We must update layout to draw badges correctly!
     markNeedsLayout();
   }
