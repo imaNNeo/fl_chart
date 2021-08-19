@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
@@ -260,25 +261,33 @@ class PieChartSectionData {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [PieTouchResponse].
-class PieTouchData extends FlTouchData with EquatableMixin {
+class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
   /// you can implement it to receive touches callback
   final BaseTouchCallback<PieTouchResponse>? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [PieTouchResponse]
   ///
   /// You can listen to touch events using [touchCallback],
   /// It gives you a [PieTouchResponse] that contains some
   /// useful information about happened touch.
   PieTouchData({
     bool? enabled,
+    MouseCursorResolver<PieTouchResponse>? mouseCursorResolver,
     BaseTouchCallback<PieTouchResponse>? touchCallback,
   })  : touchCallback = touchCallback,
-        super(enabled ?? true);
+        super(
+          enabled ?? true,
+          mouseCursorResolver: mouseCursorResolver,
+        );
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        mouseCursorResolver,
       ];
 }
 

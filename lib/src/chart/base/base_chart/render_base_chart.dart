@@ -10,7 +10,11 @@ import 'base_chart_data.dart';
 abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     implements MouseTrackerAnnotation {
   /// It handles touch/pointer events flow and invokes [touchCallback] with [FlTouchEvent] and [BaseTouchResponse]
-  RenderBaseChart(BaseTouchCallback<R>? touchCallback) : _touchCallback = touchCallback {
+  RenderBaseChart(
+    BaseTouchCallback<R>? touchCallback,
+    MouseCursorResolver<R>? mouseCursorResolver,
+  )   : _touchCallback = touchCallback,
+        _mouseCursorResolver = mouseCursorResolver {
     initGestureRecognizers();
   }
 
@@ -21,6 +25,16 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (_touchCallback == value) return;
     _touchCallback = value;
   }
+
+  MouseCursorResolver<R>? get mouseCursorResolver => _mouseCursorResolver;
+  MouseCursorResolver<R>? _mouseCursorResolver;
+
+  set mouseCursorResolver(MouseCursorResolver<R>? value) {
+    if (_mouseCursorResolver == value) return;
+    _mouseCursorResolver = value;
+  }
+
+  MouseCursor _latestMouseCursor = MouseCursor.defer;
 
   late bool _validForMouseTracker;
 
@@ -119,13 +133,19 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       response = getResponseAtLocation(localPosition);
     }
     _touchCallback!(event, response);
+
+    if (_mouseCursorResolver == null) {
+      _latestMouseCursor = MouseCursor.defer;
+    } else {
+      _latestMouseCursor = _mouseCursorResolver!(event, response);
+    }
   }
 
   /// Represents the mouse cursor style when hovers on our chart
   /// In the future we can change it runtime, for example we can turn it to
   /// [SystemMouseCursors.click] when mouse hovers a specific point of our chart.
   @override
-  MouseCursor get cursor => MouseCursor.defer;
+  MouseCursor get cursor => _latestMouseCursor;
 
   /// [MouseTracker] will catch us if this variable is true
   @override

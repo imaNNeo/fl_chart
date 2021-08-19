@@ -219,7 +219,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [ScatterTouchResponse].
-class ScatterTouchData extends FlTouchData with EquatableMixin {
+class ScatterTouchData extends FlTouchData<ScatterTouchResponse> with EquatableMixin {
   /// show a tooltip on touched spots
   final ScatterTouchTooltipData touchTooltipData;
 
@@ -234,6 +234,10 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   final BaseTouchCallback<ScatterTouchResponse>? touchCallback;
 
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [ScatterTouchResponse]
+  ///
   /// if [handleBuiltInTouches] is true, [ScatterChart] shows a tooltip popup on top of the spots if
   /// touch occurs (or you can show it manually using, [ScatterChartData.showingTooltipIndicators])
   /// You can customize this tooltip using [touchTooltipData],
@@ -245,6 +249,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   /// useful information about happened touch.
   ScatterTouchData({
     bool? enabled,
+    MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
@@ -253,12 +258,16 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
         touchSpotThreshold = touchSpotThreshold ?? 10,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         touchCallback = touchCallback,
-        super(enabled ?? true);
+        super(
+          enabled ?? true,
+          mouseCursorResolver: mouseCursorResolver,
+        );
 
   /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
   /// and replaces provided values.
   ScatterTouchData copyWith({
     bool? enabled,
+    MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
@@ -266,6 +275,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   }) {
     return ScatterTouchData(
       enabled: enabled ?? this.enabled,
+      mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
@@ -277,6 +287,7 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   @override
   List<Object?> get props => [
         enabled,
+        mouseCursorResolver,
         touchTooltipData,
         touchSpotThreshold,
         handleBuiltInTouches,
