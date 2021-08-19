@@ -165,6 +165,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
+|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [LineTouchResponse](#LineTouchResponse)|MouseCursor.defer|
 |touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|

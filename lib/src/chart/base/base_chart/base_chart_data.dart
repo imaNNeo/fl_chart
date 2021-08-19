@@ -74,17 +74,26 @@ class FlBorderData with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
-class FlTouchData with EquatableMixin {
+abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [BaseTouchResponse]
+  final MouseCursorResolver<R>? mouseCursorResolver;
+
   /// You can disable or enable the touch system using [enabled] flag,
-  FlTouchData(bool enabled) : enabled = enabled;
+  FlTouchData(
+    bool enabled, {
+    MouseCursorResolver<R>? mouseCursorResolver,
+  })  : enabled = enabled,
+        mouseCursorResolver = mouseCursorResolver;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        mouseCursorResolver,
       ];
 }
 
@@ -146,6 +155,11 @@ TextStyle? defaultGetTitleTextStyle(BuildContext context, double value) => null;
 
 /// Chart's touch callback.
 typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(FlTouchEvent, R?);
+
+/// It gives you the happened [FlTouchEvent] and existed [R] data at the event's location,
+/// then you should provide a [MouseCursor] to change the cursor at the event's location.
+/// For example you can pass the [SystemMouseCursors.click] to change the mouse cursor to click.
+typedef MouseCursorResolver<R extends BaseTouchResponse> = MouseCursor Function(FlTouchEvent, R?);
 
 /// This class holds the touch response details of charts.
 abstract class BaseTouchResponse {

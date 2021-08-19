@@ -24,16 +24,5 @@ void main() {
               ),
           false);
     });
-
-    test('FlTouchData equality test', () {
-      expect(touchData1 == touchData2, true);
-
-      expect(
-          touchData1 ==
-              FlTouchData(
-                true,
-              ),
-          false);
-    });
   });
 }
