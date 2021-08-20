@@ -542,10 +542,12 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
   /// [BarTouchResponse] shows a tooltip popup above the touched spot.
   final bool handleBuiltInTouches;
 
-  /// Informs the touchResponses
-  final BaseTouchCallback<BarTouchResponse>? touchCallback;
-
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [BarTouchResponse] which contains information
+  /// about the elements that has touched.
   ///
   /// Using [mouseCursorResolver] you can change the mouse cursor
   /// based on the provided [FlTouchEvent] and [BarTouchResponse]
@@ -556,47 +558,39 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
   /// If you need to have a distance threshold for handling touches, use [touchExtraThreshold].
   /// If [allowTouchBarBackDraw] sets to true, touches will work
   /// on [BarChartRodData.backDrawRodData] too (by default it only works on the main rods).
-  ///
-  /// You can listen to touch events using [touchCallback],
-  /// It gives you a [BarTouchResponse] that contains some
-  /// useful information about happened touch.
   BarTouchData({
     bool? enabled,
+    BaseTouchCallback<BarTouchResponse>? touchCallback,
     MouseCursorResolver<BarTouchResponse>? mouseCursorResolver,
     BarTouchTooltipData? touchTooltipData,
     EdgeInsets? touchExtraThreshold,
     bool? allowTouchBarBackDraw,
     bool? handleBuiltInTouches,
-    BaseTouchCallback<BarTouchResponse>? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? BarTouchTooltipData(),
         touchExtraThreshold = touchExtraThreshold ?? const EdgeInsets.all(4),
         allowTouchBarBackDraw = allowTouchBarBackDraw ?? false,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
-        touchCallback = touchCallback,
-        super(
-          enabled ?? true,
-          mouseCursorResolver: mouseCursorResolver,
-        );
+        super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Copies current [BarTouchData] to a new [BarTouchData],
   /// and replaces provided values.
   BarTouchData copyWith({
     bool? enabled,
+    BaseTouchCallback<BarTouchResponse>? touchCallback,
     MouseCursorResolver<BarTouchResponse>? mouseCursorResolver,
     BarTouchTooltipData? touchTooltipData,
     EdgeInsets? touchExtraThreshold,
     bool? allowTouchBarBackDraw,
     bool? handleBuiltInTouches,
-    BaseTouchCallback<BarTouchResponse>? touchCallback,
   }) {
     return BarTouchData(
       enabled: enabled ?? this.enabled,
+      touchCallback: touchCallback ?? this.touchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       touchExtraThreshold: touchExtraThreshold ?? this.touchExtraThreshold,
       allowTouchBarBackDraw: allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
-      touchCallback: touchCallback ?? this.touchCallback,
     );
   }
 
@@ -604,12 +598,12 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
         mouseCursorResolver,
         touchTooltipData,
         touchExtraThreshold,
         allowTouchBarBackDraw,
         handleBuiltInTouches,
-        touchCallback,
       ];
 }
 

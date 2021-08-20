@@ -230,10 +230,12 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse> with EquatableM
   /// (show a tooltip bubble and an indicator on touched spots)
   final bool handleBuiltInTouches;
 
-  /// you can implement it to receive touches callback
-  final BaseTouchCallback<ScatterTouchResponse>? touchCallback;
-
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [ScatterTouchResponse] which contains information
+  /// about the elements that has touched.
   ///
   /// Using [mouseCursorResolver] you can change the mouse cursor
   /// based on the provided [FlTouchEvent] and [ScatterTouchResponse]
@@ -243,43 +245,35 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse> with EquatableM
   /// You can customize this tooltip using [touchTooltipData],
   ///
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
-  ///
-  /// You can listen to touch events using [touchCallback],
-  /// It gives you a [ScatterTouchResponse] that contains some
-  /// useful information about happened touch.
   ScatterTouchData({
     bool? enabled,
+    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
     MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
-    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? ScatterTouchTooltipData(),
         touchSpotThreshold = touchSpotThreshold ?? 10,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
-        touchCallback = touchCallback,
-        super(
-          enabled ?? true,
-          mouseCursorResolver: mouseCursorResolver,
-        );
+        super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
   /// and replaces provided values.
   ScatterTouchData copyWith({
     bool? enabled,
+    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
     MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
-    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
   }) {
     return ScatterTouchData(
       enabled: enabled ?? this.enabled,
+      touchCallback: touchCallback ?? this.touchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
-      touchCallback: touchCallback ?? this.touchCallback,
     );
   }
 
@@ -287,6 +281,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse> with EquatableM
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
         mouseCursorResolver,
         touchTooltipData,
         touchSpotThreshold,

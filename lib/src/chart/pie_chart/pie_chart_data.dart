@@ -262,31 +262,26 @@ class PieChartSectionData {
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [PieTouchResponse].
 class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
-  /// you can implement it to receive touches callback
-  final BaseTouchCallback<PieTouchResponse>? touchCallback;
-
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [PieTouchResponse] which contains information
+  /// about the elements that has touched.
   ///
   /// Using [mouseCursorResolver] you can change the mouse cursor
   /// based on the provided [FlTouchEvent] and [PieTouchResponse]
-  ///
-  /// You can listen to touch events using [touchCallback],
-  /// It gives you a [PieTouchResponse] that contains some
-  /// useful information about happened touch.
   PieTouchData({
     bool? enabled,
-    MouseCursorResolver<PieTouchResponse>? mouseCursorResolver,
     BaseTouchCallback<PieTouchResponse>? touchCallback,
-  })  : touchCallback = touchCallback,
-        super(
-          enabled ?? true,
-          mouseCursorResolver: mouseCursorResolver,
-        );
+    MouseCursorResolver<PieTouchResponse>? mouseCursorResolver,
+  }) : super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
         mouseCursorResolver,
       ];
 }

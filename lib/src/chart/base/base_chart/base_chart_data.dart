@@ -78,21 +78,30 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [BaseTouchResponse] which is the chart specific type and contains information
+  /// about the elements that has touched.
+  final BaseTouchCallback<R>? touchCallback;
+
   /// Using [mouseCursorResolver] you can change the mouse cursor
   /// based on the provided [FlTouchEvent] and [BaseTouchResponse]
   final MouseCursorResolver<R>? mouseCursorResolver;
 
   /// You can disable or enable the touch system using [enabled] flag,
   FlTouchData(
-    bool enabled, {
+    bool enabled,
+    BaseTouchCallback<R>? touchCallback,
     MouseCursorResolver<R>? mouseCursorResolver,
-  })  : enabled = enabled,
+  )   : enabled = enabled,
+        touchCallback = touchCallback,
         mouseCursorResolver = mouseCursorResolver;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
         mouseCursorResolver,
       ];
 }
