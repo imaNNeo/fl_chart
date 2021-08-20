@@ -336,39 +336,33 @@ class RadarEntry with EquatableMixin {
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
 class RadarTouchData extends FlTouchData<RadarTouchResponse> with EquatableMixin {
-  /// you can implement it to receive touches callback
-  final BaseTouchCallback<RadarTouchResponse>? touchCallback;
-
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
 
   /// You can disable or enable the touch system using [enabled] flag,
   ///
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [RadarTouchResponse] which contains information
+  /// about the elements that has touched.
+  ///
   /// Using [mouseCursorResolver] you can change the mouse cursor
   /// based on the provided [FlTouchEvent] and [RadarTouchResponse]
-  ///
-  /// You can listen to touch events using [touchCallback],
-  /// It gives you a [RadarTouchResponse] that contains some
-  /// useful information about happened touch.
   RadarTouchData({
     bool? enabled,
-    MouseCursorResolver<RadarTouchResponse>? mouseCursorResolver,
     BaseTouchCallback<RadarTouchResponse>? touchCallback,
+    MouseCursorResolver<RadarTouchResponse>? mouseCursorResolver,
     double? touchSpotThreshold,
-  })  : touchCallback = touchCallback,
-        touchSpotThreshold = touchSpotThreshold ?? 10,
-        super(
-          enabled ?? true,
-          mouseCursorResolver: mouseCursorResolver,
-        );
+  })  : touchSpotThreshold = touchSpotThreshold ?? 10,
+        super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
         mouseCursorResolver,
         touchSpotThreshold,
-        touchCallback,
       ];
 }
 

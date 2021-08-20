@@ -39,10 +39,7 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
         _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(
-          targetData.barTouchData.touchCallback,
-          targetData.barTouchData.mouseCursorResolver,
-        );
+        super(targetData.barTouchData);
 
   final BuildContext _buildContext;
 
@@ -61,8 +58,7 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   set targetData(BarChartData value) {
     if (_targetData == value) return;
     _targetData = value;
-    super.touchCallback = _targetData.barTouchData.touchCallback;
-    super.mouseCursorResolver = _targetData.barTouchData.mouseCursorResolver;
+    super.updateBaseTouchData(_targetData.barTouchData);
     markNeedsPaint();
   }
 

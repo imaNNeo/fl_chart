@@ -9,30 +9,20 @@ import 'base_chart_data.dart';
 /// It implements shared logics between our renderers such as touch/pointer events recognition, size, layout, ...
 abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     implements MouseTrackerAnnotation {
-  /// It handles touch/pointer events flow and invokes [touchCallback] with [FlTouchEvent] and [BaseTouchResponse]
-  RenderBaseChart(
-    BaseTouchCallback<R>? touchCallback,
-    MouseCursorResolver<R>? mouseCursorResolver,
-  )   : _touchCallback = touchCallback,
-        _mouseCursorResolver = mouseCursorResolver {
+  /// We use [FlTouchData] to retrieve [FlTouchData.touchCallback] and [FlTouchData.mouseCursorResolver]
+  /// to invoke them when touch happens.
+  RenderBaseChart(FlTouchData<R>? touchData) {
+    updateBaseTouchData(touchData);
     initGestureRecognizers();
   }
 
-  BaseTouchCallback<R>? get touchCallback => _touchCallback;
+  void updateBaseTouchData(FlTouchData<R>? value) {
+    _touchCallback = value?.touchCallback;
+    _mouseCursorResolver = value?.mouseCursorResolver;
+  }
+
   BaseTouchCallback<R>? _touchCallback;
-
-  set touchCallback(BaseTouchCallback<R>? value) {
-    if (_touchCallback == value) return;
-    _touchCallback = value;
-  }
-
-  MouseCursorResolver<R>? get mouseCursorResolver => _mouseCursorResolver;
   MouseCursorResolver<R>? _mouseCursorResolver;
-
-  set mouseCursorResolver(MouseCursorResolver<R>? value) {
-    if (_mouseCursorResolver == value) return;
-    _mouseCursorResolver = value;
-  }
 
   MouseCursor _latestMouseCursor = MouseCursor.defer;
 

@@ -36,10 +36,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
         _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(
-          targetData.radarTouchData.touchCallback,
-          targetData.radarTouchData.mouseCursorResolver,
-        );
+        super(targetData.radarTouchData);
 
   final BuildContext _buildContext;
 
@@ -56,8 +53,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
   set targetData(RadarChartData value) {
     if (_targetData == value) return;
     _targetData = value;
-    super.touchCallback = _targetData.radarTouchData.touchCallback;
-    super.mouseCursorResolver = _targetData.radarTouchData.mouseCursorResolver;
+    super.updateBaseTouchData(_targetData.radarTouchData);
     markNeedsPaint();
   }
 
