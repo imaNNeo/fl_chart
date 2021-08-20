@@ -119,7 +119,7 @@ void main() {
         enabled: true,
       );
 
-      expect(sample1 == sample2, true);
+      expect(sample1 == sample2, false);
 
       final PieTouchData disabled = PieTouchData(
         touchCallback: null,

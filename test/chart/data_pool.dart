@@ -2070,7 +2070,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
       tooltipRoundedRadius: 534,
     ),
     handleBuiltInTouches: false,
-    touchCallback: (event, response) {},
+    touchCallback: scatterTouchCallback,
     touchSpotThreshold: 12,
   ),
   showingTooltipIndicators: [0, 1, 2],
@@ -2157,7 +2157,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
       tooltipRoundedRadius: 534,
     ),
     handleBuiltInTouches: false,
-    touchCallback: (event, response) {},
+    touchCallback: scatterTouchCallback,
     touchSpotThreshold: 12,
   ),
   showingTooltipIndicators: [0, 1, 2],
@@ -2634,6 +2634,9 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
 );
 
 final Function(FlTouchEvent event, BarTouchResponse?) barTouchCallback = (event, response) {};
+
+final Function(FlTouchEvent event, ScatterTouchResponse?) scatterTouchCallback =
+    (event, response) {};
 
 final BarTouchData barTouchData1 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
