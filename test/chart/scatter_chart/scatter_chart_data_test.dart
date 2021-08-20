@@ -330,7 +330,7 @@ void main() {
               sampleClone.copyWith(
                 touchCallback: (event, response) {},
               ),
-          true);
+          false);
       expect(
           sample ==
               sampleClone.copyWith(
