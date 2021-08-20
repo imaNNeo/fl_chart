@@ -3,6 +3,9 @@
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
 [![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/fl_chart_samples_0.3.0.apk)
+<span class="badge-buymeacoffee">
+<a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
+</span>
 
 ![FL Chart Logo](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/landing_logo.jpg)
 
@@ -57,16 +60,18 @@ flutter packages get
 |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-1-source-code)   |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-2-source-code) | [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) |
 
 
-### And the last but not least 🔥
-##### :beer: pull requests are welcome!
+### Donation
+Your donation **motivates** me to work more on the **fl_chart** and resolve more issues.
+You can <a href="https://www.buymeacoffee.com/fl_chart">buy me a coffee!</a>
 
-#### :moneybag: Donation (bitcoin) :moneybag:
-##### I work on this project in my free time because I have my personal life and job. You can push me to work more by donating.
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bitcoin_public_key.jpg" width="180" >
+<a href="https://www.buymeacoffee.com/fl_chart"><img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/buy_me_a_coffee.jpeg" width=360 /></a>
+
+Or if you are a fan of crypto, you can donate me Bitcoins here:
 
 `1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
 
 ### Contributing
+##### :beer: pull requests are welcome!
 
 Check out [CONTRIBUTING.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md), which contains a guide for those
 who wish to contribute to FL Chart. Thanks in advance!
