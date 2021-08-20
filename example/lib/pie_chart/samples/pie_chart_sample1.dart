@@ -66,7 +66,6 @@ class PieChartSample1State extends State {
                   PieChartData(
                       pieTouchData:
                           PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                        print(event);
                         setState(() {
                           if (!event.isInterestedForInteractions ||
                               pieTouchResponse == null ||

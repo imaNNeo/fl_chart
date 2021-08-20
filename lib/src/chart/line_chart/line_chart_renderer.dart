@@ -35,10 +35,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
         _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(
-          targetData.lineTouchData.touchCallback,
-          targetData.lineTouchData.mouseCursorResolver,
-        );
+        super(targetData.lineTouchData);
 
   final BuildContext _buildContext;
 
@@ -55,8 +52,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   set targetData(LineChartData value) {
     if (_targetData == value) return;
     _targetData = value;
-    super.touchCallback = _targetData.lineTouchData.touchCallback;
-    super.mouseCursorResolver = _targetData.lineTouchData.mouseCursorResolver;
+    super.updateBaseTouchData(_targetData.lineTouchData);
     markNeedsPaint();
   }
 

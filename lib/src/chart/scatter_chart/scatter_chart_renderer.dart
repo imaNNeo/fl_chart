@@ -37,10 +37,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
         _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(
-          targetData.scatterTouchData.touchCallback,
-          targetData.scatterTouchData.mouseCursorResolver,
-        );
+        super(targetData.scatterTouchData);
 
   final BuildContext _buildContext;
 
@@ -57,8 +54,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
   set targetData(ScatterChartData value) {
     if (_targetData == value) return;
     _targetData = value;
-    super.touchCallback = _targetData.scatterTouchData.touchCallback;
-    super.mouseCursorResolver = _targetData.scatterTouchData.mouseCursorResolver;
+    super.updateBaseTouchData(_targetData.scatterTouchData);
     markNeedsPaint();
   }
 
