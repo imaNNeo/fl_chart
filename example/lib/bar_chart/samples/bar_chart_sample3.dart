@@ -8,78 +8,39 @@ class _BarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return BarChart(
       BarChartData(
-        barTouchData: barTouchData,
-        titlesData: titlesData,
-        borderData: borderData,
-        barGroups: barGroups,
         alignment: BarChartAlignment.spaceAround,
         maxY: 20,
+        barTouchData: _barTouchData,
+        titlesData: _titlesData,
+        barGroups: _barGroups,
+        borderData: FlBorderData(show: false),
       ),
     );
   }
 
-  BarTouchData get barTouchData => BarTouchData(
+  BarTouchData get _barTouchData => BarTouchData(
     enabled: false,
     touchTooltipData: BarTouchTooltipData(
       tooltipBgColor: Colors.transparent,
       tooltipPadding: const EdgeInsets.all(0),
       tooltipMargin: 8,
-      getTooltipItem: (
-          BarChartGroupData group,
-          int groupIndex,
-          BarChartRodData rod,
-          int rodIndex,
-          ) {
-        return BarTooltipItem(
-          rod.y.round().toString(),
-          const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        );
-      },
+      getTooltipItem: _getTooltipItem,
     ),
   );
 
-  FlTitlesData get titlesData => FlTitlesData(
+  FlTitlesData get _titlesData => FlTitlesData(
     show: true,
     bottomTitles: SideTitles(
       showTitles: true,
-      getTextStyles: (value) => const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
+      getTextStyles: (context, value) =>
+      const TextStyle(color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
       margin: 20,
-      getTitles: (double value) {
-        switch (value.toInt()) {
-          case 0:
-            return 'Mn';
-          case 1:
-            return 'Te';
-          case 2:
-            return 'Wd';
-          case 3:
-            return 'Tu';
-          case 4:
-            return 'Fr';
-          case 5:
-            return 'St';
-          case 6:
-            return 'Sn';
-          default:
-            return '';
-        }
-      },
+      getTitles: _getBottomTitles,
     ),
     leftTitles: SideTitles(showTitles: false),
   );
 
-  FlBorderData get borderData => FlBorderData(
-    show: false,
-  );
-
-  List<BarChartGroupData> get barGroups => [
+  List<BarChartGroupData> get _barGroups => [
     BarChartGroupData(
       x: 0,
       barRods: [
@@ -123,6 +84,42 @@ class _BarChart extends StatelessWidget {
       showingTooltipIndicators: [0],
     ),
   ];
+
+  BarTooltipItem? _getTooltipItem(
+      BarChartGroupData group,
+      int groupIndex,
+      BarChartRodData rod,
+      int rodIndex,
+      ) {
+    return BarTooltipItem(
+      rod.y.round().toString(),
+      TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  String _getBottomTitles(double value) {
+    switch (value.toInt()) {
+      case 0:
+        return 'Mn';
+      case 1:
+        return 'Te';
+      case 2:
+        return 'Wd';
+      case 3:
+        return 'Tu';
+      case 4:
+        return 'Fr';
+      case 5:
+        return 'St';
+      case 6:
+        return 'Sn';
+      default:
+        return '';
+    }
+  }
 }
 
 class BarChartSample3 extends StatefulWidget {
