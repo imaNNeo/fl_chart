@@ -40,6 +40,42 @@ class _BarChart extends StatelessWidget {
     leftTitles: SideTitles(showTitles: false),
   );
 
+  BarTooltipItem? _getTooltipItem(
+      BarChartGroupData group,
+      int groupIndex,
+      BarChartRodData rod,
+      int rodIndex,
+      ) {
+    return BarTooltipItem(
+      rod.y.round().toString(),
+      TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  String _getBottomTitles(double value) {
+    switch (value.toInt()) {
+      case 0:
+        return 'Mn';
+      case 1:
+        return 'Te';
+      case 2:
+        return 'Wd';
+      case 3:
+        return 'Tu';
+      case 4:
+        return 'Fr';
+      case 5:
+        return 'St';
+      case 6:
+        return 'Sn';
+      default:
+        return '';
+    }
+  }
+
   List<BarChartGroupData> get _barGroups => [
     BarChartGroupData(
       x: 0,
@@ -84,42 +120,6 @@ class _BarChart extends StatelessWidget {
       showingTooltipIndicators: [0],
     ),
   ];
-
-  BarTooltipItem? _getTooltipItem(
-      BarChartGroupData group,
-      int groupIndex,
-      BarChartRodData rod,
-      int rodIndex,
-      ) {
-    return BarTooltipItem(
-      rod.y.round().toString(),
-      TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-
-  String _getBottomTitles(double value) {
-    switch (value.toInt()) {
-      case 0:
-        return 'Mn';
-      case 1:
-        return 'Te';
-      case 2:
-        return 'Wd';
-      case 3:
-        return 'Tu';
-      case 4:
-        return 'Fr';
-      case 5:
-        return 'St';
-      case 6:
-        return 'Sn';
-      default:
-        return '';
-    }
-  }
 }
 
 class BarChartSample3 extends StatefulWidget {
