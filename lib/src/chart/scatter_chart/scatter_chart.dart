@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 
 /// Renders a pie chart as a widget, using provided [ScatterChartData].
 class ScatterChart extends ImplicitlyAnimatedWidget {
@@ -30,22 +30,19 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   /// it lerps between the old [ScatterChartData] to the new one.
   ScatterChartDataTween? _scatterChartDataTween;
 
+  /// If [ScatterTouchData.handleBuiltInTouches] is true, we override the callback to handle touches internally,
+  /// but we need to keep the provided callback to notify it too.
+  BaseTouchCallback<ScatterTouchResponse>? _providedTouchCallback;
+
   List<int> touchedSpots = [];
 
   @override
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    /// Wr wrapped our chart with [GestureDetector], and onLongPressStart callback.
-    /// because we wanted to lock the widget from being scrolled when user long presses on it.
-    /// If we found a solution for solve this issue, then we can remove this undoubtedly.
-    return GestureDetector(
-      onLongPressStart: (details) {},
-      child: ScatterChartLeaf(
-        data: _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
-        targetData: _withTouchedIndicators(showingData),
-        touchCallback: _handleBuiltInTouch,
-      ),
+    return ScatterChartLeaf(
+      data: _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
+      targetData: _withTouchedIndicators(showingData),
     );
   }
 
@@ -63,6 +60,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   ScatterChartData _getData() {
     final scatterTouchData = widget.data.scatterTouchData;
     if (scatterTouchData.enabled && scatterTouchData.handleBuiltInTouches) {
+      _providedTouchCallback = scatterTouchData.touchCallback;
       return widget.data.copyWith(
         scatterTouchData: widget.data.scatterTouchData.copyWith(touchCallback: _handleBuiltInTouch),
       );
@@ -70,21 +68,21 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     return widget.data;
   }
 
-  void _handleBuiltInTouch(ScatterTouchResponse touchResponse) {
-    widget.data.scatterTouchData.touchCallback?.call(touchResponse);
+  void _handleBuiltInTouch(FlTouchEvent event, ScatterTouchResponse? touchResponse) {
+    _providedTouchCallback?.call(event, touchResponse);
 
-    final desiredTouch = touchResponse.touchInput is PointerDownEvent ||
-        touchResponse.touchInput is PointerMoveEvent ||
-        touchResponse.touchInput is PointerHoverEvent;
-    if (desiredTouch && touchResponse.touchedSpot != null) {
-      setState(() {
-        touchedSpots = [touchResponse.touchedSpot!.spotIndex];
-      });
-    } else {
+    final desiredTouch =
+        event is FlPanDownEvent || event is FlPanUpdateEvent || event is FlPointerHoverEvent;
+
+    if (!desiredTouch || touchResponse == null || touchResponse.touchedSpot == null) {
       setState(() {
         touchedSpots = [];
+        return;
       });
     }
+    setState(() {
+      touchedSpots = [touchResponse!.touchedSpot!.spotIndex];
+    });
   }
 
   @override

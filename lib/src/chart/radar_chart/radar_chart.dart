@@ -36,16 +36,9 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
   Widget build(BuildContext context) {
     final showingData = _getDate();
 
-    /// Wr wrapped our chart with [GestureDetector], and onLongPressStart callback.
-    /// because we wanted to lock the widget from being scrolled when user long presses on it.
-    /// If we found a solution for solve this issue, then we can remove this undoubtedly.
-    return GestureDetector(
-      onLongPressStart: (details) {},
-      child: RadarChartLeaf(
-        data: _radarChartDataTween!.evaluate(animation),
-        targetData: showingData,
-        touchCallback: showingData.radarTouchData.touchCallback,
-      ),
+    return RadarChartLeaf(
+      data: _radarChartDataTween!.evaluate(animation),
+      targetData: showingData,
     );
   }
 

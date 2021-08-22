@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'indicator.dart';
 
 class PieChartSample2 extends StatefulWidget {
@@ -27,15 +26,16 @@ class PieChart2State extends State {
                 aspectRatio: 1,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                      pieTouchData:
+                          PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
                         setState(() {
-                          final desiredTouch = pieTouchResponse.touchInput is! PointerExitEvent &&
-                              pieTouchResponse.touchInput is! PointerUpEvent;
-                          if (desiredTouch && pieTouchResponse.touchedSection != null) {
-                            touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
-                          } else {
+                          if (!event.isInterestedForInteractions ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
                             touchedIndex = -1;
+                            return;
                           }
+                          touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
                         });
                       }),
                       borderData: FlBorderData(

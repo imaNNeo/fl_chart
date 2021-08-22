@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
@@ -137,7 +138,7 @@ class PieChartSectionData {
   final bool showTitle;
 
   /// Defines style of showing title of section.
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
 
   /// Defines text of showing title at the middle of section.
   final String title;
@@ -196,11 +197,10 @@ class PieChartSectionData {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
   })  : value = value ?? 10,
-        color = color ?? Colors.red,
+        color = color ?? Colors.cyan,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
-        titleStyle = titleStyle ??
-            const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        titleStyle = titleStyle,
         title = title ?? value.toString(),
         borderSide = borderSide ?? BorderSide(width: 0),
         badgeWidget = badgeWidget ?? Container(),
@@ -256,33 +256,33 @@ class PieChartSectionData {
   }
 }
 
-/// [PieChart]'s touch callback.
-typedef PieTouchCallback = void Function(PieTouchResponse);
-
 /// Holds data to handle touch events, and touch responses in the [PieChart].
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [PieTouchResponse].
-class PieTouchData extends FlTouchData with EquatableMixin {
-  /// you can implement it to receive touches callback
-  final Function(PieTouchResponse)? touchCallback;
-
+class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
-  /// You can listen to touch events using [touchCallback],
-  /// It gives you a [PieTouchResponse] that contains some
-  /// useful information about happened touch.
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [PieTouchResponse] which contains information
+  /// about the elements that has touched.
+  ///
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [PieTouchResponse]
   PieTouchData({
     bool? enabled,
-    PieTouchCallback? touchCallback,
-  })  : touchCallback = touchCallback,
-        super(enabled ?? true);
+    BaseTouchCallback<PieTouchResponse>? touchCallback,
+    MouseCursorResolver<PieTouchResponse>? mouseCursorResolver,
+  }) : super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
+        mouseCursorResolver,
       ];
 }
 
@@ -332,29 +332,17 @@ class PieTouchResponse extends BaseTouchResponse {
   final PieTouchedSection? touchedSection;
 
   /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
-  /// that contains [touchedSection], [touchedSectionIndex] that tells
-  /// you touch happened on which section,
-  /// [touchAngle] gives you angle of touch,
-  /// and [touchRadius] gives you radius of the touch.
-  /// [touchInput] is the type of happened touch.
-  PieTouchResponse(
-    PieTouchedSection? touchedSection,
-    PointerEvent touchInput,
-    bool clickHappened,
-  )   : touchedSection = touchedSection,
-        super(touchInput, clickHappened);
+  PieTouchResponse(PieTouchedSection? touchedSection)
+      : touchedSection = touchedSection,
+        super();
 
   /// Copies current [PieTouchResponse] to a new [PieTouchResponse],
   /// and replaces provided values.
   PieTouchResponse copyWith({
     PieTouchedSection? touchedSection,
-    PointerEvent? touchInput,
-    bool? clickHappened,
   }) {
     return PieTouchResponse(
       touchedSection ?? this.touchedSection,
-      touchInput ?? this.touchInput,
-      clickHappened ?? this.clickHappened,
     );
   }
 }

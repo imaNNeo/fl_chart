@@ -39,7 +39,6 @@ class _LineChart extends StatelessWidget {
       );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-        touchCallback: (LineTouchResponse touchResponse) {},
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
@@ -107,7 +106,7 @@ class _LineChart extends StatelessWidget {
         showTitles: true,
         margin: 8,
         reservedSize: 30,
-        getTextStyles: (value) => const TextStyle(
+        getTextStyles: (context, value) => const TextStyle(
           color: Color(0xff75729e),
           fontWeight: FontWeight.bold,
           fontSize: 14,
@@ -118,7 +117,7 @@ class _LineChart extends StatelessWidget {
         showTitles: true,
         reservedSize: 22,
         margin: 10,
-        getTextStyles: (value) => const TextStyle(
+        getTextStyles: (context, value) => const TextStyle(
           color: Color(0xff72719b),
           fontWeight: FontWeight.bold,
           fontSize: 16,

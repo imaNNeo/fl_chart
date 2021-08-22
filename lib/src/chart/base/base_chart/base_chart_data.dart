@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -72,17 +74,35 @@ class FlBorderData with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
-class FlTouchData with EquatableMixin {
+abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [BaseTouchResponse] which is the chart specific type and contains information
+  /// about the elements that has touched.
+  final BaseTouchCallback<R>? touchCallback;
+
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [BaseTouchResponse]
+  final MouseCursorResolver<R>? mouseCursorResolver;
+
   /// You can disable or enable the touch system using [enabled] flag,
-  FlTouchData(bool enabled) : enabled = enabled;
+  FlTouchData(
+    bool enabled,
+    BaseTouchCallback<R>? touchCallback,
+    MouseCursorResolver<R>? mouseCursorResolver,
+  )   : enabled = enabled,
+        touchCallback = touchCallback,
+        mouseCursorResolver = mouseCursorResolver;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
+        mouseCursorResolver,
       ];
 }
 
@@ -132,27 +152,25 @@ String defaultGetTitle(double value) {
 }
 
 /// It gives you the axis value and gets a TextStyle based on given value
+///
+/// If you return null, we try to provide an inherited TextStyle using theme.
 /// (you can customize a specific title using this).
-typedef GetTitleTextStyleFunction = TextStyle Function(double value);
+typedef GetTitleTextStyleFunction = TextStyle? Function(BuildContext context, double value);
 
 /// The default [SideTitles.getTextStyles] function.
 ///
 /// returns a black TextStyle with 11 fontSize for all values.
-TextStyle defaultGetTitleTextStyle(double value) {
-  return const TextStyle(
-    color: Colors.black,
-    fontSize: 11,
-  );
-}
+TextStyle? defaultGetTitleTextStyle(BuildContext context, double value) => null;
 
-/// This class holds the touch response details.
-///
-/// Specific touch details should be hold on the concrete child classes.
-class BaseTouchResponse {
-  final PointerEvent touchInput;
-  final bool clickHappened;
+/// Chart's touch callback.
+typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(FlTouchEvent, R?);
 
-  BaseTouchResponse(PointerEvent touchInput, bool isClickHappened)
-      : touchInput = touchInput,
-        clickHappened = isClickHappened;
+/// It gives you the happened [FlTouchEvent] and existed [R] data at the event's location,
+/// then you should provide a [MouseCursor] to change the cursor at the event's location.
+/// For example you can pass the [SystemMouseCursors.click] to change the mouse cursor to click.
+typedef MouseCursorResolver<R extends BaseTouchResponse> = MouseCursor Function(FlTouchEvent, R?);
+
+/// This class holds the touch response details of charts.
+abstract class BaseTouchResponse {
+  BaseTouchResponse();
 }

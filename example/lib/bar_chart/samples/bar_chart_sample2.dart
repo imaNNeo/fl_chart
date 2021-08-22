@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 
 class BarChartSample2 extends StatefulWidget {
   @override
@@ -94,8 +93,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                             tooltipBgColor: Colors.grey,
                             getTooltipItem: (_a, _b, _c, _d) => null,
                           ),
-                          touchCallback: (response) {
-                            if (response.spot == null) {
+                          touchCallback: (FlTouchEvent event, response) {
+                            if (response == null || response.spot == null) {
                               setState(() {
                                 touchedGroupIndex = -1;
                                 showingBarGroups = List.of(rawBarGroups);
@@ -106,27 +105,26 @@ class BarChartSample2State extends State<BarChartSample2> {
                             touchedGroupIndex = response.spot!.touchedBarGroupIndex;
 
                             setState(() {
-                              if (response.touchInput is PointerExitEvent ||
-                                  response.touchInput is PointerUpEvent) {
+                              if (!event.isInterestedForInteractions) {
                                 touchedGroupIndex = -1;
                                 showingBarGroups = List.of(rawBarGroups);
-                              } else {
-                                showingBarGroups = List.of(rawBarGroups);
-                                if (touchedGroupIndex != -1) {
-                                  var sum = 0.0;
-                                  for (var rod in showingBarGroups[touchedGroupIndex].barRods) {
-                                    sum += rod.y;
-                                  }
-                                  final avg =
-                                      sum / showingBarGroups[touchedGroupIndex].barRods.length;
-
-                                  showingBarGroups[touchedGroupIndex] =
-                                      showingBarGroups[touchedGroupIndex].copyWith(
-                                    barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
-                                      return rod.copyWith(y: avg);
-                                    }).toList(),
-                                  );
+                                return;
+                              }
+                              showingBarGroups = List.of(rawBarGroups);
+                              if (touchedGroupIndex != -1) {
+                                var sum = 0.0;
+                                for (var rod in showingBarGroups[touchedGroupIndex].barRods) {
+                                  sum += rod.y;
                                 }
+                                final avg =
+                                    sum / showingBarGroups[touchedGroupIndex].barRods.length;
+
+                                showingBarGroups[touchedGroupIndex] =
+                                    showingBarGroups[touchedGroupIndex].copyWith(
+                                  barRods: showingBarGroups[touchedGroupIndex].barRods.map((rod) {
+                                    return rod.copyWith(y: avg);
+                                  }).toList(),
+                                );
                               }
                             });
                           }),
@@ -134,7 +132,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                         show: true,
                         bottomTitles: SideTitles(
                           showTitles: true,
-                          getTextStyles: (value) => const TextStyle(
+                          getTextStyles: (context, value) => const TextStyle(
                               color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
                           margin: 20,
                           getTitles: (double value) {
@@ -160,7 +158,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
-                          getTextStyles: (value) => const TextStyle(
+                          getTextStyles: (context, value) => const TextStyle(
                               color: Color(0xff7589a2), fontWeight: FontWeight.bold, fontSize: 14),
                           margin: 32,
                           reservedSize: 14,

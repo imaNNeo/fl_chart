@@ -126,7 +126,7 @@ class LineChartSample6 extends StatelessWidget {
 
                       return intValue.toString();
                     },
-                    getTextStyles: (value) => const TextStyle(
+                    getTextStyles: (context, value) => const TextStyle(
                         color: Colors.deepOrange, fontWeight: FontWeight.bold, fontSize: 18),
                     margin: 16,
                   ),
@@ -142,7 +142,7 @@ class LineChartSample6 extends StatelessWidget {
 
                       return intValue.toString();
                     },
-                    getTextStyles: (value) => const TextStyle(
+                    getTextStyles: (context, value) => const TextStyle(
                         color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
                     margin: 16,
                   ),
@@ -151,7 +151,7 @@ class LineChartSample6 extends StatelessWidget {
                     showTitles: true,
                     reservedSize: 28,
                     margin: 8,
-                    getTextStyles: (value) =>
+                    getTextStyles: (context, value) =>
                         const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     getTitles: (double value) {
                       return value.toInt().toString();

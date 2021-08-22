@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
@@ -322,7 +323,7 @@ class LineChartBarData with EquatableMixin {
     LineChartStepData? lineChartStepData,
   })  : spots = spots ?? const [],
         show = show ?? true,
-        colors = colors ?? const [Colors.redAccent],
+        colors = colors ?? const [Colors.cyan],
         colorStops = colorStops,
         gradientFrom = gradientFrom ?? const Offset(0, 0),
         gradientTo = gradientTo ?? const Offset(1, 0),
@@ -527,7 +528,7 @@ class BarAreaData with EquatableMixin {
     double? cutOffY,
     bool? applyCutOffY,
   })  : show = show ?? false,
-        colors = colors ?? [Colors.blueGrey],
+        colors = colors ?? [Colors.blueGrey.withOpacity(0.5)],
         gradientFrom = gradientFrom ?? const Offset(0, 0),
         gradientTo = gradientTo ?? const Offset(1, 0),
         gradientColorStops = gradientColorStops,
@@ -599,7 +600,7 @@ class BetweenBarsData with EquatableMixin {
     List<double>? gradientColorStops,
   })  : fromIndex = fromIndex,
         toIndex = toIndex,
-        colors = colors ?? const [Colors.blueGrey],
+        colors = colors ?? [Colors.blueGrey.withOpacity(0.5)],
         gradientFrom = gradientFrom ?? const Offset(0, 0),
         gradientTo = gradientTo ?? const Offset(1, 0),
         gradientColorStops = gradientColorStops;
@@ -697,8 +698,8 @@ typedef GetDotColorCallback = Color Function(FlSpot, double, LineChartBarData);
 /// If there is one color in [LineChartBarData.colors], it returns that color,
 /// otherwise it returns the color along the gradient colors based on the [xPercentage].
 Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
-  if (bar.colors.isEmpty || bar.colors.isEmpty) {
-    return Colors.green;
+  if (bar.colors.isEmpty) {
+    throw ArgumentError('"colors" is empty.');
   } else if (bar.colors.length == 1) {
     return bar.colors[0];
   } else {
@@ -710,8 +711,8 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
 /// otherwise it returns the color along the gradient colors based on the [xPercentage] in a darker mode.
 Color _defaultGetDotStrokeColor(FlSpot spot, double xPercentage, LineChartBarData bar) {
   Color color;
-  if (bar.colors.isEmpty || bar.colors.isEmpty) {
-    color = Colors.green;
+  if (bar.colors.isEmpty) {
+    throw ArgumentError('"colors" is empty.');
   } else if (bar.colors.length == 1) {
     color = bar.colors[0];
   } else {
@@ -1127,7 +1128,7 @@ abstract class FlLineLabel with EquatableMixin {
   final EdgeInsetsGeometry padding;
 
   /// Sets style of the drawing text.
-  final TextStyle style;
+  final TextStyle? style;
 
   /// Aligns the text on the line.
   final Alignment alignment;
@@ -1173,12 +1174,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         super(
           show: show,
           padding: padding ?? const EdgeInsets.all(6),
-          style: style ??
-              const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
+          style: style,
           alignment: alignment ?? Alignment.topLeft,
         );
 
@@ -1345,7 +1341,7 @@ class ExtraLinesData with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
-class LineTouchData extends FlTouchData with EquatableMixin {
+class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;
 
@@ -1367,10 +1363,16 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
   final GetTouchLineY getTouchLineEnd;
 
-  /// Informs the touchResponses
-  final LineTouchCallback? touchCallback;
-
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [LineTouchResponse] which contains information
+  /// about the elements that has touched.
+  ///
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [LineTouchResponse]
+  ///
   /// if [handleBuiltInTouches] is true, [LineChart] shows a tooltip popup on top of the spots if
   /// touch occurs (or you can show it manually using, [LineChartData.showingTooltipIndicators])
   /// and also it shows an indicator (contains a thicker line and larger dot on the targeted spot),
@@ -1378,63 +1380,62 @@ class LineTouchData extends FlTouchData with EquatableMixin {
   /// You can customize this tooltip using [touchTooltipData], indicator lines starts from position
   /// controlled by [getTouchLineStart] and ends at position controlled by [getTouchLineEnd].
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
-  ///
-  /// You can listen to touch events using [touchCallback],
-  /// It gives you a [LineTouchResponse] that contains some
-  /// useful information about happened touch.
   LineTouchData({
     bool? enabled,
+    BaseTouchCallback<LineTouchResponse>? touchCallback,
+    MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
-    LineTouchCallback? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator = getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
-        touchCallback = touchCallback,
-        super(enabled ?? true);
+        super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Copies current [LineTouchData] to a new [LineTouchData],
   /// and replaces provided values.
   LineTouchData copyWith({
     bool? enabled,
+    BaseTouchCallback<LineTouchResponse>? touchCallback,
+    MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
     bool? handleBuiltInTouches,
-    Function(LineTouchResponse)? touchCallback,
   }) {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
+      touchCallback: touchCallback ?? this.touchCallback,
+      mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator: getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
       getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
-      touchCallback: touchCallback ?? this.touchCallback,
     );
   }
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
+        enabled,
+        touchCallback,
+        mouseCursorResolver,
         touchTooltipData,
         getTouchedSpotIndicator,
         touchSpotThreshold,
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
-        touchCallback,
-        enabled,
       ];
 }
 
@@ -1541,7 +1542,7 @@ class LineTouchTooltipData with EquatableMixin {
     bool? fitInsideVertically,
     bool? showOnTopOfTheChartBoxArea,
     double? rotateAngle,
-  })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
+  })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipMargin = tooltipMargin ?? 16,
@@ -1700,9 +1701,6 @@ class ShowingTooltipIndicators with EquatableMixin {
   List<Object?> get props => [showingSpots];
 }
 
-/// [LineChart]'s touch callback.
-typedef LineTouchCallback = void Function(LineTouchResponse);
-
 /// Holds information about touch response in the [LineChart].
 ///
 /// You can override [LineTouchData.touchCallback] to handle touch events,
@@ -1714,25 +1712,15 @@ class LineTouchResponse extends BaseTouchResponse {
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
-  /// [touchInput] is the type of happened touch.
-  /// [clickHappened] will be true, if we detect a click event.
-  LineTouchResponse(
-    this.lineBarSpots,
-    PointerEvent touchInput,
-    bool clickHappened,
-  ) : super(touchInput, clickHappened);
+  LineTouchResponse(this.lineBarSpots) : super();
 
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
     List<LineBarSpot>? lineBarSpots,
-    PointerEvent? touchInput,
-    bool? clickHappened,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,
-      touchInput ?? this.touchInput,
-      clickHappened ?? this.clickHappened,
     );
   }
 }

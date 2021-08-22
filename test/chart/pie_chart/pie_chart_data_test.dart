@@ -111,7 +111,7 @@ void main() {
 
     test('PieTouchData equality test', () {
       final PieTouchData sample1 = PieTouchData(
-        touchCallback: (response) {},
+        touchCallback: (event, response) {},
         enabled: true,
       );
       final PieTouchData sample2 = PieTouchData(
@@ -119,7 +119,7 @@ void main() {
         enabled: true,
       );
 
-      expect(sample1 == sample2, true);
+      expect(sample1 == sample2, false);
 
       final PieTouchData disabled = PieTouchData(
         touchCallback: null,

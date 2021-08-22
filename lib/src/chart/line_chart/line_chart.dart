@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 
 import 'line_chart_data.dart';
 import 'line_chart_renderer.dart';
@@ -31,6 +31,10 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   /// it lerps between the old [LineChartData] to the new one.
   LineChartDataTween? _lineChartDataTween;
 
+  /// If [LineTouchData.handleBuiltInTouches] is true, we override the callback to handle touches internally,
+  /// but we need to keep the provided callback to notify it too.
+  BaseTouchCallback<LineTouchResponse>? _providedTouchCallback;
+
   final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
@@ -39,16 +43,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    /// Wr wrapped our chart with [GestureDetector], and onLongPressStart callback.
-    /// because we wanted to lock the widget from being scrolled when user long presses on it.
-    /// If we found a solution for solve this issue, then we can remove this undoubtedly.
-    return GestureDetector(
-      onLongPressStart: (details) {},
-      child: LineChartLeaf(
-        data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
-        targetData: _withTouchedIndicators(showingData),
-        touchCallback: _handleBuiltInTouch,
-      ),
+    return LineChartLeaf(
+      data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
+      targetData: _withTouchedIndicators(showingData),
     );
   }
 
@@ -71,6 +68,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   LineChartData _getData() {
     final lineTouchData = widget.data.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
+      _providedTouchCallback = lineTouchData.touchCallback;
       return widget.data.copyWith(
         lineTouchData: widget.data.lineTouchData.copyWith(touchCallback: _handleBuiltInTouch),
       );
@@ -78,33 +76,33 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     return widget.data;
   }
 
-  void _handleBuiltInTouch(LineTouchResponse touchResponse) {
-    widget.data.lineTouchData.touchCallback?.call(touchResponse);
+  void _handleBuiltInTouch(FlTouchEvent event, LineTouchResponse? touchResponse) {
+    _providedTouchCallback?.call(event, touchResponse);
 
-    final desiredTouch = touchResponse.touchInput is PointerDownEvent ||
-        touchResponse.touchInput is PointerMoveEvent ||
-        touchResponse.touchInput is PointerHoverEvent;
-    if (desiredTouch && touchResponse.lineBarSpots != null) {
-      setState(() {
-        final sortedLineSpots = List.of(touchResponse.lineBarSpots!);
-        sortedLineSpots.sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
-
-        _showingTouchedIndicators.clear();
-        for (var i = 0; i < touchResponse.lineBarSpots!.length; i++) {
-          final touchedBarSpot = touchResponse.lineBarSpots![i];
-          final barPos = touchedBarSpot.barIndex;
-          _showingTouchedIndicators[barPos] = [touchedBarSpot.spotIndex];
-        }
-
-        _showingTouchedTooltips.clear();
-        _showingTouchedTooltips.add(ShowingTooltipIndicators(sortedLineSpots));
-      });
-    } else {
+    if (!event.isInterestedForInteractions ||
+        touchResponse?.lineBarSpots == null ||
+        touchResponse!.lineBarSpots!.isEmpty) {
       setState(() {
         _showingTouchedTooltips.clear();
         _showingTouchedIndicators.clear();
       });
+      return;
     }
+
+    setState(() {
+      final sortedLineSpots = List.of(touchResponse.lineBarSpots!);
+      sortedLineSpots.sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
+
+      _showingTouchedIndicators.clear();
+      for (var i = 0; i < touchResponse.lineBarSpots!.length; i++) {
+        final touchedBarSpot = touchResponse.lineBarSpots![i];
+        final barPos = touchedBarSpot.barIndex;
+        _showingTouchedIndicators[barPos] = [touchedBarSpot.spotIndex];
+      }
+
+      _showingTouchedTooltips.clear();
+      _showingTouchedTooltips.add(ShowingTooltipIndicators(sortedLineSpots));
+    });
   }
 
   @override

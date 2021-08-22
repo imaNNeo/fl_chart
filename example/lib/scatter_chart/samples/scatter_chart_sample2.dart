@@ -93,6 +93,11 @@ class _ScatterChartSample2State extends State {
             scatterTouchData: ScatterTouchData(
               enabled: true,
               handleBuiltInTouches: false,
+              mouseCursorResolver: (FlTouchEvent touchEvent, ScatterTouchResponse? response) {
+                return response == null || response.touchedSpot == null
+                    ? MouseCursor.defer
+                    : SystemMouseCursors.click;
+              },
               touchTooltipData: ScatterTouchTooltipData(
                 tooltipBgColor: Colors.black,
                 getTooltipItems: (ScatterSpot touchedBarSpot) {
@@ -133,10 +138,12 @@ class _ScatterChartSample2State extends State {
                   );
                 },
               ),
-              touchCallback: (ScatterTouchResponse touchResponse) {
-                if (touchResponse.clickHappened && touchResponse.touchedSpot != null) {
+              touchCallback: (FlTouchEvent event, ScatterTouchResponse? touchResponse) {
+                if (touchResponse == null || touchResponse.touchedSpot == null) {
+                  return;
+                }
+                if (event is FlTapUpEvent) {
                   final sectionIndex = touchResponse.touchedSpot!.spotIndex;
-                  // Tap happened
                   setState(() {
                     if (selectedSpots.contains(sectionIndex)) {
                       selectedSpots.remove(sectionIndex);

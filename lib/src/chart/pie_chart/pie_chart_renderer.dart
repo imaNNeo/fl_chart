@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -15,7 +16,6 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
     Key? key,
     required this.data,
     required this.targetData,
-    this.touchCallback,
   }) : super(
           key: key,
           children: targetData.sections.map((e) => e.badgeWidget).toList(),
@@ -23,14 +23,12 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
 
   final PieChartData data, targetData;
 
-  final PieTouchCallback? touchCallback;
-
   @override
   RenderPieChart createRenderObject(BuildContext context) => RenderPieChart(
+        context,
         data,
         targetData,
         MediaQuery.of(context).textScaleFactor,
-        touchCallback,
       );
 
   @override
@@ -38,23 +36,24 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor
-      ..touchCallback = touchCallback;
+      ..textScale = MediaQuery.of(context).textScaleFactor;
   }
 }
 
 /// Renders our PieChart, also handles hitTest.
-class RenderPieChart extends RenderBox
+class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     with
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData>
     implements MouseTrackerAnnotation {
-  RenderPieChart(
-      PieChartData data, PieChartData targetData, double textScale, PieTouchCallback? touchCallback)
-      : _data = data,
+  RenderPieChart(BuildContext context, PieChartData data, PieChartData targetData, double textScale)
+      : _buildContext = context,
+        _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        _touchCallback = touchCallback;
+        super(targetData.pieTouchData);
+
+  final BuildContext _buildContext;
 
   PieChartData get data => _data;
   PieChartData _data;
@@ -70,6 +69,7 @@ class RenderPieChart extends RenderBox
   set targetData(PieChartData value) {
     if (_targetData == value) return;
     _targetData = value;
+    super.updateBaseTouchData(_targetData.pieTouchData);
     // We must update layout to draw badges correctly!
     markNeedsLayout();
   }
@@ -82,20 +82,11 @@ class RenderPieChart extends RenderBox
     markNeedsPaint();
   }
 
-  PieTouchCallback? _touchCallback;
-  set touchCallback(PieTouchCallback? value) {
-    _touchCallback = value;
-  }
-
   final _painter = PieChartPainter();
 
   PaintHolder<PieChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
   }
-
-  PieTouchedSection? _lastTouchedSpot;
-
-  late bool _validForMouseTracker;
 
   @override
   void setupParentData(RenderBox child) {
@@ -127,11 +118,6 @@ class RenderPieChart extends RenderBox
   }
 
   @override
-  Size computeDryLayout(BoxConstraints constraints) {
-    return Size(constraints.maxWidth, constraints.maxHeight);
-  }
-
-  @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     return defaultHitTestChildren(result, position: position);
   }
@@ -141,68 +127,14 @@ class RenderPieChart extends RenderBox
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
     defaultPaint(context, offset);
   }
 
   @override
-  bool hitTestSelf(Offset position) => true;
-
-  @override
-  void handleEvent(PointerEvent event, covariant BoxHitTestEntry entry) {
-    assert(debugHandleEvent(event, entry));
-    _handleEvent(event);
-  }
-
-  @override
-  PointerExitEventListener? get onExit => (PointerExitEvent event) {
-        _handleEvent(event);
-      };
-
-  @override
-  PointerEnterEventListener? get onEnter => null;
-
-  @override
-  MouseCursor get cursor => MouseCursor.defer;
-
-  @override
-  bool get validForMouseTracker => _validForMouseTracker;
-
-  void _handleEvent(PointerEvent event) {
-    if (_touchCallback == null) {
-      return;
-    }
-    var response = PieTouchResponse(null, event, false);
-
-    var touchedSection = _painter.handleTouch(event, size, paintHolder);
-    if (touchedSection == null) {
-      _touchCallback?.call(response);
-      return;
-    }
-    response = response.copyWith(touchedSection: touchedSection);
-
-    if (event is PointerDownEvent) {
-      _lastTouchedSpot = touchedSection;
-    } else if (event is PointerUpEvent) {
-      if (_lastTouchedSpot == touchedSection) {
-        response = response.copyWith(clickHappened: true);
-      }
-      _lastTouchedSpot = null;
-    }
-
-    _touchCallback?.call(response);
-  }
-
-  @override
-  void attach(PipelineOwner owner) {
-    super.attach(owner);
-    _validForMouseTracker = true;
-  }
-
-  @override
-  void detach() {
-    _validForMouseTracker = false;
-    super.detach();
+  PieTouchResponse getResponseAtLocation(Offset localPosition) {
+    final pieSection = _painter.handleTouch(localPosition, size, paintHolder);
+    return PieTouchResponse(pieSection);
   }
 }

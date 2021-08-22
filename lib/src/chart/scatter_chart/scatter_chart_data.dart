@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 
 import 'scatter_chart_helper.dart';
 
@@ -218,7 +219,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [ScatterTouchResponse].
-class ScatterTouchData extends FlTouchData with EquatableMixin {
+class ScatterTouchData extends FlTouchData<ScatterTouchResponse> with EquatableMixin {
   /// show a tooltip on touched spots
   final ScatterTouchTooltipData touchTooltipData;
 
@@ -229,46 +230,50 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   /// (show a tooltip bubble and an indicator on touched spots)
   final bool handleBuiltInTouches;
 
-  /// you can implement it to receive touches callback
-  final Function(ScatterTouchResponse)? touchCallback;
-
   /// You can disable or enable the touch system using [enabled] flag,
+  ///
+  /// [touchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
+  /// It also gives you a [ScatterTouchResponse] which contains information
+  /// about the elements that has touched.
+  ///
+  /// Using [mouseCursorResolver] you can change the mouse cursor
+  /// based on the provided [FlTouchEvent] and [ScatterTouchResponse]
+  ///
   /// if [handleBuiltInTouches] is true, [ScatterChart] shows a tooltip popup on top of the spots if
   /// touch occurs (or you can show it manually using, [ScatterChartData.showingTooltipIndicators])
   /// You can customize this tooltip using [touchTooltipData],
   ///
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
-  ///
-  /// You can listen to touch events using [touchCallback],
-  /// It gives you a [ScatterTouchResponse] that contains some
-  /// useful information about happened touch.
   ScatterTouchData({
     bool? enabled,
+    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
+    MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
-    Function(ScatterTouchResponse)? touchCallback,
   })  : touchTooltipData = touchTooltipData ?? ScatterTouchTooltipData(),
         touchSpotThreshold = touchSpotThreshold ?? 10,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
-        touchCallback = touchCallback,
-        super(enabled ?? true);
+        super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Copies current [ScatterTouchData] to a new [ScatterTouchData],
   /// and replaces provided values.
   ScatterTouchData copyWith({
     bool? enabled,
+    BaseTouchCallback<ScatterTouchResponse>? touchCallback,
+    MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
-    Function(ScatterTouchResponse)? touchCallback,
   }) {
     return ScatterTouchData(
       enabled: enabled ?? this.enabled,
+      touchCallback: touchCallback ?? this.touchCallback,
+      mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
-      touchCallback: touchCallback ?? this.touchCallback,
     );
   }
 
@@ -276,6 +281,8 @@ class ScatterTouchData extends FlTouchData with EquatableMixin {
   @override
   List<Object?> get props => [
         enabled,
+        touchCallback,
+        mouseCursorResolver,
         touchTooltipData,
         touchSpotThreshold,
         handleBuiltInTouches,
@@ -297,29 +304,16 @@ class ScatterTouchResponse extends BaseTouchResponse {
   ///
   /// [touchedSpot] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
-  ///
-  /// [touchInput] is the type of happened touch.
-  ///
-  /// [clickHappened] will be true, if we detect a click event.
-  ScatterTouchResponse(
-    PointerEvent touchInput,
-    ScatterTouchedSpot? touchedSpot,
-    bool clickHappened,
-  )   : touchedSpot = touchedSpot,
-        super(touchInput, clickHappened);
+  ScatterTouchResponse(ScatterTouchedSpot? touchedSpot)
+      : touchedSpot = touchedSpot,
+        super();
 
   /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
   /// and replaces provided values.
   ScatterTouchResponse copyWith({
-    PointerEvent? touchInput,
     ScatterTouchedSpot? touchedSpot,
-    bool? clickHappened,
   }) {
-    return ScatterTouchResponse(
-      touchInput ?? this.touchInput,
-      touchedSpot ?? this.touchedSpot,
-      clickHappened ?? this.clickHappened,
-    );
+    return ScatterTouchResponse(touchedSpot ?? this.touchedSpot);
   }
 }
 
@@ -390,7 +384,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
     double? rotateAngle,
-  })  : tooltipBgColor = tooltipBgColor ?? Colors.white,
+  })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         maxContentWidth = maxContentWidth ?? 120,

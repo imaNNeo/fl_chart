@@ -47,8 +47,8 @@ final FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
 final String Function(double value) getTitles = (value) => 'sallam';
-final TextStyle Function(double value) getTextStyles =
-    (value) => const TextStyle(color: Colors.green);
+final TextStyle Function(BuildContext context, double value) getTextStyles =
+    (context, value) => const TextStyle(color: Colors.green);
 
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
@@ -367,16 +367,6 @@ final FlGridData flGridData5 = FlGridData(
   checkToShowHorizontalLine: null,
   getDrawingHorizontalLine: getDrawingLine,
   getDrawingVerticalLine: null,
-);
-
-final BaseTouchResponse baseTouchResponse1 = BaseTouchResponse(new PointerDownEvent(), false);
-final BaseTouchResponse baseTouchResponse2 = BaseTouchResponse(new PointerUpEvent(), true);
-
-final FlTouchData touchData1 = FlTouchData(
-  false,
-);
-final FlTouchData touchData2 = FlTouchData(
-  false,
 );
 
 final FlBorderData borderData1 = FlBorderData(
@@ -805,16 +795,12 @@ final LineTouchResponse lineTouchResponse1 = LineTouchResponse(
     lineBarSpot1,
     lineBarSpot2,
   ],
-  new PointerDownEvent(),
-  false,
 );
 final LineTouchResponse lineTouchResponse1Clone = LineTouchResponse(
   [
     lineBarSpot1Clone,
     lineBarSpot2,
   ],
-  new PointerDownEvent(),
-  false,
 );
 
 final LineTouchResponse lineTouchResponse2 = LineTouchResponse(
@@ -822,14 +808,10 @@ final LineTouchResponse lineTouchResponse2 = LineTouchResponse(
     lineBarSpot2,
     lineBarSpot1,
   ],
-  new PointerDownEvent(),
-  false,
 );
 
 final LineTouchResponse lineTouchResponse3 = LineTouchResponse(
   [],
-  new PointerDownEvent(position: Offset.zero),
-  false,
 );
 
 final LineTouchResponse lineTouchResponse4 = LineTouchResponse(
@@ -837,8 +819,6 @@ final LineTouchResponse lineTouchResponse4 = LineTouchResponse(
     lineBarSpot1,
     lineBarSpot2,
   ],
-  new PointerMoveEvent(position: const Offset(1, 2), delta: Offset(1, 1)),
-  false,
 );
 
 final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
@@ -846,8 +826,6 @@ final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
     lineBarSpot1,
     lineBarSpot2,
   ],
-  new PointerDownEvent(position: const Offset(0, 100)),
-  false,
 );
 
 final TouchedSpotIndicatorData touchedSpotIndicatorData1 = TouchedSpotIndicatorData(
@@ -977,7 +955,7 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipMargin: 34,
 );
 
-final Function(LineTouchResponse) lineTouchCallback = (response) {};
+final Function(FlTouchEvent event, LineTouchResponse?) lineTouchCallback = (event, response) {};
 
 final List<TouchedSpotIndicatorData?> Function(LineChartBarData barData, List<int> spotIndexes)
     getTouchedSpotIndicator =
@@ -2092,7 +2070,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
       tooltipRoundedRadius: 534,
     ),
     handleBuiltInTouches: false,
-    touchCallback: (response) {},
+    touchCallback: scatterTouchCallback,
     touchSpotThreshold: 12,
   ),
   showingTooltipIndicators: [0, 1, 2],
@@ -2179,7 +2157,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
       tooltipRoundedRadius: 534,
     ),
     handleBuiltInTouches: false,
-    touchCallback: (response) {},
+    touchCallback: scatterTouchCallback,
     touchSpotThreshold: 12,
   ),
   showingTooltipIndicators: [0, 1, 2],
@@ -2507,18 +2485,12 @@ final BarTouchedSpot barTouchedSpot7 = BarTouchedSpot(
 
 final BarTouchResponse barTouchResponse1 = BarTouchResponse(
   barTouchedSpot1,
-  new PointerDownEvent(position: const Offset(0, 1)),
-  false,
 );
 final BarTouchResponse barTouchResponse1Clone = BarTouchResponse(
   barTouchedSpot1Clone,
-  new PointerDownEvent(position: const Offset(0, 1)),
-  false,
 );
 final BarTouchResponse barTouchResponse2 = BarTouchResponse(
   barTouchedSpot2,
-  new PointerDownEvent(position: const Offset(0, 1)),
-  false,
 );
 
 final BarTooltipItem barTooltipItem1 = BarTooltipItem(
@@ -2661,7 +2633,10 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipMargin: 333,
 );
 
-final Function(BarTouchResponse) barTouchCallback = (response) {};
+final Function(FlTouchEvent event, BarTouchResponse?) barTouchCallback = (event, response) {};
+
+final Function(FlTouchEvent event, ScatterTouchResponse?) scatterTouchCallback =
+    (event, response) {};
 
 final BarTouchData barTouchData1 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
@@ -2858,7 +2833,7 @@ final RadarTouchData radarTouchData2 = RadarTouchData(
 
 final RadarTouchData radarTouchData1Clone = radarTouchData1;
 
-final Function(RadarTouchResponse) radarTouchCallback = (response) {};
+final Function(FlTouchEvent event, RadarTouchResponse?) radarTouchCallback = (event, response) {};
 
 final radarTouchedSpot1 = RadarTouchedSpot(
   radarDataSet1,
