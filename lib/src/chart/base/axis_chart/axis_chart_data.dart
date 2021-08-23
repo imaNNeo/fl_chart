@@ -106,6 +106,24 @@ class FlAxisTitleData with EquatableMixin {
     );
   }
 
+  /// Copies current [FlAxisTitleData] to a new [FlAxisTitleData],
+  /// and replaces provided values.
+  FlAxisTitleData copyWith({
+    bool? show,
+    AxisTitle? leftTitle,
+    AxisTitle? topTitle,
+    AxisTitle? rightTitle,
+    AxisTitle? bottomTitle,
+  }) {
+    return FlAxisTitleData(
+      show: show ?? this.show,
+      leftTitle: leftTitle ?? this.leftTitle,
+      topTitle: topTitle ?? this.topTitle,
+      rightTitle: rightTitle ?? this.rightTitle,
+      bottomTitle: bottomTitle ?? this.bottomTitle,
+    );
+  }
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -178,6 +196,28 @@ class AxisTitle with EquatableMixin {
     );
   }
 
+  /// Copies current [AxisTitle] to a new [AxisTitle],
+  /// and replaces provided values.
+  AxisTitle copyWith({
+    bool? showTitle,
+    String? titleText,
+    double? reservedSize,
+    TextStyle? textStyle,
+    TextDirection? textDirection,
+    TextAlign? textAlign,
+    double? margin,
+  }) {
+    return AxisTitle(
+      showTitle: showTitle ?? this.showTitle,
+      titleText: titleText ?? this.titleText,
+      reservedSize: reservedSize ?? this.reservedSize,
+      textStyle: textStyle ?? this.textStyle,
+      textDirection: textDirection ?? this.textDirection,
+      textAlign: textAlign ?? this.textAlign,
+      margin: margin ?? this.margin,
+    );
+  }
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -219,6 +259,24 @@ class FlTitlesData with EquatableMixin {
       rightTitles: SideTitles.lerp(a.rightTitles, b.rightTitles, t),
       bottomTitles: SideTitles.lerp(a.bottomTitles, b.bottomTitles, t),
       topTitles: SideTitles.lerp(a.topTitles, b.topTitles, t),
+    );
+  }
+
+  /// Copies current [FlTitlesData] to a new [FlTitlesData],
+  /// and replaces provided values.
+  FlTitlesData copyWith({
+    bool? show,
+    SideTitles? leftTitles,
+    SideTitles? topTitles,
+    SideTitles? rightTitles,
+    SideTitles? bottomTitles,
+  }) {
+    return FlTitlesData(
+      show: show ?? this.show,
+      leftTitles: leftTitles ?? this.leftTitles,
+      topTitles: topTitles ?? this.topTitles,
+      rightTitles: rightTitles ?? this.rightTitles,
+      bottomTitles: bottomTitles ?? this.bottomTitles,
     );
   }
 
@@ -317,6 +375,32 @@ class SideTitles with EquatableMixin {
       interval: lerpDouble(a.interval, b.interval, t),
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
       checkToShowTitle: b.checkToShowTitle,
+    );
+  }
+
+  /// Copies current [SideTitles] to a new [SideTitles],
+  /// and replaces provided values.
+  SideTitles copyWith({
+    bool? showTitles,
+    GetTitleFunction? getTitles,
+    double? reservedSize,
+    GetTitleTextStyleFunction? getTextStyles,
+    TextDirection? textDirection,
+    double? margin,
+    double? interval,
+    double? rotateAngle,
+    CheckToShowTitle? checkToShowTitle,
+  }) {
+    return SideTitles(
+      showTitles: showTitles ?? this.showTitles,
+      getTitles: getTitles ?? this.getTitles,
+      reservedSize: reservedSize ?? this.reservedSize,
+      getTextStyles: getTextStyles ?? this.getTextStyles,
+      textDirection: textDirection ?? this.textDirection,
+      margin: margin ?? this.margin,
+      interval: interval ?? this.interval,
+      rotateAngle: rotateAngle ?? this.rotateAngle,
+      checkToShowTitle: checkToShowTitle ?? this.checkToShowTitle,
     );
   }
 
@@ -492,6 +576,32 @@ class FlGridData with EquatableMixin {
     );
   }
 
+  /// Copies current [FlGridData] to a new [FlGridData],
+  /// and replaces provided values.
+  FlGridData copyWith({
+    bool? show,
+    bool? drawHorizontalLine,
+    double? horizontalInterval,
+    GetDrawingGridLine? getDrawingHorizontalLine,
+    CheckToShowGrid? checkToShowHorizontalLine,
+    bool? drawVerticalLine,
+    double? verticalInterval,
+    GetDrawingGridLine? getDrawingVerticalLine,
+    CheckToShowGrid? checkToShowVerticalLine,
+  }) {
+    return FlGridData(
+      show: show ?? this.show,
+      drawHorizontalLine: drawHorizontalLine ?? this.drawHorizontalLine,
+      horizontalInterval: horizontalInterval ?? this.horizontalInterval,
+      getDrawingHorizontalLine: getDrawingHorizontalLine ?? this.getDrawingHorizontalLine,
+      checkToShowHorizontalLine: checkToShowHorizontalLine ?? this.checkToShowHorizontalLine,
+      drawVerticalLine: drawVerticalLine ?? this.drawVerticalLine,
+      verticalInterval: verticalInterval ?? this.verticalInterval,
+      getDrawingVerticalLine: getDrawingVerticalLine ?? this.getDrawingVerticalLine,
+      checkToShowVerticalLine: checkToShowVerticalLine ?? this.checkToShowVerticalLine,
+    );
+  }
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -550,8 +660,11 @@ class FlLine with EquatableMixin {
   /// it is a circular array of dash offsets and lengths.
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
-  FlLine({Color? color, double? strokeWidth, List<int>? dashArray})
-      : color = color ?? Colors.black,
+  FlLine({
+    Color? color,
+    double? strokeWidth,
+    List<int>? dashArray,
+  })  : color = color ?? Colors.black,
         strokeWidth = strokeWidth ?? 2,
         dashArray = dashArray;
 
@@ -561,6 +674,20 @@ class FlLine with EquatableMixin {
       color: Color.lerp(a.color, b.color, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+    );
+  }
+
+  /// Copies current [FlLine] to a new [FlLine],
+  /// and replaces provided values.
+  FlLine copyWith({
+    Color? color,
+    double? strokeWidth,
+    List<int>? dashArray,
+  }) {
+    return FlLine(
+      color: color ?? this.color,
+      strokeWidth: strokeWidth ?? this.strokeWidth,
+      dashArray: dashArray ?? this.dashArray,
     );
   }
 
@@ -625,6 +752,18 @@ class RangeAnnotations with EquatableMixin {
     );
   }
 
+  /// Copies current [RangeAnnotations] to a new [RangeAnnotations],
+  /// and replaces provided values.
+  RangeAnnotations copyWith({
+    List<HorizontalRangeAnnotation>? horizontalRangeAnnotations,
+    List<VerticalRangeAnnotation>? verticalRangeAnnotations,
+  }) {
+    return RangeAnnotations(
+      horizontalRangeAnnotations: horizontalRangeAnnotations ?? this.horizontalRangeAnnotations,
+      verticalRangeAnnotations: verticalRangeAnnotations ?? this.verticalRangeAnnotations,
+    );
+  }
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -661,6 +800,20 @@ class HorizontalRangeAnnotation with EquatableMixin {
       y1: lerpDouble(a.y1, b.y1, t)!,
       y2: lerpDouble(a.y2, b.y2, t)!,
       color: Color.lerp(a.color, b.color, t),
+    );
+  }
+
+  /// Copies current [HorizontalRangeAnnotation] to a new [HorizontalRangeAnnotation],
+  /// and replaces provided values.
+  HorizontalRangeAnnotation copyWith({
+    double? y1,
+    double? y2,
+    Color? color,
+  }) {
+    return HorizontalRangeAnnotation(
+      y1: y1 ?? this.y1,
+      y2: y2 ?? this.y2,
+      color: color ?? this.color,
     );
   }
 
@@ -701,6 +854,20 @@ class VerticalRangeAnnotation with EquatableMixin {
       x1: lerpDouble(a.x1, b.x1, t)!,
       x2: lerpDouble(a.x2, b.x2, t)!,
       color: Color.lerp(a.color, b.color, t),
+    );
+  }
+
+  /// Copies current [VerticalRangeAnnotation] to a new [VerticalRangeAnnotation],
+  /// and replaces provided values.
+  VerticalRangeAnnotation copyWith({
+    double? x1,
+    double? x2,
+    Color? color,
+  }) {
+    return VerticalRangeAnnotation(
+      x1: x1 ?? this.x1,
+      x2: x2 ?? this.x2,
+      color: color ?? this.color,
     );
   }
 
