@@ -45,7 +45,7 @@ class _BarChart extends StatelessWidget {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
+          getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff7589a2),
             fontWeight: FontWeight.bold,
             fontSize: 14,
