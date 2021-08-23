@@ -77,11 +77,11 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     if (!desiredTouch || touchResponse == null || touchResponse.touchedSpot == null) {
       setState(() {
         touchedSpots = [];
-        return;
       });
+      return;
     }
     setState(() {
-      touchedSpots = [touchResponse!.touchedSpot!.spotIndex];
+      touchedSpots = [touchResponse.touchedSpot!.spotIndex];
     });
   }
 
