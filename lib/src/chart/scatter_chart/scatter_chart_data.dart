@@ -120,14 +120,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
       axisTitleData: axisTitleData ?? this.axisTitleData,
-      minX:
-          minX ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? this.scatterSpots).minX,
-      maxX:
-          maxX ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? this.scatterSpots).maxX,
-      minY:
-          minY ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? this.scatterSpots).minY,
-      maxY:
-          maxY ?? ScatterChartHelper.calculateMaxAxisValues(scatterSpots ?? this.scatterSpots).maxY,
+      minX: minX ?? this.minX,
+      maxX: maxX ?? this.maxX,
+      minY: minY ?? this.minY,
+      maxY: maxY ?? this.maxY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
