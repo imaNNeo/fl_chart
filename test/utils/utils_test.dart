@@ -54,10 +54,10 @@ void main() {
   });
 
   test('test getEfficientInterval', () {
-    expect(getEfficientInterval(472, 340), 5);
-    expect(getEfficientInterval(820, 10000), 100);
-    expect(getEfficientInterval(1024, 412345234), 5000000);
-    expect(getEfficientInterval(720, 812394712349), 10000000000);
+    expect(getEfficientInterval(472, 340, pixelPerInterval: 10), 5);
+    expect(getEfficientInterval(820, 10000, pixelPerInterval: 10), 100);
+    expect(getEfficientInterval(1024, 412345234, pixelPerInterval: 10), 5000000);
+    expect(getEfficientInterval(720, 812394712349, pixelPerInterval: 10), 10000000000);
   });
 
   test('test formatNumber', () {

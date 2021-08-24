@@ -31,7 +31,7 @@ class BarChartHelper {
       return BarChartMinMaxAxisValues(0, 0);
     }
 
-    var maxY = barGroups[0].barRods[0].y;
+    var maxY = barGroup.barRods[0].y;
     var minY = 0.0;
 
     for (var i = 0; i < barGroups.length; i++) {
