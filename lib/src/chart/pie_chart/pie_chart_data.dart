@@ -201,7 +201,7 @@ class PieChartSectionData {
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
         titleStyle = titleStyle,
-        title = title ?? value.toString(),
+        title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? BorderSide(width: 0),
         badgeWidget = badgeWidget ?? Container(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,

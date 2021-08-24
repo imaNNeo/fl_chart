@@ -418,7 +418,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     // Right Titles
     if (!data.isVerticalMinMaxIsZero) {
       final rightTitles = targetData.titlesData.rightTitles;
-      print(viewSize.height);
       final rightInterval =
           rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
       if (rightTitles.showTitles) {
