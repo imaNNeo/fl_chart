@@ -9,6 +9,7 @@
 * **IMPROVEMENT** Show narrow horizontal and vertical grid lines by default.
 * **IMPROVEMENT** Show all left, top (except BarChart), right, bottom titles in Axis based charts by default.
 * **IMPROVEMENT** Set `BarChartAlignment.spaceEvenly` as `alignment` property of [BarChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartdata) by default
+* **IMPROVEMENT** Allow [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md) and [LineChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md) have empty values instead of throwing exception (we don't show anything if there is nothing provided)
 * **NEWS** Your donation **motivates** me to work more on the `fl_chart` and resolve more issues. Now you can [buy me a coffee](https://www.buymeacoffee.com/fl_chart)!
 
 ## 0.36.4
