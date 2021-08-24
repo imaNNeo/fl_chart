@@ -351,45 +351,47 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final drawSize = getChartUsableDrawSize(viewSize, holder);
 
     // Left Titles
-    final leftTitles = targetData.titlesData.leftTitles;
-    final leftInterval =
-        leftTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
-    if (leftTitles.showTitles) {
-      var verticalSeek = data.minY;
-      while (verticalSeek <= data.maxY) {
-        if (leftTitles.checkToShowTitle(
-            data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
-          var x = 0 + getLeftOffsetDrawSize(holder);
-          var y = getPixelY(verticalSeek, drawSize, holder);
+    if (!data.isVerticalMinMaxIsZero) {
+      final leftTitles = targetData.titlesData.leftTitles;
+      final leftInterval =
+          leftTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
+      if (leftTitles.showTitles) {
+        var verticalSeek = data.minY;
+        while (verticalSeek <= data.maxY) {
+          if (leftTitles.checkToShowTitle(
+              data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
+            var x = 0 + getLeftOffsetDrawSize(holder);
+            var y = getPixelY(verticalSeek, drawSize, holder);
 
-          final text = leftTitles.getTitles(verticalSeek);
+            final text = leftTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(
-              style:
-                  getThemeAwareTextStyle(context, leftTitles.getTextStyles(context, verticalSeek)),
-              text: text);
-          final tp = TextPainter(
-              text: span,
-              textAlign: TextAlign.center,
-              textDirection: leftTitles.textDirection,
-              textScaleFactor: holder.textScale);
-          tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
-          x -= tp.width + leftTitles.margin;
-          y -= tp.height / 2;
-          x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
-          canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
-        }
-        if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
-          verticalSeek = data.maxY;
-        } else {
-          verticalSeek += leftInterval;
+            final span = TextSpan(
+                style: getThemeAwareTextStyle(
+                    context, leftTitles.getTextStyles(context, verticalSeek)),
+                text: text);
+            final tp = TextPainter(
+                text: span,
+                textAlign: TextAlign.center,
+                textDirection: leftTitles.textDirection,
+                textScaleFactor: holder.textScale);
+            tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
+            x -= tp.width + leftTitles.margin;
+            y -= tp.height / 2;
+            x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
+            canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
+          }
+          if (data.maxY - verticalSeek < leftInterval && data.maxY != verticalSeek) {
+            verticalSeek = data.maxY;
+          } else {
+            verticalSeek += leftInterval;
+          }
         }
       }
     }
 
     // Top Titles
     final topTitles = targetData.titlesData.topTitles;
-    if (topTitles.showTitles) {
+    if (topTitles.showTitles && groupBarsPosition.containsAnythingToShow()) {
       for (var index = 0; index < groupBarsPosition.length; index++) {
         final groupBarPos = groupBarsPosition[index];
 
@@ -414,45 +416,48 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     // Right Titles
-    final rightTitles = targetData.titlesData.rightTitles;
-    final rightInterval =
-        rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
-    if (rightTitles.showTitles) {
-      var verticalSeek = data.minY;
-      while (verticalSeek <= data.maxY) {
-        if (rightTitles.checkToShowTitle(
-            data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
-          var x = drawSize.width + getLeftOffsetDrawSize(holder);
-          var y = getPixelY(verticalSeek, drawSize, holder);
+    if (!data.isVerticalMinMaxIsZero) {
+      final rightTitles = targetData.titlesData.rightTitles;
+      print(viewSize.height);
+      final rightInterval =
+          rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
+      if (rightTitles.showTitles) {
+        var verticalSeek = data.minY;
+        while (verticalSeek <= data.maxY) {
+          if (rightTitles.checkToShowTitle(
+              data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
+            var x = drawSize.width + getLeftOffsetDrawSize(holder);
+            var y = getPixelY(verticalSeek, drawSize, holder);
 
-          final text = rightTitles.getTitles(verticalSeek);
+            final text = rightTitles.getTitles(verticalSeek);
 
-          final span = TextSpan(
-              style:
-                  getThemeAwareTextStyle(context, rightTitles.getTextStyles(context, verticalSeek)),
-              text: text);
-          final tp = TextPainter(
-              text: span,
-              textAlign: TextAlign.center,
-              textDirection: rightTitles.textDirection,
-              textScaleFactor: holder.textScale);
-          tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
-          x += rightTitles.margin;
-          y -= tp.height / 2;
-          x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
-          canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
-        }
-        if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
-          verticalSeek = data.maxY;
-        } else {
-          verticalSeek += rightInterval;
+            final span = TextSpan(
+                style: getThemeAwareTextStyle(
+                    context, rightTitles.getTextStyles(context, verticalSeek)),
+                text: text);
+            final tp = TextPainter(
+                text: span,
+                textAlign: TextAlign.center,
+                textDirection: rightTitles.textDirection,
+                textScaleFactor: holder.textScale);
+            tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
+            x += rightTitles.margin;
+            y -= tp.height / 2;
+            x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
+            canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
+          }
+          if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
+            verticalSeek = data.maxY;
+          } else {
+            verticalSeek += rightInterval;
+          }
         }
       }
     }
 
     // Bottom titles
     final bottomTitles = targetData.titlesData.bottomTitles;
-    if (bottomTitles.showTitles) {
+    if (bottomTitles.showTitles && groupBarsPosition.containsAnythingToShow()) {
       final interval = bottomTitles.interval?.toInt() ?? 1;
 
       for (var index = 0; index < groupBarsPosition.length; index += interval) {
@@ -850,4 +855,15 @@ class _GroupBarsPosition {
   final List<double> barsX;
 
   _GroupBarsPosition(this.groupX, this.barsX);
+}
+
+extension _GroupBarsPositionListExtension on List<_GroupBarsPosition> {
+  bool containsAnythingToShow() {
+    try {
+      firstWhere((element) => element.barsX.isNotEmpty);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

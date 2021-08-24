@@ -7,6 +7,7 @@
 * **BUGFIX** Fixed `ScatterChart` default touchHandling crash
 * **BUGFIX* Fix text styles when updating the theme.
 * **IMPROVEMENT** Show narrow horizontal and vertical grid lines by default.
+* **IMPROVEMENT** Show all left, top, right, bottom titles by default.
 * **NEWS** Your donation **motivates** me to work more on the `fl_chart` and resolve more issues. Now you can [buy me a coffee](https://www.buymeacoffee.com/fl_chart)!
 
 ## 0.36.4
