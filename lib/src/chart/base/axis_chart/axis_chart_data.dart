@@ -635,7 +635,8 @@ typedef GetDrawingGridLine = FlLine Function(double value);
 FlLine defaultGridLine(double value) {
   return FlLine(
     color: Colors.blueGrey,
-    strokeWidth: 0.2,
+    strokeWidth: 0.4,
+    dashArray: [8, 4],
   );
 }
 
