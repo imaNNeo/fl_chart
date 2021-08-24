@@ -21,17 +21,18 @@ class LineChartHelper {
       return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
     }
 
-    for (var i = 0; i < lineBarsData.length; i++) {
-      final lineBarChart = lineBarsData[i];
-      if (lineBarChart.spots.isEmpty) {
-        throw Exception('spots could not be null or empty');
-      }
+    final LineChartBarData lineBarData;
+    try {
+      lineBarData = lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
+    } catch (e) {
+      // There is no lineBarData with at least one spot
+      return LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
-    var minX = lineBarsData[0].spots[0].x;
-    var maxX = lineBarsData[0].spots[0].x;
-    var minY = lineBarsData[0].spots[0].y;
-    var maxY = lineBarsData[0].spots[0].y;
+    var minX = lineBarData.spots[0].x;
+    var maxX = lineBarData.spots[0].x;
+    var minY = lineBarData.spots[0].y;
+    var maxY = lineBarData.spots[0].y;
 
     for (var i = 0; i < lineBarsData.length; i++) {
       final barData = lineBarsData[i];
