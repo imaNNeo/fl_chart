@@ -62,15 +62,12 @@ class BarChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
-        alignment = alignment ?? BarChartAlignment.spaceBetween,
-        titlesData = titlesData ?? FlTitlesData(),
+        alignment = alignment ?? BarChartAlignment.spaceEvenly,
+        titlesData = titlesData ?? FlTitlesData(topTitles: SideTitles(showTitles: false)),
         barTouchData = barTouchData ?? BarTouchData(),
         super(
             axisTitleData: axisTitleData ?? FlAxisTitleData(),
-            gridData: gridData ??
-                FlGridData(
-                  show: false,
-                ),
+            gridData: gridData ?? FlGridData(),
             borderData: borderData,
             rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
             backgroundColor: backgroundColor,

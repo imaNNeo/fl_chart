@@ -5,9 +5,10 @@
 * **IMPROVEMENT** Again we support `longPress` touch events. check [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) to see all kind of supported touch/pointer events (which can be `FlLongPressStart`, `FlLongPressMoveUpdate`, `FlLongPressEnd`, ...). Also you can check out [touch handling doc](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md), #649.
 * **IMPROVEMENT** Added `mouseCursorResolver` callback in touchData classes such as [LineTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling) and [BarTouchData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#bartouchdata-read-about-touch-handling). You can change the [MouseCursor](https://api.flutter.dev/flutter/services/MouseCursor-class.html) based on the provided [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and touchResponse using this callback. (We have used this feature in [PieChartSample2](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#sample-2-source-code))
 * **BUGFIX** Fixed `ScatterChart` default touchHandling crash
-* **BUGFIX* Fix text styles when updating the theme.
+* **BUGFIX** Fix text styles when updating the theme.
 * **IMPROVEMENT** Show narrow horizontal and vertical grid lines by default.
-* **IMPROVEMENT** Show all left, top, right, bottom titles by default.
+* **IMPROVEMENT** Show all left, top (except BarChart), right, bottom titles in Axis based charts by default.
+* **IMPROVEMENT** Set `BarChartAlignment.spaceEvenly` as `alignment` property of [BarChartData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartdata) by default
 * **NEWS** Your donation **motivates** me to work more on the `fl_chart` and resolve more issues. Now you can [buy me a coffee](https://www.buymeacoffee.com/fl_chart)!
 
 ## 0.36.4
