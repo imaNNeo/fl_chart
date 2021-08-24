@@ -15,6 +15,7 @@
 ## 0.36.4
 * **IMPROVEMENT** Added `borderSide` property in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#BarChartRodData) and [BarChartRodStackItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#BarChartRodStackItem) to draw strokes around each bar and rod stack items, #714.
 * **IMPROVEMENT** Now all textStyles are nullable and theme-aware by default, #269.
+* **BREAKING** All `getTextStyles` callback now give you a `context` and `value` (previously it was only a `value`).
 * **BUGFIX** Fixed `colorStops` calculation which used in gradient colors, #732.
 
 ## 0.36.3
