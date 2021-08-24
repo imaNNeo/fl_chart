@@ -81,7 +81,9 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     _providedTouchCallback?.call(event, touchResponse);
 
     if (!event.isInterestedForInteractions || touchResponse == null || touchResponse.spot == null) {
-      _showingTouchedTooltips.clear();
+      setState(() {
+        _showingTouchedTooltips.clear();
+      });
       return;
     }
     setState(() {
