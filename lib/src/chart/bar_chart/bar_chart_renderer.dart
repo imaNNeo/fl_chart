@@ -24,7 +24,8 @@ class BarChartLeaf extends LeafRenderObjectWidget {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor;
+      ..textScale = MediaQuery.of(context).textScaleFactor
+      ..buildContext = context;
   }
 }
 
@@ -35,13 +36,10 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     BarChartData data,
     BarChartData targetData,
     double textScale,
-  )   : _buildContext = context,
-        _data = data,
+  )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.barTouchData);
-
-  final BuildContext _buildContext;
+        super(targetData.barTouchData, context);
 
   BarChartData get data => _data;
   BarChartData _data;
@@ -82,7 +80,7 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 

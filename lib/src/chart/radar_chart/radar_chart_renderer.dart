@@ -24,7 +24,8 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor;
+      ..textScale = MediaQuery.of(context).textScaleFactor
+      ..buildContext = context;
   }
 }
 
@@ -32,13 +33,10 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
 class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
   RenderRadarChart(
       BuildContext context, RadarChartData data, RadarChartData targetData, double textScale)
-      : _buildContext = context,
-        _data = data,
+      : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.radarTouchData);
-
-  final BuildContext _buildContext;
+        super(targetData.radarTouchData, context);
 
   RadarChartData get data => _data;
   RadarChartData _data;
@@ -76,7 +74,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 
