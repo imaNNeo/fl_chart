@@ -34,6 +34,12 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Difference of [maxX] and [minX]
   double get horizontalDiff => maxX - minX;
 
+  /// Returns true if [minX] and [maxX] both are zero
+  bool get isHorizontalMinMaxIsZero => minX == 0 && maxX == 0;
+
+  /// Returns true if [minY] and [maxY] both are zero
+  bool get isVerticalMinMaxIsZero => minY == 0 && maxY == 0;
+
   AxisChartData({
     FlGridData? gridData,
     required FlAxisTitleData axisTitleData,
@@ -247,9 +253,9 @@ class FlTitlesData with EquatableMixin {
     SideTitles? bottomTitles,
   })  : show = show ?? true,
         leftTitles = leftTitles ?? SideTitles(reservedSize: 40, showTitles: true),
-        topTitles = topTitles ?? SideTitles(reservedSize: 6),
-        rightTitles = rightTitles ?? SideTitles(reservedSize: 40),
-        bottomTitles = bottomTitles ?? SideTitles(reservedSize: 22, showTitles: true);
+        topTitles = topTitles ?? SideTitles(reservedSize: 6, showTitles: true),
+        rightTitles = rightTitles ?? SideTitles(reservedSize: 40, showTitles: true),
+        bottomTitles = bottomTitles ?? SideTitles(reservedSize: 6, showTitles: true);
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
   static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
