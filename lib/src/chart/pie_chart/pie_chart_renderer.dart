@@ -36,7 +36,8 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor;
+      ..textScale = MediaQuery.of(context).textScaleFactor
+      ..buildContext = context;
   }
 }
 
@@ -47,13 +48,10 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData>
     implements MouseTrackerAnnotation {
   RenderPieChart(BuildContext context, PieChartData data, PieChartData targetData, double textScale)
-      : _buildContext = context,
-        _data = data,
+      : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.pieTouchData);
-
-  final BuildContext _buildContext;
+        super(targetData.pieTouchData, context);
 
   PieChartData get data => _data;
   PieChartData _data;
@@ -127,7 +125,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
     defaultPaint(context, offset);
   }

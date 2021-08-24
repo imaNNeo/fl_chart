@@ -25,7 +25,8 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor;
+      ..textScale = MediaQuery.of(context).textScaleFactor
+      ..buildContext = context;
   }
 }
 
@@ -33,13 +34,10 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
 class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
   RenderScatterChart(
       BuildContext context, ScatterChartData data, ScatterChartData targetData, double textScale)
-      : _buildContext = context,
-        _data = data,
+      : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.scatterTouchData);
-
-  final BuildContext _buildContext;
+        super(targetData.scatterTouchData, context);
 
   ScatterChartData get data => _data;
   ScatterChartData _data;
@@ -78,7 +76,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(_buildContext, CanvasWrapper(canvas, size), paintHolder);
+    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 
