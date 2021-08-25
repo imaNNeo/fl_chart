@@ -47,6 +47,8 @@ class _LineChart extends StatelessWidget {
 
   FlTitlesData get titlesData1 => FlTitlesData(
         bottomTitles: bottomTitles,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
         leftTitles: leftTitles(
           getTitles: (value) {
             switch (value.toInt()) {
@@ -76,6 +78,8 @@ class _LineChart extends StatelessWidget {
 
   FlTitlesData get titlesData2 => FlTitlesData(
         bottomTitles: bottomTitles,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
         leftTitles: leftTitles(
           getTitles: (value) {
             switch (value.toInt()) {
@@ -311,10 +315,11 @@ class LineChartSample1State extends State<LineChartSample1> {
                 const Text(
                   'Monthly Sales',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2),
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 2,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
