@@ -253,9 +253,9 @@ class FlTitlesData with EquatableMixin {
     SideTitles? bottomTitles,
   })  : show = show ?? true,
         leftTitles = leftTitles ?? SideTitles(reservedSize: 40, showTitles: true),
-        topTitles = topTitles ?? SideTitles(reservedSize: 6, showTitles: true),
+        topTitles = topTitles ?? SideTitles(reservedSize: 40, showTitles: true),
         rightTitles = rightTitles ?? SideTitles(reservedSize: 40, showTitles: true),
-        bottomTitles = bottomTitles ?? SideTitles(reservedSize: 6, showTitles: true);
+        bottomTitles = bottomTitles ?? SideTitles(reservedSize: 40, showTitles: true);
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
   static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {

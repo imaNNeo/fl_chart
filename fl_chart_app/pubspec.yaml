@@ -14,6 +14,8 @@ dependencies:
   google_fonts: ^2.1.0
   flutter_svg: ^0.22.0
   universal_platform: ^1.0.0-nullsafety
+  flutter_material_color_picker: ^1.1.0+2
+  equatable: ^2.0.3
   fl_chart:
     path: ../
 

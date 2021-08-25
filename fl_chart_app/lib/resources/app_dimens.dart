@@ -10,4 +10,7 @@ class AppDimens {
   static const double defaultRadius = 8;
   static const double chartSamplesSpace = 32.0;
   static const double chartSamplesMinWidth = 350;
+
+  static const double editorPanelBoxesSize = 22.0;
+  static const double editorPanelWidth = 280;
 }
