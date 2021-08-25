@@ -335,6 +335,15 @@ class ScatterTouchedSpot with EquatableMixin {
         spot,
         spotIndex,
       ];
+
+  /// Copies current [ScatterTouchedSpot] to a new [ScatterTouchedSpot],
+  /// and replaces provided values.
+  ScatterTouchedSpot copyWith({
+    ScatterSpot? spot,
+    int? spotIndex,
+  }) {
+    return ScatterTouchedSpot(spot ?? this.spot, spotIndex ?? this.spotIndex);
+  }
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
@@ -406,6 +415,30 @@ class ScatterTouchTooltipData with EquatableMixin {
         fitInsideVertically,
         rotateAngle,
       ];
+
+  /// Copies current [ScatterTouchTooltipData] to a new [ScatterTouchTooltipData],
+  /// and replaces provided values.
+  ScatterTouchTooltipData copyWith({
+    Color? tooltipBgColor,
+    double? tooltipRoundedRadius,
+    EdgeInsets? tooltipPadding,
+    double? maxContentWidth,
+    GetScatterTooltipItems? getTooltipItems,
+    bool? fitInsideHorizontally,
+    bool? fitInsideVertically,
+    double? rotateAngle,
+  }) {
+    return ScatterTouchTooltipData(
+      tooltipBgColor: tooltipBgColor ?? this.tooltipBgColor,
+      tooltipRoundedRadius: tooltipRoundedRadius ?? this.tooltipRoundedRadius,
+      tooltipPadding: tooltipPadding ?? this.tooltipPadding,
+      maxContentWidth: maxContentWidth ?? this.maxContentWidth,
+      getTooltipItems: getTooltipItems ?? this.getTooltipItems,
+      fitInsideHorizontally: fitInsideHorizontally ?? this.fitInsideHorizontally,
+      fitInsideVertically: fitInsideVertically ?? this.fitInsideVertically,
+      rotateAngle: rotateAngle ?? this.rotateAngle,
+    );
+  }
 }
 
 /// Provides a [ScatterTooltipItem] for showing content inside the [ScatterTouchTooltipData].
