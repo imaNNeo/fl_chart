@@ -243,9 +243,11 @@ class _LineChartSample3State extends State<LineChartSample3> {
               ),
               titlesData: FlTitlesData(
                 show: true,
+                topTitles: SideTitles(showTitles: false),
+                rightTitles: SideTitles(showTitles: false),
                 leftTitles: SideTitles(
                   showTitles: true,
-                  reservedSize: 30,
+                  reservedSize: 40,
                   getTitles: (value) {
                     switch (value.toInt()) {
                       case 0:
@@ -265,6 +267,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                 ),
                 bottomTitles: SideTitles(
                   showTitles: true,
+                  reservedSize: 40,
                   getTitles: (value) {
                     return widget.weekDays[value.toInt()];
                   },

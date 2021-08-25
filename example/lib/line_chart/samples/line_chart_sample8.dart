@@ -148,6 +148,8 @@ class _LineChartSample8State extends State<LineChartSample8> {
           reservedSize: 28,
           margin: 12,
         ),
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
       ),
       lineTouchData: LineTouchData(
         getTouchLineEnd: (data, index) => double.infinity,

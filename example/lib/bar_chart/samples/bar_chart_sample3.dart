@@ -73,6 +73,8 @@ class _BarChart extends StatelessWidget {
           },
         ),
         leftTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        rightTitles: SideTitles(showTitles: false),
       );
 
   FlBorderData get borderData => FlBorderData(
