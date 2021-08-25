@@ -366,15 +366,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             final text = leftTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-                style: getThemeAwareTextStyle(
-                    context, leftTitles.getTextStyles(context, verticalSeek)),
-                text: text);
+              style:
+                  getThemeAwareTextStyle(context, leftTitles.getTextStyles(context, verticalSeek)),
+              text: text,
+            );
             final tp = TextPainter(
-                text: span,
-                textAlign: TextAlign.center,
-                textDirection: leftTitles.textDirection,
-                textScaleFactor: holder.textScale);
-            tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: leftTitles.textDirection,
+              textScaleFactor: holder.textScale,
+            );
+            tp.layout(maxWidth: leftTitles.reservedSize);
             x -= tp.width + leftTitles.margin;
             y -= tp.height / 2;
             x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
@@ -398,13 +400,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final xValue = data.barGroups[index].x.toDouble();
         final text = topTitles.getTitles(xValue);
         final span = TextSpan(
-            style: getThemeAwareTextStyle(context, topTitles.getTextStyles(context, xValue)),
-            text: text);
+          style: getThemeAwareTextStyle(context, topTitles.getTextStyles(context, xValue)),
+          text: text,
+        );
         final tp = TextPainter(
-            text: span,
-            textAlign: TextAlign.center,
-            textDirection: topTitles.textDirection,
-            textScaleFactor: holder.textScale);
+          text: span,
+          textAlign: TextAlign.center,
+          textDirection: topTitles.textDirection,
+          textScaleFactor: holder.textScale,
+        );
         tp.layout();
         var x = groupBarPos.groupX;
         var y = 0.0;
@@ -431,15 +435,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             final text = rightTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-                style: getThemeAwareTextStyle(
-                    context, rightTitles.getTextStyles(context, verticalSeek)),
-                text: text);
+              style:
+                  getThemeAwareTextStyle(context, rightTitles.getTextStyles(context, verticalSeek)),
+              text: text,
+            );
             final tp = TextPainter(
-                text: span,
-                textAlign: TextAlign.center,
-                textDirection: rightTitles.textDirection,
-                textScaleFactor: holder.textScale);
-            tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: rightTitles.textDirection,
+              textScaleFactor: holder.textScale,
+            );
+            tp.layout(maxWidth: rightTitles.reservedSize);
             x += rightTitles.margin;
             y -= tp.height / 2;
             x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;

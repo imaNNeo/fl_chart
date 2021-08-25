@@ -858,15 +858,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             final text = leftTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-                style: getThemeAwareTextStyle(
-                    context, leftTitles.getTextStyles(context, verticalSeek)),
-                text: text);
+              style:
+                  getThemeAwareTextStyle(context, leftTitles.getTextStyles(context, verticalSeek)),
+              text: text,
+            );
             final tp = TextPainter(
-                text: span,
-                textAlign: TextAlign.center,
-                textDirection: leftTitles.textDirection,
-                textScaleFactor: holder.textScale);
-            tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: leftTitles.textDirection,
+              textScaleFactor: holder.textScale,
+            );
+            tp.layout(maxWidth: leftTitles.reservedSize);
             x -= tp.width + leftTitles.margin;
             y -= tp.height / 2;
             x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
@@ -897,14 +899,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             final text = topTitles.getTitles(horizontalSeek);
 
             final span = TextSpan(
-                style: getThemeAwareTextStyle(
-                    context, topTitles.getTextStyles(context, horizontalSeek)),
-                text: text);
+              style:
+                  getThemeAwareTextStyle(context, topTitles.getTextStyles(context, horizontalSeek)),
+              text: text,
+            );
             final tp = TextPainter(
-                text: span,
-                textAlign: TextAlign.center,
-                textDirection: topTitles.textDirection,
-                textScaleFactor: holder.textScale);
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: topTitles.textDirection,
+              textScaleFactor: holder.textScale,
+            );
             tp.layout();
 
             x -= tp.width / 2;
@@ -937,15 +941,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             final text = rightTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-                style: getThemeAwareTextStyle(
-                    context, rightTitles.getTextStyles(context, verticalSeek)),
-                text: text);
+              style:
+                  getThemeAwareTextStyle(context, rightTitles.getTextStyles(context, verticalSeek)),
+              text: text,
+            );
             final tp = TextPainter(
-                text: span,
-                textAlign: TextAlign.center,
-                textDirection: rightTitles.textDirection,
-                textScaleFactor: holder.textScale);
-            tp.layout(maxWidth: getExtraNeededHorizontalSpace(holder));
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: rightTitles.textDirection,
+              textScaleFactor: holder.textScale,
+            );
+            tp.layout(maxWidth: rightTitles.reservedSize);
 
             x += rightTitles.margin;
             y -= tp.height / 2;
