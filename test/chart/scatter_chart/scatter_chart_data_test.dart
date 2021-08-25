@@ -376,34 +376,34 @@ void main() {
     test('ScatterTooltipItem equality test', () {
       final ScatterTooltipItem sample1 = ScatterTooltipItem(
         'aa',
-        const TextStyle(color: Colors.red),
-        23,
+        textStyle: const TextStyle(color: Colors.red),
+        bottomMargin: 23,
       );
       final ScatterTooltipItem sample2 = ScatterTooltipItem(
         'aa',
-        const TextStyle(color: Colors.red),
-        23,
+        textStyle: const TextStyle(color: Colors.red),
+        bottomMargin: 23,
       );
       expect(sample1 == sample2, true);
 
       ScatterTooltipItem changed = ScatterTooltipItem(
         'a3a',
-        const TextStyle(color: Colors.red),
-        23,
+        textStyle: const TextStyle(color: Colors.red),
+        bottomMargin: 23,
       );
       expect(sample1 == changed, false);
 
       changed = ScatterTooltipItem(
         'aa',
-        const TextStyle(color: Colors.green),
-        23,
+        textStyle: const TextStyle(color: Colors.green),
+        bottomMargin: 23,
       );
       expect(sample1 == changed, false);
 
       changed = ScatterTooltipItem(
         'aa',
-        const TextStyle(color: Colors.red),
-        0,
+        textStyle: const TextStyle(color: Colors.red),
+        bottomMargin: 0,
       );
       expect(sample1 == changed, false);
     });

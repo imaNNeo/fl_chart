@@ -253,7 +253,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse> with EquatableM
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
   })  : touchTooltipData = touchTooltipData ?? ScatterTouchTooltipData(),
-        touchSpotThreshold = touchSpotThreshold ?? 10,
+        touchSpotThreshold = touchSpotThreshold ?? 0,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         super(enabled ?? true, touchCallback, mouseCursorResolver);
 
@@ -423,8 +423,7 @@ ScatterTooltipItem? defaultScatterTooltipItem(ScatterSpot touchedSpot) {
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return ScatterTooltipItem(
-      '${touchedSpot.radius.toInt()}', textStyle, touchedSpot.radius + (touchedSpot.radius * 0.2));
+  return ScatterTooltipItem('${touchedSpot.radius.toInt()}', textStyle: textStyle);
 }
 
 /// Holds data of showing each item in the tooltip popup.
@@ -433,7 +432,7 @@ class ScatterTooltipItem with EquatableMixin {
   final String text;
 
   /// Style of showing text.
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   /// Defines bottom space from spot.
   final double bottomMargin;
@@ -450,15 +449,15 @@ class ScatterTooltipItem with EquatableMixin {
   /// Shows a [text] with [textStyle], [textDirection],  and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   ScatterTooltipItem(
-    String text,
-    TextStyle textStyle,
-    double bottomMargin, {
+    String text, {
+    TextStyle? textStyle,
+    double? bottomMargin,
     TextAlign? textAlign,
     TextDirection? textDirection,
     List<TextSpan>? children,
   })  : text = text,
         textStyle = textStyle,
-        bottomMargin = bottomMargin,
+        bottomMargin = bottomMargin ?? 8,
         textAlign = textAlign ?? TextAlign.center,
         textDirection = textDirection ?? TextDirection.ltr,
         children = children;
@@ -470,8 +469,29 @@ class ScatterTooltipItem with EquatableMixin {
         textStyle,
         bottomMargin,
         textAlign,
+        textDirection,
         children,
       ];
+
+  /// Copies current [ScatterTooltipItem] to a new [ScatterTooltipItem],
+  /// and replaces provided values.
+  ScatterTooltipItem copyWith({
+    String? text,
+    TextStyle? textStyle,
+    double? bottomMargin,
+    TextAlign? textAlign,
+    TextDirection? textDirection,
+    List<TextSpan>? children,
+  }) {
+    return ScatterTooltipItem(
+      text ?? this.text,
+      textStyle: textStyle ?? this.textStyle,
+      bottomMargin: bottomMargin ?? this.bottomMargin,
+      textAlign: textAlign ?? this.textAlign,
+      textDirection: textDirection ?? this.textDirection,
+      children: children ?? this.children,
+    );
+  }
 }
 
 /// It lerps a [ScatterChartData] to another [ScatterChartData] (handles animation for updating values)
