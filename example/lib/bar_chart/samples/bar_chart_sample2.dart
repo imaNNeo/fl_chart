@@ -130,6 +130,8 @@ class BarChartSample2State extends State<BarChartSample2> {
                           }),
                       titlesData: FlTitlesData(
                         show: true,
+                        rightTitles: SideTitles(showTitles: false),
+                        topTitles: SideTitles(showTitles: false),
                         bottomTitles: SideTitles(
                           showTitles: true,
                           getTextStyles: (context, value) => const TextStyle(
@@ -179,6 +181,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                         show: false,
                       ),
                       barGroups: showingBarGroups,
+                      gridData: FlGridData(show: false),
                     ),
                   ),
                 ),
