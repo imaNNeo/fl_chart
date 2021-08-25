@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.assistantTextTheme(
           Theme.of(context).textTheme,
         ),
-        scaffoldBackgroundColor: AppColors.background,
+        scaffoldBackgroundColor: AppColors.pageBackground,
       ),
       home: HomePage(),
     );
