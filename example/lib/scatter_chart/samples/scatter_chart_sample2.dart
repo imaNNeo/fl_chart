@@ -103,12 +103,12 @@ class _ScatterChartSample2State extends State {
                 getTooltipItems: (ScatterSpot touchedBarSpot) {
                   return ScatterTooltipItem(
                     'X: ',
-                    TextStyle(
+                    textStyle: TextStyle(
                       height: 1.2,
                       color: Colors.grey[100],
                       fontStyle: FontStyle.italic,
                     ),
-                    10,
+                    bottomMargin: 10,
                     children: [
                       TextSpan(
                         text: '${touchedBarSpot.x.toInt()} \n',

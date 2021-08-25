@@ -1985,7 +1985,8 @@ final bool Function(double) gridCheckToShowLine = (value) => true;
 final FlLine Function(double) gridGetDrawingLine = (value) => FlLine();
 
 final ScatterTooltipItem? Function(ScatterSpot touchedSpots) scatterChartGetTooltipItems = (list) {
-  return ScatterTooltipItem('check', const TextStyle(color: Colors.blue), 23);
+  return ScatterTooltipItem('check',
+      textStyle: const TextStyle(color: Colors.blue), bottomMargin: 23);
 };
 
 final ScatterSpot scatterSpot1 = ScatterSpot(1, 40);

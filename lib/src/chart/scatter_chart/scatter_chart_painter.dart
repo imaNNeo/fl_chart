@@ -289,8 +289,12 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
     /// draw the background rect with rounded radius
-    var rect = Rect.fromLTWH(mostTopOffset.dx - (tooltipWidth / 2),
-        mostTopOffset.dy - tooltipHeight - tooltipItem.bottomMargin, tooltipWidth, tooltipHeight);
+    var rect = Rect.fromLTWH(
+      mostTopOffset.dx - (tooltipWidth / 2),
+      mostTopOffset.dy - tooltipHeight - showOnSpot.radius - tooltipItem.bottomMargin,
+      tooltipWidth,
+      tooltipHeight,
+    );
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -464,10 +468,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       final spotPixelX = getPixelX(spot.x, chartViewSize, holder);
       final spotPixelY = getPixelY(spot.y, chartViewSize, holder);
 
-      if ((localPosition.dx - spotPixelX).abs() <=
-              (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold &&
-          (localPosition.dy - spotPixelY).abs() <=
-              (spot.radius / 2) + data.scatterTouchData.touchSpotThreshold) {
+      final distance = (localPosition - Offset(spotPixelX, spotPixelY)).distance;
+
+      if (distance < spot.radius + data.scatterTouchData.touchSpotThreshold) {
         return ScatterTouchedSpot(spot, i);
       }
     }
