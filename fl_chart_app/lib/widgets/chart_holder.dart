@@ -16,7 +16,7 @@ class ChartHolder extends StatelessWidget {
       builder: (context, constraints) {
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.holdersBackground,
+            color: AppColors.itemsBackground,
             borderRadius: BorderRadius.all(Radius.circular(AppDimens.defaultRadius)),
           ),
           child: child,

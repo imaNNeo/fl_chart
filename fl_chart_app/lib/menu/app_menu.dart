@@ -25,7 +25,7 @@ class _AppMenuState extends State<AppMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.menuBackground,
+      color: AppColors.itemsBackground,
       child: Column(
         children: [
           SafeArea(
