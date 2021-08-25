@@ -125,6 +125,8 @@ class LineChartSample5 extends StatelessWidget {
                       fontFamily: 'Digital',
                       fontSize: 18,
                     )),
+            rightTitles: SideTitles(showTitles: false),
+            topTitles: SideTitles(showTitles: false),
           ),
           axisTitleData: FlAxisTitleData(
             rightTitle: AxisTitle(showTitle: true, titleText: 'count'),

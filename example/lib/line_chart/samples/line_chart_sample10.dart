@@ -84,6 +84,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
                     clipData: FlClipData.all(),
                     gridData: FlGridData(
                       show: true,
+                      drawVerticalLine: false,
                     ),
                     lineBarsData: [
                       sinLine(sinPoints),

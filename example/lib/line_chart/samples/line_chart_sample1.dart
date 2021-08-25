@@ -109,7 +109,8 @@ class _LineChart extends StatelessWidget {
         getTitles: getTitles,
         showTitles: true,
         margin: 8,
-        reservedSize: 30,
+        interval: 1,
+        reservedSize: 40,
         getTextStyles: (context, value) => const TextStyle(
           color: Color(0xff75729e),
           fontWeight: FontWeight.bold,
@@ -121,6 +122,7 @@ class _LineChart extends StatelessWidget {
         showTitles: true,
         reservedSize: 22,
         margin: 10,
+        interval: 1,
         getTextStyles: (context, value) => const TextStyle(
           color: Color(0xff72719b),
           fontWeight: FontWeight.bold,

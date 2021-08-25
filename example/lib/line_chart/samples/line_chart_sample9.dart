@@ -55,18 +55,18 @@ class LineChartSample9 extends StatelessWidget {
               maxY: 1.5,
               titlesData: FlTitlesData(
                 leftTitles: SideTitles(
-                  showTitles: true,
-                  getTextStyles: (context, value) => const TextStyle(
-                      color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
-                  margin: 16,
-                ),
+                    showTitles: true,
+                    getTextStyles: (context, value) => const TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
+                    margin: 16,
+                    reservedSize: 40),
                 rightTitles: SideTitles(showTitles: false),
                 bottomTitles: SideTitles(
-                  showTitles: true,
-                  getTextStyles: (context, value) => const TextStyle(
-                      color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
-                  margin: 16,
-                ),
+                    showTitles: true,
+                    getTextStyles: (context, value) => const TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
+                    margin: 16,
+                    reservedSize: 6),
                 topTitles: SideTitles(showTitles: false),
               ),
               gridData: FlGridData(

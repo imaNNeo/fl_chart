@@ -79,6 +79,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
+          interval: 1,
           getTextStyles: (context, value) =>
               const TextStyle(color: Color(0xff68737d), fontWeight: FontWeight.bold, fontSize: 16),
           getTitles: (value) {
@@ -96,6 +97,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
+          interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
             fontWeight: FontWeight.bold,
@@ -112,7 +114,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             }
             return '';
           },
-          reservedSize: 28,
+          reservedSize: 32,
           margin: 12,
         ),
       ),
@@ -187,6 +189,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             return '';
           },
           margin: 8,
+          interval: 1,
         ),
         leftTitles: SideTitles(
           showTitles: true,
@@ -206,9 +209,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
             }
             return '';
           },
-          reservedSize: 28,
+          reservedSize: 32,
+          interval: 1,
           margin: 12,
         ),
+        topTitles: SideTitles(showTitles: false),
+        rightTitles: SideTitles(showTitles: false),
       ),
       borderData:
           FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 1)),
