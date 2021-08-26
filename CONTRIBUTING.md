@@ -58,6 +58,9 @@ You can simply run `make checkstyle`, and if you faced any formatting problem, r
 #### Run `make runTests` to ensure that all tests are passing.
 - It runs `flutter test` under the hood.
 
+### Run `make sure` before pushing your code.
+- It runs both `make runTests` and then `make checkstyle` sequentially with a single command.
+
 ## Creating a Pull Request
 
 Congratulations! Your code meets all of our guidelines :100:. Now you have to
