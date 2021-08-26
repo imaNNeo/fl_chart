@@ -61,6 +61,18 @@ class FlBorderData with EquatableMixin {
     );
   }
 
+  /// Copies current [FlBorderData] to a new [FlBorderData],
+  /// and replaces provided values.
+  FlBorderData copyWith({
+    bool? show,
+    Border? border,
+  }) {
+    return FlBorderData(
+      show: show ?? this.show,
+      border: border ?? this.border,
+    );
+  }
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -135,6 +147,22 @@ class FlClipData with EquatableMixin {
 
   /// Checks whether any of the sides should be clipped
   bool get any => top || bottom || left || right;
+
+  /// Copies current [FlBorderData] to a new [FlBorderData],
+  /// and replaces provided values.
+  FlClipData copyWith({
+    bool? top,
+    bool? bottom,
+    bool? left,
+    bool? right,
+  }) {
+    return FlClipData(
+      top: top ?? this.top,
+      bottom: bottom ?? this.bottom,
+      left: left ?? this.left,
+      right: right ?? this.right,
+    );
+  }
 
   /// Used for equality check, see [EquatableMixin].
   @override
