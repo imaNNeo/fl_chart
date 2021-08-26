@@ -445,28 +445,27 @@ class BarChartRodStackItem with EquatableMixin {
   /// )
   /// ```
   BarChartRodStackItem(this.fromY, this.toY, this.color,
-      [this.textMark = "",
+      {this.textMark = "",
       this.textSize = 10,
       this.hasCorner = false,
       this.textColor = Colors.black,
-      this.borderSide = DefaultBorderSide]);
+      this.borderSide = DefaultBorderSide});
 
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
   BarChartRodStackItem copyWith(
       {double? fromY, double? toY, Color? color, BorderSide? borderSide}) {
-    return BarChartRodStackItem(fromY ?? this.fromY, toY ?? this.toY,
-        color ?? this.color, borderSide ?? this.borderSide);
+    return BarChartRodStackItem(
+        fromY ?? this.fromY, toY ?? this.toY, color ?? this.color,
+        borderSide: borderSide ?? this.borderSide);
   }
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
   static BarChartRodStackItem lerp(
       BarChartRodStackItem a, BarChartRodStackItem b, double t) {
-    return BarChartRodStackItem(
-        lerpDouble(a.fromY, b.fromY, t)!,
-        lerpDouble(a.toY, b.toY, t)!,
-        Color.lerp(a.color, b.color, t)!,
-        BorderSide.lerp(a.borderSide, b.borderSide, t));
+    return BarChartRodStackItem(lerpDouble(a.fromY, b.fromY, t)!,
+        lerpDouble(a.toY, b.toY, t)!, Color.lerp(a.color, b.color, t)!,
+        borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t));
   }
 
   /// Used for equality check, see [EquatableMixin].
