@@ -12,6 +12,7 @@
 * **IMPROVEMENT** Allow [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md) and [LineChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md) have empty values instead of throwing exception (we don't show anything if there is nothing provided)
 * **BREAKING** `textStyle` of [ScatterTooltipItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#ScatterTooltipItem) is now nullable and optional. `bottomMargin` is also optional (default is zero). So both are named parameters now.
 * **IMPROVEMENT** We improved touch precision of `ScatterChart`.
+* **BUGFIX** Fix overlapping last gridlines on border lines problem.
 * **NEWS** Your donation **motivates** me to work more on the `fl_chart` and resolve more issues. Now you can [buy me a coffee](https://www.buymeacoffee.com/fl_chart)!
 
 ## 0.36.4

@@ -221,9 +221,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           getEfficientInterval(viewSize.width, data.horizontalDiff);
       var verticalSeek = data.minX + verticalInterval;
 
-      final delta = data.maxX - data.minX;
+      final delta = data.horizontalDiff;
       final count = delta ~/ verticalInterval;
-      final lastPosition = count * verticalSeek;
+      final lastPosition = data.minX + (count * verticalInterval);
       final lastPositionOverlapsWithBorder = lastPosition == data.maxX;
       final end = lastPositionOverlapsWithBorder ? data.maxX - verticalInterval : data.maxX;
 
@@ -252,9 +252,9 @@ abstract class AxisChartPainter<D extends AxisChartData> extends BaseChartPainte
           getEfficientInterval(viewSize.height, data.verticalDiff);
       var horizontalSeek = data.minY + horizontalInterval;
 
-      final delta = data.maxY - data.minY;
+      final delta = data.verticalDiff;
       final count = delta ~/ horizontalInterval;
-      final lastPosition = count * horizontalSeek;
+      final lastPosition = data.minY + (count * horizontalInterval);
       final lastPositionOverlapsWithBorder = lastPosition == data.maxY;
 
       final end = lastPositionOverlapsWithBorder ? data.maxY - horizontalInterval : data.maxY;
