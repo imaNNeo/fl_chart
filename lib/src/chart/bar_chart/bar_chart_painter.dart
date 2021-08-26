@@ -459,7 +459,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final viewSize = canvasWrapper.size;
     final drawSize = getChartUsableDrawSize(viewSize, holder);
     final data = holder.data;
-    print("drawSize:$drawSize");
+    // print("drawSize:$drawSize");
     for (int i = 0; i < data.barGroups.length; i++) {
       final barGroup = data.barGroups[i];
       for (int j = 0; j < barGroup.barRods.length; j++) {
@@ -539,7 +539,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               stops,
             );
           }
-          print("drawRRect$barRRect");
+          //  print("drawRRect$barRRect");
           canvasWrapper.drawRRect(barRRect, _barPaint);
         }
 
@@ -600,7 +600,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               stops,
             );
           }
-          print("barRRect$barRRect");
+          // print("barRRect$barRRect");
           canvasWrapper.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
@@ -659,14 +659,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                 textPainter.layout();
                 var d = textPainter.width / 2;
                 var e = textPainter.height / 2;
-                print('textPainter:${textPainter.height}**rect$rect');
+                //  print('textPainter:${textPainter.height}**rect$rect');
 
                 if (textPainter.height > rect.height) {
                   final linePaint = Paint()
                     ..isAntiAlias = false
                     ..strokeWidth = 0.5
                     ..color = stackItem.color;
-                  print('canvasWrapper${canvasWrapper.size}');
+                  //  print('canvasWrapper${canvasWrapper.size}');
                   canvasWrapper.drawLine(
                       Offset(rect.right, rect.bottom - rect.height / 2),
                       Offset(textPainter.width / 2 + rect.right,
@@ -706,12 +706,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                           textPainter.height / 2 * i -
                           textPainter.height / 2);
                   canvasWrapper.drawText(textPainterP, offset);
-                  print('offset:$offset**textPainterP$textPainterP');
+                  //print('offset:$offset**textPainterP$textPainterP');
                 } else {
                   var offset = Offset(dx - d, dy - e);
                   canvasWrapper.drawText(textPainter, offset);
-                  print(
-                      'dy:$dy****dx:$dx***${stackItem.textMark} ****e$offset');
+                  // print(
+                  //     'dy:$dy****dx:$dx***${stackItem.textMark} ****e$offset');
                 }
               }
 
