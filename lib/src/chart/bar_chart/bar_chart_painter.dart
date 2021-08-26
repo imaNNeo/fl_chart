@@ -615,7 +615,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               canvasWrapper.save();
               //  canvasWrapper.clipRect(rect);
 
-              if (stackItem.hasCorner ?? false) {
+              if (stackItem.hasCorner) {
                 var _barRRect = RRect.fromLTRBAndCorners(
                     left, stackToY, right, stackFromY,
                     topLeft: borderRadius.topLeft,
