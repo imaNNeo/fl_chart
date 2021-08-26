@@ -445,10 +445,11 @@ class BarChartRodStackItem with EquatableMixin {
   /// )
   /// ```
   BarChartRodStackItem(this.fromY, this.toY, this.color,
-      [this.borderSide = DefaultBorderSide,
-      this.textMark = "",
+      [this.textMark = "",
       this.textSize = 10,
-      this.textColor = Colors.black]);
+      this.hasCorner = false,
+      this.textColor = Colors.black,
+      this.borderSide = DefaultBorderSide]);
 
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
