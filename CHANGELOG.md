@@ -1,4 +1,4 @@
-## newVersion
+## 0.40.0
 * **BUGFIX** Fixed pieChart `centerRadius = double.infinity` problem, #747.c
 * **BREAKING** Charts touchCallback signature has changed to `(FlTouchEvent event, BaseTouchResponse? response)` which [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) determines which touch/pointer event happened (such as `FlTapUpEvent`, `FlPanUpdateEvent`, ...), and BaseTouchResponse gives us the chart response.
 * **BREAKING** Chart touchResponse classes don't have `touchInput` and `clickHappened` properties anymore. Use [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) provided in the callback instead of `touchInput`. Check `event is FlTapUpEvent` to detect touch events instead of checking `clickHappened`;
