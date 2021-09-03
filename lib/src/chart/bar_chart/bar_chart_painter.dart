@@ -464,6 +464,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       final barGroup = data.barGroups[i];
       for (int j = 0; j < barGroup.barRods.length; j++) {
         final barRod = barGroup.barRods[j];
+
         final double widthHalf = barRod.width / 2;
         final BorderRadius borderRadius =
             barRod.borderRadius ?? BorderRadius.circular(barRod.width / 2);
@@ -540,6 +541,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
           }
           //  print("drawRRect$barRRect");
+
           canvasWrapper.drawRRect(barRRect, _barPaint);
         }
 
@@ -604,12 +606,23 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           canvasWrapper.drawRRect(barRRect, _barPaint);
 
           // draw rod stack
-          if (barRod.rodStackItems != null && barRod.rodStackItems.isNotEmpty) {
+          if (barRod.rodStackItems.isNotEmpty) {
+            // var dy = 0;
+
             for (int i = 0; i < barRod.rodStackItems.length; i++) {
               final stackItem = barRod.rodStackItems[i];
-              final stackFromY = getPixelY(stackItem.fromY, drawSize, holder);
-              final stackToY = getPixelY(stackItem.toY, drawSize, holder);
 
+              var stackFromY = getPixelY(stackItem.fromY, drawSize, holder);
+              var stackToY = getPixelY(stackItem.toY, drawSize, holder);
+              var d = stackFromY - stackToY;
+
+              if (d < 8 && d > 0) {
+                print("stackItem.stackToY11:${stackToY}");
+                stackToY = stackFromY - 8;
+              }
+              print("stackItem.stackToY:${stackToY}");
+
+              print("stackItem.stackFromY:${stackFromY}");
               _barPaint.color = stackItem.color;
               var rect = Rect.fromLTRB(left, stackToY, right, stackFromY);
               canvasWrapper.save();
@@ -625,7 +638,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
                 canvasWrapper.drawRRect(_barRRect, _barPaint);
               } else {
-                // canvasWrapper.clipRect(rect);
                 var _barRRect = RRect.fromLTRBAndCorners(
                     left, stackToY, right, stackFromY,
                     topLeft: Radius.zero,
@@ -637,7 +649,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               }
 
               if (stackItem.textMark != null &&
-                  stackItem.textMark!.isNotEmpty) {
+                  stackItem.textMark!.isNotEmpty &&
+                  stackItem.textMark != "0") {
                 final dx = left + (right - left) / 2;
                 final dy = getPixelY(
                     stackItem.fromY + (stackItem.toY - stackItem.fromY) / 2,

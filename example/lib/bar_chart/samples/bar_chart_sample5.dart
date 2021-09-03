@@ -155,13 +155,13 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 0,
                   barRods: [
                     BarChartRodData(
-                      y: 15.1,
+                      y: 155.5,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6),
                           topRight: Radius.circular(6)),
                       rodStackItems: [
-                        BarChartRodStackItem(0, 2, const Color(0xff2bdb90),
+                        BarChartRodStackItem(0, 0.1, const Color(0xff2bdb90),
                             borderSide: BorderSide(
                                 color: Colors.white,
                                 width: touchedIndex == 0 ? 2 : 0)),
@@ -173,7 +173,8 @@ class BarChartSample5State extends State<BarChartSample5> {
                             borderSide: BorderSide(
                                 color: Colors.white,
                                 width: touchedIndex == 0 ? 2 : 0)),
-                        BarChartRodStackItem(7.5, 15.5, const Color(0xff19bfff),
+                        BarChartRodStackItem(
+                            7.5, 155.5, const Color(0xff19bfff),
                             borderSide: BorderSide(
                                 color: Colors.white,
                                 width: touchedIndex == 0 ? 2 : 0)),
