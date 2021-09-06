@@ -618,7 +618,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
               if (d < 8 && d > 0) {
                 print("stackItem.stackToY11:${stackToY}");
-                stackToY = stackFromY - 8;
+                stackToY = stackToY + 8;
               }
               print("stackItem.stackToY:${stackToY}");
 
