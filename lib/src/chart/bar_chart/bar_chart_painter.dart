@@ -616,9 +616,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               var stackToY = getPixelY(stackItem.toY, drawSize, holder);
               var d = stackFromY - stackToY;
 
-              if (d < 8 && d > 0) {
+              if (d < 4 && d > 0) {
                 print("stackItem.stackToY11:${stackToY}");
-                stackToY = stackFromY - 8;
+                stackToY = stackFromY - 4;
               }
               print("stackItem.stackToY:${stackToY}");
 
