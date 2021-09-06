@@ -607,7 +607,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
           // draw rod stack
           if (barRod.rodStackItems.isNotEmpty) {
-            var dy = 0;
+            // var dy = 0;
 
             for (int i = 0; i < barRod.rodStackItems.length; i++) {
               final stackItem = barRod.rodStackItems[i];
@@ -617,10 +617,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               var d = stackFromY - stackToY;
 
               if (d < 8 && d > 0) {
-                dy = 8;
                 print("stackItem.stackToY11:${stackToY}");
+                stackToY = stackFromY - 8;
               }
-              stackToY = stackFromY - 8;
               print("stackItem.stackToY:${stackToY}");
 
               print("stackItem.stackFromY:${stackFromY}");
