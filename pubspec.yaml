@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  equatable: ^2.0.0
+  equatable: ^2.0.3
   pedantic: ^1.11.0
 
 dev_dependencies:
