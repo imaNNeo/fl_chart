@@ -7,6 +7,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LineChartSample8 extends StatefulWidget {
+  const LineChartSample8({Key? key}) : super(key: key);
+
   @override
   _LineChartSample8State createState() => _LineChartSample8State();
 }
@@ -47,12 +49,10 @@ class _LineChartSample8State extends State<LineChartSample8> {
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.70,
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
-                      child: LineChart(
-                        mainData(imageSnapshot.data!),
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
+                    child: LineChart(
+                      mainData(imageSnapshot.data!),
                     ),
                   ),
                 ),
@@ -175,7 +175,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: [
+          spots: const [
             FlSpot(0, 1),
             FlSpot(2, 1),
             FlSpot(4.9, 5),

@@ -434,7 +434,7 @@ class FlSpot with EquatableMixin {
   ///
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
-  FlSpot(double x, double y)
+  const FlSpot(double x, double y)
       : x = x,
         y = y;
 
@@ -457,7 +457,7 @@ class FlSpot with EquatableMixin {
   }
 
   /// Used for splitting lines, or maybe other concepts.
-  static FlSpot nullSpot = FlSpot(double.nan, double.nan);
+  static const FlSpot nullSpot = FlSpot(double.nan, double.nan);
 
   /// Determines if [x] or [y] is null.
   bool isNull() => this == nullSpot;

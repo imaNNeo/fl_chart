@@ -46,7 +46,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _clearBarAreaPaint = Paint()
       ..style = PaintingStyle.fill
-      ..color = const Color(0x000000000)
+      ..color = const Color(0x00000000)
       ..blendMode = BlendMode.dstIn;
 
     _extraLinesPaint = Paint()..style = PaintingStyle.stroke;

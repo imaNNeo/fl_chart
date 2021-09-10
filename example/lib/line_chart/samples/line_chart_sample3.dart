@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
 class LineChartSample3 extends StatefulWidget {
-  final weekDays = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  final weekDays = const ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
-  final List<double> yValues = [1.3, 1, 1.8, 1.5, 2.2, 1.8, 3];
+  final List<double> yValues = const [1.3, 1, 1.8, 1.5, 2.2, 1.8, 3];
+
+  const LineChartSample3({Key? key}) : super(key: key);
 
   @override
   State createState() => _LineChartSample3State();
@@ -104,14 +106,14 @@ class _LineChartSample3State extends State<LineChartSample3> {
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: ' k ',
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: 'calories',
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
@@ -136,7 +138,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                       setState(() {
                         touchedValue = -1;
                       });
-                      return null;
+                      return;
                     }
 
                     setState(() {

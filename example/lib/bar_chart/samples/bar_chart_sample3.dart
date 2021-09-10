@@ -32,7 +32,7 @@ class _BarChart extends StatelessWidget {
           ) {
             return BarTooltipItem(
               rod.y.round().toString(),
-              TextStyle(
+              const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -128,6 +128,8 @@ class _BarChart extends StatelessWidget {
 }
 
 class BarChartSample3 extends StatefulWidget {
+  const BarChartSample3({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => BarChartSample3State();
 }

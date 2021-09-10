@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:example/utils/color_extensions.dart';
 
 class BarChartSample1 extends StatefulWidget {
-  final List<Color> availableColors = [
+  final List<Color> availableColors = const [
     Colors.purpleAccent,
     Colors.yellow,
     Colors.lightBlue,
@@ -13,6 +13,8 @@ class BarChartSample1 extends StatefulWidget {
     Colors.pink,
     Colors.redAccent,
   ];
+
+  const BarChartSample1({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BarChartSample1State();
@@ -42,18 +44,18 @@ class BarChartSample1State extends State<BarChartSample1> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Mingguan',
                     style: TextStyle(
-                        color: const Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),
+                        color: Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 4,
                   ),
-                  Text(
+                  const Text(
                     'Grafik konsumsi kalori',
                     style: TextStyle(
-                        color: const Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
+                        color: Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 38,
@@ -116,7 +118,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           width: width,
           borderSide: isTouched
               ? BorderSide(color: Colors.yellow.darken(), width: 1)
-              : BorderSide(color: Colors.white, width: 0),
+              : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: 20,
@@ -183,7 +185,7 @@ class BarChartSample1State extends State<BarChartSample1> {
               }
               return BarTooltipItem(
                 weekDay + '\n',
-                TextStyle(
+                const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -191,7 +193,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                 children: <TextSpan>[
                   TextSpan(
                     text: (rod.y - 1).toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.yellow,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
