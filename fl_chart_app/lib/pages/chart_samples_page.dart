@@ -20,9 +20,9 @@ class ChartSamplesPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: GridView.builder(
         key: ValueKey(chartType),
-        padding: EdgeInsets.all(AppDimens.chartSamplesSpace),
+        padding: const EdgeInsets.all(AppDimens.chartSamplesSpace),
         itemCount: samples[chartType]!.length,
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 600.0,
           childAspectRatio: 1.0,
           crossAxisSpacing: AppDimens.chartSamplesSpace,

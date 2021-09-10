@@ -28,7 +28,7 @@ class _AppMenuState extends State<AppMenu> {
       color: AppColors.menuBackground,
       child: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             child: AspectRatio(
               aspectRatio: 3,
               child: Center(
@@ -53,12 +53,12 @@ class _AppMenuState extends State<AppMenu> {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(12),
+            margin: const EdgeInsets.all(12),
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
                       'FL Chart v 1.00 - update to get the latest features!',
                       style: TextStyle(
@@ -70,7 +70,7 @@ class _AppMenuState extends State<AppMenu> {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     'Update',
                     style: TextStyle(
                       color: AppColors.flCyan,

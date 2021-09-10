@@ -1,0 +1,4 @@
+include: package:flutter_lints/flutter.yaml
+analyzer:
+  errors:
+    prefer_initializing_formals: ignore

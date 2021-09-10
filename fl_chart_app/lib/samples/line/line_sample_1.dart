@@ -17,7 +17,7 @@ class LineSample1 extends StatelessWidget {
             colors: [
               AppColors.flCyan,
             ],
-            spots: [
+            spots: const [
               FlSpot(0, 0),
               FlSpot(1, 2),
               FlSpot(2, 1),

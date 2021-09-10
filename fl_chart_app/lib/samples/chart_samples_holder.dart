@@ -9,36 +9,36 @@ import 'scatter/scatter_sample_1.dart';
 
 class ChartSamplesHolder {
   static final Map<ChartType, List<WidgetBuilder>> samples = {
-    ChartType.LINE: [
-      (context) => LineSample1(),
-      (context) => LineSample1(),
-      (context) => LineSample1(),
-      (context) => LineSample1(),
+    ChartType.line: [
+      (context) => const LineSample1(),
+      (context) => const LineSample1(),
+      (context) => const LineSample1(),
+      (context) => const LineSample1(),
     ],
-    ChartType.BAR: [
-      (context) => BarSample1(),
-      (context) => BarSample1(),
-      (context) => BarSample1(),
-      (context) => BarSample1(),
+    ChartType.bar: [
+      (context) => const BarSample1(),
+      (context) => const BarSample1(),
+      (context) => const BarSample1(),
+      (context) => const BarSample1(),
     ],
-    ChartType.PIE: [
-      (context) => PieSample1(),
-      (context) => PieSample1(),
-      (context) => PieSample1(),
-      (context) => PieSample1(),
+    ChartType.pie: [
+      (context) => const PieSample1(),
+      (context) => const PieSample1(),
+      (context) => const PieSample1(),
+      (context) => const PieSample1(),
     ],
-    ChartType.SCATTER: [
-      (context) => ScatterSample1(),
-      (context) => ScatterSample1(),
-      (context) => ScatterSample1(),
-      (context) => ScatterSample1(),
+    ChartType.scatter: [
+      (context) => const ScatterSample1(),
+      (context) => const ScatterSample1(),
+      (context) => const ScatterSample1(),
+      (context) => const ScatterSample1(),
     ],
-    ChartType.RADAR: [
-      (context) => RadarSample1(),
-      (context) => RadarSample1(),
-      (context) => RadarSample1(),
-      (context) => RadarSample1(),
-      (context) => RadarSample1(),
+    ChartType.radar: [
+      (context) => const RadarSample1(),
+      (context) => const RadarSample1(),
+      (context) => const RadarSample1(),
+      (context) => const RadarSample1(),
+      (context) => const RadarSample1(),
     ],
   };
 }

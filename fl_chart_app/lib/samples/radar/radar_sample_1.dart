@@ -11,7 +11,7 @@ class RadarSample1 extends StatelessWidget {
       RadarChartData(
         dataSets: [
           RadarDataSet(
-            dataEntries: [
+            dataEntries: const [
               RadarEntry(value: 4),
               RadarEntry(value: 1),
               RadarEntry(value: 3),
@@ -19,7 +19,7 @@ class RadarSample1 extends StatelessWidget {
             fillColor: AppColors.flCyan.withOpacity(0.7),
           ),
           RadarDataSet(
-            dataEntries: [
+            dataEntries: const [
               RadarEntry(value: 2),
               RadarEntry(value: 5),
               RadarEntry(value: 1),
@@ -28,9 +28,9 @@ class RadarSample1 extends StatelessWidget {
           ),
         ],
         borderData: FlBorderData(show: false),
-        gridBorderData: BorderSide(width: 0.0, color: Colors.transparent),
-        radarBorderData: BorderSide(color: Colors.transparent),
-        tickBorderData: BorderSide(width: 0, color: Colors.transparent),
+        gridBorderData: const BorderSide(width: 0.0, color: Colors.transparent),
+        radarBorderData: const BorderSide(color: Colors.transparent),
+        tickBorderData: const BorderSide(width: 0, color: Colors.transparent),
       ),
     );
   }

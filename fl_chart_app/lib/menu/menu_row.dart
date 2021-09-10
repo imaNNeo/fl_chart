@@ -22,16 +22,16 @@ class MenuRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: AppDimens.menuRowVerticalSpace),
+      padding: const EdgeInsets.only(bottom: AppDimens.menuRowVerticalSpace),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          child: Container(
+          child: SizedBox(
             height: AppDimens.menuRowHeight,
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 36,
                 ),
                 SvgPicture.asset(
@@ -40,7 +40,7 @@ class MenuRow extends StatelessWidget {
                   height: AppDimens.menuIconSize,
                   color: AppColors.flCyan,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 18,
                 ),
                 Text(
