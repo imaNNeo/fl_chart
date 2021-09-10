@@ -10,28 +10,28 @@ class PlatformInfo {
 
   PlatformType getCurrentPlatformType() {
     if (kIsWeb) {
-      return PlatformType.Web;
+      return PlatformType.web;
     }
     if (Platform.isMacOS) {
-      return PlatformType.MacOS;
+      return PlatformType.macOS;
     }
     if (Platform.isFuchsia) {
-      return PlatformType.Fuchsia;
+      return PlatformType.fuchsia;
     }
     if (Platform.isLinux) {
-      return PlatformType.Linux;
+      return PlatformType.linux;
     }
     if (Platform.isWindows) {
-      return PlatformType.Windows;
+      return PlatformType.windows;
     }
     if (Platform.isIOS) {
       return PlatformType.iOS;
     }
     if (Platform.isAndroid) {
-      return PlatformType.Android;
+      return PlatformType.android;
     }
-    return PlatformType.Unknown;
+    return PlatformType.unknown;
   }
 }
 
-enum PlatformType { Web, iOS, Android, MacOS, Fuchsia, Linux, Windows, Unknown }
+enum PlatformType { web, iOS, android, macOS, fuchsia, linux, windows, unknown }

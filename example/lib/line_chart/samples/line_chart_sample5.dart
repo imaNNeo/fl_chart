@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class LineChartSample5 extends StatelessWidget {
   final List<int> showIndexes = const [1, 3, 5];
-  final List<FlSpot> allSpots = [
+  final List<FlSpot> allSpots = const [
     FlSpot(0, 1),
     FlSpot(1, 2),
     FlSpot(2, 1.5),
@@ -12,6 +12,8 @@ class LineChartSample5 extends StatelessWidget {
     FlSpot(5, 5),
     FlSpot(6, 8),
   ];
+
+  const LineChartSample5({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

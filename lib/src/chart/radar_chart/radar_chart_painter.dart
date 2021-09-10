@@ -304,7 +304,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     final dataSetsPosition = List<RadarDataSetsPosition>.filled(
       data.dataSets.length,
-      RadarDataSetsPosition([]),
+      const RadarDataSetsPosition([]),
     );
     for (var i = 0; i < data.dataSets.length; i++) {
       final dataSet = data.dataSets[i];

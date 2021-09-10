@@ -2,18 +2,20 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample7 extends StatelessWidget {
+  const LineChartSample7({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 2.6,
       child: Padding(
-        padding: EdgeInsets.only(left: 28, right: 18),
+        padding: const EdgeInsets.only(left: 28, right: 18),
         child: LineChart(
           LineChartData(
             lineTouchData: LineTouchData(enabled: false),
             lineBarsData: [
               LineChartBarData(
-                spots: [
+                spots: const [
                   FlSpot(0, 4),
                   FlSpot(1, 3.5),
                   FlSpot(2, 4.5),
@@ -37,7 +39,7 @@ class LineChartSample7 extends StatelessWidget {
                 ),
               ),
               LineChartBarData(
-                spots: [
+                spots: const [
                   FlSpot(0, 0),
                   FlSpot(1, 3),
                   FlSpot(2, 4),
@@ -61,7 +63,7 @@ class LineChartSample7 extends StatelessWidget {
                 ),
               ),
               LineChartBarData(
-                spots: [
+                spots: const [
                   FlSpot(0, 7),
                   FlSpot(1, 3),
                   FlSpot(2, 4),
@@ -136,7 +138,7 @@ class LineChartSample7 extends StatelessWidget {
                 },
                 interval: 1,
                 reservedSize: 40,
-                getTextStyles: (context, value) => TextStyle(fontSize: 10),
+                getTextStyles: (context, value) => const TextStyle(fontSize: 10),
               ),
               topTitles: SideTitles(showTitles: false),
               rightTitles: SideTitles(showTitles: false),

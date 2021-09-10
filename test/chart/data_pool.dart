@@ -37,18 +37,18 @@ final RangeAnnotations rangeAnnotations2 = RangeAnnotations(horizontalRangeAnnot
 final FlLine flLine1 = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
 final FlLine flLine1Clone = FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
 
-final bool Function(double) checkToShowLine = (value) => true;
-final FlLine Function(double) getDrawingLine = (value) => FlLine();
+bool checkToShowLine(double value) => true;
+FlLine getDrawingLine(double value) => FlLine();
 
-final FlSpot flSpot1 = FlSpot(1, 1);
+const FlSpot flSpot1 = FlSpot(1, 1);
 final FlSpot flSpot1Clone = flSpot1.copyWith();
 
-final FlSpot flSpot2 = FlSpot(4, 2);
+const FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
-final String Function(double value) getTitles = (value) => 'sallam';
-final TextStyle Function(BuildContext context, double value) getTextStyles =
-    (context, value) => const TextStyle(color: Colors.green);
+String getTitles(double value) => 'sallam';
+
+TextStyle getTextStyles(BuildContext context, double value) => const TextStyle(color: Colors.green);
 
 final SideTitles sideTitles1 = SideTitles(
   margin: 1,
@@ -382,7 +382,7 @@ final FlBorderData borderData2 = FlBorderData(
   border: Border.all(color: Colors.green.withOpacity(0.5)),
 );
 
-final bool Function(FlSpot) checkToShowSpotLine = (spot) => true;
+bool checkToShowSpotLine(FlSpot spot) => true;
 
 final BarAreaSpotsLine barAreaSpotsLine1 =
     BarAreaSpotsLine(show: true, checkToShowSpotLine: checkToShowSpotLine);
@@ -446,22 +446,30 @@ final BarAreaData barAreaData4 = BarAreaData(
   spotsLine: barAreaSpotsLine2,
 );
 
-final bool Function(FlSpot spot, LineChartBarData barData) checkToShowDot = (spot, barData) => true;
-final FlDotCirclePainter Function(FlSpot, double, LineChartBarData, int) getDotDrawer =
-    (spot, percent, barData, index) =>
-        FlDotCirclePainter(radius: 44, color: Colors.green, strokeWidth: 12);
-final FlDotCirclePainter Function(FlSpot, double, LineChartBarData, int) getDotDrawer5 =
-    (spot, percent, barData, index) =>
-        FlDotCirclePainter(radius: 44, color: Colors.green, strokeWidth: 14);
-final FlDotCirclePainter Function(FlSpot, double, LineChartBarData, int) getDotDrawer6 =
-    (spot, percent, barData, index) =>
-        FlDotCirclePainter(radius: 44.01, color: Colors.green, strokeWidth: 14);
-final FlDotCirclePainter Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched =
-    (spot, percent, barData, index) => FlDotCirclePainter(radius: 12, color: Colors.red);
-final FlDotCirclePainter Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched4 =
-    (spot, percent, barData, index) => FlDotCirclePainter(radius: 12, color: Colors.green);
-final FlDotCirclePainter Function(FlSpot, double, LineChartBarData, int) getDotDrawerTouched6 =
-    (spot, percent, barData, index) => FlDotCirclePainter(radius: 12.01, color: Colors.red);
+bool checkToShowDot(FlSpot spot, LineChartBarData barData) => true;
+
+FlDotCirclePainter getDotDrawer(FlSpot spot, double percent, LineChartBarData barData, int index) =>
+    FlDotCirclePainter(radius: 44, color: Colors.green, strokeWidth: 12);
+
+FlDotCirclePainter getDotDrawer5(
+        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+    FlDotCirclePainter(radius: 44, color: Colors.green, strokeWidth: 14);
+
+FlDotCirclePainter getDotDrawer6(
+        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+    FlDotCirclePainter(radius: 44.01, color: Colors.green, strokeWidth: 14);
+
+FlDotCirclePainter getDotDrawerTouched(
+        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+    FlDotCirclePainter(radius: 12, color: Colors.red);
+
+FlDotCirclePainter getDotDrawerTouched4(
+        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+    FlDotCirclePainter(radius: 12, color: Colors.green);
+
+FlDotCirclePainter getDotDrawerTouched6(
+        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+    FlDotCirclePainter(radius: 12.01, color: Colors.red);
 
 final FlDotData flDotData1 = FlDotData(
   show: true,
@@ -888,10 +896,9 @@ final LineTooltipItem lineTooltipItem2 =
 final LineTooltipItem lineTooltipItem3 = LineTooltipItem('', const TextStyle(color: Colors.blue));
 final LineTooltipItem lineTooltipItem4 = LineTooltipItem('', const TextStyle(fontSize: 33));
 
-final List<LineTooltipItem?> Function(List<LineBarSpot> touchedSpots) lineChartGetTooltipItems =
-    (list) {
+List<LineTooltipItem?> lineChartGetTooltipItems(List<LineBarSpot> list) {
   return list.map((s) => lineTooltipItem1).toList();
-};
+}
 
 final LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -955,11 +962,11 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipMargin: 34,
 );
 
-final Function(FlTouchEvent event, LineTouchResponse?) lineTouchCallback = (event, response) {};
+lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
 
-final List<TouchedSpotIndicatorData?> Function(LineChartBarData barData, List<int> spotIndexes)
-    getTouchedSpotIndicator =
-    (barData, indexes) => indexes.map((i) => touchedSpotIndicatorData1).toList();
+List<TouchedSpotIndicatorData?> getTouchedSpotIndicator(
+        LineChartBarData barData, List<int> indexes) =>
+    indexes.map((i) => touchedSpotIndicatorData1).toList();
 
 final LineTouchData lineTouchData1 = LineTouchData(
   enabled: true,
@@ -1028,8 +1035,9 @@ final LineTouchData lineTouchData7 = LineTouchData(
   getTouchLineEnd: (barData, index) => double.infinity,
 );
 
-final String Function(HorizontalLine) horizontalLabelResolver = (horizontalLine) => 'test';
-final String Function(VerticalLine) verticalLabelResolver = (horizontalLine) => 'test';
+String horizontalLabelResolver(HorizontalLine horizontalLine) => 'test';
+
+String verticalLabelResolver(VerticalLine horizontalLine) => 'test';
 
 final HorizontalLineLabel horizontalLineLabel1 = HorizontalLineLabel(
   show: true,
@@ -1981,13 +1989,13 @@ final PieChartData pieChartData1 = PieChartData(
 );
 final PieChartData pieChartData1Clone = pieChartData1.copyWith();
 
-final bool Function(double) gridCheckToShowLine = (value) => true;
-final FlLine Function(double) gridGetDrawingLine = (value) => FlLine();
+bool gridCheckToShowLine(double value) => true;
+FlLine gridGetDrawingLine(double value) => FlLine();
 
-final ScatterTooltipItem? Function(ScatterSpot touchedSpots) scatterChartGetTooltipItems = (list) {
+ScatterTooltipItem? scatterChartGetTooltipItems(ScatterSpot spots) {
   return ScatterTooltipItem('check',
       textStyle: const TextStyle(color: Colors.blue), bottomMargin: 23);
-};
+}
 
 final ScatterSpot scatterSpot1 = ScatterSpot(1, 40);
 final ScatterSpot scatterSpot1Clone = ScatterSpot(1, 40);
@@ -2634,10 +2642,9 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipMargin: 333,
 );
 
-final Function(FlTouchEvent event, BarTouchResponse?) barTouchCallback = (event, response) {};
+barTouchCallback(FlTouchEvent event, BarTouchResponse? response) {}
 
-final Function(FlTouchEvent event, ScatterTouchResponse?) scatterTouchCallback =
-    (event, response) {};
+scatterTouchCallback(FlTouchEvent event, ScatterTouchResponse? response) {}
 
 final BarTouchData barTouchData1 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
@@ -2791,7 +2798,7 @@ final BarChartData barChartData14 = barChartData1.copyWith(
 );
 
 final RadarDataSet radarDataSet1 = RadarDataSet(
-  dataEntries: [
+  dataEntries: const [
     RadarEntry(value: 0),
     RadarEntry(value: 1),
     RadarEntry(value: 2),
@@ -2807,7 +2814,7 @@ final RadarDataSet radarDataSet1 = RadarDataSet(
 final RadarDataSet radarDataSet1Clone = radarDataSet1.copyWith();
 
 final RadarDataSet radarDataSet2 = RadarDataSet(
-  dataEntries: [
+  dataEntries: const [
     RadarEntry(value: 10),
     RadarEntry(value: 9),
     RadarEntry(value: 8),
@@ -2834,7 +2841,7 @@ final RadarTouchData radarTouchData2 = RadarTouchData(
 
 final RadarTouchData radarTouchData1Clone = radarTouchData1;
 
-final Function(FlTouchEvent event, RadarTouchResponse?) radarTouchCallback = (event, response) {};
+radarTouchCallback(FlTouchEvent event, RadarTouchResponse? response) {}
 
 final radarTouchedSpot1 = RadarTouchedSpot(
   radarDataSet1,
@@ -2904,16 +2911,16 @@ final radarTouchedSpot7 = RadarTouchedSpot(
 final RadarChartData radarChartData1 = RadarChartData(
   dataSets: [radarDataSet1],
   radarBackgroundColor: Colors.yellow,
-  radarBorderData: BorderSide(color: Colors.purple, width: 5),
+  radarBorderData: const BorderSide(color: Colors.purple, width: 5),
   borderData: borderData1,
-  gridBorderData: BorderSide(color: Colors.blue, width: 2),
+  gridBorderData: const BorderSide(color: Colors.blue, width: 2),
   getTitle: (index) => 'testTitle',
   titlePositionPercentageOffset: 0.2,
-  titleTextStyle: TextStyle(color: Colors.white, fontSize: 12),
+  titleTextStyle: const TextStyle(color: Colors.white, fontSize: 12),
   radarTouchData: radarTouchData1,
   tickCount: 5,
-  tickBorderData: BorderSide(color: Colors.black, width: 4),
-  ticksTextStyle: TextStyle(color: Colors.white, fontSize: 12),
+  tickBorderData: const BorderSide(color: Colors.black, width: 4),
+  ticksTextStyle: const TextStyle(color: Colors.white, fontSize: 12),
 );
 
 final RadarChartData radarChartData1Clone = radarChartData1.copyWith();
@@ -2921,14 +2928,14 @@ final RadarChartData radarChartData1Clone = radarChartData1.copyWith();
 final RadarChartData radarChartData2 = RadarChartData(
   dataSets: [radarDataSet2],
   radarBackgroundColor: Colors.blue,
-  radarBorderData: BorderSide(color: Colors.pink, width: 3),
+  radarBorderData: const BorderSide(color: Colors.pink, width: 3),
   borderData: borderData1,
-  gridBorderData: BorderSide(color: Colors.red, width: 3),
+  gridBorderData: const BorderSide(color: Colors.red, width: 3),
   getTitle: (index) => 'testTitle2',
   titlePositionPercentageOffset: 0.5,
-  titleTextStyle: TextStyle(color: Colors.black, fontSize: 5),
+  titleTextStyle: const TextStyle(color: Colors.black, fontSize: 5),
   radarTouchData: radarTouchData2,
   tickCount: 1,
-  tickBorderData: BorderSide(color: Colors.pink, width: 2),
-  ticksTextStyle: TextStyle(color: Colors.purple, fontSize: 10),
+  tickBorderData: const BorderSide(color: Colors.pink, width: 2),
+  ticksTextStyle: const TextStyle(color: Colors.purple, fontSize: 10),
 );

@@ -31,6 +31,7 @@ dependencies:
   flutter_svg: ^0.21.0-nullsafety.0
 
 dev_dependencies:
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
 

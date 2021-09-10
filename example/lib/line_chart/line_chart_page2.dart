@@ -7,18 +7,20 @@ import 'samples/line_chart_sample7.dart';
 import 'samples/line_chart_sample8.dart';
 
 class LineChartPage2 extends StatelessWidget {
+  const LineChartPage2({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: TextStyle(color: Colors.black, fontSize: 12),
+      style: const TextStyle(color: Colors.black, fontSize: 12),
       child: Container(
         color: Colors.white,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView(
-              children: <Widget>[
-                const Text(
+              children: const <Widget>[
+                Text(
                   'LineChart',
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
                 ),

@@ -8,13 +8,15 @@ class ScatterChartPage extends StatelessWidget {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final double width = 22;
 
+  const ScatterChartPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       body: ListView(
-        children: <Widget>[
-          const Padding(
+        children: const <Widget>[
+          Padding(
             padding: EdgeInsets.symmetric(
               vertical: 18.0,
               horizontal: 22,
@@ -28,15 +30,15 @@ class ScatterChartPage extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 9,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
+            padding: EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
             child: ScatterChartSample1(),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
+            padding: EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
             child: ScatterChartSample2(),
           )
         ],

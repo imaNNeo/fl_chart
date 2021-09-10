@@ -83,12 +83,12 @@ BorderRadius? normalizeBorderRadius(BorderRadius? borderRadius, double width) {
 }
 
 /// Default value for BorderSide where borderSide value is not exists
-const BorderSide DefaultBorderSide = BorderSide(width: 0);
+const BorderSide defaultBorderSide = BorderSide(width: 0);
 
 /// Decreases [borderSide] to <= width / 2
 BorderSide normalizeBorderSide(BorderSide? borderSide, double width) {
   if (borderSide == null) {
-    return DefaultBorderSide;
+    return defaultBorderSide;
   }
 
   double borderWidth;

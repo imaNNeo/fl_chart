@@ -33,7 +33,7 @@ void main() {
       expect(
           radarChartData1 ==
               radarChartData1Clone.copyWith(
-                  radarBorderData: BorderSide(
+                  radarBorderData: const BorderSide(
                 width: 200,
                 color: Colors.red,
               )),
@@ -45,7 +45,7 @@ void main() {
       expect(
           radarChartData1 ==
               radarChartData1Clone.copyWith(
-                  gridBorderData: BorderSide(
+                  gridBorderData: const BorderSide(
                 color: Colors.black54,
                 width: 2.1,
               )),
@@ -53,7 +53,8 @@ void main() {
 
       expect(radarChartData1 == radarChartData1Clone.copyWith(tickCount: 8), false);
 
-      expect(radarChartData1 == radarChartData1Clone.copyWith(ticksTextStyle: TextStyle()), false);
+      expect(radarChartData1 == radarChartData1Clone.copyWith(ticksTextStyle: const TextStyle()),
+          false);
 
       expect(
           radarChartData1 ==
@@ -74,7 +75,8 @@ void main() {
                   titlePositionPercentageOffset: radarChartData2.titlePositionPercentageOffset),
           false);
 
-      expect(radarChartData1 == radarChartData1Clone.copyWith(titleTextStyle: TextStyle()), false);
+      expect(radarChartData1 == radarChartData1Clone.copyWith(titleTextStyle: const TextStyle()),
+          false);
 
       expect(
           radarChartData1 ==
@@ -95,7 +97,7 @@ void main() {
       expect(
         radarDataSet1 ==
             radarDataSet1Clone.copyWith(
-              dataEntries: [
+              dataEntries: const [
                 RadarEntry(value: 5),
                 RadarEntry(value: 5),
                 RadarEntry(value: 5),

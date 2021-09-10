@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample2 extends StatefulWidget {
+  const LineChartSample2({Key? key}) : super(key: key);
+
   @override
   _LineChartSample2State createState() => _LineChartSample2State();
 }
@@ -126,7 +128,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: [
+          spots: const [
             FlSpot(0, 3),
             FlSpot(2.6, 2),
             FlSpot(4.9, 5),
@@ -224,7 +226,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: [
+          spots: const [
             FlSpot(0, 3.44),
             FlSpot(2.6, 3.44),
             FlSpot(4.9, 3.44),
