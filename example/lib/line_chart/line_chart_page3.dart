@@ -4,13 +4,15 @@ import 'samples/line_chart_sample6.dart';
 import 'samples/line_chart_sample9.dart';
 
 class LineChartPage3 extends StatelessWidget {
+  const LineChartPage3({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: Center(
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
           children: <Widget>[
             const Text(
               'LineChart (reversed)',

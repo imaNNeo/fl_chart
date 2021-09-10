@@ -14,9 +14,11 @@ import 'pie_chart/pie_chart_page.dart';
 import 'utils/platform_info.dart';
 import 'scatter_chart/scatter_chart_page.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,9 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentPage = 0;
 
   final _controller = PageController(initialPage: 0);
-  final _duration = Duration(milliseconds: 300);
+  final _duration = const Duration(milliseconds: 300);
   final _curve = Curves.easeInOutCubic;
-  final _pages = [
+  final _pages = const [
     LineChartPage(),
     BarChartPage(),
     BarChartPage2(),
@@ -76,15 +78,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: SafeArea(
         child: PageView(
-          physics:
-              isDesktopOrWeb ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
+          physics: isDesktopOrWeb
+              ? const NeverScrollableScrollPhysics()
+              : const AlwaysScrollableScrollPhysics(),
           controller: _controller,
           children: _pages,
         ),
       ),
       bottomNavigationBar: isDesktopOrWeb
           ? Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               color: Colors.transparent,
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -93,15 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     visible: _currentPage != 0,
                     child: FloatingActionButton(
                       onPressed: () => _controller.previousPage(duration: _duration, curve: _curve),
-                      child: Icon(Icons.chevron_left_rounded),
+                      child: const Icon(Icons.chevron_left_rounded),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Visibility(
                     visible: _currentPage != _pages.length - 1,
                     child: FloatingActionButton(
                       onPressed: () => _controller.nextPage(duration: _duration, curve: _curve),
-                      child: Icon(Icons.chevron_right_rounded),
+                      child: const Icon(Icons.chevron_right_rounded),
                     ),
                   ),
                 ],

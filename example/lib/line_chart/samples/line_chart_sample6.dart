@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
-  final spots = [
+  final spots = const [
     FlSpot(0, 1),
     FlSpot(2, 5),
     FlSpot(4, 3),
     FlSpot(6, 5),
   ];
 
-  final spots2 = [
+  final spots2 = const [
     FlSpot(0, 3),
     FlSpot(2, 1),
     FlSpot(4, 2),
@@ -20,7 +20,7 @@ class LineChartSample6 extends StatelessWidget {
   late double minSpotX, maxSpotX;
   late double minSpotY, maxSpotY;
 
-  LineChartSample6() {
+  LineChartSample6({Key? key}) : super(key: key) {
     minSpotX = spots.first.x;
     maxSpotX = spots.first.x;
     minSpotY = spots.first.y;

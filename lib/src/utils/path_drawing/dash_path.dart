@@ -36,7 +36,7 @@ Path dashPath(
   return dest;
 }
 
-enum _DashOffsetType { Absolute, Percentage }
+enum _DashOffsetType { absolute, percentage }
 
 /// Specifies the starting position of a dash array on a path, either as a
 /// percentage or absolute value.
@@ -49,19 +49,19 @@ class DashOffset {
   /// `percentage` will be clamped between 0.0 and 1.0.
   DashOffset.percentage(double percentage)
       : _rawVal = percentage.clamp(0.0, 1.0),
-        _dashOffsetType = _DashOffsetType.Percentage;
+        _dashOffsetType = _DashOffsetType.percentage;
 
   /// Create a DashOffset that will be measured in terms of absolute pixels
   /// along the length of a [Path] segment.
   const DashOffset.absolute(double start)
       : _rawVal = start,
-        _dashOffsetType = _DashOffsetType.Absolute;
+        _dashOffsetType = _DashOffsetType.absolute;
 
   final double _rawVal;
   final _DashOffsetType _dashOffsetType;
 
   double _calculate(double length) {
-    return _dashOffsetType == _DashOffsetType.Absolute ? _rawVal : length * _rawVal;
+    return _dashOffsetType == _DashOffsetType.absolute ? _rawVal : length * _rawVal;
   }
 }
 

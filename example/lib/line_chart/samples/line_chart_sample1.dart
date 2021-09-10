@@ -160,7 +160,7 @@ class _LineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: [
+        spots: const [
           FlSpot(1, 1),
           FlSpot(3, 1.5),
           FlSpot(5, 1.4),
@@ -180,7 +180,7 @@ class _LineChart extends StatelessWidget {
         belowBarData: BarAreaData(show: false, colors: [
           const Color(0x00aa4cfc),
         ]),
-        spots: [
+        spots: const [
           FlSpot(1, 1),
           FlSpot(3, 2.8),
           FlSpot(7, 1.2),
@@ -197,7 +197,7 @@ class _LineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: [
+        spots: const [
           FlSpot(1, 2.8),
           FlSpot(3, 1.9),
           FlSpot(6, 3),
@@ -214,7 +214,7 @@ class _LineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: [
+        spots: const [
           FlSpot(1, 1),
           FlSpot(3, 4),
           FlSpot(5, 1.8),
@@ -237,7 +237,7 @@ class _LineChart extends StatelessWidget {
             const Color(0x33aa4cfc),
           ],
         ),
-        spots: [
+        spots: const [
           FlSpot(1, 1),
           FlSpot(3, 2.8),
           FlSpot(7, 1.2),
@@ -255,7 +255,7 @@ class _LineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
-        spots: [
+        spots: const [
           FlSpot(1, 3.8),
           FlSpot(3, 1.9),
           FlSpot(6, 5),
@@ -266,6 +266,8 @@ class _LineChart extends StatelessWidget {
 }
 
 class LineChartSample1 extends StatefulWidget {
+  const LineChartSample1({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => LineChartSample1State();
 }

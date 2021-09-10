@@ -202,7 +202,7 @@ class PieChartSectionData {
         showTitle = showTitle ?? true,
         titleStyle = titleStyle,
         title = title ?? (value == null ? '' : value.toString()),
-        borderSide = borderSide ?? BorderSide(width: 0),
+        borderSide = borderSide ?? const BorderSide(width: 0),
         badgeWidget = badgeWidget ?? Container(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;

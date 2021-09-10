@@ -29,7 +29,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     _sectionsSpaceClearPaint = Paint()
       ..style = PaintingStyle.fill
-      ..color = const Color(0x000000000)
+      ..color = const Color(0x00000000)
       ..blendMode = BlendMode.srcOut;
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;

@@ -16,9 +16,10 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// which default is [Curves.linear].
   const ScatterChart(
     this.data, {
+    Key? key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
-  }) : super(duration: swapAnimationDuration, curve: swapAnimationCurve);
+  }) : super(key: key, duration: swapAnimationDuration, curve: swapAnimationCurve);
 
   /// Creates a [_ScatterChartState]
   @override

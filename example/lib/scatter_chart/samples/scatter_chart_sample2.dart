@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class ScatterChartSample2 extends StatefulWidget {
+  const ScatterChartSample2({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _ScatterChartSample2State();
 }
@@ -112,7 +114,7 @@ class _ScatterChartSample2State extends State {
                     children: [
                       TextSpan(
                         text: '${touchedBarSpot.x.toInt()} \n',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.bold,
@@ -128,7 +130,7 @@ class _ScatterChartSample2State extends State {
                       ),
                       TextSpan(
                         text: touchedBarSpot.y.toInt().toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.bold,
