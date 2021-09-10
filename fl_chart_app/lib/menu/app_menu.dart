@@ -53,7 +53,8 @@ class _AppMenuState extends State<AppMenu> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(12),
+            color: AppColors.background,
+            padding: const EdgeInsets.all(12),
             child: Row(
               children: [
                 const Expanded(
