@@ -36,7 +36,7 @@ void main() {
 
     test('Test validity 2', () {
       final lineBars = [
-        lineChartBarData1.copyWith(spots: [
+        lineChartBarData1.copyWith(spots: const [
           FlSpot(3, 4),
           FlSpot(-3, 50),
           FlSpot(14, -10),

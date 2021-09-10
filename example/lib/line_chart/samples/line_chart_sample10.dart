@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class LineChartSample10 extends StatefulWidget {
+  const LineChartSample10({Key? key}) : super(key: key);
+
   @override
   _LineChartSample10State createState() => _LineChartSample10State();
 }
@@ -25,7 +27,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(milliseconds: 40), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 40), (timer) {
       while (sinPoints.length > limitCount) {
         sinPoints.removeAt(0);
         cosPoints.removeAt(0);
@@ -46,7 +48,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
             children: [
               Text(
                 'x: ${xValue.toStringAsFixed(1)}',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -68,10 +70,10 @@ class _LineChartSample10State extends State<LineChartSample10> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
-              Container(
+              SizedBox(
                 width: 300,
                 height: 300,
                 child: LineChart(

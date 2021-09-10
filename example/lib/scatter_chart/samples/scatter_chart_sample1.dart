@@ -4,6 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class ScatterChartSample1 extends StatefulWidget {
+  const ScatterChartSample1({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _ScatterChartSample1State();
 }
