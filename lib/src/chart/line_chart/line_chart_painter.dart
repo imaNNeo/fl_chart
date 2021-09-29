@@ -911,10 +911,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             );
             tp.layout();
 
-            x -= tp.width / 2;
-            y -= topTitles.margin + tp.height;
-            y += calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
-            canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
+            bool shouldPaint = false;
+            if (topTitles.hideTitleOnOverflow) {
+              bool greaterThanLeft = x > getLeftOffsetDrawSize(holder) + tp.width / 2;
+              bool lessThanRight = x - tp.width / 2 < viewSize.width - tp.width / 2;
+              if (lessThanRight && greaterThanLeft) {
+                shouldPaint = true;
+              }
+            } else {
+              shouldPaint = true;
+            }
+            if (shouldPaint) {
+              x -= tp.width / 2;
+              y -= topTitles.margin + tp.height;
+              y += calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
+              canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
+            }
           }
           if (data.maxX - horizontalSeek < topInterval && data.maxX != horizontalSeek) {
             horizontalSeek = data.maxX;
@@ -992,10 +1004,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
                 textScaleFactor: holder.textScale);
             tp.layout();
 
-            x -= tp.width / 2;
-            y += bottomTitles.margin;
-            y -= calculateRotationOffset(tp.size, bottomTitles.rotateAngle).dy;
-            canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
+            bool shouldPaint = false;
+            if (bottomTitles.hideTitleOnOverflow) {
+              bool greaterThanLeft = x > getLeftOffsetDrawSize(holder) + tp.width / 2;
+              bool lessThanRight = x - tp.width / 2 < viewSize.width - tp.width / 2;
+              if (lessThanRight && greaterThanLeft) {
+                shouldPaint = true;
+              }
+            } else {
+              shouldPaint = true;
+            }
+            if (shouldPaint) {
+              x -= tp.width / 2;
+              y += bottomTitles.margin;
+              y -= calculateRotationOffset(tp.size, bottomTitles.rotateAngle).dy;
+              canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
+            }
           }
 
           if (data.maxX - horizontalSeek < bottomInterval && data.maxX != horizontalSeek) {
