@@ -1006,8 +1006,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
             bool shouldPaint = false;
             if (bottomTitles.hideTitleOnOverflow) {
-              bool greaterThanLeft = x > getLeftOffsetDrawSize(holder) + tp.width / 2;
-              bool lessThanRight = x - tp.width / 2 < viewSize.width - tp.width / 2;
+              double leftX = getLeftOffsetDrawSize(holder);
+              bool greaterThanLeft = x > leftX + tp.width / 2;
+              bool lessThanRight = x < leftX + viewSize.width - tp.width / 2;
               if (lessThanRight && greaterThanLeft) {
                 shouldPaint = true;
               }
