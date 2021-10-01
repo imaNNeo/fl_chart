@@ -580,6 +580,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     } else {
       final from = barData.belowBarData.gradientFrom;
       final to = barData.belowBarData.gradientTo;
+      _barAreaPaint.color = Colors.black;
       _barAreaPaint.shader = ui.Gradient.linear(
         Offset(
           getLeftOffsetDrawSize(holder) + (chartViewSize.width * from.dx),
@@ -662,6 +663,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     } else {
       final from = barData.aboveBarData.gradientFrom;
       final to = barData.aboveBarData.gradientTo;
+      _barAreaPaint.color = Colors.black;
       _barAreaPaint.shader = ui.Gradient.linear(
         Offset(
           getLeftOffsetDrawSize(holder) + (chartViewSize.width * from.dx),
