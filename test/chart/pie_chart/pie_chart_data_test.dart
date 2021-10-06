@@ -54,8 +54,8 @@ void main() {
           pieChartData1 ==
               pieChartData1Clone.copyWith(
                 sections: [
-                  PieChartSectionData(value: 12, color: Colors.red),
-                  PieChartSectionData(value: 22, color: Colors.green),
+                  PieChartSectionData(value: 12, colors: [Colors.red]),
+                  PieChartSectionData(value: 22, colors: [Colors.green]),
                 ],
               ),
           false);
@@ -64,8 +64,8 @@ void main() {
           pieChartData1 ==
               pieChartData1Clone.copyWith(
                 sections: [
-                  PieChartSectionData(value: 12, color: Colors.red),
-                  PieChartSectionData(value: 22, color: Colors.green.withOpacity(0.99)),
+                  PieChartSectionData(value: 12, colors: [Colors.red]),
+                  PieChartSectionData(value: 22, colors: [Colors.green.withOpacity(0.99)]),
                 ],
               ),
           false);
@@ -74,8 +74,8 @@ void main() {
           pieChartData1 ==
               pieChartData1Clone.copyWith(
                 sections: [
-                  PieChartSectionData(value: 22, color: Colors.green),
-                  PieChartSectionData(value: 12, color: Colors.red),
+                  PieChartSectionData(value: 22, colors: [Colors.green]),
+                  PieChartSectionData(value: 12, colors: [Colors.red]),
                 ],
               ),
           false);

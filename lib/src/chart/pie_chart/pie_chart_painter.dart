@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'pie_chart_data.dart';
+import 'pie_chart_extension.dart';
 
 /// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
 class PieChartPainter extends BaseChartPainter<PieChartData> {
@@ -79,6 +81,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final shouldDrawSeparators = data.sectionsSpace != 0 && data.sections.length > 1;
 
     final viewSize = canvasWrapper.size;
+    final drawSize = getChartUsableDrawSize(viewSize, holder);
 
     if (shouldDrawSeparators) {
       canvasWrapper.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
@@ -106,7 +109,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       );
 
       if (sectionDegree == 360) {
-        _sectionPaint.color = section.color;
+        _sectionPaint.color = section.colors.first;
         _sectionPaint.strokeWidth = section.radius;
         _sectionPaint.style = PaintingStyle.stroke;
         canvasWrapper.drawCircle(center, centerRadius + section.radius / 2, _sectionPaint);
@@ -130,8 +133,27 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionPath = _generateSectionPath(
           startLine, endLine, startRadians, endRadians, sectionRadiusRect, centerRadiusRect);
 
-      _sectionPaint.color = section.color;
-      _sectionPaint.style = PaintingStyle.fill;
+      if (section.colors.length == 1) {
+        _sectionPaint.color = section.colors[0];
+        _sectionPaint.shader = null;
+        _sectionPaint.style = PaintingStyle.fill;
+      } else {
+        final from = section.gradientFrom;
+        final to = section.gradientTo;
+
+        _sectionPaint.shader = ui.Gradient.linear(
+          Offset(
+            getLeftOffsetDrawSize(holder) + (drawSize.width * from.dx),
+            getTopOffsetDrawSize(holder) + (drawSize.height * from.dy),
+          ),
+          Offset(
+            getLeftOffsetDrawSize(holder) + (drawSize.width * to.dx),
+            getTopOffsetDrawSize(holder) + (drawSize.height * to.dy),
+          ),
+          section.colors,
+          section.getSafeColorStops(),
+        );
+      }
       canvasWrapper.drawPath(sectionPath, _sectionPaint);
 
       if (section.borderSide.width != 0.0 && section.borderSide.color.opacity != 0.0) {

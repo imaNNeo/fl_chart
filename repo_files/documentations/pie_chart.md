@@ -35,7 +35,10 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |value| value is the weight of each section, for example if all values is 25, and we have 4 section, then the sum is 100 and each section takes 1/4 of the whole circle (360/4) degree|10|
-|color| colors the section| Colors.red
+|colors|colors the section of a pie, if multiple colors provided it will be gradient|[Colors.blueAccent]|
+|colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |radius| the width radius of each section|40|
 |showTitle| determines to show or hide the titles on each section|true|
 |titleStyle| TextStyle of the titles| TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)|

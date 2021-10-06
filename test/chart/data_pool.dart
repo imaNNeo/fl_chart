@@ -1977,8 +1977,8 @@ final PieChartData pieChartData1 = PieChartData(
   borderData: FlBorderData(show: false, border: Border.all(color: Colors.black)),
   startDegreeOffset: 0,
   sections: [
-    PieChartSectionData(value: 12, color: Colors.red),
-    PieChartSectionData(value: 22, color: Colors.green),
+    PieChartSectionData(value: 12, colors: [Colors.red]),
+    PieChartSectionData(value: 22, colors: [Colors.green]),
   ],
   centerSpaceColor: Colors.white,
   centerSpaceRadius: 12,

@@ -1,7 +1,8 @@
+import 'package:example/utils/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+
 import 'indicator.dart';
-import 'package:example/utils/color_extensions.dart';
 
 class PieChartSample1 extends StatefulWidget {
   const PieChartSample1({Key? key}) : super(key: key);
@@ -109,7 +110,7 @@ class PieChartSample1State extends State {
         switch (i) {
           case 0:
             return PieChartSectionData(
-              color: color0.withOpacity(opacity),
+              colors: [color0.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 80,
@@ -122,7 +123,7 @@ class PieChartSample1State extends State {
             );
           case 1:
             return PieChartSectionData(
-              color: color1.withOpacity(opacity),
+              colors: [color1.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 65,
@@ -135,7 +136,7 @@ class PieChartSample1State extends State {
             );
           case 2:
             return PieChartSectionData(
-              color: color2.withOpacity(opacity),
+              colors: [color2],
               value: 25,
               title: '',
               radius: 60,
@@ -148,7 +149,7 @@ class PieChartSample1State extends State {
             );
           case 3:
             return PieChartSectionData(
-              color: color3.withOpacity(opacity),
+              colors: [color3],
               value: 25,
               title: '',
               radius: 70,

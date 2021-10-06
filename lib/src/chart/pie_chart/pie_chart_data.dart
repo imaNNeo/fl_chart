@@ -128,8 +128,24 @@ class PieChartSectionData {
   /// value can not be null.
   final double value;
 
-  /// Defines the color of section.
-  final Color color;
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw.
+  /// then the [gradientFrom], [gradientTo] and [colorStops] is important,
+  final List<Color> colors;
+
+  /// Determines the start point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientFrom;
+
+  /// Determines the end point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientTo;
+
+  /// if more than one color provided colorStops will hold
+  /// stop points of the gradient.
+  final List<double>? colorStops;
 
   /// Defines the radius of section.
   final double radius;
@@ -187,7 +203,10 @@ class PieChartSectionData {
   /// the value works the same way as [titlePositionPercentageOffset].
   PieChartSectionData({
     double? value,
-    Color? color,
+    List<Color>? colors,
+    Offset? gradientFrom,
+    Offset? gradientTo,
+    List<double>? colorStops,
     double? radius,
     bool? showTitle,
     TextStyle? titleStyle,
@@ -197,7 +216,10 @@ class PieChartSectionData {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
   })  : value = value ?? 10,
-        color = color ?? Colors.cyan,
+        colors = colors ?? [Colors.cyan],
+        gradientFrom = gradientFrom ?? const Offset(0.5, 1),
+        gradientTo = gradientTo ?? const Offset(0.5, 0),
+        colorStops = colorStops,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
         titleStyle = titleStyle,
@@ -211,7 +233,10 @@ class PieChartSectionData {
   /// and replaces provided values.
   PieChartSectionData copyWith({
     double? value,
-    Color? color,
+    List<Color>? colors,
+    Offset? gradientFrom,
+    Offset? gradientTo,
+    List<double>? colorStops,
     double? radius,
     bool? showTitle,
     TextStyle? titleStyle,
@@ -223,7 +248,10 @@ class PieChartSectionData {
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
-      color: color ?? this.color,
+      colors: colors ?? this.colors,
+      gradientFrom: gradientFrom ?? this.gradientFrom,
+      gradientTo: gradientTo ?? this.gradientTo,
+      colorStops: colorStops ?? this.colorStops,
       radius: radius ?? this.radius,
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
@@ -241,7 +269,10 @@ class PieChartSectionData {
   static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
     return PieChartSectionData(
       value: lerpDouble(a.value, b.value, t),
-      color: Color.lerp(a.color, b.color, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
+      colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
       radius: lerpDouble(a.radius, b.radius, t),
       showTitle: b.showTitle,
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
