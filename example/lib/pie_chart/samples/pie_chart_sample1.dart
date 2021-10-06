@@ -136,7 +136,7 @@ class PieChartSample1State extends State {
             );
           case 2:
             return PieChartSectionData(
-              colors: [color2],
+              colors: [color2.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 60,
@@ -149,7 +149,7 @@ class PieChartSample1State extends State {
             );
           case 3:
             return PieChartSectionData(
-              colors: [color3],
+              colors: [color3.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 70,
