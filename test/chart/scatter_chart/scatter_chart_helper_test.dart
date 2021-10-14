@@ -23,15 +23,25 @@ void main() {
 
     test('Test read from cache', () {
       final scatterSpots = [scatterSpot1, scatterSpot2, scatterSpot3];
-      final scatterSpotsClone = [scatterSpot1Clone, scatterSpot2Clone, scatterSpot3];
+      final scatterSpotsClone = [
+        scatterSpot1Clone,
+        scatterSpot2Clone,
+        scatterSpot3
+      ];
       final result1 = ScatterChartHelper.calculateMaxAxisValues(scatterSpots);
-      final result2 = ScatterChartHelper.calculateMaxAxisValues(scatterSpotsClone);
+      final result2 =
+          ScatterChartHelper.calculateMaxAxisValues(scatterSpotsClone);
       expect(result1.readFromCache, false);
       expect(result2.readFromCache, true);
     });
 
     test('Test validity 1', () {
-      final scatterSpots = [scatterSpot1, scatterSpot2, scatterSpot3, scatterSpot4];
+      final scatterSpots = [
+        scatterSpot1,
+        scatterSpot2,
+        scatterSpot3,
+        scatterSpot4
+      ];
       final result = ScatterChartHelper.calculateMaxAxisValues(scatterSpots);
       expect(result.minX, -14);
       expect(result.maxX, 1);
@@ -53,9 +63,14 @@ void main() {
 
     test('Test equality', () {
       final scatterSpots = [scatterSpot1, scatterSpot2, scatterSpot3];
-      final scatterSpotsClone = [scatterSpot1Clone, scatterSpot2Clone, scatterSpot3];
+      final scatterSpotsClone = [
+        scatterSpot1Clone,
+        scatterSpot2Clone,
+        scatterSpot3
+      ];
       final result1 = ScatterChartHelper.calculateMaxAxisValues(scatterSpots);
-      final result2 = ScatterChartHelper.calculateMaxAxisValues(scatterSpotsClone);
+      final result2 =
+          ScatterChartHelper.calculateMaxAxisValues(scatterSpotsClone);
       expect(result1, result2);
     });
   });

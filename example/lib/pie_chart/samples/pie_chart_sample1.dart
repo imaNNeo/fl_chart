@@ -66,8 +66,8 @@ class PieChartSample1State extends State {
                 aspectRatio: 1,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData:
-                          PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      pieTouchData: PieTouchData(touchCallback:
+                          (FlTouchEvent event, pieTouchResponse) {
                         setState(() {
                           if (!event.isInterestedForInteractions ||
                               pieTouchResponse == null ||
@@ -75,7 +75,8 @@ class PieChartSample1State extends State {
                             touchedIndex = -1;
                             return;
                           }
-                          touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                          touchedIndex = pieTouchResponse
+                              .touchedSection!.touchedSectionIndex;
                         });
                       }),
                       startDegreeOffset: 180,
@@ -114,7 +115,9 @@ class PieChartSample1State extends State {
               title: '',
               radius: 80,
               titleStyle: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff044d7c)),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff044d7c)),
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? BorderSide(color: color0.darken(40), width: 6)
@@ -127,7 +130,9 @@ class PieChartSample1State extends State {
               title: '',
               radius: 65,
               titleStyle: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff90672d)),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff90672d)),
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? BorderSide(color: color1.darken(40), width: 6)
@@ -140,7 +145,9 @@ class PieChartSample1State extends State {
               title: '',
               radius: 60,
               titleStyle: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff4c3788)),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff4c3788)),
               titlePositionPercentageOffset: 0.6,
               borderSide: isTouched
                   ? BorderSide(color: color2.darken(40), width: 6)
@@ -153,7 +160,9 @@ class PieChartSample1State extends State {
               title: '',
               radius: 70,
               titleStyle: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff0c7f55)),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff0c7f55)),
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? BorderSide(color: color3.darken(40), width: 6)

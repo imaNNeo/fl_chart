@@ -22,7 +22,10 @@ class LineChartPage2 extends StatelessWidget {
               children: const <Widget>[
                 Text(
                   'LineChart',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+                  style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
                 LineChartSample3(),
                 LineChartSample4(),

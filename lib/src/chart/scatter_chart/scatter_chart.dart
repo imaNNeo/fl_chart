@@ -19,7 +19,10 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
     Key? key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
-  }) : super(key: key, duration: swapAnimationDuration, curve: swapAnimationCurve);
+  }) : super(
+            key: key,
+            duration: swapAnimationDuration,
+            curve: swapAnimationCurve);
 
   /// Creates a [_ScatterChartState]
   @override
@@ -63,19 +66,24 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     if (scatterTouchData.enabled && scatterTouchData.handleBuiltInTouches) {
       _providedTouchCallback = scatterTouchData.touchCallback;
       return widget.data.copyWith(
-        scatterTouchData: widget.data.scatterTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+        scatterTouchData: widget.data.scatterTouchData
+            .copyWith(touchCallback: _handleBuiltInTouch),
       );
     }
     return widget.data;
   }
 
-  void _handleBuiltInTouch(FlTouchEvent event, ScatterTouchResponse? touchResponse) {
+  void _handleBuiltInTouch(
+      FlTouchEvent event, ScatterTouchResponse? touchResponse) {
     _providedTouchCallback?.call(event, touchResponse);
 
-    final desiredTouch =
-        event is FlPanDownEvent || event is FlPanUpdateEvent || event is FlPointerHoverEvent;
+    final desiredTouch = event is FlPanDownEvent ||
+        event is FlPanUpdateEvent ||
+        event is FlPointerHoverEvent;
 
-    if (!desiredTouch || touchResponse == null || touchResponse.touchedSpot == null) {
+    if (!desiredTouch ||
+        touchResponse == null ||
+        touchResponse.touchedSpot == null) {
       setState(() {
         touchedSpots = [];
       });

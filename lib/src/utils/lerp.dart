@@ -5,7 +5,8 @@ import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:flutter/animation.dart';
 
-List<T>? _lerpList<T>(List<T>? a, List<T>? b, double t, {required T Function(T, T, double) lerp}) {
+List<T>? _lerpList<T>(List<T>? a, List<T>? b, double t,
+    {required T Function(T, T, double) lerp}) {
   if (a != null && b != null && a.length == b.length) {
     return List.generate(a.length, (i) {
       return lerp(a[i], b[i], t);
@@ -46,7 +47,8 @@ List<double>? lerpDoubleList(List<double>? a, List<double>? b, double t) =>
     _lerpList(a, b, t, lerp: _lerpNonNullDouble);
 
 /// Lerps [int] list based on [t] value, check [Tween.lerp].
-List<int>? lerpIntList(List<int>? a, List<int>? b, double t) => _lerpList(a, b, t, lerp: lerpInt);
+List<int>? lerpIntList(List<int>? a, List<int>? b, double t) =>
+    _lerpList(a, b, t, lerp: lerpInt);
 
 /// Lerps [int] list based on [t] value, check [Tween.lerp].
 int lerpInt(int a, int b, double t) => (a + (b - a) * t).round();
@@ -63,17 +65,22 @@ List<HorizontalLine>? lerpHorizontalLineList(
     _lerpList(a, b, t, lerp: HorizontalLine.lerp);
 
 /// Lerps [VerticalLine] list based on [t] value, check [Tween.lerp].
-List<VerticalLine>? lerpVerticalLineList(List<VerticalLine>? a, List<VerticalLine>? b, double t) =>
+List<VerticalLine>? lerpVerticalLineList(
+        List<VerticalLine>? a, List<VerticalLine>? b, double t) =>
     _lerpList(a, b, t, lerp: VerticalLine.lerp);
 
 /// Lerps [HorizontalRangeAnnotation] list based on [t] value, check [Tween.lerp].
 List<HorizontalRangeAnnotation>? lerpHorizontalRangeAnnotationList(
-        List<HorizontalRangeAnnotation>? a, List<HorizontalRangeAnnotation>? b, double t) =>
+        List<HorizontalRangeAnnotation>? a,
+        List<HorizontalRangeAnnotation>? b,
+        double t) =>
     _lerpList(a, b, t, lerp: HorizontalRangeAnnotation.lerp);
 
 /// Lerps [VerticalRangeAnnotation] list based on [t] value, check [Tween.lerp].
 List<VerticalRangeAnnotation>? lerpVerticalRangeAnnotationList(
-        List<VerticalRangeAnnotation>? a, List<VerticalRangeAnnotation>? b, double t) =>
+        List<VerticalRangeAnnotation>? a,
+        List<VerticalRangeAnnotation>? b,
+        double t) =>
     _lerpList(a, b, t, lerp: VerticalRangeAnnotation.lerp);
 
 /// Lerps [LineChartBarData] list based on [t] value, check [Tween.lerp].
@@ -102,18 +109,23 @@ List<PieChartSectionData>? lerpPieChartSectionDataList(
     _lerpList(a, b, t, lerp: PieChartSectionData.lerp);
 
 /// Lerps [ScatterSpot] list based on [t] value, check [Tween.lerp].
-List<ScatterSpot>? lerpScatterSpotList(List<ScatterSpot>? a, List<ScatterSpot>? b, double t) =>
+List<ScatterSpot>? lerpScatterSpotList(
+        List<ScatterSpot>? a, List<ScatterSpot>? b, double t) =>
     _lerpList(a, b, t, lerp: ScatterSpot.lerp);
 
 /// Lerps [BarChartRodStackItem] list based on [t] value, check [Tween.lerp].
 List<BarChartRodStackItem>? lerpBarChartRodStackList(
-        List<BarChartRodStackItem>? a, List<BarChartRodStackItem>? b, double t) =>
+        List<BarChartRodStackItem>? a,
+        List<BarChartRodStackItem>? b,
+        double t) =>
     _lerpList(a, b, t, lerp: BarChartRodStackItem.lerp);
 
 /// Lerps [RadarDataSet] list based on [t] value, check [Tween.lerp].
-List<RadarDataSet>? lerpRadarDataSetList(List<RadarDataSet>? a, List<RadarDataSet>? b, double t) =>
+List<RadarDataSet>? lerpRadarDataSetList(
+        List<RadarDataSet>? a, List<RadarDataSet>? b, double t) =>
     _lerpList(a, b, t, lerp: RadarDataSet.lerp);
 
 /// Lerps [RadarEntry] list based on [t] value, check [Tween.lerp].
-List<RadarEntry>? lerpRadarEntryList(List<RadarEntry>? a, List<RadarEntry>? b, double t) =>
+List<RadarEntry>? lerpRadarEntryList(
+        List<RadarEntry>? a, List<RadarEntry>? b, double t) =>
     _lerpList(a, b, t, lerp: RadarEntry.lerp);

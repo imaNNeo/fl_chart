@@ -19,7 +19,8 @@ void main() {
 
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(644, 728));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(644, 728));
     });
 
     test('test 2', () {
@@ -35,7 +36,8 @@ void main() {
 
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(1958, 2020));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(1958, 2020));
     });
 
     test('test 3', () {
@@ -44,14 +46,16 @@ void main() {
       final BarChartData data = BarChartData(
           titlesData: FlTitlesData(
         leftTitles: SideTitles(showTitles: false),
-        rightTitles: SideTitles(reservedSize: 100, margin: 400, showTitles: true),
+        rightTitles:
+            SideTitles(reservedSize: 100, margin: 400, showTitles: true),
         topTitles: SideTitles(showTitles: false),
         bottomTitles: SideTitles(showTitles: false),
       ));
 
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(500, 1000));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(500, 1000));
     });
 
     test('test 4', () {
@@ -62,12 +66,14 @@ void main() {
         leftTitles: SideTitles(showTitles: false),
         rightTitles: SideTitles(reservedSize: 10, margin: 0, showTitles: true),
         topTitles: SideTitles(reservedSize: 230, margin: 10, showTitles: true),
-        bottomTitles: SideTitles(reservedSize: 10, margin: 312, showTitles: true),
+        bottomTitles:
+            SideTitles(reservedSize: 10, margin: 312, showTitles: true),
       ));
 
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(790, 438));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(790, 438));
     });
 
     test('test 5', () {
@@ -76,14 +82,17 @@ void main() {
       final BarChartData data = BarChartData(
           titlesData: FlTitlesData(
         leftTitles: SideTitles(reservedSize: 0, margin: 0, showTitles: true),
-        rightTitles: SideTitles(reservedSize: 10, margin: 342134123, showTitles: false),
+        rightTitles:
+            SideTitles(reservedSize: 10, margin: 342134123, showTitles: false),
         topTitles: SideTitles(reservedSize: 80, margin: 0, showTitles: true),
-        bottomTitles: SideTitles(reservedSize: 10, margin: 312, showTitles: false),
+        bottomTitles:
+            SideTitles(reservedSize: 10, margin: 312, showTitles: false),
       ));
 
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(600, 320));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(600, 320));
     });
   });
 }
