@@ -1,3 +1,8 @@
+## 0.40.1
+* **IMPROVEMENT** Fix pub.dev determining web support, #780.
+* **IMPROVEMENT** Implement flutter_lints in the code.
+* **BUGFIX** Fix below/above area data transparency issue, #770.
+
 ## 0.40.0
 * **BUGFIX** Fixed pieChart `centerRadius = double.infinity` problem, #747.c
 * **BREAKING** Charts touchCallback signature has changed to `(FlTouchEvent event, BaseTouchResponse? response)` which [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) determines which touch/pointer event happened (such as `FlTapUpEvent`, `FlPanUpdateEvent`, ...), and BaseTouchResponse gives us the chart response.
