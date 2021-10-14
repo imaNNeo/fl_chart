@@ -47,7 +47,8 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData>
     implements MouseTrackerAnnotation {
-  RenderPieChart(BuildContext context, PieChartData data, PieChartData targetData, double textScale)
+  RenderPieChart(BuildContext context, PieChartData data,
+      PieChartData targetData, double textScale)
       : _data = data,
         _targetData = targetData,
         _textScale = textScale,

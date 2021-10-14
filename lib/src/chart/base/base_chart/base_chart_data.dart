@@ -137,13 +137,16 @@ class FlClipData with EquatableMixin {
   FlClipData.all() : this(top: true, bottom: true, left: true, right: true);
 
   /// Creates data that clips only top and bottom side
-  FlClipData.vertical() : this(top: true, bottom: true, left: false, right: false);
+  FlClipData.vertical()
+      : this(top: true, bottom: true, left: false, right: false);
 
   /// Creates data that clips only left and right side
-  FlClipData.horizontal() : this(top: false, bottom: false, left: true, right: true);
+  FlClipData.horizontal()
+      : this(top: false, bottom: false, left: true, right: true);
 
   /// Creates data that doesn't clip any side
-  FlClipData.none() : this(top: false, bottom: false, left: false, right: false);
+  FlClipData.none()
+      : this(top: false, bottom: false, left: false, right: false);
 
   /// Checks whether any of the sides should be clipped
   bool get any => top || bottom || left || right;
@@ -183,7 +186,8 @@ String defaultGetTitle(double value) {
 ///
 /// If you return null, we try to provide an inherited TextStyle using theme.
 /// (you can customize a specific title using this).
-typedef GetTitleTextStyleFunction = TextStyle? Function(BuildContext context, double value);
+typedef GetTitleTextStyleFunction = TextStyle? Function(
+    BuildContext context, double value);
 
 /// The default [SideTitles.getTextStyles] function.
 ///
@@ -191,12 +195,14 @@ typedef GetTitleTextStyleFunction = TextStyle? Function(BuildContext context, do
 TextStyle? defaultGetTitleTextStyle(BuildContext context, double value) => null;
 
 /// Chart's touch callback.
-typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(FlTouchEvent, R?);
+typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(
+    FlTouchEvent, R?);
 
 /// It gives you the happened [FlTouchEvent] and existed [R] data at the event's location,
 /// then you should provide a [MouseCursor] to change the cursor at the event's location.
 /// For example you can pass the [SystemMouseCursors.click] to change the mouse cursor to click.
-typedef MouseCursorResolver<R extends BaseTouchResponse> = MouseCursor Function(FlTouchEvent, R?);
+typedef MouseCursorResolver<R extends BaseTouchResponse> = MouseCursor Function(
+    FlTouchEvent, R?);
 
 /// This class holds the touch response details of charts.
 abstract class BaseTouchResponse {

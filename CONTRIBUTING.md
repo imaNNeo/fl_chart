@@ -49,10 +49,10 @@ You can simply run `make checkstyle`, and if you faced any formatting problem, r
 
 ##### Run `make checkstyle` to ensure that your code is formatted correctly
 - It runs `flutter analyze` to verify that there is no any warning or error.
-- It runs `flutter format --set-exit-if-changed --dry-run --line-length 100 .` to verify that code has formatted correctly.
+- It runs `flutter format --set-exit-if-changed --dry-run .` to verify that code has formatted correctly.
 
 #### Run `make format` to reformat the code
-- It runs `flutter format --line-length 100 .` to format your code with 100 characters limit.
+- It runs `flutter format .` to format your code.
 
 
 #### Run `make runTests` to ensure that all tests are passing.

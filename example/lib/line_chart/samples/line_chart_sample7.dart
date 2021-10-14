@@ -100,7 +100,9 @@ class LineChartSample7 extends StatelessWidget {
                   showTitles: true,
                   interval: 1,
                   getTextStyles: (context, value) => const TextStyle(
-                      fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold),
+                      fontSize: 10,
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold),
                   getTitles: (value) {
                     switch (value.toInt()) {
                       case 0:
@@ -138,7 +140,8 @@ class LineChartSample7 extends StatelessWidget {
                 },
                 interval: 1,
                 reservedSize: 40,
-                getTextStyles: (context, value) => const TextStyle(fontSize: 10),
+                getTextStyles: (context, value) =>
+                    const TextStyle(fontSize: 10),
               ),
               topTitles: SideTitles(showTitles: false),
               rightTitles: SideTitles(showTitles: false),

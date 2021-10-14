@@ -85,42 +85,48 @@ class _BarChart extends StatelessWidget {
         BarChartGroupData(
           x: 0,
           barRods: [
-            BarChartRodData(y: 8, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            BarChartRodData(
+                y: 8, colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
         BarChartGroupData(
           x: 1,
           barRods: [
-            BarChartRodData(y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            BarChartRodData(
+                y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
         BarChartGroupData(
           x: 2,
           barRods: [
-            BarChartRodData(y: 14, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            BarChartRodData(
+                y: 14, colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
         BarChartGroupData(
           x: 3,
           barRods: [
-            BarChartRodData(y: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            BarChartRodData(
+                y: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
         BarChartGroupData(
           x: 3,
           barRods: [
-            BarChartRodData(y: 13, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            BarChartRodData(
+                y: 13, colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
         BarChartGroupData(
           x: 3,
           barRods: [
-            BarChartRodData(y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            BarChartRodData(
+                y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),

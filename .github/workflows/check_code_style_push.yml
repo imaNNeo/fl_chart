@@ -12,7 +12,7 @@ jobs:
         with:
           channel: "stable"
       - name: Check formattting
-        run: flutter format --set-exit-if-changed --dry-run --line-length 100 .
+        run: flutter format --set-exit-if-changed --dry-run .
       - name: Get packages
         run: flutter pub get
       - name: Analyze the source code
