@@ -1,3 +1,6 @@
+## 0.40.2
+* **IMPROVEMENT** Use 80 characters for code format line-length instead of 100 (because pub.dev works with 80 and decreased our score). 
+
 ## 0.40.1
 * **IMPROVEMENT** Fix pub.dev determining web support, #780.
 * **IMPROVEMENT** Implement flutter_lints in the code.
