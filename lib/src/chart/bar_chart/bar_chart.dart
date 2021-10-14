@@ -18,7 +18,10 @@ class BarChart extends ImplicitlyAnimatedWidget {
     Key? key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
-  }) : super(key: key, duration: swapAnimationDuration, curve: swapAnimationCurve);
+  }) : super(
+            key: key,
+            duration: swapAnimationDuration,
+            curve: swapAnimationCurve);
 
   /// Creates a [_BarChartState]
   @override
@@ -47,7 +50,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   }
 
   BarChartData _withTouchedIndicators(BarChartData barChartData) {
-    if (!barChartData.barTouchData.enabled || !barChartData.barTouchData.handleBuiltInTouches) {
+    if (!barChartData.barTouchData.enabled ||
+        !barChartData.barTouchData.handleBuiltInTouches) {
       return barChartData;
     }
 
@@ -72,16 +76,20 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     if (barTouchData.enabled && barTouchData.handleBuiltInTouches) {
       _providedTouchCallback = barTouchData.touchCallback;
       return widget.data.copyWith(
-        barTouchData: widget.data.barTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+        barTouchData: widget.data.barTouchData
+            .copyWith(touchCallback: _handleBuiltInTouch),
       );
     }
     return widget.data;
   }
 
-  void _handleBuiltInTouch(FlTouchEvent event, BarTouchResponse? touchResponse) {
+  void _handleBuiltInTouch(
+      FlTouchEvent event, BarTouchResponse? touchResponse) {
     _providedTouchCallback?.call(event, touchResponse);
 
-    if (!event.isInterestedForInteractions || touchResponse == null || touchResponse.spot == null) {
+    if (!event.isInterestedForInteractions ||
+        touchResponse == null ||
+        touchResponse.spot == null) {
       setState(() {
         _showingTouchedTooltips.clear();
       });

@@ -20,16 +20,23 @@ void main() {
   });
 
   test('test default size', () {
-    expect(getDefaultSize(const Size(1080, 1920)).width, closeTo(756, tolerance));
-    expect(getDefaultSize(const Size(1080, 1920)).height, closeTo(756, tolerance));
+    expect(
+        getDefaultSize(const Size(1080, 1920)).width, closeTo(756, tolerance));
+    expect(
+        getDefaultSize(const Size(1080, 1920)).height, closeTo(756, tolerance));
 
-    expect(getDefaultSize(const Size(728, 1080)).width, closeTo(509.6, tolerance));
-    expect(getDefaultSize(const Size(728, 1080)).height, closeTo(509.6, tolerance));
+    expect(
+        getDefaultSize(const Size(728, 1080)).width, closeTo(509.6, tolerance));
+    expect(getDefaultSize(const Size(728, 1080)).height,
+        closeTo(509.6, tolerance));
 
-    expect(getDefaultSize(const Size(2560, 1600)).width, closeTo(1120, tolerance));
-    expect(getDefaultSize(const Size(2560, 1600)).height, closeTo(1120, tolerance));
+    expect(
+        getDefaultSize(const Size(2560, 1600)).width, closeTo(1120, tolerance));
+    expect(getDefaultSize(const Size(2560, 1600)).height,
+        closeTo(1120, tolerance));
 
-    expect(getDefaultSize(const Size(1000, 1000)).width, closeTo(700, tolerance));
+    expect(
+        getDefaultSize(const Size(1000, 1000)).width, closeTo(700, tolerance));
   });
 
   test('translate rotated position', () {
@@ -56,8 +63,10 @@ void main() {
   test('test getEfficientInterval', () {
     expect(getEfficientInterval(472, 340, pixelPerInterval: 10), 5);
     expect(getEfficientInterval(820, 10000, pixelPerInterval: 10), 100);
-    expect(getEfficientInterval(1024, 412345234, pixelPerInterval: 10), 5000000);
-    expect(getEfficientInterval(720, 812394712349, pixelPerInterval: 10), 10000000000);
+    expect(
+        getEfficientInterval(1024, 412345234, pixelPerInterval: 10), 5000000);
+    expect(getEfficientInterval(720, 812394712349, pixelPerInterval: 10),
+        10000000000);
   });
 
   test('test formatNumber', () {
