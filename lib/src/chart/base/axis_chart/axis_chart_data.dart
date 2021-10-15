@@ -252,10 +252,13 @@ class FlTitlesData with EquatableMixin {
     SideTitles? rightTitles,
     SideTitles? bottomTitles,
   })  : show = show ?? true,
-        leftTitles = leftTitles ?? SideTitles(reservedSize: 40, showTitles: true),
+        leftTitles =
+            leftTitles ?? SideTitles(reservedSize: 40, showTitles: true),
         topTitles = topTitles ?? SideTitles(reservedSize: 6, showTitles: true),
-        rightTitles = rightTitles ?? SideTitles(reservedSize: 40, showTitles: true),
-        bottomTitles = bottomTitles ?? SideTitles(reservedSize: 6, showTitles: true);
+        rightTitles =
+            rightTitles ?? SideTitles(reservedSize: 40, showTitles: true),
+        bottomTitles =
+            bottomTitles ?? SideTitles(reservedSize: 6, showTitles: true);
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
   static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
@@ -298,14 +301,14 @@ class FlTitlesData with EquatableMixin {
 }
 
 /// Determines showing or hiding specified title.
-typedef CheckToShowTitle = bool Function(
-    double minValue, double maxValue, SideTitles sideTitles, double appliedInterval, double value);
+typedef CheckToShowTitle = bool Function(double minValue, double maxValue,
+    SideTitles sideTitles, double appliedInterval, double value);
 
 /// The default [SideTitles.checkToShowTitle] function.
 ///
 /// It determines showing or not showing specific title.
-bool defaultCheckToShowTitle(
-    double minValue, double maxValue, SideTitles sideTitles, double appliedInterval, double value) {
+bool defaultCheckToShowTitle(double minValue, double maxValue,
+    SideTitles sideTitles, double appliedInterval, double value) {
   if ((maxValue - minValue) % appliedInterval == 0) {
     return true;
   }
@@ -572,7 +575,8 @@ class FlGridData with EquatableMixin {
     return FlGridData(
       show: b.show,
       drawHorizontalLine: b.drawHorizontalLine,
-      horizontalInterval: lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
+      horizontalInterval:
+          lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
       getDrawingHorizontalLine: b.getDrawingHorizontalLine,
       checkToShowHorizontalLine: b.checkToShowHorizontalLine,
       drawVerticalLine: b.drawVerticalLine,
@@ -599,12 +603,16 @@ class FlGridData with EquatableMixin {
       show: show ?? this.show,
       drawHorizontalLine: drawHorizontalLine ?? this.drawHorizontalLine,
       horizontalInterval: horizontalInterval ?? this.horizontalInterval,
-      getDrawingHorizontalLine: getDrawingHorizontalLine ?? this.getDrawingHorizontalLine,
-      checkToShowHorizontalLine: checkToShowHorizontalLine ?? this.checkToShowHorizontalLine,
+      getDrawingHorizontalLine:
+          getDrawingHorizontalLine ?? this.getDrawingHorizontalLine,
+      checkToShowHorizontalLine:
+          checkToShowHorizontalLine ?? this.checkToShowHorizontalLine,
       drawVerticalLine: drawVerticalLine ?? this.drawVerticalLine,
       verticalInterval: verticalInterval ?? this.verticalInterval,
-      getDrawingVerticalLine: getDrawingVerticalLine ?? this.getDrawingVerticalLine,
-      checkToShowVerticalLine: checkToShowVerticalLine ?? this.checkToShowVerticalLine,
+      getDrawingVerticalLine:
+          getDrawingVerticalLine ?? this.getDrawingVerticalLine,
+      checkToShowVerticalLine:
+          checkToShowVerticalLine ?? this.checkToShowVerticalLine,
     );
   }
 
@@ -750,7 +758,8 @@ class RangeAnnotations with EquatableMixin {
         verticalRangeAnnotations = verticalRangeAnnotations ?? const [];
 
   /// Lerps a [RangeAnnotations] based on [t] value, check [Tween.lerp].
-  static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
+  static RangeAnnotations lerp(
+      RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
       horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
           a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
@@ -766,8 +775,10 @@ class RangeAnnotations with EquatableMixin {
     List<VerticalRangeAnnotation>? verticalRangeAnnotations,
   }) {
     return RangeAnnotations(
-      horizontalRangeAnnotations: horizontalRangeAnnotations ?? this.horizontalRangeAnnotations,
-      verticalRangeAnnotations: verticalRangeAnnotations ?? this.verticalRangeAnnotations,
+      horizontalRangeAnnotations:
+          horizontalRangeAnnotations ?? this.horizontalRangeAnnotations,
+      verticalRangeAnnotations:
+          verticalRangeAnnotations ?? this.verticalRangeAnnotations,
     );
   }
 

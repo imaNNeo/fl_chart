@@ -15,7 +15,8 @@ void main() {
 
       final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
-      expect(radarChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(728, 728));
+      expect(radarChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(728, 728));
     });
   });
 }

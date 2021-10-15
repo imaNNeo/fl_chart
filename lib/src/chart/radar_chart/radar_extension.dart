@@ -8,6 +8,7 @@ extension DashedPath on List<RadarDataSet> {
 
     final firstDataEntriesLength = this[0].dataEntries.length;
 
-    return every((element) => element.dataEntries.length == firstDataEntriesLength);
+    return every(
+        (element) => element.dataEntries.length == firstDataEntriesLength);
   }
 }

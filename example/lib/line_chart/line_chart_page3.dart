@@ -16,7 +16,10 @@ class LineChartPage3 extends StatelessWidget {
           children: <Widget>[
             const Text(
               'LineChart (reversed)',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             const SizedBox(
               height: 52,
@@ -27,7 +30,10 @@ class LineChartPage3 extends StatelessWidget {
             ),
             const Text(
               'LineChart (positive and negative values)',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             const SizedBox(
               height: 52,

@@ -33,11 +33,12 @@ double translateRotatedPosition(double size, double degree) {
 }
 
 Offset calculateRotationOffset(Size size, double degree) {
-  final rotatedHeight =
-      (size.width * math.sin(radians(degree))).abs() + (size.height * cos(radians(degree))).abs();
-  final rotatedWidth =
-      (size.width * cos(radians(degree))).abs() + (size.height * sin(radians(degree))).abs();
-  return Offset((size.width - rotatedWidth) / 2, (size.height - rotatedHeight) / 2);
+  final rotatedHeight = (size.width * math.sin(radians(degree))).abs() +
+      (size.height * cos(radians(degree))).abs();
+  final rotatedWidth = (size.width * cos(radians(degree))).abs() +
+      (size.height * sin(radians(degree))).abs();
+  return Offset(
+      (size.width - rotatedWidth) / 2, (size.height - rotatedHeight) / 2);
 }
 
 /// Decreases [borderRadius] to <= width / 2
@@ -47,28 +48,32 @@ BorderRadius? normalizeBorderRadius(BorderRadius? borderRadius, double width) {
   }
 
   Radius topLeft;
-  if (borderRadius.topLeft.x > width / 2 || borderRadius.topLeft.y > width / 2) {
+  if (borderRadius.topLeft.x > width / 2 ||
+      borderRadius.topLeft.y > width / 2) {
     topLeft = Radius.circular(width / 2);
   } else {
     topLeft = borderRadius.topLeft;
   }
 
   Radius topRight;
-  if (borderRadius.topRight.x > width / 2 || borderRadius.topRight.y > width / 2) {
+  if (borderRadius.topRight.x > width / 2 ||
+      borderRadius.topRight.y > width / 2) {
     topRight = Radius.circular(width / 2);
   } else {
     topRight = borderRadius.topRight;
   }
 
   Radius bottomLeft;
-  if (borderRadius.bottomLeft.x > width / 2 || borderRadius.bottomLeft.y > width / 2) {
+  if (borderRadius.bottomLeft.x > width / 2 ||
+      borderRadius.bottomLeft.y > width / 2) {
     bottomLeft = Radius.circular(width / 2);
   } else {
     bottomLeft = borderRadius.bottomLeft;
   }
 
   Radius bottomRight;
-  if (borderRadius.bottomRight.x > width / 2 || borderRadius.bottomRight.y > width / 2) {
+  if (borderRadius.bottomRight.x > width / 2 ||
+      borderRadius.bottomRight.y > width / 2) {
     bottomRight = Radius.circular(width / 2);
   } else {
     bottomRight = borderRadius.bottomRight;
@@ -211,14 +216,16 @@ String formatNumber(double number) {
 }
 
 /// Returns a TextStyle based on provided [context], if [providedStyle] provided we try to merge it.
-TextStyle getThemeAwareTextStyle(BuildContext context, TextStyle? providedStyle) {
+TextStyle getThemeAwareTextStyle(
+    BuildContext context, TextStyle? providedStyle) {
   final defaultTextStyle = DefaultTextStyle.of(context);
   var effectiveTextStyle = providedStyle;
   if (providedStyle == null || providedStyle.inherit) {
     effectiveTextStyle = defaultTextStyle.style.merge(providedStyle);
   }
   if (MediaQuery.boldTextOverride(context)) {
-    effectiveTextStyle = effectiveTextStyle!.merge(const TextStyle(fontWeight: FontWeight.bold));
+    effectiveTextStyle =
+        effectiveTextStyle!.merge(const TextStyle(fontWeight: FontWeight.bold));
   }
   return effectiveTextStyle ??= defaultTextStyle.style;
 }

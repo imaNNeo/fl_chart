@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class PlatformInfo {
-  bool isDesktopOS() => Platform.isMacOS || Platform.isLinux || Platform.isWindows;
+  bool isDesktopOS() =>
+      Platform.isMacOS || Platform.isLinux || Platform.isWindows;
 
   bool isAppOS() => Platform.isMacOS || Platform.isAndroid;
 

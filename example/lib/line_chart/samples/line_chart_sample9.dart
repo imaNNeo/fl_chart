@@ -4,7 +4,9 @@ import 'dart:math';
 
 // ignore: must_be_immutable
 class LineChartSample9 extends StatelessWidget {
-  final spots = List.generate(101, (i) => (i - 50) / 10).map((x) => FlSpot(x, sin(x))).toList();
+  final spots = List.generate(101, (i) => (i - 50) / 10)
+      .map((x) => FlSpot(x, sin(x)))
+      .toList();
 
   LineChartSample9({Key? key}) : super(key: key);
 
@@ -29,7 +31,8 @@ class LineChartSample9 extends StatelessWidget {
                         fontSize: 14,
                       );
                       return LineTooltipItem(
-                          '${touchedSpot.x}, ${touchedSpot.y.toStringAsFixed(2)}', textStyle);
+                          '${touchedSpot.x}, ${touchedSpot.y.toStringAsFixed(2)}',
+                          textStyle);
                     }).toList();
                   }),
               handleBuiltInTouches: true,
@@ -56,14 +59,18 @@ class LineChartSample9 extends StatelessWidget {
               leftTitles: SideTitles(
                   showTitles: true,
                   getTextStyles: (context, value) => const TextStyle(
-                      color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                   margin: 16,
                   reservedSize: 40),
               rightTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(
                   showTitles: true,
                   getTextStyles: (context, value) => const TextStyle(
-                      color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 18),
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
                   margin: 16,
                   reservedSize: 6),
               topTitles: SideTitles(showTitles: false),

@@ -90,7 +90,9 @@ class LineChartSample6 extends StatelessWidget {
                     dotData: FlDotData(
                       show: true,
                       getDotPainter: (spot, percent, barData, index) =>
-                          FlDotCirclePainter(radius: 12, color: Colors.deepOrange.withOpacity(0.5)),
+                          FlDotCirclePainter(
+                              radius: 12,
+                              color: Colors.deepOrange.withOpacity(0.5)),
                     ),
                   ),
                   LineChartBarData(
@@ -108,7 +110,8 @@ class LineChartSample6 extends StatelessWidget {
                     dotData: FlDotData(
                       show: true,
                       getDotPainter: (spot, percent, barData, index) =>
-                          FlDotCirclePainter(radius: 12, color: Colors.blue.withOpacity(0.5)),
+                          FlDotCirclePainter(
+                              radius: 12, color: Colors.blue.withOpacity(0.5)),
                     ),
                   ),
                 ],
@@ -118,7 +121,8 @@ class LineChartSample6 extends StatelessWidget {
                   leftTitles: SideTitles(
                     showTitles: true,
                     getTitles: (double value) {
-                      final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+                      final intValue =
+                          reverseY(value, minSpotY, maxSpotY).toInt();
 
                       if (intValue == (maxSpotY + minSpotY)) {
                         return '';
@@ -127,14 +131,17 @@ class LineChartSample6 extends StatelessWidget {
                       return intValue.toString();
                     },
                     getTextStyles: (context, value) => const TextStyle(
-                        color: Colors.deepOrange, fontWeight: FontWeight.bold, fontSize: 18),
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                     margin: 16,
                   ),
                   rightTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 0,
                     getTitles: (double value) {
-                      final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+                      final intValue =
+                          reverseY(value, minSpotY, maxSpotY).toInt();
 
                       if (intValue == (maxSpotY + minSpotY)) {
                         return '';
@@ -143,7 +150,9 @@ class LineChartSample6 extends StatelessWidget {
                       return intValue.toString();
                     },
                     getTextStyles: (context, value) => const TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                     margin: 16,
                   ),
                   bottomTitles: SideTitles(showTitles: false),
@@ -151,8 +160,8 @@ class LineChartSample6 extends StatelessWidget {
                     showTitles: true,
                     reservedSize: 28,
                     margin: 8,
-                    getTextStyles: (context, value) =>
-                        const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    getTextStyles: (context, value) => const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
                     getTitles: (double value) {
                       return value.toInt().toString();
                     },
@@ -162,7 +171,8 @@ class LineChartSample6 extends StatelessWidget {
                     show: true,
                     drawVerticalLine: true,
                     checkToShowHorizontalLine: (value) {
-                      final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+                      final intValue =
+                          reverseY(value, minSpotY, maxSpotY).toInt();
 
                       if (intValue.toInt() == (maxSpotY + minSpotY).toInt()) {
                         return false;

@@ -45,8 +45,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   /// Paints [RadarChartData] into the provided canvas.
   @override
-  void paint(
-      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+  void paint(BuildContext context, CanvasWrapper canvasWrapper,
+      PaintHolder<RadarChartData> holder) {
     super.paint(context, canvasWrapper, holder);
     final data = holder.data;
 
@@ -62,8 +62,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     _drawDataSets(canvasWrapper, holder);
   }
 
-  void _drawTicks(
-      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+  void _drawTicks(BuildContext context, CanvasWrapper canvasWrapper,
+      PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     final size = canvasWrapper.size;
 
@@ -92,7 +92,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     final ticks = <double>[];
 
-    for (var tick = dataSetMinValue; tick <= dataSetMaxValue; tick = tick + tickSpace) {
+    for (var tick = dataSetMinValue;
+        tick <= dataSetMaxValue;
+        tick = tick + tickSpace) {
       ticks.add(tick);
     }
 
@@ -123,7 +125,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     );
   }
 
-  void _drawGrids(CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+  void _drawGrids(
+      CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     final size = canvasWrapper.size;
 
@@ -150,8 +153,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     }
   }
 
-  void _drawTitles(
-      BuildContext context, CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+  void _drawTitles(BuildContext context, CanvasWrapper canvasWrapper,
+      PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     if (data.getTitle == null) return;
 
@@ -192,13 +195,15 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
       canvasWrapper.drawText(
         _titleTextPaint,
-        Offset.zero - Offset(_titleTextPaint.width / 2, _titleTextPaint.height / 2),
+        Offset.zero -
+            Offset(_titleTextPaint.width / 2, _titleTextPaint.height / 2),
       );
       canvasWrapper.restore();
     }
   }
 
-  void _drawDataSets(CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
+  void _drawDataSets(
+      CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     // we will use dataSetsPosition to draw the graphs
     dataSetsPosition!.asMap().forEach((index, dataSetOffset) {
@@ -257,7 +262,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   double _radarCenterX(Size size) => size.width / 2.0;
 
-  double _radarRadius(Size size) => min(_radarCenterX(size), _radarCenterY(size)) * 0.8;
+  double _radarRadius(Size size) =>
+      min(_radarCenterX(size), _radarCenterY(size)) * 0.8;
 
   RadarTouchedSpot? _getNearestTouchSpot(
     Size viewSize,
@@ -308,7 +314,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     );
     for (var i = 0; i < data.dataSets.length; i++) {
       final dataSet = data.dataSets[i];
-      final entriesOffset = List<Offset>.filled(dataSet.dataEntries.length, Offset.zero);
+      final entriesOffset =
+          List<Offset>.filled(dataSet.dataEntries.length, Offset.zero);
 
       for (var j = 0; j < dataSet.dataEntries.length; j++) {
         final point = dataSet.dataEntries[j];
