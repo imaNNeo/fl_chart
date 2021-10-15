@@ -1,5 +1,5 @@
 {
-  "dart.lineLength": 100,
+  "dart.lineLength": 80,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "editor.suggest.snippetsPreventQuickSuggestions": false,

@@ -8,9 +8,11 @@ class LineChartHelper {
   /// Contains List of cached results, base on [List<LineChartBarData>]
   ///
   /// We use it to prevent redundant calculations
-  static final Map<ListWrapper<LineChartBarData>, LineChartMinMaxAxisValues> _cachedResults = {};
+  static final Map<ListWrapper<LineChartBarData>, LineChartMinMaxAxisValues>
+      _cachedResults = {};
 
-  static LineChartMinMaxAxisValues calculateMaxAxisValues(List<LineChartBarData> lineBarsData) {
+  static LineChartMinMaxAxisValues calculateMaxAxisValues(
+      List<LineChartBarData> lineBarsData) {
     if (lineBarsData.isEmpty) {
       return LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
@@ -23,7 +25,8 @@ class LineChartHelper {
 
     final LineChartBarData lineBarData;
     try {
-      lineBarData = lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
+      lineBarData =
+          lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
     } catch (e) {
       // There is no lineBarData with at least one spot
       return LineChartMinMaxAxisValues(0, 0, 0, 0);
@@ -84,7 +87,11 @@ class LineChartMinMaxAxisValues with EquatableMixin {
   List<Object?> get props => [minX, maxX, minY, maxY, readFromCache];
 
   LineChartMinMaxAxisValues copyWith(
-      {double? minX, double? maxX, double? minY, double? maxY, bool? readFromCache}) {
+      {double? minX,
+      double? maxX,
+      double? minY,
+      double? maxY,
+      bool? readFromCache}) {
     return LineChartMinMaxAxisValues(
       minX ?? this.minX,
       maxX ?? this.maxX,
@@ -128,7 +135,8 @@ extension BarAreaDataExtension on BarAreaData {
   /// Otherwise we calculate it using colors list
   List<double> getSafeColorStops() {
     var stops = <double>[];
-    if (gradientColorStops == null || gradientColorStops!.length != colors.length) {
+    if (gradientColorStops == null ||
+        gradientColorStops!.length != colors.length) {
       if (colors.length > 1) {
         /// provided colorStops is invalid and we calculate it here
         colors.asMap().forEach((index, color) {
@@ -153,7 +161,8 @@ extension BetweenBarsDataExtension on BetweenBarsData {
   /// Otherwise we calculate it using colors list
   List<double> getSafeColorStops() {
     var stops = <double>[];
-    if (gradientColorStops == null || gradientColorStops!.length != colors.length) {
+    if (gradientColorStops == null ||
+        gradientColorStops!.length != colors.length) {
       if (colors.length > 1) {
         /// provided colorStops is invalid and we calculate it here
         colors.asMap().forEach((index, color) {

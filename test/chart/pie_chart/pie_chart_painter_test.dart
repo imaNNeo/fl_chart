@@ -16,7 +16,8 @@ void main() {
       ]);
       final barChartPainter = PieChartPainter();
       final holder = PaintHolder<PieChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder), const Size(728, 728));
+      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(728, 728));
     });
   });
 }

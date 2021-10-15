@@ -33,15 +33,24 @@ class _LineChartSample3State extends State<LineChartSample3> {
           children: const <Widget>[
             Text(
               'Average Line',
-              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
             ),
             Text(
               ' and ',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
             ),
             Text(
               'Indicators',
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
             ),
           ],
         ),
@@ -54,7 +63,8 @@ class _LineChartSample3State extends State<LineChartSample3> {
           child: LineChart(
             LineChartData(
               lineTouchData: LineTouchData(
-                  getTouchedSpotIndicator: (LineChartBarData barData, List<int> spotIndexes) {
+                  getTouchedSpotIndicator:
+                      (LineChartBarData barData, List<int> spotIndexes) {
                     return spotIndexes.map((spotIndex) {
                       final spot = barData.spots[spotIndex];
                       if (spot.x == 0 || spot.x == 6) {
@@ -123,7 +133,8 @@ class _LineChartSample3State extends State<LineChartSample3> {
                           );
                         }).toList();
                       }),
-                  touchCallback: (FlTouchEvent event, LineTouchResponse? lineTouch) {
+                  touchCallback:
+                      (FlTouchEvent event, LineTouchResponse? lineTouch) {
                     if (!event.isInterestedForInteractions ||
                         lineTouch == null ||
                         lineTouch.lineBarSpots == null) {
@@ -276,7 +287,9 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   getTextStyles: (context, value) {
                     final isTouched = value == touchedValue;
                     return TextStyle(
-                      color: isTouched ? Colors.deepOrange : Colors.deepOrange.withOpacity(0.5),
+                      color: isTouched
+                          ? Colors.deepOrange
+                          : Colors.deepOrange.withOpacity(0.5),
                       fontWeight: FontWeight.bold,
                     );
                   },

@@ -61,7 +61,9 @@ class DashOffset {
   final _DashOffsetType _dashOffsetType;
 
   double _calculate(double length) {
-    return _dashOffsetType == _DashOffsetType.absolute ? _rawVal : length * _rawVal;
+    return _dashOffsetType == _DashOffsetType.absolute
+        ? _rawVal
+        : length * _rawVal;
   }
 }
 

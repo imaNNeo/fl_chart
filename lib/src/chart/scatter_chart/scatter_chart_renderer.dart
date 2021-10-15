@@ -11,17 +11,20 @@ import 'scatter_chart_painter.dart';
 
 /// Low level ScatterChart Widget.
 class ScatterChartLeaf extends LeafRenderObjectWidget {
-  const ScatterChartLeaf({Key? key, required this.data, required this.targetData})
+  const ScatterChartLeaf(
+      {Key? key, required this.data, required this.targetData})
       : super(key: key);
 
   final ScatterChartData data, targetData;
 
   @override
   RenderScatterChart createRenderObject(BuildContext context) =>
-      RenderScatterChart(context, data, targetData, MediaQuery.of(context).textScaleFactor);
+      RenderScatterChart(
+          context, data, targetData, MediaQuery.of(context).textScaleFactor);
 
   @override
-  void updateRenderObject(BuildContext context, RenderScatterChart renderObject) {
+  void updateRenderObject(
+      BuildContext context, RenderScatterChart renderObject) {
     renderObject
       ..data = data
       ..targetData = targetData
@@ -32,8 +35,8 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our ScatterChart, also handles hitTest.
 class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
-  RenderScatterChart(
-      BuildContext context, ScatterChartData data, ScatterChartData targetData, double textScale)
+  RenderScatterChart(BuildContext context, ScatterChartData data,
+      ScatterChartData targetData, double textScale)
       : _data = data,
         _targetData = targetData,
         _textScale = textScale,
