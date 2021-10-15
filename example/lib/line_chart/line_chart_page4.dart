@@ -15,7 +15,10 @@ class LineChartPage4 extends StatelessWidget {
           children: const <Widget>[
             Text(
               'LineChart (real time)',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             SizedBox(
               height: 52,

@@ -11,13 +11,14 @@ import 'package:flutter/rendering.dart';
 
 /// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
-  const LineChartLeaf({Key? key, required this.data, required this.targetData}) : super(key: key);
+  const LineChartLeaf({Key? key, required this.data, required this.targetData})
+      : super(key: key);
 
   final LineChartData data, targetData;
 
   @override
-  RenderLineChart createRenderObject(BuildContext context) =>
-      RenderLineChart(context, data, targetData, MediaQuery.of(context).textScaleFactor);
+  RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
+      context, data, targetData, MediaQuery.of(context).textScaleFactor);
 
   @override
   void updateRenderObject(BuildContext context, RenderLineChart renderObject) {
@@ -31,8 +32,8 @@ class LineChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our LineChart, also handles hitTest.
 class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
-  RenderLineChart(
-      BuildContext context, LineChartData data, LineChartData targetData, double textScale)
+  RenderLineChart(BuildContext context, LineChartData data,
+      LineChartData targetData, double textScale)
       : _data = data,
         _targetData = targetData,
         _textScale = textScale,

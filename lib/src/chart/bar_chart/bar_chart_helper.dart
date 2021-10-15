@@ -8,11 +8,13 @@ class BarChartHelper {
   /// Contains List of cached results, base on [List<BarChartGroupData>]
   ///
   /// We use it to prevent redundant calculations
-  static final Map<ListWrapper<BarChartGroupData>, BarChartMinMaxAxisValues> _cachedResults = {};
+  static final Map<ListWrapper<BarChartGroupData>, BarChartMinMaxAxisValues>
+      _cachedResults = {};
 
   /// Calculates minY, and maxY based on [barGroups],
   /// returns cached values, to prevent redundant calculations.
-  static BarChartMinMaxAxisValues calculateMaxAxisValues(List<BarChartGroupData> barGroups) {
+  static BarChartMinMaxAxisValues calculateMaxAxisValues(
+      List<BarChartGroupData> barGroups) {
     if (barGroups.isEmpty) {
       return BarChartMinMaxAxisValues(0, 0);
     }
@@ -74,7 +76,8 @@ class BarChartMinMaxAxisValues with EquatableMixin {
   @override
   List<Object?> get props => [minY, maxY, readFromCache];
 
-  BarChartMinMaxAxisValues copyWith({double? minY, double? maxY, bool? readFromCache}) {
+  BarChartMinMaxAxisValues copyWith(
+      {double? minY, double? maxY, bool? readFromCache}) {
     return BarChartMinMaxAxisValues(
       minY ?? this.minY,
       maxY ?? this.maxY,
