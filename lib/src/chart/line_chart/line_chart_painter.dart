@@ -1518,11 +1518,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
   /// find the nearest spot base on the touched offset
   LineBarSpot? _getNearestTouchedSpot(
-      Size viewSize,
-      Offset touchedPoint,
-      LineChartBarData barData,
-      int barDataPosition,
-      PaintHolder<LineChartData> holder) {
+    Size viewSize,
+    Offset touchedPoint,
+    LineChartBarData barData,
+    int barDataPosition,
+    PaintHolder<LineChartData> holder,
+  ) {
     final data = holder.data;
     if (!barData.show) {
       return null;
@@ -1531,17 +1532,21 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
     /// Find the nearest spot (on X axis)
-    for (var i = 0; i < barData.spots.length; i++) {
-      final spot = barData.spots[i];
+    var nearestDistance = double.infinity;
+    LineBarSpot? nearestSpot;
+    for (final spot in barData.spots) {
       if (spot.isNotNull()) {
-        if ((touchedPoint.dx - getPixelX(spot.x, chartViewSize, holder))
-                .abs() <=
-            data.lineTouchData.touchSpotThreshold) {
-          return LineBarSpot(barData, barDataPosition, spot);
+        final distance =
+            (touchedPoint.dx - getPixelX(spot.x, chartViewSize, holder)).abs();
+
+        if (distance <= data.lineTouchData.touchSpotThreshold &&
+            distance <= nearestDistance) {
+          nearestDistance = distance;
+          nearestSpot = LineBarSpot(barData, barDataPosition, spot);
         }
       }
     }
 
-    return null;
+    return nearestSpot;
   }
 }
