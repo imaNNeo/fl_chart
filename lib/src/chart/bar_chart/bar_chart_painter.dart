@@ -832,6 +832,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final data = holder.data;
     final targetData = holder.targetData;
     final touchedPoint = localPosition;
+    if (targetData.barGroups.isEmpty) {
+      return null;
+    }
+
     if (_groupBarsPosition == null) {
       final groupsX =
           _calculateGroupsX(viewSize, data.barGroups, data.alignment, holder);
