@@ -596,7 +596,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final barTopY = min(zeroY, barOffset.dy);
     final barBottomY = max(zeroY, barOffset.dy);
     final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
-        (tooltipData.direction == TooltipDirection.auto && showOnRodData.y >= 0);
+        (tooltipData.direction == TooltipDirection.auto &&
+            showOnRodData.y >= 0);
     final tooltipTop = drawTooltipOnTop
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
         : barBottomY + tooltipData.tooltipMargin;
