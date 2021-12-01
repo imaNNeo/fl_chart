@@ -60,6 +60,23 @@ void main() {
         Colors.green);
   });
 
+  test('test roundInterval', () {
+    expect(roundInterval(99), 100);
+    expect(roundInterval(75), 50);
+    expect(roundInterval(76), 100);
+    expect(roundInterval(60), 50);
+    expect(roundInterval(0.000123), 0.0001);
+    expect(roundInterval(0.000190), 0.0002);
+    expect(roundInterval(0.000200), 0.0002);
+    expect(roundInterval(0.000390000000), 0.0005);
+    expect(roundInterval(0.000990000000), 0.001);
+    expect(roundInterval(0.00000990000), 0.00001000);
+    expect(roundInterval(0.0000009), 0.0000009);
+    expect(roundInterval(0.000000000000000000990000000),
+        0.000000000000000000990000000);
+    expect(roundInterval(0.000004901960784313726), 0.000005);
+  });
+
   test('test getEfficientInterval', () {
     expect(getEfficientInterval(472, 340, pixelPerInterval: 10), 5);
     expect(getEfficientInterval(820, 10000, pixelPerInterval: 10), 100);
@@ -67,6 +84,11 @@ void main() {
         getEfficientInterval(1024, 412345234, pixelPerInterval: 10), 5000000);
     expect(getEfficientInterval(720, 812394712349, pixelPerInterval: 10),
         10000000000);
+    expect(getEfficientInterval(1024, 0.01, pixelPerInterval: 100), 0.001);
+    expect(getEfficientInterval(1024, 0.0005, pixelPerInterval: 10), 0.000005);
+    expect(getEfficientInterval(200, 0.5, pixelPerInterval: 20), 0.05);
+    expect(getEfficientInterval(200, 1.0, pixelPerInterval: 20), 0.1);
+    expect(getEfficientInterval(100, 0.5, pixelPerInterval: 20), 0.1);
   });
 
   test('test formatNumber', () {
