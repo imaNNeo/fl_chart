@@ -1,6 +1,7 @@
 ## new Version
 * **BUGFIX** Fix BarChart empty groups state error, #797.
 * **BUGFIX** Fix drawTooltipOnTop direction minor bug, #815.
+* **IMPROVEMENT** Fix interval below one, #811
 
 ## 0.40.2
 * **IMPROVEMENT** Use 80 characters for code format line-length instead of 100 (because pub.dev works with 80 and decreased our score). 
