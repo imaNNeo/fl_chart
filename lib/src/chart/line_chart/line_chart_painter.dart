@@ -960,6 +960,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             x -= tp.width / 2;
             y -= topTitles.margin + tp.height;
             y += calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
+           if(x < 0){
+             x = 5;
+           }else if(x+tp.width > viewSize.width ){
+             x = viewSize.width - tp.width - 5;
+           }
             canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
           }
           if (data.maxX - horizontalSeek < topInterval &&
@@ -1043,6 +1048,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             x -= tp.width / 2;
             y += bottomTitles.margin;
             y -= calculateRotationOffset(tp.size, bottomTitles.rotateAngle).dy;
+            if(x < 0){
+              x = 5;
+            }else if(x+tp.width > viewSize.width ){
+              x = viewSize.width - tp.width - 5;
+            }
             canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
           }
 
