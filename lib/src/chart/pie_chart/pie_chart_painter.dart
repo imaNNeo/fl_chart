@@ -12,10 +12,7 @@ import 'pie_chart_data.dart';
 
 /// Paints [PieChartData] in the canvas, it can be used in a [CustomPainter]
 class PieChartPainter extends BaseChartPainter<PieChartData> {
-  late Paint _sectionPaint,
-      _sectionStrokePaint,
-      _sectionsSpaceClearPaint,
-      _centerSpacePaint;
+  late Paint _sectionPaint, _sectionStrokePaint, _centerSpacePaint;
 
   /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
@@ -29,11 +26,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
     _sectionStrokePaint = Paint()..style = PaintingStyle.stroke;
-
-    _sectionsSpaceClearPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = const Color(0x00000000)
-      ..blendMode = BlendMode.srcOut;
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;
   }
@@ -82,15 +74,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     PaintHolder<PieChartData> holder,
   ) {
     final data = holder.data;
-    final shouldDrawSeparators =
-        data.sectionsSpace != 0 && data.sections.length > 1;
-
     final viewSize = canvasWrapper.size;
-
-    if (shouldDrawSeparators) {
-      canvasWrapper.saveLayer(
-          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
-    }
 
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
@@ -99,16 +83,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
       final sectionDegree = sectionsAngle[i];
-
-      final sectionRadiusRect = Rect.fromCircle(
-        center: center,
-        radius: centerRadius + section.radius,
-      );
-
-      final centerRadiusRect = Rect.fromCircle(
-        center: center,
-        radius: centerRadius,
-      );
 
       if (sectionDegree == 360) {
         _sectionPaint.color = section.color;
@@ -119,62 +93,58 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         return;
       }
 
-      final startRadians = radians(tempAngle);
-      final sweepRadians = radians(sectionDegree);
-      final endRadians = startRadians + sweepRadians;
+      var sectionPath = _generateSectionPath(
+        section,
+        data.sectionsSpace,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
 
-      final startLineDirection =
-          Offset(math.cos(startRadians), math.sin(startRadians));
-      final startLineFrom = center + startLineDirection * centerRadius;
-      final startLineTo = startLineFrom + startLineDirection * section.radius;
-      final startLine = Line(startLineFrom, startLineTo);
-
-      final endLineDirection =
-          Offset(math.cos(endRadians), math.sin(endRadians));
-      final endLineFrom = center + endLineDirection * centerRadius;
-      final endLineTo = endLineFrom + endLineDirection * section.radius;
-      final endLine = Line(endLineFrom, endLineTo);
-
-      final sectionPath = _generateSectionPath(startLine, endLine, startRadians,
-          endRadians, sectionRadiusRect, centerRadiusRect);
-
-      _sectionPaint.color = section.color;
-      _sectionPaint.style = PaintingStyle.fill;
-      canvasWrapper.drawPath(sectionPath, _sectionPaint);
-
-      if (section.borderSide.width != 0.0 &&
-          section.borderSide.color.opacity != 0.0) {
-        canvasWrapper.saveLayer(
-            Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
-        canvasWrapper.clipPath(sectionPath);
-
-        _sectionStrokePaint.strokeWidth = section.borderSide.width * 2;
-        _sectionStrokePaint.color = section.borderSide.color;
-        canvasWrapper.drawPath(
-          sectionPath,
-          _sectionStrokePaint,
-        );
-        canvasWrapper.restore();
-      }
+      _drawSection(section, sectionPath, canvasWrapper);
+      _drawSectionStroke(section, sectionPath, canvasWrapper, viewSize);
       tempAngle += sectionDegree;
-    }
-
-    if (shouldDrawSeparators) {
-      _removeSectionsSpace(canvasWrapper, holder, centerRadius);
     }
   }
 
   /// Generates a path around a section
   Path _generateSectionPath(
-    Line startLine,
-    Line endLine,
-    double startRadians,
-    double endRadians,
-    Rect sectionRadiusRect,
-    Rect centerRadiusRect,
+    PieChartSectionData section,
+    double sectionSpace,
+    double tempAngle,
+    double sectionDegree,
+    Offset center,
+    double centerRadius,
   ) {
-    final sweepRadians = endRadians - startRadians;
-    return Path()
+    final sectionRadiusRect = Rect.fromCircle(
+      center: center,
+      radius: centerRadius + section.radius,
+    );
+
+    final centerRadiusRect = Rect.fromCircle(
+      center: center,
+      radius: centerRadius,
+    );
+
+    final startRadians = radians(tempAngle);
+    final sweepRadians = radians(sectionDegree);
+    final endRadians = startRadians + sweepRadians;
+
+    final startLineDirection =
+        Offset(math.cos(startRadians), math.sin(startRadians));
+
+    final startLineFrom = center + startLineDirection * centerRadius;
+    final startLineTo = startLineFrom + startLineDirection * section.radius;
+    final startLine = Line(startLineFrom, startLineTo);
+
+    final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
+
+    final endLineFrom = center + endLineDirection * centerRadius;
+    final endLineTo = endLineFrom + endLineDirection * section.radius;
+    final endLine = Line(endLineFrom, endLineTo);
+
+    var sectionPath = Path()
       ..moveTo(startLine.from.dx, startLine.from.dy)
       ..lineTo(startLine.to.dx, startLine.to.dy)
       ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
@@ -182,50 +152,91 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
       ..moveTo(startLine.from.dx, startLine.from.dy)
       ..close();
+
+    /// Subtract section space from the sectionPath
+    if (sectionSpace != 0) {
+      final startLineSeparatorPath = _createRectPathAroundLine(
+          Line(startLineFrom, startLineTo), sectionSpace);
+      sectionPath = Path.combine(
+          PathOperation.difference, sectionPath, startLineSeparatorPath);
+
+      final endLineSeparatorPath =
+          _createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
+      sectionPath = Path.combine(
+          PathOperation.difference, sectionPath, endLineSeparatorPath);
+    }
+
+    return sectionPath;
   }
 
-  /// firstly the sections draw close to eachOther without any space,
-  /// then here we clear a line with given [PieChartData.width]
-  void _removeSectionsSpace(
-    CanvasWrapper canvasWrapper,
-    PaintHolder<PieChartData> holder,
-    double centerRadius,
-  ) {
-    final data = holder.data;
-    final viewSize = canvasWrapper.size;
-    const extraLineSize = 1;
-    final center = Offset(viewSize.width / 2, viewSize.height / 2);
+  /// Creates a rect around a narrow line
+  Path _createRectPathAroundLine(Line line, double width) {
+    width = width / 2;
+    final normalized = line.normalize();
 
-    var tempAngle = data.startDegreeOffset;
-    data.sections.asMap().forEach((index, section) {
-      final previousIndex = index == 0 ? data.sections.length - 1 : index - 1;
-      final previousSection = data.sections[previousIndex];
+    final verticalAngle = line.direction() + (math.pi / 2);
+    final verticalDirection =
+        Offset(math.cos(verticalAngle), math.sin(verticalAngle));
 
-      final maxSectionRadius = math.max(section.radius, previousSection.radius);
+    final startPoint1 = Offset(
+      line.from.dx -
+          (normalized * (width / 2)).dx -
+          (verticalDirection * width).dx,
+      line.from.dy -
+          (normalized * (width / 2)).dy -
+          (verticalDirection * width).dy,
+    );
 
-      final startAngle = tempAngle;
-      final sweepAngle = 360 * (section.value / data.sumValue);
+    final startPoint2 = Offset(
+      line.to.dx +
+          (normalized * (width / 2)).dx -
+          (verticalDirection * width).dx,
+      line.to.dy +
+          (normalized * (width / 2)).dy -
+          (verticalDirection * width).dy,
+    );
 
-      final sectionsStartFrom = center +
-          Offset(
-            math.cos(radians(startAngle)) * (centerRadius - extraLineSize),
-            math.sin(radians(startAngle)) * (centerRadius - extraLineSize),
-          );
+    final startPoint3 = Offset(
+      startPoint2.dx + (verticalDirection * (width * 2)).dx,
+      startPoint2.dy + (verticalDirection * (width * 2)).dy,
+    );
 
-      final sectionsStartTo = center +
-          Offset(
-            math.cos(radians(startAngle)) *
-                (centerRadius + maxSectionRadius + extraLineSize),
-            math.sin(radians(startAngle)) *
-                (centerRadius + maxSectionRadius + extraLineSize),
-          );
+    final startPoint4 = Offset(
+      startPoint1.dx + (verticalDirection * (width * 2)).dx,
+      startPoint1.dy + (verticalDirection * (width * 2)).dy,
+    );
 
-      _sectionsSpaceClearPaint.strokeWidth = data.sectionsSpace;
-      canvasWrapper.drawLine(
-          sectionsStartFrom, sectionsStartTo, _sectionsSpaceClearPaint);
-      tempAngle += sweepAngle;
-    });
-    canvasWrapper.restore();
+    return Path()
+      ..moveTo(startPoint1.dx, startPoint1.dy)
+      ..lineTo(startPoint2.dx, startPoint2.dy)
+      ..lineTo(startPoint3.dx, startPoint3.dy)
+      ..lineTo(startPoint4.dx, startPoint4.dy)
+      ..lineTo(startPoint1.dx, startPoint1.dy);
+  }
+
+  void _drawSection(PieChartSectionData section, Path sectionPath,
+      CanvasWrapper canvasWrapper) {
+    _sectionPaint.color = section.color;
+    _sectionPaint.style = PaintingStyle.fill;
+    canvasWrapper.drawPath(sectionPath, _sectionPaint);
+  }
+
+  void _drawSectionStroke(PieChartSectionData section, Path sectionPath,
+      CanvasWrapper canvasWrapper, Size viewSize) {
+    if (section.borderSide.width != 0.0 &&
+        section.borderSide.color.opacity != 0.0) {
+      canvasWrapper.saveLayer(
+          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+      canvasWrapper.clipPath(sectionPath);
+
+      _sectionStrokePaint.strokeWidth = section.borderSide.width * 2;
+      _sectionStrokePaint.color = section.borderSide.color;
+      canvasWrapper.drawPath(
+        sectionPath,
+        _sectionStrokePaint,
+      );
+      canvasWrapper.restore();
+    }
   }
 
   /// Calculates layout of overlaying elements, includes:
