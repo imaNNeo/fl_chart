@@ -2,7 +2,7 @@
 * **BUGFIX** Fix BarChart empty groups state error, #797.
 * **BUGFIX** Fix drawTooltipOnTop direction minor bug, #815.
 * **BUGFIX** Fix section with zero value problem in PieChart (disabled animation on changing value to zero and from zero), #817
-* **BUGFIX** Fix pie chart stroke problem when adding space between sections, #818.
+* **BUGFIX** Fix pie chart stroke problem when adding space between sections (using new approach), #818.
 * **IMPROVEMENT** Fix interval below one, #811
 
 ## 0.40.2
