@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:flutter/material.dart';
 
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
@@ -2987,3 +2988,9 @@ final RadarChartData radarChartData2 = RadarChartData(
   tickBorderData: const BorderSide(color: Colors.pink, width: 2),
   ticksTextStyle: const TextStyle(color: Colors.purple, fontSize: 10),
 );
+
+final Line line1 = Line(const Offset(0, 0), const Offset(10, 10));
+final Line line2 = Line(const Offset(-4, -12), const Offset(6, 8));
+final Line line3 = Line(const Offset(18, -1), const Offset(0, 0));
+final Line line4 = Line(const Offset(8, 8), const Offset(-4, -22));
+final Line line5 = Line(const Offset(2, 3), const Offset(5, 8));
