@@ -1,4 +1,4 @@
-## new Version
+## 0.40.5
 * **BUGFIX** Fix BarChart empty groups state error, #797.
 * **BUGFIX** Fix drawTooltipOnTop direction minor bug, #815.
 * **BUGFIX** Fix section with zero value problem in PieChart (disabled animation on changing value to zero and from zero), #817
