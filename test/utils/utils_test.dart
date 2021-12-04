@@ -116,4 +116,26 @@ void main() {
     expect(formatNumber(8231475213435), '8231.5B');
     expect(formatNumber(-8231475213435), '-8231.5B');
   });
+
+  test('test getInitialIntervalValue()', () {
+    expect(getBestInitialIntervalValue(-3, 3, 2), -2);
+    expect(getBestInitialIntervalValue(-3, 3, 1), -3);
+    expect(getBestInitialIntervalValue(-30, -20, 13), -30);
+    expect(getBestInitialIntervalValue(0, 13, 8), 0);
+    expect(getBestInitialIntervalValue(1, 13, 7), 1);
+    expect(getBestInitialIntervalValue(1, 13, 3), 1);
+    expect(getBestInitialIntervalValue(-1, 13, 3), 0);
+    expect(getBestInitialIntervalValue(-2, 13, 3), 0);
+    expect(getBestInitialIntervalValue(-3, 13, 3), -3);
+    expect(getBestInitialIntervalValue(-4, 13, 3), -3);
+    expect(getBestInitialIntervalValue(-5, 13, 3), -3);
+    expect(getBestInitialIntervalValue(-6, 13, 3), -6);
+    expect(getBestInitialIntervalValue(-6.5, 13, 3), -6);
+    expect(getBestInitialIntervalValue(-1, 1, 2), -1);
+    expect(getBestInitialIntervalValue(-1, 2, 2), 0);
+    expect(getBestInitialIntervalValue(-2, 0, 2), -2);
+    expect(getBestInitialIntervalValue(-3, 0, 2), -2);
+    expect(getBestInitialIntervalValue(-4, 0, 2), -4);
+    expect(getBestInitialIntervalValue(-0.5, 0.5, 2), -0.5);
+  });
 }

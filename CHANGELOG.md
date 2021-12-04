@@ -1,3 +1,6 @@
+## newVersion
+* **IMPROVEMENT** Fix showing zero value in side titles and grid lines when we add negative value. Now we always go through the zero value in each axis, #739.
+
 ## 0.40.5
 * **BUGFIX** Fix BarChart empty groups state error, #797.
 * **BUGFIX** Fix drawTooltipOnTop direction minor bug, #815.
