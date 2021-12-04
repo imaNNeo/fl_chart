@@ -233,7 +233,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
       final verticalInterval = data.gridData.verticalInterval ??
-          getEfficientInterval(viewSize.width, data.horizontalDiff);
+          getEfficientInterval(usableViewSize.width, data.horizontalDiff);
       final initialVerticalValue =
           getBestInitialIntervalValue(data.minX, data.maxX, verticalInterval);
       var verticalSeek = initialVerticalValue;
@@ -271,7 +271,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalLine) {
       final horizontalInterval = data.gridData.horizontalInterval ??
-          getEfficientInterval(viewSize.height, data.verticalDiff);
+          getEfficientInterval(usableViewSize.height, data.verticalDiff);
       final initialHorizontalValue =
           getBestInitialIntervalValue(data.minY, data.maxY, horizontalInterval);
       var horizontalSeek = initialHorizontalValue;
