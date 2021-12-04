@@ -389,7 +389,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       final leftInterval = leftTitles.interval ??
           getEfficientInterval(viewSize.height, data.verticalDiff);
       if (leftTitles.showTitles) {
-        var verticalSeek = data.minY;
+        var verticalSeek =
+            getBestInitialIntervalValue(data.minY, data.maxY, leftInterval);
         while (verticalSeek <= data.maxY) {
           if (leftTitles.checkToShowTitle(
               data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
@@ -460,7 +461,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       final rightInterval = rightTitles.interval ??
           getEfficientInterval(viewSize.height, data.verticalDiff);
       if (rightTitles.showTitles) {
-        var verticalSeek = data.minY;
+        var verticalSeek =
+            getBestInitialIntervalValue(data.minY, data.maxY, rightInterval);
         while (verticalSeek <= data.maxY) {
           if (rightTitles.checkToShowTitle(
               data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
