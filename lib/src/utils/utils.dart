@@ -138,29 +138,61 @@ double getEfficientInterval(double axisViewSize, double diffInYAxis,
     {double pixelPerInterval = 40}) {
   final allowedCount = axisViewSize ~/ pixelPerInterval;
   final accurateInterval = diffInYAxis / allowedCount;
-  return _roundInterval(accurateInterval).toDouble();
+  return roundInterval(accurateInterval);
 }
 
-int _roundInterval(double input) {
-  var count = 0;
+@visibleForTesting
+double roundInterval(double input) {
+  if (input < 1) {
+    return _roundIntervalBelowOne(input);
+  }
+  return _roundIntervalAboveOne(input);
+}
 
-  if (input >= 10) {
-    count++;
+double _roundIntervalBelowOne(double input) {
+  assert(input < 1.0);
+
+  if (input < 0.000001) {
+    return input;
   }
 
-  while (input ~/ 100 != 0) {
-    input /= 10;
-    count++;
+  final inputString = input.toString();
+  int precisionCount = inputString.length - 2;
+
+  int zeroCount = 0;
+  for (int i = 2; i <= inputString.length; i++) {
+    if (inputString[i] != '0') {
+      break;
+    }
+    zeroCount++;
   }
+
+  int afterZerosNumberLength = precisionCount - zeroCount;
+  if (afterZerosNumberLength > 2) {
+    final numbersToRemove = afterZerosNumberLength - 2;
+    precisionCount -= numbersToRemove;
+  }
+
+  final pow10onPrecision = pow(10, precisionCount);
+  input *= pow10onPrecision;
+  return _roundIntervalAboveOne(input) / pow10onPrecision;
+}
+
+double _roundIntervalAboveOne(double input) {
+  assert(input >= 1.0);
+  final decimalCount = input.toInt().toString().length - 1;
+  input /= pow(10, decimalCount);
 
   final scaled = input >= 10 ? input.round() / 10 : input;
 
-  if (scaled >= 2.6) {
-    return 5 * pow(10, count).toInt();
+  if (scaled >= 7.6) {
+    return 10 * pow(10, decimalCount).toInt().toDouble();
+  } else if (scaled >= 2.6) {
+    return 5 * pow(10, decimalCount).toInt().toDouble();
   } else if (scaled >= 1.6) {
-    return 2 * pow(10, count).toInt();
+    return 2 * pow(10, decimalCount).toInt().toDouble();
   } else {
-    return pow(10, count).toInt();
+    return 1 * pow(10, decimalCount).toInt().toDouble();
   }
 }
 
@@ -228,4 +260,19 @@ TextStyle getThemeAwareTextStyle(
         effectiveTextStyle!.merge(const TextStyle(fontWeight: FontWeight.bold));
   }
   return effectiveTextStyle ??= defaultTextStyle.style;
+}
+
+/// Finds the best initial interval value
+///
+/// If there is a zero point in the axis, we a value that passes through it.
+/// For example if we have -3 to +3, with interval 2. if we start from -3, we get something like this: -3, -1, +1, +3
+/// But the most important point is zero in most cases. with this logic we get this: -2, 0, 2
+double getBestInitialIntervalValue(double min, double max, double interval) {
+  if (min > 0 || max < 0) {
+    return min;
+  }
+  if (max - min <= interval) {
+    return min;
+  }
+  return interval * (min ~/ interval).toDouble();
 }

@@ -60,6 +60,23 @@ void main() {
         Colors.green);
   });
 
+  test('test roundInterval', () {
+    expect(roundInterval(99), 100);
+    expect(roundInterval(75), 50);
+    expect(roundInterval(76), 100);
+    expect(roundInterval(60), 50);
+    expect(roundInterval(0.000123), 0.0001);
+    expect(roundInterval(0.000190), 0.0002);
+    expect(roundInterval(0.000200), 0.0002);
+    expect(roundInterval(0.000390000000), 0.0005);
+    expect(roundInterval(0.000990000000), 0.001);
+    expect(roundInterval(0.00000990000), 0.00001000);
+    expect(roundInterval(0.0000009), 0.0000009);
+    expect(roundInterval(0.000000000000000000990000000),
+        0.000000000000000000990000000);
+    expect(roundInterval(0.000004901960784313726), 0.000005);
+  });
+
   test('test getEfficientInterval', () {
     expect(getEfficientInterval(472, 340, pixelPerInterval: 10), 5);
     expect(getEfficientInterval(820, 10000, pixelPerInterval: 10), 100);
@@ -67,6 +84,11 @@ void main() {
         getEfficientInterval(1024, 412345234, pixelPerInterval: 10), 5000000);
     expect(getEfficientInterval(720, 812394712349, pixelPerInterval: 10),
         10000000000);
+    expect(getEfficientInterval(1024, 0.01, pixelPerInterval: 100), 0.001);
+    expect(getEfficientInterval(1024, 0.0005, pixelPerInterval: 10), 0.000005);
+    expect(getEfficientInterval(200, 0.5, pixelPerInterval: 20), 0.05);
+    expect(getEfficientInterval(200, 1.0, pixelPerInterval: 20), 0.1);
+    expect(getEfficientInterval(100, 0.5, pixelPerInterval: 20), 0.1);
   });
 
   test('test formatNumber', () {
@@ -93,5 +115,27 @@ void main() {
     expect(formatNumber(823147521343), '823.1B');
     expect(formatNumber(8231475213435), '8231.5B');
     expect(formatNumber(-8231475213435), '-8231.5B');
+  });
+
+  test('test getInitialIntervalValue()', () {
+    expect(getBestInitialIntervalValue(-3, 3, 2), -2);
+    expect(getBestInitialIntervalValue(-3, 3, 1), -3);
+    expect(getBestInitialIntervalValue(-30, -20, 13), -30);
+    expect(getBestInitialIntervalValue(0, 13, 8), 0);
+    expect(getBestInitialIntervalValue(1, 13, 7), 1);
+    expect(getBestInitialIntervalValue(1, 13, 3), 1);
+    expect(getBestInitialIntervalValue(-1, 13, 3), 0);
+    expect(getBestInitialIntervalValue(-2, 13, 3), 0);
+    expect(getBestInitialIntervalValue(-3, 13, 3), -3);
+    expect(getBestInitialIntervalValue(-4, 13, 3), -3);
+    expect(getBestInitialIntervalValue(-5, 13, 3), -3);
+    expect(getBestInitialIntervalValue(-6, 13, 3), -6);
+    expect(getBestInitialIntervalValue(-6.5, 13, 3), -6);
+    expect(getBestInitialIntervalValue(-1, 1, 2), -1);
+    expect(getBestInitialIntervalValue(-1, 2, 2), 0);
+    expect(getBestInitialIntervalValue(-2, 0, 2), -2);
+    expect(getBestInitialIntervalValue(-3, 0, 2), -2);
+    expect(getBestInitialIntervalValue(-4, 0, 2), -4);
+    expect(getBestInitialIntervalValue(-0.5, 0.5, 2), -0.5);
   });
 }

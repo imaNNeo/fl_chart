@@ -1,3 +1,13 @@
+## newVersion
+* **IMPROVEMENT** Fix showing zero value in side titles and grid lines when we add negative value. Now we always go through the zero value in each axis, #739.
+
+## 0.40.5
+* **BUGFIX** Fix BarChart empty groups state error, #797.
+* **BUGFIX** Fix drawTooltipOnTop direction minor bug, #815.
+* **BUGFIX** Fix section with zero value problem in PieChart (disabled animation on changing value to zero and from zero), #817
+* **BUGFIX** Fix pie chart stroke problem when adding space between sections (using new approach), #818.
+* **IMPROVEMENT** Fix interval below one, #811
+
 ## 0.40.2
 * **IMPROVEMENT** Use 80 characters for code format line-length instead of 100 (because pub.dev works with 80 and decreased our score).
 

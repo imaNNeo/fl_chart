@@ -233,12 +233,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
       final verticalInterval = data.gridData.verticalInterval ??
-          getEfficientInterval(viewSize.width, data.horizontalDiff);
-      var verticalSeek = data.minX + verticalInterval;
-
+          getEfficientInterval(usableViewSize.width, data.horizontalDiff);
+      final initialVerticalValue =
+          getBestInitialIntervalValue(data.minX, data.maxX, verticalInterval);
+      var verticalSeek = initialVerticalValue;
+      if (verticalSeek == data.minX) {
+        verticalSeek += verticalInterval;
+      }
       final delta = data.horizontalDiff;
       final count = delta ~/ verticalInterval;
-      final lastPosition = data.minX + (count * verticalInterval);
+      final lastPosition = initialVerticalValue + (count * verticalInterval);
       final lastPositionOverlapsWithBorder = lastPosition == data.maxX;
       final end = lastPositionOverlapsWithBorder
           ? data.maxX - verticalInterval
@@ -267,12 +271,18 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalLine) {
       final horizontalInterval = data.gridData.horizontalInterval ??
-          getEfficientInterval(viewSize.height, data.verticalDiff);
-      var horizontalSeek = data.minY + horizontalInterval;
+          getEfficientInterval(usableViewSize.height, data.verticalDiff);
+      final initialHorizontalValue =
+          getBestInitialIntervalValue(data.minY, data.maxY, horizontalInterval);
+      var horizontalSeek = initialHorizontalValue;
+      if (horizontalSeek == data.minY) {
+        horizontalSeek += horizontalInterval;
+      }
 
       final delta = data.verticalDiff;
       final count = delta ~/ horizontalInterval;
-      final lastPosition = data.minY + (count * horizontalInterval);
+      final lastPosition =
+          initialHorizontalValue + (count * horizontalInterval);
       final lastPositionOverlapsWithBorder = lastPosition == data.maxY;
 
       final end = lastPositionOverlapsWithBorder

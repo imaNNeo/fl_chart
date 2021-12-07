@@ -893,7 +893,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final leftInterval = leftTitles.interval ??
           getEfficientInterval(viewSize.height, data.verticalDiff);
       if (leftTitles.showTitles) {
-        var verticalSeek = data.minY;
+        var verticalSeek =
+            getBestInitialIntervalValue(data.minY, data.maxY, leftInterval);
         while (verticalSeek <= data.maxY) {
           if (leftTitles.checkToShowTitle(
               data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
@@ -935,7 +936,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final topInterval = topTitles.interval ??
           getEfficientInterval(viewSize.width, data.horizontalDiff);
       if (topTitles.showTitles) {
-        var horizontalSeek = data.minX;
+        var horizontalSeek =
+            getBestInitialIntervalValue(data.minX, data.maxX, topInterval);
         while (horizontalSeek <= data.maxX) {
           if (topTitles.checkToShowTitle(
               data.minX, data.maxX, topTitles, topInterval, horizontalSeek)) {
@@ -978,7 +980,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final rightInterval = rightTitles.interval ??
           getEfficientInterval(viewSize.height, data.verticalDiff);
       if (rightTitles.showTitles) {
-        var verticalSeek = data.minY;
+        var verticalSeek =
+            getBestInitialIntervalValue(data.minY, data.maxY, rightInterval);
         while (verticalSeek <= data.maxY) {
           if (rightTitles.checkToShowTitle(
               data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
@@ -1022,7 +1025,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final bottomInterval = bottomTitles.interval ??
           getEfficientInterval(viewSize.width, data.horizontalDiff);
       if (bottomTitles.showTitles) {
-        var horizontalSeek = data.minX;
+        var horizontalSeek =
+            getBestInitialIntervalValue(data.minX, data.maxX, bottomInterval);
         while (horizontalSeek <= data.maxX) {
           if (bottomTitles.checkToShowTitle(data.minX, data.maxX, bottomTitles,
               bottomInterval, horizontalSeek)) {
