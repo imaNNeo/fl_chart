@@ -24,3 +24,7 @@ findVersion:
 # Runs both `make runTests` and `make checkstyle`. Use this before pushing your code.
 sure:
 	make runTests && make checkstyle
+
+# To create generated files (for example mock files in unit_tests)
+codeGen:
+	flutter pub run build_runner build
