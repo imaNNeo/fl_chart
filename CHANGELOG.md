@@ -1,4 +1,4 @@
-## newVersion
+## 0.40.6
 * **IMPROVEMENT** Fix showing zero value in side titles and grid lines when we add negative value. Now we always go through the zero value in each axis, #739.
 * **BUGFIX** Fix example app unsupported operation problem on web, #844.
 
