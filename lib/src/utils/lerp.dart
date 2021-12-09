@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 @visibleForTesting
 List<T>? lerpList<T>(List<T>? a, List<T>? b, double t,
@@ -128,3 +128,24 @@ List<RadarDataSet>? lerpRadarDataSetList(
 List<RadarEntry>? lerpRadarEntryList(
         List<RadarEntry>? a, List<RadarEntry>? b, double t) =>
     lerpList(a, b, t, lerp: RadarEntry.lerp);
+
+/// Lerps between a [LinearGradient] colors, based on [t]
+Color lerpGradient(List<Color> colors, List<double> stops, double t) {
+  final length = colors.length;
+  if (stops.length != length) {
+    /// provided gradientColorStops is invalid and we calculate it here
+    stops = List.generate(length, (i) => (i + 1) / length);
+  }
+
+  for (var s = 0; s < stops.length - 1; s++) {
+    final leftStop = stops[s], rightStop = stops[s + 1];
+    final leftColor = colors[s], rightColor = colors[s + 1];
+    if (t <= leftStop) {
+      return leftColor;
+    } else if (t < rightStop) {
+      final sectionT = (t - leftStop) / (rightStop - leftStop);
+      return Color.lerp(leftColor, rightColor, sectionT)!;
+    }
+  }
+  return colors.last;
+}

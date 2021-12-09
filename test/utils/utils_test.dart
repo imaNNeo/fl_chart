@@ -1,3 +1,4 @@
+import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -45,14 +46,14 @@ void main() {
 
   test('lerp gradient', () {
     expect(
-        Utils().lerpGradient([
+        lerpGradient([
           Colors.red,
           Colors.green,
         ], [], 0.0),
         Colors.red);
 
     expect(
-        Utils().lerpGradient([
+        lerpGradient([
           Colors.red,
           Colors.green,
         ], [], 1.0),

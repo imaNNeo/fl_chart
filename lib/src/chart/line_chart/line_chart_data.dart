@@ -5,7 +5,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
 
 /// [LineChart] needs this class to render itself.
@@ -724,8 +723,7 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   } else if (bar.colors.length == 1) {
     return bar.colors[0];
   } else {
-    return Utils()
-        .lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
+    return lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
   }
 }
 
@@ -739,8 +737,11 @@ Color _defaultGetDotStrokeColor(
   } else if (bar.colors.length == 1) {
     color = bar.colors[0];
   } else {
-    color = Utils()
-        .lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
+    color = lerpGradient(
+      bar.colors,
+      bar.getSafeColorStops(),
+      xPercentage / 100,
+    );
   }
   return color.darken();
 }
