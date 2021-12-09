@@ -1,4 +1,6 @@
 include: package:flutter_lints/flutter.yaml
 analyzer:
+  exclude:
+    - "**.mocks.dart"
   errors:
     prefer_initializing_formals: ignore
