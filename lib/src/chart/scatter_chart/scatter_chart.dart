@@ -1,6 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
 
