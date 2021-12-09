@@ -1,9 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui;
-import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
@@ -11,12 +9,10 @@ import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'line_chart_helper.dart';
 
 import '../../../fl_chart.dart';
 import '../../utils/utils.dart';
-import 'line_chart_data.dart';
 
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData> {

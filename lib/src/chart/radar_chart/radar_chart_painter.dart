@@ -1,8 +1,6 @@
 import 'dart:math' show pi, cos, sin, min;
-import 'dart:ui';
 
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
-import 'package:fl_chart/src/chart/radar_chart/radar_chart_data.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';

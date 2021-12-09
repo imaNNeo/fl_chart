@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
-import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:flutter/cupertino.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
