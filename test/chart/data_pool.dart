@@ -2994,3 +2994,8 @@ final Line line2 = Line(const Offset(-4, -12), const Offset(6, 8));
 final Line line3 = Line(const Offset(18, -1), const Offset(0, 0));
 final Line line4 = Line(const Offset(8, 8), const Offset(-4, -22));
 final Line line5 = Line(const Offset(2, 3), const Offset(5, 8));
+
+final DefaultTextStyle defaultTextStyle1 = DefaultTextStyle(
+  style: const TextStyle(),
+  child: Container(),
+);
