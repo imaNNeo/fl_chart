@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -9,7 +10,7 @@ import 'package:mockito/mockito.dart';
 import '../data_pool.dart';
 import 'scatter_chart_painter_test.mocks.dart';
 
-@GenerateMocks([Canvas, CanvasWrapper, BuildContext])
+@GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
   group('ScatterChart usable size', () {
     test('test 1', () {
@@ -113,15 +114,13 @@ void main() {
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
       MockBuildContext _mockBuildContext = MockBuildContext();
+      MockUtils _mockUtils = MockUtils();
       when(_mockCanvasWrapper.getsize())
           .thenAnswer((realInvocation) => viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      when(_mockBuildContext
-              .dependOnInheritedWidgetOfExactType<DefaultTextStyle>())
-          .thenAnswer((realInvocation) => defaultTextStyle1);
-      when(_mockBuildContext.dependOnInheritedWidgetOfExactType<MediaQuery>())
-          .thenAnswer((realInvocation) => null);
-
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenReturn(const TextStyle(color: Color(0x00ffffff)));
       scatterChartPainter.drawAxisTitles(
         _mockBuildContext,
         _mockCanvasWrapper,

@@ -111,7 +111,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         _ticksTextPaint
           ..text = TextSpan(
             text: tick.toStringAsFixed(1),
-            style: getThemeAwareTextStyle(context, data.ticksTextStyle),
+            style: Utils().getThemeAwareTextStyle(context, data.ticksTextStyle),
           )
           ..textDirection = TextDirection.ltr;
         _ticksTextPaint.layout(minWidth: 0, maxWidth: size.width);
@@ -166,7 +166,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     final angle = (2 * pi) / data.titleCount;
 
-    final style = getThemeAwareTextStyle(context, data.titleTextStyle);
+    final style = Utils().getThemeAwareTextStyle(context, data.titleTextStyle);
 
     _titleTextPaint
       ..textAlign = TextAlign.center

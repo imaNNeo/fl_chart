@@ -178,7 +178,7 @@ typedef GetTitleFunction = String Function(double value);
 ///
 /// formats the axis number to a shorter string using [formatNumber].
 String defaultGetTitle(double value) {
-  return formatNumber(value);
+  return Utils().formatNumber(value);
 }
 
 /// It gives you the axis value and gets a TextStyle based on given value

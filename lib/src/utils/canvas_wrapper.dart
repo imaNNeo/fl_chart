@@ -113,7 +113,7 @@ class CanvasWrapper {
       rotationOffset.dx + drawOffset.dx + size.width / 2,
       rotationOffset.dy + drawOffset.dy + size.height / 2,
     );
-    rotate(radians(angle));
+    rotate(Utils().radians(angle));
     translate(
       -drawOffset.dx - size.width / 2,
       -drawOffset.dy - size.height / 2,

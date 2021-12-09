@@ -5,7 +5,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 /// This is the base class for axis base charts data

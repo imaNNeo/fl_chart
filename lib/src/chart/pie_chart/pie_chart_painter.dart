@@ -127,8 +127,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       radius: centerRadius,
     );
 
-    final startRadians = radians(tempAngle);
-    final sweepRadians = radians(sectionDegree);
+    final startRadians = Utils().radians(tempAngle);
+    final sweepRadians = Utils().radians(sectionDegree);
     final endRadians = startRadians + sweepRadians;
 
     final startLineDirection =
@@ -263,9 +263,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       Offset sectionCenter(double percentageOffset) =>
           center +
           Offset(
-            math.cos(radians(sectionCenterAngle)) *
+            math.cos(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
-            math.sin(radians(sectionCenterAngle)) *
+            math.sin(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
           );
 
@@ -274,7 +274,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       if (section.showTitle) {
         final span = TextSpan(
-          style: getThemeAwareTextStyle(context, section.titleStyle),
+          style: Utils().getThemeAwareTextStyle(context, section.titleStyle),
           text: section.title,
         );
         final tp = TextPainter(
@@ -334,7 +334,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final touchY = touchedPoint2.dy;
 
     final touchR = math.sqrt(math.pow(touchX, 2) + math.pow(touchY, 2));
-    var touchAngle = degrees(math.atan2(touchY, touchX));
+    var touchAngle = Utils().degrees(math.atan2(touchY, touchX));
     touchAngle = touchAngle < 0 ? (180 - touchAngle.abs()) + 180 : touchAngle;
 
     PieChartSectionData? foundSectionData;
@@ -403,9 +403,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       Offset sectionCenter(double percentageOffset) =>
           center +
           Offset(
-            math.cos(radians(sectionCenterAngle)) *
+            math.cos(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
-            math.sin(radians(sectionCenterAngle)) *
+            math.sin(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
           );
 
