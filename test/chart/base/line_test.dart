@@ -14,11 +14,11 @@ void main() {
   });
 
   test('test angle()', () {
-    expect(line1.direction(), closeTo(radians(45), tolerance));
-    expect(line2.direction(), closeTo(radians(63.434), tolerance));
-    expect(line3.direction(), closeTo(radians(-3.179), tolerance));
-    expect(line4.direction(), closeTo(radians(68.198), tolerance));
-    expect(line5.direction(), closeTo(radians(59), tolerance));
+    expect(line1.direction(), closeTo(Utils().radians(45), tolerance));
+    expect(line2.direction(), closeTo(Utils().radians(63.434), tolerance));
+    expect(line3.direction(), closeTo(Utils().radians(-3.179), tolerance));
+    expect(line4.direction(), closeTo(Utils().radians(68.198), tolerance));
+    expect(line5.direction(), closeTo(Utils().radians(59), tolerance));
   });
 
   test('test normalize()', () {

@@ -724,7 +724,8 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   } else if (bar.colors.length == 1) {
     return bar.colors[0];
   } else {
-    return lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
+    return Utils()
+        .lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
   }
 }
 
@@ -738,8 +739,8 @@ Color _defaultGetDotStrokeColor(
   } else if (bar.colors.length == 1) {
     color = bar.colors[0];
   } else {
-    color =
-        lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
+    color = Utils()
+        .lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
   }
   return color.darken();
 }
