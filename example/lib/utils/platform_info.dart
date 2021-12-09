@@ -9,6 +9,8 @@ class PlatformInfo {
 
   bool isWeb() => kIsWeb;
 
+  bool isDesktopOrWeb() => isWeb() || isDesktopOS();
+
   PlatformType getCurrentPlatformType() {
     if (kIsWeb) {
       return PlatformType.web;
