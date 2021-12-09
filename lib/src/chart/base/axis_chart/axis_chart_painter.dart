@@ -51,7 +51,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     if (!data.axisTitleData.show) {
       return;
     }
-    final viewSize = getChartUsableDrawSize(canvasWrapper.size, holder);
+    final viewSize = getChartUsableDrawSize(canvasWrapper.getsize(), holder);
 
     final axisTitles = data.axisTitleData;
 
