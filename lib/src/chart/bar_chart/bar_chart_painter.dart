@@ -385,10 +385,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     if (!data.isVerticalMinMaxIsZero) {
       final leftTitles = targetData.titlesData.leftTitles;
       final leftInterval = leftTitles.interval ??
-          getEfficientInterval(viewSize.height, data.verticalDiff);
+          Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
       if (leftTitles.showTitles) {
-        var verticalSeek =
-            getBestInitialIntervalValue(data.minY, data.maxY, leftInterval);
+        var verticalSeek = Utils()
+            .getBestInitialIntervalValue(data.minY, data.maxY, leftInterval);
         while (verticalSeek <= data.maxY) {
           if (leftTitles.checkToShowTitle(
               data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
@@ -398,7 +398,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             final text = leftTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-              style: getThemeAwareTextStyle(
+              style: Utils().getThemeAwareTextStyle(
                   context, leftTitles.getTextStyles(context, verticalSeek)),
               text: text,
             );
@@ -411,7 +411,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             tp.layout(maxWidth: leftTitles.reservedSize);
             x -= tp.width + leftTitles.margin;
             y -= tp.height / 2;
-            x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
+            x += Utils()
+                .calculateRotationOffset(tp.size, leftTitles.rotateAngle)
+                .dx;
             canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
           }
           if (data.maxY - verticalSeek < leftInterval &&
@@ -433,7 +435,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final xValue = data.barGroups[index].x.toDouble();
         final text = topTitles.getTitles(xValue);
         final span = TextSpan(
-          style: getThemeAwareTextStyle(
+          style: Utils().getThemeAwareTextStyle(
               context, topTitles.getTextStyles(context, xValue)),
           text: text,
         );
@@ -448,7 +450,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         var y = 0.0;
 
         x -= tp.width / 2;
-        y += calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
+        y += Utils().calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
         canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
       }
     }
@@ -457,10 +459,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     if (!data.isVerticalMinMaxIsZero) {
       final rightTitles = targetData.titlesData.rightTitles;
       final rightInterval = rightTitles.interval ??
-          getEfficientInterval(viewSize.height, data.verticalDiff);
+          Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
       if (rightTitles.showTitles) {
-        var verticalSeek =
-            getBestInitialIntervalValue(data.minY, data.maxY, rightInterval);
+        var verticalSeek = Utils()
+            .getBestInitialIntervalValue(data.minY, data.maxY, rightInterval);
         while (verticalSeek <= data.maxY) {
           if (rightTitles.checkToShowTitle(
               data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
@@ -470,7 +472,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             final text = rightTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-              style: getThemeAwareTextStyle(
+              style: Utils().getThemeAwareTextStyle(
                   context, rightTitles.getTextStyles(context, verticalSeek)),
               text: text,
             );
@@ -483,7 +485,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             tp.layout(maxWidth: rightTitles.reservedSize);
             x += rightTitles.margin;
             y -= tp.height / 2;
-            x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
+            x -= Utils()
+                .calculateRotationOffset(tp.size, rightTitles.rotateAngle)
+                .dx;
             canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
           }
           if (data.maxY - verticalSeek < rightInterval &&
@@ -508,7 +512,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final text = bottomTitles.getTitles(xValue);
         // ignore: omit_local_variable_types
         final span = TextSpan(
-            style: getThemeAwareTextStyle(
+            style: Utils().getThemeAwareTextStyle(
                 context, bottomTitles.getTextStyles(context, xValue)),
             text: text);
         final tp = TextPainter(
@@ -522,7 +526,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             getTopOffsetDrawSize(holder) +
             bottomTitles.margin;
         x -= tp.width / 2;
-        y -= calculateRotationOffset(tp.size, bottomTitles.rotateAngle).dy;
+        y -= Utils()
+            .calculateRotationOffset(tp.size, bottomTitles.rotateAngle)
+            .dy;
         canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
       }
     }
@@ -556,7 +562,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     final span = TextSpan(
-      style: getThemeAwareTextStyle(context, tooltipItem.textStyle),
+      style: Utils().getThemeAwareTextStyle(context, tooltipItem.textStyle),
       text: tooltipItem.text,
       children: tooltipItem.children,
     );
@@ -661,10 +667,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
-        Offset(0, calculateRotationOffset(rect.size, rotateAngle).dy);
+        Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
     final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
 
-    final textRotationOffset = calculateRotationOffset(tp.size, rotateAngle);
+    final textRotationOffset =
+        Utils().calculateRotationOffset(tp.size, rotateAngle);
 
     /// draw the texts one by one in below of each other
     final top = tooltipData.tooltipPadding.top;

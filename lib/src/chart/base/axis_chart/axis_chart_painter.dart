@@ -59,7 +59,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final leftTitle = axisTitles.leftTitle;
     if (leftTitle.showTitle) {
       final span = TextSpan(
-          style: getThemeAwareTextStyle(context, leftTitle.textStyle),
+          style: Utils().getThemeAwareTextStyle(context, leftTitle.textStyle),
           text: leftTitle.titleText);
       final tp = TextPainter(
           text: span,
@@ -81,7 +81,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final topTitle = axisTitles.topTitle;
     if (topTitle.showTitle) {
       final span = TextSpan(
-          style: getThemeAwareTextStyle(context, topTitle.textStyle),
+          style: Utils().getThemeAwareTextStyle(context, topTitle.textStyle),
           text: topTitle.titleText);
       final tp = TextPainter(
           text: span,
@@ -99,7 +99,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final rightTitle = axisTitles.rightTitle;
     if (rightTitle.showTitle) {
       final span = TextSpan(
-          style: getThemeAwareTextStyle(context, rightTitle.textStyle),
+          style: Utils().getThemeAwareTextStyle(context, rightTitle.textStyle),
           text: rightTitle.titleText);
       final tp = TextPainter(
           text: span,
@@ -123,7 +123,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final bottomTitle = axisTitles.bottomTitle;
     if (bottomTitle.showTitle) {
       final span = TextSpan(
-          style: getThemeAwareTextStyle(context, bottomTitle.textStyle),
+          style: Utils().getThemeAwareTextStyle(context, bottomTitle.textStyle),
           text: bottomTitle.titleText);
       final tp = TextPainter(
           text: span,
@@ -233,9 +233,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
       final verticalInterval = data.gridData.verticalInterval ??
-          getEfficientInterval(usableViewSize.width, data.horizontalDiff);
-      final initialVerticalValue =
-          getBestInitialIntervalValue(data.minX, data.maxX, verticalInterval);
+          Utils()
+              .getEfficientInterval(usableViewSize.width, data.horizontalDiff);
+      final initialVerticalValue = Utils()
+          .getBestInitialIntervalValue(data.minX, data.maxX, verticalInterval);
       var verticalSeek = initialVerticalValue;
       if (verticalSeek == data.minX) {
         verticalSeek += verticalInterval;
@@ -271,9 +272,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalLine) {
       final horizontalInterval = data.gridData.horizontalInterval ??
-          getEfficientInterval(usableViewSize.height, data.verticalDiff);
-      final initialHorizontalValue =
-          getBestInitialIntervalValue(data.minY, data.maxY, horizontalInterval);
+          Utils()
+              .getEfficientInterval(usableViewSize.height, data.verticalDiff);
+      final initialHorizontalValue = Utils().getBestInitialIntervalValue(
+          data.minY, data.maxY, horizontalInterval);
       var horizontalSeek = initialHorizontalValue;
       if (horizontalSeek == data.minY) {
         horizontalSeek += horizontalInterval;

@@ -887,10 +887,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (!data.isVerticalMinMaxIsZero) {
       final leftTitles = targetData.titlesData.leftTitles;
       final leftInterval = leftTitles.interval ??
-          getEfficientInterval(viewSize.height, data.verticalDiff);
+          Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
       if (leftTitles.showTitles) {
-        var verticalSeek =
-            getBestInitialIntervalValue(data.minY, data.maxY, leftInterval);
+        var verticalSeek = Utils()
+            .getBestInitialIntervalValue(data.minY, data.maxY, leftInterval);
         while (verticalSeek <= data.maxY) {
           if (leftTitles.checkToShowTitle(
               data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
@@ -900,7 +900,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             final text = leftTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-              style: getThemeAwareTextStyle(
+              style: Utils().getThemeAwareTextStyle(
                   context, leftTitles.getTextStyles(context, verticalSeek)),
               text: text,
             );
@@ -913,7 +913,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             tp.layout(maxWidth: leftTitles.reservedSize);
             x -= tp.width + leftTitles.margin;
             y -= tp.height / 2;
-            x += calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
+            x += Utils()
+                .calculateRotationOffset(tp.size, leftTitles.rotateAngle)
+                .dx;
             canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
           }
           if (data.maxY - verticalSeek < leftInterval &&
@@ -930,10 +932,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (!data.isHorizontalMinMaxIsZero) {
       final topTitles = targetData.titlesData.topTitles;
       final topInterval = topTitles.interval ??
-          getEfficientInterval(viewSize.width, data.horizontalDiff);
+          Utils().getEfficientInterval(viewSize.width, data.horizontalDiff);
       if (topTitles.showTitles) {
-        var horizontalSeek =
-            getBestInitialIntervalValue(data.minX, data.maxX, topInterval);
+        var horizontalSeek = Utils()
+            .getBestInitialIntervalValue(data.minX, data.maxX, topInterval);
         while (horizontalSeek <= data.maxX) {
           if (topTitles.checkToShowTitle(
               data.minX, data.maxX, topTitles, topInterval, horizontalSeek)) {
@@ -943,7 +945,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             final text = topTitles.getTitles(horizontalSeek);
 
             final span = TextSpan(
-              style: getThemeAwareTextStyle(
+              style: Utils().getThemeAwareTextStyle(
                   context, topTitles.getTextStyles(context, horizontalSeek)),
               text: text,
             );
@@ -957,7 +959,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
             x -= tp.width / 2;
             y -= topTitles.margin + tp.height;
-            y += calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
+            y += Utils()
+                .calculateRotationOffset(tp.size, topTitles.rotateAngle)
+                .dy;
             canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
           }
           if (data.maxX - horizontalSeek < topInterval &&
@@ -974,10 +978,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (!data.isVerticalMinMaxIsZero) {
       final rightTitles = targetData.titlesData.rightTitles;
       final rightInterval = rightTitles.interval ??
-          getEfficientInterval(viewSize.height, data.verticalDiff);
+          Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
       if (rightTitles.showTitles) {
-        var verticalSeek =
-            getBestInitialIntervalValue(data.minY, data.maxY, rightInterval);
+        var verticalSeek = Utils()
+            .getBestInitialIntervalValue(data.minY, data.maxY, rightInterval);
         while (verticalSeek <= data.maxY) {
           if (rightTitles.checkToShowTitle(
               data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
@@ -987,7 +991,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             final text = rightTitles.getTitles(verticalSeek);
 
             final span = TextSpan(
-              style: getThemeAwareTextStyle(
+              style: Utils().getThemeAwareTextStyle(
                   context, rightTitles.getTextStyles(context, verticalSeek)),
               text: text,
             );
@@ -1001,7 +1005,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
             x += rightTitles.margin;
             y -= tp.height / 2;
-            x -= calculateRotationOffset(tp.size, rightTitles.rotateAngle).dx;
+            x -= Utils()
+                .calculateRotationOffset(tp.size, rightTitles.rotateAngle)
+                .dx;
             canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
           }
 
@@ -1019,10 +1025,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (!data.isHorizontalMinMaxIsZero) {
       final bottomTitles = targetData.titlesData.bottomTitles;
       final bottomInterval = bottomTitles.interval ??
-          getEfficientInterval(viewSize.width, data.horizontalDiff);
+          Utils().getEfficientInterval(viewSize.width, data.horizontalDiff);
       if (bottomTitles.showTitles) {
-        var horizontalSeek =
-            getBestInitialIntervalValue(data.minX, data.maxX, bottomInterval);
+        var horizontalSeek = Utils()
+            .getBestInitialIntervalValue(data.minX, data.maxX, bottomInterval);
         while (horizontalSeek <= data.maxX) {
           if (bottomTitles.checkToShowTitle(data.minX, data.maxX, bottomTitles,
               bottomInterval, horizontalSeek)) {
@@ -1030,7 +1036,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             var y = viewSize.height + getTopOffsetDrawSize(holder);
             final text = bottomTitles.getTitles(horizontalSeek);
             final span = TextSpan(
-                style: getThemeAwareTextStyle(context,
+                style: Utils().getThemeAwareTextStyle(context,
                     bottomTitles.getTextStyles(context, horizontalSeek)),
                 text: text);
             final tp = TextPainter(
@@ -1042,7 +1048,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
             x -= tp.width / 2;
             y += bottomTitles.margin;
-            y -= calculateRotationOffset(tp.size, bottomTitles.rotateAngle).dy;
+            y -= Utils()
+                .calculateRotationOffset(tp.size, bottomTitles.rotateAngle)
+                .dy;
             canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
           }
 
@@ -1110,7 +1118,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: getThemeAwareTextStyle(context, style),
+            style: Utils().getThemeAwareTextStyle(context, style),
           );
 
           final tp = TextPainter(
@@ -1181,7 +1189,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: getThemeAwareTextStyle(context, style),
+            style: Utils().getThemeAwareTextStyle(context, style),
           );
 
           final tp = TextPainter(
@@ -1235,7 +1243,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
 
       final span = TextSpan(
-        style: getThemeAwareTextStyle(context, tooltipItem.textStyle),
+        style: Utils().getThemeAwareTextStyle(context, tooltipItem.textStyle),
         text: tooltipItem.text,
         children: tooltipItem.children,
       );
@@ -1350,10 +1358,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
-        Offset(0, calculateRotationOffset(rect.size, rotateAngle).dy);
+        Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
     final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
 
-    final textRotationOffset = calculateRotationOffset(rect.size, rotateAngle);
+    final textRotationOffset =
+        Utils().calculateRotationOffset(rect.size, rotateAngle);
 
     canvasWrapper.drawRotated(
       size: rect.size,

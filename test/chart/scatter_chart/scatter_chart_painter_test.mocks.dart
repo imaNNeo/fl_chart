@@ -7,6 +7,7 @@ import 'dart:ui' as _i2;
 
 import 'package:fl_chart/fl_chart.dart' as _i7;
 import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i6;
+import 'package:fl_chart/src/utils/utils.dart' as _i8;
 import 'package:flutter/cupertino.dart' as _i3;
 import 'package:flutter/foundation.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
@@ -41,6 +42,18 @@ class _FakeDiagnosticsNode_4 extends _i1.Fake implements _i3.DiagnosticsNode {
   String toString(
           {_i4.TextTreeConfiguration? parentConfiguration,
           _i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
+class _FakeOffset_5 extends _i1.Fake implements _i2.Offset {}
+
+class _FakeBorderSide_6 extends _i1.Fake implements _i3.BorderSide {}
+
+class _FakeColor_7 extends _i1.Fake implements _i2.Color {}
+
+class _FakeTextStyle_8 extends _i1.Fake implements _i3.TextStyle {
+  @override
+  String toString({_i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
       super.toString();
 }
 
@@ -403,6 +416,83 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
   _i3.DiagnosticsNode describeOwnershipChain(String? name) =>
       (super.noSuchMethod(Invocation.method(#describeOwnershipChain, [name]),
           returnValue: _FakeDiagnosticsNode_4()) as _i3.DiagnosticsNode);
+  @override
+  String toString() => super.toString();
+}
+
+/// A class which mocks [Utils].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUtils extends _i1.Mock implements _i8.Utils {
+  MockUtils() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  double radians(double? degrees) =>
+      (super.noSuchMethod(Invocation.method(#radians, [degrees]),
+          returnValue: 0.0) as double);
+  @override
+  double degrees(double? radians) =>
+      (super.noSuchMethod(Invocation.method(#degrees, [radians]),
+          returnValue: 0.0) as double);
+  @override
+  _i2.Size getDefaultSize(_i2.Size? screenSize) =>
+      (super.noSuchMethod(Invocation.method(#getDefaultSize, [screenSize]),
+          returnValue: _FakeSize_1()) as _i2.Size);
+  @override
+  double translateRotatedPosition(double? size, double? degree) =>
+      (super.noSuchMethod(
+          Invocation.method(#translateRotatedPosition, [size, degree]),
+          returnValue: 0.0) as double);
+  @override
+  _i2.Offset calculateRotationOffset(_i2.Size? size, double? degree) => (super
+      .noSuchMethod(Invocation.method(#calculateRotationOffset, [size, degree]),
+          returnValue: _FakeOffset_5()) as _i2.Offset);
+  @override
+  _i3.BorderRadius? normalizeBorderRadius(
+          _i3.BorderRadius? borderRadius, double? width) =>
+      (super.noSuchMethod(
+              Invocation.method(#normalizeBorderRadius, [borderRadius, width]))
+          as _i3.BorderRadius?);
+  @override
+  _i3.BorderSide normalizeBorderSide(
+          _i3.BorderSide? borderSide, double? width) =>
+      (super.noSuchMethod(
+          Invocation.method(#normalizeBorderSide, [borderSide, width]),
+          returnValue: _FakeBorderSide_6()) as _i3.BorderSide);
+  @override
+  _i2.Color lerpGradient(
+          List<_i2.Color>? colors, List<double>? stops, double? t) =>
+      (super.noSuchMethod(Invocation.method(#lerpGradient, [colors, stops, t]),
+          returnValue: _FakeColor_7()) as _i2.Color);
+  @override
+  double getEfficientInterval(double? axisViewSize, double? diffInYAxis,
+          {double? pixelPerInterval = 40.0}) =>
+      (super.noSuchMethod(
+          Invocation.method(#getEfficientInterval, [axisViewSize, diffInYAxis],
+              {#pixelPerInterval: pixelPerInterval}),
+          returnValue: 0.0) as double);
+  @override
+  double roundInterval(double? input) =>
+      (super.noSuchMethod(Invocation.method(#roundInterval, [input]),
+          returnValue: 0.0) as double);
+  @override
+  String formatNumber(double? number) =>
+      (super.noSuchMethod(Invocation.method(#formatNumber, [number]),
+          returnValue: '') as String);
+  @override
+  _i3.TextStyle getThemeAwareTextStyle(
+          _i3.BuildContext? context, _i3.TextStyle? providedStyle) =>
+      (super.noSuchMethod(
+          Invocation.method(#getThemeAwareTextStyle, [context, providedStyle]),
+          returnValue: _FakeTextStyle_8()) as _i3.TextStyle);
+  @override
+  double getBestInitialIntervalValue(
+          double? min, double? max, double? interval) =>
+      (super.noSuchMethod(
+          Invocation.method(#getBestInitialIntervalValue, [min, max, interval]),
+          returnValue: 0.0) as double);
   @override
   String toString() => super.toString();
 }

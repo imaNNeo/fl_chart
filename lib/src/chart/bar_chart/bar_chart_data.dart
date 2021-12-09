@@ -336,8 +336,8 @@ class BarChartRodData with EquatableMixin {
         gradientTo = gradientTo ?? const Offset(0.5, 0),
         colorStops = gradientColorStops,
         width = width ?? 8,
-        borderRadius = normalizeBorderRadius(borderRadius, width ?? 8),
-        borderSide = normalizeBorderSide(borderSide, width ?? 8),
+        borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
+        borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
         rodStackItems = rodStackItems ?? const [];
 
@@ -434,7 +434,7 @@ class BarChartRodStackItem with EquatableMixin {
   /// )
   /// ```
   BarChartRodStackItem(this.fromY, this.toY, this.color,
-      [this.borderSide = defaultBorderSide]);
+      [this.borderSide = Utils.defaultBorderSide]);
 
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
