@@ -119,28 +119,6 @@ class Utils {
     return borderSide.copyWith(width: borderWidth);
   }
 
-  /// Lerps between a [LinearGradient] colors, based on [t]
-  @Deprecated("This should be moved to lerp.dart file")
-  Color lerpGradient(List<Color> colors, List<double> stops, double t) {
-    final length = colors.length;
-    if (stops.length != length) {
-      /// provided gradientColorStops is invalid and we calculate it here
-      stops = List.generate(length, (i) => (i + 1) / length);
-    }
-
-    for (var s = 0; s < stops.length - 1; s++) {
-      final leftStop = stops[s], rightStop = stops[s + 1];
-      final leftColor = colors[s], rightColor = colors[s + 1];
-      if (t <= leftStop) {
-        return leftColor;
-      } else if (t < rightStop) {
-        final sectionT = (t - leftStop) / (rightStop - leftStop);
-        return Color.lerp(leftColor, rightColor, sectionT)!;
-      }
-    }
-    return colors.last;
-  }
-
   /// Returns an efficient interval for showing axis titles, or grid lines or ...
   ///
   /// If there isn't any provided interval, we use this function to calculate an interval to apply,
