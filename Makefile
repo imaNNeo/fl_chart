@@ -1,6 +1,11 @@
-checkstyle:
-	flutter analyze; \
+analyze:
+	flutter analyze
+
+checkFormat:
 	flutter format --set-exit-if-changed --dry-run .
+
+checkstyle:
+	make anaylze && make checkFormat
 
 format:
 	flutter format .
