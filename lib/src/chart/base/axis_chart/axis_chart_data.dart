@@ -326,6 +326,7 @@ class SideTitles with EquatableMixin {
   final double? interval;
   final double rotateAngle;
   final CheckToShowTitle checkToShowTitle;
+  final TextAlign textAlign;
 
   /// It draws some title on all axis, per each axis value,
   /// [showTitles] determines showing or hiding this side,
@@ -357,6 +358,7 @@ class SideTitles with EquatableMixin {
     double? margin,
     double? interval,
     double? rotateAngle,
+    TextAlign? textAlign,
     CheckToShowTitle? checkToShowTitle,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
@@ -366,6 +368,7 @@ class SideTitles with EquatableMixin {
         margin = margin ?? 6,
         interval = interval,
         rotateAngle = rotateAngle ?? 0.0,
+        textAlign = textAlign ?? TextAlign.center,
         checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");
@@ -383,6 +386,7 @@ class SideTitles with EquatableMixin {
       margin: lerpDouble(a.margin, b.margin, t),
       interval: lerpDouble(a.interval, b.interval, t),
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
+      textAlign: b.textAlign,
       checkToShowTitle: b.checkToShowTitle,
     );
   }
@@ -398,6 +402,7 @@ class SideTitles with EquatableMixin {
     double? margin,
     double? interval,
     double? rotateAngle,
+    TextAlign? textAlign,
     CheckToShowTitle? checkToShowTitle,
   }) {
     return SideTitles(
@@ -409,6 +414,7 @@ class SideTitles with EquatableMixin {
       margin: margin ?? this.margin,
       interval: interval ?? this.interval,
       rotateAngle: rotateAngle ?? this.rotateAngle,
+      textAlign: textAlign,
       checkToShowTitle: checkToShowTitle ?? this.checkToShowTitle,
     );
   }
@@ -423,6 +429,7 @@ class SideTitles with EquatableMixin {
         margin,
         interval,
         rotateAngle,
+        textAlign,
         checkToShowTitle,
       ];
 }
