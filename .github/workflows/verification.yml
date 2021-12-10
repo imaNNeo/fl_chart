@@ -1,20 +1,21 @@
-name: Code Style Push
+name: Code Verification
 
-on: [push]
+on: [ push, pull_request ]
 
 jobs:
-  check-code-style:
+  verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - name: Check formattting
-        run: flutter format --set-exit-if-changed --dry-run .
       - name: Get packages
         run: flutter pub get
+      - name: Check formattting
+        run: make checkFormat
       - name: Analyze the source code
-        run: flutter analyze
-
+        run: make analyze
+      - name: Run tests
+        run: make test
