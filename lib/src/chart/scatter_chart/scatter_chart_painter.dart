@@ -33,25 +33,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   void paint(BuildContext context, CanvasWrapper canvasWrapper,
       PaintHolder<ScatterChartData> holder) {
     super.paint(context, canvasWrapper, holder);
-    final targetData = holder.targetData;
     drawAxisTitles(context, canvasWrapper, holder);
     drawTitles(context, canvasWrapper, holder);
     drawSpots(canvasWrapper, holder);
-
-    for (var i = 0; i < targetData.scatterSpots.length; i++) {
-      if (!targetData.showingTooltipIndicators.contains(i)) {
-        continue;
-      }
-
-      final scatterSpot = targetData.scatterSpots[i];
-      _drawTouchTooltip(
-        context,
-        canvasWrapper,
-        targetData.scatterTouchData.touchTooltipData,
-        scatterSpot,
-        holder,
-      );
-    }
+    drawTouchTooltips(context, canvasWrapper, holder);
   }
 
   @visibleForTesting
@@ -272,7 +257,28 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
   }
 
-  void _drawTouchTooltip(
+  @visibleForTesting
+  void drawTouchTooltips(BuildContext context, CanvasWrapper canvasWrapper,
+      PaintHolder<ScatterChartData> holder) {
+    final targetData = holder.targetData;
+    for (var i = 0; i < targetData.scatterSpots.length; i++) {
+      if (!targetData.showingTooltipIndicators.contains(i)) {
+        continue;
+      }
+
+      final scatterSpot = targetData.scatterSpots[i];
+      drawTouchTooltip(
+        context,
+        canvasWrapper,
+        targetData.scatterTouchData.touchTooltipData,
+        scatterSpot,
+        holder,
+      );
+    }
+  }
+
+  @visibleForTesting
+  void drawTouchTooltip(
       BuildContext context,
       CanvasWrapper canvasWrapper,
       ScatterTouchTooltipData tooltipData,
