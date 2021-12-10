@@ -36,7 +36,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final targetData = holder.targetData;
     drawAxisTitles(context, canvasWrapper, holder);
     drawTitles(context, canvasWrapper, holder);
-    _drawSpots(canvasWrapper, holder);
+    drawSpots(canvasWrapper, holder);
 
     for (var i = 0; i < targetData.scatterSpots.length; i++) {
       if (!targetData.showingTooltipIndicators.contains(i)) {
@@ -249,7 +249,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
   }
 
-  void _drawSpots(
+  @visibleForTesting
+  void drawSpots(
       CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
