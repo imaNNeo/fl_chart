@@ -325,8 +325,8 @@ class SideTitles with EquatableMixin {
   final double margin;
   final double? interval;
   final double rotateAngle;
-  final CheckToShowTitle checkToShowTitle;
   final TextAlign textAlign;
+  final CheckToShowTitle checkToShowTitle;
 
   /// It draws some title on all axis, per each axis value,
   /// [showTitles] determines showing or hiding this side,
