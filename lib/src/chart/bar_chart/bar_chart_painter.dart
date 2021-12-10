@@ -404,7 +404,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
             final tp = TextPainter(
               text: span,
-              textAlign: TextAlign.center,
+              textAlign: leftTitles.textAlign,
               textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale,
             );
@@ -439,7 +439,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         );
         final tp = TextPainter(
           text: span,
-          textAlign: TextAlign.center,
+          textAlign: topTitles.textAlign,
           textDirection: topTitles.textDirection,
           textScaleFactor: holder.textScale,
         );
@@ -476,7 +476,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
             final tp = TextPainter(
               text: span,
-              textAlign: TextAlign.center,
+              textAlign: rightTitles.textAlign,
               textDirection: rightTitles.textDirection,
               textScaleFactor: holder.textScale,
             );
@@ -513,7 +513,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             text: text);
         final tp = TextPainter(
             text: span,
-            textAlign: TextAlign.center,
+            textAlign: bottomTitles.textAlign,
             textDirection: bottomTitles.textDirection,
             textScaleFactor: holder.textScale);
         tp.layout();
