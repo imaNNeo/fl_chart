@@ -5,14 +5,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/canvas_extension.dart';
-import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
+import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
-import 'line_chart_helper.dart';
 
 import '../../../fl_chart.dart';
 import '../../utils/utils.dart';
+import 'line_chart_helper.dart';
 
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData> {
@@ -906,7 +906,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             );
             final tp = TextPainter(
               text: span,
-              textAlign: TextAlign.center,
+              textAlign: leftTitles.textAlign,
               textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale,
             );
@@ -949,7 +949,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             );
             final tp = TextPainter(
               text: span,
-              textAlign: TextAlign.center,
+              textAlign: topTitles.textAlign,
               textDirection: topTitles.textDirection,
               textScaleFactor: holder.textScale,
             );
@@ -993,7 +993,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             );
             final tp = TextPainter(
               text: span,
-              textAlign: TextAlign.center,
+              textAlign: rightTitles.textAlign,
               textDirection: rightTitles.textDirection,
               textScaleFactor: holder.textScale,
             );
@@ -1035,7 +1035,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
                 text: text);
             final tp = TextPainter(
                 text: span,
-                textAlign: TextAlign.center,
+                textAlign: bottomTitles.textAlign,
                 textDirection: bottomTitles.textDirection,
                 textScaleFactor: holder.textScale);
             tp.layout();
