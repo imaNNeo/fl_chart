@@ -49,9 +49,7 @@ class _FakeOffset_5 extends _i1.Fake implements _i2.Offset {}
 
 class _FakeBorderSide_6 extends _i1.Fake implements _i3.BorderSide {}
 
-class _FakeColor_7 extends _i1.Fake implements _i2.Color {}
-
-class _FakeTextStyle_8 extends _i1.Fake implements _i3.TextStyle {
+class _FakeTextStyle_7 extends _i1.Fake implements _i3.TextStyle {
   @override
   String toString({_i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
       super.toString();
@@ -262,9 +260,6 @@ class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
       (super.noSuchMethod(Invocation.getter(#size), returnValue: _FakeSize_1())
           as _i2.Size);
   @override
-  _i2.Size getsize() => (super.noSuchMethod(Invocation.method(#getsize, []),
-      returnValue: _FakeSize_1()) as _i2.Size);
-  @override
   void drawRRect(_i2.RRect? rrect, _i2.Paint? paint) =>
       super.noSuchMethod(Invocation.method(#drawRRect, [rrect, paint]),
           returnValueForMissingStub: null);
@@ -462,11 +457,6 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           Invocation.method(#normalizeBorderSide, [borderSide, width]),
           returnValue: _FakeBorderSide_6()) as _i3.BorderSide);
   @override
-  _i2.Color lerpGradient(
-          List<_i2.Color>? colors, List<double>? stops, double? t) =>
-      (super.noSuchMethod(Invocation.method(#lerpGradient, [colors, stops, t]),
-          returnValue: _FakeColor_7()) as _i2.Color);
-  @override
   double getEfficientInterval(double? axisViewSize, double? diffInYAxis,
           {double? pixelPerInterval = 40.0}) =>
       (super.noSuchMethod(
@@ -486,7 +476,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           _i3.BuildContext? context, _i3.TextStyle? providedStyle) =>
       (super.noSuchMethod(
           Invocation.method(#getThemeAwareTextStyle, [context, providedStyle]),
-          returnValue: _FakeTextStyle_8()) as _i3.TextStyle);
+          returnValue: _FakeTextStyle_7()) as _i3.TextStyle);
   @override
   double getBestInitialIntervalValue(
           double? min, double? max, double? interval) =>
