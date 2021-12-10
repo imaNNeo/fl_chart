@@ -1,3 +1,6 @@
+## newVersion
+* **BUGFIX** Fix getNearestTouchedSpot. Previously it returned the first occurrence of a spot within the threshold, and not the nearest, #641, #645.
+
 ## 0.40.6
 * **IMPROVEMENT** Fix showing zero value in side titles and grid lines when we add negative value. Now we always go through the zero value in each axis, #739.
 * **BUGFIX** Fix example app unsupported operation problem on web, #844.
