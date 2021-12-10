@@ -17,10 +17,6 @@ class CanvasWrapper {
     this.size,
   );
 
-  Size getsize() {
-    return size;
-  }
-
   /// Directly calls [Canvas.drawRRect]
   void drawRRect(RRect rrect, Paint paint) => canvas.drawRRect(rrect, paint);
 
