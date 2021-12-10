@@ -3,7 +3,7 @@ name: Code Coverage
 on: [ push, pull_request ]
 
 jobs:
-  verify:
+  upload:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,5 +19,5 @@ jobs:
         run: |
             curl -Os https://uploader.codecov.io/latest/linux/codecov
             chmod +x codecov
-            ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+            ./codecov
 
