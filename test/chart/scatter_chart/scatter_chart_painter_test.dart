@@ -405,4 +405,95 @@ void main() {
       verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
     });
   });
+
+  group('drawTooltips()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          ScatterSpot(1, 1, radius: 18),
+          ScatterSpot(3, 9, show: false),
+          ScatterSpot(8, 2, radius: 4),
+          ScatterSpot(7, 5, radius: 6),
+        ],
+        showingTooltipIndicators: [0, 2, 3],
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext _mockBuildContext = MockBuildContext();
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenReturn(const TextStyle(color: Color(0x00ffffff)));
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenReturn(Offset.zero);
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawTouchTooltips(
+        _mockBuildContext,
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verify(_mockCanvasWrapper.drawRotated(
+              size: anyNamed("size"),
+              rotationOffset: anyNamed("rotationOffset"),
+              drawOffset: anyNamed("drawOffset"),
+              angle: anyNamed("angle"),
+              drawCallback: anyNamed("drawCallback")))
+          .called(3);
+    });
+
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          ScatterSpot(1, 1, radius: 18),
+          ScatterSpot(3, 9, show: false),
+          ScatterSpot(8, 2, radius: 4),
+          ScatterSpot(7, 5, radius: 6),
+        ],
+        showingTooltipIndicators: [0, 2, 3],
+        scatterTouchData: ScatterTouchData(
+            touchTooltipData: ScatterTouchTooltipData(
+          getTooltipItems: (spot) => null,
+        )),
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext _mockBuildContext = MockBuildContext();
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenReturn(const TextStyle(color: Color(0x00ffffff)));
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenReturn(Offset.zero);
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawTouchTooltips(
+        _mockBuildContext,
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(_mockCanvasWrapper.drawRotated());
+      verifyNever(_mockCanvasWrapper.drawRect(any, any));
+    });
+  });
 }
