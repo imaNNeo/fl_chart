@@ -452,7 +452,7 @@ void main() {
           .called(3);
     });
 
-    test('test 1', () {
+    test('test 2', () {
       const viewSize = Size(100, 100);
 
       final ScatterChartData data = ScatterChartData(
@@ -494,6 +494,196 @@ void main() {
 
       verifyNever(_mockCanvasWrapper.drawRotated());
       verifyNever(_mockCanvasWrapper.drawRect(any, any));
+    });
+  });
+
+  group('drawTouchTooltip()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      ScatterSpot spot1 = ScatterSpot(1, 1);
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          spot1,
+          scatterSpot2,
+          scatterSpot3,
+          scatterSpot4,
+        ],
+        showingTooltipIndicators: [0, 2, 3],
+        titlesData: FlTitlesData(show: false),
+        scatterTouchData: ScatterTouchData(
+          touchTooltipData: ScatterTouchTooltipData(
+              rotateAngle: 18,
+              tooltipBgColor: const Color(0xFF00FF00),
+              tooltipRoundedRadius: 85,
+              tooltipPadding: const EdgeInsets.all(12),
+              getTooltipItems: (_) {
+                return ScatterTooltipItem(
+                  'faketext',
+                  textStyle: textStyle1,
+                  textAlign: TextAlign.left,
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    textSpan2,
+                    textSpan1,
+                  ],
+                );
+              }),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext _mockBuildContext = MockBuildContext();
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle2);
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenReturn(Offset.zero);
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawTouchTooltip(
+        _mockBuildContext,
+        _mockCanvasWrapper,
+        (data.touchData as ScatterTouchData).touchTooltipData,
+        spot1,
+        holder,
+      );
+
+      final verificationResult = verify(_mockCanvasWrapper.drawRotated(
+          size: anyNamed("size"),
+          rotationOffset: Offset.zero,
+          drawOffset: anyNamed("drawOffset"),
+          angle: 18,
+          drawCallback: captureAnyNamed("drawCallback")));
+
+      var passedDrawCallback = verificationResult.captured.first;
+      passedDrawCallback();
+
+      verificationResult.called(1);
+
+      final captured2 = verifyInOrder([
+        _mockCanvasWrapper.drawRRect(captureAny, captureAny),
+        _mockCanvasWrapper.drawText(captureAny, any),
+      ]).captured;
+
+      final RRect rRect = captured2[0][0] as RRect;
+      final Paint bgPaint = captured2[0][1] as Paint;
+      final TextPainter textPainter = captured2[1][0] as TextPainter;
+
+      expect(rRect.blRadiusX, 85);
+      expect(rRect.tlRadiusY, 85);
+
+      expect(bgPaint.color, const Color(0xFF00FF00));
+      expect(
+          textPainter.text,
+          const TextSpan(
+            style: textStyle2,
+            text: "faketext",
+            children: [
+              textSpan2,
+              textSpan1,
+            ],
+          ));
+    });
+
+    test('test 2', () {
+      const viewSize = Size(100, 100);
+
+      ScatterSpot spot1 = ScatterSpot(1, 1);
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          spot1,
+          scatterSpot2,
+          scatterSpot3,
+          scatterSpot4,
+        ],
+        showingTooltipIndicators: [0, 2, 3],
+        titlesData: FlTitlesData(show: false),
+        scatterTouchData: ScatterTouchData(
+          touchTooltipData: ScatterTouchTooltipData(
+              rotateAngle: 18,
+              tooltipBgColor: const Color(0xFFFFFF00),
+              tooltipRoundedRadius: 22,
+              tooltipPadding: const EdgeInsets.all(12),
+              getTooltipItems: (_) {
+                return ScatterTooltipItem(
+                  'faketext',
+                  textStyle: textStyle2,
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.ltr,
+                  children: [
+                    textSpan1,
+                    textSpan2,
+                  ],
+                );
+              }),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext _mockBuildContext = MockBuildContext();
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenReturn(Offset.zero);
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawTouchTooltip(
+        _mockBuildContext,
+        _mockCanvasWrapper,
+        (data.touchData as ScatterTouchData).touchTooltipData,
+        spot1,
+        holder,
+      );
+
+      final verificationResult = verify(_mockCanvasWrapper.drawRotated(
+          size: anyNamed("size"),
+          rotationOffset: Offset.zero,
+          drawOffset: anyNamed("drawOffset"),
+          angle: 18,
+          drawCallback: captureAnyNamed("drawCallback")));
+
+      var passedDrawCallback = verificationResult.captured.first;
+      passedDrawCallback();
+
+      verificationResult.called(1);
+
+      final captured2 = verifyInOrder([
+        _mockCanvasWrapper.drawRRect(captureAny, captureAny),
+        _mockCanvasWrapper.drawText(captureAny, any),
+      ]).captured;
+
+      final RRect rRect = captured2[0][0] as RRect;
+      final Paint bgPaint = captured2[0][1] as Paint;
+      final TextPainter textPainter = captured2[1][0] as TextPainter;
+
+      expect(rRect.blRadiusX, 22);
+      expect(rRect.tlRadiusY, 22);
+
+      expect(bgPaint.color, const Color(0xFFFFFF00));
+      expect(
+          textPainter.text,
+          const TextSpan(
+            style: textStyle1,
+            text: "faketext",
+            children: [
+              textSpan1,
+              textSpan2,
+            ],
+          ));
     });
   });
 }
