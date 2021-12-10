@@ -2995,6 +2995,14 @@ final Line line3 = Line(const Offset(18, -1), const Offset(0, 0));
 final Line line4 = Line(const Offset(8, 8), const Offset(-4, -22));
 final Line line5 = Line(const Offset(2, 3), const Offset(5, 8));
 
+const TextStyle textStyle1 =
+    TextStyle(color: Colors.red, fontWeight: FontWeight.bold);
+const TextStyle textStyle2 =
+    TextStyle(color: Colors.green, fontWeight: FontWeight.w200);
+
+const TextSpan textSpan1 = TextSpan(text: "faketext1", style: textStyle1);
+const TextSpan textSpan2 = TextSpan(text: "faketext2", style: textStyle2);
+
 final DefaultTextStyle defaultTextStyle1 = DefaultTextStyle(
   style: const TextStyle(),
   child: Container(),
