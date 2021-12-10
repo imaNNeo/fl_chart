@@ -338,4 +338,71 @@ void main() {
       expect(bottomTitlesCalledValues.contains(5.0), true);
     });
   });
+
+  group('drawSpots()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          ScatterSpot(1, 1, radius: 18),
+          ScatterSpot(3, 9, show: false),
+          ScatterSpot(8, 2, radius: 4),
+          ScatterSpot(7, 5, radius: 6),
+        ],
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawSpots(
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verify(_mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
+          .called(1);
+      verify(_mockCanvasWrapper.drawCircle(const Offset(80, 80), 4, any))
+          .called(1);
+      verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
+          .called(1);
+    });
+
+    test('test 2', () {
+      const viewSize = Size(100, 100);
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          ScatterSpot(1, 1, show: false),
+          ScatterSpot(3, 9, show: false),
+          ScatterSpot(8, 2, show: false),
+          ScatterSpot(7, 5, show: false),
+        ],
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawSpots(
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
+    });
+  });
 }
