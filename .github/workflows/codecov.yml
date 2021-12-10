@@ -1,0 +1,23 @@
+name: Code Coverage
+
+on: [ push, pull_request ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - name: Get packages
+        run: flutter pub get
+      - name: Generate coverage file
+        run: flutter test --coverage
+      - name: Upload coverage file
+        run: |
+            curl -Os https://uploader.codecov.io/latest/linux/codecov
+            chmod +x codecov
+            ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+
