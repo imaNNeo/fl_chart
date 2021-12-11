@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
@@ -864,6 +866,189 @@ void main() {
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       final result = scatterChartPainter.getTopOffsetDrawSize(holder);
       expect(result, 12);
+    });
+  });
+
+  group('handleTouch()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+      final spots = [
+        ScatterSpot(1, 1),
+        ScatterSpot(2, 4),
+        ScatterSpot(5, 2, radius: 0.5),
+        ScatterSpot(8, 7),
+      ];
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        scatterSpots: spots,
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      ScatterTouchedSpot? touchedSpot = scatterChartPainter.handleTouch(
+        const Offset(10, 90),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot!.spot, spots[0]);
+
+      ScatterTouchedSpot? touchedSpot2 = scatterChartPainter.handleTouch(
+        const Offset(50, 80),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot2!.spot, spots[2]);
+
+      ScatterTouchedSpot? touchedSpot3 = scatterChartPainter.handleTouch(
+        const Offset(50.49, 80),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot3!.spot, spots[2]);
+
+      ScatterTouchedSpot? touchedSpot4 = scatterChartPainter.handleTouch(
+        const Offset(50.5, 80),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot4, null);
+
+      final radius = spots[2].radius;
+      ScatterTouchedSpot? touchedSpot5 = scatterChartPainter.handleTouch(
+        Offset(
+          50 + (math.cos(math.pi / 4) * radius) - 0.01,
+          80 + (math.sin(math.pi / 4) * radius) - 0.01,
+        ),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot5!.spot, spots[2]);
+
+      ScatterTouchedSpot? touchedSpot6 = scatterChartPainter.handleTouch(
+        Offset(
+          50 + (math.cos(math.pi / 4) * radius),
+          80 + (math.sin(math.pi / 4) * radius),
+        ),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot6, null);
+    });
+
+    test('test 2', () {
+      const viewSize = Size(128, 112);
+      final spots = [
+        ScatterSpot(1, 1),
+        ScatterSpot(2, 4),
+        ScatterSpot(5, 2, radius: 0.5),
+        ScatterSpot(8, 7),
+      ];
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 8,
+            margin: 2,
+          ),
+          rightTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 8,
+            margin: 2,
+          ),
+          topTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 4,
+            margin: 2,
+          ),
+          bottomTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 4,
+            margin: 2,
+          ),
+        ),
+        axisTitleData: FlAxisTitleData(
+          show: true,
+          leftTitle: AxisTitle(
+            showTitle: true,
+            reservedSize: 2,
+            margin: 2,
+          ),
+          topTitle: AxisTitle(
+            showTitle: false,
+          ),
+          rightTitle: AxisTitle(
+            showTitle: true,
+            reservedSize: 2,
+            margin: 2,
+          ),
+        ),
+        scatterSpots: spots,
+      );
+
+      const leftExtra = 14;
+      const topExtra = 6;
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      ScatterTouchedSpot? touchedSpot = scatterChartPainter.handleTouch(
+        const Offset(leftExtra + 10, topExtra + 90),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot!.spot, spots[0]);
+
+      ScatterTouchedSpot? touchedSpot2 = scatterChartPainter.handleTouch(
+        const Offset(leftExtra + 50, topExtra + 80),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot2!.spot, spots[2]);
+
+      ScatterTouchedSpot? touchedSpot3 = scatterChartPainter.handleTouch(
+        const Offset(leftExtra + 50.49, topExtra + 80),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot3!.spot, spots[2]);
+
+      ScatterTouchedSpot? touchedSpot4 = scatterChartPainter.handleTouch(
+        const Offset(leftExtra + 50.5, topExtra + 80),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot4, null);
+
+      final radius = spots[2].radius;
+      ScatterTouchedSpot? touchedSpot5 = scatterChartPainter.handleTouch(
+        Offset(
+          leftExtra + 50 + (math.cos(math.pi / 4) * radius) - 0.01,
+          topExtra + 80 + (math.sin(math.pi / 4) * radius) - 0.01,
+        ),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot5!.spot, spots[2]);
+
+      ScatterTouchedSpot? touchedSpot6 = scatterChartPainter.handleTouch(
+        Offset(
+          leftExtra + 50 + (math.cos(math.pi / 4) * radius),
+          topExtra + 80 + (math.sin(math.pi / 4) * radius),
+        ),
+        viewSize,
+        holder,
+      );
+      expect(touchedSpot6, null);
     });
   });
 }
