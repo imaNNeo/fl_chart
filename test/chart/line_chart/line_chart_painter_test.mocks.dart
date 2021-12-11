@@ -6,6 +6,9 @@ import 'dart:typed_data' as _i5;
 import 'dart:ui' as _i2;
 
 import 'package:fl_chart/fl_chart.dart' as _i7;
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
+    as _i10;
+import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart' as _i9;
 import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i6;
 import 'package:fl_chart/src/utils/utils.dart' as _i8;
 import 'package:flutter/cupertino.dart' as _i3;
@@ -54,6 +57,8 @@ class _FakeTextStyle_7 extends _i1.Fake implements _i3.TextStyle {
   String toString({_i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.info}) =>
       super.toString();
 }
+
+class _FakePath_8 extends _i1.Fake implements _i2.Path {}
 
 /// A class which mocks [Canvas].
 ///
@@ -483,6 +488,295 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
       (super.noSuchMethod(
           Invocation.method(#getBestInitialIntervalValue, [min, max, interval]),
           returnValue: 0.0) as double);
+  @override
+  String toString() => super.toString();
+}
+
+/// A class which mocks [LineChartPainter].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
+  MockLineChartPainter() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void paint(_i3.BuildContext? context, _i6.CanvasWrapper? canvasWrapper,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#paint, [context, canvasWrapper, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void clipToBorder(_i6.CanvasWrapper? canvasWrapper,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#clipToBorder, [canvasWrapper, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawBarLine(
+          _i6.CanvasWrapper? canvasWrapper,
+          _i7.LineChartBarData? barData,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawBarLine, [canvasWrapper, barData, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawBetweenBarsArea(
+          _i6.CanvasWrapper? canvasWrapper,
+          _i7.LineChartData? data,
+          _i7.BetweenBarsData? betweenBarsData,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawBetweenBarsArea,
+              [canvasWrapper, data, betweenBarsData, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawDots(_i6.CanvasWrapper? canvasWrapper, _i7.LineChartBarData? barData,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawDots, [canvasWrapper, barData, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawTouchedSpotsIndicator(
+          _i6.CanvasWrapper? canvasWrapper,
+          _i7.LineChartBarData? barData,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(
+              #drawTouchedSpotsIndicator, [canvasWrapper, barData, holder]),
+          returnValueForMissingStub: null);
+  @override
+  _i2.Path generateBarPath(
+          _i2.Size? viewSize,
+          _i7.LineChartBarData? barData,
+          List<_i7.FlSpot>? barSpots,
+          _i10.PaintHolder<_i7.LineChartData>? holder,
+          {_i2.Path? appendToPath}) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #generateBarPath,
+              [viewSize, barData, barSpots, holder],
+              {#appendToPath: appendToPath}),
+          returnValue: _FakePath_8()) as _i2.Path);
+  @override
+  _i2.Path generateNormalBarPath(
+          _i2.Size? viewSize,
+          _i7.LineChartBarData? barData,
+          List<_i7.FlSpot>? barSpots,
+          _i10.PaintHolder<_i7.LineChartData>? holder,
+          {_i2.Path? appendToPath}) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #generateNormalBarPath,
+              [viewSize, barData, barSpots, holder],
+              {#appendToPath: appendToPath}),
+          returnValue: _FakePath_8()) as _i2.Path);
+  @override
+  _i2.Path generateStepBarPath(
+          _i2.Size? viewSize,
+          _i7.LineChartBarData? barData,
+          List<_i7.FlSpot>? barSpots,
+          _i10.PaintHolder<_i7.LineChartData>? holder,
+          {_i2.Path? appendToPath}) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #generateStepBarPath,
+              [viewSize, barData, barSpots, holder],
+              {#appendToPath: appendToPath}),
+          returnValue: _FakePath_8()) as _i2.Path);
+  @override
+  _i2.Path generateBelowBarPath(
+          _i2.Size? viewSize,
+          _i7.LineChartBarData? barData,
+          _i2.Path? barPath,
+          List<_i7.FlSpot>? barSpots,
+          _i10.PaintHolder<_i7.LineChartData>? holder,
+          {bool? fillCompletely = false}) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #generateBelowBarPath,
+              [viewSize, barData, barPath, barSpots, holder],
+              {#fillCompletely: fillCompletely}),
+          returnValue: _FakePath_8()) as _i2.Path);
+  @override
+  _i2.Path generateAboveBarPath(
+          _i2.Size? viewSize,
+          _i7.LineChartBarData? barData,
+          _i2.Path? barPath,
+          List<_i7.FlSpot>? barSpots,
+          _i10.PaintHolder<_i7.LineChartData>? holder,
+          {bool? fillCompletely = false}) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #generateAboveBarPath,
+              [viewSize, barData, barPath, barSpots, holder],
+              {#fillCompletely: fillCompletely}),
+          returnValue: _FakePath_8()) as _i2.Path);
+  @override
+  void drawBelowBar(
+          _i6.CanvasWrapper? canvasWrapper,
+          _i2.Path? belowBarPath,
+          _i2.Path? filledAboveBarPath,
+          _i10.PaintHolder<_i7.LineChartData>? holder,
+          _i7.LineChartBarData? barData) =>
+      super.noSuchMethod(
+          Invocation.method(#drawBelowBar, [
+            canvasWrapper,
+            belowBarPath,
+            filledAboveBarPath,
+            holder,
+            barData
+          ]),
+          returnValueForMissingStub: null);
+  @override
+  void drawAboveBar(
+          _i6.CanvasWrapper? canvasWrapper,
+          _i2.Path? aboveBarPath,
+          _i2.Path? filledBelowBarPath,
+          _i10.PaintHolder<_i7.LineChartData>? holder,
+          _i7.LineChartBarData? barData) =>
+      super.noSuchMethod(
+          Invocation.method(#drawAboveBar, [
+            canvasWrapper,
+            aboveBarPath,
+            filledBelowBarPath,
+            holder,
+            barData
+          ]),
+          returnValueForMissingStub: null);
+  @override
+  void drawBetweenBar(
+          _i6.CanvasWrapper? canvasWrapper,
+          _i2.Path? aboveBarPath,
+          _i7.BetweenBarsData? betweenBarsData,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawBetweenBar,
+              [canvasWrapper, aboveBarPath, betweenBarsData, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawBarShadow(_i6.CanvasWrapper? canvasWrapper, _i2.Path? barPath,
+          _i7.LineChartBarData? barData) =>
+      super.noSuchMethod(
+          Invocation.method(#drawBarShadow, [canvasWrapper, barPath, barData]),
+          returnValueForMissingStub: null);
+  @override
+  void drawBar(
+          _i6.CanvasWrapper? canvasWrapper,
+          _i2.Path? barPath,
+          _i7.LineChartBarData? barData,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(
+              #drawBar, [canvasWrapper, barPath, barData, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawTitles(_i3.BuildContext? context, _i6.CanvasWrapper? canvasWrapper,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawTitles, [context, canvasWrapper, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawExtraLines(
+          _i3.BuildContext? context,
+          _i6.CanvasWrapper? canvasWrapper,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawExtraLines, [context, canvasWrapper, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawTouchTooltip(
+          _i3.BuildContext? context,
+          _i6.CanvasWrapper? canvasWrapper,
+          _i7.LineTouchTooltipData? tooltipData,
+          _i7.FlSpot? showOnSpot,
+          _i7.ShowingTooltipIndicators? showingTooltipSpots,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawTouchTooltip, [
+            context,
+            canvasWrapper,
+            tooltipData,
+            showOnSpot,
+            showingTooltipSpots,
+            holder
+          ]),
+          returnValueForMissingStub: null);
+  @override
+  double getBarLineXLength(
+          _i7.LineChartBarData? barData,
+          _i2.Size? chartUsableSize,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #getBarLineXLength, [barData, chartUsableSize, holder]),
+          returnValue: 0.0) as double);
+  @override
+  double getExtraNeededHorizontalSpace(
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(
+          Invocation.method(#getExtraNeededHorizontalSpace, [holder]),
+          returnValue: 0.0) as double);
+  @override
+  double getExtraNeededVerticalSpace(
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(
+          Invocation.method(#getExtraNeededVerticalSpace, [holder]),
+          returnValue: 0.0) as double);
+  @override
+  double getLeftOffsetDrawSize(_i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(Invocation.method(#getLeftOffsetDrawSize, [holder]),
+          returnValue: 0.0) as double);
+  @override
+  double getTopOffsetDrawSize(_i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
+          returnValue: 0.0) as double);
+  @override
+  List<_i7.LineBarSpot>? handleTouch(_i2.Offset? localPosition, _i2.Size? size,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(
+              Invocation.method(#handleTouch, [localPosition, size, holder]))
+          as List<_i7.LineBarSpot>?);
+  @override
+  _i7.LineBarSpot? getNearestTouchedSpot(
+          _i2.Size? viewSize,
+          _i2.Offset? touchedPoint,
+          _i7.LineChartBarData? barData,
+          int? barDataPosition,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(Invocation.method(#getNearestTouchedSpot, [
+        viewSize,
+        touchedPoint,
+        barData,
+        barDataPosition,
+        holder
+      ])) as _i7.LineBarSpot?);
+  @override
+  void drawAxisTitles(
+          _i3.BuildContext? context,
+          _i6.CanvasWrapper? canvasWrapper,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawAxisTitles, [context, canvasWrapper, holder]),
+          returnValueForMissingStub: null);
+  @override
+  double getPixelX(double? spotX, _i2.Size? chartUsableSize,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(
+          Invocation.method(#getPixelX, [spotX, chartUsableSize, holder]),
+          returnValue: 0.0) as double);
+  @override
+  double getPixelY(double? spotY, _i2.Size? chartUsableSize,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(
+          Invocation.method(#getPixelY, [spotY, chartUsableSize, holder]),
+          returnValue: 0.0) as double);
+  @override
+  _i2.Size getChartUsableDrawSize(
+          _i2.Size? viewSize, _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      (super.noSuchMethod(
+          Invocation.method(#getChartUsableDrawSize, [viewSize, holder]),
+          returnValue: _FakeSize_1()) as _i2.Size);
   @override
   String toString() => super.toString();
 }
