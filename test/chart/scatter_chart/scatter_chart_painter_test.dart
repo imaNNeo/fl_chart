@@ -686,4 +686,184 @@ void main() {
           ));
     });
   });
+
+  group('getExtraNeededHorizontalSpace()', () {
+    test('test 1', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getExtraNeededHorizontalSpace(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          rightTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getExtraNeededHorizontalSpace(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          rightTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getExtraNeededHorizontalSpace(holder);
+      expect(result, 24);
+    });
+  });
+
+  group('getExtraNeededVerticalSpace()', () {
+    test('test 1', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getExtraNeededVerticalSpace(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          bottomTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getExtraNeededVerticalSpace(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          bottomTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getExtraNeededVerticalSpace(holder);
+      expect(result, 24);
+    });
+  });
+
+  group('getLeftOffsetDrawSize()', () {
+    test('test 1', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getLeftOffsetDrawSize(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          rightTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getLeftOffsetDrawSize(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          rightTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getLeftOffsetDrawSize(holder);
+      expect(result, 12);
+    });
+  });
+
+  group('getTopOffsetDrawSize()', () {
+    test('test 1', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getTopOffsetDrawSize(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          bottomTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getTopOffsetDrawSize(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final ScatterChartData data = ScatterChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          bottomTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      final result = scatterChartPainter.getTopOffsetDrawSize(holder);
+      expect(result, 12);
+    });
+  });
 }
