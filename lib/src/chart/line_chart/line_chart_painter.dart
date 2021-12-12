@@ -223,6 +223,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
   }
 
+  @visibleForTesting
   void drawBetweenBarsArea(CanvasWrapper canvasWrapper, LineChartData data,
       BetweenBarsData betweenBarsData, PaintHolder<LineChartData> holder) {
     final viewSize = canvasWrapper.size;
