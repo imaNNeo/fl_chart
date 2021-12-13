@@ -910,7 +910,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               textDirection: leftTitles.textDirection,
               textScaleFactor: holder.textScale,
             );
-            tp.layout(maxWidth: leftTitles.reservedSize);
+            tp.layout(
+              maxWidth: leftTitles.reservedSize,
+              minWidth: leftTitles.reservedSize,
+            );
             x -= tp.width + leftTitles.margin;
             y -= tp.height / 2;
             x += Utils()
@@ -1001,7 +1004,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               textDirection: rightTitles.textDirection,
               textScaleFactor: holder.textScale,
             );
-            tp.layout(maxWidth: rightTitles.reservedSize);
+            tp.layout(
+              maxWidth: rightTitles.reservedSize,
+              minWidth: rightTitles.reservedSize,
+            );
 
             x += rightTitles.margin;
             y -= tp.height / 2;
