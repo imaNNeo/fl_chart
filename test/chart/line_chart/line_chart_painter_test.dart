@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+import 'dart:ui';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
@@ -685,6 +687,238 @@ void main() {
       expect(paint2.strokeWidth, 12);
 
       verify(_mockCanvasWrapper.drawDot(any, any, any)).called(2);
+    });
+  });
+
+  group('generateBarPath()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(5, 5),
+          FlSpot(10, 0),
+        ],
+        dotData: FlDotData(show: true),
+      );
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final Path path = lineChartPainter.generateBarPath(
+        viewSize,
+        lineChartBarData,
+        lineChartBarData.spots,
+        holder,
+      );
+
+      final iterator = path.computeMetrics().iterator;
+
+      PathMetric? firstMetric, lastMetric;
+      while (iterator.moveNext()) {
+        firstMetric ??= iterator.current;
+        lastMetric = iterator.current;
+      }
+
+      final tangent1 = firstMetric!.getTangentForOffset(firstMetric.length / 8);
+      final degrees1 = tangent1!.angle * (180 / math.pi);
+      expect(degrees1, 45.0);
+
+      final tangent = lastMetric!.getTangentForOffset(
+        (lastMetric.length / 8) * 7,
+      );
+      final degrees = tangent!.angle * (180 / math.pi);
+      expect(degrees, -45.0);
+    });
+
+    test('test 2', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(5, 5),
+          FlSpot(10, 0),
+        ],
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+      );
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final Path path = lineChartPainter.generateBarPath(
+        viewSize,
+        lineChartBarData,
+        lineChartBarData.spots,
+        holder,
+      );
+
+      final iterator = path.computeMetrics().iterator;
+
+      PathMetric? firstMetric, lastMetric;
+      while (iterator.moveNext()) {
+        firstMetric ??= iterator.current;
+        lastMetric = iterator.current;
+      }
+
+      final tangent1 = firstMetric!.getTangentForOffset(firstMetric.length / 4);
+      final degrees1 = tangent1!.angle * (180 / math.pi);
+      expect(degrees1, 90.0);
+
+      final tangent2 = lastMetric!.getTangentForOffset(
+        (lastMetric.length / 4) * 3,
+      );
+      final degrees2 = tangent2!.angle * (180 / math.pi);
+      expect(degrees2, -90.0);
+    });
+  });
+
+  group('generateNormalBarPath()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(5, 5),
+          FlSpot(10, 0),
+        ],
+        dotData: FlDotData(show: true),
+      );
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final Path path = lineChartPainter.generateNormalBarPath(
+        viewSize,
+        lineChartBarData,
+        lineChartBarData.spots,
+        holder,
+      );
+
+      final iterator = path.computeMetrics().iterator;
+
+      PathMetric? firstMetric, lastMetric;
+      while (iterator.moveNext()) {
+        firstMetric ??= iterator.current;
+        lastMetric = iterator.current;
+      }
+
+      final tangent1 = firstMetric!.getTangentForOffset(firstMetric.length / 8);
+      final degrees1 = tangent1!.angle * (180 / math.pi);
+      expect(degrees1, 45.0);
+
+      final tangent = lastMetric!.getTangentForOffset(
+        (lastMetric.length / 8) * 7,
+      );
+      final degrees = tangent!.angle * (180 / math.pi);
+      expect(degrees, -45.0);
+    });
+  });
+
+  group('generateStepBarPath()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(5, 5),
+          FlSpot(10, 0),
+        ],
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+      );
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final Path path = lineChartPainter.generateStepBarPath(
+        viewSize,
+        lineChartBarData,
+        lineChartBarData.spots,
+        holder,
+      );
+
+      final iterator = path.computeMetrics().iterator;
+
+      PathMetric? firstMetric, lastMetric;
+      while (iterator.moveNext()) {
+        firstMetric ??= iterator.current;
+        lastMetric = iterator.current;
+      }
+
+      final tangent1 = firstMetric!.getTangentForOffset(firstMetric.length / 4);
+      final degrees1 = tangent1!.angle * (180 / math.pi);
+      expect(degrees1, 90.0);
+
+      final tangent2 = lastMetric!.getTangentForOffset(
+        (lastMetric.length / 4) * 3,
+      );
+      final degrees2 = tangent2!.angle * (180 / math.pi);
+      expect(degrees2, -90.0);
     });
   });
 }
