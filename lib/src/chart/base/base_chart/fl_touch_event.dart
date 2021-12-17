@@ -240,3 +240,13 @@ class FlPointerExitEvent extends FlTouchEvent {
 
   FlPointerExitEvent(this.event);
 }
+
+class FlDragEvent extends FlTouchEvent {
+  final Offset position;
+  final Offset delta;
+
+  @override
+  Offset get localPosition => position;
+
+  FlDragEvent(this.position, this.delta);
+}

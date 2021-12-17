@@ -12,15 +12,26 @@
 #include <glib-object.h>
 
 #include "fl_binary_messenger.h"
+#include "fl_texture_registrar.h"
 #include "fl_view.h"
 
 G_BEGIN_DECLS
 
-G_DECLARE_FINAL_TYPE(FlPluginRegistrar,
-                     fl_plugin_registrar,
-                     FL,
-                     PLUGIN_REGISTRAR,
-                     GObject)
+G_DECLARE_INTERFACE(FlPluginRegistrar,
+                    fl_plugin_registrar,
+                    FL,
+                    PLUGIN_REGISTRAR,
+                    GObject)
+
+struct _FlPluginRegistrarInterface {
+  GTypeInterface parent_iface;
+
+  FlBinaryMessenger* (*get_messenger)(FlPluginRegistrar* registrar);
+
+  FlTextureRegistrar* (*get_texture_registrar)(FlPluginRegistrar* registrar);
+
+  FlView* (*get_view)(FlPluginRegistrar* registrar);
+};
 
 /**
  * FlPluginRegistrar:
@@ -37,6 +48,17 @@ G_DECLARE_FINAL_TYPE(FlPluginRegistrar,
  * Returns: an #FlBinaryMessenger.
  */
 FlBinaryMessenger* fl_plugin_registrar_get_messenger(
+    FlPluginRegistrar* registrar);
+
+/**
+ * fl_plugin_registrar_get_texture_registrar:
+ * @registrar: an #FlPluginRegistrar.
+ *
+ * Gets the texture registrar this plugin can communicate with.
+ *
+ * Returns: an #FlTextureRegistrar.
+ */
+FlTextureRegistrar* fl_plugin_registrar_get_texture_registrar(
     FlPluginRegistrar* registrar);
 
 /**

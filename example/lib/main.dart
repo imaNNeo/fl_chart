@@ -1,6 +1,10 @@
+import 'dart:ui';
+
 import 'package:example/radar_chart/radar_chart_page.dart';
 import 'package:example/scatter_chart/scatter_chart_page.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'bar_chart/bar_chart_page.dart';
 import 'bar_chart/bar_chart_page2.dart';
@@ -42,76 +46,125 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentPage = 0;
-
-  final _controller = PageController(initialPage: 0);
-  final _duration = const Duration(milliseconds: 300);
-  final _curve = Curves.easeInOutCubic;
-  final _pages = const [
-    LineChartPage(),
-    BarChartPage(),
-    BarChartPage2(),
-    PieChartPage(),
-    LineChartPage2(),
-    LineChartPage3(),
-    LineChartPage4(),
-    BarChartPage3(),
-    ScatterChartPage(),
-    RadarChartPage(),
-  ];
-
-  bool get isDesktopOrWeb => PlatformInfo().isDesktopOrWeb();
+  late ScrollController scrollController;
 
   @override
   void initState() {
+    scrollController = ScrollController(initialScrollOffset: 10);
     super.initState();
-    _controller.addListener(() {
-      setState(() {
-        _currentPage = _controller.page!.round();
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: PageView(
-          physics: isDesktopOrWeb
-              ? const NeverScrollableScrollPhysics()
-              : const AlwaysScrollableScrollPhysics(),
-          controller: _controller,
-          children: _pages,
+        child: Center(
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(
+              dragDevices: {
+                PointerDeviceKind.mouse,
+                PointerDeviceKind.touch,
+              },
+            ),
+            child: AspectRatio(
+              aspectRatio: 2,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                controller: scrollController,
+                child: const Chart(),
+              ),
+            ),
+          ),
         ),
       ),
-      bottomNavigationBar: isDesktopOrWeb
-          ? Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.transparent,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Visibility(
-                    visible: _currentPage != 0,
-                    child: FloatingActionButton(
-                      onPressed: () => _controller.previousPage(
-                          duration: _duration, curve: _curve),
-                      child: const Icon(Icons.chevron_left_rounded),
-                    ),
-                  ),
-                  const Spacer(),
-                  Visibility(
-                    visible: _currentPage != _pages.length - 1,
-                    child: FloatingActionButton(
-                      onPressed: () => _controller.nextPage(
-                          duration: _duration, curve: _curve),
-                      child: const Icon(Icons.chevron_right_rounded),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : null,
+    );
+  }
+}
+
+class Chart extends StatelessWidget {
+  const Chart({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 40),
+      child: LineChart(
+        LineChartData(
+            minY: 0,
+            maxY: 10,
+            lineChartScrollData: LineChartScrollData(
+              isEnabled: true,
+            ),
+            lineTouchData: LineTouchData(
+                enabled: true,
+                touchCallback: (FlTouchEvent event, LineTouchResponse? reponse) {
+                  if (event is FlDragEvent) {}
+                }),
+            lineBarsData: [
+              LineChartBarData(spots: const [
+                FlSpot(0, 4),
+                FlSpot(1, 2),
+                FlSpot(2, 6),
+                FlSpot(3, 4),
+                FlSpot(4, 7),
+                FlSpot(5, 8),
+                FlSpot(6, 4),
+                FlSpot(7, 2),
+                FlSpot(8, 1),
+                FlSpot(9, 3),
+                FlSpot(10, 4),
+                FlSpot(11, 2),
+                FlSpot(12, 6),
+                FlSpot(13, 4),
+                FlSpot(14, 7),
+                FlSpot(15, 8),
+                FlSpot(16, 4),
+                FlSpot(17, 2),
+                FlSpot(18, 1),
+                FlSpot(19, 3),
+                FlSpot(20, 4),
+                FlSpot(21, 2),
+                FlSpot(22, 6),
+                FlSpot(23, 4),
+                FlSpot(24, 7),
+                FlSpot(25, 8),
+                FlSpot(26, 4),
+                FlSpot(27, 2),
+                FlSpot(28, 1),
+                FlSpot(29, 3),
+                FlSpot(30, 4),
+                FlSpot(31, 2),
+                FlSpot(32, 6),
+                FlSpot(33, 4),
+                FlSpot(34, 7),
+                FlSpot(35, 8),
+                FlSpot(36, 4),
+                FlSpot(37, 2),
+                FlSpot(38, 1),
+                FlSpot(39, 3),
+                FlSpot(40, 4),
+                FlSpot(41, 2),
+                FlSpot(42, 6),
+                FlSpot(43, 4),
+                FlSpot(44, 7),
+                FlSpot(45, 8),
+                FlSpot(46, 4),
+                FlSpot(47, 2),
+                FlSpot(48, 1),
+                FlSpot(49, 3),
+                FlSpot(50, 4),
+                FlSpot(51, 2),
+                FlSpot(52, 6),
+                FlSpot(53, 4),
+                FlSpot(54, 7),
+                FlSpot(55, 8),
+                FlSpot(56, 4),
+                FlSpot(57, 2),
+                FlSpot(58, 1),
+                FlSpot(59, 3),
+              ])
+            ]),
+      ),
     );
   }
 }

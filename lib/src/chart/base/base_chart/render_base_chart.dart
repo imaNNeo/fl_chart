@@ -35,6 +35,10 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
 
   MouseCursor _latestMouseCursor = MouseCursor.defer;
 
+  bool isLongPressEnabled() {
+    return false;
+  }
+
   late bool _validForMouseTracker;
 
   /// Recognizes pan gestures, such as onDown, onStart, onUpdate, onCancel, ...
@@ -105,9 +109,13 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       return;
     }
     if (event is PointerDownEvent) {
-      _longPressGestureRecognizer.addPointer(event);
+      if (isLongPressEnabled()) {
+        _longPressGestureRecognizer.addPointer(event);
+      }
       _tapGestureRecognizer.addPointer(event);
-      _panGestureRecognizer.addPointer(event);
+      if (isLongPressEnabled()) {
+        _panGestureRecognizer.addPointer(event);
+      }
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
     }

@@ -68,6 +68,21 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   }
 
   @override
+  bool isLongPressEnabled() {
+    return !targetData.lineChartScrollData.isEnabled;
+  }
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final scrollData = targetData.lineChartScrollData;
+    if (scrollData.isEnabled) {
+      final width = targetData.horizontalDiff * scrollData.spaceBetweenXValues;
+      return Size(width, constraints.maxHeight);
+    }
+    return super.computeDryLayout(constraints);
+  }
+
+  @override
   void paint(PaintingContext context, Offset offset) {
     final canvas = context.canvas;
     canvas.save();
