@@ -822,8 +822,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     _barPaint.shader = null;
     _barPaint.strokeWidth = barData.barWidth;
     _barPaint.color = barData.shadow.color;
-    _barPaint.maskFilter = MaskFilter.blur(
-        BlurStyle.normal, convertRadiusToSigma(barData.shadow.blurRadius));
+    _barPaint.maskFilter = MaskFilter.blur(BlurStyle.normal,
+        Utils().convertRadiusToSigma(barData.shadow.blurRadius));
 
     barPath = barPath.toDashedPath(barData.dashArray);
 
@@ -833,10 +833,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       barPath,
       _barPaint,
     );
-  }
-
-  static double convertRadiusToSigma(double radius) {
-    return radius * 0.57735 + 0.5;
   }
 
   /// draw the main bar line by the [barPath]

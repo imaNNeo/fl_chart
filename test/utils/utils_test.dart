@@ -141,4 +141,10 @@ void main() {
     expect(Utils().getBestInitialIntervalValue(-4, 0, 2), -4);
     expect(Utils().getBestInitialIntervalValue(-0.5, 0.5, 2), -0.5);
   });
+
+  test('test convertRadiusToSigma()', () {
+    expect(Utils().convertRadiusToSigma(10), closeTo(6.2735, tolerance));
+    expect(Utils().convertRadiusToSigma(42), closeTo(24.7487, tolerance));
+    expect(Utils().convertRadiusToSigma(26), closeTo(15.5111, tolerance));
+  });
 }

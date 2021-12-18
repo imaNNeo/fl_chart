@@ -1320,4 +1320,156 @@ void main() {
       }
     });
   });
+
+  group('drawBetweenBar()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+
+      const barSpots1 = [
+        FlSpot(1, 9),
+        FlSpot(8, 9),
+      ];
+
+      const barSpots2 = [
+        FlSpot(1, 5),
+        FlSpot(8, 5),
+      ];
+
+      final LineChartBarData lineChartBarData1 = LineChartBarData(
+          show: true,
+          spots: barSpots1,
+          dotData: FlDotData(show: true),
+          isStepLineChart: true,
+          aboveBarData: BarAreaData(
+              show: true,
+              colors: [const Color(0xFFFF0000), const Color(0xFF00FF00)]));
+
+      final LineChartBarData lineChartBarData2 = LineChartBarData(
+          show: true,
+          spots: barSpots2,
+          dotData: FlDotData(show: true),
+          isStepLineChart: true);
+
+      final betweenBarData1 = BetweenBarsData(
+        fromIndex: 0,
+        toIndex: 1,
+        colors: [
+          const Color(0xFFFF0000),
+        ],
+      );
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData1, lineChartBarData2],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        betweenBarsData: [betweenBarData1],
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final Path aboveBarPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      lineChartPainter.drawBetweenBar(
+          _mockCanvasWrapper, aboveBarPath, betweenBarData1, holder);
+
+      verify(_mockCanvasWrapper.saveLayer(
+          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any));
+      final result =
+          verify(_mockCanvasWrapper.drawPath(aboveBarPath, captureAny));
+      result.called(1);
+      final painter = result.captured.single as Paint;
+      expect(painter.color, const Color(0xFFFF0000));
+      verify(_mockCanvasWrapper.restore());
+    });
+  });
+
+  group('drawBarShadow()', () {
+    test('test 1', () {
+      const barSpots1 = [
+        FlSpot(1, 9),
+        FlSpot(8, 9),
+      ];
+
+      final LineChartBarData lineChartBarData1 = LineChartBarData(
+        show: true,
+        spots: barSpots1,
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+        shadow: const Shadow(color: Color(0x0000FF00)),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+
+      final Path barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      lineChartPainter.drawBarShadow(
+          _mockCanvasWrapper, barPath, lineChartBarData1);
+      verifyNever(_mockCanvasWrapper.drawPath(any, any));
+    });
+
+    test('test 2', () {
+      const viewSize = Size(100, 100);
+
+      const barSpots1 = [
+        FlSpot(1, 9),
+        FlSpot(8, 9),
+      ];
+
+      final LineChartBarData lineChartBarData1 = LineChartBarData(
+        show: true,
+        spots: barSpots1,
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final Path barPath = Path()
+        ..moveTo(10, 10)
+        ..lineTo(80, 10);
+
+      lineChartPainter.drawBarShadow(
+          _mockCanvasWrapper, barPath, lineChartBarData1);
+      final result =
+          verify(_mockCanvasWrapper.drawPath(captureAny, captureAny));
+      result.called(1);
+      final path = result.captured[0] as Path;
+      expect(path.getBounds(), barPath.shift(const Offset(10, 15)).getBounds());
+
+      final paint = result.captured[1] as Paint;
+      expect(paint.color, const Color(0x0100FF00));
+      expect(paint.shader, null);
+      expect(paint.strokeWidth, 80);
+      expect(
+        paint.maskFilter.toString(),
+        MaskFilter.blur(BlurStyle.normal, Utils().convertRadiusToSigma(10))
+            .toString(),
+      );
+      expect(paint.strokeCap, StrokeCap.round);
+    });
+  });
 }
