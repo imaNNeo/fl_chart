@@ -268,4 +268,9 @@ class Utils {
     }
     return interval * (min ~/ interval).toDouble();
   }
+
+  /// Converts radius number to sigma for drawing shadows
+  double convertRadiusToSigma(double radius) {
+    return radius * 0.57735 + 0.5;
+  }
 }
