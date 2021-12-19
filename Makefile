@@ -5,7 +5,7 @@ checkFormat:
 	flutter format --set-exit-if-changed --dry-run .
 
 checkstyle:
-	make anaylze && make checkFormat
+	make analyze && make checkFormat
 
 format:
 	flutter format .
