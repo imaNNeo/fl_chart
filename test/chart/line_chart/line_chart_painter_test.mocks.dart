@@ -358,6 +358,12 @@ class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
           }),
           returnValueForMissingStub: null);
   @override
+  void drawDashedLine(_i2.Offset? from, _i2.Offset? to, _i2.Paint? painter,
+          List<int>? dashArray) =>
+      super.noSuchMethod(
+          Invocation.method(#drawDashedLine, [from, to, painter, dashArray]),
+          returnValueForMissingStub: null);
+  @override
   String toString() => super.toString();
 }
 
@@ -487,6 +493,10 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           double? min, double? max, double? interval) =>
       (super.noSuchMethod(
           Invocation.method(#getBestInitialIntervalValue, [min, max, interval]),
+          returnValue: 0.0) as double);
+  @override
+  double convertRadiusToSigma(double? radius) =>
+      (super.noSuchMethod(Invocation.method(#convertRadiusToSigma, [radius]),
           returnValue: 0.0) as double);
   @override
   String toString() => super.toString();
