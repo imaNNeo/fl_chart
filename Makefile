@@ -27,4 +27,4 @@ sure:
 
 # To create generated files (for example mock files in unit_tests)
 codeGen:
-	flutter pub run build_runner build
+	flutter pub run build_runner build --delete-conflicting-outputs
