@@ -15,7 +15,7 @@ import 'bar_chart_extensions.dart';
 class BarChartPainter extends AxisChartPainter<BarChartData> {
   late Paint _barPaint, _barStrokePaint, _bgTouchTooltipPaint;
 
-  List<_GroupBarsPosition>? _groupBarsPosition;
+  List<GroupBarsPosition>? _groupBarsPosition;
 
   /// Paints [data] into canvas, it is the animating [BarChartData],
   /// [targetData] is the animation's target and remains the same
@@ -46,14 +46,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       return;
     }
 
-    final groupsX = _calculateGroupsX(
+    final groupsX = calculateGroupsX(
         canvasWrapper.size, data.barGroups, data.alignment, holder);
-    _groupBarsPosition = _calculateGroupAndBarsPosition(
+    _groupBarsPosition = calculateGroupAndBarsPosition(
         canvasWrapper.size, groupsX, data.barGroups);
 
-    _drawBars(canvasWrapper, _groupBarsPosition!, holder);
+    drawBars(canvasWrapper, _groupBarsPosition!, holder);
     drawAxisTitles(context, canvasWrapper, holder);
-    _drawTitles(context, canvasWrapper, _groupBarsPosition!, holder);
+    drawTitles(context, canvasWrapper, _groupBarsPosition!, holder);
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
       final barGroup = targetData.barGroups[i];
@@ -63,7 +63,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         }
         final barRod = barGroup.barRods[j];
 
-        _drawTouchTooltip(
+        drawTouchTooltip(
             context,
             canvasWrapper,
             _groupBarsPosition!,
@@ -78,7 +78,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   }
 
   /// Calculates groups position for showing in the x axis using [alignment].
-  List<double> _calculateGroupsX(
+  @visibleForTesting
+  List<double> calculateGroupsX(
       Size viewSize,
       List<BarChartGroupData> barGroups,
       BarChartAlignment alignment,
@@ -179,13 +180,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   }
 
   /// Calculates bars position alongside group positions.
-  List<_GroupBarsPosition> _calculateGroupAndBarsPosition(
+  @visibleForTesting
+  List<GroupBarsPosition> calculateGroupAndBarsPosition(
       Size viewSize, List<double> groupsX, List<BarChartGroupData> barGroups) {
     if (groupsX.length != barGroups.length) {
       throw Exception('inconsistent state groupsX.length != barGroups.length');
     }
 
-    final groupBarsPosition = <_GroupBarsPosition>[];
+    final groupBarsPosition = <GroupBarsPosition>[];
     for (var i = 0; i < barGroups.length; i++) {
       final barGroup = barGroups[i];
       final groupX = groupsX[i];
@@ -197,14 +199,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         barsX.add(groupX - (barGroup.width / 2) + tempX + widthHalf);
         tempX += barRod.width + barGroup.barsSpace;
       });
-      groupBarsPosition.add(_GroupBarsPosition(groupX, barsX));
+      groupBarsPosition.add(GroupBarsPosition(groupX, barsX));
     }
     return groupBarsPosition;
   }
 
-  void _drawBars(
+  @visibleForTesting
+  void drawBars(
     CanvasWrapper canvasWrapper,
-    List<_GroupBarsPosition> groupBarsPosition,
+    List<GroupBarsPosition> groupBarsPosition,
     PaintHolder<BarChartData> holder,
   ) {
     final data = holder.data;
@@ -351,7 +354,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               canvasWrapper.restore();
 
               // draw border stroke for each stack item
-              _drawStackItemBorderStroke(
+              drawStackItemBorderStroke(
                   canvasWrapper,
                   stackItem,
                   i,
@@ -367,10 +370,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
   }
 
-  void _drawTitles(
+  @visibleForTesting
+  void drawTitles(
     BuildContext context,
     CanvasWrapper canvasWrapper,
-    List<_GroupBarsPosition> groupBarsPosition,
+    List<GroupBarsPosition> groupBarsPosition,
     PaintHolder<BarChartData> holder,
   ) {
     final data = holder.data;
@@ -540,10 +544,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
   }
 
-  void _drawTouchTooltip(
+  @visibleForTesting
+  void drawTouchTooltip(
     BuildContext context,
     CanvasWrapper canvasWrapper,
-    List<_GroupBarsPosition> groupPositions,
+    List<GroupBarsPosition> groupPositions,
     BarTouchTooltipData tooltipData,
     BarChartGroupData showOnBarGroup,
     int barGroupIndex,
@@ -697,7 +702,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     );
   }
 
-  void _drawStackItemBorderStroke(
+  @visibleForTesting
+  void drawStackItemBorderStroke(
       CanvasWrapper canvasWrapper,
       BarChartRodStackItem stackItem,
       int index,
@@ -852,9 +858,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     if (_groupBarsPosition == null) {
       final groupsX =
-          _calculateGroupsX(viewSize, data.barGroups, data.alignment, holder);
+          calculateGroupsX(viewSize, data.barGroups, data.alignment, holder);
       _groupBarsPosition =
-          _calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
+          calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
     }
 
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
@@ -944,14 +950,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   }
 }
 
-class _GroupBarsPosition {
+@visibleForTesting
+class GroupBarsPosition {
   final double groupX;
   final List<double> barsX;
 
-  _GroupBarsPosition(this.groupX, this.barsX);
+  GroupBarsPosition(this.groupX, this.barsX);
 }
 
-extension _GroupBarsPositionListExtension on List<_GroupBarsPosition> {
+extension _GroupBarsPositionListExtension on List<GroupBarsPosition> {
   bool containsAnythingToShow() {
     try {
       firstWhere((element) => element.barsX.isNotEmpty);

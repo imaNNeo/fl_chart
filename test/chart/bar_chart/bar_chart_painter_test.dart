@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 
 void main() {
+  const tolerance = 0.01;
+
   group('BarChart usable size', () {
     test('test 1', () {
       const viewSize = Size(728, 728);
@@ -93,6 +95,130 @@ void main() {
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
       expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
           const Size(600, 320));
+    });
+  });
+
+  group('calculateGroupsX()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+            x: 0,
+            barRods: [
+              BarChartRodData(y: 10, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+        BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(y: 10, width: 10),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+        BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(y: 10, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+      ];
+
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        groupsSpace: 10,
+      );
+
+      final BarChartPainter barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+
+      List<double> callWithAlignment(BarChartAlignment alignment) {
+        return barChartPainter.calculateGroupsX(
+            viewSize, barGroups, alignment, holder);
+      }
+
+      expect(callWithAlignment(BarChartAlignment.center), [50, 92.5, 142.5]);
+      expect(callWithAlignment(BarChartAlignment.start), [20, 52.5, 92.5]);
+      expect(callWithAlignment(BarChartAlignment.end), [100, 132.5, 172.5]);
+      expect(
+          callWithAlignment(BarChartAlignment.spaceEvenly), [40, 92.5, 152.5]);
+      expect(
+        callWithAlignment(BarChartAlignment.spaceAround),
+        [
+          closeTo(33.33, tolerance),
+          92.5,
+          closeTo(159.16, tolerance),
+        ],
+      );
+      expect(
+          callWithAlignment(BarChartAlignment.spaceBetween), [20, 92.5, 172.5]);
+    });
+  });
+
+  group('calculateGroupAndBarsPosition()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+            x: 0,
+            barRods: [
+              BarChartRodData(y: 10, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+        BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(y: 10, width: 10),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+        BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(y: 10, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+      ];
+
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        groupsSpace: 10,
+      );
+
+      final BarChartPainter barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+
+      List<GroupBarsPosition> callWithAlignment(BarChartAlignment alignment) {
+        final groupsX = barChartPainter.calculateGroupsX(
+            viewSize, barGroups, alignment, holder);
+        return barChartPainter.calculateGroupAndBarsPosition(
+            viewSize, groupsX, barGroups);
+      }
+
+      final centerResult = callWithAlignment(BarChartAlignment.center);
+      expect(centerResult.map((e) => e.groupX).toList(), [50, 92.5, 142.5]);
+      expect(centerResult[0].barsX, [35, 50, 65]);
+      expect(centerResult[1].barsX, [85, 100]);
+      expect(centerResult[2].barsX, [120, 135, 150, 165]);
+
+      final startResult = callWithAlignment(BarChartAlignment.start);
+      expect(startResult.map((e) => e.groupX).toList(), [20, 52.5, 92.5]);
+      expect(startResult[0].barsX, [5, 20, 35]);
+      expect(startResult[1].barsX, [45, 60]);
+      expect(startResult[2].barsX, [70, 85, 100, 115]);
     });
   });
 }
