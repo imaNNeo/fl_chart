@@ -624,21 +624,32 @@ void main() {
       when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawDashedLine(
+              captureAny, captureAny, captureAny, any))
+          .thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+        });
+      });
+
       lineChartPainter.drawTouchedSpotsIndicator(
         _mockCanvasWrapper,
         lineChartBarData,
         holder,
       );
 
-      final result =
-          verify(_mockCanvasWrapper.drawDashedLine(any, any, captureAny, any));
-      result.called(2);
+      expect(results.length, 2);
 
-      /// Todo, we can only test last painter due to a bug in mockito.
-      /// see more details here: https://github.com/dart-lang/mockito/issues/494
-      final Paint paint2 = result.captured[1];
-      expect(paint2.color, const Color(0xFF0000FF));
-      expect(paint2.strokeWidth, 12);
+      expect(results[0]['paint_color'], const Color(0xFF00FF00));
+      expect(results[0]['paint_stroke_width'], 8.0);
+
+      expect(results[1]['paint_color'], const Color(0xFF0000FF));
+      expect(results[1]['paint_stroke_width'], 12);
     });
 
     test('test 3', () {
@@ -678,21 +689,32 @@ void main() {
       when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawDashedLine(
+              captureAny, captureAny, captureAny, any))
+          .thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+        });
+      });
+
       lineChartPainter.drawTouchedSpotsIndicator(
         _mockCanvasWrapper,
         lineChartBarData,
         holder,
       );
 
-      final result =
-          verify(_mockCanvasWrapper.drawDashedLine(any, any, captureAny, any));
-      result.called(2);
+      expect(results.length, 2);
 
-      /// Todo, we can only test last painter due to a bug in mockito.
-      /// see more details here: https://github.com/dart-lang/mockito/issues/494
-      final Paint paint2 = result.captured[1];
-      expect(paint2.color, const Color(0xFF0000FF));
-      expect(paint2.strokeWidth, 12);
+      expect(results[0]['paint_color'], const Color(0xFF00FF00));
+      expect(results[0]['paint_stroke_width'], 8.0);
+
+      expect(results[1]['paint_color'], const Color(0xFF0000FF));
+      expect(results[1]['paint_stroke_width'], 12);
 
       verify(_mockCanvasWrapper.drawDot(any, any, any)).called(2);
     });
@@ -1144,6 +1166,19 @@ void main() {
         ..lineTo(10, 0)
         ..lineTo(10, 10);
 
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawDashedLine(
+              captureAny, captureAny, captureAny, any))
+          .thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+        });
+      });
+
       lineChartPainter.drawBelowBar(_mockCanvasWrapper, belowBarPath,
           filletAboveBarPath, holder, lineChartBarData);
 
@@ -1168,15 +1203,11 @@ void main() {
 
       verify(_mockCanvasWrapper.restore()).called(1);
 
-      final result3 =
-          verify(_mockCanvasWrapper.drawDashedLine(any, any, captureAny, any));
-      result3.called(2);
+      expect(results.length, 2);
 
-      /// Todo, we can only test last painter due to a bug in mockito.
-      /// see more details here: https://github.com/dart-lang/mockito/issues/494
-      for (Paint item in result3.captured) {
-        expect(item.color.alpha, 0);
-        expect(item.strokeWidth, 18);
+      for (Map<String, dynamic> item in results) {
+        expect((item['paint_color'] as Color).alpha, 0);
+        expect(item['paint_stroke_width'], 18);
       }
     });
   });
@@ -1297,6 +1328,19 @@ void main() {
         ..lineTo(10, 0)
         ..lineTo(10, 10);
 
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawDashedLine(
+              captureAny, captureAny, captureAny, any))
+          .thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+        });
+      });
+
       lineChartPainter.drawAboveBar(_mockCanvasWrapper, aboveBarPath,
           filledBelowBarPath, holder, lineChartBarData);
 
@@ -1321,15 +1365,11 @@ void main() {
 
       verify(_mockCanvasWrapper.restore()).called(1);
 
-      final result3 =
-          verify(_mockCanvasWrapper.drawDashedLine(any, any, captureAny, any));
-      result3.called(2);
+      expect(results.length, 2);
 
-      /// Todo, we can only test last painter due to a bug in mockito.
-      /// see more details here: https://github.com/dart-lang/mockito/issues/494
-      for (Paint item in result3.captured) {
-        expect(item.color.alpha, 0);
-        expect(item.strokeWidth, 18);
+      for (Map<String, dynamic> item in results) {
+        expect((item['paint_color'] as Color).alpha, 0);
+        expect(item['paint_stroke_width'], 18);
       }
     });
   });
@@ -2117,38 +2157,43 @@ void main() {
 
       MockBuildContext _mockBuildContext = MockBuildContext();
 
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawDashedLine(
+              captureAny, captureAny, captureAny, any))
+          .thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+        });
+      });
+
       lineChartPainter.drawExtraLines(
           _mockBuildContext, _mockCanvasWrapper, holder);
 
-      final result = verify(_mockCanvasWrapper.drawDashedLine(
-          captureAny, captureAny, captureAny, captureAny));
-      result.called(4);
+      expect(results.length, 4);
 
-      final from0 = result.captured[0] as Offset;
-      final to0 = result.captured[1] as Offset;
-      expect(from0, const Offset(0, 90));
-      expect(to0, const Offset(100, 90));
+      expect(results[0]['paint_color'], const Color(0x11111111));
+      expect(results[0]['paint_stroke_width'], 11);
+      expect(results[0]['from'], const Offset(0, 90));
+      expect(results[0]['to'], const Offset(100, 90));
 
-      final from1 = result.captured[4] as Offset;
-      final to1 = result.captured[5] as Offset;
-      expect(from1, const Offset(0, 80));
-      expect(to1, const Offset(100, 80));
+      expect(results[1]['paint_color'], const Color(0x22222222));
+      expect(results[1]['paint_stroke_width'], 22);
+      expect(results[1]['from'], const Offset(0, 80));
+      expect(results[1]['to'], const Offset(100, 80));
 
-      final from2 = result.captured[8] as Offset;
-      final to2 = result.captured[9] as Offset;
-      expect(from2, const Offset(40, 0));
-      expect(to2, const Offset(40, 100));
+      expect(results[2]['paint_color'], const Color(0x33333333));
+      expect(results[2]['paint_stroke_width'], 33);
+      expect(results[2]['from'], const Offset(40, 0));
+      expect(results[2]['to'], const Offset(40, 100));
 
-      final from3 = result.captured[12] as Offset;
-      final to3 = result.captured[13] as Offset;
-      final paint3 = result.captured[14] as Paint;
-
-      /// Todo, we can only test last painter due to a bug in mockito.
-      /// see more details here: https://github.com/dart-lang/mockito/issues/494
-      expect(paint3.color, const Color(0x44444444));
-      expect(paint3.strokeWidth, 44);
-      expect(from3, const Offset(50, 0));
-      expect(to3, const Offset(50, 100));
+      expect(results[3]['paint_color'], const Color(0x44444444));
+      expect(results[3]['paint_stroke_width'], 44);
+      expect(results[3]['from'], const Offset(50, 0));
+      expect(results[3]['to'], const Offset(50, 100));
     });
   });
 
