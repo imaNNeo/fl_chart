@@ -1230,4 +1230,185 @@ void main() {
       expect(results[2]['paint.strokeWidth'], 3.0);
     });
   });
+
+  group('getExtraNeededHorizontalSpace()', () {
+    test('test 1', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: false,
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getExtraNeededHorizontalSpace(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          rightTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getExtraNeededHorizontalSpace(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          rightTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getExtraNeededHorizontalSpace(holder);
+      expect(result, 24);
+    });
+  });
+
+  group('getExtraNeededVerticalSpace()', () {
+    test('test 1', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getExtraNeededVerticalSpace(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          bottomTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getExtraNeededVerticalSpace(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          bottomTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getExtraNeededVerticalSpace(holder);
+      expect(result, 24);
+    });
+  });
+
+  group('getLeftOffsetDrawSize()', () {
+    test('test 1', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getLeftOffsetDrawSize(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          rightTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getLeftOffsetDrawSize(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          leftTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          rightTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getLeftOffsetDrawSize(holder);
+      expect(result, 12);
+    });
+  });
+
+  group('getTopOffsetDrawSize()', () {
+    test('test 1', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(show: false),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getTopOffsetDrawSize(holder);
+      expect(result, 0);
+    });
+
+    test('test 2', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 0),
+          bottomTitles:
+              SideTitles(showTitles: false, reservedSize: 10, margin: 0),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getTopOffsetDrawSize(holder);
+      expect(result, 10);
+    });
+
+    test('test 3', () {
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+          bottomTitles:
+              SideTitles(showTitles: true, reservedSize: 10, margin: 2),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+      final result = painter.getTopOffsetDrawSize(holder);
+      expect(result, 12);
+    });
+  });
 }
