@@ -1411,4 +1411,113 @@ void main() {
       expect(result, 12);
     });
   });
+
+  group('handleTouch()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+            x: 0,
+            barRods: [
+              BarChartRodData(
+                y: 10,
+                width: 10,
+                colors: [const Color(0x00000000)],
+                borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+              ),
+              BarChartRodData(
+                y: 8,
+                width: 11,
+                colors: [const Color(0x11111111)],
+                borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+              ),
+              BarChartRodData(
+                y: 8,
+                width: 12,
+                colors: [const Color(0x22222222)],
+                borderRadius: const BorderRadius.all(Radius.circular(0.3)),
+              ),
+            ],
+            barsSpace: 5),
+        BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                  y: 10,
+                  width: 10,
+                  borderRadius: const BorderRadius.all(Radius.circular(0.4))),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+        BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(y: 10, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+              BarChartRodData(y: 8, width: 10),
+            ],
+            barsSpace: 5),
+      ];
+
+      final BarChartData data = BarChartData(
+        barGroups: barGroups,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        alignment: BarChartAlignment.center,
+        groupsSpace: 10,
+        barTouchData: BarTouchData(
+          handleBuiltInTouches: true,
+          touchExtraThreshold: const EdgeInsets.all(1),
+        ),
+      );
+
+      final BarChartPainter painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+
+      expect(painter.handleTouch(const Offset(10, 10), viewSize, holder), null);
+      expect(
+          painter.handleTouch(const Offset(27.49, 10), viewSize, holder), null);
+
+      // Group 0
+      // 28.5, 0.0, 38.5, 100.0
+      // 43.5, 20.0, 54.5, 100.0
+      // 59.5, 20.0, 71.5, 100.0
+      final result1 =
+          painter.handleTouch(const Offset(27.5, 10), viewSize, holder);
+      expect(result1!.touchedBarGroupIndex, 0);
+      expect(result1.touchedRodDataIndex, 0);
+
+      final result11 =
+          painter.handleTouch(const Offset(39.5, 10), viewSize, holder);
+      expect(result11!.touchedBarGroupIndex, 0);
+      expect(result11.touchedRodDataIndex, 0);
+
+      expect(
+          painter.handleTouch(const Offset(39.51, 10), viewSize, holder), null);
+
+      // Group 1
+      // 81.5, 0.0, 91.5, 100.0
+      // 96.5, 20.0, 106.5, 100.0
+      expect(painter.handleTouch(const Offset(100.0, 18.99), viewSize, holder),
+          null);
+      final result2 =
+          painter.handleTouch(const Offset(100.0, 19), viewSize, holder);
+      expect(result2!.touchedBarGroupIndex, 1);
+      expect(result2.touchedRodDataIndex, 1);
+
+      // Group 2
+      // 116.5, 0.0, 126.5, 100.0
+      // 131.5, 20.0, 141.5, 100.0
+      // 146.5, 20.0, 156.5, 100.0
+      // 161.5, 20.0, 171.5, 100.0
+      expect(painter.handleTouch(const Offset(165.0, 101.1), viewSize, holder),
+          null);
+      final result3 =
+          painter.handleTouch(const Offset(165.0, 101), viewSize, holder);
+      expect(result3!.touchedBarGroupIndex, 2);
+      expect(result3.touchedRodDataIndex, 3);
+    });
+  });
 }
