@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -319,6 +320,29 @@ void main() {
           .map((e) => e.length)
           .reduce((a, b) => a + b);
       expect(path3Length, 210.1807098388672);
+    });
+  });
+
+  group('createRectPathAroundLine()', () {
+    test('test 1', () {
+      final PieChartPainter barChartPainter = PieChartPainter();
+      final path0 = barChartPainter.createRectPathAroundLine(
+          Line(const Offset(0, 0), const Offset(10, 0)), 4);
+      final path0Length = path0
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path0Length, 32.0);
+
+      final path1 = barChartPainter.createRectPathAroundLine(
+          Line(const Offset(32, 11), const Offset(12, 5)), 66);
+      final path1Length = path1
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path1Length, 239.76123046875);
     });
   });
 }
