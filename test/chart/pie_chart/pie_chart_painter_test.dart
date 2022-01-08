@@ -172,4 +172,153 @@ void main() {
       expect((results[3]['paint_style'] as PaintingStyle), PaintingStyle.fill);
     });
   });
+
+  group('generateSectionPath()', () {
+    test('test 1', () {
+      final PieChartData data = PieChartData(
+          centerSpaceColor: MockData.color1,
+          sectionsSpace: 10,
+          sections: [
+            PieChartSectionData(color: MockData.color1, value: 1),
+            PieChartSectionData(color: MockData.color2, value: 2),
+            PieChartSectionData(color: MockData.color3, value: 3),
+            PieChartSectionData(color: MockData.color4, value: 4),
+          ]);
+      final PieChartPainter barChartPainter = PieChartPainter();
+
+      final path0 = barChartPainter.generateSectionPath(
+          data.sections[0], 10, 0, 36, const Offset(100, 100), 10);
+      final path0Length = path0
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path0Length, 90.08028411865234);
+
+      final path1 = barChartPainter.generateSectionPath(
+          data.sections[1], 10, 36, 72, const Offset(100, 100), 10);
+      final path1Length = path1
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path1Length, 136.93048095703125);
+
+      final path2 = barChartPainter.generateSectionPath(
+          data.sections[2], 10, 108, 108, const Offset(100, 100), 10);
+      final path2Length = path2
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path2Length, 174.60133361816406);
+
+      final path3 = barChartPainter.generateSectionPath(
+          data.sections[3], 10, 216, 144, const Offset(100, 100), 10);
+      final path3Length = path3
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path3Length, 212.1544189453125);
+    });
+
+    test('test 2', () {
+      final PieChartData data = PieChartData(
+          centerSpaceColor: MockData.color1,
+          sectionsSpace: 0,
+          sections: [
+            PieChartSectionData(color: MockData.color1, value: 1),
+            PieChartSectionData(color: MockData.color2, value: 2),
+            PieChartSectionData(color: MockData.color3, value: 3),
+            PieChartSectionData(color: MockData.color4, value: 4),
+          ]);
+      final PieChartPainter barChartPainter = PieChartPainter();
+
+      final path0 = barChartPainter.generateSectionPath(
+          data.sections[0], 0, 0, 36, const Offset(100, 100), 10);
+      final path0Length = path0
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path0Length, 117.56398010253906);
+
+      final path1 = barChartPainter.generateSectionPath(
+          data.sections[1], 0, 36, 72, const Offset(100, 100), 10);
+      final path1Length = path1
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path1Length, 155.1278076171875);
+
+      final path2 = barChartPainter.generateSectionPath(
+          data.sections[2], 0, 108, 108, const Offset(100, 100), 10);
+      final path2Length = path2
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path2Length, 192.84017944335938);
+
+      final path3 = barChartPainter.generateSectionPath(
+          data.sections[3], 0, 216, 144, const Offset(100, 100), 10);
+      final path3Length = path3
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path3Length, 230.37237548828125);
+    });
+
+    test('test 3', () {
+      final PieChartData data = PieChartData(
+          centerSpaceColor: MockData.color1,
+          sectionsSpace: 0,
+          sections: [
+            PieChartSectionData(color: MockData.color1, value: 1),
+            PieChartSectionData(color: MockData.color2, value: 2),
+            PieChartSectionData(color: MockData.color3, value: 3),
+            PieChartSectionData(color: MockData.color4, value: 4),
+          ]);
+      final PieChartPainter barChartPainter = PieChartPainter();
+
+      final path0 = barChartPainter.generateSectionPath(
+          data.sections[0], 0, 0, 36, const Offset(100, 100), 3);
+      final path0Length = path0
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path0Length, 108.80243682861328);
+
+      final path1 = barChartPainter.generateSectionPath(
+          data.sections[1], 0, 36, 72, const Offset(100, 100), 4);
+      final path1Length = path1
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path1Length, 140.05465698242188);
+
+      final path2 = barChartPainter.generateSectionPath(
+          data.sections[2], 0, 108, 108, const Offset(100, 100), 5);
+      final path2Length = path2
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path2Length, 173.86875915527344);
+
+      final path3 = barChartPainter.generateSectionPath(
+          data.sections[3], 0, 216, 144, const Offset(100, 100), 6);
+      final path3Length = path3
+          .computeMetrics()
+          .toList()
+          .map((e) => e.length)
+          .reduce((a, b) => a + b);
+      expect(path3Length, 210.1807098388672);
+    });
+  });
 }
