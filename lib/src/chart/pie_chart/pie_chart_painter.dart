@@ -159,13 +159,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     /// Subtract section space from the sectionPath
     if (sectionSpace != 0) {
-      final startLineSeparatorPath = _createRectPathAroundLine(
+      final startLineSeparatorPath = createRectPathAroundLine(
           Line(startLineFrom, startLineTo), sectionSpace);
       sectionPath = Path.combine(
           PathOperation.difference, sectionPath, startLineSeparatorPath);
 
       final endLineSeparatorPath =
-          _createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
+          createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
       sectionPath = Path.combine(
           PathOperation.difference, sectionPath, endLineSeparatorPath);
     }
@@ -174,7 +174,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   }
 
   /// Creates a rect around a narrow line
-  Path _createRectPathAroundLine(Line line, double width) {
+  @visibleForTesting
+  Path createRectPathAroundLine(Line line, double width) {
     width = width / 2;
     final normalized = line.normalize();
 
