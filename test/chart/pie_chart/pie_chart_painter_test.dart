@@ -600,4 +600,223 @@ void main() {
       expect(result2, 56);
     });
   });
+
+  group('handleTouch()', () {
+    test('test 2', () {
+      const viewSize = Size(200, 200);
+      final PieChartData data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(
+              color: MockData.color1,
+              value: 1,
+              borderSide: MockData.borderSide1,
+              radius: 10),
+          PieChartSectionData(
+              color: MockData.color2,
+              value: 2,
+              borderSide: MockData.borderSide2,
+              radius: 20),
+          PieChartSectionData(
+              color: MockData.color3,
+              value: 3,
+              borderSide: MockData.borderSide3,
+              radius: 30),
+          PieChartSectionData(
+              color: MockData.color4,
+              value: 4,
+              borderSide: MockData.borderSide4,
+              radius: 40),
+        ],
+      );
+      final PieChartPainter barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(191, 110), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(156, 110), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(107, 190), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(90, 156), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(53, 131), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(53, 131), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(43, 94), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(36, 57), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(36, 57), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(65, 4.3), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(7, 108), viewSize, holder)
+              .touchedSectionIndex,
+          -1);
+
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(159.76, 135.56), viewSize, holder)
+              .touchedSectionIndex,
+          0);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(169.35, 108.4), viewSize, holder)
+              .touchedSectionIndex,
+          0);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(162.32, 109.37), viewSize, holder)
+              .touchedSectionIndex,
+          0);
+
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(146.67, 144.94), viewSize, holder)
+              .touchedSectionIndex,
+          1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(121.06, 160.38), viewSize, holder)
+              .touchedSectionIndex,
+          1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(89.66, 163.60), viewSize, holder)
+              .touchedSectionIndex,
+          1);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(85.04, 177.85), viewSize, holder)
+              .touchedSectionIndex,
+          1);
+
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(75.2, 158.4), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(66.2, 177.0), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(40.3, 124.8), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(19.1, 131.0), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(19.1, 131.0), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(17.7, 83.7), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(27.8, 59.4), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(44.1, 75.2), viewSize, holder)
+              .touchedSectionIndex,
+          2);
+
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(56.1, 55.6), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(42.1, 46.3), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(30.9, 38.4), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(55.3, 17.8), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(81.2, 39.8), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(100.5, 4.1), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(126.7, 40.6), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(181.8, 51.3), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(174.5, 40.2), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+      expect(
+          barChartPainter
+              .handleTouch(const Offset(164.5, 91.4), viewSize, holder)
+              .touchedSectionIndex,
+          3);
+    });
+  });
 }
