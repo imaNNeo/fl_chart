@@ -1,37 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'chart/data_pool.dart';
+
 void main() {
   test('test equalsPaths', () {
-    Path path1 = Path()
-      ..moveTo(10, 10)
-      ..lineTo(20, 20)
-      ..arcTo(
-          Rect.fromCenter(center: const Offset(5, 5), width: 40, height: 40),
-          2,
-          4,
-          false);
-
-    Path path1Duplicate = Path()
-      ..moveTo(10, 10)
-      ..lineTo(20, 20)
-      ..arcTo(
-          Rect.fromCenter(center: const Offset(5, 5), width: 40, height: 40),
-          2,
-          4,
-          false);
-
-    Path path2 = Path()
-      ..moveTo(10, 10)
-      ..lineTo(20, 20)
-      ..arcTo(
-          Rect.fromCenter(center: const Offset(5, 5), width: 40, height: 40),
-          2.1,
-          4,
-          false);
-
-    expect(HelperMethods.equalsPaths(path1, path1Duplicate), true);
-    expect(HelperMethods.equalsPaths(path1, path2), false);
+    expect(HelperMethods.equalsPaths(MockData.path1, MockData.path1Duplicate),
+        true);
+    expect(HelperMethods.equalsPaths(MockData.path1, MockData.path2), false);
   });
 }
 

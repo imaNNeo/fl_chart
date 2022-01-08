@@ -105,8 +105,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         centerRadius,
       );
 
-      _drawSection(section, sectionPath, canvasWrapper);
-      _drawSectionStroke(section, sectionPath, canvasWrapper, viewSize);
+      drawSection(section, sectionPath, canvasWrapper);
+      drawSectionStroke(section, sectionPath, canvasWrapper, viewSize);
       tempAngle += sectionDegree;
     }
   }
@@ -219,14 +219,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       ..lineTo(startPoint1.dx, startPoint1.dy);
   }
 
-  void _drawSection(PieChartSectionData section, Path sectionPath,
+  @visibleForTesting
+  void drawSection(PieChartSectionData section, Path sectionPath,
       CanvasWrapper canvasWrapper) {
     _sectionPaint.color = section.color;
     _sectionPaint.style = PaintingStyle.fill;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
   }
 
-  void _drawSectionStroke(PieChartSectionData section, Path sectionPath,
+  @visibleForTesting
+  void drawSectionStroke(PieChartSectionData section, Path sectionPath,
       CanvasWrapper canvasWrapper, Size viewSize) {
     if (section.borderSide.width != 0.0 &&
         section.borderSide.color.opacity != 0.0) {
