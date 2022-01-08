@@ -345,4 +345,203 @@ void main() {
       expect(path1Length, 239.76123046875);
     });
   });
+
+  group('drawSection()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 200);
+      final PieChartData data = PieChartData(
+          centerSpaceColor: MockData.color1,
+          sectionsSpace: 10,
+          sections: [
+            PieChartSectionData(color: MockData.color1, value: 1),
+            PieChartSectionData(color: MockData.color2, value: 2),
+            PieChartSectionData(color: MockData.color3, value: 3),
+            PieChartSectionData(color: MockData.color4, value: 4),
+          ]);
+      final PieChartPainter barChartPainter = PieChartPainter();
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final paint = inv.positionalArguments[1] as Paint;
+        results.add({
+          'path': inv.positionalArguments[0] as Path,
+          'paint_color': paint.color,
+          'paint_style': paint.style,
+        });
+      });
+
+      barChartPainter.drawSection(
+          data.sections[0], MockData.path1, _mockCanvasWrapper);
+      barChartPainter.drawSection(
+          data.sections[1], MockData.path2, _mockCanvasWrapper);
+      barChartPainter.drawSection(
+          data.sections[2], MockData.path3, _mockCanvasWrapper);
+      barChartPainter.drawSection(
+          data.sections[3], MockData.path4, _mockCanvasWrapper);
+
+      expect(results.length, 4);
+
+      expect((results[0]['path'] as Path), MockData.path1);
+      expect((results[0]['paint_color'] as Color), MockData.color1);
+      expect((results[0]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+
+      expect((results[1]['path'] as Path), MockData.path2);
+      expect((results[1]['paint_color'] as Color), MockData.color2);
+      expect((results[1]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+
+      expect((results[2]['path'] as Path), MockData.path3);
+      expect((results[2]['paint_color'] as Color), MockData.color3);
+      expect((results[2]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+
+      expect((results[3]['path'] as Path), MockData.path4);
+      expect((results[3]['paint_color'] as Color), MockData.color4);
+      expect((results[3]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+    });
+  });
+
+  group('drawSectionStroke()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 200);
+      final PieChartData data = PieChartData(
+          centerSpaceColor: MockData.color1,
+          sectionsSpace: 10,
+          sections: [
+            PieChartSectionData(color: MockData.color1, value: 1),
+            PieChartSectionData(color: MockData.color2, value: 2),
+            PieChartSectionData(color: MockData.color3, value: 3),
+            PieChartSectionData(color: MockData.color4, value: 4),
+          ]);
+      final PieChartPainter barChartPainter = PieChartPainter();
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final paint = inv.positionalArguments[1] as Paint;
+        results.add({
+          'path': inv.positionalArguments[0] as Path,
+          'paint_color': paint.color,
+          'paint_style': paint.style,
+        });
+      });
+
+      barChartPainter.drawSectionStroke(
+          data.sections[0], MockData.path1, _mockCanvasWrapper, viewSize);
+      barChartPainter.drawSectionStroke(
+          data.sections[1], MockData.path2, _mockCanvasWrapper, viewSize);
+      barChartPainter.drawSectionStroke(
+          data.sections[2], MockData.path3, _mockCanvasWrapper, viewSize);
+      barChartPainter.drawSectionStroke(
+          data.sections[3], MockData.path4, _mockCanvasWrapper, viewSize);
+
+      verifyNever(_mockCanvasWrapper.saveLayer(any, any));
+      verifyNever(_mockCanvasWrapper.clipPath(any));
+      verifyNever(_mockCanvasWrapper.drawPath(any, any));
+      verifyNever(_mockCanvasWrapper.restore());
+    });
+
+    test('test 2', () {
+      const viewSize = Size(200, 200);
+      final PieChartData data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(
+              color: MockData.color1,
+              value: 1,
+              borderSide: MockData.borderSide1),
+          PieChartSectionData(
+              color: MockData.color2,
+              value: 2,
+              borderSide: MockData.borderSide2),
+          PieChartSectionData(
+              color: MockData.color3,
+              value: 3,
+              borderSide: MockData.borderSide3),
+          PieChartSectionData(
+              color: MockData.color4,
+              value: 4,
+              borderSide: MockData.borderSide4),
+        ],
+      );
+      final PieChartPainter barChartPainter = PieChartPainter();
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      List<Map<String, dynamic>> clipPathResults = [];
+      when(_mockCanvasWrapper.clipPath(captureAny)).thenAnswer((inv) {
+        clipPathResults.add({
+          'path': inv.positionalArguments[0] as Path,
+        });
+      });
+
+      List<Map<String, dynamic>> drawPathResults = [];
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final paint = inv.positionalArguments[1] as Paint;
+        drawPathResults.add({
+          'path': inv.positionalArguments[0] as Path,
+          'paint_color': paint.color,
+          'paint_style': paint.style,
+          'paint_stroke_width': paint.strokeWidth,
+        });
+      });
+
+      barChartPainter.drawSectionStroke(
+          data.sections[0], MockData.path1, _mockCanvasWrapper, viewSize);
+      barChartPainter.drawSectionStroke(
+          data.sections[1], MockData.path2, _mockCanvasWrapper, viewSize);
+      barChartPainter.drawSectionStroke(
+          data.sections[2], MockData.path3, _mockCanvasWrapper, viewSize);
+      barChartPainter.drawSectionStroke(
+          data.sections[3], MockData.path4, _mockCanvasWrapper, viewSize);
+
+      verify(_mockCanvasWrapper.saveLayer(
+              Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any))
+          .called(4);
+      expect(clipPathResults.length, 4);
+      expect(clipPathResults[0]['path'], MockData.path1);
+      expect(clipPathResults[1]['path'], MockData.path2);
+      expect(clipPathResults[2]['path'], MockData.path3);
+      expect(clipPathResults[3]['path'], MockData.path4);
+
+      expect(drawPathResults.length, 4);
+
+      expect(drawPathResults[0]['path'], MockData.path1);
+      expect(drawPathResults[0]['paint_color'], MockData.color1);
+      expect(drawPathResults[0]['paint_style'], PaintingStyle.stroke);
+      expect(drawPathResults[0]['paint_stroke_width'],
+          MockData.borderSide1.width * 2);
+
+      expect(drawPathResults[1]['path'], MockData.path2);
+      expect(drawPathResults[1]['paint_color'], MockData.color2);
+      expect(drawPathResults[1]['paint_style'], PaintingStyle.stroke);
+      expect(drawPathResults[1]['paint_stroke_width'],
+          MockData.borderSide2.width * 2);
+
+      expect(drawPathResults[2]['path'], MockData.path3);
+      expect(drawPathResults[2]['paint_color'], MockData.color3);
+      expect(drawPathResults[2]['paint_style'], PaintingStyle.stroke);
+      expect(drawPathResults[2]['paint_stroke_width'],
+          MockData.borderSide3.width * 2);
+
+      expect(drawPathResults[3]['path'], MockData.path4);
+      expect(drawPathResults[3]['paint_color'], MockData.color4);
+      expect(drawPathResults[3]['paint_style'], PaintingStyle.stroke);
+      expect(drawPathResults[3]['paint_stroke_width'],
+          MockData.borderSide4.width * 2);
+
+      verify(_mockCanvasWrapper.restore()).called(4);
+    });
+  });
 }
