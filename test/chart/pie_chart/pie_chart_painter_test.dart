@@ -819,4 +819,45 @@ void main() {
           3);
     });
   });
+
+  group('getBadgeOffsets()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 200);
+      final PieChartData data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(
+              color: MockData.color1,
+              value: 1,
+              borderSide: MockData.borderSide1),
+          PieChartSectionData(
+              color: MockData.color2,
+              value: 2,
+              borderSide: MockData.borderSide2),
+          PieChartSectionData(
+              color: MockData.color3,
+              value: 3,
+              borderSide: MockData.borderSide3),
+          PieChartSectionData(
+              color: MockData.color4,
+              value: 4,
+              borderSide: MockData.borderSide4),
+        ],
+      );
+      final PieChartPainter barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+
+      final result = barChartPainter.getBadgeOffsets(viewSize, holder);
+      expect(
+        result,
+        {
+          0: const Offset(176.0845213036123, 124.7213595499958),
+          1: const Offset(124.7213595499958, 176.0845213036123),
+          2: const Offset(23.915478696387723, 124.7213595499958),
+          3: const Offset(124.72135954999578, 23.91547869638771),
+        },
+      );
+    });
+  });
 }
