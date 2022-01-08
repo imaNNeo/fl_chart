@@ -48,6 +48,23 @@ class MockData {
   static const borderSide4 = BorderSide(color: color4, width: 4);
   static const borderSide5 = BorderSide(color: color5, width: 5);
   static const borderSide6 = BorderSide(color: color6, width: 6);
+
+  static const TextStyle textStyle1 =
+      TextStyle(color: color1, fontWeight: FontWeight.w100);
+  static const TextStyle textStyle2 =
+      TextStyle(color: color2, fontWeight: FontWeight.w200);
+  static const TextStyle textStyle3 =
+      TextStyle(color: color3, fontWeight: FontWeight.w300);
+  static const TextStyle textStyle4 =
+      TextStyle(color: color4, fontWeight: FontWeight.w400);
+
+  static const Offset offset1 = Offset(1, 1);
+  static const Offset offset1Duplicate = Offset(1, 1);
+  static const Offset offset2 = Offset(2, 2);
+  static const Offset offset3 = Offset(2, 2);
+  static const Offset offset4 = Offset(4, 4);
+  static const Offset offset5 = Offset(5, 5);
+  static const Offset offset6 = Offset(6, 6);
 }
 
 final VerticalRangeAnnotation verticalRangeAnnotation1 =

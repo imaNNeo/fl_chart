@@ -544,4 +544,60 @@ void main() {
       verify(_mockCanvasWrapper.restore()).called(4);
     });
   });
+
+  group('calculateCenterRadius()', () {
+    test('test 1', () {
+      const viewSize = Size(400, 200);
+      final sections = [
+        PieChartSectionData(
+          color: MockData.color1,
+          value: 1,
+          borderSide: MockData.borderSide1,
+          showTitle: true,
+          titleStyle: MockData.textStyle1,
+          radius: 11,
+        ),
+        PieChartSectionData(
+            color: MockData.color2,
+            value: 2,
+            borderSide: MockData.borderSide2,
+            showTitle: true,
+            titleStyle: MockData.textStyle2,
+            radius: 22,
+            title: '22-22'),
+        PieChartSectionData(
+          color: MockData.color3,
+          value: 3,
+          borderSide: MockData.borderSide3,
+          showTitle: false,
+          titleStyle: MockData.textStyle3,
+          radius: 33,
+        ),
+        PieChartSectionData(
+          color: MockData.color4,
+          value: 4,
+          borderSide: MockData.borderSide4,
+          showTitle: true,
+          titleStyle: MockData.textStyle4,
+          radius: 44,
+        ),
+      ];
+      final PieChartPainter barChartPainter = PieChartPainter();
+
+      final PieChartData data1 =
+          PieChartData(sections: sections, centerSpaceRadius: 15);
+      final result1 = barChartPainter.calculateCenterRadius(
+        viewSize,
+        PaintHolder<PieChartData>(data1, data1, 1.0),
+      );
+      expect(result1, 15);
+
+      final PieChartData data2 = PieChartData(sections: sections);
+      final result2 = barChartPainter.calculateCenterRadius(
+        viewSize,
+        PaintHolder<PieChartData>(data2, data2, 1.0),
+      );
+      expect(result2, 56);
+    });
+  });
 }
