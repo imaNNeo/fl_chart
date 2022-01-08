@@ -11,6 +11,43 @@ class MockData {
   static const color4 = Color(0x44444444);
   static const color5 = Color(0x55555555);
   static const color6 = Color(0x66666666);
+
+  static final path1 = Path()
+    ..moveTo(10, 10)
+    ..lineTo(20, 20)
+    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
+        false);
+
+  static final path1Duplicate = Path()
+    ..moveTo(10, 10)
+    ..lineTo(20, 20)
+    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
+        false);
+
+  static final path2 = Path()
+    ..moveTo(10, 10)
+    ..lineTo(20, 20)
+    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22.01), 2,
+        3, false);
+
+  static final path3 = Path()
+    ..moveTo(10, 13)
+    ..lineTo(20, 20)
+    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
+        false);
+
+  static final path4 = Path()
+    ..moveTo(24, 13)
+    ..lineTo(20, 20)
+    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
+        false);
+
+  static const borderSide1 = BorderSide(color: color1, width: 1);
+  static const borderSide2 = BorderSide(color: color2, width: 2);
+  static const borderSide3 = BorderSide(color: color3, width: 3);
+  static const borderSide4 = BorderSide(color: color4, width: 4);
+  static const borderSide5 = BorderSide(color: color5, width: 5);
+  static const borderSide6 = BorderSide(color: color6, width: 6);
 }
 
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
