@@ -40,22 +40,24 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       return;
     }
 
-    final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
+    final sectionsAngle = calculateSectionsAngle(data.sections, data.sumValue);
     final centerRadius = _calculateCenterRadius(canvasWrapper.size, holder);
 
-    _drawCenterSpace(canvasWrapper, centerRadius, holder);
-    _drawSections(canvasWrapper, sectionsAngle, centerRadius, holder);
+    drawCenterSpace(canvasWrapper, centerRadius, holder);
+    drawSections(canvasWrapper, sectionsAngle, centerRadius, holder);
     _drawTexts(context, canvasWrapper, holder, centerRadius);
   }
 
-  List<double> _calculateSectionsAngle(
+  @visibleForTesting
+  List<double> calculateSectionsAngle(
       List<PieChartSectionData> sections, double sumValue) {
     return sections.map((section) {
       return 360 * (section.value / sumValue);
     }).toList();
   }
 
-  void _drawCenterSpace(CanvasWrapper canvasWrapper, double centerRadius,
+  @visibleForTesting
+  void drawCenterSpace(CanvasWrapper canvasWrapper, double centerRadius,
       PaintHolder<PieChartData> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
@@ -67,7 +69,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         Offset(centerX, centerY), centerRadius, _centerSpacePaint);
   }
 
-  void _drawSections(
+  @visibleForTesting
+  void drawSections(
     CanvasWrapper canvasWrapper,
     List<double> sectionsAngle,
     double centerRadius,
@@ -93,7 +96,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         return;
       }
 
-      var sectionPath = _generateSectionPath(
+      var sectionPath = generateSectionPath(
         section,
         data.sectionsSpace,
         tempAngle,
@@ -109,7 +112,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   }
 
   /// Generates a path around a section
-  Path _generateSectionPath(
+  @visibleForTesting
+  Path generateSectionPath(
     PieChartSectionData section,
     double sectionSpace,
     double tempAngle,
@@ -314,7 +318,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     PaintHolder<PieChartData> holder,
   ) {
     final data = holder.data;
-    final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
+    final sectionsAngle = calculateSectionsAngle(data.sections, data.sumValue);
     return _getTouchedSection(size, localPosition, sectionsAngle, holder);
   }
 
@@ -392,7 +396,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     var tempAngle = data.startDegreeOffset;
 
-    final sectionsAngle = _calculateSectionsAngle(data.sections, data.sumValue);
+    final sectionsAngle = calculateSectionsAngle(data.sections, data.sumValue);
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
       final startAngle = tempAngle;

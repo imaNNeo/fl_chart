@@ -1,9 +1,17 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import '../../helper_methods.dart';
+import '../data_pool.dart';
+import 'pie_chart_painter_test.mocks.dart';
 
+@GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
   group('PieChart usable size', () {
     test('test 1', () {
@@ -18,6 +26,150 @@ void main() {
       final holder = PaintHolder<PieChartData>(data, data, 1.0);
       expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
           const Size(728, 728));
+    });
+  });
+
+  group('calculateSectionsAngle()', () {
+    test('test 1', () {
+      final sections = [
+        PieChartSectionData(value: 10),
+        PieChartSectionData(value: 20),
+        PieChartSectionData(value: 30),
+        PieChartSectionData(value: 40),
+      ];
+      expect(
+        PieChartPainter().calculateSectionsAngle(sections, 100),
+        [36, 72, 108, 144],
+      );
+    });
+
+    test('test 2', () {
+      final sections = [
+        PieChartSectionData(value: 10),
+        PieChartSectionData(value: 10),
+        PieChartSectionData(value: 10),
+        PieChartSectionData(value: 10),
+      ];
+      expect(
+        PieChartPainter().calculateSectionsAngle(sections, 40),
+        [90, 90, 90, 90],
+      );
+    });
+  });
+
+  group('drawCenterSpace()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 200);
+
+      final PieChartData data = PieChartData(
+        centerSpaceColor: MockData.color1,
+      );
+
+      final PieChartPainter barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      barChartPainter.drawCenterSpace(_mockCanvasWrapper, 10, holder);
+
+      final result = verify(_mockCanvasWrapper.drawCircle(
+          const Offset(100, 100), 10, captureAny));
+      expect(result.callCount, 1);
+      expect((result.captured.first as Paint).color, MockData.color1);
+    });
+  });
+
+  group('drawSections()', () {
+    test('test 1', () {
+      const viewSize = Size(200, 200);
+
+      final sections = [
+        PieChartSectionData(color: MockData.color2, radius: 30, value: 10)
+      ];
+      final PieChartData data = PieChartData(
+        sections: sections,
+      );
+
+      final PieChartPainter barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      barChartPainter.drawSections(_mockCanvasWrapper, [360], 10, holder);
+
+      final result = verify(_mockCanvasWrapper.drawCircle(
+          const Offset(100, 100), 10 + 15, captureAny));
+      expect(result.callCount, 1);
+      expect((result.captured.single as Paint).color, MockData.color2);
+      expect((result.captured.single as Paint).strokeWidth, 30);
+      expect((result.captured.single as Paint).style, PaintingStyle.stroke);
+    });
+
+    test('test 2', () {
+      const viewSize = Size(200, 200);
+
+      final PieChartData data = PieChartData(
+          centerSpaceColor: MockData.color1,
+          sectionsSpace: 10,
+          sections: [
+            PieChartSectionData(color: MockData.color1, value: 1),
+            PieChartSectionData(color: MockData.color2, value: 2),
+            PieChartSectionData(color: MockData.color3, value: 3),
+            PieChartSectionData(color: MockData.color4, value: 4),
+          ]);
+
+      final PieChartPainter barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final paint = inv.positionalArguments[1] as Paint;
+        results.add({
+          'path': inv.positionalArguments[0] as Path,
+          'paint_color': paint.color,
+          'paint_style': paint.style,
+        });
+      });
+
+      barChartPainter.drawSections(
+          _mockCanvasWrapper, [36, 72, 108, 144], 10, holder);
+      verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
+
+      expect(results.length, 4);
+
+      final path0 = barChartPainter.generateSectionPath(
+          data.sections[0], 10, 0, 36, const Offset(100, 100), 10);
+      expect(
+          HelperMethods.equalsPaths(results[0]['path'] as Path, path0), true);
+      expect((results[0]['paint_color'] as Color), MockData.color1);
+      expect((results[0]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+
+      final path1 = barChartPainter.generateSectionPath(
+          data.sections[1], 10, 36, 72, const Offset(100, 100), 10);
+      expect(
+          HelperMethods.equalsPaths(results[1]['path'] as Path, path1), true);
+      expect((results[1]['paint_color'] as Color), MockData.color2);
+      expect((results[1]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+
+      final path2 = barChartPainter.generateSectionPath(
+          data.sections[2], 10, 108, 108, const Offset(100, 100), 10);
+      expect(
+          HelperMethods.equalsPaths(results[2]['path'] as Path, path2), true);
+      expect((results[2]['paint_color'] as Color), MockData.color3);
+      expect((results[2]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+
+      final path3 = barChartPainter.generateSectionPath(
+          data.sections[3], 10, 216, 144, const Offset(100, 100), 10);
+      expect(
+          HelperMethods.equalsPaths(results[3]['path'] as Path, path3), true);
+      expect((results[3]['paint_color'] as Color), MockData.color4);
+      expect((results[3]['paint_style'] as PaintingStyle), PaintingStyle.fill);
     });
   });
 }
