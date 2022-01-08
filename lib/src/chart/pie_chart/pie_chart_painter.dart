@@ -41,11 +41,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
 
     final sectionsAngle = calculateSectionsAngle(data.sections, data.sumValue);
-    final centerRadius = _calculateCenterRadius(canvasWrapper.size, holder);
+    final centerRadius = calculateCenterRadius(canvasWrapper.size, holder);
 
     drawCenterSpace(canvasWrapper, centerRadius, holder);
     drawSections(canvasWrapper, sectionsAngle, centerRadius, holder);
-    _drawTexts(context, canvasWrapper, holder, centerRadius);
+    drawTexts(context, canvasWrapper, holder, centerRadius);
   }
 
   @visibleForTesting
@@ -249,7 +249,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// Calculates layout of overlaying elements, includes:
   /// - title text
   /// - badge widget positions
-  void _drawTexts(
+  @visibleForTesting
+  void drawTexts(
     BuildContext context,
     CanvasWrapper canvasWrapper,
     PaintHolder<PieChartData> holder,
@@ -299,7 +300,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
   }
 
-  double _calculateCenterRadius(
+  /// Calculates center radius based on the provided sections radius
+  @visibleForTesting
+  double calculateCenterRadius(
       Size viewSize, PaintHolder<PieChartData> holder) {
     final data = holder.data;
     if (data.centerSpaceRadius.isFinite) {
@@ -369,7 +372,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           relativeTouchAngle >= fromDegree && relativeTouchAngle <= toDegree;
 
       /// radius criteria
-      final centerRadius = _calculateCenterRadius(viewSize, holder);
+      final centerRadius = calculateCenterRadius(viewSize, holder);
       final sectionRadius = centerRadius + section.radius;
       final isInRadius = touchR > centerRadius && touchR <= sectionRadius;
 
@@ -405,7 +408,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final startAngle = tempAngle;
       final sweepAngle = sectionsAngle[i];
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
-      final centerRadius = _calculateCenterRadius(viewSize, holder);
+      final centerRadius = calculateCenterRadius(viewSize, holder);
 
       Offset sectionCenter(double percentageOffset) =>
           center +
