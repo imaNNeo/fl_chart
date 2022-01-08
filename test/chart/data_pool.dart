@@ -4,6 +4,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:flutter/material.dart';
 
+class MockData {
+  static const color1 = Color(0x11111111);
+  static const color2 = Color(0x22222222);
+  static const color3 = Color(0x33333333);
+  static const color4 = Color(0x44444444);
+  static const color5 = Color(0x55555555);
+  static const color6 = Color(0x66666666);
+}
+
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
     VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
 final VerticalRangeAnnotation verticalRangeAnnotation1Clone =
