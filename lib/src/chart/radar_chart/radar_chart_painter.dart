@@ -193,6 +193,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       canvasWrapper.translate(featureOffset.dx, featureOffset.dy);
       canvasWrapper.rotate(angle * index);
 
+      // Todo: We need to refactor and use [CanvasWrapper.drawRotated()]
       canvasWrapper.drawText(
         _titleTextPaint,
         Offset.zero -
