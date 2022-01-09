@@ -52,7 +52,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       return;
     }
 
-    dataSetsPosition = _calculateDataSetsPosition(canvasWrapper.size, holder);
+    dataSetsPosition = calculateDataSetsPosition(canvasWrapper.size, holder);
 
     drawGrids(canvasWrapper, holder);
     drawTicks(context, canvasWrapper, holder);
@@ -66,12 +66,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     final data = holder.data;
     final size = canvasWrapper.size;
 
-    final centerX = _radarCenterX(size);
-    final centerY = _radarCenterY(size);
+    final centerX = radarCenterX(size);
+    final centerY = radarCenterY(size);
     final centerOffset = Offset(centerX, centerY);
 
     /// controls Radar chart size
-    final radius = _radarRadius(size);
+    final radius = radarRadius(size);
 
     _backgroundPaint.color = data.radarBackgroundColor;
 
@@ -129,12 +129,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     final data = holder.data;
     final size = canvasWrapper.size;
 
-    final centerX = _radarCenterX(size);
-    final centerY = _radarCenterY(size);
+    final centerX = radarCenterX(size);
+    final centerY = radarCenterY(size);
     final centerOffset = Offset(centerX, centerY);
 
     /// controls Radar chart size
-    final radius = _radarRadius(size);
+    final radius = radarRadius(size);
 
     final angle = (2 * pi) / data.titleCount;
 
@@ -160,11 +160,11 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     final size = canvasWrapper.size;
 
-    final centerX = _radarCenterX(size);
-    final centerY = _radarCenterY(size);
+    final centerX = radarCenterX(size);
+    final centerY = radarCenterY(size);
 
     /// controls Radar chart size
-    final radius = _radarRadius(size);
+    final radius = radarRadius(size);
 
     final angle = (2 * pi) / data.titleCount;
 
@@ -208,7 +208,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     // we will use dataSetsPosition to draw the graphs
-    dataSetsPosition ??= _calculateDataSetsPosition(canvasWrapper.size, holder);
+    dataSetsPosition ??= calculateDataSetsPosition(canvasWrapper.size, holder);
     dataSetsPosition!.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
       _graphPaint
@@ -257,28 +257,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   }
 
   RadarTouchedSpot? handleTouch(
-      Offset localPosition, Size size, PaintHolder<RadarChartData> holder) {
-    return _getNearestTouchSpot(size, localPosition, dataSetsPosition, holder);
-  }
-
-  double _radarCenterY(Size size) => size.height / 2.0;
-
-  double _radarCenterX(Size size) => size.width / 2.0;
-
-  double _radarRadius(Size size) =>
-      min(_radarCenterX(size), _radarCenterY(size)) * 0.8;
-
-  RadarTouchedSpot? _getNearestTouchSpot(
-    Size viewSize,
-    Offset touchedPoint,
-    List<RadarDataSetsPosition>? radarDataSetsPosition,
-    PaintHolder<RadarChartData> holder,
-  ) {
+      Offset touchedPoint, Size viewSize, PaintHolder<RadarChartData> holder) {
     final targetData = holder.targetData;
-    radarDataSetsPosition ??= _calculateDataSetsPosition(viewSize, holder);
+    dataSetsPosition ??= calculateDataSetsPosition(viewSize, holder);
 
-    for (var i = 0; i < radarDataSetsPosition.length; i++) {
-      final dataSetPosition = radarDataSetsPosition[i];
+    for (var i = 0; i < dataSetsPosition!.length; i++) {
+      final dataSetPosition = dataSetsPosition![i];
       for (var j = 0; j < dataSetPosition.entriesOffset.length; j++) {
         final entryOffset = dataSetPosition.entriesOffset[j];
         if ((touchedPoint.dx - entryOffset.dx).abs() <=
@@ -299,14 +283,25 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     return null;
   }
 
-  List<RadarDataSetsPosition> _calculateDataSetsPosition(
+  @visibleForTesting
+  double radarCenterY(Size size) => size.height / 2.0;
+
+  @visibleForTesting
+  double radarCenterX(Size size) => size.width / 2.0;
+
+  @visibleForTesting
+  double radarRadius(Size size) =>
+      min(radarCenterX(size), radarCenterY(size)) * 0.8;
+
+  @visibleForTesting
+  List<RadarDataSetsPosition> calculateDataSetsPosition(
     Size viewSize,
     PaintHolder<RadarChartData> holder,
   ) {
     final data = holder.data;
-    final centerX = _radarCenterX(viewSize);
-    final centerY = _radarCenterY(viewSize);
-    final radius = _radarRadius(viewSize);
+    final centerX = radarCenterX(viewSize);
+    final centerY = radarCenterY(viewSize);
+    final radius = radarRadius(viewSize);
 
     final scale = radius / data.maxEntry.value;
     final angle = (2 * pi) / data.titleCount;
