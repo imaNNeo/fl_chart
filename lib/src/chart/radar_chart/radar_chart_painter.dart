@@ -57,7 +57,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     drawGrids(canvasWrapper, holder);
     drawTicks(context, canvasWrapper, holder);
     drawTitles(context, canvasWrapper, holder);
-    _drawDataSets(canvasWrapper, holder);
+    drawDataSets(canvasWrapper, holder);
   }
 
   @visibleForTesting
@@ -203,14 +203,16 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     }
   }
 
-  void _drawDataSets(
+  @visibleForTesting
+  void drawDataSets(
       CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     // we will use dataSetsPosition to draw the graphs
+    dataSetsPosition ??= _calculateDataSetsPosition(canvasWrapper.size, holder);
     dataSetsPosition!.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
       _graphPaint
-        ..color = graph.fillColor.withOpacity(graph.fillColor.opacity)
+        ..color = graph.fillColor
         ..style = PaintingStyle.fill;
 
       _graphBorderPaint
