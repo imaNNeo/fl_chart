@@ -1,6 +1,7 @@
 ## newVersion
 * **BUGFIX** Fix getNearestTouchedSpot. Previously it returned the first occurrence of a spot within the threshold, and not the nearest, #641, #645.
 * **FEATURE** Add `textAlign` property in the [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), #784.
+* **IMPROVEMENT** Write some unit-tests and enable code coverage reports in our CI
 
 ## 0.40.6
 * **IMPROVEMENT** Fix showing zero value in side titles and grid lines when we add negative value. Now we always go through the zero value in each axis, #739.
