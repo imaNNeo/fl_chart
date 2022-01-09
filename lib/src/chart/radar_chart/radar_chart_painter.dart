@@ -54,13 +54,14 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     dataSetsPosition = _calculateDataSetsPosition(canvasWrapper.size, holder);
 
-    _drawGrids(canvasWrapper, holder);
-    _drawTicks(context, canvasWrapper, holder);
-    _drawTitles(context, canvasWrapper, holder);
+    drawGrids(canvasWrapper, holder);
+    drawTicks(context, canvasWrapper, holder);
+    drawTitles(context, canvasWrapper, holder);
     _drawDataSets(canvasWrapper, holder);
   }
 
-  void _drawTicks(BuildContext context, CanvasWrapper canvasWrapper,
+  @visibleForTesting
+  void drawTicks(BuildContext context, CanvasWrapper canvasWrapper,
       PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     final size = canvasWrapper.size;
@@ -123,7 +124,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     );
   }
 
-  void _drawGrids(
+  void drawGrids(
       CanvasWrapper canvasWrapper, PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     final size = canvasWrapper.size;
@@ -151,7 +152,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     }
   }
 
-  void _drawTitles(BuildContext context, CanvasWrapper canvasWrapper,
+  @visibleForTesting
+  void drawTitles(BuildContext context, CanvasWrapper canvasWrapper,
       PaintHolder<RadarChartData> holder) {
     final data = holder.data;
     if (data.getTitle == null) return;
