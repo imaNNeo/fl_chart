@@ -458,4 +458,230 @@ void main() {
       expect(drawPathResults[5]['paint_style'], PaintingStyle.stroke);
     });
   });
+
+  group('handleTouch()', () {
+    test('test 1', () {
+      const viewSize = Size(400, 300);
+      final RadarChartData data = RadarChartData(
+        dataSets: [
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 1),
+              const RadarEntry(value: 2),
+              const RadarEntry(value: 3),
+            ],
+          ),
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 3),
+              const RadarEntry(value: 1),
+              const RadarEntry(value: 2),
+            ],
+          ),
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 2),
+              const RadarEntry(value: 3),
+              const RadarEntry(value: 1),
+            ],
+          ),
+        ],
+      );
+
+      final RadarChartPainter radarChartPainter = RadarChartPainter();
+      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+          (realInvocation) =>
+              realInvocation.positionalArguments[1] as TextStyle);
+      Utils.changeInstance(_mockUtils);
+
+      List<Map<String, dynamic>> drawCircleResults = [];
+      when(_mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny))
+          .thenAnswer((inv) {
+        drawCircleResults.add({
+          'offset': inv.positionalArguments[0] as Offset,
+          'radius': inv.positionalArguments[1] as double,
+          'paint': inv.positionalArguments[2] as Paint,
+        });
+      });
+
+      List<Map<String, dynamic>> drawPathResults = [];
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        drawPathResults.add({
+          'path': inv.positionalArguments[0] as Path,
+          'paint_color': (inv.positionalArguments[1] as Paint).color,
+          'paint_stroke': (inv.positionalArguments[1] as Paint).strokeWidth,
+          'paint_style': (inv.positionalArguments[1] as Paint).style,
+        });
+      });
+
+      expect(
+          radarChartPainter.handleTouch(
+              const Offset(287.8, 120.3), viewSize, holder),
+          null);
+      expect(
+          radarChartPainter.handleTouch(
+              const Offset(145.1, 125.4), viewSize, holder),
+          null);
+      expect(
+          radarChartPainter.handleTouch(
+              const Offset(175.9, 120.8), viewSize, holder),
+          null);
+      expect(
+          radarChartPainter.handleTouch(
+              const Offset(201.8, 153.7), viewSize, holder),
+          null);
+      expect(
+          radarChartPainter.handleTouch(
+              const Offset(259.5, 116.3), viewSize, holder),
+          null);
+      expect(
+          radarChartPainter.handleTouch(
+              const Offset(253.9, 175.9), viewSize, holder),
+          null);
+      expect(
+          radarChartPainter.handleTouch(
+              const Offset(146.4, 182.8), viewSize, holder),
+          null);
+
+      final result0 = radarChartPainter.handleTouch(
+          const Offset(304.9, 212.9), viewSize, holder);
+      expect(result0!.touchedDataSetIndex, 2);
+      expect(result0.touchedRadarEntryIndex, 1);
+
+      final result1 = radarChartPainter.handleTouch(
+          const Offset(202.7, 73.4), viewSize, holder);
+      expect(result1!.touchedDataSetIndex, 2);
+      expect(result1.touchedRadarEntryIndex, 0);
+
+      final result2 = radarChartPainter.handleTouch(
+          const Offset(170.9, 171.9), viewSize, holder);
+      expect(result2!.touchedDataSetIndex, 2);
+      expect(result2.touchedRadarEntryIndex, 2);
+
+      final result3 = radarChartPainter.handleTouch(
+          const Offset(270.5, 192.3), viewSize, holder);
+      expect(result3!.touchedDataSetIndex, 0);
+      expect(result3.touchedRadarEntryIndex, 1);
+
+      final result4 = radarChartPainter.handleTouch(
+          const Offset(98.3, 216.8), viewSize, holder);
+      expect(result4!.touchedDataSetIndex, 0);
+      expect(result4.touchedRadarEntryIndex, 2);
+
+      final result5 = radarChartPainter.handleTouch(
+          const Offset(203.5, 114.3), viewSize, holder);
+      expect(result5!.touchedDataSetIndex, 0);
+      expect(result5.touchedRadarEntryIndex, 0);
+
+      final result6 = radarChartPainter.handleTouch(
+          const Offset(202.6, 33.5), viewSize, holder);
+      expect(result6!.touchedDataSetIndex, 1);
+      expect(result6.touchedRadarEntryIndex, 0);
+
+      final result7 = radarChartPainter.handleTouch(
+          const Offset(132.3, 191.2), viewSize, holder);
+      expect(result7!.touchedDataSetIndex, 1);
+      expect(result7.touchedRadarEntryIndex, 2);
+
+      final result8 = radarChartPainter.handleTouch(
+          const Offset(236.6, 169.3), viewSize, holder);
+      expect(result8!.touchedDataSetIndex, 1);
+      expect(result8.touchedRadarEntryIndex, 1);
+    });
+  });
+
+  group('radarCenterY()', () {
+    test('test 1', () {
+      final painter = RadarChartPainter();
+      expect(painter.radarCenterY(const Size(200, 400)), 200);
+      expect(painter.radarCenterY(const Size(2314, 400)), 200);
+    });
+  });
+
+  group('radarCenterX()', () {
+    test('test 1', () {
+      final painter = RadarChartPainter();
+      expect(painter.radarCenterX(const Size(400, 200)), 200);
+      expect(painter.radarCenterX(const Size(400, 2314)), 200);
+    });
+  });
+
+  group('radarRadius()', () {
+    test('test 1', () {
+      final painter = RadarChartPainter();
+      expect(painter.radarRadius(const Size(400, 200)), 80);
+      expect(painter.radarRadius(const Size(400, 2314)), 160);
+    });
+  });
+
+  group('calculateDataSetsPosition()', () {
+    test('test 1', () {
+      const viewSize = Size(400, 300);
+
+      final RadarChartData data = RadarChartData(
+        dataSets: [
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+          ]),
+        ],
+        getTitle: null,
+        titleTextStyle: MockData.textStyle4,
+        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
+        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
+        gridBorderData: const BorderSide(color: MockData.color3, width: 3),
+        radarBackgroundColor: MockData.color2,
+      );
+
+      final RadarChartPainter radarChartPainter = RadarChartPainter();
+      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
+
+      final result =
+          radarChartPainter.calculateDataSetsPosition(viewSize, holder);
+      expect(result.length, 3);
+      expect(
+        result[0].entriesOffset,
+        [
+          const Offset(200, 110),
+          const Offset(269.2820323027551, 190.0),
+          const Offset(96.07695154586739, 210.00000000000006),
+        ],
+      );
+      expect(
+        result[1].entriesOffset,
+        [
+          const Offset(200, 30),
+          const Offset(234.64101615137756, 170.0),
+          const Offset(130.71796769724492, 190.00000000000003),
+        ],
+      );
+      expect(
+        result[2].entriesOffset,
+        [
+          const Offset(200, 70),
+          const Offset(303.92304845413264, 209.99999999999997),
+          const Offset(165.35898384862247, 170),
+        ],
+      );
+    });
+  });
 }
