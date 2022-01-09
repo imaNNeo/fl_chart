@@ -190,4 +190,127 @@ void main() {
       expect(drawLineResults[2]['paint_stroke'], 3);
     });
   });
+
+  group('drawGrids()', () {
+    test('test 1', () {
+      const viewSize = Size(400, 300);
+
+      final RadarChartData data = RadarChartData(
+        dataSets: [
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+          ]),
+        ],
+        getTitle: null,
+        titleTextStyle: MockData.textStyle4,
+        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
+        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
+        gridBorderData: const BorderSide(color: MockData.color3, width: 3),
+        radarBackgroundColor: MockData.color2,
+      );
+
+      final RadarChartPainter radarChartPainter = RadarChartPainter();
+      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+          (realInvocation) =>
+              realInvocation.positionalArguments[1] as TextStyle);
+      Utils.changeInstance(_mockUtils);
+
+      final _mockContext = MockBuildContext();
+
+      radarChartPainter.drawTitles(_mockContext, _mockCanvasWrapper, holder);
+
+      verifyNever(_mockCanvasWrapper.drawText(any, any));
+    });
+
+    test('test 2', () {
+      const viewSize = Size(400, 300);
+
+      final RadarChartData data = RadarChartData(
+        dataSets: [
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+          ]),
+        ],
+        getTitle: (index) {
+          return '$index$index';
+        },
+        titleTextStyle: MockData.textStyle4,
+        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
+        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
+        gridBorderData: const BorderSide(color: MockData.color3, width: 3),
+        radarBackgroundColor: MockData.color2,
+      );
+
+      final RadarChartPainter radarChartPainter = RadarChartPainter();
+      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
+
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+          (realInvocation) =>
+              realInvocation.positionalArguments[1] as TextStyle);
+      Utils.changeInstance(_mockUtils);
+
+      final _mockContext = MockBuildContext();
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawText(captureAny, captureAny))
+          .thenAnswer((inv) {
+        results.add({
+          'tp_text':
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan)
+                  .text,
+          'tp_style':
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan)
+                  .style,
+        });
+      });
+
+      radarChartPainter.drawTitles(_mockContext, _mockCanvasWrapper, holder);
+      expect(results.length, 3);
+
+      expect(results[0]['tp_text'] as String, '00');
+      expect(results[0]['tp_style'] as TextStyle, MockData.textStyle4);
+
+      expect(results[1]['tp_text'] as String, '11');
+      expect(results[1]['tp_style'] as TextStyle, MockData.textStyle4);
+
+      expect(results[2]['tp_text'] as String, '22');
+      expect(results[2]['tp_style'] as TextStyle, MockData.textStyle4);
+    });
+  });
 }
