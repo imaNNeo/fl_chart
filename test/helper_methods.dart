@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'chart/data_pool.dart';
 
 void main() {
@@ -41,6 +40,46 @@ class HelperMethods {
         return false;
       }
     }
+    return true;
+  }
+
+  static bool equalsRRects(
+    RRect rrect1,
+    RRect rrect2, {
+    double tolerance = 0.05,
+  }) {
+    if ((rrect1.left - rrect2.left).abs() > tolerance) {
+      return false;
+    }
+
+    if ((rrect1.top - rrect2.top).abs() > tolerance) {
+      return false;
+    }
+
+    if ((rrect1.right - rrect2.right).abs() > tolerance) {
+      return false;
+    }
+
+    if ((rrect1.bottom - rrect2.bottom).abs() > tolerance) {
+      return false;
+    }
+
+    if (rrect1.blRadius != rrect2.blRadius) {
+      return false;
+    }
+
+    if (rrect1.brRadius != rrect2.brRadius) {
+      return false;
+    }
+
+    if (rrect1.trRadius != rrect2.trRadius) {
+      return false;
+    }
+
+    if (rrect1.tlRadius != rrect2.tlRadius) {
+      return false;
+    }
+
     return true;
   }
 }
