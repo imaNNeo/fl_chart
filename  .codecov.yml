@@ -1,0 +1,7 @@
+comment:
+  require_changes: true
+# Ignore all the file inside the example and
+# end eventually also the autogenerate file
+ignore:
+  - '**/example/'
+  - '**/*.g.dart'
