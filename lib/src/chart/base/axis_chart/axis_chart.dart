@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
