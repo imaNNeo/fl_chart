@@ -101,5 +101,15 @@ void main() {
       expect(paintHolder.targetData, targetData);
       expect(paintHolder.textScale, textScale);
     });
+
+    test('test 4 check setters', () {
+      renderLineChart.data = targetData;
+      renderLineChart.targetData = data;
+      renderLineChart.textScale = 22;
+
+      expect(renderLineChart.data, targetData);
+      expect(renderLineChart.targetData, data);
+      expect(renderLineChart.textScale, 22);
+    });
   });
 }

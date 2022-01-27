@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // coverage:ignore-start
+
 /// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
   const LineChartLeaf({Key? key, required this.data, required this.targetData})

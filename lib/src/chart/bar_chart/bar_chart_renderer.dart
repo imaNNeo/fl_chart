@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'bar_chart_painter.dart';
 
 // coverage:ignore-start
+
 /// Low level BarChart Widget.
 class BarChartLeaf extends LeafRenderObjectWidget {
   const BarChartLeaf({Key? key, required this.data, required this.targetData})
