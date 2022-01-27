@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:fl_chart/fl_chart.dart';
 
 import 'base_chart_painter.dart';
