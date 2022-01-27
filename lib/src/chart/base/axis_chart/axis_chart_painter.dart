@@ -37,7 +37,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     super.paint(context, canvasWrapper, holder);
     _drawBackground(canvasWrapper, holder);
     _drawRangeAnnotation(canvasWrapper, holder);
-    _drawGrid(canvasWrapper, holder);
+    drawGrid(canvasWrapper, holder);
   }
 
   /// Draws an axis titles in each side (left, top, right, bottom).
@@ -222,7 +222,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     return sum;
   }
 
-  void _drawGrid(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
+  @visibleForTesting
+  void drawGrid(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
     if (!data.gridData.show) {
       return;
