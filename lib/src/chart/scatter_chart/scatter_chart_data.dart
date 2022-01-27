@@ -343,7 +343,7 @@ class ScatterTouchedSpot with EquatableMixin {
 
   /// [spot], and [spotIndex] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
-  ScatterTouchedSpot(this.spot, this.spotIndex);
+  const ScatterTouchedSpot(this.spot, this.spotIndex);
 
   /// Used for equality check, see [EquatableMixin].
   @override

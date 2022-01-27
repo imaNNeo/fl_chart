@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'bar_chart_painter.dart';
 
+// coverage:ignore-start
 /// Low level BarChart Widget.
 class BarChartLeaf extends LeafRenderObjectWidget {
   const BarChartLeaf({Key? key, required this.data, required this.targetData})
@@ -26,6 +27,7 @@ class BarChartLeaf extends LeafRenderObjectWidget {
       ..buildContext = context;
   }
 }
+// coverage:ignore-end
 
 /// Renders our BarChart, also handles hitTest.
 class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
@@ -67,7 +69,12 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     markNeedsPaint();
   }
 
-  final _painter = BarChartPainter();
+  // We couldn't mock [size] property of this class, that's why we have this
+  @visibleForTesting
+  Size? mockTestSize;
+
+  @visibleForTesting
+  var painter = BarChartPainter();
 
   PaintHolder<BarChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -78,13 +85,21 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
+    painter.paint(
+      buildContext,
+      CanvasWrapper(canvas, mockTestSize ?? size),
+      paintHolder,
+    );
     canvas.restore();
   }
 
   @override
   BarTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpot = _painter.handleTouch(localPosition, size, paintHolder);
+    var touchedSpot = painter.handleTouch(
+      localPosition,
+      mockTestSize ?? size,
+      paintHolder,
+    );
     return BarTouchResponse(touchedSpot);
   }
 }

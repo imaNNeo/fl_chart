@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'radar_chart_painter.dart';
 
+// coverage:ignore-start
 /// Low level RadarChart Widget.
 class RadarChartLeaf extends LeafRenderObjectWidget {
   const RadarChartLeaf({Key? key, required this.data, required this.targetData})
@@ -26,6 +27,7 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
       ..buildContext = context;
   }
 }
+// coverage:ignore-end
 
 /// Renders our RadarChart, also handles hitTest.
 class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
@@ -38,6 +40,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
 
   RadarChartData get data => _data;
   RadarChartData _data;
+
   set data(RadarChartData value) {
     if (_data == value) return;
     _data = value;
@@ -46,6 +49,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
 
   RadarChartData get targetData => _targetData;
   RadarChartData _targetData;
+
   set targetData(RadarChartData value) {
     if (_targetData == value) return;
     _targetData = value;
@@ -55,13 +59,19 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
 
   double get textScale => _textScale;
   double _textScale;
+
   set textScale(double value) {
     if (_textScale == value) return;
     _textScale = value;
     markNeedsPaint();
   }
 
-  final _painter = RadarChartPainter();
+  // We couldn't mock [size] property of this class, that's why we have this
+  @visibleForTesting
+  Size? mockTestSize;
+
+  @visibleForTesting
+  var painter = RadarChartPainter();
 
   PaintHolder<RadarChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -72,13 +82,21 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
+    painter.paint(
+      buildContext,
+      CanvasWrapper(canvas, mockTestSize ?? size),
+      paintHolder,
+    );
     canvas.restore();
   }
 
   @override
   RadarTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpot = _painter.handleTouch(localPosition, size, paintHolder);
+    var touchedSpot = painter.handleTouch(
+      localPosition,
+      mockTestSize ?? size,
+      paintHolder,
+    );
     return RadarTouchResponse(touchedSpot);
   }
 }
