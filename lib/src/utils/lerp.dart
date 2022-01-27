@@ -43,7 +43,7 @@ double? lerpDoubleAllowInfinity(double? a, double? b, double t) {
 
 /// Lerps [double] list based on [t] value, check [Tween.lerp].
 List<double>? lerpDoubleList(List<double>? a, List<double>? b, double t) =>
-    lerpList(a, b, t, lerp: _lerpNonNullDouble);
+    lerpList(a, b, t, lerp: lerpNonNullDouble);
 
 /// Lerps [int] list based on [t] value, check [Tween.lerp].
 List<int>? lerpIntList(List<int>? a, List<int>? b, double t) =>
@@ -52,7 +52,8 @@ List<int>? lerpIntList(List<int>? a, List<int>? b, double t) =>
 /// Lerps [int] list based on [t] value, check [Tween.lerp].
 int lerpInt(int a, int b, double t) => (a + (b - a) * t).round();
 
-double _lerpNonNullDouble(double a, double b, double t) => lerpDouble(a, b, t)!;
+@visibleForTesting
+double lerpNonNullDouble(double a, double b, double t) => lerpDouble(a, b, t)!;
 
 /// Lerps [FlSpot] list based on [t] value, check [Tween.lerp].
 List<FlSpot>? lerpFlSpotList(List<FlSpot>? a, List<FlSpot>? b, double t) =>

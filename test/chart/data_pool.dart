@@ -5,6 +5,7 @@ import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:flutter/material.dart';
 
 class MockData {
+  static const color0 = Color(0x00000000);
   static const color1 = Color(0x11111111);
   static const color2 = Color(0x22222222);
   static const color3 = Color(0x33333333);
@@ -156,9 +157,62 @@ class MockData {
     showingIndicators: [0, 4],
   );
 
-  static const RadarEntry radarEntry1 = RadarEntry(value: 11);
-  static const RadarEntry radarEntry2 = RadarEntry(value: 22);
-  static const RadarEntry radarEntry3 = RadarEntry(value: 33);
+  static const flSpot0 = FlSpot.zero;
+  static const flSpot1 = FlSpot(1, 1);
+  static const flSpot2 = FlSpot(2, 2);
+  static const flSpot3 = FlSpot(3, 3);
+  static const flSpot4 = FlSpot(4, 4);
+  static const flSpot5 = FlSpot(5, 5);
+
+  static final horizontalLine0 = HorizontalLine(y: 0, color: color0);
+  static final horizontalLine1 = HorizontalLine(y: 1, color: color1);
+  static final horizontalLine2 = HorizontalLine(y: 2, color: color2);
+  static final horizontalLine3 = HorizontalLine(y: 3, color: color3);
+  static final horizontalLine4 = HorizontalLine(y: 4, color: color4);
+  static final horizontalLine5 = HorizontalLine(y: 5, color: color5);
+
+  static final verticalLine0 = VerticalLine(x: 0, color: color0);
+  static final verticalLine1 = VerticalLine(x: 1, color: color1);
+  static final verticalLine2 = VerticalLine(x: 2, color: color2);
+  static final verticalLine3 = VerticalLine(x: 3, color: color3);
+  static final verticalLine4 = VerticalLine(x: 4, color: color4);
+  static final verticalLine5 = VerticalLine(x: 5, color: color5);
+
+  static final horizontalRangeAnnotation0 =
+      HorizontalRangeAnnotation(y1: 0, y2: 1, color: color0);
+
+  static final horizontalRangeAnnotation1 =
+      HorizontalRangeAnnotation(y1: 1, y2: 2, color: color1);
+
+  static final horizontalRangeAnnotation2 =
+      HorizontalRangeAnnotation(y1: 2, y2: 3, color: color2);
+
+  static final horizontalRangeAnnotation3 =
+      HorizontalRangeAnnotation(y1: 3, y2: 4, color: color3);
+
+  static final horizontalRangeAnnotation4 =
+      HorizontalRangeAnnotation(y1: 4, y2: 5, color: color4);
+
+  static final verticalRangeAnnotation0 =
+      VerticalRangeAnnotation(x1: 0, x2: 1, color: color0);
+
+  static final verticalRangeAnnotation1 =
+      VerticalRangeAnnotation(x1: 1, x2: 2, color: color1);
+
+  static final verticalRangeAnnotation2 =
+      VerticalRangeAnnotation(x1: 2, x2: 3, color: color2);
+
+  static final verticalRangeAnnotation3 =
+      VerticalRangeAnnotation(x1: 3, x2: 4, color: color3);
+
+  static final verticalRangeAnnotation4 =
+      VerticalRangeAnnotation(x1: 4, x2: 5, color: color4);
+
+  static const RadarEntry radarEntry0 = RadarEntry(value: 0);
+  static const RadarEntry radarEntry1 = RadarEntry(value: 1);
+  static const RadarEntry radarEntry2 = RadarEntry(value: 2);
+  static const RadarEntry radarEntry3 = RadarEntry(value: 3);
+  static const RadarEntry radarEntry4 = RadarEntry(value: 4);
   static final RadarDataSet radarDataSet1 = RadarDataSet(
     dataEntries: [radarEntry1, radarEntry2, radarEntry3],
   );
@@ -173,9 +227,42 @@ class MockData {
     flSpot1,
     offset1,
   );
-  static final scatterSpot1 = ScatterSpot(1, 1);
-  static final scatterSpot2 = ScatterSpot(2, 2);
-  static final scatterSpot3 = ScatterSpot(3, 3);
+
+  static final pieChartSection0 = PieChartSectionData(
+    value: 0,
+    color: color0,
+    radius: 0,
+  );
+
+  static final pieChartSection1 = PieChartSectionData(
+    value: 1,
+    color: color1,
+    radius: 1,
+  );
+
+  static final pieChartSection2 = PieChartSectionData(
+    value: 2,
+    color: color2,
+    radius: 2,
+  );
+
+  static final pieChartSection3 = PieChartSectionData(
+    value: 3,
+    color: color3,
+    radius: 3,
+  );
+
+  static final pieChartSection4 = PieChartSectionData(
+    value: 4,
+    color: color4,
+    radius: 4,
+  );
+
+  static final scatterSpot0 = ScatterSpot(0, 0, color: color0);
+  static final scatterSpot1 = ScatterSpot(1, 1, color: color1);
+  static final scatterSpot2 = ScatterSpot(2, 2, color: color2);
+  static final scatterSpot3 = ScatterSpot(3, 3, color: color3);
+  static final scatterSpot4 = ScatterSpot(4, 4, color: color4);
 
   static final scatterTouchedSpot = ScatterTouchedSpot(scatterSpot1, 0);
 
