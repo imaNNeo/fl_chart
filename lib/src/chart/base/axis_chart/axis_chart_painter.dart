@@ -36,7 +36,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
       PaintHolder<D> holder) {
     super.paint(context, canvasWrapper, holder);
     drawBackground(canvasWrapper, holder);
-    _drawRangeAnnotation(canvasWrapper, holder);
+    drawRangeAnnotation(canvasWrapper, holder);
     drawGrid(canvasWrapper, holder);
   }
 
@@ -334,8 +334,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     );
   }
 
-  void _drawRangeAnnotation(
-      CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
+  @visibleForTesting
+  void drawRangeAnnotation(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize, holder);

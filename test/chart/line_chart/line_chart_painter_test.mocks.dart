@@ -767,6 +767,18 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
       super.noSuchMethod(Invocation.method(#drawGrid, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
+  void drawBackground(_i6.CanvasWrapper? canvasWrapper,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawBackground, [canvasWrapper, holder]),
+          returnValueForMissingStub: null);
+  @override
+  void drawRangeAnnotation(_i6.CanvasWrapper? canvasWrapper,
+          _i10.PaintHolder<_i7.LineChartData>? holder) =>
+      super.noSuchMethod(
+          Invocation.method(#drawRangeAnnotation, [canvasWrapper, holder]),
+          returnValueForMissingStub: null);
+  @override
   double getPixelX(double? spotX, _i2.Size? chartUsableSize,
           _i10.PaintHolder<_i7.LineChartData>? holder) =>
       (super.noSuchMethod(
