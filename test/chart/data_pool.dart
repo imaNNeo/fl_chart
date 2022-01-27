@@ -65,6 +65,115 @@ class MockData {
   static const Offset offset4 = Offset(4, 4);
   static const Offset offset5 = Offset(5, 5);
   static const Offset offset6 = Offset(6, 6);
+
+  static final LineChartBarData lineChartBarData1 = LineChartBarData(
+    show: true,
+    dashArray: [0, 1],
+    colors: [Colors.red, Colors.green],
+    colorStops: [0, 1],
+    spots: [
+      flSpot1,
+      flSpot2,
+    ],
+    shadow: shadow1,
+    isStepLineChart: false,
+    aboveBarData: barAreaData1,
+    belowBarData: barAreaData2,
+    gradientFrom: const Offset(0, 0),
+    gradientTo: const Offset(1, 1),
+    barWidth: 12,
+    curveSmoothness: 12.0,
+    dotData: flDotData1,
+    isCurved: false,
+    isStrokeCapRound: true,
+    preventCurveOverShooting: false,
+    preventCurveOvershootingThreshold: 1.2,
+    showingIndicators: [0, 1],
+  );
+
+  static final LineChartBarData lineChartBarData2 = LineChartBarData(
+    show: true,
+    dashArray: [0, 1],
+    colors: [Colors.red, Colors.green],
+    colorStops: [0, 1],
+    spots: [
+      flSpot1,
+      flSpot2,
+    ],
+    shadow: shadow2,
+    isStepLineChart: true,
+    lineChartStepData: lineChartStepData1,
+    aboveBarData: barAreaData1,
+    belowBarData: barAreaData2,
+    gradientFrom: const Offset(0, 0),
+    gradientTo: const Offset(1, 1),
+    barWidth: 12,
+    curveSmoothness: 12.0,
+    dotData: flDotData1,
+    isCurved: false,
+    isStrokeCapRound: true,
+    preventCurveOverShooting: false,
+    preventCurveOvershootingThreshold: 1.2,
+    showingIndicators: [0, 4],
+  );
+
+  static const RadarEntry radarEntry1 = RadarEntry(value: 11);
+  static const RadarEntry radarEntry2 = RadarEntry(value: 22);
+  static const RadarEntry radarEntry3 = RadarEntry(value: 33);
+  static final RadarDataSet radarDataSet1 = RadarDataSet(
+    dataEntries: [radarEntry1, radarEntry2, radarEntry3],
+  );
+  static final RadarDataSet radarDataSet2 = RadarDataSet(
+    dataEntries: [radarEntry3, radarEntry1, radarEntry2],
+  );
+  static final RadarTouchedSpot radarTouchedSpot = RadarTouchedSpot(
+    radarDataSet1,
+    0,
+    radarEntry1,
+    0,
+    flSpot1,
+    offset1,
+  );
+  static final scatterSpot1 = ScatterSpot(1, 1);
+  static final scatterSpot2 = ScatterSpot(2, 2);
+  static final scatterSpot3 = ScatterSpot(3, 3);
+
+  static final scatterTouchedSpot = ScatterTouchedSpot(scatterSpot1, 0);
+
+  static final pieChartSectionData1 = PieChartSectionData(value: 12);
+  static final pieTouchedSection1 = PieTouchedSection(
+    pieChartSectionData1,
+    0,
+    12,
+    33,
+  );
+
+  static final lineBarSpot1 = LineBarSpot(
+    lineChartBarData1,
+    0,
+    lineChartBarData1.spots.first,
+  );
+  static final lineBarSpot2 = LineBarSpot(
+    MockData.lineChartBarData1,
+    1,
+    MockData.lineChartBarData1.spots.last,
+  );
+
+  static final lineTouchResponse1 =
+      LineTouchResponse([lineBarSpot1, lineBarSpot2]);
+
+  static final barChartRodData1 = BarChartRodData(y: 11);
+  static final barChartRodData2 = BarChartRodData(y: 22);
+  static final barTouchedSpot = BarTouchedSpot(
+    BarChartGroupData(x: 0, barRods: [barChartRodData1, barChartRodData2]),
+    0,
+    barChartRodData1,
+    0,
+    null,
+    -1,
+    flSpot1,
+    offset1,
+  );
 }
 
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
@@ -107,6 +216,7 @@ final FlLine flLine1Clone =
     FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
 
 bool checkToShowLine(double value) => true;
+
 FlLine getDrawingLine(double value) => FlLine();
 
 const FlSpot flSpot1 = FlSpot(1, 1);
@@ -2097,6 +2207,7 @@ final PieChartData pieChartData1 = PieChartData(
 final PieChartData pieChartData1Clone = pieChartData1.copyWith();
 
 bool gridCheckToShowLine(double value) => true;
+
 FlLine gridGetDrawingLine(double value) => FlLine();
 
 ScatterTooltipItem? scatterChartGetTooltipItems(ScatterSpot spots) {

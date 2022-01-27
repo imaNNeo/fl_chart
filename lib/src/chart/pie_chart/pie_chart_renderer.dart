@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 import 'pie_chart_painter.dart';
 
+// coverage:ignore-start
 /// Low level PieChart Widget.
 class PieChartLeaf extends MultiChildRenderObjectWidget {
   PieChartLeaf({
@@ -38,6 +39,7 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
       ..buildContext = context;
   }
 }
+// coverage:ignore-end
 
 /// Renders our PieChart, also handles hitTest.
 class RenderPieChart extends RenderBaseChart<PieTouchResponse>
@@ -54,6 +56,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
 
   PieChartData get data => _data;
   PieChartData _data;
+
   set data(PieChartData value) {
     if (_data == value) return;
     _data = value;
@@ -63,6 +66,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
 
   PieChartData get targetData => _targetData;
   PieChartData _targetData;
+
   set targetData(PieChartData value) {
     if (_targetData == value) return;
     _targetData = value;
@@ -73,13 +77,19 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
 
   double get textScale => _textScale;
   double _textScale;
+
   set textScale(double value) {
     if (_textScale == value) return;
     _textScale = value;
     markNeedsPaint();
   }
 
-  final _painter = PieChartPainter();
+  // We couldn't mock [size] property of this class, that's why we have this
+  @visibleForTesting
+  Size? mockTestSize;
+
+  @visibleForTesting
+  var painter = PieChartPainter();
 
   PaintHolder<PieChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -100,7 +110,10 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     final childConstraints = constraints.loosen();
 
     var counter = 0;
-    var badgeOffsets = _painter.getBadgeOffsets(size, paintHolder);
+    var badgeOffsets = painter.getBadgeOffsets(
+      mockTestSize ?? size,
+      paintHolder,
+    );
     while (child != null) {
       if (counter >= badgeOffsets.length) {
         break;
@@ -124,14 +137,22 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
+    painter.paint(
+      buildContext,
+      CanvasWrapper(canvas, mockTestSize ?? size),
+      paintHolder,
+    );
     canvas.restore();
     defaultPaint(context, offset);
   }
 
   @override
   PieTouchResponse getResponseAtLocation(Offset localPosition) {
-    final pieSection = _painter.handleTouch(localPosition, size, paintHolder);
+    final pieSection = painter.handleTouch(
+      localPosition,
+      mockTestSize ?? size,
+      paintHolder,
+    );
     return PieTouchResponse(pieSection);
   }
 }

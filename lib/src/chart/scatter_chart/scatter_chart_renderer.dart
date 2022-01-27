@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'scatter_chart_painter.dart';
 
+// coverage:ignore-start
 /// Low level ScatterChart Widget.
 class ScatterChartLeaf extends LeafRenderObjectWidget {
   const ScatterChartLeaf(
@@ -29,6 +30,7 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
       ..buildContext = context;
   }
 }
+// coverage:ignore-end
 
 /// Renders our ScatterChart, also handles hitTest.
 class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
@@ -41,6 +43,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
 
   ScatterChartData get data => _data;
   ScatterChartData _data;
+
   set data(ScatterChartData value) {
     if (_data == value) return;
     _data = value;
@@ -49,6 +52,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
 
   ScatterChartData get targetData => _targetData;
   ScatterChartData _targetData;
+
   set targetData(ScatterChartData value) {
     if (_targetData == value) return;
     _targetData = value;
@@ -65,7 +69,12 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     markNeedsPaint();
   }
 
-  final _painter = ScatterChartPainter();
+  // We couldn't mock [size] property of this class, that's why we have this
+  @visibleForTesting
+  Size? mockTestSize;
+
+  @visibleForTesting
+  var painter = ScatterChartPainter();
 
   PaintHolder<ScatterChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -76,13 +85,21 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
+    painter.paint(
+      buildContext,
+      CanvasWrapper(canvas, mockTestSize ?? size),
+      paintHolder,
+    );
     canvas.restore();
   }
 
   @override
   ScatterTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpot = _painter.handleTouch(localPosition, size, paintHolder);
+    var touchedSpot = painter.handleTouch(
+      localPosition,
+      mockTestSize ?? size,
+      paintHolder,
+    );
     return ScatterTouchResponse(touchedSpot);
   }
 }
