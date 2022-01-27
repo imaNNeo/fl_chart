@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
