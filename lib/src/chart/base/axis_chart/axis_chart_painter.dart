@@ -35,7 +35,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
   void paint(BuildContext context, CanvasWrapper canvasWrapper,
       PaintHolder<D> holder) {
     super.paint(context, canvasWrapper, holder);
-    _drawBackground(canvasWrapper, holder);
+    drawBackground(canvasWrapper, holder);
     _drawRangeAnnotation(canvasWrapper, holder);
     drawGrid(canvasWrapper, holder);
   }
@@ -313,7 +313,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
   }
 
   /// This function draws a colored background behind the chart.
-  void _drawBackground(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
+  @visibleForTesting
+  void drawBackground(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
     if (data.backgroundColor.opacity == 0.0) {
       return;
