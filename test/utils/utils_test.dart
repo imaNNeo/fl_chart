@@ -3,6 +3,8 @@ import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../chart/data_pool.dart';
+
 void main() {
   const tolerance = 0.001;
 
@@ -42,6 +44,45 @@ void main() {
   test('translate rotated position', () {
     expect(Utils().translateRotatedPosition(100, 90), 25);
     expect(Utils().translateRotatedPosition(100, 0), 0);
+  });
+
+  test('calculateRotationOffset()', () {
+    expect(Utils().calculateRotationOffset(MockData.size1, 90), Offset.zero);
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 45).dx,
+      closeTo(-2.278, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 45).dy,
+      closeTo(-2.278, tolerance),
+    );
+
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 180).dx,
+      closeTo(0.0, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 180).dy,
+      closeTo(0.0, tolerance),
+    );
+
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 220).dx,
+      closeTo(-2.2485, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 220).dy,
+      closeTo(-2.2485, tolerance),
+    );
+
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 350).dx,
+      closeTo(-0.87150, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 350).dy,
+      closeTo(-0.87150, tolerance),
+    );
   });
 
   test('lerp gradient', () {
