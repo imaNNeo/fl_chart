@@ -22,7 +22,7 @@ void main() {
     const textScale = 4.0;
 
     MockBuildContext _mockBuildContext = MockBuildContext();
-    RenderScatterChart renderBarChart = RenderScatterChart(
+    RenderScatterChart renderScatterChart = RenderScatterChart(
       _mockBuildContext,
       data,
       targetData,
@@ -35,21 +35,21 @@ void main() {
     Size _mockSize = const Size(44, 44);
     when(_mockPaintingContext.canvas)
         .thenAnswer((realInvocation) => _mockCanvas);
-    renderBarChart.mockTestSize = _mockSize;
-    renderBarChart.painter = _mockPainter;
+    renderScatterChart.mockTestSize = _mockSize;
+    renderScatterChart.painter = _mockPainter;
 
     test('test 1 correct data set', () {
-      expect(renderBarChart.data == data, true);
-      expect(renderBarChart.data == targetData, false);
-      expect(renderBarChart.targetData == targetData, true);
-      expect(renderBarChart.textScale == textScale, true);
-      expect(renderBarChart.paintHolder.data == data, true);
-      expect(renderBarChart.paintHolder.targetData == targetData, true);
-      expect(renderBarChart.paintHolder.textScale == textScale, true);
+      expect(renderScatterChart.data == data, true);
+      expect(renderScatterChart.data == targetData, false);
+      expect(renderScatterChart.targetData == targetData, true);
+      expect(renderScatterChart.textScale == textScale, true);
+      expect(renderScatterChart.paintHolder.data == data, true);
+      expect(renderScatterChart.paintHolder.targetData == targetData, true);
+      expect(renderScatterChart.paintHolder.textScale == textScale, true);
     });
 
     test('test 2 check paint function', () {
-      renderBarChart.paint(_mockPaintingContext, const Offset(10, 10));
+      renderScatterChart.paint(_mockPaintingContext, const Offset(10, 10));
       verify(_mockCanvas.save()).called(1);
       verify(_mockCanvas.translate(10, 10)).called(1);
       final result = verify(_mockPainter.paint(any, captureAny, captureAny));
@@ -79,7 +79,7 @@ void main() {
         return MockData.scatterTouchedSpot;
       });
       final touchResponse =
-          renderBarChart.getResponseAtLocation(MockData.offset1);
+          renderScatterChart.getResponseAtLocation(MockData.offset1);
       expect(touchResponse.touchedSpot, MockData.scatterTouchedSpot);
       expect(results[0]['local_position'] as Offset, MockData.offset1);
       expect(results[0]['size'] as Size, _mockSize);
@@ -87,6 +87,16 @@ void main() {
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
       expect(paintHolder.textScale, textScale);
+    });
+
+    test('test 4 check setters', () {
+      renderScatterChart.data = targetData;
+      renderScatterChart.targetData = data;
+      renderScatterChart.textScale = 22;
+
+      expect(renderScatterChart.data, targetData);
+      expect(renderScatterChart.targetData, data);
+      expect(renderScatterChart.textScale, 22);
     });
   });
 }

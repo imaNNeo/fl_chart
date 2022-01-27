@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'scatter_chart_painter.dart';
 
 // coverage:ignore-start
+
 /// Low level ScatterChart Widget.
 class ScatterChartLeaf extends LeafRenderObjectWidget {
   const ScatterChartLeaf(

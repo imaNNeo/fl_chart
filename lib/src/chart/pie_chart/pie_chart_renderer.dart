@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'pie_chart_painter.dart';
 
 // coverage:ignore-start
+
 /// Low level PieChart Widget.
 class PieChartLeaf extends MultiChildRenderObjectWidget {
   PieChartLeaf({
