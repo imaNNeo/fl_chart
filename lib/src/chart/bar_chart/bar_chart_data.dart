@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
