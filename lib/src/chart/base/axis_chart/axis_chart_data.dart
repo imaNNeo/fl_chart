@@ -469,6 +469,9 @@ class FlSpot with EquatableMixin {
   /// Used for splitting lines, or maybe other concepts.
   static const FlSpot nullSpot = FlSpot(double.nan, double.nan);
 
+  /// Sets zero for x and y
+  static const FlSpot zero = FlSpot(0, 0);
+
   /// Determines if [x] or [y] is null.
   bool isNull() => this == nullSpot;
 
