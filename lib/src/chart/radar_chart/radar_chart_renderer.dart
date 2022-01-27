@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'radar_chart_painter.dart';
 
 // coverage:ignore-start
+
 /// Low level RadarChart Widget.
 class RadarChartLeaf extends LeafRenderObjectWidget {
   const RadarChartLeaf({Key? key, required this.data, required this.targetData})
