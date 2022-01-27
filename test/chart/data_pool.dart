@@ -66,6 +66,45 @@ class MockData {
   static const Offset offset5 = Offset(5, 5);
   static const Offset offset6 = Offset(6, 6);
 
+  static const size1 = Size(11, 11);
+  static const size2 = Size(22, 22);
+
+  static final textPainter1 = TextPainter();
+
+  static final rect1 = Rect.fromCenter(center: offset1, width: 11, height: 11);
+  static final rect2 = Rect.fromCenter(center: offset2, width: 22, height: 22);
+
+  static final rRect1 = RRect.fromLTRBR(1, 1, 1, 1, const Radius.circular(11));
+  static final rRect2 = RRect.fromLTRBR(2, 2, 2, 2, const Radius.circular(22));
+
+  static final paint1 = Paint()
+    ..color = color1
+    ..strokeWidth = 11;
+  static final paint2 = Paint()
+    ..color = color2
+    ..strokeWidth = 22;
+
+  static Picture? _picture1;
+  static Picture picture1() {
+    if (_picture1 != null) {
+      return _picture1!;
+    }
+    final recorder1 = PictureRecorder();
+    final canvas = Canvas(recorder1);
+    canvas.drawLine(offset1, offset2, paint1);
+    _picture1 = recorder1.endRecording();
+    return _picture1!;
+  }
+
+  static Image? _image1;
+  static Image image1() {
+    if (_image1 != null) {
+      return _image1!;
+    }
+    _image1 = Image.asset('asdf/asdf');
+    return _image1!;
+  }
+
   static final LineChartBarData lineChartBarData1 = LineChartBarData(
     show: true,
     dashArray: [0, 1],

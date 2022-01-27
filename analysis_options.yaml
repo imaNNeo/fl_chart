@@ -4,3 +4,6 @@ analyzer:
     - "**.mocks.dart"
   errors:
     prefer_initializing_formals: ignore
+    # allow self-reference to deprecated members (we do this because otherwise we have
+    # to annotate every member in every test, assert, etc, when we deprecate something)
+    deprecated_member_use_from_same_package: ignore
