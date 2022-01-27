@@ -3022,4 +3022,59 @@ void main() {
       verify(_mockCanvasWrapper.drawDashedLine(any, any, any, any)).called(6);
     });
   });
+
+  group('drawBackground()', () {
+    test('test 1', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        backgroundColor: MockData.color1.withOpacity(0),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawBackground(_mockCanvasWrapper, holder);
+      verifyNever(_mockCanvasWrapper.drawRect(any, any));
+    });
+
+    test('test 2', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        backgroundColor: MockData.color1,
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawBackground(_mockCanvasWrapper, holder);
+      final result = verify(
+        _mockCanvasWrapper.drawRect(
+          const Rect.fromLTRB(0, 0, 20, 100),
+          captureAny,
+        ),
+      );
+      expect(result.callCount, 1);
+      expect((result.captured.single as Paint).color, MockData.color1);
+    });
+  });
 }
