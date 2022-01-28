@@ -1,3 +1,6 @@
+## newVersion
+* **BUGFIX** Fix PieChart changing sections issue (we have disabled semantics for pieChart badgeWidgets), #861.
+
 ## 0.41.0
 * **BUGFIX** Fix getNearestTouchedSpot. Previously it returned the first occurrence of a spot within the threshold, and not the nearest, #641, #645.
 * **FEATURE** Add `textAlign` property in the [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles), #784.
