@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_helper.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
@@ -16,10 +17,7 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
     Key? key,
     required this.data,
     required this.targetData,
-  }) : super(
-          key: key,
-          children: targetData.sections.map((e) => e.badgeWidget).toList(),
-        );
+  }) : super(key: key, children: targetData.sections.toWidgets());
 
   final PieChartData data, targetData;
 
@@ -155,5 +153,16 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
       paintHolder,
     );
     return PieTouchResponse(pieSection);
+  }
+
+  @override
+  void visitChildrenForSemantics(RenderObjectVisitor visitor) {
+    /// It produces an error when we change the sections list, Check this issue:
+    /// https://github.com/imaNNeoFighT/fl_chart/issues/861
+    ///
+    /// Below is the error message:
+    /// Updated layout information required for RenderSemanticsAnnotations#f3b96 NEEDS-LAYOUT NEEDS-PAINT to calculate semantics.
+    ///
+    /// I don't know how to solve this error. That's why we disabled semantics for now.
   }
 }
