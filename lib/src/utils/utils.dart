@@ -128,7 +128,7 @@ class Utils {
   /// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
   double getEfficientInterval(double axisViewSize, double diffInYAxis,
       {double pixelPerInterval = 40}) {
-    final allowedCount = axisViewSize ~/ pixelPerInterval;
+    final allowedCount = math.max(axisViewSize ~/ pixelPerInterval, 1);
     final accurateInterval = diffInYAxis / allowedCount;
     return roundInterval(accurateInterval);
   }

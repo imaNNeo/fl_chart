@@ -133,6 +133,7 @@ void main() {
     expect(Utils().getEfficientInterval(200, 0.5, pixelPerInterval: 20), 0.05);
     expect(Utils().getEfficientInterval(200, 1.0, pixelPerInterval: 20), 0.1);
     expect(Utils().getEfficientInterval(100, 0.5, pixelPerInterval: 20), 0.1);
+    expect(Utils().getEfficientInterval(10, 10), 10);
   });
 
   test('test formatNumber', () {
