@@ -298,15 +298,12 @@ class FlTitlesData with EquatableMixin {
 typedef CheckToShowTitle = bool Function(double minValue, double maxValue,
     SideTitles sideTitles, double appliedInterval, double value);
 
-/// The default [SideTitles.checkToShowTitle] function.
+/// The default [SideTitles.checkToShowTitle] function (shows all titles).
 ///
 /// It determines showing or not showing specific title.
 bool defaultCheckToShowTitle(double minValue, double maxValue,
     SideTitles sideTitles, double appliedInterval, double value) {
-  if ((maxValue - minValue) % appliedInterval == 0) {
-    return true;
-  }
-  return value != maxValue;
+  return true;
 }
 
 /// Holds data for showing each side titles (a title per each axis value).
