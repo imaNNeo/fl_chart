@@ -1,6 +1,7 @@
 ## newVersion
 * **BUGFIX** Fix PieChart changing sections issue (we have disabled semantics for pieChart badgeWidgets), #861.
 * **BUGFIX** Fix LineChart width smaller width or height lower than 40, #869, #857.
+* **BUGFIX** Allow to show title when axis diff is zero.
 
 ## 0.41.0
 * **BUGFIX** Fix getNearestTouchedSpot. Previously it returned the first occurrence of a spot within the threshold, and not the nearest, #641, #645.

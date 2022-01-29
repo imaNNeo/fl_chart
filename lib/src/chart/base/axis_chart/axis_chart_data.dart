@@ -34,12 +34,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Difference of [maxX] and [minX]
   double get horizontalDiff => maxX - minX;
 
-  /// Returns true if [minX] and [maxX] both are zero
-  bool get isHorizontalMinMaxIsZero => minX == 0 && maxX == 0;
-
-  /// Returns true if [minY] and [maxY] both are zero
-  bool get isVerticalMinMaxIsZero => minY == 0 && maxY == 0;
-
   AxisChartData({
     FlGridData? gridData,
     required FlAxisTitleData axisTitleData,

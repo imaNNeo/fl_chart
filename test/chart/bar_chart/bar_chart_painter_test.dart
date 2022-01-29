@@ -728,6 +728,18 @@ void main() {
 
       final MockBuildContext _mockBuildContext = MockBuildContext();
 
+      final MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => MockData.textStyle1);
+      when(_mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 0);
+      when(_mockUtils.formatNumber(any)).thenAnswer((realInvocation) => '1');
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+
       final groupsX = barChartPainter.calculateGroupsX(
           viewSize, barGroups, BarChartAlignment.center, holder);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
@@ -736,6 +748,7 @@ void main() {
       barChartPainter.drawTitles(
           _mockBuildContext, _mockCanvasWrapper, barGroupsPosition, holder);
       verifyNever(_mockCanvasWrapper.drawRRect(any, any));
+      Utils.restoreDefaultInstance();
     });
 
     test('test 4', () {

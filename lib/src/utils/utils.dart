@@ -15,6 +15,11 @@ class Utils {
   @visibleForTesting
   static void changeInstance(Utils val) => _singleton = val;
 
+  @visibleForTesting
+  static void restoreDefaultInstance() {
+    _singleton = Utils._internal();
+  }
+
   static const double _degrees2Radians = math.pi / 180.0;
 
   /// Converts degrees to radians
@@ -123,13 +128,17 @@ class Utils {
   ///
   /// If there isn't any provided interval, we use this function to calculate an interval to apply,
   /// using [axisViewSize] / [pixelPerInterval], we calculate the allowedCount lines in the axis,
-  /// then using  [diffInYAxis] / allowedCount, we can find out how much interval we need,
+  /// then using  [diffInAxis] / allowedCount, we can find out how much interval we need,
   /// then we round that number by finding nearest number in this pattern:
   /// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
-  double getEfficientInterval(double axisViewSize, double diffInYAxis,
+  double getEfficientInterval(double axisViewSize, double diffInAxis,
       {double pixelPerInterval = 40}) {
     final allowedCount = math.max(axisViewSize ~/ pixelPerInterval, 1);
-    final accurateInterval = diffInYAxis / allowedCount;
+    if (diffInAxis == 0) {
+      return 1;
+    }
+    final accurateInterval =
+        diffInAxis == 0 ? axisViewSize : diffInAxis / allowedCount;
     return roundInterval(accurateInterval);
   }
 
