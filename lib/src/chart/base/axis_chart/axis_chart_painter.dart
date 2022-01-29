@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
@@ -233,40 +234,33 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
       final verticalInterval = data.gridData.verticalInterval ??
-          Utils()
-              .getEfficientInterval(usableViewSize.width, data.horizontalDiff);
-      final initialVerticalValue = Utils()
-          .getBestInitialIntervalValue(data.minX, data.maxX, verticalInterval);
-      var verticalSeek = initialVerticalValue;
-      if (verticalSeek == data.minX) {
-        verticalSeek += verticalInterval;
-      }
-      final delta = data.horizontalDiff;
-      final count = delta ~/ verticalInterval;
-      final lastPosition = initialVerticalValue + (count * verticalInterval);
-      final lastPositionOverlapsWithBorder = lastPosition == data.maxX;
-      final end = lastPositionOverlapsWithBorder
-          ? data.maxX - verticalInterval
-          : data.maxX;
+          Utils().getEfficientInterval(
+            usableViewSize.width,
+            data.horizontalDiff,
+          );
+      AxisChartHelper().iterateThroughAxis(
+        min: data.minX,
+        minIncluded: false,
+        max: data.maxX,
+        maxIncluded: false,
+        interval: verticalInterval,
+        action: (axisValue) {
+          if (data.gridData.checkToShowVerticalLine(axisValue)) {
+            final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
+            _gridPaint.color = flLineStyle.color;
+            _gridPaint.strokeWidth = flLineStyle.strokeWidth;
+            _gridPaint.transparentIfWidthIsZero();
 
-      while (verticalSeek <= end) {
-        if (data.gridData.checkToShowVerticalLine(verticalSeek)) {
-          final flLineStyle =
-              data.gridData.getDrawingVerticalLine(verticalSeek);
-          _gridPaint.color = flLineStyle.color;
-          _gridPaint.strokeWidth = flLineStyle.strokeWidth;
-          _gridPaint.transparentIfWidthIsZero();
-
-          final bothX = getPixelX(verticalSeek, usableViewSize, holder);
-          final x1 = bothX;
-          final y1 = 0 + getTopOffsetDrawSize(holder);
-          final x2 = bothX;
-          final y2 = usableViewSize.height + getTopOffsetDrawSize(holder);
-          canvasWrapper.drawDashedLine(Offset(x1, y1), Offset(x2, y2),
-              _gridPaint, flLineStyle.dashArray);
-        }
-        verticalSeek += verticalInterval;
-      }
+            final bothX = getPixelX(axisValue, usableViewSize, holder);
+            final x1 = bothX;
+            final y1 = 0 + getTopOffsetDrawSize(holder);
+            final x2 = bothX;
+            final y2 = usableViewSize.height + getTopOffsetDrawSize(holder);
+            canvasWrapper.drawDashedLine(Offset(x1, y1), Offset(x2, y2),
+                _gridPaint, flLineStyle.dashArray);
+          }
+        },
+      );
     }
 
     // Show Horizontal Grid
@@ -274,41 +268,30 @@ abstract class AxisChartPainter<D extends AxisChartData>
       final horizontalInterval = data.gridData.horizontalInterval ??
           Utils()
               .getEfficientInterval(usableViewSize.height, data.verticalDiff);
-      final initialHorizontalValue = Utils().getBestInitialIntervalValue(
-          data.minY, data.maxY, horizontalInterval);
-      var horizontalSeek = initialHorizontalValue;
-      if (horizontalSeek == data.minY) {
-        horizontalSeek += horizontalInterval;
-      }
 
-      final delta = data.verticalDiff;
-      final count = delta ~/ horizontalInterval;
-      final lastPosition =
-          initialHorizontalValue + (count * horizontalInterval);
-      final lastPositionOverlapsWithBorder = lastPosition == data.maxY;
+      AxisChartHelper().iterateThroughAxis(
+        min: data.minY,
+        minIncluded: false,
+        max: data.maxY,
+        maxIncluded: false,
+        interval: horizontalInterval,
+        action: (axisValue) {
+          if (data.gridData.checkToShowHorizontalLine(axisValue)) {
+            final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
+            _gridPaint.color = flLine.color;
+            _gridPaint.strokeWidth = flLine.strokeWidth;
+            _gridPaint.transparentIfWidthIsZero();
 
-      final end = lastPositionOverlapsWithBorder
-          ? data.maxY - horizontalInterval
-          : data.maxY;
-
-      while (horizontalSeek <= end) {
-        if (data.gridData.checkToShowHorizontalLine(horizontalSeek)) {
-          final flLine = data.gridData.getDrawingHorizontalLine(horizontalSeek);
-          _gridPaint.color = flLine.color;
-          _gridPaint.strokeWidth = flLine.strokeWidth;
-          _gridPaint.transparentIfWidthIsZero();
-
-          final bothY = getPixelY(horizontalSeek, usableViewSize, holder);
-          final x1 = 0 + getLeftOffsetDrawSize(holder);
-          final y1 = bothY;
-          final x2 = usableViewSize.width + getLeftOffsetDrawSize(holder);
-          final y2 = bothY;
-          canvasWrapper.drawDashedLine(
-              Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
-        }
-
-        horizontalSeek += horizontalInterval;
-      }
+            final bothY = getPixelY(axisValue, usableViewSize, holder);
+            final x1 = 0 + getLeftOffsetDrawSize(holder);
+            final y1 = bothY;
+            final x2 = usableViewSize.width + getLeftOffsetDrawSize(holder);
+            final y2 = bothY;
+            canvasWrapper.drawDashedLine(
+                Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
+          }
+        },
+      );
     }
   }
 
