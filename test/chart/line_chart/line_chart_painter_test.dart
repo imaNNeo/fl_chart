@@ -105,6 +105,21 @@ void main() {
       expect(lineChartPainter.getChartUsableDrawSize(viewSize, holder),
           const Size(600, 320));
     });
+
+    test('test 6', () {
+      const viewSize = Size(600, 400);
+      final LineChartData data = LineChartData(
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        minY: 0,
+        maxY: 0,
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      expect(lineChartPainter.getPixelX(0, viewSize, holder), 0);
+      expect(lineChartPainter.getPixelY(0, viewSize, holder), 400);
+    });
   });
 
   group('clipToBorder()', () {
@@ -1788,12 +1803,18 @@ void main() {
       when(mockUtils.getEfficientInterval(any, any))
           .thenAnswer((realInvocation) => 1);
 
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => MockData.textStyle1);
+      when(mockUtils.formatNumber(any)).thenAnswer((realInvocation) => '1');
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+
       MockBuildContext _mockBuildContext = MockBuildContext();
 
       lineChartPainter.drawTitles(
           _mockBuildContext, _mockCanvasWrapper, holder);
 
-      verifyNever(_mockCanvasWrapper.drawText(any, any, any));
+      verify(_mockCanvasWrapper.drawText(any, any, any)).called(1);
     });
 
     test('test 3', () {
