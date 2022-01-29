@@ -12,6 +12,9 @@ Did you find any new article or source? please contribute to have them all here.
 * [Stock charts](https://dev.to/kamilpowalowski/stock-charts-with-flchart-library-1gd2)
 
 #### Video:
+<!--- 2021-12-04 --->
+* [Portfolio Dashboard Flutter UI Desktop & Web](https://www.youtube.com/watch?v=H9vXUine7Zo)
+
 <!--- 2021-07-28 --->
 * [Responsive Admin Dashboard or Panel using Flutter - Flutter Web UI - Part 1](https://www.youtube.com/watch?v=MRiZpwdy1CM)
 
