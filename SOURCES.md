@@ -12,8 +12,6 @@ Did you find any new article or source? please contribute to have them all here.
 * [Stock charts](https://dev.to/kamilpowalowski/stock-charts-with-flchart-library-1gd2)
 
 #### Video:
-<!--- 2021-12-04 --->
-* [Flutter Web - Dashboard Website Template (Responsive)](https://www.youtube.com/watch?v=3SMdJE_dSxU)
 
 <!--- 2021-12-04 --->
 * [Portfolio Dashboard Flutter UI Desktop & Web](https://www.youtube.com/watch?v=H9vXUine7Zo)
@@ -26,6 +24,9 @@ Did you find any new article or source? please contribute to have them all here.
 
 <!--- 2021-07-13 --->
 * [How to build Flutter UI - 3 Steps](https://www.youtube.com/watch?v=I0NBtFS_ibc)
+
+<!--- 2021-06-28 --->
+* [Flutter Web - Dashboard Website Template (Responsive)](https://www.youtube.com/watch?v=3SMdJE_dSxU)
 
 <!--- 2021-04-26 --->
 * [How to create charts in Flutter](https://www.youtube.com/watch?v=JBJ6o4blgPA)
