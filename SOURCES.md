@@ -13,6 +13,9 @@ Did you find any new article or source? please contribute to have them all here.
 
 #### Video:
 <!--- 2021-12-04 --->
+* [Flutter Web - Dashboard Website Template (Responsive)](https://www.youtube.com/watch?v=3SMdJE_dSxU)
+
+<!--- 2021-12-04 --->
 * [Portfolio Dashboard Flutter UI Desktop & Web](https://www.youtube.com/watch?v=H9vXUine7Zo)
 
 <!--- 2021-07-28 --->
