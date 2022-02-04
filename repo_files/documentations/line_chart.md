@@ -31,8 +31,10 @@ When you change the chart's state, it animates to the new state internally (usin
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
 |maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
+|baselineX| defines the baseline of x-axis | 0|
 |minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
 |maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
+|baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |
 
