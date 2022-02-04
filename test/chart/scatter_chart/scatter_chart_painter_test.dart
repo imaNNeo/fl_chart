@@ -237,7 +237,7 @@ void main() {
         _mockCanvasWrapper,
         holder,
       );
-      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(4);
+      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(5);
     });
 
     test('test 3', () {
@@ -331,7 +331,7 @@ void main() {
         _mockCanvasWrapper,
         holder,
       );
-      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(7);
+      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(8);
       expect(leftTitlesCalledValues.contains(0.0), true);
       expect(leftTitlesCalledValues.contains(5.0), true);
       expect(leftTitlesCalledValues.contains(10.0), true);
@@ -397,7 +397,7 @@ void main() {
         _mockCanvasWrapper,
         holder,
       );
-      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(7);
+      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(8);
       expect(leftTitlesCalledValues.contains(0.0), true);
       expect(leftTitlesCalledValues.contains(5.0), true);
       expect(leftTitlesCalledValues.contains(10.0), true);

@@ -269,12 +269,28 @@ class Utils {
   /// For example if we have -3 to +3, with interval 2. if we start from -3, we get something like this: -3, -1, +1, +3
   /// But the most important point is zero in most cases. with this logic we get this: -2, 0, 2
   double getBestInitialIntervalValue(double min, double max, double interval) {
-    if (min > 0 || max < 0) {
-      return min;
-    }
     if (max - min <= interval) {
       return min;
     }
+
+    if (min > 0 || max < 0) {
+      var minIsNegative = false;
+      if (min < 0) {
+        minIsNegative = true;
+      }
+
+      final mod = min.abs() % interval;
+      if (mod == 0) {
+        return min;
+      }
+      final covered = (min.abs() ~/ interval) * interval;
+      final result = covered + mod + (interval - mod);
+      if (minIsNegative) {
+        return -result;
+      }
+      return result;
+    }
+
     return interval * (min ~/ interval).toDouble();
   }
 
