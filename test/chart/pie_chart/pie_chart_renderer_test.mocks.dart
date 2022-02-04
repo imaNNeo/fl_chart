@@ -5,10 +5,10 @@
 import 'dart:typed_data' as _i8;
 import 'dart:ui' as _i2;
 
+import 'package:fl_chart/fl_chart.dart' as _i7;
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
     as _i12;
 import 'package:fl_chart/src/chart/base/line.dart' as _i13;
-import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart' as _i7;
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart' as _i10;
 import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
 import 'package:flutter/foundation.dart' as _i5;

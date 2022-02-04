@@ -13,6 +13,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 101);
     });
@@ -28,6 +29,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 99);
       expect(results[0], closeTo(0.001, tolerance));
@@ -43,6 +45,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 6);
       expect(results[0], 0);
@@ -62,6 +65,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 5);
       expect(results[0], 0);
@@ -82,6 +86,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 3);
       expect(results[0], 3);
@@ -100,6 +105,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 4);
       expect(results[0], 35);

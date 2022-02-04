@@ -903,6 +903,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       AxisChartHelper().iterateThroughAxis(
         min: data.minY,
         max: data.maxY,
+        baseLine: data.baselineY,
         interval: leftInterval,
         action: (axisValue) {
           if (leftTitles.checkToShowTitle(
@@ -946,6 +947,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       AxisChartHelper().iterateThroughAxis(
         min: data.minX,
         max: data.maxX,
+        baseLine: data.baselineX,
         interval: topInterval,
         action: (axisValue) {
           if (topTitles.checkToShowTitle(
@@ -987,6 +989,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       AxisChartHelper().iterateThroughAxis(
         min: data.minY,
         max: data.maxY,
+        baseLine: data.baselineY,
         interval: rightInterval,
         action: (axisValue) {
           if (rightTitles.checkToShowTitle(
@@ -1031,6 +1034,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       AxisChartHelper().iterateThroughAxis(
         min: data.minX,
         max: data.maxX,
+        baseLine: data.baselineX,
         interval: bottomInterval,
         action: (axisValue) {
           if (bottomTitles.checkToShowTitle(

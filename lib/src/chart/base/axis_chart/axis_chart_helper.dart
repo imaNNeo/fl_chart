@@ -23,11 +23,12 @@ class AxisChartHelper {
     bool minIncluded = true,
     required double max,
     bool maxIncluded = true,
+    required double baseLine,
     required double interval,
     required void Function(double axisValue) action,
   }) {
-    final initialValue =
-        Utils().getBestInitialIntervalValue(min, max, interval);
+    final initialValue = Utils()
+        .getBestInitialIntervalValue(min, max, interval, baseline: baseLine);
     var axisSeek = initialValue;
     final firstPositionOverlapsWithMin = axisSeek == min;
     if (!minIncluded && firstPositionOverlapsWithMin) {

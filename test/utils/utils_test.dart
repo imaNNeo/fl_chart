@@ -166,7 +166,7 @@ void main() {
   test('test getInitialIntervalValue()', () {
     expect(Utils().getBestInitialIntervalValue(-3, 3, 2), -2);
     expect(Utils().getBestInitialIntervalValue(-3, 3, 1), -3);
-    expect(Utils().getBestInitialIntervalValue(-30, -20, 13), -30);
+    expect(Utils().getBestInitialIntervalValue(-30, -20, 13), -26);
     expect(Utils().getBestInitialIntervalValue(0, 13, 8), 0);
     expect(Utils().getBestInitialIntervalValue(1, 13, 7), 7);
     expect(Utils().getBestInitialIntervalValue(1, 13, 3), 3);
@@ -177,12 +177,12 @@ void main() {
     expect(Utils().getBestInitialIntervalValue(-5, 13, 3), -3);
     expect(Utils().getBestInitialIntervalValue(-6, 13, 3), -6);
     expect(Utils().getBestInitialIntervalValue(-6.5, 13, 3), -6);
-    expect(Utils().getBestInitialIntervalValue(-1, 1, 2), -1);
+    expect(Utils().getBestInitialIntervalValue(-1, 1, 2), 0);
     expect(Utils().getBestInitialIntervalValue(-1, 2, 2), 0);
     expect(Utils().getBestInitialIntervalValue(-2, 0, 2), -2);
     expect(Utils().getBestInitialIntervalValue(-3, 0, 2), -2);
     expect(Utils().getBestInitialIntervalValue(-4, 0, 2), -4);
-    expect(Utils().getBestInitialIntervalValue(-0.5, 0.5, 2), -0.5);
+    expect(Utils().getBestInitialIntervalValue(-0.5, 0.5, 2), 0);
     expect(Utils().getBestInitialIntervalValue(35, 130, 50), 50);
     expect(Utils().getBestInitialIntervalValue(49, 130, 50), 50);
     expect(Utils().getBestInitialIntervalValue(50, 130, 50), 50);
@@ -192,12 +192,30 @@ void main() {
     expect(Utils().getBestInitialIntervalValue(100, 180, 50), 100);
     expect(Utils().getBestInitialIntervalValue(110, 180, 50), 150);
     expect(Utils().getBestInitialIntervalValue(170, 180, 50), 170);
-    expect(Utils().getBestInitialIntervalValue(-120, -10, 50), -150);
-    expect(Utils().getBestInitialIntervalValue(-110, -10, 50), -150);
+    expect(Utils().getBestInitialIntervalValue(-120, -10, 50), -100);
+    expect(Utils().getBestInitialIntervalValue(-110, -10, 50), -100);
     expect(Utils().getBestInitialIntervalValue(-100, -10, 50), -100);
-    expect(Utils().getBestInitialIntervalValue(-90, -10, 50), -100);
-    expect(Utils().getBestInitialIntervalValue(-80, -10, 50), -100);
+    expect(Utils().getBestInitialIntervalValue(-90, -10, 50), -50);
+    expect(Utils().getBestInitialIntervalValue(-80, -10, 50), -50);
     expect(Utils().getBestInitialIntervalValue(-150, -10, 50), -150);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 2, baseline: -1), -9);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 2, baseline: -20), -10);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 15, baseline: -30), 0);
+    expect(Utils().getBestInitialIntervalValue(0, 20, 8, baseline: 28), 4);
+    expect(Utils().getBestInitialIntervalValue(130, 140, 50, baseline: 0), 130);
+    expect(Utils().getBestInitialIntervalValue(145, 155, 50, baseline: 0), 150);
+    expect(
+        Utils().getBestInitialIntervalValue(-200, -180, 30, baseline: 0), -200);
+    expect(
+        Utils().getBestInitialIntervalValue(-190, -170, 30, baseline: 0), -180);
+    expect(
+        Utils().getBestInitialIntervalValue(-2000, 2000, 100, baseline: -10000),
+        -2000);
+    expect(Utils().getBestInitialIntervalValue(-120, 120, 33, baseline: -200),
+        -101);
+    expect(
+        Utils().getBestInitialIntervalValue(120, 180, 60, baseline: 2000), 140);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 4, baseline: 3), -9);
   });
 
   test('test convertRadiusToSigma()', () {

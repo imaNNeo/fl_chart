@@ -243,6 +243,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         minIncluded: false,
         max: data.maxX,
         maxIncluded: false,
+        baseLine: data.baselineX,
         interval: verticalInterval,
         action: (axisValue) {
           if (data.gridData.checkToShowVerticalLine(axisValue)) {
@@ -274,6 +275,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         minIncluded: false,
         max: data.maxY,
         maxIncluded: false,
+        baseLine: data.baselineY,
         interval: horizontalInterval,
         action: (axisValue) {
           if (data.gridData.checkToShowHorizontalLine(axisValue)) {
