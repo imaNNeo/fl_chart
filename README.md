@@ -1,4 +1,4 @@
-💥 A library to draw fantastic charts in Flutter  💥
+💥 FL Chart is a highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.  💥
 
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
