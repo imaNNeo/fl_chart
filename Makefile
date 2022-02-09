@@ -14,6 +14,7 @@ runTests:
 	flutter test
 
 checkoutToPR:
+	git branch -D pr-$(id)
 	git fetch origin pull/$(id)/head:pr-$(id); \
 	git checkout pr-$(id)
 
