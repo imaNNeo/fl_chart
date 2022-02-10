@@ -706,13 +706,13 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
       (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
           returnValue: 0.0) as double);
   @override
-  List<_i12.LineBarSpot>? handleTouch(_i2.Offset? localPosition, _i2.Size? size,
-          _i11.PaintHolder<_i12.LineChartData>? holder) =>
+  List<_i12.TouchLineBarSpot>? handleTouch(_i2.Offset? localPosition,
+          _i2.Size? size, _i11.PaintHolder<_i12.LineChartData>? holder) =>
       (super.noSuchMethod(
               Invocation.method(#handleTouch, [localPosition, size, holder]))
-          as List<_i12.LineBarSpot>?);
+          as List<_i12.TouchLineBarSpot>?);
   @override
-  _i12.LineBarSpot? getNearestTouchedSpot(
+  _i12.TouchLineBarSpot? getNearestTouchedSpot(
           _i2.Size? viewSize,
           _i2.Offset? touchedPoint,
           _i12.LineChartBarData? barData,
@@ -724,7 +724,7 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
         barData,
         barDataPosition,
         holder
-      ])) as _i12.LineBarSpot?);
+      ])) as _i12.TouchLineBarSpot?);
   @override
   void drawAxisTitles(
           _i6.BuildContext? context,
