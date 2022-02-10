@@ -2673,6 +2673,74 @@ void main() {
               .length,
           2);
     });
+
+    test('test 3', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData1 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(2, 1),
+          FlSpot(3, 1),
+          FlSpot(8, 1),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartBarData lineChartBarData2 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1.3, 1),
+          FlSpot(2, 1),
+          FlSpot(3, 1),
+          FlSpot(4, 1),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartData data = LineChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          lineBarsData: [lineChartBarData1, lineChartBarData2],
+          showingTooltipIndicators: [],
+          titlesData: FlTitlesData(show: false),
+          axisTitleData: FlAxisTitleData(show: false),
+          lineTouchData: LineTouchData(
+            touchSpotThreshold: 5,
+          ));
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+
+      final result1 =
+          lineChartPainter.handleTouch(const Offset(11, 0), viewSize, holder)!;
+      expect(result1[0].barIndex, 0);
+      expect(result1[1].barIndex, 1);
+
+      final result2 =
+          lineChartPainter.handleTouch(const Offset(12, 0), viewSize, holder)!;
+      expect(result2[0].barIndex, 1);
+      expect(result2[1].barIndex, 0);
+    });
   });
 
   group('getNearestTouchedSpot()', () {
@@ -2824,6 +2892,91 @@ void main() {
           viewSize, const Offset(10.0, 0), data.lineBarsData[1], 1, holder);
       expect(result3!.barIndex, 1);
       expect(result3.spotIndex, 0);
+    });
+
+    test('test 3', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData1 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(4, 1),
+          FlSpot(6, 4),
+          FlSpot(8, 1),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartBarData lineChartBarData2 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1.1, 4),
+          FlSpot(2, 4),
+          FlSpot(3.5, 1),
+          FlSpot(4.3, 4),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartData data = LineChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          lineBarsData: [lineChartBarData1, lineChartBarData2],
+          showingTooltipIndicators: [],
+          titlesData: FlTitlesData(show: false),
+          axisTitleData: FlAxisTitleData(show: false),
+          lineTouchData: LineTouchData(
+            distanceCalculator: (Offset a, Offset b) {
+              final dx = a.dx - b.dx;
+              final dy = a.dy - b.dy;
+              return math.sqrt(dx * dx + dy * dy);
+            },
+            touchSpotThreshold: 5,
+          ));
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      expect(
+          lineChartPainter.getNearestTouchedSpot(
+              viewSize, const Offset(30, 0), data.lineBarsData[0], 0, holder),
+          null);
+      final result1 = lineChartPainter.getNearestTouchedSpot(
+          viewSize, const Offset(60, 65), data.lineBarsData[0], 0, holder);
+      expect(result1!.barIndex, 0);
+      expect(result1.spotIndex, 2);
+
+      expect(
+          lineChartPainter.getNearestTouchedSpot(viewSize,
+              const Offset(60, 65.01), data.lineBarsData[0], 0, holder),
+          null);
+      expect(
+          lineChartPainter.getNearestTouchedSpot(viewSize,
+              const Offset(29.99, 0), data.lineBarsData[1], 1, holder),
+          null);
+
+      final result2 = lineChartPainter.getNearestTouchedSpot(
+          viewSize, const Offset(63.5, 63.5), data.lineBarsData[0], 0, holder);
+      expect(result2!.barIndex, 0);
+      expect(result2.spotIndex, 2);
     });
   });
 

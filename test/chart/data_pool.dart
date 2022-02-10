@@ -274,15 +274,17 @@ class MockData {
     33,
   );
 
-  static final lineBarSpot1 = LineBarSpot(
+  static final lineBarSpot1 = TouchLineBarSpot(
     lineChartBarData1,
     0,
     lineChartBarData1.spots.first,
+    0,
   );
-  static final lineBarSpot2 = LineBarSpot(
+  static final lineBarSpot2 = TouchLineBarSpot(
     MockData.lineChartBarData1,
     1,
     MockData.lineChartBarData1.spots.last,
+    2,
   );
 
   static final lineTouchResponse1 =
@@ -1082,27 +1084,27 @@ final LineChartBarData lineChartBarData9 = LineChartBarData(
   showingIndicators: [0, 1],
 );
 
-final LineBarSpot lineBarSpot1 = LineBarSpot(
+final TouchLineBarSpot lineBarSpot1 = TouchLineBarSpot(
   lineChartBarData1,
   0,
   flSpot1,
+  0,
 );
-final LineBarSpot lineBarSpot1Clone = LineBarSpot(
+final TouchLineBarSpot lineBarSpot1Clone = TouchLineBarSpot(
   lineChartBarData1Clone,
   0,
   flSpot1Clone,
+  0,
 );
 
-final LineBarSpot lineBarSpot2 = LineBarSpot(
-  lineChartBarData1,
-  2,
-  flSpot1,
-);
+final TouchLineBarSpot lineBarSpot2 =
+    TouchLineBarSpot(lineChartBarData1, 2, flSpot1, 2);
 
-final LineBarSpot lineBarSpot3 = LineBarSpot(
+final TouchLineBarSpot lineBarSpot3 = TouchLineBarSpot(
   lineChartBarData1,
   100,
   flSpot1,
+  2,
 );
 
 final LineTouchResponse lineTouchResponse1 = LineTouchResponse(
