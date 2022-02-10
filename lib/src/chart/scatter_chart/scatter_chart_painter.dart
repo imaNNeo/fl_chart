@@ -227,6 +227,20 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
+
+    final leftStartingPoint = getLeftOffsetDrawSize(holder);
+    final topStartingPoint = getTopOffsetDrawSize(holder);
+
+    if (holder.data.clipBubble) {
+      // clip the canvas, so that bubble does not cross the axis.
+      canvasWrapper.clipRect(Rect.fromLTWH(
+        leftStartingPoint,
+        topStartingPoint,
+        chartUsableSize.width,
+        chartUsableSize.height,
+      ));
+    }
+
     for (final scatterSpot in data.scatterSpots) {
       if (!scatterSpot.show) {
         continue;
@@ -241,6 +255,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
         scatterSpot.radius,
         _spotsPaint,
       );
+    }
+
+    if (holder.data.clipBubble) {
+      // restore the clip to get back original region.
+      canvasWrapper.restore();
     }
   }
 

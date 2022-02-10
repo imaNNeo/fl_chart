@@ -2434,6 +2434,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     topTitles: SideTitles(showTitles: false),
     bottomTitles: SideTitles(showTitles: false),
   ),
+  clipBubble: true,
 );
 final ScatterChartData scatterChartData1Clone = ScatterChartData(
   minY: 0,
@@ -2521,6 +2522,7 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     topTitles: SideTitles(showTitles: false),
     bottomTitles: SideTitles(showTitles: false),
   ),
+  clipBubble: true,
 );
 
 final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(

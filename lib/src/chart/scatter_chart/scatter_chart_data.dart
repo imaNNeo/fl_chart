@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/src/extensions/color_extension.dart';
 
 import 'scatter_chart_helper.dart';
 
@@ -18,6 +18,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   final FlTitlesData titlesData;
   final ScatterTouchData scatterTouchData;
   final List<int> showingTooltipIndicators;
+  final bool clipBubble;
 
   /// [ScatterChart] draws some points in a square space,
   /// points are defined by [scatterSpots],
@@ -39,6 +40,9 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   /// just put spot indices you want to show it on top of them.
   ///
   /// [clipData] forces the [LineChart] to draw lines inside the chart bounding box.
+  ///
+  /// [clipBubble] forces the [ScatterChart] to crop the bubbles and make sure it does
+  /// not cross the chart bounding box.
   ScatterChartData({
     List<ScatterSpot>? scatterSpots,
     FlTitlesData? titlesData,
@@ -53,10 +57,12 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double? maxY,
     FlClipData? clipData,
     Color? backgroundColor,
+    bool? clipBubble,
   })  : scatterSpots = scatterSpots ?? const [],
         titlesData = titlesData ?? FlTitlesData(),
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
+        clipBubble = clipBubble ?? false,
         super(
           gridData: gridData ?? FlGridData(),
           touchData: scatterTouchData ?? ScatterTouchData(),
@@ -101,6 +107,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
         clipData: b.clipData,
+        clipBubble: b.clipBubble,
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
     } else {
@@ -124,6 +131,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double? maxY,
     FlClipData? clipData,
     Color? backgroundColor,
+    bool? clipBubble,
   }) {
     return ScatterChartData(
       scatterSpots: scatterSpots ?? this.scatterSpots,
@@ -140,6 +148,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       maxY: maxY ?? this.maxY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
+      clipBubble: clipBubble ?? this.clipBubble,
     );
   }
 
@@ -161,6 +170,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         minY,
         maxY,
         rangeAnnotations,
+        clipBubble,
       ];
 }
 

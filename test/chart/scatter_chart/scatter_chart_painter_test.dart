@@ -1,14 +1,15 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import '../data_pool.dart';
 import 'scatter_chart_painter_test.mocks.dart';
 
@@ -458,6 +459,7 @@ void main() {
           ScatterSpot(7, 5, show: false),
         ],
         titlesData: FlTitlesData(show: false),
+        clipBubble: false,
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -470,7 +472,47 @@ void main() {
         holder,
       );
 
+      verifyNever(_mockCanvasWrapper.clipRect(any));
       verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
+      verifyNever(_mockCanvasWrapper.restore());
+    });
+
+    test('test 3', () {
+      const viewSize = Size(100, 100);
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          ScatterSpot(1, 1, show: false),
+          ScatterSpot(3, 9, show: false),
+          ScatterSpot(8, 2, show: false),
+          ScatterSpot(7, 5, show: false),
+        ],
+        titlesData: FlTitlesData(show: false),
+        clipBubble: true,
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawSpots(
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verify(_mockCanvasWrapper.clipRect(
+        Rect.fromPoints(
+          const Offset(0, 0),
+          const Offset(100, 100),
+        ),
+      )).called(1);
+
+      verify(_mockCanvasWrapper.restore()).called(1);
     });
   });
 
