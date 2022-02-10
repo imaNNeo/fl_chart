@@ -1397,6 +1397,9 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// Distance threshold to handle the touch event.
   final double touchSpotThreshold;
 
+  /// Distance function used when finding closest points to touch point
+  final CalculateTouchDistance distanceCalculator;
+
   /// Determines to handle default built-in touch responses,
   /// [LineTouchResponse] shows a tooltip popup above the touched spot.
   final bool handleBuiltInTouches;
@@ -1433,6 +1436,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
+    CalculateTouchDistance? distanceCalculator,
     bool? handleBuiltInTouches,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
@@ -1440,6 +1444,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         getTouchedSpotIndicator =
             getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
+        distanceCalculator = distanceCalculator ?? xDistance,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
@@ -1454,6 +1459,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
+    CalculateTouchDistance? distanceCalculator,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
     bool? handleBuiltInTouches,
@@ -1481,6 +1487,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         touchTooltipData,
         getTouchedSpotIndicator,
         touchSpotThreshold,
+        distanceCalculator,
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
@@ -1499,6 +1506,15 @@ typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData?> Function(
 /// Used for determine the touch indicator line's starting/end point.
 typedef GetTouchLineY = double Function(
     LineChartBarData barData, int spotIndex);
+
+/// Used to calculate the distance between coordinates of a touch event and a spot
+typedef CalculateTouchDistance = double Function(
+    Offset touchPoint, Offset spotPixelCoordinates);
+
+/// Default distanceCalculator only considers distance on x axis
+double xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
+  return ((touchPoint.dx - spotPixelCoordinates.dx)).abs();
+}
 
 /// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
@@ -1675,6 +1691,19 @@ class LineBarSpot extends FlSpot with EquatableMixin {
       ];
 }
 
+/// A [LineBarSpot] that holds information about the event that selected it
+class TouchLineBarSpot extends LineBarSpot {
+  /// Distance in pixels from where the user taped
+  final double distance;
+
+  TouchLineBarSpot(
+    LineChartBarData bar,
+    int barIndex,
+    FlSpot spot,
+    this.distance,
+  ) : super(bar, barIndex, spot);
+}
+
 /// Holds data of showing each row item in the tooltip popup.
 class LineTooltipItem with EquatableMixin {
   /// Showing text.
@@ -1760,16 +1789,17 @@ class ShowingTooltipIndicators with EquatableMixin {
 class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
-  final List<LineBarSpot>? lineBarSpots;
+  final List<TouchLineBarSpot>? lineBarSpots;
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
+  /// They are sorted based on their distance to the touch event
   LineTouchResponse(this.lineBarSpots) : super();
 
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
-    List<LineBarSpot>? lineBarSpots,
+    List<TouchLineBarSpot>? lineBarSpots,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,
