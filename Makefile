@@ -14,8 +14,7 @@ runTests:
 	flutter test
 
 checkoutToPR:
-	git branch -D pr-$(id)
-	git fetch origin pull/$(id)/head:pr-$(id); \
+	git fetch origin pull/$(id)/head:pr-$(id) --force; \
 	git checkout pr-$(id)
 
 # Tells you in which version this commit has landed
