@@ -1,4 +1,5 @@
 ## newVersion
+* **BUGFIX** Fix `clipData` implementation in ScatterChart, #897.
 * **BUGFIX** Fix PieChart changing sections issue (we have disabled semantics for pieChart badgeWidgets), #861.
 * **BUGFIX** Fix LineChart width smaller width or height lower than 40, #869, #857.
 * **BUGFIX** Allow to show title when axis diff is zero.

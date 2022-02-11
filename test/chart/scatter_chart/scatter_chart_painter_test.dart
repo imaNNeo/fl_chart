@@ -1,14 +1,15 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import '../data_pool.dart';
 import 'scatter_chart_painter_test.mocks.dart';
 
@@ -423,6 +424,7 @@ void main() {
           ScatterSpot(7, 5, radius: 6),
         ],
         titlesData: FlTitlesData(show: false),
+        clipData: FlClipData.all(),
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -441,6 +443,8 @@ void main() {
           .called(1);
       verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
           .called(1);
+
+      verify(_mockCanvasWrapper.clipRect(any)).called(1);
     });
 
     test('test 2', () {
@@ -458,6 +462,7 @@ void main() {
           ScatterSpot(7, 5, show: false),
         ],
         titlesData: FlTitlesData(show: false),
+        clipData: FlClipData.none(),
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -471,6 +476,7 @@ void main() {
       );
 
       verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
+      verifyNever(_mockCanvasWrapper.clipRect(any));
     });
   });
 

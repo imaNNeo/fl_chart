@@ -227,6 +227,49 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
+    final clip = data.clipData;
+    final border = data.borderData.show ? data.borderData.border : null;
+
+    if (data.clipData.any) {
+      canvasWrapper.saveLayer(
+        Rect.fromLTRB(
+          0,
+          0,
+          canvasWrapper.size.width,
+          canvasWrapper.size.height,
+        ),
+        Paint(),
+      );
+
+      var left = 0.0;
+      var top = 0.0;
+      var right = viewSize.width;
+      var bottom = viewSize.height;
+
+      if (clip.left) {
+        final borderWidth = border?.left.width ?? 0;
+        left = getLeftOffsetDrawSize(holder) + (borderWidth / 2);
+      }
+      if (clip.top) {
+        final borderWidth = border?.top.width ?? 0;
+        top = getTopOffsetDrawSize(holder) + (borderWidth / 2);
+      }
+      if (clip.right) {
+        final borderWidth = border?.right.width ?? 0;
+        right = getLeftOffsetDrawSize(holder) +
+            chartUsableSize.width -
+            (borderWidth / 2);
+      }
+      if (clip.bottom) {
+        final borderWidth = border?.bottom.width ?? 0;
+        bottom = getTopOffsetDrawSize(holder) +
+            chartUsableSize.height -
+            (borderWidth / 2);
+      }
+
+      canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
+    }
+
     for (final scatterSpot in data.scatterSpots) {
       if (!scatterSpot.show) {
         continue;
@@ -241,6 +284,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
         scatterSpot.radius,
         _spotsPaint,
       );
+    }
+
+    if (data.clipData.any) {
+      canvasWrapper.restore();
     }
   }
 
