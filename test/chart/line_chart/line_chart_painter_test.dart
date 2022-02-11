@@ -190,9 +190,9 @@ void main() {
       final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
       final Rect rect = verifyResult.captured.single;
       verifyResult.called(1);
-      expect(rect.left, 6);
+      expect(rect.left, 14);
       expect(rect.top, 0);
-      expect(rect.right, 374);
+      expect(rect.right, 366);
       expect(rect.bottom, 400);
     });
 
@@ -232,10 +232,10 @@ void main() {
       final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
       final Rect rect = verifyResult.captured.single;
       verifyResult.called(1);
-      expect(rect.left, 6);
-      expect(rect.top, 36);
-      expect(rect.right, 374);
-      expect(rect.bottom, 364);
+      expect(rect.left, 14);
+      expect(rect.top, 44);
+      expect(rect.right, 366);
+      expect(rect.bottom, 356);
     });
   });
 
