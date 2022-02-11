@@ -13,6 +13,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 101);
     });
@@ -28,6 +29,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 99);
       expect(results[0], closeTo(0.001, tolerance));
@@ -43,6 +45,7 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 6);
       expect(results[0], 0);
@@ -62,12 +65,14 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
-      expect(results.length, 4);
+      expect(results.length, 5);
       expect(results[0], 0);
       expect(results[1], 3);
       expect(results[2], 6);
       expect(results[3], 9);
+      expect(results[4], 10);
     });
 
     test('test 4', () {
@@ -81,11 +86,32 @@ void main() {
         action: (axisValue) {
           results.add(axisValue);
         },
+        baseLine: 0,
       );
       expect(results.length, 3);
       expect(results[0], 3);
       expect(results[1], 6);
       expect(results[2], 9);
+    });
+
+    test('test 4', () {
+      List<double> results = [];
+      AxisChartHelper().iterateThroughAxis(
+        min: 35,
+        minIncluded: true,
+        max: 130,
+        maxIncluded: true,
+        interval: 50,
+        action: (axisValue) {
+          results.add(axisValue);
+        },
+        baseLine: 0,
+      );
+      expect(results.length, 4);
+      expect(results[0], 35);
+      expect(results[1], 50);
+      expect(results[2], 100);
+      expect(results[3], 130);
     });
   });
 }

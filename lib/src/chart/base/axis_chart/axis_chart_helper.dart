@@ -23,13 +23,15 @@ class AxisChartHelper {
     bool minIncluded = true,
     required double max,
     bool maxIncluded = true,
+    required double baseLine,
     required double interval,
     required void Function(double axisValue) action,
   }) {
-    final initialValue =
-        Utils().getBestInitialIntervalValue(min, max, interval);
+    final initialValue = Utils()
+        .getBestInitialIntervalValue(min, max, interval, baseline: baseLine);
     var axisSeek = initialValue;
-    if (!minIncluded && axisSeek == min) {
+    final firstPositionOverlapsWithMin = axisSeek == min;
+    if (!minIncluded && firstPositionOverlapsWithMin) {
       axisSeek += interval;
     }
     final diff = max - min;
@@ -40,9 +42,15 @@ class AxisChartHelper {
         !maxIncluded && lastPositionOverlapsWithMax ? max - interval : max;
 
     final epsilon = interval / 100000;
+    if (minIncluded && !firstPositionOverlapsWithMin) {
+      action(min);
+    }
     while (axisSeek <= end + epsilon) {
       action(axisSeek);
       axisSeek += interval;
+    }
+    if (maxIncluded && !lastPositionOverlapsWithMax) {
+      action(max);
     }
   }
 }

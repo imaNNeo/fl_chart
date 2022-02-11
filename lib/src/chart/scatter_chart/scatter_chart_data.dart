@@ -49,8 +49,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     FlAxisTitleData? axisTitleData,
     double? minX,
     double? maxX,
+    double? baselineX,
     double? minY,
     double? maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   })  : scatterSpots = scatterSpots ?? const [],
@@ -72,6 +74,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
               ScatterChartHelper.calculateMaxAxisValues(
                       scatterSpots ?? const [])
                   .maxX,
+          baselineX: baselineX,
           minY: minY ??
               ScatterChartHelper.calculateMaxAxisValues(
                       scatterSpots ?? const [])
@@ -80,6 +83,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
               ScatterChartHelper.calculateMaxAxisValues(
                       scatterSpots ?? const [])
                   .maxY,
+          baselineY: baselineY,
         );
 
   /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
@@ -98,8 +102,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
             FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         minX: lerpDouble(a.minX, b.minX, t),
         maxX: lerpDouble(a.maxX, b.maxX, t),
+        baselineX: lerpDouble(a.baselineX, b.baselineX, t),
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
+        baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         clipData: b.clipData,
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
       );
@@ -120,8 +126,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     FlAxisTitleData? axisTitleData,
     double? minX,
     double? maxX,
+    double? baselineX,
     double? minY,
     double? maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   }) {
@@ -136,8 +144,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       axisTitleData: axisTitleData ?? this.axisTitleData,
       minX: minX ?? this.minX,
       maxX: maxX ?? this.maxX,
+      baselineX: baselineX ?? this.baselineX,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
+      baselineY: baselineY ?? this.baselineY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
@@ -158,8 +168,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         backgroundColor,
         minX,
         maxX,
+        baselineX,
         minY,
         maxY,
+        baselineY,
         rangeAnnotations,
       ];
 }

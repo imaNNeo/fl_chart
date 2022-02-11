@@ -31,8 +31,10 @@ When you change the chart's state, it animates to the new state internally (usin
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
 |maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
+|baselineX| defines the baseline of x-axis | 0|
 |minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
 |maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
+|baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |
 
@@ -275,3 +277,6 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ##### Sample 10 ([Source Code](/example/lib/line_chart/samples/line_chart_sample10.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >
+
+##### Gist - baseLineX, baselineY sample ([Source Code](https://gist.github.com/imaNNeoFighT/5822eda603bdad18cf46f212d5a48822))
+https://user-images.githubusercontent.com/7009300/152555425-3b53ac8c-257f-49b0-8d75-1a878c03ccaa.mp4

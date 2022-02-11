@@ -1120,7 +1120,7 @@ void main() {
 
       barChartPainter.drawTitles(
           _mockBuildContext, _mockCanvasWrapper, barGroupsPosition, holder);
-      expect(results.length, 14);
+      expect(results.length, 16);
     });
   });
 
