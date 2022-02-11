@@ -1,12 +1,12 @@
-## newVersion
+## 0.45.0
 * **BUGFIX** Fix `clipData` implementation in ScatterChart and LineChart, #897.
 * **BUGFIX** Fix PieChart changing sections issue (we have disabled semantics for pieChart badgeWidgets), #861.
 * **BUGFIX** Fix LineChart width smaller width or height lower than 40, #869, #857.
 * **BUGFIX** Allow to show title when axis diff is zero.
 * **IMPROVEMENT** Improve iteration over axis values logic (it solves some minor problems on showing titles when min, max values are below than 1.0).
-* **BREAKING** `LineTouchResponse` response now contains a list of `TouchLineBarSpot` instead of `LineBarSpot`. They are ordered based on their distance to the touch event and also contain that distance.
-* **IMPROVEMENT** Added `distanceCalculator` to `LineTouchData` which is used to calculate the distance between spots and touch events
 * **IMPROVEMENT** Add `baselineX` and `baselineY` property in our axis-based charts, It fixes a problem about `interval` which mentioned in #893 (check [this sample](https://github.com/imaNNeoFighT/fl_chart/blob/hotfix/initial-interval-baseline/repo_files/documentations/line_chart.md#gist---baselinex-baseliney-sample-source-code).
+* **IMPROVEMENT** Added `distanceCalculator` to `LineTouchData` which is used to calculate the distance between spots and touch events
+* **BREAKING** `LineTouchResponse` response now contains a list of `TouchLineBarSpot` instead of `LineBarSpot`. They are ordered based on their distance to the touch event and also contain that distance.
 
 ## 0.41.0
 * **BUGFIX** Fix getNearestTouchedSpot. Previously it returned the first occurrence of a spot within the threshold, and not the nearest, #641, #645.
