@@ -156,21 +156,21 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     if (clip.left) {
       final borderWidth = border?.left.width ?? 0;
-      left = getLeftOffsetDrawSize(holder) - (borderWidth / 2);
+      left = getLeftOffsetDrawSize(holder) + (borderWidth / 2);
     }
     if (clip.top) {
       final borderWidth = border?.top.width ?? 0;
-      top = getTopOffsetDrawSize(holder) - (borderWidth / 2);
+      top = getTopOffsetDrawSize(holder) + (borderWidth / 2);
     }
     if (clip.right) {
       final borderWidth = border?.right.width ?? 0;
       right =
-          getLeftOffsetDrawSize(holder) + usableSize.width + (borderWidth / 2);
+          getLeftOffsetDrawSize(holder) + usableSize.width - (borderWidth / 2);
     }
     if (clip.bottom) {
       final borderWidth = border?.bottom.width ?? 0;
       bottom =
-          getTopOffsetDrawSize(holder) + usableSize.height + (borderWidth / 2);
+          getTopOffsetDrawSize(holder) + usableSize.height - (borderWidth / 2);
     }
 
     canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
