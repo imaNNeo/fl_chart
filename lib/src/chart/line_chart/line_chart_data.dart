@@ -1444,7 +1444,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         getTouchedSpotIndicator =
             getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
-        distanceCalculator = distanceCalculator ?? xDistance,
+        distanceCalculator = distanceCalculator ?? _xDistance,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
@@ -1472,6 +1472,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
       getTouchedSpotIndicator:
           getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
+      distanceCalculator: distanceCalculator ?? this.distanceCalculator,
       getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
       getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
@@ -1512,7 +1513,7 @@ typedef CalculateTouchDistance = double Function(
     Offset touchPoint, Offset spotPixelCoordinates);
 
 /// Default distanceCalculator only considers distance on x axis
-double xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
+double _xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
   return ((touchPoint.dx - spotPixelCoordinates.dx)).abs();
 }
 
