@@ -280,3 +280,10 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ##### Gist - baseLineX, baselineY sample ([Source Code](https://gist.github.com/imaNNeoFighT/5822eda603bdad18cf46f212d5a48822))
 https://user-images.githubusercontent.com/7009300/152555425-3b53ac8c-257f-49b0-8d75-1a878c03ccaa.mp4
+
+https://gist.github.com/imaNNeoFighT/a6c565bee38c360178f657a2b8617775
+https://gist.github.com/imaNNeoFighT/d21e6ef74f49f5fae7b09ca3e186b238
+https://gist.github.com/imaNNeoFighT/e4ce7c0b2b8db519e5d70c405ab4c873
+https://gist.github.com/imaNNeoFighT/bf95e720621d799ab980a7a3287c56e2
+https://gist.github.com/imaNNeoFighT/a09a202fac8b30ce0dfc6e141478f6f4
+https://gist.github.com/imaNNeoFighT/b8b020c682fc1a697b4992277ff8890c
