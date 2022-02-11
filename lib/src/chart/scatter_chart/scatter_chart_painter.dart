@@ -227,18 +227,47 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
+    final clip = data.clipData;
+    final border = data.borderData.show ? data.borderData.border : null;
 
-    final leftStartingPoint = getLeftOffsetDrawSize(holder);
-    final topStartingPoint = getTopOffsetDrawSize(holder);
+    if (data.clipData.any) {
+      canvasWrapper.saveLayer(
+        Rect.fromLTRB(
+          0,
+          0,
+          canvasWrapper.size.width,
+          canvasWrapper.size.height,
+        ),
+        Paint(),
+      );
 
-    if (holder.data.clipBubble) {
-      // clip the canvas, so that bubble does not cross the axis.
-      canvasWrapper.clipRect(Rect.fromLTWH(
-        leftStartingPoint,
-        topStartingPoint,
-        chartUsableSize.width,
-        chartUsableSize.height,
-      ));
+      var left = 0.0;
+      var top = 0.0;
+      var right = viewSize.width;
+      var bottom = viewSize.height;
+
+      if (clip.left) {
+        final borderWidth = border?.left.width ?? 0;
+        left = getLeftOffsetDrawSize(holder) - (borderWidth / 2);
+      }
+      if (clip.top) {
+        final borderWidth = border?.top.width ?? 0;
+        top = getTopOffsetDrawSize(holder) - (borderWidth / 2);
+      }
+      if (clip.right) {
+        final borderWidth = border?.right.width ?? 0;
+        right = getLeftOffsetDrawSize(holder) +
+            chartUsableSize.width +
+            (borderWidth / 2);
+      }
+      if (clip.bottom) {
+        final borderWidth = border?.bottom.width ?? 0;
+        bottom = getTopOffsetDrawSize(holder) +
+            chartUsableSize.height +
+            (borderWidth / 2);
+      }
+
+      canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
     }
 
     for (final scatterSpot in data.scatterSpots) {
@@ -257,8 +286,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       );
     }
 
-    if (holder.data.clipBubble) {
-      // restore the clip to get back original region.
+    if (data.clipData.any) {
       canvasWrapper.restore();
     }
   }

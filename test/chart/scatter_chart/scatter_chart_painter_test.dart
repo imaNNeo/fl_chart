@@ -424,6 +424,7 @@ void main() {
           ScatterSpot(7, 5, radius: 6),
         ],
         titlesData: FlTitlesData(show: false),
+        clipData: FlClipData.all(),
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -442,6 +443,8 @@ void main() {
           .called(1);
       verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
           .called(1);
+
+      verify(_mockCanvasWrapper.clipRect(any)).called(1);
     });
 
     test('test 2', () {
@@ -459,7 +462,7 @@ void main() {
           ScatterSpot(7, 5, show: false),
         ],
         titlesData: FlTitlesData(show: false),
-        clipBubble: false,
+        clipData: FlClipData.none(),
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -472,47 +475,8 @@ void main() {
         holder,
       );
 
-      verifyNever(_mockCanvasWrapper.clipRect(any));
       verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
-      verifyNever(_mockCanvasWrapper.restore());
-    });
-
-    test('test 3', () {
-      const viewSize = Size(100, 100);
-
-      final ScatterChartData data = ScatterChartData(
-        minY: 0,
-        maxY: 10,
-        minX: 0,
-        maxX: 10,
-        scatterSpots: [
-          ScatterSpot(1, 1, show: false),
-          ScatterSpot(3, 9, show: false),
-          ScatterSpot(8, 2, show: false),
-          ScatterSpot(7, 5, show: false),
-        ],
-        titlesData: FlTitlesData(show: false),
-        clipBubble: true,
-      );
-
-      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      scatterChartPainter.drawSpots(
-        _mockCanvasWrapper,
-        holder,
-      );
-
-      verify(_mockCanvasWrapper.clipRect(
-        Rect.fromPoints(
-          const Offset(0, 0),
-          const Offset(100, 100),
-        ),
-      )).called(1);
-
-      verify(_mockCanvasWrapper.restore()).called(1);
+      verifyNever(_mockCanvasWrapper.clipRect(any));
     });
   });
 
