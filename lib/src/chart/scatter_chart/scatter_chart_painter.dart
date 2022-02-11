@@ -248,22 +248,22 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
       if (clip.left) {
         final borderWidth = border?.left.width ?? 0;
-        left = getLeftOffsetDrawSize(holder) - (borderWidth / 2);
+        left = getLeftOffsetDrawSize(holder) + (borderWidth / 2);
       }
       if (clip.top) {
         final borderWidth = border?.top.width ?? 0;
-        top = getTopOffsetDrawSize(holder) - (borderWidth / 2);
+        top = getTopOffsetDrawSize(holder) + (borderWidth / 2);
       }
       if (clip.right) {
         final borderWidth = border?.right.width ?? 0;
         right = getLeftOffsetDrawSize(holder) +
-            chartUsableSize.width +
+            chartUsableSize.width -
             (borderWidth / 2);
       }
       if (clip.bottom) {
         final borderWidth = border?.bottom.width ?? 0;
         bottom = getTopOffsetDrawSize(holder) +
-            chartUsableSize.height +
+            chartUsableSize.height -
             (borderWidth / 2);
       }
 
