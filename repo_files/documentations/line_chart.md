@@ -169,6 +169,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
+|distanceCalculator| a function to calculate the distance between a spot and a touch event| _xDistance|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
 |getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
@@ -212,10 +213,19 @@ When you change the chart's state, it animates to the new state internally (usin
 |spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
 
 
+### TouchLineBarSpot
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|bar|the [LineChartBarData](#LineChartBarData) that contains a spot|null|
+|barIndex|index of the target [LineChartBarData](#LineChartBarData) inside [LineChartData](#LineChartData)|null|
+|spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
+|distance|distance to the touch event|null|
+
+
 ### LineTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|lineBarSpots|a list of [LineBarSpot](#LineBarSpot)|null|
+|lineBarSpots|a list of [TouchLineBarSpot](#TouchLineBarSpot)|null|
 
 ### ShowingTooltipIndicators
 |PropName|Description|default value|
