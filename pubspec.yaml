@@ -12,8 +12,8 @@ dependencies:
   equatable: ^2.0.3
 
 dev_dependencies:
-  mockito: ^5.0.16
-  build_runner: ^2.1.5
+  mockito: ^5.1.0
+  build_runner: ^2.1.7
   flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
