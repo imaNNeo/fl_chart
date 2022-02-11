@@ -5,10 +5,9 @@
 import 'dart:typed_data' as _i7;
 import 'dart:ui' as _i2;
 
+import 'package:fl_chart/fl_chart.dart' as _i12;
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
     as _i11;
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart'
-    as _i12;
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart'
     as _i9;
 import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i10;

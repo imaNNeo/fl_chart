@@ -19,8 +19,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlAxisTitleData axisTitleData;
   final RangeAnnotations rangeAnnotations;
 
-  double minX, maxX;
-  double minY, maxY;
+  double minX, maxX, baselineX;
+  double minY, maxY, baselineY;
 
   /// clip the chart to the border (prevent draw outside the border)
   FlClipData clipData;
@@ -40,8 +40,10 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     RangeAnnotations? rangeAnnotations,
     required double minX,
     required double maxX,
+    double? baselineX,
     required double minY,
     required double maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
     FlBorderData? borderData,
@@ -51,8 +53,10 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
         minX = minX,
         maxX = maxX,
+        baselineX = baselineX ?? 0,
         minY = minY,
         maxY = maxY,
+        baselineY = baselineY ?? 0,
         clipData = clipData ?? FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
         super(borderData: borderData, touchData: touchData);
@@ -65,8 +69,10 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         rangeAnnotations,
         minX,
         maxX,
+        baselineX,
         minY,
         maxY,
+        baselineY,
         clipData,
         backgroundColor,
         borderData,
@@ -642,7 +648,7 @@ bool showAllGrids(double value) {
 
 /// Determines the appearance of specified line.
 ///
-/// It gives you an axis value (horizontal or vertical),
+/// It gives you an axis [value] (horizontal or vertical),
 /// you should pass a [FlLine] that represents style of specified line.
 typedef GetDrawingGridLine = FlLine Function(double value);
 

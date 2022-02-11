@@ -394,6 +394,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       AxisChartHelper().iterateThroughAxis(
         min: data.minY,
         max: data.maxY,
+        baseLine: data.baselineY,
         interval: leftInterval,
         action: (axisValue) {
           if (leftTitles.checkToShowTitle(
@@ -466,6 +467,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       AxisChartHelper().iterateThroughAxis(
         min: data.minY,
         max: data.maxY,
+        baseLine: data.baselineY,
         interval: rightInterval,
         action: (axisValue) {
           if (rightTitles.checkToShowTitle(

@@ -31,6 +31,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
 |minY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
+|baselineY| defines the baseline of y-axis | 0|
 
 
 ### BarChartGroupData

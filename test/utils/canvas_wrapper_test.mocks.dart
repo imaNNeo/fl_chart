@@ -283,10 +283,10 @@ class MockUtils extends _i1.Mock implements _i6.Utils {
           Invocation.method(#normalizeBorderSide, [borderSide, width]),
           returnValue: _FakeBorderSide_2()) as _i3.BorderSide);
   @override
-  double getEfficientInterval(double? axisViewSize, double? diffInYAxis,
+  double getEfficientInterval(double? axisViewSize, double? diffInAxis,
           {double? pixelPerInterval = 40.0}) =>
       (super.noSuchMethod(
-          Invocation.method(#getEfficientInterval, [axisViewSize, diffInYAxis],
+          Invocation.method(#getEfficientInterval, [axisViewSize, diffInAxis],
               {#pixelPerInterval: pixelPerInterval}),
           returnValue: 0.0) as double);
   @override
@@ -304,10 +304,11 @@ class MockUtils extends _i1.Mock implements _i6.Utils {
           Invocation.method(#getThemeAwareTextStyle, [context, providedStyle]),
           returnValue: _FakeTextStyle_3()) as _i3.TextStyle);
   @override
-  double getBestInitialIntervalValue(
-          double? min, double? max, double? interval) =>
+  double getBestInitialIntervalValue(double? min, double? max, double? interval,
+          {double? baseline = 0.0}) =>
       (super.noSuchMethod(
-          Invocation.method(#getBestInitialIntervalValue, [min, max, interval]),
+          Invocation.method(#getBestInitialIntervalValue, [min, max, interval],
+              {#baseline: baseline}),
           returnValue: 0.0) as double);
   @override
   double convertRadiusToSigma(double? radius) =>

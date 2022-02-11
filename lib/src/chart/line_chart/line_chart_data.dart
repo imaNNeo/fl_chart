@@ -73,8 +73,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
     RangeAnnotations? rangeAnnotations,
     double? minX,
     double? maxX,
+    double? baselineX,
     double? minY,
     double? maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
@@ -97,12 +99,14 @@ class LineChartData extends AxisChartData with EquatableMixin {
           maxX: maxX ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxX,
+          baselineX: baselineX,
           minY: minY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .minY,
           maxY: maxY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxY,
+          baselineY: baselineY,
         );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -112,8 +116,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
       return LineChartData(
         minX: lerpDouble(a.minX, b.minX, t),
         maxX: lerpDouble(a.maxX, b.maxX, t),
+        baselineX: lerpDouble(a.baselineX, b.baselineX, t),
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
+        baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         clipData: b.clipData,
@@ -152,8 +158,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlBorderData? borderData,
     double? minX,
     double? maxX,
+    double? baselineX,
     double? minY,
     double? maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   }) {
@@ -171,8 +179,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
       borderData: borderData ?? this.borderData,
       minX: minX ?? this.minX,
       maxX: maxX ?? this.maxX,
+      baselineX: baselineX ?? this.baselineX,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
+      baselineY: baselineY ?? this.baselineY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
@@ -193,8 +203,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
         rangeAnnotations,
         minX,
         maxX,
+        baselineX,
         minY,
         maxY,
+        baselineY,
         clipData,
         backgroundColor,
       ];
