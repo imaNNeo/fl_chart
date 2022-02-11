@@ -1,0 +1,12 @@
+coverage/
+doc/
+metrics/
+tool/
+website/
+repo_files/
+.codecov.yaml
+.github/
+example/
+dart_dependency_validator.yaml
+Makefile
+test/
