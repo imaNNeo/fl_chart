@@ -1,13 +1,13 @@
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 
-extension SideTitlesExtension on SideTitles {
+extension SideTitlesExtension on AxisTitles {
   double get totalReservedSize {
-    if (!showTitles) {
-      return 0;
-    }
-    var size = reservedSize;
-    if (axisName != null) {
+    var size = 0.0;
+    if (showAxisTitles) {
       size += axisNameReservedSize;
+    }
+    if (showSideTitles) {
+      size += sideTitles.reservedSize;
     }
     return size;
   }

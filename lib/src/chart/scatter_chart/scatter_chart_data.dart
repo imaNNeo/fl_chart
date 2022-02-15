@@ -15,7 +15,6 @@ import 'scatter_chart_helper.dart';
 /// including background color, scatter spots, ...
 class ScatterChartData extends AxisChartData with EquatableMixin {
   final List<ScatterSpot> scatterSpots;
-  final FlTitlesData titlesData;
   final ScatterTouchData scatterTouchData;
   final List<int> showingTooltipIndicators;
   final ScatterLabelSettings scatterLabelSettings;
@@ -47,7 +46,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
     FlBorderData? borderData,
-    FlAxisTitleData? axisTitleData,
     double? minX,
     double? maxX,
     double? baselineX,
@@ -58,7 +56,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
   })  : scatterSpots = scatterSpots ?? const [],
-        titlesData = titlesData ?? FlTitlesData(),
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
         scatterLabelSettings = scatterLabelSettings ?? ScatterLabelSettings(),
@@ -66,7 +63,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           gridData: gridData ?? FlGridData(),
           touchData: scatterTouchData ?? ScatterTouchData(),
           borderData: borderData,
-          axisTitleData: axisTitleData ?? FlAxisTitleData(),
+          titlesData: titlesData ?? FlTitlesData(),
           clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
           minX: minX ??
@@ -101,8 +98,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
             a.showingTooltipIndicators, b.showingTooltipIndicators, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        axisTitleData:
-            FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         minX: lerpDouble(a.minX, b.minX, t),
         maxX: lerpDouble(a.maxX, b.maxX, t),
         baselineX: lerpDouble(a.baselineX, b.baselineX, t),
@@ -128,7 +123,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
     FlBorderData? borderData,
-    FlAxisTitleData? axisTitleData,
     double? minX,
     double? maxX,
     double? baselineX,
@@ -147,7 +141,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           showingTooltipIndicators ?? this.showingTooltipIndicators,
       gridData: gridData ?? this.gridData,
       borderData: borderData ?? this.borderData,
-      axisTitleData: axisTitleData ?? this.axisTitleData,
       minX: minX ?? this.minX,
       maxX: maxX ?? this.maxX,
       baselineX: baselineX ?? this.baselineX,
@@ -170,7 +163,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         gridData,
         touchData,
         borderData,
-        axisTitleData,
         clipData,
         backgroundColor,
         minX,

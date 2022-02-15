@@ -607,9 +607,9 @@ void main() {
 
       final BarChartData data = BarChartData(
         titlesData: FlTitlesData(show: false),
-        axisTitleData: FlAxisTitleData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
+        alignment: BarChartAlignment.center,
       );
 
       final BarChartPainter barChartPainter = BarChartPainter();
@@ -619,8 +619,7 @@ void main() {
       when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final groupsX = barChartPainter.calculateGroupsX(
-          viewSize, barGroups, BarChartAlignment.center, holder);
+      final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 

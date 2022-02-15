@@ -2,11 +2,11 @@ import 'dart:core';
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/rrect_extension.dart';
+import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -47,14 +47,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       return;
     }
 
-    final groupsX = calculateGroupsX(
-        canvasWrapper.size, data.barGroups, data.alignment, holder);
+    final groupsX = data.calculateGroupsX(canvasWrapper.size.width);
     _groupBarsPosition = calculateGroupAndBarsPosition(
         canvasWrapper.size, groupsX, data.barGroups);
 
     drawBars(canvasWrapper, _groupBarsPosition!, holder);
-    drawAxisTitles(context, canvasWrapper, holder);
-    drawTitles(context, canvasWrapper, _groupBarsPosition!, holder);
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
       final barGroup = targetData.barGroups[i];
@@ -76,108 +73,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             holder);
       }
     }
-  }
-
-  /// Calculates groups position for showing in the x axis using [alignment].
-  @visibleForTesting
-  List<double> calculateGroupsX(
-      Size viewSize,
-      List<BarChartGroupData> barGroups,
-      BarChartAlignment alignment,
-      PaintHolder<BarChartData> holder) {
-    final data = holder.data;
-    final drawSize = getChartUsableDrawSize(viewSize, holder);
-
-    final groupsX = List.filled(barGroups.length, 0.0, growable: false);
-
-    final leftTextsSpace = getLeftOffsetDrawSize(holder);
-
-    switch (alignment) {
-      case BarChartAlignment.start:
-        var tempX = 0.0;
-        barGroups.asMap().forEach((i, group) {
-          groupsX[i] = leftTextsSpace + tempX + group.width / 2;
-          tempX += group.width;
-        });
-        break;
-
-      case BarChartAlignment.end:
-        var tempX = 0.0;
-        for (var i = barGroups.length - 1; i >= 0; i--) {
-          final group = barGroups[i];
-          groupsX[i] =
-              (leftTextsSpace + drawSize.width) - tempX - group.width / 2;
-          tempX += group.width;
-        }
-        break;
-
-      case BarChartAlignment.center:
-        var sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        sumWidth += data.groupsSpace * (barGroups.length - 1);
-        final horizontalMargin = (drawSize.width - sumWidth) / 2;
-
-        var tempX = 0.0;
-        for (var i = 0; i < barGroups.length; i++) {
-          final group = barGroups[i];
-          groupsX[i] =
-              leftTextsSpace + horizontalMargin + tempX + group.width / 2;
-
-          final groupSpace = i == barGroups.length - 1 ? 0 : data.groupsSpace;
-          tempX += group.width + groupSpace;
-        }
-        break;
-
-      case BarChartAlignment.spaceBetween:
-        final sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        final spaceAvailable = drawSize.width - sumWidth;
-        final eachSpace = spaceAvailable / (barGroups.length - 1);
-
-        var tempX = 0.0;
-        barGroups.asMap().forEach((index, group) {
-          tempX += group.width / 2;
-          if (index != 0) {
-            tempX += eachSpace;
-          }
-          groupsX[index] = leftTextsSpace + tempX;
-          tempX += group.width / 2;
-        });
-        break;
-
-      case BarChartAlignment.spaceAround:
-        final sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        final spaceAvailable = drawSize.width - sumWidth;
-        final eachSpace = spaceAvailable / (barGroups.length * 2);
-
-        var tempX = 0.0;
-        barGroups.asMap().forEach((i, group) {
-          tempX += eachSpace;
-          tempX += group.width / 2;
-          groupsX[i] = leftTextsSpace + tempX;
-          tempX += group.width / 2;
-          tempX += eachSpace;
-        });
-        break;
-
-      case BarChartAlignment.spaceEvenly:
-        final sumWidth =
-            barGroups.map((group) => group.width).reduce((a, b) => a + b);
-        final spaceAvailable = drawSize.width - sumWidth;
-        final eachSpace = spaceAvailable / (barGroups.length + 1);
-
-        var tempX = 0.0;
-        barGroups.asMap().forEach((i, group) {
-          tempX += eachSpace;
-          tempX += group.width / 2;
-          groupsX[i] = leftTextsSpace + tempX;
-          tempX += group.width / 2;
-        });
-        break;
-    }
-
-    return groupsX;
   }
 
   /// Calculates bars position alongside group positions.
@@ -369,173 +264,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             }
           }
         }
-      }
-    }
-  }
-
-  @visibleForTesting
-  void drawTitles(
-    BuildContext context,
-    CanvasWrapper canvasWrapper,
-    List<GroupBarsPosition> groupBarsPosition,
-    PaintHolder<BarChartData> holder,
-  ) {
-    final data = holder.data;
-    final targetData = holder.targetData;
-    if (!targetData.titlesData.show) {
-      return;
-    }
-    final viewSize = canvasWrapper.size;
-    final drawSize = getChartUsableDrawSize(viewSize, holder);
-
-    // Left Titles
-    final leftTitles = targetData.titlesData.leftTitles;
-    final leftInterval = leftTitles.interval ??
-        Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
-    if (leftTitles.showTitles) {
-      final axisValues = AxisChartHelper().iterateThroughAxis(
-        min: data.minY,
-        max: data.maxY,
-        baseLine: data.baselineY,
-        interval: leftInterval,
-      );
-      for (double axisValue in axisValues) {
-        if (!leftTitles.checkToShowTitle(
-            data.minY, data.maxY, leftTitles, leftInterval, axisValue)) {
-          continue;
-        }
-        var x = 0 + getLeftOffsetDrawSize(holder);
-        var y = getPixelY(axisValue, drawSize, holder);
-
-        final text = leftTitles.getTitles(axisValue);
-
-        final span = TextSpan(
-          style: Utils().getThemeAwareTextStyle(
-              context, leftTitles.getTextStyles(context, axisValue)),
-          text: text,
-        );
-        final tp = TextPainter(
-          text: span,
-          textAlign: leftTitles.textAlign,
-          textDirection: leftTitles.textDirection,
-          textScaleFactor: holder.textScale,
-        );
-        tp.layout(
-          maxWidth: leftTitles.reservedSize,
-          minWidth: leftTitles.reservedSize,
-        );
-        x -= tp.width + leftTitles.margin;
-        y -= tp.height / 2;
-        x +=
-            Utils().calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
-        canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
-      }
-    }
-
-    // Top Titles
-    final topTitles = targetData.titlesData.topTitles;
-    if (topTitles.showTitles && groupBarsPosition.containsAnythingToShow()) {
-      for (var index = 0; index < groupBarsPosition.length; index++) {
-        final groupBarPos = groupBarsPosition[index];
-
-        final xValue = data.barGroups[index].x.toDouble();
-        final text = topTitles.getTitles(xValue);
-        final span = TextSpan(
-          style: Utils().getThemeAwareTextStyle(
-              context, topTitles.getTextStyles(context, xValue)),
-          text: text,
-        );
-        final tp = TextPainter(
-          text: span,
-          textAlign: topTitles.textAlign,
-          textDirection: topTitles.textDirection,
-          textScaleFactor: holder.textScale,
-        );
-        tp.layout();
-        var x = groupBarPos.groupX;
-        var y = 0.0;
-
-        x -= tp.width / 2;
-        y += Utils().calculateRotationOffset(tp.size, topTitles.rotateAngle).dy;
-        canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
-      }
-    }
-
-    // Right Titles
-    final rightTitles = targetData.titlesData.rightTitles;
-    final rightInterval = rightTitles.interval ??
-        Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
-    if (rightTitles.showTitles) {
-      final axisValues = AxisChartHelper().iterateThroughAxis(
-        min: data.minY,
-        max: data.maxY,
-        baseLine: data.baselineY,
-        interval: rightInterval,
-      );
-      for (double axisValue in axisValues) {
-        if (!rightTitles.checkToShowTitle(
-            data.minY, data.maxY, rightTitles, rightInterval, axisValue)) {
-          continue;
-        }
-        var x = drawSize.width + getLeftOffsetDrawSize(holder);
-        var y = getPixelY(axisValue, drawSize, holder);
-
-        final text = rightTitles.getTitles(axisValue);
-
-        final span = TextSpan(
-          style: Utils().getThemeAwareTextStyle(
-              context, rightTitles.getTextStyles(context, axisValue)),
-          text: text,
-        );
-        final tp = TextPainter(
-          text: span,
-          textAlign: rightTitles.textAlign,
-          textDirection: rightTitles.textDirection,
-          textScaleFactor: holder.textScale,
-        );
-        tp.layout(
-          maxWidth: rightTitles.reservedSize,
-          minWidth: rightTitles.reservedSize,
-        );
-        x += rightTitles.margin;
-        y -= tp.height / 2;
-        x -= Utils()
-            .calculateRotationOffset(tp.size, rightTitles.rotateAngle)
-            .dx;
-        canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
-      }
-    }
-
-    // Bottom titles
-    final bottomTitles = targetData.titlesData.bottomTitles;
-    if (bottomTitles.showTitles && groupBarsPosition.containsAnythingToShow()) {
-      final interval = bottomTitles.interval?.toInt() ?? 1;
-
-      for (var index = 0; index < groupBarsPosition.length; index += interval) {
-        final groupBarPos = groupBarsPosition[index];
-
-        final xValue = data.barGroups[index].x.toDouble();
-        final text = bottomTitles.getTitles(xValue);
-        // ignore: omit_local_variable_types
-        final span = TextSpan(
-            style: Utils().getThemeAwareTextStyle(
-                context, bottomTitles.getTextStyles(context, xValue)),
-            text: text);
-        final tp = TextPainter(
-            text: span,
-            textAlign: bottomTitles.textAlign,
-            textDirection: bottomTitles.textDirection,
-            textScaleFactor: holder.textScale);
-        tp.layout();
-        var x = groupBarPos.groupX;
-        var y = drawSize.height +
-            getTopOffsetDrawSize(holder) +
-            bottomTitles.margin;
-        x -= tp.width / 2;
-        y -= Utils()
-            .calculateRotationOffset(tp.size, bottomTitles.rotateAngle)
-            .dy;
-        canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
       }
     }
   }
@@ -755,84 +483,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     canvasWrapper.drawRRect(strokeBarRect, _barStrokePaint);
   }
 
-  /// We add our needed horizontal space to parent needed.
-  /// we have some titles that maybe draw in the left and right side of our chart,
-  /// then we should draw the chart a with some left space,
-  /// the left space is [getLeftOffsetDrawSize],
-  /// and the whole space is [getExtraNeededHorizontalSpace]
-  @override
-  double getExtraNeededHorizontalSpace(PaintHolder<BarChartData> holder) {
-    final data = holder.data;
-    var sum = super.getExtraNeededHorizontalSpace(holder);
-    if (data.titlesData.show) {
-      final leftSide = data.titlesData.leftTitles;
-      if (leftSide.showTitles) {
-        sum += leftSide.reservedSize + leftSide.margin;
-      }
-
-      final rightSide = data.titlesData.rightTitles;
-      if (rightSide.showTitles) {
-        sum += rightSide.reservedSize + rightSide.margin;
-      }
-    }
-    return sum;
-  }
-
-  /// We add our needed vertical space to parent needed.
-  /// we have some titles that maybe draw in the top and bottom side of our chart,
-  /// then we should draw the chart a with some top space,
-  /// the top space is [getTopOffsetDrawSize()],
-  /// and the whole space is [getExtraNeededVerticalSpace]
-  @override
-  double getExtraNeededVerticalSpace(PaintHolder<BarChartData> holder) {
-    final data = holder.data;
-    var sum = super.getExtraNeededVerticalSpace(holder);
-    if (data.titlesData.show) {
-      final bottomSide = data.titlesData.bottomTitles;
-      if (bottomSide.showTitles) {
-        sum += bottomSide.reservedSize + bottomSide.margin;
-      }
-
-      final topSide = data.titlesData.topTitles;
-      if (topSide.showTitles) {
-        sum += topSide.reservedSize + topSide.margin;
-      }
-    }
-    return sum;
-  }
-
-  /// calculate left offset for draw the chart,
-  /// maybe we want to show both left and right titles,
-  /// then just the left titles will effect on this function.
-  @override
-  double getLeftOffsetDrawSize(PaintHolder<BarChartData> holder) {
-    final data = holder.data;
-    var sum = super.getLeftOffsetDrawSize(holder);
-
-    final leftTitles = data.titlesData.leftTitles;
-    if (data.titlesData.show && leftTitles.showTitles) {
-      sum += leftTitles.reservedSize + leftTitles.margin;
-    }
-
-    return sum;
-  }
-
-  /// calculate top offset for draw the chart,
-  /// maybe we want to show both top and bottom titles,
-  /// then just the top titles will effect on this function.
-  @override
-  double getTopOffsetDrawSize(PaintHolder<BarChartData> holder) {
-    final data = holder.data;
-    var sum = super.getTopOffsetDrawSize(holder);
-
-    final topTitles = data.titlesData.topTitles;
-    if (data.titlesData.show && topTitles.showTitles) {
-      sum += topTitles.reservedSize + topTitles.margin;
-    }
-
-    return sum;
-  }
-
   /// Makes a [BarTouchedSpot] based on the provided [localPosition]
   ///
   /// Processes [localPosition] and checks
@@ -853,8 +503,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     if (_groupBarsPosition == null) {
-      final groupsX =
-          calculateGroupsX(viewSize, data.barGroups, data.alignment, holder);
+      final groupsX = data.calculateGroupsX(viewSize.width);
       _groupBarsPosition =
           calculateGroupAndBarsPosition(viewSize, groupsX, data.barGroups);
     }
@@ -952,15 +601,4 @@ class GroupBarsPosition {
   final List<double> barsX;
 
   GroupBarsPosition(this.groupX, this.barsX);
-}
-
-extension _GroupBarsPositionListExtension on List<GroupBarsPosition> {
-  bool containsAnythingToShow() {
-    try {
-      firstWhere((element) => element.barsX.isNotEmpty);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
 }

@@ -24,9 +24,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
   /// Arrange the [barGroups], see [BarChartAlignment].
   final BarChartAlignment alignment;
 
-  /// Titles on left, top, right, bottom axis for each number.
-  final FlTitlesData titlesData;
-
   /// Handles touch behaviors and responses.
   final BarTouchData barTouchData;
 
@@ -52,7 +49,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     BarChartAlignment? alignment,
     FlTitlesData? titlesData,
     BarTouchData? barTouchData,
-    FlAxisTitleData? axisTitleData,
     double? maxY,
     double? minY,
     double? baselineY,
@@ -63,11 +59,16 @@ class BarChartData extends AxisChartData with EquatableMixin {
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
-        titlesData = titlesData ??
-            FlTitlesData(topTitles: SideTitles(showTitles: false)),
         barTouchData = barTouchData ?? BarTouchData(),
         super(
-          axisTitleData: axisTitleData ?? FlAxisTitleData(),
+          titlesData: titlesData ??
+              FlTitlesData(
+                topTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: false,
+                  ),
+                ),
+              ),
           gridData: gridData ?? FlGridData(),
           borderData: borderData,
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
@@ -89,7 +90,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     double? groupsSpace,
     BarChartAlignment? alignment,
     FlTitlesData? titlesData,
-    FlAxisTitleData? axisTitleData,
     RangeAnnotations? rangeAnnotations,
     BarTouchData? barTouchData,
     FlGridData? gridData,
@@ -104,7 +104,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
       groupsSpace: groupsSpace ?? this.groupsSpace,
       alignment: alignment ?? this.alignment,
       titlesData: titlesData ?? this.titlesData,
-      axisTitleData: axisTitleData ?? this.axisTitleData,
       rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
       barTouchData: barTouchData ?? this.barTouchData,
       gridData: gridData ?? this.gridData,
@@ -125,8 +124,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
         alignment: b.alignment,
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
-        axisTitleData:
-            FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         rangeAnnotations:
             RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         barTouchData: b.barTouchData,
@@ -150,7 +147,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         alignment,
         titlesData,
         barTouchData,
-        axisTitleData,
         maxY,
         minY,
         baselineY,

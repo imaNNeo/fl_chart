@@ -86,28 +86,29 @@ class BaseChartPainter<D extends BaseChartData> {
   /// is the needed space to draw horizontal and vertical
   /// stuff around our chart.
   /// then we subtract them from raw [viewSize]
-  Size getChartUsableDrawSize(Size viewSize, PaintHolder<D> holder) {
-    final usableWidth = viewSize.width - getExtraNeededHorizontalSpace(holder);
-    final usableHeight = viewSize.height - getExtraNeededVerticalSpace(holder);
-    return Size(usableWidth, usableHeight);
-  }
+  @Deprecated("It can be removed, we need to use [viewSize] directly")
+  Size getChartUsableDrawSize(Size viewSize, PaintHolder<D> holder) => viewSize;
 
   /// Extra space needed to show horizontal contents around the chart,
   /// like: left, right padding, left, right titles, and so on,
+  @Deprecated("We don't need it anymore, because there is no titles to paint")
   double getExtraNeededHorizontalSpace(PaintHolder<D> holder) => 0;
 
   /// Extra space needed to show vertical contents around the chart,
   /// like: top, bottom padding, top, bottom titles, and so on,
+  @Deprecated("We don't need it anymore, because there is no titles to paint")
   double getExtraNeededVerticalSpace(PaintHolder<D> holder) => 0;
 
   /// Left offset to draw the chart's main content
   /// we should use this to offset our x axis when we drawing the chart,
   /// and the width space we can use to draw chart is[getChartUsableDrawSize.width]
+  @Deprecated("We don't need it anymore, because there is no titles to paint")
   double getLeftOffsetDrawSize(PaintHolder<D> holder) => 0;
 
   /// Top offset to draw the chart's main content
   /// we should use this to offset our y axis when we drawing the chart,
   /// and the height space we can use to draw chart is[getChartUsableDrawSize.height]
+  @Deprecated("We don't need it anymore, because there is no titles to paint")
   double getTopOffsetDrawSize(PaintHolder<D> holder) => 0;
 }
 
