@@ -173,13 +173,13 @@ class FlClipData with EquatableMixin {
 }
 
 /// It gives you the axis value and gets a String value based on it.
-typedef GetTitleFunction = String Function(double value);
+typedef GetTitleWidgetFunction = Widget Function(double value, String formattedValue);
 
 /// The default [SideTitles.getTitles] function.
 ///
 /// formats the axis number to a shorter string using [formatNumber].
-String defaultGetTitle(double value) {
-  return Utils().formatNumber(value);
+Widget defaultGetTitle(double value, String formattedValue) {
+  return Text(formattedValue);
 }
 
 /// It gives you the axis value and gets a TextStyle based on given value

@@ -20,9 +20,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// Fills area between two [LineChartBarData] with a color or gradient.
   final List<BetweenBarsData> betweenBarsData;
 
-  /// Titles on left, top, right, bottom axis for each number.
-  final FlTitlesData titlesData;
-
   /// [LineChart] draws some horizontal or vertical lines on above or below of everything
   final ExtraLinesData extraLinesData;
 
@@ -70,7 +67,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
     List<ShowingTooltipIndicators>? showingTooltipIndicators,
     FlGridData? gridData,
     FlBorderData? borderData,
-    FlAxisTitleData? axisTitleData,
     RangeAnnotations? rangeAnnotations,
     double? minX,
     double? maxX,
@@ -82,7 +78,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
-        titlesData = titlesData ?? FlTitlesData(),
         extraLinesData = extraLinesData ?? ExtraLinesData(),
         lineTouchData = lineTouchData ?? LineTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
@@ -90,7 +85,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
           gridData: gridData ?? FlGridData(),
           touchData: lineTouchData ?? LineTouchData(),
           borderData: borderData,
-          axisTitleData: axisTitleData ?? FlAxisTitleData(),
+          titlesData: titlesData ?? FlTitlesData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
           clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
@@ -128,8 +123,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
             ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
-        axisTitleData:
-            FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         rangeAnnotations:
             RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         lineBarsData:
@@ -150,7 +143,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
     List<LineChartBarData>? lineBarsData,
     List<BetweenBarsData>? betweenBarsData,
     FlTitlesData? titlesData,
-    FlAxisTitleData? axisTitleData,
     RangeAnnotations? rangeAnnotations,
     ExtraLinesData? extraLinesData,
     LineTouchData? lineTouchData,
@@ -170,7 +162,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
       lineBarsData: lineBarsData ?? this.lineBarsData,
       betweenBarsData: betweenBarsData ?? this.betweenBarsData,
       titlesData: titlesData ?? this.titlesData,
-      axisTitleData: axisTitleData ?? this.axisTitleData,
       rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
       extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
@@ -200,7 +191,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
         showingTooltipIndicators,
         gridData,
         borderData,
-        axisTitleData,
         rangeAnnotations,
         minX,
         maxX,

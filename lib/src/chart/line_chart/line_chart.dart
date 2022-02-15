@@ -1,5 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'line_chart_renderer.dart';
 
@@ -45,9 +47,12 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    return LineChartLeaf(
-      data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
-      targetData: _withTouchedIndicators(showingData),
+    return AxisChartScaffoldWidget(
+      chart: LineChartLeaf(
+        data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
+        targetData: _withTouchedIndicators(showingData),
+      ),
+      data: showingData,
     );
   }
 

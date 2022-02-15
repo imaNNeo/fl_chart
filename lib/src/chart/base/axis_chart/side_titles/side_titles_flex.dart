@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -302,11 +303,8 @@ class AxisSideTitlesRenderFlex extends RenderBox
 
       // Stretch
       childCrossPosition = 0.0;
-      var portion = (metaData.axisValue - axisSideMetaData.minValue) / axisSideMetaData.diff;
-      if (_direction == Axis.vertical) {
-        portion = 1 - portion;
-      }
-      final childMainPosition = portion * axisSideMetaData.axisViewSize - (_getMainSize(child.size) / 2);
+      final childMainPosition = metaData.axisPixelLocation -
+          (_getMainSize(child.size) / 2);
       switch (_direction) {
         case Axis.horizontal:
           childParentData.offset =
@@ -378,10 +376,17 @@ class AxisSideMetaData {
   AxisSideMetaData(this.minValue, this.maxValue, this.axisViewSize);
 }
 
-class AxisSideTitleMetaData {
+class AxisSideTitleMetaData with EquatableMixin {
   final double axisValue;
+  final double axisPixelLocation;
 
-  AxisSideTitleMetaData(this.axisValue);
+  AxisSideTitleMetaData(this.axisValue, this.axisPixelLocation);
+
+  @override
+  List<Object?> get props => [
+        axisValue,
+        axisPixelLocation,
+      ];
 }
 
 class AxisSideTitleWidgetHolder {
