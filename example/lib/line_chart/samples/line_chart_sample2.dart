@@ -59,6 +59,55 @@ class _LineChartSample2State extends State<LineChartSample2> {
     );
   }
 
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Color(0xff68737d),
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 2:
+        text = const Text('MAR', style: style);
+        break;
+      case 5:
+        text = const Text('JUN', style: style);
+        break;
+      case 8:
+        text = const Text('SEP', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return Padding(child: text, padding: const EdgeInsets.only(top: 8.0));
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Color(0xff67727d),
+      fontWeight: FontWeight.bold,
+      fontSize: 15,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 1:
+        text = '10K';
+        break;
+      case 3:
+        text = '30k';
+        break;
+      case 5:
+        text = '50k';
+        break;
+      default:
+        return Container();
+    }
+
+    return Text(text, style: style, textAlign: TextAlign.left);
+  }
+
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
@@ -81,50 +130,27 @@ class _LineChartSample2State extends State<LineChartSample2> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
-              color: Color(0xff68737d),
-              fontWeight: FontWeight.bold,
-              fontSize: 16),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'MAR';
-              case 5:
-                return 'JUN';
-              case 8:
-                return 'SEP';
-            }
-            return '';
-          },
-          margin: 8,
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
         ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Color(0xff67727d),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitles: bottomTitleWidgets,
           ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '10k';
-              case 3:
-                return '30k';
-              case 5:
-                return '50k';
-            }
-            return '';
-          },
-          reservedSize: 32,
-          margin: 12,
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitles: leftTitleWidgets,
+            reservedSize: 42,
+          ),
         ),
       ),
       borderData: FlBorderData(
@@ -194,51 +220,28 @@ class _LineChartSample2State extends State<LineChartSample2> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (context, value) => const TextStyle(
-              color: Color(0xff68737d),
-              fontWeight: FontWeight.bold,
-              fontSize: 16),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'MAR';
-              case 5:
-                return 'JUN';
-              case 8:
-                return 'SEP';
-            }
-            return '';
-          },
-          margin: 8,
-          interval: 1,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Color(0xff67727d),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            getTitles: bottomTitleWidgets,
+            interval: 1,
           ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '10k';
-              case 3:
-                return '30k';
-              case 5:
-                return '50k';
-            }
-            return '';
-          },
-          reservedSize: 32,
-          interval: 1,
-          margin: 12,
         ),
-        topTitles: SideTitles(showTitles: false),
-        rightTitles: SideTitles(showTitles: false),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitles: leftTitleWidgets,
+            reservedSize: 42,
+            interval: 1,
+          ),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
       ),
       borderData: FlBorderData(
           show: true,

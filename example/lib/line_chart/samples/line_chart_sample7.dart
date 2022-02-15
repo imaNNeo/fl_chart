@@ -4,6 +4,66 @@ import 'package:flutter/material.dart';
 class LineChartSample7 extends StatelessWidget {
   const LineChartSample7({Key? key}) : super(key: key);
 
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontSize: 10,
+      color: Colors.purple,
+      fontWeight: FontWeight.bold,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 0:
+        text = 'Jan';
+        break;
+      case 1:
+        text = 'Feb';
+        break;
+      case 2:
+        text = 'Mar';
+        break;
+      case 3:
+        text = 'Apr';
+        break;
+      case 4:
+        text = 'May';
+        break;
+      case 5:
+        text = 'Jun';
+        break;
+      case 6:
+        text = 'Jul';
+        break;
+      case 7:
+        text = 'Aug';
+        break;
+      case 8:
+        text = 'Sep';
+        break;
+      case 9:
+        text = 'Oct';
+        break;
+      case 10:
+        text = 'Nov';
+        break;
+      case 11:
+        text = 'Dec';
+        break;
+      default:
+        return Container();
+    }
+
+    return Padding(
+      child: Text(text, style: style),
+      padding: const EdgeInsets.only(top: 4),
+    );
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(fontSize: 10);
+
+    return Text('\$ ${value + 0.5}', style: style);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -90,55 +150,27 @@ class LineChartSample7 extends StatelessWidget {
             ],
             minY: 0,
             titlesData: FlTitlesData(
-              bottomTitles: SideTitles(
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
                   showTitles: true,
                   interval: 1,
-                  getTextStyles: (context, value) => const TextStyle(
-                      fontSize: 10,
-                      color: Colors.purple,
-                      fontWeight: FontWeight.bold),
-                  getTitles: (value) {
-                    switch (value.toInt()) {
-                      case 0:
-                        return 'Jan';
-                      case 1:
-                        return 'Feb';
-                      case 2:
-                        return 'Mar';
-                      case 3:
-                        return 'Apr';
-                      case 4:
-                        return 'May';
-                      case 5:
-                        return 'Jun';
-                      case 6:
-                        return 'Jul';
-                      case 7:
-                        return 'Aug';
-                      case 8:
-                        return 'Sep';
-                      case 9:
-                        return 'Oct';
-                      case 10:
-                        return 'Nov';
-                      case 11:
-                        return 'Dec';
-                      default:
-                        return '';
-                    }
-                  }),
-              leftTitles: SideTitles(
-                showTitles: true,
-                getTitles: (value) {
-                  return '\$ ${value + 0.5}';
-                },
-                interval: 1,
-                reservedSize: 40,
-                getTextStyles: (context, value) =>
-                    const TextStyle(fontSize: 10),
+                  getTitles: bottomTitleWidgets,
+                ),
               ),
-              topTitles: SideTitles(showTitles: false),
-              rightTitles: SideTitles(showTitles: false),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitles: leftTitleWidgets,
+                  interval: 1,
+                  reservedSize: 36,
+                ),
+              ),
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
             ),
             gridData: FlGridData(
               show: true,

@@ -93,10 +93,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
                       cosLine(cosPoints),
                     ],
                     titlesData: FlTitlesData(
-                      show: true,
-                      bottomTitles: SideTitles(
-                        showTitles: false,
-                      ),
+                      show: false,
                     ),
                   ),
                 ),

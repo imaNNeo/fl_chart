@@ -12,6 +12,7 @@ class _BarChart extends StatelessWidget {
         titlesData: titlesData,
         borderData: borderData,
         barGroups: barGroups,
+        gridData: FlGridData(show: false),
         alignment: BarChartAlignment.spaceAround,
         maxY: 20,
       ),
@@ -41,40 +42,60 @@ class _BarChart extends StatelessWidget {
         ),
       );
 
+  Widget getTitles(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Color(0xff7589a2),
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 0:
+        text = 'Mn';
+        break;
+      case 1:
+        text = 'Te';
+        break;
+      case 2:
+        text = 'Wd';
+        break;
+      case 3:
+        text = 'Tu';
+        break;
+      case 4:
+        text = 'Fr';
+        break;
+      case 5:
+        text = 'St';
+        break;
+      case 6:
+        text = 'Sn';
+        break;
+      default:
+        text = '';
+        break;
+    }
+    return Center(child: Text(text, style: style));
+  }
+
   FlTitlesData get titlesData => FlTitlesData(
         show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Color(0xff7589a2),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            getTitles: getTitles,
           ),
-          margin: 20,
-          getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return 'Mn';
-              case 1:
-                return 'Te';
-              case 2:
-                return 'Wd';
-              case 3:
-                return 'Tu';
-              case 4:
-                return 'Fr';
-              case 5:
-                return 'St';
-              case 6:
-                return 'Sn';
-              default:
-                return '';
-            }
-          },
         ),
-        leftTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        rightTitles: SideTitles(showTitles: false),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
       );
 
   FlBorderData get borderData => FlBorderData(

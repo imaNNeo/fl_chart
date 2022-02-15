@@ -10,6 +10,30 @@ class LineChartSample9 extends StatelessWidget {
 
   LineChartSample9({Key? key}) : super(key: key);
 
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.blueGrey,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    );
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Text(meta.formattedValue, style: style),
+    );
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.blueGrey,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    );
+    return Padding(
+      padding: const EdgeInsets.only(right: 16.0),
+      child: Text(meta.formattedValue, style: style),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,24 +79,26 @@ class LineChartSample9 extends StatelessWidget {
             minY: -1.5,
             maxY: 1.5,
             titlesData: FlTitlesData(
-              leftTitles: SideTitles(
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (context, value) => const TextStyle(
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                  margin: 16,
-                  reservedSize: 40),
-              rightTitles: SideTitles(showTitles: false),
-              bottomTitles: SideTitles(
+                  getTitles: leftTitleWidgets,
+                  reservedSize: 56,
+                ),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (context, value) => const TextStyle(
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                  margin: 16,
-                  reservedSize: 6),
-              topTitles: SideTitles(showTitles: false),
+                  getTitles: bottomTitleWidgets,
+                  reservedSize: 36,
+                ),
+              ),
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
             ),
             gridData: FlGridData(
               show: true,

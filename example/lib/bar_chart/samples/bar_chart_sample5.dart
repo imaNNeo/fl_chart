@@ -1,3 +1,4 @@
+import 'package:example/app_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,106 @@ class BarChartSample5State extends State<BarChartSample5> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Widget bottomTitles(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.white, fontSize: 10);
+    String text;
+    switch (value.toInt()) {
+      case 0:
+        text = 'Mon';
+        break;
+      case 1:
+        text = 'Tue';
+        break;
+      case 2:
+        text = 'Wed';
+        break;
+      case 3:
+        text = 'Thu';
+        break;
+      case 4:
+        text = 'Fri';
+        break;
+      case 5:
+        text = 'Sat';
+        break;
+      case 6:
+        text = 'Sun';
+        break;
+      default:
+        text = '';
+        break;
+    }
+    return Center(child: Text(text, style: style));
+  }
+
+  Widget topTitles(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.white, fontSize: 10);
+    String text;
+    switch (value.toInt()) {
+      case 0:
+        text = 'Mon';
+        break;
+      case 1:
+        text = 'Tue';
+        break;
+      case 2:
+        text = 'Wed';
+        break;
+      case 3:
+        text = 'Thu';
+        break;
+      case 4:
+        text = 'Fri';
+        break;
+      case 5:
+        text = 'Sat';
+        break;
+      case 6:
+        text = 'Sun';
+        break;
+      default:
+        return Container();
+        break;
+    }
+    return Center(child: Text(text, style: style));
+  }
+
+  Widget leftTitles(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.white, fontSize: 10);
+    String text;
+    if (value == 0) {
+      text = '0';
+    } else {
+      text = '${value.toInt()}0k';
+    }
+    return Transform.rotate(
+      angle: AppUtils().degreeToRadian(value < 0 ? -45 : 45),
+      child: Text(
+        text,
+        style: style,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget rightTitles(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.white, fontSize: 10);
+    String text;
+    if (value == 0) {
+      text = '0';
+    } else {
+      text = '${value.toInt()}0k';
+    }
+    return Transform.rotate(
+      angle: AppUtils().degreeToRadian(90),
+      child: Text(
+        text,
+        style: style,
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 
   BarChartGroupData generateGroup(
@@ -180,89 +281,35 @@ class BarChartSample5State extends State<BarChartSample5> {
               ),
               titlesData: FlTitlesData(
                 show: true,
-                topTitles: SideTitles(
-                  showTitles: true,
-                  getTextStyles: (context, value) =>
-                      const TextStyle(color: Colors.white, fontSize: 10),
-                  margin: 10,
-                  rotateAngle: 0,
-                  getTitles: (double value) {
-                    switch (value.toInt()) {
-                      case 0:
-                        return 'Mon';
-                      case 1:
-                        return 'Tue';
-                      case 2:
-                        return 'Wed';
-                      case 3:
-                        return 'Thu';
-                      case 4:
-                        return 'Fri';
-                      case 5:
-                        return 'Sat';
-                      case 6:
-                        return 'Sun';
-                      default:
-                        return '';
-                    }
-                  },
+                topTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 32,
+                    getTitles: topTitles,
+                  ),
                 ),
-                bottomTitles: SideTitles(
-                  showTitles: true,
-                  getTextStyles: (context, value) =>
-                      const TextStyle(color: Colors.white, fontSize: 10),
-                  margin: 10,
-                  rotateAngle: 0,
-                  getTitles: (double value) {
-                    switch (value.toInt()) {
-                      case 0:
-                        return 'Mon';
-                      case 1:
-                        return 'Tue';
-                      case 2:
-                        return 'Wed';
-                      case 3:
-                        return 'Thu';
-                      case 4:
-                        return 'Fri';
-                      case 5:
-                        return 'Sat';
-                      case 6:
-                        return 'Sun';
-                      default:
-                        return '';
-                    }
-                  },
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 32,
+                    getTitles: bottomTitles,
+                  ),
                 ),
-                leftTitles: SideTitles(
-                  showTitles: true,
-                  getTextStyles: (context, value) =>
-                      const TextStyle(color: Colors.white, fontSize: 10),
-                  rotateAngle: 45,
-                  getTitles: (double value) {
-                    if (value == 0) {
-                      return '0';
-                    }
-                    return '${value.toInt()}0k';
-                  },
-                  interval: 5,
-                  margin: 8,
-                  reservedSize: 30,
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    getTitles: leftTitles,
+                    interval: 5,
+                    reservedSize: 42,
+                  ),
                 ),
-                rightTitles: SideTitles(
-                  showTitles: true,
-                  getTextStyles: (context, value) =>
-                      const TextStyle(color: Colors.white, fontSize: 10),
-                  rotateAngle: 90,
-                  getTitles: (double value) {
-                    if (value == 0) {
-                      return '0';
-                    }
-                    return '${value.toInt()}0k';
-                  },
-                  interval: 5,
-                  margin: 8,
-                  reservedSize: 30,
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    getTitles: rightTitles,
+                    interval: 5,
+                    reservedSize: 42,
+                  ),
                 ),
               ),
               gridData: FlGridData(
