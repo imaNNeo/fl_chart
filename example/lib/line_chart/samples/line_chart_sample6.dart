@@ -45,6 +45,52 @@ class LineChartSample6 extends StatelessWidget {
     }
   }
 
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.deepOrange,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    );
+
+    final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+
+    if (intValue == (maxSpotY + minSpotY)) {
+      return const Text('', style: style);
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: Text(
+        intValue.toString(),
+        style: style,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget rightTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.blue,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    );
+    final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
+
+    if (intValue == (maxSpotY + minSpotY)) {
+      return const Text('', style: style);
+    }
+
+    return Text(intValue.toString(), style: style, textAlign: TextAlign.right);
+  }
+
+  Widget topTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    );
+    return Center(child: Text(value.toInt().toString(), style: style));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,53 +172,29 @@ class LineChartSample6 extends StatelessWidget {
                 minY: 0,
                 maxY: maxSpotY + minSpotY,
                 titlesData: FlTitlesData(
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (double value) {
-                      final intValue =
-                          reverseY(value, minSpotY, maxSpotY).toInt();
-
-                      if (intValue == (maxSpotY + minSpotY)) {
-                        return '';
-                      }
-
-                      return intValue.toString();
-                    },
-                    getTextStyles: (context, value) => const TextStyle(
-                        color: Colors.deepOrange,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                    margin: 16,
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitles: leftTitleWidgets,
+                      reservedSize: 38,
+                    ),
                   ),
-                  rightTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 0,
-                    getTitles: (double value) {
-                      final intValue =
-                          reverseY(value, minSpotY, maxSpotY).toInt();
-
-                      if (intValue == (maxSpotY + minSpotY)) {
-                        return '';
-                      }
-
-                      return intValue.toString();
-                    },
-                    getTextStyles: (context, value) => const TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                    margin: 16,
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitles: rightTitleWidgets,
+                      reservedSize: 30
+                    ),
                   ),
-                  bottomTitles: SideTitles(showTitles: false),
-                  topTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 28,
-                    margin: 8,
-                    getTextStyles: (context, value) => const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black),
-                    getTitles: (double value) {
-                      return value.toInt().toString();
-                    },
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 32,
+                      getTitles: topTitleWidgets,
+                    ),
                   ),
                 ),
                 gridData: FlGridData(

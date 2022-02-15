@@ -15,6 +15,46 @@ class LineChartSample5 extends StatelessWidget {
 
   const LineChartSample5({Key? key}) : super(key: key);
 
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.blueGrey,
+      fontFamily: 'Digital',
+      fontSize: 18,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 0:
+        text = '00:00';
+        break;
+      case 1:
+        text = '04:00';
+        break;
+      case 2:
+        text = '08:00';
+        break;
+      case 3:
+        text = '12:00';
+        break;
+      case 4:
+        text = '16:00';
+        break;
+      case 5:
+        text = '20:00';
+        break;
+      case 6:
+        text = '23:59';
+        break;
+      default:
+        return Container();
+    }
+
+    return Padding(
+      child: Text(text, style: style),
+      padding: const EdgeInsets.only(top: 4),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final lineBarsData = [
@@ -109,47 +149,37 @@ class LineChartSample5 extends StatelessWidget {
           lineBarsData: lineBarsData,
           minY: 0,
           titlesData: FlTitlesData(
-            leftTitles: SideTitles(
-              showTitles: false,
+            leftTitles: AxisTitles(
+              axisName: const Text('count'),
+              sideTitles: SideTitles(
+                showTitles: false,
+                reservedSize: 0,
+              ),
             ),
-            bottomTitles: SideTitles(
-                interval: 1,
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
                 showTitles: true,
-                getTitles: (val) {
-                  switch (val.toInt()) {
-                    case 0:
-                      return '00:00';
-                    case 1:
-                      return '04:00';
-                    case 2:
-                      return '08:00';
-                    case 3:
-                      return '12:00';
-                    case 4:
-                      return '16:00';
-                    case 5:
-                      return '20:00';
-                    case 6:
-                      return '23:59';
-                  }
-                  return '';
-                },
-                getTextStyles: (context, value) => const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueGrey,
-                      fontFamily: 'Digital',
-                      fontSize: 18,
-                    )),
-            rightTitles: SideTitles(showTitles: false),
-            topTitles: SideTitles(showTitles: false),
-          ),
-          axisTitleData: FlAxisTitleData(
-            rightTitle: AxisTitle(showTitle: true, titleText: 'count'),
-            leftTitle: AxisTitle(showTitle: true, titleText: 'count'),
-            topTitle: AxisTitle(
-                showTitle: true,
-                titleText: 'Wall clock',
-                textAlign: TextAlign.left),
+                interval: 1,
+                getTitles: bottomTitleWidgets,
+              ),
+            ),
+            rightTitles: AxisTitles(
+              axisName: const Text('count'),
+              sideTitles: SideTitles(
+                showTitles: false,
+                reservedSize: 0,
+              ),
+            ),
+            topTitles: AxisTitles(
+              axisName: const Text(
+                'Wall clock',
+                textAlign: TextAlign.left,
+              ),
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 0,
+              ),
+            ),
           ),
           gridData: FlGridData(show: false),
           borderData: FlBorderData(

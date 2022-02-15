@@ -220,36 +220,23 @@ class BarChartSample1State extends State<BarChartSample1> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        bottomTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (context, value) => const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-          margin: 16,
-          getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return 'M';
-              case 1:
-                return 'T';
-              case 2:
-                return 'W';
-              case 3:
-                return 'T';
-              case 4:
-                return 'F';
-              case 5:
-                return 'S';
-              case 6:
-                return 'S';
-              default:
-                return '';
-            }
-          },
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
         ),
-        leftTitles: SideTitles(
-          showTitles: false,
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitles: getTitles,
+            reservedSize: 38,
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
       ),
       borderData: FlBorderData(
@@ -260,48 +247,72 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
+  Widget getTitles(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 0:
+        text = const Text('M', style: style);
+        break;
+      case 1:
+        text = const Text('T', style: style);
+        break;
+      case 2:
+        text = const Text('W', style: style);
+        break;
+      case 3:
+        text = const Text('T', style: style);
+        break;
+      case 4:
+        text = const Text('F', style: style);
+        break;
+      case 5:
+        text = const Text('S', style: style);
+        break;
+      case 6:
+        text = const Text('S', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+    return Padding(padding: const EdgeInsets.only(top: 16), child: text);
+  }
+
   BarChartData randomData() {
     return BarChartData(
       barTouchData: BarTouchData(
         enabled: false,
       ),
       titlesData: FlTitlesData(
-          show: true,
-          bottomTitles: SideTitles(
+        show: true,
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
             showTitles: true,
-            getTextStyles: (context, value) => const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-            margin: 16,
-            getTitles: (double value) {
-              switch (value.toInt()) {
-                case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
-                  return 'S';
-                case 6:
-                  return 'S';
-                default:
-                  return '';
-              }
-            },
+            getTitles: getTitles,
+            reservedSize: 38,
           ),
-          leftTitles: SideTitles(
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
             showTitles: false,
           ),
-          topTitles: SideTitles(
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(
             showTitles: false,
           ),
-          rightTitles: SideTitles(
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(
             showTitles: false,
-          )),
+          ),
+        ),
+      ),
       borderData: FlBorderData(
         show: false,
       ),

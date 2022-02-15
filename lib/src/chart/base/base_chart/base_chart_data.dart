@@ -1,4 +1,7 @@
 // coverage:ignore-file
+import 'dart:core';
+import 'dart:core';
+
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -22,14 +25,16 @@ abstract class BaseChartData with EquatableMixin {
   BaseChartData({
     FlBorderData? borderData,
     required FlTouchData touchData,
-  })  : borderData = borderData ?? FlBorderData(),
+  })
+      : borderData = borderData ?? FlBorderData(),
         touchData = touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         borderData,
         touchData,
       ];
@@ -45,7 +50,8 @@ class FlBorderData with EquatableMixin {
   FlBorderData({
     bool? show,
     Border? border,
-  })  : show = show ?? true,
+  })
+      : show = show ?? true,
         border = border ??
             Border.all(
               color: Colors.black,
@@ -75,7 +81,8 @@ class FlBorderData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         show,
         border,
       ];
@@ -101,17 +108,17 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   final MouseCursorResolver<R>? mouseCursorResolver;
 
   /// You can disable or enable the touch system using [enabled] flag,
-  FlTouchData(
-    bool enabled,
-    BaseTouchCallback<R>? touchCallback,
-    MouseCursorResolver<R>? mouseCursorResolver,
-  )   : enabled = enabled,
+  FlTouchData(bool enabled,
+      BaseTouchCallback<R>? touchCallback,
+      MouseCursorResolver<R>? mouseCursorResolver,)
+      : enabled = enabled,
         touchCallback = touchCallback,
         mouseCursorResolver = mouseCursorResolver;
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -172,14 +179,28 @@ class FlClipData with EquatableMixin {
   List<Object?> get props => [top, bottom, left, right];
 }
 
+class TitleMeta {
+  final double min;
+  final double max;
+  final double appliedInterval;
+  final SideTitles sideTitles;
+  final String formattedValue;
+
+  TitleMeta(this.min,
+      this.max,
+      this.appliedInterval,
+      this.sideTitles,
+      this.formattedValue);
+}
+
 /// It gives you the axis value and gets a String value based on it.
-typedef GetTitleWidgetFunction = Widget Function(double value, String formattedValue);
+typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 
 /// The default [SideTitles.getTitles] function.
 ///
 /// formats the axis number to a shorter string using [formatNumber].
-Widget defaultGetTitle(double value, String formattedValue) {
-  return Text(formattedValue);
+Widget defaultGetTitle(double value, TitleMeta meta) {
+  return Text(meta.formattedValue);
 }
 
 /// It gives you the axis value and gets a TextStyle based on given value

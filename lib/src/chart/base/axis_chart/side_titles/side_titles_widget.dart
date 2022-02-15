@@ -127,6 +127,10 @@ class SideTitlesWidget extends StatelessWidget {
     double axisMax,
   ) {
     List<AxisSideTitleMetaData> axisPositions;
+    final interval = sideTitles.interval ??
+        Utils().getEfficientInterval(
+          axisViewSize,
+          axisMax - axisMin,);
     if (isHorizontal && axisChartData is BarChartData) {
       final barChartData = axisChartData as BarChartData;
       final xLocations = barChartData.calculateGroupsX(axisViewSize);
@@ -142,13 +146,8 @@ class SideTitlesWidget extends StatelessWidget {
         min: axisMin,
         max: axisMax,
         baseLine: axisBaseLine,
-        interval: sideTitles.interval ??
-            Utils().getEfficientInterval(
-              axisViewSize,
-              axisMax - axisMin,
-            ),
-      )
-          .map((axisValue) {
+        interval: interval,
+      ).map((axisValue) {
         var portion = (axisValue - axisMin) / (axisMax - axisMin);
         if (isVertical) {
           portion = 1 - portion;
@@ -161,9 +160,13 @@ class SideTitlesWidget extends StatelessWidget {
         .map(
           (metaData) => AxisSideTitleWidgetHolder(
             metaData,
-            Center(
-              child: sideTitles.getTitles(
-                metaData.axisValue,
+            sideTitles.getTitles(
+              metaData.axisValue,
+              TitleMeta(
+                axisMin,
+                axisMax,
+                interval,
+                sideTitles,
                 Utils().formatNumber(metaData.axisValue),
               ),
             ),

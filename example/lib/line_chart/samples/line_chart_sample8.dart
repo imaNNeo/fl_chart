@@ -65,6 +65,22 @@ class _LineChartSample8State extends State<LineChartSample8> {
         });
   }
 
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(color: Colors.black87, fontSize: 10);
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Text(meta.formattedValue, style: style),
+    );
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.black87,
+      fontSize: 10,
+    );
+    return Text(meta.formattedValue, style: style);
+  }
+
   LineChartData mainData(SizedPicture sizedPicture) {
     return LineChartData(
       rangeAnnotations: RangeAnnotations(
@@ -134,28 +150,28 @@ class _LineChartSample8State extends State<LineChartSample8> {
           verticalInterval: 1),
       titlesData: FlTitlesData(
         show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (context, value) =>
-              const TextStyle(color: Colors.black87, fontSize: 10),
-          interval: 4,
-          margin: 8,
-          checkToShowTitle:
-              (minValue, maxValue, sideTitles, appliedInterval, value) => true,
-        ),
-        leftTitles: SideTitles(
-          interval: 2,
-          showTitles: true,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Colors.black87,
-            fontSize: 10,
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            getTitles: bottomTitleWidgets,
+            interval: 4,
           ),
-          reservedSize: 28,
-          margin: 12,
         ),
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            interval: 2,
+            showTitles: true,
+            getTitles: leftTitleWidgets,
+            reservedSize: 20,
+          ),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
       ),
       lineTouchData: LineTouchData(
         getTouchLineEnd: (data, index) => double.infinity,
