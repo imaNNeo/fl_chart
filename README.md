@@ -1,10 +1,11 @@
 💥 FL Chart is a highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.  💥
 
-
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
 [![codecov](https://codecov.io/gh/imaNNeoFighT/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeoFighT/fl_chart)
 <a href="https://github.com/Solido/awesome-flutter#charts"><img src="https://img.shields.io/badge/awesome-flutter-blue.svg?longCache=true" alt="Awesome Flutter"></a>
-[![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/fl_chart_samples_0.3.0.apk)
+<a href="https://pub.dev/packages/fl_chart"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/imaNNeoFighT/fl_chart"></a>
+<a href="https://github.com/imaNNeoFighT/fl_chart/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/imaNNeoFighT/fl_chart"></a>
+<a href="https://github.com/imaNNeoFighT/fl_chart/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/imaNNeoFighT/fl_chart" alt="GitHub closed issues"></a>
 <span class="badge-buymeacoffee">
 <a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
 </span>
