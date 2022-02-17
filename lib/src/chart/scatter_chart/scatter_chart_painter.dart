@@ -291,9 +291,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
 
     if (data.scatterLabelSettings.showLabel) {
-      TextStyle textStyle =
-          data.scatterLabelSettings.textStyle ?? const TextStyle();
-
       for (final scatterSpot in data.scatterSpots) {
         if (scatterSpot.label.isEmpty || !scatterSpot.show) {
           continue;
