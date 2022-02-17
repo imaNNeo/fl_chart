@@ -290,6 +290,57 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       );
     }
 
+    if (data.scatterLabelSettings.showLabel) {
+      TextStyle textStyle =
+          data.scatterLabelSettings.textStyle ?? const TextStyle();
+
+      for (final scatterSpot in data.scatterSpots) {
+        final pixelX = getPixelX(scatterSpot.x, chartUsableSize, holder);
+        final pixelY = getPixelY(scatterSpot.y, chartUsableSize, holder);
+
+        double newPixelY;
+
+        double centerChartY =
+            getTopOffsetDrawSize(holder) + chartUsableSize.height / 2;
+
+        /// if the spot is in the lower half of the chart, then draw the label either in the center or above the spot,
+        /// if the spot is in upper half of the chart, then draw the label either in the center or below the spot.
+        if (pixelY > centerChartY) {
+          /// if the radius of the spot is greater than the font size of the label, then draw the label inside the bubble,
+          /// else draw the label above the bubble.
+          var off = scatterSpot.radius > (textStyle.fontSize ?? 0)
+              ? (textStyle.fontSize ?? 0) / 2
+              : scatterSpot.radius;
+
+          newPixelY = pixelY - off;
+        } else {
+          /// if the radius of the spot is greater than the font size of the label, then draw the label inside the bubble,
+          /// else draw the label below the bubble.
+          var off = scatterSpot.radius > (textStyle.fontSize ?? 0)
+              ? -(textStyle.fontSize ?? 0) / 2
+              : scatterSpot.radius;
+          newPixelY = pixelY + off;
+        }
+        final span = TextSpan(
+          text: scatterSpot.label,
+          style: data.scatterLabelSettings.textStyle ?? const TextStyle(),
+        );
+
+        final tp = TextPainter(
+          text: span,
+          textAlign: TextAlign.center,
+          textDirection: TextDirection.ltr,
+          textScaleFactor: holder.textScale,
+        );
+        tp.layout(maxWidth: chartUsableSize.width);
+
+        canvasWrapper.drawText(
+          tp,
+          Offset(pixelX - tp.width / 2, newPixelY),
+        );
+      }
+    }
+
     if (data.clipData.any) {
       canvasWrapper.restore();
     }
