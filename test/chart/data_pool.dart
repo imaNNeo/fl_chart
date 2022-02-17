@@ -2351,92 +2351,93 @@ final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
 final ScatterSpot scatterSpot4 = ScatterSpot(-0, 0);
 
 final ScatterChartData scatterChartData1 = ScatterChartData(
-  minY: 0,
-  maxY: 12,
-  maxX: 22,
-  minX: 11,
-  axisTitleData: FlAxisTitleData(
-    show: true,
-    leftTitle: AxisTitle(
-      showTitle: true,
-      textStyle: const TextStyle(color: Colors.red, fontSize: 33),
-      textAlign: TextAlign.left,
-      reservedSize: 22,
-      margin: 11,
-      titleText: 'title 1',
-    ),
-    bottomTitle: AxisTitle(
-      showTitle: false,
-      textStyle: const TextStyle(color: Colors.grey, fontSize: 33),
-      textAlign: TextAlign.left,
-      reservedSize: 11,
-      margin: 11,
-      titleText: 'title 2',
-    ),
-    rightTitle: AxisTitle(
-      showTitle: false,
-      textStyle: const TextStyle(color: Colors.blue, fontSize: 11),
-      textAlign: TextAlign.left,
-      reservedSize: 2,
-      margin: 1324,
-      titleText: 'title 3',
-    ),
-    topTitle: AxisTitle(
-      showTitle: true,
-      textStyle: const TextStyle(color: Colors.green, fontSize: 33),
-      textAlign: TextAlign.left,
-      reservedSize: 23,
-      margin: 11,
-      titleText: 'title 4',
-    ),
-  ),
-  gridData: FlGridData(
-    show: false,
-    getDrawingHorizontalLine: gridGetDrawingLine,
-    getDrawingVerticalLine: gridGetDrawingLine,
-    checkToShowHorizontalLine: gridCheckToShowLine,
-    checkToShowVerticalLine: gridCheckToShowLine,
-    drawHorizontalLine: true,
-    drawVerticalLine: false,
-    horizontalInterval: 33,
-    verticalInterval: 1,
-  ),
-  backgroundColor: Colors.black,
-  clipData: FlClipData.none(),
-  borderData: FlBorderData(
+    minY: 0,
+    maxY: 12,
+    maxX: 22,
+    minX: 11,
+    axisTitleData: FlAxisTitleData(
       show: true,
-      border: Border.all(
-        color: Colors.white,
-      )),
-  scatterSpots: [
-    ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
-    ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
-    ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
-  ],
-  scatterTouchData: ScatterTouchData(
-    enabled: true,
-    touchTooltipData: ScatterTouchTooltipData(
-      getTooltipItems: scatterChartGetTooltipItems,
-      fitInsideHorizontally: true,
-      fitInsideVertically: false,
-      maxContentWidth: 33,
-      tooltipBgColor: Colors.white,
-      tooltipPadding: const EdgeInsets.all(23),
-      tooltipRoundedRadius: 534,
+      leftTitle: AxisTitle(
+        showTitle: true,
+        textStyle: const TextStyle(color: Colors.red, fontSize: 33),
+        textAlign: TextAlign.left,
+        reservedSize: 22,
+        margin: 11,
+        titleText: 'title 1',
+      ),
+      bottomTitle: AxisTitle(
+        showTitle: false,
+        textStyle: const TextStyle(color: Colors.grey, fontSize: 33),
+        textAlign: TextAlign.left,
+        reservedSize: 11,
+        margin: 11,
+        titleText: 'title 2',
+      ),
+      rightTitle: AxisTitle(
+        showTitle: false,
+        textStyle: const TextStyle(color: Colors.blue, fontSize: 11),
+        textAlign: TextAlign.left,
+        reservedSize: 2,
+        margin: 1324,
+        titleText: 'title 3',
+      ),
+      topTitle: AxisTitle(
+        showTitle: true,
+        textStyle: const TextStyle(color: Colors.green, fontSize: 33),
+        textAlign: TextAlign.left,
+        reservedSize: 23,
+        margin: 11,
+        titleText: 'title 4',
+      ),
     ),
-    handleBuiltInTouches: false,
-    touchCallback: scatterTouchCallback,
-    touchSpotThreshold: 12,
-  ),
-  showingTooltipIndicators: [0, 1, 2],
-  titlesData: FlTitlesData(
-    show: true,
-    leftTitles: SideTitles(showTitles: false),
-    rightTitles: SideTitles(reservedSize: 100, margin: 400, showTitles: true),
-    topTitles: SideTitles(showTitles: false),
-    bottomTitles: SideTitles(showTitles: false),
-  ),
-);
+    gridData: FlGridData(
+      show: false,
+      getDrawingHorizontalLine: gridGetDrawingLine,
+      getDrawingVerticalLine: gridGetDrawingLine,
+      checkToShowHorizontalLine: gridCheckToShowLine,
+      checkToShowVerticalLine: gridCheckToShowLine,
+      drawHorizontalLine: true,
+      drawVerticalLine: false,
+      horizontalInterval: 33,
+      verticalInterval: 1,
+    ),
+    backgroundColor: Colors.black,
+    clipData: FlClipData.none(),
+    borderData: FlBorderData(
+        show: true,
+        border: Border.all(
+          color: Colors.white,
+        )),
+    scatterSpots: [
+      ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
+      ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
+      ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
+    ],
+    scatterTouchData: ScatterTouchData(
+      enabled: true,
+      touchTooltipData: ScatterTouchTooltipData(
+        getTooltipItems: scatterChartGetTooltipItems,
+        fitInsideHorizontally: true,
+        fitInsideVertically: false,
+        maxContentWidth: 33,
+        tooltipBgColor: Colors.white,
+        tooltipPadding: const EdgeInsets.all(23),
+        tooltipRoundedRadius: 534,
+      ),
+      handleBuiltInTouches: false,
+      touchCallback: scatterTouchCallback,
+      touchSpotThreshold: 12,
+    ),
+    showingTooltipIndicators: [0, 1, 2],
+    titlesData: FlTitlesData(
+      show: true,
+      leftTitles: SideTitles(showTitles: false),
+      rightTitles: SideTitles(reservedSize: 100, margin: 400, showTitles: true),
+      topTitles: SideTitles(showTitles: false),
+      bottomTitles: SideTitles(showTitles: false),
+    ),
+    scatterLabelSettings: ScatterLabelSettings(
+        showLabel: true, textStyle: const TextStyle(color: Colors.red)));
 final ScatterChartData scatterChartData1Clone = ScatterChartData(
   minY: 0,
   maxY: 12,
@@ -2523,6 +2524,8 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     topTitles: SideTitles(showTitles: false),
     bottomTitles: SideTitles(showTitles: false),
   ),
+  scatterLabelSettings: ScatterLabelSettings(
+      showLabel: true, textStyle: const TextStyle(color: Colors.red)),
 );
 
 final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
