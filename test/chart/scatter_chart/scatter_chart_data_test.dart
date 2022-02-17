@@ -304,15 +304,41 @@ void main() {
               scatterChartData1Clone
                   .copyWith(showingTooltipIndicators: [2, 1, 0]),
           false);
+
+      expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
+                  scatterLabelSettings: ScatterLabelSettings(
+                      showLabel: true,
+                      textStyle: const TextStyle(color: Colors.green))),
+          false);
+
+      expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
+                  scatterLabelSettings: ScatterLabelSettings(
+                      showLabel: false,
+                      textStyle: const TextStyle(color: Colors.red))),
+          false);
+
+      expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
+                  scatterLabelSettings: ScatterLabelSettings(
+                      showLabel: true,
+                      textStyle: const TextStyle(color: Colors.red))),
+          true);
     });
 
     test('ScatterSpot equality test', () {
-      final ScatterSpot scatterSpot = ScatterSpot(0, 1);
-      final ScatterSpot scatterSpotClone = ScatterSpot(0, 1);
+      final ScatterSpot scatterSpot = ScatterSpot(0, 1, label: 'label');
+      final ScatterSpot scatterSpotClone = ScatterSpot(0, 1, label: 'label');
 
       expect(scatterSpot == scatterSpotClone.copyWith(), true);
       expect(scatterSpot == scatterSpotClone.copyWith(y: 3), false);
       expect(scatterSpot == scatterSpotClone.copyWith(x: 3), false);
+      expect(scatterSpot == scatterSpotClone.copyWith(label: ''), false);
+      expect(scatterSpot == scatterSpotClone.copyWith(label: 'label'), true);
     });
 
     test('ScatterTouchData equality test', () {
@@ -419,6 +445,32 @@ void main() {
         'aa',
         textStyle: const TextStyle(color: Colors.red),
         bottomMargin: 0,
+      );
+      expect(sample1 == changed, false);
+    });
+
+    test('ScatterLabelSettings equality test', () {
+      final ScatterLabelSettings sample1 = ScatterLabelSettings(
+        showLabel: true,
+        textStyle: const TextStyle(color: Colors.red),
+      );
+      final ScatterLabelSettings sample2 = ScatterLabelSettings(
+        showLabel: true,
+        textStyle: const TextStyle(color: Colors.red),
+      );
+      expect(sample1 == sample2, true);
+
+      ScatterLabelSettings changed = ScatterLabelSettings(
+        showLabel: false,
+        textStyle: const TextStyle(color: Colors.red),
+      );
+      expect(sample1 == changed, false);
+
+      expect(sample1 == changed.copyWith(showLabel: true), false);
+
+      changed = ScatterLabelSettings(
+        showLabel: true,
+        textStyle: const TextStyle(color: Colors.green),
       );
       expect(sample1 == changed, false);
     });
