@@ -295,6 +295,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           data.scatterLabelSettings.textStyle ?? const TextStyle();
 
       for (final scatterSpot in data.scatterSpots) {
+        if (scatterSpot.label.isEmpty) {
+          continue;
+        }
+
         final pixelX = getPixelX(scatterSpot.x, chartUsableSize, holder);
         final pixelY = getPixelY(scatterSpot.y, chartUsableSize, holder);
 
