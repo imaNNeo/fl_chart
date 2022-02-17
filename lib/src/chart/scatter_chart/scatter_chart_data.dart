@@ -195,7 +195,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   Color color;
 
   /// Determines label of the spot.
-  final String? label;
+  final String label;
 
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
@@ -206,7 +206,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         radius = radius ?? 6,
         color = color ??
             Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
-        label = label,
+        label = label ?? '',
         super(x, y);
 
   @override
@@ -224,7 +224,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       show: show ?? this.show,
       radius: radius ?? this.radius,
       color: color ?? this.color,
-      label: label,
+      label: label ?? this.label,
     );
   }
 
