@@ -18,6 +18,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   final FlTitlesData titlesData;
   final ScatterTouchData scatterTouchData;
   final List<int> showingTooltipIndicators;
+  final ScatterLabelSettings scatterLabelSettings;
 
   /// [ScatterChart] draws some points in a square space,
   /// points are defined by [scatterSpots],
@@ -55,10 +56,12 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
+    ScatterLabelSettings? scatterLabelSettings,
   })  : scatterSpots = scatterSpots ?? const [],
         titlesData = titlesData ?? FlTitlesData(),
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
+        scatterLabelSettings = scatterLabelSettings ?? ScatterLabelSettings(),
         super(
           gridData: gridData ?? FlGridData(),
           touchData: scatterTouchData ?? ScatterTouchData(),
@@ -108,6 +111,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         clipData: b.clipData,
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+        scatterLabelSettings: b.scatterLabelSettings,
       );
     } else {
       throw Exception('Illegal State');
@@ -132,6 +136,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
+    ScatterLabelSettings? scatterLabelSettings,
   }) {
     return ScatterChartData(
       scatterSpots: scatterSpots ?? this.scatterSpots,
@@ -150,6 +155,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       baselineY: baselineY ?? this.baselineY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
+      scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
     );
   }
 
@@ -173,6 +179,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         maxY,
         baselineY,
         rangeAnnotations,
+        scatterLabelSettings,
       ];
 }
 
@@ -574,4 +581,50 @@ class ScatterChartDataTween extends Tween<ScatterChartData> {
   ScatterChartData lerp(double t) {
     return begin!.lerp(begin!, end!, t);
   }
+}
+
+/// Defines information about the labels in the [ScatterChart]
+class ScatterLabelSettings with EquatableMixin {
+  /// Determines whether to show or hide the labels
+  final bool showLabel;
+
+  /// Determines style of the labels
+  final TextStyle? textStyle;
+
+  /// You can change [showLabel] value to show or hide the label,
+  /// [textStyle] defines the style of label in the [ScatterChart].
+  ScatterLabelSettings({
+    bool? showLabel,
+    TextStyle? textStyle,
+  })  : showLabel = showLabel ?? false,
+        textStyle = textStyle;
+
+  ScatterLabelSettings copyWith({
+    bool? showLabel,
+    TextStyle? textStyle,
+  }) {
+    return ScatterLabelSettings(
+      showLabel: showLabel ?? this.showLabel,
+      textStyle: textStyle,
+    );
+  }
+
+  /// Lerps a [ScatterLabelSettings] based on [t] value, check [Tween.lerp].
+  static ScatterLabelSettings lerp(
+    ScatterLabelSettings a,
+    ScatterLabelSettings b,
+    double t,
+  ) {
+    return ScatterLabelSettings(
+      showLabel: b.showLabel,
+      textStyle: b.textStyle,
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        showLabel,
+        textStyle,
+      ];
 }
