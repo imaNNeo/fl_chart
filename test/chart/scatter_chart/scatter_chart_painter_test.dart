@@ -444,6 +444,7 @@ void main() {
       verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
           .called(1);
 
+      verifyNever(_mockCanvasWrapper.drawText(any, any));
       verify(_mockCanvasWrapper.clipRect(any)).called(1);
     });
 
@@ -477,6 +478,57 @@ void main() {
 
       verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
       verifyNever(_mockCanvasWrapper.clipRect(any));
+
+      verifyNever(_mockCanvasWrapper.drawText(any, any));
+    });
+
+    test('test 3', () {
+      const viewSize = Size(100, 100);
+
+      final ScatterChartData data = ScatterChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          scatterSpots: [
+            ScatterSpot(1, 1, radius: 18, label: '1,1'),
+            ScatterSpot(2, 2, radius: 8, label: '2,2'),
+            ScatterSpot(3, 9, show: false, label: '3,9'),
+            ScatterSpot(8, 8, radius: 4, label: '8,8'),
+            ScatterSpot(7, 5, radius: 20, label: ''),
+            ScatterSpot(4, 6, radius: 24, label: '4,6'),
+          ],
+          titlesData: FlTitlesData(show: false),
+          clipData: FlClipData.all(),
+          scatterLabelSettings: ScatterLabelSettings(
+            showLabel: true,
+            textStyle: const TextStyle(fontSize: 10),
+          ));
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawSpots(
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verify(_mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
+          .called(1);
+      verify(_mockCanvasWrapper.drawCircle(const Offset(20, 80), 8, any))
+          .called(1);
+      verify(_mockCanvasWrapper.drawCircle(const Offset(80, 20), 4, any))
+          .called(1);
+      verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 20, any))
+          .called(1);
+      verify(_mockCanvasWrapper.drawCircle(const Offset(40, 40), 24, any))
+          .called(1);
+
+      verify(_mockCanvasWrapper.drawText(any, any)).called(4);
+
+      verify(_mockCanvasWrapper.clipRect(any)).called(1);
     });
   });
 
