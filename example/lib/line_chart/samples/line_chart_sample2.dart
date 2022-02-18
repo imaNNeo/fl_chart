@@ -64,6 +64,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
+        horizontalInterval: 1,
+        verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
@@ -166,6 +168,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
       gridData: FlGridData(
         show: true,
         drawHorizontalLine: true,
+        verticalInterval: 1,
+        horizontalInterval: 1,
         getDrawingVerticalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
