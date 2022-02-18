@@ -46,12 +46,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
       return;
     }
     final viewSize = canvasWrapper.size;
-    final usableViewSize = getChartUsableDrawSize(viewSize, holder);
     // Show Vertical Grid
     if (data.gridData.drawVerticalLine) {
       final verticalInterval = data.gridData.verticalInterval ??
           Utils().getEfficientInterval(
-            usableViewSize.width,
+            viewSize.width,
             data.horizontalDiff,
           );
       final axisValues = AxisChartHelper().iterateThroughAxis(
@@ -71,21 +70,20 @@ abstract class AxisChartPainter<D extends AxisChartData>
         _gridPaint.strokeWidth = flLineStyle.strokeWidth;
         _gridPaint.transparentIfWidthIsZero();
 
-        final bothX = getPixelX(axisValue, usableViewSize, holder);
+        final bothX = getPixelX(axisValue, viewSize, holder);
         final x1 = bothX;
-        final y1 = 0 + getTopOffsetDrawSize(holder);
+        const y1 = 0.0;
         final x2 = bothX;
-        final y2 = usableViewSize.height + getTopOffsetDrawSize(holder);
-        canvasWrapper.drawDashedLine(
-            Offset(x1, y1), Offset(x2, y2), _gridPaint, flLineStyle.dashArray);
+        final y2 = viewSize.height;
+        canvasWrapper.drawDashedLine(Offset(x1, y1), Offset(x2, y2),
+            _gridPaint, flLineStyle.dashArray);
       }
     }
 
     // Show Horizontal Grid
     if (data.gridData.drawHorizontalLine) {
       final horizontalInterval = data.gridData.horizontalInterval ??
-          Utils()
-              .getEfficientInterval(usableViewSize.height, data.verticalDiff);
+          Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
 
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: data.minY,
@@ -104,10 +102,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
         _gridPaint.strokeWidth = flLine.strokeWidth;
         _gridPaint.transparentIfWidthIsZero();
 
-        final bothY = getPixelY(axisValue, usableViewSize, holder);
-        final x1 = 0 + getLeftOffsetDrawSize(holder);
+        final bothY = getPixelY(axisValue, viewSize, holder);
+        const x1 = 0.0;
         final y1 = bothY;
-        final x2 = usableViewSize.width + getLeftOffsetDrawSize(holder);
+        final x2 = viewSize.width;
         final y2 = bothY;
         canvasWrapper.drawDashedLine(
             Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
@@ -124,15 +122,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
     }
 
     final viewSize = canvasWrapper.size;
-    final usableViewSize = getChartUsableDrawSize(viewSize, holder);
     _backgroundPaint.color = data.backgroundColor;
     canvasWrapper.drawRect(
-      Rect.fromLTWH(
-        getLeftOffsetDrawSize(holder),
-        getTopOffsetDrawSize(holder),
-        usableViewSize.width,
-        usableViewSize.height,
-      ),
+      Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
       _backgroundPaint,
     );
   }
@@ -141,19 +133,13 @@ abstract class AxisChartPainter<D extends AxisChartData>
   void drawRangeAnnotation(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
-    final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
 
     if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
       for (var annotation in data.rangeAnnotations.verticalRangeAnnotations) {
-        final topChartPadding = getTopOffsetDrawSize(holder);
-        final from = Offset(
-            getPixelX(annotation.x1, chartUsableSize, holder), topChartPadding);
-
-        final bottomChartPadding =
-            getExtraNeededVerticalSpace(holder) - getTopOffsetDrawSize(holder);
+        final from = Offset(getPixelX(annotation.x1, viewSize, holder), 0.0);
         final to = Offset(
-          getPixelX(annotation.x2, chartUsableSize, holder),
-          viewSize.height - bottomChartPadding,
+          getPixelX(annotation.x2, viewSize, holder),
+          viewSize.height,
         );
 
         final rect = Rect.fromPoints(from, to);
@@ -166,15 +152,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
       for (var annotation in data.rangeAnnotations.horizontalRangeAnnotations) {
-        final leftChartPadding = getLeftOffsetDrawSize(holder);
-        final from = Offset(leftChartPadding,
-            getPixelY(annotation.y1, chartUsableSize, holder));
-
-        final rightChartPadding = getExtraNeededHorizontalSpace(holder) -
-            getLeftOffsetDrawSize(holder);
+        final from = Offset(0.0, getPixelY(annotation.y1, viewSize, holder));
         final to = Offset(
-          viewSize.width - rightChartPadding,
-          getPixelY(annotation.y2, chartUsableSize, holder),
+          viewSize.width,
+          getPixelY(annotation.y2, viewSize, holder),
         );
 
         final rect = Rect.fromPoints(from, to);
@@ -189,27 +170,25 @@ abstract class AxisChartPainter<D extends AxisChartData>
   /// With this function we can convert our [FlSpot] x
   /// to the view base axis x .
   /// the view 0, 0 is on the top/left, but the spots is bottom/left
-  double getPixelX(double spotX, Size chartUsableSize, PaintHolder<D> holder) {
+  double getPixelX(double spotX, Size viewSize, PaintHolder<D> holder) {
     final data = holder.data;
     final deltaX = data.maxX - data.minX;
     if (deltaX == 0.0) {
-      return getLeftOffsetDrawSize(holder);
+      return 0.0;
     }
-    return (((spotX - data.minX) / deltaX) * chartUsableSize.width) +
-        getLeftOffsetDrawSize(holder);
+    return ((spotX - data.minX) / deltaX) * viewSize.width;
   }
 
   /// With this function we can convert our [FlSpot] y
   /// to the view base axis y.
-  double getPixelY(double spotY, Size chartUsableSize, PaintHolder<D> holder) {
+  double getPixelY(double spotY, Size viewSize, PaintHolder<D> holder) {
     final data = holder.data;
     final deltaY = data.maxY - data.minY;
     if (deltaY == 0.0) {
-      return chartUsableSize.height + getTopOffsetDrawSize(holder);
+      return viewSize.height;
     }
-
-    var y = ((spotY - data.minY) / deltaY) * chartUsableSize.height;
-    y = chartUsableSize.height - y;
-    return y + getTopOffsetDrawSize(holder);
+    var y = ((spotY - data.minY) / deltaY) * viewSize.height;
+    y = viewSize.height - y;
+    return y;
   }
 }
