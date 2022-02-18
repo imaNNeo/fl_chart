@@ -197,8 +197,13 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
-  ScatterSpot(double x, double y, {bool? show, double? radius, Color? color})
-      : show = show ?? true,
+  ScatterSpot(
+    double x,
+    double y, {
+    bool? show,
+    double? radius,
+    Color? color,
+  })  : show = show ?? true,
         radius = radius ?? 6,
         color = color ??
             Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
