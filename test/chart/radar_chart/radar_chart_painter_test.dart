@@ -12,21 +12,6 @@ import 'radar_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
-  group('RadarChart usable size', () {
-    test('test 1', () {
-      const viewSize = Size(728, 728);
-
-      final RadarChartData data = RadarChartData(dataSets: [
-        RadarDataSet(),
-      ]);
-
-      final RadarChartPainter radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
-      expect(radarChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(728, 728));
-    });
-  });
-
   group('drawTicks()', () {
     test('test 1', () {
       const viewSize = Size(400, 300);

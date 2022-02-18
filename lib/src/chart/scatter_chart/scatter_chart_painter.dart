@@ -45,7 +45,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   ) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
-    final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
     final clip = data.clipData;
     final border = data.borderData.show ? data.borderData.border : null;
 
@@ -67,23 +66,19 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
       if (clip.left) {
         final borderWidth = border?.left.width ?? 0;
-        left = getLeftOffsetDrawSize(holder) + (borderWidth / 2);
+        left = borderWidth / 2;
       }
       if (clip.top) {
         final borderWidth = border?.top.width ?? 0;
-        top = getTopOffsetDrawSize(holder) + (borderWidth / 2);
+        top = borderWidth / 2;
       }
       if (clip.right) {
         final borderWidth = border?.right.width ?? 0;
-        right = getLeftOffsetDrawSize(holder) +
-            chartUsableSize.width -
-            (borderWidth / 2);
+        right = viewSize.width - (borderWidth / 2);
       }
       if (clip.bottom) {
         final borderWidth = border?.bottom.width ?? 0;
-        bottom = getTopOffsetDrawSize(holder) +
-            chartUsableSize.height -
-            (borderWidth / 2);
+        bottom = viewSize.height - (borderWidth / 2);
       }
 
       canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
@@ -96,8 +91,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       if (!scatterSpot.show) {
         continue;
       }
-      final pixelX = getPixelX(scatterSpot.x, chartUsableSize, holder);
-      final pixelY = getPixelY(scatterSpot.y, chartUsableSize, holder);
+      final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
+      final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
 
       _spotsPaint.color = scatterSpot.color;
 
@@ -138,18 +133,17 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           textScaleFactor: holder.textScale,
         );
 
-        tp.layout(maxWidth: chartUsableSize.width);
+        tp.layout(maxWidth: viewSize.width);
 
-        final pixelX = getPixelX(scatterSpot.x, chartUsableSize, holder);
-        final pixelY = getPixelY(scatterSpot.y, chartUsableSize, holder);
+        final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
+        final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
 
         double newPixelY;
 
         /// To ensure the label is centered horizontally with respect to the spot.
         double newPixelX = pixelX - tp.width / 2;
 
-        double centerChartY =
-            getTopOffsetDrawSize(holder) + chartUsableSize.height / 2;
+        double centerChartY = viewSize.height / 2;
 
         /// if the spot is in the lower half of the chart, then draw the label either in the center or above the spot,
         /// if the spot is in upper half of the chart, then draw the label either in the center or below the spot.
@@ -212,7 +206,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       ScatterSpot showOnSpot,
       PaintHolder<ScatterChartData> holder) {
     final viewSize = canvasWrapper.size;
-    final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
 
     final tooltipItem = tooltipData.getTooltipItems(showOnSpot);
 
@@ -240,8 +233,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
     final mostTopOffset = Offset(
-      getPixelX(showOnSpot.x, chartUsableSize, holder),
-      getPixelY(showOnSpot.y, chartUsableSize, holder),
+      getPixelX(showOnSpot.x, viewSize, holder),
+      getPixelY(showOnSpot.y, viewSize, holder),
     );
 
     final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
@@ -346,17 +339,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// Returns null if finds nothing!
   ScatterTouchedSpot? handleTouch(
     Offset localPosition,
-    Size size,
+    Size viewSize,
     PaintHolder<ScatterChartData> holder,
   ) {
     final data = holder.data;
-    final chartViewSize = getChartUsableDrawSize(size, holder);
 
     for (var i = 0; i < data.scatterSpots.length; i++) {
       final spot = data.scatterSpots[i];
 
-      final spotPixelX = getPixelX(spot.x, chartViewSize, holder);
-      final spotPixelY = getPixelY(spot.y, chartViewSize, holder);
+      final spotPixelX = getPixelX(spot.x, viewSize, holder);
+      final spotPixelY = getPixelY(spot.y, viewSize, holder);
 
       final distance =
           (localPosition - Offset(spotPixelX, spotPixelY)).distance;

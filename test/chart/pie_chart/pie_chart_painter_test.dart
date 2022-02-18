@@ -14,22 +14,6 @@ import 'pie_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
-  group('PieChart usable size', () {
-    test('test 1', () {
-      const viewSize = Size(728, 728);
-
-      final data = PieChartData(sections: [
-        PieChartSectionData(),
-        PieChartSectionData(),
-        PieChartSectionData(),
-      ]);
-      final barChartPainter = PieChartPainter();
-      final holder = PaintHolder<PieChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(728, 728));
-    });
-  });
-
   group('calculateSectionsAngle()', () {
     test('test 1', () {
       final sections = [

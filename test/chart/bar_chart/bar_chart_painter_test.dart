@@ -16,106 +16,6 @@ import 'bar_chart_painter_test.mocks.dart';
 void main() {
   const tolerance = 0.01;
 
-  group('BarChart usable size', () {
-    test('test 1', () {
-      const viewSize = Size(728, 728);
-
-      final BarChartData data = BarChartData(
-        titlesData: FlTitlesData(
-          leftTitles: AxisTitles(
-              sideTitles: SideTitles(reservedSize: 12, showTitles: true)),
-          rightTitles: AxisTitles(
-              sideTitles: SideTitles(reservedSize: 44, showTitles: true)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        ),
-      );
-
-      final BarChartPainter barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(728, 728));
-    });
-
-    test('test 2', () {
-      const viewSize = Size(2020, 2020);
-
-      final BarChartData data = BarChartData(
-          titlesData: FlTitlesData(
-        leftTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 44, showTitles: true)),
-        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      ));
-
-      final BarChartPainter barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(2020, 2020));
-    });
-
-    test('test 3', () {
-      const viewSize = Size(1000, 1000);
-
-      final BarChartData data = BarChartData(
-        titlesData: FlTitlesData(
-          rightTitles: AxisTitles(
-              sideTitles: SideTitles(reservedSize: 500, showTitles: true)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        ),
-      );
-
-      final BarChartPainter barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(1000, 1000));
-    });
-
-    test('test 4', () {
-      const viewSize = Size(800, 1000);
-
-      final BarChartData data = BarChartData(
-        titlesData: FlTitlesData(
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(
-              sideTitles: SideTitles(reservedSize: 10, showTitles: true)),
-          topTitles: AxisTitles(
-              sideTitles: SideTitles(reservedSize: 240, showTitles: true)),
-          bottomTitles: AxisTitles(
-              sideTitles: SideTitles(reservedSize: 322, showTitles: true)),
-        ),
-      );
-
-      final BarChartPainter barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(800, 1000));
-    });
-
-    test('test 5', () {
-      const viewSize = Size(600, 400);
-
-      final BarChartData data = BarChartData(
-          titlesData: FlTitlesData(
-        leftTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 0, showTitles: true)),
-        rightTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 342134133, showTitles: false)),
-        topTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 80, showTitles: true)),
-        bottomTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 322, showTitles: false)),
-      ));
-
-      final BarChartPainter barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1.0);
-      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(600, 400));
-    });
-  });
-
   group('calculateGroupsX()', () {
     test('test 1', () {
       const viewSize = Size(200, 100);
@@ -357,9 +257,9 @@ void main() {
 
       final BarChartData data = BarChartData(
         titlesData: FlTitlesData(show: false),
-        axisTitleData: FlAxisTitleData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
+        alignment: BarChartAlignment.center,
       );
 
       final BarChartPainter barChartPainter = BarChartPainter();
@@ -369,8 +269,7 @@ void main() {
       when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final groupsX = barChartPainter.calculateGroupsX(
-          viewSize, barGroups, BarChartAlignment.center, holder);
+      final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 
