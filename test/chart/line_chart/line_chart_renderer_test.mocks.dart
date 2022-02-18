@@ -67,8 +67,6 @@ class _FakeDiagnosticsNode_7 extends _i1.Fake implements _i5.DiagnosticsNode {
 
 class _FakePath_8 extends _i1.Fake implements _i2.Path {}
 
-class _FakeSize_9 extends _i1.Fake implements _i2.Size {}
-
 /// A class which mocks [Canvas].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -647,12 +645,6 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
               #drawBar, [canvasWrapper, barPath, barData, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawTitles(_i6.BuildContext? context, _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.LineChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(#drawTitles, [context, canvasWrapper, holder]),
-          returnValueForMissingStub: null);
-  @override
   void drawExtraLines(
           _i6.BuildContext? context,
           _i10.CanvasWrapper? canvasWrapper,
@@ -688,26 +680,6 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
               #getBarLineXLength, [barData, chartUsableSize, holder]),
           returnValue: 0.0) as double);
   @override
-  double getExtraNeededHorizontalSpace(
-          _i11.PaintHolder<_i12.LineChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededHorizontalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getExtraNeededVerticalSpace(
-          _i11.PaintHolder<_i12.LineChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededVerticalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getLeftOffsetDrawSize(_i11.PaintHolder<_i12.LineChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getLeftOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getTopOffsetDrawSize(_i11.PaintHolder<_i12.LineChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
   List<_i12.TouchLineBarSpot>? handleTouch(_i2.Offset? localPosition,
           _i2.Size? size, _i11.PaintHolder<_i12.LineChartData>? holder) =>
       (super.noSuchMethod(
@@ -728,14 +700,6 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
         holder
       ])) as _i12.TouchLineBarSpot?);
   @override
-  void drawAxisTitles(
-          _i6.BuildContext? context,
-          _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.LineChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(#drawAxisTitles, [context, canvasWrapper, holder]),
-          returnValueForMissingStub: null);
-  @override
   void drawGrid(_i10.CanvasWrapper? canvasWrapper,
           _i11.PaintHolder<_i12.LineChartData>? holder) =>
       super.noSuchMethod(Invocation.method(#drawGrid, [canvasWrapper, holder]),
@@ -753,21 +717,15 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
           Invocation.method(#drawRangeAnnotation, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  double getPixelX(double? spotX, _i2.Size? chartUsableSize,
+  double getPixelX(double? spotX, _i2.Size? viewSize,
           _i11.PaintHolder<_i12.LineChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelX, [spotX, chartUsableSize, holder]),
+          Invocation.method(#getPixelX, [spotX, viewSize, holder]),
           returnValue: 0.0) as double);
   @override
-  double getPixelY(double? spotY, _i2.Size? chartUsableSize,
+  double getPixelY(double? spotY, _i2.Size? viewSize,
           _i11.PaintHolder<_i12.LineChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelY, [spotY, chartUsableSize, holder]),
+          Invocation.method(#getPixelY, [spotY, viewSize, holder]),
           returnValue: 0.0) as double);
-  @override
-  _i2.Size getChartUsableDrawSize(
-          _i2.Size? viewSize, _i11.PaintHolder<_i12.LineChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getChartUsableDrawSize, [viewSize, holder]),
-          returnValue: _FakeSize_9()) as _i2.Size);
 }

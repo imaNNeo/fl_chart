@@ -5,10 +5,9 @@
 import 'dart:typed_data' as _i7;
 import 'dart:ui' as _i2;
 
+import 'package:fl_chart/fl_chart.dart' as _i12;
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
     as _i11;
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart'
-    as _i12;
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart'
     as _i9;
 import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i10;
@@ -66,8 +65,6 @@ class _FakeDiagnosticsNode_7 extends _i1.Fake implements _i5.DiagnosticsNode {
           _i5.DiagnosticLevel? minLevel = _i5.DiagnosticLevel.info}) =>
       super.toString();
 }
-
-class _FakeSize_8 extends _i1.Fake implements _i2.Size {}
 
 /// A class which mocks [Canvas].
 ///
@@ -481,12 +478,6 @@ class MockScatterChartPainter extends _i1.Mock
           Invocation.method(#paint, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawTitles(_i6.BuildContext? context, _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(#drawTitles, [context, canvasWrapper, holder]),
-          returnValueForMissingStub: null);
-  @override
   void drawSpots(_i6.BuildContext? context, _i10.CanvasWrapper? canvasWrapper,
           _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
       super.noSuchMethod(
@@ -513,41 +504,13 @@ class MockScatterChartPainter extends _i1.Mock
               [context, canvasWrapper, tooltipData, showOnSpot, holder]),
           returnValueForMissingStub: null);
   @override
-  double getExtraNeededHorizontalSpace(
+  _i12.ScatterTouchedSpot? handleTouch(
+          _i2.Offset? localPosition,
+          _i2.Size? viewSize,
           _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededHorizontalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getExtraNeededVerticalSpace(
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededVerticalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getLeftOffsetDrawSize(
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getLeftOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getTopOffsetDrawSize(
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  _i12.ScatterTouchedSpot? handleTouch(_i2.Offset? localPosition,
-          _i2.Size? size, _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      (super.noSuchMethod(
-              Invocation.method(#handleTouch, [localPosition, size, holder]))
+      (super.noSuchMethod(Invocation.method(
+              #handleTouch, [localPosition, viewSize, holder]))
           as _i12.ScatterTouchedSpot?);
-  @override
-  void drawAxisTitles(
-          _i6.BuildContext? context,
-          _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(#drawAxisTitles, [context, canvasWrapper, holder]),
-          returnValueForMissingStub: null);
   @override
   void drawGrid(_i10.CanvasWrapper? canvasWrapper,
           _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
@@ -566,21 +529,15 @@ class MockScatterChartPainter extends _i1.Mock
           Invocation.method(#drawRangeAnnotation, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  double getPixelX(double? spotX, _i2.Size? chartUsableSize,
+  double getPixelX(double? spotX, _i2.Size? viewSize,
           _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelX, [spotX, chartUsableSize, holder]),
+          Invocation.method(#getPixelX, [spotX, viewSize, holder]),
           returnValue: 0.0) as double);
   @override
-  double getPixelY(double? spotY, _i2.Size? chartUsableSize,
+  double getPixelY(double? spotY, _i2.Size? viewSize,
           _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelY, [spotY, chartUsableSize, holder]),
+          Invocation.method(#getPixelY, [spotY, viewSize, holder]),
           returnValue: 0.0) as double);
-  @override
-  _i2.Size getChartUsableDrawSize(_i2.Size? viewSize,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getChartUsableDrawSize, [viewSize, holder]),
-          returnValue: _FakeSize_8()) as _i2.Size);
 }

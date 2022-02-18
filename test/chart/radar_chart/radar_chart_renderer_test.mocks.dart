@@ -65,8 +65,6 @@ class _FakeDiagnosticsNode_7 extends _i1.Fake implements _i5.DiagnosticsNode {
       super.toString();
 }
 
-class _FakeSize_8 extends _i1.Fake implements _i2.Size {}
-
 /// A class which mocks [Canvas].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -530,30 +528,4 @@ class MockRadarChartPainter extends _i1.Mock implements _i9.RadarChartPainter {
               Invocation.method(#calculateDataSetsPosition, [viewSize, holder]),
               returnValue: <_i9.RadarDataSetsPosition>[])
           as List<_i9.RadarDataSetsPosition>);
-  @override
-  _i2.Size getChartUsableDrawSize(
-          _i2.Size? viewSize, _i11.PaintHolder<_i12.RadarChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getChartUsableDrawSize, [viewSize, holder]),
-          returnValue: _FakeSize_8()) as _i2.Size);
-  @override
-  double getExtraNeededHorizontalSpace(
-          _i11.PaintHolder<_i12.RadarChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededHorizontalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getExtraNeededVerticalSpace(
-          _i11.PaintHolder<_i12.RadarChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededVerticalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getLeftOffsetDrawSize(_i11.PaintHolder<_i12.RadarChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getLeftOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getTopOffsetDrawSize(_i11.PaintHolder<_i12.RadarChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
 }

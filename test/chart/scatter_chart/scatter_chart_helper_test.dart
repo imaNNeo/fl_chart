@@ -5,11 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Check caching of ScatterChartHelper.calculateMaxAxisValues', () {
-    // final ScatterSpot scatterSpot1 = ScatterSpot(1, 40);
-    // final ScatterSpot scatterSpot2 = ScatterSpot(-4, -8);
-    // final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
-    // final ScatterSpot scatterSpot4 = ScatterSpot(-0, 0);
-
     test('Test read from cache', () {
       final scatterSpots1 = [scatterSpot2];
       final result1 = ScatterChartHelper.calculateMaxAxisValues(scatterSpots1);
@@ -61,6 +56,15 @@ void main() {
       expect(result.maxY, 3);
     });
 
+    test('Test validity 3', () {
+      final scatterSpots = <ScatterSpot>[];
+      final result = ScatterChartHelper.calculateMaxAxisValues(scatterSpots);
+      expect(result.minX, 0);
+      expect(result.maxX, 0);
+      expect(result.minY, 0);
+      expect(result.maxY, 0);
+    });
+
     test('Test equality', () {
       final scatterSpots = [scatterSpot1, scatterSpot2, scatterSpot3];
       final scatterSpotsClone = [
@@ -72,6 +76,14 @@ void main() {
       final result2 =
           ScatterChartHelper.calculateMaxAxisValues(scatterSpotsClone);
       expect(result1, result2);
+    });
+
+    test('Test equality 2', () {
+      final scatterSpots = [scatterSpot1, scatterSpot2, scatterSpot3];
+      final result1 = ScatterChartHelper.calculateMaxAxisValues(scatterSpots)
+          .copyWith(readFromCache: true);
+      final result2 = result1.copyWith(readFromCache: false);
+      expect(result1 != result2, true);
     });
   });
 }

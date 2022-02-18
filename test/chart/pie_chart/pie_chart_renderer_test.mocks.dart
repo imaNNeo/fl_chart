@@ -5,16 +5,16 @@
 import 'dart:typed_data' as _i8;
 import 'dart:ui' as _i2;
 
-import 'package:fl_chart/fl_chart.dart' as _i7;
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
     as _i12;
 import 'package:fl_chart/src/chart/base/line.dart' as _i13;
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart' as _i7;
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart' as _i10;
 import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
 import 'package:flutter/foundation.dart' as _i5;
-import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/rendering.dart' as _i3;
 import 'package:flutter/src/rendering/layer.dart' as _i4;
+import 'package:flutter/widgets.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:vector_math/vector_math_64.dart' as _i9;
 
@@ -70,8 +70,6 @@ class _FakePath_8 extends _i1.Fake implements _i2.Path {}
 
 class _FakePieTouchedSection_9 extends _i1.Fake
     implements _i7.PieTouchedSection {}
-
-class _FakeSize_10 extends _i1.Fake implements _i2.Size {}
 
 /// A class which mocks [Canvas].
 ///
@@ -570,30 +568,4 @@ class MockPieChartPainter extends _i1.Mock implements _i10.PieChartPainter {
       (super.noSuchMethod(
           Invocation.method(#getBadgeOffsets, [viewSize, holder]),
           returnValue: <int, _i2.Offset>{}) as Map<int, _i2.Offset>);
-  @override
-  _i2.Size getChartUsableDrawSize(
-          _i2.Size? viewSize, _i12.PaintHolder<_i7.PieChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getChartUsableDrawSize, [viewSize, holder]),
-          returnValue: _FakeSize_10()) as _i2.Size);
-  @override
-  double getExtraNeededHorizontalSpace(
-          _i12.PaintHolder<_i7.PieChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededHorizontalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getExtraNeededVerticalSpace(
-          _i12.PaintHolder<_i7.PieChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededVerticalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getLeftOffsetDrawSize(_i12.PaintHolder<_i7.PieChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getLeftOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getTopOffsetDrawSize(_i12.PaintHolder<_i7.PieChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
 }

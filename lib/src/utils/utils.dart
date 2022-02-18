@@ -15,11 +15,6 @@ class Utils {
   @visibleForTesting
   static void changeInstance(Utils val) => _singleton = val;
 
-  @visibleForTesting
-  static void restoreDefaultInstance() {
-    _singleton = Utils._internal();
-  }
-
   static const double _degrees2Radians = math.pi / 180.0;
 
   /// Converts degrees to radians

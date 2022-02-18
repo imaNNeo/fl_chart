@@ -65,8 +65,6 @@ class _FakeDiagnosticsNode_7 extends _i1.Fake implements _i5.DiagnosticsNode {
       super.toString();
 }
 
-class _FakeSize_8 extends _i1.Fake implements _i2.Size {}
-
 /// A class which mocks [Canvas].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -478,16 +476,6 @@ class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
           Invocation.method(#paint, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  List<double> calculateGroupsX(
-          _i2.Size? viewSize,
-          List<_i12.BarChartGroupData>? barGroups,
-          _i12.BarChartAlignment? alignment,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(
-              #calculateGroupsX, [viewSize, barGroups, alignment, holder]),
-          returnValue: <double>[]) as List<double>);
-  @override
   List<_i9.GroupBarsPosition> calculateGroupAndBarsPosition(_i2.Size? viewSize,
           List<double>? groupsX, List<_i12.BarChartGroupData>? barGroups) =>
       (super.noSuchMethod(
@@ -503,16 +491,6 @@ class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
       super.noSuchMethod(
           Invocation.method(
               #drawBars, [canvasWrapper, groupBarsPosition, holder]),
-          returnValueForMissingStub: null);
-  @override
-  void drawTitles(
-          _i6.BuildContext? context,
-          _i10.CanvasWrapper? canvasWrapper,
-          List<_i9.GroupBarsPosition>? groupBarsPosition,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(
-              #drawTitles, [context, canvasWrapper, groupBarsPosition, holder]),
           returnValueForMissingStub: null);
   @override
   void drawTouchTooltip(
@@ -561,39 +539,11 @@ class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
           ]),
           returnValueForMissingStub: null);
   @override
-  double getExtraNeededHorizontalSpace(
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededHorizontalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getExtraNeededVerticalSpace(
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededVerticalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getLeftOffsetDrawSize(_i11.PaintHolder<_i12.BarChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getLeftOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getTopOffsetDrawSize(_i11.PaintHolder<_i12.BarChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
   _i12.BarTouchedSpot? handleTouch(_i2.Offset? localPosition,
           _i2.Size? viewSize, _i11.PaintHolder<_i12.BarChartData>? holder) =>
       (super.noSuchMethod(Invocation.method(
               #handleTouch, [localPosition, viewSize, holder]))
           as _i12.BarTouchedSpot?);
-  @override
-  void drawAxisTitles(
-          _i6.BuildContext? context,
-          _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(#drawAxisTitles, [context, canvasWrapper, holder]),
-          returnValueForMissingStub: null);
   @override
   void drawGrid(_i10.CanvasWrapper? canvasWrapper,
           _i11.PaintHolder<_i12.BarChartData>? holder) =>
@@ -612,21 +562,15 @@ class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
           Invocation.method(#drawRangeAnnotation, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  double getPixelX(double? spotX, _i2.Size? chartUsableSize,
+  double getPixelX(double? spotX, _i2.Size? viewSize,
           _i11.PaintHolder<_i12.BarChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelX, [spotX, chartUsableSize, holder]),
+          Invocation.method(#getPixelX, [spotX, viewSize, holder]),
           returnValue: 0.0) as double);
   @override
-  double getPixelY(double? spotY, _i2.Size? chartUsableSize,
+  double getPixelY(double? spotY, _i2.Size? viewSize,
           _i11.PaintHolder<_i12.BarChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelY, [spotY, chartUsableSize, holder]),
+          Invocation.method(#getPixelY, [spotY, viewSize, holder]),
           returnValue: 0.0) as double);
-  @override
-  _i2.Size getChartUsableDrawSize(
-          _i2.Size? viewSize, _i11.PaintHolder<_i12.BarChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getChartUsableDrawSize, [viewSize, holder]),
-          returnValue: _FakeSize_8()) as _i2.Size);
 }
