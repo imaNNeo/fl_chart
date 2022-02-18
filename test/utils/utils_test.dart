@@ -2,11 +2,27 @@ import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'utils_test.mocks.dart';
 
 import '../chart/data_pool.dart';
 
+@GenerateMocks([Utils, BuildContext])
 void main() {
   const tolerance = 0.001;
+
+  test('changeInstance', () {
+    Utils _mockUtils = MockUtils();
+    Utils realUtils = Utils();
+    expect(Utils(), realUtils);
+    Utils.changeInstance(_mockUtils);
+    expect(Utils(), _mockUtils);
+    expect(Utils() != realUtils, true);
+    Utils.changeInstance(realUtils);
+    expect(Utils(), realUtils);
+    expect(Utils() != _mockUtils, true);
+  });
 
   test('test degrees to radians', () {
     expect(Utils().radians(57.2958), closeTo(1, tolerance));
@@ -85,6 +101,41 @@ void main() {
     );
   });
 
+  test('normalizeBorderRadius()', () {
+    const input1 = BorderRadius.only(
+      topLeft: Radius.circular(18),
+      topRight: Radius.circular(18),
+      bottomRight: Radius.circular(18),
+      bottomLeft: Radius.circular(18),
+    );
+    const output1 = input1;
+    expect(Utils().normalizeBorderRadius(input1, 40), output1);
+
+    const input2 = BorderRadius.only(
+      topLeft: Radius.circular(24),
+      topRight: Radius.circular(24),
+      bottomRight: Radius.circular(24),
+      bottomLeft: Radius.circular(24),
+    );
+    const output2 = BorderRadius.only(
+      topLeft: Radius.circular(20),
+      topRight: Radius.circular(20),
+      bottomRight: Radius.circular(20),
+      bottomLeft: Radius.circular(20),
+    );
+    expect(Utils().normalizeBorderRadius(input2, 40), output2);
+  });
+
+  test('normalizeBorderSide()', () {
+    const input1 = BorderSide(width: 4.0);
+    const output1 = input1;
+    expect(Utils().normalizeBorderSide(input1, 40), output1);
+
+    const input2 = BorderSide(width: 24.0);
+    const output2 = BorderSide(width: 20.0);
+    expect(Utils().normalizeBorderSide(input2, 40), output2);
+  });
+
   test('lerp gradient', () {
     expect(
         lerpGradient([
@@ -161,6 +212,59 @@ void main() {
     expect(Utils().formatNumber(823147521343), '823.1B');
     expect(Utils().formatNumber(8231475213435), '8231.5B');
     expect(Utils().formatNumber(-8231475213435), '-8231.5B');
+  });
+
+  group('test getThemeAwareTextStyle', () {
+    test('test 1', () {
+      final _mockBuildContext = MockBuildContext();
+      const _defaultTextStyle = DefaultTextStyle.fallback();
+
+      var callCount = 0;
+      when(_mockBuildContext.dependOnInheritedWidgetOfExactType())
+          .thenAnswer((realInvocation) {
+        if (callCount == 0) {
+          callCount++;
+          return _defaultTextStyle;
+        } else {
+          return MediaQuery(
+            data: const MediaQueryData(boldText: false),
+            child: Container(),
+          );
+        }
+      });
+      expect(
+        Utils().getThemeAwareTextStyle(_mockBuildContext, null),
+        _defaultTextStyle.style,
+      );
+    });
+
+    test('test 2', () {
+      final _mockBuildContext = MockBuildContext();
+      const _defaultTextStyle = DefaultTextStyle.fallback();
+
+      var callCount = 0;
+      when(_mockBuildContext.dependOnInheritedWidgetOfExactType())
+          .thenAnswer((realInvocation) {
+        if (callCount == 0) {
+          callCount++;
+          return _defaultTextStyle;
+        } else {
+          return MediaQuery(
+            data: const MediaQueryData(boldText: true),
+            child: Container(),
+          );
+        }
+      });
+      expect(
+        Utils()
+            .getThemeAwareTextStyle(
+              _mockBuildContext,
+              MockData.textStyle1,
+            )
+            .fontWeight,
+        FontWeight.bold,
+      );
+    });
   });
 
   test('test getInitialIntervalValue()', () {

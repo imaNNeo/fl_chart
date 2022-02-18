@@ -676,12 +676,6 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
               #drawBar, [canvasWrapper, barPath, barData, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawTitles(_i3.BuildContext? context, _i6.CanvasWrapper? canvasWrapper,
-          _i10.PaintHolder<_i7.LineChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(#drawTitles, [context, canvasWrapper, holder]),
-          returnValueForMissingStub: null);
-  @override
   void drawExtraLines(
           _i3.BuildContext? context,
           _i6.CanvasWrapper? canvasWrapper,
@@ -717,26 +711,6 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
               #getBarLineXLength, [barData, chartUsableSize, holder]),
           returnValue: 0.0) as double);
   @override
-  double getExtraNeededHorizontalSpace(
-          _i10.PaintHolder<_i7.LineChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededHorizontalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getExtraNeededVerticalSpace(
-          _i10.PaintHolder<_i7.LineChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getExtraNeededVerticalSpace, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getLeftOffsetDrawSize(_i10.PaintHolder<_i7.LineChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getLeftOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
-  double getTopOffsetDrawSize(_i10.PaintHolder<_i7.LineChartData>? holder) =>
-      (super.noSuchMethod(Invocation.method(#getTopOffsetDrawSize, [holder]),
-          returnValue: 0.0) as double);
-  @override
   List<_i7.TouchLineBarSpot>? handleTouch(_i2.Offset? localPosition,
           _i2.Size? size, _i10.PaintHolder<_i7.LineChartData>? holder) =>
       (super.noSuchMethod(
@@ -757,14 +731,6 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
         holder
       ])) as _i7.TouchLineBarSpot?);
   @override
-  void drawAxisTitles(
-          _i3.BuildContext? context,
-          _i6.CanvasWrapper? canvasWrapper,
-          _i10.PaintHolder<_i7.LineChartData>? holder) =>
-      super.noSuchMethod(
-          Invocation.method(#drawAxisTitles, [context, canvasWrapper, holder]),
-          returnValueForMissingStub: null);
-  @override
   void drawGrid(_i6.CanvasWrapper? canvasWrapper,
           _i10.PaintHolder<_i7.LineChartData>? holder) =>
       super.noSuchMethod(Invocation.method(#drawGrid, [canvasWrapper, holder]),
@@ -782,21 +748,15 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
           Invocation.method(#drawRangeAnnotation, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  double getPixelX(double? spotX, _i2.Size? chartUsableSize,
+  double getPixelX(double? spotX, _i2.Size? viewSize,
           _i10.PaintHolder<_i7.LineChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelX, [spotX, chartUsableSize, holder]),
+          Invocation.method(#getPixelX, [spotX, viewSize, holder]),
           returnValue: 0.0) as double);
   @override
-  double getPixelY(double? spotY, _i2.Size? chartUsableSize,
+  double getPixelY(double? spotY, _i2.Size? viewSize,
           _i10.PaintHolder<_i7.LineChartData>? holder) =>
       (super.noSuchMethod(
-          Invocation.method(#getPixelY, [spotY, chartUsableSize, holder]),
+          Invocation.method(#getPixelY, [spotY, viewSize, holder]),
           returnValue: 0.0) as double);
-  @override
-  _i2.Size getChartUsableDrawSize(
-          _i2.Size? viewSize, _i10.PaintHolder<_i7.LineChartData>? holder) =>
-      (super.noSuchMethod(
-          Invocation.method(#getChartUsableDrawSize, [viewSize, holder]),
-          returnValue: _FakeSize_1()) as _i2.Size);
 }
