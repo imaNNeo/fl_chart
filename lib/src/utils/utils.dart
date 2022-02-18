@@ -255,7 +255,7 @@ class Utils {
       effectiveTextStyle = effectiveTextStyle!
           .merge(const TextStyle(fontWeight: FontWeight.bold));
     }
-    return effectiveTextStyle ??= defaultTextStyle.style;
+    return effectiveTextStyle!;
   }
 
   /// Finds the best initial interval value
