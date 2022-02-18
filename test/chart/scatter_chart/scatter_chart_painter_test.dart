@@ -491,18 +491,25 @@ void main() {
           minX: 0,
           maxX: 10,
           scatterSpots: [
-            ScatterSpot(1, 1, radius: 18, label: '1,1'),
-            ScatterSpot(2, 2, radius: 8, label: '2,2'),
-            ScatterSpot(3, 9, show: false, label: '3,9'),
-            ScatterSpot(8, 8, radius: 4, label: '8,8'),
-            ScatterSpot(7, 5, radius: 20, label: ''),
-            ScatterSpot(4, 6, radius: 24, label: '4,6'),
+            ScatterSpot(1, 1, radius: 18),
+            ScatterSpot(2, 2, radius: 8),
+            ScatterSpot(3, 9, show: false),
+            ScatterSpot(8, 8, radius: 4),
+            ScatterSpot(7, 5, radius: 20),
+            ScatterSpot(4, 6, radius: 24),
           ],
           titlesData: FlTitlesData(show: false),
           clipData: FlClipData.all(),
           scatterLabelSettings: ScatterLabelSettings(
             showLabel: true,
-            textStyle: const TextStyle(fontSize: 10),
+            getLabelTextStyleFunction: (int index) =>
+                const TextStyle(fontSize: 12),
+            getLabelFunction: (int index) {
+              if (index == 5) {
+                return '';
+              }
+              return 'Label : $index';
+            },
           ));
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
