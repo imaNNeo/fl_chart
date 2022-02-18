@@ -13,7 +13,7 @@ class BarChartSample4State extends State<BarChartSample4> {
   final Color normal = const Color(0xff64caad);
   final Color light = const Color(0xff73e8c9);
 
-  Widget bottomTitles(double value,TitleMeta meta) {
+  Widget bottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(color: Color(0xff939393), fontSize: 10);
     String text;
     switch (value.toInt()) {

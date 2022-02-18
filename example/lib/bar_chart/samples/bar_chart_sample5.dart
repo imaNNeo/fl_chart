@@ -87,7 +87,6 @@ class BarChartSample5State extends State<BarChartSample5> {
         break;
       default:
         return Container();
-        break;
     }
     return Center(child: Text(text, style: style));
   }

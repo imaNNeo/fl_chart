@@ -22,8 +22,10 @@ void main() {
 
       final LineChartData data = LineChartData(
           titlesData: FlTitlesData(
-        leftTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
-        rightTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 64, showTitles: true)),
+        leftTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
+        rightTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 64, showTitles: true)),
         topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       ));
@@ -31,7 +33,7 @@ void main() {
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       expect(lineChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(644, 728));
+          const Size(728, 728));
     });
 
     test('test 2', () {
@@ -39,7 +41,8 @@ void main() {
 
       final LineChartData data = LineChartData(
           titlesData: FlTitlesData(
-        leftTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 62, showTitles: true)),
+        leftTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 62, showTitles: true)),
         rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -48,7 +51,7 @@ void main() {
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       expect(lineChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(1958, 2020));
+          const Size(2020, 2020));
     });
 
     test('test 3', () {
@@ -57,8 +60,8 @@ void main() {
       final LineChartData data = LineChartData(
           titlesData: FlTitlesData(
         leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        rightTitles:
-            AxisTitles(sideTitles: SideTitles(reservedSize: 500, showTitles: true)),
+        rightTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 500, showTitles: true)),
         topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       ));
@@ -66,7 +69,7 @@ void main() {
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       expect(lineChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(500, 1000));
+          const Size(1000, 1000));
     });
 
     test('test 4', () {
@@ -75,16 +78,18 @@ void main() {
       final LineChartData data = LineChartData(
           titlesData: FlTitlesData(
         leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        rightTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 10, showTitles: true)),
-        topTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 240, showTitles: true)),
-        bottomTitles:
-            AxisTitles(sideTitles: SideTitles(reservedSize: 322, showTitles: true)),
+        rightTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 10, showTitles: true)),
+        topTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 240, showTitles: true)),
+        bottomTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 322, showTitles: true)),
       ));
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       expect(lineChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(790, 438));
+          const Size(800, 1000));
     });
 
     test('test 5', () {
@@ -92,18 +97,20 @@ void main() {
 
       final LineChartData data = LineChartData(
           titlesData: FlTitlesData(
-        leftTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 0, showTitles: true)),
-        rightTitles:
-            AxisTitles(sideTitles: SideTitles(reservedSize: 342134133, showTitles: false)),
-        topTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 80, showTitles: true)),
-        bottomTitles:
-            AxisTitles(sideTitles: SideTitles(reservedSize: 322, showTitles: false)),
+        leftTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 0, showTitles: true)),
+        rightTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 342134133, showTitles: false)),
+        topTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 80, showTitles: true)),
+        bottomTitles: AxisTitles(
+            sideTitles: SideTitles(reservedSize: 322, showTitles: false)),
       ));
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       expect(lineChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(600, 320));
+          const Size(600, 400));
     });
 
     test('test 6', () {
@@ -159,12 +166,14 @@ void main() {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 20)),
-          rightTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
-          bottomTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+          topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 20)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
         clipData: FlClipData(
@@ -188,9 +197,9 @@ void main() {
       final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
       final Rect rect = verifyResult.captured.single;
       verifyResult.called(1);
-      expect(rect.left, 14);
+      expect(rect.left, 4);
       expect(rect.top, 0);
-      expect(rect.right, 366);
+      expect(rect.right, 396);
       expect(rect.bottom, 400);
     });
 
@@ -200,12 +209,17 @@ void main() {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 40,)),
-          rightTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
-          bottomTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+          topTitles: AxisTitles(
+              sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 40,
+          )),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
         clipData: FlClipData(
@@ -229,10 +243,10 @@ void main() {
       final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
       final Rect rect = verifyResult.captured.single;
       verifyResult.called(1);
-      expect(rect.left, 14);
-      expect(rect.top, 44);
-      expect(rect.right, 366);
-      expect(rect.bottom, 356);
+      expect(rect.left, 4);
+      expect(rect.top, 4);
+      expect(rect.right, 396);
+      expect(rect.bottom, 396);
     });
   });
 
@@ -1988,31 +2002,33 @@ void main() {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          rightTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
         ),
       );
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getExtraNeededHorizontalSpace(holder);
-      expect(result, 10);
+      expect(result, 0);
     });
 
     test('test 3', () {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          rightTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
         ),
       );
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getExtraNeededHorizontalSpace(holder);
-      expect(result, 24);
+      expect(result, 0);
     });
   });
 
@@ -2032,32 +2048,34 @@ void main() {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          bottomTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
+          topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
         ),
       );
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getExtraNeededVerticalSpace(holder);
-      expect(result, 10);
+      expect(result, 0);
     });
 
     test('test 3', () {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
-          bottomTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
+          topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
         ),
       );
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getExtraNeededVerticalSpace(holder);
-      expect(result, 24);
+      expect(result, 0);
     });
   });
 
@@ -2077,32 +2095,34 @@ void main() {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          rightTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
         ),
       );
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getLeftOffsetDrawSize(holder);
-      expect(result, 10);
+      expect(result, 0);
     });
 
     test('test 3', () {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
-          rightTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
         ),
       );
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getLeftOffsetDrawSize(holder);
-      expect(result, 12);
+      expect(result, 0);
     });
   });
 
@@ -2122,32 +2142,34 @@ void main() {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          bottomTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
+          topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false, reservedSize: 10)),
         ),
       );
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getTopOffsetDrawSize(holder);
-      expect(result, 10);
+      expect(result, 0);
     });
 
     test('test 3', () {
       final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
-          bottomTitles:
-              AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
+          topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 12)),
         ),
       );
 
       final LineChartPainter lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1.0);
       final result = lineChartPainter.getTopOffsetDrawSize(holder);
-      expect(result, 12);
+      expect(result, 0);
     });
   });
 

@@ -34,7 +34,7 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
       expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(644, 728));
+          const Size(728, 728));
     });
 
     test('test 2', () {
@@ -52,7 +52,7 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
       expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(1958, 2020));
+          const Size(2020, 2020));
     });
 
     test('test 3', () {
@@ -70,27 +70,28 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
       expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(500, 1000));
+          const Size(1000, 1000));
     });
 
     test('test 4', () {
       const viewSize = Size(800, 1000);
 
       final BarChartData data = BarChartData(
-          titlesData: FlTitlesData(
-        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        rightTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 10, showTitles: true)),
-        topTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 240, showTitles: true)),
-        bottomTitles: AxisTitles(
-            sideTitles: SideTitles(reservedSize: 322, showTitles: true)),
-      ));
+        titlesData: FlTitlesData(
+          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(reservedSize: 10, showTitles: true)),
+          topTitles: AxisTitles(
+              sideTitles: SideTitles(reservedSize: 240, showTitles: true)),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(reservedSize: 322, showTitles: true)),
+        ),
+      );
 
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
       expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(790, 438));
+          const Size(800, 1000));
     });
 
     test('test 5', () {
@@ -111,7 +112,7 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
       expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(600, 320));
+          const Size(600, 400));
     });
   });
 
@@ -202,6 +203,7 @@ void main() {
         titlesData: FlTitlesData(show: false),
         groupsSpace: 10,
         alignment: BarChartAlignment.center,
+        barGroups: barGroups,
       );
 
       final BarChartPainter barChartPainter = BarChartPainter();
@@ -251,6 +253,7 @@ void main() {
       final BarChartData data = BarChartData(
         titlesData: FlTitlesData(show: false),
         groupsSpace: 10,
+        barGroups: barGroups,
       );
 
       final BarChartPainter barChartPainter = BarChartPainter();
@@ -354,9 +357,9 @@ void main() {
 
       final BarChartData data = BarChartData(
         titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
-        alignment: BarChartAlignment.center,
       );
 
       final BarChartPainter barChartPainter = BarChartPainter();
@@ -366,7 +369,8 @@ void main() {
       when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final groupsX = data.calculateGroupsX(viewSize.width);
+      final groupsX = barChartPainter.calculateGroupsX(
+          viewSize, barGroups, BarChartAlignment.center, holder);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 
@@ -1042,7 +1046,7 @@ void main() {
       expect(rrect.width, 112);
       expect(rrect.height, 90);
       expect(rrect.left, -22.5);
-      expect(rrect.top, 104);
+      expect(rrect.top, 116);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
@@ -1065,7 +1069,7 @@ void main() {
           const TextSpan(text: 'helllo3'));
 
       final drawOffset = result2.captured[1] as Offset;
-      expect(drawOffset, const Offset(-6.5, 112.0));
+      expect(drawOffset, const Offset(-6.5, 124.0));
     });
 
     test('test 3', () {

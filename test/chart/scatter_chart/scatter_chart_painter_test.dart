@@ -32,7 +32,7 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(644, 728));
+          const Size(728, 728));
     });
 
     test('test 2', () {
@@ -50,7 +50,7 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(1958, 2020));
+          const Size(2020, 2020));
     });
 
     test('test 3', () {
@@ -68,7 +68,7 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(500, 1000));
+          const Size(1000, 1000));
     });
 
     test('test 4', () {
@@ -88,7 +88,7 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(790, 438));
+          const Size(800, 1000));
     });
 
     test('test 5', () {
@@ -109,7 +109,7 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       expect(scatterChartPainter.getChartUsableDrawSize(viewSize, holder),
-          const Size(600, 320));
+          const Size(600, 400));
     });
   });
 
@@ -608,7 +608,7 @@ void main() {
     });
 
     test('test 2', () {
-      const viewSize = Size(128, 112);
+      const viewSize = Size(100, 100);
       final spots = [
         ScatterSpot(1, 1),
         ScatterSpot(2, 4),
@@ -655,33 +655,31 @@ void main() {
         scatterSpots: spots,
       );
 
-      const leftExtra = 14;
-      const topExtra = 6;
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
       ScatterTouchedSpot? touchedSpot = scatterChartPainter.handleTouch(
-        const Offset(leftExtra + 10, topExtra + 90),
+        const Offset(10, 90),
         viewSize,
         holder,
       );
       expect(touchedSpot!.spot, spots[0]);
 
       ScatterTouchedSpot? touchedSpot2 = scatterChartPainter.handleTouch(
-        const Offset(leftExtra + 50, topExtra + 80),
+        const Offset(50, 80),
         viewSize,
         holder,
       );
       expect(touchedSpot2!.spot, spots[2]);
 
       ScatterTouchedSpot? touchedSpot3 = scatterChartPainter.handleTouch(
-        const Offset(leftExtra + 50.49, topExtra + 80),
+        const Offset(50.49, 80),
         viewSize,
         holder,
       );
       expect(touchedSpot3!.spot, spots[2]);
 
       ScatterTouchedSpot? touchedSpot4 = scatterChartPainter.handleTouch(
-        const Offset(leftExtra + 50.5, topExtra + 80),
+        const Offset(50.5, 80),
         viewSize,
         holder,
       );
@@ -690,8 +688,8 @@ void main() {
       final radius = spots[2].radius;
       ScatterTouchedSpot? touchedSpot5 = scatterChartPainter.handleTouch(
         Offset(
-          leftExtra + 50 + (math.cos(math.pi / 4) * radius) - 0.01,
-          topExtra + 80 + (math.sin(math.pi / 4) * radius) - 0.01,
+          50 + (math.cos(math.pi / 4) * radius) - 0.01,
+          80 + (math.sin(math.pi / 4) * radius) - 0.01,
         ),
         viewSize,
         holder,
@@ -700,8 +698,8 @@ void main() {
 
       ScatterTouchedSpot? touchedSpot6 = scatterChartPainter.handleTouch(
         Offset(
-          leftExtra + 50 + (math.cos(math.pi / 4) * radius),
-          topExtra + 80 + (math.sin(math.pi / 4) * radius),
+          50 + (math.cos(math.pi / 4) * radius),
+          80 + (math.sin(math.pi / 4) * radius),
         ),
         viewSize,
         holder,

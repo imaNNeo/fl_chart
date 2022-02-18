@@ -6,7 +6,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 /// This is the base class for axis base charts data
@@ -83,7 +82,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
 
 /// Holds data for showing label values on axis numbers
 class SideTitles with EquatableMixin {
-
   /// Determines showing or hiding this side titles
   final bool showTitles;
 
@@ -156,16 +154,15 @@ class SideTitles with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-    showTitles,
-    getTitles,
-    reservedSize,
-    interval,
-  ];
+        showTitles,
+        getTitles,
+        reservedSize,
+        interval,
+      ];
 }
 
 /// Holds data for showing each side titles (left, top, right, bottom)
 class AxisTitles with EquatableMixin {
-
   /// Determines the size of [axisName]
   final double axisNameSize;
 
@@ -201,8 +198,7 @@ class AxisTitles with EquatableMixin {
   static AxisTitles lerp(AxisTitles a, AxisTitles b, double t) {
     return AxisTitles(
       axisName: b.axisName,
-      axisNameSize:
-          lerpDouble(a.axisNameSize, b.axisNameSize, t),
+      axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t),
       sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
     );
   }
@@ -211,12 +207,12 @@ class AxisTitles with EquatableMixin {
   /// and replaces provided values.
   AxisTitles copyWith({
     Widget? axisName,
-    double? axisNameReservedSize,
+    double? axisNameSize,
     SideTitles? sideTitles,
   }) {
     return AxisTitles(
       axisName: axisName ?? this.axisName,
-      axisNameSize: axisNameReservedSize ?? this.axisNameSize,
+      axisNameSize: axisNameSize ?? this.axisNameSize,
       sideTitles: sideTitles ?? this.sideTitles,
     );
   }

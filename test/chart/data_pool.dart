@@ -355,28 +355,34 @@ class MockData {
     interval: 22,
   );
 
+  static const widget1 = Text('axis1');
+  static const widget2 = Text('axis2');
+  static const widget3 = Text('axis3');
+  static const widget4 = Text('axis4');
+  static const widget5 = Text('axis5');
+
   static final axisTitles1 = AxisTitles(
-    axisName: const Text('axis1'),
+    axisName: widget1,
     sideTitles: sideTitles1,
   );
   static final axisTitles1Clone = AxisTitles(
-    axisName: const Text('axis1'),
+    axisName: widget1,
     sideTitles: sideTitles1Clone,
   );
   static final axisTitles2 = AxisTitles(
-    axisName: const Text('axis2'),
+    axisName: widget2,
     sideTitles: sideTitles2,
   );
   static final axisTitles3 = AxisTitles(
-    axisName: const Text('axis3'),
+    axisName: widget3,
     sideTitles: sideTitles3,
   );
   static final axisTitles4 = AxisTitles(
-    axisName: const Text('axis4'),
+    axisName: widget4,
     sideTitles: sideTitles4,
   );
   static final axisTitles5 = AxisTitles(
-    axisName: const Text('axis4'),
+    axisName: widget5,
     axisNameSize: 889,
     sideTitles: sideTitles4,
   );
@@ -2380,22 +2386,22 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     show: true,
     leftTitles: AxisTitles(
       axisNameSize: 33,
-      axisName: const Text('title 1'),
+      axisName: MockData.widget1,
       sideTitles: SideTitles(showTitles: false),
     ),
     rightTitles: AxisTitles(
       axisNameSize: 1326,
-      axisName: const Text('title 3'),
+      axisName: MockData.widget3,
       sideTitles: SideTitles(reservedSize: 500, showTitles: true),
     ),
     topTitles: AxisTitles(
       axisNameSize: 34,
-      axisName: const Text('title 4'),
+      axisName: MockData.widget4,
       sideTitles: SideTitles(showTitles: false),
     ),
     bottomTitles: AxisTitles(
       axisNameSize: 22,
-      axisName: const Text('title 2'),
+      axisName: MockData.widget2,
       sideTitles: SideTitles(showTitles: false),
     ),
   ),
@@ -2405,6 +2411,81 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     getLabelFunction: getLabel,
   ),
 );
+final ScatterChartData scatterChartData1Clone = ScatterChartData(
+  minY: 0,
+  maxY: 12,
+  maxX: 22,
+  minX: 11,
+  gridData: FlGridData(
+    show: false,
+    getDrawingHorizontalLine: gridGetDrawingLine,
+    getDrawingVerticalLine: gridGetDrawingLine,
+    checkToShowHorizontalLine: gridCheckToShowLine,
+    checkToShowVerticalLine: gridCheckToShowLine,
+    drawHorizontalLine: true,
+    drawVerticalLine: false,
+    horizontalInterval: 33,
+    verticalInterval: 1,
+  ),
+  backgroundColor: Colors.black,
+  clipData: FlClipData.none(),
+  borderData: FlBorderData(
+    show: true,
+    border: Border.all(
+      color: Colors.white,
+    ),
+  ),
+  scatterSpots: [
+    ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
+    ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
+    ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
+  ],
+  scatterTouchData: ScatterTouchData(
+    enabled: true,
+    touchTooltipData: ScatterTouchTooltipData(
+      getTooltipItems: scatterChartGetTooltipItems,
+      fitInsideHorizontally: true,
+      fitInsideVertically: false,
+      maxContentWidth: 33,
+      tooltipBgColor: Colors.white,
+      tooltipPadding: const EdgeInsets.all(23),
+      tooltipRoundedRadius: 534,
+    ),
+    handleBuiltInTouches: false,
+    touchCallback: scatterTouchCallback,
+    touchSpotThreshold: 12,
+  ),
+  showingTooltipIndicators: [0, 1, 2],
+  titlesData: FlTitlesData(
+    show: true,
+    leftTitles: AxisTitles(
+      axisNameSize: 33,
+      axisName: MockData.widget1,
+      sideTitles: SideTitles(showTitles: false),
+    ),
+    rightTitles: AxisTitles(
+      axisNameSize: 1326,
+      axisName: MockData.widget3,
+      sideTitles: SideTitles(reservedSize: 500, showTitles: true),
+    ),
+    topTitles: AxisTitles(
+      axisNameSize: 34,
+      axisName: MockData.widget4,
+      sideTitles: SideTitles(showTitles: false),
+    ),
+    bottomTitles: AxisTitles(
+      axisNameSize: 22,
+      axisName: MockData.widget2,
+      sideTitles: SideTitles(showTitles: false),
+    ),
+  ),
+  scatterLabelSettings: ScatterLabelSettings(
+    showLabel: true,
+    getLabelTextStyleFunction: getLabelTextStyle,
+    getLabelFunction: getLabel,
+  ),
+);
+final ScatterChartData scatterChartData1Clone = scatterChartData1.copyWith();
 final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
   1,
   2,
