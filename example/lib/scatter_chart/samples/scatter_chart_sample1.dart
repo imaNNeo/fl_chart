@@ -54,6 +54,7 @@ class _ScatterChartSample1State extends State {
               ),
             ),
             swapAnimationDuration: const Duration(milliseconds: 600),
+            swapAnimationCurve: Curves.fastOutSlowIn,
           ),
         ),
       ),
