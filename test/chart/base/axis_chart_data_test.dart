@@ -5,44 +5,30 @@ import '../data_pool.dart';
 
 void main() {
   group('AxisChartData data equality check', () {
-    test('FlAxisTitleData equality test', () {
-      expect(flAxisTitleData1 == flAxisTitleData1Clone, true);
-      expect(flAxisTitleData1 == flAxisTitleData2, false);
-      expect(flAxisTitleData1 == flAxisTitleData3, false);
-      expect(flAxisTitleData1 == flAxisTitleData4, false);
-      expect(flAxisTitleData1 == flAxisTitleData5, false);
-      expect(flAxisTitleData1 == flAxisTitleData6, false);
-      expect(flAxisTitleData1 == flAxisTitleData7, false);
-      expect(flAxisTitleData1 == flAxisTitleData8, false);
-    });
-
     test('AxisTitle equality test', () {
-      expect(axisTitle1 == axisTitle1Clone, true);
-      expect(axisTitle1 == axisTitle2, false);
-      expect(axisTitle1 == axisTitle3, false);
-      expect(axisTitle1 == axisTitle4, false);
-      expect(axisTitle1 == axisTitle5, false);
-      expect(axisTitle1 == axisTitle6, false);
-      expect(axisTitle1 == axisTitle7, false);
-      expect(axisTitle1 == axisTitle8, false);
+      expect(MockData.axisTitles1 == MockData.axisTitles1Clone, true);
+      expect(MockData.axisTitles1 == MockData.axisTitles2, false);
+      expect(MockData.axisTitles1 == MockData.axisTitles3, false);
+      expect(MockData.axisTitles1 == MockData.axisTitles4, false);
+      expect(MockData.axisTitles1 == MockData.axisTitles5, false);
     });
 
     test('FlTitlesData equality test', () {
-      expect(flTitlesData1 == flTitlesData1Clone, true);
-      expect(flTitlesData1 == flTitlesData2, false);
-      expect(flTitlesData1 == flTitlesData3, false);
-      expect(flTitlesData1 == flTitlesData4, false);
-      expect(flTitlesData1 == flTitlesData5, false);
-      expect(flTitlesData1 == flTitlesData6, false);
+      expect(MockData.flTitlesData1 == MockData.flTitlesData1Clone, true);
+      expect(MockData.flTitlesData1 == MockData.flTitlesData2, false);
+      expect(MockData.flTitlesData1 == MockData.flTitlesData3, false);
+      expect(MockData.flTitlesData1 == MockData.flTitlesData4, false);
+      expect(MockData.flTitlesData1 == MockData.flTitlesData5, false);
+      expect(MockData.flTitlesData1 == MockData.flTitlesData6, false);
     });
 
     test('SideTitles equality test', () {
-      expect(sideTitles1 == sideTitles1Clone, true);
-      expect(sideTitles1 == sideTitles2, false);
-      expect(sideTitles1 == sideTitles3, false);
-      expect(sideTitles1 == sideTitles4, false);
-      expect(sideTitles1 == sideTitles5, false);
-      expect(sideTitles1 == sideTitles6, false);
+      expect(MockData.sideTitles1 == MockData.sideTitles1Clone, true);
+      expect(MockData.sideTitles1 == MockData.sideTitles2, false);
+      expect(MockData.sideTitles1 == MockData.sideTitles3, false);
+      expect(MockData.sideTitles1 == MockData.sideTitles4, false);
+      expect(MockData.sideTitles1 == MockData.sideTitles5, false);
+      expect(MockData.sideTitles1 == MockData.sideTitles6, false);
     });
 
     test('FlSpot equality test', () {

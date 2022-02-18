@@ -15,18 +15,18 @@ void main() {
   group('BarChartRenderer', () {
     final BarChartData data = BarChartData(
         titlesData: FlTitlesData(
-      leftTitles: SideTitles(reservedSize: 12, margin: 8, showTitles: true),
-      rightTitles: SideTitles(reservedSize: 44, margin: 20, showTitles: true),
-      topTitles: SideTitles(showTitles: false),
-      bottomTitles: SideTitles(showTitles: false),
+      leftTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
+      rightTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 64, showTitles: true)),
+      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
     ));
 
     final BarChartData targetData = BarChartData(
         titlesData: FlTitlesData(
-      leftTitles: SideTitles(reservedSize: 0, margin: 8, showTitles: true),
-      rightTitles: SideTitles(reservedSize: 0, margin: 20, showTitles: true),
-      topTitles: SideTitles(showTitles: false),
-      bottomTitles: SideTitles(showTitles: false),
+      leftTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 8, showTitles: true)),
+      rightTitles: AxisTitles(sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
+      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
     ));
 
     const textScale = 4.0;
