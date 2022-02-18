@@ -4,7 +4,7 @@ extension SideTitlesExtension on AxisTitles {
   double get totalReservedSize {
     var size = 0.0;
     if (showAxisTitles) {
-      size += axisNameReservedSize;
+      size += axisNameSize;
     }
     if (showSideTitles) {
       size += sideTitles.reservedSize;

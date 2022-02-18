@@ -1,7 +1,5 @@
 # BaseChart
 
-
-
 ### FlBorderData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
@@ -9,34 +7,30 @@
 |border| [Border](https://api.flutter.dev/flutter/painting/Border-class.html) details that determines which border should be drawn with which color| Border.all(color: Colors.black, width: 1.0, style: BorderStyle.solid)|
 
 
-
 ### FlTitlesData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |show| determines to show or hide the titles Around the chart|true|
-|leftTitles| a [SideTitles](#SideTitles) that holds data to draw left titles | SideTitles(reservedSize: 40, showTitles: true)|
-|topTitles| a [SideTitles](#SideTitles) that holds data to draw top titles |SideTitles(reservedSize: 6)|
-|rightTitles| a [SideTitles](#SideTitles) that holds data to draw right titles |SideTitles(reservedSize: 40,)|
-|bottomTitles| a [SideTitles](#SideTitles) that holds data to draw bottom titles |SideTitles(reservedSize: 22, showTitles: true)|
+|leftTitles| a [AxisTitle](#AxisTitle) that holds data to draw left titles | AxisTitles(sideTitles: SideTitles(reservedSize: 40, showTitles: true))|
+|topTitles| a [AxisTitle](#AxisTitle) that holds data to draw top titles | AxisTitles(sideTitles: SideTitles(reservedSize: 6, showTitles: true))|
+|rightTitles| a [AxisTitle](#AxisTitle) that holds data to draw right titles | AxisTitles(sideTitles: SideTitles(reservedSize: 40, showTitles: true))|
+|bottomTitles| a [AxisTitle](#AxisTitle) that holds data to draw bottom titles | AxisTitles(sideTitles: SideTitles(reservedSize: 6, showTitles: true))|
 
+### AxisTitle
+|PropName		|Description	|default value|
+|:---------------|:---------------|:-------|
+|axisNameSize| Determines the size of [axisName] | `16`|
+|axisName| It shows the name of axis (you can pass a Widget)| `null`|
+|sideTitles| It accepts a [SideTitles](#SideTitles) which is responsible to show your axis side titles| `SideTitles()`|
 
 
 ### SideTitles
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |showTitles| determines whether to show or hide the titles | false|
-|getTitles| a function to retrieve the title with given value on the related axis, don't touch it if you want to have a number formatter by showing indicators for large numbers.|defaultGetTitle|
-|reservedSize| a reserved space to show titles|22|
-|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) the style to use for title text |TextStyle(color: Colors.black, fontSize: 11)|
-|margin| margin between each title | 6|
-|interval| interval to display each title on a side, left it null to be calculate automatically | null |
-|rotateAngle| the clockwise angle of rotating title in degrees   | 0.0 |
-|textAlign| alignment of the text in each title   | TextAlign.center |
-|checkToShowTitle| determines show or not show titles in the provided value | show all|
-
-
-# AxisChart (Line and Bar Charts)
-
+|getTitles| A function to retrieve the title widget with given value on the related axis.|defaultGetTitle|
+|reservedSize| It determines the maximum space that your titles need, |22|
+|interval| Texts are showing with provided `interval`. If you don't provide anything, we try to find a suitable value to set as `interval` under the hood. | null |
 
 ### FlGridData
 |PropName|Description|default value|
@@ -74,33 +68,6 @@
 |:-------|:----------|:------------|
 |spot|the touched [FlSpot](#FlSpot)|null|
 |offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) of the touched spot|null|
-
-
-
-### FlAxisTitleData
-
-Can be used to display a title text for each axis. Titles for the vertical axes (left and right) will be rotated 90 degrees.
-
-|PropName		|Description	|default value|
-|:---------------|:---------------|:-------|
-|show| determines to show or hide the titles for the axes|true|
-|leftTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the left axis | `AxisTitle(reservedSize: 16)`|
-|topTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the top axis | `AxisTitle(reservedSize: 16)`|
-|rightTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the right axis | `AxisTitle(reservedSize: 16)`|
-|bottomTitle| an [AxisTitle](#AxisTitle) that holds data to draw the title of the bottom axis | `AxisTitle(reservedSize: 16)`|
-
-
-
-### AxisTitle
-|PropName		|Description	|default value|
-|:---------------|:---------------|:-------|
-|showTitle| determines to show or hide the title | `false`|
-|titleText| the text to draw as a description for this axis| `''`|
-|reservedSize| a reserved space for the text| `14`|
-|margin| margin between the axis text and inner elements ([SideTitles](#SideTitles) or the chart) | `4`|
-|textStyle| [TextStyle](https://api.flutter.dev/flutter/painting/TextStyle-class.html) to determine the style of the text | `TextStyle(color: Colors.black, fontSize: 11)`|
-|textAlign| [TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) to determine the alignment of the text | `TextAlign.center`|
-
 
 ### RangeAnnotations
 |PropName|Description|default value|

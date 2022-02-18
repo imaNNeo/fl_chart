@@ -133,7 +133,7 @@ class LineChartSample4 extends StatelessWidget {
                 ),
               ),
               leftTitles: AxisTitles(
-                axisNameReservedSize: 20,
+                axisNameSize: 20,
                 axisName: const Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text('Value'),
