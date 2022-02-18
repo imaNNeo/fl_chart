@@ -46,7 +46,8 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     return AxisChartScaffoldWidget(
       data: showingData,
       chart: ScatterChartLeaf(
-        data: _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
+        data:
+            _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
       ),
     );

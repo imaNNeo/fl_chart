@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 class AppUtils {
-
   static final AppUtils _singleton = AppUtils._internal();
 
   factory AppUtils() {

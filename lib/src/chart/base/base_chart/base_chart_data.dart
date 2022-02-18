@@ -1,10 +1,8 @@
 // coverage:ignore-file
 import 'dart:core';
-import 'dart:core';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
@@ -25,16 +23,14 @@ abstract class BaseChartData with EquatableMixin {
   BaseChartData({
     FlBorderData? borderData,
     required FlTouchData touchData,
-  })
-      : borderData = borderData ?? FlBorderData(),
+  })  : borderData = borderData ?? FlBorderData(),
         touchData = touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         borderData,
         touchData,
       ];
@@ -50,8 +46,7 @@ class FlBorderData with EquatableMixin {
   FlBorderData({
     bool? show,
     Border? border,
-  })
-      : show = show ?? true,
+  })  : show = show ?? true,
         border = border ??
             Border.all(
               color: Colors.black,
@@ -81,8 +76,7 @@ class FlBorderData with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         show,
         border,
       ];
@@ -108,17 +102,17 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   final MouseCursorResolver<R>? mouseCursorResolver;
 
   /// You can disable or enable the touch system using [enabled] flag,
-  FlTouchData(bool enabled,
-      BaseTouchCallback<R>? touchCallback,
-      MouseCursorResolver<R>? mouseCursorResolver,)
-      : enabled = enabled,
+  FlTouchData(
+    bool enabled,
+    BaseTouchCallback<R>? touchCallback,
+    MouseCursorResolver<R>? mouseCursorResolver,
+  )   : enabled = enabled,
         touchCallback = touchCallback,
         mouseCursorResolver = mouseCursorResolver;
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         enabled,
         touchCallback,
         mouseCursorResolver,
@@ -186,10 +180,7 @@ class TitleMeta {
   final SideTitles sideTitles;
   final String formattedValue;
 
-  TitleMeta(this.min,
-      this.max,
-      this.appliedInterval,
-      this.sideTitles,
+  TitleMeta(this.min, this.max, this.appliedInterval, this.sideTitles,
       this.formattedValue);
 }
 

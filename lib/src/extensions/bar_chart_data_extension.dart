@@ -2,6 +2,7 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 
 extension BarChartDataExtension on BarChartData {
   List<double> calculateGroupsX(double viewWidth) {
+    assert(barGroups.isNotEmpty);
     final groupsX = List.filled(barGroups.length, 0.0, growable: false);
     switch (alignment) {
       case BarChartAlignment.start:
@@ -23,15 +24,14 @@ extension BarChartDataExtension on BarChartData {
 
       case BarChartAlignment.center:
         var sumWidth =
-        barGroups.map((group) => group.width).reduce((a, b) => a + b);
+            barGroups.map((group) => group.width).reduce((a, b) => a + b);
         sumWidth += groupsSpace * (barGroups.length - 1);
         final horizontalMargin = (viewWidth - sumWidth) / 2;
 
         var tempX = 0.0;
         for (var i = 0; i < barGroups.length; i++) {
           final group = barGroups[i];
-          groupsX[i] =
-              horizontalMargin + tempX + group.width / 2;
+          groupsX[i] = horizontalMargin + tempX + group.width / 2;
 
           final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
           tempX += group.width + groupSpace;
@@ -40,7 +40,7 @@ extension BarChartDataExtension on BarChartData {
 
       case BarChartAlignment.spaceBetween:
         final sumWidth =
-        barGroups.map((group) => group.width).reduce((a, b) => a + b);
+            barGroups.map((group) => group.width).reduce((a, b) => a + b);
         final spaceAvailable = viewWidth - sumWidth;
         final eachSpace = spaceAvailable / (barGroups.length - 1);
 
@@ -57,7 +57,7 @@ extension BarChartDataExtension on BarChartData {
 
       case BarChartAlignment.spaceAround:
         final sumWidth =
-        barGroups.map((group) => group.width).reduce((a, b) => a + b);
+            barGroups.map((group) => group.width).reduce((a, b) => a + b);
         final spaceAvailable = viewWidth - sumWidth;
         final eachSpace = spaceAvailable / (barGroups.length * 2);
 
@@ -73,7 +73,7 @@ extension BarChartDataExtension on BarChartData {
 
       case BarChartAlignment.spaceEvenly:
         final sumWidth =
-        barGroups.map((group) => group.width).reduce((a, b) => a + b);
+            barGroups.map((group) => group.width).reduce((a, b) => a + b);
         final spaceAvailable = viewWidth - sumWidth;
         final eachSpace = spaceAvailable / (barGroups.length + 1);
 

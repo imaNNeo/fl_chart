@@ -73,7 +73,7 @@ class AxisChartHelper {
     final lastPosition = initialValue + (count * interval);
     final lastPositionOverlapsWithMax = lastPosition == max;
     final end =
-    !maxIncluded && lastPositionOverlapsWithMax ? max - interval : max;
+        !maxIncluded && lastPositionOverlapsWithMax ? max - interval : max;
 
     List<double> results = [];
     final epsilon = interval / 100000;

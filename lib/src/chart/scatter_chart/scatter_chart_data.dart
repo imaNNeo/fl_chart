@@ -157,14 +157,11 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   @override
   List<Object?> get props => [
         scatterSpots,
-        titlesData,
         scatterTouchData,
         showingTooltipIndicators,
         gridData,
-        touchData,
-        borderData,
-        clipData,
-        backgroundColor,
+        titlesData,
+        rangeAnnotations,
         minX,
         maxX,
         baselineX,
@@ -173,6 +170,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         baselineY,
         rangeAnnotations,
         scatterLabelSettings,
+        clipData,
+        backgroundColor,
+        borderData,
+        touchData,
       ];
 }
 

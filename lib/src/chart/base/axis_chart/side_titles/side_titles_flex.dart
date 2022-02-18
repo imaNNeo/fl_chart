@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
+/// Inspired from [Flex]
 class SideTitlesFlex extends MultiChildRenderObjectWidget {
   SideTitlesFlex({
     Key? key,
@@ -85,8 +86,6 @@ class AxisSideTitlesRenderFlex extends RenderBox
       markNeedsLayout();
     }
   }
-
-  double _overflow = 0;
 
   @override
   void setupParentData(RenderBox child) {
@@ -264,7 +263,6 @@ class AxisSideTitlesRenderFlex extends RenderBox
       constraints: constraints,
     );
 
-    final double allocatedSize = sizes.allocatedSize;
     double actualSize = sizes.mainSize;
     double crossSize = sizes.crossSize;
 
@@ -281,18 +279,8 @@ class AxisSideTitlesRenderFlex extends RenderBox
         crossSize = size.width;
         break;
     }
-    final double actualSizeDelta = actualSize - allocatedSize;
-    _overflow = math.max(0.0, -actualSizeDelta);
-    final double remainingSpace = math.max(0.0, actualSizeDelta);
-    late final double leadingSpace;
-    late final double betweenSpace;
-
-    // spaceBetween
-    leadingSpace = 0.0;
-    betweenSpace = childCount > 1 ? remainingSpace / (childCount - 1) : 0.0;
 
     // Position elements
-    double childMainPosition = leadingSpace;
     RenderBox? child = firstChild;
     int counter = 0;
     while (child != null) {
@@ -303,8 +291,8 @@ class AxisSideTitlesRenderFlex extends RenderBox
 
       // Stretch
       childCrossPosition = 0.0;
-      final childMainPosition = metaData.axisPixelLocation -
-          (_getMainSize(child.size) / 2);
+      final childMainPosition =
+          metaData.axisPixelLocation - (_getMainSize(child.size) / 2);
       switch (_direction) {
         case Axis.horizontal:
           childParentData.offset =
