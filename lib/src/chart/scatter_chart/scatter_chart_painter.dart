@@ -292,13 +292,17 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
     if (data.scatterLabelSettings.showLabel) {
       for (final scatterSpot in data.scatterSpots) {
-        if (scatterSpot.label.isEmpty || !scatterSpot.show) {
+        int spotIndex = data.scatterSpots.indexOf(scatterSpot);
+
+        String label = data.scatterLabelSettings.getLabelFunction(spotIndex);
+
+        if (label.isEmpty || !scatterSpot.show) {
           continue;
         }
 
         final span = TextSpan(
-          text: scatterSpot.label,
-          style: data.scatterLabelSettings.textStyle ?? const TextStyle(),
+          text: label,
+          style: data.scatterLabelSettings.getLabelTextStyleFunction(spotIndex),
         );
 
         final tp = TextPainter(

@@ -194,19 +194,14 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   /// Determines color of the spot.
   Color color;
 
-  /// Determines label of the spot.
-  final String label;
-
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
-  ScatterSpot(double x, double y,
-      {bool? show, double? radius, Color? color, String? label})
+  ScatterSpot(double x, double y, {bool? show, double? radius, Color? color})
       : show = show ?? true,
         radius = radius ?? 6,
         color = color ??
             Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
-        label = label ?? '',
         super(x, y);
 
   @override
@@ -216,7 +211,6 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     bool? show,
     double? radius,
     Color? color,
-    String? label,
   }) {
     return ScatterSpot(
       x ?? this.x,
@@ -224,7 +218,6 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       show: show ?? this.show,
       radius: radius ?? this.radius,
       color: color ?? this.color,
-      label: label ?? this.label,
     );
   }
 
@@ -236,7 +229,6 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       show: b.show,
       radius: lerpDouble(a.radius, b.radius, t),
       color: Color.lerp(a.color, b.color, t),
-      label: b.label,
     );
   }
 
@@ -248,7 +240,6 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         show,
         radius,
         color,
-        label,
       ];
 }
 
@@ -583,29 +574,54 @@ class ScatterChartDataTween extends Tween<ScatterChartData> {
   }
 }
 
+/// It gives you the index value of the spot and gets the text style of the label.
+typedef GetLabelTextStyleFunction = TextStyle Function(int spotIndex);
+
+/// It gives you the index value of the spot and returns the label of the spot.
+typedef GetLabelFunction = String Function(int spotIndex);
+
+/// It gives you the default text style of the label for a spot.
+TextStyle getDefaultLabelTextStyleFunction(int spotIndex) {
+  return const TextStyle();
+}
+
+/// It gives you the default label of the spot.
+String getDefaultLabelFunction(int spotIndex) {
+  return '';
+}
+
 /// Defines information about the labels in the [ScatterChart]
 class ScatterLabelSettings with EquatableMixin {
   /// Determines whether to show or hide the labels
   final bool showLabel;
 
-  /// Determines style of the labels
-  final TextStyle? textStyle;
+  /// This function gives you the index value of the spot in the list and returns the text style
+  final GetLabelTextStyleFunction getLabelTextStyleFunction;
+
+  /// This function gives you the index value of the spot in the list and returns the label.
+  final GetLabelFunction getLabelFunction;
 
   /// You can change [showLabel] value to show or hide the label,
   /// [textStyle] defines the style of label in the [ScatterChart].
   ScatterLabelSettings({
     bool? showLabel,
-    TextStyle? textStyle,
+    GetLabelTextStyleFunction? getLabelTextStyleFunction,
+    GetLabelFunction? getLabelFunction,
   })  : showLabel = showLabel ?? false,
-        textStyle = textStyle;
+        getLabelTextStyleFunction =
+            getLabelTextStyleFunction ?? getDefaultLabelTextStyleFunction,
+        getLabelFunction = getLabelFunction ?? getDefaultLabelFunction;
 
   ScatterLabelSettings copyWith({
     bool? showLabel,
-    TextStyle? textStyle,
+    GetLabelTextStyleFunction? getLabelTextStyleFunction,
+    GetLabelFunction? getLabelFunction,
   }) {
     return ScatterLabelSettings(
       showLabel: showLabel ?? this.showLabel,
-      textStyle: textStyle,
+      getLabelTextStyleFunction:
+          getLabelTextStyleFunction ?? this.getLabelTextStyleFunction,
+      getLabelFunction: getLabelFunction ?? this.getLabelFunction,
     );
   }
 
@@ -617,7 +633,8 @@ class ScatterLabelSettings with EquatableMixin {
   ) {
     return ScatterLabelSettings(
       showLabel: b.showLabel,
-      textStyle: b.textStyle,
+      getLabelTextStyleFunction: b.getLabelTextStyleFunction,
+      getLabelFunction: b.getLabelFunction,
     );
   }
 
@@ -625,6 +642,7 @@ class ScatterLabelSettings with EquatableMixin {
   @override
   List<Object?> get props => [
         showLabel,
-        textStyle,
+        getLabelTextStyleFunction,
+        getLabelFunction,
       ];
 }
