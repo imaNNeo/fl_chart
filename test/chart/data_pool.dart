@@ -314,6 +314,25 @@ class MockData {
     MockData.color1,
   ]);
 
+  static final barGroupData0 = BarChartGroupData(
+    x: 0,
+    barRods: [MockData.barChartRodData1, MockData.barChartRodData2],
+  );
+
+  static final barGroupData1 = BarChartGroupData(
+    x: 1,
+    barRods: [MockData.barChartRodData1, MockData.barChartRodData2],
+  );
+
+  static final barGroupData2 = BarChartGroupData(
+    x: 2,
+    barRods: [MockData.barChartRodData1, MockData.barChartRodData2],
+  );
+
+  static final barChartData1 = BarChartData(
+    barGroups: [barGroupData0, barGroupData1, barGroupData2],
+  );
+
   static final sideTitles1 = SideTitles(
     reservedSize: 10,
     showTitles: false,
