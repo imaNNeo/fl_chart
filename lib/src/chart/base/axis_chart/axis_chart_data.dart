@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 /// This is the base class for axis base charts data
@@ -80,30 +81,128 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
       ];
 }
 
+/// Holds data for showing label values on axis numbers
+class SideTitles with EquatableMixin {
+
+  /// Determines showing or hiding this side titles
+  final bool showTitles;
+
+  /// You can override it to pass your custom widget to show in each axis value
+  final GetTitleWidgetFunction getTitles;
+
+  /// It determines the maximum space that your titles need,
+  /// (All titles will stretch using this value)
+  final double reservedSize;
+
+  /// Texts are showing with provided [interval]. If you don't provide anything,
+  /// we try to find a suitable value to set as [interval] under the hood.
+  final double? interval;
+
+  /// It draws some title on an axis, per axis values,
+  /// [showTitles] determines showing or hiding this side,
+  ///
+  /// Texts are depend on the axis value, you can override [getTitles],
+  /// it gives you an axis value (double value) and a [TitleMeta] which contains
+  /// additional information about the axis.
+  /// Then you should return a [Widget] to show.
+  /// It allows you to do anything you want, For example you can show icons
+  /// instead of texts, because it accepts a [Widget]
+  ///
+  /// [reservedSize] determines the maximum space that your titles need,
+  /// (All titles will stretch using this value)
+  ///
+  /// Texts are showing with provided [interval]. If you don't provide anything,
+  /// we try to find a suitable value to set as [interval] under the hood.
+  SideTitles({
+    bool? showTitles,
+    GetTitleWidgetFunction? getTitles,
+    double? reservedSize,
+    double? interval,
+  })  : showTitles = showTitles ?? false,
+        getTitles = getTitles ?? defaultGetTitle,
+        reservedSize = reservedSize ?? 22,
+        interval = interval {
+    if (interval == 0) {
+      throw ArgumentError("SideTitles.interval couldn't be zero");
+    }
+  }
+
+  /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
+  static SideTitles lerp(SideTitles a, SideTitles b, double t) {
+    return SideTitles(
+      showTitles: b.showTitles,
+      getTitles: b.getTitles,
+      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
+      interval: lerpDouble(a.interval, b.interval, t),
+    );
+  }
+
+  /// Copies current [SideTitles] to a new [SideTitles],
+  /// and replaces provided values.
+  SideTitles copyWith({
+    bool? showTitles,
+    GetTitleWidgetFunction? getTitles,
+    double? reservedSize,
+    double? interval,
+  }) {
+    return SideTitles(
+      showTitles: showTitles ?? this.showTitles,
+      getTitles: getTitles ?? this.getTitles,
+      reservedSize: reservedSize ?? this.reservedSize,
+      interval: interval ?? this.interval,
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+    showTitles,
+    getTitles,
+    reservedSize,
+    interval,
+  ];
+}
+
+/// Holds data for showing each side titles (left, top, right, bottom)
 class AxisTitles with EquatableMixin {
-  final double axisNameReservedSize;
+
+  /// Determines the size of [axisName]
+  final double axisNameSize;
+
+  /// It shows the name of axis, for example your x-axis shows year,
+  /// then you might want to show it using [axisName] property
   final Widget? axisName;
+
+  /// It is responsible to show your axis side labels.
   final SideTitles sideTitles;
 
-  bool get showAxisTitles => axisName != null && axisNameReservedSize != 0;
+  /// If there is something to show as axisTitles, it returns true
+  bool get showAxisTitles => axisName != null && axisNameSize != 0;
 
+  /// If there is something to show as sideTitles, it returns true
   bool get showSideTitles =>
       sideTitles.showTitles && sideTitles.reservedSize != 0;
 
+  /// you can provide [axisName] if you want to show a general
+  /// label on this axis,
+  ///
+  /// [axisNameSize] determines the maximum size that [axisName] can use
+  ///
+  /// [sideTitles] property is responsible to show your axis side labels
   AxisTitles({
     Widget? axisName,
-    double? axisNameReservedSize,
+    double? axisNameSize,
     SideTitles? sideTitles,
   })  : axisName = axisName,
-        axisNameReservedSize = axisNameReservedSize ?? 16,
+        axisNameSize = axisNameSize ?? 16,
         sideTitles = sideTitles ?? SideTitles();
 
   /// Lerps a [AxisTitles] based on [t] value, check [Tween.lerp].
   static AxisTitles lerp(AxisTitles a, AxisTitles b, double t) {
     return AxisTitles(
       axisName: b.axisName,
-      axisNameReservedSize:
-          lerpDouble(a.axisNameReservedSize, b.axisNameReservedSize, t),
+      axisNameSize:
+          lerpDouble(a.axisNameSize, b.axisNameSize, t),
       sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
     );
   }
@@ -117,7 +216,7 @@ class AxisTitles with EquatableMixin {
   }) {
     return AxisTitles(
       axisName: axisName ?? this.axisName,
-      axisNameReservedSize: axisNameReservedSize ?? this.axisNameReservedSize,
+      axisNameSize: axisNameReservedSize ?? this.axisNameSize,
       sideTitles: sideTitles ?? this.sideTitles,
     );
   }
@@ -126,12 +225,12 @@ class AxisTitles with EquatableMixin {
   @override
   List<Object?> get props => [
         axisName,
-        axisNameReservedSize,
+        axisNameSize,
         sideTitles,
       ];
 }
 
-/// Holds data for showing titles on each side of charts (a title per each axis value).
+/// Holds data for showing titles on each side of charts.
 class FlTitlesData with EquatableMixin {
   final bool show;
 
@@ -213,96 +312,6 @@ class FlTitlesData with EquatableMixin {
         topTitles,
         rightTitles,
         bottomTitles,
-      ];
-}
-
-/// Determines showing or hiding specified title.
-typedef CheckToShowTitle = bool Function(double minValue, double maxValue,
-    SideTitles sideTitles, double appliedInterval, double value);
-
-/// The default [SideTitles.checkToShowTitle] function (shows all titles).
-///
-/// It determines showing or not showing specific title.
-bool defaultCheckToShowTitle(double minValue, double maxValue,
-    SideTitles sideTitles, double appliedInterval, double value) {
-  return true;
-}
-
-/// Holds data for showing each side titles (a title per each axis value).
-class SideTitles with EquatableMixin {
-  final bool showTitles;
-  final GetTitleWidgetFunction getTitles;
-  final double reservedSize;
-  final double? interval;
-
-  /// It draws some title on all axis, per each axis value,
-  /// [showTitles] determines showing or hiding this side,
-  /// texts are depend on the axis value, you can override [getTitles],
-  /// it gives you an axis value (double value), and you should return a string.
-  ///
-  /// [reservedSize] determines how much space they needed,
-  /// [getTextStyles] determines the text style of them,
-  /// It gives you an axis value (double value), and you should return a TextStyle based on it,
-  /// It works just like [getTitles]
-  ///
-  /// [textDirection] specifies the direction of showing text.
-  /// it applies on all showing titles in this side.
-  ///
-  /// [margin] determines margin of texts from the border line,
-  ///
-  /// texts are showing with provided [interval],
-  /// or you can let it be null to be calculated using [getEfficientInterval],
-  /// also you can decide to show or not a specific title,
-  /// using [checkToShowTitle].
-  ///
-  /// you can change rotation of drawing titles using [rotateAngle].
-  SideTitles({
-    bool? showTitles,
-    GetTitleWidgetFunction? getTitles,
-    double? reservedSize,
-    double? interval,
-  })  : showTitles = showTitles ?? false,
-        getTitles = getTitles ?? defaultGetTitle,
-        reservedSize = reservedSize ?? 22,
-        interval = interval {
-    if (interval == 0) {
-      throw ArgumentError("SideTitles.interval couldn't be zero");
-    }
-  }
-
-  /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
-  static SideTitles lerp(SideTitles a, SideTitles b, double t) {
-    return SideTitles(
-      showTitles: b.showTitles,
-      getTitles: b.getTitles,
-      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
-      interval: lerpDouble(a.interval, b.interval, t),
-    );
-  }
-
-  /// Copies current [SideTitles] to a new [SideTitles],
-  /// and replaces provided values.
-  SideTitles copyWith({
-    bool? showTitles,
-    GetTitleWidgetFunction? getTitles,
-    double? reservedSize,
-    double? interval,
-  }) {
-    return SideTitles(
-      showTitles: showTitles ?? this.showTitles,
-      getTitles: getTitles ?? this.getTitles,
-      reservedSize: reservedSize ?? this.reservedSize,
-      interval: interval ?? this.interval,
-    );
-  }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        showTitles,
-        getTitles,
-        reservedSize,
-        interval,
       ];
 }
 
