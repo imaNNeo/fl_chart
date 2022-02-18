@@ -309,36 +309,52 @@ void main() {
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
                   scatterLabelSettings: ScatterLabelSettings(
-                      showLabel: true,
-                      textStyle: const TextStyle(color: Colors.green))),
+                showLabel: true,
+                getLabelTextStyleFunction: (int index) =>
+                    const TextStyle(color: Colors.green),
+              )),
           false);
 
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
                   scatterLabelSettings: ScatterLabelSettings(
-                      showLabel: false,
-                      textStyle: const TextStyle(color: Colors.red))),
+                showLabel: false,
+                getLabelTextStyleFunction: (int index) =>
+                    const TextStyle(color: Colors.red),
+                getLabelFunction: (int index) => 'Label - $index',
+              )),
           false);
 
       expect(
           scatterChartData1 ==
               scatterChartData1Clone.copyWith(
                   scatterLabelSettings: ScatterLabelSettings(
-                      showLabel: true,
-                      textStyle: const TextStyle(color: Colors.red))),
+                showLabel: true,
+                getLabelTextStyleFunction: (int index) =>
+                    const TextStyle(color: Colors.red),
+                getLabelFunction: (int index) => 'Different Label - $index',
+              )),
+          false);
+
+      expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
+                  scatterLabelSettings: ScatterLabelSettings(
+                showLabel: true,
+                getLabelFunction: getLabel,
+                getLabelTextStyleFunction: getLabelTextStyle,
+              )),
           true);
     });
 
     test('ScatterSpot equality test', () {
-      final ScatterSpot scatterSpot = ScatterSpot(0, 1, label: 'label');
-      final ScatterSpot scatterSpotClone = ScatterSpot(0, 1, label: 'label');
+      final ScatterSpot scatterSpot = ScatterSpot(0, 1);
+      final ScatterSpot scatterSpotClone = ScatterSpot(0, 1);
 
       expect(scatterSpot == scatterSpotClone.copyWith(), true);
       expect(scatterSpot == scatterSpotClone.copyWith(y: 3), false);
       expect(scatterSpot == scatterSpotClone.copyWith(x: 3), false);
-      expect(scatterSpot == scatterSpotClone.copyWith(label: ''), false);
-      expect(scatterSpot == scatterSpotClone.copyWith(label: 'label'), true);
     });
 
     test('ScatterTouchData equality test', () {
@@ -452,25 +468,29 @@ void main() {
     test('ScatterLabelSettings equality test', () {
       final ScatterLabelSettings sample1 = ScatterLabelSettings(
         showLabel: true,
-        textStyle: const TextStyle(color: Colors.red),
+        getLabelTextStyleFunction: getLabelTextStyle,
+        getLabelFunction: getLabel,
       );
       final ScatterLabelSettings sample2 = ScatterLabelSettings(
         showLabel: true,
-        textStyle: const TextStyle(color: Colors.red),
+        getLabelTextStyleFunction: getLabelTextStyle,
+        getLabelFunction: getLabel,
       );
       expect(sample1 == sample2, true);
 
       ScatterLabelSettings changed = ScatterLabelSettings(
         showLabel: false,
-        textStyle: const TextStyle(color: Colors.red),
+        getLabelTextStyleFunction: getLabelTextStyle,
+        getLabelFunction: getLabel,
       );
       expect(sample1 == changed, false);
 
-      expect(sample1 == changed.copyWith(showLabel: true), false);
+      expect(sample1 == changed.copyWith(showLabel: true), true);
 
       changed = ScatterLabelSettings(
         showLabel: true,
-        textStyle: const TextStyle(color: Colors.green),
+        getLabelTextStyleFunction: getLabelTextStyle,
+        getLabelFunction: (int index) => 'Label',
       );
       expect(sample1 == changed, false);
     });

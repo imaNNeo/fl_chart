@@ -2350,6 +2350,10 @@ final ScatterSpot scatterSpot2Clone = scatterSpot2.copyWith();
 final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
 final ScatterSpot scatterSpot4 = ScatterSpot(-0, 0);
 
+String getLabel(int spotIndex) => 'label';
+TextStyle getLabelTextStyle(int spotIndex) =>
+    const TextStyle(color: Colors.green);
+
 final ScatterChartData scatterChartData1 = ScatterChartData(
     minY: 0,
     maxY: 12,
@@ -2437,7 +2441,11 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
       bottomTitles: SideTitles(showTitles: false),
     ),
     scatterLabelSettings: ScatterLabelSettings(
-        showLabel: true, textStyle: const TextStyle(color: Colors.red)));
+      showLabel: true,
+      getLabelTextStyleFunction: getLabelTextStyle,
+      getLabelFunction: getLabel,
+    ));
+
 final ScatterChartData scatterChartData1Clone = ScatterChartData(
   minY: 0,
   maxY: 12,
@@ -2525,7 +2533,10 @@ final ScatterChartData scatterChartData1Clone = ScatterChartData(
     bottomTitles: SideTitles(showTitles: false),
   ),
   scatterLabelSettings: ScatterLabelSettings(
-      showLabel: true, textStyle: const TextStyle(color: Colors.red)),
+    showLabel: true,
+    getLabelTextStyleFunction: getLabelTextStyle,
+    getLabelFunction: getLabel,
+  ),
 );
 
 final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
