@@ -3,6 +3,8 @@ import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../chart/data_pool.dart';
+
 void main() {
   const tolerance = 0.001;
 
@@ -42,6 +44,45 @@ void main() {
   test('translate rotated position', () {
     expect(Utils().translateRotatedPosition(100, 90), 25);
     expect(Utils().translateRotatedPosition(100, 0), 0);
+  });
+
+  test('calculateRotationOffset()', () {
+    expect(Utils().calculateRotationOffset(MockData.size1, 90), Offset.zero);
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 45).dx,
+      closeTo(-2.278, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 45).dy,
+      closeTo(-2.278, tolerance),
+    );
+
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 180).dx,
+      closeTo(0.0, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 180).dy,
+      closeTo(0.0, tolerance),
+    );
+
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 220).dx,
+      closeTo(-2.2485, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 220).dy,
+      closeTo(-2.2485, tolerance),
+    );
+
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 350).dx,
+      closeTo(-0.87150, tolerance),
+    );
+    expect(
+      Utils().calculateRotationOffset(MockData.size1, 350).dy,
+      closeTo(-0.87150, tolerance),
+    );
   });
 
   test('lerp gradient', () {
@@ -92,6 +133,8 @@ void main() {
     expect(Utils().getEfficientInterval(200, 0.5, pixelPerInterval: 20), 0.05);
     expect(Utils().getEfficientInterval(200, 1.0, pixelPerInterval: 20), 0.1);
     expect(Utils().getEfficientInterval(100, 0.5, pixelPerInterval: 20), 0.1);
+    expect(Utils().getEfficientInterval(10, 10), 10);
+    expect(Utils().getEfficientInterval(10, 0), 1);
   });
 
   test('test formatNumber', () {
@@ -123,10 +166,10 @@ void main() {
   test('test getInitialIntervalValue()', () {
     expect(Utils().getBestInitialIntervalValue(-3, 3, 2), -2);
     expect(Utils().getBestInitialIntervalValue(-3, 3, 1), -3);
-    expect(Utils().getBestInitialIntervalValue(-30, -20, 13), -30);
+    expect(Utils().getBestInitialIntervalValue(-30, -20, 13), -26);
     expect(Utils().getBestInitialIntervalValue(0, 13, 8), 0);
-    expect(Utils().getBestInitialIntervalValue(1, 13, 7), 1);
-    expect(Utils().getBestInitialIntervalValue(1, 13, 3), 1);
+    expect(Utils().getBestInitialIntervalValue(1, 13, 7), 7);
+    expect(Utils().getBestInitialIntervalValue(1, 13, 3), 3);
     expect(Utils().getBestInitialIntervalValue(-1, 13, 3), 0);
     expect(Utils().getBestInitialIntervalValue(-2, 13, 3), 0);
     expect(Utils().getBestInitialIntervalValue(-3, 13, 3), -3);
@@ -134,12 +177,45 @@ void main() {
     expect(Utils().getBestInitialIntervalValue(-5, 13, 3), -3);
     expect(Utils().getBestInitialIntervalValue(-6, 13, 3), -6);
     expect(Utils().getBestInitialIntervalValue(-6.5, 13, 3), -6);
-    expect(Utils().getBestInitialIntervalValue(-1, 1, 2), -1);
+    expect(Utils().getBestInitialIntervalValue(-1, 1, 2), 0);
     expect(Utils().getBestInitialIntervalValue(-1, 2, 2), 0);
     expect(Utils().getBestInitialIntervalValue(-2, 0, 2), -2);
     expect(Utils().getBestInitialIntervalValue(-3, 0, 2), -2);
     expect(Utils().getBestInitialIntervalValue(-4, 0, 2), -4);
-    expect(Utils().getBestInitialIntervalValue(-0.5, 0.5, 2), -0.5);
+    expect(Utils().getBestInitialIntervalValue(-0.5, 0.5, 2), 0);
+    expect(Utils().getBestInitialIntervalValue(35, 130, 50), 50);
+    expect(Utils().getBestInitialIntervalValue(49, 130, 50), 50);
+    expect(Utils().getBestInitialIntervalValue(50, 130, 50), 50);
+    expect(Utils().getBestInitialIntervalValue(60, 130, 50), 100);
+    expect(Utils().getBestInitialIntervalValue(110, 130, 50), 110);
+    expect(Utils().getBestInitialIntervalValue(90, 180, 50), 100);
+    expect(Utils().getBestInitialIntervalValue(100, 180, 50), 100);
+    expect(Utils().getBestInitialIntervalValue(110, 180, 50), 150);
+    expect(Utils().getBestInitialIntervalValue(170, 180, 50), 170);
+    expect(Utils().getBestInitialIntervalValue(-120, -10, 50), -100);
+    expect(Utils().getBestInitialIntervalValue(-110, -10, 50), -100);
+    expect(Utils().getBestInitialIntervalValue(-100, -10, 50), -100);
+    expect(Utils().getBestInitialIntervalValue(-90, -10, 50), -50);
+    expect(Utils().getBestInitialIntervalValue(-80, -10, 50), -50);
+    expect(Utils().getBestInitialIntervalValue(-150, -10, 50), -150);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 2, baseline: -1), -9);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 2, baseline: -20), -10);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 15, baseline: -30), 0);
+    expect(Utils().getBestInitialIntervalValue(0, 20, 8, baseline: 28), 4);
+    expect(Utils().getBestInitialIntervalValue(130, 140, 50, baseline: 0), 130);
+    expect(Utils().getBestInitialIntervalValue(145, 155, 50, baseline: 0), 150);
+    expect(
+        Utils().getBestInitialIntervalValue(-200, -180, 30, baseline: 0), -200);
+    expect(
+        Utils().getBestInitialIntervalValue(-190, -170, 30, baseline: 0), -180);
+    expect(
+        Utils().getBestInitialIntervalValue(-2000, 2000, 100, baseline: -10000),
+        -2000);
+    expect(Utils().getBestInitialIntervalValue(-120, 120, 33, baseline: -200),
+        -101);
+    expect(
+        Utils().getBestInitialIntervalValue(120, 180, 60, baseline: 2000), 140);
+    expect(Utils().getBestInitialIntervalValue(-10, 10, 4, baseline: 3), -9);
   });
 
   test('test convertRadiusToSigma()', () {

@@ -15,6 +15,11 @@ class Utils {
   @visibleForTesting
   static void changeInstance(Utils val) => _singleton = val;
 
+  @visibleForTesting
+  static void restoreDefaultInstance() {
+    _singleton = Utils._internal();
+  }
+
   static const double _degrees2Radians = math.pi / 180.0;
 
   /// Converts degrees to radians
@@ -123,13 +128,17 @@ class Utils {
   ///
   /// If there isn't any provided interval, we use this function to calculate an interval to apply,
   /// using [axisViewSize] / [pixelPerInterval], we calculate the allowedCount lines in the axis,
-  /// then using  [diffInYAxis] / allowedCount, we can find out how much interval we need,
+  /// then using  [diffInAxis] / allowedCount, we can find out how much interval we need,
   /// then we round that number by finding nearest number in this pattern:
   /// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
-  double getEfficientInterval(double axisViewSize, double diffInYAxis,
+  double getEfficientInterval(double axisViewSize, double diffInAxis,
       {double pixelPerInterval = 40}) {
-    final allowedCount = axisViewSize ~/ pixelPerInterval;
-    final accurateInterval = diffInYAxis / allowedCount;
+    final allowedCount = math.max(axisViewSize ~/ pixelPerInterval, 1);
+    if (diffInAxis == 0) {
+      return 1;
+    }
+    final accurateInterval =
+        diffInAxis == 0 ? axisViewSize : diffInAxis / allowedCount;
     return roundInterval(accurateInterval);
   }
 
@@ -259,14 +268,17 @@ class Utils {
   /// If there is a zero point in the axis, we a value that passes through it.
   /// For example if we have -3 to +3, with interval 2. if we start from -3, we get something like this: -3, -1, +1, +3
   /// But the most important point is zero in most cases. with this logic we get this: -2, 0, 2
-  double getBestInitialIntervalValue(double min, double max, double interval) {
-    if (min > 0 || max < 0) {
+  double getBestInitialIntervalValue(double min, double max, double interval,
+      {double baseline = 0.0}) {
+    final diff = (baseline - min);
+    final mod = (diff % interval);
+    if ((max - min).abs() <= mod) {
       return min;
     }
-    if (max - min <= interval) {
+    if (mod == 0) {
       return min;
     }
-    return interval * (min ~/ interval).toDouble();
+    return min + mod;
   }
 
   /// Converts radius number to sigma for drawing shadows

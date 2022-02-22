@@ -14,7 +14,7 @@ runTests:
 	flutter test
 
 checkoutToPR:
-	git fetch origin pull/$(id)/head:pr-$(id); \
+	git fetch origin pull/$(id)/head:pr-$(id) --force; \
 	git checkout pr-$(id)
 
 # Tells you in which version this commit has landed
@@ -28,3 +28,8 @@ sure:
 # To create generated files (for example mock files in unit_tests)
 codeGen:
 	flutter pub run build_runner build --delete-conflicting-outputs
+
+showTestCoverage:
+	@flutter test --coverage
+	@genhtml coverage/lcov.info -o coverage/html
+	@google-chrome coverage/html/index.html

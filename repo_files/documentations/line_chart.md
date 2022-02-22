@@ -31,8 +31,10 @@ When you change the chart's state, it animates to the new state internally (usin
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
 |maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
+|baselineX| defines the baseline of x-axis | 0|
 |minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
 |maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
+|baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |
 
@@ -169,6 +171,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
+|distanceCalculator| a function to calculate the distance between a spot and a touch event| _xDistance|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
 |getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
@@ -212,10 +215,19 @@ When you change the chart's state, it animates to the new state internally (usin
 |spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
 
 
+### TouchLineBarSpot
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|bar|the [LineChartBarData](#LineChartBarData) that contains a spot|null|
+|barIndex|index of the target [LineChartBarData](#LineChartBarData) inside [LineChartData](#LineChartData)|null|
+|spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
+|distance|distance to the touch event|null|
+
+
 ### LineTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|lineBarSpots|a list of [LineBarSpot](#LineBarSpot)|null|
+|lineBarSpots|a list of [TouchLineBarSpot](#TouchLineBarSpot)|null|
 
 ### ShowingTooltipIndicators
 |PropName|Description|default value|
@@ -265,3 +277,6 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ##### Sample 10 ([Source Code](/example/lib/line_chart/samples/line_chart_sample10.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >
+
+##### Gist - baseLineX, baselineY sample ([Source Code](https://gist.github.com/imaNNeoFighT/5822eda603bdad18cf46f212d5a48822))
+https://user-images.githubusercontent.com/7009300/152555425-3b53ac8c-257f-49b0-8d75-1a878c03ccaa.mp4

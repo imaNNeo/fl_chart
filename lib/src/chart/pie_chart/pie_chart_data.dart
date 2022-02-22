@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -151,7 +152,7 @@ class PieChartSectionData {
   ///
   /// This can be anything from a text, an image, an animation, and even a combination of widgets.
   /// Use AnimatedWidgets to animate this widget.
-  final Widget badgeWidget;
+  final Widget? badgeWidget;
 
   /// Defines position of showing title in the section.
   ///
@@ -204,7 +205,7 @@ class PieChartSectionData {
         titleStyle = titleStyle,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
-        badgeWidget = badgeWidget ?? Container(),
+        badgeWidget = badgeWidget,
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 

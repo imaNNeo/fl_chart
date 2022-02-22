@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';

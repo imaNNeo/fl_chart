@@ -1,14 +1,15 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import '../data_pool.dart';
 import 'scatter_chart_painter_test.mocks.dart';
 
@@ -236,7 +237,7 @@ void main() {
         _mockCanvasWrapper,
         holder,
       );
-      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(4);
+      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(5);
     });
 
     test('test 3', () {
@@ -330,7 +331,73 @@ void main() {
         _mockCanvasWrapper,
         holder,
       );
-      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(7);
+      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(8);
+      expect(leftTitlesCalledValues.contains(0.0), true);
+      expect(leftTitlesCalledValues.contains(5.0), true);
+      expect(leftTitlesCalledValues.contains(10.0), true);
+      expect(leftTitlesCalledValues.contains(15.0), true);
+      expect(leftTitlesCalledValues.contains(20.0), true);
+      expect(bottomTitlesCalledValues.contains(0.0), true);
+      expect(bottomTitlesCalledValues.contains(5.0), true);
+    });
+
+    test('test 5', () {
+      const viewSize = Size(600, 400);
+
+      List<double> leftTitlesCalledValues = [];
+      String rightTitlesCallback(double value) {
+        leftTitlesCalledValues.add(value);
+        return value.toString();
+      }
+
+      List<double> bottomTitlesCalledValues = [];
+      String topTitlesCallback(double value) {
+        bottomTitlesCalledValues.add(value);
+        return value.toString();
+      }
+
+      final ScatterChartData data = ScatterChartData(
+        minY: 0,
+        maxY: 20,
+        minX: 0,
+        maxX: 9,
+        titlesData: flTitlesData1.copyWith(
+          show: true,
+          leftTitles: SideTitles(showTitles: false),
+          bottomTitles: SideTitles(showTitles: false),
+          topTitles: SideTitles(
+            showTitles: true,
+            getTitles: topTitlesCallback,
+          ),
+          rightTitles: SideTitles(
+            showTitles: true,
+            getTitles: rightTitlesCallback,
+          ),
+        ),
+      );
+
+      final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext _mockBuildContext = MockBuildContext();
+      MockUtils _mockUtils = MockUtils();
+      when(_mockCanvasWrapper.size).thenReturn(viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getEfficientInterval(any, any)).thenReturn(5);
+
+      when(_mockUtils.formatNumber(any)).thenReturn("1");
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenReturn(Offset.zero);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenReturn(const TextStyle(color: Color(0x00ffffff)));
+      scatterChartPainter.drawTitles(
+        _mockBuildContext,
+        _mockCanvasWrapper,
+        holder,
+      );
+      verify(_mockCanvasWrapper.drawText(any, any, 0.0)).called(8);
       expect(leftTitlesCalledValues.contains(0.0), true);
       expect(leftTitlesCalledValues.contains(5.0), true);
       expect(leftTitlesCalledValues.contains(10.0), true);
@@ -357,6 +424,7 @@ void main() {
           ScatterSpot(7, 5, radius: 6),
         ],
         titlesData: FlTitlesData(show: false),
+        clipData: FlClipData.all(),
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -375,6 +443,8 @@ void main() {
           .called(1);
       verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
           .called(1);
+
+      verify(_mockCanvasWrapper.clipRect(any)).called(1);
     });
 
     test('test 2', () {
@@ -392,6 +462,7 @@ void main() {
           ScatterSpot(7, 5, show: false),
         ],
         titlesData: FlTitlesData(show: false),
+        clipData: FlClipData.none(),
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -405,6 +476,7 @@ void main() {
       );
 
       verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
+      verifyNever(_mockCanvasWrapper.clipRect(any));
     });
   });
 
@@ -616,6 +688,8 @@ void main() {
               rotateAngle: 18,
               tooltipBgColor: const Color(0xFFFFFF00),
               tooltipRoundedRadius: 22,
+              fitInsideHorizontally: true,
+              fitInsideVertically: true,
               tooltipPadding: const EdgeInsets.all(12),
               getTooltipItems: (_) {
                 return ScatterTooltipItem(

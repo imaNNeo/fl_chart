@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -18,8 +19,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlAxisTitleData axisTitleData;
   final RangeAnnotations rangeAnnotations;
 
-  double minX, maxX;
-  double minY, maxY;
+  double minX, maxX, baselineX;
+  double minY, maxY, baselineY;
 
   /// clip the chart to the border (prevent draw outside the border)
   FlClipData clipData;
@@ -33,20 +34,16 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Difference of [maxX] and [minX]
   double get horizontalDiff => maxX - minX;
 
-  /// Returns true if [minX] and [maxX] both are zero
-  bool get isHorizontalMinMaxIsZero => minX == 0 && maxX == 0;
-
-  /// Returns true if [minY] and [maxY] both are zero
-  bool get isVerticalMinMaxIsZero => minY == 0 && maxY == 0;
-
   AxisChartData({
     FlGridData? gridData,
     required FlAxisTitleData axisTitleData,
     RangeAnnotations? rangeAnnotations,
     required double minX,
     required double maxX,
+    double? baselineX,
     required double minY,
     required double maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
     FlBorderData? borderData,
@@ -56,8 +53,10 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
         minX = minX,
         maxX = maxX,
+        baselineX = baselineX ?? 0,
         minY = minY,
         maxY = maxY,
+        baselineY = baselineY ?? 0,
         clipData = clipData ?? FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
         super(borderData: borderData, touchData: touchData);
@@ -70,8 +69,10 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         rangeAnnotations,
         minX,
         maxX,
+        baselineX,
         minY,
         maxY,
+        baselineY,
         clipData,
         backgroundColor,
         borderData,
@@ -303,15 +304,12 @@ class FlTitlesData with EquatableMixin {
 typedef CheckToShowTitle = bool Function(double minValue, double maxValue,
     SideTitles sideTitles, double appliedInterval, double value);
 
-/// The default [SideTitles.checkToShowTitle] function.
+/// The default [SideTitles.checkToShowTitle] function (shows all titles).
 ///
 /// It determines showing or not showing specific title.
 bool defaultCheckToShowTitle(double minValue, double maxValue,
     SideTitles sideTitles, double appliedInterval, double value) {
-  if ((maxValue - minValue) % appliedInterval == 0) {
-    return true;
-  }
-  return value != maxValue;
+  return true;
 }
 
 /// Holds data for showing each side titles (a title per each axis value).
@@ -467,6 +465,9 @@ class FlSpot with EquatableMixin {
 
   /// Used for splitting lines, or maybe other concepts.
   static const FlSpot nullSpot = FlSpot(double.nan, double.nan);
+
+  /// Sets zero for x and y
+  static const FlSpot zero = FlSpot(0, 0);
 
   /// Determines if [x] or [y] is null.
   bool isNull() => this == nullSpot;
@@ -647,7 +648,7 @@ bool showAllGrids(double value) {
 
 /// Determines the appearance of specified line.
 ///
-/// It gives you an axis value (horizontal or vertical),
+/// It gives you an axis [value] (horizontal or vertical),
 /// you should pass a [FlLine] that represents style of specified line.
 typedef GetDrawingGridLine = FlLine Function(double value);
 

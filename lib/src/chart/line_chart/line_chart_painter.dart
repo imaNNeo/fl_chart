@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
@@ -160,21 +161,21 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     if (clip.left) {
       final borderWidth = border?.left.width ?? 0;
-      left = getLeftOffsetDrawSize(holder) - (borderWidth / 2);
+      left = getLeftOffsetDrawSize(holder) + (borderWidth / 2);
     }
     if (clip.top) {
       final borderWidth = border?.top.width ?? 0;
-      top = getTopOffsetDrawSize(holder) - (borderWidth / 2);
+      top = getTopOffsetDrawSize(holder) + (borderWidth / 2);
     }
     if (clip.right) {
       final borderWidth = border?.right.width ?? 0;
       right =
-          getLeftOffsetDrawSize(holder) + usableSize.width + (borderWidth / 2);
+          getLeftOffsetDrawSize(holder) + usableSize.width - (borderWidth / 2);
     }
     if (clip.bottom) {
       final borderWidth = border?.bottom.width ?? 0;
       bottom =
-          getTopOffsetDrawSize(holder) + usableSize.height + (borderWidth / 2);
+          getTopOffsetDrawSize(holder) + usableSize.height - (borderWidth / 2);
     }
 
     canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
@@ -900,24 +901,26 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final viewSize = getChartUsableDrawSize(canvasWrapper.size, holder);
 
     // Left Titles
-    if (!data.isVerticalMinMaxIsZero) {
-      final leftTitles = targetData.titlesData.leftTitles;
-      final leftInterval = leftTitles.interval ??
-          Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
-      if (leftTitles.showTitles) {
-        var verticalSeek = Utils()
-            .getBestInitialIntervalValue(data.minY, data.maxY, leftInterval);
-        while (verticalSeek <= data.maxY) {
+    final leftTitles = targetData.titlesData.leftTitles;
+    final leftInterval = leftTitles.interval ??
+        Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
+    if (leftTitles.showTitles) {
+      AxisChartHelper().iterateThroughAxis(
+        min: data.minY,
+        max: data.maxY,
+        baseLine: data.baselineY,
+        interval: leftInterval,
+        action: (axisValue) {
           if (leftTitles.checkToShowTitle(
-              data.minY, data.maxY, leftTitles, leftInterval, verticalSeek)) {
+              data.minY, data.maxY, leftTitles, leftInterval, axisValue)) {
             var x = 0 + getLeftOffsetDrawSize(holder);
-            var y = getPixelY(verticalSeek, viewSize, holder);
+            var y = getPixelY(axisValue, viewSize, holder);
 
-            final text = leftTitles.getTitles(verticalSeek);
+            final text = leftTitles.getTitles(axisValue);
 
             final span = TextSpan(
               style: Utils().getThemeAwareTextStyle(
-                  context, leftTitles.getTextStyles(context, verticalSeek)),
+                  context, leftTitles.getTextStyles(context, axisValue)),
               text: text,
             );
             final tp = TextPainter(
@@ -937,35 +940,31 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
                 .dx;
             canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
           }
-          if (data.maxY - verticalSeek < leftInterval &&
-              data.maxY != verticalSeek) {
-            verticalSeek = data.maxY;
-          } else {
-            verticalSeek += leftInterval;
-          }
-        }
-      }
+        },
+      );
     }
 
     // Top titles
-    if (!data.isHorizontalMinMaxIsZero) {
-      final topTitles = targetData.titlesData.topTitles;
-      final topInterval = topTitles.interval ??
-          Utils().getEfficientInterval(viewSize.width, data.horizontalDiff);
-      if (topTitles.showTitles) {
-        var horizontalSeek = Utils()
-            .getBestInitialIntervalValue(data.minX, data.maxX, topInterval);
-        while (horizontalSeek <= data.maxX) {
+    final topTitles = targetData.titlesData.topTitles;
+    final topInterval = topTitles.interval ??
+        Utils().getEfficientInterval(viewSize.width, data.horizontalDiff);
+    if (topTitles.showTitles) {
+      AxisChartHelper().iterateThroughAxis(
+        min: data.minX,
+        max: data.maxX,
+        baseLine: data.baselineX,
+        interval: topInterval,
+        action: (axisValue) {
           if (topTitles.checkToShowTitle(
-              data.minX, data.maxX, topTitles, topInterval, horizontalSeek)) {
-            var x = getPixelX(horizontalSeek, viewSize, holder);
+              data.minX, data.maxX, topTitles, topInterval, axisValue)) {
+            var x = getPixelX(axisValue, viewSize, holder);
             var y = getTopOffsetDrawSize(holder);
 
-            final text = topTitles.getTitles(horizontalSeek);
+            final text = topTitles.getTitles(axisValue);
 
             final span = TextSpan(
               style: Utils().getThemeAwareTextStyle(
-                  context, topTitles.getTextStyles(context, horizontalSeek)),
+                  context, topTitles.getTextStyles(context, axisValue)),
               text: text,
             );
             final tp = TextPainter(
@@ -983,35 +982,31 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
                 .dy;
             canvasWrapper.drawText(tp, Offset(x, y), topTitles.rotateAngle);
           }
-          if (data.maxX - horizontalSeek < topInterval &&
-              data.maxX != horizontalSeek) {
-            horizontalSeek = data.maxX;
-          } else {
-            horizontalSeek += topInterval;
-          }
-        }
-      }
+        },
+      );
     }
 
     // Right Titles
-    if (!data.isVerticalMinMaxIsZero) {
-      final rightTitles = targetData.titlesData.rightTitles;
-      final rightInterval = rightTitles.interval ??
-          Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
-      if (rightTitles.showTitles) {
-        var verticalSeek = Utils()
-            .getBestInitialIntervalValue(data.minY, data.maxY, rightInterval);
-        while (verticalSeek <= data.maxY) {
+    final rightTitles = targetData.titlesData.rightTitles;
+    final rightInterval = rightTitles.interval ??
+        Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
+    if (rightTitles.showTitles) {
+      AxisChartHelper().iterateThroughAxis(
+        min: data.minY,
+        max: data.maxY,
+        baseLine: data.baselineY,
+        interval: rightInterval,
+        action: (axisValue) {
           if (rightTitles.checkToShowTitle(
-              data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
+              data.minY, data.maxY, rightTitles, rightInterval, axisValue)) {
             var x = viewSize.width + getLeftOffsetDrawSize(holder);
-            var y = getPixelY(verticalSeek, viewSize, holder);
+            var y = getPixelY(axisValue, viewSize, holder);
 
-            final text = rightTitles.getTitles(verticalSeek);
+            final text = rightTitles.getTitles(axisValue);
 
             final span = TextSpan(
               style: Utils().getThemeAwareTextStyle(
-                  context, rightTitles.getTextStyles(context, verticalSeek)),
+                  context, rightTitles.getTextStyles(context, axisValue)),
               text: text,
             );
             final tp = TextPainter(
@@ -1032,34 +1027,29 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
                 .dx;
             canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
           }
-
-          if (data.maxY - verticalSeek < rightInterval &&
-              data.maxY != verticalSeek) {
-            verticalSeek = data.maxY;
-          } else {
-            verticalSeek += rightInterval;
-          }
-        }
-      }
+        },
+      );
     }
 
     // Bottom titles
-    if (!data.isHorizontalMinMaxIsZero) {
-      final bottomTitles = targetData.titlesData.bottomTitles;
-      final bottomInterval = bottomTitles.interval ??
-          Utils().getEfficientInterval(viewSize.width, data.horizontalDiff);
-      if (bottomTitles.showTitles) {
-        var horizontalSeek = Utils()
-            .getBestInitialIntervalValue(data.minX, data.maxX, bottomInterval);
-        while (horizontalSeek <= data.maxX) {
-          if (bottomTitles.checkToShowTitle(data.minX, data.maxX, bottomTitles,
-              bottomInterval, horizontalSeek)) {
-            var x = getPixelX(horizontalSeek, viewSize, holder);
+    final bottomTitles = targetData.titlesData.bottomTitles;
+    final bottomInterval = bottomTitles.interval ??
+        Utils().getEfficientInterval(viewSize.width, data.horizontalDiff);
+    if (bottomTitles.showTitles) {
+      AxisChartHelper().iterateThroughAxis(
+        min: data.minX,
+        max: data.maxX,
+        baseLine: data.baselineX,
+        interval: bottomInterval,
+        action: (axisValue) {
+          if (bottomTitles.checkToShowTitle(
+              data.minX, data.maxX, bottomTitles, bottomInterval, axisValue)) {
+            var x = getPixelX(axisValue, viewSize, holder);
             var y = viewSize.height + getTopOffsetDrawSize(holder);
-            final text = bottomTitles.getTitles(horizontalSeek);
+            final text = bottomTitles.getTitles(axisValue);
             final span = TextSpan(
-                style: Utils().getThemeAwareTextStyle(context,
-                    bottomTitles.getTextStyles(context, horizontalSeek)),
+                style: Utils().getThemeAwareTextStyle(
+                    context, bottomTitles.getTextStyles(context, axisValue)),
                 text: text);
             final tp = TextPainter(
                 text: span,
@@ -1075,15 +1065,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
                 .dy;
             canvasWrapper.drawText(tp, Offset(x, y), bottomTitles.rotateAngle);
           }
-
-          if (data.maxX - horizontalSeek < bottomInterval &&
-              data.maxX != horizontalSeek) {
-            horizontalSeek = data.maxX;
-          } else {
-            horizontalSeek += bottomInterval;
-          }
-        }
-      }
+        },
+      );
     }
   }
 
@@ -1531,7 +1514,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// Processes [localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [LineTouchResponse] from the elements that has been touched.
-  List<LineBarSpot>? handleTouch(
+  List<TouchLineBarSpot>? handleTouch(
     Offset localPosition,
     Size size,
     PaintHolder<LineChartData> holder,
@@ -1540,7 +1523,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     /// it holds list of nearest touched spots of each line
     /// and we use it to draw touch stuff on them
-    final touchedSpots = <LineBarSpot>[];
+    final touchedSpots = <TouchLineBarSpot>[];
 
     /// draw each line independently on the chart
     for (var i = 0; i < data.lineBarsData.length; i++) {
@@ -1554,17 +1537,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
     }
 
+    touchedSpots.sort((a, b) => a.distance.compareTo(b.distance));
+
     return touchedSpots.isEmpty ? null : touchedSpots;
   }
 
   /// find the nearest spot base on the touched offset
   @visibleForTesting
-  LineBarSpot? getNearestTouchedSpot(
-      Size viewSize,
-      Offset touchedPoint,
-      LineChartBarData barData,
-      int barDataPosition,
-      PaintHolder<LineChartData> holder) {
+  TouchLineBarSpot? getNearestTouchedSpot(
+    Size viewSize,
+    Offset touchedPoint,
+    LineChartBarData barData,
+    int barDataPosition,
+    PaintHolder<LineChartData> holder,
+  ) {
     final data = holder.data;
     if (!barData.show) {
       return null;
@@ -1572,13 +1558,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
-    /// Find the nearest spot (on X axis)
+    /// Find the nearest spot (based on distanceCalculator)
     final sortedSpots = <FlSpot>[];
     double? smallestDistance;
     for (var spot in barData.spots) {
       if (spot.isNull()) continue;
-      final distance =
-          (touchedPoint.dx - getPixelX(spot.x, chartViewSize, holder)).abs();
+      final distance = data.lineTouchData.distanceCalculator(
+          touchedPoint,
+          Offset(
+            getPixelX(spot.x, chartViewSize, holder),
+            getPixelY(spot.y, chartViewSize, holder),
+          ));
 
       if (distance <= data.lineTouchData.touchSpotThreshold) {
         smallestDistance ??= distance;
@@ -1593,7 +1583,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     if (sortedSpots.isNotEmpty) {
-      return LineBarSpot(barData, barDataPosition, sortedSpots.first);
+      return TouchLineBarSpot(
+          barData, barDataPosition, sortedSpots.first, smallestDistance!);
     } else {
       return null;
     }

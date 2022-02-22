@@ -51,5 +51,12 @@ void main() {
       final result2 = BarChartHelper.calculateMaxAxisValues(barGroups);
       expect(result1, result2);
     });
+
+    test('Test BarChartMinMaxAxisValues class', () {
+      final result1 = BarChartMinMaxAxisValues(0, 10, readFromCache: false)
+          .copyWith(minY: 1, maxY: 11, readFromCache: true);
+      final result2 = BarChartMinMaxAxisValues(1, 11, readFromCache: true);
+      expect(result1, result2);
+    });
   });
 }

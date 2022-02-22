@@ -105,6 +105,21 @@ void main() {
       expect(lineChartPainter.getChartUsableDrawSize(viewSize, holder),
           const Size(600, 320));
     });
+
+    test('test 6', () {
+      const viewSize = Size(600, 400);
+      final LineChartData data = LineChartData(
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        minY: 0,
+        maxY: 0,
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      expect(lineChartPainter.getPixelX(0, viewSize, holder), 0);
+      expect(lineChartPainter.getPixelY(0, viewSize, holder), 400);
+    });
   });
 
   group('clipToBorder()', () {
@@ -175,9 +190,9 @@ void main() {
       final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
       final Rect rect = verifyResult.captured.single;
       verifyResult.called(1);
-      expect(rect.left, 6);
+      expect(rect.left, 14);
       expect(rect.top, 0);
-      expect(rect.right, 374);
+      expect(rect.right, 366);
       expect(rect.bottom, 400);
     });
 
@@ -217,10 +232,10 @@ void main() {
       final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
       final Rect rect = verifyResult.captured.single;
       verifyResult.called(1);
-      expect(rect.left, 6);
-      expect(rect.top, 36);
-      expect(rect.right, 374);
-      expect(rect.bottom, 364);
+      expect(rect.left, 14);
+      expect(rect.top, 44);
+      expect(rect.right, 366);
+      expect(rect.bottom, 356);
     });
   });
 
@@ -1788,12 +1803,18 @@ void main() {
       when(mockUtils.getEfficientInterval(any, any))
           .thenAnswer((realInvocation) => 1);
 
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => MockData.textStyle1);
+      when(mockUtils.formatNumber(any)).thenAnswer((realInvocation) => '1');
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+
       MockBuildContext _mockBuildContext = MockBuildContext();
 
       lineChartPainter.drawTitles(
           _mockBuildContext, _mockCanvasWrapper, holder);
 
-      verifyNever(_mockCanvasWrapper.drawText(any, any, any));
+      verify(_mockCanvasWrapper.drawText(any, any, any)).called(1);
     });
 
     test('test 3', () {
@@ -2652,6 +2673,74 @@ void main() {
               .length,
           2);
     });
+
+    test('test 3', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData1 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(2, 1),
+          FlSpot(3, 1),
+          FlSpot(8, 1),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartBarData lineChartBarData2 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1.3, 1),
+          FlSpot(2, 1),
+          FlSpot(3, 1),
+          FlSpot(4, 1),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartData data = LineChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          lineBarsData: [lineChartBarData1, lineChartBarData2],
+          showingTooltipIndicators: [],
+          titlesData: FlTitlesData(show: false),
+          axisTitleData: FlAxisTitleData(show: false),
+          lineTouchData: LineTouchData(
+            touchSpotThreshold: 5,
+          ));
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+
+      final result1 =
+          lineChartPainter.handleTouch(const Offset(11, 0), viewSize, holder)!;
+      expect(result1[0].barIndex, 0);
+      expect(result1[1].barIndex, 1);
+
+      final result2 =
+          lineChartPainter.handleTouch(const Offset(12, 0), viewSize, holder)!;
+      expect(result2[0].barIndex, 1);
+      expect(result2[1].barIndex, 0);
+    });
   });
 
   group('getNearestTouchedSpot()', () {
@@ -2803,6 +2892,506 @@ void main() {
           viewSize, const Offset(10.0, 0), data.lineBarsData[1], 1, holder);
       expect(result3!.barIndex, 1);
       expect(result3.spotIndex, 0);
+    });
+
+    test('test 3', () {
+      const viewSize = Size(100, 100);
+
+      final LineChartBarData lineChartBarData1 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(4, 1),
+          FlSpot(6, 4),
+          FlSpot(8, 1),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartBarData lineChartBarData2 = LineChartBarData(
+        show: true,
+        spots: const [
+          FlSpot(1.1, 4),
+          FlSpot(2, 4),
+          FlSpot(3.5, 1),
+          FlSpot(4.3, 4),
+        ],
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        shadow: const Shadow(
+          color: Color(0x0100FF00),
+          offset: Offset(10, 15),
+          blurRadius: 10,
+        ),
+      );
+
+      final LineChartData data = LineChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          lineBarsData: [lineChartBarData1, lineChartBarData2],
+          showingTooltipIndicators: [],
+          titlesData: FlTitlesData(show: false),
+          axisTitleData: FlAxisTitleData(show: false),
+          lineTouchData: LineTouchData(
+            distanceCalculator: (Offset a, Offset b) {
+              final dx = a.dx - b.dx;
+              final dy = a.dy - b.dy;
+              return math.sqrt(dx * dx + dy * dy);
+            },
+            touchSpotThreshold: 5,
+          ));
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      expect(
+          lineChartPainter.getNearestTouchedSpot(
+              viewSize, const Offset(30, 0), data.lineBarsData[0], 0, holder),
+          null);
+      final result1 = lineChartPainter.getNearestTouchedSpot(
+          viewSize, const Offset(60, 65), data.lineBarsData[0], 0, holder);
+      expect(result1!.barIndex, 0);
+      expect(result1.spotIndex, 2);
+
+      expect(
+          lineChartPainter.getNearestTouchedSpot(viewSize,
+              const Offset(60, 65.01), data.lineBarsData[0], 0, holder),
+          null);
+      expect(
+          lineChartPainter.getNearestTouchedSpot(viewSize,
+              const Offset(29.99, 0), data.lineBarsData[1], 1, holder),
+          null);
+
+      final result2 = lineChartPainter.getNearestTouchedSpot(
+          viewSize, const Offset(63.5, 63.5), data.lineBarsData[0], 0, holder);
+      expect(result2!.barIndex, 0);
+      expect(result2.spotIndex, 2);
+    });
+  });
+
+  group('drawGrid()', () {
+    test('test 1 - none', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          titlesData: FlTitlesData(show: false),
+          axisTitleData: FlAxisTitleData(show: false),
+          gridData: FlGridData(
+            show: false,
+            drawVerticalLine: true,
+            drawHorizontalLine: true,
+            horizontalInterval: 2,
+          ));
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 0);
+
+      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
+      verifyNever(_mockCanvasWrapper.drawDashedLine(any, any, any, any));
+    });
+
+    test('test 2 - horizontal', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          titlesData: FlTitlesData(show: false),
+          axisTitleData: FlAxisTitleData(show: false),
+          gridData: FlGridData(
+              show: true,
+              drawVerticalLine: false,
+              drawHorizontalLine: true,
+              horizontalInterval: 2,
+              checkToShowHorizontalLine: (value) => value != 2 && value != 8,
+              getDrawingHorizontalLine: (value) {
+                if (value == 4) {
+                  return FlLine(
+                    color: MockData.color1,
+                    strokeWidth: 11,
+                    dashArray: [1, 1],
+                  );
+                } else if (value == 6) {
+                  return FlLine(
+                    color: MockData.color2,
+                    strokeWidth: 22,
+                    dashArray: [2, 2],
+                  );
+                } else {
+                  throw StateError("We shouldn't draw these lines");
+                }
+              }));
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 0);
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawDashedLine(
+              captureAny, captureAny, captureAny, captureAny))
+          .thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+          'dash_array': inv.positionalArguments[3] as List<int>,
+        });
+      });
+
+      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
+      expect(results.length, 2);
+
+      expect(results[0]['from'], const Offset(0, 60));
+      expect(results[0]['to'], const Offset(20, 60));
+      expect(results[0]['paint_color'], MockData.color1);
+      expect(results[0]['paint_stroke_width'], 11);
+      expect(results[0]['dash_array'], [1, 1]);
+
+      expect(results[1]['from'], const Offset(0, 40));
+      expect(results[1]['to'], const Offset(20, 40));
+      expect(results[1]['paint_color'], MockData.color2);
+      expect(results[1]['paint_stroke_width'], 22);
+      expect(results[1]['dash_array'], [2, 2]);
+    });
+
+    test('test 3 - vertical', () {
+      const viewSize = Size(100, 20);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        gridData: FlGridData(
+            show: true,
+            drawVerticalLine: true,
+            drawHorizontalLine: false,
+            verticalInterval: 2,
+            checkToShowVerticalLine: (value) => value != 2 && value != 8,
+            getDrawingVerticalLine: (value) {
+              if (value == 4) {
+                return FlLine(
+                  color: MockData.color1,
+                  strokeWidth: 11,
+                  dashArray: [1, 1],
+                );
+              } else if (value == 6) {
+                return FlLine(
+                  color: MockData.color2,
+                  strokeWidth: 22,
+                  dashArray: [2, 2],
+                );
+              } else {
+                throw StateError("We shouldn't draw these lines");
+              }
+            }),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 0);
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawDashedLine(
+              captureAny, captureAny, captureAny, captureAny))
+          .thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+          'dash_array': inv.positionalArguments[3] as List<int>,
+        });
+      });
+
+      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
+      expect(results.length, 2);
+
+      expect(results[0]['from'], const Offset(40, 0));
+      expect(results[0]['to'], const Offset(40, 20));
+      expect(results[0]['paint_color'], MockData.color1);
+      expect(results[0]['paint_stroke_width'], 11);
+      expect(results[0]['dash_array'], [1, 1]);
+
+      expect(results[1]['from'], const Offset(60, 0));
+      expect(results[1]['to'], const Offset(60, 20));
+      expect(results[1]['paint_color'], MockData.color2);
+      expect(results[1]['paint_stroke_width'], 22);
+      expect(results[1]['dash_array'], [2, 2]);
+    });
+
+    test('test 4 - both', () {
+      const viewSize = Size(100, 20);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: true,
+          drawHorizontalLine: true,
+        ),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 3);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 0);
+
+      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
+      verify(_mockCanvasWrapper.drawDashedLine(any, any, any, any)).called(6);
+    });
+  });
+
+  group('drawBackground()', () {
+    test('test 1', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        backgroundColor: MockData.color1.withOpacity(0),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawBackground(_mockCanvasWrapper, holder);
+      verifyNever(_mockCanvasWrapper.drawRect(any, any));
+    });
+
+    test('test 2', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        backgroundColor: MockData.color1,
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawBackground(_mockCanvasWrapper, holder);
+      final result = verify(
+        _mockCanvasWrapper.drawRect(
+          const Rect.fromLTRB(0, 0, 20, 100),
+          captureAny,
+        ),
+      );
+      expect(result.callCount, 1);
+      expect((result.captured.single as Paint).color, MockData.color1);
+    });
+  });
+
+  group('drawRangeAnnotation()', () {
+    test('test 1 - none', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        rangeAnnotations: RangeAnnotations(),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
+      verifyNever(_mockCanvasWrapper.drawRect(any, any));
+    });
+
+    test('test 2 - horizontal', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        rangeAnnotations: RangeAnnotations(
+          horizontalRangeAnnotations: [
+            HorizontalRangeAnnotation(y1: 4, y2: 10, color: MockData.color1),
+            HorizontalRangeAnnotation(y1: 12, y2: 14, color: MockData.color2),
+          ],
+        ),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect,
+          'paint_color': (inv.positionalArguments[1] as Paint).color,
+        });
+      });
+
+      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
+      expect(results.length, 2);
+
+      expect(results[0]['rect'], const Rect.fromLTRB(0.0, 0.0, 20.0, 60.0));
+      expect(results[0]['paint_color'], MockData.color1);
+
+      expect(results[1]['rect'], const Rect.fromLTRB(0.0, -40.0, 20.0, -20.0));
+      expect(results[1]['paint_color'], MockData.color2);
+    });
+
+    test('test 3 - vertical', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        rangeAnnotations: RangeAnnotations(
+          verticalRangeAnnotations: [
+            VerticalRangeAnnotation(x1: 1, x2: 2, color: MockData.color1),
+            VerticalRangeAnnotation(x1: 4, x2: 5, color: MockData.color2),
+          ],
+        ),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect,
+          'paint_color': (inv.positionalArguments[1] as Paint).color,
+        });
+      });
+
+      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
+      expect(results.length, 2);
+
+      expect(results[0]['rect'], const Rect.fromLTRB(2.0, 0.0, 4.0, 100.0));
+      expect(results[0]['paint_color'], MockData.color1);
+
+      expect(results[1]['rect'], const Rect.fromLTRB(8.0, 0.0, 10.0, 100.0));
+      expect(results[1]['paint_color'], MockData.color2);
+    });
+
+    test('test 4 - both', () {
+      const viewSize = Size(20, 100);
+
+      final LineChartData data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        rangeAnnotations: RangeAnnotations(
+          horizontalRangeAnnotations: [
+            HorizontalRangeAnnotation(y1: 4, y2: 10, color: MockData.color1),
+            HorizontalRangeAnnotation(y1: 12, y2: 14, color: MockData.color2),
+          ],
+          verticalRangeAnnotations: [
+            VerticalRangeAnnotation(x1: 1, x2: 2, color: MockData.color1),
+            VerticalRangeAnnotation(x1: 4, x2: 5, color: MockData.color2),
+          ],
+        ),
+      );
+
+      final LineChartPainter lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
+
+      verify(_mockCanvasWrapper.drawRect(captureAny, captureAny)).called(4);
     });
   });
 }

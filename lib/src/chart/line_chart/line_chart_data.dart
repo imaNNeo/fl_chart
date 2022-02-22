@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -72,8 +73,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
     RangeAnnotations? rangeAnnotations,
     double? minX,
     double? maxX,
+    double? baselineX,
     double? minY,
     double? maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
@@ -96,12 +99,14 @@ class LineChartData extends AxisChartData with EquatableMixin {
           maxX: maxX ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxX,
+          baselineX: baselineX,
           minY: minY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .minY,
           maxY: maxY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxY,
+          baselineY: baselineY,
         );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -111,8 +116,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
       return LineChartData(
         minX: lerpDouble(a.minX, b.minX, t),
         maxX: lerpDouble(a.maxX, b.maxX, t),
+        baselineX: lerpDouble(a.baselineX, b.baselineX, t),
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
+        baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         clipData: b.clipData,
@@ -151,8 +158,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlBorderData? borderData,
     double? minX,
     double? maxX,
+    double? baselineX,
     double? minY,
     double? maxY,
+    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   }) {
@@ -170,8 +179,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
       borderData: borderData ?? this.borderData,
       minX: minX ?? this.minX,
       maxX: maxX ?? this.maxX,
+      baselineX: baselineX ?? this.baselineX,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
+      baselineY: baselineY ?? this.baselineY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
@@ -192,8 +203,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
         rangeAnnotations,
         minX,
         maxX,
+        baselineX,
         minY,
         maxY,
+        baselineY,
         clipData,
         backgroundColor,
       ];
@@ -1396,6 +1409,9 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// Distance threshold to handle the touch event.
   final double touchSpotThreshold;
 
+  /// Distance function used when finding closest points to touch point
+  final CalculateTouchDistance distanceCalculator;
+
   /// Determines to handle default built-in touch responses,
   /// [LineTouchResponse] shows a tooltip popup above the touched spot.
   final bool handleBuiltInTouches;
@@ -1432,6 +1448,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
+    CalculateTouchDistance? distanceCalculator,
     bool? handleBuiltInTouches,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
@@ -1439,6 +1456,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         getTouchedSpotIndicator =
             getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
+        distanceCalculator = distanceCalculator ?? _xDistance,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
@@ -1453,6 +1471,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
+    CalculateTouchDistance? distanceCalculator,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
     bool? handleBuiltInTouches,
@@ -1465,6 +1484,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
       getTouchedSpotIndicator:
           getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
+      distanceCalculator: distanceCalculator ?? this.distanceCalculator,
       getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
       getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
@@ -1480,6 +1500,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         touchTooltipData,
         getTouchedSpotIndicator,
         touchSpotThreshold,
+        distanceCalculator,
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
@@ -1498,6 +1519,15 @@ typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData?> Function(
 /// Used for determine the touch indicator line's starting/end point.
 typedef GetTouchLineY = double Function(
     LineChartBarData barData, int spotIndex);
+
+/// Used to calculate the distance between coordinates of a touch event and a spot
+typedef CalculateTouchDistance = double Function(
+    Offset touchPoint, Offset spotPixelCoordinates);
+
+/// Default distanceCalculator only considers distance on x axis
+double _xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
+  return ((touchPoint.dx - spotPixelCoordinates.dx)).abs();
+}
 
 /// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
@@ -1686,6 +1716,19 @@ class LineBarSpot extends FlSpot with EquatableMixin {
       ];
 }
 
+/// A [LineBarSpot] that holds information about the event that selected it
+class TouchLineBarSpot extends LineBarSpot {
+  /// Distance in pixels from where the user taped
+  final double distance;
+
+  TouchLineBarSpot(
+    LineChartBarData bar,
+    int barIndex,
+    FlSpot spot,
+    this.distance,
+  ) : super(bar, barIndex, spot);
+}
+
 /// Holds data of showing each row item in the tooltip popup.
 class LineTooltipItem with EquatableMixin {
   /// Showing text.
@@ -1771,16 +1814,17 @@ class ShowingTooltipIndicators with EquatableMixin {
 class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
-  final List<LineBarSpot>? lineBarSpots;
+  final List<TouchLineBarSpot>? lineBarSpots;
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
+  /// They are sorted based on their distance to the touch event
   LineTouchResponse(this.lineBarSpots) : super();
 
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
-    List<LineBarSpot>? lineBarSpots,
+    List<TouchLineBarSpot>? lineBarSpots,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,
