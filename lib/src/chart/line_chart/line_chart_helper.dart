@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/list_wrapper.dart';
-
-import 'line_chart_data.dart';
 
 /// Contains anything that helps LineChart works
 class LineChartHelper {
@@ -32,10 +31,19 @@ class LineChartHelper {
       return LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
-    var minX = lineBarData.spots[0].x;
-    var maxX = lineBarData.spots[0].x;
-    var minY = lineBarData.spots[0].y;
-    var maxY = lineBarData.spots[0].y;
+    final FlSpot firstValidSpot;
+    try {
+      firstValidSpot =
+          lineBarData.spots.firstWhere((element) => element != FlSpot.nullSpot);
+    } catch (e) {
+      // There is no valid spot
+      return LineChartMinMaxAxisValues(0, 0, 0, 0);
+    }
+
+    var minX = firstValidSpot.x;
+    var maxX = firstValidSpot.x;
+    var minY = firstValidSpot.y;
+    var maxY = firstValidSpot.y;
 
     for (var i = 0; i < lineBarsData.length; i++) {
       final barData = lineBarsData[i];

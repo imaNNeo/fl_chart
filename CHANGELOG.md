@@ -1,3 +1,6 @@
+## newVersion
+* **BUGFIX** Fix `FlSpot.nullSpot` at the first of list bug, #912.
+
 ## 0.45.0
 * **BUGFIX** Fix `clipData` implementation in ScatterChart and LineChart, #897.
 * **BUGFIX** Fix PieChart changing sections issue (we have disabled semantics for pieChart badgeWidgets), #861.
