@@ -105,6 +105,7 @@ class LineChartSample5 extends StatelessWidget {
               showTitles: false,
             ),
             bottomTitles: SideTitles(
+                interval: 1,
                 showTitles: true,
                 getTitles: (val) {
                   switch (val.toInt()) {
