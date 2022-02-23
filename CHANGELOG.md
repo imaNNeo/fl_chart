@@ -1,5 +1,5 @@
-## Unreleased
-
+## newVersion
+* **BUGFIX** Fix `FlSpot.nullSpot` at the first of list bug, #912.
 * **FEATURE** Add `tooltipBorderColor` and `tooltipBorderWidth` property in the [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData],  #692.
 
 ## 0.45.0
