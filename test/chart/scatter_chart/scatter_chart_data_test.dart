@@ -310,7 +310,7 @@ void main() {
               scatterChartData1Clone.copyWith(
                   scatterLabelSettings: ScatterLabelSettings(
                 showLabel: true,
-                getLabelTextStyleFunction: (int index) =>
+                getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
                     const TextStyle(color: Colors.green),
               )),
           false);
@@ -320,9 +320,10 @@ void main() {
               scatterChartData1Clone.copyWith(
                   scatterLabelSettings: ScatterLabelSettings(
                 showLabel: false,
-                getLabelTextStyleFunction: (int index) =>
+                getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
                     const TextStyle(color: Colors.red),
-                getLabelFunction: (int index) => 'Label - $index',
+                getLabelFunction: (int index, ScatterSpot spot) =>
+                    'Label - $index',
               )),
           false);
 
@@ -331,9 +332,10 @@ void main() {
               scatterChartData1Clone.copyWith(
                   scatterLabelSettings: ScatterLabelSettings(
                 showLabel: true,
-                getLabelTextStyleFunction: (int index) =>
+                getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
                     const TextStyle(color: Colors.red),
-                getLabelFunction: (int index) => 'Different Label - $index',
+                getLabelFunction: (int index, ScatterSpot spot) =>
+                    'Different Label - $index',
               )),
           false);
 
@@ -346,6 +348,17 @@ void main() {
                 getLabelTextStyleFunction: getLabelTextStyle,
               )),
           true);
+
+      expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
+                  scatterLabelSettings: ScatterLabelSettings(
+                showLabel: true,
+                getLabelFunction: getLabel,
+                getLabelTextStyleFunction: getLabelTextStyle,
+                textDirection: TextDirection.rtl,
+              )),
+          false);
     });
 
     test('ScatterSpot equality test', () {
@@ -490,7 +503,15 @@ void main() {
       changed = ScatterLabelSettings(
         showLabel: true,
         getLabelTextStyleFunction: getLabelTextStyle,
-        getLabelFunction: (int index) => 'Label',
+        getLabelFunction: (int index, ScatterSpot spot) => 'Label',
+      );
+      expect(sample1 == changed, false);
+
+      changed = ScatterLabelSettings(
+        showLabel: true,
+        getLabelTextStyleFunction: getLabelTextStyle,
+        getLabelFunction: getLabel,
+        textDirection: TextDirection.rtl,
       );
       expect(sample1 == changed, false);
     });
