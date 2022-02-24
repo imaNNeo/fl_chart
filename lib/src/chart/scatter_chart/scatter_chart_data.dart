@@ -111,7 +111,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         clipData: b.clipData,
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
-        scatterLabelSettings: b.scatterLabelSettings,
+        scatterLabelSettings: ScatterLabelSettings.lerp(
+            a.scatterLabelSettings, b.scatterLabelSettings, t),
       );
     } else {
       throw Exception('Illegal State');
@@ -579,32 +580,47 @@ class ScatterChartDataTween extends Tween<ScatterChartData> {
   }
 }
 
-/// It gives you the index value of the spot and gets the text style of the label.
-typedef GetLabelTextStyleFunction = TextStyle Function(int spotIndex);
+/// It gives you the index value as well as the spot and gets the text style of the label.
+typedef GetLabelTextStyleFunction = TextStyle? Function(
+  int spotIndex,
+  ScatterSpot spot,
+);
 
-/// It gives you the index value of the spot and returns the label of the spot.
-typedef GetLabelFunction = String Function(int spotIndex);
+/// It gives you the index value as well as the spot and returns the label of the spot.
+typedef GetLabelFunction = String Function(
+  int spotIndex,
+  ScatterSpot spot,
+);
 
 /// It gives you the default text style of the label for a spot.
-TextStyle getDefaultLabelTextStyleFunction(int spotIndex) {
-  return const TextStyle();
+TextStyle? getDefaultLabelTextStyleFunction(
+  int spotIndex,
+  ScatterSpot spot,
+) {
+  return null;
 }
 
 /// It gives you the default label of the spot.
-String getDefaultLabelFunction(int spotIndex) {
-  return '';
+String getDefaultLabelFunction(
+  int spotIndex,
+  ScatterSpot spot,
+) {
+  return '${spot.radius}';
 }
 
 /// Defines information about the labels in the [ScatterChart]
 class ScatterLabelSettings with EquatableMixin {
-  /// Determines whether to show or hide the labels
+  /// Determines whether to show or hide the labels.
   final bool showLabel;
 
-  /// This function gives you the index value of the spot in the list and returns the text style
+  /// This function gives you the index value of the spot in the list and returns the text style.
   final GetLabelTextStyleFunction getLabelTextStyleFunction;
 
   /// This function gives you the index value of the spot in the list and returns the label.
   final GetLabelFunction getLabelFunction;
+
+  /// Determines the direction of the text for the labels.
+  final TextDirection textDirection;
 
   /// You can change [showLabel] value to show or hide the label,
   /// [textStyle] defines the style of label in the [ScatterChart].
@@ -612,21 +628,25 @@ class ScatterLabelSettings with EquatableMixin {
     bool? showLabel,
     GetLabelTextStyleFunction? getLabelTextStyleFunction,
     GetLabelFunction? getLabelFunction,
+    TextDirection? textDirection,
   })  : showLabel = showLabel ?? false,
         getLabelTextStyleFunction =
             getLabelTextStyleFunction ?? getDefaultLabelTextStyleFunction,
-        getLabelFunction = getLabelFunction ?? getDefaultLabelFunction;
+        getLabelFunction = getLabelFunction ?? getDefaultLabelFunction,
+        textDirection = textDirection ?? TextDirection.ltr;
 
   ScatterLabelSettings copyWith({
     bool? showLabel,
     GetLabelTextStyleFunction? getLabelTextStyleFunction,
     GetLabelFunction? getLabelFunction,
+    TextDirection? textDirection,
   }) {
     return ScatterLabelSettings(
       showLabel: showLabel ?? this.showLabel,
       getLabelTextStyleFunction:
           getLabelTextStyleFunction ?? this.getLabelTextStyleFunction,
       getLabelFunction: getLabelFunction ?? this.getLabelFunction,
+      textDirection: textDirection ?? this.textDirection,
     );
   }
 
@@ -640,6 +660,7 @@ class ScatterLabelSettings with EquatableMixin {
       showLabel: b.showLabel,
       getLabelTextStyleFunction: b.getLabelTextStyleFunction,
       getLabelFunction: b.getLabelFunction,
+      textDirection: b.textDirection,
     );
   }
 
@@ -649,5 +670,6 @@ class ScatterLabelSettings with EquatableMixin {
         showLabel,
         getLabelTextStyleFunction,
         getLabelFunction,
+        textDirection,
       ];
 }
