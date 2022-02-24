@@ -36,7 +36,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     super.paint(context, canvasWrapper, holder);
     drawAxisTitles(context, canvasWrapper, holder);
     drawTitles(context, canvasWrapper, holder);
-    drawSpots(canvasWrapper, holder);
+    drawSpots(context, canvasWrapper, holder);
     drawTouchTooltips(context, canvasWrapper, holder);
   }
 
@@ -227,7 +227,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
   @visibleForTesting
   void drawSpots(
-      CanvasWrapper canvasWrapper, PaintHolder<ScatterChartData> holder) {
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<ScatterChartData> holder,
+  ) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final chartUsableSize = getChartUsableDrawSize(viewSize, holder);
@@ -291,10 +294,12 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
 
     if (data.scatterLabelSettings.showLabel) {
-      for (final scatterSpot in data.scatterSpots) {
-        int spotIndex = data.scatterSpots.indexOf(scatterSpot);
+      for (int i = 0; i < data.scatterSpots.length; i++) {
+        final ScatterSpot scatterSpot = data.scatterSpots[i];
+        final int spotIndex = i;
 
-        String label = data.scatterLabelSettings.getLabelFunction(spotIndex);
+        String label =
+            data.scatterLabelSettings.getLabelFunction(spotIndex, scatterSpot);
 
         if (label.isEmpty || !scatterSpot.show) {
           continue;
@@ -302,13 +307,19 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
         final span = TextSpan(
           text: label,
-          style: data.scatterLabelSettings.getLabelTextStyleFunction(spotIndex),
+          style: Utils().getThemeAwareTextStyle(
+            context,
+            data.scatterLabelSettings.getLabelTextStyleFunction(
+              spotIndex,
+              scatterSpot,
+            ),
+          ),
         );
 
         final tp = TextPainter(
           text: span,
           textAlign: TextAlign.center,
-          textDirection: TextDirection.ltr,
+          textDirection: holder.data.scatterLabelSettings.textDirection,
           textScaleFactor: holder.textScale,
         );
 
