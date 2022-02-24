@@ -487,9 +487,10 @@ class MockScatterChartPainter extends _i1.Mock
           Invocation.method(#drawTitles, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawSpots(_i10.CanvasWrapper? canvasWrapper,
+  void drawSpots(_i6.BuildContext? context, _i10.CanvasWrapper? canvasWrapper,
           _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
-      super.noSuchMethod(Invocation.method(#drawSpots, [canvasWrapper, holder]),
+      super.noSuchMethod(
+          Invocation.method(#drawSpots, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
   void drawTouchTooltips(
