@@ -2350,8 +2350,8 @@ final ScatterSpot scatterSpot2Clone = scatterSpot2.copyWith();
 final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
 final ScatterSpot scatterSpot4 = ScatterSpot(-0, 0);
 
-String getLabel(int spotIndex) => 'label';
-TextStyle getLabelTextStyle(int spotIndex) =>
+String getLabel(int spotIndex, ScatterSpot spot) => 'label';
+TextStyle getLabelTextStyle(int spotIndex, ScatterSpot spot) =>
     const TextStyle(color: Colors.green);
 
 final ScatterChartData scatterChartData1 = ScatterChartData(
