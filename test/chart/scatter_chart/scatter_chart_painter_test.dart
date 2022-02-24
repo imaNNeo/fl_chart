@@ -429,10 +429,13 @@ void main() {
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+
+      MockBuildContext _mockBuildContext = MockBuildContext();
       MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
       when(_mockCanvasWrapper.size).thenReturn(viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawSpots(
+        _mockBuildContext,
         _mockCanvasWrapper,
         holder,
       );
@@ -468,10 +471,13 @@ void main() {
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+
+      MockBuildContext _mockBuildContext = MockBuildContext();
       MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
       when(_mockCanvasWrapper.size).thenReturn(viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawSpots(
+        _mockBuildContext,
         _mockCanvasWrapper,
         holder,
       );
@@ -502,9 +508,9 @@ void main() {
           clipData: FlClipData.all(),
           scatterLabelSettings: ScatterLabelSettings(
             showLabel: true,
-            getLabelTextStyleFunction: (int index) =>
+            getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
                 const TextStyle(fontSize: 12),
-            getLabelFunction: (int index) {
+            getLabelFunction: (int index, ScatterSpot spot) {
               if (index == 5) {
                 return '';
               }
@@ -514,10 +520,13 @@ void main() {
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+
+      MockBuildContext _mockBuildContext = MockBuildContext();
       MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
       when(_mockCanvasWrapper.size).thenReturn(viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawSpots(
+        _mockBuildContext,
         _mockCanvasWrapper,
         holder,
       );
