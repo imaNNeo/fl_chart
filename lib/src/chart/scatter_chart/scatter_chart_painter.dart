@@ -339,19 +339,21 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
         /// if the spot is in the lower half of the chart, then draw the label either in the center or above the spot,
         /// if the spot is in upper half of the chart, then draw the label either in the center or below the spot.
         if (pixelY > centerChartY) {
-          /// if the radius of the spot is greater than the font size of the label, then draw the label inside the bubble,
-          /// else draw the label above the bubble.
-          var off = scatterSpot.radius > tp.height
-              ? tp.height / 2
-              : scatterSpot.radius;
+          /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label above the bubble,
+          /// else draw the label inside the bubble.
+          var off = (scatterSpot.radius * 1.5 < tp.height ||
+                  scatterSpot.radius * 1.5 < tp.width)
+              ? scatterSpot.radius + tp.height
+              : tp.height / 2;
 
           newPixelY = pixelY - off;
         } else {
-          /// if the radius of the spot is greater than the font size of the label, then draw the label inside the bubble,
-          /// else draw the label below the bubble.
-          var off = scatterSpot.radius > tp.height
-              ? -tp.height / 2
-              : scatterSpot.radius;
+          /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label below the bubble,
+          /// else draw the label inside the bubble.
+          var off = (scatterSpot.radius * 1.5 < tp.height ||
+                  scatterSpot.radius * 1.5 < tp.width)
+              ? scatterSpot.radius
+              : -tp.height / 2;
           newPixelY = pixelY + off;
         }
 
