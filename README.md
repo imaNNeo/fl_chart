@@ -77,9 +77,9 @@ Or if you are a fan of crypto, you can donate me Bitcoins here:
 ##### :beer: Pull requests are welcome!
 Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
 
-There might be a lot of grammar issues in the docs. It's a big help to fix them if you are fluent in English.
+There might be a lot of grammar issues in the docs. It's a big help to us to fix them if you are fluent in English.
 
-Check out [CONTRIBUTING.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md), which contains a guide for those who wish to contribute to FL Chart. Thanks in advance!
+Check out [CONTRIBUTING.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md), which contains a guide for those who want to contribute to the FL Chart.
 
 Reporting bugs and issues are contribution too, yes it is.
 
