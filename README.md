@@ -74,7 +74,14 @@ Or if you are a fan of crypto, you can donate me Bitcoins here:
 `1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
 
 ### Contributing
-##### :beer: pull requests are welcome!
+##### :beer: Pull requests are welcome!
+Don't forget that `open-source` doesn't make any sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
 
-Check out [CONTRIBUTING.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md), which contains a guide for those
-who wish to contribute to FL Chart. Thanks in advance!
+There might be a lot of grammar issues in the docs. It's a big help to fix them if you are fluent in English.
+
+Check out [CONTRIBUTING.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md), which contains a guide for those who wish to contribute to FL Chart. Thanks in advance!
+
+Reporting bugs and issues are contribution too, yes it is.
+
+#### Below are the people who has contributed to the FL Chart. We hope we have your picture here soon.
+[![](https://opencollective.com/fl_chart/contributors.svg?width=890&button=false)](https://github.com/imaNNeoFighT/fl_chart/graphs/contributors)
