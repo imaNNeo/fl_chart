@@ -1,7 +1,7 @@
 # Contributing
 Hello, we are glad to have a contributor like you here.  
 
-Don't forget that `open-source` doesn't make any sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
+Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
 
 This file is intended to be a guide for those who are interested in contributing to the FL Chart.
 
