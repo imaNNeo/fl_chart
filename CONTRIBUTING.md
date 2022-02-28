@@ -1,10 +1,16 @@
 # Contributing
+Hello, we are glad to have a contributor like you here.  
 
-This file is intended to be a guide for those interested in contributing to FL Chart.
+Don't forget that `open-source` doesn't make any sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
 
-## Getting Started
+This file is intended to be a guide for those who are interested in contributing to the FL Chart.
 
-Make sure you have Flutter installed and on your path.
+#### Below are the people who has contributed to the FL Chart. We hope we have your picture here soon.
+[![](https://opencollective.com/fl_chart/contributors.svg?width=890&button=false)](https://github.com/imaNNeoFighT/fl_chart/graphs/contributors)
+
+## Let's get Started
+
+Make sure you have Flutter installed and on your path (follow [installation guide](https://docs.flutter.dev/get-started/install)).
 
 Follow these steps to clone FL Chart and set up the development environment:
 
@@ -16,6 +22,8 @@ Follow these steps to clone FL Chart and set up the development environment:
 
 4. Install all packages: `flutter packages get`
 
+5. Try to run the sample app. It should work on all platforms (Android, iOS, Web, Linux, MacOS, Windows)
+
 ## Before Modifying the Code
 
 If the work you intend to do is non-trivial, it is necessary to open
@@ -23,12 +31,11 @@ an issue before starting writing your code. This helps us and the
 community to discuss the issue and choose what is deemed to be the
 best solution.
 
-## Switch to `dev` branch
+### Mention the related issues:
+If you are going to fix or improve something, please find and mention the related issues in [CHANGELOG.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md#changelog), commit message and Pull Request description.
+In case you couldn't find any issue, it's better to create an issue to explain what's the issue that you are going to fix.
 
-You should make your changes upon the `dev` branch (All development changes happen in the `dev` branch, then I publish a new version and merge them into the `master`)
-
-
-## Drawing architecture
+## Let's start by our drawing architecture
 We have a *_chart_painter.dart class per each chart type. It draws elements into the Canvas.
 We made the CanvasWrapper class, because we wanted to test draw functions.
 CanvasWrapper class holds a canvas and all draw functions proxies through it.
@@ -39,6 +46,11 @@ It makes draw functions testable.
 
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
+## You feel ready to start? Okay now make your branch from the `dev` branch
+
+You should make your changes upon the `dev` branch (All development changes happen in the `dev` branch, then we publish a new version and merge them into the `master`)
+
+It means `master` is our **stable** branch.
 
 ## Checking Your Code's Quality
 
@@ -58,8 +70,43 @@ You can simply run `make checkstyle`, and if you faced any formatting problem, r
 #### Run `make runTests` to ensure that all tests are passing.
 - It runs `flutter test` under the hood.
 
-### Run `make sure` before pushing your code.
+#### Run `make sure` before pushing your code.
 - It runs both `make runTests` and then `make checkstyle` sequentially with a single command.
+
+## Test coverage (unit tests)
+We should write unit-test for our written code. If you are not familiar with unit-tests, please start from [here](https://docs.flutter.dev/cookbook/testing/unit/introduction).
+
+[Mockito](https://pub.dev/packages/mockito) is the library that we use to mock our classes, please read more about it from their docs.
+
+Our code coverage is calculated using [Codecov](https://app.codecov.io/gh/imaNNeoFighT/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeoFighT/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeoFighT/fl_chart)
+ at the moment)
+
+When you push something in your PR (after approving your PR by one of us), you see a coverage report which describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 
+
+Please make sure that your code is **not decreasing** the coverage.
+
+## Changelog
+We have a file called [CHANGELOG.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CHANGELOG.md) which contains the history of our versions.
+
+Please check it to understand how it works and how is the convention. Simply new versions added at the top of the file. You can find the [first version (oldest)](https://github.com/imaNNeoFighT/fl_chart/blob/master/CHANGELOG.md#001---released-on-2019-june-4) at the bottom of the file.
+
+When you are done in your PR, it's time to write a changelog for you changes. 
+
+Most of the times, there will be a [newVersion](https://github.com/imaNNeoFighT/fl_chart/blob/dev/CHANGELOG.md#newversion) tag at the top of the file in `dev` branch. If it doesn't exist, you can write it and write your change below that.
+
+Each change should be started with one of the following prefixes:
+1. **IMPROVEMENT** (When you are improving something, for example improving performance)
+
+2. **BREAKING** (When it breaks something, for example renaming something to something else, or removing something, ...)
+
+3. **BUGFIX** (When you fix a bug or an issue)
+
+4. **FEATURE** (When you are adding a feature to the library, for example allowing user to change the stroke color of something, or when you add a new concept or anything else)
+
+If your change has two (or more) prefix, describe them in two (or more) lines separately.
+
+In front of a prefix, you need to write about your change. Don't forget to mention the related issues.
+
 
 ## Creating a Pull Request
 
@@ -71,9 +118,7 @@ follow when creating a PR:
   
 - Make a descriptive title that summarizes what changes were in the PR.
 
-- Link to issues that this PR will fix (if any).
-
-- If your PR adds a feature or fixes a bug, it must add one or more tests.
+- Mention the issues that you are fixing (if doesn't exist, try to make one and explain the issue clearly)
 
 - Change your code according to feedback (if any).
 
