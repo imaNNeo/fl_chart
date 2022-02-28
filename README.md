@@ -75,7 +75,7 @@ Or if you are a fan of crypto, you can donate me Bitcoins here:
 
 ### Contributing
 ##### :beer: Pull requests are welcome!
-Don't forget that `open-source` doesn't make any sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
+Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
 
 There might be a lot of grammar issues in the docs. It's a big help to fix them if you are fluent in English.
 
