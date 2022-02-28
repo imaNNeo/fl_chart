@@ -32,7 +32,7 @@ community to discuss the issue and choose what is deemed to be the
 best solution.
 
 ### Mention the related issues:
-If you are going to fix or improve something, please find and mention the related issues in [CHANGELOG.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CONTRIBUTING.md#changelog), commit message and Pull Request description.
+If you are going to fix or improve something, please find and mention the related issues in [CHANGELOG.md](#changelog), commit message and Pull Request description.
 In case you couldn't find any issue, it's better to create an issue to explain what's the issue that you are going to fix.
 
 ## Let's start by our drawing architecture
@@ -46,7 +46,7 @@ It makes draw functions testable.
 
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
-## You feel ready to start? Okay now make your branch from the `dev` branch
+## You feel ready to start? Okay now create your branch from the `dev` branch
 
 You should make your changes upon the `dev` branch (All development changes happen in the `dev` branch, then we publish a new version and merge them into the `master`)
 
@@ -76,9 +76,9 @@ You can simply run `make checkstyle`, and if you faced any formatting problem, r
 ## Test coverage (unit tests)
 We should write unit-test for our written code. If you are not familiar with unit-tests, please start from [here](https://docs.flutter.dev/cookbook/testing/unit/introduction).
 
-[Mockito](https://pub.dev/packages/mockito) is the library that we use to mock our classes, please read more about it from their docs.
+[Mockito](https://pub.dev/packages/mockito) is the library that we use to mock our classes, please read more about it from their docs [here](https://github.com/dart-lang/mockito#lets-create-mocks).
 
-Our code coverage is calculated using [Codecov](https://app.codecov.io/gh/imaNNeoFighT/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeoFighT/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeoFighT/fl_chart)
+Our code coverage is calculated by [Codecov](https://app.codecov.io/gh/imaNNeoFighT/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeoFighT/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeoFighT/fl_chart)
  at the moment)
 
 When you push something in your PR (after approving your PR by one of us), you see a coverage report which describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 
@@ -88,11 +88,11 @@ Please make sure that your code is **not decreasing** the coverage.
 ## Changelog
 We have a file called [CHANGELOG.md](https://github.com/imaNNeoFighT/fl_chart/blob/master/CHANGELOG.md) which contains the history of our versions.
 
-Please check it to understand how it works and how is the convention. Simply new versions added at the top of the file. You can find the [first version (oldest)](https://github.com/imaNNeoFighT/fl_chart/blob/master/CHANGELOG.md#001---released-on-2019-june-4) at the bottom of the file.
+Please check it to understand how it works and how is the convention. Simply new versions added at the top of the CHANGELOG.md file. You can find the [first version (oldest)](https://github.com/imaNNeoFighT/fl_chart/blob/master/CHANGELOG.md#001---released-on-2019-june-4) at the bottom of the file.
 
 When you are done in your PR, it's time to write a changelog for you changes. 
 
-Most of the times, there will be a [newVersion](https://github.com/imaNNeoFighT/fl_chart/blob/dev/CHANGELOG.md#newversion) tag at the top of the file in `dev` branch. If it doesn't exist, you can write it and write your change below that.
+Most of the times, there will be a [newVersion](https://github.com/imaNNeoFighT/fl_chart/blob/dev/CHANGELOG.md#newversion) tag at the top of the `CHANGELOG.md` file in the `dev` branch. If it doesn't exist, you can write it and write your change below that.
 
 Each change should be started with one of the following prefixes:
 1. **IMPROVEMENT** (When you are improving something, for example improving performance)
@@ -103,9 +103,9 @@ Each change should be started with one of the following prefixes:
 
 4. **FEATURE** (When you are adding a feature to the library, for example allowing user to change the stroke color of something, or when you add a new concept or anything else)
 
-If your change has two (or more) prefix, describe them in two (or more) lines separately.
+In front of a prefix, you should write about your change. Don't forget to mention the related issues.
 
-In front of a prefix, you need to write about your change. Don't forget to mention the related issues.
+If your change has two (or more) prefixes, describe them in separate lines independently.
 
 
 ## Creating a Pull Request
