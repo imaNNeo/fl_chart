@@ -261,6 +261,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final viewSize = getChartUsableDrawSize(canvasWrapper.size, holder);
 
     final barXDelta = getBarLineXLength(barData, viewSize, holder);
+    final barYDelta = getBarLineYLength(barData, viewSize, holder);
 
     for (var i = 0; i < barData.spots.length; i++) {
       final spot = barData.spots[i];
@@ -270,9 +271,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
         final xPercentInLine =
             ((x - getLeftOffsetDrawSize(holder)) / barXDelta) * 100;
+        final yPercentInLine =
+            ((y - getTopOffsetDrawSize(holder)) / barYDelta) * 100;
 
-        final painter =
-            barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
+        final painter = barData.dotData.getDotPainter(
+          spot,
+          xPercentInLine,
+          yPercentInLine,
+          barData,
+          i,
+        );
 
         canvasWrapper.drawDot(painter, spot, Offset(x, y));
       }
@@ -1416,6 +1424,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     final lastSpot = barData.spots[barData.spots.length - 1];
     final lastSpotX = getPixelX(lastSpot.x, chartUsableSize, holder);
+
+    return lastSpotX - firstSpotX;
+  }
+
+  @visibleForTesting
+  double getBarLineYLength(
+    LineChartBarData barData,
+    Size chartUsableSize,
+    PaintHolder<LineChartData> holder,
+  ) {
+    if (barData.spots.isEmpty) {
+      return 0.0;
+    }
+
+    final firstSpot = barData.spots[0];
+    final firstSpotX = getPixelY(firstSpot.y, chartUsableSize, holder);
+
+    final lastSpot = barData.spots[barData.spots.length - 1];
+    final lastSpotX = getPixelY(lastSpot.y, chartUsableSize, holder);
 
     return lastSpotX - firstSpotX;
   }

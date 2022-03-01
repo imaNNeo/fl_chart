@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'dart:ui' as ui;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +52,8 @@ List<int>? lerpIntList(List<int>? a, List<int>? b, double t) =>
 int lerpInt(int a, int b, double t) => (a + (b - a) * t).round();
 
 @visibleForTesting
-double lerpNonNullDouble(double a, double b, double t) => lerpDouble(a, b, t)!;
+double lerpNonNullDouble(double a, double b, double t) =>
+    ui.lerpDouble(a, b, t)!;
 
 /// Lerps [FlSpot] list based on [t] value, check [Tween.lerp].
 List<FlSpot>? lerpFlSpotList(List<FlSpot>? a, List<FlSpot>? b, double t) =>
@@ -132,6 +132,8 @@ List<RadarEntry>? lerpRadarEntryList(
 
 /// Lerps between a [LinearGradient] colors, based on [t]
 Color lerpGradient(List<Color> colors, List<double> stops, double t) {
+
+  final shader = LinearGradient(colors: colors, stops: stops).createShader(const Rect.fromLTWH(0, 0, 10, 10)) as ui.Gradient;
   final length = colors.length;
   if (stops.length != length) {
     /// provided gradientColorStops is invalid and we calculate it here

@@ -1,17 +1,5 @@
-import 'package:example/radar_chart/radar_chart_page.dart';
-import 'package:example/scatter_chart/scatter_chart_page.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
-import 'bar_chart/bar_chart_page.dart';
-import 'bar_chart/bar_chart_page2.dart';
-import 'bar_chart/bar_chart_page3.dart';
-import 'line_chart/line_chart_page.dart';
-import 'line_chart/line_chart_page2.dart';
-import 'line_chart/line_chart_page3.dart';
-import 'line_chart/line_chart_page4.dart';
-import 'pie_chart/pie_chart_page.dart';
-import 'utils/platform_info.dart';
-import 'scatter_chart/scatter_chart_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -20,98 +8,88 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FlChart Demo',
-      showPerformanceOverlay: false,
-      theme: ThemeData(
-        primaryColor: const Color(0xff262545),
-        primaryColorDark: const Color(0xff201f39),
-        brightness: Brightness.dark,
-      ),
-      home: const MyHomePage(title: 'fl_chart'),
+    return const MaterialApp(
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentPage = 0;
-
-  final _controller = PageController(initialPage: 0);
-  final _duration = const Duration(milliseconds: 300);
-  final _curve = Curves.easeInOutCubic;
-  final _pages = const [
-    LineChartPage(),
-    BarChartPage(),
-    BarChartPage2(),
-    PieChartPage(),
-    LineChartPage2(),
-    LineChartPage3(),
-    LineChartPage4(),
-    BarChartPage3(),
-    ScatterChartPage(),
-    RadarChartPage(),
-  ];
-
-  bool get isDesktopOrWeb => PlatformInfo().isDesktopOrWeb();
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() {
-      setState(() {
-        _currentPage = _controller.page!.round();
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final mainColors = [
+      Colors.purple,
+      Colors.cyanAccent,
+      Colors.green,
+      Colors.yellow,
+      Colors.red,
+    ];
+    final transparentColors = mainColors.map((e) => e.withOpacity(0.6)).toList();
     return Scaffold(
       body: SafeArea(
-        child: PageView(
-          physics: isDesktopOrWeb
-              ? const NeverScrollableScrollPhysics()
-              : const AlwaysScrollableScrollPhysics(),
-          controller: _controller,
-          children: _pages,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 38),
+            child: AspectRatio(
+              aspectRatio: 1.5,
+              child: LineChart(
+                LineChartData(
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: [
+                        const FlSpot(0, 14),
+                        const FlSpot(1, 7),
+                        const FlSpot(2, 3),
+                        const FlSpot(3, 2),
+                        const FlSpot(4, 6),
+                        const FlSpot(5, 9),
+                        const FlSpot(6, 3.5),
+                        const FlSpot(7, 5),
+                      ],
+                      isCurved: true,
+                      belowBarData: BarAreaData(
+                        show: true,
+                        gradientFrom: const Offset(0, 0),
+                        gradientTo: const Offset(0, 1),
+                        colors: transparentColors,
+                        gradientColorStops: [
+                          0.15,
+                          0.35,
+                          0.55,
+                          0.75,
+                          1.0,
+                        ],
+                      ),
+                      colors: mainColors,
+                      gradientFrom: const Offset(0, 0),
+                      gradientTo: const Offset(0, 1),
+                      barWidth: 8
+                    ),
+                  ],
+                  minY: 0,
+                  titlesData: FlTitlesData(
+                    show: true,
+                    leftTitles: SideTitles(
+                      showTitles: true,
+                      interval: 1,
+                      reservedSize: 40,
+                    ),
+                    rightTitles: SideTitles(showTitles: false),
+                    topTitles: SideTitles(showTitles: false),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
-      bottomNavigationBar: isDesktopOrWeb
-          ? Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.transparent,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Visibility(
-                    visible: _currentPage != 0,
-                    child: FloatingActionButton(
-                      onPressed: () => _controller.previousPage(
-                          duration: _duration, curve: _curve),
-                      child: const Icon(Icons.chevron_left_rounded),
-                    ),
-                  ),
-                  const Spacer(),
-                  Visibility(
-                    visible: _currentPage != _pages.length - 1,
-                    child: FloatingActionButton(
-                      onPressed: () => _controller.nextPage(
-                          duration: _duration, curve: _curve),
-                      child: const Icon(Icons.chevron_right_rounded),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : null,
     );
   }
 }
