@@ -78,6 +78,14 @@ When you change the chart's state, it animates to the new state internally (usin
 |spot|touched [ScatterSpot](#ScatterSpot)|null|
 |spotIndex|index of touched [ScatterSpot](#ScatterSpot)|null|
 
+### ScatterLabelSettings
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|showLabel|Determines whether to show or hide the labels.|false|
+|getLabelTextStyleFunction|This function gives you the index value of the spot in the list and returns the text style.|null|
+|getLabelFunction|This function gives you the index value of the spot in the list and returns the label.|spot.radius.toString()|
+|textDirection|Determines the direction of the text for the labels.|TextDirection.ltr|
+
 ### some samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/scatter_chart/samples/scatter_chart_sample1.dart))
