@@ -1,2 +1,2 @@
-docs/
-repo_files/
+/docs/*
+/repo_files/*
