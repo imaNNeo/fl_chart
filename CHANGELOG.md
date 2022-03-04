@@ -1,8 +1,10 @@
+## dev
+* **FEATURE** Add `colors` and `colorStops` properties in [BarChartRodStackItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md) which lets you add gradient colors to each BarChartRodStackItem, #919.
+
 ## 0.45.1
 * **IMPORTANT** **Fuck Vladimir Putin**
 * **BUGFIX** Fix `FlSpot.nullSpot` at the first of list bug, #912.
 * **FEATURE** Add `scatterLabelSettings` property in [ScatterChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md) which lets you to add titles on the spots, #902.
-* **FEATURE** Add `colors` and `colorStops` properties in [BarChartRodStackItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md) which lets you add gradient colors to each BarChartRodStackItem, #919.
 
 ## 0.45.0
 * **BUGFIX** Fix `clipData` implementation in ScatterChart and LineChart, #897.
