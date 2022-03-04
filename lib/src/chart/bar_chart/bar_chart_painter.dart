@@ -192,6 +192,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     for (var i = 0; i < barGroups.length; i++) {
       final barGroup = barGroups[i];
       final groupX = groupsX[i];
+      if (barGroup.groupVertically) {
+        groupBarsPosition.add(
+          GroupBarsPosition(
+            groupX,
+            List.generate(barGroup.barRods.length, (index) => groupX),
+          ),
+        );
+        continue;
+      }
 
       var tempX = 0.0;
       final barsX = <double>[];
@@ -290,7 +299,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         if (barRod.toY != barRod.fromY) {
           if (barRod.toY > barRod.fromY) {
             // positive
-            final bottom = getPixelY(max(data.minY, barRod.fromY), drawSize, holder);
+            final bottom =
+                getPixelY(max(data.minY, barRod.fromY), drawSize, holder);
             final top = min(
                 getPixelY(barRod.toY, drawSize, holder), bottom - cornerHeight);
 
@@ -301,9 +311,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                 bottomRight: borderRadius.bottomRight);
           } else {
             // negative
-            final top = getPixelY(min(data.maxY, barRod.fromY), drawSize, holder);
-            final bottom =
-                max(getPixelY(barRod.toY, drawSize, holder), top + cornerHeight);
+            final top =
+                getPixelY(min(data.maxY, barRod.fromY), drawSize, holder);
+            final bottom = max(
+                getPixelY(barRod.toY, drawSize, holder), top + cornerHeight);
 
             barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
                 topLeft: borderRadius.topLeft,

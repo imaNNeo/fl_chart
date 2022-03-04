@@ -8,6 +8,7 @@ import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
+import 'dart:math';
 
 /// [BarChart] needs this class to render itself.
 ///
@@ -180,10 +181,14 @@ class BarChartGroupData with EquatableMixin {
   @required
   final int x;
 
+  /// If set true, it will show bars below/above each other.
+  /// Otherwise, it will show bars beside each other.
+  final bool groupVertically;
+
   /// [BarChart] renders [barRods] that represents a rod (or a bar) in the bar chart.
   final List<BarChartRodData> barRods;
 
-  /// [BarChart] applies [barsSpace] between [barRods].
+  /// [BarChart] applies [barsSpace] between [barRods] if [groupVertically] is false.
   final double barsSpace;
 
   /// you can show some tooltipIndicators (a popup with an information)
@@ -201,10 +206,12 @@ class BarChartGroupData with EquatableMixin {
   /// just put indices you want to show it on top of them.
   BarChartGroupData({
     required int x,
+    bool? groupVertically,
     List<BarChartRodData>? barRods,
     double? barsSpace,
     List<int>? showingTooltipIndicators,
   })  : x = x,
+        groupVertically = groupVertically ?? false,
         barRods = barRods ?? const [],
         barsSpace = barsSpace ?? 2,
         showingTooltipIndicators = showingTooltipIndicators ?? const [];
@@ -215,24 +222,30 @@ class BarChartGroupData with EquatableMixin {
       return 0;
     }
 
-    final sumWidth = barRods
-        .map((rodData) => rodData.width)
-        .reduce((first, second) => first + second);
-    final spaces = (barRods.length - 1) * barsSpace;
+    if (groupVertically) {
+      return barRods.map((rodData) => rodData.width).reduce(max);
+    } else {
+      final sumWidth = barRods
+          .map((rodData) => rodData.width)
+          .reduce((first, second) => first + second);
+      final spaces = (barRods.length - 1) * barsSpace;
 
-    return sumWidth + spaces;
+      return sumWidth + spaces;
+    }
   }
 
   /// Copies current [BarChartGroupData] to a new [BarChartGroupData],
   /// and replaces provided values.
   BarChartGroupData copyWith({
     int? x,
+    bool? groupVertically,
     List<BarChartRodData>? barRods,
     double? barsSpace,
     List<int>? showingTooltipIndicators,
   }) {
     return BarChartGroupData(
       x: x ?? this.x,
+      groupVertically: groupVertically ?? this.groupVertically,
       barRods: barRods ?? this.barRods,
       barsSpace: barsSpace ?? this.barsSpace,
       showingTooltipIndicators:
@@ -245,6 +258,7 @@ class BarChartGroupData with EquatableMixin {
       BarChartGroupData a, BarChartGroupData b, double t) {
     return BarChartGroupData(
       x: (a.x + (b.x - a.x) * t).round(),
+      groupVertically: b.groupVertically,
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
       showingTooltipIndicators: lerpIntList(
@@ -256,6 +270,7 @@ class BarChartGroupData with EquatableMixin {
   @override
   List<Object?> get props => [
         x,
+        groupVertically,
         barRods,
         barsSpace,
         showingTooltipIndicators,
