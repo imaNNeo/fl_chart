@@ -420,8 +420,6 @@ class BarChartRodStackItem with EquatableMixin {
   /// stop points of the gradient.
   final List<double>? colorStops;
 
-  List<double>? gradientColorStops;
-
   /// Renders border stroke for a Stacked Chart section
   final BorderSide borderSide;
 

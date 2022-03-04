@@ -329,7 +329,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                   Offset(left, stackFromY),
                   Offset(right, stackToY),
                   stackItem.colors,
-                  stackItem.gradientColorStops,
+                  stackItem.colorStops,
                 );
               }
 
