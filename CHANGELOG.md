@@ -1,5 +1,6 @@
-## dev
+## newVersion
 * **FEATURE** Add `colors` and `colorStops` properties in [BarChartRodStackItem](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md) which lets you add gradient colors to each BarChartRodStackItem, #919.
+* **BUGFIX** Fix drawing BetweenBarsArea problem when there are `nullSpots` in fromLine and toLine, #912.
 
 ## 0.45.1
 * **IMPORTANT** **Fuck Vladimir Putin**
