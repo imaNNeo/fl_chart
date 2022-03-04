@@ -1378,13 +1378,37 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     /// draw the texts one by one in below of each other
     var topPosSeek = tooltipData.tooltipPadding.top;
     for (var tp in drawingTextPainters) {
-      final drawOffset = Offset(
-        rect.center.dx - (tp.width / 2),
-        rect.topCenter.dy +
-            topPosSeek -
-            textRotationOffset.dy +
-            rectRotationOffset.dy,
-      );
+      double yOffset = rect.topCenter.dy +
+          topPosSeek -
+          textRotationOffset.dy +
+          rectRotationOffset.dy;
+
+      final ui.Offset drawOffset;
+
+      if ((tp.textAlign == TextAlign.left) ||
+          (tp.textAlign == TextAlign.start &&
+              tp.textDirection == TextDirection.ltr) ||
+          (tp.textAlign == TextAlign.end &&
+              tp.textDirection == TextDirection.rtl)) {
+        drawOffset = Offset(
+          rect.left + tooltipData.tooltipPadding.left,
+          yOffset,
+        );
+      } else if ((tp.textAlign == TextAlign.right) ||
+          (tp.textAlign == TextAlign.end &&
+              tp.textDirection == TextDirection.ltr) ||
+          (tp.textAlign == TextAlign.start &&
+              tp.textDirection == TextDirection.rtl)) {
+        drawOffset = Offset(
+          rect.right - tooltipData.tooltipPadding.right - tp.width,
+          yOffset,
+        );
+      } else {
+        drawOffset = Offset(
+          rect.center.dx - (tp.width / 2),
+          yOffset,
+        );
+      }
 
       canvasWrapper.drawRotated(
         size: rect.size,
