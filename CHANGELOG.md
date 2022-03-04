@@ -1,5 +1,6 @@
-## dev
-**FEATURE** Add `boxShadow` property to BarChartRodData which lets you to add shadows to bar, #924.
+## newVersion
+* **BUGFIX** Fix drawing BetweenBarsArea problem when there are `nullSpots` in fromLine and toLine, #912.
+* **FEATURE** Add `boxShadow` property to BarChartRodData which lets you to add shadows to bar, #924.
 
 ## 0.45.1
 * **IMPORTANT** **Fuck Vladimir Putin**
