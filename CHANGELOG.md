@@ -1,3 +1,6 @@
+## dev
+**FEATURE** Add `boxShadow` property to BarChartRodData which lets you to add shadows to bar, #924.
+
 ## 0.45.1
 * **IMPORTANT** **Fuck Vladimir Putin**
 * **BUGFIX** Fix `FlSpot.nullSpot` at the first of list bug, #912.
