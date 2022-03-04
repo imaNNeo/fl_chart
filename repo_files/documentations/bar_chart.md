@@ -151,5 +151,9 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ##### Sample 5 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample5.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_5.gif" width="300" >
 
+##### Sample 6 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample6.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_6.png" width="300" >
+
+
 ##### Gist - Toggleable Tooltip ([Source Code](https://gist.github.com/imaNNeoFighT/bce3f0169ff3fd6c3f137cdeb5005c0e))
 https://user-images.githubusercontent.com/7009300/156784816-53f95dd9-f387-4600-8a92-d05b1aeea3da.mov
