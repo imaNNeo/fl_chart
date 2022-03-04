@@ -33,11 +33,11 @@ void main() {
     test('Test validity 2', () {
       final barGroups = [
         barChartGroupData1.copyWith(barRods: [
-          BarChartRodData(y: -10),
-          BarChartRodData(y: -40),
-          BarChartRodData(y: 0),
-          BarChartRodData(y: 10),
-          BarChartRodData(y: 5),
+          BarChartRodData(toY: -10),
+          BarChartRodData(toY: -40),
+          BarChartRodData(toY: 0),
+          BarChartRodData(toY: 10),
+          BarChartRodData(toY: 5),
         ])
       ];
       final result = BarChartHelper.calculateMaxAxisValues(barGroups);

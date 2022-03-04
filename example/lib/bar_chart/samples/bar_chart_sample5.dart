@@ -157,7 +157,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 0,
                   barRods: [
                     BarChartRodData(
-                      y: 15.1,
+                      toY: 15.1,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -199,7 +199,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 1,
                   barRods: [
                     BarChartRodData(
-                      y: -14,
+                      toY: -14,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(6),
@@ -241,7 +241,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 2,
                   barRods: [
                     BarChartRodData(
-                      y: 13,
+                      toY: 13,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -283,7 +283,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 3,
                   barRods: [
                     BarChartRodData(
-                      y: 13.5,
+                      toY: 13.5,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -325,7 +325,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 4,
                   barRods: [
                     BarChartRodData(
-                      y: -18,
+                      toY: -18,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(6),
@@ -367,7 +367,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 5,
                   barRods: [
                     BarChartRodData(
-                      y: -17,
+                      toY: -17,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(6),
@@ -409,7 +409,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                   x: 6,
                   barRods: [
                     BarChartRodData(
-                      y: 16,
+                      toY: 16,
                       width: barWidth,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6),

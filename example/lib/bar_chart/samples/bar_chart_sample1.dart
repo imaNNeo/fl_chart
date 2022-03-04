@@ -117,7 +117,7 @@ class BarChartSample1State extends State<BarChartSample1> {
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 1 : y,
+          toY: isTouched ? y + 1 : y,
           colors: isTouched ? [Colors.yellow] : [barColor],
           width: width,
           borderSide: isTouched
@@ -196,7 +196,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: (rod.y - 1).toString(),
+                    text: (rod.toY - 1).toString(),
                     style: const TextStyle(
                       color: Colors.yellow,
                       fontSize: 16,
