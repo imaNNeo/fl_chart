@@ -306,7 +306,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               barRod.getSafeColorStops(),
             );
           }
+
           canvasWrapper.drawRRect(barRRect, _barPaint);
+
+          _paintShadow(canvasWrapper, barRRect, boxShadow, borderRadius);
 
           // draw border stroke
           if (borderSide.width > 0 && borderSide.color.opacity > 0) {
@@ -314,8 +317,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             _barStrokePaint.strokeWidth = borderSide.width;
             canvasWrapper.drawRRect(barRRect, _barStrokePaint);
           }
-
-          _paintShadow(canvasWrapper, barRRect, boxShadow);
 
           // draw rod stack
           if (barRod.rodStackItems.isNotEmpty) {
@@ -340,19 +341,20 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
   }
 
-  void _paintShadow(CanvasWrapper canvasWrapper, RRect barRRect, BoxShadow? boxShadow) {
+  void _paintShadow(CanvasWrapper canvasWrapper, RRect barRRect, BoxShadow? boxShadow,
+      BorderRadius borderRadius) {
     if (boxShadow == null) return;
 
-    final Rect bounds = Rect.fromLTRB(
-      barRRect.left,
-      barRRect.top,
-      barRRect.right,
-      barRRect.bottom,
-    ).shift(boxShadow.offset).inflate(boxShadow.spreadRadius);
+    final RRect bounds = RRect.fromLTRBAndCorners(
+            barRRect.left, barRRect.top, barRRect.right, barRRect.bottom,
+            topLeft: borderRadius.topLeft,
+            topRight: borderRadius.topRight,
+            bottomLeft: borderRadius.bottomLeft,
+            bottomRight: borderRadius.bottomRight)
+        .shift(boxShadow.offset)
+        .inflate(boxShadow.spreadRadius);
 
-    final Rect newRect = bounds.shift(boxShadow.offset).inflate(boxShadow.spreadRadius);
-
-    canvasWrapper.drawRect(newRect, boxShadow.toPaint());
+    canvasWrapper.drawRRect(bounds, boxShadow.toPaint());
   }
 
   @visibleForTesting
