@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_extensions.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -180,21 +181,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   void drawBarLine(CanvasWrapper canvasWrapper, LineChartBarData barData,
       PaintHolder<LineChartData> holder) {
     final viewSize = canvasWrapper.size;
-    final barList = <List<FlSpot>>[[]];
-
-    // handle nullability by splitting off the list into multiple
-    // separate lists when separated by nulls
-    for (var spot in barData.spots) {
-      if (spot.isNotNull()) {
-        barList.last.add(spot);
-      } else if (barList.last.isNotEmpty) {
-        barList.add([]);
-      }
-    }
-    // remove last item if one or more last spots were null
-    if (barList.last.isEmpty) {
-      barList.removeLast();
-    }
+    final barList = barData.spots.splitByNullSpots();
 
     // paint each sublist that was built above
     // bar is passed in separately from barData
