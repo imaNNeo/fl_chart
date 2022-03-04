@@ -543,6 +543,195 @@ void main() {
         true,
       );
     });
+    test('test 2', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          groupVertically: true,
+          barRods: [
+            BarChartRodData(
+              fromY: -9,
+              toY: -10,
+              width: 10,
+              colors: [const Color(0x00000000)],
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+            ),
+            BarChartRodData(
+              fromY: -11,
+              toY: -20,
+              width: 11,
+              colors: [const Color(0x11111111)],
+              borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+            ),
+            BarChartRodData(
+              fromY: -21,
+              toY: -30,
+              width: 12,
+              colors: [const Color(0x22222222)],
+              borderRadius: const BorderRadius.all(Radius.circular(0.3)),
+            ),
+          ],
+          barsSpace: 5,
+        ),
+        BarChartGroupData(
+          x: 1,
+          groupVertically: true,
+          barRods: [
+            BarChartRodData(
+              fromY: 9,
+              toY: 10,
+              width: 10,
+              colors: [const Color(0x00000000)],
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+            ),
+            BarChartRodData(
+              fromY: 11,
+              toY: 20,
+              width: 11,
+              colors: [const Color(0x11111111)],
+              borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+            ),
+            BarChartRodData(
+              fromY: 21,
+              toY: 30,
+              width: 12,
+              colors: [const Color(0x22222222)],
+              borderRadius: const BorderRadius.all(Radius.circular(0.3)),
+            ),
+          ],
+          barsSpace: 5,
+        ),
+      ];
+
+      final BarChartData data = BarChartData(
+        titlesData: FlTitlesData(show: false),
+        axisTitleData: FlAxisTitleData(show: false),
+        groupsSpace: 10,
+        barGroups: barGroups,
+      );
+
+      final BarChartPainter barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1.0);
+
+      final MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final groupsX = barChartPainter.calculateGroupsX(
+          viewSize, barGroups, BarChartAlignment.center, holder);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+          viewSize, groupsX, barGroups);
+
+      List<Map<String, dynamic>> results = [];
+      when(_mockCanvasWrapper.drawRRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final rrect = inv.positionalArguments[0] as RRect;
+        final paint = inv.positionalArguments[1] as Paint;
+        results.add({
+          'rrect': RRect.fromLTRBAndCorners(
+            rrect.left,
+            rrect.top,
+            rrect.right,
+            rrect.bottom,
+            topLeft: rrect.tlRadius,
+            topRight: rrect.trRadius,
+            bottomRight: rrect.brRadius,
+            bottomLeft: rrect.blRadius,
+          ),
+          'paint_color': paint.color,
+        });
+      });
+
+      barChartPainter.drawBars(_mockCanvasWrapper, barGroupsPosition, holder);
+      expect(results.length, 6);
+
+      expect(
+          HelperMethods.equalsRRects(
+            (results[0]['rrect'] as RRect),
+            RRect.fromLTRBR(
+              84.0,
+              65.0,
+              94.0,
+              66.7,
+              const Radius.circular(0.1),
+            ),
+          ),
+          true);
+      expect((results[0]['paint_color'] as Color), const Color(0x00000000));
+
+      expect(
+        HelperMethods.equalsRRects(
+          (results[1]['rrect'] as RRect),
+          RRect.fromLTRBR(
+            83.5,
+            68.3,
+            94.5,
+            83.3,
+            const Radius.circular(0.2),
+          ),
+        ),
+        true,
+      );
+      expect((results[1]['paint_color'] as Color), const Color(0x11111111));
+
+      expect(
+        HelperMethods.equalsRRects(
+          (results[2]['rrect'] as RRect),
+          RRect.fromLTRBR(
+            83.0,
+            85.0,
+            95.0,
+            100.0,
+            const Radius.circular(0.3),
+          ),
+        ),
+        true,
+      );
+      expect((results[2]['paint_color'] as Color), const Color(0x22222222));
+
+      expect(
+        HelperMethods.equalsRRects(
+          (results[3]['rrect'] as RRect),
+          RRect.fromLTRBR(
+            106.0,
+            33.3,
+            116.0,
+            35.0,
+            const Radius.circular(0.1),
+          ),
+        ),
+        true,
+      );
+      expect(
+        HelperMethods.equalsRRects(
+          (results[4]['rrect'] as RRect),
+          RRect.fromLTRBR(
+            105.5,
+            16.7,
+            116.5,
+            31.7,
+            const Radius.circular(0.2),
+          ),
+        ),
+        true,
+      );
+
+      expect(
+        HelperMethods.equalsRRects(
+          (results[5]['rrect'] as RRect),
+          RRect.fromLTRBR(
+            105.0,
+            0.0,
+            117.0,
+            15.0,
+            const Radius.circular(0.3),
+          ),
+        ),
+        true,
+      );
+    });
   });
 
   group('drawTitles()', () {
