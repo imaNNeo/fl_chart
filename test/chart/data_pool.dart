@@ -290,8 +290,8 @@ class MockData {
   static final lineTouchResponse1 =
       LineTouchResponse([lineBarSpot1, lineBarSpot2]);
 
-  static final barChartRodData1 = BarChartRodData(y: 11);
-  static final barChartRodData2 = BarChartRodData(y: 22);
+  static final barChartRodData1 = BarChartRodData(toY: 11);
+  static final barChartRodData2 = BarChartRodData(toY: 22);
   static final barTouchedSpot = BarTouchedSpot(
     BarChartGroupData(x: 0, barRods: [barChartRodData1, barChartRodData2]),
     0,
@@ -2580,7 +2580,7 @@ final BackgroundBarChartRodData backgroundBarChartRodData3 =
 
 final BarChartRodData barChartRodData1 = BarChartRodData(
   colors: [Colors.red],
-  y: 12,
+  toY: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2599,7 +2599,7 @@ final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
 
 final BarChartRodData barChartRodData2 = BarChartRodData(
   colors: [Colors.red],
-  y: 1132,
+  toY: 1132,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2610,7 +2610,7 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
 );
 final BarChartRodData barChartRodData3 = BarChartRodData(
   colors: [Colors.green],
-  y: 12,
+  toY: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2620,7 +2620,7 @@ final BarChartRodData barChartRodData3 = BarChartRodData(
 );
 final BarChartRodData barChartRodData4 = BarChartRodData(
   colors: [Colors.red],
-  y: 12,
+  toY: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2631,7 +2631,7 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
 );
 final BarChartRodData barChartRodData5 = BarChartRodData(
   colors: [Colors.red],
-  y: 12,
+  toY: 12,
   width: 55,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2642,7 +2642,7 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
 );
 final BarChartRodData barChartRodData6 = BarChartRodData(
   colors: [Colors.red],
-  y: 12,
+  toY: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: null,
@@ -2650,7 +2650,7 @@ final BarChartRodData barChartRodData6 = BarChartRodData(
 );
 final BarChartRodData barChartRodData7 = BarChartRodData(
   colors: [Colors.red],
-  y: 12,
+  toY: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2661,7 +2661,7 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
 );
 final BarChartRodData barChartRodData8 = BarChartRodData(
   colors: [Colors.red],
-  y: 12,
+  toY: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(14)),
   rodStackItems: [
@@ -2903,7 +2903,7 @@ BarTooltipItem getTooltipItem(
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return BarTooltipItem(rod.y.toString(), textStyle);
+  return BarTooltipItem(rod.toY.toString(), textStyle);
 }
 
 final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(

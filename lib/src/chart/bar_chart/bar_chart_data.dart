@@ -264,8 +264,11 @@ class BarChartGroupData with EquatableMixin {
 
 /// Holds data about rendering each rod (or bar) in the [BarChart].
 class BarChartRodData with EquatableMixin {
-  /// [BarChart] renders rods vertically from zero to [y].
-  final double y;
+  /// [BarChart] renders rods vertically from [fromY].
+  final double fromY;
+
+  /// [BarChart] renders rods vertically from [fromY] to [toY].
+  final double toY;
 
   /// if you pass just one color, the solid color will be used,
   /// or if you pass more than one color, we use gradient mode to draw.
@@ -304,7 +307,7 @@ class BarChartRodData with EquatableMixin {
   /// you can fill up the [rodStackItems] to have a Stacked Chart.
   final List<BarChartRodStackItem> rodStackItems;
 
-  /// [BarChart] renders rods vertically from zero to [y],
+  /// [BarChart] renders rods vertically from zero to [toY],
   /// and the x is equivalent to the [BarChartGroupData.x] value.
   ///
   /// It renders each rod using [color], [width], and [borderRadius] for rounding corners and also [borderSide] for stroke border.
@@ -328,7 +331,8 @@ class BarChartRodData with EquatableMixin {
   /// )
   /// ```
   BarChartRodData({
-    required double y,
+    double? fromY,
+    required double toY,
     List<Color>? colors,
     Offset? gradientFrom,
     Offset? gradientTo,
@@ -338,7 +342,8 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
-  })  : y = y,
+  })  : fromY = fromY ?? 0,
+        toY = toY,
         colors = colors ?? [Colors.cyan],
         gradientFrom = gradientFrom ?? const Offset(0.5, 1),
         gradientTo = gradientTo ?? const Offset(0.5, 0),
@@ -352,7 +357,8 @@ class BarChartRodData with EquatableMixin {
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
   BarChartRodData copyWith({
-    double? y,
+    double? fromY,
+    double? toY,
     List<Color>? colors,
     Offset? gradientFrom,
     Offset? gradientTo,
@@ -364,7 +370,8 @@ class BarChartRodData with EquatableMixin {
     List<BarChartRodStackItem>? rodStackItems,
   }) {
     return BarChartRodData(
-      y: y ?? this.y,
+      fromY: fromY ?? this.fromY,
+      toY: toY ?? this.toY,
       colors: colors ?? this.colors,
       gradientFrom: gradientFrom ?? this.gradientFrom,
       gradientTo: gradientTo ?? this.gradientTo,
@@ -387,7 +394,8 @@ class BarChartRodData with EquatableMixin {
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
-      y: lerpDouble(a.y, b.y, t)!,
+      fromY: lerpDouble(a.fromY, b.fromY, t)!,
+      toY: lerpDouble(a.toY, b.toY, t)!,
       backDrawRodData: BackgroundBarChartRodData.lerp(
           a.backDrawRodData, b.backDrawRodData, t),
       rodStackItems:
@@ -398,7 +406,8 @@ class BarChartRodData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        y,
+        fromY,
+        toY,
         width,
         borderRadius,
         borderSide,
@@ -745,7 +754,7 @@ BarTooltipItem? defaultBarTooltipItem(
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return BarTooltipItem(rod.y.toString(), textStyle);
+  return BarTooltipItem(rod.toY.toString(), textStyle);
 }
 
 /// Holds data needed for showing custom tooltip content.
