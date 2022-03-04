@@ -1,3 +1,6 @@
+## newVersion
+* **BUGFIX** Fix drawing BetweenBarsArea problem when there are `nullSpots` in fromLine and toLine, #912.
+
 ## 0.45.1
 * **IMPORTANT** **Fuck Vladimir Putin**
 * **BUGFIX** Fix `FlSpot.nullSpot` at the first of list bug, #912.
