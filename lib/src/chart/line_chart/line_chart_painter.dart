@@ -217,23 +217,35 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final fromBarData = data.lineBarsData[betweenBarsData.fromIndex];
     final toBarData = data.lineBarsData[betweenBarsData.toIndex];
 
-    final spots = <FlSpot>[];
-    spots.addAll(toBarData.spots.reversed.toList());
-    final fromBarPath = generateBarPath(
-      viewSize,
-      fromBarData,
-      fromBarData.spots,
-      holder,
-    );
-    final barPath = generateBarPath(
-      viewSize,
-      toBarData.copyWith(spots: spots),
-      toBarData.copyWith(spots: spots).spots,
-      holder,
-      appendToPath: fromBarPath,
-    );
+    final fromBarSplitLines = fromBarData.spots.splitByNullSpots();
+    final toBarSplitLines = toBarData.spots.splitByNullSpots();
 
-    drawBetweenBar(canvasWrapper, barPath, betweenBarsData, holder);
+    if (fromBarSplitLines.length != toBarSplitLines.length) {
+      throw ArgumentError(
+        "Cannot draw betWeenBarsArea when null spots are inconsistent.",
+      );
+    }
+
+    for (int i = 0; i < fromBarSplitLines.length; i++) {
+      final fromSpots = fromBarSplitLines[i];
+      final toSpots = toBarSplitLines[i].reversed.toList();
+
+      final fromBarPath = generateBarPath(
+        viewSize,
+        fromBarData,
+        fromSpots,
+        holder,
+      );
+      final barPath = generateBarPath(
+        viewSize,
+        toBarData.copyWith(spots: toSpots),
+        toSpots,
+        holder,
+        appendToPath: fromBarPath,
+      );
+
+      drawBetweenBar(canvasWrapper, barPath, betweenBarsData, holder);
+    }
   }
 
   @visibleForTesting
