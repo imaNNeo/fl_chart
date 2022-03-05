@@ -277,7 +277,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
     }
 
-    for (final scatterSpot in data.scatterSpots) {
+    final List<ScatterSpot> sortedSpots = data.scatterSpots.toList()
+      ..sort((ScatterSpot a, ScatterSpot b) => b.radius.compareTo(a.radius));
+
+    for (final scatterSpot in sortedSpots) {
       if (!scatterSpot.show) {
         continue;
       }
