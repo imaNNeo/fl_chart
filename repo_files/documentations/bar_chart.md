@@ -50,7 +50,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BarChartRodData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|y|endY position of the bar on vertical axis (height of the bar)|null|
+|fromY|Position that this bar starts from|0|
+|toY|This rod is from `fromY` to `toY` in the vertical axis|null|
 |colors|colors the rod bar, if multiple colors provided it will be gradient|[Colors.blueAccent]|
 |colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 |gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
