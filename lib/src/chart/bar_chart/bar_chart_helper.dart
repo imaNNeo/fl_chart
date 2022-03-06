@@ -45,16 +45,16 @@ class BarChartHelper {
           maxY = rod.toY;
         }
 
-        if (rod.backDrawRodData.show && rod.backDrawRodData.y > maxY) {
-          maxY = rod.backDrawRodData.y;
+        if (rod.backDrawRodData.show && rod.backDrawRodData.toY > maxY) {
+          maxY = rod.backDrawRodData.toY;
         }
 
         if (rod.toY < minY) {
           minY = rod.toY;
         }
 
-        if (rod.backDrawRodData.show && rod.backDrawRodData.y < minY) {
-          minY = rod.backDrawRodData.y;
+        if (rod.backDrawRodData.show && rod.backDrawRodData.toY < minY) {
+          minY = rod.backDrawRodData.toY;
         }
       }
     }

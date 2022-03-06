@@ -66,7 +66,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BackgroundBarChartRodData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|y|same as [BarChartRodData](#BarChartRodData)'s y|8|
+|fromY|same as [BarChartRodData](#BarChartRodData)'s fromY|0|
+|toY|same as [BarChartRodData](#BarChartRodData)'s y|8|
 |show|determines to show or hide this section|false|
 |colors|same as [BarChartRodData](#BarChartRodData)'s colors|[Colors.blueGrey]|
 |colorStops|same as [BarChartRodData](#BarChartRodData)'s colorStops|null|
