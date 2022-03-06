@@ -500,8 +500,11 @@ class BackgroundBarChartRodData with EquatableMixin {
   /// Determines to show or hide this
   final bool show;
 
-  /// [y] is the height of this rod
-  final double y;
+  /// [fromY] is where background starts to show
+  final double fromY;
+
+  /// background starts to show from [fromY] to [toY]
+  final double toY;
 
   /// if you pass just one color, the solid color will be used,
   /// or if you pass more than one color, we use gradient mode to draw.
@@ -523,16 +526,19 @@ class BackgroundBarChartRodData with EquatableMixin {
   final List<double>? colorStops;
 
   /// It will be rendered in rear of the main rod,
-  /// with [y] as the height, and [color] as the fill color,
+  /// background starts to show from [fromY] to [toY],
+  /// [colors] as the fill color,
   /// you prevent to show it, using [show] property.
   BackgroundBarChartRodData({
-    double? y,
+    double? fromY,
+    double? toY,
     bool? show,
     List<Color>? colors,
     Offset? gradientFrom,
     Offset? gradientTo,
     List<double>? colorStops,
-  })  : y = y ?? 8,
+  })  : fromY = fromY ?? 0,
+        toY = toY ?? 0,
         show = show ?? false,
         colors = colors ?? [Colors.blueGrey],
         gradientFrom = gradientFrom ?? const Offset(0, 0),
@@ -543,7 +549,8 @@ class BackgroundBarChartRodData with EquatableMixin {
   static BackgroundBarChartRodData lerp(
       BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
-      y: lerpDouble(a.y, b.y, t),
+      fromY: lerpDouble(a.fromY, b.fromY, t),
+      toY: lerpDouble(a.toY, b.toY, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       colors: lerpColorList(a.colors, b.colors, t),
@@ -556,7 +563,8 @@ class BackgroundBarChartRodData with EquatableMixin {
   @override
   List<Object?> get props => [
         show,
-        y,
+        fromY,
+        toY,
         colors,
         gradientTo,
         gradientFrom,
