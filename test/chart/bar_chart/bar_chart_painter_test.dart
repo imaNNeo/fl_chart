@@ -318,7 +318,7 @@ void main() {
                 toY: 10,
                 width: 10,
                 backDrawRodData: BackgroundBarChartRodData(
-                  y: 8,
+                  toY: 8,
                   show: true,
                 ),
               ),
@@ -333,7 +333,7 @@ void main() {
                 toY: 8,
                 width: 10,
                 backDrawRodData: BackgroundBarChartRodData(
-                  y: -3,
+                  toY: -3,
                   show: true,
                 ),
               ),
@@ -341,7 +341,7 @@ void main() {
                 toY: 8,
                 width: 10,
                 backDrawRodData: BackgroundBarChartRodData(
-                  y: 0,
+                  toY: 0,
                 ),
               ),
             ],
