@@ -102,7 +102,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                           }
 
                           TextAlign textAlign;
-                          switch(flSpot.x.toInt()) {
+                          switch (flSpot.x.toInt()) {
                             case 1:
                               textAlign = TextAlign.left;
                               break;
