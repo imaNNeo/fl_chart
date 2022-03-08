@@ -101,6 +101,18 @@ class _LineChartSample3State extends State<LineChartSample3> {
                             return null;
                           }
 
+                          TextAlign textAlign;
+                          switch(flSpot.x.toInt()) {
+                            case 1:
+                              textAlign = TextAlign.left;
+                              break;
+                            case 5:
+                              textAlign = TextAlign.right;
+                              break;
+                            default:
+                              textAlign = TextAlign.center;
+                          }
+
                           return LineTooltipItem(
                             '${widget.weekDays[flSpot.x.toInt()]} \n',
                             const TextStyle(
@@ -129,6 +141,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                                 ),
                               ),
                             ],
+                            textAlign: textAlign,
                           );
                         }).toList();
                       }),
