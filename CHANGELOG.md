@@ -2,6 +2,7 @@
 * **BUGFIX** Fix drawing BetweenBarsArea problem when there are `nullSpots` in fromLine and toLine, #912.
 * **FEATURE** Allow to have vertically grouped BarChart using `fromY` and `toY` properties in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/feature/multi-rods-on-bar-chart/repo_files/documentations/bar_chart.md#BarChartRodData) It means you can have a negative and a positive bar chart at the same X location. #334, #875. Check [BarChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code) and [BarChartSample6](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-6-source-code.
 * **BREAKING** Renamed `y` property to `toY` in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/feature/multi-rods-on-bar-chart/repo_files/documentations/bar_chart.md#BarChartRodData) and [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/feature/multi-rods-on-bar-chart/repo_files/documentations/bar_chart.md#backgroundbarchartroddata) due to the above feature.
+* **BUGFIX** Fix smaller radius bubble hiding behind bigger radius bubble in ScatterChart, #930.
 
 ## 0.45.1
 * **IMPORTANT** **Fuck Vladimir Putin**
