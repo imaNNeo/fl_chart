@@ -117,7 +117,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                               for (var rod
                                   in showingBarGroups[touchedGroupIndex]
                                       .barRods) {
-                                sum += rod.y;
+                                sum += rod.toY;
                               }
                               final avg = sum /
                                   showingBarGroups[touchedGroupIndex]
@@ -129,7 +129,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                                 barRods: showingBarGroups[touchedGroupIndex]
                                     .barRods
                                     .map((rod) {
-                                  return rod.copyWith(y: avg);
+                                  return rod.copyWith(toY: avg);
                                 }).toList(),
                               );
                             }
@@ -210,12 +210,12 @@ class BarChartSample2State extends State<BarChartSample2> {
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
-        y: y1,
+        toY: y1,
         colors: [leftBarColor],
         width: width,
       ),
       BarChartRodData(
-        y: y2,
+        toY: y2,
         colors: [rightBarColor],
         width: width,
       ),
