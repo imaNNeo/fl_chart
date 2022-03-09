@@ -1384,26 +1384,23 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           textRotationOffset.dy +
           rectRotationOffset.dy;
 
-      final ui.Offset drawOffset;
-
-      if (tp.textAlign.getFinalHorizontalAlignment(tp.textDirection) ==
-          HorizontalAlignment.left) {
-        drawOffset = Offset(
-          rect.left + tooltipData.tooltipPadding.left,
-          yOffset,
-        );
-      } else if (tp.textAlign.getFinalHorizontalAlignment(tp.textDirection) ==
-          HorizontalAlignment.right) {
-        drawOffset = Offset(
-          rect.right - tooltipData.tooltipPadding.right - tp.width,
-          yOffset,
-        );
-      } else {
-        drawOffset = Offset(
-          rect.center.dx - (tp.width / 2),
-          yOffset,
-        );
+      double xOffset;
+      switch (tp.textAlign.getFinalHorizontalAlignment(tp.textDirection)) {
+        case HorizontalAlignment.left:
+          xOffset = rect.left + tooltipData.tooltipPadding.left;
+          break;
+        case HorizontalAlignment.right:
+          xOffset = rect.right - tooltipData.tooltipPadding.right - tp.width;
+          break;
+        default:
+          xOffset = rect.center.dx - (tp.width / 2);
+          break;
       }
+
+      final ui.Offset drawOffset = Offset(
+        xOffset,
+        yOffset,
+      );
 
       canvasWrapper.drawRotated(
         size: rect.size,
