@@ -12,6 +12,7 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../fl_chart.dart';
+import '../../extensions/text_align_extension.dart';
 import '../../utils/utils.dart';
 import 'line_chart_helper.dart';
 
@@ -1378,13 +1379,31 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     /// draw the texts one by one in below of each other
     var topPosSeek = tooltipData.tooltipPadding.top;
     for (var tp in drawingTextPainters) {
-      final drawOffset = Offset(
-        rect.center.dx - (tp.width / 2),
-        rect.topCenter.dy +
-            topPosSeek -
-            textRotationOffset.dy +
-            rectRotationOffset.dy,
-      );
+      double yOffset = rect.topCenter.dy +
+          topPosSeek -
+          textRotationOffset.dy +
+          rectRotationOffset.dy;
+
+      final ui.Offset drawOffset;
+
+      if (tp.textAlign.getFinalHorizontalAlignment(tp.textDirection) ==
+          HorizontalAlignment.left) {
+        drawOffset = Offset(
+          rect.left + tooltipData.tooltipPadding.left,
+          yOffset,
+        );
+      } else if (tp.textAlign.getFinalHorizontalAlignment(tp.textDirection) ==
+          HorizontalAlignment.right) {
+        drawOffset = Offset(
+          rect.right - tooltipData.tooltipPadding.right - tp.width,
+          yOffset,
+        );
+      } else {
+        drawOffset = Offset(
+          rect.center.dx - (tp.width / 2),
+          yOffset,
+        );
+      }
 
       canvasWrapper.drawRotated(
         size: rect.size,
