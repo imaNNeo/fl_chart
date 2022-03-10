@@ -1,3 +1,4 @@
+import 'package:example/pie_chart/samples/pie_chart_sample4.dart';
 import 'package:flutter/material.dart';
 
 import 'samples/pie_chart_sample1.dart';
@@ -46,6 +47,10 @@ class PieChartPage extends StatelessWidget {
               height: 12,
             ),
             PieChartSample3(),
+            SizedBox(
+              height: 12,
+            ),
+            PieChartSample4(),
           ],
         ),
       ),
