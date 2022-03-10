@@ -1,7 +1,8 @@
+import 'package:example/utils/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+
 import 'indicator.dart';
-import 'package:example/utils/color_extensions.dart';
 
 class PieChartSample1 extends StatefulWidget {
   const PieChartSample1({Key? key}) : super(key: key);
@@ -66,8 +67,8 @@ class PieChartSample1State extends State {
                 aspectRatio: 1,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData: PieTouchData(touchCallback:
-                          (FlTouchEvent event, pieTouchResponse) {
+                      pieTouchData:
+                          PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
                         setState(() {
                           if (!event.isInterestedForInteractions ||
                               pieTouchResponse == null ||
@@ -75,8 +76,7 @@ class PieChartSample1State extends State {
                             touchedIndex = -1;
                             return;
                           }
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
+                          touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
                         });
                       }),
                       startDegreeOffset: 180,
@@ -110,14 +110,12 @@ class PieChartSample1State extends State {
         switch (i) {
           case 0:
             return PieChartSectionData(
-              color: color0.withOpacity(opacity),
+              colors: [color0.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 80,
               titleStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff044d7c)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff044d7c)),
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? BorderSide(color: color0.darken(40), width: 6)
@@ -125,14 +123,12 @@ class PieChartSample1State extends State {
             );
           case 1:
             return PieChartSectionData(
-              color: color1.withOpacity(opacity),
+              colors: [color1.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 65,
               titleStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff90672d)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff90672d)),
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? BorderSide(color: color1.darken(40), width: 6)
@@ -140,14 +136,12 @@ class PieChartSample1State extends State {
             );
           case 2:
             return PieChartSectionData(
-              color: color2.withOpacity(opacity),
+              colors: [color2.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 60,
               titleStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff4c3788)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff4c3788)),
               titlePositionPercentageOffset: 0.6,
               borderSide: isTouched
                   ? BorderSide(color: color2.darken(40), width: 6)
@@ -155,14 +149,12 @@ class PieChartSample1State extends State {
             );
           case 3:
             return PieChartSectionData(
-              color: color3.withOpacity(opacity),
+              colors: [color3.withOpacity(opacity)],
               value: 25,
               title: '',
               radius: 70,
               titleStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff0c7f55)),
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff0c7f55)),
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? BorderSide(color: color3.darken(40), width: 6)

@@ -30,9 +30,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
   final PieTouchData pieTouchData;
 
   /// We hold this value to determine weight of each [PieChartSectionData.value].
-  double get sumValue => sections
-      .map((data) => data.value)
-      .reduce((first, second) => first + second);
+  double get sumValue =>
+      sections.map((data) => data.value).reduce((first, second) => first + second);
 
   /// [PieChart] draws some [sections] in a circle,
   /// and applies free space with radius [centerSpaceRadius],
@@ -53,8 +52,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
-  })  : sections = sections?.where((element) => element.value != 0).toList() ??
-            const [],
+  })  : sections = sections?.where((element) => element.value != 0).toList() ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
@@ -94,12 +92,10 @@ class PieChartData extends BaseChartData with EquatableMixin {
       return PieChartData(
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         centerSpaceColor: Color.lerp(a.centerSpaceColor, b.centerSpaceColor, t),
-        centerSpaceRadius: lerpDoubleAllowInfinity(
-            a.centerSpaceRadius, b.centerSpaceRadius, t),
+        centerSpaceRadius: lerpDoubleAllowInfinity(a.centerSpaceRadius, b.centerSpaceRadius, t),
         pieTouchData: b.pieTouchData,
         sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
-        startDegreeOffset:
-            lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
+        startDegreeOffset: lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
         sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
       );
     } else {
@@ -130,8 +126,9 @@ class PieChartSectionData {
   /// value can not be null.
   final double value;
 
-  /// Defines the color of section.
-  final Color color;
+  /// Defines the gradient colors of section
+  /// if there is only one color, the section is filled with this color
+  final List<Color> colors;
 
   /// Defines the radius of section.
   final double radius;
@@ -189,7 +186,7 @@ class PieChartSectionData {
   /// the value works the same way as [titlePositionPercentageOffset].
   PieChartSectionData({
     double? value,
-    Color? color,
+    List<Color>? colors,
     double? radius,
     bool? showTitle,
     TextStyle? titleStyle,
@@ -198,8 +195,9 @@ class PieChartSectionData {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
-  })  : value = value ?? 10,
-        color = color ?? Colors.cyan,
+  })  : assert(colors == null || colors.isNotEmpty),
+        value = value ?? 10,
+        colors = colors ?? [Colors.cyan],
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
         titleStyle = titleStyle,
@@ -213,7 +211,7 @@ class PieChartSectionData {
   /// and replaces provided values.
   PieChartSectionData copyWith({
     double? value,
-    Color? color,
+    List<Color>? colors,
     double? radius,
     bool? showTitle,
     TextStyle? titleStyle,
@@ -225,7 +223,7 @@ class PieChartSectionData {
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
-      color: color ?? this.color,
+      colors: colors ?? this.colors,
       radius: radius ?? this.radius,
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
@@ -240,21 +238,21 @@ class PieChartSectionData {
   }
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
-  static PieChartSectionData lerp(
-      PieChartSectionData a, PieChartSectionData b, double t) {
+  static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
+
     return PieChartSectionData(
       value: lerpDouble(a.value, b.value, t),
-      color: Color.lerp(a.color, b.color, t),
+      colors: lerpColorList(a.colors, b.colors, t),
       radius: lerpDouble(a.radius, b.radius, t),
       showTitle: b.showTitle,
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
       title: b.title,
       borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       badgeWidget: b.badgeWidget,
-      titlePositionPercentageOffset: lerpDouble(
-          a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
-      badgePositionPercentageOffset: lerpDouble(
-          a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
+      titlePositionPercentageOffset:
+          lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+      badgePositionPercentageOffset:
+          lerpDouble(a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
     );
   }
 }
