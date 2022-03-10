@@ -51,7 +51,7 @@ void main() {
   group('test BarChartRodData.getSafeColorStops()', () {
     test('test 1', () {
       final barChartRodData = BarChartRodData(
-        y: 10,
+        toY: 10,
         colors: [MockData.color1, MockData.color2],
         gradientColorStops: [0.2, 0.5],
       );
@@ -61,7 +61,7 @@ void main() {
 
     test('test 2', () {
       final barChartRodData = BarChartRodData(
-        y: 10,
+        toY: 10,
         colors: [MockData.color1, MockData.color2],
         gradientColorStops: [0.2],
       );
@@ -71,7 +71,7 @@ void main() {
 
     test('test 3', () {
       final barChartRodData = BarChartRodData(
-        y: 10,
+        toY: 10,
         colors: [MockData.color1, MockData.color2, MockData.color3],
         gradientColorStops: [0.2],
       );
@@ -81,7 +81,7 @@ void main() {
 
     test('test 4', () {
       final barChartRodData = BarChartRodData(
-        y: 10,
+        toY: 10,
         colors: [],
         gradientColorStops: [0.2],
       );

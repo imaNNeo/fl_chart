@@ -1,3 +1,4 @@
+import 'package:example/bar_chart/samples/bar_chart_sample6.dart';
 import 'package:flutter/material.dart';
 
 import '../bar_chart/samples/bar_chart_sample3.dart';
@@ -18,11 +19,15 @@ class BarChartPage3 extends StatelessWidget {
           SizedBox(
             height: 18,
           ),
-          BarChartSample4(),
+          BarChartSample5(),
           SizedBox(
             height: 18,
           ),
-          BarChartSample5(),
+          BarChartSample6(),
+          SizedBox(
+            height: 18,
+          ),
+          BarChartSample4(),
         ],
       ),
     );
