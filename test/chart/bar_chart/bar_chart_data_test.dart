@@ -59,7 +59,7 @@ void main() {
       expect(backgroundBarChartRodData2 == backgroundBarChartRodData3, false);
 
       final changed = BackgroundBarChartRodData(
-        y: 21,
+        toY: 21,
         colors: [Colors.blue],
         show: false,
       );
@@ -67,7 +67,7 @@ void main() {
       expect(backgroundBarChartRodData1 == changed, false);
 
       final changed2 = BackgroundBarChartRodData(
-        y: 22,
+        toY: 22,
         colors: [Colors.blue],
         show: true,
       );

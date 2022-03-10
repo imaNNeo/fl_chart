@@ -50,7 +50,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BarChartRodData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|y|endY position of the bar on vertical axis (height of the bar)|null|
+|fromY|Position that this bar starts from|0|
+|toY|This rod is from `fromY` to `toY` in the vertical axis|null|
 |colors|colors the rod bar, if multiple colors provided it will be gradient|[Colors.blueAccent]|
 |colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 |gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
@@ -65,7 +66,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BackgroundBarChartRodData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|y|same as [BarChartRodData](#BarChartRodData)'s y|8|
+|fromY|same as [BarChartRodData](#BarChartRodData)'s fromY|0|
+|toY|same as [BarChartRodData](#BarChartRodData)'s y|8|
 |show|determines to show or hide this section|false|
 |colors|same as [BarChartRodData](#BarChartRodData)'s colors|[Colors.blueGrey]|
 |colorStops|same as [BarChartRodData](#BarChartRodData)'s colorStops|null|
@@ -150,3 +152,10 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 
 ##### Sample 5 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample5.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_5.gif" width="300" >
+
+##### Sample 6 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample6.dart))
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_6.png" width="300" >
+
+
+##### Gist - Toggleable Tooltip ([Source Code](https://gist.github.com/imaNNeoFighT/bce3f0169ff3fd6c3f137cdeb5005c0e))
+https://user-images.githubusercontent.com/7009300/156784816-53f95dd9-f387-4600-8a92-d05b1aeea3da.mov

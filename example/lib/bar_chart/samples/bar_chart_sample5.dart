@@ -10,12 +10,134 @@ class BarChartSample5 extends StatefulWidget {
 
 class BarChartSample5State extends State<BarChartSample5> {
   static const double barWidth = 22;
+  static const shadowOpacity = 0.2;
+  static const mainItems = <int, List<double>>{
+    0: [2, 3, 2.5, 8],
+    1: [-1.8, -2.7, -3, -6.5],
+    2: [1.5, 2, 3.5, 6],
+    3: [1.5, 1.5, 4, 6.5],
+    4: [-2, -2, -5, -9],
+    5: [-1.2, -1.5, -4.3, -10],
+    6: [1.2, 4.8, 5, 5],
+  };
   int touchedIndex = -1;
 
   @override
   void initState() {
     super.initState();
   }
+
+  BarChartGroupData generateGroup(
+    int x,
+    double value1,
+    double value2,
+    double value3,
+    double value4,
+  ) {
+    bool isTop = value1 > 0;
+    final sum = value1 + value2 + value3 + value4;
+    final isTouched = touchedIndex == x;
+    return BarChartGroupData(
+      x: x,
+      groupVertically: true,
+      showingTooltipIndicators: isTouched ? [0] : [],
+      barRods: [
+        BarChartRodData(
+          toY: sum,
+          width: barWidth,
+          borderRadius: isTop
+              ? const BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(6),
+                )
+              : const BorderRadius.only(
+                  bottomLeft: Radius.circular(6),
+                  bottomRight: Radius.circular(6),
+                ),
+          rodStackItems: [
+            BarChartRodStackItem(
+              0,
+              value1,
+              const Color(0xff2bdb90),
+              BorderSide(
+                color: Colors.white,
+                width: isTouched ? 2 : 0,
+              ),
+            ),
+            BarChartRodStackItem(
+              value1,
+              value1 + value2,
+              const Color(0xffffdd80),
+              BorderSide(
+                color: Colors.white,
+                width: isTouched ? 2 : 0,
+              ),
+            ),
+            BarChartRodStackItem(
+              value1 + value2,
+              value1 + value2 + value3,
+              const Color(0xffff4d94),
+              BorderSide(
+                color: Colors.white,
+                width: isTouched ? 2 : 0,
+              ),
+            ),
+            BarChartRodStackItem(
+              value1 + value2 + value3,
+              value1 + value2 + value3 + value4,
+              const Color(0xff19bfff),
+              BorderSide(
+                color: Colors.white,
+                width: isTouched ? 2 : 0,
+              ),
+            ),
+          ],
+        ),
+        BarChartRodData(
+          toY: -sum,
+          width: barWidth,
+          colors: [Colors.transparent],
+          borderRadius: isTop
+              ? const BorderRadius.only(
+                  bottomLeft: Radius.circular(6),
+                  bottomRight: Radius.circular(6),
+                )
+              : const BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(6),
+                ),
+          rodStackItems: [
+            BarChartRodStackItem(
+                0,
+                -value1,
+                const Color(0xff2bdb90)
+                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+                const BorderSide(color: Colors.transparent)),
+            BarChartRodStackItem(
+                -value1,
+                -(value1 + value2),
+                const Color(0xffffdd80)
+                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+                const BorderSide(color: Colors.transparent)),
+            BarChartRodStackItem(
+                -(value1 + value2),
+                -(value1 + value2 + value3),
+                const Color(0xffff4d94)
+                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+                const BorderSide(color: Colors.transparent)),
+            BarChartRodStackItem(
+                -(value1 + value2 + value3),
+                -(value1 + value2 + value3 + value4),
+                const Color(0xff19bfff)
+                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+                const BorderSide(color: Colors.transparent)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  bool isShadowBar(int rodIndex) => rodIndex == 1;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +156,18 @@ class BarChartSample5State extends State<BarChartSample5> {
               minY: -20,
               groupsSpace: 12,
               barTouchData: BarTouchData(
+                handleBuiltInTouches: false,
                 touchCallback: (FlTouchEvent event, barTouchResponse) {
                   if (!event.isInterestedForInteractions ||
                       barTouchResponse == null ||
                       barTouchResponse.spot == null) {
+                    setState(() {
+                      touchedIndex = -1;
+                    });
+                    return;
+                  }
+                  final rodIndex = barTouchResponse.spot!.touchedRodDataIndex;
+                  if (isShadowBar(rodIndex)) {
                     setState(() {
                       touchedIndex = -1;
                     });
@@ -152,6 +282,7 @@ class BarChartSample5State extends State<BarChartSample5> {
               borderData: FlBorderData(
                 show: false,
               ),
+<<<<<<< HEAD
               barGroups: [
                 BarChartGroupData(
                   x: 0,
@@ -448,6 +579,12 @@ class BarChartSample5State extends State<BarChartSample5> {
                   ],
                 ),
               ],
+=======
+              barGroups: mainItems.entries
+                  .map((e) => generateGroup(
+                      e.key, e.value[0], e.value[1], e.value[2], e.value[3]))
+                  .toList(),
+>>>>>>> origin/dev
             ),
           ),
         ),

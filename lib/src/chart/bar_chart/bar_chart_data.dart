@@ -8,6 +8,11 @@ import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:fl_chart/src/extensions/color_extension.dart';
+import 'dart:math';
+>>>>>>> origin/dev
 
 /// [BarChart] needs this class to render itself.
 ///
@@ -180,10 +185,14 @@ class BarChartGroupData with EquatableMixin {
   @required
   final int x;
 
+  /// If set true, it will show bars below/above each other.
+  /// Otherwise, it will show bars beside each other.
+  final bool groupVertically;
+
   /// [BarChart] renders [barRods] that represents a rod (or a bar) in the bar chart.
   final List<BarChartRodData> barRods;
 
-  /// [BarChart] applies [barsSpace] between [barRods].
+  /// [BarChart] applies [barsSpace] between [barRods] if [groupVertically] is false.
   final double barsSpace;
 
   /// you can show some tooltipIndicators (a popup with an information)
@@ -201,10 +210,12 @@ class BarChartGroupData with EquatableMixin {
   /// just put indices you want to show it on top of them.
   BarChartGroupData({
     required int x,
+    bool? groupVertically,
     List<BarChartRodData>? barRods,
     double? barsSpace,
     List<int>? showingTooltipIndicators,
   })  : x = x,
+        groupVertically = groupVertically ?? false,
         barRods = barRods ?? const [],
         barsSpace = barsSpace ?? 2,
         showingTooltipIndicators = showingTooltipIndicators ?? const [];
@@ -215,24 +226,30 @@ class BarChartGroupData with EquatableMixin {
       return 0;
     }
 
-    final sumWidth = barRods
-        .map((rodData) => rodData.width)
-        .reduce((first, second) => first + second);
-    final spaces = (barRods.length - 1) * barsSpace;
+    if (groupVertically) {
+      return barRods.map((rodData) => rodData.width).reduce(max);
+    } else {
+      final sumWidth = barRods
+          .map((rodData) => rodData.width)
+          .reduce((first, second) => first + second);
+      final spaces = (barRods.length - 1) * barsSpace;
 
-    return sumWidth + spaces;
+      return sumWidth + spaces;
+    }
   }
 
   /// Copies current [BarChartGroupData] to a new [BarChartGroupData],
   /// and replaces provided values.
   BarChartGroupData copyWith({
     int? x,
+    bool? groupVertically,
     List<BarChartRodData>? barRods,
     double? barsSpace,
     List<int>? showingTooltipIndicators,
   }) {
     return BarChartGroupData(
       x: x ?? this.x,
+      groupVertically: groupVertically ?? this.groupVertically,
       barRods: barRods ?? this.barRods,
       barsSpace: barsSpace ?? this.barsSpace,
       showingTooltipIndicators:
@@ -245,6 +262,7 @@ class BarChartGroupData with EquatableMixin {
       BarChartGroupData a, BarChartGroupData b, double t) {
     return BarChartGroupData(
       x: (a.x + (b.x - a.x) * t).round(),
+      groupVertically: b.groupVertically,
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
       showingTooltipIndicators: lerpIntList(
@@ -256,6 +274,7 @@ class BarChartGroupData with EquatableMixin {
   @override
   List<Object?> get props => [
         x,
+        groupVertically,
         barRods,
         barsSpace,
         showingTooltipIndicators,
@@ -264,8 +283,11 @@ class BarChartGroupData with EquatableMixin {
 
 /// Holds data about rendering each rod (or bar) in the [BarChart].
 class BarChartRodData with EquatableMixin {
-  /// [BarChart] renders rods vertically from zero to [y].
-  final double y;
+  /// [BarChart] renders rods vertically from [fromY].
+  final double fromY;
+
+  /// [BarChart] renders rods vertically from [fromY] to [toY].
+  final double toY;
 
   /// if you pass just one color, the solid color will be used,
   /// or if you pass more than one color, we use gradient mode to draw.
@@ -304,7 +326,7 @@ class BarChartRodData with EquatableMixin {
   /// you can fill up the [rodStackItems] to have a Stacked Chart.
   final List<BarChartRodStackItem> rodStackItems;
 
-  /// [BarChart] renders rods vertically from zero to [y],
+  /// [BarChart] renders rods vertically from zero to [toY],
   /// and the x is equivalent to the [BarChartGroupData.x] value.
   ///
   /// It renders each rod using [color], [width], and [borderRadius] for rounding corners and also [borderSide] for stroke border.
@@ -328,7 +350,8 @@ class BarChartRodData with EquatableMixin {
   /// )
   /// ```
   BarChartRodData({
-    required double y,
+    double? fromY,
+    required double toY,
     List<Color>? colors,
     Offset? gradientFrom,
     Offset? gradientTo,
@@ -338,7 +361,8 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
-  })  : y = y,
+  })  : fromY = fromY ?? 0,
+        toY = toY,
         colors = colors ?? [Colors.cyan],
         gradientFrom = gradientFrom ?? const Offset(0.5, 1),
         gradientTo = gradientTo ?? const Offset(0.5, 0),
@@ -352,7 +376,8 @@ class BarChartRodData with EquatableMixin {
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
   BarChartRodData copyWith({
-    double? y,
+    double? fromY,
+    double? toY,
     List<Color>? colors,
     Offset? gradientFrom,
     Offset? gradientTo,
@@ -364,7 +389,8 @@ class BarChartRodData with EquatableMixin {
     List<BarChartRodStackItem>? rodStackItems,
   }) {
     return BarChartRodData(
-      y: y ?? this.y,
+      fromY: fromY ?? this.fromY,
+      toY: toY ?? this.toY,
       colors: colors ?? this.colors,
       gradientFrom: gradientFrom ?? this.gradientFrom,
       gradientTo: gradientTo ?? this.gradientTo,
@@ -387,7 +413,8 @@ class BarChartRodData with EquatableMixin {
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
-      y: lerpDouble(a.y, b.y, t)!,
+      fromY: lerpDouble(a.fromY, b.fromY, t)!,
+      toY: lerpDouble(a.toY, b.toY, t)!,
       backDrawRodData: BackgroundBarChartRodData.lerp(
           a.backDrawRodData, b.backDrawRodData, t),
       rodStackItems:
@@ -398,7 +425,8 @@ class BarChartRodData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        y,
+        fromY,
+        toY,
         width,
         borderRadius,
         borderSide,
@@ -491,8 +519,11 @@ class BackgroundBarChartRodData with EquatableMixin {
   /// Determines to show or hide this
   final bool show;
 
-  /// [y] is the height of this rod
-  final double y;
+  /// [fromY] is where background starts to show
+  final double fromY;
+
+  /// background starts to show from [fromY] to [toY]
+  final double toY;
 
   /// if you pass just one color, the solid color will be used,
   /// or if you pass more than one color, we use gradient mode to draw.
@@ -514,16 +545,19 @@ class BackgroundBarChartRodData with EquatableMixin {
   final List<double>? colorStops;
 
   /// It will be rendered in rear of the main rod,
-  /// with [y] as the height, and [color] as the fill color,
+  /// background starts to show from [fromY] to [toY],
+  /// [colors] as the fill color,
   /// you prevent to show it, using [show] property.
   BackgroundBarChartRodData({
-    double? y,
+    double? fromY,
+    double? toY,
     bool? show,
     List<Color>? colors,
     Offset? gradientFrom,
     Offset? gradientTo,
     List<double>? colorStops,
-  })  : y = y ?? 8,
+  })  : fromY = fromY ?? 0,
+        toY = toY ?? 0,
         show = show ?? false,
         colors = colors ?? [Colors.blueGrey],
         gradientFrom = gradientFrom ?? const Offset(0, 0),
@@ -534,7 +568,8 @@ class BackgroundBarChartRodData with EquatableMixin {
   static BackgroundBarChartRodData lerp(
       BackgroundBarChartRodData a, BackgroundBarChartRodData b, double t) {
     return BackgroundBarChartRodData(
-      y: lerpDouble(a.y, b.y, t),
+      fromY: lerpDouble(a.fromY, b.fromY, t),
+      toY: lerpDouble(a.toY, b.toY, t),
       gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
       gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       colors: lerpColorList(a.colors, b.colors, t),
@@ -547,7 +582,8 @@ class BackgroundBarChartRodData with EquatableMixin {
   @override
   List<Object?> get props => [
         show,
-        y,
+        fromY,
+        toY,
         colors,
         gradientTo,
         gradientFrom,
@@ -760,7 +796,7 @@ BarTooltipItem? defaultBarTooltipItem(
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return BarTooltipItem(rod.y.toString(), textStyle);
+  return BarTooltipItem(rod.toY.toString(), textStyle);
 }
 
 /// Holds data needed for showing custom tooltip content.
