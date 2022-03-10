@@ -23,7 +23,8 @@ class PieChartSample3State extends State {
           aspectRatio: 1,
           child: PieChart(
             PieChartData(
-                pieTouchData: PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   setState(() {
                     if (!event.isInterestedForInteractions ||
                         pieTouchResponse == null ||
@@ -31,7 +32,8 @@ class PieChartSample3State extends State {
                       touchedIndex = -1;
                       return;
                     }
-                    touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    touchedIndex =
+                        pieTouchResponse.touchedSection!.touchedSectionIndex;
                   });
                 }),
                 borderData: FlBorderData(
@@ -61,7 +63,9 @@ class PieChartSample3State extends State {
             title: '40%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/ophthalmology-svgrepo-com.svg',
               size: widgetSize,
@@ -76,7 +80,9 @@ class PieChartSample3State extends State {
             title: '30%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/librarian-svgrepo-com.svg',
               size: widgetSize,
@@ -91,7 +97,9 @@ class PieChartSample3State extends State {
             title: '16%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/fitness-svgrepo-com.svg',
               size: widgetSize,
@@ -106,7 +114,9 @@ class PieChartSample3State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
             badgeWidget: _Badge(
               'assets/worker-svgrepo-com.svg',
               size: widgetSize,

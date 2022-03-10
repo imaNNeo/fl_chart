@@ -30,8 +30,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   final PieTouchData pieTouchData;
 
   /// We hold this value to determine weight of each [PieChartSectionData.value].
-  double get sumValue =>
-      sections.map((data) => data.value).reduce((first, second) => first + second);
+  double get sumValue => sections
+      .map((data) => data.value)
+      .reduce((first, second) => first + second);
 
   /// [PieChart] draws some [sections] in a circle,
   /// and applies free space with radius [centerSpaceRadius],
@@ -52,7 +53,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
-  })  : sections = sections?.where((element) => element.value != 0).toList() ?? const [],
+  })  : sections = sections?.where((element) => element.value != 0).toList() ??
+            const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
@@ -92,10 +94,12 @@ class PieChartData extends BaseChartData with EquatableMixin {
       return PieChartData(
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         centerSpaceColor: Color.lerp(a.centerSpaceColor, b.centerSpaceColor, t),
-        centerSpaceRadius: lerpDoubleAllowInfinity(a.centerSpaceRadius, b.centerSpaceRadius, t),
+        centerSpaceRadius: lerpDoubleAllowInfinity(
+            a.centerSpaceRadius, b.centerSpaceRadius, t),
         pieTouchData: b.pieTouchData,
         sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
-        startDegreeOffset: lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
+        startDegreeOffset:
+            lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
         sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
       );
     } else {
@@ -238,8 +242,8 @@ class PieChartSectionData {
   }
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
-  static PieChartSectionData lerp(PieChartSectionData a, PieChartSectionData b, double t) {
-
+  static PieChartSectionData lerp(
+      PieChartSectionData a, PieChartSectionData b, double t) {
     return PieChartSectionData(
       value: lerpDouble(a.value, b.value, t),
       colors: lerpColorList(a.colors, b.colors, t),
@@ -249,10 +253,10 @@ class PieChartSectionData {
       title: b.title,
       borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       badgeWidget: b.badgeWidget,
-      titlePositionPercentageOffset:
-          lerpDouble(a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
-      badgePositionPercentageOffset:
-          lerpDouble(a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
+      titlePositionPercentageOffset: lerpDouble(
+          a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+      badgePositionPercentageOffset: lerpDouble(
+          a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
     );
   }
 }
