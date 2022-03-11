@@ -111,28 +111,32 @@ class BarChartSample5State extends State<BarChartSample5> {
                 0,
                 -value1,
                 [
-                  const Color(0xff2bdb90).withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity)
+                  const Color(0xff2bdb90).withOpacity(
+                      isTouched ? shadowOpacity * 2 : shadowOpacity)
                 ],
                 const BorderSide(color: Colors.transparent)),
             BarChartRodStackItem(
                 -value1,
                 -(value1 + value2),
                 [
-                  const Color(0xffffdd80).withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity)
+                  const Color(0xffffdd80).withOpacity(
+                      isTouched ? shadowOpacity * 2 : shadowOpacity)
                 ],
                 const BorderSide(color: Colors.transparent)),
             BarChartRodStackItem(
                 -(value1 + value2),
                 -(value1 + value2 + value3),
                 [
-                  const Color(0xffff4d94).withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity)
+                  const Color(0xffff4d94).withOpacity(
+                      isTouched ? shadowOpacity * 2 : shadowOpacity)
                 ],
                 const BorderSide(color: Colors.transparent)),
             BarChartRodStackItem(
                 -(value1 + value2 + value3),
                 -(value1 + value2 + value3 + value4),
                 [
-                  const Color(0xff19bfff).withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity)
+                  const Color(0xff19bfff).withOpacity(
+                      isTouched ? shadowOpacity * 2 : shadowOpacity)
                 ],
                 const BorderSide(color: Colors.transparent)),
           ],
@@ -274,7 +278,8 @@ class BarChartSample5State extends State<BarChartSample5> {
                 checkToShowHorizontalLine: (value) => value % 5 == 0,
                 getDrawingHorizontalLine: (value) {
                   if (value == 0) {
-                    return FlLine(color: const Color(0xff363753), strokeWidth: 3);
+                    return FlLine(
+                        color: const Color(0xff363753), strokeWidth: 3);
                   }
                   return FlLine(
                     color: const Color(0xff2a2747),
@@ -286,7 +291,8 @@ class BarChartSample5State extends State<BarChartSample5> {
                 show: false,
               ),
               barGroups: mainItems.entries
-                  .map((e) => generateGroup(e.key, e.value[0], e.value[1], e.value[2], e.value[3]))
+                  .map((e) => generateGroup(
+                      e.key, e.value[0], e.value[1], e.value[2], e.value[3]))
                   .toList(),
             ),
           ),
