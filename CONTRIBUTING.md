@@ -46,12 +46,6 @@ It makes draw functions testable.
 
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
-## You feel ready to start? Okay now create your branch from the `master` branch
-
-Our development happens in our `master` branch and our `stable` branch keeps the latest released stable version of the library.
-
-We merge `master` into `stable` branch whenever we release a new version.
-
 ## Checking Your Code's Quality
 
 After you have made your changes, you have to make sure your code works
