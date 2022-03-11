@@ -46,11 +46,11 @@ It makes draw functions testable.
 
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
-## You feel ready to start? Okay now create your branch from the `dev` branch
+## You feel ready to start? Okay now create your branch from the `master` branch
 
-You should make your changes upon the `dev` branch (All development changes happen in the `dev` branch, then we publish a new version and merge them into the `master`)
+Our development happens in our `master` branch and our `stable` branch keeps the latest released stable version of the library.
 
-It means `master` is our **stable** branch.
+We merge `master` into `stable` branch whenever we release a new version.
 
 ## Checking Your Code's Quality
 
@@ -92,7 +92,7 @@ Please check it to understand how it works and how is the convention. Simply new
 
 When you are done in your PR, it's time to write a changelog for you changes. 
 
-Most of the times, there will be a [newVersion](https://github.com/imaNNeoFighT/fl_chart/blob/dev/CHANGELOG.md#newversion) tag at the top of the `CHANGELOG.md` file in the `dev` branch. If it doesn't exist, you can write it and write your change below that.
+Most of the times, there will be a [newVersion](https://github.com/imaNNeoFighT/fl_chart/blob/master/CHANGELOG.md#newversion) tag at the top of the `CHANGELOG.md` file in the `master` branch. If it doesn't exist, you can write it and write your change below that.
 
 Each change should be started with one of the following prefixes:
 1. **IMPROVEMENT** (When you are improving something, for example improving performance)
@@ -113,9 +113,7 @@ If your change has two (or more) prefixes, describe them in separate lines indep
 Congratulations! Your code meets all of our guidelines :100:. Now you have to
 submit a pull request (or PR for short) to us. These are the steps you should
 follow when creating a PR:
-
-- Make sure you select `dev` branch as your target branch.
-  
+ 
 - Make a descriptive title that summarizes what changes were in the PR.
 
 - Mention the issues that you are fixing (if doesn't exist, try to make one and explain the issue clearly)
