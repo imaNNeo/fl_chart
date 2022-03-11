@@ -37,27 +37,13 @@ Thank you all!
 
 # Let's get started
 
-### 1 - Depend on it
+First of all you need to add the `fl_chart` in your project. In order to do that, follow [this guide](https://pub.dev/packages/fl_chart/install).
 
-##### Add it to your package's pubspec.yaml file
+Then you need to read the docs. Start from [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/index.md).
 
-```yml
-dependencies:
-  fl_chart: ^0.45.1
-```
+We suggest you to check samples source code.
 
-
-### 2 - Install it
-
-##### Install packages from the command line
-```sh
-flutter packages get
-```
-
-### 3 - Learn it like a charm
-##### Read the docs from [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/index.md)
-
-##### - [Animations](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_animations.md)
+##### - You can read about the animation handling [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_animations.md)
 |Sample1	|Sample2		|Sample3		|
 |:------------:|:------------:|:-------------:|
 |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-1-source-code)   |	[![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-2-source-code) | [![](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif)](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) |
