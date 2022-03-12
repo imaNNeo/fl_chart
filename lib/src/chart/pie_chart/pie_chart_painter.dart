@@ -88,11 +88,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionDegree = sectionsAngle[i];
 
       if (sectionDegree == 360) {
+        final radius = centerRadius + section.radius / 2;
+        if (section.gradient != null) {
+          final rect = Rect.fromCircle(center: center, radius: radius);
+          _sectionPaint.shader = section.gradient!.createShader(rect);
+        }
         _sectionPaint.color = section.color;
         _sectionPaint.strokeWidth = section.radius;
         _sectionPaint.style = PaintingStyle.stroke;
-        canvasWrapper.drawCircle(
-            center, centerRadius + section.radius / 2, _sectionPaint);
+        canvasWrapper.drawCircle(center, radius, _sectionPaint);
         return;
       }
 
@@ -222,9 +226,18 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   @visibleForTesting
   void drawSection(PieChartSectionData section, Path sectionPath,
       CanvasWrapper canvasWrapper) {
+    _applyGradient(section, sectionPath);
     _sectionPaint.color = section.color;
     _sectionPaint.style = PaintingStyle.fill;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
+  }
+
+  void _applyGradient(PieChartSectionData section, Path sectionPath) {
+    final gradient = section.gradient;
+    if (gradient != null) {
+      final bounds = sectionPath.getBounds();
+      _sectionPaint.shader = gradient.createShader(bounds);
+    }
   }
 
   @visibleForTesting
