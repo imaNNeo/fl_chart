@@ -101,6 +101,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         data.sectionsSpace,
         tempAngle,
         sectionDegree,
+        data.roundedCornerDegrees,
+        data.roundedCornerRadius,
         center,
         centerRadius,
       );
@@ -118,6 +120,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     double sectionSpace,
     double tempAngle,
     double sectionDegree,
+    double roundedCornerDegrees,
+    double roundedCornerRadius,
     Offset center,
     double centerRadius,
   ) {
@@ -159,15 +163,22 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     /// Subtract section space from the sectionPath
     if (sectionSpace != 0) {
-      final startLineSeparatorPath = createRectPathAroundLine(
-          Line(startLineFrom, startLineTo), sectionSpace);
+      final startLineSeparatorPath = createRectPathAroundLine(startLine, sectionSpace);
       sectionPath = Path.combine(
           PathOperation.difference, sectionPath, startLineSeparatorPath);
 
-      final endLineSeparatorPath =
-          createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
+      final endLineSeparatorPath = createRectPathAroundLine(endLine, sectionSpace);
       sectionPath = Path.combine(
           PathOperation.difference, sectionPath, endLineSeparatorPath);
+    }
+
+    /// Adds rounded corners to the pie chart data
+    if (roundedCornerRadius != 0 && roundedCornerDegrees != 0) {
+      final cornerCutout = createRoundedCornerCutout(roundedCornerDegrees,
+          roundedCornerRadius, center, startLineFrom, startLineTo, startRadians,
+          endLineFrom, endLineTo, endRadians, centerRadius, section.radius);
+      sectionPath = Path.combine(
+          PathOperation.difference, sectionPath, cornerCutout);
     }
 
     return sectionPath;
@@ -217,6 +228,52 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       ..lineTo(startPoint3.dx, startPoint3.dy)
       ..lineTo(startPoint4.dx, startPoint4.dy)
       ..lineTo(startPoint1.dx, startPoint1.dy);
+  }
+
+  Path createRoundedCornerCutout(
+      double roundedCornerDegrees,
+      double roundedCornerRadius,
+      Offset center,
+      Offset startLineFrom,
+      Offset startLineTo,
+      double startRadians,
+      Offset endLineFrom,
+      Offset endLineTo,
+      double endRadians,
+      double centerRadius,
+      double sectionRadius) {
+    final radius = Radius.circular(roundedCornerRadius);
+    final radians = Utils().radians(roundedCornerDegrees);
+    // Add extra 2 pixel margin to fix numeric issues.
+    final largeRadius = Radius.circular(centerRadius + sectionRadius + 2);
+
+    final cStartRadians = startRadians + radians;
+    final cStartLineDirection = Offset(math.cos(cStartRadians), math.sin(cStartRadians));
+    final cStartLineFrom = center + cStartLineDirection * centerRadius;
+    final cStartLineTo = cStartLineFrom + cStartLineDirection * sectionRadius;
+
+    final startCorner = Path()
+      ..moveTo(cStartLineTo.dx, cStartLineTo.dy)
+      ..arcToPoint(startLineTo, radius: largeRadius, clockwise: false)
+      ..lineTo(startLineFrom.dx, startLineFrom.dy)
+      ..lineTo(cStartLineFrom.dx, cStartLineFrom.dy)
+      ..arcToPoint(cStartLineTo, radius: radius)
+      ..close();
+
+    final cEndRadians = endRadians - radians;
+    final cEndLineDirection = Offset(math.cos(cEndRadians), math.sin(cEndRadians));
+    final cEndLineFrom = center + cEndLineDirection * centerRadius;
+    final cEndLineTo = cEndLineFrom + cEndLineDirection * sectionRadius;
+
+    final endCorner = Path()
+      ..moveTo(cEndLineTo.dx, cEndLineTo.dy)
+      ..arcToPoint(endLineTo, radius: largeRadius)
+      ..lineTo(endLineFrom.dx, endLineFrom.dy)
+      ..lineTo(cEndLineFrom.dx, cEndLineFrom.dy)
+      ..arcToPoint(cEndLineTo, radius: radius, clockwise: false)
+      ..close();
+
+    return Path.combine(PathOperation.union, endCorner, startCorner);
   }
 
   @visibleForTesting
