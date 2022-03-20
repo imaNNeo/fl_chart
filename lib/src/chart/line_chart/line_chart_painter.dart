@@ -1358,6 +1358,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         bottomRight: radius);
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
 
+    /// if tooltip gradient is not null then show gradient instead of plain color
+    if (tooltipData.tooltipBgGradient != null) {
+      _bgTouchTooltipPaint.shader =
+          tooltipData.tooltipBgGradient!.createShader(rect);
+    }
+
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
         Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);

@@ -41,7 +41,14 @@ class _LineChart extends StatelessWidget {
   LineTouchData get lineTouchData1 => LineTouchData(
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+          tooltipBgGradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 255, 230, 0),
+              Color.fromARGB(255, 253, 145, 44),
+            ],
+          ),
         ),
       );
 
