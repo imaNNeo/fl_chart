@@ -671,6 +671,9 @@ enum TooltipDirection {
 
 /// Holds representation data for showing tooltip popup on top of rods.
 class BarTouchTooltipData with EquatableMixin {
+  /// The tooltip background gradient.
+  final Gradient? tooltipBgGradient;
+
   /// The tooltip background color.
   final Color tooltipBgColor;
 
@@ -704,7 +707,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
-  /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color,
+  /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color or [tooltipBgGradient] if not null,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
@@ -715,6 +718,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   BarTouchTooltipData({
+    Gradient? tooltipBgGradient,
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
@@ -725,7 +729,8 @@ class BarTouchTooltipData with EquatableMixin {
     bool? fitInsideVertically,
     TooltipDirection? direction,
     double? rotateAngle,
-  })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
+  })  : tooltipBgGradient = tooltipBgGradient,
+        tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
