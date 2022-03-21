@@ -15,7 +15,7 @@ dev_dependencies:
   mockito: ^5.1.0
   build_runner: ^2.1.7
   flutter_lints: ^1.0.4
-  vector_math: ^2.1.1 #Added to use in some generated codes of mockito
+  vector_math: ^2.1.0 #Added to use in some generated codes of mockito (Changed by Niranjan from ^2.1.1 to ^2.1.0)
   flutter_test:
     sdk: flutter
 

@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+import '../../line_chart/line_chart_painter.dart';
 import 'base_chart_data.dart';
 
 /// It implements shared logics between our renderers such as touch/pointer events recognition, size, layout, ...
@@ -143,6 +144,10 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       _latestMouseCursor = MouseCursor.defer;
     } else {
       _latestMouseCursor = _mouseCursorResolver!(event, response);
+    }
+    // If event is not FlLongPressMoveUpdate
+    if (event is! FlLongPressMoveUpdate) {
+      LineChartPainter.prevIndicatorList.clear();
     }
   }
 

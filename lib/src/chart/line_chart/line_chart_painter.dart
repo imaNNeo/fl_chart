@@ -27,6 +27,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       _bgTouchTooltipPaint,
       _imagePaint;
 
+  // To store previously touched indicators
+  static List<int> prevIndicatorList = [];
+
   /// Paints [data] into canvas, it is the animating [LineChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
@@ -294,6 +297,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final barXDelta = getBarLineXLength(barData, viewSize, holder);
 
     final data = holder.data;
+
+    // Storing previously touched data
+    prevIndicatorList.add(barData.showingIndicators.first);
+    // add the previous data to the show indicator list
+    barData.showingIndicators.add(prevIndicatorList.first);
 
     // Todo technical debt, we can read the TouchedSpotIndicatorData directly,
     // Todo instead of mapping indexes to TouchedSpotIndicatorData
