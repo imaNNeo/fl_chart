@@ -40,13 +40,13 @@ class LineChartSample4 extends StatelessWidget {
                 ],
                 belowBarData: BarAreaData(
                   show: true,
-                  colors: [Colors.deepPurple.withOpacity(0.4)],
+                  color: Colors.deepPurple.withOpacity(0.4),
                   cutOffY: cutOffYValue,
                   applyCutOffY: true,
                 ),
                 aboveBarData: BarAreaData(
                   show: true,
-                  colors: [Colors.orange.withOpacity(0.6)],
+                  color: Colors.orange.withOpacity(0.6),
                   cutOffY: cutOffYValue,
                   applyCutOffY: true,
                 ),

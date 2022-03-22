@@ -177,9 +177,10 @@ class _LineChart extends StatelessWidget {
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false, colors: [
-          const Color(0x00aa4cfc),
-        ]),
+        belowBarData: BarAreaData(
+          show: false,
+          color: const Color(0x00aa4cfc),
+        ),
         spots: const [
           FlSpot(1, 1),
           FlSpot(3, 2.8),
@@ -233,9 +234,7 @@ class _LineChart extends StatelessWidget {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          colors: [
-            const Color(0x33aa4cfc),
-          ],
+          color: const Color(0x33aa4cfc),
         ),
         spots: const [
           FlSpot(1, 1),

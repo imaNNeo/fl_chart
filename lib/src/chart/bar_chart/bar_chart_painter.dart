@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -292,14 +293,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           }
 
           final backDraw = barRod.backDrawRodData;
-          if (backDraw.color != null) {
-            _barPaint.color = backDraw.color!;
-            _barPaint.shader = null;
-          } else {
-            _barPaint.color = Colors.black;
-            _barPaint.shader =
-                backDraw.gradient!.createShader(barRRect.getRect());
-          }
+          _barPaint.setColorOrGradient(
+            backDraw.color,
+            backDraw.gradient,
+            barRRect.getRect(),
+          );
           canvasWrapper.drawRRect(barRRect, _barPaint);
         }
 
@@ -330,14 +328,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                 bottomLeft: borderRadius.bottomLeft,
                 bottomRight: borderRadius.bottomRight);
           }
-          if (barRod.color != null) {
-            _barPaint.color = barRod.color!;
-            _barPaint.shader = null;
-          } else {
-            _barPaint.color = Colors.black;
-            _barPaint.shader =
-                barRod.gradient!.createShader(barRRect.getRect());
-          }
+          _barPaint.setColorOrGradient(
+            barRod.color,
+            barRod.gradient,
+            barRRect.getRect(),
+          );
           canvasWrapper.drawRRect(barRRect, _barPaint);
 
           // draw border stroke

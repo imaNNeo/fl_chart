@@ -302,6 +302,11 @@ class MockData {
     flSpot1,
     offset1,
   );
+
+  static const gradient1 = LinearGradient(colors: [
+    MockData.color0,
+    MockData.color1,
+  ]);
 }
 
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
@@ -703,54 +708,64 @@ final BarAreaSpotsLine barAreaSpotsLine2 = BarAreaSpotsLine(
 );
 
 final BarAreaData barAreaData1 = BarAreaData(
-  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradientColorStops: [0, 0.5],
-  gradientFrom: const Offset(0, 0),
-  gradientTo: const Offset(1, 1),
+  gradient: const LinearGradient(
+    colors: [Colors.green, Colors.blue],
+    stops: [0, 0.5],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomCenter,
+  ),
   spotsLine: barAreaSpotsLine1,
 );
 final BarAreaData barAreaData1Clone = BarAreaData(
-  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradientColorStops: [0, 0.5],
-  gradientFrom: const Offset(0, 0),
-  gradientTo: const Offset(1, 1),
+  gradient: const LinearGradient(
+    colors: [Colors.green, Colors.blue],
+    stops: [0, 0.5],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomCenter,
+  ),
   spotsLine: barAreaSpotsLine1,
 );
 
 final BarAreaData barAreaData2 = BarAreaData(
-  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradientColorStops: [0, 0.5],
-  gradientFrom: const Offset(0, 0),
-  gradientTo: const Offset(1, 1),
+  gradient: const LinearGradient(
+    colors: [Colors.green, Colors.blue],
+    stops: [0, 0.5],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomCenter,
+  ),
   spotsLine: barAreaSpotsLine2,
 );
 final BarAreaData barAreaData3 = BarAreaData(
-  colors: null,
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradientColorStops: [0, 0.5],
-  gradientFrom: const Offset(0, 0),
-  gradientTo: const Offset(1, 1),
+  gradient: const LinearGradient(
+    colors: [Colors.green, Colors.blue],
+    stops: [0, 0.6],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomCenter,
+  ),
   spotsLine: barAreaSpotsLine2,
 );
 final BarAreaData barAreaData4 = BarAreaData(
-  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradientColorStops: [0],
-  gradientFrom: const Offset(0, 0),
-  gradientTo: const Offset(1, 1),
+  gradient: const LinearGradient(
+    colors: [Colors.green, Colors.blue],
+    stops: [0],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomCenter,
+  ),
   spotsLine: barAreaSpotsLine2,
 );
 
@@ -2351,6 +2366,7 @@ final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
 final ScatterSpot scatterSpot4 = ScatterSpot(-0, 0);
 
 String getLabel(int spotIndex, ScatterSpot spot) => 'label';
+
 TextStyle getLabelTextStyle(int spotIndex, ScatterSpot spot) =>
     const TextStyle(color: Colors.green);
 

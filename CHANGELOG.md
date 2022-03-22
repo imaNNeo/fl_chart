@@ -1,7 +1,7 @@
 ## newVersion
 * **FEATURE** Now we can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) and [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html) everywhere we have gradient.
 * **BUGFIX** Fix BarChart rods gradient problem, #703.
-* **BREAKING** `colors` property renamed to `color` to keep only one solid color. And now we have a `gradient` field instead of `colorStops`, `gradientFrom` and `gradientTo` in following classes: [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), 
+* **BREAKING** `colors` property renamed to `color` to keep only one solid color. And now we have a `gradient` field instead of `colorStops`, `gradientFrom` and `gradientTo` in following classes: [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#BarAreaData)
 
 ## 0.46.0
 * **BUGFIX** Fix drawing BetweenBarsArea problem when there are `nullSpots` in fromLine and toLine, #912.

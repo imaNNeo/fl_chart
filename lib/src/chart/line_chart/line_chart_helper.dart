@@ -45,27 +45,21 @@ class LineChartHelper {
     var minY = firstValidSpot.y;
     var maxY = firstValidSpot.y;
 
-    for (var i = 0; i < lineBarsData.length; i++) {
-      final barData = lineBarsData[i];
-      for (var j = 0; j < barData.spots.length; j++) {
-        final spot = barData.spots[j];
-        if (spot.isNotNull()) {
-          if (spot.x > maxX) {
-            maxX = spot.x;
-          }
+    for (var barData in lineBarsData) {
+      if (barData.mostRightSpot.x > maxX) {
+        maxX = barData.mostRightSpot.x;
+      }
 
-          if (spot.x < minX) {
-            minX = spot.x;
-          }
+      if (barData.mostLeftSpot.x < minX) {
+        minX = barData.mostLeftSpot.x;
+      }
 
-          if (spot.y > maxY) {
-            maxY = spot.y;
-          }
+      if (barData.mostTopSpot.y > maxY) {
+        maxY = barData.mostTopSpot.y;
+      }
 
-          if (spot.y < minY) {
-            minY = spot.y;
-          }
-        }
+      if (barData.mostBottomSpot.y < minY) {
+        minY = barData.mostBottomSpot.y;
       }
     }
 
@@ -130,32 +124,6 @@ extension LineChartDataExtension on LineChartBarData {
       }
     } else {
       stops = colorStops!;
-    }
-    return stops;
-  }
-}
-
-/// Extensions on [BarAreaData]
-extension BarAreaDataExtension on BarAreaData {
-  /// Returns colorStops
-  ///
-  /// if [colorStops] provided, returns it directly,
-  /// Otherwise we calculate it using colors list
-  List<double> getSafeColorStops() {
-    var stops = <double>[];
-    if (gradientColorStops == null ||
-        gradientColorStops!.length != colors.length) {
-      if (colors.length > 1) {
-        /// provided colorStops is invalid and we calculate it here
-        colors.asMap().forEach((index, color) {
-          final percent = 1.0 / (colors.length - 1);
-          stops.add(percent * index);
-        });
-      } else {
-        throw ArgumentError('"colors" must have length > 1.');
-      }
-    } else {
-      stops = gradientColorStops!;
     }
     return stops;
   }
