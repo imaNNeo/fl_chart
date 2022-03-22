@@ -1801,74 +1801,92 @@ final SizedPicture sizedPicture4 = SizedPicture(
 final BetweenBarsData betweenBarsData1 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradientTo: const Offset(1, 3),
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [Colors.green, Colors.blue, Colors.red],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 3),
+    end: Alignment(4, 1),
+    stops: [1, 2, 3],
+    colors: [Colors.green, Colors.blue, Colors.red],
+  ),
 );
 final BetweenBarsData betweenBarsData1Clone = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradientTo: const Offset(1, 3),
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [Colors.green, Colors.blue, Colors.red],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 3),
+    end: Alignment(4, 1),
+    stops: [1, 2, 3],
+    colors: [Colors.green, Colors.blue, Colors.red],
+  ),
 );
 final BetweenBarsData betweenBarsData2 = BetweenBarsData(
   fromIndex: 2,
   toIndex: 2,
-  gradientTo: const Offset(1, 3),
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [Colors.green, Colors.blue, Colors.red],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 3),
+    end: Alignment(4, 1),
+    stops: [1, 2, 3],
+    colors: [Colors.green, Colors.blue, Colors.red],
+  ),
 );
 final BetweenBarsData betweenBarsData3 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 1,
-  gradientTo: const Offset(1, 4),
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [Colors.green, Colors.blue, Colors.red],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 4),
+    end: Alignment(4, 1),
+    stops: [1, 2, 3],
+    colors: [Colors.green, Colors.blue, Colors.red],
+  ),
 );
 final BetweenBarsData betweenBarsData4 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradientTo: const Offset(1, 3),
-  gradientFrom: const Offset(5, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [Colors.green, Colors.blue, Colors.red],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 3),
+    end: Alignment(5, 1),
+    stops: [1, 2, 3],
+    colors: [Colors.green, Colors.blue, Colors.red],
+  ),
 );
 final BetweenBarsData betweenBarsData5 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradientTo: const Offset(1, 3),
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: null,
-  colors: [Colors.green, Colors.blue, Colors.red],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 3),
+    end: Alignment(4, 1),
+    stops: null,
+    colors: [Colors.green, Colors.blue, Colors.red],
+  ),
 );
 final BetweenBarsData betweenBarsData6 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradientTo: const Offset(1, 3),
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [Colors.green, Colors.blue],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 3),
+    end: Alignment(4, 1),
+    stops: [1, 2, 3],
+    colors: [Colors.green, Colors.blue],
+  ),
 );
 final BetweenBarsData betweenBarsData7 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradientTo: null,
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [Colors.green, Colors.blue, Colors.red],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 22),
+    end: Alignment(4, 1),
+    stops: [1, 2, 3],
+    colors: [Colors.green, Colors.blue],
+  ),
 );
 final BetweenBarsData betweenBarsData8 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradientTo: const Offset(1, 3),
-  gradientFrom: const Offset(4, 1),
-  gradientColorStops: [1, 2, 3],
-  colors: [],
+  gradient: const LinearGradient(
+    begin: Alignment(1, 3),
+    end: Alignment(4, 1),
+    stops: [1, 2, 3],
+    colors: [],
+  ),
 );
 
 final ShowingTooltipIndicators showingTooltipIndicator1 =

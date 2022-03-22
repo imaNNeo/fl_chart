@@ -91,7 +91,7 @@ class LineChartSample7 extends StatelessWidget {
               BetweenBarsData(
                 fromIndex: 0,
                 toIndex: 2,
-                colors: [Colors.red.withOpacity(0.3)],
+                color: Colors.red.withOpacity(0.3),
               )
             ],
             minY: 0,

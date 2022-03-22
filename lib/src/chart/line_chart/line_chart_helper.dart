@@ -128,29 +128,3 @@ extension LineChartDataExtension on LineChartBarData {
     return stops;
   }
 }
-
-/// Extensions on [BetweenBarsData]
-extension BetweenBarsDataExtension on BetweenBarsData {
-  /// Returns colorStops
-  ///
-  /// if [colorStops] provided, returns it directly,
-  /// Otherwise we calculate it using colors list
-  List<double> getSafeColorStops() {
-    var stops = <double>[];
-    if (gradientColorStops == null ||
-        gradientColorStops!.length != colors.length) {
-      if (colors.length > 1) {
-        /// provided colorStops is invalid and we calculate it here
-        colors.asMap().forEach((index, color) {
-          final percent = 1.0 / (colors.length - 1);
-          stops.add(percent * index);
-        });
-      } else {
-        throw ArgumentError('"colors" must have length > 1.');
-      }
-    } else {
-      stops = gradientColorStops!;
-    }
-    return stops;
-  }
-}
