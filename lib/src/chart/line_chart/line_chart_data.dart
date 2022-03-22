@@ -639,48 +639,33 @@ class BetweenBarsData with EquatableMixin {
   /// The index of the lineBarsData until where the area has to be rendered
   final int toIndex;
 
-  /// if you pass just one color, the solid color will be used,
-  /// or if you pass more than one color, we use gradient mode to draw.
-  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
-  final List<Color> colors;
+  /// If provided, this [BetweenBarsData] draws with this [color]
+  /// Otherwise we use  [gradient] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Color? color;
 
-  /// if the gradient mode is enabled (if you have more than one color)
-  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
-  /// you can determine where the gradient should start and end,
-  /// values are available between 0 to 1,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right
-  final Offset gradientFrom;
-  final Offset gradientTo;
-
-  /// if more than one color provided gradientColorStops will hold
-  /// stop points of the gradient.
-  final List<double>? gradientColorStops;
+  /// If provided, this [BetweenBarsData] draws with this [gradient].
+  /// Otherwise we use [color] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Gradient? gradient;
 
   BetweenBarsData({
     required int fromIndex,
     required int toIndex,
-    List<Color>? colors,
-    Offset? gradientFrom,
-    Offset? gradientTo,
-    List<double>? gradientColorStops,
+    Color? color,
+    Gradient? gradient,
   })  : fromIndex = fromIndex,
         toIndex = toIndex,
-        colors = colors ?? [Colors.blueGrey.withOpacity(0.5)],
-        gradientFrom = gradientFrom ?? const Offset(0, 0),
-        gradientTo = gradientTo ?? const Offset(1, 0),
-        gradientColorStops = gradientColorStops;
+        color = color ?? Colors.blueGrey.withOpacity(0.5),
+        gradient = gradient;
 
   /// Lerps a [BetweenBarsData] based on [t] value, check [Tween.lerp].
   static BetweenBarsData lerp(BetweenBarsData a, BetweenBarsData b, double t) {
     return BetweenBarsData(
       fromIndex: b.fromIndex,
       toIndex: b.toIndex,
-      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
-      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
-      colors: lerpColorList(a.colors, b.colors, t),
-      gradientColorStops:
-          lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+      color: Color.lerp(a.color, b.color, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
     );
   }
 
@@ -689,10 +674,8 @@ class BetweenBarsData with EquatableMixin {
   List<Object?> get props => [
         fromIndex,
         toIndex,
-        colors,
-        gradientFrom,
-        gradientTo,
-        gradientColorStops,
+        color,
+        gradient,
       ];
 }
 

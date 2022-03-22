@@ -622,12 +622,13 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
   @override
   void drawBetweenBar(
           _i10.CanvasWrapper? canvasWrapper,
-          _i2.Path? aboveBarPath,
+          _i2.Path? barPath,
           _i12.BetweenBarsData? betweenBarsData,
+          _i2.Rect? aroundRect,
           _i11.PaintHolder<_i12.LineChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawBetweenBar,
-              [canvasWrapper, aboveBarPath, betweenBarsData, holder]),
+              [canvasWrapper, barPath, betweenBarsData, aroundRect, holder]),
           returnValueForMissingStub: null);
   @override
   void drawBarShadow(_i10.CanvasWrapper? canvasWrapper, _i2.Path? barPath,

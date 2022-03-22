@@ -365,7 +365,7 @@ void main() {
       final betweenBarData = BetweenBarsData(
         fromIndex: 0,
         toIndex: 1,
-        colors: [const Color(0xFFFF0000)],
+        color: const Color(0xFFFF0000),
       );
 
       final LineChartData data = LineChartData(
@@ -1437,9 +1437,7 @@ void main() {
       final betweenBarData1 = BetweenBarsData(
         fromIndex: 0,
         toIndex: 1,
-        colors: [
-          const Color(0xFFFF0000),
-        ],
+        color: const Color(0xFFFF0000),
       );
 
       final LineChartData data = LineChartData(
@@ -1465,7 +1463,12 @@ void main() {
         ..lineTo(80, 10);
 
       lineChartPainter.drawBetweenBar(
-          _mockCanvasWrapper, aboveBarPath, betweenBarData1, holder);
+        _mockCanvasWrapper,
+        aboveBarPath,
+        betweenBarData1,
+        MockData.rect1,
+        holder,
+      );
 
       verify(_mockCanvasWrapper.saveLayer(
           Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any));

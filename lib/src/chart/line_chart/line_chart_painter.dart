@@ -244,8 +244,27 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         holder,
         appendToPath: fromBarPath,
       );
+      final left = min(fromBarData.mostLeftSpot.x, toBarData.mostLeftSpot.x);
+      final top = max(fromBarData.mostTopSpot.y, toBarData.mostTopSpot.y);
+      final right = max(fromBarData.mostRightSpot.x, toBarData.mostRightSpot.x);
+      final bottom = min(
+        fromBarData.mostBottomSpot.y,
+        toBarData.mostBottomSpot.y,
+      );
+      final aroundRect = Rect.fromLTRB(
+        getPixelX(left, getChartUsableDrawSize(viewSize, holder), holder),
+        getPixelY(top, getChartUsableDrawSize(viewSize, holder), holder),
+        getPixelX(right, getChartUsableDrawSize(viewSize, holder), holder),
+        getPixelY(bottom, getChartUsableDrawSize(viewSize, holder), holder),
+      );
 
-      drawBetweenBar(canvasWrapper, barPath, betweenBarsData, holder);
+      drawBetweenBar(
+        canvasWrapper,
+        barPath,
+        betweenBarsData,
+        aroundRect,
+        holder,
+      );
     }
   }
 
@@ -757,36 +776,24 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   }
 
   @visibleForTesting
-  void drawBetweenBar(CanvasWrapper canvasWrapper, Path aboveBarPath,
-      BetweenBarsData betweenBarsData, PaintHolder<LineChartData> holder) {
+  void drawBetweenBar(
+    CanvasWrapper canvasWrapper,
+    Path barPath,
+    BetweenBarsData betweenBarsData,
+    Rect aroundRect,
+    PaintHolder<LineChartData> holder,
+  ) {
     final viewSize = canvasWrapper.size;
-    final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
-    /// here we update the [betweenBarsData] to draw the solid color
-    /// or the gradient based on the [BetweenBarsData] class.
-    if (betweenBarsData.colors.length == 1) {
-      _barAreaPaint.color = betweenBarsData.colors[0];
-      _barAreaPaint.shader = null;
-    } else {
-      final from = betweenBarsData.gradientFrom;
-      final to = betweenBarsData.gradientTo;
-      _barAreaPaint.shader = ui.Gradient.linear(
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * from.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * from.dy),
-        ),
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * to.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * to.dy),
-        ),
-        betweenBarsData.colors,
-        betweenBarsData.getSafeColorStops(),
-      );
-    }
+    _barAreaPaint.setColorOrGradient(
+      betweenBarsData.color,
+      betweenBarsData.gradient,
+      aroundRect,
+    );
 
     canvasWrapper.saveLayer(
         Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
-    canvasWrapper.drawPath(aboveBarPath, _barAreaPaint);
+    canvasWrapper.drawPath(barPath, _barAreaPaint);
 
     // clear the above area that get out of the bar line
     canvasWrapper.restore();
