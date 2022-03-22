@@ -76,10 +76,14 @@ class LineChartSample6 extends StatelessWidget {
                 lineTouchData: LineTouchData(enabled: false),
                 lineBarsData: [
                   LineChartBarData(
-                    colors: [
-                      Colors.deepOrangeAccent,
-                      Colors.orangeAccent,
-                    ],
+                    gradient: const LinearGradient(
+                      colors: [
+                        Colors.deepOrangeAccent,
+                        Colors.orangeAccent,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
                     spots: reverseSpots(spots, minSpotY, maxSpotY),
                     isCurved: true,
                     isStrokeCapRound: true,
@@ -96,10 +100,14 @@ class LineChartSample6 extends StatelessWidget {
                     ),
                   ),
                   LineChartBarData(
-                    colors: [
-                      Colors.lightBlueAccent,
-                      Colors.blue,
-                    ],
+                    gradient: const LinearGradient(
+                      colors: [
+                        Colors.lightBlueAccent,
+                        Colors.blue,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
                     spots: reverseSpots(spots2, minSpotY, maxSpotY),
                     isCurved: true,
                     isStrokeCapRound: true,

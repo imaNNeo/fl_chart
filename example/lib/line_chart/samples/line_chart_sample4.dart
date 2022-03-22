@@ -35,9 +35,7 @@ class LineChartSample4 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 8,
-                colors: [
-                  Colors.purpleAccent,
-                ],
+                color: Colors.purpleAccent,
                 belowBarData: BarAreaData(
                   show: true,
                   color: Colors.deepPurple.withOpacity(0.4),

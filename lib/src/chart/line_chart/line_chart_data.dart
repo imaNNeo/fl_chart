@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
+import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart' hide Image;
 
@@ -235,22 +236,15 @@ class LineChartBarData with EquatableMixin {
   /// Determines to show or hide the line.
   final bool show;
 
-  /// determines the color of drawing line, if one color provided it applies a solid color,
-  /// otherwise it gradients between provided colors for drawing the line.
-  final List<Color> colors;
+  /// If provided, this [LineChartBarData] draws with this [color]
+  /// Otherwise we use  [gradient] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Color? color;
 
-  /// Determines the gradient color stops, if multiple [colors] provided.
-  final List<double>? colorStops;
-
-  /// Determines the start point of gradient,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right.
-  final Offset gradientFrom;
-
-  /// Determines the end point of gradient,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right.
-  final Offset gradientTo;
+  /// If provided, this [LineChartBarData] draws with this [gradient].
+  /// Otherwise we use [color] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Gradient? gradient;
 
   /// Determines thickness of drawing line.
   final double barWidth;
@@ -338,10 +332,8 @@ class LineChartBarData with EquatableMixin {
   LineChartBarData({
     List<FlSpot>? spots,
     bool? show,
-    List<Color>? colors,
-    List<double>? colorStops,
-    Offset? gradientFrom,
-    Offset? gradientTo,
+    Color? color,
+    Gradient? gradient,
     double? barWidth,
     bool? isCurved,
     double? curveSmoothness,
@@ -358,10 +350,9 @@ class LineChartBarData with EquatableMixin {
     LineChartStepData? lineChartStepData,
   })  : spots = spots ?? const [],
         show = show ?? true,
-        colors = colors ?? const [Colors.cyan],
-        colorStops = colorStops,
-        gradientFrom = gradientFrom ?? const Offset(0, 0),
-        gradientTo = gradientTo ?? const Offset(1, 0),
+        color =
+            color ?? ((color == null && gradient == null) ? Colors.cyan : null),
+        gradient = gradient,
         barWidth = barWidth ?? 2.0,
         isCurved = isCurved ?? false,
         curveSmoothness = curveSmoothness ?? 0.35,
@@ -432,10 +423,8 @@ class LineChartBarData with EquatableMixin {
           t),
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
-      colors: lerpColorList(a.colors, b.colors, t),
-      colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
-      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
-      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
+      color: Color.lerp(a.color, b.color, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
       spots: lerpFlSpotList(a.spots, b.spots, t),
       showingIndicators: b.showingIndicators,
       shadow: Shadow.lerp(a.shadow, b.shadow, t),
@@ -450,10 +439,8 @@ class LineChartBarData with EquatableMixin {
   LineChartBarData copyWith({
     List<FlSpot>? spots,
     bool? show,
-    List<Color>? colors,
-    List<double>? colorStops,
-    Offset? gradientFrom,
-    Offset? gradientTo,
+    Color? color,
+    Gradient? gradient,
     double? barWidth,
     bool? isCurved,
     double? curveSmoothness,
@@ -472,10 +459,8 @@ class LineChartBarData with EquatableMixin {
     return LineChartBarData(
       spots: spots ?? this.spots,
       show: show ?? this.show,
-      colors: colors ?? this.colors,
-      colorStops: colorStops ?? this.colorStops,
-      gradientFrom: gradientFrom ?? this.gradientFrom,
-      gradientTo: gradientTo ?? this.gradientTo,
+      color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
       barWidth: barWidth ?? this.barWidth,
       isCurved: isCurved ?? this.isCurved,
       curveSmoothness: curveSmoothness ?? this.curveSmoothness,
@@ -500,10 +485,8 @@ class LineChartBarData with EquatableMixin {
   List<Object?> get props => [
         spots,
         show,
-        colors,
-        colorStops,
-        gradientFrom,
-        gradientTo,
+        color,
+        gradient,
         barWidth,
         isCurved,
         curveSmoothness,
@@ -656,7 +639,10 @@ class BetweenBarsData with EquatableMixin {
     Gradient? gradient,
   })  : fromIndex = fromIndex,
         toIndex = toIndex,
-        color = color ?? Colors.blueGrey.withOpacity(0.5),
+        color = color ??
+            ((color == null && gradient == null)
+                ? Colors.blueGrey.withOpacity(0.5)
+                : null),
         gradient = gradient;
 
   /// Lerps a [BetweenBarsData] based on [t] value, check [Tween.lerp].
@@ -749,13 +735,14 @@ typedef GetDotColorCallback = Color Function(FlSpot, double, LineChartBarData);
 /// If there is one color in [LineChartBarData.colors], it returns that color,
 /// otherwise it returns the color along the gradient colors based on the [xPercentage].
 Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
-  if (bar.colors.isEmpty) {
-    throw ArgumentError('"colors" is empty.');
-  } else if (bar.colors.length == 1) {
-    return bar.colors[0];
-  } else {
-    return lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
+  if (bar.gradient != null && bar.gradient is LinearGradient) {
+    return lerpGradient(
+      bar.gradient!.colors,
+      bar.gradient!.getSafeColorStops(),
+      xPercentage / 100,
+    );
   }
+  return bar.gradient?.colors.first ?? bar.color ?? Colors.blueGrey;
 }
 
 /// If there is one color in [LineChartBarData.colors], it returns that color in a darker mode,
@@ -763,16 +750,14 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
 Color _defaultGetDotStrokeColor(
     FlSpot spot, double xPercentage, LineChartBarData bar) {
   Color color;
-  if (bar.colors.isEmpty) {
-    throw ArgumentError('"colors" is empty.');
-  } else if (bar.colors.length == 1) {
-    color = bar.colors[0];
-  } else {
+  if (bar.gradient != null && bar.gradient is LinearGradient) {
     color = lerpGradient(
-      bar.colors,
-      bar.getSafeColorStops(),
+      bar.gradient!.colors,
+      bar.gradient!.getSafeColorStops(),
       xPercentage / 100,
     );
+  } else {
+    color = bar.gradient?.colors.first ?? bar.color ?? Colors.blueGrey;
   }
   return color.darken();
 }
@@ -1552,7 +1537,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     LineChartBarData barData, List<int> indicators) {
   return indicators.map((int index) {
     /// Indicator Line
-    var lineColor = barData.colors[0];
+    var lineColor = barData.gradient?.colors.first ?? barData.color;
     if (barData.dotData.show) {
       lineColor = _defaultGetDotColor(barData.spots[index], 0, barData);
     }
@@ -1681,7 +1666,9 @@ typedef GetLineTooltipItems = List<LineTooltipItem?> Function(
 List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
   return touchedSpots.map((LineBarSpot touchedSpot) {
     final textStyle = TextStyle(
-      color: touchedSpot.bar.colors[0],
+      color: touchedSpot.bar.gradient?.colors.first ??
+          touchedSpot.bar.color ??
+          Colors.blueGrey,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );

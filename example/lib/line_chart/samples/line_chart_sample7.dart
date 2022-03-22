@@ -31,9 +31,7 @@ class LineChartSample7 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 2,
-                colors: [
-                  Colors.green,
-                ],
+                color: Colors.green,
                 dotData: FlDotData(
                   show: false,
                 ),
@@ -55,9 +53,7 @@ class LineChartSample7 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 2,
-                colors: [
-                  Colors.black,
-                ],
+                color: Colors.black,
                 dotData: FlDotData(
                   show: false,
                 ),
@@ -79,9 +75,7 @@ class LineChartSample7 extends StatelessWidget {
                 ],
                 isCurved: false,
                 barWidth: 2,
-                colors: [
-                  Colors.red,
-                ],
+                color: Colors.red,
                 dotData: FlDotData(
                   show: false,
                 ),

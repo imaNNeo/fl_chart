@@ -334,7 +334,8 @@ void main() {
           verify(_mockCanvasWrapper.drawPath(any, captureAny));
       final paint = verificationResult.captured.single as Paint;
       verificationResult.called(1);
-      expect(paint.color.value, barData.colors.first.value);
+      expect(paint.color.value,
+          barData.gradient?.colors.first.value ?? barData.color?.value);
     });
   });
 
@@ -1624,7 +1625,7 @@ void main() {
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
-        colors: [const Color(0xF0F0F0F0)],
+        color: const Color(0xF0F0F0F0),
         shadow: const Shadow(
           color: Color(0x0100FF00),
           offset: Offset(10, 15),
@@ -1677,14 +1678,17 @@ void main() {
       ];
 
       final LineChartBarData lineChartBarData1 = LineChartBarData(
-          show: true,
-          spots: barSpots1,
-          dotData: FlDotData(show: true),
-          barWidth: 80,
-          isStrokeCapRound: true,
-          isStepLineChart: true,
-          colors: [const Color(0xF0F0F0F0), const Color(0x0100FF00)],
-          dashArray: [1, 2, 3]);
+        show: true,
+        spots: barSpots1,
+        dotData: FlDotData(show: true),
+        barWidth: 80,
+        isStrokeCapRound: true,
+        isStepLineChart: true,
+        gradient: const LinearGradient(
+          colors: [Color(0xF0F0F0F0), Color(0x0100FF00)],
+        ),
+        dashArray: [1, 2, 3],
+      );
 
       final LineChartData data = LineChartData(
         minY: 0,
