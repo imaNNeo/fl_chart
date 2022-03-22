@@ -20,19 +20,19 @@ class BarChartSample6 extends StatelessWidget {
         BarChartRodData(
           fromY: 0,
           toY: pilates,
-          colors: [pilateColor],
+          color: pilateColor,
           width: 5,
         ),
         BarChartRodData(
           fromY: pilates + betweenSpace,
           toY: pilates + betweenSpace + quickWorkout,
-          colors: [quickWorkoutColor],
+          color: quickWorkoutColor,
           width: 5,
         ),
         BarChartRodData(
           fromY: pilates + betweenSpace + quickWorkout + betweenSpace,
           toY: pilates + betweenSpace + quickWorkout + betweenSpace + cycling,
-          colors: [cyclingColor],
+          color: cyclingColor,
           width: 5,
         ),
       ],

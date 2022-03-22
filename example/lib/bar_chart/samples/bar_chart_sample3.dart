@@ -81,12 +81,23 @@ class _BarChart extends StatelessWidget {
         show: false,
       );
 
+  final _barsGradient = const LinearGradient(
+    colors: [
+      Colors.lightBlueAccent,
+      Colors.greenAccent,
+    ],
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter,
+  );
+
   List<BarChartGroupData> get barGroups => [
         BarChartGroupData(
           x: 0,
           barRods: [
             BarChartRodData(
-                toY: 8, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+              toY: 8,
+              gradient: _barsGradient,
+            )
           ],
           showingTooltipIndicators: [0],
         ),
@@ -94,7 +105,9 @@ class _BarChart extends StatelessWidget {
           x: 1,
           barRods: [
             BarChartRodData(
-                toY: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+              toY: 10,
+              gradient: _barsGradient,
+            )
           ],
           showingTooltipIndicators: [0],
         ),
@@ -102,7 +115,9 @@ class _BarChart extends StatelessWidget {
           x: 2,
           barRods: [
             BarChartRodData(
-                toY: 14, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+              toY: 14,
+              gradient: _barsGradient,
+            )
           ],
           showingTooltipIndicators: [0],
         ),
@@ -110,7 +125,9 @@ class _BarChart extends StatelessWidget {
           x: 3,
           barRods: [
             BarChartRodData(
-                toY: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+              toY: 15,
+              gradient: _barsGradient,
+            )
           ],
           showingTooltipIndicators: [0],
         ),
@@ -118,7 +135,9 @@ class _BarChart extends StatelessWidget {
           x: 3,
           barRods: [
             BarChartRodData(
-                toY: 13, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+              toY: 13,
+              gradient: _barsGradient,
+            )
           ],
           showingTooltipIndicators: [0],
         ),
@@ -126,7 +145,9 @@ class _BarChart extends StatelessWidget {
           x: 3,
           barRods: [
             BarChartRodData(
-                toY: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+              toY: 10,
+              gradient: _barsGradient,
+            )
           ],
           showingTooltipIndicators: [0],
         ),

@@ -1,16 +1,15 @@
 import 'dart:core';
 import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/utils.dart';
-import 'bar_chart_extensions.dart';
 
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> {
@@ -292,27 +291,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
           }
 
-          if (barRod.backDrawRodData.colors.length == 1) {
-            _barPaint.color = barRod.backDrawRodData.colors[0];
+          final backDraw = barRod.backDrawRodData;
+          if (backDraw.color != null) {
+            _barPaint.color = backDraw.color!;
             _barPaint.shader = null;
           } else {
-            final from = barRod.backDrawRodData.gradientFrom;
-            final to = barRod.backDrawRodData.gradientTo;
-
-            _barPaint.shader = ui.Gradient.linear(
-              Offset(
-                getLeftOffsetDrawSize(holder) + (drawSize.width * from.dx),
-                getTopOffsetDrawSize(holder) + (drawSize.height * from.dy),
-              ),
-              Offset(
-                getLeftOffsetDrawSize(holder) + (drawSize.width * to.dx),
-                getTopOffsetDrawSize(holder) + (drawSize.height * to.dy),
-              ),
-              barRod.backDrawRodData.colors,
-              barRod.backDrawRodData.getSafeColorStops(),
-            );
+            _barPaint.color = Colors.black;
+            _barPaint.shader =
+                backDraw.gradient!.createShader(barRRect.getRect());
           }
-
           canvasWrapper.drawRRect(barRRect, _barPaint);
         }
 
@@ -343,25 +330,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                 bottomLeft: borderRadius.bottomLeft,
                 bottomRight: borderRadius.bottomRight);
           }
-          if (barRod.colors.length == 1) {
-            _barPaint.color = barRod.colors[0];
+          if (barRod.color != null) {
+            _barPaint.color = barRod.color!;
             _barPaint.shader = null;
           } else {
-            final from = barRod.gradientFrom;
-            final to = barRod.gradientTo;
-
-            _barPaint.shader = ui.Gradient.linear(
-              Offset(
-                getLeftOffsetDrawSize(holder) + (drawSize.width * from.dx),
-                getTopOffsetDrawSize(holder) + (drawSize.height * from.dy),
-              ),
-              Offset(
-                getLeftOffsetDrawSize(holder) + (drawSize.width * to.dx),
-                getTopOffsetDrawSize(holder) + (drawSize.height * to.dy),
-              ),
-              barRod.colors,
-              barRod.getSafeColorStops(),
-            );
+            _barPaint.color = Colors.black;
+            _barPaint.shader =
+                barRod.gradient!.createShader(barRRect.getRect());
           }
           canvasWrapper.drawRRect(barRRect, _barPaint);
 

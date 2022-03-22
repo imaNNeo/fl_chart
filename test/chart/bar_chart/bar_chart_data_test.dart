@@ -60,7 +60,7 @@ void main() {
 
       final changed = BackgroundBarChartRodData(
         toY: 21,
-        colors: [Colors.blue],
+        color: Colors.blue,
         show: false,
       );
 
@@ -68,7 +68,7 @@ void main() {
 
       final changed2 = BackgroundBarChartRodData(
         toY: 22,
-        colors: [Colors.blue],
+        color: Colors.blue,
         show: true,
       );
 

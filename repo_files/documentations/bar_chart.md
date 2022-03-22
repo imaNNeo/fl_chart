@@ -52,10 +52,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |:-------|:----------|:------------|
 |fromY|Position that this bar starts from|0|
 |toY|This rod is from `fromY` to `toY` in the vertical axis|null|
-|colors|colors the rod bar, if multiple colors provided it will be gradient|[Colors.blueAccent]|
-|colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
-|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
-|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
+|color|color of the rod bar|[Colors.cyan]|
+|gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)|null|
 |width|stroke width of the rod bar|8|
 |borderRadius|Determines the edge rounding of the bar corners, see [BorderRadius](https://api.flutter.dev/flutter/painting/BorderRadius-class.html). When `null`, it defaults to completely round bars. |null|
 |borderSide|Determines the border stroke around of the bar, see [BorderSide](https://api.flutter.dev/flutter/painting/BorderSide-class.html). When `null`, it defaults to draw no stroke. |null|
@@ -69,10 +67,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |fromY|same as [BarChartRodData](#BarChartRodData)'s fromY|0|
 |toY|same as [BarChartRodData](#BarChartRodData)'s y|8|
 |show|determines to show or hide this section|false|
-|colors|same as [BarChartRodData](#BarChartRodData)'s colors|[Colors.blueGrey]|
-|colorStops|same as [BarChartRodData](#BarChartRodData)'s colorStops|null|
-|gradientFrom|same as [BarChartRodData](#BarChartRodData)'s gradientFrom|Offset(0, 0)|
-|gradientTo|same as [BarChartRodData](#BarChartRodData)'s gradientTo|Offset(1, 0)|
+|color|same as [BarChartRodData](#BarChartRodData)'s colors|[Colors.blueGrey]|
+|gradient|same as [BarChartRodData](#BarChartRodData)'s gradient|null|
 
 ### BarChartRodStackItem
 |PropName|Description|default value|

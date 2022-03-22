@@ -1,3 +1,8 @@
+## newVersion
+* **FEATURE** Now we can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) and [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html) everywhere we have gradient.
+* **BUGFIX** Fix BarChart rods gradient problem, #703.
+* **BREAKING** `colors` property renamed to `color` to keep only one solid color. And now we have a `gradient` field instead of `colorStops`, `gradientFrom` and `gradientTo` in following classes: [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), 
+
 ## 0.46.0
 * **BUGFIX** Fix drawing BetweenBarsArea problem when there are `nullSpots` in fromLine and toLine, #912.
 * **FEATURE** Allow to have vertically grouped BarChart using `fromY` and `toY` properties in [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/feature/multi-rods-on-bar-chart/repo_files/documentations/bar_chart.md#BarChartRodData) It means you can have a negative and a positive bar chart at the same X location. #334, #875. Check [BarChartSample5](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-5-source-code) and [BarChartSample6](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-6-source-code.
