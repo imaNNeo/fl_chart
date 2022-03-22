@@ -96,7 +96,7 @@ class BarChartSample5State extends State<BarChartSample5> {
         BarChartRodData(
           toY: -sum,
           width: barWidth,
-          colors: [Colors.transparent],
+          color: Colors.transparent,
           borderRadius: isTop
               ? const BorderRadius.only(
                   bottomLeft: Radius.circular(6),

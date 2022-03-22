@@ -285,24 +285,15 @@ class BarChartRodData with EquatableMixin {
   /// [BarChart] renders rods vertically from [fromY] to [toY].
   final double toY;
 
-  /// if you pass just one color, the solid color will be used,
-  /// or if you pass more than one color, we use gradient mode to draw.
-  /// then the [gradientFrom], [gradientTo] and [colorStops] is important,
-  final List<Color> colors;
+  /// If provided, this [BarChartRodData] draws with this [color]
+  /// Otherwise we use  [gradient] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Color? color;
 
-  /// Determines the start point of gradient,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right.
-  final Offset gradientFrom;
-
-  /// Determines the end point of gradient,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right.
-  final Offset gradientTo;
-
-  /// if more than one color provided gradientColorStops will hold
-  /// stop points of the gradient.
-  final List<double>? colorStops;
+  /// If provided, this [BarChartRodData] draws with this [gradient].
+  /// Otherwise we use [color] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Gradient? gradient;
 
   /// [BarChart] renders each rods with this value.
   final double width;
@@ -327,6 +318,9 @@ class BarChartRodData with EquatableMixin {
   ///
   /// It renders each rod using [color], [width], and [borderRadius] for rounding corners and also [borderSide] for stroke border.
   ///
+  /// This bar draws with provided [color] or [gradient].
+  /// You must provide one of them.
+  ///
   /// If you want to have a bar drawn in rear of this rod, use [backDrawRodData],
   /// it uses to have a bar with a passive color in rear of the rod,
   /// for example you can use it as the maximum value place holder.
@@ -348,10 +342,8 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData({
     double? fromY,
     required double toY,
-    List<Color>? colors,
-    Offset? gradientFrom,
-    Offset? gradientTo,
-    List<double>? gradientColorStops,
+    Color? color,
+    Gradient? gradient,
     double? width,
     BorderRadius? borderRadius,
     BorderSide? borderSide,
@@ -359,25 +351,29 @@ class BarChartRodData with EquatableMixin {
     List<BarChartRodStackItem>? rodStackItems,
   })  : fromY = fromY ?? 0,
         toY = toY,
-        colors = colors ?? [Colors.cyan],
-        gradientFrom = gradientFrom ?? const Offset(0.5, 1),
-        gradientTo = gradientTo ?? const Offset(0.5, 0),
-        colorStops = gradientColorStops,
+        color =
+            color ?? ((color == null && gradient == null) ? Colors.cyan : null),
+        gradient = gradient,
         width = width ?? 8,
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-        rodStackItems = rodStackItems ?? const [];
+        rodStackItems = rodStackItems ?? const [] {
+    assert(
+      (this.gradient == null && this.color != null) ||
+          (this.color == null && this.gradient != null),
+      "You cannot provide both color and gradient at the same time, "
+      "color is ${this.color} and gradient is ${this.gradient}",
+    );
+  }
 
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
   BarChartRodData copyWith({
     double? fromY,
     double? toY,
-    List<Color>? colors,
-    Offset? gradientFrom,
-    Offset? gradientTo,
-    List<double>? colorStops,
+    Color? color,
+    Gradient? gradient,
     double? width,
     BorderRadius? borderRadius,
     BorderSide? borderSide,
@@ -387,10 +383,8 @@ class BarChartRodData with EquatableMixin {
     return BarChartRodData(
       fromY: fromY ?? this.fromY,
       toY: toY ?? this.toY,
-      colors: colors ?? this.colors,
-      gradientFrom: gradientFrom ?? this.gradientFrom,
-      gradientTo: gradientTo ?? this.gradientTo,
-      gradientColorStops: colorStops ?? this.colorStops,
+      color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
       borderSide: borderSide ?? this.borderSide,
@@ -402,10 +396,9 @@ class BarChartRodData with EquatableMixin {
   /// Lerps a [BarChartRodData] based on [t] value, check [Tween.lerp].
   static BarChartRodData lerp(BarChartRodData a, BarChartRodData b, double t) {
     return BarChartRodData(
-      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
-      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
-      colors: lerpColorList(a.colors, b.colors, t),
-      gradientColorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
+      // ignore: invalid_use_of_protected_member
+      gradient: a.gradient?.lerpTo(b.gradient, t),
+      color: Color.lerp(a.color, b.color, t),
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
@@ -428,10 +421,8 @@ class BarChartRodData with EquatableMixin {
         borderSide,
         backDrawRodData,
         rodStackItems,
-        colors,
-        gradientFrom,
-        gradientTo,
-        colorStops,
+        color,
+        gradient,
       ];
 }
 
@@ -506,44 +497,39 @@ class BackgroundBarChartRodData with EquatableMixin {
   /// background starts to show from [fromY] to [toY]
   final double toY;
 
-  /// if you pass just one color, the solid color will be used,
-  /// or if you pass more than one color, we use gradient mode to draw.
-  /// then the [gradientFrom], [gradientTo] and [colorStops] is important,
-  final List<Color> colors;
+  /// If provided, Background draws with this [color]
+  /// Otherwise we use  [gradient] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Color? color;
 
-  /// Determines the start point of gradient,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right.
-  final Offset gradientFrom;
-
-  /// Determines the end point of gradient,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right.
-  final Offset gradientTo;
-
-  /// if more than one color provided gradientColorStops will hold
-  /// stop points of the gradient.
-  final List<double>? colorStops;
+  /// If provided, background draws with this [gradient].
+  /// Otherwise we use [color] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Gradient? gradient;
 
   /// It will be rendered in rear of the main rod,
   /// background starts to show from [fromY] to [toY],
-  /// [colors] as the fill color,
+  /// It draws with [color] or [gradient]. You must provide one of them,
   /// you prevent to show it, using [show] property.
   BackgroundBarChartRodData({
     double? fromY,
     double? toY,
     bool? show,
-    List<Color>? colors,
-    Offset? gradientFrom,
-    Offset? gradientTo,
-    List<double>? colorStops,
+    Color? color,
+    Gradient? gradient,
   })  : fromY = fromY ?? 0,
         toY = toY ?? 0,
         show = show ?? false,
-        colors = colors ?? [Colors.blueGrey],
-        gradientFrom = gradientFrom ?? const Offset(0, 0),
-        gradientTo = gradientTo ?? const Offset(1, 0),
-        colorStops = colorStops;
+        color = color ??
+            ((color == null && gradient == null) ? Colors.blueGrey : null),
+        gradient = gradient {
+    assert(
+      (this.gradient == null && this.color != null) ||
+          (this.color == null && this.gradient != null),
+      "You cannot provide both color and gradient at the same time, "
+      "color is ${this.color} and gradient is ${this.gradient}",
+    );
+  }
 
   /// Lerps a [BackgroundBarChartRodData] based on [t] value, check [Tween.lerp].
   static BackgroundBarChartRodData lerp(
@@ -551,10 +537,9 @@ class BackgroundBarChartRodData with EquatableMixin {
     return BackgroundBarChartRodData(
       fromY: lerpDouble(a.fromY, b.fromY, t),
       toY: lerpDouble(a.toY, b.toY, t),
-      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
-      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
-      colors: lerpColorList(a.colors, b.colors, t),
-      colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
+      color: Color.lerp(a.color, b.color, t),
+      // ignore: invalid_use_of_protected_member
+      gradient: a.gradient?.lerpTo(b.gradient, t),
       show: b.show,
     );
   }
@@ -565,10 +550,8 @@ class BackgroundBarChartRodData with EquatableMixin {
         show,
         fromY,
         toY,
-        colors,
-        gradientTo,
-        gradientFrom,
-        colorStops,
+        color,
+        gradient,
       ];
 }
 
@@ -772,8 +755,9 @@ BarTooltipItem? defaultBarTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
+  final color = rod.gradient?.colors.first ?? rod.color;
   final textStyle = TextStyle(
-    color: rod.colors.first,
+    color: color,
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );

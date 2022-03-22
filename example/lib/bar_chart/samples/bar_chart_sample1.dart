@@ -118,7 +118,7 @@ class BarChartSample1State extends State<BarChartSample1> {
       barRods: [
         BarChartRodData(
           toY: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colors.yellow] : [barColor],
+          color: isTouched ? Colors.yellow : barColor,
           width: width,
           borderSide: isTouched
               ? BorderSide(color: Colors.yellow.darken(), width: 1)
@@ -126,7 +126,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 20,
-            colors: [barBackgroundColor],
+            color: barBackgroundColor,
           ),
         ),
       ],
