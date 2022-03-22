@@ -220,6 +220,18 @@ class LineChartBarData with EquatableMixin {
   /// put a [FlSpot.nullSpot] between each section.
   final List<FlSpot> spots;
 
+  /// We keep the most left spot to prevent redundant calculations
+  late final FlSpot mostLeftSpot;
+
+  /// We keep the most top spot to prevent redundant calculations
+  late final FlSpot mostTopSpot;
+
+  /// We keep the most right spot to prevent redundant calculations
+  late final FlSpot mostRightSpot;
+
+  /// We keep the most bottom spot to prevent redundant calculations
+  late final FlSpot mostBottomSpot;
+
   /// Determines to show or hide the line.
   final bool show;
 
@@ -364,7 +376,43 @@ class LineChartBarData with EquatableMixin {
         dashArray = dashArray,
         shadow = shadow ?? const Shadow(color: Colors.transparent),
         isStepLineChart = isStepLineChart ?? false,
-        lineChartStepData = lineChartStepData ?? LineChartStepData();
+        lineChartStepData = lineChartStepData ?? LineChartStepData() {
+    FlSpot? _mostLeft, _mostTop, _mostRight, _mostBottom;
+
+    FlSpot? firstValidSpot;
+    try {
+      firstValidSpot =
+          this.spots.firstWhere((element) => element != FlSpot.nullSpot);
+    } catch (e) {
+      // There is no valid spot
+    }
+    if (firstValidSpot != null) {
+      for (var spot in this.spots) {
+        if (spot.isNull()) {
+          continue;
+        }
+        if (_mostLeft == null || spot.x < _mostLeft.x) {
+          _mostLeft = spot;
+        }
+
+        if (_mostRight == null || spot.x > _mostRight.x) {
+          _mostRight = spot;
+        }
+
+        if (_mostTop == null || spot.y > _mostTop.y) {
+          _mostTop = spot;
+        }
+
+        if (_mostBottom == null || spot.y < _mostBottom.y) {
+          _mostBottom = spot;
+        }
+      }
+      mostLeftSpot = _mostLeft!;
+      mostTopSpot = _mostTop!;
+      mostRightSpot = _mostRight!;
+      mostBottomSpot = _mostBottom!;
+    }
+  }
 
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(
@@ -507,23 +555,15 @@ class LineChartStepData with EquatableMixin {
 class BarAreaData with EquatableMixin {
   final bool show;
 
-  /// if you pass just one color, the solid color will be used,
-  /// or if you pass more than one color, we use gradient mode to draw.
-  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
-  final List<Color> colors;
+  /// If provided, this [BarAreaData] draws with this [color]
+  /// Otherwise we use  [gradient] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Color? color;
 
-  /// if the gradient mode is enabled (if you have more than one color)
-  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
-  /// you can determine where the gradient should start and end,
-  /// values are available between 0 to 1,
-  /// Offset(0, 0) represent the top / left
-  /// Offset(1, 1) represent the bottom / right
-  final Offset gradientFrom;
-  final Offset gradientTo;
-
-  /// if more than one color provided gradientColorStops will hold
-  /// stop points of the gradient.
-  final List<double>? gradientColorStops;
+  /// If provided, this [BarAreaData] draws with this [gradient].
+  /// Otherwise we use [color] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Gradient? gradient;
 
   /// holds data for drawing a line from each spot the the bottom, or top of the chart
   final BarAreaSpotsLine spotsLine;
@@ -537,7 +577,7 @@ class BarAreaData with EquatableMixin {
   /// if [show] is true, [LineChart] fills above and below area of each line
   /// with a color or gradient.
   ///
-  /// [colors] determines the color of above or below space area,
+  /// [color] determines the color of above or below space area,
   /// if one color provided it applies a solid color,
   /// otherwise it gradients between provided colors for drawing the line.
   /// Gradient happens using provided [gradientColorStops], [gradientFrom], [gradientTo].
@@ -550,18 +590,17 @@ class BarAreaData with EquatableMixin {
   /// If [applyCutOffY] is true, it cuts the drawing by the [cutOffY] line.
   BarAreaData({
     bool? show,
-    List<Color>? colors,
-    Offset? gradientFrom,
-    Offset? gradientTo,
-    List<double>? gradientColorStops,
+    Color? color,
+    Gradient? gradient,
     BarAreaSpotsLine? spotsLine,
     double? cutOffY,
     bool? applyCutOffY,
   })  : show = show ?? false,
-        colors = colors ?? [Colors.blueGrey.withOpacity(0.5)],
-        gradientFrom = gradientFrom ?? const Offset(0, 0),
-        gradientTo = gradientTo ?? const Offset(1, 0),
-        gradientColorStops = gradientColorStops,
+        color = color ??
+            ((color == null && gradient == null)
+                ? Colors.blueGrey.withOpacity(0.5)
+                : null),
+        gradient = gradient,
         spotsLine = spotsLine ?? BarAreaSpotsLine(),
         cutOffY = cutOffY ?? 0,
         applyCutOffY = applyCutOffY ?? false,
@@ -571,12 +610,10 @@ class BarAreaData with EquatableMixin {
   static BarAreaData lerp(BarAreaData a, BarAreaData b, double t) {
     return BarAreaData(
       show: b.show,
-      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
-      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spotsLine: BarAreaSpotsLine.lerp(a.spotsLine, b.spotsLine, t),
-      colors: lerpColorList(a.colors, b.colors, t),
-      gradientColorStops:
-          lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
+      color: Color.lerp(a.color, b.color, t),
+      // ignore: invalid_use_of_protected_member
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
       cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t),
       applyCutOffY: b.applyCutOffY,
     );
@@ -586,10 +623,8 @@ class BarAreaData with EquatableMixin {
   @override
   List<Object?> get props => [
         show,
-        colors,
-        gradientFrom,
-        gradientTo,
-        gradientColorStops,
+        color,
+        gradient,
         spotsLine,
         cutOffY,
         applyCutOffY,

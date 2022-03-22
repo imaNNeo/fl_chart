@@ -605,28 +605,21 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
-    /// here we update the [belowBarPaint] to draw the solid color
-    /// or the gradient based on the [BarAreaData] class.
-    if (barData.belowBarData.colors.length == 1) {
-      _barAreaPaint.color = barData.belowBarData.colors[0];
-      _barAreaPaint.shader = null;
-    } else {
-      final from = barData.belowBarData.gradientFrom;
-      final to = barData.belowBarData.gradientTo;
-      _barAreaPaint.color = Colors.black;
-      _barAreaPaint.shader = ui.Gradient.linear(
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * from.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * from.dy),
-        ),
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * to.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * to.dy),
-        ),
-        barData.belowBarData.colors,
-        barData.belowBarData.getSafeColorStops(),
-      );
-    }
+    final belowBarLargestRect = Rect.fromLTRB(
+      getPixelX(barData.mostLeftSpot.x, chartViewSize, holder),
+      getPixelY(barData.mostTopSpot.y, chartViewSize, holder),
+      getPixelX(barData.mostRightSpot.x, chartViewSize, holder),
+      viewSize.height -
+          getExtraNeededVerticalSpace(holder) -
+          getTopOffsetDrawSize(holder),
+    );
+
+    final belowBar = barData.belowBarData;
+    _barAreaPaint.setColorOrGradient(
+      belowBar.color,
+      belowBar.gradient,
+      belowBarLargestRect,
+    );
 
     if (barData.belowBarData.applyCutOffY) {
       canvasWrapper.saveLayer(
@@ -698,28 +691,19 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final viewSize = canvasWrapper.size;
     final chartViewSize = getChartUsableDrawSize(viewSize, holder);
 
-    /// here we update the [aboveBarPaint] to draw the solid color
-    /// or the gradient based on the [BarAreaData] class.
-    if (barData.aboveBarData.colors.length == 1) {
-      _barAreaPaint.color = barData.aboveBarData.colors[0];
-      _barAreaPaint.shader = null;
-    } else {
-      final from = barData.aboveBarData.gradientFrom;
-      final to = barData.aboveBarData.gradientTo;
-      _barAreaPaint.color = Colors.black;
-      _barAreaPaint.shader = ui.Gradient.linear(
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * from.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * from.dy),
-        ),
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * to.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * to.dy),
-        ),
-        barData.aboveBarData.colors,
-        barData.aboveBarData.getSafeColorStops(),
-      );
-    }
+    final aboveBarLargestRect = Rect.fromLTRB(
+      getPixelX(barData.mostLeftSpot.x, chartViewSize, holder),
+      getTopOffsetDrawSize(holder),
+      getPixelX(barData.mostRightSpot.x, chartViewSize, holder),
+      getPixelY(barData.mostBottomSpot.y, chartViewSize, holder),
+    );
+
+    final aboveBar = barData.aboveBarData;
+    _barAreaPaint.setColorOrGradient(
+      aboveBar.color,
+      aboveBar.gradient,
+      aboveBarLargestRect,
+    );
 
     if (barData.aboveBarData.applyCutOffY) {
       canvasWrapper.saveLayer(

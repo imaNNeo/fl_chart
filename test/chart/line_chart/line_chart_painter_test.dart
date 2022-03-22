@@ -1075,13 +1075,17 @@ void main() {
       ];
 
       final LineChartBarData lineChartBarData = LineChartBarData(
+        show: true,
+        spots: barSpots,
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+        belowBarData: BarAreaData(
           show: true,
-          spots: barSpots,
-          dotData: FlDotData(show: true),
-          isStepLineChart: true,
-          belowBarData: BarAreaData(
-              show: true,
-              colors: [const Color(0xFFFF0000), const Color(0xFF00FF00)]));
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF0000), Color(0xFF00FF00)],
+          ),
+        ),
+      );
 
       final LineChartData data = LineChartData(
         minY: 0,
@@ -1139,7 +1143,9 @@ void main() {
         isStepLineChart: true,
         belowBarData: BarAreaData(
           show: true,
-          colors: [const Color(0xFFFF0000), const Color(0xFF00FF00)],
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF0000), Color(0xFF00FF00)],
+          ),
           applyCutOffY: true,
           cutOffY: 8,
           spotsLine: BarAreaSpotsLine(
@@ -1237,13 +1243,17 @@ void main() {
       ];
 
       final LineChartBarData lineChartBarData = LineChartBarData(
+        show: true,
+        spots: barSpots,
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+        aboveBarData: BarAreaData(
           show: true,
-          spots: barSpots,
-          dotData: FlDotData(show: true),
-          isStepLineChart: true,
-          aboveBarData: BarAreaData(
-              show: true,
-              colors: [const Color(0xFFFF0000), const Color(0xFF00FF00)]));
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF0000), Color(0xFF00FF00)],
+          ),
+        ),
+      );
 
       final LineChartData data = LineChartData(
         minY: 0,
@@ -1301,7 +1311,9 @@ void main() {
         isStepLineChart: true,
         aboveBarData: BarAreaData(
           show: true,
-          colors: [const Color(0xFFFF0000), const Color(0xFF00FF00)],
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF0000), Color(0xFF00FF00)],
+          ),
           applyCutOffY: true,
           cutOffY: 8,
           spotsLine: BarAreaSpotsLine(
@@ -1404,13 +1416,17 @@ void main() {
       ];
 
       final LineChartBarData lineChartBarData1 = LineChartBarData(
+        show: true,
+        spots: barSpots1,
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+        aboveBarData: BarAreaData(
           show: true,
-          spots: barSpots1,
-          dotData: FlDotData(show: true),
-          isStepLineChart: true,
-          aboveBarData: BarAreaData(
-              show: true,
-              colors: [const Color(0xFFFF0000), const Color(0xFF00FF00)]));
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF0000), Color(0xFF00FF00)],
+          ),
+        ),
+      );
 
       final LineChartBarData lineChartBarData2 = LineChartBarData(
           show: true,

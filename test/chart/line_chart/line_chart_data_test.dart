@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../data_pool.dart';
@@ -14,6 +15,20 @@ void main() {
       expect(lineChartBarData1 == lineChartBarData7, false);
       expect(lineChartBarData1 == lineChartBarData8, false);
       expect(lineChartBarData1 == lineChartBarData9, false);
+    });
+
+    test('LineChartBarData late init values test', () {
+      final bar = LineChartBarData(spots: const [
+        FlSpot(1, 1),
+        FlSpot(2, 4),
+        FlSpot(-3, 8),
+        FlSpot(2, -5),
+        FlSpot(9, 0),
+      ]);
+      expect(bar.mostLeftSpot, const FlSpot(-3, 8));
+      expect(bar.mostTopSpot, const FlSpot(-3, 8));
+      expect(bar.mostRightSpot, const FlSpot(9, 0));
+      expect(bar.mostBottomSpot, const FlSpot(2, -5));
     });
 
     test('BarAreaData equality test', () {

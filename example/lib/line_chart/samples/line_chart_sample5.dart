@@ -29,11 +29,15 @@ class LineChartSample5 extends StatelessWidget {
           ),
           belowBarData: BarAreaData(
             show: true,
-            colors: [
-              const Color(0xff12c2e9).withOpacity(0.4),
-              const Color(0xffc471ed).withOpacity(0.4),
-              const Color(0xfff64f59).withOpacity(0.4),
-            ],
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xff12c2e9).withOpacity(0.4),
+                const Color(0xffc471ed).withOpacity(0.4),
+                const Color(0xfff64f59).withOpacity(0.4),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
           ),
           dotData: FlDotData(show: false),
           colors: [

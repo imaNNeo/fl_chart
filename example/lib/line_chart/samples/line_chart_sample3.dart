@@ -189,13 +189,15 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   ],
                   belowBarData: BarAreaData(
                     show: true,
-                    colors: [
-                      Colors.orange.withOpacity(0.5),
-                      Colors.orange.withOpacity(0.0),
-                    ],
-                    gradientColorStops: [0.5, 1.0],
-                    gradientFrom: const Offset(0, 0),
-                    gradientTo: const Offset(0, 1),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.orange.withOpacity(0.5),
+                        Colors.orange.withOpacity(0.0),
+                      ],
+                      stops: const [0.5, 1.0],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
                     spotsLine: BarAreaSpotsLine(
                       show: true,
                       flLineStyle: FlLine(

@@ -205,8 +205,13 @@ class _LineChartSample8State extends State<LineChartSample8> {
           ),
           belowBarData: BarAreaData(
             show: false,
-            colors:
-                gradientColors.map((color) => color.withOpacity(0.5)).toList(),
+            gradient: LinearGradient(
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.5))
+                  .toList(),
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
           ),
         ),
       ],
