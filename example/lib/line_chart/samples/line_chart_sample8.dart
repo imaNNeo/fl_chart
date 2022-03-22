@@ -197,7 +197,11 @@ class _LineChartSample8State extends State<LineChartSample8> {
           ],
           dashArray: [2, 4],
           isCurved: true,
-          colors: const [Color(0xff0F2BF6), Color(0xff0F2BF6)],
+          gradient: const LinearGradient(
+            colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(

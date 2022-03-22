@@ -184,9 +184,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   }).toList(),
                   isCurved: false,
                   barWidth: 4,
-                  colors: [
-                    Colors.orange,
-                  ],
+                  color: Colors.orange,
                   belowBarData: BarAreaData(
                     show: true,
                     gradient: LinearGradient(

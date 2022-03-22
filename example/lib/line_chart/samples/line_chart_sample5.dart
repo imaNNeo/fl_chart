@@ -19,37 +19,38 @@ class LineChartSample5 extends StatelessWidget {
   Widget build(BuildContext context) {
     final lineBarsData = [
       LineChartBarData(
-          showingIndicators: showIndexes,
-          spots: allSpots,
-          isCurved: true,
-          barWidth: 4,
-          shadow: const Shadow(
-            blurRadius: 8,
-            color: Colors.black,
+        showingIndicators: showIndexes,
+        spots: allSpots,
+        isCurved: true,
+        barWidth: 4,
+        shadow: const Shadow(
+          blurRadius: 8,
+          color: Colors.black,
+        ),
+        belowBarData: BarAreaData(
+          show: true,
+          gradient: LinearGradient(
+            colors: [
+              const Color(0xff12c2e9).withOpacity(0.4),
+              const Color(0xffc471ed).withOpacity(0.4),
+              const Color(0xfff64f59).withOpacity(0.4),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xff12c2e9).withOpacity(0.4),
-                const Color(0xffc471ed).withOpacity(0.4),
-                const Color(0xfff64f59).withOpacity(0.4),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-          ),
-          dotData: FlDotData(show: false),
+        ),
+        dotData: FlDotData(show: false),
+        gradient: const LinearGradient(
           colors: [
-            const Color(0xff12c2e9),
-            const Color(0xffc471ed),
-            const Color(0xfff64f59),
+            Color(0xff12c2e9),
+            Color(0xffc471ed),
+            Color(0xfff64f59),
           ],
-          colorStops: [
-            0.1,
-            0.4,
-            0.9
-          ]),
+          stops: [0.1, 0.4, 0.9],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+      ),
     ];
 
     final tooltipsOnBar = lineBarsData[0];
@@ -80,7 +81,10 @@ class LineChartSample5 extends StatelessWidget {
                         FlDotCirclePainter(
                       radius: 8,
                       color: lerpGradient(
-                          barData.colors, barData.colorStops!, percent / 100),
+                        barData.gradient!.colors,
+                        barData.gradient!.stops!,
+                        percent / 100,
+                      ),
                       strokeWidth: 2,
                       strokeColor: Colors.black,
                     ),

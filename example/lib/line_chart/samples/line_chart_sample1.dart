@@ -155,7 +155,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
         isCurved: true,
-        colors: [const Color(0xff4af699)],
+        color: const Color(0xff4af699),
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -173,7 +173,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
         isCurved: true,
-        colors: [const Color(0xffaa4cfc)],
+        color: const Color(0xffaa4cfc),
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -193,7 +193,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
         isCurved: true,
-        colors: const [Color(0xff27b6fc)],
+        color: const Color(0xff27b6fc),
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -210,7 +210,7 @@ class _LineChart extends StatelessWidget {
   LineChartBarData get lineChartBarData2_1 => LineChartBarData(
         isCurved: true,
         curveSmoothness: 0,
-        colors: const [Color(0x444af699)],
+        color: const Color(0x444af699),
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -228,7 +228,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData2_2 => LineChartBarData(
         isCurved: true,
-        colors: const [Color(0x99aa4cfc)],
+        color: const Color(0x99aa4cfc),
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -249,7 +249,7 @@ class _LineChart extends StatelessWidget {
   LineChartBarData get lineChartBarData2_3 => LineChartBarData(
         isCurved: true,
         curveSmoothness: 0,
-        colors: const [Color(0x4427b6fc)],
+        color: const Color(0x4427b6fc),
         barWidth: 2,
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),

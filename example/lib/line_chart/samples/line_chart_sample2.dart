@@ -146,7 +146,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
             FlSpot(11, 4),
           ],
           isCurved: true,
-          colors: gradientColors,
+          gradient: LinearGradient(
+            colors: gradientColors,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: FlDotData(
@@ -255,12 +259,16 @@ class _LineChartSample2State extends State<LineChartSample2> {
             FlSpot(11, 3.44),
           ],
           isCurved: true,
-          colors: [
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!,
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!,
-          ],
+          gradient: LinearGradient(
+            colors: [
+              ColorTween(begin: gradientColors[0], end: gradientColors[1])
+                  .lerp(0.2)!,
+              ColorTween(begin: gradientColors[0], end: gradientColors[1])
+                  .lerp(0.2)!,
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: FlDotData(

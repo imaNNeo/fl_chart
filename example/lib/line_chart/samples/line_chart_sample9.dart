@@ -26,7 +26,8 @@ class LineChartSample9 extends StatelessWidget {
                   getTooltipItems: (touchedSpots) {
                     return touchedSpots.map((LineBarSpot touchedSpot) {
                       final textStyle = TextStyle(
-                        color: touchedSpot.bar.colors[0],
+                        color: touchedSpot.bar.gradient?.colors[0] ??
+                            touchedSpot.bar.color,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       );
@@ -40,9 +41,7 @@ class LineChartSample9 extends StatelessWidget {
             ),
             lineBarsData: [
               LineChartBarData(
-                colors: [
-                  Colors.black,
-                ],
+                color: Colors.black,
                 spots: spots,
                 isCurved: true,
                 isStrokeCapRound: true,

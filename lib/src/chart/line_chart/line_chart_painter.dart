@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import '../../../fl_chart.dart';
 import '../../extensions/text_align_extension.dart';
 import '../../utils/utils.dart';
-import 'line_chart_helper.dart';
 
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData> {
@@ -843,30 +842,17 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     _barPaint.strokeCap =
         barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
 
-    /// here we update the [barPaint] to draw the solid color or
-    /// the gradient color,
-    /// if we have one color, solid color will apply,
-    /// but if we have more than one color, gradient will apply.
-    if (barData.colors.length == 1) {
-      _barPaint.color = barData.colors[0];
-      _barPaint.shader = null;
-    } else {
-      final from = barData.gradientFrom;
-      final to = barData.gradientTo;
-
-      _barPaint.shader = ui.Gradient.linear(
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * from.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * from.dy),
-        ),
-        Offset(
-          getLeftOffsetDrawSize(holder) + (chartViewSize.width * to.dx),
-          getTopOffsetDrawSize(holder) + (chartViewSize.height * to.dy),
-        ),
-        barData.colors,
-        barData.getSafeColorStops(),
-      );
-    }
+    final rectAroundTheLine = Rect.fromLTRB(
+      getPixelX(barData.mostLeftSpot.x, chartViewSize, holder),
+      getPixelY(barData.mostTopSpot.y, chartViewSize, holder),
+      getPixelX(barData.mostRightSpot.x, chartViewSize, holder),
+      getPixelY(barData.mostBottomSpot.y, chartViewSize, holder),
+    );
+    _barPaint.setColorOrGradient(
+      barData.color,
+      barData.gradient,
+      rectAroundTheLine,
+    );
 
     _barPaint.maskFilter = null;
     _barPaint.strokeWidth = barData.barWidth;
