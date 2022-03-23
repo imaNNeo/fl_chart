@@ -132,6 +132,14 @@ void main() {
       MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
       when(_mockCanvasWrapper.size).thenReturn(viewSize);
       when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenReturn(const TextStyle(color: Color(0x00ffffff)));
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenReturn(Offset.zero);
+
       scatterChartPainter.drawSpots(
         _mockBuildContext,
         _mockCanvasWrapper,
