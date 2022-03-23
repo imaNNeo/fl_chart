@@ -46,14 +46,6 @@ class SideTitlesWidget extends StatelessWidget {
 
   FlTitlesData get titlesData => axisChartData.titlesData;
 
-  AxisTitles get leftTitles => titlesData.leftTitles;
-
-  AxisTitles get topTitles => titlesData.topTitles;
-
-  AxisTitles get rightTitles => titlesData.rightTitles;
-
-  AxisTitles get bottomTitles => titlesData.bottomTitles;
-
   bool get isLeftOrTop => side == TitlesSide.left || side == TitlesSide.top;
 
   bool get isRightOrBottom =>
@@ -69,8 +61,6 @@ class SideTitlesWidget extends StatelessWidget {
         return titlesData.rightTitles;
       case TitlesSide.bottom:
         return titlesData.bottomTitles;
-      default:
-        throw StateError("Side is not valid $side");
     }
   }
 
@@ -90,8 +80,6 @@ class SideTitlesWidget extends StatelessWidget {
         return Alignment.centerRight;
       case TitlesSide.bottom:
         return Alignment.bottomCenter;
-      default:
-        throw StateError("Side is not valid $side");
     }
   }
 
@@ -103,8 +91,6 @@ class SideTitlesWidget extends StatelessWidget {
       case TitlesSide.top:
       case TitlesSide.bottom:
         return titlesData.allSidesPadding.onlyLeftRight;
-      default:
-        throw StateError("Side is not valid $side");
     }
   }
 
@@ -116,8 +102,6 @@ class SideTitlesWidget extends StatelessWidget {
       case TitlesSide.top:
       case TitlesSide.bottom:
         return titlesData.allSidesPadding.horizontal;
-      default:
-        throw StateError("Side is not valid $side");
     }
   }
 
@@ -142,14 +126,13 @@ class SideTitlesWidget extends StatelessWidget {
         return AxisSideTitleMetaData(xValue.toDouble(), xLocation);
       }).toList();
     } else {
-      axisPositions = AxisChartHelper()
-          .getAxisPositions(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: axisMin,
         max: axisMax,
         baseLine: axisBaseLine,
         interval: interval,
-      )
-          .map((axisValue) {
+      );
+      axisPositions = axisValues.map((axisValue) {
         var portion = (axisValue - axisMin) / (axisMax - axisMin);
         if (isVertical) {
           portion = 1 - portion;
@@ -179,6 +162,9 @@ class SideTitlesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!axisTitles.showAxisTitles && !axisTitles.showSideTitles) {
+      return Container();
+    }
     final axisViewSize = isHorizontal ? parentSize.width : parentSize.height;
     return Align(
       alignment: alignment,
@@ -245,8 +231,6 @@ class _AxisTitleWidget extends StatelessWidget {
         return 0;
       case TitlesSide.bottom:
         return 0;
-      default:
-        throw StateError("Side is not valid $side");
     }
   }
 

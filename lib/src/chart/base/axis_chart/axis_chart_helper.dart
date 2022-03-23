@@ -52,41 +52,4 @@ class AxisChartHelper {
       yield max;
     }
   }
-
-  List<double> getAxisPositions({
-    required double min,
-    bool minIncluded = true,
-    required double max,
-    bool maxIncluded = true,
-    required double baseLine,
-    required double interval,
-  }) {
-    final initialValue = Utils()
-        .getBestInitialIntervalValue(min, max, interval, baseline: baseLine);
-    var axisSeek = initialValue;
-    final firstPositionOverlapsWithMin = axisSeek == min;
-    if (!minIncluded && firstPositionOverlapsWithMin) {
-      axisSeek += interval;
-    }
-    final diff = max - min;
-    final count = diff ~/ interval;
-    final lastPosition = initialValue + (count * interval);
-    final lastPositionOverlapsWithMax = lastPosition == max;
-    final end =
-        !maxIncluded && lastPositionOverlapsWithMax ? max - interval : max;
-
-    List<double> results = [];
-    final epsilon = interval / 100000;
-    if (minIncluded && !firstPositionOverlapsWithMin) {
-      results.add(min);
-    }
-    while (axisSeek <= end + epsilon) {
-      results.add(axisSeek);
-      axisSeek += interval;
-    }
-    if (maxIncluded && !lastPositionOverlapsWithMax) {
-      results.add(max);
-    }
-    return results;
-  }
 }

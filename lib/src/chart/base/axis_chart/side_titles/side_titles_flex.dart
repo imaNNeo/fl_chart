@@ -94,72 +94,8 @@ class AxisSideTitlesRenderFlex extends RenderBox
     }
   }
 
-  bool get _canComputeIntrinsics => false;
-
-  double _getIntrinsicSize({
-    required Axis sizingDirection,
-    required double extent,
-    required _ChildSizingFunction childSize,
-  }) {
-    if (!_canComputeIntrinsics) {
-      assert(
-        RenderObject.debugCheckingIntrinsics,
-        'Intrinsics are not available for CrossAxisAlignment.baseline.',
-      );
-      return 0.0;
-    }
-    double totalFlex = 0.0;
-    double inflexibleSpace = 0.0;
-    double maxFlexFractionSoFar = 0.0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      inflexibleSpace += childSize(child, extent);
-      final FlexParentData childParentData =
-          child.parentData! as FlexParentData;
-      child = childParentData.nextSibling;
-    }
-    return maxFlexFractionSoFar * totalFlex + inflexibleSpace;
-  }
-
   @override
-  double computeMinIntrinsicWidth(double height) {
-    return _getIntrinsicSize(
-      sizingDirection: Axis.horizontal,
-      extent: height,
-      childSize: (RenderBox child, double extent) =>
-          child.getMinIntrinsicWidth(extent),
-    );
-  }
-
-  @override
-  double computeMaxIntrinsicWidth(double height) {
-    return _getIntrinsicSize(
-      sizingDirection: Axis.horizontal,
-      extent: height,
-      childSize: (RenderBox child, double extent) =>
-          child.getMaxIntrinsicWidth(extent),
-    );
-  }
-
-  @override
-  double computeMinIntrinsicHeight(double width) {
-    return _getIntrinsicSize(
-      sizingDirection: Axis.vertical,
-      extent: width,
-      childSize: (RenderBox child, double extent) =>
-          child.getMinIntrinsicHeight(extent),
-    );
-  }
-
-  @override
-  double computeMaxIntrinsicHeight(double width) {
-    return _getIntrinsicSize(
-      sizingDirection: Axis.vertical,
-      extent: width,
-      childSize: (RenderBox child, double extent) =>
-          child.getMaxIntrinsicHeight(extent),
-    );
-  }
+  bool get debugNeedsLayout => false;
 
   @override
   double? computeDistanceToActualBaseline(TextBaseline baseline) {
@@ -189,14 +125,6 @@ class AxisSideTitlesRenderFlex extends RenderBox
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
-    if (!_canComputeIntrinsics) {
-      assert(debugCannotComputeDryLayout(
-        reason:
-            'Dry layout cannot be computed for CrossAxisAlignment.baseline, which requires a full layout.',
-      ));
-      return Size.zero;
-    }
-
     final _LayoutSizes sizes = _computeSizes(
       layoutChild: ChildLayoutHelper.dryLayoutChild,
       constraints: constraints,
@@ -339,8 +267,6 @@ class AxisSideTitlesRenderFlex extends RenderBox
     properties.add(EnumProperty<Axis>('direction', direction));
   }
 }
-
-typedef _ChildSizingFunction = double Function(RenderBox child, double extent);
 
 class _LayoutSizes {
   const _LayoutSizes({

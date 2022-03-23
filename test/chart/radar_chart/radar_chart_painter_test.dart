@@ -12,6 +12,72 @@ import 'radar_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
+  group('paint()', () {
+    test('test 1', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final data = RadarChartData(
+        dataSets: [
+          RadarDataSet(
+            dataEntries: const [
+              RadarEntry(value: 12),
+              RadarEntry(value: 11),
+              RadarEntry(value: 10),
+            ],
+          ),
+          RadarDataSet(
+            dataEntries: const [
+              RadarEntry(value: 2),
+              RadarEntry(value: 2),
+              RadarEntry(value: 2),
+            ],
+          ),
+          RadarDataSet(
+            dataEntries: const [
+              RadarEntry(value: 4),
+              RadarEntry(value: 4),
+              RadarEntry(value: 4),
+            ],
+          ),
+        ],
+      );
+
+      final radarPainter = RadarChartPainter();
+      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
+
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(_mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(_mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(_mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(_mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+          (realInvocation) => const BorderSide(color: MockData.color0));
+
+      final _mockBuildContext = MockBuildContext();
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      radarPainter.paint(
+        _mockBuildContext,
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verify(_mockCanvasWrapper.drawCircle(any, any, any)).called(12);
+      verify(_mockCanvasWrapper.drawLine(any, any, any)).called(7);
+      Utils.changeInstance(utilsMainInstance);
+    });
+  });
+
   group('drawTicks()', () {
     test('test 1', () {
       const viewSize = Size(400, 300);

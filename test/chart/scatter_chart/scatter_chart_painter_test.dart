@@ -15,6 +15,53 @@ import 'scatter_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
+  group('paint()', () {
+    test('test 1', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final data = ScatterChartData(
+        scatterSpots: [
+          ScatterSpot(0, 1),
+          ScatterSpot(1, 3),
+          ScatterSpot(3, 4),
+        ],
+      );
+
+      final scatterPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
+
+      MockUtils _mockUtils = MockUtils();
+      Utils.changeInstance(_mockUtils);
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(_mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(_mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(_mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(_mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(_mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+          (realInvocation) => const BorderSide(color: MockData.color0));
+
+      final _mockBuildContext = MockBuildContext();
+      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterPainter.paint(
+        _mockBuildContext,
+        _mockCanvasWrapper,
+        holder,
+      );
+
+      verify(_mockCanvasWrapper.drawCircle(any, any, any)).called(3);
+      Utils.changeInstance(utilsMainInstance);
+    });
+  });
+
   group('drawSpots()', () {
     test('test 1', () {
       const viewSize = Size(100, 100);
