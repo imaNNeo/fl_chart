@@ -75,8 +75,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
         const y1 = 0.0;
         final x2 = bothX;
         final y2 = viewSize.height;
-        canvasWrapper.drawDashedLine(Offset(x1, y1), Offset(x2, y2),
-            _gridPaint, flLineStyle.dashArray);
+        canvasWrapper.drawDashedLine(
+            Offset(x1, y1), Offset(x2, y2), _gridPaint, flLineStyle.dashArray);
       }
     }
 
