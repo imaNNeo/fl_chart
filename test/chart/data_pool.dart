@@ -2331,22 +2331,22 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     show: true,
     leftTitles: AxisTitles(
       axisNameSize: 33,
-      axisName: const Text('title 1'),
+      axisName: MockData.widget1,
       sideTitles: SideTitles(showTitles: false),
     ),
     rightTitles: AxisTitles(
       axisNameSize: 1326,
-      axisName: const Text('title 3'),
+      axisName: MockData.widget3,
       sideTitles: SideTitles(reservedSize: 500, showTitles: true),
     ),
     topTitles: AxisTitles(
       axisNameSize: 34,
-      axisName: const Text('title 4'),
+      axisName: MockData.widget4,
       sideTitles: SideTitles(showTitles: false),
     ),
     bottomTitles: AxisTitles(
       axisNameSize: 22,
-      axisName: const Text('title 2'),
+      axisName: MockData.widget2,
       sideTitles: SideTitles(showTitles: false),
     ),
   ),
