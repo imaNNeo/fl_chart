@@ -12,10 +12,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// [_spotsPaint] is responsible to draw scatter spots
   late Paint _spotsPaint, _bgTouchTooltipPaint;
 
-  /// Paints [data] into canvas, it is the animating [ScatterChartData],
+  /// Paints [dataList] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
-  /// tooltips or something like that, because [data] is changing constantly.
+  /// tooltips or something like that, because [dataList] is changing constantly.
   ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
