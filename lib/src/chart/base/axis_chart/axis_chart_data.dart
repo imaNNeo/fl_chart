@@ -173,6 +173,11 @@ class AxisTitles with EquatableMixin {
   /// It is responsible to show your axis side labels.
   final SideTitles sideTitles;
 
+  /// If titles are showing on top of your tooltip, you can draw them below everything.
+  ///
+  /// In the future, we will convert tooltips to a widget, that would solve this problem.
+  final bool drawBelowEverything;
+
   /// If there is something to show as axisTitles, it returns true
   bool get showAxisTitles => axisName != null && axisNameSize != 0;
 
@@ -190,9 +195,11 @@ class AxisTitles with EquatableMixin {
     Widget? axisName,
     double? axisNameSize,
     SideTitles? sideTitles,
+    bool? drawBehindEverything,
   })  : axisName = axisName,
         axisNameSize = axisNameSize ?? 16,
-        sideTitles = sideTitles ?? SideTitles();
+        sideTitles = sideTitles ?? SideTitles(),
+        drawBelowEverything = drawBehindEverything ?? false;
 
   /// Lerps a [AxisTitles] based on [t] value, check [Tween.lerp].
   static AxisTitles lerp(AxisTitles a, AxisTitles b, double t) {
@@ -200,6 +207,7 @@ class AxisTitles with EquatableMixin {
       axisName: b.axisName,
       axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t),
       sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
+      drawBehindEverything: b.drawBelowEverything,
     );
   }
 
@@ -209,11 +217,13 @@ class AxisTitles with EquatableMixin {
     Widget? axisName,
     double? axisNameSize,
     SideTitles? sideTitles,
+    bool? drawBelowEverything,
   }) {
     return AxisTitles(
       axisName: axisName ?? this.axisName,
       axisNameSize: axisNameSize ?? this.axisNameSize,
       sideTitles: sideTitles ?? this.sideTitles,
+      drawBehindEverything: drawBelowEverything ?? this.drawBelowEverything,
     );
   }
 
@@ -223,6 +233,7 @@ class AxisTitles with EquatableMixin {
         axisName,
         axisNameSize,
         sideTitles,
+        drawBelowEverything,
       ];
 }
 

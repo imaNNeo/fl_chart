@@ -22,7 +22,7 @@
 |axisNameSize| Determines the size of [axisName] | `16`|
 |axisName| It shows the name of axis (you can pass a Widget)| `null`|
 |sideTitles| It accepts a [SideTitles](#SideTitles) which is responsible to show your axis side titles| `SideTitles()`|
-
+|drawBehindEverything| If titles are showing on top of your tooltip, you can draw them behind everything.| `false`|
 
 ### SideTitles
 |PropName		|Description	|default value|
