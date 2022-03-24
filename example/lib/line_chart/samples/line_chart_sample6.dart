@@ -175,14 +175,14 @@ class LineChartSample6 extends StatelessWidget {
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
-                      getTitles: leftTitleWidgets,
+                      getTitlesWidget: leftTitleWidgets,
                       reservedSize: 38,
                     ),
                   ),
                   rightTitles: AxisTitles(
                     sideTitles: SideTitles(
                         showTitles: true,
-                        getTitles: rightTitleWidgets,
+                        getTitlesWidget: rightTitleWidgets,
                         reservedSize: 30),
                   ),
                   bottomTitles: AxisTitles(
@@ -192,7 +192,7 @@ class LineChartSample6 extends StatelessWidget {
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 32,
-                      getTitles: topTitleWidgets,
+                      getTitlesWidget: topTitleWidgets,
                     ),
                   ),
                 ),

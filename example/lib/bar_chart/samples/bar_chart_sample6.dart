@@ -133,7 +133,7 @@ class BarChartSample6 extends StatelessWidget {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        getTitles: bottomTitles,
+                        getTitlesWidget: bottomTitles,
                         reservedSize: 16,
                       ),
                     ),

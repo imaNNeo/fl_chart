@@ -122,7 +122,7 @@ class _LineChart extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-        getTitles: leftTitleWidgets,
+        getTitlesWidget: leftTitleWidgets,
         showTitles: true,
         interval: 1,
         reservedSize: 40,
@@ -157,7 +157,7 @@ class _LineChart extends StatelessWidget {
         showTitles: true,
         reservedSize: 32,
         interval: 1,
-        getTitles: bottomTitleWidgets,
+        getTitlesWidget: bottomTitleWidgets,
       );
 
   FlGridData get gridData => FlGridData(show: false);

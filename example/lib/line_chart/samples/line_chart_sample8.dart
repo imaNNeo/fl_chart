@@ -179,7 +179,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            getTitles: bottomTitleWidgets,
+            getTitlesWidget: bottomTitleWidgets,
             interval: 4,
           ),
         ),
@@ -188,7 +188,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           sideTitles: SideTitles(
             interval: 2,
             showTitles: true,
-            getTitles: leftTitleWidgets,
+            getTitlesWidget: leftTitleWidgets,
             reservedSize: 40,
           ),
         ),

@@ -150,7 +150,7 @@ class LineChartSample5 extends StatelessWidget {
           minY: 0,
           titlesData: FlTitlesData(
             leftTitles: AxisTitles(
-              axisName: const Text('count'),
+              axisNameWidget: const Text('count'),
               sideTitles: SideTitles(
                 showTitles: false,
                 reservedSize: 0,
@@ -160,18 +160,18 @@ class LineChartSample5 extends StatelessWidget {
               sideTitles: SideTitles(
                 showTitles: true,
                 interval: 1,
-                getTitles: bottomTitleWidgets,
+                getTitlesWidget: bottomTitleWidgets,
               ),
             ),
             rightTitles: AxisTitles(
-              axisName: const Text('count'),
+              axisNameWidget: const Text('count'),
               sideTitles: SideTitles(
                 showTitles: false,
                 reservedSize: 0,
               ),
             ),
             topTitles: AxisTitles(
-              axisName: const Text(
+              axisNameWidget: const Text(
                 'Wall clock',
                 textAlign: TextAlign.left,
               ),

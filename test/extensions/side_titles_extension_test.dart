@@ -7,7 +7,7 @@ void main() {
   test('test totalReservedSize', () {
     expect(
       AxisTitles(
-        axisName: null,
+        axisNameWidget: null,
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: true,
@@ -19,7 +19,7 @@ void main() {
 
     expect(
       AxisTitles(
-        axisName: const Text('asdf'),
+        axisNameWidget: const Text('asdf'),
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: false,
@@ -31,7 +31,7 @@ void main() {
 
     expect(
       AxisTitles(
-        axisName: const Text('asdf'),
+        axisNameWidget: const Text('asdf'),
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: true,

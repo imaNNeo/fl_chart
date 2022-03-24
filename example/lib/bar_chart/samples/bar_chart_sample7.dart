@@ -77,7 +77,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 30,
-                        getTitles: (value, meta) {
+                        getTitlesWidget: (value, meta) {
                           return Text(
                             value.toInt().toString(),
                             style: const TextStyle(
@@ -92,7 +92,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 36,
-                        getTitles: (value, meta) {
+                        getTitlesWidget: (value, meta) {
                           final index = value.toInt();
                           return Padding(
                             padding: const EdgeInsets.only(top: 8.0),

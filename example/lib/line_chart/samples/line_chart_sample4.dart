@@ -121,7 +121,7 @@ class LineChartSample4 extends StatelessWidget {
                 sideTitles: SideTitles(showTitles: false),
               ),
               bottomTitles: AxisTitles(
-                axisName: const Text(
+                axisNameWidget: const Text(
                   '2019',
                   style: _dateTextStyle,
                 ),
@@ -129,12 +129,12 @@ class LineChartSample4 extends StatelessWidget {
                   showTitles: true,
                   reservedSize: 18,
                   interval: 1,
-                  getTitles: bottomTitleWidgets,
+                  getTitlesWidget: bottomTitleWidgets,
                 ),
               ),
               leftTitles: AxisTitles(
                 axisNameSize: 20,
-                axisName: const Padding(
+                axisNameWidget: const Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text('Value'),
                 ),
@@ -142,7 +142,7 @@ class LineChartSample4 extends StatelessWidget {
                   showTitles: true,
                   interval: 1,
                   reservedSize: 40,
-                  getTitles: leftTitleWidgets,
+                  getTitlesWidget: leftTitleWidgets,
                 ),
               ),
             ),

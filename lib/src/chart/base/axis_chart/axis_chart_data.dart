@@ -86,7 +86,7 @@ class SideTitles with EquatableMixin {
   final bool showTitles;
 
   /// You can override it to pass your custom widget to show in each axis value
-  final GetTitleWidgetFunction getTitles;
+  final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum space that your titles need,
   /// (All titles will stretch using this value)
@@ -113,11 +113,11 @@ class SideTitles with EquatableMixin {
   /// we try to find a suitable value to set as [interval] under the hood.
   SideTitles({
     bool? showTitles,
-    GetTitleWidgetFunction? getTitles,
+    GetTitleWidgetFunction? getTitlesWidget,
     double? reservedSize,
     double? interval,
   })  : showTitles = showTitles ?? false,
-        getTitles = getTitles ?? defaultGetTitle,
+        getTitlesWidget = getTitlesWidget ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
         interval = interval {
     if (interval == 0) {
@@ -129,7 +129,7 @@ class SideTitles with EquatableMixin {
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
     return SideTitles(
       showTitles: b.showTitles,
-      getTitles: b.getTitles,
+      getTitlesWidget: b.getTitlesWidget,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
       interval: lerpDouble(a.interval, b.interval, t),
     );
@@ -139,13 +139,13 @@ class SideTitles with EquatableMixin {
   /// and replaces provided values.
   SideTitles copyWith({
     bool? showTitles,
-    GetTitleWidgetFunction? getTitles,
+    GetTitleWidgetFunction? getTitlesWidget,
     double? reservedSize,
     double? interval,
   }) {
     return SideTitles(
       showTitles: showTitles ?? this.showTitles,
-      getTitles: getTitles ?? this.getTitles,
+      getTitlesWidget: getTitlesWidget ?? this.getTitlesWidget,
       reservedSize: reservedSize ?? this.reservedSize,
       interval: interval ?? this.interval,
     );
@@ -155,7 +155,7 @@ class SideTitles with EquatableMixin {
   @override
   List<Object?> get props => [
         showTitles,
-        getTitles,
+        getTitlesWidget,
         reservedSize,
         interval,
       ];
@@ -167,8 +167,8 @@ class AxisTitles with EquatableMixin {
   final double axisNameSize;
 
   /// It shows the name of axis, for example your x-axis shows year,
-  /// then you might want to show it using [axisName] property
-  final Widget? axisName;
+  /// then you might want to show it using [axisNameWidget] property as a widget
+  final Widget? axisNameWidget;
 
   /// It is responsible to show your axis side labels.
   final SideTitles sideTitles;
@@ -179,7 +179,7 @@ class AxisTitles with EquatableMixin {
   final bool drawBelowEverything;
 
   /// If there is something to show as axisTitles, it returns true
-  bool get showAxisTitles => axisName != null && axisNameSize != 0;
+  bool get showAxisTitles => axisNameWidget != null && axisNameSize != 0;
 
   /// If there is something to show as sideTitles, it returns true
   bool get showSideTitles =>
@@ -192,11 +192,11 @@ class AxisTitles with EquatableMixin {
   ///
   /// [sideTitles] property is responsible to show your axis side labels
   AxisTitles({
-    Widget? axisName,
+    Widget? axisNameWidget,
     double? axisNameSize,
     SideTitles? sideTitles,
     bool? drawBehindEverything,
-  })  : axisName = axisName,
+  })  : axisNameWidget = axisNameWidget,
         axisNameSize = axisNameSize ?? 16,
         sideTitles = sideTitles ?? SideTitles(),
         drawBelowEverything = drawBehindEverything ?? false;
@@ -204,7 +204,7 @@ class AxisTitles with EquatableMixin {
   /// Lerps a [AxisTitles] based on [t] value, check [Tween.lerp].
   static AxisTitles lerp(AxisTitles a, AxisTitles b, double t) {
     return AxisTitles(
-      axisName: b.axisName,
+      axisNameWidget: b.axisNameWidget,
       axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t),
       sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
       drawBehindEverything: b.drawBelowEverything,
@@ -214,13 +214,13 @@ class AxisTitles with EquatableMixin {
   /// Copies current [SideTitles] to a new [SideTitles],
   /// and replaces provided values.
   AxisTitles copyWith({
-    Widget? axisName,
+    Widget? axisNameWidget,
     double? axisNameSize,
     SideTitles? sideTitles,
     bool? drawBelowEverything,
   }) {
     return AxisTitles(
-      axisName: axisName ?? this.axisName,
+      axisNameWidget: axisNameWidget ?? this.axisNameWidget,
       axisNameSize: axisNameSize ?? this.axisNameSize,
       sideTitles: sideTitles ?? this.sideTitles,
       drawBehindEverything: drawBelowEverything ?? this.drawBelowEverything,
@@ -230,7 +230,7 @@ class AxisTitles with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        axisName,
+        axisNameWidget,
         axisNameSize,
         sideTitles,
         drawBelowEverything,

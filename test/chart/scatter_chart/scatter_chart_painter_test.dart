@@ -582,7 +582,7 @@ void main() {
           show: true,
           leftTitles: AxisTitles(
             axisNameSize: 4,
-            axisName: const Text('ss1'),
+            axisNameWidget: const Text('ss1'),
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 10,
@@ -602,7 +602,7 @@ void main() {
           ),
           bottomTitles: AxisTitles(
             axisNameSize: 4,
-            axisName: const Text('ss2'),
+            axisNameWidget: const Text('ss2'),
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 6,

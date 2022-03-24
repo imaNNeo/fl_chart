@@ -187,7 +187,7 @@ class TitleMeta {
 /// It gives you the axis value and gets a String value based on it.
 typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 
-/// The default [SideTitles.getTitles] function.
+/// The default [SideTitles.getTitlesWidget] function.
 ///
 /// formats the axis number to a shorter string using [formatNumber].
 Widget defaultGetTitle(double value, TitleMeta meta) {

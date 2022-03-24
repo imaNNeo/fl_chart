@@ -20,7 +20,7 @@
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |axisNameSize| Determines the size of [axisName] | `16`|
-|axisName| It shows the name of axis (you can pass a Widget)| `null`|
+|axisNameWidget| It shows the name of axis (you can pass a Widget)| `null`|
 |sideTitles| It accepts a [SideTitles](#SideTitles) which is responsible to show your axis side titles| `SideTitles()`|
 |drawBehindEverything| If titles are showing on top of your tooltip, you can draw them behind everything.| `false`|
 
@@ -28,7 +28,7 @@
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |showTitles| determines whether to show or hide the titles | false|
-|getTitles| A function to retrieve the title widget with given value on the related axis.|defaultGetTitle|
+|getTitlesWidget| A function to retrieve the title widget with given value on the related axis.|defaultGetTitle|
 |reservedSize| It determines the maximum space that your titles need, |22|
 |interval| Texts are showing with provided `interval`. If you don't provide anything, we try to find a suitable value to set as `interval` under the hood. | null |
 

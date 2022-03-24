@@ -346,31 +346,31 @@ class MockData {
   static final sideTitles2 = SideTitles(
     reservedSize: 10,
     showTitles: false,
-    getTitles: null,
+    getTitlesWidget: null,
     interval: 12,
   );
   static final sideTitles3 = SideTitles(
     reservedSize: 10,
     showTitles: false,
-    getTitles: getTitles,
+    getTitlesWidget: getTitles,
     interval: 12,
   );
   static final sideTitles4 = SideTitles(
     reservedSize: 11,
     showTitles: true,
-    getTitles: getTitles,
+    getTitlesWidget: getTitles,
     interval: 12,
   );
   static final sideTitles5 = SideTitles(
     reservedSize: 10,
     showTitles: false,
-    getTitles: getTitles,
+    getTitlesWidget: getTitles,
     interval: 43,
   );
   static final sideTitles6 = SideTitles(
     reservedSize: 10,
     showTitles: false,
-    getTitles: getTitles,
+    getTitlesWidget: getTitles,
     interval: 22,
   );
 
@@ -381,27 +381,27 @@ class MockData {
   static const widget5 = Text('axis5');
 
   static final axisTitles1 = AxisTitles(
-    axisName: widget1,
+    axisNameWidget: widget1,
     sideTitles: sideTitles1,
   );
   static final axisTitles1Clone = AxisTitles(
-    axisName: widget1,
+    axisNameWidget: widget1,
     sideTitles: sideTitles1Clone,
   );
   static final axisTitles2 = AxisTitles(
-    axisName: widget2,
+    axisNameWidget: widget2,
     sideTitles: sideTitles2,
   );
   static final axisTitles3 = AxisTitles(
-    axisName: widget3,
+    axisNameWidget: widget3,
     sideTitles: sideTitles3,
   );
   static final axisTitles4 = AxisTitles(
-    axisName: widget4,
+    axisNameWidget: widget4,
     sideTitles: sideTitles4,
   );
   static final axisTitles5 = AxisTitles(
-    axisName: widget5,
+    axisNameWidget: widget5,
     axisNameSize: 889,
     sideTitles: sideTitles4,
   );
@@ -2331,22 +2331,22 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     show: true,
     leftTitles: AxisTitles(
       axisNameSize: 33,
-      axisName: MockData.widget1,
+      axisNameWidget: MockData.widget1,
       sideTitles: SideTitles(showTitles: false),
     ),
     rightTitles: AxisTitles(
       axisNameSize: 1326,
-      axisName: MockData.widget3,
+      axisNameWidget: MockData.widget3,
       sideTitles: SideTitles(reservedSize: 500, showTitles: true),
     ),
     topTitles: AxisTitles(
       axisNameSize: 34,
-      axisName: MockData.widget4,
+      axisNameWidget: MockData.widget4,
       sideTitles: SideTitles(showTitles: false),
     ),
     bottomTitles: AxisTitles(
       axisNameSize: 22,
-      axisName: MockData.widget2,
+      axisNameWidget: MockData.widget2,
       sideTitles: SideTitles(showTitles: false),
     ),
   ),
