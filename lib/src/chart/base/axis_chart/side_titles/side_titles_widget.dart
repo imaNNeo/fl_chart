@@ -145,7 +145,7 @@ class SideTitlesWidget extends StatelessWidget {
         .map(
           (metaData) => AxisSideTitleWidgetHolder(
             metaData,
-            sideTitles.getTitles(
+            sideTitles.getTitlesWidget(
               metaData.axisValue,
               TitleMeta(
                 axisMin,
@@ -173,7 +173,7 @@ class SideTitlesWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (isLeftOrTop && axisTitles.axisName != null)
+          if (isLeftOrTop && axisTitles.axisNameWidget != null)
             _AxisTitleWidget(
               axisTitles: axisTitles,
               side: side,
@@ -197,7 +197,7 @@ class SideTitlesWidget extends StatelessWidget {
               ),
             ),
           ),
-          if (isRightOrBottom && axisTitles.axisName != null)
+          if (isRightOrBottom && axisTitles.axisNameWidget != null)
             _AxisTitleWidget(
               axisTitles: axisTitles,
               side: side,
@@ -244,7 +244,7 @@ class _AxisTitleWidget extends StatelessWidget {
       child: Center(
         child: RotatedBox(
           quarterTurns: axisNameQuarterTurns,
-          child: axisTitles.axisName,
+          child: axisTitles.axisNameWidget,
         ),
       ),
     );

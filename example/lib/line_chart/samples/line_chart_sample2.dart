@@ -141,14 +141,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitles: bottomTitleWidgets,
+            getTitlesWidget: bottomTitleWidgets,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitles: leftTitleWidgets,
+            getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
           ),
         ),
@@ -224,14 +224,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            getTitles: bottomTitleWidgets,
+            getTitlesWidget: bottomTitleWidgets,
             interval: 1,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            getTitles: leftTitleWidgets,
+            getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
             interval: 1,
           ),
