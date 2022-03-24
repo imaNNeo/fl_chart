@@ -6,14 +6,16 @@ It means that you can now put a widget as a title instead of a string.
 Look at the below samples:
 
 **LineChartSample 8** ([Source Code](https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/line_chart/samples/line_chart_sample8.dart))
+
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
 
 **BarChartSample 7** ([Source Code](https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/bar_chart/samples/bar_chart_sample7.dart))
+
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
 **Breaking:**
-Previously in FlTitlesData, there were four SideTitles. Now we have four AxisTitles instead and SideTitles can be configured inside AxisTitles.
-In fact, we removed AxisTitlesData class (which used to hold four AxisTitles). Now you can put them in FlTitlesData.
+Previously in [FlTitlesData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlTitlesData), there were four [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles). Now we have four [AxisTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#axistitle) instead and [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) can be placed inside [AxisTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#AxisTitle).
+In fact, we removed `AxisTitlesData` class (which used to hold four `AxisTitle`). Now you can put them in [FlTitlesData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltitlesdata).
 
     bool? showTitle,
     String? titleText,
@@ -95,6 +97,8 @@ AxisBasedChartData( // Line, Bar and Scatter
 -----
 
 ## Gradient and solid color #948
+We made some changes on our approach for handling `solid` color and `gradient` colors.
+
 Previously, we had these properties to handle gradient or solid color:
 ```dart
 List<Color> colors,
@@ -103,10 +107,10 @@ Offset gradientFrom,
 Offset gradientTo,
 ```
 It was supposed to work on both solid color and gradient color. 
-If you pass just one color in the `colors` array, it was a solid color. 
+If you pass just one color in the `colors` property, it was a solid color. 
 On the other hand, if you provide more than one color, it was a linear gradient.
 
-Now we are using a new approach with these properties:
+Now we are using a new approach with the properties below:
 ```dart
 Color? color,
 Gradient? gradient,

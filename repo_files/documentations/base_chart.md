@@ -11,10 +11,10 @@
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |show| determines to show or hide the titles Around the chart|true|
-|leftTitles| a [AxisTitle](#AxisTitle) that holds data to draw left titles | AxisTitles(sideTitles: SideTitles(reservedSize: 40, showTitles: true))|
-|topTitles| a [AxisTitle](#AxisTitle) that holds data to draw top titles | AxisTitles(sideTitles: SideTitles(reservedSize: 6, showTitles: true))|
-|rightTitles| a [AxisTitle](#AxisTitle) that holds data to draw right titles | AxisTitles(sideTitles: SideTitles(reservedSize: 40, showTitles: true))|
-|bottomTitles| a [AxisTitle](#AxisTitle) that holds data to draw bottom titles | AxisTitles(sideTitles: SideTitles(reservedSize: 6, showTitles: true))|
+|leftTitles| an [AxisTitle](#AxisTitle) that holds data to draw left titles | AxisTitles(sideTitles: SideTitles(reservedSize: 40, showTitles: true))|
+|topTitles| an [AxisTitle](#AxisTitle) that holds data to draw top titles | AxisTitles(sideTitles: SideTitles(reservedSize: 6, showTitles: true))|
+|rightTitles| an [AxisTitle](#AxisTitle) that holds data to draw right titles | AxisTitles(sideTitles: SideTitles(reservedSize: 40, showTitles: true))|
+|bottomTitles| an [AxisTitle](#AxisTitle) that holds data to draw bottom titles | AxisTitles(sideTitles: SideTitles(reservedSize: 6, showTitles: true))|
 
 ### AxisTitle
 |PropName		|Description	|default value|
