@@ -393,43 +393,43 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final leftInterval = leftTitles.interval ??
         Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
     if (leftTitles.showTitles) {
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: data.minY,
         max: data.maxY,
         baseLine: data.baselineY,
         interval: leftInterval,
-        action: (axisValue) {
-          if (leftTitles.checkToShowTitle(
-              data.minY, data.maxY, leftTitles, leftInterval, axisValue)) {
-            var x = 0 + getLeftOffsetDrawSize(holder);
-            var y = getPixelY(axisValue, drawSize, holder);
-
-            final text = leftTitles.getTitles(axisValue);
-
-            final span = TextSpan(
-              style: Utils().getThemeAwareTextStyle(
-                  context, leftTitles.getTextStyles(context, axisValue)),
-              text: text,
-            );
-            final tp = TextPainter(
-              text: span,
-              textAlign: leftTitles.textAlign,
-              textDirection: leftTitles.textDirection,
-              textScaleFactor: holder.textScale,
-            );
-            tp.layout(
-              maxWidth: leftTitles.reservedSize,
-              minWidth: leftTitles.reservedSize,
-            );
-            x -= tp.width + leftTitles.margin;
-            y -= tp.height / 2;
-            x += Utils()
-                .calculateRotationOffset(tp.size, leftTitles.rotateAngle)
-                .dx;
-            canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
-          }
-        },
       );
+      for (double axisValue in axisValues) {
+        if (!leftTitles.checkToShowTitle(
+            data.minY, data.maxY, leftTitles, leftInterval, axisValue)) {
+          continue;
+        }
+        var x = 0 + getLeftOffsetDrawSize(holder);
+        var y = getPixelY(axisValue, drawSize, holder);
+
+        final text = leftTitles.getTitles(axisValue);
+
+        final span = TextSpan(
+          style: Utils().getThemeAwareTextStyle(
+              context, leftTitles.getTextStyles(context, axisValue)),
+          text: text,
+        );
+        final tp = TextPainter(
+          text: span,
+          textAlign: leftTitles.textAlign,
+          textDirection: leftTitles.textDirection,
+          textScaleFactor: holder.textScale,
+        );
+        tp.layout(
+          maxWidth: leftTitles.reservedSize,
+          minWidth: leftTitles.reservedSize,
+        );
+        x -= tp.width + leftTitles.margin;
+        y -= tp.height / 2;
+        x +=
+            Utils().calculateRotationOffset(tp.size, leftTitles.rotateAngle).dx;
+        canvasWrapper.drawText(tp, Offset(x, y), leftTitles.rotateAngle);
+      }
     }
 
     // Top Titles
@@ -466,43 +466,44 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final rightInterval = rightTitles.interval ??
         Utils().getEfficientInterval(viewSize.height, data.verticalDiff);
     if (rightTitles.showTitles) {
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: data.minY,
         max: data.maxY,
         baseLine: data.baselineY,
         interval: rightInterval,
-        action: (axisValue) {
-          if (rightTitles.checkToShowTitle(
-              data.minY, data.maxY, rightTitles, rightInterval, axisValue)) {
-            var x = drawSize.width + getLeftOffsetDrawSize(holder);
-            var y = getPixelY(axisValue, drawSize, holder);
-
-            final text = rightTitles.getTitles(axisValue);
-
-            final span = TextSpan(
-              style: Utils().getThemeAwareTextStyle(
-                  context, rightTitles.getTextStyles(context, axisValue)),
-              text: text,
-            );
-            final tp = TextPainter(
-              text: span,
-              textAlign: rightTitles.textAlign,
-              textDirection: rightTitles.textDirection,
-              textScaleFactor: holder.textScale,
-            );
-            tp.layout(
-              maxWidth: rightTitles.reservedSize,
-              minWidth: rightTitles.reservedSize,
-            );
-            x += rightTitles.margin;
-            y -= tp.height / 2;
-            x -= Utils()
-                .calculateRotationOffset(tp.size, rightTitles.rotateAngle)
-                .dx;
-            canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
-          }
-        },
       );
+      for (double axisValue in axisValues) {
+        if (!rightTitles.checkToShowTitle(
+            data.minY, data.maxY, rightTitles, rightInterval, axisValue)) {
+          continue;
+        }
+        var x = drawSize.width + getLeftOffsetDrawSize(holder);
+        var y = getPixelY(axisValue, drawSize, holder);
+
+        final text = rightTitles.getTitles(axisValue);
+
+        final span = TextSpan(
+          style: Utils().getThemeAwareTextStyle(
+              context, rightTitles.getTextStyles(context, axisValue)),
+          text: text,
+        );
+        final tp = TextPainter(
+          text: span,
+          textAlign: rightTitles.textAlign,
+          textDirection: rightTitles.textDirection,
+          textScaleFactor: holder.textScale,
+        );
+        tp.layout(
+          maxWidth: rightTitles.reservedSize,
+          minWidth: rightTitles.reservedSize,
+        );
+        x += rightTitles.margin;
+        y -= tp.height / 2;
+        x -= Utils()
+            .calculateRotationOffset(tp.size, rightTitles.rotateAngle)
+            .dx;
+        canvasWrapper.drawText(tp, Offset(x, y), rightTitles.rotateAngle);
+      }
     }
 
     // Bottom titles

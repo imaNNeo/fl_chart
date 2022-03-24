@@ -238,30 +238,31 @@ abstract class AxisChartPainter<D extends AxisChartData>
             usableViewSize.width,
             data.horizontalDiff,
           );
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: data.minX,
         minIncluded: false,
         max: data.maxX,
         maxIncluded: false,
         baseLine: data.baselineX,
         interval: verticalInterval,
-        action: (axisValue) {
-          if (data.gridData.checkToShowVerticalLine(axisValue)) {
-            final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
-            _gridPaint.color = flLineStyle.color;
-            _gridPaint.strokeWidth = flLineStyle.strokeWidth;
-            _gridPaint.transparentIfWidthIsZero();
-
-            final bothX = getPixelX(axisValue, usableViewSize, holder);
-            final x1 = bothX;
-            final y1 = 0 + getTopOffsetDrawSize(holder);
-            final x2 = bothX;
-            final y2 = usableViewSize.height + getTopOffsetDrawSize(holder);
-            canvasWrapper.drawDashedLine(Offset(x1, y1), Offset(x2, y2),
-                _gridPaint, flLineStyle.dashArray);
-          }
-        },
       );
+      for (double axisValue in axisValues) {
+        if (!data.gridData.checkToShowVerticalLine(axisValue)) {
+          continue;
+        }
+        final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
+        _gridPaint.color = flLineStyle.color;
+        _gridPaint.strokeWidth = flLineStyle.strokeWidth;
+        _gridPaint.transparentIfWidthIsZero();
+
+        final bothX = getPixelX(axisValue, usableViewSize, holder);
+        final x1 = bothX;
+        final y1 = 0 + getTopOffsetDrawSize(holder);
+        final x2 = bothX;
+        final y2 = usableViewSize.height + getTopOffsetDrawSize(holder);
+        canvasWrapper.drawDashedLine(
+            Offset(x1, y1), Offset(x2, y2), _gridPaint, flLineStyle.dashArray);
+      }
     }
 
     // Show Horizontal Grid
@@ -270,30 +271,31 @@ abstract class AxisChartPainter<D extends AxisChartData>
           Utils()
               .getEfficientInterval(usableViewSize.height, data.verticalDiff);
 
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: data.minY,
         minIncluded: false,
         max: data.maxY,
         maxIncluded: false,
         baseLine: data.baselineY,
         interval: horizontalInterval,
-        action: (axisValue) {
-          if (data.gridData.checkToShowHorizontalLine(axisValue)) {
-            final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
-            _gridPaint.color = flLine.color;
-            _gridPaint.strokeWidth = flLine.strokeWidth;
-            _gridPaint.transparentIfWidthIsZero();
-
-            final bothY = getPixelY(axisValue, usableViewSize, holder);
-            final x1 = 0 + getLeftOffsetDrawSize(holder);
-            final y1 = bothY;
-            final x2 = usableViewSize.width + getLeftOffsetDrawSize(holder);
-            final y2 = bothY;
-            canvasWrapper.drawDashedLine(
-                Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
-          }
-        },
       );
+      for (double axisValue in axisValues) {
+        if (!data.gridData.checkToShowHorizontalLine(axisValue)) {
+          continue;
+        }
+        final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
+        _gridPaint.color = flLine.color;
+        _gridPaint.strokeWidth = flLine.strokeWidth;
+        _gridPaint.transparentIfWidthIsZero();
+
+        final bothY = getPixelY(axisValue, usableViewSize, holder);
+        final x1 = 0 + getLeftOffsetDrawSize(holder);
+        final y1 = bothY;
+        final x2 = usableViewSize.width + getLeftOffsetDrawSize(holder);
+        final y2 = bothY;
+        canvasWrapper.drawDashedLine(
+            Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
+      }
     }
   }
 
