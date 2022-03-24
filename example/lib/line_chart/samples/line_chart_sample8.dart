@@ -74,11 +74,36 @@ class _LineChartSample8State extends State<LineChartSample8> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.black87,
-      fontSize: 10,
+    IconData icon;
+    Color color;
+    switch (value.toInt()) {
+      case 0:
+        icon = Icons.wb_sunny;
+        color = const Color(0xFFffab01);
+        break;
+      case 2:
+        icon = Icons.wine_bar_sharp;
+        color = const Color(0xFFff0000);
+        break;
+      case 4:
+        icon = Icons.watch_later;
+        color = Colors.green;
+        break;
+      case 6:
+        icon = Icons.whatshot;
+        color = Colors.deepOrangeAccent;
+        break;
+      default:
+        throw StateError("Invalid");
+    }
+    return Padding(
+      padding: const EdgeInsets.only(right: 8.0),
+      child: Icon(
+        icon,
+        color: color,
+        size: 32,
+      ),
     );
-    return Text(meta.formattedValue, style: style);
   }
 
   LineChartData mainData(SizedPicture sizedPicture) {
@@ -159,11 +184,12 @@ class _LineChartSample8State extends State<LineChartSample8> {
           ),
         ),
         leftTitles: AxisTitles(
+          drawBehindEverything: true,
           sideTitles: SideTitles(
             interval: 2,
             showTitles: true,
             getTitles: leftTitleWidgets,
-            reservedSize: 20,
+            reservedSize: 40,
           ),
         ),
         rightTitles: AxisTitles(
