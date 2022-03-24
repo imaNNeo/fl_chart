@@ -18,10 +18,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   List<GroupBarsPosition>? _groupBarsPosition;
 
-  /// Paints [data] into canvas, it is the animating [BarChartData],
+  /// Paints [dataList] into canvas, it is the animating [BarChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
-  /// tooltips or something like that, because [data] is changing constantly.
+  /// tooltips or something like that, because [dataList] is changing constantly.
   ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect

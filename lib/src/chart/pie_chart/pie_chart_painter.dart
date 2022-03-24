@@ -14,10 +14,10 @@ import 'pie_chart_data.dart';
 class PieChartPainter extends BaseChartPainter<PieChartData> {
   late Paint _sectionPaint, _sectionStrokePaint, _centerSpacePaint;
 
-  /// Paints [data] into canvas, it is the animating [PieChartData],
+  /// Paints [dataList] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
-  /// tooltips or something like that, because [data] is changing constantly.
+  /// tooltips or something like that, because [dataList] is changing constantly.
   ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect

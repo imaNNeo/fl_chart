@@ -288,7 +288,7 @@ class LineChartBarData with EquatableMixin {
   ///
   /// [show] determines the drawing, if set to false, it draws nothing.
   ///
-  /// [colors] determines the color of drawing line, if one color provided it applies a solid color,
+  /// [mainColors] determines the color of drawing line, if one color provided it applies a solid color,
   /// otherwise it gradients between provided colors for drawing the line.
   /// Gradient happens using provided [colorStops], [gradientFrom], [gradientTo].
   /// if you want it draw normally, don't touch them,
@@ -722,7 +722,7 @@ bool showAllSpotsBelowLine(FlSpot spot) {
 /// It should return a [Color] that needs to be used for drawing target.
 typedef GetDotColorCallback = Color Function(FlSpot, double, LineChartBarData);
 
-/// If there is one color in [LineChartBarData.colors], it returns that color,
+/// If there is one color in [LineChartBarData.mainColors], it returns that color,
 /// otherwise it returns the color along the gradient colors based on the [xPercentage].
 Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   if (bar.gradient != null && bar.gradient is LinearGradient) {
@@ -735,7 +735,7 @@ Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
   return bar.gradient?.colors.first ?? bar.color ?? Colors.blueGrey;
 }
 
-/// If there is one color in [LineChartBarData.colors], it returns that color in a darker mode,
+/// If there is one color in [LineChartBarData.mainColors], it returns that color in a darker mode,
 /// otherwise it returns the color along the gradient colors based on the [xPercentage] in a darker mode.
 Color _defaultGetDotStrokeColor(
     FlSpot spot, double xPercentage, LineChartBarData bar) {

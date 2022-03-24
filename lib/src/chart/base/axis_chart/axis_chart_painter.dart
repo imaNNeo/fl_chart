@@ -12,7 +12,7 @@ import 'axis_chart_data.dart';
 /// This class is responsible to draw the grid behind all axis base charts.
 /// also we have two useful function [getPixelX] and [getPixelY] that used
 /// in child classes -> [BarChartPainter], [LineChartPainter]
-/// [data] is the currently showing data (it may produced by an animation using lerp function),
+/// [dataList] is the currently showing data (it may produced by an animation using lerp function),
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData>
     extends BaseChartPainter<D> {
