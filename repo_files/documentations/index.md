@@ -4,16 +4,17 @@ click and learn more about them.
 
 - [LineChart](line_chart.md)
 
-
 - [BarChart](bar_chart.md)
-
 
 - [PieChart](pie_chart.md)
 
+- [ScatterChart](scatter_chart.md)
 
 - [RadarChart](radar_chart.md)
 
 -----------
+
+- [Migration Guides](migration_guides/INDEX.md)
 
 - [Handle Touches](handle_touches.md)
 
