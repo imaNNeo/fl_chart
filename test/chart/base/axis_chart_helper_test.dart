@@ -6,31 +6,31 @@ void main() {
   group('iterateThroughAxis()', () {
     test('test 1', () {
       List<double> results = [];
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         max: 0.1,
         interval: 0.001,
-        action: (axisValue) {
-          results.add(axisValue);
-        },
         baseLine: 0,
       );
+      for (double axisValue in axisValues) {
+        results.add(axisValue);
+      }
       expect(results.length, 101);
     });
 
     test('test 2', () {
       List<double> results = [];
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         minIncluded: false,
         max: 0.1,
         maxIncluded: false,
         interval: 0.001,
-        action: (axisValue) {
-          results.add(axisValue);
-        },
         baseLine: 0,
       );
+      for (double axisValue in axisValues) {
+        results.add(axisValue);
+      }
       expect(results.length, 99);
       expect(results[0], closeTo(0.001, tolerance));
       expect(results[98], closeTo(0.099, tolerance));
@@ -38,15 +38,15 @@ void main() {
 
     test('test 3', () {
       List<double> results = [];
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         max: 1000,
         interval: 200,
-        action: (axisValue) {
-          results.add(axisValue);
-        },
         baseLine: 0,
       );
+      for (double axisValue in axisValues) {
+        results.add(axisValue);
+      }
       expect(results.length, 6);
       expect(results[0], 0);
       expect(results[1], 200);
@@ -58,15 +58,15 @@ void main() {
 
     test('test 4', () {
       List<double> results = [];
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         max: 10,
         interval: 3,
-        action: (axisValue) {
-          results.add(axisValue);
-        },
         baseLine: 0,
       );
+      for (double axisValue in axisValues) {
+        results.add(axisValue);
+      }
       expect(results.length, 5);
       expect(results[0], 0);
       expect(results[1], 3);
@@ -77,17 +77,17 @@ void main() {
 
     test('test 4', () {
       List<double> results = [];
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         minIncluded: false,
         max: 10,
         maxIncluded: false,
         interval: 3,
-        action: (axisValue) {
-          results.add(axisValue);
-        },
         baseLine: 0,
       );
+      for (double axisValue in axisValues) {
+        results.add(axisValue);
+      }
       expect(results.length, 3);
       expect(results[0], 3);
       expect(results[1], 6);
@@ -96,17 +96,17 @@ void main() {
 
     test('test 4', () {
       List<double> results = [];
-      AxisChartHelper().iterateThroughAxis(
+      final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 35,
         minIncluded: true,
         max: 130,
         maxIncluded: true,
         interval: 50,
-        action: (axisValue) {
-          results.add(axisValue);
-        },
         baseLine: 0,
       );
+      for (double axisValue in axisValues) {
+        results.add(axisValue);
+      }
       expect(results.length, 4);
       expect(results[0], 35);
       expect(results[1], 50);

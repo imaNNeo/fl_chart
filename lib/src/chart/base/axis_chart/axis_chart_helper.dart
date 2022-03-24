@@ -18,15 +18,14 @@ class AxisChartHelper {
   ///
   /// If [maxIncluded] is true, it ends at [max] value,
   /// otherwise it ends at [max] - [interval]
-  void iterateThroughAxis({
+  Iterable<double> iterateThroughAxis({
     required double min,
     bool minIncluded = true,
     required double max,
     bool maxIncluded = true,
     required double baseLine,
     required double interval,
-    required void Function(double axisValue) action,
-  }) {
+  }) sync* {
     final initialValue = Utils()
         .getBestInitialIntervalValue(min, max, interval, baseline: baseLine);
     var axisSeek = initialValue;
@@ -43,14 +42,14 @@ class AxisChartHelper {
 
     final epsilon = interval / 100000;
     if (minIncluded && !firstPositionOverlapsWithMin) {
-      action(min);
+      yield min;
     }
     while (axisSeek <= end + epsilon) {
-      action(axisSeek);
+      yield axisSeek;
       axisSeek += interval;
     }
     if (maxIncluded && !lastPositionOverlapsWithMax) {
-      action(max);
+      yield max;
     }
   }
 }
