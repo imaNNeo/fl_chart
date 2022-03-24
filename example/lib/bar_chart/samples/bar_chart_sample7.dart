@@ -73,6 +73,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                   titlesData: FlTitlesData(
                     show: true,
                     leftTitles: AxisTitles(
+                      drawBehindEverything: true,
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 30,

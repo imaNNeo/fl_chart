@@ -50,41 +50,66 @@ class AxisChartScaffoldWidget extends StatelessWidget {
     return showAxisTitles || showSideTitles;
   }
 
+  List<Widget> stackWidgets(BoxConstraints constraints) {
+    List<Widget> widgets = [
+      Padding(
+        padding: data.titlesData.allSidesPadding,
+        child: chart,
+      )
+    ];
+
+    int insertIndex(bool drawBelow) => drawBelow ? 0 : widgets.length;
+
+    if (showLeftTitles) {
+      widgets.insert(
+        insertIndex(data.titlesData.leftTitles.drawBelowEverything),
+        SideTitlesWidget(
+          side: TitlesSide.left,
+          axisChartData: data,
+          parentSize: constraints.biggest,
+        ),
+      );
+    }
+
+    if (showTopTitles) {
+      widgets.insert(
+        insertIndex(data.titlesData.topTitles.drawBelowEverything),
+        SideTitlesWidget(
+          side: TitlesSide.top,
+          axisChartData: data,
+          parentSize: constraints.biggest,
+        ),
+      );
+    }
+
+    if (showRightTitles) {
+      widgets.insert(
+        insertIndex(data.titlesData.rightTitles.drawBelowEverything),
+        SideTitlesWidget(
+          side: TitlesSide.right,
+          axisChartData: data,
+          parentSize: constraints.biggest,
+        ),
+      );
+    }
+
+    if (showBottomTitles) {
+      widgets.insert(
+        insertIndex(data.titlesData.bottomTitles.drawBelowEverything),
+        SideTitlesWidget(
+          side: TitlesSide.bottom,
+          axisChartData: data,
+          parentSize: constraints.biggest,
+        ),
+      );
+    }
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Stack(
-        children: [
-          Padding(
-            padding: data.titlesData.allSidesPadding,
-            child: chart,
-          ),
-          if (showLeftTitles)
-            SideTitlesWidget(
-              side: TitlesSide.left,
-              axisChartData: data,
-              parentSize: constraints.biggest,
-            ),
-          if (showTopTitles)
-            SideTitlesWidget(
-              side: TitlesSide.top,
-              axisChartData: data,
-              parentSize: constraints.biggest,
-            ),
-          if (showRightTitles)
-            SideTitlesWidget(
-              side: TitlesSide.right,
-              axisChartData: data,
-              parentSize: constraints.biggest,
-            ),
-          if (showBottomTitles)
-            SideTitlesWidget(
-              side: TitlesSide.bottom,
-              axisChartData: data,
-              parentSize: constraints.biggest,
-            ),
-        ],
-      );
+      return Stack(children: stackWidgets(constraints));
     });
   }
 }
