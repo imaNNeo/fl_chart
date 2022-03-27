@@ -795,6 +795,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _barPaint.strokeCap =
         barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    _barPaint.strokeJoin =
+        barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter;
     _barPaint.color = barData.shadow.color;
     _barPaint.shader = null;
     _barPaint.strokeWidth = barData.barWidth;
@@ -827,6 +829,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _barPaint.strokeCap =
         barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    _barPaint.strokeJoin =
+        barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter;
 
     final rectAroundTheLine = Rect.fromLTRB(
       getPixelX(barData.mostLeftSpot.x, viewSize, holder),
