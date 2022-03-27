@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -89,11 +90,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       if (sectionDegree == 360) {
         final radius = centerRadius + section.radius / 2;
-        if (section.gradient != null) {
-          final rect = Rect.fromCircle(center: center, radius: radius);
-          _sectionPaint.shader = section.gradient!.createShader(rect);
-        }
-        _sectionPaint.color = section.color;
+        final rect = Rect.fromCircle(center: center, radius: radius);
+        _sectionPaint.setColorOrGradient(
+            section.color,
+            section.gradient,
+            rect,
+        );
         _sectionPaint.strokeWidth = section.radius;
         _sectionPaint.style = PaintingStyle.stroke;
         canvasWrapper.drawCircle(center, radius, _sectionPaint);
@@ -226,18 +228,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   @visibleForTesting
   void drawSection(PieChartSectionData section, Path sectionPath,
       CanvasWrapper canvasWrapper) {
-    _applyGradient(section, sectionPath);
+    _sectionPaint.setColorOrGradient(
+        section.color,
+        section.gradient,
+        sectionPath.getBounds(),
+    );
     _sectionPaint.color = section.color;
     _sectionPaint.style = PaintingStyle.fill;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
-  }
-
-  void _applyGradient(PieChartSectionData section, Path sectionPath) {
-    final gradient = section.gradient;
-    if (gradient != null) {
-      final bounds = sectionPath.getBounds();
-      _sectionPaint.shader = gradient.createShader(bounds);
-    }
   }
 
   @visibleForTesting
