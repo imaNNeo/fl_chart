@@ -233,7 +233,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         section.gradient,
         sectionPath.getBounds(),
     );
-    _sectionPaint.color = section.color;
     _sectionPaint.style = PaintingStyle.fill;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
   }
