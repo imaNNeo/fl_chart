@@ -133,6 +133,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
   void drawRangeAnnotation(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
+    List<List<Offset>> coordinates = [];
 
     if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
       for (var annotation in data.rangeAnnotations.verticalRangeAnnotations) {
@@ -143,11 +144,13 @@ abstract class AxisChartPainter<D extends AxisChartData>
         );
 
         final rect = Rect.fromPoints(from, to);
+        coordinates.add([from,to]);
 
         _rangeAnnotationPaint.color = annotation.color;
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
       }
+      data.rangeAnnotationsCallback?.call(coordinates);
     }
 
     if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {

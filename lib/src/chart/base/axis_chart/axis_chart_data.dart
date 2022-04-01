@@ -18,6 +18,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlGridData gridData;
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
+  final RangeAnnotationsCallback? rangeAnnotationsCallback;
 
   double minX, maxX, baselineX;
   double minY, maxY, baselineY;
@@ -38,6 +39,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     FlGridData? gridData,
     required FlTitlesData titlesData,
     RangeAnnotations? rangeAnnotations,
+    RangeAnnotationsCallback? rangeAnnotationsCallback,
     required double minX,
     required double maxX,
     double? baselineX,
@@ -51,6 +53,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   })  : gridData = gridData ?? FlGridData(),
         titlesData = titlesData,
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
+        rangeAnnotationsCallback = rangeAnnotationsCallback,
         minX = minX,
         maxX = maxX,
         baselineX = baselineX ?? 0,
@@ -67,6 +70,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         gridData,
         titlesData,
         rangeAnnotations,
+        rangeAnnotationsCallback,
         minX,
         maxX,
         baselineX,
@@ -795,3 +799,6 @@ class VerticalRangeAnnotation with EquatableMixin {
         color,
       ];
 }
+
+/// A callback function type for range annotation coordinates.
+typedef RangeAnnotationsCallback = void Function(List<List<Offset>>);

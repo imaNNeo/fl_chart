@@ -68,6 +68,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlGridData? gridData,
     FlBorderData? borderData,
     RangeAnnotations? rangeAnnotations,
+    RangeAnnotationsCallback? rangeAnnotationsCallback,
     double? minX,
     double? maxX,
     double? baselineX,
@@ -87,6 +88,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
           borderData: borderData,
           titlesData: titlesData ?? FlTitlesData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
+          rangeAnnotationsCallback: rangeAnnotationsCallback,
           clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
           minX: minX ??
@@ -131,6 +133,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
             lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
         lineTouchData: b.lineTouchData,
         showingTooltipIndicators: b.showingTooltipIndicators,
+        rangeAnnotationsCallback: b.rangeAnnotationsCallback,
       );
     } else {
       throw Exception('Illegal State');
@@ -144,6 +147,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     List<BetweenBarsData>? betweenBarsData,
     FlTitlesData? titlesData,
     RangeAnnotations? rangeAnnotations,
+    RangeAnnotationsCallback? rangeAnnotationsCallback,
     ExtraLinesData? extraLinesData,
     LineTouchData? lineTouchData,
     List<ShowingTooltipIndicators>? showingTooltipIndicators,
@@ -163,6 +167,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
       betweenBarsData: betweenBarsData ?? this.betweenBarsData,
       titlesData: titlesData ?? this.titlesData,
       rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
+      rangeAnnotationsCallback:
+          rangeAnnotationsCallback ?? this.rangeAnnotationsCallback,
       extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
       showingTooltipIndicators:
