@@ -1,3 +1,6 @@
+## newVersion 
+* **BUGFIX** Allow to show axisTitle without sideTitles, #963
+
 ## 0.50.0
 **This release has some breaking changes. So please check out the migration guide [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/MIGRATION_00_50_00.md)**
 * **IMPROVEMENT** Allow to return a Widget in [SideTitles.getTitlesWidget](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) instead of a `String`. For example, you can pass an [Icon](https://api.flutter.dev/flutter/widgets/Icon-class.html) widget as a title, #183. Check below samples:
