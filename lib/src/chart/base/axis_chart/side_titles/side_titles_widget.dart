@@ -179,24 +179,25 @@ class SideTitlesWidget extends StatelessWidget {
               side: side,
               axisViewSize: axisViewSize,
             ),
-          Container(
-            width: isHorizontal ? axisViewSize : sideTitles.reservedSize,
-            height: isHorizontal ? sideTitles.reservedSize : axisViewSize,
-            margin: thisSidePadding,
-            child: SideTitlesFlex(
-              direction: direction,
-              axisSideMetaData: AxisSideMetaData(
-                axisMin,
-                axisMax,
-                axisViewSize - thisSidePaddingTotal,
-              ),
-              widgetHolders: makeWidgets(
-                axisViewSize - thisSidePaddingTotal,
-                axisMin,
-                axisMax,
+          if (sideTitles.showTitles)
+            Container(
+              width: isHorizontal ? axisViewSize : sideTitles.reservedSize,
+              height: isHorizontal ? sideTitles.reservedSize : axisViewSize,
+              margin: thisSidePadding,
+              child: SideTitlesFlex(
+                direction: direction,
+                axisSideMetaData: AxisSideMetaData(
+                  axisMin,
+                  axisMax,
+                  axisViewSize - thisSidePaddingTotal,
+                ),
+                widgetHolders: makeWidgets(
+                  axisViewSize - thisSidePaddingTotal,
+                  axisMin,
+                  axisMax,
+                ),
               ),
             ),
-          ),
           if (isRightOrBottom && axisTitles.axisNameWidget != null)
             _AxisTitleWidget(
               axisTitles: axisTitles,
