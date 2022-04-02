@@ -1,4 +1,4 @@
-## newVersion 
+## 0.50.1 
 * **BUGFIX** Allow to show axisTitle without sideTitles, #963
 
 ## 0.50.0
