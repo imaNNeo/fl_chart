@@ -120,6 +120,28 @@ void main() {
     ),
   );
 
+  final lineChartDataWithOnlyLeftAxisNameWithoutSideTitles =
+      lineChartDataBase.copyWith(
+    titlesData: FlTitlesData(
+      show: true,
+      leftTitles: AxisTitles(
+        axisNameSize: 10,
+        axisNameWidget: const Icon(Icons.arrow_left),
+        sideTitles: SideTitles(
+          showTitles: false,
+          reservedSize: 10,
+          getTitlesWidget: (double value, TitleMeta meta) {
+            return Text('L-${value.toInt().toString()}');
+          },
+          interval: 1,
+        ),
+      ),
+      topTitles: AxisTitles(),
+      rightTitles: AxisTitles(),
+      bottomTitles: AxisTitles(),
+    ),
+  );
+
   testWidgets(
     'LineChart with no titles',
     (WidgetTester tester) async {
@@ -288,6 +310,38 @@ void main() {
 
       expect(find.byType(Text), findsNWidgets(11));
       expect(find.byType(Icon), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'LineChart with only left axis name without side titles',
+    (WidgetTester tester) async {
+      Size? chartDrawingSize;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: viewSize.width,
+                height: viewSize.height,
+                child: AxisChartScaffoldWidget(
+                  chart: LayoutBuilder(builder: (context, constraints) {
+                    chartDrawingSize = constraints.biggest;
+                    return Container(
+                      color: Colors.red,
+                    );
+                  }),
+                  data: lineChartDataWithOnlyLeftAxisNameWithoutSideTitles,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(chartDrawingSize, const Size(390, 400));
+      expect(find.byType(Text), findsNothing);
+      expect(find.byType(Icon), findsOneWidget);
     },
   );
 }
