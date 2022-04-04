@@ -18,7 +18,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlGridData gridData;
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
-  final RangeAnnotationsCallback? rangeAnnotationsCallback;
+  final RangeAnnotationCallback? horizontalRangeAnnotationCallback;
+  final RangeAnnotationCallback? verticalRangeAnnotationCallback;
 
   double minX, maxX, baselineX;
   double minY, maxY, baselineY;
@@ -39,7 +40,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     FlGridData? gridData,
     required FlTitlesData titlesData,
     RangeAnnotations? rangeAnnotations,
-    RangeAnnotationsCallback? rangeAnnotationsCallback,
+    RangeAnnotationCallback? horizontalRangeAnnotationCallback,
+    RangeAnnotationCallback? verticalRangeAnnotationCallback,
     required double minX,
     required double maxX,
     double? baselineX,
@@ -53,7 +55,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   })  : gridData = gridData ?? FlGridData(),
         titlesData = titlesData,
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
-        rangeAnnotationsCallback = rangeAnnotationsCallback,
+        horizontalRangeAnnotationCallback = horizontalRangeAnnotationCallback,
+        verticalRangeAnnotationCallback = verticalRangeAnnotationCallback,
         minX = minX,
         maxX = maxX,
         baselineX = baselineX ?? 0,
@@ -70,7 +73,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         gridData,
         titlesData,
         rangeAnnotations,
-        rangeAnnotationsCallback,
+        horizontalRangeAnnotationCallback,
+        verticalRangeAnnotationCallback,
         minX,
         maxX,
         baselineX,
@@ -800,5 +804,5 @@ class VerticalRangeAnnotation with EquatableMixin {
       ];
 }
 
-/// A callback that retrives list for range annotation coordinates.
-typedef RangeAnnotationsCallback = void Function(List<List<Offset>>);
+/// A callback function that retrieves the list of annotation coordinates.
+typedef RangeAnnotationCallback = void Function(List<List<Offset>>);

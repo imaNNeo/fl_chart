@@ -91,6 +91,13 @@
 |x2|end interval of vertical rectangle|null|
 |color|color of the rectangle|Colors.white|
 
+
+### RangeAnnotationCallback
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|void Function(List<List<Offset>>)|A callback function that retrieves the list of annotation range coordinates drawn on the chart. The inner List contains the starting and ending coordinate points. [from, to]|[]|
+
+
 ### FlTouchEvent
 Base class for all supported touch/pointer events.
 

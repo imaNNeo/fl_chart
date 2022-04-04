@@ -133,7 +133,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
   void drawRangeAnnotation(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
-    List<List<Offset>> coordinates = [];
+    List<List<Offset>> rangeAnnotationCoordinates = [];
 
     if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
       for (var annotation in data.rangeAnnotations.verticalRangeAnnotations) {
@@ -144,17 +144,18 @@ abstract class AxisChartPainter<D extends AxisChartData>
         );
 
         final rect = Rect.fromPoints(from, to);
-        coordinates.add([from,to]);
+        rangeAnnotationCoordinates.add([from, to]);
 
         _rangeAnnotationPaint.color = annotation.color;
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
       }
-      data.rangeAnnotationsCallback?.call(coordinates);
+      data.verticalRangeAnnotationCallback?.call(rangeAnnotationCoordinates);
     }
 
     if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
       for (var annotation in data.rangeAnnotations.horizontalRangeAnnotations) {
+        List<List<Offset>> rangeAnnotationCoordinates = [];
         final from = Offset(0.0, getPixelY(annotation.y1, viewSize, holder));
         final to = Offset(
           viewSize.width,
@@ -162,12 +163,14 @@ abstract class AxisChartPainter<D extends AxisChartData>
         );
 
         final rect = Rect.fromPoints(from, to);
+        rangeAnnotationCoordinates.add([from, to]);
 
         _rangeAnnotationPaint.color = annotation.color;
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
       }
     }
+    data.horizontalRangeAnnotationCallback?.call(rangeAnnotationCoordinates);
   }
 
   /// With this function we can convert our [FlSpot] x

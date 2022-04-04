@@ -26,7 +26,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
-|RangeAnnotationsCallback| callback function that retrives list of annotation range coordinates. The cordinates represent the starting and ending point of the axses, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
+|horizontalRangeAnnotationCallback| callback function that retrieves list of horizontal annotation range coordinates. The cordinates represent the starting and ending point of the axses, check [RangeAnnotationCallback](base_chart.md#RangeAnnotationCallback) | RangeAnnotationCallback()|
+|verticalRangeAnnotationCallback| callback function that retrieves list of vertical annotation range coordinates. The cordinates represent the starting and ending point of the axses, check [RangeAnnotationCallback](base_chart.md#RangeAnnotationCallback) | RangeAnnotationCallback()|
 |showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot)| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
