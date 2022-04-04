@@ -129,14 +129,14 @@ class LineChartData extends AxisChartData with EquatableMixin {
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         rangeAnnotations:
             RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
+        horizontalRangeAnnotationCallback: b.horizontalRangeAnnotationCallback,
+        verticalRangeAnnotationCallback: b.verticalRangeAnnotationCallback,
         lineBarsData:
             lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t),
         betweenBarsData:
             lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t),
         lineTouchData: b.lineTouchData,
         showingTooltipIndicators: b.showingTooltipIndicators,
-        horizontalRangeAnnotationCallback: b.horizontalRangeAnnotationCallback,
-        verticalRangeAnnotationCallback: b.verticalRangeAnnotationCallback,
       );
     } else {
       throw Exception('Illegal State');
@@ -204,6 +204,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
         gridData,
         borderData,
         rangeAnnotations,
+        horizontalRangeAnnotationCallback,
+        verticalRangeAnnotationCallback,
         minX,
         maxX,
         baselineX,
