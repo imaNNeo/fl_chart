@@ -800,5 +800,5 @@ class VerticalRangeAnnotation with EquatableMixin {
       ];
 }
 
-/// A callback function type for range annotation coordinates.
+/// A callback that retrives list for range annotation coordinates.
 typedef RangeAnnotationsCallback = void Function(List<List<Offset>>);
