@@ -1,3 +1,6 @@
+## newVersion
+* **FEATURE** Now we can use ExtraLinesData for LineChart and BarChart, #476
+
 ## 0.50.1 
 * **BUGFIX** Allow to show axisTitle without sideTitles, #963
 

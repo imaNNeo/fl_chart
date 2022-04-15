@@ -20,10 +20,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       _barAreaPaint,
       _barAreaLinesPaint,
       _clearBarAreaPaint,
-      _extraLinesPaint,
       _touchLinePaint,
-      _bgTouchTooltipPaint,
-      _imagePaint;
+      _bgTouchTooltipPaint;
 
   /// Paints [dataList] into canvas, it is the animating [LineChartData],
   /// [targetData] is the animation's target and remains the same
@@ -45,8 +43,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..color = const Color(0x00000000)
       ..blendMode = BlendMode.dstIn;
 
-    _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
-
     _touchLinePaint = Paint()
       ..style = PaintingStyle.stroke
       ..color = Colors.black;
@@ -54,8 +50,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
-
-    _imagePaint = Paint();
   }
 
   /// Paints [LineChartData] into the provided canvas.
@@ -84,7 +78,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     if (!data.extraLinesData.extraLinesOnTop) {
-      drawExtraLines(context, canvasWrapper, holder);
+      super.drawExtraLines(context, canvasWrapper, holder);
     }
 
     /// draw each line independently on the chart
@@ -99,7 +93,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       drawDots(canvasWrapper, barData, holder);
 
       if (data.extraLinesData.extraLinesOnTop) {
-        drawExtraLines(context, canvasWrapper, holder);
+        super.drawExtraLines(context, canvasWrapper, holder);
       }
 
       drawTouchedSpotsIndicator(canvasWrapper, barData, holder);
@@ -834,141 +828,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     barPath = barPath.toDashedPath(barData.dashArray);
     canvasWrapper.drawPath(barPath, _barPaint);
-  }
-
-  @visibleForTesting
-  void drawExtraLines(BuildContext context, CanvasWrapper canvasWrapper,
-      PaintHolder<LineChartData> holder) {
-    final data = holder.data;
-    final viewSize = canvasWrapper.size;
-
-    if (data.extraLinesData.horizontalLines.isNotEmpty) {
-      for (var line in data.extraLinesData.horizontalLines) {
-        final from = Offset(0.0, getPixelY(line.y, viewSize, holder));
-        final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
-
-        _extraLinesPaint.color = line.color;
-        _extraLinesPaint.strokeWidth = line.strokeWidth;
-        _extraLinesPaint.transparentIfWidthIsZero();
-
-        canvasWrapper.drawDashedLine(
-            from, to, _extraLinesPaint, line.dashArray);
-
-        if (line.sizedPicture != null) {
-          final centerX = line.sizedPicture!.width / 2;
-          final centerY = line.sizedPicture!.height / 2;
-          final xPosition = centerX;
-          final yPosition = to.dy - centerY;
-
-          canvasWrapper.save();
-          canvasWrapper.translate(xPosition, yPosition);
-          canvasWrapper.drawPicture(line.sizedPicture!.picture);
-          canvasWrapper.restore();
-        }
-
-        if (line.image != null) {
-          final centerX = line.image!.width / 2;
-          final centerY = line.image!.height / 2;
-          final centeredImageOffset = Offset(centerX, to.dy - centerY);
-          canvasWrapper.drawImage(
-              line.image!, centeredImageOffset, _imagePaint);
-        }
-
-        if (line.label.show) {
-          final label = line.label;
-          final style =
-              TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final padding = label.padding as EdgeInsets;
-
-          final span = TextSpan(
-            text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
-          );
-
-          final tp = TextPainter(
-            text: span,
-            textDirection: TextDirection.ltr,
-          );
-
-          tp.layout();
-          canvasWrapper.drawText(
-              tp,
-              label.alignment.withinRect(
-                Rect.fromLTRB(
-                  from.dx + padding.left,
-                  from.dy - padding.bottom - tp.height,
-                  to.dx - padding.right - tp.width,
-                  to.dy + padding.top,
-                ),
-              ));
-        }
-      }
-    }
-
-    if (data.extraLinesData.verticalLines.isNotEmpty) {
-      for (var line in data.extraLinesData.verticalLines) {
-        final from = Offset(getPixelX(line.x, viewSize, holder), 0.0);
-        final to = Offset(getPixelX(line.x, viewSize, holder), viewSize.height);
-
-        _extraLinesPaint.color = line.color;
-        _extraLinesPaint.strokeWidth = line.strokeWidth;
-        _extraLinesPaint.transparentIfWidthIsZero();
-
-        canvasWrapper.drawDashedLine(
-            from, to, _extraLinesPaint, line.dashArray);
-
-        if (line.sizedPicture != null) {
-          final centerX = line.sizedPicture!.width / 2;
-          final centerY = line.sizedPicture!.height / 2;
-          final xPosition = to.dx - centerX;
-          final yPosition = viewSize.height - centerY;
-
-          canvasWrapper.save();
-          canvasWrapper.translate(xPosition, yPosition);
-          canvasWrapper.drawPicture(line.sizedPicture!.picture);
-          canvasWrapper.restore();
-        }
-        if (line.image != null) {
-          final centerX = line.image!.width / 2;
-          final centerY = line.image!.height / 2;
-          final centeredImageOffset =
-              Offset(to.dx - centerX, viewSize.height - centerY);
-          canvasWrapper.drawImage(
-              line.image!, centeredImageOffset, _imagePaint);
-        }
-
-        if (line.label.show) {
-          final label = line.label;
-          final style =
-              TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final padding = label.padding as EdgeInsets;
-
-          final span = TextSpan(
-            text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
-          );
-
-          final tp = TextPainter(
-            text: span,
-            textDirection: TextDirection.ltr,
-          );
-
-          tp.layout();
-
-          canvasWrapper.drawText(
-            tp,
-            label.alignment.withinRect(
-              Rect.fromLTRB(
-                to.dx - padding.right - tp.width,
-                from.dy + padding.top,
-                from.dx + padding.left,
-                to.dy - padding.bottom,
-              ),
-            ),
-          );
-        }
-      }
-    }
   }
 
   @visibleForTesting

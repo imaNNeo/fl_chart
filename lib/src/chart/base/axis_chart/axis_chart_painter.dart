@@ -16,7 +16,7 @@ import 'axis_chart_data.dart';
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData>
     extends BaseChartPainter<D> {
-  late Paint _gridPaint, _backgroundPaint;
+  late Paint _gridPaint, _backgroundPaint, _extraLinesPaint, _imagePaint;
 
   /// [_rangeAnnotationPaint] draws range annotations;
   late Paint _rangeAnnotationPaint;
@@ -27,6 +27,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
     _backgroundPaint = Paint()..style = PaintingStyle.fill;
 
     _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
+
+    _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
+
+    _imagePaint = Paint();
   }
 
   /// Paints [AxisChartData] into the provided canvas.
@@ -163,6 +167,140 @@ abstract class AxisChartPainter<D extends AxisChartData>
         _rangeAnnotationPaint.color = annotation.color;
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
+      }
+    }
+  }
+
+  void drawExtraLines(BuildContext context, CanvasWrapper canvasWrapper,
+      PaintHolder<D> holder) {
+    final data = holder.data;
+    final viewSize = canvasWrapper.size;
+
+    if (data.extraLinesData.horizontalLines.isNotEmpty) {
+      for (var line in data.extraLinesData.horizontalLines) {
+        final from = Offset(0.0, getPixelY(line.y, viewSize, holder));
+        final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
+
+        _extraLinesPaint.color = line.color;
+        _extraLinesPaint.strokeWidth = line.strokeWidth;
+        _extraLinesPaint.transparentIfWidthIsZero();
+
+        canvasWrapper.drawDashedLine(
+            from, to, _extraLinesPaint, line.dashArray);
+
+        if (line.sizedPicture != null) {
+          final centerX = line.sizedPicture!.width / 2;
+          final centerY = line.sizedPicture!.height / 2;
+          final xPosition = centerX;
+          final yPosition = to.dy - centerY;
+
+          canvasWrapper.save();
+          canvasWrapper.translate(xPosition, yPosition);
+          canvasWrapper.drawPicture(line.sizedPicture!.picture);
+          canvasWrapper.restore();
+        }
+
+        if (line.image != null) {
+          final centerX = line.image!.width / 2;
+          final centerY = line.image!.height / 2;
+          final centeredImageOffset = Offset(centerX, to.dy - centerY);
+          canvasWrapper.drawImage(
+              line.image!, centeredImageOffset, _imagePaint);
+        }
+
+        if (line.label.show) {
+          final label = line.label;
+          final style =
+              TextStyle(fontSize: 11, color: line.color).merge(label.style);
+          final padding = label.padding as EdgeInsets;
+
+          final span = TextSpan(
+            text: label.labelResolver(line),
+            style: Utils().getThemeAwareTextStyle(context, style),
+          );
+
+          final tp = TextPainter(
+            text: span,
+            textDirection: TextDirection.ltr,
+          );
+
+          tp.layout();
+          canvasWrapper.drawText(
+              tp,
+              label.alignment.withinRect(
+                Rect.fromLTRB(
+                  from.dx + padding.left,
+                  from.dy - padding.bottom - tp.height,
+                  to.dx - padding.right - tp.width,
+                  to.dy + padding.top,
+                ),
+              ));
+        }
+      }
+    }
+
+    if (data.extraLinesData.verticalLines.isNotEmpty) {
+      for (var line in data.extraLinesData.verticalLines) {
+        final from = Offset(getPixelX(line.x, viewSize, holder), 0.0);
+        final to = Offset(getPixelX(line.x, viewSize, holder), viewSize.height);
+
+        _extraLinesPaint.color = line.color;
+        _extraLinesPaint.strokeWidth = line.strokeWidth;
+        _extraLinesPaint.transparentIfWidthIsZero();
+
+        canvasWrapper.drawDashedLine(
+            from, to, _extraLinesPaint, line.dashArray);
+
+        if (line.sizedPicture != null) {
+          final centerX = line.sizedPicture!.width / 2;
+          final centerY = line.sizedPicture!.height / 2;
+          final xPosition = to.dx - centerX;
+          final yPosition = viewSize.height - centerY;
+
+          canvasWrapper.save();
+          canvasWrapper.translate(xPosition, yPosition);
+          canvasWrapper.drawPicture(line.sizedPicture!.picture);
+          canvasWrapper.restore();
+        }
+        if (line.image != null) {
+          final centerX = line.image!.width / 2;
+          final centerY = line.image!.height / 2;
+          final centeredImageOffset =
+              Offset(to.dx - centerX, viewSize.height - centerY);
+          canvasWrapper.drawImage(
+              line.image!, centeredImageOffset, _imagePaint);
+        }
+
+        if (line.label.show) {
+          final label = line.label;
+          final style =
+              TextStyle(fontSize: 11, color: line.color).merge(label.style);
+          final padding = label.padding as EdgeInsets;
+
+          final span = TextSpan(
+            text: label.labelResolver(line),
+            style: Utils().getThemeAwareTextStyle(context, style),
+          );
+
+          final tp = TextPainter(
+            text: span,
+            textDirection: TextDirection.ltr,
+          );
+
+          tp.layout();
+
+          canvasWrapper.drawText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                to.dx - padding.right - tp.width,
+                from.dy + padding.top,
+                from.dx + padding.left,
+                to.dy - padding.bottom,
+              ),
+            ),
+          );
+        }
       }
     }
   }
