@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -88,11 +89,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionDegree = sectionsAngle[i];
 
       if (sectionDegree == 360) {
-        _sectionPaint.color = section.color;
+        final radius = centerRadius + section.radius / 2;
+        final rect = Rect.fromCircle(center: center, radius: radius);
+        _sectionPaint.setColorOrGradient(
+          section.color,
+          section.gradient,
+          rect,
+        );
         _sectionPaint.strokeWidth = section.radius;
         _sectionPaint.style = PaintingStyle.stroke;
-        canvasWrapper.drawCircle(
-            center, centerRadius + section.radius / 2, _sectionPaint);
+        canvasWrapper.drawCircle(center, radius, _sectionPaint);
         return;
       }
 
@@ -222,7 +228,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   @visibleForTesting
   void drawSection(PieChartSectionData section, Path sectionPath,
       CanvasWrapper canvasWrapper) {
-    _sectionPaint.color = section.color;
+    _sectionPaint.setColorOrGradient(
+      section.color,
+      section.gradient,
+      sectionPath.getBounds(),
+    );
     _sectionPaint.style = PaintingStyle.fill;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
   }

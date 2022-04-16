@@ -660,6 +660,9 @@ class BarAreaSpotsLine with EquatableMixin {
   /// Determines to show or hide all the lines.
   final bool show;
 
+  /// Optional top offset
+  final double offsetTop;
+
   /// Holds appearance of drawing line on the spots.
   final FlLine flLineStyle;
 
@@ -674,10 +677,12 @@ class BarAreaSpotsLine with EquatableMixin {
   /// and you can decide to show or hide the lines on each spot using [checkToShowSpotLine].
   BarAreaSpotsLine({
     bool? show,
+    double? offsetTop,
     FlLine? flLineStyle,
     CheckToShowSpotLine? checkToShowSpotLine,
     bool? applyCutOffY,
-  })  : show = show ?? false,
+  })  : offsetTop = offsetTop ?? 0,
+        show = show ?? false,
         flLineStyle = flLineStyle ?? FlLine(),
         checkToShowSpotLine = checkToShowSpotLine ?? showAllSpotsBelowLine,
         applyCutOffY = applyCutOffY ?? true;
@@ -687,6 +692,7 @@ class BarAreaSpotsLine with EquatableMixin {
       BarAreaSpotsLine a, BarAreaSpotsLine b, double t) {
     return BarAreaSpotsLine(
       show: b.show,
+      offsetTop: b.offsetTop,
       checkToShowSpotLine: b.checkToShowSpotLine,
       flLineStyle: FlLine.lerp(a.flLineStyle, b.flLineStyle, t),
       applyCutOffY: b.applyCutOffY,
@@ -697,6 +703,7 @@ class BarAreaSpotsLine with EquatableMixin {
   @override
   List<Object?> get props => [
         show,
+        offsetTop,
         flLineStyle,
         checkToShowSpotLine,
         applyCutOffY,
@@ -1714,6 +1721,12 @@ class TouchLineBarSpot extends LineBarSpot {
 
 /// Holds data of showing each row item in the tooltip popup.
 class LineTooltipItem with EquatableMixin {
+  /// Tooltip border color
+  final Color? borderColor;
+
+  /// Optional top offset
+  final double? topOffset;
+
   /// Showing text.
   final String text;
 
@@ -1734,6 +1747,8 @@ class LineTooltipItem with EquatableMixin {
   LineTooltipItem(
     this.text,
     this.textStyle, {
+    this.topOffset,
+    this.borderColor,
     this.textAlign = TextAlign.center,
     this.textDirection = TextDirection.ltr,
     this.children,
@@ -1745,6 +1760,8 @@ class LineTooltipItem with EquatableMixin {
         text,
         textStyle,
         textAlign,
+        topOffset,
+        borderColor,
         textDirection,
         children,
       ];

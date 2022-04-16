@@ -14,6 +14,14 @@ import '../../../fl_chart.dart';
 import '../../extensions/text_align_extension.dart';
 import '../../utils/utils.dart';
 
+class LineChartCustomData {
+  final Color color;
+  final TextPainter tp;
+  final double topOffset;
+
+  LineChartCustomData(this.tp, this.color, this.topOffset);
+}
+
 /// Paints [LineChartData] in the canvas, it can be used in a [CustomPainter]
 class LineChartPainter extends AxisChartPainter<LineChartData> {
   late Paint _barPaint,
@@ -52,7 +60,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..color = Colors.black;
 
     _bgTouchTooltipPaint = Paint()
-      ..style = PaintingStyle.fill
+      ..style = PaintingStyle.stroke
       ..color = Colors.white;
 
     _imagePaint = Paint();
@@ -742,7 +750,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
               barData.aboveBarData.spotsLine.flLineStyle.strokeWidth;
           _barAreaLinesPaint.transparentIfWidthIsZero();
 
-          canvasWrapper.drawDashedLine(from, to, _barAreaLinesPaint,
+          canvasWrapper.drawDashedLine(
+              from,
+              Offset(to.dx, to.dy + barData.aboveBarData.spotsLine.offsetTop),
+              _barAreaLinesPaint,
               barData.aboveBarData.spotsLine.flLineStyle.dashArray);
         }
       }
@@ -985,6 +996,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
+    final drawingTextCustomData = <LineChartCustomData>[];
 
     final tooltipItems =
         tooltipData.getTooltipItems(showingTooltipSpots.showingSpots);
@@ -992,6 +1004,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       throw Exception('tooltipItems and touchedSpots size should be same');
     }
 
+    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
     for (var i = 0; i < showingTooltipSpots.showingSpots.length; i++) {
       final tooltipItem = tooltipItems[i];
       if (tooltipItem == null) {
@@ -1011,6 +1024,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           textScaleFactor: holder.textScale);
       tp.layout(maxWidth: tooltipData.maxContentWidth);
       drawingTextPainters.add(tp);
+      drawingTextCustomData.add(LineChartCustomData(
+          tp,
+          tooltipItem.borderColor ?? tooltipData.tooltipBgColor,
+          tooltipItem.topOffset ?? 0));
     }
     if (drawingTextPainters.isEmpty) {
       return;
@@ -1110,7 +1127,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         topRight: radius,
         bottomLeft: radius,
         bottomRight: radius);
-    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
@@ -1120,19 +1136,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final textRotationOffset =
         Utils().calculateRotationOffset(rect.size, rotateAngle);
 
-    canvasWrapper.drawRotated(
-      size: rect.size,
-      rotationOffset: rectRotationOffset,
-      drawOffset: rectDrawOffset,
-      angle: rotateAngle,
-      drawCallback: () {
-        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
-      },
-    );
-
     /// draw the texts one by one in below of each other
     var topPosSeek = tooltipData.tooltipPadding.top;
-    for (var tp in drawingTextPainters) {
+    for (var customData in drawingTextCustomData) {
+      final tp = customData.tp;
       double yOffset = rect.topCenter.dy +
           topPosSeek -
           textRotationOffset.dy +
@@ -1153,8 +1160,26 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
       final ui.Offset drawOffset = Offset(
         xOffset,
-        yOffset,
+        yOffset + customData.topOffset,
       );
+
+      final trullyRoundedRect = RRect.fromRectAndCorners(
+          Rect.fromLTWH(
+            roundedRect.left,
+            roundedRect.top + customData.topOffset,
+            roundedRect.width,
+            roundedRect.height,
+          ),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius);
+
+      print(customData.topOffset);
+
+      final Paint rectPaint = Paint()
+        ..style = PaintingStyle.stroke
+        ..color = customData.color;
 
       canvasWrapper.drawRotated(
         size: rect.size,
@@ -1162,6 +1187,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         drawOffset: rectDrawOffset,
         angle: rotateAngle,
         drawCallback: () {
+          canvasWrapper.drawRRect(trullyRoundedRect, rectPaint);
           canvasWrapper.drawText(tp, drawOffset);
         },
       );
