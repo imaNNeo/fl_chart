@@ -1175,8 +1175,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           bottomLeft: radius,
           bottomRight: radius);
 
-      print(customData.topOffset);
-
       final Paint rectPaint = Paint()
         ..style = PaintingStyle.stroke
         ..color = customData.color;
