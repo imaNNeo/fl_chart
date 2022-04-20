@@ -1,3 +1,6 @@
+## newVersion
+* **IMPROVEMENT** Fix order of drawing lineChart bar indicator problem, #198.
+
 ## 0.50.1 
 * **BUGFIX** Allow to show axisTitle without sideTitles, #963
 

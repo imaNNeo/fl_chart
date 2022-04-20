@@ -543,11 +543,11 @@ class MockLineChartPainter extends _i1.Mock implements _i9.LineChartPainter {
   @override
   void drawTouchedSpotsIndicator(
           _i6.CanvasWrapper? canvasWrapper,
-          _i7.LineChartBarData? barData,
+          List<_i9.LineIndexDrawingInfo>? lineIndexDrawingInfo,
           _i10.PaintHolder<_i7.LineChartData>? holder) =>
       super.noSuchMethod(
-          Invocation.method(
-              #drawTouchedSpotsIndicator, [canvasWrapper, barData, holder]),
+          Invocation.method(#drawTouchedSpotsIndicator,
+              [canvasWrapper, lineIndexDrawingInfo, holder]),
           returnValueForMissingStub: null);
   @override
   _i2.Path generateBarPath(
