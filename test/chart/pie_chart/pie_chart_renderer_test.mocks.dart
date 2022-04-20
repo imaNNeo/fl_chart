@@ -12,9 +12,9 @@ import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart' as _i7;
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart' as _i10;
 import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
 import 'package:flutter/foundation.dart' as _i5;
+import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/rendering.dart' as _i3;
 import 'package:flutter/src/rendering/layer.dart' as _i4;
-import 'package:flutter/widgets.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:vector_math/vector_math_64.dart' as _i9;
 
