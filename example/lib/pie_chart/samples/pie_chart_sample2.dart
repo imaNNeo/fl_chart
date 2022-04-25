@@ -106,7 +106,9 @@ class PieChart2State extends State {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: const Color(0xff0293ee),
+            gradient: const LinearGradient(
+              colors: [Color(0xff0293ee), Color(0xff00cfe0)],
+            ),
             value: 40,
             title: '40%',
             radius: radius,
@@ -117,7 +119,9 @@ class PieChart2State extends State {
           );
         case 1:
           return PieChartSectionData(
-            color: const Color(0xfff8b250),
+            gradient: const LinearGradient(
+              colors: [Color(0xfff8b250), Color(0xffff8982)],
+            ),
             value: 30,
             title: '30%',
             radius: radius,
@@ -128,7 +132,9 @@ class PieChart2State extends State {
           );
         case 2:
           return PieChartSectionData(
-            color: const Color(0xff845bef),
+            gradient: const LinearGradient(
+              colors: [Color(0xff845bef), Color(0xfff148c6)],
+            ),
             value: 15,
             title: '15%',
             radius: radius,
@@ -139,7 +145,9 @@ class PieChart2State extends State {
           );
         case 3:
           return PieChartSectionData(
-            color: const Color(0xff13d38e),
+            gradient: const LinearGradient(
+              colors: [Color(0xff13d38e), Color(0xff007f8f)],
+            ),
             value: 15,
             title: '15%',
             radius: radius,
