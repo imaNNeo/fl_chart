@@ -36,6 +36,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |value| value is the weight of each section, for example if all values is 25, and we have 4 section, then the sum is 100 and each section takes 1/4 of the whole circle (360/4) degree|10|
 |color| colors the section| Colors.red
+|gradient| Defines the gradient of this section. If specified, it overrides the color setting|null|
 |radius| the width radius of each section|40|
 |showTitle| determines to show or hide the titles on each section|true|
 |titleStyle| TextStyle of the titles| TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)|

@@ -1,5 +1,6 @@
 ## newVersion
 * **IMPROVEMENT** Fix order of drawing lineChart bar indicator problem, #198.
+* **FEATURE** Add `gradient` property in [PieChartSectionData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/pie_chart.md#piechartsectiondata)
 
 ## 0.50.1 
 * **BUGFIX** Allow to show axisTitle without sideTitles, #963
