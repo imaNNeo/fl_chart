@@ -150,6 +150,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (localPosition != null) {
       if (event is FlMultiDragGestureEvent) {
         // multi drag returns global position as local position
+        // see https://github.com/flutter/flutter/issues/87463
         localPosition = globalToLocal(localPosition);
       }
       response = getResponseAtLocation(localPosition);
