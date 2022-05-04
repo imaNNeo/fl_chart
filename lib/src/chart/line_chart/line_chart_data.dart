@@ -1428,6 +1428,12 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
   final GetTouchLineY getTouchLineEnd;
 
+  /// [secondTouchCallback] notifies you about the happened second touch/pointer events.
+  /// It gives you a [FlTouchEvent] which is the happened event such as [FlMultiDragStartEvent], [FlMultiDragUpdateEvent], ...
+  /// It also gives you a [BaseTouchResponse] which is the chart specific type and contains information
+  /// about the elements that has touched.
+  final BaseTouchCallback<LineTouchResponse>? secondTouchCallback;
+
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -1448,6 +1454,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   LineTouchData({
     bool? enabled,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
+    BaseTouchCallback<LineTouchResponse>? secondTouchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
@@ -1464,6 +1471,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
+        secondTouchCallback = secondTouchCallback,
         super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Copies current [LineTouchData] to a new [LineTouchData],
@@ -1471,6 +1479,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   LineTouchData copyWith({
     bool? enabled,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
+    BaseTouchCallback<LineTouchResponse>? secondTouchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
@@ -1483,6 +1492,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     return LineTouchData(
       enabled: enabled ?? this.enabled,
       touchCallback: touchCallback ?? this.touchCallback,
+      secondTouchCallback: secondTouchCallback ?? this.secondTouchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator:

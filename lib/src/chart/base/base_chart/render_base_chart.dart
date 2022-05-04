@@ -47,6 +47,9 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   /// Recognizes longPress gestures, such as onLongPressStart, onLongPressMoveUpdate and onLongPressEnd
   late LongPressGestureRecognizer _longPressGestureRecognizer;
 
+  /// Recognizes multiDrag gestures, such as onStart
+  late ImmediateMultiDragGestureRecognizer _immediateMultiDragGestureRecognizer;
+
   /// Initializes our recognizers and implement their callbacks.
   void initGestureRecognizers() {
     _panGestureRecognizer = PanGestureRecognizer();
@@ -77,6 +80,15 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
             FlLongPressMoveUpdate(longPressMoveUpdateDetails));
     _longPressGestureRecognizer.onLongPressEnd = (longPressEndDetails) =>
         _notifyTouchEvent(FlLongPressEnd(longPressEndDetails));
+
+    _immediateMultiDragGestureRecognizer =
+        ImmediateMultiDragGestureRecognizer();
+    _immediateMultiDragGestureRecognizer.onStart = (Offset offset) {
+      final id = DateTime.now().microsecondsSinceEpoch;
+      _notifyTouchEvent(FlMultiDragStartEvent(
+          id, DragStartDetails(globalPosition: offset, localPosition: offset)));
+      return _MultiDrag(id, _notifyTouchEvent);
+    };
   }
 
   @override
@@ -109,6 +121,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       _longPressGestureRecognizer.addPointer(event);
       _tapGestureRecognizer.addPointer(event);
       _panGestureRecognizer.addPointer(event);
+      _immediateMultiDragGestureRecognizer.addPointer(event);
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
     }
@@ -132,9 +145,13 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (_touchCallback == null) {
       return;
     }
-    final localPosition = event.localPosition;
+    var localPosition = event.localPosition;
     R? response;
     if (localPosition != null) {
+      if (event is FlMultiDragGestureEvent) {
+        // multi drag returns global position as local position
+        localPosition = globalToLocal(localPosition);
+      }
       response = getResponseAtLocation(localPosition);
     }
     _touchCallback!(event, response);
@@ -171,4 +188,24 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     _validForMouseTracker = false;
     super.detach();
   }
+}
+
+/// It implements remaining notifications for multi drag gesture.
+/// This returns id and gesture details
+class _MultiDrag implements Drag {
+  final int id;
+  final void Function(FlTouchEvent event) _notifyTouchEvent;
+
+  _MultiDrag(this.id, this._notifyTouchEvent);
+
+  @override
+  void cancel() => _notifyTouchEvent(FlMultiDragCancelEvent(id));
+
+  @override
+  void end(DragEndDetails details) =>
+      _notifyTouchEvent(FlMultiDragEndEvent(id, details));
+
+  @override
+  void update(DragUpdateDetails details) =>
+      _notifyTouchEvent(FlMultiDragUpdateEvent(id, details));
 }

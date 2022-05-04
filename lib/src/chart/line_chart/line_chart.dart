@@ -39,9 +39,14 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<LineTouchResponse>? _providedTouchCallback;
 
-  final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
+  /// If [LineTouchData.handleBuiltInTouches] is true, we override the callback to handle touches internally,
+  /// but we need to keep the provided callback to notify it too.
+  BaseTouchCallback<LineTouchResponse>? _providedSecondTouchCallback;
 
-  final Map<int, List<int>> _showingTouchedIndicators = {};
+  final Map<int, List<ShowingTooltipIndicators>> _showingMultiTouchedTooltips =
+      {0: []};
+
+  final Map<int, Map<int, List<int>>> _showingMultiTouchedIndicators = {0: {}};
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +68,16 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     }
 
     return lineChartData.copyWith(
-      showingTooltipIndicators: _showingTouchedTooltips,
+      showingTooltipIndicators: _showingMultiTouchedTooltips.values
+          .fold<List<ShowingTooltipIndicators>>(
+              [], (value, element) => [...value, ...element]),
       lineBarsData: lineChartData.lineBarsData.map((barData) {
         final index = lineChartData.lineBarsData.indexOf(barData);
+
         return barData.copyWith(
-          showingIndicators: _showingTouchedIndicators[index] ?? [],
+          showingIndicators: _showingMultiTouchedIndicators.values
+              .map((value) => value[index] ?? [])
+              .fold<List<int>>([], (value, element) => [...value, ...element]),
         );
       }).toList(),
     );
@@ -77,6 +87,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final lineTouchData = widget.data.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       _providedTouchCallback = lineTouchData.touchCallback;
+      _providedSecondTouchCallback = lineTouchData.secondTouchCallback;
       return widget.data.copyWith(
         lineTouchData: widget.data.lineTouchData
             .copyWith(touchCallback: _handleBuiltInTouch),
@@ -87,14 +98,29 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   void _handleBuiltInTouch(
       FlTouchEvent event, LineTouchResponse? touchResponse) {
-    _providedTouchCallback?.call(event, touchResponse);
+    if (event is FlMultiDragGestureEvent) {
+      final _event = event as FlMultiDragGestureEvent;
+      _providedSecondTouchCallback?.call(event, touchResponse);
 
+      _setTouches(event, touchResponse, _event.id);
+    } else {
+      _providedTouchCallback?.call(event, touchResponse);
+      _setTouches(event, touchResponse, 0);
+    }
+  }
+
+  void _setTouches(
+      FlTouchEvent event, LineTouchResponse? touchResponse, int id) {
+    _showingMultiTouchedTooltips.putIfAbsent(id, () => []);
+    _showingMultiTouchedIndicators.putIfAbsent(id, () => {});
+    final showingTouchedTooltips = _showingMultiTouchedTooltips[id]!;
+    final showingTouchedIndicators = _showingMultiTouchedIndicators[id]!;
     if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
       setState(() {
-        _showingTouchedTooltips.clear();
-        _showingTouchedIndicators.clear();
+        _showingMultiTouchedTooltips.removeWhere((key, value) => key == id);
+        _showingMultiTouchedIndicators.removeWhere((key, value) => key == id);
       });
       return;
     }
@@ -103,15 +129,15 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       final sortedLineSpots = List.of(touchResponse.lineBarSpots!);
       sortedLineSpots.sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
 
-      _showingTouchedIndicators.clear();
+      showingTouchedIndicators.clear();
       for (var i = 0; i < touchResponse.lineBarSpots!.length; i++) {
         final touchedBarSpot = touchResponse.lineBarSpots![i];
         final barPos = touchedBarSpot.barIndex;
-        _showingTouchedIndicators[barPos] = [touchedBarSpot.spotIndex];
+        showingTouchedIndicators[barPos] = [touchedBarSpot.spotIndex];
       }
 
-      _showingTouchedTooltips.clear();
-      _showingTouchedTooltips.add(ShowingTooltipIndicators(sortedLineSpots));
+      showingTouchedTooltips.clear();
+      showingTouchedTooltips.add(ShowingTooltipIndicators(sortedLineSpots));
     });
   }
 

@@ -36,6 +36,12 @@ abstract class FlTouchEvent {
   }
 }
 
+abstract class FlMultiDragGestureEvent {
+  final int id;
+
+  FlMultiDragGestureEvent(this.id);
+}
+
 /// When a pointer has contacted the screen and might begin to move
 ///
 /// The [details] object provides the position of the touch.
@@ -88,6 +94,71 @@ class FlPanUpdateEvent extends FlTouchEvent {
 /// When the pointer that previously triggered a [FlPanStartEvent] did not complete.
 /// Inspired from [GestureDragCancelCallback]
 class FlPanCancelEvent extends FlTouchEvent {}
+
+/// When a pointer has contacted the screen and has begun to move.
+///
+/// The [details] object provides the position of the touch when it first
+/// touched the surface.
+class FlMultiDragStartEvent extends FlTouchEvent
+    implements FlMultiDragGestureEvent {
+  /// Contains information of happened touch gesture
+  final DragStartDetails details;
+
+  @override
+  final int id;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
+
+  /// Creates
+  FlMultiDragStartEvent(this.id, this.details);
+}
+
+/// When a pointer that is in contact with the screen and moving
+/// has moved again.
+///
+/// The [details] object provides the position of the touch and the distance it
+/// has traveled since the last update.
+class FlMultiDragUpdateEvent extends FlTouchEvent
+    implements FlMultiDragGestureEvent {
+  @override
+  final int id;
+
+  /// Contains information of happened touch gesture
+  final DragUpdateDetails details;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
+
+  FlMultiDragUpdateEvent(this.id, this.details);
+}
+
+/// When the pointer that previously triggered a [FlMultiDragStartEvent] did not complete.
+class FlMultiDragCancelEvent extends FlTouchEvent
+    implements FlMultiDragGestureEvent {
+  @override
+  final int id;
+
+  FlMultiDragCancelEvent(this.id);
+}
+
+/// When a pointer that was previously in contact with the screen
+/// and moving is no longer in contact with the screen.
+///
+/// The velocity at which the pointer was moving when it stopped contacting
+/// the screen is available in the [details].
+class FlMultiDragEndEvent extends FlTouchEvent
+    implements FlMultiDragGestureEvent {
+  @override
+  final int id;
+
+  /// Contains information of happened touch gesture
+  final DragEndDetails details;
+
+  FlMultiDragEndEvent(this.id, this.details);
+}
 
 /// When a pointer that was previously in contact with the screen
 /// and moving is no longer in contact with the screen.
