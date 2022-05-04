@@ -44,9 +44,11 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   BaseTouchCallback<LineTouchResponse>? _providedSecondTouchCallback;
 
   final Map<int, List<ShowingTooltipIndicators>> _showingMultiTouchedTooltips =
-      {0: []};
+      {};
 
-  final Map<int, Map<int, List<int>>> _showingMultiTouchedIndicators = {0: {}};
+  final Map<int, Map<int, List<int>>> _showingMultiTouchedIndicators = {};
+
+  int? _firstTappedId;
 
   @override
   Widget build(BuildContext context) {
@@ -100,17 +102,23 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       FlTouchEvent event, LineTouchResponse? touchResponse) {
     if (event is FlMultiDragGestureEvent) {
       final _event = event as FlMultiDragGestureEvent;
-      _providedSecondTouchCallback?.call(event, touchResponse);
-
       _setTouches(event, touchResponse, _event.id);
     } else {
-      _providedTouchCallback?.call(event, touchResponse);
       _setTouches(event, touchResponse, 0);
     }
   }
 
   void _setTouches(
       FlTouchEvent event, LineTouchResponse? touchResponse, int id) {
+    if (_showingMultiTouchedIndicators.isEmpty) {
+      _firstTappedId = id;
+    }
+
+    if (_firstTappedId == null || _firstTappedId == id) {
+      _providedTouchCallback?.call(event, touchResponse);
+    } else {
+      _providedSecondTouchCallback?.call(event, touchResponse);
+    }
     _showingMultiTouchedTooltips.putIfAbsent(id, () => []);
     _showingMultiTouchedIndicators.putIfAbsent(id, () => {});
     final showingTouchedTooltips = _showingMultiTouchedTooltips[id]!;
