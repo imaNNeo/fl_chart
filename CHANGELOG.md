@@ -1,5 +1,6 @@
 ## newVersion
 * **IMPROVEMENT** Fix order of drawing lineChart bar indicator problem, #198.
+* **FEATURE** Ability to set Max value for RadarChart, #958.
 
 ## 0.50.1 
 * **BUGFIX** Allow to show axisTitle without sideTitles, #963

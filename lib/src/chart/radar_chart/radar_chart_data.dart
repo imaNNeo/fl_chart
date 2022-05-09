@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/radar_chart/radar_chart_helper.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_extension.dart';
@@ -67,6 +68,12 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// Defines style of showing [RadarChart] grid borders.
   final BorderSide gridBorderData;
 
+  /// Defines the minimum value for the [RadarChart]
+  final double min;
+
+  /// Defines the maximum value for the [RadarChart]
+  final double max;
+
   /// Handles touch behaviors and responses.
   final RadarTouchData radarTouchData;
 
@@ -126,6 +133,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     TextStyle? ticksTextStyle,
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
+    double? min,
+    double? max,
     RadarTouchData? radarTouchData,
     FlBorderData? borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
@@ -151,6 +160,10 @@ class RadarChartData extends BaseChartData with EquatableMixin {
             tickBorderData ?? const BorderSide(color: Colors.black, width: 2),
         gridBorderData =
             gridBorderData ?? const BorderSide(color: Colors.black, width: 2),
+        min = min ??
+            RadarChartHelper.calculateMinMaxAxisValue(dataSets ?? const []).min,
+        max = max ??
+            RadarChartHelper.calculateMinMaxAxisValue(dataSets ?? const []).max,
         super(
             borderData: borderData,
             touchData: radarTouchData ?? RadarTouchData());
@@ -168,6 +181,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     TextStyle? ticksTextStyle,
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
+    double? min,
+    double? max,
     RadarTouchData? radarTouchData,
     FlBorderData? borderData,
   }) =>
@@ -182,6 +197,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickCount: tickCount ?? this.tickCount,
         ticksTextStyle: ticksTextStyle ?? this.ticksTextStyle,
         tickBorderData: tickBorderData ?? this.tickBorderData,
+        min: min ?? this.min,
+        max: max ?? this.max,
         gridBorderData: gridBorderData ?? this.gridBorderData,
         radarTouchData: radarTouchData ?? this.radarTouchData,
         borderData: borderData ?? this.borderData,
@@ -205,6 +222,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickCount: lerpInt(a.tickCount, b.tickCount, t),
         ticksTextStyle: TextStyle.lerp(a.ticksTextStyle, b.ticksTextStyle, t),
         gridBorderData: BorderSide.lerp(a.gridBorderData, b.gridBorderData, t),
+        min: lerpDouble(a.min, b.min, t),
+        max: lerpDouble(a.max, b.max, t),
         radarBorderData:
             BorderSide.lerp(a.radarBorderData, b.radarBorderData, t),
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
@@ -230,6 +249,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickCount,
         ticksTextStyle,
         tickBorderData,
+        min,
+        max,
         gridBorderData,
         radarTouchData,
       ];
