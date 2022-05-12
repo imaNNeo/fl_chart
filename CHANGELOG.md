@@ -1,6 +1,7 @@
 ## newVersion
 * **IMPROVEMENT** Fix order of drawing lineChart bar indicator problem, #198.
 * **FEATURE** Add `isStrokeJoinRound` property in [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata).
+* **IMPROVEMENT** Upgrade to Flutter 3, #997.
 
 ## 0.50.1 
 * **BUGFIX** Allow to show axisTitle without sideTitles, #963
