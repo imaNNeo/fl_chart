@@ -5,15 +5,16 @@
 import 'dart:typed_data' as _i7;
 import 'dart:ui' as _i2;
 
-import 'package:fl_chart/fl_chart.dart' as _i12;
-import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart' as _i9;
+import 'package:fl_chart/fl_chart.dart' as _i13;
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart' as _i10;
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
-    as _i11;
-import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i10;
+    as _i12;
+import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
 import 'package:flutter/foundation.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/rendering.dart' as _i3;
 import 'package:flutter/src/rendering/layer.dart' as _i4;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:vector_math/vector_math_64.dart' as _i8;
 
@@ -435,6 +436,10 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
       super.noSuchMethod(Invocation.method(#visitChildElements, [visitor]),
           returnValueForMissingStub: null);
   @override
+  void dispatchNotification(_i9.Notification? notification) => super
+      .noSuchMethod(Invocation.method(#dispatchNotification, [notification]),
+          returnValueForMissingStub: null);
+  @override
   _i5.DiagnosticsNode describeElement(String? name,
           {_i5.DiagnosticsTreeStyle? style =
               _i5.DiagnosticsTreeStyle.errorProperty}) =>
@@ -464,30 +469,30 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
 /// A class which mocks [BarChartPainter].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
+class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   MockBarChartPainter() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  void paint(_i6.BuildContext? context, _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+  void paint(_i6.BuildContext? context, _i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#paint, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  List<_i9.GroupBarsPosition> calculateGroupAndBarsPosition(_i2.Size? viewSize,
-          List<double>? groupsX, List<_i12.BarChartGroupData>? barGroups) =>
+  List<_i10.GroupBarsPosition> calculateGroupAndBarsPosition(_i2.Size? viewSize,
+          List<double>? groupsX, List<_i13.BarChartGroupData>? barGroups) =>
       (super.noSuchMethod(
               Invocation.method(#calculateGroupAndBarsPosition,
                   [viewSize, groupsX, barGroups]),
-              returnValue: <_i9.GroupBarsPosition>[])
-          as List<_i9.GroupBarsPosition>);
+              returnValue: <_i10.GroupBarsPosition>[])
+          as List<_i10.GroupBarsPosition>);
   @override
   void drawBars(
-          _i10.CanvasWrapper? canvasWrapper,
-          List<_i9.GroupBarsPosition>? groupBarsPosition,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+          _i11.CanvasWrapper? canvasWrapper,
+          List<_i10.GroupBarsPosition>? groupBarsPosition,
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(
               #drawBars, [canvasWrapper, groupBarsPosition, holder]),
@@ -495,14 +500,14 @@ class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
   @override
   void drawTouchTooltip(
           _i6.BuildContext? context,
-          _i10.CanvasWrapper? canvasWrapper,
-          List<_i9.GroupBarsPosition>? groupPositions,
-          _i12.BarTouchTooltipData? tooltipData,
-          _i12.BarChartGroupData? showOnBarGroup,
+          _i11.CanvasWrapper? canvasWrapper,
+          List<_i10.GroupBarsPosition>? groupPositions,
+          _i13.BarTouchTooltipData? tooltipData,
+          _i13.BarChartGroupData? showOnBarGroup,
           int? barGroupIndex,
-          _i12.BarChartRodData? showOnRodData,
+          _i13.BarChartRodData? showOnRodData,
           int? barRodIndex,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawTouchTooltip, [
             context,
@@ -518,14 +523,14 @@ class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
           returnValueForMissingStub: null);
   @override
   void drawStackItemBorderStroke(
-          _i10.CanvasWrapper? canvasWrapper,
-          _i12.BarChartRodStackItem? stackItem,
+          _i11.CanvasWrapper? canvasWrapper,
+          _i13.BarChartRodStackItem? stackItem,
           int? index,
           int? rodStacksSize,
           double? barThickSize,
           _i2.RRect? barRRect,
           _i2.Size? drawSize,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawStackItemBorderStroke, [
             canvasWrapper,
@@ -539,37 +544,37 @@ class MockBarChartPainter extends _i1.Mock implements _i9.BarChartPainter {
           ]),
           returnValueForMissingStub: null);
   @override
-  _i12.BarTouchedSpot? handleTouch(_i2.Offset? localPosition,
-          _i2.Size? viewSize, _i11.PaintHolder<_i12.BarChartData>? holder) =>
+  _i13.BarTouchedSpot? handleTouch(_i2.Offset? localPosition,
+          _i2.Size? viewSize, _i12.PaintHolder<_i13.BarChartData>? holder) =>
       (super.noSuchMethod(Invocation.method(
               #handleTouch, [localPosition, viewSize, holder]))
-          as _i12.BarTouchedSpot?);
+          as _i13.BarTouchedSpot?);
   @override
-  void drawGrid(_i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+  void drawGrid(_i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       super.noSuchMethod(Invocation.method(#drawGrid, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawBackground(_i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+  void drawBackground(_i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawBackground, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawRangeAnnotation(_i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+  void drawRangeAnnotation(_i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawRangeAnnotation, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
   double getPixelX(double? spotX, _i2.Size? viewSize,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       (super.noSuchMethod(
           Invocation.method(#getPixelX, [spotX, viewSize, holder]),
           returnValue: 0.0) as double);
   @override
   double getPixelY(double? spotY, _i2.Size? viewSize,
-          _i11.PaintHolder<_i12.BarChartData>? holder) =>
+          _i12.PaintHolder<_i13.BarChartData>? holder) =>
       (super.noSuchMethod(
           Invocation.method(#getPixelY, [spotY, viewSize, holder]),
           returnValue: 0.0) as double);

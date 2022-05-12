@@ -6,15 +6,16 @@ import 'dart:typed_data' as _i8;
 import 'dart:ui' as _i2;
 
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
-    as _i12;
-import 'package:fl_chart/src/chart/base/line.dart' as _i13;
+    as _i13;
+import 'package:fl_chart/src/chart/base/line.dart' as _i14;
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart' as _i7;
-import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart' as _i10;
-import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart' as _i11;
+import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i12;
 import 'package:flutter/foundation.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/rendering.dart' as _i3;
 import 'package:flutter/src/rendering/layer.dart' as _i4;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:vector_math/vector_math_64.dart' as _i9;
 
@@ -441,6 +442,10 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
       super.noSuchMethod(Invocation.method(#visitChildElements, [visitor]),
           returnValueForMissingStub: null);
   @override
+  void dispatchNotification(_i10.Notification? notification) => super
+      .noSuchMethod(Invocation.method(#dispatchNotification, [notification]),
+          returnValueForMissingStub: null);
+  @override
   _i5.DiagnosticsNode describeElement(String? name,
           {_i5.DiagnosticsTreeStyle? style =
               _i5.DiagnosticsTreeStyle.errorProperty}) =>
@@ -470,14 +475,14 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
 /// A class which mocks [PieChartPainter].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPieChartPainter extends _i1.Mock implements _i10.PieChartPainter {
+class MockPieChartPainter extends _i1.Mock implements _i11.PieChartPainter {
   MockPieChartPainter() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  void paint(_i6.BuildContext? context, _i11.CanvasWrapper? canvasWrapper,
-          _i12.PaintHolder<_i7.PieChartData>? holder) =>
+  void paint(_i6.BuildContext? context, _i12.CanvasWrapper? canvasWrapper,
+          _i13.PaintHolder<_i7.PieChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#paint, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
@@ -488,18 +493,18 @@ class MockPieChartPainter extends _i1.Mock implements _i10.PieChartPainter {
           Invocation.method(#calculateSectionsAngle, [sections, sumValue]),
           returnValue: <double>[]) as List<double>);
   @override
-  void drawCenterSpace(_i11.CanvasWrapper? canvasWrapper, double? centerRadius,
-          _i12.PaintHolder<_i7.PieChartData>? holder) =>
+  void drawCenterSpace(_i12.CanvasWrapper? canvasWrapper, double? centerRadius,
+          _i13.PaintHolder<_i7.PieChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(
               #drawCenterSpace, [canvasWrapper, centerRadius, holder]),
           returnValueForMissingStub: null);
   @override
   void drawSections(
-          _i11.CanvasWrapper? canvasWrapper,
+          _i12.CanvasWrapper? canvasWrapper,
           List<double>? sectionsAngle,
           double? centerRadius,
-          _i12.PaintHolder<_i7.PieChartData>? holder) =>
+          _i13.PaintHolder<_i7.PieChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawSections,
               [canvasWrapper, sectionsAngle, centerRadius, holder]),
@@ -523,12 +528,12 @@ class MockPieChartPainter extends _i1.Mock implements _i10.PieChartPainter {
           ]),
           returnValue: _FakePath_8()) as _i2.Path);
   @override
-  _i2.Path createRectPathAroundLine(_i13.Line? line, double? width) => (super
+  _i2.Path createRectPathAroundLine(_i14.Line? line, double? width) => (super
       .noSuchMethod(Invocation.method(#createRectPathAroundLine, [line, width]),
           returnValue: _FakePath_8()) as _i2.Path);
   @override
   void drawSection(_i7.PieChartSectionData? section, _i2.Path? sectionPath,
-          _i11.CanvasWrapper? canvasWrapper) =>
+          _i12.CanvasWrapper? canvasWrapper) =>
       super.noSuchMethod(
           Invocation.method(
               #drawSection, [section, sectionPath, canvasWrapper]),
@@ -537,34 +542,34 @@ class MockPieChartPainter extends _i1.Mock implements _i10.PieChartPainter {
   void drawSectionStroke(
           _i7.PieChartSectionData? section,
           _i2.Path? sectionPath,
-          _i11.CanvasWrapper? canvasWrapper,
+          _i12.CanvasWrapper? canvasWrapper,
           _i2.Size? viewSize) =>
       super.noSuchMethod(
           Invocation.method(#drawSectionStroke,
               [section, sectionPath, canvasWrapper, viewSize]),
           returnValueForMissingStub: null);
   @override
-  void drawTexts(_i6.BuildContext? context, _i11.CanvasWrapper? canvasWrapper,
-          _i12.PaintHolder<_i7.PieChartData>? holder, double? centerRadius) =>
+  void drawTexts(_i6.BuildContext? context, _i12.CanvasWrapper? canvasWrapper,
+          _i13.PaintHolder<_i7.PieChartData>? holder, double? centerRadius) =>
       super.noSuchMethod(
           Invocation.method(
               #drawTexts, [context, canvasWrapper, holder, centerRadius]),
           returnValueForMissingStub: null);
   @override
   double calculateCenterRadius(
-          _i2.Size? viewSize, _i12.PaintHolder<_i7.PieChartData>? holder) =>
+          _i2.Size? viewSize, _i13.PaintHolder<_i7.PieChartData>? holder) =>
       (super.noSuchMethod(
           Invocation.method(#calculateCenterRadius, [viewSize, holder]),
           returnValue: 0.0) as double);
   @override
   _i7.PieTouchedSection handleTouch(_i2.Offset? localPosition,
-          _i2.Size? viewSize, _i12.PaintHolder<_i7.PieChartData>? holder) =>
+          _i2.Size? viewSize, _i13.PaintHolder<_i7.PieChartData>? holder) =>
       (super.noSuchMethod(
           Invocation.method(#handleTouch, [localPosition, viewSize, holder]),
           returnValue: _FakePieTouchedSection_9()) as _i7.PieTouchedSection);
   @override
   Map<int, _i2.Offset> getBadgeOffsets(
-          _i2.Size? viewSize, _i12.PaintHolder<_i7.PieChartData>? holder) =>
+          _i2.Size? viewSize, _i13.PaintHolder<_i7.PieChartData>? holder) =>
       (super.noSuchMethod(
           Invocation.method(#getBadgeOffsets, [viewSize, holder]),
           returnValue: <int, _i2.Offset>{}) as Map<int, _i2.Offset>);
