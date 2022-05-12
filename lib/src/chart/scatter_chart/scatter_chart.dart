@@ -8,6 +8,10 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// Determines how the [ScatterChart] should be look like.
   final ScatterChartData data;
 
+  /// We pass this key to our renderers which are responsible to
+  /// render the chart itself (without anything around the chart).
+  final Key? chartRendererKey;
+
   /// [data] determines how the [ScatterChart] should be look like,
   /// when you make any change in the [ScatterChartData], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
@@ -15,6 +19,7 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// which default is [Curves.linear].
   const ScatterChart(
     this.data, {
+    this.chartRendererKey,
     Key? key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
@@ -49,6 +54,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         data:
             _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
+        key: widget.chartRendererKey,
       ),
     );
   }
