@@ -5,6 +5,7 @@ import 'samples/line_chart_sample4.dart';
 import 'samples/line_chart_sample5.dart';
 import 'samples/line_chart_sample7.dart';
 import 'samples/line_chart_sample8.dart';
+import 'samples/line_chart_sample11.dart';
 
 class LineChartPage2 extends StatelessWidget {
   const LineChartPage2({Key? key}) : super(key: key);
@@ -35,6 +36,9 @@ class LineChartPage2 extends StatelessWidget {
                 LineChartSample5(),
                 SizedBox(height: 18),
                 LineChartSample8(),
+                SizedBox(height: 18),
+                LineChartSample11(),
+                SizedBox(height: 18),
               ],
             ),
           ),

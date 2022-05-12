@@ -50,17 +50,15 @@ class _LineChartSample11State extends State<LineChartSample11> {
         builder: (BuildContext context, imageSnapshot) {
           if (imageSnapshot.connectionState == ConnectionState.done) {
             return Stack(
-              children: <Widget>[
+              children: [
                 for (final annotationCoordinate in annotationCoordinates ?? [])
                   Positioned(
                     bottom: 2,
-                    child: Container(
-                      child: CustomPaint(
-                        painter: AnnotationLineIndicatorPainter(
-                          from: annotationCoordinate?.from ?? Offset.zero,
-                          to: annotationCoordinate?.to ?? Offset.zero,
-                          color: Colors.blue,
-                        ),
+                    child: CustomPaint(
+                      painter: AnnotationLineIndicatorPainter(
+                        from: annotationCoordinate?.from ?? Offset.zero,
+                        to: annotationCoordinate?.to ?? Offset.zero,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
@@ -203,23 +201,20 @@ class _LineChartSample11State extends State<LineChartSample11> {
 
   void _verticalRangeCoordinates(List<List<Offset>> coordinates) {
     // Applies leftTitles reservedSize padding
-    Future.delayed(Duration.zero, () async {
-      List<List<Offset>> paddedCoordinates = [];
-      for (final coordinate in coordinates) {
-        paddedCoordinates.add([
-          Offset(
-              coordinate[0].dx + reservedLeftSideSize + 12, coordinate[0].dy),
-          Offset(coordinate[1].dx + reservedLeftSideSize + 12, coordinate[1].dy)
-        ]);
-      }
-
-      annotationCoordinates = paddedCoordinates
-          .map((coordinate) =>
-              AnnotationCoordinate(from: coordinate[0], to: coordinate[1]))
-          .toList();
-    });
-
-    print('annotationCoordinates $annotationCoordinates');
+    if (annotationCoordinates != null) return;
+    List<List<Offset>> paddedCoordinates = [];
+    for (final coordinate in coordinates) {
+      paddedCoordinates.add([
+        Offset(coordinate[0].dx + reservedLeftSideSize + 12, coordinate[0].dy),
+        Offset(coordinate[1].dx + reservedLeftSideSize + 12, coordinate[1].dy)
+      ]);
+    }
+    Future.microtask(() => setState(() {
+          annotationCoordinates = paddedCoordinates
+              .map((coordinate) =>
+                  AnnotationCoordinate(from: coordinate[0], to: coordinate[1]))
+              .toList();
+        }));
   }
 }
 
