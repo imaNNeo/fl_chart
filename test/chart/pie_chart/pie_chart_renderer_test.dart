@@ -19,22 +19,21 @@ void main() {
 
     const textScale = 4.0;
 
-    MockBuildContext _mockBuildContext = MockBuildContext();
+    MockBuildContext mockBuildContext = MockBuildContext();
     RenderPieChart renderBarChart = RenderPieChart(
-      _mockBuildContext,
+      mockBuildContext,
       data,
       targetData,
       textScale,
     );
 
-    MockPieChartPainter _mockPainter = MockPieChartPainter();
-    MockPaintingContext _mockPaintingContext = MockPaintingContext();
-    MockCanvas _mockCanvas = MockCanvas();
-    Size _mockSize = const Size(44, 44);
-    when(_mockPaintingContext.canvas)
-        .thenAnswer((realInvocation) => _mockCanvas);
-    renderBarChart.mockTestSize = _mockSize;
-    renderBarChart.painter = _mockPainter;
+    MockPieChartPainter mockPainter = MockPieChartPainter();
+    MockPaintingContext mockPaintingContext = MockPaintingContext();
+    MockCanvas mockCanvas = MockCanvas();
+    Size mockSize = const Size(44, 44);
+    when(mockPaintingContext.canvas).thenAnswer((realInvocation) => mockCanvas);
+    renderBarChart.mockTestSize = mockSize;
+    renderBarChart.painter = mockPainter;
 
     test('test 1 correct data set', () {
       expect(renderBarChart.data == data, true);
@@ -47,27 +46,27 @@ void main() {
     });
 
     test('test 2 check paint function', () {
-      renderBarChart.paint(_mockPaintingContext, const Offset(10, 10));
-      verify(_mockCanvas.save()).called(1);
-      verify(_mockCanvas.translate(10, 10)).called(1);
-      final result = verify(_mockPainter.paint(any, captureAny, captureAny));
+      renderBarChart.paint(mockPaintingContext, const Offset(10, 10));
+      verify(mockCanvas.save()).called(1);
+      verify(mockCanvas.translate(10, 10)).called(1);
+      final result = verify(mockPainter.paint(any, captureAny, captureAny));
       expect(result.callCount, 1);
 
       final canvasWrapper = result.captured[0] as CanvasWrapper;
       expect(canvasWrapper.size, const Size(44, 44));
-      expect(canvasWrapper.canvas, _mockCanvas);
+      expect(canvasWrapper.canvas, mockCanvas);
 
       final paintHolder = result.captured[1] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
       expect(paintHolder.textScale, textScale);
 
-      verify(_mockCanvas.restore()).called(1);
+      verify(mockCanvas.restore()).called(1);
     });
 
     test('test 3 check getResponseAtLocation function', () {
       List<Map<String, dynamic>> results = [];
-      when(_mockPainter.handleTouch(captureAny, captureAny, captureAny))
+      when(mockPainter.handleTouch(captureAny, captureAny, captureAny))
           .thenAnswer((inv) {
         results.add({
           'local_position': inv.positionalArguments[0] as Offset,
@@ -80,7 +79,7 @@ void main() {
           renderBarChart.getResponseAtLocation(MockData.offset1);
       expect(touchResponse.touchedSection, MockData.pieTouchedSection1);
       expect(results[0]['local_position'] as Offset, MockData.offset1);
-      expect(results[0]['size'] as Size, _mockSize);
+      expect(results[0]['size'] as Size, mockSize);
       final paintHolder = results[0]['paint_holder'] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);

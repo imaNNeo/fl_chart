@@ -86,10 +86,10 @@ class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
   @override
   void performLayout(Size size) {
     for (var index = 0; index < badgeWidgetsCount; index++) {
-      final _key = badgeWidgetsOffsets.keys.elementAt(index);
+      final key = badgeWidgetsOffsets.keys.elementAt(index);
 
-      final _size = layoutChild(
-        _key,
+      final finalSize = layoutChild(
+        key,
         BoxConstraints(
           maxWidth: size.width,
           maxHeight: size.height,
@@ -97,10 +97,10 @@ class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
       );
 
       positionChild(
-        _key,
+        key,
         Offset(
-          badgeWidgetsOffsets[_key]!.dx - (_size.width / 2),
-          badgeWidgetsOffsets[_key]!.dy - (_size.height / 2),
+          badgeWidgetsOffsets[key]!.dx - (finalSize.width / 2),
+          badgeWidgetsOffsets[key]!.dy - (finalSize.height / 2),
         ),
       );
     }
