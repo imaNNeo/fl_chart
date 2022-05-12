@@ -395,6 +395,10 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
       super.noSuchMethod(Invocation.method(#visitChildElements, [visitor]),
           returnValueForMissingStub: null);
   @override
+  void dispatchNotification(_i3.Notification? notification) => super
+      .noSuchMethod(Invocation.method(#dispatchNotification, [notification]),
+          returnValueForMissingStub: null);
+  @override
   _i3.DiagnosticsNode describeElement(String? name,
           {_i4.DiagnosticsTreeStyle? style =
               _i4.DiagnosticsTreeStyle.errorProperty}) =>
