@@ -1,3 +1,6 @@
+## 0.50.5
+* **IMPROVEMENT** Fix test coverage problem again :/
+
 ## 0.50.4
 * **IMPROVEMENT** Fix test coverage problem 
 
