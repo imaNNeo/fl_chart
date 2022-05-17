@@ -1,3 +1,6 @@
+## 0.50.6
+* **IMPROVEMENT** Fix a backward compatibility issue with Flutter 3.0, #1016
+
 ## 0.50.5
 * **IMPROVEMENT** Fix test coverage problem again :/
 
