@@ -256,28 +256,28 @@ class FlTitlesData with EquatableMixin {
         leftTitles = leftTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 40,
+                reservedSize: 44,
                 showTitles: true,
               ),
             ),
         topTitles = topTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 6,
+                reservedSize: 30,
                 showTitles: true,
               ),
             ),
         rightTitles = rightTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 40,
+                reservedSize: 44,
                 showTitles: true,
               ),
             ),
         bottomTitles = bottomTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 6,
+                reservedSize: 30,
                 showTitles: true,
               ),
             );
