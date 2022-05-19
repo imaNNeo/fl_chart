@@ -8,6 +8,8 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
+import 'axis_chart_widgets.dart';
+
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
 /// also we have [minX], [maxX], [minY], [maxY] values
@@ -78,6 +80,51 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         borderData,
         touchData,
       ];
+}
+
+/// Represents a side of the chart
+enum AxisSide { left, top, right, bottom }
+
+/// Contains meta information about the drawing title.
+class TitleMeta {
+  /// min axis value
+  final double min;
+
+  /// max axis value
+  final double max;
+
+  /// The interval that applied to this drawing title
+  final double appliedInterval;
+
+  /// Reference of [SideTitles] object.
+  final SideTitles sideTitles;
+
+  /// Formatted value that is suitable to show, for example 100, 2k, 5m, ...
+  final String formattedValue;
+
+  /// Determines the axis side of titles (left, top, right, bottom)
+  final AxisSide axisSide;
+
+  TitleMeta({
+    required this.min,
+    required this.max,
+    required this.appliedInterval,
+    required this.sideTitles,
+    required this.formattedValue,
+    required this.axisSide,
+  });
+}
+
+/// It gives you the axis value and gets a String value based on it.
+typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
+
+/// The default [SideTitles.getTitlesWidget] function.
+///
+/// formats the axis number to a shorter string using [formatNumber].
+Widget defaultGetTitle(double value, TitleMeta meta) {
+  return Text(
+    meta.formattedValue,
+  );
 }
 
 /// Holds data for showing label values on axis numbers
