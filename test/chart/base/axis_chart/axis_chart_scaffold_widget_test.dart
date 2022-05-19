@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -199,19 +198,19 @@ void main() {
         ),
       );
 
-      Future checkSide(TitlesSide side) async {
+      Future checkSide(AxisSide side) async {
         String axisChar;
         switch (side) {
-          case TitlesSide.left:
+          case AxisSide.left:
             axisChar = 'L';
             break;
-          case TitlesSide.top:
+          case AxisSide.top:
             axisChar = 'T';
             break;
-          case TitlesSide.right:
+          case AxisSide.right:
             axisChar = 'R';
             break;
-          case TitlesSide.bottom:
+          case AxisSide.bottom:
             axisChar = 'B';
             break;
           default:
@@ -224,16 +223,16 @@ void main() {
 
       expect(chartDrawingSize, const Size(320, 280));
       expect(find.byIcon(Icons.arrow_left), findsOneWidget);
-      checkSide(TitlesSide.left);
+      checkSide(AxisSide.left);
 
       expect(find.byIcon(Icons.arrow_drop_up), findsOneWidget);
-      checkSide(TitlesSide.top);
+      checkSide(AxisSide.top);
 
       expect(find.byIcon(Icons.arrow_right), findsOneWidget);
-      checkSide(TitlesSide.right);
+      checkSide(AxisSide.right);
 
       expect(find.byIcon(Icons.arrow_drop_down), findsOneWidget);
-      checkSide(TitlesSide.bottom);
+      checkSide(AxisSide.bottom);
 
       expect(find.byType(Text), findsNWidgets(44));
       expect(find.byType(Icon), findsNWidgets(4));

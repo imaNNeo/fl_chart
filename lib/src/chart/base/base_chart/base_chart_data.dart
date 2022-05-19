@@ -173,39 +173,6 @@ class FlClipData with EquatableMixin {
   List<Object?> get props => [top, bottom, left, right];
 }
 
-class TitleMeta {
-  final double min;
-  final double max;
-  final double appliedInterval;
-  final SideTitles sideTitles;
-  final String formattedValue;
-
-  TitleMeta(this.min, this.max, this.appliedInterval, this.sideTitles,
-      this.formattedValue);
-}
-
-/// It gives you the axis value and gets a String value based on it.
-typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
-
-/// The default [SideTitles.getTitlesWidget] function.
-///
-/// formats the axis number to a shorter string using [formatNumber].
-Widget defaultGetTitle(double value, TitleMeta meta) {
-  return Text(meta.formattedValue);
-}
-
-/// It gives you the axis value and gets a TextStyle based on given value
-///
-/// If you return null, we try to provide an inherited TextStyle using theme.
-/// (you can customize a specific title using this).
-typedef GetTitleTextStyleFunction = TextStyle? Function(
-    BuildContext context, double value);
-
-/// The default [SideTitles.getTextStyles] function.
-///
-/// returns a black TextStyle with 11 fontSize for all values.
-TextStyle? defaultGetTitleTextStyle(BuildContext context, double value) => null;
-
 /// Chart's touch callback.
 typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(
     FlTouchEvent, R?);
