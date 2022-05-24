@@ -81,7 +81,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
         break;
     }
 
-    return Padding(child: text, padding: const EdgeInsets.only(top: 8.0));
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 8.0,
+      child: text,
+    );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {

@@ -94,8 +94,8 @@ class _BarChartSample7State extends State<BarChartSample7> {
                         reservedSize: 36,
                         getTitlesWidget: (value, meta) {
                           final index = value.toInt();
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                          return SideTitleWidget(
+                            axisSide: meta.axisSide,
                             child: _IconWidget(
                               color: BarChartSample7.dataList[index].color,
                               isSelected: touchedGroupIndex == index,

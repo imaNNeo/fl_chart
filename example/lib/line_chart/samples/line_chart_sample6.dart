@@ -88,7 +88,10 @@ class LineChartSample6 extends StatelessWidget {
       fontWeight: FontWeight.bold,
       color: Colors.black,
     );
-    return Center(child: Text(value.toInt().toString(), style: style));
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(value.toInt().toString(), style: style),
+    );
   }
 
   @override

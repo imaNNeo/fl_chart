@@ -47,15 +47,19 @@ class LineChartSample4 extends StatelessWidget {
         return Container();
     }
 
-    return Padding(
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 4,
       child: Text(text, style: _dateTextStyle),
-      padding: const EdgeInsets.only(top: 4),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(color: Colors.black, fontSize: 12.0);
-    return Text('\$ ${value + 0.5}', style: style);
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text('\$ ${value + 0.5}', style: style),
+    );
   }
 
   static const _dateTextStyle = TextStyle(
