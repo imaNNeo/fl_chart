@@ -46,8 +46,7 @@ class SideTitlesWidget extends StatelessWidget {
 
   bool get isLeftOrTop => side == AxisSide.left || side == AxisSide.top;
 
-  bool get isRightOrBottom =>
-      side == AxisSide.right || side == AxisSide.bottom;
+  bool get isRightOrBottom => side == AxisSide.right || side == AxisSide.bottom;
 
   AxisTitles get axisTitles {
     switch (side) {
@@ -103,21 +102,6 @@ class SideTitlesWidget extends StatelessWidget {
     }
   }
 
-  Alignment getTitlesAlignment(AxisSide side) {
-    switch (side) {
-      case AxisSide.left:
-        return Alignment.centerRight;
-      case AxisSide.top:
-        return Alignment.bottomCenter;
-      case AxisSide.right:
-        return Alignment.centerLeft;
-      case AxisSide.bottom:
-        return Alignment.topCenter;
-      default:
-        throw StateError("Invalid side");
-    }
-  }
-
   List<AxisSideTitleWidgetHolder> makeWidgets(
     double axisViewSize,
     double axisMin,
@@ -155,29 +139,24 @@ class SideTitlesWidget extends StatelessWidget {
         return AxisSideTitleMetaData(axisValue, axisLocation);
       }).toList();
     }
-    return axisPositions
-        .map(
-          (metaData) {
-            return AxisSideTitleWidgetHolder(
-              metaData,
-              Align(
-                alignment: getTitlesAlignment(side),
-                child: sideTitles.getTitlesWidget(
-                  metaData.axisValue,
-                  TitleMeta(
-                    min: axisMin,
-                    max: axisMax,
-                    appliedInterval: interval,
-                    sideTitles: sideTitles,
-                    formattedValue: Utils().formatNumber(metaData.axisValue),
-                    axisSide: side,
-                  ),
-                ),
-              ),
-            );
-          },
-        )
-        .toList();
+    return axisPositions.map(
+      (metaData) {
+        return AxisSideTitleWidgetHolder(
+          metaData,
+          sideTitles.getTitlesWidget(
+            metaData.axisValue,
+            TitleMeta(
+              min: axisMin,
+              max: axisMax,
+              appliedInterval: interval,
+              sideTitles: sideTitles,
+              formattedValue: Utils().formatNumber(metaData.axisValue),
+              axisSide: side,
+            ),
+          ),
+        );
+      },
+    ).toList();
   }
 
   @override
