@@ -10,6 +10,7 @@ getTitlesWidget: (double value, TitleMeta meta) {
   );
 },
 ```
+* **IMPROVEMENT** Fix default LineChart interval issue on small view sizes, #909
 
 ## 0.50.6
 * **IMPROVEMENT** Fix a backward compatibility issue with Flutter 3.0, #1016
