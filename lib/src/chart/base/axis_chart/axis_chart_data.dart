@@ -133,6 +133,7 @@ class SideTitles with EquatableMixin {
   final bool showTitles;
 
   /// You can override it to pass your custom widget to show in each axis value
+  /// We recommend you to use [SideTitleWidget].
   final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum space that your titles need,
