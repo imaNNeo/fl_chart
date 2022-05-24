@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart' hide Image;
 ///
 /// We wrapped the canvas here, because we needed to write tests for our drawing system.
 /// Now in tests we can verify that these functions called with a specific value.
-@Deprecated('We can use the [Canvas] directly to write unit tests')
 class CanvasWrapper {
   final Canvas canvas;
   final Size size;
