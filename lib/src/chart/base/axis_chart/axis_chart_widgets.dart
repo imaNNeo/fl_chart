@@ -1,8 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 
-/// Wraps a widget and applies some default behaviours
+/// Wraps a [child] widget and applies some default behaviours
 ///
+/// Recommended to be used in [SideTitles.getTitlesWidget]
 /// You need to pass [axisSide] value that provided by [TitleMeta]
 /// It forces the widget to be close to the chart.
 /// It also applies a [space] to the chart.
