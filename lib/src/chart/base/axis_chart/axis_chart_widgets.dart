@@ -21,40 +21,6 @@ class SideTitleWidget extends StatelessWidget {
     this.angle = 0.0,
   }) : super(key: key);
 
-  Widget spacedTitle({
-    required TitleMeta meta,
-    required Widget widget,
-    double spaceToChart = 8.0,
-  }) {
-    switch (meta.axisSide) {
-      case AxisSide.left:
-        return Container(
-          margin: EdgeInsets.only(right: spaceToChart),
-          child: widget,
-        );
-      case AxisSide.top:
-        return Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            margin: EdgeInsets.only(bottom: spaceToChart),
-            child: widget,
-          ),
-        );
-      case AxisSide.right:
-        return Container(
-          margin: EdgeInsets.only(left: spaceToChart),
-          child: widget,
-        );
-      case AxisSide.bottom:
-        return Container(
-          margin: EdgeInsets.only(top: spaceToChart),
-          child: widget,
-        );
-      default:
-        throw StateError("Invalid side");
-    }
-  }
-
   Alignment _getAlignment() {
     switch (axisSide) {
       case AxisSide.left:
