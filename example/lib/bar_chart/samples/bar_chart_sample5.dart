@@ -57,7 +57,10 @@ class BarChartSample5State extends State<BarChartSample5> {
         text = '';
         break;
     }
-    return Center(child: Text(text, style: style));
+    return SideTitleWidget(
+      child: Text(text, style: style),
+      axisSide: meta.axisSide,
+    );
   }
 
   Widget topTitles(double value, TitleMeta meta) {
@@ -88,7 +91,10 @@ class BarChartSample5State extends State<BarChartSample5> {
       default:
         return Container();
     }
-    return Center(child: Text(text, style: style));
+    return SideTitleWidget(
+      child: Text(text, style: style),
+      axisSide: meta.axisSide,
+    );
   }
 
   Widget leftTitles(double value, TitleMeta meta) {
@@ -99,8 +105,10 @@ class BarChartSample5State extends State<BarChartSample5> {
     } else {
       text = '${value.toInt()}0k';
     }
-    return Transform.rotate(
+    return SideTitleWidget(
       angle: AppUtils().degreeToRadian(value < 0 ? -45 : 45),
+      axisSide: meta.axisSide,
+      space: 4.0,
       child: Text(
         text,
         style: style,
@@ -117,8 +125,10 @@ class BarChartSample5State extends State<BarChartSample5> {
     } else {
       text = '${value.toInt()}0k';
     }
-    return Transform.rotate(
+    return SideTitleWidget(
       angle: AppUtils().degreeToRadian(90),
+      axisSide: meta.axisSide,
+      space: 0,
       child: Text(
         text,
         style: style,

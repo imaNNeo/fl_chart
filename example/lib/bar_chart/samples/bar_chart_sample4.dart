@@ -36,7 +36,10 @@ class BarChartSample4State extends State<BarChartSample4> {
         text = '';
         break;
     }
-    return Center(child: Text(text, style: style));
+    return SideTitleWidget(
+      child: Text(text, style: style),
+      axisSide: meta.axisSide,
+    );
   }
 
   Widget leftTitles(double value, TitleMeta meta) {
@@ -49,9 +52,12 @@ class BarChartSample4State extends State<BarChartSample4> {
       ),
       fontSize: 10,
     );
-    return Padding(
-      child: Text(meta.formattedValue, style: style),
-      padding: const EdgeInsets.only(left: 8),
+    return SideTitleWidget(
+      child: Text(
+        meta.formattedValue,
+        style: style,
+      ),
+      axisSide: meta.axisSide,
     );
   }
 

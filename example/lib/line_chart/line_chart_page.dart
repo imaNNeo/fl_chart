@@ -22,11 +22,12 @@ class LineChartPage extends StatelessWidget {
               child: Text(
                 'Line Chart',
                 style: TextStyle(
-                    color: Color(
-                      0xff6f6f97,
-                    ),
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold),
+                  color: Color(
+                    0xff6f6f97,
+                  ),
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

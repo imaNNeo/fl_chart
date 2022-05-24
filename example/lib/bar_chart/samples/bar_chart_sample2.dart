@@ -193,7 +193,11 @@ class BarChartSample2State extends State<BarChartSample2> {
     } else {
       return Container();
     }
-    return Text(text, style: style);
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 0,
+      child: Text(text, style: style),
+    );
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
@@ -253,7 +257,11 @@ class BarChartSample2State extends State<BarChartSample2> {
         );
         break;
     }
-    return Padding(padding: const EdgeInsets.only(top: 20), child: text);
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 16,
+      child: text,
+    );
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
