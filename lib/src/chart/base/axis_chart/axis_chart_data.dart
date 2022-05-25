@@ -136,7 +136,10 @@ class SideTitles with EquatableMixin {
   /// We recommend you to use [SideTitleWidget].
   final GetTitleWidgetFunction getTitlesWidget;
 
-  /// It determines the maximum space that your titles need,
+  /// It determines the maximum width that your titles need
+  final double? reservedWidth;
+
+  /// It determines the maximum height that your titles need,
   /// (All titles will stretch using this value)
   final double reservedSize;
 
@@ -164,6 +167,7 @@ class SideTitles with EquatableMixin {
     GetTitleWidgetFunction? getTitlesWidget,
     double? reservedSize,
     double? interval,
+    this.reservedWidth,
   })  : showTitles = showTitles ?? false,
         getTitlesWidget = getTitlesWidget ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
