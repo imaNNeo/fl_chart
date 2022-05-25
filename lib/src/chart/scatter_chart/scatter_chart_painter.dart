@@ -96,11 +96,15 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
       _spotsPaint.color = scatterSpot.color;
 
-      canvasWrapper.drawCircle(
+      canvasWrapper.drawScatterCircle(
         Offset(pixelX, pixelY),
         scatterSpot.radius,
         _spotsPaint,
+        scatterSpot.iconData,
+        scatterSpot.iconColor,
+        scatterSpot.iconSize,
       );
+      
     }
 
     if (data.scatterLabelSettings.showLabel) {

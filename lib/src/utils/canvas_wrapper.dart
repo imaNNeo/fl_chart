@@ -64,24 +64,43 @@ class CanvasWrapper {
       canvas.drawLine(p1, p2, paint);
 
   /// Directly calls [Canvas.drawCircle]
-  void drawCircle(Offset center, double radius, Paint paint) {
+  void drawCircle(
+      Offset center,
+      double radius,
+      Paint paint,
+      ) => canvas.drawCircle(center, radius, paint);
 
-    const icon = Icons.add;
-    TextPainter textPainter = TextPainter(textDirection: TextDirection.rtl);
+  void drawScatterCircle(
+      Offset center,
+      double radius,
+      Paint paint,
+      IconData icon,
+      Color iconColor,
+      double iconSize,
+      ) {
+
+
+
+    TextPainter textPainter = TextPainter(
+      textDirection: TextDirection.rtl,
+      textAlign: TextAlign.center,
+    );
     textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint),
-        style: TextStyle(fontSize: radius, fontFamily: icon.fontFamily, color: Colors.black));
+        style: TextStyle(
+          fontSize: iconSize,
+          fontFamily: icon.fontFamily,
+          color: iconColor,
+        ));
+    canvas.drawCircle(center, radius, paint);
     textPainter.layout();
-    textPainter.paint(canvas, center);
 
-    // final paintt = Paint()
-    // ..color = Colors.red
-    // ..style = PaintingStyle.fill;
-    //
-    //
-    //
-    //canvas.drawCircle(center, radius*2, paintt);
-    // canvas.drawCircle(center, radius, paint);
-    // canvas.drawCircle(center, radius/2, paintt);
+    textPainter.paint(
+        canvas,
+        Offset(
+          center.dx - iconSize / 2,
+          center.dy - iconSize / 2,
+        ));
+
 
   }
 

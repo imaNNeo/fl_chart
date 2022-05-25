@@ -110,7 +110,7 @@ List<PieChartSectionData>? lerpPieChartSectionDataList(
 
 /// Lerps [ScatterSpot] list based on [t] value, check [Tween.lerp].
 List<ScatterSpot>? lerpScatterSpotList(
-        List<ScatterSpot>? a, List<ScatterSpot>? b, double t) =>
+        List<ScatterSpot>? a, List<ScatterSpot>? b, double t,) =>
     lerpList(a, b, t, lerp: ScatterSpot.lerp);
 
 /// Lerps [BarChartRodStackItem] list based on [t] value, check [Tween.lerp].
