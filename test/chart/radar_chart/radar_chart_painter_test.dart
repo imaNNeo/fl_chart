@@ -73,7 +73,7 @@ void main() {
       );
 
       verify(mockCanvasWrapper.drawCircle(any, any, any)).called(12);
-      verify(mockCanvasWrapper.drawLine(any, any, any)).called(7);
+      verify(mockCanvasWrapper.drawLine(any, any, any)).called(3);
       Utils.changeInstance(utilsMainInstance);
     });
   });

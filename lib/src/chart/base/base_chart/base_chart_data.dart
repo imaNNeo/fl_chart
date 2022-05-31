@@ -3,6 +3,7 @@ import 'dart:core';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/extensions/border_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'base_chart_painter.dart';
@@ -53,6 +54,9 @@ class FlBorderData with EquatableMixin {
               width: 1.0,
               style: BorderStyle.solid,
             );
+
+  /// returns false if all borders have 0 width or 0 opacity
+  bool isVisible() => show && border.isVisible();
 
   /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
   static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
