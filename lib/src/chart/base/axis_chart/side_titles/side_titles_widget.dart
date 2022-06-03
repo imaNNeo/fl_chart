@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/edge_insets_extension.dart';
+import 'package:fl_chart/src/extensions/fl_border_data_extension.dart';
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -81,24 +82,28 @@ class SideTitlesWidget extends StatelessWidget {
   }
 
   EdgeInsets get thisSidePadding {
+    final titlesPadding = titlesData.allSidesPadding;
+    final borderPadding = axisChartData.borderData.allSidesPadding;
     switch (side) {
       case AxisSide.right:
       case AxisSide.left:
-        return titlesData.allSidesPadding.onlyTopBottom;
+        return titlesPadding.onlyTopBottom + borderPadding.onlyTopBottom;
       case AxisSide.top:
       case AxisSide.bottom:
-        return titlesData.allSidesPadding.onlyLeftRight;
+        return titlesPadding.onlyLeftRight + borderPadding.onlyLeftRight;
     }
   }
 
   double get thisSidePaddingTotal {
+    final borderPadding = axisChartData.borderData.allSidesPadding;
+    final titlesPadding = titlesData.allSidesPadding;
     switch (side) {
       case AxisSide.right:
       case AxisSide.left:
-        return titlesData.allSidesPadding.vertical;
+        return titlesPadding.vertical + borderPadding.vertical;
       case AxisSide.top:
       case AxisSide.bottom:
-        return titlesData.allSidesPadding.horizontal;
+        return titlesPadding.horizontal + borderPadding.horizontal;
     }
   }
 

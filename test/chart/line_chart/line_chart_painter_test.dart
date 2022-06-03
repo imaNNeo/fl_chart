@@ -108,7 +108,6 @@ void main() {
       );
 
       verify(mockCanvasWrapper.clipRect(any)).called(1);
-      verify(mockCanvasWrapper.drawLine(any, any, any)).called(4);
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
       verify(mockCanvasWrapper.drawPath(any, any)).called(3);
     });
