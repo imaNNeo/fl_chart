@@ -38,7 +38,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   /// on top of each [ScatterChartData.scatterSpots] using [showingTooltipIndicators],
   /// just put spot indices you want to show it on top of them.
   ///
-  /// [clipData] forces the [LineChart] to draw lines inside the chart bounding box.
+  /// [clipToBounds] forces the [LineChart] to draw lines inside the chart bounding box.
   ScatterChartData({
     List<ScatterSpot>? scatterSpots,
     FlTitlesData? titlesData,
@@ -52,7 +52,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double? minY,
     double? maxY,
     double? baselineY,
-    FlClipData? clipData,
+    bool? clipToBounds,
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
   })  : scatterSpots = scatterSpots ?? const [],
@@ -64,7 +64,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           touchData: scatterTouchData ?? ScatterTouchData(),
           borderData: borderData,
           titlesData: titlesData ?? FlTitlesData(),
-          clipData: clipData ?? FlClipData.none(),
+          clipToBounds: clipToBounds ?? false,
           backgroundColor: backgroundColor,
           minX: minX ??
               ScatterChartHelper.calculateMaxAxisValues(
@@ -104,7 +104,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
         baselineY: lerpDouble(a.baselineY, b.baselineY, t),
-        clipData: b.clipData,
+        clipToBounds: b.clipToBounds,
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         scatterLabelSettings: ScatterLabelSettings.lerp(
             a.scatterLabelSettings, b.scatterLabelSettings, t),
@@ -129,7 +129,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     double? minY,
     double? maxY,
     double? baselineY,
-    FlClipData? clipData,
+    bool? clipToBounds,
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
   }) {
@@ -147,7 +147,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
       baselineY: baselineY ?? this.baselineY,
-      clipData: clipData ?? this.clipData,
+      clipToBounds: clipToBounds ?? this.clipToBounds,
       backgroundColor: backgroundColor ?? this.backgroundColor,
       scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
     );
@@ -170,7 +170,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         baselineY,
         rangeAnnotations,
         scatterLabelSettings,
-        clipData,
+        clipToBounds,
         backgroundColor,
         borderData,
         touchData,

@@ -78,7 +78,7 @@ void main() {
           ScatterSpot(7, 5, radius: 6),
         ],
         titlesData: FlTitlesData(show: false),
-        clipData: FlClipData.all(),
+        clipToBounds: true,
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -102,7 +102,6 @@ void main() {
           .called(1);
 
       verifyNever(mockCanvasWrapper.drawText(any, any));
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
     });
 
     test('test 2', () {
@@ -120,7 +119,7 @@ void main() {
           ScatterSpot(7, 5, show: false),
         ],
         titlesData: FlTitlesData(show: false),
-        clipData: FlClipData.none(),
+        clipToBounds: true,
       );
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
@@ -159,7 +158,7 @@ void main() {
             ScatterSpot(4, 6, radius: 24),
           ],
           titlesData: FlTitlesData(show: false),
-          clipData: FlClipData.all(),
+          clipToBounds: true,
           scatterLabelSettings: ScatterLabelSettings(
             showLabel: true,
             getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
@@ -204,8 +203,6 @@ void main() {
           .called(1);
 
       verify(mockCanvasWrapper.drawText(any, any)).called(4);
-
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
     });
   });
 

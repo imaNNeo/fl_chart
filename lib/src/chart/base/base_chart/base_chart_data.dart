@@ -123,60 +123,6 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
       ];
 }
 
-/// Holds data to clipping chart around its borders.
-class FlClipData with EquatableMixin {
-  final bool top;
-  final bool bottom;
-  final bool left;
-  final bool right;
-
-  /// Creates data that clips specified sides
-  FlClipData({
-    required this.top,
-    required this.bottom,
-    required this.left,
-    required this.right,
-  });
-
-  /// Creates data that clips all sides
-  FlClipData.all() : this(top: true, bottom: true, left: true, right: true);
-
-  /// Creates data that clips only top and bottom side
-  FlClipData.vertical()
-      : this(top: true, bottom: true, left: false, right: false);
-
-  /// Creates data that clips only left and right side
-  FlClipData.horizontal()
-      : this(top: false, bottom: false, left: true, right: true);
-
-  /// Creates data that doesn't clip any side
-  FlClipData.none()
-      : this(top: false, bottom: false, left: false, right: false);
-
-  /// Checks whether any of the sides should be clipped
-  bool get any => top || bottom || left || right;
-
-  /// Copies current [FlBorderData] to a new [FlBorderData],
-  /// and replaces provided values.
-  FlClipData copyWith({
-    bool? top,
-    bool? bottom,
-    bool? left,
-    bool? right,
-  }) {
-    return FlClipData(
-      top: top ?? this.top,
-      bottom: bottom ?? this.bottom,
-      left: left ?? this.left,
-      right: right ?? this.right,
-    );
-  }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [top, bottom, left, right];
-}
-
 /// Chart's touch callback.
 typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(
     FlTouchEvent, R?);

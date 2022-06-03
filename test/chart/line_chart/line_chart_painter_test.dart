@@ -45,7 +45,7 @@ void main() {
           bar1,
           bar2,
         ],
-        clipData: FlClipData.all(),
+        clipToBounds: true,
         extraLinesData: ExtraLinesData(
           horizontalLines: [
             HorizontalLine(y: 1),
@@ -107,7 +107,6 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
       verify(mockCanvasWrapper.drawPath(any, any)).called(3);
     });
@@ -137,7 +136,7 @@ void main() {
           bar1,
           bar2,
         ],
-        clipData: FlClipData.all(),
+        clipToBounds: true,
         lineTouchData: LineTouchData(
           enabled: true,
           getTouchedSpotIndicator:
@@ -205,128 +204,6 @@ void main() {
         exception = e;
       }
       expect(exception != null, true);
-    });
-  });
-
-  group('clipToBorder()', () {
-    test('test 1', () {
-      const viewSize = Size(400, 400);
-
-      final LineChartData data = LineChartData(
-        clipData: FlClipData(
-          top: false,
-          bottom: false,
-          left: false,
-          right: false,
-        ),
-      );
-
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      lineChartPainter.clipToBorder(
-        mockCanvasWrapper,
-        holder,
-      );
-
-      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
-      verifyResult.called(1);
-      expect(rect.left, 0);
-      expect(rect.top, 0);
-      expect(rect.width, 400);
-      expect(rect.height, 400);
-    });
-
-    test('test 2', () {
-      const viewSize = Size(400, 400);
-
-      final LineChartData data = LineChartData(
-        titlesData: FlTitlesData(
-          show: true,
-          leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          topTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 20)),
-          rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
-          bottomTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
-        ),
-        borderData: FlBorderData(show: true, border: Border.all(width: 8)),
-        clipData: FlClipData(
-          top: false,
-          bottom: false,
-          left: true,
-          right: true,
-        ),
-      );
-
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      lineChartPainter.clipToBorder(
-        mockCanvasWrapper,
-        holder,
-      );
-
-      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
-      verifyResult.called(1);
-      expect(rect.left, 4);
-      expect(rect.top, 0);
-      expect(rect.right, 396);
-      expect(rect.bottom, 400);
-    });
-
-    test('test 3', () {
-      const viewSize = Size(400, 400);
-
-      final LineChartData data = LineChartData(
-        titlesData: FlTitlesData(
-          show: true,
-          leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
-          topTitles: AxisTitles(
-              sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 40,
-          )),
-          rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
-          bottomTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
-        ),
-        borderData: FlBorderData(show: true, border: Border.all(width: 8)),
-        clipData: FlClipData(
-          top: true,
-          bottom: true,
-          left: true,
-          right: true,
-        ),
-      );
-
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      lineChartPainter.clipToBorder(
-        mockCanvasWrapper,
-        holder,
-      );
-
-      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
-      verifyResult.called(1);
-      expect(rect.left, 4);
-      expect(rect.top, 4);
-      expect(rect.right, 396);
-      expect(rect.bottom, 396);
     });
   });
 

@@ -83,7 +83,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
                     minX: sinPoints.first.x,
                     maxX: sinPoints.last.x,
                     lineTouchData: LineTouchData(enabled: false),
-                    clipData: FlClipData.all(),
+                    clipToBounds: true,
                     gridData: FlGridData(
                       show: true,
                       drawVerticalLine: false,

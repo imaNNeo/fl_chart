@@ -57,7 +57,10 @@ class AxisChartScaffoldWidget extends StatelessWidget {
         decoration: BoxDecoration(
           border: data.borderData.isVisible() ? data.borderData.border : null,
         ),
-        child: chart,
+        child: ClipRect(
+          clipBehavior: data.clipToBounds ? Clip.hardEdge : Clip.none,
+          child: chart,
+        ),
       )
     ];
 

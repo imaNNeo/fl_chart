@@ -57,7 +57,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// they are useful in some scenarios, for example you can show average line, you can fill
   /// [extraLinesData] property to have your extra lines.
   ///
-  /// [clipData] forces the [LineChart] to draw lines inside the chart bounding box.
+  /// [clipToBounds] forces the [LineChart] to draw lines inside the chart bounding box.
   LineChartData({
     List<LineChartBarData>? lineBarsData,
     List<BetweenBarsData>? betweenBarsData,
@@ -74,7 +74,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double? minY,
     double? maxY,
     double? baselineY,
-    FlClipData? clipData,
+    bool? clipToBounds,
     Color? backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
@@ -87,7 +87,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
           borderData: borderData,
           titlesData: titlesData ?? FlTitlesData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
-          clipData: clipData ?? FlClipData.none(),
+          clipToBounds: clipToBounds ?? false,
           backgroundColor: backgroundColor,
           minX: minX ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
@@ -118,7 +118,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        clipData: b.clipData,
+        clipToBounds: b.clipToBounds,
         extraLinesData:
             ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
@@ -155,7 +155,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double? minY,
     double? maxY,
     double? baselineY,
-    FlClipData? clipData,
+    bool? clipToBounds,
     Color? backgroundColor,
   }) {
     return LineChartData(
@@ -175,7 +175,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
       baselineY: baselineY ?? this.baselineY,
-      clipData: clipData ?? this.clipData,
+      clipToBounds: clipToBounds ?? this.clipToBounds,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
@@ -198,7 +198,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         minY,
         maxY,
         baselineY,
-        clipData,
+        clipToBounds,
         backgroundColor,
       ];
 }

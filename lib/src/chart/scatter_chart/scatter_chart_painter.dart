@@ -45,44 +45,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   ) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
-    final clip = data.clipData;
-    final border = data.borderData.show ? data.borderData.border : null;
-
-    if (data.clipData.any) {
-      canvasWrapper.saveLayer(
-        Rect.fromLTRB(
-          0,
-          0,
-          canvasWrapper.size.width,
-          canvasWrapper.size.height,
-        ),
-        Paint(),
-      );
-
-      var left = 0.0;
-      var top = 0.0;
-      var right = viewSize.width;
-      var bottom = viewSize.height;
-
-      if (clip.left) {
-        final borderWidth = border?.left.width ?? 0;
-        left = borderWidth / 2;
-      }
-      if (clip.top) {
-        final borderWidth = border?.top.width ?? 0;
-        top = borderWidth / 2;
-      }
-      if (clip.right) {
-        final borderWidth = border?.right.width ?? 0;
-        right = viewSize.width - (borderWidth / 2);
-      }
-      if (clip.bottom) {
-        final borderWidth = border?.bottom.width ?? 0;
-        bottom = viewSize.height - (borderWidth / 2);
-      }
-
-      canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
-    }
 
     final List<ScatterSpot> sortedSpots = data.scatterSpots.toList()
       ..sort((ScatterSpot a, ScatterSpot b) => b.radius.compareTo(a.radius));
@@ -171,10 +133,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           Offset(newPixelX, newPixelY),
         );
       }
-    }
-
-    if (data.clipData.any) {
-      canvasWrapper.restore();
     }
   }
 

@@ -48,7 +48,7 @@ void main() {
           false);
       expect(
           scatterChartData1 ==
-              scatterChartData1Clone.copyWith(clipData: FlClipData.all()),
+              scatterChartData1Clone.copyWith(clipToBounds: true),
           false);
       expect(
           scatterChartData1 ==
