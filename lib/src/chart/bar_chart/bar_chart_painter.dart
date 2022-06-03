@@ -14,7 +14,10 @@ import '../../utils/utils.dart';
 
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> {
-  late Paint _barPaint, _barStrokePaint, _bgTouchTooltipPaint;
+  late Paint _barPaint,
+      _barStrokePaint,
+      _bgTouchTooltipPaint,
+      _borderTouchTooltipPaint;
 
   List<GroupBarsPosition>? _groupBarsPosition;
 
@@ -33,6 +36,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
+
+    _borderTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = Colors.transparent
+      ..strokeWidth = 1.0;
   }
 
   /// Paints [BarChartData] into the provided canvas.
@@ -412,6 +420,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       rect.center.dx - (tp.width / 2),
       rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
     );
+
+    if (tooltipData.tooltipBorder != BorderSide.none) {
+      _borderTouchTooltipPaint.color = tooltipData.tooltipBorder.color;
+      _borderTouchTooltipPaint.strokeWidth = tooltipData.tooltipBorder.width;
+    }
+
     canvasWrapper.drawRotated(
       size: rect.size,
       rotationOffset: rectRotationOffset,
@@ -419,6 +433,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       angle: rotateAngle,
       drawCallback: () {
         canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+        canvasWrapper.drawRRect(roundedRect, _borderTouchTooltipPaint);
         canvasWrapper.drawText(tp, drawOffset);
       },
     );

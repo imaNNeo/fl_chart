@@ -59,7 +59,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     _imagePaint = Paint();
 
     _borderTouchTooltipPaint = Paint()
-      ..style = ui.PaintingStyle.stroke
+      ..style = PaintingStyle.stroke
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
   }

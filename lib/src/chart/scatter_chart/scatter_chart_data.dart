@@ -401,6 +401,9 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
+  /// The tooltip border color.
+  final BorderSide tooltipBorder;
+
   /// if [ScatterTouchData.handleBuiltInTouches] is true,
   /// [ScatterChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [ScatterChartData.showingTooltipIndicators].
@@ -422,6 +425,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
     double? rotateAngle,
+    BorderSide? tooltipBorder,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
@@ -431,6 +435,7 @@ class ScatterTouchTooltipData with EquatableMixin {
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
         rotateAngle = rotateAngle ?? 0.0,
+        tooltipBorder = tooltipBorder ?? BorderSide.none,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -444,6 +449,7 @@ class ScatterTouchTooltipData with EquatableMixin {
         fitInsideHorizontally,
         fitInsideVertically,
         rotateAngle,
+        tooltipBorder,
       ];
 
   /// Copies current [ScatterTouchTooltipData] to a new [ScatterTouchTooltipData],
@@ -457,6 +463,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
     double? rotateAngle,
+    BorderSide? tooltipBorder,
   }) {
     return ScatterTouchTooltipData(
       tooltipBgColor: tooltipBgColor ?? this.tooltipBgColor,
@@ -468,6 +475,7 @@ class ScatterTouchTooltipData with EquatableMixin {
           fitInsideHorizontally ?? this.fitInsideHorizontally,
       fitInsideVertically: fitInsideVertically ?? this.fitInsideVertically,
       rotateAngle: rotateAngle ?? this.rotateAngle,
+      tooltipBorder: tooltipBorder ?? this.tooltipBorder,
     );
   }
 }

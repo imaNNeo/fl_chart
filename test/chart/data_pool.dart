@@ -1178,6 +1178,7 @@ final LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1188,6 +1189,7 @@ final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 
 final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
@@ -1199,6 +1201,7 @@ final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.2),
@@ -1209,6 +1212,7 @@ final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1219,6 +1223,7 @@ final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1229,6 +1234,29 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 34,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+);
+final LineTouchTooltipData lineTouchTooltipData6 = LineTouchTooltipData(
+  tooltipPadding: const EdgeInsets.all(0.1),
+  tooltipBgColor: Colors.green,
+  maxContentWidth: 12,
+  getTooltipItems: lineChartGetTooltipItems,
+  fitInsideHorizontally: true,
+  fitInsideVertically: false,
+  tooltipRoundedRadius: 12,
+  tooltipMargin: 33,
+  tooltipBorder: const BorderSide(color: Colors.pink, width: 1),
+);
+final LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
+  tooltipPadding: const EdgeInsets.all(0.1),
+  tooltipBgColor: Colors.green,
+  maxContentWidth: 12,
+  getTooltipItems: lineChartGetTooltipItems,
+  fitInsideHorizontally: true,
+  fitInsideVertically: false,
+  tooltipRoundedRadius: 12,
+  tooltipMargin: 33,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 2),
 );
 
 lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
