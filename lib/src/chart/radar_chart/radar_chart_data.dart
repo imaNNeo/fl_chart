@@ -46,13 +46,13 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// Defines style of showing [RadarChart] titles.
   final TextStyle? titleTextStyle;
 
-  /// the [titlePositionPercentageOffset] is the place of showing title on the [RadarChart]
+  /// the [titleMargin] is the place of showing title on the [RadarChart]
   /// The higher the value of this field, the more titles move away from the chart.
   /// this field should be between 0 and 1,
   /// if it is 0 the title will be drawn near the inside section,
   /// if it is 1 the title will be drawn near the outside of section,
   /// the default value is 0.2.
-  final double titlePositionPercentageOffset;
+  final double titleMargin;
 
   /// Defines the number of ticks that should be paint in [RadarChart]
   /// the default & minimum value of this field is 1.
@@ -121,7 +121,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? radarBorderData,
     GetTitleByIndexFunction? getTitle,
     TextStyle? titleTextStyle,
-    double? titlePositionPercentageOffset,
+    double? titleMargin,
     int? tickCount,
     TextStyle? ticksTextStyle,
     BorderSide? tickBorderData,
@@ -131,12 +131,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(tickCount == null || tickCount >= 1,
             "RadarChart need's at least 1 tick"),
-        assert(
-          titlePositionPercentageOffset == null ||
-              titlePositionPercentageOffset >= 0 &&
-                  titlePositionPercentageOffset <= 1,
-          'titlePositionPercentageOffset must be something between 0 and 1 ',
-        ),
         dataSets = dataSets ?? const [],
         radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
         radarBorderData =
@@ -144,7 +138,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarTouchData = radarTouchData ?? RadarTouchData(),
         getTitle = getTitle,
         titleTextStyle = titleTextStyle,
-        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
+        titleMargin = titleMargin ?? 8,
         tickCount = tickCount ?? 1,
         ticksTextStyle = ticksTextStyle,
         tickBorderData =
@@ -163,7 +157,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? radarBorderData,
     GetTitleByIndexFunction? getTitle,
     TextStyle? titleTextStyle,
-    double? titlePositionPercentageOffset,
+    double? titleMargin,
     int? tickCount,
     TextStyle? ticksTextStyle,
     BorderSide? tickBorderData,
@@ -177,8 +171,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBorderData: radarBorderData ?? this.radarBorderData,
         getTitle: getTitle ?? this.getTitle,
         titleTextStyle: titleTextStyle ?? this.titleTextStyle,
-        titlePositionPercentageOffset:
-            titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+        titleMargin: titleMargin ?? this.titleMargin,
         tickCount: tickCount ?? this.tickCount,
         ticksTextStyle: ticksTextStyle ?? this.ticksTextStyle,
         tickBorderData: tickBorderData ?? this.tickBorderData,
@@ -197,9 +190,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
             Color.lerp(a.radarBackgroundColor, b.radarBackgroundColor, t),
         getTitle: b.getTitle,
         titleTextStyle: TextStyle.lerp(a.titleTextStyle, b.titleTextStyle, t),
-        titlePositionPercentageOffset: lerpDouble(
-          a.titlePositionPercentageOffset,
-          b.titlePositionPercentageOffset,
+        titleMargin: lerpDouble(
+          a.titleMargin,
+          b.titleMargin,
           t,
         ),
         tickCount: lerpInt(a.tickCount, b.tickCount, t),
@@ -226,7 +219,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBorderData,
         getTitle,
         titleTextStyle,
-        titlePositionPercentageOffset,
+        titleMargin,
         tickCount,
         ticksTextStyle,
         tickBorderData,

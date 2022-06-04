@@ -88,7 +88,7 @@ void main() {
           radarChartData1 ==
               radarChartData1Clone.copyWith(
                   titlePositionPercentageOffset:
-                      radarChartData2.titlePositionPercentageOffset),
+                      radarChartData2.titleMargin),
           false);
 
       expect(
