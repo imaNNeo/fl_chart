@@ -75,15 +75,26 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     _backgroundPaint.color = data.radarBackgroundColor;
 
-    /// draw radar background
-    canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
-
     _borderPaint
       ..color = data.radarBorderData.color
       ..strokeWidth = data.radarBorderData.width;
 
-    /// draw radar border
-    canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
+    if (data.radarShape == RadarShape.circle) {
+      /// draw radar background
+      canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
+
+      /// draw radar border
+      canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
+    } else {
+      final path =
+          _generatePolygonPath(centerX, centerY, radius, data.titleCount);
+
+      /// draw radar background
+      canvasWrapper.drawPath(path, _backgroundPaint);
+
+      /// draw radar border
+      canvasWrapper.drawPath(path, _borderPaint);
+    }
 
     final dataSetMaxValue = data.maxEntry.value;
     final dataSetMinValue = data.minEntry.value;
@@ -107,8 +118,15 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     ticks.sublist(0, ticks.length - 1).asMap().forEach(
       (index, tick) {
         final tickRadius = tickDistance * (index + 1);
+        if (data.radarShape == RadarShape.circle) {
+          canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
+        } else {
+          canvasWrapper.drawPath(
+            _generatePolygonPath(centerX, centerY, tickRadius, data.titleCount),
+            _tickPaint,
+          );
+        }
 
-        canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
         _ticksTextPaint
           ..text = TextSpan(
             text: tick.toStringAsFixed(1),
@@ -122,6 +140,20 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         );
       },
     );
+  }
+
+  Path _generatePolygonPath(
+      double centerX, double centerY, double radius, int count) {
+    final path = Path();
+    path.moveTo(centerX, centerY - radius);
+    final angle = (2 * pi) / count;
+    for (var index = 0; index < count; index++) {
+      final xAngle = cos(angle * index - pi / 2);
+      final yAngle = sin(angle * index - pi / 2);
+      path.lineTo(centerX + radius * xAngle, centerY + radius * yAngle);
+    }
+    path.lineTo(centerX, centerY - radius);
+    return path;
   }
 
   void drawGrids(

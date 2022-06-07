@@ -162,6 +162,85 @@ void main() {
       expect((tp.text as TextSpan).style, MockData.textStyle1);
       expect(result.captured[1] as Offset, const Offset(205, 76));
     });
+
+    test('test 2', () {
+      const viewSize = Size(400, 300);
+
+      final RadarChartData data = RadarChartData(
+        dataSets: [
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+            const RadarEntry(value: 2),
+          ]),
+          RadarDataSet(dataEntries: [
+            const RadarEntry(value: 2),
+            const RadarEntry(value: 3),
+            const RadarEntry(value: 1),
+          ]),
+        ],
+        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
+        radarShape: RadarShape.polygon,
+        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
+        radarBackgroundColor: MockData.color2,
+      );
+
+      final RadarChartPainter radarChartPainter = RadarChartPainter();
+      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenReturn(MockData.textStyle1);
+      Utils.changeInstance(mockUtils);
+
+      MockBuildContext mockContext = MockBuildContext();
+
+      List<Map<String, dynamic>> drawPathResult = [];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        drawPathResult.add({
+          'path': inv.positionalArguments[0] as Path,
+          'paint_color': (inv.positionalArguments[1] as Paint).color,
+          'paint_stroke': (inv.positionalArguments[1] as Paint).strokeWidth,
+          'paint_style': (inv.positionalArguments[1] as Paint).style,
+        });
+      });
+
+      radarChartPainter.drawTicks(mockContext, mockCanvasWrapper, holder);
+
+      expect(drawPathResult.length, 3);
+
+      // Background circle
+      expect(drawPathResult[0]['paint_color'], MockData.color2);
+      expect(drawPathResult[0]['paint_stroke'], 0);
+      expect(drawPathResult[0]['paint_style'], PaintingStyle.fill);
+
+      // Border circle
+      expect(drawPathResult[1]['paint_color'], MockData.color6);
+      expect(drawPathResult[1]['paint_stroke'], 33);
+      expect(drawPathResult[1]['paint_style'], PaintingStyle.stroke);
+
+      // First Tick
+      expect(drawPathResult[2]['paint_color'], MockData.color5);
+      expect(drawPathResult[2]['paint_stroke'], 55);
+      expect(drawPathResult[2]['paint_style'], PaintingStyle.stroke);
+
+      final result = verify(mockCanvasWrapper.drawText(captureAny, captureAny));
+      expect(result.callCount, 1);
+      final tp = result.captured[0] as TextPainter;
+      expect((tp.text as TextSpan).text, '1.0');
+      expect((tp.text as TextSpan).style, MockData.textStyle1);
+      expect(result.captured[1] as Offset, const Offset(205, 76));
+    });
   });
 
   group('drawGrids()', () {
