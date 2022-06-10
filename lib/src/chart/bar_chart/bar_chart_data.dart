@@ -363,6 +363,9 @@ class BarChartRodData with EquatableMixin {
     );
   }
 
+  /// Determines the upward or downward direction
+  bool isUpward() => toY >= fromY;
+
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
   BarChartRodData copyWith({

@@ -67,8 +67,6 @@ void main() {
         mockCanvasWrapper,
         holder,
       );
-
-      verify(mockCanvasWrapper.drawLine(any, any, any)).called(4);
       Utils.changeInstance(utilsMainInstance);
     });
   });
