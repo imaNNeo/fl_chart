@@ -136,7 +136,11 @@ class SideTitlesWidget extends StatelessWidget {
         interval: interval,
       );
       axisPositions = axisValues.map((axisValue) {
-        var portion = (axisValue - axisMin) / (axisMax - axisMin);
+        final axisDiff = axisMax - axisMin;
+        var portion = 0.0;
+        if (axisDiff > 0) {
+          portion = (axisValue - axisMin) / axisDiff;
+        }
         if (isVertical) {
           portion = 1 - portion;
         }
