@@ -18,6 +18,8 @@ class RadarChartSample1 extends StatefulWidget {
 
 class _RadarChartSample1State extends State<RadarChartSample1> {
   int selectedDataSetIndex = -1;
+  double angleValue = 0;
+  bool relativeAngleMode = true;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,23 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text('Title configuration'),
+          Row(
+            children: [
+              const Text('Angle'),
+              Slider(
+                value: angleValue,
+                min: 0,
+                max: 360,
+                onChanged: (double value) => setState(() => angleValue = value),
+              ),
+              Checkbox(
+                value: relativeAngleMode,
+                onChanged: (v) => setState(() => relativeAngleMode = v!),
+              ),
+              const Text('Relative'),
+            ],
+          ),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -123,16 +142,24 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 titlePositionPercentageOffset: 0.2,
                 titleTextStyle:
                     const TextStyle(color: titleColor, fontSize: 14),
-                getTitle: (index) {
+                getTitle: (index, angle) {
+                  final usedAngle =
+                      relativeAngleMode ? angle + angleValue : angleValue;
                   switch (index) {
                     case 0:
-                      return 'Mobile or Tablet';
+                      return RadarChartTitle(
+                        text: 'Mobile or Tablet',
+                        angle: usedAngle,
+                      );
                     case 2:
-                      return 'Desktop';
+                      return RadarChartTitle(
+                        text: 'Desktop',
+                        angle: usedAngle,
+                      );
                     case 1:
-                      return 'TV';
+                      return RadarChartTitle(text: 'TV', angle: usedAngle);
                     default:
-                      return '';
+                      return const RadarChartTitle(text: '');
                   }
                 },
                 tickCount: 1,
