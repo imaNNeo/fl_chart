@@ -7,11 +7,22 @@ import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_extension.dart';
 
-typedef GetTitleByIndexFunction = String Function(int index);
+typedef GetTitleByIndexFunction = RadarChartTitle Function(
+    int index, double angle);
 
 enum RadarShape {
   circle,
   polygon,
+}
+
+class RadarChartTitle {
+  /// [text] is used to draw titles outside the [RadarChart]
+  final String text;
+
+  /// [angle] is used to rotate the title
+  final double angle;
+
+  const RadarChartTitle({required this.text, this.angle = 0});
 }
 
 /// [RadarChart] needs this class to render itself.
@@ -32,20 +43,20 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   final RadarShape radarShape;
 
   /// [getTitle] is used to draw titles outside the [RadarChart]
-  /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [String]
-  /// for each [index]
+  /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [RadarChartTitle]
+  /// for each [index] (we provide a default [angle] = index * 360 / titleCount)
   ///
   /// ```dart
-  /// getTitle: (index) {
+  /// getTitle: (index, angle) {
   ///   switch (index) {
   ///     case 0:
-  ///       return 'Mobile or Tablet';
+  ///       return RadarChartTitle(text: 'Mobile or Tablet', angle: angle);
   ///     case 2:
-  ///       return 'Desktop';
+  ///       return RadarChartTitle(text: 'Desktop', angle: angle);
   ///     case 1:
-  ///       return 'TV';
+  ///       return RadarChartTitle(text: 'TV', angle: angle);
   ///     default:
-  ///       return '';
+  ///       return const RadarChartTitle(text: '');
   ///   }
   /// }
   /// ```

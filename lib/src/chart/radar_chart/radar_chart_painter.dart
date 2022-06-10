@@ -198,7 +198,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     /// controls Radar chart size
     final radius = radarRadius(size);
 
-    final angle = (2 * pi) / data.titleCount;
+    final diffAngle = (2 * pi) / data.titleCount;
 
     final style = Utils().getThemeAwareTextStyle(context, data.titleTextStyle);
 
@@ -208,30 +208,43 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       ..textScaleFactor = holder.textScale;
 
     for (var index = 0; index < data.titleCount; index++) {
-      final title = data.getTitle!(index);
-      final xAngle = cos(angle * index - pi / 2);
-      final yAngle = sin(angle * index - pi / 2);
-
-      final span = TextSpan(text: title, style: style);
+      final baseTitleAngle = Utils().degrees(diffAngle * index);
+      final title = data.getTitle!(index, baseTitleAngle);
+      final span = TextSpan(text: title.text, style: style);
       _titleTextPaint.text = span;
       _titleTextPaint.layout();
-      canvasWrapper.save();
-      final titlePositionPercentageOffset = data.titlePositionPercentageOffset;
-      final threshold = 1.0 + titlePositionPercentageOffset;
-      final featureOffset = Offset(
-        centerX + threshold * radius * xAngle,
-        centerY + threshold * radius * yAngle,
-      );
-      canvasWrapper.translate(featureOffset.dx, featureOffset.dy);
-      canvasWrapper.rotate(angle * index);
+      final angle = diffAngle * index - pi / 2;
+      final threshold = 1.0 + data.titlePositionPercentageOffset;
+      final titleX = centerX +
+          cos(angle) * (radius * threshold + (_titleTextPaint.height / 2));
+      final titleY = centerY +
+          sin(angle) * (radius + threshold + (_titleTextPaint.height / 2));
 
-      // Todo: We need to refactor and use [CanvasWrapper.drawRotated()]
-      canvasWrapper.drawText(
-        _titleTextPaint,
-        Offset.zero -
-            Offset(_titleTextPaint.width / 2, _titleTextPaint.height / 2),
+      Rect rect = Rect.fromLTWH(
+        titleX,
+        titleY,
+        _titleTextPaint.width,
+        _titleTextPaint.height,
       );
-      canvasWrapper.restore();
+      final rectDrawOffset = Offset(rect.left, rect.top);
+
+      final drawTitleDegrees = (angle * 180 / pi) + 90;
+      canvasWrapper.drawRotated(
+        size: rect.size,
+        rotationOffset: Offset(
+          -rect.width / 2,
+          -rect.height / 2,
+        ),
+        drawOffset: rectDrawOffset,
+        angle: drawTitleDegrees,
+        drawCallback: () {
+          canvasWrapper.drawText(
+            _titleTextPaint,
+            rect.topLeft,
+            title.angle - baseTitleAngle,
+          );
+        },
+      );
     }
   }
 
