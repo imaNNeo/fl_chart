@@ -21,6 +21,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |dataSets| list of [RadarDataSet ](#RadarDataSet) that is shown on the radar chart|[]|
 |radarBackgroundColor| This property fills the background of the radar with the specified color.| Colors.transparent|
+|radarShape| the shape of the border and background |RadarShape.circle|
 |radarBorderData| shows a border for radar chart|BorderSide(color: Colors.black, width: 2)|
 |getTitle| This function helps the radar chart to draw titles outside the chart.|null|
 |titleTextStyle|TextStyle of the titles|TextStyle(color: Colors.black, fontSize: 12)|
