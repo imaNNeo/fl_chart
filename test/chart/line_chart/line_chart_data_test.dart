@@ -137,6 +137,8 @@ void main() {
       expect(lineTouchTooltipData1 == lineTouchTooltipData3, false);
       expect(lineTouchTooltipData1 == lineTouchTooltipData4, false);
       expect(lineTouchTooltipData1 == lineTouchTooltipData5, false);
+      expect(lineTouchTooltipData1 == lineTouchTooltipData6, false);
+      expect(lineTouchTooltipData1 == lineTouchTooltipData7, false);
     });
 
     test('LineBarSpot equality test', () {

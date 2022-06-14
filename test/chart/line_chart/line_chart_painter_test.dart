@@ -2023,20 +2023,22 @@ void main() {
       );
 
       final LineTouchTooltipData tooltipData = LineTouchTooltipData(
-          tooltipBgColor: const Color(0x11111111),
-          tooltipRoundedRadius: 12,
-          rotateAngle: 43,
-          maxContentWidth: 100,
-          tooltipMargin: 12,
-          tooltipPadding: const EdgeInsets.all(12),
-          fitInsideHorizontally: true,
-          fitInsideVertically: true,
-          showOnTopOfTheChartBoxArea: false,
-          getTooltipItems: (List<LineBarSpot> touchedSpots) {
-            return touchedSpots
-                .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
-                .toList();
-          });
+        tooltipBgColor: const Color(0x11111111),
+        tooltipRoundedRadius: 12,
+        rotateAngle: 43,
+        maxContentWidth: 100,
+        tooltipMargin: 12,
+        tooltipPadding: const EdgeInsets.all(12),
+        fitInsideHorizontally: true,
+        fitInsideVertically: true,
+        showOnTopOfTheChartBoxArea: false,
+        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          return touchedSpots
+              .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
+              .toList();
+        },
+        tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+      );
       final LineChartData data = LineChartData(
           minY: 0,
           maxY: 10,
@@ -2092,12 +2094,18 @@ void main() {
 
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+      result1.called(2);
       final rRect = result1.captured[0] as RRect;
       final paint = result1.captured[1] as Paint;
       expect(rRect,
           RRect.fromLTRBR(0.0, 40.0, 38.0, 78.0, const Radius.circular(12)));
       expect(paint.color, const Color(0x11111111));
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+      expect(rRectBorder,
+          RRect.fromLTRBR(0.0, 40.0, 38.0, 78.0, const Radius.circular(12)));
+      expect(paintBorder.color, const Color(0x11111111));
+      expect(paintBorder.strokeWidth, 2);
 
       final result2 =
           verify(mockCanvasWrapper.drawText(captureAny, captureAny));

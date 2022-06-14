@@ -763,6 +763,7 @@ void main() {
           tooltipBgColor: const Color(0xf33f33f3),
           maxContentWidth: 80,
           rotateAngle: 12,
+          tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
           getTooltipItem: (
             group,
             groupIndex,
@@ -826,7 +827,7 @@ void main() {
       );
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+      result1.called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8.0));
       expect(rrect.width, 112);
@@ -837,6 +838,18 @@ void main() {
       final bgTooltipPaint = result1.captured[1] as Paint;
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
+
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+
+      expect(rRectBorder.blRadius, const Radius.circular(8.0));
+      expect(rRectBorder.width, 112);
+      expect(rRectBorder.height, 90);
+      expect(rRectBorder.left, -22.5);
+      expect(rRectBorder.top, -106);
+      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.strokeWidth, 2);
+      expect(paintBorder.style, PaintingStyle.stroke);
 
       expect(angles.length, 1);
       expect(angles[0], 12);
@@ -927,6 +940,7 @@ void main() {
           maxContentWidth: 80,
           rotateAngle: 12,
           direction: TooltipDirection.bottom,
+          tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
           getTooltipItem: (
             group,
             groupIndex,
@@ -990,7 +1004,7 @@ void main() {
       );
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+      result1.called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8.0));
       expect(rrect.width, 112);
@@ -1001,6 +1015,18 @@ void main() {
       final bgTooltipPaint = result1.captured[1] as Paint;
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
+
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+
+      expect(rRectBorder.blRadius, const Radius.circular(8.0));
+      expect(rRectBorder.width, 112);
+      expect(rRectBorder.height, 90);
+      expect(rRectBorder.left, -22.5);
+      expect(rRectBorder.top, 116);
+      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.strokeWidth, 2);
+      expect(paintBorder.style, PaintingStyle.stroke);
 
       expect(angles.length, 1);
       expect(angles[0], 12);
@@ -1065,6 +1091,7 @@ void main() {
           fitInsideHorizontally: true,
           fitInsideVertically: true,
           direction: TooltipDirection.top,
+          tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
           getTooltipItem: (
             group,
             groupIndex,
@@ -1132,7 +1159,7 @@ void main() {
       );
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+      result1.called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8.0));
       expect(rrect.width, 2636);
@@ -1143,6 +1170,18 @@ void main() {
       final bgTooltipPaint = result1.captured[1] as Paint;
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
+
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+
+      expect(rRectBorder.blRadius, const Radius.circular(8.0));
+      expect(rRectBorder.width, 2636);
+      expect(rRectBorder.height, 7034.0);
+      expect(rRectBorder.left, -2436);
+      expect(rRectBorder.top, -6934.0);
+      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.strokeWidth, 2);
+      expect(paintBorder.style, PaintingStyle.stroke);
 
       expect(angles.length, 1);
       expect(angles[0], 12);

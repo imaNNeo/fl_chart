@@ -1600,6 +1600,9 @@ class LineTouchTooltipData with EquatableMixin {
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
+  /// The tooltip border color.
+  final BorderSide tooltipBorder;
+
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
@@ -1624,6 +1627,7 @@ class LineTouchTooltipData with EquatableMixin {
     bool? fitInsideVertically,
     bool? showOnTopOfTheChartBoxArea,
     double? rotateAngle,
+    BorderSide? tooltipBorder,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
@@ -1635,6 +1639,7 @@ class LineTouchTooltipData with EquatableMixin {
         fitInsideVertically = fitInsideVertically ?? false,
         showOnTopOfTheChartBoxArea = showOnTopOfTheChartBoxArea ?? false,
         rotateAngle = rotateAngle ?? 0.0,
+        tooltipBorder = tooltipBorder ?? BorderSide.none,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -1649,7 +1654,8 @@ class LineTouchTooltipData with EquatableMixin {
         fitInsideHorizontally,
         fitInsideVertically,
         showOnTopOfTheChartBoxArea,
-        rotateAngle
+        rotateAngle,
+        tooltipBorder,
       ];
 }
 

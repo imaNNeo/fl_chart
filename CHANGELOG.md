@@ -1,4 +1,5 @@
 ## newVersion
+* **FEATURE** (by @emelinepal): Add `tooltipBorder` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData], #692.
 * **BUGFIX** (by @imaNNeoFighT): Fix tooltip issue on negative bar charts, #978.
 * **IMPROVEMENT** (by @imaNNeoFighT): Use Container to draw axis-based charts border.
 * **FEATURE** (by @FlorianArnould) Add the ability to select the RadarChart shape (circle or polygon), #1047.
