@@ -177,6 +177,7 @@ When you change the chart's state, it animates to the new state internally (usin
  |PropName|Description|default value|
  |:-------|:----------|:------------|
  |tooltipBgColor|background color of the tooltip bubble|Colors.white|
+ |tooltipBorder|border of the tooltip bubble|BorderSide.none|
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
  |tooltipMargin|margin between the tooltip and the touched spot|16|

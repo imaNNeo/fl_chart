@@ -366,25 +366,9 @@ void main() {
     });
 
     test('ScatterTouchTooltipData equality test', () {
-      final ScatterTouchTooltipData sample1 = ScatterTouchTooltipData(
-        tooltipRoundedRadius: 23,
-        tooltipPadding: const EdgeInsets.all(11),
-        tooltipBgColor: Colors.green,
-        maxContentWidth: 33,
-        fitInsideVertically: true,
-        fitInsideHorizontally: false,
-        getTooltipItems: scatterChartGetTooltipItems,
-      );
-      final ScatterTouchTooltipData sample2 = ScatterTouchTooltipData(
-        tooltipRoundedRadius: 23,
-        tooltipPadding: const EdgeInsets.all(11),
-        tooltipBgColor: Colors.green,
-        maxContentWidth: 33,
-        fitInsideVertically: true,
-        fitInsideHorizontally: false,
-        getTooltipItems: scatterChartGetTooltipItems,
-      );
-      expect(sample1 == sample2, true);
+      expect(scatterTouchTooltipData1 == scatterTouchTooltipData1Clone, true);
+      expect(scatterTouchTooltipData1 == scatterTouchTooltipData2, false);
+      expect(scatterTouchTooltipData1 == scatterTouchTooltipData3, false);
     });
 
     test('ScatterTooltipItem equality test', () {
