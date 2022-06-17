@@ -5,7 +5,7 @@
 We added the ability to customize the rotation angles of the RadarChart titles.  
 To do that we add to break one thing and added a new type.
 
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/documentations/migration_guides/images/radar_chart/radar_chart_sample_1.gif" width="300" >  
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/documentations/migration_guides/new_version/attachments/radar_chart_sample_1.gif" width="300" >  
 
 **Breaking:**
 
@@ -51,7 +51,7 @@ If you take the provided `angle` and forward it to the [RadarChartTitle] it will
 But you can now render all the titles horizontally by avoiding the [RadarChartTitle.angle] prop (`0` by default).
 
 Apply a relative angle, for example: `RadarChartTitle(text: 'Desktop', angle: angle + 90);`  
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/documentations/migration_guides/images/radar_chart/radar_chart_sample_2.png" width="300" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/documentations/migration_guides/new_version/attachments/radar_chart_sample_2.png" width="300" >
 
 or an absolute angle, for example: `RadarChartTitle(text: 'Desktop', angle: 90);`  
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/documentations/migration_guides/images/radar_chart/radar_chart_sample_3.png" width="300" >
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/documentations/migration_guides/new_version/attachments/radar_chart_sample_3.png" width="300" >
