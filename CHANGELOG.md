@@ -1,11 +1,11 @@
-## newVersion
+## 0.55.0
 * **FEATURE** (by @emelinepal): Add `tooltipBorder` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData], #692.
 * **BUGFIX** (by @imaNNeoFighT): Fix tooltip issue on negative bar charts, #978.
 * **IMPROVEMENT** (by @imaNNeoFighT): Use Container to draw axis-based charts border.
 * **FEATURE** (by @FlorianArnould) Add the ability to select the RadarChart shape (circle or polygon), #1047.
 * **BUGFIX** (by @imaNNeoFighT): Fix LineChart titles problem with single FlSpot, #1053.
 * **FEATURE** (by @FlorianArnould) Add the ability to rotate the RadarChar titles, #883. 
-* **BREAKING** (by @FlorianArnould) [RadarChartData.getTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#RadarChartData) have a new parameter `angle` and now returns a [RadarChartTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#RadarChartTitle) instead of a simple `string`. (Read our [Migration Guide](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/0.50.0/MIGRATION_NEW_VERSION.md) to learn more about it)
+* **BREAKING** (by @FlorianArnould) [RadarChartData.getTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#RadarChartData) have a new parameter `angle` and now returns a [RadarChartTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#RadarChartTitle) instead of a simple `string`. (Read our [Migration Guide](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/0.55.0/MIGRATION_00_55_00.md) to learn more about it)
 
 ## 0.51.0
 * **FEATURE** (by @imaNNeoFighT): Add `SideTitleWidget` to help you use it in [SideTitles.getTitlesWidget]. It's a wrapper around your widget. It keeps your provided `child` widget close to the chart. It has `angle` and `space` properties to handle margin and rotation. There is a `axisSide` property that you should fill, it has provided to you in the MetaData object. Check the below sample:
