@@ -1,3 +1,4 @@
+import 'package:example/line_chart/samples/line_chart_sample11.dart';
 import 'package:flutter/material.dart';
 
 import 'samples/line_chart_sample1.dart';
@@ -49,6 +50,11 @@ class LineChartPage extends StatelessWidget {
             child: LineChartSample2(),
           ),
           SizedBox(height: 22),
+
+          Padding(
+            padding: EdgeInsets.only(left: 28.0, right: 28),
+            child: LineChartSample11(),
+          ),
         ],
       ),
     );
