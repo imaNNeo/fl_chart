@@ -50,7 +50,6 @@ class LineChartPage extends StatelessWidget {
             child: LineChartSample2(),
           ),
           SizedBox(height: 22),
-
           Padding(
             padding: EdgeInsets.only(left: 28.0, right: 28),
             child: LineChartSample11(),
