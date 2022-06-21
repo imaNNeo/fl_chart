@@ -188,19 +188,36 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   /// Determines color of the spot.
   Color color;
 
+  /// Determines color of the spot icon.
+  Color iconColor;
+
+  /// Determines the icon of the spot.
+  IconData iconData;
+
+  /// Determines the spot's icon size.
+  double iconSize;
+
+
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
   ScatterSpot(
     double x,
     double y, {
+    IconData? iconData,
+    Color? iconColor,
     bool? show,
     double? radius,
     Color? color,
+    double? iconSize,
+
   })  : show = show ?? true,
         radius = radius ?? 6,
         color = color ??
             Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
+        iconColor = iconColor ?? Colors.black,
+        iconData = iconData ?? Icons.add,
+        iconSize = iconSize ?? 3,
         super(x, y);
 
   @override
@@ -210,6 +227,9 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     bool? show,
     double? radius,
     Color? color,
+    Color? iconColor,
+    IconData? iconData,
+    double? iconSize,
   }) {
     return ScatterSpot(
       x ?? this.x,
@@ -217,6 +237,9 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       show: show ?? this.show,
       radius: radius ?? this.radius,
       color: color ?? this.color,
+      iconData: iconData ?? this.iconData,
+      iconColor: iconColor ?? this.iconColor,
+      iconSize: iconSize ?? this.iconSize,
     );
   }
 
@@ -228,6 +251,9 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       show: b.show,
       radius: lerpDouble(a.radius, b.radius, t),
       color: Color.lerp(a.color, b.color, t),
+      iconData: a.iconData,
+      iconColor: a.iconColor,
+      iconSize: a.iconSize,
     );
   }
 

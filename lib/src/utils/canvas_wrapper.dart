@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart' hide Image;
+import 'package:flutter/material.dart' hide Image;
 
 /// Proxies Canvas functions
 ///
@@ -63,8 +64,45 @@ class CanvasWrapper {
       canvas.drawLine(p1, p2, paint);
 
   /// Directly calls [Canvas.drawCircle]
-  void drawCircle(Offset center, double radius, Paint paint) =>
-      canvas.drawCircle(center, radius, paint);
+  void drawCircle(
+      Offset center,
+      double radius,
+      Paint paint,
+      ) => canvas.drawCircle(center, radius, paint);
+
+  void drawScatterCircle(
+      Offset center,
+      double radius,
+      Paint paint,
+      IconData icon,
+      Color iconColor,
+      double iconSize,
+      ) {
+
+
+
+    TextPainter textPainter = TextPainter(
+      textDirection: TextDirection.rtl,
+      textAlign: TextAlign.center,
+    );
+    textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint),
+        style: TextStyle(
+          fontSize: iconSize,
+          fontFamily: icon.fontFamily,
+          color: iconColor,
+        ));
+    canvas.drawCircle(center, radius, paint);
+    textPainter.layout();
+
+    textPainter.paint(
+        canvas,
+        Offset(
+          center.dx - iconSize / 2,
+          center.dy - iconSize / 2,
+        ));
+
+
+  }
 
   /// Directly calls [Canvas.drawCircle]
   void drawArc(Rect rect, double startAngle, double sweepAngle, bool useCenter,
