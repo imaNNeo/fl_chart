@@ -218,7 +218,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       final titleX = centerX +
           cos(angle) * (radius * threshold + (_titleTextPaint.height / 2));
       final titleY = centerY +
-          sin(angle) * (radius + threshold + (_titleTextPaint.height / 2));
+          sin(angle) * (radius * threshold + (_titleTextPaint.height / 2));
 
       Rect rect = Rect.fromLTWH(
         titleX,

@@ -1,3 +1,6 @@
+## newVersion
+* **BUGFIX** (by @ateich): Fix uneven titles in RadarChart when using titlePositionPercentageOffset, #1074.
+
 ## 0.55.0
 * **FEATURE** (by @emelinepal): Add `tooltipBorder` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData], #692.
 * **BUGFIX** (by @imaNNeoFighT): Fix tooltip issue on negative bar charts, #978.
