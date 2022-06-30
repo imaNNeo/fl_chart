@@ -99,13 +99,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     final dataSetMaxValue = data.maxEntry.value;
     final dataSetMinValue = data.minEntry.value;
     final tickSpace = (dataSetMaxValue - dataSetMinValue) / data.tickCount;
-
     final ticks = <double>[];
+    double tickValue = dataSetMinValue;
 
-    for (var tick = dataSetMinValue;
-        tick <= dataSetMaxValue;
-        tick = tick + tickSpace) {
-      ticks.add(tick);
+    for (var i = 0; i <= data.tickCount; i++) {
+      ticks.add(tickValue);
+      tickValue += tickSpace;
     }
 
     final tickDistance = radius / (ticks.length);
