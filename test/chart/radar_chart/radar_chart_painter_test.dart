@@ -540,11 +540,11 @@ void main() {
       expect(drawCircleResults.length, 9);
 
       expect(
-          drawCircleResults[0]['offset'] as Offset, const Offset(200.0, 110.0));
+          drawCircleResults[0]['offset'] as Offset, const Offset(200.0, 90.0));
       expect(drawCircleResults[0]['radius'] as double, 5);
 
       expect(drawCircleResults[1]['offset'] as Offset,
-          const Offset(269.2820323027551, 190.0));
+          const Offset(277.9422863405995, 195.0));
       expect(drawCircleResults[1]['radius'] as double, 5);
 
       expect(drawCircleResults[2]['offset'] as Offset,
@@ -556,15 +556,15 @@ void main() {
       expect(drawCircleResults[3]['radius'] as double, 5);
 
       expect(drawCircleResults[4]['offset'] as Offset,
-          const Offset(234.64101615137756, 170.0));
+          const Offset(251.96152422706632, 180.0));
       expect(drawCircleResults[4]['radius'] as double, 5);
 
       expect(drawCircleResults[5]['offset'] as Offset,
-          const Offset(130.71796769724492, 190.00000000000003));
+          const Offset(122.05771365940053, 195.00000000000003));
       expect(drawCircleResults[5]['radius'] as double, 5);
 
       expect(
-          drawCircleResults[6]['offset'] as Offset, const Offset(200.0, 70.0));
+          drawCircleResults[6]['offset'] as Offset, const Offset(200.0, 60.0));
       expect(drawCircleResults[6]['radius'] as double, 5);
 
       expect(drawCircleResults[7]['offset'] as Offset,
@@ -572,7 +572,7 @@ void main() {
       expect(drawCircleResults[7]['radius'] as double, 5);
 
       expect(drawCircleResults[8]['offset'] as Offset,
-          const Offset(165.35898384862247, 170.0));
+          const Offset(148.03847577293368, 180.00000000000003));
       expect(drawCircleResults[8]['radius'] as double, 5);
 
       expect(drawPathResults.length, 6);
@@ -850,11 +850,11 @@ void main() {
           null);
       expect(
           radarChartPainter.handleTouch(
-              const Offset(253.9, 175.9), viewSize, holder),
+              const Offset(266.0, 179.3), viewSize, holder),
           null);
       expect(
           radarChartPainter.handleTouch(
-              const Offset(146.4, 182.8), viewSize, holder),
+              const Offset(145.0, 193.7), viewSize, holder),
           null);
 
       final result0 = radarChartPainter.handleTouch(
@@ -863,12 +863,12 @@ void main() {
       expect(result0.touchedRadarEntryIndex, 1);
 
       final result1 = radarChartPainter.handleTouch(
-          const Offset(202.7, 73.4), viewSize, holder);
+          const Offset(200.0, 60.0), viewSize, holder);
       expect(result1!.touchedDataSetIndex, 2);
       expect(result1.touchedRadarEntryIndex, 0);
 
       final result2 = radarChartPainter.handleTouch(
-          const Offset(170.9, 171.9), viewSize, holder);
+          const Offset(148.0, 180.0), viewSize, holder);
       expect(result2!.touchedDataSetIndex, 2);
       expect(result2.touchedRadarEntryIndex, 2);
 
@@ -883,7 +883,7 @@ void main() {
       expect(result4.touchedRadarEntryIndex, 2);
 
       final result5 = radarChartPainter.handleTouch(
-          const Offset(203.5, 114.3), viewSize, holder);
+          const Offset(200.0, 90.0), viewSize, holder);
       expect(result5!.touchedDataSetIndex, 0);
       expect(result5.touchedRadarEntryIndex, 0);
 
@@ -893,12 +893,12 @@ void main() {
       expect(result6.touchedRadarEntryIndex, 0);
 
       final result7 = radarChartPainter.handleTouch(
-          const Offset(132.3, 191.2), viewSize, holder);
+          const Offset(122.1, 195.0), viewSize, holder);
       expect(result7!.touchedDataSetIndex, 1);
       expect(result7.touchedRadarEntryIndex, 2);
 
       final result8 = radarChartPainter.handleTouch(
-          const Offset(236.6, 169.3), viewSize, holder);
+          const Offset(252.0, 180.0), viewSize, holder);
       expect(result8!.touchedDataSetIndex, 1);
       expect(result8.touchedRadarEntryIndex, 1);
     });
@@ -967,8 +967,8 @@ void main() {
       expect(
         result[0].entriesOffset,
         [
-          const Offset(200, 110),
-          const Offset(269.2820323027551, 190.0),
+          const Offset(200, 90),
+          const Offset(277.9422863405995, 195.0),
           const Offset(96.07695154586739, 210.00000000000006),
         ],
       );
@@ -976,18 +976,196 @@ void main() {
         result[1].entriesOffset,
         [
           const Offset(200, 30),
-          const Offset(234.64101615137756, 170.0),
-          const Offset(130.71796769724492, 190.00000000000003),
+          const Offset(251.96152422706632, 180.0),
+          const Offset(122.05771365940053, 195.00000000000003),
         ],
       );
       expect(
         result[2].entriesOffset,
         [
-          const Offset(200, 70),
+          const Offset(200, 60),
           const Offset(303.92304845413264, 209.99999999999997),
-          const Offset(165.35898384862247, 170),
+          const Offset(148.03847577293368, 180.00000000000003),
         ],
       );
+    });
+  });
+
+  group('getDefaultChartCenterValue()', () {
+    final RadarChartPainter radarChartPainter = RadarChartPainter();
+
+    test('test 1', () {
+      expect(radarChartPainter.getDefaultChartCenterValue(), 0);
+    });
+  });
+
+  group('getChartCenterValue()', () {
+    final RadarChartPainter radarChartPainter = RadarChartPainter();
+    final RadarDataSet dataSet = RadarDataSet(dataEntries: [
+      const RadarEntry(value: 15),
+      const RadarEntry(value: 20),
+      const RadarEntry(value: 20),
+    ]);
+    final RadarDataSet dataSetWithSameMaxAndMin = RadarDataSet(dataEntries: [
+      const RadarEntry(value: 10),
+      const RadarEntry(value: 10),
+      const RadarEntry(value: 10),
+    ]);
+    final RadarChartData dataWith1Tick = RadarChartData(
+      dataSets: [dataSet],
+      tickCount: 1,
+    );
+    final RadarChartData dataWith2Ticks = RadarChartData(
+      dataSets: [dataSet],
+      tickCount: 2,
+    );
+    final RadarChartData dataWith3Ticks = RadarChartData(
+      dataSets: [dataSet],
+      tickCount: 3,
+    );
+    final RadarChartData dataWithSameMaxAndMin = RadarChartData(
+      dataSets: [dataSetWithSameMaxAndMin],
+      tickCount: 2,
+    );
+
+    test('test 1', () {
+      expect(radarChartPainter.getChartCenterValue(dataWith1Tick), 10);
+      expect(radarChartPainter.getChartCenterValue(dataWith2Ticks), 12.5);
+      expect(radarChartPainter.getChartCenterValue(dataWith3Ticks),
+          13.333333333333334);
+    });
+
+    test('test 2', () {
+      expect(radarChartPainter.getChartCenterValue(dataWithSameMaxAndMin), 0);
+    });
+  });
+
+  group('getScaledPoint()', () {
+    final RadarChartPainter radarChartPainter = RadarChartPainter();
+    final RadarChartData data = RadarChartData(
+      dataSets: [
+        RadarDataSet(
+          dataEntries: [
+            const RadarEntry(value: 15),
+            const RadarEntry(value: 20),
+            const RadarEntry(value: 20),
+          ],
+        ),
+      ],
+      tickCount: 2,
+    );
+    final RadarChartData dataWithSameMaxAndMin = RadarChartData(
+      dataSets: [
+        RadarDataSet(
+          dataEntries: [
+            const RadarEntry(value: 10),
+            const RadarEntry(value: 10),
+            const RadarEntry(value: 10),
+          ],
+        ),
+      ],
+      tickCount: 2,
+    );
+    const double radius = 200;
+    RadarEntry point1 = const RadarEntry(value: 0);
+    RadarEntry point2 = const RadarEntry(value: 50);
+    RadarEntry point3 = const RadarEntry(value: 150);
+
+    test('test 1', () {
+      expect(radarChartPainter.getScaledPoint(point1, radius, data),
+          -333.3333333333333);
+      expect(radarChartPainter.getScaledPoint(point2, radius, data), 1000.0);
+      expect(radarChartPainter.getScaledPoint(point3, radius, data),
+          3666.6666666666665);
+    });
+
+    test('test 2', () {
+      expect(
+          radarChartPainter.getScaledPoint(
+              point1, radius, dataWithSameMaxAndMin),
+          0.0);
+      expect(
+          radarChartPainter.getScaledPoint(
+              point2, radius, dataWithSameMaxAndMin),
+          1000.0);
+      expect(
+          radarChartPainter.getScaledPoint(
+              point3, radius, dataWithSameMaxAndMin),
+          3000.0);
+    });
+  });
+
+  group('getFirstTickValue()', () {
+    final RadarChartPainter radarChartPainter = RadarChartPainter();
+    final RadarChartData data = RadarChartData(
+      dataSets: [
+        RadarDataSet(
+          dataEntries: [
+            const RadarEntry(value: 15),
+            const RadarEntry(value: 20),
+            const RadarEntry(value: 20),
+          ],
+        ),
+      ],
+      tickCount: 2,
+    );
+    final RadarChartData dataWithSameMaxAndMin = RadarChartData(
+      dataSets: [
+        RadarDataSet(
+          dataEntries: [
+            const RadarEntry(value: 10),
+            const RadarEntry(value: 10),
+            const RadarEntry(value: 10),
+          ],
+        ),
+      ],
+      tickCount: 2,
+    );
+
+    test('test 1', () {
+      expect(radarChartPainter.getFirstTickValue(data), 15);
+    });
+
+    test('test 2', () {
+      expect(radarChartPainter.getFirstTickValue(dataWithSameMaxAndMin),
+          3.3333333333333335);
+    });
+  });
+
+  group('getSpaceBetweenTicks()', () {
+    final RadarChartPainter radarChartPainter = RadarChartPainter();
+    final RadarChartData data = RadarChartData(
+      dataSets: [
+        RadarDataSet(
+          dataEntries: [
+            const RadarEntry(value: 15),
+            const RadarEntry(value: 20),
+            const RadarEntry(value: 20),
+          ],
+        ),
+      ],
+      tickCount: 2,
+    );
+    final RadarChartData dataWithSameMaxAndMin = RadarChartData(
+      dataSets: [
+        RadarDataSet(
+          dataEntries: [
+            const RadarEntry(value: 10),
+            const RadarEntry(value: 10),
+            const RadarEntry(value: 10),
+          ],
+        ),
+      ],
+      tickCount: 2,
+    );
+
+    test('test 1', () {
+      expect(radarChartPainter.getSpaceBetweenTicks(data), 2.5);
+    });
+
+    test('test 2', () {
+      expect(radarChartPainter.getSpaceBetweenTicks(dataWithSameMaxAndMin),
+          3.3333333333333335);
     });
   });
 }

@@ -61,6 +61,63 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   }
 
   @visibleForTesting
+  double getDefaultChartCenterValue() {
+    return 0;
+  }
+
+  @visibleForTesting
+  double getChartCenterValue(RadarChartData data) {
+    final double dataSetMaxValue = data.maxEntry.value;
+    final double dataSetMinValue = data.minEntry.value;
+    final double tickSpace = getSpaceBetweenTicks(data);
+    final double centerValue = dataSetMinValue - tickSpace;
+    final double defaultCenterValue = getDefaultChartCenterValue();
+
+    return dataSetMaxValue == dataSetMinValue
+        ? defaultCenterValue
+        : centerValue;
+  }
+
+  @visibleForTesting
+  double getScaledPoint(RadarEntry point, double radius, RadarChartData data) {
+    final double centerValue = getChartCenterValue(data);
+    final double distanceFromPointToCenter = point.value - centerValue;
+    double distanceFromMaxToCenter = data.maxEntry.value - centerValue;
+
+    if (distanceFromMaxToCenter == 0) {
+      const double preventDividingByZero = 0.001;
+      distanceFromMaxToCenter += preventDividingByZero;
+    }
+
+    return radius * distanceFromPointToCenter / distanceFromMaxToCenter;
+  }
+
+  @visibleForTesting
+  double getFirstTickValue(RadarChartData data) {
+    final double defaultCenterValue = getDefaultChartCenterValue();
+    final double dataSetMaxValue = data.maxEntry.value;
+    final double dataSetMinValue = data.minEntry.value;
+
+    return dataSetMaxValue == dataSetMinValue
+        ? (dataSetMaxValue - defaultCenterValue) / (data.tickCount + 1) +
+            defaultCenterValue
+        : dataSetMinValue;
+  }
+
+  @visibleForTesting
+  double getSpaceBetweenTicks(RadarChartData data) {
+    final double defaultCenterValue = getDefaultChartCenterValue();
+    final double dataSetMaxValue = data.maxEntry.value;
+    final double dataSetMinValue = data.minEntry.value;
+    final double tickSpace =
+        (dataSetMaxValue - dataSetMinValue) / data.tickCount;
+    final double defaultTickSpace =
+        (dataSetMaxValue - defaultCenterValue) / (data.tickCount + 1);
+
+    return dataSetMaxValue == dataSetMinValue ? defaultTickSpace : tickSpace;
+  }
+
+  @visibleForTesting
   void drawTicks(BuildContext context, CanvasWrapper canvasWrapper,
       PaintHolder<RadarChartData> holder) {
     final data = holder.data;
@@ -96,11 +153,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       canvasWrapper.drawPath(path, _borderPaint);
     }
 
-    final dataSetMaxValue = data.maxEntry.value;
-    final dataSetMinValue = data.minEntry.value;
-    final tickSpace = (dataSetMaxValue - dataSetMinValue) / data.tickCount;
+    double tickSpace = getSpaceBetweenTicks(data);
     final ticks = <double>[];
-    double tickValue = dataSetMinValue;
+    double tickValue = getFirstTickValue(data);
 
     for (var i = 0; i <= data.tickCount; i++) {
       ticks.add(tickValue);
@@ -347,7 +402,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     final centerY = radarCenterY(viewSize);
     final radius = radarRadius(viewSize);
 
-    final scale = radius / data.maxEntry.value;
     final angle = (2 * pi) / data.titleCount;
 
     final dataSetsPosition = List<RadarDataSetsPosition>.filled(
@@ -364,7 +418,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
         final xAngle = cos(angle * j - pi / 2);
         final yAngle = sin(angle * j - pi / 2);
-        final scaledPoint = scale * point.value;
+        final scaledPoint = getScaledPoint(point, radius, data);
 
         final entryOffset = Offset(
           centerX + scaledPoint * xAngle,

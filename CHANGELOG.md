@@ -1,6 +1,7 @@
 ## newVersion
 * **BUGFIX** (by @ateich): Fix infinite loop in RadarChart when all values in RadarDataSet are equal, #882.
 * **BUGFIX** (by @ateich): Fix uneven titles in RadarChart when using titlePositionPercentageOffset, #1074.
+* **BUGFIX** (by @ateich): Fix mismatched scale of ticks and graph points in RadarChart.
 
 ## 0.55.0
 * **FEATURE** (by @emelinepal): Add `tooltipBorder` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData], #692.
