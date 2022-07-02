@@ -21,9 +21,17 @@ void main() {
       rightTitles: AxisTitles(),
       bottomTitles: AxisTitles(),
     ),
+    borderData: FlBorderData(show: false),
   );
 
   final lineChartDataWithAllTitles = lineChartDataBase.copyWith(
+    borderData: FlBorderData(
+      show: true,
+      border: Border.all(
+        color: Colors.red,
+        width: 10,
+      ),
+    ),
     titlesData: FlTitlesData(
       show: true,
       leftTitles: AxisTitles(
@@ -78,6 +86,18 @@ void main() {
   );
 
   final lineChartDataWithOnlyLeftTitles = lineChartDataBase.copyWith(
+    borderData: FlBorderData(
+      show: true,
+      border: const Border(
+        left: BorderSide(
+          color: Colors.red,
+          width: 6,
+        ),
+        top: BorderSide.none,
+        right: BorderSide.none,
+        bottom: BorderSide.none,
+      ),
+    ),
     titlesData: FlTitlesData(
       show: true,
       leftTitles: AxisTitles(
@@ -100,6 +120,7 @@ void main() {
 
   final lineChartDataWithOnlyLeftTitlesWithoutAxisName =
       lineChartDataBase.copyWith(
+    borderData: FlBorderData(show: false),
     titlesData: FlTitlesData(
       show: true,
       leftTitles: AxisTitles(
@@ -121,6 +142,7 @@ void main() {
 
   final lineChartDataWithOnlyLeftAxisNameWithoutSideTitles =
       lineChartDataBase.copyWith(
+    borderData: FlBorderData(show: false),
     titlesData: FlTitlesData(
       show: true,
       leftTitles: AxisTitles(
@@ -221,7 +243,7 @@ void main() {
         }
       }
 
-      expect(chartDrawingSize, const Size(320, 280));
+      expect(chartDrawingSize, const Size(300, 260));
       expect(find.byIcon(Icons.arrow_left), findsOneWidget);
       checkSide(AxisSide.left);
 
@@ -265,7 +287,7 @@ void main() {
         ),
       );
 
-      expect(chartDrawingSize, const Size(380, 400));
+      expect(chartDrawingSize, const Size(374, 400));
       expect(find.byIcon(Icons.arrow_left), findsOneWidget);
       for (int i = 0; i <= 10; i++) {
         expect(find.text('L-$i'), findsOneWidget);
