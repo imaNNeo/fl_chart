@@ -76,7 +76,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                       drawBehindEverything: true,
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 30,
+                        reservedWidth: 30,
                         getTitlesWidget: (value, meta) {
                           return Text(
                             value.toInt().toString(),
@@ -91,7 +91,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 36,
+                        reservedHeight: 36,
                         getTitlesWidget: (value, meta) {
                           final index = value.toInt();
                           return SideTitleWidget(

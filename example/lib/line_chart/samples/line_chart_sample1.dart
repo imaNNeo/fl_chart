@@ -125,7 +125,7 @@ class _LineChart extends StatelessWidget {
         getTitlesWidget: leftTitleWidgets,
         showTitles: true,
         interval: 1,
-        reservedSize: 40,
+        reservedWidth: 40,
       );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -159,7 +159,7 @@ class _LineChart extends StatelessWidget {
 
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
-        reservedSize: 32,
+        reservedHeight: 32,
         interval: 1,
         getTitlesWidget: bottomTitleWidgets,
       );

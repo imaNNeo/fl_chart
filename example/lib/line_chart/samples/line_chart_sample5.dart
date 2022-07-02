@@ -153,7 +153,7 @@ class LineChartSample5 extends StatelessWidget {
               axisNameWidget: const Text('count'),
               sideTitles: SideTitles(
                 showTitles: false,
-                reservedSize: 0,
+                reservedWidth: 0,
               ),
             ),
             bottomTitles: AxisTitles(
@@ -167,7 +167,7 @@ class LineChartSample5 extends StatelessWidget {
               axisNameWidget: const Text('count'),
               sideTitles: SideTitles(
                 showTitles: false,
-                reservedSize: 0,
+                reservedWidth: 0,
               ),
             ),
             topTitles: AxisTitles(
@@ -177,7 +177,7 @@ class LineChartSample5 extends StatelessWidget {
               ),
               sideTitles: SideTitles(
                 showTitles: true,
-                reservedSize: 0,
+                reservedHeight: 0,
               ),
             ),
           ),

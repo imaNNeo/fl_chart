@@ -82,14 +82,14 @@ class BarChartSample4State extends State<BarChartSample4> {
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 28,
+                    reservedHeight: 28,
                     getTitlesWidget: bottomTitles,
                   ),
                 ),
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 40,
+                    reservedWidth: 40,
                     getTitlesWidget: leftTitles,
                   ),
                 ),

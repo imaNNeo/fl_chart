@@ -87,7 +87,7 @@ class _BarChart extends StatelessWidget {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedHeight: 30,
             getTitlesWidget: getTitles,
           ),
         ),

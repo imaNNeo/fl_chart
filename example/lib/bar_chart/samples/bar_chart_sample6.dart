@@ -132,7 +132,7 @@ class BarChartSample6 extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         getTitlesWidget: bottomTitles,
-                        reservedSize: 16,
+                        reservedHeight: 16,
                       ),
                     ),
                   ),

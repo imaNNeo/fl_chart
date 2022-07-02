@@ -318,14 +318,14 @@ class _LineChartSample3State extends State<LineChartSample3> {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 46,
+                    reservedWidth: 46,
                     getTitlesWidget: leftTitleWidgets,
                   ),
                 ),
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 40,
+                    reservedHeight: 40,
                     getTitlesWidget: bottomTitleWidgets,
                   ),
                 ),

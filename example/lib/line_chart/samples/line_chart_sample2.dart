@@ -143,7 +143,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedHeight: 30,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
@@ -153,7 +153,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             showTitles: true,
             interval: 1,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
+            reservedWidth: 42,
           ),
         ),
       ),
@@ -227,7 +227,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedHeight: 30,
             getTitlesWidget: bottomTitleWidgets,
             interval: 1,
           ),
@@ -236,7 +236,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           sideTitles: SideTitles(
             showTitles: true,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
+            reservedWidth: 42,
             interval: 1,
           ),
         ),

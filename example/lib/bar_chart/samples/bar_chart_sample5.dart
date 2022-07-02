@@ -293,14 +293,14 @@ class BarChartSample5State extends State<BarChartSample5> {
                 topTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 32,
+                    reservedHeight: 32,
                     getTitlesWidget: topTitles,
                   ),
                 ),
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 32,
+                    reservedHeight: 32,
                     getTitlesWidget: bottomTitles,
                   ),
                 ),
@@ -309,7 +309,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                     showTitles: true,
                     getTitlesWidget: leftTitles,
                     interval: 5,
-                    reservedSize: 42,
+                    reservedWidth: 42,
                   ),
                 ),
                 rightTitles: AxisTitles(
@@ -317,7 +317,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                     showTitles: true,
                     getTitlesWidget: rightTitles,
                     interval: 5,
-                    reservedSize: 42,
+                    reservedWidth: 42,
                   ),
                 ),
               ),
