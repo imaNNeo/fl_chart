@@ -16,19 +16,19 @@ void main() {
     final LineChartData data = LineChartData(
         titlesData: FlTitlesData(
       leftTitles: AxisTitles(
-          sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
+          sideTitles: SideTitles(reservedWidth: 20, showTitles: true)),
       rightTitles: AxisTitles(
-          sideTitles: SideTitles(reservedSize: 464, showTitles: true)),
+          sideTitles: SideTitles(reservedWidth: 464, showTitles: true)),
       topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
     ));
 
     final LineChartData targetData = LineChartData(
         titlesData: FlTitlesData(
-      leftTitles:
-          AxisTitles(sideTitles: SideTitles(reservedSize: 8, showTitles: true)),
+      leftTitles: AxisTitles(
+          sideTitles: SideTitles(reservedWidth: 8, showTitles: true)),
       rightTitles: AxisTitles(
-          sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
+          sideTitles: SideTitles(reservedWidth: 20, showTitles: true)),
       topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
     ));

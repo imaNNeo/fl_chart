@@ -334,41 +334,41 @@ class MockData {
   );
 
   static final sideTitles1 = SideTitles(
-    reservedSize: 10,
+    reservedHeight: 10,
     showTitles: false,
     interval: 23,
   );
   static final sideTitles1Clone = SideTitles(
-    reservedSize: 10,
+    reservedHeight: 10,
     showTitles: false,
     interval: 23,
   );
   static final sideTitles2 = SideTitles(
-    reservedSize: 10,
+    reservedHeight: 10,
     showTitles: false,
     getTitlesWidget: null,
     interval: 12,
   );
   static final sideTitles3 = SideTitles(
-    reservedSize: 10,
+    reservedHeight: 10,
     showTitles: false,
     getTitlesWidget: getTitles,
     interval: 12,
   );
   static final sideTitles4 = SideTitles(
-    reservedSize: 11,
+    reservedHeight: 11,
     showTitles: true,
     getTitlesWidget: getTitles,
     interval: 12,
   );
   static final sideTitles5 = SideTitles(
-    reservedSize: 10,
+    reservedHeight: 10,
     showTitles: false,
     getTitlesWidget: getTitles,
     interval: 43,
   );
   static final sideTitles6 = SideTitles(
-    reservedSize: 10,
+    reservedHeight: 10,
     showTitles: false,
     getTitlesWidget: getTitles,
     interval: 22,
@@ -2337,7 +2337,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     rightTitles: AxisTitles(
       axisNameSize: 1326,
       axisNameWidget: MockData.widget3,
-      sideTitles: SideTitles(reservedSize: 500, showTitles: true),
+      sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
     ),
     topTitles: AxisTitles(
       axisNameSize: 34,

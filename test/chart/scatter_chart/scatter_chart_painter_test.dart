@@ -580,19 +580,19 @@ void main() {
             axisNameWidget: const Text('ss1'),
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 10,
+              reservedWidth: 10,
             ),
           ),
           rightTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 10,
+              reservedWidth: 10,
             ),
           ),
           topTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 6,
+              reservedHeight: 6,
             ),
           ),
           bottomTitles: AxisTitles(
@@ -600,7 +600,7 @@ void main() {
             axisNameWidget: const Text('ss2'),
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 6,
+              reservedHeight: 6,
             ),
           ),
         ),

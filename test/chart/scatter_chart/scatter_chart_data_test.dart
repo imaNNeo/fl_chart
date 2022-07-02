@@ -110,7 +110,8 @@ void main() {
                   rightTitles: AxisTitles(
                     axisNameSize: 1326,
                     axisNameWidget: MockData.widget3,
-                    sideTitles: SideTitles(reservedSize: 500, showTitles: true),
+                    sideTitles:
+                        SideTitles(reservedWidth: 500, showTitles: true),
                   ),
                   topTitles: AxisTitles(
                     axisNameSize: 34,
@@ -138,7 +139,8 @@ void main() {
                   rightTitles: AxisTitles(
                     axisNameSize: 1326,
                     axisNameWidget: const Text('title 3'),
-                    sideTitles: SideTitles(reservedSize: 500, showTitles: true),
+                    sideTitles:
+                        SideTitles(reservedWidth: 500, showTitles: true),
                   ),
                   topTitles: AxisTitles(
                     axisNameSize: 34,
@@ -166,7 +168,8 @@ void main() {
                   rightTitles: AxisTitles(
                     axisNameSize: 1326,
                     axisNameWidget: const Text('title 3'),
-                    sideTitles: SideTitles(reservedSize: 500, showTitles: true),
+                    sideTitles:
+                        SideTitles(reservedWidth: 500, showTitles: true),
                   ),
                   topTitles: AxisTitles(
                     axisNameSize: 34,
@@ -194,7 +197,8 @@ void main() {
                   rightTitles: AxisTitles(
                     axisNameSize: 1326,
                     axisNameWidget: const Text('title 1'),
-                    sideTitles: SideTitles(reservedSize: 500, showTitles: true),
+                    sideTitles:
+                        SideTitles(reservedWidth: 500, showTitles: true),
                   ),
                   topTitles: AxisTitles(
                     axisNameSize: 34,
@@ -222,7 +226,8 @@ void main() {
                   rightTitles: AxisTitles(
                     axisNameSize: 13262,
                     axisNameWidget: const Text('title 3'),
-                    sideTitles: SideTitles(reservedSize: 500, showTitles: true),
+                    sideTitles:
+                        SideTitles(reservedWidth: 500, showTitles: true),
                   ),
                   topTitles: AxisTitles(
                     axisNameSize: 34,

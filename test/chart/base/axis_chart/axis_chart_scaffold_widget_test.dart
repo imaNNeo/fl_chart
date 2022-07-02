@@ -31,7 +31,7 @@ void main() {
         axisNameSize: 10,
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 10,
+          reservedWidth: 10,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('L-${value.toInt().toString()}');
           },
@@ -43,7 +43,7 @@ void main() {
         axisNameSize: 20,
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 20,
+          reservedHeight: 20,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('T-${value.toInt().toString()}');
           },
@@ -55,7 +55,7 @@ void main() {
         axisNameSize: 30,
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 30,
+          reservedWidth: 30,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('R-${value.toInt().toString()}');
           },
@@ -67,7 +67,7 @@ void main() {
         axisNameSize: 40,
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 40,
+          reservedHeight: 40,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('B-${value.toInt().toString()}');
           },
@@ -85,7 +85,7 @@ void main() {
         axisNameSize: 10,
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 10,
+          reservedWidth: 10,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('L-${value.toInt().toString()}');
           },
@@ -106,7 +106,7 @@ void main() {
         axisNameSize: 10,
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 10,
+          reservedWidth: 10,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('L-${value.toInt().toString()}');
           },
@@ -128,7 +128,7 @@ void main() {
         axisNameWidget: const Icon(Icons.arrow_left),
         sideTitles: SideTitles(
           showTitles: false,
-          reservedSize: 10,
+          reservedWidth: 10,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('L-${value.toInt().toString()}');
           },

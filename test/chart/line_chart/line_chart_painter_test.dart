@@ -248,13 +248,13 @@ void main() {
         titlesData: FlTitlesData(
           show: true,
           leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+              sideTitles: SideTitles(showTitles: true, reservedWidth: 10)),
           topTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 20)),
+              sideTitles: SideTitles(showTitles: true, reservedHeight: 20)),
           rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
+              sideTitles: SideTitles(showTitles: true, reservedWidth: 30)),
           bottomTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
+              sideTitles: SideTitles(showTitles: true, reservedHeight: 40)),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
         clipData: FlClipData(
@@ -291,16 +291,16 @@ void main() {
         titlesData: FlTitlesData(
           show: true,
           leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+              sideTitles: SideTitles(showTitles: true, reservedWidth: 10)),
           topTitles: AxisTitles(
               sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 40,
+            reservedHeight: 40,
           )),
           rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
+              sideTitles: SideTitles(showTitles: true, reservedWidth: 30)),
           bottomTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
+              sideTitles: SideTitles(showTitles: true, reservedHeight: 40)),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
         clipData: FlClipData(
