@@ -23,6 +23,7 @@ void main() {
                       0,
                       10,
                       viewHeight,
+                      40,
                     ),
                     widgetHolders: oneToNineWidgetHolders(viewHeight),
                   ),
@@ -58,6 +59,7 @@ void main() {
                       0,
                       10,
                       viewWidth,
+                      40,
                     ),
                     widgetHolders: List.generate(9, (index) => index.toDouble())
                         .map(
@@ -104,6 +106,7 @@ void main() {
                       0,
                       10,
                       viewSize,
+                      40,
                     ),
                     widgetHolders: oneToNineWidgetHolders(viewSize),
                   ),
@@ -134,6 +137,7 @@ void main() {
                       0,
                       10,
                       viewSize,
+                      40,
                     ),
                     widgetHolders: oneToNineWidgetHolders(viewSize),
                   ),
@@ -158,6 +162,7 @@ void main() {
       0,
       10,
       viewSize,
+      40,
     );
     final sideTitlesMetaData = oneToNineSideTitleMetaData(viewSize);
     final renderFlex = AxisSideTitlesRenderFlex(
@@ -197,6 +202,7 @@ void main() {
       0,
       10,
       viewSize,
+      40,
     );
     final sideTitlesMetaData = oneToNineSideTitleMetaData(viewSize);
     final renderFlex = AxisSideTitlesRenderFlex(
@@ -225,9 +231,9 @@ void main() {
   });
 
   test('AxisSideMetaData diff', () {
-    expect(AxisSideMetaData(5, 10, 100).diff, 5);
-    expect(AxisSideMetaData(5, 10, 0).diff, 5);
-    expect(AxisSideMetaData(9, 10, 0).diff, 1);
+    expect(AxisSideMetaData(5, 10, 100, 10).diff, 5);
+    expect(AxisSideMetaData(5, 10, 0, 10).diff, 5);
+    expect(AxisSideMetaData(9, 10, 0, 10).diff, 1);
   });
 }
 
