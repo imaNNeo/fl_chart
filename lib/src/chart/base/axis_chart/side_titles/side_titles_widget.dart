@@ -113,7 +113,9 @@ class SideTitlesWidget extends StatelessWidget {
         Utils().getEfficientInterval(
           axisViewSize,
           axisMax - axisMin,
-          pixelPerInterval: sideTitles.reservedWidth ?? 40,
+          pixelPerInterval: isHorizontal
+              ? sideTitles.reservedWidth
+              : sideTitles.reservedHeight,
         );
     if (isHorizontal && axisChartData is BarChartData) {
       final barChartData = axisChartData as BarChartData;
