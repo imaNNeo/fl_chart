@@ -192,6 +192,9 @@ class SideTitlesWidget extends StatelessWidget {
                   axisMin,
                   axisMax,
                   axisViewSize - thisSidePaddingTotal,
+                  isHorizontal
+                      ? sideTitles.reservedWidth
+                      : sideTitles.reservedHeight,
                 ),
                 widgetHolders: makeWidgets(
                   axisViewSize - thisSidePaddingTotal,

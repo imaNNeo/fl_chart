@@ -159,12 +159,16 @@ class AxisSideTitlesRenderFlex extends RenderBox
       // Stretch
       switch (_direction) {
         case Axis.horizontal:
-          innerConstraints =
-              BoxConstraints.tightFor(height: constraints.maxHeight);
+          innerConstraints = BoxConstraints.tightFor(
+            height: constraints.maxHeight,
+            width: axisSideMetaData.childMainAxisSize,
+          );
           break;
         case Axis.vertical:
-          innerConstraints =
-              BoxConstraints.tightFor(width: constraints.maxWidth);
+          innerConstraints = BoxConstraints.tightFor(
+            width: constraints.maxWidth,
+            height: axisSideMetaData.childMainAxisSize,
+          );
           break;
       }
 
@@ -284,10 +288,16 @@ class AxisSideMetaData {
   final double minValue;
   final double maxValue;
   final double axisViewSize;
+  final double childMainAxisSize;
 
   double get diff => maxValue - minValue;
 
-  AxisSideMetaData(this.minValue, this.maxValue, this.axisViewSize);
+  AxisSideMetaData(
+    this.minValue,
+    this.maxValue,
+    this.axisViewSize,
+    this.childMainAxisSize,
+  );
 }
 
 class AxisSideTitleMetaData with EquatableMixin {
