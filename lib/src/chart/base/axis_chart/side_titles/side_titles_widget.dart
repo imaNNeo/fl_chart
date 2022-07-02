@@ -183,8 +183,8 @@ class SideTitlesWidget extends StatelessWidget {
             ),
           if (sideTitles.showTitles)
             Container(
-              width: isHorizontal ? axisViewSize : sideTitles.reservedSize,
-              height: isHorizontal ? sideTitles.reservedSize : axisViewSize,
+              width: isHorizontal ? axisViewSize : sideTitles.reservedWidth,
+              height: isHorizontal ? sideTitles.reservedHeight : axisViewSize,
               margin: thisSidePadding,
               child: SideTitlesFlex(
                 direction: direction,
