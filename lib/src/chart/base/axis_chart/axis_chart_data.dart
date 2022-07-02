@@ -137,11 +137,11 @@ class SideTitles with EquatableMixin {
   final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum width that your titles need
-  final double? reservedWidth;
+  final double reservedWidth;
 
   /// It determines the maximum height that your titles need,
   /// (All titles will stretch using this value)
-  final double reservedSize;
+  final double reservedHeight;
 
   /// Texts are showing with provided [interval]. If you don't provide anything,
   /// we try to find a suitable value to set as [interval] under the hood.
@@ -157,7 +157,10 @@ class SideTitles with EquatableMixin {
   /// It allows you to do anything you want, For example you can show icons
   /// instead of texts, because it accepts a [Widget]
   ///
-  /// [reservedSize] determines the maximum space that your titles need,
+  /// [reservedWidth] determines the maximum width that your titles need,
+  /// (All titles will stretch using this value)
+  ///
+  /// [reservedHeight] determines the maximum height that your titles need,
   /// (All titles will stretch using this value)
   ///
   /// Texts are showing with provided [interval]. If you don't provide anything,
@@ -165,12 +168,13 @@ class SideTitles with EquatableMixin {
   SideTitles({
     bool? showTitles,
     GetTitleWidgetFunction? getTitlesWidget,
-    double? reservedSize,
+    double? reservedWidth,
+    double? reservedHeight,
     double? interval,
-    this.reservedWidth,
   })  : showTitles = showTitles ?? false,
         getTitlesWidget = getTitlesWidget ?? defaultGetTitle,
-        reservedSize = reservedSize ?? 22,
+        reservedWidth = reservedWidth ?? 22,
+        reservedHeight = reservedHeight ?? 22,
         interval = interval {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");
@@ -182,7 +186,8 @@ class SideTitles with EquatableMixin {
     return SideTitles(
       showTitles: b.showTitles,
       getTitlesWidget: b.getTitlesWidget,
-      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
+      reservedWidth: lerpDouble(a.reservedWidth, b.reservedWidth, t),
+      reservedHeight: lerpDouble(a.reservedHeight, b.reservedHeight, t),
       interval: lerpDouble(a.interval, b.interval, t),
     );
   }
@@ -192,13 +197,15 @@ class SideTitles with EquatableMixin {
   SideTitles copyWith({
     bool? showTitles,
     GetTitleWidgetFunction? getTitlesWidget,
-    double? reservedSize,
+    double? reservedWidth,
+    double? reservedHeight,
     double? interval,
   }) {
     return SideTitles(
       showTitles: showTitles ?? this.showTitles,
       getTitlesWidget: getTitlesWidget ?? this.getTitlesWidget,
-      reservedSize: reservedSize ?? this.reservedSize,
+      reservedWidth: reservedWidth ?? this.reservedWidth,
+      reservedHeight: reservedHeight ?? this.reservedHeight,
       interval: interval ?? this.interval,
     );
   }
@@ -208,7 +215,8 @@ class SideTitles with EquatableMixin {
   List<Object?> get props => [
         showTitles,
         getTitlesWidget,
-        reservedSize,
+        reservedWidth,
+        reservedHeight,
         interval,
       ];
 }
@@ -235,7 +243,9 @@ class AxisTitles with EquatableMixin {
 
   /// If there is something to show as sideTitles, it returns true
   bool get showSideTitles =>
-      sideTitles.showTitles && sideTitles.reservedSize != 0;
+      sideTitles.showTitles &&
+      sideTitles.reservedWidth != 0 &&
+      sideTitles.reservedHeight != 0;
 
   /// you can provide [axisName] if you want to show a general
   /// label on this axis,
@@ -308,28 +318,28 @@ class FlTitlesData with EquatableMixin {
         leftTitles = leftTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 44,
+                reservedWidth: 44,
                 showTitles: true,
               ),
             ),
         topTitles = topTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 30,
+                reservedHeight: 30,
                 showTitles: true,
               ),
             ),
         rightTitles = rightTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 44,
+                reservedWidth: 44,
                 showTitles: true,
               ),
             ),
         bottomTitles = bottomTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 30,
+                reservedHeight: 30,
                 showTitles: true,
               ),
             );
