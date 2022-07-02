@@ -113,9 +113,10 @@ class SideTitlesWidget extends StatelessWidget {
         Utils().getEfficientInterval(
           axisViewSize,
           axisMax - axisMin,
-          pixelPerInterval: isHorizontal
-              ? sideTitles.reservedWidth
-              : sideTitles.reservedHeight,
+          pixelPerInterval: (isHorizontal
+                  ? sideTitles.reservedWidth
+                  : sideTitles.reservedHeight) ??
+              40,
         );
     if (isHorizontal && axisChartData is BarChartData) {
       final barChartData = axisChartData as BarChartData;
@@ -183,8 +184,8 @@ class SideTitlesWidget extends StatelessWidget {
             ),
           if (sideTitles.showTitles)
             Container(
-              width: isHorizontal ? axisViewSize : sideTitles.reservedWidth,
-              height: isHorizontal ? sideTitles.reservedHeight : axisViewSize,
+              width: isHorizontal ? axisViewSize : sideTitles.reservedWidth!,
+              height: isHorizontal ? sideTitles.reservedHeight! : axisViewSize,
               margin: thisSidePadding,
               child: SideTitlesFlex(
                 direction: direction,

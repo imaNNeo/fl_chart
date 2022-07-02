@@ -137,11 +137,11 @@ class SideTitles with EquatableMixin {
   final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum width that your titles need
-  final double reservedWidth;
+  final double? reservedWidth;
 
   /// It determines the maximum height that your titles need,
   /// (All titles will stretch using this value)
-  final double reservedHeight;
+  final double? reservedHeight;
 
   /// Texts are showing with provided [interval]. If you don't provide anything,
   /// we try to find a suitable value to set as [interval] under the hood.
@@ -173,8 +173,12 @@ class SideTitles with EquatableMixin {
     double? interval,
   })  : showTitles = showTitles ?? false,
         getTitlesWidget = getTitlesWidget ?? defaultGetTitle,
-        reservedWidth = reservedWidth ?? 22,
-        reservedHeight = reservedHeight ?? 22,
+        reservedWidth = (reservedWidth != null || reservedHeight != null)
+            ? reservedWidth
+            : 22,
+        reservedHeight = (reservedWidth != null || reservedHeight != null)
+            ? reservedHeight
+            : 22,
         interval = interval {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");

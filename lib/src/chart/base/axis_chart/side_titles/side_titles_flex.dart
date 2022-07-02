@@ -288,7 +288,7 @@ class AxisSideMetaData {
   final double minValue;
   final double maxValue;
   final double axisViewSize;
-  final double childMainAxisSize;
+  final double? childMainAxisSize;
 
   double get diff => maxValue - minValue;
 
