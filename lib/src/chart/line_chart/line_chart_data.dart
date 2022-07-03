@@ -256,6 +256,9 @@ class LineChartBarData with EquatableMixin {
   /// Determines the style of line's cap.
   final bool isStrokeCapRound;
 
+  /// Determines the style of line joins.
+  final bool isStrokeJoinRound;
+
   /// Fills the space blow the line, using a color or gradient.
   final BarAreaData belowBarData;
 
@@ -305,6 +308,8 @@ class LineChartBarData with EquatableMixin {
   ///
   /// [isStrokeCapRound] determines the shape of line's cap.
   ///
+  /// [isStrokeJoinRound] determines the shape of the line joins.
+  ///
   /// [belowBarData], and  [aboveBarData] used to fill the space below or above the drawn line,
   /// you can fill with a solid color or a linear gradient.
   ///
@@ -330,6 +335,7 @@ class LineChartBarData with EquatableMixin {
     bool? preventCurveOverShooting,
     double? preventCurveOvershootingThreshold,
     bool? isStrokeCapRound,
+    bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
@@ -350,6 +356,7 @@ class LineChartBarData with EquatableMixin {
         preventCurveOvershootingThreshold =
             preventCurveOvershootingThreshold ?? 10.0,
         isStrokeCapRound = isStrokeCapRound ?? false,
+        isStrokeJoinRound = isStrokeJoinRound ?? false,
         belowBarData = belowBarData ?? BarAreaData(),
         aboveBarData = aboveBarData ?? BarAreaData(),
         dotData = dotData ?? FlDotData(),
@@ -358,7 +365,7 @@ class LineChartBarData with EquatableMixin {
         shadow = shadow ?? const Shadow(color: Colors.transparent),
         isStepLineChart = isStepLineChart ?? false,
         lineChartStepData = lineChartStepData ?? LineChartStepData() {
-    FlSpot? _mostLeft, _mostTop, _mostRight, _mostBottom;
+    FlSpot? mostLeft, mostTop, mostRight, mostBottom;
 
     FlSpot? firstValidSpot;
     try {
@@ -372,26 +379,26 @@ class LineChartBarData with EquatableMixin {
         if (spot.isNull()) {
           continue;
         }
-        if (_mostLeft == null || spot.x < _mostLeft.x) {
-          _mostLeft = spot;
+        if (mostLeft == null || spot.x < mostLeft.x) {
+          mostLeft = spot;
         }
 
-        if (_mostRight == null || spot.x > _mostRight.x) {
-          _mostRight = spot;
+        if (mostRight == null || spot.x > mostRight.x) {
+          mostRight = spot;
         }
 
-        if (_mostTop == null || spot.y > _mostTop.y) {
-          _mostTop = spot;
+        if (mostTop == null || spot.y > mostTop.y) {
+          mostTop = spot;
         }
 
-        if (_mostBottom == null || spot.y < _mostBottom.y) {
-          _mostBottom = spot;
+        if (mostBottom == null || spot.y < mostBottom.y) {
+          mostBottom = spot;
         }
       }
-      mostLeftSpot = _mostLeft!;
-      mostTopSpot = _mostTop!;
-      mostRightSpot = _mostRight!;
-      mostBottomSpot = _mostBottom!;
+      mostLeftSpot = mostLeft!;
+      mostTopSpot = mostTop!;
+      mostRightSpot = mostRight!;
+      mostBottomSpot = mostBottom!;
     }
   }
 
@@ -406,6 +413,7 @@ class LineChartBarData with EquatableMixin {
       curveSmoothness: b.curveSmoothness,
       isCurved: b.isCurved,
       isStrokeCapRound: b.isStrokeCapRound,
+      isStrokeJoinRound: b.isStrokeJoinRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
       preventCurveOvershootingThreshold: lerpDouble(
           a.preventCurveOvershootingThreshold,
@@ -437,6 +445,7 @@ class LineChartBarData with EquatableMixin {
     bool? preventCurveOverShooting,
     double? preventCurveOvershootingThreshold,
     bool? isStrokeCapRound,
+    bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
@@ -459,6 +468,7 @@ class LineChartBarData with EquatableMixin {
       preventCurveOvershootingThreshold: preventCurveOvershootingThreshold ??
           this.preventCurveOvershootingThreshold,
       isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
+      isStrokeJoinRound: isStrokeJoinRound ?? this.isStrokeJoinRound,
       belowBarData: belowBarData ?? this.belowBarData,
       aboveBarData: aboveBarData ?? this.aboveBarData,
       dashArray: dashArray ?? this.dashArray,
@@ -483,6 +493,7 @@ class LineChartBarData with EquatableMixin {
         preventCurveOverShooting,
         preventCurveOvershootingThreshold,
         isStrokeCapRound,
+        isStrokeJoinRound,
         belowBarData,
         aboveBarData,
         dotData,
@@ -1589,6 +1600,9 @@ class LineTouchTooltipData with EquatableMixin {
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
+  /// The tooltip border color.
+  final BorderSide tooltipBorder;
+
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
@@ -1613,6 +1627,7 @@ class LineTouchTooltipData with EquatableMixin {
     bool? fitInsideVertically,
     bool? showOnTopOfTheChartBoxArea,
     double? rotateAngle,
+    BorderSide? tooltipBorder,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
@@ -1624,6 +1639,7 @@ class LineTouchTooltipData with EquatableMixin {
         fitInsideVertically = fitInsideVertically ?? false,
         showOnTopOfTheChartBoxArea = showOnTopOfTheChartBoxArea ?? false,
         rotateAngle = rotateAngle ?? 0.0,
+        tooltipBorder = tooltipBorder ?? BorderSide.none,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -1638,7 +1654,8 @@ class LineTouchTooltipData with EquatableMixin {
         fitInsideHorizontally,
         fitInsideVertically,
         showOnTopOfTheChartBoxArea,
-        rotateAngle
+        rotateAngle,
+        tooltipBorder,
       ];
 }
 

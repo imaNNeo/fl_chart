@@ -193,67 +193,30 @@ class BarChartSample2State extends State<BarChartSample2> {
     } else {
       return Container();
     }
-    return Text(text, style: style);
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 0,
+      child: Text(text, style: style),
+    );
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
+    List<String> titles = ["Mn", "Te", "Wd", "Tu", "Fr", "St", "Su"];
+
+    Widget text = Text(
+      titles[value.toInt()],
+      style: const TextStyle(
+        color: Color(0xff7589a2),
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text(
-          'Mn',
-          style: style,
-        );
-        break;
-      case 1:
-        text = const Text(
-          'Te',
-          style: style,
-        );
-        break;
-      case 2:
-        text = const Text(
-          'Wd',
-          style: style,
-        );
-        break;
-      case 3:
-        text = const Text(
-          'Tu',
-          style: style,
-        );
-        break;
-      case 4:
-        text = const Text(
-          'Fr',
-          style: style,
-        );
-        break;
-      case 5:
-        text = const Text(
-          'St',
-          style: style,
-        );
-        break;
-      case 6:
-        text = const Text(
-          'Sn',
-          style: style,
-        );
-        break;
-      default:
-        text = const Text(
-          '',
-          style: style,
-        );
-        break;
-    }
-    return Padding(padding: const EdgeInsets.only(top: 20), child: text);
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 16, //margin top
+      child: text,
+    );
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {

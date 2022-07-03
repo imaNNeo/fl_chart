@@ -41,9 +41,10 @@ class _LineChartSample3State extends State<LineChartSample3> {
         return Container();
     }
 
-    return Padding(
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 6,
       child: Text(text, style: style, textAlign: TextAlign.center),
-      padding: const EdgeInsets.only(right: 6),
     );
   }
 
@@ -54,7 +55,11 @@ class _LineChartSample3State extends State<LineChartSample3> {
       fontWeight: FontWeight.bold,
     );
 
-    return Text(widget.weekDays[value.toInt()], style: style);
+    return SideTitleWidget(
+      space: 4,
+      child: Text(widget.weekDays[value.toInt()], style: style),
+      axisSide: meta.axisSide,
+    );
   }
 
   @override

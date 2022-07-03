@@ -52,6 +52,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |preventCurveOverShooting|prevent overshooting when draw curve line on linear sequence spots, check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)| false|
 |preventCurveOvershootingThreshold|threshold for applying prevent overshooting algorithm | 10.0|
 |isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
+|isStrokeJoinRound| determines whether stroke joins have a round shape or a sharp edge | false|
 |belowBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
@@ -176,6 +177,7 @@ When you change the chart's state, it animates to the new state internally (usin
  |PropName|Description|default value|
  |:-------|:----------|:------------|
  |tooltipBgColor|background color of the tooltip bubble|Colors.white|
+ |tooltipBorder|border of the tooltip bubble|BorderSide.none|
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
  |tooltipMargin|margin between the tooltip and the touched spot|16|

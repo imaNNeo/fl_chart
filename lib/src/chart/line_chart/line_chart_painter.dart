@@ -23,7 +23,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       _extraLinesPaint,
       _touchLinePaint,
       _bgTouchTooltipPaint,
-      _imagePaint;
+      _imagePaint,
+      _borderTouchTooltipPaint;
 
   /// Paints [dataList] into canvas, it is the animating [LineChartData],
   /// [targetData] is the animation's target and remains the same
@@ -56,6 +57,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..color = Colors.white;
 
     _imagePaint = Paint();
+
+    _borderTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = Colors.transparent
+      ..strokeWidth = 1.0;
   }
 
   /// Paints [LineChartData] into the provided canvas.
@@ -795,6 +801,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _barPaint.strokeCap =
         barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    _barPaint.strokeJoin =
+        barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter;
     _barPaint.color = barData.shadow.color;
     _barPaint.shader = null;
     _barPaint.strokeWidth = barData.barWidth;
@@ -827,6 +835,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _barPaint.strokeCap =
         barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt;
+    _barPaint.strokeJoin =
+        barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter;
 
     final rectAroundTheLine = Rect.fromLTRB(
       getPixelX(barData.mostLeftSpot.x, viewSize, holder),
@@ -1132,6 +1142,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final textRotationOffset =
         Utils().calculateRotationOffset(rect.size, rotateAngle);
 
+    if (tooltipData.tooltipBorder != BorderSide.none) {
+      _borderTouchTooltipPaint.color = tooltipData.tooltipBorder.color;
+      _borderTouchTooltipPaint.strokeWidth = tooltipData.tooltipBorder.width;
+    }
+
     canvasWrapper.drawRotated(
       size: rect.size,
       rotationOffset: rectRotationOffset,
@@ -1139,6 +1154,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       angle: rotateAngle,
       drawCallback: () {
         canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
+        canvasWrapper.drawRRect(roundedRect, _borderTouchTooltipPaint);
       },
     );
 

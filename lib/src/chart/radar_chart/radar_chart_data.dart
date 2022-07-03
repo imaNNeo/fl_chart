@@ -8,7 +8,23 @@ import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_extension.dart';
 
-typedef GetTitleByIndexFunction = String Function(int index);
+typedef GetTitleByIndexFunction = RadarChartTitle Function(
+    int index, double angle);
+
+enum RadarShape {
+  circle,
+  polygon,
+}
+
+class RadarChartTitle {
+  /// [text] is used to draw titles outside the [RadarChart]
+  final String text;
+
+  /// [angle] is used to rotate the title
+  final double angle;
+
+  const RadarChartTitle({required this.text, this.angle = 0});
+}
 
 /// [RadarChart] needs this class to render itself.
 ///
@@ -24,21 +40,24 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// [radarBorderData] is used to draw [RadarChart] border
   final BorderSide radarBorderData;
 
+  /// [radarShape] is used to draw [RadarChart] border and background
+  final RadarShape radarShape;
+
   /// [getTitle] is used to draw titles outside the [RadarChart]
-  /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [String]
-  /// for each [index]
+  /// [getTitle] is type of [GetTitleByIndexFunction] so you should return a valid [RadarChartTitle]
+  /// for each [index] (we provide a default [angle] = index * 360 / titleCount)
   ///
   /// ```dart
-  /// getTitle: (index) {
+  /// getTitle: (index, angle) {
   ///   switch (index) {
   ///     case 0:
-  ///       return 'Mobile or Tablet';
+  ///       return RadarChartTitle(text: 'Mobile or Tablet', angle: angle);
   ///     case 2:
-  ///       return 'Desktop';
+  ///       return RadarChartTitle(text: 'Desktop', angle: angle);
   ///     case 1:
-  ///       return 'TV';
+  ///       return RadarChartTitle(text: 'TV', angle: angle);
   ///     default:
-  ///       return '';
+  ///       return const RadarChartTitle(text: '');
   ///   }
   /// }
   /// ```
@@ -126,6 +145,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     @required List<RadarDataSet>? dataSets,
     Color? radarBackgroundColor,
     BorderSide? radarBorderData,
+    RadarShape? radarShape,
     GetTitleByIndexFunction? getTitle,
     TextStyle? titleTextStyle,
     double? titlePositionPercentageOffset,
@@ -150,6 +170,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
         radarBorderData =
             radarBorderData ?? const BorderSide(color: Colors.black, width: 2),
+        radarShape = radarShape ?? RadarShape.circle,
         radarTouchData = radarTouchData ?? RadarTouchData(),
         getTitle = getTitle,
         titleTextStyle = titleTextStyle,
@@ -174,6 +195,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     List<RadarDataSet>? dataSets,
     Color? radarBackgroundColor,
     BorderSide? radarBorderData,
+    RadarShape? radarShape,
     GetTitleByIndexFunction? getTitle,
     TextStyle? titleTextStyle,
     double? titlePositionPercentageOffset,
@@ -190,6 +212,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         dataSets: dataSets ?? this.dataSets,
         radarBackgroundColor: radarBackgroundColor ?? this.radarBackgroundColor,
         radarBorderData: radarBorderData ?? this.radarBorderData,
+        radarShape: radarShape ?? this.radarShape,
         getTitle: getTitle ?? this.getTitle,
         titleTextStyle: titleTextStyle ?? this.titleTextStyle,
         titlePositionPercentageOffset:
@@ -226,6 +249,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         max: lerpDouble(a.max, b.max, t),
         radarBorderData:
             BorderSide.lerp(a.radarBorderData, b.radarBorderData, t),
+        radarShape: b.radarShape,
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         radarTouchData: b.radarTouchData,
@@ -243,6 +267,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         dataSets,
         radarBackgroundColor,
         radarBorderData,
+        radarShape,
         getTitle,
         titleTextStyle,
         titlePositionPercentageOffset,

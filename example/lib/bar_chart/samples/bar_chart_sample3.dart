@@ -75,7 +75,11 @@ class _BarChart extends StatelessWidget {
         text = '';
         break;
     }
-    return Center(child: Text(text, style: style));
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 4.0,
+      child: Text(text, style: style),
+    );
   }
 
   FlTitlesData get titlesData => FlTitlesData(

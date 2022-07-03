@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
@@ -80,12 +79,61 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
       ];
 }
 
+/// Represents a side of the chart
+enum AxisSide { left, top, right, bottom }
+
+/// Contains meta information about the drawing title.
+class TitleMeta {
+  /// min axis value
+  final double min;
+
+  /// max axis value
+  final double max;
+
+  /// The interval that applied to this drawing title
+  final double appliedInterval;
+
+  /// Reference of [SideTitles] object.
+  final SideTitles sideTitles;
+
+  /// Formatted value that is suitable to show, for example 100, 2k, 5m, ...
+  final String formattedValue;
+
+  /// Determines the axis side of titles (left, top, right, bottom)
+  final AxisSide axisSide;
+
+  TitleMeta({
+    required this.min,
+    required this.max,
+    required this.appliedInterval,
+    required this.sideTitles,
+    required this.formattedValue,
+    required this.axisSide,
+  });
+}
+
+/// It gives you the axis value and gets a String value based on it.
+typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
+
+/// The default [SideTitles.getTitlesWidget] function.
+///
+/// formats the axis number to a shorter string using [formatNumber].
+Widget defaultGetTitle(double value, TitleMeta meta) {
+  return SideTitleWidget(
+    axisSide: meta.axisSide,
+    child: Text(
+      meta.formattedValue,
+    ),
+  );
+}
+
 /// Holds data for showing label values on axis numbers
 class SideTitles with EquatableMixin {
   /// Determines showing or hiding this side titles
   final bool showTitles;
 
   /// You can override it to pass your custom widget to show in each axis value
+  /// We recommend you to use [SideTitleWidget].
   final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum space that your titles need,
@@ -256,28 +304,28 @@ class FlTitlesData with EquatableMixin {
         leftTitles = leftTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 40,
+                reservedSize: 44,
                 showTitles: true,
               ),
             ),
         topTitles = topTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 6,
+                reservedSize: 30,
                 showTitles: true,
               ),
             ),
         rightTitles = rightTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 40,
+                reservedSize: 44,
                 showTitles: true,
               ),
             ),
         bottomTitles = bottomTitles ??
             AxisTitles(
               sideTitles: SideTitles(
-                reservedSize: 6,
+                reservedSize: 30,
                 showTitles: true,
               ),
             );
@@ -350,9 +398,7 @@ class FlSpot with EquatableMixin {
 
   ///Prints x and y coordinates of FlSpot list
   @override
-  String toString() {
-    return '(' + x.toString() + ', ' + y.toString() + ')';
-  }
+  String toString() => '($x, $y)';
 
   /// Used for splitting lines, or maybe other concepts.
   static const FlSpot nullSpot = FlSpot(double.nan, double.nan);

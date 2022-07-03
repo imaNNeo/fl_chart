@@ -41,34 +41,32 @@ void main() {
       final barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      MockUtils mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenAnswer((realInvocation) => textStyle1);
-      when(_mockUtils.calculateRotationOffset(any, any))
+      when(mockUtils.calculateRotationOffset(any, any))
           .thenAnswer((realInvocation) => Offset.zero);
-      when(_mockUtils.convertRadiusToSigma(any))
+      when(mockUtils.convertRadiusToSigma(any))
           .thenAnswer((realInvocation) => 4.0);
-      when(_mockUtils.getEfficientInterval(any, any))
+      when(mockUtils.getEfficientInterval(any, any))
           .thenAnswer((realInvocation) => 1.0);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 1.0);
-      when(_mockUtils.normalizeBorderRadius(any, any))
+      when(mockUtils.normalizeBorderRadius(any, any))
           .thenAnswer((realInvocation) => BorderRadius.zero);
-      when(_mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
           (realInvocation) => const BorderSide(color: MockData.color0));
 
-      final _mockBuildContext = MockBuildContext();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockBuildContext = MockBuildContext();
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       barChartPainter.paint(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
-
-      verify(_mockCanvasWrapper.drawLine(any, any, any)).called(4);
       Utils.changeInstance(utilsMainInstance);
     });
   });
@@ -322,16 +320,16 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
 
-      final MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 
       List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawRRect(captureAny, captureAny))
+      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
           .thenAnswer((inv) {
         final rRect = inv.positionalArguments[0] as RRect;
         final paint = inv.positionalArguments[1] as Paint;
@@ -350,7 +348,7 @@ void main() {
         });
       });
 
-      barChartPainter.drawBars(_mockCanvasWrapper, barGroupsPosition, holder);
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
       expect(results.length, 11);
 
       expect(
@@ -578,16 +576,16 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
 
-      final MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 
       List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawRRect(captureAny, captureAny))
+      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
           .thenAnswer((inv) {
         final rrect = inv.positionalArguments[0] as RRect;
         final paint = inv.positionalArguments[1] as Paint;
@@ -606,7 +604,7 @@ void main() {
         });
       });
 
-      barChartPainter.drawBars(_mockCanvasWrapper, barGroupsPosition, holder);
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
       expect(results.length, 6);
 
       expect(
@@ -698,22 +696,20 @@ void main() {
 
   group('drawTouchTooltip()', () {
     test('test 1', () {
-      final MockUtils _mockUtils = MockUtils();
-      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
-      when(_mockUtils.getEfficientInterval(any, any)).thenReturn(11);
-      when(_mockUtils.normalizeBorderRadius(any, any))
+      final MockUtils mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
+      when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
-      when(_mockUtils.normalizeBorderSide(any, any))
-          .thenReturn(BorderSide.none);
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenReturn(0.0);
-      when(_mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
+      when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
         final value = inv.positionalArguments[0] as double;
         return '${value.toInt()}';
       });
-      Utils.changeInstance(_mockUtils);
+      Utils.changeInstance(mockUtils);
 
       const viewSize = Size(200, 100);
 
@@ -767,6 +763,7 @@ void main() {
           tooltipBgColor: const Color(0xf33f33f3),
           maxContentWidth: 80,
           rotateAngle: 12,
+          tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
           getTooltipItem: (
             group,
             groupIndex,
@@ -794,18 +791,18 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
 
-      final MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final MockBuildContext _mockBuildContext = MockBuildContext();
+      final MockBuildContext mockBuildContext = MockBuildContext();
 
       final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 
       final angles = <double>[];
-      when(_mockCanvasWrapper.drawRotated(
+      when(mockCanvasWrapper.drawRotated(
         size: anyNamed('size'),
         rotationOffset: anyNamed('rotationOffset'),
         drawOffset: anyNamed('drawOffset'),
@@ -818,8 +815,8 @@ void main() {
       });
 
       barChartPainter.drawTouchTooltip(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         barGroupsPosition,
         tooltipData,
         barGroups[0],
@@ -829,8 +826,8 @@ void main() {
         holder,
       );
       final result1 =
-          verify(_mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
+      result1.called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8.0));
       expect(rrect.width, 112);
@@ -842,11 +839,23 @@ void main() {
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+
+      expect(rRectBorder.blRadius, const Radius.circular(8.0));
+      expect(rRectBorder.width, 112);
+      expect(rRectBorder.height, 90);
+      expect(rRectBorder.left, -22.5);
+      expect(rRectBorder.top, -106);
+      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.strokeWidth, 2);
+      expect(paintBorder.style, PaintingStyle.stroke);
+
       expect(angles.length, 1);
       expect(angles[0], 12);
 
       final result2 =
-          verify(_mockCanvasWrapper.drawText(captureAny, captureAny));
+          verify(mockCanvasWrapper.drawText(captureAny, captureAny));
       result2.called(1);
       final textPainter = result2.captured[0] as TextPainter;
       expect((textPainter.text as TextSpan).text, 'helllo1');
@@ -863,22 +872,20 @@ void main() {
     });
 
     test('test 2', () {
-      final MockUtils _mockUtils = MockUtils();
-      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
-      when(_mockUtils.getEfficientInterval(any, any)).thenReturn(11);
-      when(_mockUtils.normalizeBorderRadius(any, any))
+      final MockUtils mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
+      when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
-      when(_mockUtils.normalizeBorderSide(any, any))
-          .thenReturn(BorderSide.none);
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenReturn(0.0);
-      when(_mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
+      when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
         final value = inv.positionalArguments[0] as double;
         return '${value.toInt()}';
       });
-      Utils.changeInstance(_mockUtils);
+      Utils.changeInstance(mockUtils);
 
       const viewSize = Size(200, 100);
 
@@ -933,6 +940,7 @@ void main() {
           maxContentWidth: 80,
           rotateAngle: 12,
           direction: TooltipDirection.bottom,
+          tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
           getTooltipItem: (
             group,
             groupIndex,
@@ -960,18 +968,18 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
 
-      final MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final MockBuildContext _mockBuildContext = MockBuildContext();
+      final MockBuildContext mockBuildContext = MockBuildContext();
 
       final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 
       final angles = <double>[];
-      when(_mockCanvasWrapper.drawRotated(
+      when(mockCanvasWrapper.drawRotated(
         size: anyNamed('size'),
         rotationOffset: anyNamed('rotationOffset'),
         drawOffset: anyNamed('drawOffset'),
@@ -984,8 +992,8 @@ void main() {
       });
 
       barChartPainter.drawTouchTooltip(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         barGroupsPosition,
         tooltipData,
         barGroups[0],
@@ -995,8 +1003,8 @@ void main() {
         holder,
       );
       final result1 =
-          verify(_mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
+      result1.called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8.0));
       expect(rrect.width, 112);
@@ -1008,11 +1016,23 @@ void main() {
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+
+      expect(rRectBorder.blRadius, const Radius.circular(8.0));
+      expect(rRectBorder.width, 112);
+      expect(rRectBorder.height, 90);
+      expect(rRectBorder.left, -22.5);
+      expect(rRectBorder.top, 116);
+      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.strokeWidth, 2);
+      expect(paintBorder.style, PaintingStyle.stroke);
+
       expect(angles.length, 1);
       expect(angles[0], 12);
 
       final result2 =
-          verify(_mockCanvasWrapper.drawText(captureAny, captureAny));
+          verify(mockCanvasWrapper.drawText(captureAny, captureAny));
       result2.called(1);
       final textPainter = result2.captured[0] as TextPainter;
       expect((textPainter.text as TextSpan).text, 'helllo1');
@@ -1029,22 +1049,20 @@ void main() {
     });
 
     test('test 3', () {
-      final MockUtils _mockUtils = MockUtils();
-      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
-      when(_mockUtils.getEfficientInterval(any, any)).thenReturn(11);
-      when(_mockUtils.normalizeBorderRadius(any, any))
+      final MockUtils mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
+      when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
-      when(_mockUtils.normalizeBorderSide(any, any))
-          .thenReturn(BorderSide.none);
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenReturn(0.0);
-      when(_mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
+      when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
         final value = inv.positionalArguments[0] as double;
         return '${value.toInt()}';
       });
-      Utils.changeInstance(_mockUtils);
+      Utils.changeInstance(mockUtils);
 
       const viewSize = Size(200, 100);
 
@@ -1073,6 +1091,7 @@ void main() {
           fitInsideHorizontally: true,
           fitInsideVertically: true,
           direction: TooltipDirection.top,
+          tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
           getTooltipItem: (
             group,
             groupIndex,
@@ -1104,18 +1123,18 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
 
-      final MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final MockBuildContext _mockBuildContext = MockBuildContext();
+      final MockBuildContext mockBuildContext = MockBuildContext();
 
       final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
           viewSize, groupsX, barGroups);
 
       final angles = <double>[];
-      when(_mockCanvasWrapper.drawRotated(
+      when(mockCanvasWrapper.drawRotated(
         size: anyNamed('size'),
         rotationOffset: anyNamed('rotationOffset'),
         drawOffset: anyNamed('drawOffset'),
@@ -1128,8 +1147,8 @@ void main() {
       });
 
       barChartPainter.drawTouchTooltip(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         barGroupsPosition,
         tooltipData,
         barGroups[0],
@@ -1139,8 +1158,8 @@ void main() {
         holder,
       );
       final result1 =
-          verify(_mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
+      result1.called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8.0));
       expect(rrect.width, 2636);
@@ -1152,11 +1171,23 @@ void main() {
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+
+      expect(rRectBorder.blRadius, const Radius.circular(8.0));
+      expect(rRectBorder.width, 2636);
+      expect(rRectBorder.height, 7034.0);
+      expect(rRectBorder.left, -2436);
+      expect(rRectBorder.top, -6934.0);
+      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.strokeWidth, 2);
+      expect(paintBorder.style, PaintingStyle.stroke);
+
       expect(angles.length, 1);
       expect(angles[0], 12);
 
       final result2 =
-          verify(_mockCanvasWrapper.drawText(captureAny, captureAny));
+          verify(mockCanvasWrapper.drawText(captureAny, captureAny));
       result2.called(1);
 
       final drawOffset = result2.captured[1] as Offset;
@@ -1207,12 +1238,12 @@ void main() {
       final BarChartPainter barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1.0);
 
-      final MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       final List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawRRect(
+      when(mockCanvasWrapper.drawRRect(
         captureAny,
         captureAny,
       )).thenAnswer((inv) {
@@ -1226,7 +1257,7 @@ void main() {
       });
 
       barChartPainter.drawStackItemBorderStroke(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         rodStackItems[0],
         0,
         3,
@@ -1238,7 +1269,7 @@ void main() {
       );
 
       barChartPainter.drawStackItemBorderStroke(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         rodStackItems[1],
         1,
         3,
@@ -1250,7 +1281,7 @@ void main() {
       );
 
       barChartPainter.drawStackItemBorderStroke(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         rodStackItems[2],
         2,
         3,

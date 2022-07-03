@@ -5,16 +5,17 @@
 import 'dart:typed_data' as _i7;
 import 'dart:ui' as _i2;
 
-import 'package:fl_chart/fl_chart.dart' as _i12;
+import 'package:fl_chart/fl_chart.dart' as _i13;
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
-    as _i11;
+    as _i12;
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart'
-    as _i9;
-import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i10;
+    as _i10;
+import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
 import 'package:flutter/foundation.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/rendering.dart' as _i3;
 import 'package:flutter/src/rendering/layer.dart' as _i4;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:vector_math/vector_math_64.dart' as _i8;
 
@@ -436,6 +437,10 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
       super.noSuchMethod(Invocation.method(#visitChildElements, [visitor]),
           returnValueForMissingStub: null);
   @override
+  void dispatchNotification(_i9.Notification? notification) => super
+      .noSuchMethod(Invocation.method(#dispatchNotification, [notification]),
+          returnValueForMissingStub: null);
+  @override
   _i5.DiagnosticsNode describeElement(String? name,
           {_i5.DiagnosticsTreeStyle? style =
               _i5.DiagnosticsTreeStyle.errorProperty}) =>
@@ -466,28 +471,28 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockScatterChartPainter extends _i1.Mock
-    implements _i9.ScatterChartPainter {
+    implements _i10.ScatterChartPainter {
   MockScatterChartPainter() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  void paint(_i6.BuildContext? context, _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+  void paint(_i6.BuildContext? context, _i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#paint, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawSpots(_i6.BuildContext? context, _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+  void drawSpots(_i6.BuildContext? context, _i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawSpots, [context, canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
   void drawTouchTooltips(
           _i6.BuildContext? context,
-          _i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+          _i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(
               #drawTouchTooltips, [context, canvasWrapper, holder]),
@@ -495,48 +500,48 @@ class MockScatterChartPainter extends _i1.Mock
   @override
   void drawTouchTooltip(
           _i6.BuildContext? context,
-          _i10.CanvasWrapper? canvasWrapper,
-          _i12.ScatterTouchTooltipData? tooltipData,
-          _i12.ScatterSpot? showOnSpot,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+          _i11.CanvasWrapper? canvasWrapper,
+          _i13.ScatterTouchTooltipData? tooltipData,
+          _i13.ScatterSpot? showOnSpot,
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawTouchTooltip,
               [context, canvasWrapper, tooltipData, showOnSpot, holder]),
           returnValueForMissingStub: null);
   @override
-  _i12.ScatterTouchedSpot? handleTouch(
+  _i13.ScatterTouchedSpot? handleTouch(
           _i2.Offset? localPosition,
           _i2.Size? viewSize,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       (super.noSuchMethod(Invocation.method(
               #handleTouch, [localPosition, viewSize, holder]))
-          as _i12.ScatterTouchedSpot?);
+          as _i13.ScatterTouchedSpot?);
   @override
-  void drawGrid(_i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+  void drawGrid(_i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       super.noSuchMethod(Invocation.method(#drawGrid, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawBackground(_i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+  void drawBackground(_i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawBackground, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
-  void drawRangeAnnotation(_i10.CanvasWrapper? canvasWrapper,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+  void drawRangeAnnotation(_i11.CanvasWrapper? canvasWrapper,
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       super.noSuchMethod(
           Invocation.method(#drawRangeAnnotation, [canvasWrapper, holder]),
           returnValueForMissingStub: null);
   @override
   double getPixelX(double? spotX, _i2.Size? viewSize,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       (super.noSuchMethod(
           Invocation.method(#getPixelX, [spotX, viewSize, holder]),
           returnValue: 0.0) as double);
   @override
   double getPixelY(double? spotY, _i2.Size? viewSize,
-          _i11.PaintHolder<_i12.ScatterChartData>? holder) =>
+          _i12.PaintHolder<_i13.ScatterChartData>? holder) =>
       (super.noSuchMethod(
           Invocation.method(#getPixelY, [spotY, viewSize, holder]),
           returnValue: 0.0) as double);

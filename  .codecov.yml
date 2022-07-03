@@ -2,6 +2,15 @@ comment:
   require_changes: true
 
 coverage:
+  status:
+    project:
+      default:
+        target: 85%
+        threshold: 2%
+    patch:
+      default:
+        target: 0%
+        threshold: 5%
   precision: 1
   range: "80...100"
 

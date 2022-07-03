@@ -280,7 +280,11 @@ class BarChartSample1State extends State<BarChartSample1> {
         text = const Text('', style: style);
         break;
     }
-    return Padding(padding: const EdgeInsets.only(top: 16), child: text);
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 16,
+      child: text,
+    );
   }
 
   BarChartData randomData() {

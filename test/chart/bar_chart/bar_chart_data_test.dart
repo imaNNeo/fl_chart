@@ -97,6 +97,8 @@ void main() {
       expect(barTouchTooltipData1 == barTouchTooltipData7, false);
       expect(barTouchTooltipData1 == barTouchTooltipData8, false);
       expect(barTouchTooltipData1 == barTouchTooltipData9, false);
+      expect(barTouchTooltipData1 == barTouchTooltipData10, false);
+      expect(barTouchTooltipData1 == barTouchTooltipData11, false);
     });
 
     test('BarTooltipItem equality test', () {

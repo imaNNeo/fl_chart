@@ -30,34 +30,34 @@ void main() {
       final scatterPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      MockUtils mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenAnswer((realInvocation) => textStyle1);
-      when(_mockUtils.calculateRotationOffset(any, any))
+      when(mockUtils.calculateRotationOffset(any, any))
           .thenAnswer((realInvocation) => Offset.zero);
-      when(_mockUtils.convertRadiusToSigma(any))
+      when(mockUtils.convertRadiusToSigma(any))
           .thenAnswer((realInvocation) => 4.0);
-      when(_mockUtils.getEfficientInterval(any, any))
+      when(mockUtils.getEfficientInterval(any, any))
           .thenAnswer((realInvocation) => 1.0);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 1.0);
-      when(_mockUtils.normalizeBorderRadius(any, any))
+      when(mockUtils.normalizeBorderRadius(any, any))
           .thenAnswer((realInvocation) => BorderRadius.zero);
-      when(_mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
           (realInvocation) => const BorderSide(color: MockData.color0));
 
-      final _mockBuildContext = MockBuildContext();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockBuildContext = MockBuildContext();
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterPainter.paint(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawCircle(any, any, any)).called(3);
+      verify(mockCanvasWrapper.drawCircle(any, any, any)).called(3);
       Utils.changeInstance(utilsMainInstance);
     });
   });
@@ -84,25 +84,25 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
 
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      MockBuildContext mockBuildContext = MockBuildContext();
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawSpots(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
           .called(1);
-      verify(_mockCanvasWrapper.drawCircle(const Offset(80, 80), 4, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(80, 80), 4, any))
           .called(1);
-      verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
           .called(1);
 
-      verifyNever(_mockCanvasWrapper.drawText(any, any));
-      verify(_mockCanvasWrapper.clipRect(any)).called(1);
+      verifyNever(mockCanvasWrapper.drawText(any, any));
+      verify(mockCanvasWrapper.clipRect(any)).called(1);
     });
 
     test('test 2', () {
@@ -126,20 +126,20 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
 
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      MockBuildContext mockBuildContext = MockBuildContext();
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawSpots(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
-      verifyNever(_mockCanvasWrapper.clipRect(any));
+      verifyNever(mockCanvasWrapper.drawCircle(any, any, any));
+      verifyNever(mockCanvasWrapper.clipRect(any));
 
-      verifyNever(_mockCanvasWrapper.drawText(any, any));
+      verifyNever(mockCanvasWrapper.drawText(any, any));
     });
 
     test('test 3', () {
@@ -175,38 +175,37 @@ void main() {
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
 
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      MockBuildContext mockBuildContext = MockBuildContext();
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      MockUtils mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenReturn(const TextStyle(color: Color(0x00ffffff)));
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
 
       scatterChartPainter.drawSpots(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
           .called(1);
-      verify(_mockCanvasWrapper.drawCircle(const Offset(20, 80), 8, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(20, 80), 8, any))
           .called(1);
-      verify(_mockCanvasWrapper.drawCircle(const Offset(80, 20), 4, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(80, 20), 4, any))
           .called(1);
-      verify(_mockCanvasWrapper.drawCircle(const Offset(70, 50), 20, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(70, 50), 20, any))
           .called(1);
-      verify(_mockCanvasWrapper.drawCircle(const Offset(40, 40), 24, any))
+      verify(mockCanvasWrapper.drawCircle(const Offset(40, 40), 24, any))
           .called(1);
 
-      verify(_mockCanvasWrapper.drawText(any, any)).called(4);
+      verify(mockCanvasWrapper.drawText(any, any)).called(4);
 
-      verify(_mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.clipRect(any)).called(1);
     });
   });
 
@@ -231,23 +230,22 @@ void main() {
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext mockBuildContext = MockBuildContext();
+      MockUtils mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenReturn(const TextStyle(color: Color(0x00ffffff)));
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawTouchTooltips(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawRotated(
+      verify(mockCanvasWrapper.drawRotated(
               size: anyNamed("size"),
               rotationOffset: anyNamed("rotationOffset"),
               drawOffset: anyNamed("drawOffset"),
@@ -280,24 +278,23 @@ void main() {
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext mockBuildContext = MockBuildContext();
+      MockUtils mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenReturn(const TextStyle(color: Color(0x00ffffff)));
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawTouchTooltips(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verifyNever(_mockCanvasWrapper.drawRotated());
-      verifyNever(_mockCanvasWrapper.drawRect(any, any));
+      verifyNever(mockCanvasWrapper.drawRotated());
+      verifyNever(mockCanvasWrapper.drawRect(any, any));
     });
   });
 
@@ -342,24 +339,23 @@ void main() {
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle2);
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext mockBuildContext = MockBuildContext();
+      MockUtils mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle2);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawTouchTooltip(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         (data.touchData as ScatterTouchData).touchTooltipData,
         spot1,
         holder,
       );
 
-      final verificationResult = verify(_mockCanvasWrapper.drawRotated(
+      final verificationResult = verify(mockCanvasWrapper.drawRotated(
           size: anyNamed("size"),
           rotationOffset: Offset.zero,
           drawOffset: anyNamed("drawOffset"),
@@ -372,8 +368,8 @@ void main() {
       verificationResult.called(1);
 
       final captured2 = verifyInOrder([
-        _mockCanvasWrapper.drawRRect(captureAny, captureAny),
-        _mockCanvasWrapper.drawText(captureAny, any),
+        mockCanvasWrapper.drawRRect(captureAny, captureAny),
+        mockCanvasWrapper.drawText(captureAny, any),
       ]).captured;
 
       final RRect rRect = captured2[0][0] as RRect;
@@ -438,24 +434,23 @@ void main() {
 
       final ScatterChartPainter scatterChartPainter = ScatterChartPainter();
       final holder = PaintHolder<ScatterChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
-      when(_mockUtils.calculateRotationOffset(any, any))
-          .thenReturn(Offset.zero);
-      when(_mockCanvasWrapper.size).thenReturn(viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
+      MockBuildContext mockBuildContext = MockBuildContext();
+      MockUtils mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       scatterChartPainter.drawTouchTooltip(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         (data.touchData as ScatterTouchData).touchTooltipData,
         spot1,
         holder,
       );
 
-      final verificationResult = verify(_mockCanvasWrapper.drawRotated(
+      final verificationResult = verify(mockCanvasWrapper.drawRotated(
           size: anyNamed("size"),
           rotationOffset: Offset.zero,
           drawOffset: anyNamed("drawOffset"),
@@ -468,8 +463,8 @@ void main() {
       verificationResult.called(1);
 
       final captured2 = verifyInOrder([
-        _mockCanvasWrapper.drawRRect(captureAny, captureAny),
-        _mockCanvasWrapper.drawText(captureAny, any),
+        mockCanvasWrapper.drawRRect(captureAny, captureAny),
+        mockCanvasWrapper.drawText(captureAny, any),
       ]).captured;
 
       final RRect rRect = captured2[0][0] as RRect;
