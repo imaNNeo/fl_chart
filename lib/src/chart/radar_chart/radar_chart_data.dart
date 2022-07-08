@@ -33,6 +33,12 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// [RadarChart] draw [dataSets] that each of them showing a list of [RadarEntry]
   final List<RadarDataSet> dataSets;
 
+  /// Maximum data value for absolute scaling of ticks. If omitted, tick spacing will be calculated according to the maximum dataset value.
+  final double? maxValue;
+
+  /// Minimum data value for absolute scaling of ticks. If omitted, tick spacing will be calculated according to the minimum dataset value.
+  final double? minValue;
+
   /// [radarBackgroundColor] draw the background color of the [RadarChart]
   final Color radarBackgroundColor;
 
@@ -147,6 +153,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
+    double? maxValue,
+    double? minValue,
     FlBorderData? borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(tickCount == null || tickCount >= 1,
@@ -172,6 +180,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
             tickBorderData ?? const BorderSide(color: Colors.black, width: 2),
         gridBorderData =
             gridBorderData ?? const BorderSide(color: Colors.black, width: 2),
+        maxValue = maxValue,
+        minValue = minValue,
         super(
             borderData: borderData,
             touchData: radarTouchData ?? RadarTouchData());

@@ -37,7 +37,9 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
       : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.radarTouchData, context);
+        super(targetData.radarTouchData, context) {
+    painter = RadarChartPainter(maxValue: _data.maxValue, minValue: _data.minValue);
+  }
 
   RadarChartData get data => _data;
   RadarChartData _data;
@@ -72,7 +74,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = RadarChartPainter();
+  var painter;
 
   PaintHolder<RadarChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
