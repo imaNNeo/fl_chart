@@ -350,7 +350,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     final centerY = radarCenterY(viewSize);
     final radius = radarRadius(viewSize);
 
-    final scale = radius / data.maxEntry.value;
+    final scale = radius / (data.maxValue ?? data.maxEntry.value);
     final angle = (2 * pi) / data.titleCount;
 
     final dataSetsPosition = List<RadarDataSetsPosition>.filled(
