@@ -248,7 +248,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       show: b.show,
       radius: lerpDouble(a.radius, b.radius, t),
       color: Color.lerp(a.color, b.color, t),
-      iconData: a.iconData,
+      iconData: a.iconData != null && b.iconData != null ? a.iconData : null,
       iconColor: a.iconColor,
       iconSize: a.iconSize,
     );
