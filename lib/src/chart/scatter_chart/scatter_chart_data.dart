@@ -192,11 +192,10 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   Color iconColor;
 
   /// Determines the icon of the spot.
-  IconData iconData;
+  IconData? iconData;
 
   /// Determines the spot's icon size.
   double iconSize;
-
 
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
@@ -210,13 +209,11 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     double? radius,
     Color? color,
     double? iconSize,
-
   })  : show = show ?? true,
         radius = radius ?? 6,
         color = color ??
             Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
         iconColor = iconColor ?? Colors.black,
-        iconData = iconData ?? Icons.add,
         iconSize = iconSize ?? 3,
         super(x, y);
 

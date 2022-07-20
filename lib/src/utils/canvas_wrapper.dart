@@ -65,43 +65,44 @@ class CanvasWrapper {
 
   /// Directly calls [Canvas.drawCircle]
   void drawCircle(
-      Offset center,
-      double radius,
-      Paint paint,
-      ) => canvas.drawCircle(center, radius, paint);
+    Offset center,
+    double radius,
+    Paint paint,
+  ) =>
+      canvas.drawCircle(center, radius, paint);
 
   void drawScatterCircle(
-      Offset center,
-      double radius,
-      Paint paint,
-      IconData icon,
-      Color iconColor,
-      double iconSize,
-      ) {
+    Offset center,
+    double radius,
+    Paint paint,
+    IconData? icon,
+    Color iconColor,
+    double iconSize,
+  ) {
+    if (icon != null) {
+      TextPainter textPainter = TextPainter(
+        textDirection: TextDirection.rtl,
+        textAlign: TextAlign.center,
+      );
+      textPainter.text = TextSpan(
+          text: String.fromCharCode(icon.codePoint),
+          style: TextStyle(
+            fontSize: iconSize,
+            fontFamily: icon.fontFamily,
+            color: iconColor,
+          ));
+      canvas.drawCircle(center, radius, paint);
+      textPainter.layout();
 
-
-
-    TextPainter textPainter = TextPainter(
-      textDirection: TextDirection.rtl,
-      textAlign: TextAlign.center,
-    );
-    textPainter.text = TextSpan(text: String.fromCharCode(icon.codePoint),
-        style: TextStyle(
-          fontSize: iconSize,
-          fontFamily: icon.fontFamily,
-          color: iconColor,
-        ));
-    canvas.drawCircle(center, radius, paint);
-    textPainter.layout();
-
-    textPainter.paint(
-        canvas,
-        Offset(
-          center.dx - iconSize / 2,
-          center.dy - iconSize / 2,
-        ));
-
-
+      textPainter.paint(
+          canvas,
+          Offset(
+            center.dx - iconSize / 2,
+            center.dy - iconSize / 2,
+          ));
+    } else {
+      canvas.drawCircle(center, radius, paint);
+    }
   }
 
   /// Directly calls [Canvas.drawCircle]
