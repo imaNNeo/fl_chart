@@ -220,7 +220,7 @@ void main() {
         ),
       );
 
-      Future checkSide(AxisSide side) async {
+      Future<void> checkSide(AxisSide side) async {
         String axisChar;
         switch (side) {
           case AxisSide.left:
