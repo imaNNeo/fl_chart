@@ -75,7 +75,8 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
     _pieChartDataTween = visitor(
       _pieChartDataTween,
       widget.data,
-      (dynamic value) => PieChartDataTween(begin: value, end: widget.data),
+      (dynamic value) =>
+          PieChartDataTween(begin: value as PieChartData, end: widget.data),
     ) as PieChartDataTween;
   }
 }

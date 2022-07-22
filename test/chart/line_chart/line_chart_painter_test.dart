@@ -232,7 +232,7 @@ void main() {
       );
 
       final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
+      final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
       expect(rect.left, 0);
       expect(rect.top, 0);
@@ -275,7 +275,7 @@ void main() {
       );
 
       final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
+      final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
       expect(rect.left, 4);
       expect(rect.top, 0);
@@ -321,7 +321,7 @@ void main() {
       );
 
       final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
+      final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
       expect(rect.left, 4);
       expect(rect.top, 4);
@@ -489,7 +489,7 @@ void main() {
         mockCanvasWrapper.restore(),
       ]);
 
-      final Paint paint = verifyResult[1].captured.first;
+      final paint = verifyResult[1].captured.first as Paint;
       expect(paint.shader, null);
       expect(paint.color, const Color(0xFFFF0000));
     });

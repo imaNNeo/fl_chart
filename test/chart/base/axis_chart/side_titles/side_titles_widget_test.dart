@@ -222,7 +222,7 @@ void main() {
   testWidgets(
     'LineChart with all titles',
     (WidgetTester tester) async {
-      Future checkSide(AxisSide side) async {
+      Future<void> checkSide(AxisSide side) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(

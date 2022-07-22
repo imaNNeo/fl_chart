@@ -126,7 +126,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     _lineChartDataTween = visitor(
       _lineChartDataTween,
       _getData(),
-      (dynamic value) => LineChartDataTween(begin: value, end: widget.data),
+      (dynamic value) =>
+          LineChartDataTween(begin: value as LineChartData, end: widget.data),
     ) as LineChartDataTween;
   }
 }

@@ -413,7 +413,8 @@ void main() {
           (realInvocation) =>
               realInvocation.positionalArguments[1] as TextStyle);
       when(mockUtils.degrees(captureAny)).thenAnswer((inv) {
-        return utilsMainInstance.degrees(inv.positionalArguments.first);
+        return utilsMainInstance
+            .degrees(inv.positionalArguments.first as double);
       });
       Utils.changeInstance(mockUtils);
 
@@ -640,7 +641,8 @@ void main() {
       when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenReturn(MockData.textStyle1);
       when(mockUtils.degrees(captureAny)).thenAnswer((inv) {
-        return utilsMainInstance.degrees(inv.positionalArguments.first);
+        return utilsMainInstance
+            .degrees(inv.positionalArguments.first as double);
       });
       Utils.changeInstance(mockUtils);
 
@@ -721,7 +723,8 @@ void main() {
       when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenReturn(MockData.textStyle1);
       when(mockUtils.degrees(captureAny)).thenAnswer((inv) {
-        return utilsMainInstance.degrees(inv.positionalArguments.first);
+        return utilsMainInstance
+            .degrees(inv.positionalArguments.first as double);
       });
       Utils.changeInstance(mockUtils);
 
