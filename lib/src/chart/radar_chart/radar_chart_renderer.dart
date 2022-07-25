@@ -38,7 +38,8 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
         _targetData = targetData,
         _textScale = textScale,
         super(targetData.radarTouchData, context) {
-    painter = RadarChartPainter(maxValue: _data.maxValue, minValue: _data.minValue);
+    painter =
+        RadarChartPainter(maxValue: _data.maxValue, minValue: _data.minValue);
   }
 
   RadarChartData get data => _data;
