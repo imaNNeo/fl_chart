@@ -110,7 +110,14 @@ void main() {
       const viewSize = Size(200, 200);
 
       final sections = [
-        PieChartSectionData(color: MockData.color2, radius: 30, value: 10)
+        PieChartSectionData(
+            color: MockData.color2,
+            radius: 30,
+            value: 10,
+            borderSide: const BorderSide(
+              color: MockData.color3,
+              width: 3,
+            ))
       ];
       final PieChartData data = PieChartData(
         sections: sections,
@@ -124,12 +131,29 @@ void main() {
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       barChartPainter.drawSections(mockCanvasWrapper, [360], 10, holder);
 
-      final result = verify(mockCanvasWrapper.drawCircle(
-          const Offset(100, 100), 10 + 15, captureAny));
+      final result = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + 15,
+          captureAny,
+        ),
+      );
       expect(result.callCount, 1);
       expect((result.captured.single as Paint).color, MockData.color2);
       expect((result.captured.single as Paint).strokeWidth, 30);
       expect((result.captured.single as Paint).style, PaintingStyle.stroke);
+
+      final result2 = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + 30 - (3 / 2),
+          captureAny,
+        ),
+      );
+      expect(result2.callCount, 1);
+      expect((result2.captured.single as Paint).color, MockData.color3);
+      expect((result2.captured.single as Paint).strokeWidth, 3);
+      expect((result2.captured.single as Paint).style, PaintingStyle.stroke);
     });
 
     test('test 2', () {

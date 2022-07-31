@@ -6,7 +6,6 @@ import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'pie_chart_data.dart';
 
@@ -92,7 +91,20 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         _sectionPaint.strokeWidth = section.radius;
         _sectionPaint.style = PaintingStyle.stroke;
         canvasWrapper.drawCircle(
-            center, centerRadius + section.radius / 2, _sectionPaint);
+          center,
+          centerRadius + section.radius / 2,
+          _sectionPaint,
+        );
+        if (section.borderSide.width != 0.0 &&
+            section.borderSide.color.opacity != 0.0) {
+          _sectionStrokePaint.strokeWidth = section.borderSide.width;
+          _sectionStrokePaint.color = section.borderSide.color;
+          canvasWrapper.drawCircle(
+            center,
+            centerRadius + section.radius - (section.borderSide.width / 2),
+            _sectionStrokePaint,
+          );
+        }
         return;
       }
 
