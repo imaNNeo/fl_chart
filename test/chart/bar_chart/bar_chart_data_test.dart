@@ -87,6 +87,15 @@ void main() {
       expect(barTouchData1 == barTouchData9, false);
     });
 
+    test('ExtraLinesData equality test', () {
+      expect(extraLinesData1 == extraLinesData1Clone, true);
+      expect(extraLinesData1 == extraLinesData2, false);
+      expect(extraLinesData1 == extraLinesData3, false);
+      expect(extraLinesData1 == extraLinesData4, false);
+      expect(extraLinesData1 == extraLinesData5, false);
+      expect(extraLinesData1 == extraLinesData6, false);
+    });
+
     test('BarTouchTooltipData equality test', () {
       expect(barTouchTooltipData1 == barTouchTooltipData1Clone, true);
       expect(barTouchTooltipData1 == barTouchTooltipData2, false);
