@@ -119,7 +119,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     _barChartDataTween = visitor(
       _barChartDataTween,
       widget.data,
-      (dynamic value) => BarChartDataTween(begin: value, end: widget.data),
+      (dynamic value) =>
+          BarChartDataTween(begin: value as BarChartData, end: widget.data),
     ) as BarChartDataTween;
   }
 }

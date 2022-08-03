@@ -1259,7 +1259,7 @@ final LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
   tooltipBorder: const BorderSide(color: Colors.red, width: 2),
 );
 
-lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
+void lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
 
 List<TouchedSpotIndicatorData?> getTouchedSpotIndicator(
         LineChartBarData barData, List<int> indexes) =>
@@ -2930,9 +2930,9 @@ final BarTouchTooltipData barTouchTooltipData11 = BarTouchTooltipData(
   tooltipBorder: const BorderSide(color: Colors.red, width: 2),
 );
 
-barTouchCallback(FlTouchEvent event, BarTouchResponse? response) {}
+void barTouchCallback(FlTouchEvent event, BarTouchResponse? response) {}
 
-scatterTouchCallback(FlTouchEvent event, ScatterTouchResponse? response) {}
+void scatterTouchCallback(FlTouchEvent event, ScatterTouchResponse? response) {}
 
 final BarTouchData barTouchData1 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
@@ -3127,7 +3127,7 @@ final RadarTouchData radarTouchData2 = RadarTouchData(
 
 final RadarTouchData radarTouchData1Clone = radarTouchData1;
 
-radarTouchCallback(FlTouchEvent event, RadarTouchResponse? response) {}
+void radarTouchCallback(FlTouchEvent event, RadarTouchResponse? response) {}
 
 final radarTouchedSpot1 = RadarTouchedSpot(
   radarDataSet1,

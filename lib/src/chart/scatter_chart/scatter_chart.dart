@@ -108,7 +108,8 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     _scatterChartDataTween = visitor(
       _scatterChartDataTween,
       _getData(),
-      (dynamic value) => ScatterChartDataTween(begin: value, end: widget.data),
+      (dynamic value) => ScatterChartDataTween(
+          begin: value as ScatterChartData, end: widget.data),
     ) as ScatterChartDataTween;
   }
 }
