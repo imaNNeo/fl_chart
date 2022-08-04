@@ -111,7 +111,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     double? minValue,
     FlBorderData? borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
-        assert(tickCount == null || tickCount >= 1, "RadarChart need's at least 1 tick"),
+        assert(tickCount == null || tickCount >= 1, "RadarChart needs at least 1 tick"),
         assert(
           titlePositionPercentageOffset == null || titlePositionPercentageOffset >= 0 && titlePositionPercentageOffset <= 1,
           'titlePositionPercentageOffset must be something between 0 and 1 ',
