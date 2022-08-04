@@ -99,8 +99,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       canvasWrapper.drawPath(path, _borderPaint);
     }
 
-    final dataSetMaxValue = data.maxValue ?? data.maxEntry.value;
-    final dataSetMinValue = data.minValue ?? data.minEntry.value;
+    final dataSetMaxValue = data.maxValue;
+    final dataSetMinValue = data.minValue;
     final tickSpace = (dataSetMaxValue - dataSetMinValue) / data.tickCount;
     final ticks = <double>[];
     double tickValue = dataSetMinValue;
@@ -350,7 +350,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     final centerY = radarCenterY(viewSize);
     final radius = radarRadius(viewSize);
 
-    final scale = radius / (data.maxValue ?? data.maxEntry.value);
+    final scale = radius / data.maxValue;
     final angle = (2 * pi) / data.titleCount;
 
     final dataSetsPosition = List<RadarDataSetsPosition>.filled(

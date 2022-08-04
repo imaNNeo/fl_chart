@@ -3226,6 +3226,23 @@ final RadarChartData radarChartData2 = RadarChartData(
   ticksTextStyle: const TextStyle(color: Colors.purple, fontSize: 10),
 );
 
+final RadarChartData radarChartData3 = RadarChartData(
+  dataSets: [radarDataSet2],
+  minValue: 0,
+  maxValue: 15,
+  radarBackgroundColor: Colors.blue,
+  radarBorderData: const BorderSide(color: Colors.pink, width: 3),
+  borderData: borderData1,
+  gridBorderData: const BorderSide(color: Colors.red, width: 3),
+  getTitle: (index, angle) => RadarChartTitle(text: 'testTitle2', angle: angle),
+  titlePositionPercentageOffset: 0.5,
+  titleTextStyle: const TextStyle(color: Colors.black, fontSize: 5),
+  radarTouchData: radarTouchData2,
+  tickCount: 1,
+  tickBorderData: const BorderSide(color: Colors.pink, width: 2),
+  ticksTextStyle: const TextStyle(color: Colors.purple, fontSize: 10),
+);
+
 final Line line1 = Line(const Offset(0, 0), const Offset(10, 10));
 final Line line2 = Line(const Offset(-4, -12), const Offset(6, 8));
 final Line line3 = Line(const Offset(18, -1), const Offset(0, 0));

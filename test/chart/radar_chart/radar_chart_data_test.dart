@@ -5,6 +5,15 @@ import 'package:flutter_test/flutter_test.dart';
 import '../data_pool.dart';
 
 void main() {
+  group('RadaChart Min/Max value test', () {
+    test('Validate min/max value calculations', () {
+      expect(radarChartData1.maxValue, 4);
+      expect(radarChartData1.minValue, 0);
+      expect(radarChartData3.minValue, 0);
+      expect(radarChartData3.maxValue, 15);
+
+    });
+  });
   group('RadarChart Data equality check', () {
     test('RadarChartData equality test', () {
       /// object equality test
