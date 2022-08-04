@@ -85,30 +85,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
           baselineY: baselineY,
         );
 
-  /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
-  @override
-  BarChartData lerp(BaseChartData a, BaseChartData b, double t) {
-    if (a is BarChartData && b is BarChartData) {
-      return BarChartData(
-        barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
-        groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
-        alignment: b.alignment,
-        titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
-        extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
-        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
-        barTouchData: b.barTouchData,
-        gridData: FlGridData.lerp(a.gridData, b.gridData, t),
-        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
-        maxY: lerpDouble(a.maxY, b.maxY, t),
-        minY: lerpDouble(a.minY, b.minY, t),
-        baselineY: lerpDouble(a.baselineY, b.baselineY, t),
-        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
-      );
-    } else {
-      throw Exception('Illegal State');
-    }
-  }
-
   /// Copies current [BarChartData] to a new [BarChartData],
   /// and replaces provided values.
   BarChartData copyWith({
@@ -141,6 +117,30 @@ class BarChartData extends AxisChartData with EquatableMixin {
       baselineY: baselineY ?? this.baselineY,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
+  }
+
+  /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
+  @override
+  BarChartData lerp(BaseChartData a, BaseChartData b, double t) {
+    if (a is BarChartData && b is BarChartData) {
+      return BarChartData(
+        barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
+        groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
+        alignment: b.alignment,
+        titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        extraLinesData: ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
+        rangeAnnotations: RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
+        barTouchData: b.barTouchData,
+        gridData: FlGridData.lerp(a.gridData, b.gridData, t),
+        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        maxY: lerpDouble(a.maxY, b.maxY, t),
+        minY: lerpDouble(a.minY, b.minY, t),
+        baselineY: lerpDouble(a.baselineY, b.baselineY, t),
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+      );
+    } else {
+      throw Exception('Illegal State');
+    }
   }
 
   /// Used for equality check, see [EquatableMixin].
@@ -258,7 +258,7 @@ class BarChartGroupData with EquatableMixin {
   static BarChartGroupData lerp(
       BarChartGroupData a, BarChartGroupData b, double t) {
     return BarChartGroupData(
-      x: (a.x + (b.x - a.x) * t + 50).round(),
+      x: (a.x + (b.x - a.x) * t).round(),
       groupVertically: b.groupVertically,
       barRods: lerpBarChartRodDataList(a.barRods, b.barRods, t),
       barsSpace: lerpDouble(a.barsSpace, b.barsSpace, t),
