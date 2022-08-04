@@ -236,7 +236,8 @@ class AxisTitles with EquatableMixin {
   bool get showAxisTitles => axisNameWidget != null && axisNameSize != 0;
 
   /// If there is something to show as sideTitles, it returns true
-  bool get showSideTitles => sideTitles.showTitles && sideTitles.reservedSize != 0;
+  bool get showSideTitles =>
+      sideTitles.showTitles && sideTitles.reservedSize != 0;
 
   /// you can provide [axisName] if you want to show a general
   /// label on this axis,
@@ -524,7 +525,8 @@ class FlGridData with EquatableMixin {
     return FlGridData(
       show: b.show,
       drawHorizontalLine: b.drawHorizontalLine,
-      horizontalInterval: lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
+      horizontalInterval:
+          lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
       getDrawingHorizontalLine: b.getDrawingHorizontalLine,
       checkToShowHorizontalLine: b.checkToShowHorizontalLine,
       drawVerticalLine: b.drawVerticalLine,
@@ -551,12 +553,16 @@ class FlGridData with EquatableMixin {
       show: show ?? this.show,
       drawHorizontalLine: drawHorizontalLine ?? this.drawHorizontalLine,
       horizontalInterval: horizontalInterval ?? this.horizontalInterval,
-      getDrawingHorizontalLine: getDrawingHorizontalLine ?? this.getDrawingHorizontalLine,
-      checkToShowHorizontalLine: checkToShowHorizontalLine ?? this.checkToShowHorizontalLine,
+      getDrawingHorizontalLine:
+          getDrawingHorizontalLine ?? this.getDrawingHorizontalLine,
+      checkToShowHorizontalLine:
+          checkToShowHorizontalLine ?? this.checkToShowHorizontalLine,
       drawVerticalLine: drawVerticalLine ?? this.drawVerticalLine,
       verticalInterval: verticalInterval ?? this.verticalInterval,
-      getDrawingVerticalLine: getDrawingVerticalLine ?? this.getDrawingVerticalLine,
-      checkToShowVerticalLine: checkToShowVerticalLine ?? this.checkToShowVerticalLine,
+      getDrawingVerticalLine:
+          getDrawingVerticalLine ?? this.getDrawingVerticalLine,
+      checkToShowVerticalLine:
+          checkToShowVerticalLine ?? this.checkToShowVerticalLine,
     );
   }
 
@@ -702,12 +708,13 @@ class RangeAnnotations with EquatableMixin {
         verticalRangeAnnotations = verticalRangeAnnotations ?? const [];
 
   /// Lerps a [RangeAnnotations] based on [t] value, check [Tween.lerp].
-  static RangeAnnotations lerp(RangeAnnotations a, RangeAnnotations b, double t) {
+  static RangeAnnotations lerp(
+      RangeAnnotations a, RangeAnnotations b, double t) {
     return RangeAnnotations(
-      horizontalRangeAnnotations:
-          lerpHorizontalRangeAnnotationList(a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
-      verticalRangeAnnotations:
-          lerpVerticalRangeAnnotationList(a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
+      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
+          a.horizontalRangeAnnotations, b.horizontalRangeAnnotations, t),
+      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
+          a.verticalRangeAnnotations, b.verticalRangeAnnotations, t),
     );
   }
 
@@ -718,8 +725,10 @@ class RangeAnnotations with EquatableMixin {
     List<VerticalRangeAnnotation>? verticalRangeAnnotations,
   }) {
     return RangeAnnotations(
-      horizontalRangeAnnotations: horizontalRangeAnnotations ?? this.horizontalRangeAnnotations,
-      verticalRangeAnnotations: verticalRangeAnnotations ?? this.verticalRangeAnnotations,
+      horizontalRangeAnnotations:
+          horizontalRangeAnnotations ?? this.horizontalRangeAnnotations,
+      verticalRangeAnnotations:
+          verticalRangeAnnotations ?? this.verticalRangeAnnotations,
     );
   }
 
@@ -753,7 +762,8 @@ class HorizontalRangeAnnotation with EquatableMixin {
         color = color ?? Colors.white;
 
   /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
-  static HorizontalRangeAnnotation lerp(HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
+  static HorizontalRangeAnnotation lerp(
+      HorizontalRangeAnnotation a, HorizontalRangeAnnotation b, double t) {
     return HorizontalRangeAnnotation(
       y1: lerpDouble(a.y1, b.y1, t)!,
       y2: lerpDouble(a.y2, b.y2, t)!,
@@ -806,7 +816,8 @@ class VerticalRangeAnnotation with EquatableMixin {
         color = color ?? Colors.white;
 
   /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].
-  static VerticalRangeAnnotation lerp(VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
+  static VerticalRangeAnnotation lerp(
+      VerticalRangeAnnotation a, VerticalRangeAnnotation b, double t) {
     return VerticalRangeAnnotation(
       x1: lerpDouble(a.x1, b.x1, t)!,
       x2: lerpDouble(a.x2, b.x2, t)!,
@@ -873,10 +884,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
     this.image,
     this.sizedPicture,
   })  : label = label ?? HorizontalLineLabel(),
-        super(
-          color: color ?? Colors.black,
-          strokeWidth: strokeWidth ?? 2,
-          dashArray: dashArray);
+        super(color: color ?? Colors.black, strokeWidth: strokeWidth ?? 2, dashArray: dashArray);
 
   /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
@@ -894,14 +902,14 @@ class HorizontalLine extends FlLine with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-    y,
-    label,
-    color,
-    strokeWidth,
-    dashArray,
-    image,
-    sizedPicture,
-  ];
+        y,
+        label,
+        color,
+        strokeWidth,
+        dashArray,
+        image,
+        sizedPicture,
+      ];
 }
 
 /// Holds data for drawing extra vertical lines.
@@ -940,10 +948,7 @@ class VerticalLine extends FlLine with EquatableMixin {
     this.image,
     this.sizedPicture,
   })  : label = label ?? VerticalLineLabel(),
-        super(
-          color: color ?? Colors.black,
-          strokeWidth: strokeWidth ?? 2,
-          dashArray: dashArray);
+        super(color: color ?? Colors.black, strokeWidth: strokeWidth ?? 2, dashArray: dashArray);
 
   /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
@@ -961,14 +966,14 @@ class VerticalLine extends FlLine with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-    x,
-    label,
-    color,
-    strokeWidth,
-    dashArray,
-    image,
-    sizedPicture,
-  ];
+        x,
+        label,
+        color,
+        strokeWidth,
+        dashArray,
+        image,
+        sizedPicture,
+      ];
 }
 
 /// Draws some straight horizontal or vertical lines in the [LineChart]
@@ -997,8 +1002,7 @@ class ExtraLinesData with EquatableMixin {
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
     return ExtraLinesData(
       extraLinesOnTop: b.extraLinesOnTop,
-      horizontalLines:
-      lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
+      horizontalLines: lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
       verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
     );
   }
@@ -1006,9 +1010,8 @@ class ExtraLinesData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-    horizontalLines,
-    verticalLines,
-    extraLinesOnTop,
-  ];
+        horizontalLines,
+        verticalLines,
+        extraLinesOnTop,
+      ];
 }
-

@@ -212,7 +212,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         if (line.label.show) {
           final label = line.label;
           final style =
-          TextStyle(fontSize: 11, color: line.color).merge(label.style);
+              TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final padding = label.padding as EdgeInsets;
 
           final span = TextSpan(
@@ -267,7 +267,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final centerX = line.image!.width / 2;
           final centerY = line.image!.height + 2;
           final centeredImageOffset =
-          Offset(to.dx - centerX, viewSize.height - centerY);
+              Offset(to.dx - centerX, viewSize.height - centerY);
           canvasWrapper.drawImage(
               line.image!, centeredImageOffset, _imagePaint);
         }
@@ -275,7 +275,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         if (line.label.show) {
           final label = line.label;
           final style =
-          TextStyle(fontSize: 11, color: line.color).merge(label.style);
+              TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final padding = label.padding as EdgeInsets;
 
           final span = TextSpan(
