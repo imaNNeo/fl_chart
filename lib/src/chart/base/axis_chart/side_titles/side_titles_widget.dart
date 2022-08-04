@@ -121,6 +121,9 @@ class SideTitlesWidget extends StatelessWidget {
         );
     if (isHorizontal && axisChartData is BarChartData) {
       final barChartData = axisChartData as BarChartData;
+      if (barChartData.barGroups.isEmpty) {
+        return [];
+      }
       final xLocations = barChartData.calculateGroupsX(axisViewSize);
       axisPositions = xLocations.asMap().entries.map((e) {
         final index = e.key;
