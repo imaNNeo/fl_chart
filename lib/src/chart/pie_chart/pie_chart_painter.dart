@@ -99,9 +99,17 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
             section.borderSide.color.opacity != 0.0) {
           _sectionStrokePaint.strokeWidth = section.borderSide.width;
           _sectionStrokePaint.color = section.borderSide.color;
+          // Outer
           canvasWrapper.drawCircle(
             center,
             centerRadius + section.radius - (section.borderSide.width / 2),
+            _sectionStrokePaint,
+          );
+
+          // Inner
+          canvasWrapper.drawCircle(
+            center,
+            centerRadius + (section.borderSide.width / 2),
             _sectionStrokePaint,
           );
         }
