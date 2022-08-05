@@ -1,3 +1,6 @@
+## newVersion
+* **BUGFIX** (by @imaNNeoFighT): Fix inner border of pieChart with single section, #1089
+
 ## 0.55.1
 * **BUGFIX** (by @ateich): Fix infinite loop in RadarChart when all values in RadarDataSet are equal, #882.
 * **BUGFIX** (by @ateich): Fix uneven titles in RadarChart when using titlePositionPercentageOffset, #1074.
