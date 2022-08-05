@@ -30,7 +30,7 @@ class RadarChartTitle {
 /// It holds data needed to draw a radar chart,
 /// including radar dataSets, colors, ...
 class RadarChartData extends BaseChartData with EquatableMixin {
-  static _RadarChartMinMaxValues _calculateMaxValue(List<RadarDataSet>? datasets) {
+  static _RadarChartMinMaxValues _calculateMinMaxValue(List<RadarDataSet>? datasets) {
     List<double> accumulator = [];
 
     if (datasets == null || datasets.isEmpty) {
@@ -198,8 +198,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
             tickBorderData ?? const BorderSide(color: Colors.black, width: 2),
         gridBorderData =
             gridBorderData ?? const BorderSide(color: Colors.black, width: 2),
-        maxValue = maxValue ?? _calculateMaxValue(dataSets).maxValue,
-        minValue = minValue ?? _calculateMaxValue(dataSets).minValue,
+        maxValue = maxValue ?? _calculateMinMaxValue(dataSets).maxValue,
+        minValue = minValue ?? _calculateMinMaxValue(dataSets).minValue,
         super(
             borderData: borderData,
             touchData: radarTouchData ?? RadarTouchData());
