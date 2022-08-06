@@ -19,7 +19,7 @@ When you change the chart's state, it animates to the new state internally (usin
 ### LineChartData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to show the chart's lines, they stack and be drawn on top of each other|[]|
+|lineBarsData| list of [LineChartBarData ](#LineChartBarData ) to show the chart's lines, they stack and can be drawn on top of each other|[]|
 |betweenBarsData| list of [BetweenBarsData](#BetweenBarsData ) to fill the area between 2 chart lines|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
