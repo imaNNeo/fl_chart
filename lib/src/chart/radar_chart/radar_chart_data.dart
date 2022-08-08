@@ -30,7 +30,8 @@ class RadarChartTitle {
 /// It holds data needed to draw a radar chart,
 /// including radar dataSets, colors, ...
 class RadarChartData extends BaseChartData with EquatableMixin {
-  static _RadarChartMinMaxValues _calculateMinMaxValue(List<RadarDataSet>? datasets) {
+  static _RadarChartMinMaxValues _calculateMinMaxValue(
+      List<RadarDataSet>? datasets) {
     List<double> accumulator = [];
 
     if (datasets == null || datasets.isEmpty) {

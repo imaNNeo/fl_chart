@@ -11,7 +11,6 @@ void main() {
       expect(radarChartData1.minValue, 0);
       expect(radarChartData3.minValue, 0);
       expect(radarChartData3.maxValue, 15);
-
     });
   });
   group('RadarChart Data equality check', () {
