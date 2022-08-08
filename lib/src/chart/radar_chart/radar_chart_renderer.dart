@@ -75,7 +75,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter;
+  var painter = RadarChartPainter();
 
   PaintHolder<RadarChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
