@@ -154,6 +154,18 @@ void main() {
       expect((result2.captured.single as Paint).color, MockData.color3);
       expect((result2.captured.single as Paint).strokeWidth, 3);
       expect((result2.captured.single as Paint).style, PaintingStyle.stroke);
+
+      final result3 = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + (3 / 2),
+          captureAny,
+        ),
+      );
+      expect(result3.callCount, 1);
+      expect((result3.captured.single as Paint).color, MockData.color3);
+      expect((result3.captured.single as Paint).strokeWidth, 3);
+      expect((result3.captured.single as Paint).style, PaintingStyle.stroke);
     });
 
     test('test 2', () {
