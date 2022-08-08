@@ -11,7 +11,7 @@ void main() {
       PieChartSectionData(value: 2),
       PieChartSectionData(value: 3),
     ].toWidgets();
-    expect(widgets1, List.empty());
+    expect(widgets1, List<Widget>.empty());
 
     final widgets2 = [
       PieChartSectionData(value: 1),
