@@ -13,9 +13,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   late Paint _graphPaint, _graphBorderPaint, _graphPointPaint;
   late TextPainter _ticksTextPaint, _titleTextPaint;
 
-  final double? maxValue;
-  final double? minValue;
-
   List<RadarDataSetsPosition>? dataSetsPosition;
 
   /// Paints [dataList] into canvas, it is the animating [RadarChartData],
@@ -26,7 +23,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
-  RadarChartPainter({this.maxValue, this.minValue}) : super() {
+  RadarChartPainter() : super() {
     _backgroundPaint = Paint()
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
