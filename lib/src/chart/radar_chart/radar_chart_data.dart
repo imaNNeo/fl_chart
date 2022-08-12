@@ -38,11 +38,11 @@ class RadarChartData extends BaseChartData with EquatableMixin {
       return _RadarChartMinMaxValues(0, 0);
     }
 
-    datasets.forEach((element) {
-      element.dataEntries.forEach((element) {
-        accumulator.add(element.value);
-      });
-    });
+    for (RadarDataSet dataset in datasets) {
+      for (RadarEntry entry in dataset.dataEntries) {
+        accumulator.add(entry.value);
+      }
+    }
 
     accumulator.sort();
 
