@@ -12,7 +12,7 @@ class _LineChart extends StatelessWidget {
       isShowingMainData ? sampleData1 : sampleData2,
       swapAnimationDuration: const Duration(milliseconds: 250),
       // You can customize how long it takes for tooltips to appear.
-      // longPressGestureDuration: Duration.zero,
+      // longPressDuration: Duration.zero,
     );
   }
 

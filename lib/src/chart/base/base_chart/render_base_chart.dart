@@ -14,7 +14,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   RenderBaseChart(
     FlTouchData<R>? touchData,
     BuildContext context, {
-    Duration? longPressGestureDuration,
+    Duration? longPressDuration,
   }) : _buildContext = context {
     updateBaseTouchData(touchData);
     initGestureRecognizers();

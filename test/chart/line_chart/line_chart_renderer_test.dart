@@ -124,13 +124,13 @@ void main() {
       expect(renderLineChart.textScale, 22);
     });
 
-    test('Set `longPressGestureDuration` property Duration.zero', () {
+    test('Set `longPressDuration` property Duration.zero', () {
       RenderLineChart renderLineChart = RenderLineChart(
         mockBuildContext,
         data,
         targetData,
         textScale,
-        longPressGestureDuration: Duration.zero,
+        longPressDuration: Duration.zero,
       );
 
       renderLineChart.mockTestSize = mockSize;
