@@ -11,8 +11,11 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     implements MouseTrackerAnnotation {
   /// We use [FlTouchData] to retrieve [FlTouchData.touchCallback] and [FlTouchData.mouseCursorResolver]
   /// to invoke them when touch happens.
-  RenderBaseChart(FlTouchData<R>? touchData, BuildContext context)
-      : _buildContext = context {
+  RenderBaseChart(
+    FlTouchData<R>? touchData,
+    BuildContext context, {
+    Duration? longPressGestureDuration,
+  }) : _buildContext = context {
     updateBaseTouchData(touchData);
     initGestureRecognizers();
   }

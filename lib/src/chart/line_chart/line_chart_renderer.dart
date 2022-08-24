@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 /// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
   const LineChartLeaf({
+<<<<<<< HEAD
     super.key,
     required this.data,
     required this.targetData,
@@ -18,6 +19,16 @@ class LineChartLeaf extends LeafRenderObjectWidget {
 
   final LineChartData data;
   final LineChartData targetData;
+=======
+    Key? key,
+    required this.data,
+    required this.targetData,
+    this.longPressGestureDuration,
+  }) : super(key: key);
+
+  final LineChartData data, targetData;
+  final Duration? longPressGestureDuration;
+>>>>>>> 0c4acfb (Add `longPressGestureDuration` property only LineChart)
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
@@ -25,6 +36,10 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaleFactor,
+<<<<<<< HEAD
+=======
+        longPressGestureDuration: longPressGestureDuration,
+>>>>>>> 0c4acfb (Add `longPressGestureDuration` property only LineChart)
       );
 
   @override
@@ -44,11 +59,21 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     BuildContext context,
     LineChartData data,
     LineChartData targetData,
+<<<<<<< HEAD
     double textScale,
   )   : _data = data,
+=======
+    double textScale, {
+    Duration? longPressGestureDuration,
+  })  : _data = data,
+>>>>>>> 0c4acfb (Add `longPressGestureDuration` property only LineChart)
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.lineTouchData, context);
+        super(
+          targetData.lineTouchData,
+          context,
+          longPressGestureDuration: longPressGestureDuration,
+        );
 
   LineChartData get data => _data;
   LineChartData _data;
