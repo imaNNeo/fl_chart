@@ -17,7 +17,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     Duration? longPressDuration,
   }) : _buildContext = context {
     updateBaseTouchData(touchData);
-    initGestureRecognizers();
+    initGestureRecognizers(longPressDuration: longPressDuration);
   }
 
   // We use buildContext to retrieve Theme data
@@ -50,7 +50,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   late LongPressGestureRecognizer _longPressGestureRecognizer;
 
   /// Initializes our recognizers and implement their callbacks.
-  void initGestureRecognizers() {
+  void initGestureRecognizers({Duration? longPressDuration}) {
     _panGestureRecognizer = PanGestureRecognizer();
     _panGestureRecognizer
       ..onDown = (dragDownDetails) {
