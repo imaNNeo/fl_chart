@@ -4,6 +4,7 @@ import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
@@ -330,7 +331,7 @@ void main() {
           .toList()
           .map((e) => e.length)
           .reduce((a, b) => a + b);
-      expect(path3Length, 230.37237548828125);
+      expect(nearEqual(path3Length, 230.37237548828125, 0.0001), true);
     });
 
     test('test 3', () {

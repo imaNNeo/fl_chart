@@ -10,7 +10,6 @@ import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 
-import '../../../fl_chart.dart';
 import '../../extensions/text_align_extension.dart';
 import '../../utils/utils.dart';
 
