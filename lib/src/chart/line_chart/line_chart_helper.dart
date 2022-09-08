@@ -46,20 +46,24 @@ class LineChartHelper {
     var maxY = firstValidSpot.y;
 
     for (var barData in lineBarsData) {
-      if (barData.mostRightSpot.x > maxX) {
-        maxX = barData.mostRightSpot.x;
-      }
+      try {
+        if (barData.mostRightSpot.x > maxX) {
+          maxX = barData.mostRightSpot.x;
+        }
 
-      if (barData.mostLeftSpot.x < minX) {
-        minX = barData.mostLeftSpot.x;
-      }
+        if (barData.mostLeftSpot.x < minX) {
+          minX = barData.mostLeftSpot.x;
+        }
 
-      if (barData.mostTopSpot.y > maxY) {
-        maxY = barData.mostTopSpot.y;
-      }
+        if (barData.mostTopSpot.y > maxY) {
+          maxY = barData.mostTopSpot.y;
+        }
 
-      if (barData.mostBottomSpot.y < minY) {
-        minY = barData.mostBottomSpot.y;
+        if (barData.mostBottomSpot.y < minY) {
+          minY = barData.mostBottomSpot.y;
+        }
+      } catch (e,s){
+        // One of the line bar data is empty in lineBarsData
       }
     }
 
