@@ -62,7 +62,7 @@ class LineChartHelper {
         if (barData.mostBottomSpot.y < minY) {
           minY = barData.mostBottomSpot.y;
         }
-      } catch (e,s){
+      } catch (e) {
         // One of the line bar data is empty in lineBarsData
       }
     }
