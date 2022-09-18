@@ -1362,6 +1362,15 @@ final LineTouchData lineTouchData7 = LineTouchData(
   touchTooltipData: lineTouchTooltipData1,
   getTouchLineEnd: (barData, index) => double.infinity,
 );
+final LineTouchData lineTouchData8 = LineTouchData(
+  enabled: true,
+  touchCallback: lineTouchCallback,
+  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  handleBuiltInTouches: false,
+  touchSpotThreshold: 12,
+  touchTooltipData: lineTouchTooltipData1,
+  longPressDuration: Duration.zero,
+);
 
 String horizontalLabelResolver(HorizontalLine horizontalLine) => 'test';
 

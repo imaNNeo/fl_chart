@@ -131,6 +131,7 @@ void main() {
       expect(lineTouchData1 == lineTouchData5, false);
       expect(lineTouchData1 == lineTouchData6, false);
       expect(lineTouchData1 == lineTouchData7, false);
+      expect(lineTouchData1 == lineTouchData8, false);
     });
 
     test('LineTouchTooltipData equality test', () {
