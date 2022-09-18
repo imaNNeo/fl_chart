@@ -123,25 +123,5 @@ void main() {
       expect(renderLineChart.targetData, data);
       expect(renderLineChart.textScale, 22);
     });
-
-    test('Set `longPressDuration` property Duration.zero', () {
-      RenderLineChart renderLineChart = RenderLineChart(
-        mockBuildContext,
-        data,
-        targetData,
-        textScale,
-      );
-
-      renderLineChart.mockTestSize = mockSize;
-      renderLineChart.painter = mockPainter;
-
-      expect(renderLineChart.data == data, true);
-      expect(renderLineChart.data == targetData, false);
-      expect(renderLineChart.targetData == targetData, true);
-      expect(renderLineChart.textScale == textScale, true);
-      expect(renderLineChart.paintHolder.data == data, true);
-      expect(renderLineChart.paintHolder.targetData == targetData, true);
-      expect(renderLineChart.paintHolder.textScale == textScale, true);
-    });
   });
 }
