@@ -2994,6 +2994,15 @@ final BarTouchData barTouchData9 = BarTouchData(
   allowTouchBarBackDraw: true,
   touchExtraThreshold: const EdgeInsets.only(left: 12),
 );
+final BarTouchData barTouchData10 = BarTouchData(
+  touchTooltipData: barTouchTooltipData1,
+  handleBuiltInTouches: false,
+  touchCallback: barTouchCallback,
+  enabled: false,
+  allowTouchBarBackDraw: true,
+  touchExtraThreshold: const EdgeInsets.all(12),
+  longPressDuration: Duration.zero,
+);
 
 final BarChartData barChartData1 = BarChartData(
   minY: 12,

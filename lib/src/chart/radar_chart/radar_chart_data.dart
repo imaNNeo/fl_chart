@@ -402,6 +402,7 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
         enabled,
         touchCallback,
         mouseCursorResolver,
+        longPressDuration,
         touchSpotThreshold,
       ];
 }
