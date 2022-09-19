@@ -89,6 +89,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
     this.enabled,
     this.touchCallback,
     this.mouseCursorResolver,
+    this.longPressDuration,
   );
 
   /// You can disable or enable the touch system using [enabled] flag,
@@ -104,12 +105,17 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// based on the provided [FlTouchEvent] and [BaseTouchResponse]
   final MouseCursorResolver<R>? mouseCursorResolver;
 
+  /// This property that allows to customize the duration of the longPress gesture.
+  /// default to 500 milliseconds refer to [kLongPressTimeout].
+  final Duration? longPressDuration;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         enabled,
         touchCallback,
         mouseCursorResolver,
+        longPressDuration,
       ];
 }
 
