@@ -52,6 +52,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |enabled|determines to enable or disable touch behaviors|true|
 |mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [PieTouchResponse](#PieTouchResponse)|MouseCursor.defer|
 |touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [PieTouchResponse](#PieTouchResponse)| null|
+|longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 ### PieTouchResponse
 |PropName|Description|default value|
