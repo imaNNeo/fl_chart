@@ -1,5 +1,22 @@
 ## newVersion
+
+## 0.55.2
 * **BUGFIX** (by @imaNNeoFighT): Fix inner border of pieChart with single section, #1089
+* **IMPORTANT** **IRAN NEEDS HELP**
+
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/tmp_iran_banner.png" width=500 />
+
+As you might know, Islamic Republic of Iran is murdering people in silence right now in Iran
+They shut the Internet down to do that. That’s why I cannot maintain this library for a while.
+Now we need your help, please be our voice by spreading news in your media to support us
+Search these hashtags:
+
+[#MahsaAmini](https://twitter.com/search?q=%23MahsaAmini&src=typeahead_click)
+[مهسا_امینی](https://twitter.com/search?q=%23%D9%85%D9%87%D8%B3%D8%A7_%D8%A7%D9%85%DB%8C%D9%86%DB%8C&src=typeahead_click&f=top)
+[OpIran](https://twitter.com/search?q=%23OpIran&src=typeahead_click&f=top)
+
+Also, [this article](https://www.bbc.com/news/world-middle-east-62984076) might help.
+
 
 ## 0.55.1
 * **BUGFIX** (by @ateich): Fix infinite loop in RadarChart when all values in RadarDataSet are equal, #882.
