@@ -166,8 +166,8 @@ void main() {
       final result = verify(mockCanvasWrapper.drawText(captureAny, captureAny));
       expect(result.callCount, 1);
       final tp = result.captured[0] as TextPainter;
-      expect((tp.text as TextSpan).text, '1.0');
-      expect((tp.text as TextSpan).style, MockData.textStyle1);
+      expect((tp.text as TextSpan?)!.text, '1.0');
+      expect((tp.text as TextSpan?)!.style, MockData.textStyle1);
       expect(result.captured[1] as Offset, const Offset(205, 76));
     });
 
@@ -251,8 +251,8 @@ void main() {
       final result = verify(mockCanvasWrapper.drawText(captureAny, captureAny));
       expect(result.callCount, 1);
       final tp = result.captured[0] as TextPainter;
-      expect((tp.text as TextSpan).text, '1.0');
-      expect((tp.text as TextSpan).style, MockData.textStyle1);
+      expect((tp.text as TextSpan?)!.text, '1.0');
+      expect((tp.text as TextSpan?)!.style, MockData.textStyle1);
       expect(result.captured[1] as Offset, const Offset(205, 76));
     });
   });
@@ -471,10 +471,10 @@ void main() {
           .thenAnswer((inv) {
         results.add({
           'tp_text':
-              ((inv.positionalArguments[0] as TextPainter).text as TextSpan)
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan?)!
                   .text,
           'tp_style':
-              ((inv.positionalArguments[0] as TextPainter).text as TextSpan)
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan?)!
                   .style,
         });
       });

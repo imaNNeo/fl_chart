@@ -115,6 +115,6 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
         begin: value as ScatterChartData,
         end: widget.data,
       ),
-    ) as ScatterChartDataTween;
+    ) as ScatterChartDataTween?;
   }
 }

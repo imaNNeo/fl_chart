@@ -2245,8 +2245,8 @@ void main() {
         ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
       final drawOffset = result2.captured[1] as Offset;
-      expect((textPainter.text as TextSpan).text, '0');
-      expect((textPainter.text as TextSpan).style, textStyle1);
+      expect((textPainter.text as TextSpan?)!.text, '0');
+      expect((textPainter.text as TextSpan?)!.style, textStyle1);
       expect(drawOffset, const Offset(12, 52));
     });
   });
