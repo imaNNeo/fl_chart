@@ -52,11 +52,11 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     Color? radarBackgroundColor,
     BorderSide? radarBorderData,
     RadarShape? radarShape,
-    GetTitleByIndexFunction? getTitle,
-    TextStyle? titleTextStyle,
+    this.getTitle,
+    this.titleTextStyle,
     double? titlePositionPercentageOffset,
     int? tickCount,
-    TextStyle? ticksTextStyle,
+    this.ticksTextStyle,
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
@@ -77,11 +77,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBorderData = radarBorderData ?? const BorderSide(width: 2),
         radarShape = radarShape ?? RadarShape.circle,
         radarTouchData = radarTouchData ?? RadarTouchData(),
-        getTitle = getTitle,
-        titleTextStyle = titleTextStyle,
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
         tickCount = tickCount ?? 1,
-        ticksTextStyle = ticksTextStyle,
         tickBorderData = tickBorderData ?? const BorderSide(width: 2),
         gridBorderData = gridBorderData ?? const BorderSide(width: 2),
         super(
@@ -348,7 +345,7 @@ class RadarDataSet with EquatableMixin {
 /// holds the data about each entry or point in [RadarChart]
 class RadarEntry with EquatableMixin {
   /// [RadarChart] draws every point or entry with [RadarEntry]
-  const RadarEntry({required double value}) : value = value;
+  const RadarEntry({required this.value});
 
   /// [RadarChart] uses this field to render every point in chart.
   final double value;
@@ -411,9 +408,7 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
 class RadarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
-  RadarTouchResponse(RadarTouchedSpot? touchedSpot)
-      : touchedSpot = touchedSpot,
-        super();
+  RadarTouchResponse(this.touchedSpot) : super();
 
   /// touch happened on this spot. this spot has useful information about spot or entry
   final RadarTouchedSpot? touchedSpot;
@@ -438,17 +433,13 @@ class RadarTouchedSpot extends TouchedSpot with EquatableMixin {
   /// You can also have the touched x and y in the chart as a [FlSpot] using [spot] value,
   /// and you can have the local touch coordinates on the screen as a [Offset] using [offset] value.
   RadarTouchedSpot(
-    RadarDataSet touchedDataSet,
-    int touchedDataSetIndex,
-    RadarEntry touchedRadarEntry,
-    int touchedRadarEntryIndex,
+    this.touchedDataSet,
+    this.touchedDataSetIndex,
+    this.touchedRadarEntry,
+    this.touchedRadarEntryIndex,
     FlSpot spot,
     Offset offset,
-  )   : touchedDataSet = touchedDataSet,
-        touchedDataSetIndex = touchedDataSetIndex,
-        touchedRadarEntry = touchedRadarEntry,
-        touchedRadarEntryIndex = touchedRadarEntryIndex,
-        super(spot, offset);
+  ) : super(spot, offset);
   final RadarDataSet touchedDataSet;
   final int touchedDataSetIndex;
 

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// Base class of our painters.
 class BaseChartPainter<D extends BaseChartData> {
   /// Draws some basic elements
-  BaseChartPainter() : super();
+  BaseChartPainter();
 
   // Paints [BaseChartData] into the provided canvas.
   void paint(

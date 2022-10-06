@@ -250,7 +250,7 @@ class LineChartBarData with EquatableMixin {
     List<FlSpot>? spots,
     bool? show,
     Color? color,
-    Gradient? gradient,
+    this.gradient,
     double? barWidth,
     bool? isCurved,
     double? curveSmoothness,
@@ -262,7 +262,7 @@ class LineChartBarData with EquatableMixin {
     BarAreaData? aboveBarData,
     FlDotData? dotData,
     List<int>? showingIndicators,
-    List<int>? dashArray,
+    this.dashArray,
     Shadow? shadow,
     bool? isStepLineChart,
     LineChartStepData? lineChartStepData,
@@ -270,7 +270,6 @@ class LineChartBarData with EquatableMixin {
         show = show ?? true,
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
-        gradient = gradient,
         barWidth = barWidth ?? 2.0,
         isCurved = isCurved ?? false,
         curveSmoothness = curveSmoothness ?? 0.35,
@@ -283,7 +282,6 @@ class LineChartBarData with EquatableMixin {
         aboveBarData = aboveBarData ?? BarAreaData(),
         dotData = dotData ?? FlDotData(),
         showingIndicators = showingIndicators ?? const [],
-        dashArray = dashArray,
         shadow = shadow ?? const Shadow(color: Colors.transparent),
         isStepLineChart = isStepLineChart ?? false,
         lineChartStepData = lineChartStepData ?? LineChartStepData() {
@@ -561,7 +559,7 @@ class BarAreaData with EquatableMixin {
   BarAreaData({
     bool? show,
     Color? color,
-    Gradient? gradient,
+    this.gradient,
     BarAreaSpotsLine? spotsLine,
     double? cutOffY,
     bool? applyCutOffY,
@@ -570,7 +568,6 @@ class BarAreaData with EquatableMixin {
             ((color == null && gradient == null)
                 ? Colors.blueGrey.withOpacity(0.5)
                 : null),
-        gradient = gradient,
         spotsLine = spotsLine ?? BarAreaSpotsLine(),
         cutOffY = cutOffY ?? 0,
         applyCutOffY = applyCutOffY ?? false,
@@ -624,17 +621,14 @@ class BarAreaData with EquatableMixin {
 /// Holds data about filling below or above space of the bar line,
 class BetweenBarsData with EquatableMixin {
   BetweenBarsData({
-    required int fromIndex,
-    required int toIndex,
+    required this.fromIndex,
+    required this.toIndex,
     Color? color,
-    Gradient? gradient,
-  })  : fromIndex = fromIndex,
-        toIndex = toIndex,
-        color = color ??
+    this.gradient,
+  }) : color = color ??
             ((color == null && gradient == null)
                 ? Colors.blueGrey.withOpacity(0.5)
-                : null),
-        gradient = gradient;
+                : null);
 
   /// The index of the lineBarsData from where the area has to be rendered
   final int fromIndex;
@@ -1838,8 +1832,7 @@ class TouchedSpotIndicatorData with EquatableMixin {
 class ShowingTooltipIndicators with EquatableMixin {
   /// [LineChart] shows some tooltips over each [LineChartBarData],
   /// and [showingSpots] determines in which spots this tooltip should be shown.
-  ShowingTooltipIndicators(List<LineBarSpot> showingSpots)
-      : showingSpots = showingSpots;
+  ShowingTooltipIndicators(this.showingSpots);
 
   /// Determines the spots that each tooltip should be shown.
   final List<LineBarSpot> showingSpots;
