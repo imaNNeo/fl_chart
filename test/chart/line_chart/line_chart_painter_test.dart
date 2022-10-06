@@ -896,7 +896,7 @@ void main() {
       final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
@@ -951,7 +951,7 @@ void main() {
       final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
@@ -1009,7 +1009,7 @@ void main() {
       final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
@@ -1066,7 +1066,7 @@ void main() {
       final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],

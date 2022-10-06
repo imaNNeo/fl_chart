@@ -25,7 +25,6 @@ linter:
     no_default_cases: false
     use_if_null_to_convert_nulls_to_bools: false
     avoid_bool_literals_in_conditional_expressions: false
-    use_named_constants: false
     parameter_assignments: false
     noop_primitive_operations: false
     flutter_style_todos: false

@@ -480,7 +480,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final path = appendToPath ?? Path();
     final size = barSpots.length;
 
-    var temp = const Offset(0, 0);
+    var temp = Offset.zero;
 
     final x = getPixelX(barSpots[0].x, viewSize, holder);
     final y = getPixelY(barSpots[0].y, viewSize, holder);
