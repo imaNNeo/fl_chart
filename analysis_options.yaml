@@ -32,4 +32,3 @@ linter:
     flutter_style_todos: false
     use_setters_to_change_properties: false
     avoid_dynamic_calls: false
-    use_colored_box: false
