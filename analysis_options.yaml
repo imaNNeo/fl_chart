@@ -20,7 +20,6 @@ linter:
     unnecessary_null_checks: false
     type_annotate_public_apis: false
     cast_nullable_to_non_nullable: false
-    join_return_with_assignment: false
     avoid_positional_boolean_parameters: false
     no_default_cases: false
     use_if_null_to_convert_nulls_to_bools: false

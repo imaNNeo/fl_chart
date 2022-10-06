@@ -197,8 +197,6 @@ abstract class AxisChartPainter<D extends AxisChartData>
     if (deltaY == 0.0) {
       return viewSize.height;
     }
-    var y = ((spotY - data.minY) / deltaY) * viewSize.height;
-    y = viewSize.height - y;
-    return y;
+    return viewSize.height - (((spotY - data.minY) / deltaY) * viewSize.height);
   }
 }
