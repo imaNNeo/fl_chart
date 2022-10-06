@@ -107,7 +107,7 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   }
 
   @override
-  void forEachTween(visitor) {
+  void forEachTween(TweenVisitor<dynamic> visitor) {
     _scatterChartDataTween = visitor(
       _scatterChartDataTween,
       _getData(),

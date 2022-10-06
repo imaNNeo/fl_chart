@@ -116,7 +116,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   }
 
   @override
-  void forEachTween(visitor) {
+  void forEachTween(TweenVisitor<dynamic> visitor) {
     _barChartDataTween = visitor(
       _barChartDataTween,
       widget.data,
