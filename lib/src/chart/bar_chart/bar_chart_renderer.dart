@@ -1,10 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'bar_chart_painter.dart';
 
 // coverage:ignore-start
 
@@ -17,7 +16,11 @@ class BarChartLeaf extends LeafRenderObjectWidget {
 
   @override
   RenderBarChart createRenderObject(BuildContext context) => RenderBarChart(
-      context, data, targetData, MediaQuery.of(context).textScaleFactor);
+        context,
+        data,
+        targetData,
+        MediaQuery.of(context).textScaleFactor,
+      );
 
   @override
   void updateRenderObject(BuildContext context, RenderBarChart renderObject) {
@@ -75,7 +78,7 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = BarChartPainter();
+  BarChartPainter painter = BarChartPainter();
 
   PaintHolder<BarChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -96,7 +99,7 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
 
   @override
   BarTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpot = painter.handleTouch(
+    final touchedSpot = painter.handleTouch(
       localPosition,
       mockTestSize ?? size,
       paintHolder,

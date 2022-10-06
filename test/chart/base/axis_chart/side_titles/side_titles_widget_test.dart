@@ -284,7 +284,7 @@ void main() {
             throw StateError('Invalid');
         }
         expect(find.text('$axisName Titles'), findsOneWidget);
-        for (int i = 0; i <= 10; i++) {
+        for (var i = 0; i <= 10; i++) {
           expect(find.text('${axisName.characters.first}-$i'), findsOneWidget);
         }
       }
@@ -317,7 +317,7 @@ void main() {
         ),
       );
       expect(find.text('Left Titles'), findsOneWidget);
-      for (int i = 0; i <= 10; i++) {
+      for (var i = 0; i <= 10; i++) {
         expect(find.text('L-$i'), findsOneWidget);
       }
 
@@ -345,7 +345,7 @@ void main() {
           ),
         ),
       );
-      for (int i = 0; i <= 10; i++) {
+      for (var i = 0; i <= 10; i++) {
         expect(find.text('L-$i'), findsOneWidget);
       }
 
@@ -404,7 +404,7 @@ void main() {
       );
 
       expect(find.byIcon(Icons.arrow_right), findsOneWidget);
-      for (int i = 0; i <= 10; i++) {
+      for (var i = 0; i <= 10; i++) {
         expect(find.text('$i'), findsOneWidget);
       }
       expect(find.byType(TextButton), findsNWidgets(11));

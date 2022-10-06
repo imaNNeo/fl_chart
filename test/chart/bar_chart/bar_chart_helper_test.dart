@@ -1,7 +1,8 @@
-import '../data_pool.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../data_pool.dart';
 
 void main() {
   group('Check caching of BarChartHelper.calculateMaxAxisValues', () {
@@ -32,13 +33,15 @@ void main() {
 
     test('Test validity 2', () {
       final barGroups = [
-        barChartGroupData1.copyWith(barRods: [
-          BarChartRodData(toY: -10),
-          BarChartRodData(toY: -40),
-          BarChartRodData(toY: 0),
-          BarChartRodData(toY: 10),
-          BarChartRodData(toY: 5),
-        ])
+        barChartGroupData1.copyWith(
+          barRods: [
+            BarChartRodData(toY: -10),
+            BarChartRodData(toY: -40),
+            BarChartRodData(toY: 0),
+            BarChartRodData(toY: 10),
+            BarChartRodData(toY: 5),
+          ],
+        )
       ];
       final result = BarChartHelper.calculateMaxAxisValues(barGroups);
       expect(result.minY, -40);
@@ -70,7 +73,7 @@ void main() {
     });
 
     test('Test BarChartMinMaxAxisValues class', () {
-      final result1 = BarChartMinMaxAxisValues(0, 10, readFromCache: false)
+      final result1 = BarChartMinMaxAxisValues(0, 10)
           .copyWith(minY: 1, maxY: 11, readFromCache: true);
       final result2 = BarChartMinMaxAxisValues(1, 11, readFromCache: true);
       expect(result1, result2);

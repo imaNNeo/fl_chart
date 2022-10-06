@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:fl_chart/src/utils/list_wrapper.dart';
-
-import 'scatter_chart_data.dart';
 
 /// Contains anything that helps ScatterChart works
 class ScatterChartHelper {
@@ -14,12 +13,13 @@ class ScatterChartHelper {
   /// Calculates minX, maxX, minY, and maxY based on [scatterSpots],
   /// returns cached values, to prevent redundant calculations.
   static ScatterChartMinMaxAxisValues calculateMaxAxisValues(
-      List<ScatterSpot> scatterSpots) {
+    List<ScatterSpot> scatterSpots,
+  ) {
     if (scatterSpots.isEmpty) {
       return ScatterChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
-    var listWrapper = scatterSpots.toWrapperClass();
+    final listWrapper = scatterSpots.toWrapperClass();
 
     if (_cachedResults.containsKey(listWrapper)) {
       return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
@@ -56,12 +56,6 @@ class ScatterChartHelper {
 
 /// Holds minX, maxX, minY, and maxY for use in [ScatterChartData]
 class ScatterChartMinMaxAxisValues with EquatableMixin {
-  final double minX;
-  final double maxX;
-  final double minY;
-  final double maxY;
-  final bool readFromCache;
-
   ScatterChartMinMaxAxisValues(
     this.minX,
     this.maxX,
@@ -69,16 +63,22 @@ class ScatterChartMinMaxAxisValues with EquatableMixin {
     this.maxY, {
     this.readFromCache = false,
   });
+  final double minX;
+  final double maxX;
+  final double minY;
+  final double maxY;
+  final bool readFromCache;
 
   @override
   List<Object?> get props => [minX, maxX, minY, maxY, readFromCache];
 
-  ScatterChartMinMaxAxisValues copyWith(
-      {double? minX,
-      double? maxX,
-      double? minY,
-      double? maxY,
-      bool? readFromCache}) {
+  ScatterChartMinMaxAxisValues copyWith({
+    double? minX,
+    double? maxX,
+    double? minY,
+    double? maxY,
+    bool? readFromCache,
+  }) {
     return ScatterChartMinMaxAxisValues(
       minX ?? this.minX,
       maxX ?? this.maxX,

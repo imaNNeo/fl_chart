@@ -1,52 +1,59 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import '../data_pool.dart';
 import 'bar_chart_renderer_test.mocks.dart';
 
 @GenerateMocks([Canvas, PaintingContext, BuildContext, BarChartPainter])
 void main() {
   group('BarChartRenderer', () {
-    final BarChartData data = BarChartData(
-        titlesData: FlTitlesData(
-      leftTitles: AxisTitles(
-          sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
-      rightTitles: AxisTitles(
-          sideTitles: SideTitles(reservedSize: 64, showTitles: true)),
-      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-    ));
+    final data = BarChartData(
+      titlesData: FlTitlesData(
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(reservedSize: 20, showTitles: true),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(reservedSize: 64, showTitles: true),
+        ),
+        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      ),
+    );
 
-    final BarChartData targetData = BarChartData(
-        titlesData: FlTitlesData(
-      leftTitles:
-          AxisTitles(sideTitles: SideTitles(reservedSize: 8, showTitles: true)),
-      rightTitles: AxisTitles(
-          sideTitles: SideTitles(reservedSize: 20, showTitles: true)),
-      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-    ));
+    final targetData = BarChartData(
+      titlesData: FlTitlesData(
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(reservedSize: 8, showTitles: true),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(reservedSize: 20, showTitles: true),
+        ),
+        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      ),
+    );
 
     const textScale = 4.0;
 
-    MockBuildContext mockBuildContext = MockBuildContext();
-    RenderBarChart renderBarChart = RenderBarChart(
+    final mockBuildContext = MockBuildContext();
+    final renderBarChart = RenderBarChart(
       mockBuildContext,
       data,
       targetData,
       textScale,
     );
 
-    MockBarChartPainter mockPainter = MockBarChartPainter();
-    MockPaintingContext mockPaintingContext = MockPaintingContext();
-    MockCanvas mockCanvas = MockCanvas();
-    Size mockSize = const Size(44, 44);
+    final mockPainter = MockBarChartPainter();
+    final mockPaintingContext = MockPaintingContext();
+    final mockCanvas = MockCanvas();
+    const mockSize = Size(44, 44);
     when(mockPaintingContext.canvas).thenAnswer((realInvocation) => mockCanvas);
     renderBarChart.mockTestSize = mockSize;
     renderBarChart.painter = mockPainter;
@@ -81,13 +88,13 @@ void main() {
     });
 
     test('test 3 check getResponseAtLocation function', () {
-      List<Map<String, dynamic>> results = [];
+      final results = <Map<String, dynamic>>[];
       when(mockPainter.handleTouch(captureAny, captureAny, captureAny))
           .thenAnswer((inv) {
         results.add({
           'local_position': inv.positionalArguments[0] as Offset,
           'size': inv.positionalArguments[1] as Size,
-          'paint_holder': (inv.positionalArguments[2] as PaintHolder),
+          'paint_holder': inv.positionalArguments[2] as PaintHolder,
         });
         return MockData.barTouchedSpot;
       });

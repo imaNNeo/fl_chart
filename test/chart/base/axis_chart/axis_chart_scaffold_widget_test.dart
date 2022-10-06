@@ -93,9 +93,6 @@ void main() {
           color: Colors.red,
           width: 6,
         ),
-        top: BorderSide.none,
-        right: BorderSide.none,
-        bottom: BorderSide.none,
       ),
     ),
     titlesData: FlTitlesData(
@@ -175,12 +172,14 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(builder: (context, constraints) {
-                    chartDrawingSize = constraints.biggest;
-                    return Container(
-                      color: Colors.red,
-                    );
-                  }),
+                  chart: LayoutBuilder(
+                    builder: (context, constraints) {
+                      chartDrawingSize = constraints.biggest;
+                      return Container(
+                        color: Colors.red,
+                      );
+                    },
+                  ),
                   data: lineChartDataWithNoTitles,
                 ),
               ),
@@ -206,12 +205,14 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(builder: (context, constraints) {
-                    chartDrawingSize = constraints.biggest;
-                    return Container(
-                      color: Colors.red,
-                    );
-                  }),
+                  chart: LayoutBuilder(
+                    builder: (context, constraints) {
+                      chartDrawingSize = constraints.biggest;
+                      return Container(
+                        color: Colors.red,
+                      );
+                    },
+                  ),
                   data: lineChartDataWithAllTitles,
                 ),
               ),
@@ -238,23 +239,23 @@ void main() {
           default:
             throw StateError('Invalid');
         }
-        for (int i = 0; i <= 10; i++) {
+        for (var i = 0; i <= 10; i++) {
           expect(find.text('$axisChar-$i'), findsOneWidget);
         }
       }
 
       expect(chartDrawingSize, const Size(300, 260));
       expect(find.byIcon(Icons.arrow_left), findsOneWidget);
-      checkSide(AxisSide.left);
+      await checkSide(AxisSide.left);
 
       expect(find.byIcon(Icons.arrow_drop_up), findsOneWidget);
-      checkSide(AxisSide.top);
+      await checkSide(AxisSide.top);
 
       expect(find.byIcon(Icons.arrow_right), findsOneWidget);
-      checkSide(AxisSide.right);
+      await checkSide(AxisSide.right);
 
       expect(find.byIcon(Icons.arrow_drop_down), findsOneWidget);
-      checkSide(AxisSide.bottom);
+      await checkSide(AxisSide.bottom);
 
       expect(find.byType(Text), findsNWidgets(44));
       expect(find.byType(Icon), findsNWidgets(4));
@@ -273,12 +274,14 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(builder: (context, constraints) {
-                    chartDrawingSize = constraints.biggest;
-                    return Container(
-                      color: Colors.red,
-                    );
-                  }),
+                  chart: LayoutBuilder(
+                    builder: (context, constraints) {
+                      chartDrawingSize = constraints.biggest;
+                      return Container(
+                        color: Colors.red,
+                      );
+                    },
+                  ),
                   data: lineChartDataWithOnlyLeftTitles,
                 ),
               ),
@@ -289,7 +292,7 @@ void main() {
 
       expect(chartDrawingSize, const Size(374, 400));
       expect(find.byIcon(Icons.arrow_left), findsOneWidget);
-      for (int i = 0; i <= 10; i++) {
+      for (var i = 0; i <= 10; i++) {
         expect(find.text('L-$i'), findsOneWidget);
       }
 
@@ -310,12 +313,14 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(builder: (context, constraints) {
-                    chartDrawingSize = constraints.biggest;
-                    return Container(
-                      color: Colors.red,
-                    );
-                  }),
+                  chart: LayoutBuilder(
+                    builder: (context, constraints) {
+                      chartDrawingSize = constraints.biggest;
+                      return Container(
+                        color: Colors.red,
+                      );
+                    },
+                  ),
                   data: lineChartDataWithOnlyLeftTitlesWithoutAxisName,
                 ),
               ),
@@ -325,7 +330,7 @@ void main() {
       );
 
       expect(chartDrawingSize, const Size(390, 400));
-      for (int i = 0; i <= 10; i++) {
+      for (var i = 0; i <= 10; i++) {
         expect(find.text('L-$i'), findsOneWidget);
       }
 
@@ -346,12 +351,14 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(builder: (context, constraints) {
-                    chartDrawingSize = constraints.biggest;
-                    return Container(
-                      color: Colors.red,
-                    );
-                  }),
+                  chart: LayoutBuilder(
+                    builder: (context, constraints) {
+                      chartDrawingSize = constraints.biggest;
+                      return Container(
+                        color: Colors.red,
+                      );
+                    },
+                  ),
                   data: lineChartDataWithOnlyLeftAxisNameWithoutSideTitles,
                 ),
               ),

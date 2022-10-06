@@ -3,22 +3,15 @@ import 'dart:core';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/border_extension.dart';
 import 'package:flutter/material.dart';
-
-import 'base_chart_painter.dart';
 
 /// This class holds all data needed for [BaseChartPainter].
 ///
 /// In this phase we draw the border,
 /// and handle touches in an abstract way.
 abstract class BaseChartData with EquatableMixin {
-  /// Holds data to drawing border around the chart.
-  FlBorderData borderData;
-
-  /// Holds data needed to touch behavior and responses.
-  FlTouchData touchData;
-
   /// It draws 4 borders around your chart, you can customize it using [borderData],
   /// [touchData] defines the touch behavior and responses.
   BaseChartData({
@@ -26,6 +19,12 @@ abstract class BaseChartData with EquatableMixin {
     required FlTouchData touchData,
   })  : borderData = borderData ?? FlBorderData(),
         touchData = touchData;
+
+  /// Holds data to drawing border around the chart.
+  FlBorderData borderData;
+
+  /// Holds data needed to touch behavior and responses.
+  FlTouchData touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
@@ -39,21 +38,15 @@ abstract class BaseChartData with EquatableMixin {
 
 /// Holds data to drawing border around the chart.
 class FlBorderData with EquatableMixin {
-  final bool show;
-  Border border;
-
   /// [show] Determines showing or hiding border around the chart.
   /// [border] Determines the visual look of 4 borders, see [Border].
   FlBorderData({
     bool? show,
     Border? border,
   })  : show = show ?? true,
-        border = border ??
-            Border.all(
-              color: Colors.black,
-              width: 1.0,
-              style: BorderStyle.solid,
-            );
+        border = border ?? Border.all();
+  final bool show;
+  Border border;
 
   /// returns false if all borders have 0 width or 0 opacity
   bool isVisible() => show && border.isVisible();
@@ -93,6 +86,15 @@ class FlBorderData with EquatableMixin {
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
 abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
+  FlTouchData(
+    bool enabled,
+    BaseTouchCallback<R>? touchCallback,
+    MouseCursorResolver<R>? mouseCursorResolver,
+  )   : enabled = enabled,
+        touchCallback = touchCallback,
+        mouseCursorResolver = mouseCursorResolver;
+
+  /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
 
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -105,15 +107,6 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// based on the provided [FlTouchEvent] and [BaseTouchResponse]
   final MouseCursorResolver<R>? mouseCursorResolver;
 
-  /// You can disable or enable the touch system using [enabled] flag,
-  FlTouchData(
-    bool enabled,
-    BaseTouchCallback<R>? touchCallback,
-    MouseCursorResolver<R>? mouseCursorResolver,
-  )   : enabled = enabled,
-        touchCallback = touchCallback,
-        mouseCursorResolver = mouseCursorResolver;
-
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -125,11 +118,6 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
 
 /// Holds data to clipping chart around its borders.
 class FlClipData with EquatableMixin {
-  final bool top;
-  final bool bottom;
-  final bool left;
-  final bool right;
-
   /// Creates data that clips specified sides
   FlClipData({
     required this.top,
@@ -152,6 +140,10 @@ class FlClipData with EquatableMixin {
   /// Creates data that doesn't clip any side
   FlClipData.none()
       : this(top: false, bottom: false, left: false, right: false);
+  final bool top;
+  final bool bottom;
+  final bool left;
+  final bool right;
 
   /// Checks whether any of the sides should be clipped
   bool get any => top || bottom || left || right;
@@ -179,13 +171,17 @@ class FlClipData with EquatableMixin {
 
 /// Chart's touch callback.
 typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(
-    FlTouchEvent, R?);
+  FlTouchEvent,
+  R?,
+);
 
 /// It gives you the happened [FlTouchEvent] and existed [R] data at the event's location,
 /// then you should provide a [MouseCursor] to change the cursor at the event's location.
 /// For example you can pass the [SystemMouseCursors.click] to change the mouse cursor to click.
 typedef MouseCursorResolver<R extends BaseTouchResponse> = MouseCursor Function(
-    FlTouchEvent, R?);
+  FlTouchEvent,
+  R?,
+);
 
 /// This class holds the touch response details of charts.
 abstract class BaseTouchResponse {

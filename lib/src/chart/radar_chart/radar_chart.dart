@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 
 /// Renders a radar chart as a widget, using provided [RadarChartData].
 class RadarChart extends ImplicitlyAnimatedWidget {
-  /// Determines how the [RadarChart] should be look like.
-  final RadarChartData data;
-
   /// [data] determines how the [RadarChart] should be look like,
   /// when you make any change in the [RadarChart], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
@@ -22,6 +19,9 @@ class RadarChart extends ImplicitlyAnimatedWidget {
           duration: swapAnimationDuration,
           curve: swapAnimationCurve,
         );
+
+  /// Determines how the [RadarChart] should be look like.
+  final RadarChartData data;
 
   @override
   _RadarChartState createState() => _RadarChartState();

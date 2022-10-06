@@ -5,13 +5,6 @@ import 'package:flutter/cupertino.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
 class BarChart extends ImplicitlyAnimatedWidget {
-  /// Determines how the [BarChart] should be look like.
-  final BarChartData data;
-
-  /// We pass this key to our renderers which are supposed to
-  /// render the chart itself (without anything around the chart).
-  final Key? chartRendererKey;
-
   /// [data] determines how the [BarChart] should be look like,
   /// when you make any change in the [BarChartData], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
@@ -24,9 +17,17 @@ class BarChart extends ImplicitlyAnimatedWidget {
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
   }) : super(
-            key: key,
-            duration: swapAnimationDuration,
-            curve: swapAnimationCurve);
+          key: key,
+          duration: swapAnimationDuration,
+          curve: swapAnimationCurve,
+        );
+
+  /// Determines how the [BarChart] should be look like.
+  final BarChartData data;
+
+  /// We pass this key to our renderers which are supposed to
+  /// render the chart itself (without anything around the chart).
+  final Key? chartRendererKey;
 
   /// Creates a [_BarChartState]
   @override
@@ -93,15 +94,15 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   }
 
   void _handleBuiltInTouch(
-      FlTouchEvent event, BarTouchResponse? touchResponse) {
+    FlTouchEvent event,
+    BarTouchResponse? touchResponse,
+  ) {
     _providedTouchCallback?.call(event, touchResponse);
 
     if (!event.isInterestedForInteractions ||
         touchResponse == null ||
         touchResponse.spot == null) {
-      setState(() {
-        _showingTouchedTooltips.clear();
-      });
+      setState(_showingTouchedTooltips.clear);
       return;
     }
     setState(() {

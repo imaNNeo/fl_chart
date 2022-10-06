@@ -7,7 +7,7 @@ import '../../data_pool.dart';
 void main() {
   group('splitByNullSpots()', () {
     test('test 1 - null spots start', () {
-      List<FlSpot> spots = [
+      final spots = <FlSpot>[
         FlSpot.nullSpot,
         FlSpot.nullSpot,
         FlSpot.nullSpot,
@@ -30,7 +30,7 @@ void main() {
       );
     });
     test('test 2 - null spots end', () {
-      List<FlSpot> spots = [
+      final spots = <FlSpot>[
         MockData.flSpot1,
         MockData.flSpot2,
         MockData.flSpot3,
@@ -51,7 +51,7 @@ void main() {
       );
     });
     test('test 3 - null spots around', () {
-      List<FlSpot> spots = [
+      final spots = <FlSpot>[
         FlSpot.nullSpot,
         FlSpot.nullSpot,
         FlSpot.nullSpot,
@@ -77,7 +77,7 @@ void main() {
       );
     });
     test('test 4 - null spots between', () {
-      List<FlSpot> spots = [
+      final spots = <FlSpot>[
         MockData.flSpot1,
         MockData.flSpot2,
         FlSpot.nullSpot,

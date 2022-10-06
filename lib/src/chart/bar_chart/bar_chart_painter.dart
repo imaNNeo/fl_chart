@@ -4,23 +4,15 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/rrect_extension.dart';
-import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../utils/utils.dart';
 
 /// Paints [BarChartData] in the canvas, it can be used in a [CustomPainter]
 class BarChartPainter extends AxisChartPainter<BarChartData> {
-  late Paint _barPaint,
-      _barStrokePaint,
-      _bgTouchTooltipPaint,
-      _borderTouchTooltipPaint;
-
-  List<GroupBarsPosition>? _groupBarsPosition;
-
   /// Paints [dataList] into canvas, it is the animating [BarChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
@@ -42,11 +34,20 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
   }
+  late Paint _barPaint,
+      _barStrokePaint,
+      _bgTouchTooltipPaint,
+      _borderTouchTooltipPaint;
+
+  List<GroupBarsPosition>? _groupBarsPosition;
 
   /// Paints [BarChartData] into the provided canvas.
   @override
-  void paint(BuildContext context, CanvasWrapper canvasWrapper,
-      PaintHolder<BarChartData> holder) {
+  void paint(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<BarChartData> holder,
+  ) {
     super.paint(context, canvasWrapper, holder);
     final data = holder.data;
     final targetData = holder.targetData;
@@ -57,7 +58,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     final groupsX = data.calculateGroupsX(canvasWrapper.size.width);
     _groupBarsPosition = calculateGroupAndBarsPosition(
-        canvasWrapper.size, groupsX, data.barGroups);
+      canvasWrapper.size,
+      groupsX,
+      data.barGroups,
+    );
 
     drawBars(canvasWrapper, _groupBarsPosition!, holder);
 
@@ -70,15 +74,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final barRod = barGroup.barRods[j];
 
         drawTouchTooltip(
-            context,
-            canvasWrapper,
-            _groupBarsPosition!,
-            targetData.barTouchData.touchTooltipData,
-            barGroup,
-            i,
-            barRod,
-            j,
-            holder);
+          context,
+          canvasWrapper,
+          _groupBarsPosition!,
+          targetData.barTouchData.touchTooltipData,
+          barGroup,
+          i,
+          barRod,
+          j,
+          holder,
+        );
       }
     }
   }
@@ -86,7 +91,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// Calculates bars position alongside group positions.
   @visibleForTesting
   List<GroupBarsPosition> calculateGroupAndBarsPosition(
-      Size viewSize, List<double> groupsX, List<BarChartGroupData> barGroups) {
+    Size viewSize,
+    List<double> groupsX,
+    List<BarChartGroupData> barGroups,
+  ) {
     if (groupsX.length != barGroups.length) {
       throw Exception('inconsistent state groupsX.length != barGroups.length');
     }
@@ -210,25 +218,39 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             final bottom =
                 getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
             final top = min(
-                getPixelY(barRod.toY, viewSize, holder), bottom - cornerHeight);
+              getPixelY(barRod.toY, viewSize, holder),
+              bottom - cornerHeight,
+            );
 
-            barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
-                topLeft: borderRadius.topLeft,
-                topRight: borderRadius.topRight,
-                bottomLeft: borderRadius.bottomLeft,
-                bottomRight: borderRadius.bottomRight);
+            barRRect = RRect.fromLTRBAndCorners(
+              left,
+              top,
+              right,
+              bottom,
+              topLeft: borderRadius.topLeft,
+              topRight: borderRadius.topRight,
+              bottomLeft: borderRadius.bottomLeft,
+              bottomRight: borderRadius.bottomRight,
+            );
           } else {
             // negative
             final top =
                 getPixelY(min(data.maxY, barRod.fromY), viewSize, holder);
             final bottom = max(
-                getPixelY(barRod.toY, viewSize, holder), top + cornerHeight);
+              getPixelY(barRod.toY, viewSize, holder),
+              top + cornerHeight,
+            );
 
-            barRRect = RRect.fromLTRBAndCorners(left, top, right, bottom,
-                topLeft: borderRadius.topLeft,
-                topRight: borderRadius.topRight,
-                bottomLeft: borderRadius.bottomLeft,
-                bottomRight: borderRadius.bottomRight);
+            barRRect = RRect.fromLTRBAndCorners(
+              left,
+              top,
+              right,
+              bottom,
+              topLeft: borderRadius.topLeft,
+              topRight: borderRadius.topRight,
+              bottomLeft: borderRadius.bottomLeft,
+              bottomRight: borderRadius.bottomRight,
+            );
           }
           _barPaint.setColorOrGradient(
             barRod.color,
@@ -260,14 +282,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
               // draw border stroke for each stack item
               drawStackItemBorderStroke(
-                  canvasWrapper,
-                  stackItem,
-                  i,
-                  barRod.rodStackItems.length,
-                  barRod.width,
-                  barRRect,
-                  viewSize,
-                  holder);
+                canvasWrapper,
+                stackItem,
+                i,
+                barRod.rodStackItems.length,
+                barRod.width,
+                barRRect,
+                viewSize,
+                holder,
+              );
             }
           }
         }
@@ -309,10 +332,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     );
 
     final tp = TextPainter(
-        text: span,
-        textAlign: tooltipItem.textAlign,
-        textDirection: tooltipItem.textDirection,
-        textScaleFactor: holder.textScale);
+      text: span,
+      textAlign: tooltipItem.textAlign,
+      textDirection: tooltipItem.textDirection,
+      textScaleFactor: holder.textScale,
+    );
     tp.layout(maxWidth: tooltipData.maxContentWidth);
 
     /// creating TextPainters to calculate the width and height of the tooltip
@@ -351,8 +375,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types
-    Rect rect = Rect.fromLTWH(barOffset.dx - (tooltipWidth / 2), tooltipTop,
-        tooltipWidth, tooltipHeight);
+    Rect rect = Rect.fromLTWH(
+      barOffset.dx - (tooltipWidth / 2),
+      tooltipTop,
+      tooltipWidth,
+      tooltipHeight,
+    );
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -399,11 +427,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     final radius = Radius.circular(tooltipData.tooltipRoundedRadius);
-    final roundedRect = RRect.fromRectAndCorners(rect,
-        topLeft: radius,
-        topRight: radius,
-        bottomLeft: radius,
-        bottomRight: radius);
+    final roundedRect = RRect.fromRectAndCorners(
+      rect,
+      topLeft: radius,
+      topRight: radius,
+      bottomLeft: radius,
+      bottomRight: radius,
+    );
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
 
     final rotateAngle = tooltipData.rotateAngle;
@@ -441,14 +471,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   @visibleForTesting
   void drawStackItemBorderStroke(
-      CanvasWrapper canvasWrapper,
-      BarChartRodStackItem stackItem,
-      int index,
-      int rodStacksSize,
-      double barThickSize,
-      RRect barRRect,
-      Size drawSize,
-      PaintHolder<BarChartData> holder) {
+    CanvasWrapper canvasWrapper,
+    BarChartRodStackItem stackItem,
+    int index,
+    int rodStacksSize,
+    double barThickSize,
+    RRect barRRect,
+    Size drawSize,
+    PaintHolder<BarChartData> holder,
+  ) {
     if (stackItem.borderSide.width == 0 ||
         stackItem.borderSide.color.opacity == 0) return;
     RRect strokeBarRect;
@@ -484,11 +515,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       );
     } else {
       strokeBarRect = RRect.fromLTRBR(
-          barRRect.left,
-          getPixelY(stackItem.toY, drawSize, holder),
-          barRRect.right,
-          getPixelY(stackItem.fromY, drawSize, holder),
-          Radius.zero);
+        barRRect.left,
+        getPixelY(stackItem.toY, drawSize, holder),
+        barRRect.right,
+        getPixelY(stackItem.fromY, drawSize, holder),
+        Radius.zero,
+      );
     }
     _barStrokePaint.color = stackItem.borderSide.color;
     _barStrokePaint.strokeWidth =
@@ -558,9 +590,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         }
 
         final backDrawBarY = getPixelY(
-            targetData.barGroups[i].barRods[j].backDrawRodData.toY,
-            viewSize,
-            holder);
+          targetData.barGroups[i].barRods[j].backDrawRodData.toY,
+          viewSize,
+          holder,
+        );
         final touchExtraThreshold = targetData.barTouchData.touchExtraThreshold;
 
         final isXInTouchBounds = (touchedPoint.dx <=
@@ -617,8 +650,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             }
           }
 
-          return BarTouchedSpot(nearestGroup, i, nearestBarRod, j, touchedStack,
-              touchedStackIndex, nearestSpot, nearestSpotPos);
+          return BarTouchedSpot(
+            nearestGroup,
+            i,
+            nearestBarRod,
+            j,
+            touchedStack,
+            touchedStackIndex,
+            nearestSpot,
+            nearestSpotPos,
+          );
         }
       }
     }
@@ -629,8 +670,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
 @visibleForTesting
 class GroupBarsPosition {
+  GroupBarsPosition(this.groupX, this.barsX);
   final double groupX;
   final List<double> barsX;
-
-  GroupBarsPosition(this.groupX, this.barsX);
 }

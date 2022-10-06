@@ -9,7 +9,7 @@ import '../helper_methods.dart';
 
 void main() {
   test('test transparentIfWidthIsZero', () {
-    var path1 = Path()
+    final path1 = Path()
       ..moveTo(0, 0)
       ..lineTo(10, 0);
     expect(
