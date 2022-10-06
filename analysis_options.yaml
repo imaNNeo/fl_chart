@@ -13,7 +13,6 @@ linter:
     public_member_api_docs: false
     lines_longer_than_80_chars: false
     comment_references: false
-    cascade_invocations: false
     avoid_multiple_declarations_per_line: false
     prefer_asserts_with_message: false
     prefer_constructors_over_static_methods: false

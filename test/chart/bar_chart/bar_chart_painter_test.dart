@@ -874,8 +874,8 @@ void main() {
         holder,
       );
       final result1 =
-          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(2);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 112);
@@ -902,9 +902,8 @@ void main() {
       expect(angles.length, 1);
       expect(angles[0], 12);
 
-      final result2 =
-          verify(mockCanvasWrapper.drawText(captureAny, captureAny));
-      result2.called(1);
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
+        ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
       expect((textPainter.text as TextSpan).text, 'helllo1');
       expect((textPainter.text as TextSpan).style, textStyle1);
@@ -1067,8 +1066,8 @@ void main() {
         holder,
       );
       final result1 =
-          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(2);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 112);
@@ -1095,9 +1094,8 @@ void main() {
       expect(angles.length, 1);
       expect(angles[0], 12);
 
-      final result2 =
-          verify(mockCanvasWrapper.drawText(captureAny, captureAny));
-      result2.called(1);
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
+        ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
       expect((textPainter.text as TextSpan).text, 'helllo1');
       expect((textPainter.text as TextSpan).style, textStyle1);
@@ -1235,8 +1233,8 @@ void main() {
         holder,
       );
       final result1 =
-          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(2);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 2636);
@@ -1263,9 +1261,8 @@ void main() {
       expect(angles.length, 1);
       expect(angles[0], 12);
 
-      final result2 =
-          verify(mockCanvasWrapper.drawText(captureAny, captureAny));
-      result2.called(1);
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
+        ..called(1);
 
       final drawOffset = result2.captured[1] as Offset;
       expect(drawOffset, const Offset(-2420, -6926));
@@ -1338,56 +1335,55 @@ void main() {
         });
       });
 
-      barChartPainter.drawStackItemBorderStroke(
-        mockCanvasWrapper,
-        rodStackItems[0],
-        0,
-        3,
-        barRod.width,
-        RRect.fromLTRBAndCorners(
+      barChartPainter
+        ..drawStackItemBorderStroke(
+          mockCanvasWrapper,
+          rodStackItems[0],
           0,
-          0,
-          10,
-          100,
-          bottomRight: const Radius.circular(12),
-        ),
-        viewSize,
-        holder,
-      );
-
-      barChartPainter.drawStackItemBorderStroke(
-        mockCanvasWrapper,
-        rodStackItems[1],
-        1,
-        3,
-        barRod.width,
-        RRect.fromLTRBAndCorners(
-          0,
-          0,
-          10,
-          100,
-          bottomRight: const Radius.circular(12),
-        ),
-        viewSize,
-        holder,
-      );
-
-      barChartPainter.drawStackItemBorderStroke(
-        mockCanvasWrapper,
-        rodStackItems[2],
-        2,
-        3,
-        barRod.width,
-        RRect.fromLTRBAndCorners(
-          0,
-          0,
-          10,
-          100,
-          bottomRight: const Radius.circular(12),
-        ),
-        viewSize,
-        holder,
-      );
+          3,
+          barRod.width,
+          RRect.fromLTRBAndCorners(
+            0,
+            0,
+            10,
+            100,
+            bottomRight: const Radius.circular(12),
+          ),
+          viewSize,
+          holder,
+        )
+        ..drawStackItemBorderStroke(
+          mockCanvasWrapper,
+          rodStackItems[1],
+          1,
+          3,
+          barRod.width,
+          RRect.fromLTRBAndCorners(
+            0,
+            0,
+            10,
+            100,
+            bottomRight: const Radius.circular(12),
+          ),
+          viewSize,
+          holder,
+        )
+        ..drawStackItemBorderStroke(
+          mockCanvasWrapper,
+          rodStackItems[2],
+          2,
+          3,
+          barRod.width,
+          RRect.fromLTRBAndCorners(
+            0,
+            0,
+            10,
+            100,
+            bottomRight: const Radius.circular(12),
+          ),
+          viewSize,
+          holder,
+        );
 
       expect(results.length, 3);
 

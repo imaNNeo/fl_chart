@@ -133,9 +133,9 @@ class CanvasWrapper {
     Paint painter,
     List<int>? dashArray,
   ) {
-    var path = Path();
-    path.moveTo(from.dx, from.dy);
-    path.lineTo(to.dx, to.dy);
+    var path = Path()
+      ..moveTo(from.dx, from.dy)
+      ..lineTo(to.dx, to.dy);
     path = path.toDashedPath(dashArray);
     drawPath(path, painter);
   }

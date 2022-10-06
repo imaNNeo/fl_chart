@@ -33,9 +33,10 @@ class SideTitlesFlex extends MultiChildRenderObjectWidget {
     BuildContext context,
     covariant AxisSideTitlesRenderFlex renderObject,
   ) {
-    renderObject.direction = direction;
-    renderObject.axisSideMetaData = axisSideMetaData;
-    renderObject.axisSideTitlesMetaData = axisSideTitlesMetaData;
+    renderObject
+      ..direction = direction
+      ..axisSideMetaData = axisSideMetaData
+      ..axisSideTitlesMetaData = axisSideTitlesMetaData;
   }
 
   @override
