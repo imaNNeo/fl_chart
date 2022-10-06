@@ -149,20 +149,18 @@ class PieChartSectionData {
     Color? color,
     double? radius,
     bool? showTitle,
-    TextStyle? titleStyle,
+    this.titleStyle,
     String? title,
     BorderSide? borderSide,
-    Widget? badgeWidget,
+    this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
-        titleStyle = titleStyle,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
-        badgeWidget = badgeWidget,
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
@@ -307,14 +305,11 @@ class PieTouchedSection with EquatableMixin {
   /// [touchAngle] gives you angle of touch,
   /// and [touchRadius] gives you radius of the touch.
   PieTouchedSection(
-    PieChartSectionData? touchedSection,
-    int touchedSectionIndex,
-    double touchAngle,
-    double touchRadius,
-  )   : touchedSection = touchedSection,
-        touchedSectionIndex = touchedSectionIndex,
-        touchAngle = touchAngle,
-        touchRadius = touchRadius;
+    this.touchedSection,
+    this.touchedSectionIndex,
+    this.touchAngle,
+    this.touchRadius,
+  );
 
   /// touch happened on this section
   final PieChartSectionData? touchedSection;
@@ -344,9 +339,7 @@ class PieTouchedSection with EquatableMixin {
 /// it gives you a [PieTouchResponse] and you can do whatever you want.
 class PieTouchResponse extends BaseTouchResponse {
   /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
-  PieTouchResponse(PieTouchedSection? touchedSection)
-      : touchedSection = touchedSection,
-        super();
+  PieTouchResponse(this.touchedSection) : super();
 
   /// Contains information about touched section, like index, angle, radius, ...
   final PieTouchedSection? touchedSection;

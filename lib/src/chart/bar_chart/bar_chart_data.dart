@@ -182,13 +182,12 @@ class BarChartGroupData with EquatableMixin {
   /// on top of each [BarChartRodData] using [showingTooltipIndicators],
   /// just put indices you want to show it on top of them.
   BarChartGroupData({
-    required int x,
+    required this.x,
     bool? groupVertically,
     List<BarChartRodData>? barRods,
     double? barsSpace,
     List<int>? showingTooltipIndicators,
-  })  : x = x,
-        groupVertically = groupVertically ?? false,
+  })  : groupVertically = groupVertically ?? false,
         barRods = barRods ?? const [],
         barsSpace = barsSpace ?? 2,
         showingTooltipIndicators = showingTooltipIndicators ?? const [];
@@ -309,29 +308,27 @@ class BarChartRodData with EquatableMixin {
   /// ```
   BarChartRodData({
     double? fromY,
-    required double toY,
+    required this.toY,
     Color? color,
-    Gradient? gradient,
+    this.gradient,
     double? width,
     BorderRadius? borderRadius,
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
   })  : fromY = fromY ?? 0,
-        toY = toY,
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
-        gradient = gradient,
         width = width ?? 8,
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
         rodStackItems = rodStackItems ?? const [] {
     assert(
-      (this.gradient == null && this.color != null) ||
-          (this.color == null && this.gradient != null),
+      (gradient == null && this.color != null) ||
+          (this.color == null && gradient != null),
       'You cannot provide both color and gradient at the same time, '
-      'color is ${this.color} and gradient is ${this.gradient}',
+      'color is ${this.color} and gradient is $gradient',
     );
   }
 
@@ -521,18 +518,17 @@ class BackgroundBarChartRodData with EquatableMixin {
     double? toY,
     bool? show,
     Color? color,
-    Gradient? gradient,
+    this.gradient,
   })  : fromY = fromY ?? 0,
         toY = toY ?? 0,
         show = show ?? false,
         color = color ??
-            ((color == null && gradient == null) ? Colors.blueGrey : null),
-        gradient = gradient {
+            ((color == null && gradient == null) ? Colors.blueGrey : null) {
     assert(
-      (this.gradient == null && this.color != null) ||
-          (this.color == null && this.gradient != null),
+      (gradient == null && this.color != null) ||
+          (this.color == null && gradient != null),
       'You cannot provide both color and gradient at the same time, '
-      'color is ${this.color} and gradient is ${this.gradient}',
+      'color is ${this.color} and gradient is $gradient',
     );
   }
 
@@ -842,9 +838,7 @@ class BarTooltipItem with EquatableMixin {
 class BarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
-  BarTouchResponse(BarTouchedSpot? spot)
-      : spot = spot,
-        super();
+  BarTouchResponse(this.spot) : super();
 
   /// Gives information about the touched spot
   final BarTouchedSpot? spot;
@@ -871,21 +865,15 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
   /// You can also have the touched x and y in the chart as a [FlSpot] using [spot] value,
   /// and you can have the local touch coordinates on the screen as a [Offset] using [offset] value.
   BarTouchedSpot(
-    BarChartGroupData touchedBarGroup,
-    int touchedBarGroupIndex,
-    BarChartRodData touchedRodData,
-    int touchedRodDataIndex,
-    BarChartRodStackItem? touchedStackItem,
-    int touchedStackItemIndex,
+    this.touchedBarGroup,
+    this.touchedBarGroupIndex,
+    this.touchedRodData,
+    this.touchedRodDataIndex,
+    this.touchedStackItem,
+    this.touchedStackItemIndex,
     FlSpot spot,
     Offset offset,
-  )   : touchedBarGroup = touchedBarGroup,
-        touchedBarGroupIndex = touchedBarGroupIndex,
-        touchedRodData = touchedRodData,
-        touchedRodDataIndex = touchedRodDataIndex,
-        touchedStackItem = touchedStackItem,
-        touchedStackItemIndex = touchedStackItemIndex,
-        super(spot, offset);
+  ) : super(spot, offset);
   final BarChartGroupData touchedBarGroup;
   final int touchedBarGroupIndex;
 

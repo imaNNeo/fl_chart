@@ -16,26 +16,21 @@ import 'package:flutter/material.dart';
 abstract class AxisChartData extends BaseChartData with EquatableMixin {
   AxisChartData({
     FlGridData? gridData,
-    required FlTitlesData titlesData,
+    required this.titlesData,
     RangeAnnotations? rangeAnnotations,
-    required double minX,
-    required double maxX,
+    required this.minX,
+    required this.maxX,
     double? baselineX,
-    required double minY,
-    required double maxY,
+    required this.minY,
+    required this.maxY,
     double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
     FlBorderData? borderData,
     required FlTouchData touchData,
   })  : gridData = gridData ?? FlGridData(),
-        titlesData = titlesData,
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
-        minX = minX,
-        maxX = maxX,
         baselineX = baselineX ?? 0,
-        minY = minY,
-        maxY = maxY,
         baselineY = baselineY ?? 0,
         clipData = clipData ?? FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
@@ -147,11 +142,10 @@ class SideTitles with EquatableMixin {
     bool? showTitles,
     GetTitleWidgetFunction? getTitlesWidget,
     double? reservedSize,
-    double? interval,
+    this.interval,
   })  : showTitles = showTitles ?? false,
         getTitlesWidget = getTitlesWidget ?? defaultGetTitle,
-        reservedSize = reservedSize ?? 22,
-        interval = interval {
+        reservedSize = reservedSize ?? 22 {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");
     }
@@ -217,12 +211,11 @@ class AxisTitles with EquatableMixin {
   ///
   /// [sideTitles] property is responsible to show your axis side labels
   AxisTitles({
-    Widget? axisNameWidget,
+    this.axisNameWidget,
     double? axisNameSize,
     SideTitles? sideTitles,
     bool? drawBehindEverything,
-  })  : axisNameWidget = axisNameWidget,
-        axisNameSize = axisNameSize ?? 16,
+  })  : axisNameSize = axisNameSize ?? 16,
         sideTitles = sideTitles ?? SideTitles(),
         drawBelowEverything = drawBehindEverything ?? false;
 
@@ -375,9 +368,7 @@ class FlSpot with EquatableMixin {
   ///
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
-  const FlSpot(double x, double y)
-      : x = x,
-        y = y;
+  const FlSpot(this.x, this.y);
   final double x;
   final double y;
 
@@ -460,20 +451,18 @@ class FlGridData with EquatableMixin {
   FlGridData({
     bool? show,
     bool? drawHorizontalLine,
-    double? horizontalInterval,
+    this.horizontalInterval,
     GetDrawingGridLine? getDrawingHorizontalLine,
     CheckToShowGrid? checkToShowHorizontalLine,
     bool? drawVerticalLine,
-    double? verticalInterval,
+    this.verticalInterval,
     GetDrawingGridLine? getDrawingVerticalLine,
     CheckToShowGrid? checkToShowVerticalLine,
   })  : show = show ?? true,
         drawHorizontalLine = drawHorizontalLine ?? true,
-        horizontalInterval = horizontalInterval,
         getDrawingHorizontalLine = getDrawingHorizontalLine ?? defaultGridLine,
         checkToShowHorizontalLine = checkToShowHorizontalLine ?? showAllGrids,
         drawVerticalLine = drawVerticalLine ?? true,
-        verticalInterval = verticalInterval,
         getDrawingVerticalLine = getDrawingVerticalLine ?? defaultGridLine,
         checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids {
     if (horizontalInterval == 0) {
@@ -606,10 +595,9 @@ class FlLine with EquatableMixin {
   FlLine({
     Color? color,
     double? strokeWidth,
-    List<int>? dashArray,
+    this.dashArray,
   })  : color = color ?? Colors.black,
-        strokeWidth = strokeWidth ?? 2,
-        dashArray = dashArray;
+        strokeWidth = strokeWidth ?? 2;
 
   /// Defines color of the line.
   final Color color;
@@ -664,10 +652,9 @@ abstract class TouchedSpot with EquatableMixin {
   /// [offset] is the touch position in device pixels,
   /// 0, 0 is top, left, and 1, 1 is bottom right.
   TouchedSpot(
-    FlSpot spot,
-    Offset offset,
-  )   : spot = spot,
-        offset = offset;
+    this.spot,
+    this.offset,
+  );
 
   /// Represents the spot inside our axis based chart,
   /// 0, 0 is bottom left, and 1, 1 is top right.
@@ -744,12 +731,10 @@ class HorizontalRangeAnnotation with EquatableMixin {
   /// Annotates a horizontal region from most left to most right point of the chart, and
   /// from [y1] to [y2], and fills the area with [color].
   HorizontalRangeAnnotation({
-    required double y1,
-    required double y2,
+    required this.y1,
+    required this.y2,
     Color? color,
-  })  : y1 = y1,
-        y2 = y2,
-        color = color ?? Colors.white;
+  }) : color = color ?? Colors.white;
 
   /// Determines starting point in vertical (y) axis.
   final double y1;
@@ -801,12 +786,10 @@ class VerticalRangeAnnotation with EquatableMixin {
   /// Annotates a vertical region from most bottom to most top point of the chart, and
   /// from [x1] to [x2], and fills the area with [color].
   VerticalRangeAnnotation({
-    required double x1,
-    required double x2,
+    required this.x1,
+    required this.x2,
     Color? color,
-  })  : x1 = x1,
-        x2 = x2,
-        color = color ?? Colors.white;
+  }) : color = color ?? Colors.white;
 
   /// Determines starting point in horizontal (x) axis.
   final double x1;

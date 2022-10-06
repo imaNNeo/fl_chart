@@ -16,9 +16,8 @@ abstract class BaseChartData with EquatableMixin {
   /// [touchData] defines the touch behavior and responses.
   BaseChartData({
     FlBorderData? borderData,
-    required FlTouchData touchData,
-  })  : borderData = borderData ?? FlBorderData(),
-        touchData = touchData;
+    required this.touchData,
+  }) : borderData = borderData ?? FlBorderData();
 
   /// Holds data to drawing border around the chart.
   FlBorderData borderData;
@@ -87,12 +86,10 @@ class FlBorderData with EquatableMixin {
 abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   FlTouchData(
-    bool enabled,
-    BaseTouchCallback<R>? touchCallback,
-    MouseCursorResolver<R>? mouseCursorResolver,
-  )   : enabled = enabled,
-        touchCallback = touchCallback,
-        mouseCursorResolver = mouseCursorResolver;
+    this.enabled,
+    this.touchCallback,
+    this.mouseCursorResolver,
+  );
 
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;

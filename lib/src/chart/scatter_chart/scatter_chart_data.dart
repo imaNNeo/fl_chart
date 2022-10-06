@@ -335,9 +335,7 @@ class ScatterTouchResponse extends BaseTouchResponse {
   ///
   /// [touchedSpot] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
-  ScatterTouchResponse(ScatterTouchedSpot? touchedSpot)
-      : touchedSpot = touchedSpot,
-        super();
+  ScatterTouchResponse(this.touchedSpot) : super();
   final ScatterTouchedSpot? touchedSpot;
 
   /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
@@ -511,18 +509,15 @@ class ScatterTooltipItem with EquatableMixin {
   /// Shows a [text] with [textStyle], [textDirection],  and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   ScatterTooltipItem(
-    String text, {
-    TextStyle? textStyle,
+    this.text, {
+    this.textStyle,
     double? bottomMargin,
     TextAlign? textAlign,
     TextDirection? textDirection,
-    List<TextSpan>? children,
-  })  : text = text,
-        textStyle = textStyle,
-        bottomMargin = bottomMargin ?? 8,
+    this.children,
+  })  : bottomMargin = bottomMargin ?? 8,
         textAlign = textAlign ?? TextAlign.center,
-        textDirection = textDirection ?? TextDirection.ltr,
-        children = children;
+        textDirection = textDirection ?? TextDirection.ltr;
 
   /// Showing text.
   final String text;
