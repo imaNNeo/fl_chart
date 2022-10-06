@@ -53,6 +53,6 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
       widget.data,
       (dynamic value) =>
           RadarChartDataTween(begin: value as RadarChartData, end: widget.data),
-    ) as RadarChartDataTween;
+    ) as RadarChartDataTween?;
   }
 }

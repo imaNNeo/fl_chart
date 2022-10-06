@@ -905,16 +905,16 @@ void main() {
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
-      expect((textPainter.text as TextSpan).text, 'helllo1');
-      expect((textPainter.text as TextSpan).style, textStyle1);
+      expect((textPainter.text as TextSpan?)!.text, 'helllo1');
+      expect((textPainter.text as TextSpan?)!.style, textStyle1);
       expect(textPainter.textAlign, TextAlign.right);
       expect(textPainter.textDirection, TextDirection.rtl);
       expect(
-        (textPainter.text as TextSpan).children![0],
+        (textPainter.text as TextSpan?)!.children![0],
         const TextSpan(text: 'helllo2'),
       );
       expect(
-        (textPainter.text as TextSpan).children![1],
+        (textPainter.text as TextSpan?)!.children![1],
         const TextSpan(text: 'helllo3'),
       );
 
@@ -1097,16 +1097,16 @@ void main() {
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
         ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
-      expect((textPainter.text as TextSpan).text, 'helllo1');
-      expect((textPainter.text as TextSpan).style, textStyle1);
+      expect((textPainter.text as TextSpan?)!.text, 'helllo1');
+      expect((textPainter.text as TextSpan?)!.style, textStyle1);
       expect(textPainter.textAlign, TextAlign.right);
       expect(textPainter.textDirection, TextDirection.rtl);
       expect(
-        (textPainter.text as TextSpan).children![0],
+        (textPainter.text as TextSpan?)!.children![0],
         const TextSpan(text: 'helllo2'),
       );
       expect(
-        (textPainter.text as TextSpan).children![1],
+        (textPainter.text as TextSpan?)!.children![1],
         const TextSpan(text: 'helllo3'),
       );
 

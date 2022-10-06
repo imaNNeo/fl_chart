@@ -131,6 +131,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       _getData(),
       (dynamic value) =>
           LineChartDataTween(begin: value as LineChartData, end: widget.data),
-    ) as LineChartDataTween;
+    ) as LineChartDataTween?;
   }
 }
