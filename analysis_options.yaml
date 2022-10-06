@@ -27,7 +27,6 @@ linter:
     avoid_bool_literals_in_conditional_expressions: false
     use_named_constants: false
     parameter_assignments: false
-    prefer_int_literals: false
     noop_primitive_operations: false
     flutter_style_todos: false
     use_setters_to_change_properties: false
