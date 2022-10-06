@@ -175,7 +175,7 @@ void main() {
                   chart: LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
-                      return Container(
+                      return const ColoredBox(
                         color: Colors.red,
                       );
                     },
@@ -208,7 +208,7 @@ void main() {
                   chart: LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
-                      return Container(
+                      return const ColoredBox(
                         color: Colors.red,
                       );
                     },
@@ -277,7 +277,7 @@ void main() {
                   chart: LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
-                      return Container(
+                      return const ColoredBox(
                         color: Colors.red,
                       );
                     },
@@ -316,7 +316,7 @@ void main() {
                   chart: LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
-                      return Container(
+                      return const ColoredBox(
                         color: Colors.red,
                       );
                     },
@@ -354,7 +354,7 @@ void main() {
                   chart: LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
-                      return Container(
+                      return const ColoredBox(
                         color: Colors.red,
                       );
                     },
