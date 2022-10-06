@@ -85,19 +85,21 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     if (data.radarShape == RadarShape.circle) {
       /// draw radar background
-      canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
+      canvasWrapper
+        ..drawCircle(centerOffset, radius, _backgroundPaint)
 
-      /// draw radar border
-      canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
+        /// draw radar border
+        ..drawCircle(centerOffset, radius, _borderPaint);
     } else {
       final path =
           _generatePolygonPath(centerX, centerY, radius, data.titleCount);
 
       /// draw radar background
-      canvasWrapper.drawPath(path, _backgroundPaint);
+      canvasWrapper
+        ..drawPath(path, _backgroundPaint)
 
-      /// draw radar border
-      canvasWrapper.drawPath(path, _borderPaint);
+        /// draw radar border
+        ..drawPath(path, _borderPaint);
     }
 
     final dataSetMaxValue = data.maxEntry.value;
@@ -135,8 +137,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
             text: tick.toStringAsFixed(1),
             style: Utils().getThemeAwareTextStyle(context, data.ticksTextStyle),
           )
-          ..textDirection = TextDirection.ltr;
-        _ticksTextPaint.layout(maxWidth: size.width);
+          ..textDirection = TextDirection.ltr
+          ..layout(maxWidth: size.width);
         canvasWrapper.drawText(
           _ticksTextPaint,
           Offset(centerX + 5, centerY - tickRadius - _ticksTextPaint.height),
@@ -151,8 +153,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     double radius,
     int count,
   ) {
-    final path = Path();
-    path.moveTo(centerX, centerY - radius);
+    final path = Path()..moveTo(centerX, centerY - radius);
     final angle = (2 * pi) / count;
     for (var index = 0; index < count; index++) {
       final xAngle = cos(angle * index - pi / 2);
@@ -223,8 +224,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       final baseTitleAngle = Utils().degrees(diffAngle * index);
       final title = data.getTitle!(index, baseTitleAngle);
       final span = TextSpan(text: title.text, style: style);
-      _titleTextPaint.text = span;
-      _titleTextPaint.layout();
+      _titleTextPaint
+        ..text = span
+        ..layout();
       final angle = diffAngle * index - pi / 2;
       final threshold = 1.0 + data.titlePositionPercentageOffset;
       final titleX = centerX +
@@ -310,8 +312,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       });
 
       path.close();
-      canvasWrapper.drawPath(path, _graphPaint);
-      canvasWrapper.drawPath(path, _graphBorderPaint);
+      canvasWrapper
+        ..drawPath(path, _graphPaint)
+        ..drawPath(path, _graphBorderPaint);
     });
   }
 

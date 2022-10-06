@@ -261,8 +261,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
           // draw border stroke
           if (borderSide.width > 0 && borderSide.color.opacity > 0) {
-            _barStrokePaint.color = borderSide.color;
-            _barStrokePaint.strokeWidth = borderSide.width;
+            _barStrokePaint
+              ..color = borderSide.color
+              ..strokeWidth = borderSide.width;
             canvasWrapper.drawRRect(barRRect, _barStrokePaint);
           }
 
@@ -274,11 +275,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               final stackToY = getPixelY(stackItem.toY, viewSize, holder);
 
               _barPaint.color = stackItem.color;
-              canvasWrapper.save();
               canvasWrapper
-                  .clipRect(Rect.fromLTRB(left, stackToY, right, stackFromY));
-              canvasWrapper.drawRRect(barRRect, _barPaint);
-              canvasWrapper.restore();
+                ..save()
+                ..clipRect(Rect.fromLTRB(left, stackToY, right, stackFromY))
+                ..drawRRect(barRRect, _barPaint)
+                ..restore();
 
               // draw border stroke for each stack item
               drawStackItemBorderStroke(
@@ -336,8 +337,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       textAlign: tooltipItem.textAlign,
       textDirection: tooltipItem.textDirection,
       textScaleFactor: holder.textScale,
-    );
-    tp.layout(maxWidth: tooltipData.maxContentWidth);
+    )..layout(maxWidth: tooltipData.maxContentWidth);
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainter = tp;
@@ -452,8 +452,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     );
 
     if (tooltipData.tooltipBorder != BorderSide.none) {
-      _borderTouchTooltipPaint.color = tooltipData.tooltipBorder.color;
-      _borderTouchTooltipPaint.strokeWidth = tooltipData.tooltipBorder.width;
+      _borderTouchTooltipPaint
+        ..color = tooltipData.tooltipBorder.color
+        ..strokeWidth = tooltipData.tooltipBorder.width;
     }
 
     canvasWrapper.drawRotated(
@@ -462,9 +463,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       drawOffset: rectDrawOffset,
       angle: rotateAngle,
       drawCallback: () {
-        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
-        canvasWrapper.drawRRect(roundedRect, _borderTouchTooltipPaint);
-        canvasWrapper.drawText(tp, drawOffset);
+        canvasWrapper
+          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
+          ..drawText(tp, drawOffset);
       },
     );
   }
@@ -522,9 +524,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         Radius.zero,
       );
     }
-    _barStrokePaint.color = stackItem.borderSide.color;
-    _barStrokePaint.strokeWidth =
-        min(stackItem.borderSide.width, barThickSize / 2);
+    _barStrokePaint
+      ..color = stackItem.borderSide.color
+      ..strokeWidth = min(stackItem.borderSide.width, barThickSize / 2);
     canvasWrapper.drawRRect(strokeBarRect, _barStrokePaint);
   }
 

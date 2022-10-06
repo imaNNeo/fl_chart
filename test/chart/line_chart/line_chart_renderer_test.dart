@@ -55,8 +55,9 @@ void main() {
     final mockCanvas = MockCanvas();
     const mockSize = Size(44, 44);
     when(mockPaintingContext.canvas).thenAnswer((realInvocation) => mockCanvas);
-    renderLineChart.mockTestSize = mockSize;
-    renderLineChart.painter = mockPainter;
+    renderLineChart
+      ..mockTestSize = mockSize
+      ..painter = mockPainter;
 
     test('test 1 correct data set', () {
       expect(renderLineChart.data == data, true);
@@ -113,9 +114,10 @@ void main() {
     });
 
     test('test 4 check setters', () {
-      renderLineChart.data = targetData;
-      renderLineChart.targetData = data;
-      renderLineChart.textScale = 22;
+      renderLineChart
+        ..data = targetData
+        ..targetData = data
+        ..textScale = 22;
 
       expect(renderLineChart.data, targetData);
       expect(renderLineChart.targetData, data);

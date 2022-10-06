@@ -1336,8 +1336,8 @@ void main() {
       );
 
       final result =
-          verify(mockCanvasWrapper.drawPath(belowBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(belowBarPath, captureAny))
+            ..called(1);
 
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
@@ -1437,15 +1437,15 @@ void main() {
       ).called(1);
 
       final result =
-          verify(mockCanvasWrapper.drawPath(belowBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(belowBarPath, captureAny))
+            ..called(1);
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
       expect(paint.shader is ui.Gradient, true);
 
       final result2 =
-          verify(mockCanvasWrapper.drawPath(filletAboveBarPath, captureAny));
-      result2.called(1);
+          verify(mockCanvasWrapper.drawPath(filletAboveBarPath, captureAny))
+            ..called(1);
       final paint2 = result2.captured.single as Paint;
       expect(paint2.color, const Color(0x00000000));
       expect(paint2.blendMode, BlendMode.dstIn);
@@ -1520,8 +1520,8 @@ void main() {
       );
 
       final result =
-          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny))
+            ..called(1);
 
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
@@ -1621,15 +1621,15 @@ void main() {
       ).called(1);
 
       final result =
-          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny))
+            ..called(1);
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
       expect(paint.shader is ui.Gradient, true);
 
       final result2 =
-          verify(mockCanvasWrapper.drawPath(filledBelowBarPath, captureAny));
-      result2.called(1);
+          verify(mockCanvasWrapper.drawPath(filledBelowBarPath, captureAny))
+            ..called(1);
       final paint2 = result2.captured.single as Paint;
       expect(paint2.color, const Color(0x00000000));
       expect(paint2.blendMode, BlendMode.dstIn);
@@ -1722,8 +1722,8 @@ void main() {
         ),
       );
       final result =
-          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny))
+            ..called(1);
       final painter = result.captured.single as Paint;
       expect(painter.color, const Color(0xFFFF0000));
       verify(mockCanvasWrapper.restore());
@@ -1796,8 +1796,8 @@ void main() {
         barPath,
         lineChartBarData1,
       );
-      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny));
-      result.called(1);
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny))
+        ..called(1);
       final path = result.captured[0] as Path;
       expect(path.getBounds(), barPath.shift(const Offset(10, 15)).getBounds());
 
@@ -1915,8 +1915,8 @@ void main() {
         lineChartBarData1,
         holder,
       );
-      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny));
-      result.called(1);
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny))
+        ..called(1);
       final drewPath = result.captured[0] as Path;
       expect(drewPath, barPath);
 
@@ -1974,8 +1974,8 @@ void main() {
         lineChartBarData1,
         holder,
       );
-      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny));
-      result.called(1);
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny))
+        ..called(1);
       final drewPath = result.captured[0] as Path;
       expect(
         drewPath.computeMetrics().length,
@@ -2223,8 +2223,8 @@ void main() {
       );
 
       final result1 =
-          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(2);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
       final rRect = result1.captured[0] as RRect;
       final paint = result1.captured[1] as Paint;
       expect(
@@ -2241,9 +2241,8 @@ void main() {
       expect(paintBorder.color, const Color(0x11111111));
       expect(paintBorder.strokeWidth, 2);
 
-      final result2 =
-          verify(mockCanvasWrapper.drawText(captureAny, captureAny));
-      result2.called(1);
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
+        ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
       final drawOffset = result2.captured[1] as Offset;
       expect((textPainter.text as TextSpan).text, '0');

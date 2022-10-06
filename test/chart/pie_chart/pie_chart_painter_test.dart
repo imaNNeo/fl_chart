@@ -558,26 +558,27 @@ void main() {
         });
       });
 
-      barChartPainter.drawSection(
-        data.sections[0],
-        MockData.path1,
-        mockCanvasWrapper,
-      );
-      barChartPainter.drawSection(
-        data.sections[1],
-        MockData.path2,
-        mockCanvasWrapper,
-      );
-      barChartPainter.drawSection(
-        data.sections[2],
-        MockData.path3,
-        mockCanvasWrapper,
-      );
-      barChartPainter.drawSection(
-        data.sections[3],
-        MockData.path4,
-        mockCanvasWrapper,
-      );
+      barChartPainter
+        ..drawSection(
+          data.sections[0],
+          MockData.path1,
+          mockCanvasWrapper,
+        )
+        ..drawSection(
+          data.sections[1],
+          MockData.path2,
+          mockCanvasWrapper,
+        )
+        ..drawSection(
+          data.sections[2],
+          MockData.path3,
+          mockCanvasWrapper,
+        )
+        ..drawSection(
+          data.sections[3],
+          MockData.path4,
+          mockCanvasWrapper,
+        );
 
       expect(results.length, 4);
 
@@ -629,30 +630,31 @@ void main() {
         });
       });
 
-      barChartPainter.drawSectionStroke(
-        data.sections[0],
-        MockData.path1,
-        mockCanvasWrapper,
-        viewSize,
-      );
-      barChartPainter.drawSectionStroke(
-        data.sections[1],
-        MockData.path2,
-        mockCanvasWrapper,
-        viewSize,
-      );
-      barChartPainter.drawSectionStroke(
-        data.sections[2],
-        MockData.path3,
-        mockCanvasWrapper,
-        viewSize,
-      );
-      barChartPainter.drawSectionStroke(
-        data.sections[3],
-        MockData.path4,
-        mockCanvasWrapper,
-        viewSize,
-      );
+      barChartPainter
+        ..drawSectionStroke(
+          data.sections[0],
+          MockData.path1,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[1],
+          MockData.path2,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[2],
+          MockData.path3,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[3],
+          MockData.path4,
+          mockCanvasWrapper,
+          viewSize,
+        );
 
       verifyNever(mockCanvasWrapper.saveLayer(any, any));
       verifyNever(mockCanvasWrapper.clipPath(any));
@@ -713,30 +715,31 @@ void main() {
         });
       });
 
-      barChartPainter.drawSectionStroke(
-        data.sections[0],
-        MockData.path1,
-        mockCanvasWrapper,
-        viewSize,
-      );
-      barChartPainter.drawSectionStroke(
-        data.sections[1],
-        MockData.path2,
-        mockCanvasWrapper,
-        viewSize,
-      );
-      barChartPainter.drawSectionStroke(
-        data.sections[2],
-        MockData.path3,
-        mockCanvasWrapper,
-        viewSize,
-      );
-      barChartPainter.drawSectionStroke(
-        data.sections[3],
-        MockData.path4,
-        mockCanvasWrapper,
-        viewSize,
-      );
+      barChartPainter
+        ..drawSectionStroke(
+          data.sections[0],
+          MockData.path1,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[1],
+          MockData.path2,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[2],
+          MockData.path3,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[3],
+          MockData.path4,
+          mockCanvasWrapper,
+          viewSize,
+        );
 
       verify(
         mockCanvasWrapper.saveLayer(

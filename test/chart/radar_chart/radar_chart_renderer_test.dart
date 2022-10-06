@@ -39,8 +39,9 @@ void main() {
     final mockCanvas = MockCanvas();
     const mockSize = Size(44, 44);
     when(mockPaintingContext.canvas).thenAnswer((realInvocation) => mockCanvas);
-    renderRadarChart.mockTestSize = mockSize;
-    renderRadarChart.painter = mockPainter;
+    renderRadarChart
+      ..mockTestSize = mockSize
+      ..painter = mockPainter;
 
     test('test 1 correct data set', () {
       expect(renderRadarChart.data == data, true);
@@ -94,9 +95,10 @@ void main() {
     });
 
     test('test 4 check setters', () {
-      renderRadarChart.data = targetData;
-      renderRadarChart.targetData = data;
-      renderRadarChart.textScale = 22;
+      renderRadarChart
+        ..data = targetData
+        ..targetData = data
+        ..textScale = 22;
 
       expect(renderRadarChart.data, targetData);
       expect(renderRadarChart.targetData, data);

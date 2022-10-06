@@ -67,9 +67,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
           continue;
         }
         final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
-        _gridPaint.color = flLineStyle.color;
-        _gridPaint.strokeWidth = flLineStyle.strokeWidth;
-        _gridPaint.transparentIfWidthIsZero();
+        _gridPaint
+          ..color = flLineStyle.color
+          ..strokeWidth = flLineStyle.strokeWidth
+          ..transparentIfWidthIsZero();
 
         final bothX = getPixelX(axisValue, viewSize, holder);
         final x1 = bothX;
@@ -103,9 +104,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
           continue;
         }
         final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
-        _gridPaint.color = flLine.color;
-        _gridPaint.strokeWidth = flLine.strokeWidth;
-        _gridPaint.transparentIfWidthIsZero();
+        _gridPaint
+          ..color = flLine.color
+          ..strokeWidth = flLine.strokeWidth
+          ..transparentIfWidthIsZero();
 
         final bothY = getPixelY(axisValue, viewSize, holder);
         const x1 = 0.0;

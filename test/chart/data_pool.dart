@@ -112,8 +112,7 @@ class MockData {
       return _picture1!;
     }
     final recorder1 = PictureRecorder();
-    final canvas = Canvas(recorder1);
-    canvas.drawLine(offset1, offset2, paint1);
+    Canvas(recorder1).drawLine(offset1, offset2, paint1);
     _picture1 = recorder1.endRecording();
     return _picture1!;
   }

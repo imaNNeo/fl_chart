@@ -138,9 +138,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           textAlign: TextAlign.center,
           textDirection: holder.data.scatterLabelSettings.textDirection,
           textScaleFactor: holder.textScale,
-        );
-
-        tp.layout(maxWidth: viewSize.width);
+        )..layout(maxWidth: viewSize.width);
 
         final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
         final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
@@ -235,8 +233,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       textAlign: tooltipItem.textAlign,
       textDirection: tooltipItem.textDirection,
       textScaleFactor: holder.textScale,
-    );
-    drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
+    )..layout(maxWidth: tooltipData.maxContentWidth);
 
     final width = drawingTextPainter.width;
     final height = drawingTextPainter.height;
@@ -334,8 +331,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     );
 
     if (tooltipData.tooltipBorder != BorderSide.none) {
-      _borderTouchTooltipPaint.color = tooltipData.tooltipBorder.color;
-      _borderTouchTooltipPaint.strokeWidth = tooltipData.tooltipBorder.width;
+      _borderTouchTooltipPaint
+        ..color = tooltipData.tooltipBorder.color
+        ..strokeWidth = tooltipData.tooltipBorder.width;
     }
 
     canvasWrapper.drawRotated(
@@ -344,9 +342,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       drawOffset: rectDrawOffset,
       angle: rotateAngle,
       drawCallback: () {
-        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
-        canvasWrapper.drawRRect(roundedRect, _borderTouchTooltipPaint);
-        canvasWrapper.drawText(drawingTextPainter, drawOffset);
+        canvasWrapper
+          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
+          ..drawText(drawingTextPainter, drawOffset);
       },
     );
   }

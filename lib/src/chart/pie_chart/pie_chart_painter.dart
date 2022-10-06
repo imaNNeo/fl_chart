@@ -96,9 +96,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionDegree = sectionsAngle[i];
 
       if (sectionDegree == 360) {
-        _sectionPaint.color = section.color;
-        _sectionPaint.strokeWidth = section.radius;
-        _sectionPaint.style = PaintingStyle.stroke;
+        _sectionPaint
+          ..color = section.color
+          ..strokeWidth = section.radius
+          ..style = PaintingStyle.stroke;
         canvasWrapper.drawCircle(
           center,
           centerRadius + section.radius / 2,
@@ -106,21 +107,23 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         );
         if (section.borderSide.width != 0.0 &&
             section.borderSide.color.opacity != 0.0) {
-          _sectionStrokePaint.strokeWidth = section.borderSide.width;
-          _sectionStrokePaint.color = section.borderSide.color;
+          _sectionStrokePaint
+            ..strokeWidth = section.borderSide.width
+            ..color = section.borderSide.color;
           // Outer
-          canvasWrapper.drawCircle(
-            center,
-            centerRadius + section.radius - (section.borderSide.width / 2),
-            _sectionStrokePaint,
-          );
+          canvasWrapper
+            ..drawCircle(
+              center,
+              centerRadius + section.radius - (section.borderSide.width / 2),
+              _sectionStrokePaint,
+            )
 
-          // Inner
-          canvasWrapper.drawCircle(
-            center,
-            centerRadius + (section.borderSide.width / 2),
-            _sectionStrokePaint,
-          );
+            // Inner
+            ..drawCircle(
+              center,
+              centerRadius + (section.borderSide.width / 2),
+              _sectionStrokePaint,
+            );
         }
         return;
       }
@@ -262,8 +265,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     Path sectionPath,
     CanvasWrapper canvasWrapper,
   ) {
-    _sectionPaint.color = section.color;
-    _sectionPaint.style = PaintingStyle.fill;
+    _sectionPaint
+      ..color = section.color
+      ..style = PaintingStyle.fill;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
   }
 
@@ -276,19 +280,22 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   ) {
     if (section.borderSide.width != 0.0 &&
         section.borderSide.color.opacity != 0.0) {
-      canvasWrapper.saveLayer(
-        Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-        Paint(),
-      );
-      canvasWrapper.clipPath(sectionPath);
+      canvasWrapper
+        ..saveLayer(
+          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
+          Paint(),
+        )
+        ..clipPath(sectionPath);
 
-      _sectionStrokePaint.strokeWidth = section.borderSide.width * 2;
-      _sectionStrokePaint.color = section.borderSide.color;
-      canvasWrapper.drawPath(
-        sectionPath,
-        _sectionStrokePaint,
-      );
-      canvasWrapper.restore();
+      _sectionStrokePaint
+        ..strokeWidth = section.borderSide.width * 2
+        ..color = section.borderSide.color;
+      canvasWrapper
+        ..drawPath(
+          sectionPath,
+          _sectionStrokePaint,
+        )
+        ..restore();
     }
   }
 
@@ -336,9 +343,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           textAlign: TextAlign.center,
           textDirection: TextDirection.ltr,
           textScaleFactor: holder.textScale,
-        );
+        )..layout();
 
-        tp.layout();
         canvasWrapper.drawText(
           tp,
           sectionCenterOffsetTitle - Offset(tp.width / 2, tp.height / 2),

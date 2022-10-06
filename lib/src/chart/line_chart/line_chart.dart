@@ -108,8 +108,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     }
 
     setState(() {
-      final sortedLineSpots = List.of(touchResponse.lineBarSpots!);
-      sortedLineSpots.sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
+      final sortedLineSpots = List.of(touchResponse.lineBarSpots!)
+        ..sort((spot1, spot2) => spot2.y.compareTo(spot1.y));
 
       _showingTouchedIndicators.clear();
       for (var i = 0; i < touchResponse.lineBarSpots!.length; i++) {
@@ -118,8 +118,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         _showingTouchedIndicators[barPos] = [touchedBarSpot.spotIndex];
       }
 
-      _showingTouchedTooltips.clear();
-      _showingTouchedTooltips.add(ShowingTooltipIndicators(sortedLineSpots));
+      _showingTouchedTooltips
+        ..clear()
+        ..add(ShowingTooltipIndicators(sortedLineSpots));
     });
   }
 
