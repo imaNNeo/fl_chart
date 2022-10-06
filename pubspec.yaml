@@ -10,16 +10,16 @@ funding:
   - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
-  equatable: ^2.0.3
 
 dev_dependencies:
-  mockito: ^5.3.0
   build_runner: ^2.2.0
-  flutter_lints: ^2.0.1
-  vector_math: ^2.1.2 #Added to use in some generated codes of mockito
   flutter_test:
     sdk: flutter
+  mockito: ^5.3.0
+  vector_math: ^2.1.2 #Added to use in some generated codes of mockito
+  very_good_analysis: ^3.1.0
 
 

@@ -1,14 +1,35 @@
-include: package:flutter_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
 analyzer:
-  language:
-    strict-casts: true
-    strict-inference: true
-    strict-raw-types: true
   exclude:
     - "**.mocks.dart"
-  errors:
-    library_private_types_in_public_api: ignore
-    prefer_initializing_formals: ignore
+linter:
+  rules:
+    library_private_types_in_public_api: false
+    prefer_initializing_formals: false
     # allow self-reference to deprecated members (we do this because otherwise we have
     # to annotate every member in every test, assert, etc, when we deprecate something)
-    deprecated_member_use_from_same_package: ignore
+    deprecated_member_use_from_same_package: false
+    # TODO
+    public_member_api_docs: false
+    lines_longer_than_80_chars: false
+    comment_references: false
+    cascade_invocations: false
+    avoid_multiple_declarations_per_line: false
+    prefer_asserts_with_message: false
+    prefer_constructors_over_static_methods: false
+    unnecessary_null_checks: false
+    type_annotate_public_apis: false
+    cast_nullable_to_non_nullable: false
+    join_return_with_assignment: false
+    avoid_positional_boolean_parameters: false
+    no_default_cases: false
+    use_if_null_to_convert_nulls_to_bools: false
+    avoid_bool_literals_in_conditional_expressions: false
+    use_named_constants: false
+    parameter_assignments: false
+    prefer_int_literals: false
+    noop_primitive_operations: false
+    flutter_style_todos: false
+    use_setters_to_change_properties: false
+    avoid_dynamic_calls: false
+    use_colored_box: false
