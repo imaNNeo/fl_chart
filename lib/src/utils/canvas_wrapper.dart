@@ -5,6 +5,8 @@ import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart' hide Image;
 
+typedef DrawCallback = void Function();
+
 /// Proxies Canvas functions
 ///
 /// We wrapped the canvas here, because we needed to write tests for our drawing system.
@@ -110,7 +112,7 @@ class CanvasWrapper {
     Offset rotationOffset = Offset.zero,
     Offset drawOffset = Offset.zero,
     required double angle,
-    required void Function() drawCallback,
+    required DrawCallback drawCallback,
   }) {
     save();
     translate(
