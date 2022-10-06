@@ -19,6 +19,5 @@ linter:
     prefer_asserts_with_message: false
     prefer_constructors_over_static_methods: false
     public_member_api_docs: false
-    type_annotate_public_apis: false
     use_if_null_to_convert_nulls_to_bools: false
     use_setters_to_change_properties: false
