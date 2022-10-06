@@ -15,7 +15,8 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
     required this.targetData,
   }) : super(key: key);
 
-  final ScatterChartData data, targetData;
+  final ScatterChartData data;
+  final ScatterChartData targetData;
 
   @override
   RenderScatterChart createRenderObject(BuildContext context) =>

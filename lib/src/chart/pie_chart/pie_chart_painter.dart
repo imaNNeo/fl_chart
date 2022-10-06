@@ -25,7 +25,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;
   }
-  late Paint _sectionPaint, _sectionStrokePaint, _centerSpacePaint;
+  late Paint _sectionPaint;
+  late Paint _sectionStrokePaint;
+  late Paint _centerSpacePaint;
 
   /// Paints [PieChartData] into the provided canvas.
   @override

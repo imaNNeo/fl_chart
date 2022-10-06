@@ -12,7 +12,8 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
   const RadarChartLeaf({Key? key, required this.data, required this.targetData})
       : super(key: key);
 
-  final RadarChartData data, targetData;
+  final RadarChartData data;
+  final RadarChartData targetData;
 
   @override
   RenderRadarChart createRenderObject(BuildContext context) => RenderRadarChart(

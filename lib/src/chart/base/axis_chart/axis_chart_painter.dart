@@ -22,7 +22,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
   }
-  late Paint _gridPaint, _backgroundPaint;
+  late Paint _gridPaint;
+  late Paint _backgroundPaint;
 
   /// [_rangeAnnotationPaint] draws range annotations;
   late Paint _rangeAnnotationPaint;

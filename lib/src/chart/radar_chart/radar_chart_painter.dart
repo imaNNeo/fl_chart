@@ -33,9 +33,16 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     _ticksTextPaint = TextPainter();
     _titleTextPaint = TextPainter();
   }
-  late Paint _borderPaint, _backgroundPaint, _gridPaint, _tickPaint;
-  late Paint _graphPaint, _graphBorderPaint, _graphPointPaint;
-  late TextPainter _ticksTextPaint, _titleTextPaint;
+  late Paint _borderPaint;
+  late Paint _backgroundPaint;
+  late Paint _gridPaint;
+  late Paint _tickPaint;
+  late Paint _graphPaint;
+  late Paint _graphBorderPaint;
+  late Paint _graphPointPaint;
+
+  late TextPainter _ticksTextPaint;
+  late TextPainter _titleTextPaint;
 
   List<RadarDataSetsPosition>? dataSetsPosition;
 

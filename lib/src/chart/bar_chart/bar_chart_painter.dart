@@ -34,10 +34,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
   }
-  late Paint _barPaint,
-      _barStrokePaint,
-      _bgTouchTooltipPaint,
-      _borderTouchTooltipPaint;
+  late Paint _barPaint;
+  late Paint _barStrokePaint;
+  late Paint _bgTouchTooltipPaint;
+  late Paint _borderTouchTooltipPaint;
 
   List<GroupBarsPosition>? _groupBarsPosition;
 

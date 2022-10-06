@@ -30,7 +30,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   }
 
   /// [_spotsPaint] is responsible to draw scatter spots
-  late Paint _spotsPaint, _bgTouchTooltipPaint, _borderTouchTooltipPaint;
+  late Paint _spotsPaint;
+  late Paint _bgTouchTooltipPaint;
+  late Paint _borderTouchTooltipPaint;
 
   /// Paints [ScatterChartData] into the provided canvas.
   @override
