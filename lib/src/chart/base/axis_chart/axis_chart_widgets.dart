@@ -10,12 +10,12 @@ import 'package:flutter/widgets.dart';
 /// You can also fill [angle] in radians if you need to rotate your widget.
 class SideTitleWidget extends StatelessWidget {
   const SideTitleWidget({
-    Key? key,
+    super.key,
     required this.child,
     required this.axisSide,
     this.space = 8.0,
     this.angle = 0.0,
-  }) : super(key: key);
+  });
   final AxisSide axisSide;
   final double space;
   final Widget child;

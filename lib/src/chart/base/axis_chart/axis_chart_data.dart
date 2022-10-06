@@ -26,15 +26,14 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
-    FlBorderData? borderData,
-    required FlTouchData touchData,
+    super.borderData,
+    required super.touchData,
   })  : gridData = gridData ?? FlGridData(),
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
         baselineX = baselineX ?? 0,
         baselineY = baselineY ?? 0,
         clipData = clipData ?? FlClipData.none(),
-        backgroundColor = backgroundColor ?? Colors.transparent,
-        super(borderData: borderData, touchData: touchData);
+        backgroundColor = backgroundColor ?? Colors.transparent;
   final FlGridData gridData;
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;

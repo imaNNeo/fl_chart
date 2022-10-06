@@ -49,16 +49,16 @@ class LineChartData extends AxisChartData with EquatableMixin {
     LineTouchData? lineTouchData,
     List<ShowingTooltipIndicators>? showingTooltipIndicators,
     FlGridData? gridData,
-    FlBorderData? borderData,
+    super.borderData,
     RangeAnnotations? rangeAnnotations,
     double? minX,
     double? maxX,
-    double? baselineX,
+    super.baselineX,
     double? minY,
     double? maxY,
-    double? baselineY,
+    super.baselineY,
     FlClipData? clipData,
-    Color? backgroundColor,
+    super.backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
         extraLinesData = extraLinesData ?? ExtraLinesData(),
@@ -67,25 +67,21 @@ class LineChartData extends AxisChartData with EquatableMixin {
         super(
           gridData: gridData ?? FlGridData(),
           touchData: lineTouchData ?? LineTouchData(),
-          borderData: borderData,
           titlesData: titlesData ?? FlTitlesData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
           clipData: clipData ?? FlClipData.none(),
-          backgroundColor: backgroundColor,
           minX: minX ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .minX,
           maxX: maxX ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxX,
-          baselineX: baselineX,
           minY: minY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .minY,
           maxY: maxY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxY,
-          baselineY: baselineY,
         );
 
   /// [LineChart] draws some lines in various shapes and overlaps them.
@@ -1076,14 +1072,13 @@ class HorizontalLine extends FlLine with EquatableMixin {
     HorizontalLineLabel? label,
     Color? color,
     double? strokeWidth,
-    List<int>? dashArray,
+    super.dashArray,
     this.image,
     this.sizedPicture,
   })  : label = label ?? HorizontalLineLabel(),
         super(
           color: color ?? Colors.black,
           strokeWidth: strokeWidth ?? 2,
-          dashArray: dashArray,
         );
 
   /// Draws from left to right of the chart using the [y] value.
@@ -1144,14 +1139,13 @@ class VerticalLine extends FlLine with EquatableMixin {
     VerticalLineLabel? label,
     Color? color,
     double? strokeWidth,
-    List<int>? dashArray,
+    super.dashArray,
     this.image,
     this.sizedPicture,
   })  : label = label ?? VerticalLineLabel(),
         super(
           color: color ?? Colors.black,
           strokeWidth: strokeWidth ?? 2,
-          dashArray: dashArray,
         );
 
   /// Draws from bottom to top of the chart using the [x] value.
@@ -1237,16 +1231,14 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
   /// /// [show] determines showing label or not.
   HorizontalLineLabel({
     EdgeInsets? padding,
-    TextStyle? style,
+    super.style,
     Alignment? alignment,
-    bool show = false,
+    super.show = false,
     String Function(HorizontalLine)? labelResolver,
   })  : labelResolver =
             labelResolver ?? HorizontalLineLabel.defaultLineLabelResolver,
         super(
-          show: show,
           padding: padding ?? const EdgeInsets.all(6),
-          style: style,
           alignment: alignment ?? Alignment.topLeft,
         );
 
@@ -1758,11 +1750,11 @@ class LineBarSpot extends FlSpot with EquatableMixin {
 /// A [LineBarSpot] that holds information about the event that selected it
 class TouchLineBarSpot extends LineBarSpot {
   TouchLineBarSpot(
-    LineChartBarData bar,
-    int barIndex,
-    FlSpot spot,
+    super.bar,
+    super.barIndex,
+    super.spot,
     this.distance,
-  ) : super(bar, barIndex, spot);
+  );
 
   /// Distance in pixels from where the user taped
   final double distance;

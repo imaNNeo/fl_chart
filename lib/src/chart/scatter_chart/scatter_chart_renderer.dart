@@ -10,10 +10,10 @@ import 'package:flutter/cupertino.dart';
 /// Low level ScatterChart Widget.
 class ScatterChartLeaf extends LeafRenderObjectWidget {
   const ScatterChartLeaf({
-    Key? key,
+    super.key,
     required this.data,
     required this.targetData,
-  }) : super(key: key);
+  });
 
   final ScatterChartData data;
   final ScatterChartData targetData;

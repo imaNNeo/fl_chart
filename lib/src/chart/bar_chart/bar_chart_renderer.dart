@@ -9,8 +9,7 @@ import 'package:flutter/cupertino.dart';
 
 /// Low level BarChart Widget.
 class BarChartLeaf extends LeafRenderObjectWidget {
-  const BarChartLeaf({Key? key, required this.data, required this.targetData})
-      : super(key: key);
+  const BarChartLeaf({super.key, required this.data, required this.targetData});
 
   final BarChartData data;
   final BarChartData targetData;

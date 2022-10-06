@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 
 class SideTitlesWidget extends StatelessWidget {
   const SideTitlesWidget({
-    Key? key,
+    super.key,
     required this.side,
     required this.axisChartData,
     required this.parentSize,
-  }) : super(key: key);
+  });
   final AxisSide side;
   final AxisChartData axisChartData;
   final Size parentSize;
@@ -221,11 +221,10 @@ class SideTitlesWidget extends StatelessWidget {
 
 class _AxisTitleWidget extends StatelessWidget {
   const _AxisTitleWidget({
-    Key? key,
     required this.axisTitles,
     required this.side,
     required this.axisViewSize,
-  }) : super(key: key);
+  });
   final AxisTitles axisTitles;
   final AxisSide side;
   final double axisViewSize;

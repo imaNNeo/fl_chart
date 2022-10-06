@@ -14,11 +14,10 @@ class LineChart extends ImplicitlyAnimatedWidget {
   const LineChart(
     this.data, {
     this.chartRendererKey,
-    Key? key,
+    super.key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
   }) : super(
-          key: key,
           duration: swapAnimationDuration,
           curve: swapAnimationCurve,
         );

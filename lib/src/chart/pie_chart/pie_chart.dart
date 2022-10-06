@@ -11,11 +11,10 @@ class PieChart extends ImplicitlyAnimatedWidget {
   /// which default is [Curves.linear].
   const PieChart(
     this.data, {
-    Key? key,
+    super.key,
     Duration swapAnimationDuration = defaultDuration,
     Curve swapAnimationCurve = Curves.linear,
   }) : super(
-          key: key,
           duration: swapAnimationDuration,
           curve: swapAnimationCurve,
         );

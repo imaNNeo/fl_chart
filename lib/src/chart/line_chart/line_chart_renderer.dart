@@ -10,8 +10,11 @@ import 'package:flutter/material.dart';
 
 /// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
-  const LineChartLeaf({Key? key, required this.data, required this.targetData})
-      : super(key: key);
+  const LineChartLeaf({
+    super.key,
+    required this.data,
+    required this.targetData,
+  });
 
   final LineChartData data;
   final LineChartData targetData;

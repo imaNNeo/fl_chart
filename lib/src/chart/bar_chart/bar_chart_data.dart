@@ -39,11 +39,11 @@ class BarChartData extends AxisChartData with EquatableMixin {
     BarTouchData? barTouchData,
     double? maxY,
     double? minY,
-    double? baselineY,
+    super.baselineY,
     FlGridData? gridData,
-    FlBorderData? borderData,
+    super.borderData,
     RangeAnnotations? rangeAnnotations,
-    Color? backgroundColor,
+    super.backgroundColor,
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
@@ -58,9 +58,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
                 ),
               ),
           gridData: gridData ?? FlGridData(),
-          borderData: borderData,
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
-          backgroundColor: backgroundColor,
           touchData: barTouchData ?? BarTouchData(),
           minX: 0,
           maxX: 1,
@@ -68,7 +66,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
               BarChartHelper.calculateMaxAxisValues(barGroups ?? []).maxY,
           minY: minY ??
               BarChartHelper.calculateMaxAxisValues(barGroups ?? []).minY,
-          baselineY: baselineY,
         );
 
   /// [BarChart] draws [barGroups] that each of them contains a list of [BarChartRodData].

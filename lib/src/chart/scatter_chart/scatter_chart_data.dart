@@ -39,15 +39,15 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     ScatterTouchData? scatterTouchData,
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
-    FlBorderData? borderData,
+    super.borderData,
     double? minX,
     double? maxX,
-    double? baselineX,
+    super.baselineX,
     double? minY,
     double? maxY,
-    double? baselineY,
+    super.baselineY,
     FlClipData? clipData,
-    Color? backgroundColor,
+    super.backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
   })  : scatterSpots = scatterSpots ?? const [],
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
@@ -56,10 +56,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         super(
           gridData: gridData ?? FlGridData(),
           touchData: scatterTouchData ?? ScatterTouchData(),
-          borderData: borderData,
           titlesData: titlesData ?? FlTitlesData(),
           clipData: clipData ?? FlClipData.none(),
-          backgroundColor: backgroundColor,
           minX: minX ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
@@ -68,7 +66,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
               ).maxX,
-          baselineX: baselineX,
           minY: minY ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
@@ -77,7 +74,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
               ).maxY,
-          baselineY: baselineY,
         );
   final List<ScatterSpot> scatterSpots;
   final ScatterTouchData scatterTouchData;
@@ -187,16 +183,15 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
   ScatterSpot(
-    double x,
-    double y, {
+    super.x,
+    super.y, {
     bool? show,
     double? radius,
     Color? color,
   })  : show = show ?? true,
         radius = radius ?? 6,
         color = color ??
-            Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
-        super(x, y);
+            Colors.primaries[((x * y) % Colors.primaries.length).toInt()];
 
   /// Determines show or hide the spot.
   final bool show;

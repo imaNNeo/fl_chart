@@ -9,8 +9,11 @@ import 'package:flutter/cupertino.dart';
 
 /// Low level RadarChart Widget.
 class RadarChartLeaf extends LeafRenderObjectWidget {
-  const RadarChartLeaf({Key? key, required this.data, required this.targetData})
-      : super(key: key);
+  const RadarChartLeaf({
+    super.key,
+    required this.data,
+    required this.targetData,
+  });
 
   final RadarChartData data;
   final RadarChartData targetData;

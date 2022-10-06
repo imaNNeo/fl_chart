@@ -11,11 +11,10 @@ class RadarChart extends ImplicitlyAnimatedWidget {
   /// which default is [Curves.linear].
   const RadarChart(
     this.data, {
-    Key? key,
+    super.key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
   }) : super(
-          key: key,
           duration: swapAnimationDuration,
           curve: swapAnimationCurve,
         );
