@@ -39,8 +39,12 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
 
-  double minX, maxX, baselineX;
-  double minY, maxY, baselineY;
+  double minX;
+  double maxX;
+  double baselineX;
+  double minY;
+  double maxY;
+  double baselineY;
 
   /// clip the chart to the border (prevent draw outside the border)
   FlClipData clipData;
@@ -319,7 +323,10 @@ class FlTitlesData with EquatableMixin {
             );
   final bool show;
 
-  final AxisTitles leftTitles, topTitles, rightTitles, bottomTitles;
+  final AxisTitles leftTitles;
+  final AxisTitles topTitles;
+  final AxisTitles rightTitles;
+  final AxisTitles bottomTitles;
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
   static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {

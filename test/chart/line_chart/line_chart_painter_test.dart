@@ -928,7 +928,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;
@@ -984,7 +985,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;
@@ -1041,7 +1043,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;
@@ -1099,7 +1102,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;

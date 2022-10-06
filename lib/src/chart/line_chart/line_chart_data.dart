@@ -285,7 +285,10 @@ class LineChartBarData with EquatableMixin {
         shadow = shadow ?? const Shadow(color: Colors.transparent),
         isStepLineChart = isStepLineChart ?? false,
         lineChartStepData = lineChartStepData ?? LineChartStepData() {
-    FlSpot? mostLeft, mostTop, mostRight, mostBottom;
+    FlSpot? mostLeft;
+    FlSpot? mostTop;
+    FlSpot? mostRight;
+    FlSpot? mostBottom;
 
     FlSpot? firstValidSpot;
     try {

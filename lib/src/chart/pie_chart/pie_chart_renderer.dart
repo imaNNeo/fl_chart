@@ -18,7 +18,8 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
     required this.targetData,
   }) : super(key: key, children: targetData.sections.toWidgets());
 
-  final PieChartData data, targetData;
+  final PieChartData data;
+  final PieChartData targetData;
 
   @override
   RenderPieChart createRenderObject(BuildContext context) => RenderPieChart(

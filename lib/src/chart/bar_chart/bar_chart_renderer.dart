@@ -12,7 +12,8 @@ class BarChartLeaf extends LeafRenderObjectWidget {
   const BarChartLeaf({Key? key, required this.data, required this.targetData})
       : super(key: key);
 
-  final BarChartData data, targetData;
+  final BarChartData data;
+  final BarChartData targetData;
 
   @override
   RenderBarChart createRenderObject(BuildContext context) => RenderBarChart(
