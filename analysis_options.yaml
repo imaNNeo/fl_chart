@@ -9,7 +9,6 @@ linter:
     avoid_multiple_declarations_per_line: false
     avoid_positional_boolean_parameters: false
     comment_references: false
-    flutter_style_todos: false
     library_private_types_in_public_api: false
     lines_longer_than_80_chars: false
     no_default_cases: false
