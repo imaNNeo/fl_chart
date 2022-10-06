@@ -5,7 +5,6 @@ analyzer:
 linter:
   rules:
     avoid_bool_literals_in_conditional_expressions: false
-    avoid_dynamic_calls: false
     avoid_positional_boolean_parameters: false
     comment_references: false
     library_private_types_in_public_api: false

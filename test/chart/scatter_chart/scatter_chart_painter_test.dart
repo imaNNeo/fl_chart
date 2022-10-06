@@ -298,7 +298,13 @@ void main() {
         holder,
       );
 
-      verifyNever(mockCanvasWrapper.drawRotated());
+      verifyNever(
+        mockCanvasWrapper.drawRotated(
+          size: null,
+          angle: null,
+          drawCallback: () {},
+        ),
+      );
       verifyNever(mockCanvasWrapper.drawRect(any, any));
     });
   });
@@ -370,7 +376,8 @@ void main() {
         ),
       );
 
-      final passedDrawCallback = verificationResult.captured.first;
+      final passedDrawCallback =
+          verificationResult.captured.first as DrawCallback;
       passedDrawCallback();
 
       verificationResult.called(1);
@@ -469,7 +476,8 @@ void main() {
         ),
       );
 
-      final passedDrawCallback = verificationResult.captured.first;
+      final passedDrawCallback =
+          verificationResult.captured.first as DrawCallback;
       passedDrawCallback();
 
       verificationResult.called(1);

@@ -2207,8 +2207,8 @@ void main() {
           drawCallback: anyNamed('drawCallback'),
         ),
       ).thenAnswer((realInvocation) {
-        final callback =
-            realInvocation.namedArguments[const Symbol('drawCallback')];
+        final callback = realInvocation
+            .namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
       });
       lineChartPainter.drawTouchTooltip(

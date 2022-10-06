@@ -857,7 +857,8 @@ void main() {
           drawCallback: anyNamed('drawCallback'),
         ),
       ).thenAnswer((inv) {
-        final callback = inv.namedArguments[const Symbol('drawCallback')];
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
         angles.add(inv.namedArguments[const Symbol('angle')] as double);
       });
@@ -1049,7 +1050,8 @@ void main() {
           drawCallback: anyNamed('drawCallback'),
         ),
       ).thenAnswer((inv) {
-        final callback = inv.namedArguments[const Symbol('drawCallback')];
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
         angles.add(inv.namedArguments[const Symbol('angle')] as double);
       });
@@ -1216,7 +1218,8 @@ void main() {
           drawCallback: anyNamed('drawCallback'),
         ),
       ).thenAnswer((inv) {
-        final callback = inv.namedArguments[const Symbol('drawCallback')];
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
         angles.add(inv.namedArguments[const Symbol('angle')] as double);
       });
