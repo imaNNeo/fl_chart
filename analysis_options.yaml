@@ -17,7 +17,6 @@ linter:
     avoid_multiple_declarations_per_line: false
     prefer_asserts_with_message: false
     prefer_constructors_over_static_methods: false
-    unnecessary_null_checks: false
     type_annotate_public_apis: false
     cast_nullable_to_non_nullable: false
     avoid_positional_boolean_parameters: false

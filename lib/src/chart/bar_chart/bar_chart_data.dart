@@ -407,7 +407,7 @@ class BarChartRodData with EquatableMixin {
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
-      fromY: lerpDouble(a.fromY, b.fromY, t)!,
+      fromY: lerpDouble(a.fromY, b.fromY, t),
       toY: lerpDouble(a.toY, b.toY, t)!,
       backDrawRodData: BackgroundBarChartRodData.lerp(
         a.backDrawRodData,
