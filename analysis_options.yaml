@@ -4,26 +4,22 @@ analyzer:
     - "**.mocks.dart"
 linter:
   rules:
-    library_private_types_in_public_api: false
-    prefer_initializing_formals: false
-    # allow self-reference to deprecated members (we do this because otherwise we have
-    # to annotate every member in every test, assert, etc, when we deprecate something)
-    deprecated_member_use_from_same_package: false
-    # TODO
-    public_member_api_docs: false
-    lines_longer_than_80_chars: false
-    comment_references: false
+    avoid_bool_literals_in_conditional_expressions: false
+    avoid_dynamic_calls: false
     avoid_multiple_declarations_per_line: false
+    avoid_positional_boolean_parameters: false
+    cast_nullable_to_non_nullable: false
+    comment_references: false
+    flutter_style_todos: false
+    library_private_types_in_public_api: false
+    lines_longer_than_80_chars: false
+    no_default_cases: false
+    noop_primitive_operations: false
+    parameter_assignments: false
     prefer_asserts_with_message: false
     prefer_constructors_over_static_methods: false
+    prefer_initializing_formals: false
+    public_member_api_docs: false
     type_annotate_public_apis: false
-    cast_nullable_to_non_nullable: false
-    avoid_positional_boolean_parameters: false
-    no_default_cases: false
     use_if_null_to_convert_nulls_to_bools: false
-    avoid_bool_literals_in_conditional_expressions: false
-    parameter_assignments: false
-    noop_primitive_operations: false
-    flutter_style_todos: false
     use_setters_to_change_properties: false
-    avoid_dynamic_calls: false
