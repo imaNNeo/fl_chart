@@ -60,7 +60,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
-    FlBorderData? borderData,
+    super.borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
           tickCount == null || tickCount >= 1,
@@ -82,7 +82,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData = tickBorderData ?? const BorderSide(width: 2),
         gridBorderData = gridBorderData ?? const BorderSide(width: 2),
         super(
-          borderData: borderData,
           touchData: radarTouchData ?? RadarTouchData(),
         );
 

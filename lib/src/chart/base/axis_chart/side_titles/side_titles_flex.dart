@@ -7,13 +7,13 @@ import 'package:flutter/rendering.dart';
 /// Inspired from [Flex]
 class SideTitlesFlex extends MultiChildRenderObjectWidget {
   SideTitlesFlex({
-    Key? key,
+    super.key,
     required this.direction,
     required this.axisSideMetaData,
     List<AxisSideTitleWidgetHolder> widgetHolders =
         const <AxisSideTitleWidgetHolder>[],
   })  : axisSideTitlesMetaData = widgetHolders.map((e) => e.metaData).toList(),
-        super(key: key, children: widgetHolders.map((e) => e.widget).toList());
+        super(children: widgetHolders.map((e) => e.widget).toList());
 
   final Axis direction;
   final AxisSideMetaData axisSideMetaData;

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 class AxisChartScaffoldWidget extends StatelessWidget {
   const AxisChartScaffoldWidget({
-    Key? key,
+    super.key,
     required this.chart,
     required this.data,
-  }) : super(key: key);
+  });
   final Widget chart;
   final AxisChartData data;
 
