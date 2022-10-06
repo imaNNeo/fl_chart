@@ -505,7 +505,7 @@ void main() {
     test('test 1', () {
       final barChartPainter = PieChartPainter();
       final path0 = barChartPainter.createRectPathAroundLine(
-        Line(const Offset(0, 0), const Offset(10, 0)),
+        Line(Offset.zero, const Offset(10, 0)),
         4,
       );
       final path0Length = path0

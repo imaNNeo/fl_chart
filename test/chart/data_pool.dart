@@ -134,8 +134,8 @@ class MockData {
     gradient: const LinearGradient(
       colors: [Colors.red, Colors.green],
       stops: [0, 1],
-      begin: Alignment(0, 0),
-      end: Alignment(1, 1),
+      begin: Alignment.center,
+      end: Alignment.bottomRight,
     ),
     spots: [
       flSpot1,
@@ -161,8 +161,8 @@ class MockData {
     gradient: const LinearGradient(
       colors: [Colors.red, Colors.green],
       stops: [0, 1],
-      begin: Alignment(0, 0),
-      end: Alignment(1, 1),
+      begin: Alignment.center,
+      end: Alignment.bottomRight,
     ),
     spots: [
       flSpot1,
@@ -786,8 +786,8 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -812,8 +812,8 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1Clone,
@@ -839,8 +839,8 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -866,8 +866,8 @@ final LineChartBarData lineChartBarData3 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -894,8 +894,8 @@ final LineChartBarData lineChartBarData4 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot2,
@@ -922,8 +922,8 @@ final LineChartBarData lineChartBarData5 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -947,8 +947,8 @@ final LineChartBarData lineChartBarData6 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -972,8 +972,8 @@ final LineChartBarData lineChartBarData7 = LineChartBarData(
   gradient: LinearGradient(
     colors: [Colors.red, Colors.green.withOpacity(0.4)],
     stops: const [0, 1],
-    begin: const Alignment(0, 0),
-    end: const Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -997,8 +997,8 @@ final LineChartBarData lineChartBarData8 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -1022,8 +1022,8 @@ final LineChartBarData lineChartBarData9 = LineChartBarData(
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
+    begin: Alignment.center,
+    end: Alignment.bottomRight,
   ),
   spots: [
     flSpot1,
@@ -3199,9 +3199,9 @@ final RadarChartData radarChartData2 = RadarChartData(
   ticksTextStyle: const TextStyle(color: Colors.purple, fontSize: 10),
 );
 
-final Line line1 = Line(const Offset(0, 0), const Offset(10, 10));
+final Line line1 = Line(Offset.zero, const Offset(10, 10));
 final Line line2 = Line(const Offset(-4, -12), const Offset(6, 8));
-final Line line3 = Line(const Offset(18, -1), const Offset(0, 0));
+final Line line3 = Line(const Offset(18, -1), Offset.zero);
 final Line line4 = Line(const Offset(8, 8), const Offset(-4, -22));
 final Line line5 = Line(const Offset(2, 3), const Offset(5, 8));
 

@@ -107,8 +107,8 @@ class CanvasWrapper {
   /// Handles performing multiple draw actions rotated.
   void drawRotated({
     required Size size,
-    Offset rotationOffset = const Offset(0, 0),
-    Offset drawOffset = const Offset(0, 0),
+    Offset rotationOffset = Offset.zero,
+    Offset drawOffset = Offset.zero,
     required double angle,
     required void Function() drawCallback,
   }) {
