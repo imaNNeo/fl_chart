@@ -11,7 +11,6 @@ linter:
     library_private_types_in_public_api: false
     lines_longer_than_80_chars: false
     no_default_cases: false
-    noop_primitive_operations: false
     parameter_assignments: false
     prefer_asserts_with_message: false
     prefer_constructors_over_static_methods: false
