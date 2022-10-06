@@ -4,13 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Utils {
-  static Utils _singleton = Utils._internal();
-
   factory Utils() {
     return _singleton;
   }
 
   Utils._internal();
+  static Utils _singleton = Utils._internal();
 
   @visibleForTesting
   static void changeInstance(Utils val) => _singleton = val;
@@ -50,12 +49,16 @@ class Utils {
     final rotatedWidth = (size.width * cos(radians(degree))).abs() +
         (size.height * sin(radians(degree))).abs();
     return Offset(
-        (size.width - rotatedWidth) / 2, (size.height - rotatedHeight) / 2);
+      (size.width - rotatedWidth) / 2,
+      (size.height - rotatedHeight) / 2,
+    );
   }
 
   /// Decreases [borderRadius] to <= width / 2
   BorderRadius? normalizeBorderRadius(
-      BorderRadius? borderRadius, double width) {
+    BorderRadius? borderRadius,
+    double width,
+  ) {
     if (borderRadius == null) {
       return null;
     }
@@ -126,8 +129,11 @@ class Utils {
   /// then using  [diffInAxis] / allowedCount, we can find out how much interval we need,
   /// then we round that number by finding nearest number in this pattern:
   /// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
-  double getEfficientInterval(double axisViewSize, double diffInAxis,
-      {double pixelPerInterval = 40}) {
+  double getEfficientInterval(
+    double axisViewSize,
+    double diffInAxis, {
+    double pixelPerInterval = 40,
+  }) {
     final allowedCount = math.max(axisViewSize ~/ pixelPerInterval, 1);
     if (diffInAxis == 0) {
       return 1;
@@ -156,17 +162,17 @@ class Utils {
     }
 
     final inputString = input.toString();
-    int precisionCount = inputString.length - 2;
+    var precisionCount = inputString.length - 2;
 
-    int zeroCount = 0;
-    for (int i = 2; i <= inputString.length; i++) {
+    var zeroCount = 0;
+    for (var i = 2; i <= inputString.length; i++) {
       if (inputString[i] != '0') {
         break;
       }
       zeroCount++;
     }
 
-    int afterZerosNumberLength = precisionCount - zeroCount;
+    final afterZerosNumberLength = precisionCount - zeroCount;
     if (afterZerosNumberLength > 2) {
       final numbersToRemove = afterZerosNumberLength - 2;
       precisionCount -= numbersToRemove;
@@ -248,7 +254,9 @@ class Utils {
 
   /// Returns a TextStyle based on provided [context], if [providedStyle] provided we try to merge it.
   TextStyle getThemeAwareTextStyle(
-      BuildContext context, TextStyle? providedStyle) {
+    BuildContext context,
+    TextStyle? providedStyle,
+  ) {
     final defaultTextStyle = DefaultTextStyle.of(context);
     var effectiveTextStyle = providedStyle;
     if (providedStyle == null || providedStyle.inherit) {
@@ -266,10 +274,14 @@ class Utils {
   /// If there is a zero point in the axis, we a value that passes through it.
   /// For example if we have -3 to +3, with interval 2. if we start from -3, we get something like this: -3, -1, +1, +3
   /// But the most important point is zero in most cases. with this logic we get this: -2, 0, 2
-  double getBestInitialIntervalValue(double min, double max, double interval,
-      {double baseline = 0.0}) {
-    final diff = (baseline - min);
-    final mod = (diff % interval);
+  double getBestInitialIntervalValue(
+    double min,
+    double max,
+    double interval, {
+    double baseline = 0.0,
+  }) {
+    final diff = baseline - min;
+    final mod = diff % interval;
     if ((max - min).abs() <= mod) {
       return min;
     }

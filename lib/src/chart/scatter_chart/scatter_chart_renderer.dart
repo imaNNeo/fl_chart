@@ -1,29 +1,36 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'scatter_chart_painter.dart';
 
 // coverage:ignore-start
 
 /// Low level ScatterChart Widget.
 class ScatterChartLeaf extends LeafRenderObjectWidget {
-  const ScatterChartLeaf(
-      {Key? key, required this.data, required this.targetData})
-      : super(key: key);
+  const ScatterChartLeaf({
+    Key? key,
+    required this.data,
+    required this.targetData,
+  }) : super(key: key);
 
   final ScatterChartData data, targetData;
 
   @override
   RenderScatterChart createRenderObject(BuildContext context) =>
       RenderScatterChart(
-          context, data, targetData, MediaQuery.of(context).textScaleFactor);
+        context,
+        data,
+        targetData,
+        MediaQuery.of(context).textScaleFactor,
+      );
 
   @override
   void updateRenderObject(
-      BuildContext context, RenderScatterChart renderObject) {
+    BuildContext context,
+    RenderScatterChart renderObject,
+  ) {
     renderObject
       ..data = data
       ..targetData = targetData
@@ -35,9 +42,12 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our ScatterChart, also handles hitTest.
 class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
-  RenderScatterChart(BuildContext context, ScatterChartData data,
-      ScatterChartData targetData, double textScale)
-      : _data = data,
+  RenderScatterChart(
+    BuildContext context,
+    ScatterChartData data,
+    ScatterChartData targetData,
+    double textScale,
+  )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
         super(targetData.scatterTouchData, context);
@@ -75,7 +85,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = ScatterChartPainter();
+  ScatterChartPainter painter = ScatterChartPainter();
 
   PaintHolder<ScatterChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -96,7 +106,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
 
   @override
   ScatterTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpot = painter.handleTouch(
+    final touchedSpot = painter.handleTouch(
       localPosition,
       mockTestSize ?? size,
       paintHolder,

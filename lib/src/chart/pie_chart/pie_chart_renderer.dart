@@ -2,12 +2,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_helper.dart';
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-
-import 'pie_chart_painter.dart';
 
 // coverage:ignore-start
 
@@ -46,9 +45,12 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData>
     implements MouseTrackerAnnotation {
-  RenderPieChart(BuildContext context, PieChartData data,
-      PieChartData targetData, double textScale)
-      : _data = data,
+  RenderPieChart(
+    BuildContext context,
+    PieChartData data,
+    PieChartData targetData,
+    double textScale,
+  )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
         super(targetData.pieTouchData, context);
@@ -88,7 +90,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = PieChartPainter();
+  PieChartPainter painter = PieChartPainter();
 
   PaintHolder<PieChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -109,7 +111,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     final childConstraints = constraints.loosen();
 
     var counter = 0;
-    var badgeOffsets = painter.getBadgeOffsets(
+    final badgeOffsets = painter.getBadgeOffsets(
       mockTestSize ?? size,
       paintHolder,
     );

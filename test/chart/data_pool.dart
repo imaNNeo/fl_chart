@@ -16,34 +16,54 @@ class MockData {
   static final path1 = Path()
     ..moveTo(10, 10)
     ..lineTo(20, 20)
-    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
-        false);
+    ..arcTo(
+      Rect.fromCenter(center: Offset.zero, width: 44, height: 22),
+      2,
+      3,
+      false,
+    );
 
   static final path1Duplicate = Path()
     ..moveTo(10, 10)
     ..lineTo(20, 20)
-    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
-        false);
+    ..arcTo(
+      Rect.fromCenter(center: Offset.zero, width: 44, height: 22),
+      2,
+      3,
+      false,
+    );
 
   static final path2 = Path()
     ..moveTo(10, 10)
     ..lineTo(20, 20)
-    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22.01), 2,
-        3, false);
+    ..arcTo(
+      Rect.fromCenter(center: Offset.zero, width: 44, height: 22.01),
+      2,
+      3,
+      false,
+    );
 
   static final path3 = Path()
     ..moveTo(10, 13)
     ..lineTo(20, 20)
-    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
-        false);
+    ..arcTo(
+      Rect.fromCenter(center: Offset.zero, width: 44, height: 22),
+      2,
+      3,
+      false,
+    );
 
   static final path4 = Path()
     ..moveTo(24, 13)
     ..lineTo(20, 20)
-    ..arcTo(Rect.fromCenter(center: Offset.zero, width: 44, height: 22), 2, 3,
-        false);
+    ..arcTo(
+      Rect.fromCenter(center: Offset.zero, width: 44, height: 22),
+      2,
+      3,
+      false,
+    );
 
-  static const borderSide1 = BorderSide(color: color1, width: 1);
+  static const borderSide1 = BorderSide(color: color1);
   static const borderSide2 = BorderSide(color: color2, width: 2);
   static const borderSide3 = BorderSide(color: color3, width: 3);
   static const borderSide4 = BorderSide(color: color4, width: 4);
@@ -126,7 +146,7 @@ class MockData {
     aboveBarData: barAreaData1,
     belowBarData: barAreaData2,
     barWidth: 12,
-    curveSmoothness: 12.0,
+    curveSmoothness: 12,
     dotData: flDotData1,
     isCurved: false,
     isStrokeCapRound: true,
@@ -154,7 +174,7 @@ class MockData {
     aboveBarData: barAreaData1,
     belowBarData: barAreaData2,
     barWidth: 12,
-    curveSmoothness: 12.0,
+    curveSmoothness: 12,
     dotData: flDotData1,
     isCurved: false,
     isStrokeCapRound: true,
@@ -309,10 +329,12 @@ class MockData {
     offset1,
   );
 
-  static const gradient1 = LinearGradient(colors: [
-    MockData.color0,
-    MockData.color1,
-  ]);
+  static const gradient1 = LinearGradient(
+    colors: [
+      MockData.color0,
+      MockData.color1,
+    ],
+  );
 
   static final barGroupData0 = BarChartGroupData(
     x: 0,
@@ -346,7 +368,6 @@ class MockData {
   static final sideTitles2 = SideTitles(
     reservedSize: 10,
     showTitles: false,
-    getTitlesWidget: null,
     interval: 12,
   );
   static final sideTitles3 = SideTitles(
@@ -422,7 +443,6 @@ class MockData {
   );
   static final flTitlesData2 = FlTitlesData(
     show: true,
-    bottomTitles: null,
     topTitles: axisTitles2,
     rightTitles: axisTitles3,
     leftTitles: axisTitles4,
@@ -430,7 +450,6 @@ class MockData {
   static final flTitlesData3 = FlTitlesData(
     show: true,
     bottomTitles: axisTitles1,
-    topTitles: null,
     rightTitles: axisTitles3,
     leftTitles: axisTitles4,
   );
@@ -438,7 +457,6 @@ class MockData {
     show: true,
     bottomTitles: axisTitles1,
     topTitles: axisTitles2,
-    rightTitles: null,
     leftTitles: axisTitles4,
   );
   static final flTitlesData5 = FlTitlesData(
@@ -446,7 +464,6 @@ class MockData {
     bottomTitles: axisTitles1,
     topTitles: axisTitles2,
     rightTitles: axisTitles3,
-    leftTitles: null,
   );
   static final flTitlesData6 = FlTitlesData(
     show: false,
@@ -467,29 +484,35 @@ final HorizontalRangeAnnotation horizontalRangeAnnotation1 =
 final HorizontalRangeAnnotation horizontalRangeAnnotation1Clone =
     HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
 
-final RangeAnnotations rangeAnnotations1 =
-    RangeAnnotations(horizontalRangeAnnotations: [
-  horizontalRangeAnnotation1,
-  horizontalRangeAnnotation1Clone,
-], verticalRangeAnnotations: [
-  verticalRangeAnnotation1,
-  verticalRangeAnnotation1Clone,
-]);
-final RangeAnnotations rangeAnnotations1Clone =
-    RangeAnnotations(horizontalRangeAnnotations: [
-  horizontalRangeAnnotation1,
-  horizontalRangeAnnotation1Clone,
-], verticalRangeAnnotations: [
-  verticalRangeAnnotation1,
-  verticalRangeAnnotation1Clone,
-]);
-final RangeAnnotations rangeAnnotations2 =
-    RangeAnnotations(horizontalRangeAnnotations: [
-  horizontalRangeAnnotation1Clone,
-], verticalRangeAnnotations: [
-  verticalRangeAnnotation1,
-  verticalRangeAnnotation1Clone,
-]);
+final RangeAnnotations rangeAnnotations1 = RangeAnnotations(
+  horizontalRangeAnnotations: [
+    horizontalRangeAnnotation1,
+    horizontalRangeAnnotation1Clone,
+  ],
+  verticalRangeAnnotations: [
+    verticalRangeAnnotation1,
+    verticalRangeAnnotation1Clone,
+  ],
+);
+final RangeAnnotations rangeAnnotations1Clone = RangeAnnotations(
+  horizontalRangeAnnotations: [
+    horizontalRangeAnnotation1,
+    horizontalRangeAnnotation1Clone,
+  ],
+  verticalRangeAnnotations: [
+    verticalRangeAnnotation1,
+    verticalRangeAnnotation1Clone,
+  ],
+);
+final RangeAnnotations rangeAnnotations2 = RangeAnnotations(
+  horizontalRangeAnnotations: [
+    horizontalRangeAnnotation1Clone,
+  ],
+  verticalRangeAnnotations: [
+    verticalRangeAnnotation1,
+    verticalRangeAnnotation1Clone,
+  ],
+);
 
 final FlLine flLine1 =
     FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
@@ -518,9 +541,7 @@ final FlGridData flGridData1 = FlGridData(
   drawVerticalLine: false,
   drawHorizontalLine: true,
   checkToShowVerticalLine: checkToShowLine,
-  checkToShowHorizontalLine: null,
   getDrawingHorizontalLine: getDrawingLine,
-  getDrawingVerticalLine: null,
 );
 final FlGridData flGridData1Clone = FlGridData(
   show: true,
@@ -529,9 +550,7 @@ final FlGridData flGridData1Clone = FlGridData(
   drawVerticalLine: false,
   drawHorizontalLine: true,
   checkToShowVerticalLine: checkToShowLine,
-  checkToShowHorizontalLine: null,
   getDrawingHorizontalLine: getDrawingLine,
-  getDrawingVerticalLine: null,
 );
 final FlGridData flGridData2 = FlGridData(
   show: true,
@@ -540,7 +559,6 @@ final FlGridData flGridData2 = FlGridData(
   drawVerticalLine: false,
   drawHorizontalLine: true,
   checkToShowVerticalLine: checkToShowLine,
-  checkToShowHorizontalLine: null,
   getDrawingHorizontalLine: getDrawingLine,
   getDrawingVerticalLine: (value) => flLine1,
 );
@@ -551,9 +569,7 @@ final FlGridData flGridData3 = FlGridData(
   drawVerticalLine: false,
   drawHorizontalLine: true,
   checkToShowVerticalLine: checkToShowLine,
-  checkToShowHorizontalLine: null,
   getDrawingHorizontalLine: getDrawingLine,
-  getDrawingVerticalLine: null,
 );
 final FlGridData flGridData4 = FlGridData(
   show: true,
@@ -561,10 +577,7 @@ final FlGridData flGridData4 = FlGridData(
   horizontalInterval: 22,
   drawVerticalLine: false,
   drawHorizontalLine: true,
-  checkToShowVerticalLine: null,
-  checkToShowHorizontalLine: null,
   getDrawingHorizontalLine: getDrawingLine,
-  getDrawingVerticalLine: null,
 );
 final FlGridData flGridData5 = FlGridData(
   show: true,
@@ -573,9 +586,7 @@ final FlGridData flGridData5 = FlGridData(
   drawVerticalLine: true,
   drawHorizontalLine: true,
   checkToShowVerticalLine: checkToShowLine,
-  checkToShowHorizontalLine: null,
   getDrawingHorizontalLine: getDrawingLine,
-  getDrawingVerticalLine: null,
 );
 
 final FlBorderData borderData1 = FlBorderData(
@@ -600,7 +611,6 @@ final BarAreaSpotsLine barAreaSpotsLine1Clone =
 
 final BarAreaSpotsLine barAreaSpotsLine2 = BarAreaSpotsLine(
   show: true,
-  checkToShowSpotLine: null,
 );
 
 final BarAreaData barAreaData1 = BarAreaData(
@@ -668,27 +678,51 @@ final BarAreaData barAreaData4 = BarAreaData(
 bool checkToShowDot(FlSpot spot, LineChartBarData barData) => true;
 
 FlDotCirclePainter getDotDrawer(
-        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+  FlSpot spot,
+  double percent,
+  LineChartBarData barData,
+  int index,
+) =>
     FlDotCirclePainter(radius: 44, color: Colors.green, strokeWidth: 12);
 
 FlDotCirclePainter getDotDrawer5(
-        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+  FlSpot spot,
+  double percent,
+  LineChartBarData barData,
+  int index,
+) =>
     FlDotCirclePainter(radius: 44, color: Colors.green, strokeWidth: 14);
 
 FlDotCirclePainter getDotDrawer6(
-        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+  FlSpot spot,
+  double percent,
+  LineChartBarData barData,
+  int index,
+) =>
     FlDotCirclePainter(radius: 44.01, color: Colors.green, strokeWidth: 14);
 
 FlDotCirclePainter getDotDrawerTouched(
-        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+  FlSpot spot,
+  double percent,
+  LineChartBarData barData,
+  int index,
+) =>
     FlDotCirclePainter(radius: 12, color: Colors.red);
 
 FlDotCirclePainter getDotDrawerTouched4(
-        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+  FlSpot spot,
+  double percent,
+  LineChartBarData barData,
+  int index,
+) =>
     FlDotCirclePainter(radius: 12, color: Colors.green);
 
 FlDotCirclePainter getDotDrawerTouched6(
-        FlSpot spot, double percent, LineChartBarData barData, int index) =>
+  FlSpot spot,
+  double percent,
+  LineChartBarData barData,
+  int index,
+) =>
     FlDotCirclePainter(radius: 12.01, color: Colors.red);
 
 final FlDotData flDotData1 = FlDotData(
@@ -705,19 +739,16 @@ final FlDotData flDotData1Clone = FlDotData(
 final FlDotData flDotData4 = FlDotData(
   show: true,
   getDotPainter: getDotDrawer,
-  checkToShowDot: null,
 );
 
 final FlDotData flDotData5 = FlDotData(
   show: true,
   getDotPainter: getDotDrawer5,
-  checkToShowDot: null,
 );
 
 final FlDotData flDotData6 = FlDotData(
   show: true,
   getDotPainter: getDotDrawer6,
-  checkToShowDot: null,
 );
 
 const Shadow shadow1 = Shadow(
@@ -741,13 +772,9 @@ final Shadow shadow4 = Shadow(
   blurRadius: 12,
 );
 
-final LineChartStepData lineChartStepData1 = LineChartStepData(
-  stepDirection: LineChartStepData.stepDirectionMiddle,
-);
+final LineChartStepData lineChartStepData1 = LineChartStepData();
 
-final LineChartStepData lineChartStepData1Clone = LineChartStepData(
-  stepDirection: LineChartStepData.stepDirectionMiddle,
-);
+final LineChartStepData lineChartStepData1Clone = LineChartStepData();
 
 final LineChartStepData lineChartStepData2 = LineChartStepData(
   stepDirection: LineChartStepData.stepDirectionForward,
@@ -771,7 +798,7 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -797,7 +824,7 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
   aboveBarData: barAreaData1Clone,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1Clone,
   isCurved: false,
   isStrokeCapRound: true,
@@ -825,7 +852,7 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -836,7 +863,6 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
 
 final LineChartBarData lineChartBarData3 = LineChartBarData(
   show: true,
-  dashArray: null,
   gradient: const LinearGradient(
     colors: [Colors.red, Colors.green],
     stops: [0, 1],
@@ -853,7 +879,7 @@ final LineChartBarData lineChartBarData3 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -881,7 +907,7 @@ final LineChartBarData lineChartBarData4 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -906,7 +932,7 @@ final LineChartBarData lineChartBarData5 = LineChartBarData(
   aboveBarData: barAreaData2,
   belowBarData: barAreaData1,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -931,7 +957,7 @@ final LineChartBarData lineChartBarData6 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -956,7 +982,7 @@ final LineChartBarData lineChartBarData7 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -1006,7 +1032,7 @@ final LineChartBarData lineChartBarData9 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.0,
+  curveSmoothness: 12,
   dotData: flDotData1,
   isCurved: false,
   isStrokeCapRound: true,
@@ -1083,9 +1109,10 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData1 =
     dashArray: [],
   ),
   FlDotData(
-      getDotPainter: getDotDrawerTouched,
-      checkToShowDot: checkToShowDot,
-      show: true),
+    getDotPainter: getDotDrawerTouched,
+    checkToShowDot: checkToShowDot,
+    show: true,
+  ),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData1Clone =
     TouchedSpotIndicatorData(
@@ -1094,9 +1121,10 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData1Clone =
     dashArray: [],
   ),
   FlDotData(
-      getDotPainter: getDotDrawerTouched,
-      checkToShowDot: checkToShowDot,
-      show: true),
+    getDotPainter: getDotDrawerTouched,
+    checkToShowDot: checkToShowDot,
+    show: true,
+  ),
 );
 
 final TouchedSpotIndicatorData touchedSpotIndicatorData2 =
@@ -1106,18 +1134,20 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData2 =
     dashArray: [],
   ),
   FlDotData(
-      getDotPainter: getDotDrawerTouched, checkToShowDot: null, show: true),
+    getDotPainter: getDotDrawerTouched,
+    show: true,
+  ),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData3 =
     TouchedSpotIndicatorData(
   FlLine(
     color: Colors.red,
-    dashArray: null,
   ),
   FlDotData(
-      getDotPainter: getDotDrawerTouched,
-      checkToShowDot: checkToShowDot,
-      show: true),
+    getDotPainter: getDotDrawerTouched,
+    checkToShowDot: checkToShowDot,
+    show: true,
+  ),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData4 =
     TouchedSpotIndicatorData(
@@ -1126,9 +1156,10 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData4 =
     dashArray: [],
   ),
   FlDotData(
-      getDotPainter: getDotDrawerTouched4,
-      checkToShowDot: checkToShowDot,
-      show: true),
+    getDotPainter: getDotDrawerTouched4,
+    checkToShowDot: checkToShowDot,
+    show: true,
+  ),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData5 =
     TouchedSpotIndicatorData(
@@ -1137,9 +1168,10 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData5 =
     dashArray: [],
   ),
   FlDotData(
-      getDotPainter: getDotDrawerTouched,
-      checkToShowDot: checkToShowDot,
-      show: false),
+    getDotPainter: getDotDrawerTouched,
+    checkToShowDot: checkToShowDot,
+    show: false,
+  ),
 );
 final TouchedSpotIndicatorData touchedSpotIndicatorData6 =
     TouchedSpotIndicatorData(
@@ -1148,9 +1180,10 @@ final TouchedSpotIndicatorData touchedSpotIndicatorData6 =
     dashArray: [],
   ),
   FlDotData(
-      getDotPainter: getDotDrawerTouched6,
-      checkToShowDot: checkToShowDot,
-      show: true),
+    getDotPainter: getDotDrawerTouched6,
+    checkToShowDot: checkToShowDot,
+    show: true,
+  ),
 );
 
 final LineTooltipItem lineTooltipItem1 =
@@ -1178,7 +1211,7 @@ final LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1189,7 +1222,7 @@ final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 
 final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
@@ -1201,7 +1234,7 @@ final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.2),
@@ -1212,7 +1245,7 @@ final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1223,7 +1256,7 @@ final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1234,7 +1267,7 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 34,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final LineTouchTooltipData lineTouchTooltipData6 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1245,7 +1278,7 @@ final LineTouchTooltipData lineTouchTooltipData6 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.pink, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.pink),
 );
 final LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1262,7 +1295,9 @@ final LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
 void lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
 
 List<TouchedSpotIndicatorData?> getTouchedSpotIndicator(
-        LineChartBarData barData, List<int> indexes) =>
+  LineChartBarData barData,
+  List<int> indexes,
+) =>
     indexes.map((i) => touchedSpotIndicatorData1).toList();
 
 final LineTouchData lineTouchData1 = LineTouchData(
@@ -1284,7 +1319,6 @@ final LineTouchData lineTouchData1Clone = LineTouchData(
 
 final LineTouchData lineTouchData2 = LineTouchData(
   enabled: true,
-  touchCallback: null,
   getTouchedSpotIndicator: getTouchedSpotIndicator,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
@@ -1293,7 +1327,6 @@ final LineTouchData lineTouchData2 = LineTouchData(
 final LineTouchData lineTouchData3 = LineTouchData(
   enabled: true,
   touchCallback: lineTouchCallback,
-  getTouchedSpotIndicator: null,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
@@ -1304,7 +1337,6 @@ final LineTouchData lineTouchData4 = LineTouchData(
   getTouchedSpotIndicator: getTouchedSpotIndicator,
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
-  touchTooltipData: null,
 );
 final LineTouchData lineTouchData5 = LineTouchData(
   enabled: true,
@@ -1351,7 +1383,6 @@ final HorizontalLineLabel horizontalLineLabel1Clone = HorizontalLineLabel(
   padding: const EdgeInsets.all(12),
 );
 final HorizontalLineLabel horizontalLineLabel2 = HorizontalLineLabel(
-  show: false,
   style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
@@ -1359,7 +1390,6 @@ final HorizontalLineLabel horizontalLineLabel2 = HorizontalLineLabel(
 );
 final HorizontalLineLabel horizontalLineLabel3 = HorizontalLineLabel(
   show: true,
-  style: null,
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
@@ -1367,7 +1397,6 @@ final HorizontalLineLabel horizontalLineLabel3 = HorizontalLineLabel(
 final HorizontalLineLabel horizontalLineLabel4 = HorizontalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: null,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
@@ -1386,7 +1415,6 @@ final HorizontalLineLabel horizontalLineLabel6 = HorizontalLineLabel(
   padding: const EdgeInsets.all(44),
 );
 final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
-  show: false,
   style: const TextStyle(color: Colors.green),
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
@@ -1416,7 +1444,6 @@ final VerticalLineLabel verticalLineLabel2 = VerticalLineLabel(
 );
 final VerticalLineLabel verticalLineLabel3 = VerticalLineLabel(
   show: true,
-  style: null,
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
@@ -1424,7 +1451,6 @@ final VerticalLineLabel verticalLineLabel3 = VerticalLineLabel(
 final VerticalLineLabel verticalLineLabel4 = VerticalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
-  labelResolver: null,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
 );
@@ -1456,8 +1482,6 @@ final HorizontalLine horizontalLine1 = HorizontalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine1Clone = HorizontalLine(
   y: 12,
@@ -1465,8 +1489,6 @@ final HorizontalLine horizontalLine1Clone = HorizontalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine2 = HorizontalLine(
   y: 12,
@@ -1474,8 +1496,6 @@ final HorizontalLine horizontalLine2 = HorizontalLine(
   dashArray: [0, 1, 3],
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine3 = HorizontalLine(
   y: 12,
@@ -1483,8 +1503,6 @@ final HorizontalLine horizontalLine3 = HorizontalLine(
   dashArray: [0, 1],
   strokeWidth: 22,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine4 = HorizontalLine(
   y: 12,
@@ -1492,8 +1510,6 @@ final HorizontalLine horizontalLine4 = HorizontalLine(
   dashArray: [1, 0],
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine5 = HorizontalLine(
   y: 33,
@@ -1501,8 +1517,6 @@ final HorizontalLine horizontalLine5 = HorizontalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine6 = HorizontalLine(
   y: 12,
@@ -1510,8 +1524,6 @@ final HorizontalLine horizontalLine6 = HorizontalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine7 = HorizontalLine(
   y: 12,
@@ -1519,17 +1531,12 @@ final HorizontalLine horizontalLine7 = HorizontalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: horizontalLineLabel2,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine8 = HorizontalLine(
   y: 12,
   color: Colors.red,
-  dashArray: null,
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final HorizontalLine horizontalLine9 = HorizontalLine(
   y: 12,
@@ -1537,8 +1544,6 @@ final HorizontalLine horizontalLine9 = HorizontalLine(
   dashArray: [0, 12, 44],
   strokeWidth: 21,
   label: horizontalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 
 final VerticalLine verticalLine1 = VerticalLine(
@@ -1547,8 +1552,6 @@ final VerticalLine verticalLine1 = VerticalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine1Clone = VerticalLine(
   x: 12,
@@ -1556,8 +1559,6 @@ final VerticalLine verticalLine1Clone = VerticalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine2 = VerticalLine(
   x: 12,
@@ -1565,8 +1566,6 @@ final VerticalLine verticalLine2 = VerticalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine3 = VerticalLine(
   x: 12,
@@ -1574,8 +1573,6 @@ final VerticalLine verticalLine3 = VerticalLine(
   dashArray: [0, 1],
   strokeWidth: 22,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine4 = VerticalLine(
   x: 12,
@@ -1583,8 +1580,6 @@ final VerticalLine verticalLine4 = VerticalLine(
   dashArray: [1, 0],
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine5 = VerticalLine(
   x: 33,
@@ -1592,8 +1587,6 @@ final VerticalLine verticalLine5 = VerticalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine6 = VerticalLine(
   x: 12,
@@ -1601,8 +1594,6 @@ final VerticalLine verticalLine6 = VerticalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine7 = VerticalLine(
   x: 12,
@@ -1610,17 +1601,12 @@ final VerticalLine verticalLine7 = VerticalLine(
   dashArray: [0, 1],
   strokeWidth: 21,
   label: verticalLineLabel2,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine8 = VerticalLine(
   x: 12,
   color: Colors.red,
-  dashArray: null,
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 final VerticalLine verticalLine9 = VerticalLine(
   x: 12,
@@ -1628,8 +1614,6 @@ final VerticalLine verticalLine9 = VerticalLine(
   dashArray: [0, 12, 44],
   strokeWidth: 21,
   label: verticalLineLabel1,
-  image: null,
-  sizedPicture: null,
 );
 
 final ExtraLinesData extraLinesData1 = ExtraLinesData(
@@ -1689,11 +1673,9 @@ final ExtraLinesData extraLinesData4 = ExtraLinesData(
     horizontalLine2,
     horizontalLine3,
   ],
-  verticalLines: null,
   extraLinesOnTop: false,
 );
 final ExtraLinesData extraLinesData5 = ExtraLinesData(
-  horizontalLines: null,
   verticalLines: [
     verticalLine1,
     verticalLine2,
@@ -1798,7 +1780,6 @@ final BetweenBarsData betweenBarsData5 = BetweenBarsData(
   gradient: const LinearGradient(
     begin: Alignment(1, 3),
     end: Alignment(4, 1),
-    stops: null,
     colors: [Colors.green, Colors.blue, Colors.red],
   ),
 );
@@ -1899,7 +1880,6 @@ final LineChartData lineChartData1Clone = LineChartData(
   minY: 43,
 );
 final LineChartData lineChartData2 = LineChartData(
-  borderData: null,
   lineTouchData: lineTouchData1,
   showingTooltipIndicators: [
     showingTooltipIndicator1,
@@ -1978,7 +1958,6 @@ final LineChartData lineChartData5 = LineChartData(
 final LineChartData lineChartData6 = LineChartData(
   borderData: borderData1,
   lineTouchData: lineTouchData1,
-  showingTooltipIndicators: null,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
@@ -2082,7 +2061,6 @@ final LineChartData lineChartData11 = LineChartData(
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
-  rangeAnnotations: null,
   gridData: flGridData1,
   titlesData: MockData.flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
@@ -2165,7 +2143,6 @@ final LineChartData lineChartData15 = LineChartData(
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
   titlesData: MockData.flTitlesData1,
-  lineBarsData: null,
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
   maxX: 23,
@@ -2274,8 +2251,7 @@ final LineChartData lineChartData20 = LineChartData(
 );
 
 final PieChartData pieChartData1 = PieChartData(
-  borderData:
-      FlBorderData(show: false, border: Border.all(color: Colors.black)),
+  borderData: FlBorderData(show: false, border: Border.all()),
   startDegreeOffset: 0,
   sections: [
     PieChartSectionData(value: 12, color: Colors.red),
@@ -2295,8 +2271,11 @@ bool gridCheckToShowLine(double value) => true;
 FlLine gridGetDrawingLine(double value) => FlLine();
 
 ScatterTooltipItem? scatterChartGetTooltipItems(ScatterSpot spots) {
-  return ScatterTooltipItem('check',
-      textStyle: const TextStyle(color: Colors.blue), bottomMargin: 23);
+  return ScatterTooltipItem(
+    'check',
+    textStyle: const TextStyle(color: Colors.blue),
+    bottomMargin: 23,
+  );
 }
 
 final ScatterSpot scatterSpot1 = ScatterSpot(1, 40);
@@ -2330,10 +2309,11 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
   backgroundColor: Colors.black,
   clipData: FlClipData.none(),
   borderData: FlBorderData(
-      show: true,
-      border: Border.all(
-        color: Colors.white,
-      )),
+    show: true,
+    border: Border.all(
+      color: Colors.white,
+    ),
+  ),
   scatterSpots: [
     ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
     ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
@@ -2394,7 +2374,7 @@ final ScatterTouchTooltipData scatterTouchTooltipData1 =
   fitInsideVertically: true,
   fitInsideHorizontally: false,
   getTooltipItems: scatterChartGetTooltipItems,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final ScatterTouchTooltipData scatterTouchTooltipData1Clone =
     ScatterTouchTooltipData(
@@ -2405,7 +2385,7 @@ final ScatterTouchTooltipData scatterTouchTooltipData1Clone =
   fitInsideVertically: true,
   fitInsideHorizontally: false,
   getTooltipItems: scatterChartGetTooltipItems,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final ScatterTouchTooltipData scatterTouchTooltipData2 =
     ScatterTouchTooltipData(
@@ -2416,7 +2396,7 @@ final ScatterTouchTooltipData scatterTouchTooltipData2 =
   fitInsideVertically: true,
   fitInsideHorizontally: false,
   getTooltipItems: scatterChartGetTooltipItems,
-  tooltipBorder: const BorderSide(color: Colors.blue, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.blue),
 );
 final ScatterTouchTooltipData scatterTouchTooltipData3 =
     ScatterTouchTooltipData(
@@ -2536,7 +2516,6 @@ final BarChartRodData barChartRodData6 = BarChartRodData(
   toY: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
-  rodStackItems: null,
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData7 = BarChartRodData(
@@ -2619,7 +2598,6 @@ final BarChartGroupData barChartGroupData4 = BarChartGroupData(
 final BarChartGroupData barChartGroupData5 = BarChartGroupData(
   x: 12,
   showingTooltipIndicators: [0, 1, 2],
-  barRods: null,
   barsSpace: 23,
 );
 final BarChartGroupData barChartGroupData6 = BarChartGroupData(
@@ -2646,7 +2624,6 @@ final BarChartGroupData barChartGroupData7 = BarChartGroupData(
 );
 final BarChartGroupData barChartGroupData8 = BarChartGroupData(
   x: 12,
-  showingTooltipIndicators: null,
   barRods: [
     barChartRodData1,
     barChartRodData2,
@@ -2789,7 +2766,7 @@ BarTooltipItem getTooltipItem(
   BarChartRodData rod,
   int rodIndex,
 ) {
-  const TextStyle textStyle = TextStyle(
+  const textStyle = TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.bold,
     fontSize: 14,
@@ -2806,7 +2783,7 @@ final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2817,7 +2794,7 @@ final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   tooltipRoundedRadius: 13,
@@ -2828,7 +2805,7 @@ final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2839,7 +2816,7 @@ final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2850,7 +2827,7 @@ final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2861,7 +2838,7 @@ final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2872,7 +2849,7 @@ final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2880,10 +2857,9 @@ final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   fitInsideHorizontally: true,
   maxContentWidth: 23,
   tooltipBgColor: Colors.green,
-  tooltipPadding: null,
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2892,9 +2868,8 @@ final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   maxContentWidth: 23,
   tooltipBgColor: Colors.green,
   tooltipPadding: const EdgeInsets.all(23),
-  getTooltipItem: null,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2905,7 +2880,7 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 333,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData10 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2916,7 +2891,7 @@ final BarTouchTooltipData barTouchTooltipData10 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.blue, width: 1),
+  tooltipBorder: const BorderSide(color: Colors.blue),
 );
 final BarTouchTooltipData barTouchTooltipData11 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2951,7 +2926,6 @@ final BarTouchData barTouchData1Clone = BarTouchData(
   touchExtraThreshold: const EdgeInsets.all(12),
 );
 final BarTouchData barTouchData2 = BarTouchData(
-  touchTooltipData: null,
   handleBuiltInTouches: false,
   touchCallback: barTouchCallback,
   enabled: false,
@@ -2977,7 +2951,6 @@ final BarTouchData barTouchData4 = BarTouchData(
 final BarTouchData barTouchData5 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
   handleBuiltInTouches: false,
-  touchCallback: null,
   enabled: false,
   allowTouchBarBackDraw: true,
   touchExtraThreshold: const EdgeInsets.all(12),
@@ -3004,7 +2977,6 @@ final BarTouchData barTouchData8 = BarTouchData(
   touchCallback: barTouchCallback,
   enabled: false,
   allowTouchBarBackDraw: true,
-  touchExtraThreshold: null,
 );
 final BarTouchData barTouchData9 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
@@ -3033,11 +3005,12 @@ final BarChartData barChartData1 = BarChartData(
   groupsSpace: 23,
 );
 final BarChartData barChartData1Clone = barChartData1.copyWith(
-    titlesData: MockData.flTitlesData1Clone,
-    gridData: flGridData1Clone,
-    borderData: borderData1Clone,
-    barTouchData: barTouchData1Clone,
-    rangeAnnotations: rangeAnnotations1Clone);
+  titlesData: MockData.flTitlesData1Clone,
+  gridData: flGridData1Clone,
+  borderData: borderData1Clone,
+  barTouchData: barTouchData1Clone,
+  rangeAnnotations: rangeAnnotations1Clone,
+);
 
 final BarChartData barChartData2 = barChartData1.copyWith(
   minY: 11,
@@ -3205,7 +3178,7 @@ final RadarChartData radarChartData1 = RadarChartData(
   titleTextStyle: const TextStyle(color: Colors.white, fontSize: 12),
   radarTouchData: radarTouchData1,
   tickCount: 5,
-  tickBorderData: const BorderSide(color: Colors.black, width: 4),
+  tickBorderData: const BorderSide(width: 4),
   ticksTextStyle: const TextStyle(color: Colors.white, fontSize: 12),
 );
 
@@ -3237,8 +3210,8 @@ const TextStyle textStyle1 =
 const TextStyle textStyle2 =
     TextStyle(color: Colors.green, fontWeight: FontWeight.w200);
 
-const TextSpan textSpan1 = TextSpan(text: "faketext1", style: textStyle1);
-const TextSpan textSpan2 = TextSpan(text: "faketext2", style: textStyle2);
+const TextSpan textSpan1 = TextSpan(text: 'faketext1', style: textStyle1);
+const TextSpan textSpan2 = TextSpan(text: 'faketext2', style: textStyle2);
 
 final DefaultTextStyle defaultTextStyle1 = DefaultTextStyle(
   style: const TextStyle(),

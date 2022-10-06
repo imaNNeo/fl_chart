@@ -9,11 +9,6 @@ import 'package:flutter/widgets.dart';
 /// It also applies a [space] to the chart.
 /// You can also fill [angle] in radians if you need to rotate your widget.
 class SideTitleWidget extends StatelessWidget {
-  final AxisSide axisSide;
-  final double space;
-  final Widget child;
-  final double angle;
-
   const SideTitleWidget({
     Key? key,
     required this.child,
@@ -21,6 +16,10 @@ class SideTitleWidget extends StatelessWidget {
     this.space = 8.0,
     this.angle = 0.0,
   }) : super(key: key);
+  final AxisSide axisSide;
+  final double space;
+  final Widget child;
+  final double angle;
 
   Alignment _getAlignment() {
     switch (axisSide) {
@@ -33,7 +32,7 @@ class SideTitleWidget extends StatelessWidget {
       case AxisSide.bottom:
         return Alignment.topCenter;
       default:
-        throw StateError("Invalid side");
+        throw StateError('Invalid side');
     }
   }
 
@@ -48,7 +47,7 @@ class SideTitleWidget extends StatelessWidget {
       case AxisSide.bottom:
         return EdgeInsets.only(top: space);
       default:
-        throw StateError("Invalid side");
+        throw StateError('Invalid side');
     }
   }
 

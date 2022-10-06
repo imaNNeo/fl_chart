@@ -7,7 +7,7 @@ extension FlSpotListExtension on List<FlSpot> {
 
     // handle nullability by splitting off the list into multiple
     // separate lists when separated by nulls
-    for (var spot in this) {
+    for (final spot in this) {
       if (spot.isNotNull()) {
         barList.last.add(spot);
       } else if (barList.last.isNotEmpty) {

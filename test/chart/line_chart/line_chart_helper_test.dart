@@ -1,7 +1,8 @@
-import '../data_pool.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../data_pool.dart';
 
 void main() {
   group('Check caching of LineChartHelper.calculateMaxAxisValues', () {
@@ -36,11 +37,13 @@ void main() {
 
     test('Test validity 2', () {
       final lineBars = [
-        lineChartBarData1.copyWith(spots: const [
-          FlSpot(3, 4),
-          FlSpot(-3, 50),
-          FlSpot(14, -10),
-        ])
+        lineChartBarData1.copyWith(
+          spots: const [
+            FlSpot(3, 4),
+            FlSpot(-3, 50),
+            FlSpot(14, -10),
+          ],
+        )
       ];
       final result = LineChartHelper.calculateMaxAxisValues(lineBars);
       expect(result.minX, -3);
@@ -59,12 +62,14 @@ void main() {
 
     test('Test null spot 1', () {
       final lineBars = [
-        LineChartBarData(spots: [
-          FlSpot.nullSpot,
-          FlSpot.nullSpot,
-          FlSpot.nullSpot,
-          FlSpot.nullSpot,
-        ])
+        LineChartBarData(
+          spots: [
+            FlSpot.nullSpot,
+            FlSpot.nullSpot,
+            FlSpot.nullSpot,
+            FlSpot.nullSpot,
+          ],
+        )
       ];
       final result1 = LineChartHelper.calculateMaxAxisValues(lineBars);
       expect(result1, LineChartMinMaxAxisValues(0, 0, 0, 0));
@@ -72,12 +77,14 @@ void main() {
 
     test('Test null spot 2', () {
       final lineBars = [
-        LineChartBarData(spots: [
-          FlSpot.nullSpot,
-          const FlSpot(-1, 5),
-          FlSpot.nullSpot,
-          const FlSpot(4, -3),
-        ])
+        LineChartBarData(
+          spots: [
+            FlSpot.nullSpot,
+            const FlSpot(-1, 5),
+            FlSpot.nullSpot,
+            const FlSpot(4, -3),
+          ],
+        )
       ];
       final result1 = LineChartHelper.calculateMaxAxisValues(lineBars);
       expect(result1, LineChartMinMaxAxisValues(-1, 4, -3, 5));

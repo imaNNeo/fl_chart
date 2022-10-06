@@ -7,9 +7,8 @@ import 'package:equatable/equatable.dart';
 /// That is a workaround to solve the problem.
 /// Issue link: https://github.com/dart-lang/sdk/issues/17963
 class ListWrapper<T> with EquatableMixin {
-  final List<T> list;
-
   ListWrapper(this.list);
+  final List<T> list;
 
   @override
   List<Object?> get props => [list];

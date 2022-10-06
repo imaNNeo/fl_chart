@@ -6,7 +6,7 @@ import '../chart/data_pool.dart';
 
 void main() {
   test('test transparentIfWidthIsZero', () {
-    Paint paint = Paint();
+    final paint = Paint();
     paint.color = MockData.color0;
     paint.strokeWidth = 4;
     paint.transparentIfWidthIsZero();
@@ -25,7 +25,7 @@ void main() {
   });
 
   test('test setColorOrGradient', () {
-    Paint paint = Paint();
+    final paint = Paint();
     paint.color = MockData.color0;
     paint.setColorOrGradient(null, MockData.gradient1, MockData.rect1);
     expect(paint.shader, isNotNull);

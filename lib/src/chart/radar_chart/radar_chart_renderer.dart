@@ -1,10 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
+import 'package:fl_chart/src/chart/radar_chart/radar_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'radar_chart_painter.dart';
 
 // coverage:ignore-start
 
@@ -17,7 +16,11 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
 
   @override
   RenderRadarChart createRenderObject(BuildContext context) => RenderRadarChart(
-      context, data, targetData, MediaQuery.of(context).textScaleFactor);
+        context,
+        data,
+        targetData,
+        MediaQuery.of(context).textScaleFactor,
+      );
 
   @override
   void updateRenderObject(BuildContext context, RenderRadarChart renderObject) {
@@ -32,9 +35,12 @@ class RadarChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our RadarChart, also handles hitTest.
 class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
-  RenderRadarChart(BuildContext context, RadarChartData data,
-      RadarChartData targetData, double textScale)
-      : _data = data,
+  RenderRadarChart(
+    BuildContext context,
+    RadarChartData data,
+    RadarChartData targetData,
+    double textScale,
+  )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
         super(targetData.radarTouchData, context);
@@ -72,7 +78,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = RadarChartPainter();
+  RadarChartPainter painter = RadarChartPainter();
 
   PaintHolder<RadarChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -93,7 +99,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
 
   @override
   RadarTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpot = painter.handleTouch(
+    final touchedSpot = painter.handleTouch(
       localPosition,
       mockTestSize ?? size,
       paintHolder,

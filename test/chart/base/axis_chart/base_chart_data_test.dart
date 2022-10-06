@@ -9,20 +9,21 @@ void main() {
       expect(borderData1 == borderData1Clone, true);
 
       expect(
-          borderData1 ==
-              FlBorderData(
-                show: false,
-                border: Border.all(color: Colors.green),
-              ),
-          false);
+        borderData1 ==
+            FlBorderData(
+              show: false,
+              border: Border.all(color: Colors.green),
+            ),
+        false,
+      );
 
       expect(
-          borderData1 ==
-              FlBorderData(
-                show: true,
-                border: null,
-              ),
-          false);
+        borderData1 ==
+            FlBorderData(
+              show: true,
+            ),
+        false,
+      );
     });
   });
 }

@@ -17,7 +17,11 @@ class LineChartLeaf extends LeafRenderObjectWidget {
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
-      context, data, targetData, MediaQuery.of(context).textScaleFactor);
+        context,
+        data,
+        targetData,
+        MediaQuery.of(context).textScaleFactor,
+      );
 
   @override
   void updateRenderObject(BuildContext context, RenderLineChart renderObject) {
@@ -32,9 +36,12 @@ class LineChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our LineChart, also handles hitTest.
 class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
-  RenderLineChart(BuildContext context, LineChartData data,
-      LineChartData targetData, double textScale)
-      : _data = data,
+  RenderLineChart(
+    BuildContext context,
+    LineChartData data,
+    LineChartData targetData,
+    double textScale,
+  )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
         super(targetData.lineTouchData, context);
@@ -69,7 +76,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = LineChartPainter();
+  LineChartPainter painter = LineChartPainter();
 
   PaintHolder<LineChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -90,7 +97,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
 
   @override
   LineTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpots = painter.handleTouch(
+    final touchedSpots = painter.handleTouch(
       localPosition,
       mockTestSize ?? size,
       paintHolder,

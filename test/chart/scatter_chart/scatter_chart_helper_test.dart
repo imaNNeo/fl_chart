@@ -1,7 +1,8 @@
-import '../data_pool.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../data_pool.dart';
 
 void main() {
   group('Check caching of ScatterChartHelper.calculateMaxAxisValues', () {

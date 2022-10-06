@@ -11,29 +11,6 @@ import 'package:flutter/material.dart';
 /// It holds data needed to draw a pie chart,
 /// including pie sections, colors, ...
 class PieChartData extends BaseChartData with EquatableMixin {
-  /// Defines showing sections of the [PieChart].
-  final List<PieChartSectionData> sections;
-
-  /// Radius of free space in center of the circle.
-  final double centerSpaceRadius;
-
-  /// Color of free space in center of the circle.
-  final Color centerSpaceColor;
-
-  /// Defines gap between sections.
-  final double sectionsSpace;
-
-  /// [PieChart] draws [sections] from zero degree (right side of the circle) clockwise.
-  final double startDegreeOffset;
-
-  /// Handles touch behaviors and responses.
-  final PieTouchData pieTouchData;
-
-  /// We hold this value to determine weight of each [PieChartSectionData.value].
-  double get sumValue => sections
-      .map((data) => data.value)
-      .reduce((first, second) => first + second);
-
   /// [PieChart] draws some [sections] in a circle,
   /// and applies free space with radius [centerSpaceRadius],
   /// and color [centerSpaceColor] in the center of the circle,
@@ -65,6 +42,29 @@ class PieChartData extends BaseChartData with EquatableMixin {
           touchData: pieTouchData ?? PieTouchData(),
         );
 
+  /// Defines showing sections of the [PieChart].
+  final List<PieChartSectionData> sections;
+
+  /// Radius of free space in center of the circle.
+  final double centerSpaceRadius;
+
+  /// Color of free space in center of the circle.
+  final Color centerSpaceColor;
+
+  /// Defines gap between sections.
+  final double sectionsSpace;
+
+  /// [PieChart] draws [sections] from zero degree (right side of the circle) clockwise.
+  final double startDegreeOffset;
+
+  /// Handles touch behaviors and responses.
+  final PieTouchData pieTouchData;
+
+  /// We hold this value to determine weight of each [PieChartSectionData.value].
+  double get sumValue => sections
+      .map((data) => data.value)
+      .reduce((first, second) => first + second);
+
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.
   PieChartData copyWith({
@@ -95,7 +95,10 @@ class PieChartData extends BaseChartData with EquatableMixin {
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         centerSpaceColor: Color.lerp(a.centerSpaceColor, b.centerSpaceColor, t),
         centerSpaceRadius: lerpDoubleAllowInfinity(
-            a.centerSpaceRadius, b.centerSpaceRadius, t),
+          a.centerSpaceRadius,
+          b.centerSpaceRadius,
+          t,
+        ),
         pieTouchData: b.pieTouchData,
         sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
         startDegreeOffset:
@@ -122,6 +125,47 @@ class PieChartData extends BaseChartData with EquatableMixin {
 
 /// Holds data related to drawing each [PieChart] section.
 class PieChartSectionData {
+  /// [PieChart] draws section from right side of the circle (0 degrees),
+  /// each section have a [value] that determines how much it should occupy,
+  /// this is depends on sum of all sections, each section should
+  /// occupy ([value] / sumValues) * 360 degrees.
+  ///
+  /// It draws this section with filled [color], and [radius].
+  ///
+  /// If [showTitle] is true, it draws a title at the middle of section,
+  /// you can set the text using [title], and set the style using [titleStyle],
+  /// by default it draws texts at the middle of section, but you can change the
+  /// [titlePositionPercentageOffset] to have your desire design,
+  /// it should be between 0.0 to 1.0,
+  /// 0.0 means near the center,
+  /// 1.0 means near the outside of the [PieChart].
+  ///
+  /// If [badgeWidget] is not null, it draws a widget at the middle of section,
+  /// by default it draws the widget at the middle of section, but you can change the
+  /// [badgePositionPercentageOffset] to have your desire design,
+  /// the value works the same way as [titlePositionPercentageOffset].
+  PieChartSectionData({
+    double? value,
+    Color? color,
+    double? radius,
+    bool? showTitle,
+    TextStyle? titleStyle,
+    String? title,
+    BorderSide? borderSide,
+    Widget? badgeWidget,
+    double? titlePositionPercentageOffset,
+    double? badgePositionPercentageOffset,
+  })  : value = value ?? 10,
+        color = color ?? Colors.cyan,
+        radius = radius ?? 40,
+        showTitle = showTitle ?? true,
+        titleStyle = titleStyle,
+        title = title ?? (value == null ? '' : value.toString()),
+        borderSide = borderSide ?? const BorderSide(width: 0),
+        badgeWidget = badgeWidget,
+        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
+
   /// It determines how much space it should occupy around the circle.
   ///
   /// This is depends on sum of all sections, each section should
@@ -168,47 +212,6 @@ class PieChartSectionData {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
-  /// [PieChart] draws section from right side of the circle (0 degrees),
-  /// each section have a [value] that determines how much it should occupy,
-  /// this is depends on sum of all sections, each section should
-  /// occupy ([value] / sumValues) * 360 degrees.
-  ///
-  /// It draws this section with filled [color], and [radius].
-  ///
-  /// If [showTitle] is true, it draws a title at the middle of section,
-  /// you can set the text using [title], and set the style using [titleStyle],
-  /// by default it draws texts at the middle of section, but you can change the
-  /// [titlePositionPercentageOffset] to have your desire design,
-  /// it should be between 0.0 to 1.0,
-  /// 0.0 means near the center,
-  /// 1.0 means near the outside of the [PieChart].
-  ///
-  /// If [badgeWidget] is not null, it draws a widget at the middle of section,
-  /// by default it draws the widget at the middle of section, but you can change the
-  /// [badgePositionPercentageOffset] to have your desire design,
-  /// the value works the same way as [titlePositionPercentageOffset].
-  PieChartSectionData({
-    double? value,
-    Color? color,
-    double? radius,
-    bool? showTitle,
-    TextStyle? titleStyle,
-    String? title,
-    BorderSide? borderSide,
-    Widget? badgeWidget,
-    double? titlePositionPercentageOffset,
-    double? badgePositionPercentageOffset,
-  })  : value = value ?? 10,
-        color = color ?? Colors.cyan,
-        radius = radius ?? 40,
-        showTitle = showTitle ?? true,
-        titleStyle = titleStyle,
-        title = title ?? (value == null ? '' : value.toString()),
-        borderSide = borderSide ?? const BorderSide(width: 0),
-        badgeWidget = badgeWidget,
-        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
-        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
-
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -241,7 +244,10 @@ class PieChartSectionData {
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
   static PieChartSectionData lerp(
-      PieChartSectionData a, PieChartSectionData b, double t) {
+    PieChartSectionData a,
+    PieChartSectionData b,
+    double t,
+  ) {
     return PieChartSectionData(
       value: lerpDouble(a.value, b.value, t),
       color: Color.lerp(a.color, b.color, t),
@@ -252,9 +258,15 @@ class PieChartSectionData {
       borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       badgeWidget: b.badgeWidget,
       titlePositionPercentageOffset: lerpDouble(
-          a.titlePositionPercentageOffset, b.titlePositionPercentageOffset, t),
+        a.titlePositionPercentageOffset,
+        b.titlePositionPercentageOffset,
+        t,
+      ),
       badgePositionPercentageOffset: lerpDouble(
-          a.badgePositionPercentageOffset, b.badgePositionPercentageOffset, t),
+        a.badgePositionPercentageOffset,
+        b.badgePositionPercentageOffset,
+        t,
+      ),
     );
   }
 }
@@ -290,18 +302,6 @@ class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
 }
 
 class PieTouchedSection with EquatableMixin {
-  /// touch happened on this section
-  final PieChartSectionData? touchedSection;
-
-  /// touch happened on this position
-  final int touchedSectionIndex;
-
-  /// touch happened with this angle on the [PieChart]
-  final double touchAngle;
-
-  /// touch happened with this radius on the [PieChart]
-  final double touchRadius;
-
   /// This class Contains [touchedSection], [touchedSectionIndex] that tells
   /// you touch happened on which section,
   /// [touchAngle] gives you angle of touch,
@@ -315,6 +315,18 @@ class PieTouchedSection with EquatableMixin {
         touchedSectionIndex = touchedSectionIndex,
         touchAngle = touchAngle,
         touchRadius = touchRadius;
+
+  /// touch happened on this section
+  final PieChartSectionData? touchedSection;
+
+  /// touch happened on this position
+  final int touchedSectionIndex;
+
+  /// touch happened with this angle on the [PieChart]
+  final double touchAngle;
+
+  /// touch happened with this radius on the [PieChart]
+  final double touchRadius;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -331,13 +343,13 @@ class PieTouchedSection with EquatableMixin {
 /// You can override [PieTouchData.touchCallback] to handle touch events,
 /// it gives you a [PieTouchResponse] and you can do whatever you want.
 class PieTouchResponse extends BaseTouchResponse {
-  /// Contains information about touched section, like index, angle, radius, ...
-  final PieTouchedSection? touchedSection;
-
   /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
   PieTouchResponse(PieTouchedSection? touchedSection)
       : touchedSection = touchedSection,
         super();
+
+  /// Contains information about touched section, like index, angle, radius, ...
+  final PieTouchedSection? touchedSection;
 
   /// Copies current [PieTouchResponse] to a new [PieTouchResponse],
   /// and replaces provided values.
