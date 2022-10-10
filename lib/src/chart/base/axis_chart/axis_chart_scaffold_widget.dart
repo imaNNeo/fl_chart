@@ -3,6 +3,22 @@ import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widge
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:flutter/material.dart';
 
+/// A scaffold to show an axis-based chart
+///
+/// It contains some placeholders to represent an axis-based chart.
+///
+/// It's something like the below graph:
+/// |----------------------|
+/// |      |  top  |       |
+/// |------|-------|-------|
+/// | left | chart | right |
+/// |------|-------|-------|
+/// |      | bottom|       |
+/// |----------------------|
+///
+/// `left`, `top`, `right`, `bottom` are some place holders to show titles
+/// provided by [AxisChartData.titlesData] around the chart
+/// `chart` is a centered place holder to show a raw chart.
 class AxisChartScaffoldWidget extends StatelessWidget {
   const AxisChartScaffoldWidget({
     super.key,
