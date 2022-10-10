@@ -1,4 +1,6 @@
 ## newVersion
+* **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis
+* **BREAKING** (by @lsaudon) Update dart sdk to 2.17.0 (flutter 3.0.0)
 
 ## 0.55.2
 * **BUGFIX** (by @imaNNeoFighT): Fix inner border of pieChart with single section, #1089
