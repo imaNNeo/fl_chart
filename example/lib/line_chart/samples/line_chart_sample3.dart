@@ -57,8 +57,8 @@ class _LineChartSample3State extends State<LineChartSample3> {
 
     return SideTitleWidget(
       space: 4,
-      child: Text(widget.weekDays[value.toInt()], style: style),
       axisSide: meta.axisSide,
+      child: Text(widget.weekDays[value.toInt()], style: style),
     );
   }
 

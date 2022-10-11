@@ -5,7 +5,7 @@ class LineChartSample2 extends StatefulWidget {
   const LineChartSample2({Key? key}) : super(key: key);
 
   @override
-  _LineChartSample2State createState() => _LineChartSample2State();
+  State<LineChartSample2> createState() => _LineChartSample2State();
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {

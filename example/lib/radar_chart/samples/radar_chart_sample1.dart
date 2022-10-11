@@ -13,7 +13,7 @@ class RadarChartSample1 extends StatefulWidget {
   const RadarChartSample1({Key? key}) : super(key: key);
 
   @override
-  _RadarChartSample1State createState() => _RadarChartSample1State();
+  State<RadarChartSample1> createState() => _RadarChartSample1State();
 }
 
 class _RadarChartSample1State extends State<RadarChartSample1> {

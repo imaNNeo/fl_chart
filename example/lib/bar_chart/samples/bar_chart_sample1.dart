@@ -188,7 +188,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                   throw Error();
               }
               return BarTooltipItem(
-                weekDay + '\n',
+                '$weekDay\n',
                 const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
