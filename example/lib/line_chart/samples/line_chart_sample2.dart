@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample2 extends StatefulWidget {
-  const LineChartSample2({Key? key}) : super(key: key);
+  const LineChartSample2({super.key});
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
@@ -22,15 +22,20 @@ class _LineChartSample2State extends State<LineChartSample2> {
       children: <Widget>[
         AspectRatio(
           aspectRatio: 1.70,
-          child: Container(
+          child: DecoratedBox(
             decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(18),
-                ),
-                color: Color(0xff232d37)),
+              borderRadius: BorderRadius.all(
+                Radius.circular(18),
+              ),
+              color: Color(0xff232d37),
+            ),
             child: Padding(
               padding: const EdgeInsets.only(
-                  right: 18.0, left: 12.0, top: 24, bottom: 12),
+                right: 18,
+                left: 12,
+                top: 24,
+                bottom: 12,
+              ),
               child: LineChart(
                 showAvg ? avgData() : mainData(),
               ),
@@ -49,9 +54,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
             child: Text(
               'avg',
               style: TextStyle(
-                  fontSize: 12,
-                  color:
-                      showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
+                fontSize: 12,
+                color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+              ),
             ),
           ),
         ),
@@ -83,7 +88,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 8.0,
       child: text,
     );
   }
@@ -158,8 +162,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: const Color(0xff37434d), width: 1)),
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
       minX: 0,
       maxX: 11,
       minY: 0,
@@ -178,8 +183,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
           ),
           barWidth: 5,
           isStrokeCapRound: true,
@@ -192,8 +195,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
               colors: gradientColors
                   .map((color) => color.withOpacity(0.3))
                   .toList(),
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
             ),
           ),
         ),
@@ -248,8 +249,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: const Color(0xff37434d), width: 1)),
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
       minX: 0,
       maxX: 11,
       minY: 0,
@@ -273,8 +275,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
               ColorTween(begin: gradientColors[0], end: gradientColors[1])
                   .lerp(0.2)!,
             ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
           ),
           barWidth: 5,
           isStrokeCapRound: true,
@@ -292,8 +292,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
                     .lerp(0.2)!
                     .withOpacity(0.1),
               ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
             ),
           ),
         ),

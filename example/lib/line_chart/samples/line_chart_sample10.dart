@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class LineChartSample10 extends StatefulWidget {
-  const LineChartSample10({Key? key}) : super(key: key);
+  const LineChartSample10({super.key});
 
   @override
   State<LineChartSample10> createState() => _LineChartSample10State();
@@ -110,10 +110,9 @@ class _LineChartSample10State extends State<LineChartSample10> {
         show: false,
       ),
       gradient: LinearGradient(
-          colors: [sinColor.withOpacity(0), sinColor],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          stops: const [0.1, 1.0]),
+        colors: [sinColor.withOpacity(0), sinColor],
+        stops: const [0.1, 1.0],
+      ),
       barWidth: 4,
       isCurved: false,
     );
@@ -126,10 +125,9 @@ class _LineChartSample10State extends State<LineChartSample10> {
         show: false,
       ),
       gradient: LinearGradient(
-          colors: [sinColor.withOpacity(0), sinColor],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          stops: const [0.1, 1.0]),
+        colors: [sinColor.withOpacity(0), sinColor],
+        stops: const [0.1, 1.0],
+      ),
       barWidth: 4,
       isCurved: false,
     );

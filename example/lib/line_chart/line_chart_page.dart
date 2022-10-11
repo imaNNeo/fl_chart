@@ -1,14 +1,13 @@
+import 'package:example/line_chart/samples/line_chart_sample1.dart';
+import 'package:example/line_chart/samples/line_chart_sample2.dart';
 import 'package:flutter/material.dart';
 
-import 'samples/line_chart_sample1.dart';
-import 'samples/line_chart_sample2.dart';
-
 class LineChartPage extends StatelessWidget {
-  const LineChartPage({Key? key}) : super(key: key);
+  const LineChartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: const Color(0xff262545),
       child: ListView(
         children: const <Widget>[
@@ -16,7 +15,7 @@ class LineChartPage extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(
-                left: 36.0,
+                left: 36,
                 top: 24,
               ),
               child: Text(
@@ -45,7 +44,7 @@ class LineChartPage extends StatelessWidget {
             height: 22,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 28.0, right: 28),
+            padding: EdgeInsets.only(left: 28, right: 28),
             child: LineChartSample2(),
           ),
           SizedBox(height: 22),

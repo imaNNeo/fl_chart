@@ -1,13 +1,12 @@
+import 'package:example/bar_chart/samples/bar_chart_sample3.dart';
+import 'package:example/bar_chart/samples/bar_chart_sample4.dart';
+import 'package:example/bar_chart/samples/bar_chart_sample5.dart';
 import 'package:example/bar_chart/samples/bar_chart_sample6.dart';
 import 'package:example/bar_chart/samples/bar_chart_sample7.dart';
 import 'package:flutter/material.dart';
 
-import '../bar_chart/samples/bar_chart_sample3.dart';
-import '../bar_chart/samples/bar_chart_sample4.dart';
-import '../bar_chart/samples/bar_chart_sample5.dart';
-
 class BarChartPage3 extends StatelessWidget {
-  const BarChartPage3({Key? key}) : super(key: key);
+  const BarChartPage3({super.key});
 
   @override
   Widget build(BuildContext context) {

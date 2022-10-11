@@ -1,36 +1,36 @@
+import 'package:example/pie_chart/samples/pie_chart_sample1.dart';
+import 'package:example/pie_chart/samples/pie_chart_sample2.dart';
+import 'package:example/pie_chart/samples/pie_chart_sample3.dart';
 import 'package:flutter/material.dart';
 
-import 'samples/pie_chart_sample1.dart';
-import 'samples/pie_chart_sample2.dart';
-import 'samples/pie_chart_sample3.dart';
-
 class PieChartPage extends StatelessWidget {
-  final Color barColor = Colors.white;
-  final Color barBackgroundColor = const Color(0xff72d8bf);
-  final double width = 22;
+  const PieChartPage({super.key});
 
-  const PieChartPage({Key? key}) : super(key: key);
+  Color get barColor => Colors.white;
+  Color get barBackgroundColor => const Color(0xff72d8bf);
+  double get width => 22;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: const Color(0xffeceaeb),
       child: Padding(
-        padding: const EdgeInsets.all(28.0),
+        padding: const EdgeInsets.all(28),
         child: ListView(
           children: const <Widget>[
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(left: 8.0),
+                padding: EdgeInsets.only(left: 8),
                 child: Text(
                   'Pie Chart',
                   style: TextStyle(
-                      color: Color(
-                        0xff333333,
-                      ),
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold),
+                    color: Color(
+                      0xff333333,
+                    ),
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

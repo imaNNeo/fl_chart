@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 // Credit: https://dribbble.com/shots/10072126-Heeded-Dashboard
 class BarChartSample6 extends StatelessWidget {
-  const BarChartSample6({Key? key}) : super(key: key);
+  const BarChartSample6({super.key});
 
   static const pilateColor = Color(0xff632af2);
   static const cyclingColor = Color(0xffffb3ba);
@@ -12,7 +12,11 @@ class BarChartSample6 extends StatelessWidget {
   static const betweenSpace = 0.2;
 
   BarChartGroupData generateGroupData(
-      int x, double pilates, double quickWorkout, double cycling) {
+    int x,
+    double pilates,
+    double quickWorkout,
+    double cycling,
+  ) {
     return BarChartGroupData(
       x: x,
       groupVertically: true,
@@ -47,43 +51,43 @@ class BarChartSample6 extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = "JAN";
+        text = 'JAN';
         break;
       case 1:
-        text = "FEB";
+        text = 'FEB';
         break;
       case 2:
-        text = "MAR";
+        text = 'MAR';
         break;
       case 3:
-        text = "APR";
+        text = 'APR';
         break;
       case 4:
-        text = "MAY";
+        text = 'MAY';
         break;
       case 5:
-        text = "JUN";
+        text = 'JUN';
         break;
       case 6:
-        text = "JUL";
+        text = 'JUL';
         break;
       case 7:
-        text = "AUG";
+        text = 'AUG';
         break;
       case 8:
-        text = "SEP";
+        text = 'SEP';
         break;
       case 9:
-        text = "OCT";
+        text = 'OCT';
         break;
       case 10:
-        text = "NOV";
+        text = 'NOV';
         break;
       case 11:
-        text = "DEC";
+        text = 'DEC';
         break;
       default:
-        text = "";
+        text = '';
     }
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -113,9 +117,9 @@ class BarChartSample6 extends StatelessWidget {
             const SizedBox(height: 8),
             LegendsListWidget(
               legends: [
-                Legend("Pilates", pilateColor),
-                Legend("Quick workouts", quickWorkoutColor),
-                Legend("Cycling", cyclingColor),
+                Legend('Pilates', pilateColor),
+                Legend('Quick workouts', quickWorkoutColor),
+                Legend('Cycling', cyclingColor),
               ],
             ),
             const SizedBox(height: 14),

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 /// Icons by svgrepo.com (https://www.svgrepo.com/collection/job-and-professions-3/)
 class PieChartSample3 extends StatefulWidget {
-  const PieChartSample3({Key? key}) : super(key: key);
+  const PieChartSample3({super.key});
 
   @override
   State<StatefulWidget> createState() => PieChartSample3State();
@@ -23,8 +23,8 @@ class PieChartSample3State extends State {
           aspectRatio: 1,
           child: PieChart(
             PieChartData(
-                pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+              pieTouchData: PieTouchData(
+                touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   setState(() {
                     if (!event.isInterestedForInteractions ||
                         pieTouchResponse == null ||
@@ -35,13 +35,15 @@ class PieChartSample3State extends State {
                     touchedIndex =
                         pieTouchResponse.touchedSection!.touchedSectionIndex;
                   });
-                }),
-                borderData: FlBorderData(
-                  show: false,
-                ),
-                sectionsSpace: 0,
-                centerSpaceRadius: 0,
-                sections: showingSections()),
+                },
+              ),
+              borderData: FlBorderData(
+                show: false,
+              ),
+              sectionsSpace: 0,
+              centerSpaceRadius: 0,
+              sections: showingSections(),
+            ),
           ),
         ),
       ),
@@ -63,9 +65,10 @@ class PieChartSample3State extends State {
             title: '40%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
             badgeWidget: _Badge(
               'assets/ophthalmology-svgrepo-com.svg',
               size: widgetSize,
@@ -80,9 +83,10 @@ class PieChartSample3State extends State {
             title: '30%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
             badgeWidget: _Badge(
               'assets/librarian-svgrepo-com.svg',
               size: widgetSize,
@@ -97,9 +101,10 @@ class PieChartSample3State extends State {
             title: '16%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
             badgeWidget: _Badge(
               'assets/fitness-svgrepo-com.svg',
               size: widgetSize,
@@ -114,9 +119,10 @@ class PieChartSample3State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xffffffff),
+            ),
             badgeWidget: _Badge(
               'assets/worker-svgrepo-com.svg',
               size: widgetSize,
@@ -125,23 +131,21 @@ class PieChartSample3State extends State {
             badgePositionPercentageOffset: .98,
           );
         default:
-          throw 'Oh no';
+          throw Exception('Oh no');
       }
     });
   }
 }
 
 class _Badge extends StatelessWidget {
+  const _Badge(
+    this.svgAsset, {
+    required this.size,
+    required this.borderColor,
+  });
   final String svgAsset;
   final double size;
   final Color borderColor;
-
-  const _Badge(
-    this.svgAsset, {
-    Key? key,
-    required this.size,
-    required this.borderColor,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +172,6 @@ class _Badge extends StatelessWidget {
       child: Center(
         child: SvgPicture.asset(
           svgAsset,
-          fit: BoxFit.contain,
         ),
       ),
     );

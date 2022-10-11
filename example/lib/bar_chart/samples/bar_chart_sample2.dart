@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample2 extends StatefulWidget {
-  const BarChartSample2({Key? key}) : super(key: key);
+  const BarChartSample2({super.key});
 
   @override
   State<StatefulWidget> createState() => BarChartSample2State();
@@ -56,13 +56,9 @@ class BarChartSample2State extends State<BarChartSample2> {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   makeTransactionsIcon(),
                   const SizedBox(
@@ -89,52 +85,52 @@ class BarChartSample2State extends State<BarChartSample2> {
                   BarChartData(
                     maxY: 20,
                     barTouchData: BarTouchData(
-                        touchTooltipData: BarTouchTooltipData(
-                          tooltipBgColor: Colors.grey,
-                          getTooltipItem: (a, b, c, d) => null,
-                        ),
-                        touchCallback: (FlTouchEvent event, response) {
-                          if (response == null || response.spot == null) {
-                            setState(() {
-                              touchedGroupIndex = -1;
-                              showingBarGroups = List.of(rawBarGroups);
-                            });
+                      touchTooltipData: BarTouchTooltipData(
+                        tooltipBgColor: Colors.grey,
+                        getTooltipItem: (a, b, c, d) => null,
+                      ),
+                      touchCallback: (FlTouchEvent event, response) {
+                        if (response == null || response.spot == null) {
+                          setState(() {
+                            touchedGroupIndex = -1;
+                            showingBarGroups = List.of(rawBarGroups);
+                          });
+                          return;
+                        }
+
+                        touchedGroupIndex = response.spot!.touchedBarGroupIndex;
+
+                        setState(() {
+                          if (!event.isInterestedForInteractions) {
+                            touchedGroupIndex = -1;
+                            showingBarGroups = List.of(rawBarGroups);
                             return;
                           }
-
-                          touchedGroupIndex =
-                              response.spot!.touchedBarGroupIndex;
-
-                          setState(() {
-                            if (!event.isInterestedForInteractions) {
-                              touchedGroupIndex = -1;
-                              showingBarGroups = List.of(rawBarGroups);
-                              return;
+                          showingBarGroups = List.of(rawBarGroups);
+                          if (touchedGroupIndex != -1) {
+                            var sum = 0.0;
+                            for (final rod
+                                in showingBarGroups[touchedGroupIndex]
+                                    .barRods) {
+                              sum += rod.toY;
                             }
-                            showingBarGroups = List.of(rawBarGroups);
-                            if (touchedGroupIndex != -1) {
-                              var sum = 0.0;
-                              for (var rod
-                                  in showingBarGroups[touchedGroupIndex]
-                                      .barRods) {
-                                sum += rod.toY;
-                              }
-                              final avg = sum /
-                                  showingBarGroups[touchedGroupIndex]
-                                      .barRods
-                                      .length;
-
-                              showingBarGroups[touchedGroupIndex] =
-                                  showingBarGroups[touchedGroupIndex].copyWith(
-                                barRods: showingBarGroups[touchedGroupIndex]
+                            final avg = sum /
+                                showingBarGroups[touchedGroupIndex]
                                     .barRods
-                                    .map((rod) {
-                                  return rod.copyWith(toY: avg);
-                                }).toList(),
-                              );
-                            }
-                          });
-                        }),
+                                    .length;
+
+                            showingBarGroups[touchedGroupIndex] =
+                                showingBarGroups[touchedGroupIndex].copyWith(
+                              barRods: showingBarGroups[touchedGroupIndex]
+                                  .barRods
+                                  .map((rod) {
+                                return rod.copyWith(toY: avg);
+                              }).toList(),
+                            );
+                          }
+                        });
+                      },
+                    ),
                     titlesData: FlTitlesData(
                       show: true,
                       rightTitles: AxisTitles(
@@ -201,9 +197,9 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-    List<String> titles = ["Mn", "Te", "Wd", "Tu", "Fr", "St", "Su"];
+    final titles = <String>['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
 
-    Widget text = Text(
+    final Widget text = Text(
       titles[value.toInt()],
       style: const TextStyle(
         color: Color(0xff7589a2),
@@ -220,18 +216,22 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-      BarChartRodData(
-        toY: y1,
-        color: leftBarColor,
-        width: width,
-      ),
-      BarChartRodData(
-        toY: y2,
-        color: rightBarColor,
-        width: width,
-      ),
-    ]);
+    return BarChartGroupData(
+      barsSpace: 4,
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y1,
+          color: leftBarColor,
+          width: width,
+        ),
+        BarChartRodData(
+          toY: y2,
+          color: rightBarColor,
+          width: width,
+        ),
+      ],
+    );
   }
 
   Widget makeTransactionsIcon() {
@@ -239,7 +239,6 @@ class BarChartSample2State extends State<BarChartSample2> {
     const space = 3.5;
     return Row(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
           width: width,
