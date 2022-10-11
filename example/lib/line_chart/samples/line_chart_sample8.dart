@@ -7,7 +7,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LineChartSample8 extends StatefulWidget {
-  const LineChartSample8({Key? key}) : super(key: key);
+  const LineChartSample8({super.key});
 
   @override
   State<LineChartSample8> createState() => _LineChartSample8State();
@@ -42,27 +42,32 @@ class _LineChartSample8State extends State<LineChartSample8> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SizedPicture>(
-        future: loadSvg(),
-        builder: (BuildContext context, imageSnapshot) {
-          if (imageSnapshot.connectionState == ConnectionState.done) {
-            return Stack(
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.70,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        right: 18.0, left: 12.0, top: 24, bottom: 12),
-                    child: LineChart(
-                      mainData(imageSnapshot.data!),
-                    ),
+      future: loadSvg(),
+      builder: (BuildContext context, imageSnapshot) {
+        if (imageSnapshot.connectionState == ConnectionState.done) {
+          return Stack(
+            children: <Widget>[
+              AspectRatio(
+                aspectRatio: 1.70,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    right: 18,
+                    left: 12,
+                    top: 24,
+                    bottom: 12,
+                  ),
+                  child: LineChart(
+                    mainData(imageSnapshot.data!),
                   ),
                 ),
-              ],
-            );
-          } else {
-            return const CircularProgressIndicator();
-          }
-        });
+              ),
+            ],
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -94,7 +99,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
         color = Colors.deepOrangeAccent;
         break;
       default:
-        throw StateError("Invalid");
+        throw StateError('Invalid');
     }
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -169,10 +174,11 @@ class _LineChartSample8State extends State<LineChartSample8> {
         ],
       ),
       gridData: FlGridData(
-          show: true,
-          drawVerticalLine: false,
-          drawHorizontalLine: false,
-          verticalInterval: 1),
+        show: true,
+        drawVerticalLine: false,
+        drawHorizontalLine: false,
+        verticalInterval: 1,
+      ),
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: AxisTitles(
@@ -207,8 +213,9 @@ class _LineChartSample8State extends State<LineChartSample8> {
             return TouchedSpotIndicatorData(
               FlLine(color: Colors.orange, strokeWidth: 3),
               FlDotData(
-                  getDotPainter: (spot, percent, barData, index) =>
-                      FlDotCirclePainter(radius: 8, color: Colors.deepOrange)),
+                getDotPainter: (spot, percent, barData, index) =>
+                    FlDotCirclePainter(radius: 8, color: Colors.deepOrange),
+              ),
             );
           }).toList();
         },
@@ -217,8 +224,9 @@ class _LineChartSample8State extends State<LineChartSample8> {
         ),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: const Color(0xffecf1fe), width: 1)),
+        show: true,
+        border: Border.all(color: const Color(0xffecf1fe)),
+      ),
       minX: 0,
       maxX: 11,
       minY: 0,
@@ -241,8 +249,6 @@ class _LineChartSample8State extends State<LineChartSample8> {
           isCurved: true,
           gradient: const LinearGradient(
             colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
           ),
           barWidth: 2,
           isStrokeCapRound: true,
@@ -255,8 +261,6 @@ class _LineChartSample8State extends State<LineChartSample8> {
               colors: gradientColors
                   .map((color) => color.withOpacity(0.5))
                   .toList(),
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
             ),
           ),
         ),

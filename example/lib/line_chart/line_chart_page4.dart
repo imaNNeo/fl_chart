@@ -1,13 +1,12 @@
+import 'package:example/line_chart/samples/line_chart_sample10.dart';
 import 'package:flutter/material.dart';
 
-import 'samples/line_chart_sample10.dart';
-
 class LineChartPage4 extends StatelessWidget {
-  const LineChartPage4({Key? key}) : super(key: key);
+  const LineChartPage4({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: Colors.white,
       child: Center(
         child: ListView(
@@ -16,9 +15,10 @@ class LineChartPage4 extends StatelessWidget {
             Text(
               'LineChart (real time)',
               style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
             SizedBox(
               height: 52,

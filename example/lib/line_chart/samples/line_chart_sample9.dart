@@ -1,14 +1,14 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 // ignore: must_be_immutable
 class LineChartSample9 extends StatelessWidget {
+  LineChartSample9({super.key});
   final spots = List.generate(101, (i) => (i - 50) / 10)
       .map((x) => FlSpot(x, sin(x)))
       .toList();
-
-  LineChartSample9({Key? key}) : super(key: key);
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -39,7 +39,7 @@ class LineChartSample9 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 22.0, bottom: 20),
+      padding: const EdgeInsets.only(right: 22, bottom: 20),
       child: SizedBox(
         width: 400,
         height: 400,
@@ -47,21 +47,23 @@ class LineChartSample9 extends StatelessWidget {
           LineChartData(
             lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
-                  maxContentWidth: 100,
-                  tooltipBgColor: Colors.orange,
-                  getTooltipItems: (touchedSpots) {
-                    return touchedSpots.map((LineBarSpot touchedSpot) {
-                      final textStyle = TextStyle(
-                        color: touchedSpot.bar.gradient?.colors[0] ??
-                            touchedSpot.bar.color,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      );
-                      return LineTooltipItem(
-                          '${touchedSpot.x}, ${touchedSpot.y.toStringAsFixed(2)}',
-                          textStyle);
-                    }).toList();
-                  }),
+                maxContentWidth: 100,
+                tooltipBgColor: Colors.orange,
+                getTooltipItems: (touchedSpots) {
+                  return touchedSpots.map((LineBarSpot touchedSpot) {
+                    final textStyle = TextStyle(
+                      color: touchedSpot.bar.gradient?.colors[0] ??
+                          touchedSpot.bar.color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    );
+                    return LineTooltipItem(
+                      '${touchedSpot.x}, ${touchedSpot.y.toStringAsFixed(2)}',
+                      textStyle,
+                    );
+                  }).toList();
+                },
+              ),
               handleBuiltInTouches: true,
               getTouchLineStart: (data, index) => 0,
             ),

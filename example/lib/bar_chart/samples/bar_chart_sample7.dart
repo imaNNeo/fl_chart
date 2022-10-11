@@ -1,9 +1,10 @@
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+
 class BarChartSample7 extends StatefulWidget {
-  const BarChartSample7({Key? key}) : super(key: key);
+  const BarChartSample7({super.key});
 
   static const shadowColor = Color(0xFFCCCCCC);
   static const dataList = [
@@ -112,7 +113,6 @@ class _BarChartSample7State extends State<BarChartSample7> {
                     drawVerticalLine: false,
                     getDrawingHorizontalLine: (value) => FlLine(
                       color: const Color(0xFFececec),
-                      dashArray: null,
                       strokeWidth: 1,
                     ),
                   ),
@@ -120,35 +120,41 @@ class _BarChartSample7State extends State<BarChartSample7> {
                     final index = e.key;
                     final data = e.value;
                     return generateBarGroup(
-                        index, data.color, data.value, data.shadowValue);
+                      index,
+                      data.color,
+                      data.value,
+                      data.shadowValue,
+                    );
                   }).toList(),
                   maxY: 20,
                   barTouchData: BarTouchData(
                     enabled: true,
                     handleBuiltInTouches: false,
                     touchTooltipData: BarTouchTooltipData(
-                        tooltipBgColor: Colors.transparent,
-                        tooltipMargin: 0,
-                        getTooltipItem: (
-                          BarChartGroupData group,
-                          int groupIndex,
-                          BarChartRodData rod,
-                          int rodIndex,
-                        ) {
-                          return BarTooltipItem(
-                            rod.toY.toString(),
-                            TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: rod.color!,
-                                fontSize: 18,
-                                shadows: const [
-                                  Shadow(
-                                    color: Colors.black26,
-                                    blurRadius: 12,
-                                  )
-                                ]),
-                          );
-                        }),
+                      tooltipBgColor: Colors.transparent,
+                      tooltipMargin: 0,
+                      getTooltipItem: (
+                        BarChartGroupData group,
+                        int groupIndex,
+                        BarChartRodData rod,
+                        int rodIndex,
+                      ) {
+                        return BarTooltipItem(
+                          rod.toY.toString(),
+                          TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: rod.color,
+                            fontSize: 18,
+                            shadows: const [
+                              Shadow(
+                                color: Colors.black26,
+                                blurRadius: 12,
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                     touchCallback: (event, response) {
                       if (event.isInterestedForInteractions &&
                           response != null &&
@@ -175,21 +181,19 @@ class _BarChartSample7State extends State<BarChartSample7> {
 }
 
 class _BarData {
+  const _BarData(this.color, this.value, this.shadowValue);
   final Color color;
   final double value;
   final double shadowValue;
-
-  const _BarData(this.color, this.value, this.shadowValue);
 }
 
 class _IconWidget extends ImplicitlyAnimatedWidget {
-  final Color color;
-  final bool isSelected;
-
   const _IconWidget({
     required this.color,
     required this.isSelected,
   }) : super(duration: const Duration(milliseconds: 300));
+  final Color color;
+  final bool isSelected;
 
   @override
   ImplicitlyAnimatedWidgetState<ImplicitlyAnimatedWidget> createState() =>
@@ -220,9 +224,9 @@ class _IconWidgetState extends AnimatedWidgetBaseState<_IconWidget> {
       _rotationTween,
       widget.isSelected ? 1.0 : 0.0,
       (dynamic value) => Tween<double>(
-        begin: value,
+        begin: value as double,
         end: widget.isSelected ? 1.0 : 0.0,
       ),
-    ) as Tween<double>;
+    ) as Tween<double>?;
   }
 }

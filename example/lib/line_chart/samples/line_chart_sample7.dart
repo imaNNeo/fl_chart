@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample7 extends StatelessWidget {
-  const LineChartSample7({Key? key}) : super(key: key);
+  const LineChartSample7({super.key});
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -105,7 +105,7 @@ class LineChartSample7 extends StatelessWidget {
               ),
               LineChartBarData(
                 spots: const [
-                  FlSpot(0, 0),
+                  FlSpot.zero,
                   FlSpot(1, 3),
                   FlSpot(2, 4),
                   FlSpot(3, 5),
