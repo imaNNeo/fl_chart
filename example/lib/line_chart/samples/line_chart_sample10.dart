@@ -8,7 +8,7 @@ class LineChartSample10 extends StatefulWidget {
   const LineChartSample10({Key? key}) : super(key: key);
 
   @override
-  _LineChartSample10State createState() => _LineChartSample10State();
+  State<LineChartSample10> createState() => _LineChartSample10State();
 }
 
 class _LineChartSample10State extends State<LineChartSample10> {

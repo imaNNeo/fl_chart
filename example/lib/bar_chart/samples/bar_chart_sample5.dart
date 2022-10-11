@@ -58,8 +58,8 @@ class BarChartSample5State extends State<BarChartSample5> {
         break;
     }
     return SideTitleWidget(
-      child: Text(text, style: style),
       axisSide: meta.axisSide,
+      child: Text(text, style: style),
     );
   }
 
@@ -92,8 +92,8 @@ class BarChartSample5State extends State<BarChartSample5> {
         return Container();
     }
     return SideTitleWidget(
-      child: Text(text, style: style),
       axisSide: meta.axisSide,
+      child: Text(text, style: style),
     );
   }
 
