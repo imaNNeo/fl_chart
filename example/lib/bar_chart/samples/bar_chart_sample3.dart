@@ -177,14 +177,14 @@ class _BarChart extends StatelessWidget {
           showingTooltipIndicators: [0],
         ),
         BarChartGroupData(
-              x: 6,
-              barRods: [
-                BarChartRodData(
-                  toY: 16,
-                  gradient: _barsGradient,
-                )
-              ],
-              showingTooltipIndicators: [0],
+          x: 6,
+          barRods: [
+            BarChartRodData(
+              toY: 16,
+              gradient: _barsGradient,
+            )
+          ],
+          showingTooltipIndicators: [0],
         ),
       ];
 }
