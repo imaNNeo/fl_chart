@@ -189,7 +189,10 @@ class BarChartGroupData with EquatableMixin {
         barsSpace = barsSpace ?? 2,
         showingTooltipIndicators = showingTooltipIndicators ?? const [];
 
-  /// defines the group's value among the x axis (simply set it incrementally).
+  /// Order along the x axis in which titles, and titles only, will be shown.
+  ///
+  /// Note [x] does not reorder bars from [barRods]; instead, it gets the title
+  /// in [x] position through [SideTitles.getTitlesWidget] function.
   @required
   final int x;
 
