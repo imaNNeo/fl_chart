@@ -163,6 +163,8 @@ class BarChartSample1State extends State<BarChartSample1> {
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
           tooltipBgColor: Colors.blueGrey,
+          tooltipAlign: BarTooltipAlign.right,
+          tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
             String weekDay;
             switch (group.x) {

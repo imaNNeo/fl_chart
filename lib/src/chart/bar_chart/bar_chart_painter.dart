@@ -391,10 +391,26 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
         : barBottomY + tooltipData.tooltipMargin;
 
+    double tooltipLeft;
+    switch (tooltipData.tooltipAlign) {
+      case BarTooltipAlign.center:
+        tooltipLeft = barOffset.dx -
+            (tooltipWidth / 2) +
+            tooltipData.tooltipHorizontalOffset;
+        break;
+      case BarTooltipAlign.right:
+        tooltipLeft = barOffset.dx + tooltipData.tooltipHorizontalOffset;
+        break;
+      case BarTooltipAlign.left:
+        tooltipLeft =
+            barOffset.dx - tooltipWidth + tooltipData.tooltipHorizontalOffset;
+        break;
+    }
+
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types
     Rect rect = Rect.fromLTWH(
-      barOffset.dx,
+      tooltipLeft,
       tooltipTop,
       tooltipWidth,
       tooltipHeight,
