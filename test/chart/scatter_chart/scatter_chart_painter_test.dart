@@ -430,9 +430,10 @@ void main() {
             rotateAngle: 18,
             tooltipBgColor: const Color(0xFFFFFF00),
             tooltipRoundedRadius: 22,
-            fitInsideHorizontally: true,
+            fitInsideHorizontally: false,
             fitInsideVertically: true,
             tooltipPadding: const EdgeInsets.all(12),
+            tooltipAlignment: FLHorizontalAlignment.left,
             getTooltipItems: (_) {
               return ScatterTooltipItem(
                 'faketext',
@@ -493,6 +494,111 @@ void main() {
 
       expect(rRect.blRadiusX, 22);
       expect(rRect.tlRadiusY, 22);
+
+      expect(rRect.left, -134);
+
+      expect(bgPaint.color, const Color(0xFFFFFF00));
+      expect(
+        textPainter.text,
+        const TextSpan(
+          style: textStyle1,
+          text: 'faketext',
+          children: [
+            textSpan1,
+            textSpan2,
+          ],
+        ),
+      );
+    });
+
+    test('test 3', () {
+      const viewSize = Size(100, 100);
+
+      final spot1 = ScatterSpot(1, 1);
+      final data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [
+          spot1,
+          scatterSpot2,
+          scatterSpot3,
+          scatterSpot4,
+        ],
+        showingTooltipIndicators: [0, 2, 3],
+        titlesData: FlTitlesData(show: false),
+        scatterTouchData: ScatterTouchData(
+          touchTooltipData: ScatterTouchTooltipData(
+            rotateAngle: 18,
+            tooltipBgColor: const Color(0xFFFFFF00),
+            tooltipRoundedRadius: 22,
+            fitInsideHorizontally: false,
+            fitInsideVertically: true,
+            tooltipPadding: const EdgeInsets.all(12),
+            tooltipAlignment: FLHorizontalAlignment.right,
+            getTooltipItems: (_) {
+              return ScatterTooltipItem(
+                'faketext',
+                textStyle: textStyle2,
+                textAlign: TextAlign.right,
+                textDirection: TextDirection.ltr,
+                children: [
+                  textSpan1,
+                  textSpan2,
+                ],
+              );
+            },
+          ),
+        ),
+      );
+
+      final scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      final mockBuildContext = MockBuildContext();
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        (data.touchData as ScatterTouchData).touchTooltipData,
+        spot1,
+        holder,
+      );
+
+      final verificationResult = verify(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: 18,
+          drawCallback: captureAnyNamed('drawCallback'),
+        ),
+      );
+
+      final passedDrawCallback =
+          verificationResult.captured.first as DrawCallback;
+      passedDrawCallback();
+
+      verificationResult.called(1);
+
+      final captured2 = verifyInOrder([
+        mockCanvasWrapper.drawRRect(captureAny, captureAny),
+        mockCanvasWrapper.drawText(captureAny, any),
+      ]).captured;
+
+      final rRect = captured2[0][0] as RRect;
+      final bgPaint = captured2[0][1] as Paint;
+      final textPainter = captured2[1][0] as TextPainter;
+
+      expect(rRect.blRadiusX, 22);
+      expect(rRect.tlRadiusY, 22);
+
+      expect(rRect.left, 10);
 
       expect(bgPaint.color, const Color(0xFFFFFF00));
       expect(

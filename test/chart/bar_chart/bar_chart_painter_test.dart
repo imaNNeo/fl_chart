@@ -996,6 +996,8 @@ void main() {
         rotateAngle: 12,
         direction: TooltipDirection.bottom,
         tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
+        tooltipAlignment: FLHorizontalAlignment.left,
+        tooltipHorizontalOffset: -1.5,
         getTooltipItem: (
           group,
           groupIndex,
@@ -1074,7 +1076,7 @@ void main() {
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 112);
       expect(rrect.height, 90);
-      expect(rrect.left, -22.5);
+      expect(rrect.left, -80);
       expect(rrect.top, 116);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
@@ -1087,7 +1089,7 @@ void main() {
       expect(rRectBorder.blRadius, const Radius.circular(8));
       expect(rRectBorder.width, 112);
       expect(rRectBorder.height, 90);
-      expect(rRectBorder.left, -22.5);
+      expect(rRectBorder.left, -80);
       expect(rRectBorder.top, 116);
       expect(paintBorder.color, const Color(0xf33f33f3));
       expect(paintBorder.strokeWidth, 2);
@@ -1113,7 +1115,7 @@ void main() {
       );
 
       final drawOffset = result2.captured[1] as Offset;
-      expect(drawOffset, const Offset(-6.5, 124));
+      expect(drawOffset, const Offset(-64, 124));
     });
 
     test('test 3', () {
@@ -1161,6 +1163,7 @@ void main() {
         fitInsideHorizontally: true,
         fitInsideVertically: true,
         direction: TooltipDirection.top,
+        tooltipAlignment: FLHorizontalAlignment.right,
         tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
         getTooltipItem: (
           group,

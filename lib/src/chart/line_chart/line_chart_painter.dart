@@ -1038,16 +1038,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     double tooltipLeft;
-    switch (tooltipData.tooltipAlign) {
-      case FLTooltipAlign.center:
+    switch (tooltipData.tooltipAlignment) {
+      case FLHorizontalAlignment.center:
         tooltipLeft = mostTopOffset.dx -
             (tooltipWidth / 2) +
             tooltipData.tooltipHorizontalOffset;
         break;
-      case FLTooltipAlign.right:
+      case FLHorizontalAlignment.right:
         tooltipLeft = mostTopOffset.dx + tooltipData.tooltipHorizontalOffset;
         break;
-      case FLTooltipAlign.left:
+      case FLHorizontalAlignment.left:
         tooltipLeft = mostTopOffset.dx -
             tooltipWidth +
             tooltipData.tooltipHorizontalOffset;
