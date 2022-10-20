@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -252,16 +251,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
     double tooltipLeft;
-    switch (tooltipData.tooltipAlign) {
-      case FLTooltipAlign.center:
+    switch (tooltipData.tooltipAlignment) {
+      case FLHorizontalAlignment.center:
         tooltipLeft = mostTopOffset.dx -
             (tooltipWidth / 2) +
             tooltipData.tooltipHorizontalOffset;
         break;
-      case FLTooltipAlign.right:
+      case FLHorizontalAlignment.right:
         tooltipLeft = mostTopOffset.dx + tooltipData.tooltipHorizontalOffset;
         break;
-      case FLTooltipAlign.left:
+      case FLHorizontalAlignment.left:
         tooltipLeft = mostTopOffset.dx -
             tooltipWidth +
             tooltipData.tooltipHorizontalOffset;

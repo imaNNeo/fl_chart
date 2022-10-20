@@ -398,7 +398,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
-    FLTooltipAlign? tooltipAlign,
+    FLHorizontalAlignment? tooltipAlignment,
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
     GetScatterTooltipItems? getTooltipItems,
@@ -410,7 +410,7 @@ class ScatterTouchTooltipData with EquatableMixin {
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipAlign = tooltipAlign ?? FLTooltipAlign.center,
+        tooltipAlignment = tooltipAlignment ?? FLHorizontalAlignment.center,
         tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItems = getTooltipItems ?? defaultScatterTooltipItem,
@@ -430,7 +430,7 @@ class ScatterTouchTooltipData with EquatableMixin {
   final EdgeInsets tooltipPadding;
 
   /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
-  final FLTooltipAlign tooltipAlign;
+  final FLHorizontalAlignment tooltipAlignment;
 
   /// Applies horizontal offset for showing tooltip, default is zero.
   final double tooltipHorizontalOffset;
@@ -459,6 +459,8 @@ class ScatterTouchTooltipData with EquatableMixin {
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
+        tooltipAlignment,
+        tooltipHorizontalOffset,
         maxContentWidth,
         getTooltipItems,
         fitInsideHorizontally,
@@ -473,6 +475,8 @@ class ScatterTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
+    FLHorizontalAlignment? tooltipAlignment,
+    double? tooltipHorizontalOffset,
     double? maxContentWidth,
     GetScatterTooltipItems? getTooltipItems,
     bool? fitInsideHorizontally,
@@ -484,6 +488,9 @@ class ScatterTouchTooltipData with EquatableMixin {
       tooltipBgColor: tooltipBgColor ?? this.tooltipBgColor,
       tooltipRoundedRadius: tooltipRoundedRadius ?? this.tooltipRoundedRadius,
       tooltipPadding: tooltipPadding ?? this.tooltipPadding,
+      tooltipAlignment: tooltipAlignment ?? this.tooltipAlignment,
+      tooltipHorizontalOffset:
+          tooltipHorizontalOffset ?? this.tooltipHorizontalOffset,
       maxContentWidth: maxContentWidth ?? this.maxContentWidth,
       getTooltipItems: getTooltipItems ?? this.getTooltipItems,
       fitInsideHorizontally:

@@ -1292,7 +1292,7 @@ class LineTouchTooltipData with EquatableMixin {
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
     double? tooltipMargin,
-    FLTooltipAlign? tooltipAlign,
+    FLHorizontalAlignment? tooltipAlignment,
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
     GetLineTooltipItems? getTooltipItems,
@@ -1306,7 +1306,7 @@ class LineTouchTooltipData with EquatableMixin {
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipMargin = tooltipMargin ?? 16,
-        tooltipAlign = tooltipAlign ?? FLTooltipAlign.center,
+        tooltipAlignment = tooltipAlignment ?? FLHorizontalAlignment.center,
         tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItems = getTooltipItems ?? defaultLineTooltipItem,
@@ -1330,7 +1330,7 @@ class LineTouchTooltipData with EquatableMixin {
   final double tooltipMargin;
 
   /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
-  final FLTooltipAlign tooltipAlign;
+  final FLHorizontalAlignment tooltipAlignment;
 
   /// Applies horizontal offset for showing tooltip, default is zero.
   final double tooltipHorizontalOffset;
@@ -1363,6 +1363,8 @@ class LineTouchTooltipData with EquatableMixin {
         tooltipRoundedRadius,
         tooltipPadding,
         tooltipMargin,
+        tooltipAlignment,
+        tooltipHorizontalOffset,
         maxContentWidth,
         getTooltipItems,
         fitInsideHorizontally,

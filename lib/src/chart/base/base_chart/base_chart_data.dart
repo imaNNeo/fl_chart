@@ -191,14 +191,14 @@ abstract class BaseTouchResponse {
   BaseTouchResponse();
 }
 
-/// Controls showing tooltip horizontal alignment relative to the rod/spot.
-enum FLTooltipAlign {
-  /// Tooltip shows horizontally center aligned with the rod/spot.
+/// Controls an element horizontal alignment to given point.
+enum FLHorizontalAlignment {
+  /// Element shown horizontally center aligned to a given point.
   center,
 
-  /// Tooltip shows on the left side of the rod/spot.
+  /// Element shown on the left side of the given point.
   left,
 
-  /// Tooltip shows on the right side of the rod/spot.
+  /// Element shown on the right side of the given point.
   right,
 }

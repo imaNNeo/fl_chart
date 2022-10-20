@@ -163,3 +163,6 @@ Base class for all supported touch/pointer events.
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
 |labelResolver|Getter function returning label title|defaultLineLabelResolver|
+
+### FLHorizontalAlignment
+enum values {`center`, `left`, `right`}
