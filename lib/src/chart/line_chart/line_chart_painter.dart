@@ -1037,9 +1037,26 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           mostTopOffset.dy - tooltipHeight - tooltipData.tooltipMargin;
     }
 
+    double tooltipLeft;
+    switch (tooltipData.tooltipAlign) {
+      case FLTooltipAlign.center:
+        tooltipLeft = mostTopOffset.dx -
+            (tooltipWidth / 2) +
+            tooltipData.tooltipHorizontalOffset;
+        break;
+      case FLTooltipAlign.right:
+        tooltipLeft = mostTopOffset.dx + tooltipData.tooltipHorizontalOffset;
+        break;
+      case FLTooltipAlign.left:
+        tooltipLeft = mostTopOffset.dx -
+            tooltipWidth +
+            tooltipData.tooltipHorizontalOffset;
+        break;
+    }
+
     /// draw the background rect with rounded radius
     var rect = Rect.fromLTWH(
-      mostTopOffset.dx - (tooltipWidth / 2),
+      tooltipLeft,
       tooltipTopPosition,
       tooltipWidth,
       tooltipHeight,
