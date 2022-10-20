@@ -190,3 +190,15 @@ typedef MouseCursorResolver<R extends BaseTouchResponse> = MouseCursor Function(
 abstract class BaseTouchResponse {
   BaseTouchResponse();
 }
+
+/// Controls showing tooltip horizontal alignment relative to the rod/spot.
+enum FLTooltipAlign {
+  /// Tooltip shows horizontally center aligned with the rod/spot.
+  center,
+
+  /// Tooltip shows on the left side of the rod/spot.
+  left,
+
+  /// Tooltip shows on the right side of the rod/spot.
+  right,
+}

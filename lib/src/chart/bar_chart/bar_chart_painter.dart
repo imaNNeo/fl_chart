@@ -393,15 +393,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     double tooltipLeft;
     switch (tooltipData.tooltipAlign) {
-      case BarTooltipAlign.center:
+      case FLTooltipAlign.center:
         tooltipLeft = barOffset.dx -
             (tooltipWidth / 2) +
             tooltipData.tooltipHorizontalOffset;
         break;
-      case BarTooltipAlign.right:
+      case FLTooltipAlign.right:
         tooltipLeft = barOffset.dx + tooltipData.tooltipHorizontalOffset;
         break;
-      case BarTooltipAlign.left:
+      case FLTooltipAlign.left:
         tooltipLeft =
             barOffset.dx - tooltipWidth + tooltipData.tooltipHorizontalOffset;
         break;

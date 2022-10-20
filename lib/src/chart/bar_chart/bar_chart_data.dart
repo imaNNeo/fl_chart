@@ -680,18 +680,6 @@ enum TooltipDirection {
   bottom,
 }
 
-/// Controls showing tooltip horizontal alignment relative to the rod.
-enum BarTooltipAlign {
-  /// Tooltip shows horizontally center aligned with the rod.
-  center,
-
-  /// Tooltip shows on the left side of the rod.
-  left,
-
-  /// Tooltip shows on the right side of the rod.
-  right,
-}
-
 /// Holds representation data for showing tooltip popup on top of rods.
 class BarTouchTooltipData with EquatableMixin {
   /// if [BarTouchData.handleBuiltInTouches] is true,
@@ -712,7 +700,7 @@ class BarTouchTooltipData with EquatableMixin {
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
     double? tooltipMargin,
-    BarTooltipAlign? tooltipAlign,
+    FLTooltipAlign? tooltipAlign,
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
     GetBarTooltipItem? getTooltipItem,
@@ -726,6 +714,8 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipMargin = tooltipMargin ?? 16,
+        tooltipAlign = tooltipAlign ?? FLTooltipAlign.center,
+        tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
@@ -733,8 +723,6 @@ class BarTouchTooltipData with EquatableMixin {
         direction = direction ?? TooltipDirection.auto,
         rotateAngle = rotateAngle ?? 0.0,
         tooltipBorder = tooltipBorder ?? BorderSide.none,
-        tooltipAlign = tooltipAlign ?? BarTooltipAlign.center,
-        tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
         super();
 
   /// The tooltip background color.
@@ -750,7 +738,7 @@ class BarTouchTooltipData with EquatableMixin {
   final double tooltipMargin;
 
   /// Controls showing tooltip on left side, right side or center aligned with rod, default is center
-  final BarTooltipAlign tooltipAlign;
+  final FLTooltipAlign tooltipAlign;
 
   /// Applies horizontal offset for showing tooltip, default is zero.
   final double tooltipHorizontalOffset;
