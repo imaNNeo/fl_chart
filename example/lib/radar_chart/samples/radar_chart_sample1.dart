@@ -10,23 +10,41 @@ const entertainmentColor = Colors.white70;
 const offRoadColor = Color(0xFFFFF59D);
 
 class RadarChartSample1 extends StatefulWidget {
-  const RadarChartSample1({Key? key}) : super(key: key);
+  const RadarChartSample1({super.key});
 
   @override
-  _RadarChartSample1State createState() => _RadarChartSample1State();
+  State<RadarChartSample1> createState() => _RadarChartSample1State();
 }
 
 class _RadarChartSample1State extends State<RadarChartSample1> {
   int selectedDataSetIndex = -1;
+  double angleValue = 0;
+  bool relativeAngleMode = true;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text('Title configuration'),
+          Row(
+            children: [
+              const Text('Angle'),
+              Slider(
+                value: angleValue,
+                max: 360,
+                onChanged: (double value) => setState(() => angleValue = value),
+              ),
+              Checkbox(
+                value: relativeAngleMode,
+                onChanged: (v) => setState(() => relativeAngleMode = v!),
+              ),
+              const Text('Relative'),
+            ],
+          ),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -68,7 +86,9 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                           borderRadius: BorderRadius.circular(46),
                         ),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 6),
+                          vertical: 4,
+                          horizontal: 6,
+                        ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -104,18 +124,19 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
             child: RadarChart(
               RadarChartData(
                 radarTouchData: RadarTouchData(
-                    touchCallback: (FlTouchEvent event, response) {
-                  if (!event.isInterestedForInteractions) {
+                  touchCallback: (FlTouchEvent event, response) {
+                    if (!event.isInterestedForInteractions) {
+                      setState(() {
+                        selectedDataSetIndex = -1;
+                      });
+                      return;
+                    }
                     setState(() {
-                      selectedDataSetIndex = -1;
+                      selectedDataSetIndex =
+                          response?.touchedSpot?.touchedDataSetIndex ?? -1;
                     });
-                    return;
-                  }
-                  setState(() {
-                    selectedDataSetIndex =
-                        response?.touchedSpot?.touchedDataSetIndex ?? -1;
-                  });
-                }),
+                  },
+                ),
                 dataSets: showingDataSets(),
                 radarBackgroundColor: Colors.transparent,
                 borderData: FlBorderData(show: false),
@@ -123,16 +144,24 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 titlePositionPercentageOffset: 0.2,
                 titleTextStyle:
                     const TextStyle(color: titleColor, fontSize: 14),
-                getTitle: (index) {
+                getTitle: (index, angle) {
+                  final usedAngle =
+                      relativeAngleMode ? angle + angleValue : angleValue;
                   switch (index) {
                     case 0:
-                      return 'Mobile or Tablet';
+                      return RadarChartTitle(
+                        text: 'Mobile or Tablet',
+                        angle: usedAngle,
+                      );
                     case 2:
-                      return 'Desktop';
+                      return RadarChartTitle(
+                        text: 'Desktop',
+                        angle: usedAngle,
+                      );
                     case 1:
-                      return 'TV';
+                      return RadarChartTitle(text: 'TV', angle: usedAngle);
                     default:
-                      return '';
+                      return const RadarChartTitle(text: '');
                   }
                 },
                 tickCount: 1,
@@ -151,8 +180,8 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
 
   List<RadarDataSet> showingDataSets() {
     return rawDataSets().asMap().entries.map((entry) {
-      var index = entry.key;
-      var rawDataSet = entry.value;
+      final index = entry.key;
+      final rawDataSet = entry.value;
 
       final isSelected = index == selectedDataSetIndex
           ? true
@@ -226,13 +255,12 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
 }
 
 class RawDataSet {
-  final String title;
-  final Color color;
-  final List<double> values;
-
   RawDataSet({
     required this.title,
     required this.color,
     required this.values,
   });
+  final String title;
+  final Color color;
+  final List<double> values;
 }

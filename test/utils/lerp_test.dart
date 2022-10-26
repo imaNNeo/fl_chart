@@ -10,32 +10,32 @@ void main() {
   const tolerance = 0.001;
 
   test('test lerpList', () {
-    List<double> list1 = [1.0, 1.0, 2.0];
-    List<double> list2 = [1.0, 2.0, 3.0, 5.0];
-    expect(lerpList(list1, list2, 0.0, lerp: lerpDouble), [1.0, 1.0, 2.0, 5.0]);
+    final list1 = <double>[1, 1, 2];
+    final list2 = <double>[1, 2, 3, 5];
+    expect(lerpList(list1, list2, 0, lerp: lerpDouble), [1.0, 1.0, 2.0, 5.0]);
     expect(lerpList(list1, list2, 0.5, lerp: lerpDouble), [1.0, 1.5, 2.5, 5.0]);
     expect(lerpList(list1, list1, 0.5, lerp: lerpDouble), list1);
   });
 
   test('test lerpColorList', () {
-    List<Color> list1 = const [
+    const list1 = <Color>[
       MockData.color1,
       MockData.color1,
       MockData.color2,
     ];
-    List<Color> list2 = const [
+    const list2 = <Color>[
       MockData.color1,
       MockData.color2,
       MockData.color3,
       MockData.color5,
     ];
-    expect(lerpColorList(list1, list2, 0.0), const [
+    expect(lerpColorList(list1, list2, 0), const [
       MockData.color1,
       MockData.color1,
       MockData.color2,
       MockData.color5,
     ]);
-    expect(lerpColorList(list1, list2, 1.0), list2);
+    expect(lerpColorList(list1, list2, 1), list2);
     expect(lerpColorList(list1, list2, 0.5), const [
       MockData.color1,
       Color(0x19191919),
@@ -46,7 +46,7 @@ void main() {
 
   test('test lerpColor', () {
     expect(lerpColor(MockData.color1, MockData.color1, 0.5), MockData.color1);
-    expect(lerpColor(MockData.color1, MockData.color1, 0.0), MockData.color1);
+    expect(lerpColor(MockData.color1, MockData.color1, 0), MockData.color1);
     expect(lerpColor(MockData.color1, MockData.color1, 1), MockData.color1);
 
     expect(lerpColor(MockData.color1, MockData.color2, 0), MockData.color1);
@@ -58,17 +58,17 @@ void main() {
   });
 
   test('test lerpDoubleAllowInfinity', () {
-    expect(lerpDoubleAllowInfinity(12, 12, 0.0), 12);
+    expect(lerpDoubleAllowInfinity(12, 12, 0), 12);
     expect(lerpDoubleAllowInfinity(12, 12, 0.2), 12);
     expect(lerpDoubleAllowInfinity(12, 12, 0.5), 12);
-    expect(lerpDoubleAllowInfinity(12, 12, 1.0), 12);
+    expect(lerpDoubleAllowInfinity(12, 12, 1), 12);
 
-    expect(lerpDoubleAllowInfinity(12, double.infinity, 1.0), double.infinity);
-    expect(lerpDoubleAllowInfinity(12, double.infinity, 0.0), double.infinity);
+    expect(lerpDoubleAllowInfinity(12, double.infinity, 1), double.infinity);
+    expect(lerpDoubleAllowInfinity(12, double.infinity, 0), double.infinity);
     expect(lerpDoubleAllowInfinity(12, double.infinity, 0.4), double.infinity);
 
-    expect(lerpDoubleAllowInfinity(double.infinity, 12, 1.0), 12);
-    expect(lerpDoubleAllowInfinity(double.infinity, 12, 0.0), 12);
+    expect(lerpDoubleAllowInfinity(double.infinity, 12, 1), 12);
+    expect(lerpDoubleAllowInfinity(double.infinity, 12, 0), 12);
     expect(lerpDoubleAllowInfinity(double.infinity, 12, 0.4), 12);
 
     expect(lerpDoubleAllowInfinity(0, 10, 0.4), 4);
@@ -77,18 +77,18 @@ void main() {
   });
 
   test('test lerpDoubleList', () {
-    List<double> list1 = const [
+    const list1 = <double>[
       0,
       0,
       0,
     ];
-    List<double> list2 = const [
+    const list2 = <double>[
       10,
       100,
       1000,
       10000,
     ];
-    expect(lerpDoubleList(list1, list2, 0.0), const [
+    expect(lerpDoubleList(list1, list2, 0), const [
       0,
       0,
       0,
@@ -100,22 +100,22 @@ void main() {
       500,
       10000,
     ]);
-    expect(lerpDoubleList(list1, list2, 1.0), list2);
+    expect(lerpDoubleList(list1, list2, 1), list2);
   });
 
   test('test lerpIntList', () {
-    List<int> list1 = const [
+    const list1 = <int>[
       0,
       0,
       0,
     ];
-    List<int> list2 = const [
+    const list2 = <int>[
       10,
       100,
       1000,
       10000,
     ];
-    expect(lerpIntList(list1, list2, 0.0), const [
+    expect(lerpIntList(list1, list2, 0), const [
       0,
       0,
       0,
@@ -127,17 +127,17 @@ void main() {
       500,
       10000,
     ]);
-    expect(lerpIntList(list1, list2, 1.0), list2);
+    expect(lerpIntList(list1, list2, 1), list2);
   });
 
   test('test lerpInt', () {
-    expect(lerpInt(0, 10, 1.0), 10);
+    expect(lerpInt(0, 10, 1), 10);
     expect(lerpInt(0, 10, 0.34), 3);
     expect(lerpInt(0, 10, 0.38), 4);
   });
 
   test('test lerpNonNullDouble', () {
-    expect(lerpNonNullDouble(0, 10, 1.0), 10);
+    expect(lerpNonNullDouble(0, 10, 1), 10);
     expect(lerpNonNullDouble(0, 10, 0.34), closeTo(3.4, tolerance));
     expect(lerpNonNullDouble(0, 10, 0.38), closeTo(3.8, tolerance));
   });
@@ -154,7 +154,7 @@ void main() {
       MockData.flSpot3,
       MockData.flSpot4,
     ];
-    expect(lerpFlSpotList(list1, list2, 0.0), [
+    expect(lerpFlSpotList(list1, list2, 0), [
       MockData.flSpot0,
       MockData.flSpot0,
       MockData.flSpot0,
@@ -166,7 +166,7 @@ void main() {
       const FlSpot(1.5, 1.5),
       MockData.flSpot4,
     ]);
-    expect(lerpFlSpotList(list1, list2, 1.0), list2);
+    expect(lerpFlSpotList(list1, list2, 1), list2);
   });
 
   test('test lerpHorizontalLineList', () {
@@ -181,7 +181,7 @@ void main() {
       MockData.horizontalLine3,
       MockData.horizontalLine4,
     ];
-    expect(lerpHorizontalLineList(list1, list2, 0.0), [
+    expect(lerpHorizontalLineList(list1, list2, 0), [
       MockData.horizontalLine0,
       MockData.horizontalLine0,
       MockData.horizontalLine0,
@@ -193,7 +193,7 @@ void main() {
       HorizontalLine(y: 1.5, color: const Color(0x19191919)),
       MockData.horizontalLine4,
     ]);
-    expect(lerpHorizontalLineList(list1, list2, 1.0), list2);
+    expect(lerpHorizontalLineList(list1, list2, 1), list2);
   });
 
   test('test lerpVerticalLineList', () {
@@ -208,7 +208,7 @@ void main() {
       MockData.verticalLine3,
       MockData.verticalLine4,
     ];
-    expect(lerpVerticalLineList(list1, list2, 0.0), [
+    expect(lerpVerticalLineList(list1, list2, 0), [
       MockData.verticalLine0,
       MockData.verticalLine0,
       MockData.verticalLine0,
@@ -220,7 +220,7 @@ void main() {
       VerticalLine(x: 1.5, color: const Color(0x19191919)),
       MockData.verticalLine4,
     ]);
-    expect(lerpVerticalLineList(list1, list2, 1.0), list2);
+    expect(lerpVerticalLineList(list1, list2, 1), list2);
   });
 
   test('test lerpHorizontalRangeAnnotationList', () {
@@ -235,7 +235,7 @@ void main() {
       MockData.horizontalRangeAnnotation3,
       MockData.horizontalRangeAnnotation4,
     ];
-    expect(lerpHorizontalRangeAnnotationList(list1, list2, 0.0), [
+    expect(lerpHorizontalRangeAnnotationList(list1, list2, 0), [
       MockData.horizontalRangeAnnotation0,
       MockData.horizontalRangeAnnotation0,
       MockData.horizontalRangeAnnotation0,
@@ -243,13 +243,19 @@ void main() {
     ]);
     expect(lerpHorizontalRangeAnnotationList(list1, list2, 0.5), [
       HorizontalRangeAnnotation(
-          y1: 0.5, y2: 1.5, color: const Color(0x08080808)),
+        y1: 0.5,
+        y2: 1.5,
+        color: const Color(0x08080808),
+      ),
       MockData.horizontalRangeAnnotation1,
       HorizontalRangeAnnotation(
-          y1: 1.5, y2: 2.5, color: const Color(0x19191919)),
+        y1: 1.5,
+        y2: 2.5,
+        color: const Color(0x19191919),
+      ),
       MockData.horizontalRangeAnnotation4,
     ]);
-    expect(lerpHorizontalRangeAnnotationList(list1, list2, 1.0), list2);
+    expect(lerpHorizontalRangeAnnotationList(list1, list2, 1), list2);
   });
 
   test('test lerpVerticalRangeAnnotationList', () {
@@ -264,7 +270,7 @@ void main() {
       MockData.verticalRangeAnnotation3,
       MockData.verticalRangeAnnotation4,
     ];
-    expect(lerpVerticalRangeAnnotationList(list1, list2, 0.0), [
+    expect(lerpVerticalRangeAnnotationList(list1, list2, 0), [
       MockData.verticalRangeAnnotation0,
       MockData.verticalRangeAnnotation0,
       MockData.verticalRangeAnnotation0,
@@ -276,7 +282,7 @@ void main() {
       VerticalRangeAnnotation(x1: 1.5, x2: 2.5, color: const Color(0x19191919)),
       MockData.verticalRangeAnnotation4,
     ]);
-    expect(lerpVerticalRangeAnnotationList(list1, list2, 1.0), list2);
+    expect(lerpVerticalRangeAnnotationList(list1, list2, 1), list2);
   });
 
   test('test lerpBetweenBarsDataList', () {
@@ -291,7 +297,7 @@ void main() {
       MockData.verticalRangeAnnotation3,
       MockData.verticalRangeAnnotation4,
     ];
-    expect(lerpVerticalRangeAnnotationList(list1, list2, 0.0), [
+    expect(lerpVerticalRangeAnnotationList(list1, list2, 0), [
       MockData.verticalRangeAnnotation0,
       MockData.verticalRangeAnnotation0,
       MockData.verticalRangeAnnotation0,
@@ -303,7 +309,7 @@ void main() {
       VerticalRangeAnnotation(x1: 1.5, x2: 2.5, color: const Color(0x19191919)),
       MockData.verticalRangeAnnotation4,
     ]);
-    expect(lerpVerticalRangeAnnotationList(list1, list2, 1.0), list2);
+    expect(lerpVerticalRangeAnnotationList(list1, list2, 1), list2);
   });
 
   test('test lerpRadarEntryList', () {
@@ -318,7 +324,7 @@ void main() {
       MockData.radarEntry3,
       MockData.radarEntry4,
     ];
-    expect(lerpRadarEntryList(list1, list2, 0.0), [
+    expect(lerpRadarEntryList(list1, list2, 0), [
       MockData.radarEntry0,
       MockData.radarEntry0,
       MockData.radarEntry0,
@@ -330,7 +336,7 @@ void main() {
       const RadarEntry(value: 1.5),
       MockData.radarEntry4,
     ]);
-    expect(lerpRadarEntryList(list1, list2, 1.0), list2);
+    expect(lerpRadarEntryList(list1, list2, 1), list2);
   });
 
   test('test lerpScatterSpotList', () {
@@ -345,7 +351,7 @@ void main() {
       MockData.scatterSpot3,
       MockData.scatterSpot4,
     ];
-    expect(lerpScatterSpotList(list1, list2, 0.0), [
+    expect(lerpScatterSpotList(list1, list2, 0), [
       MockData.scatterSpot0,
       MockData.scatterSpot0,
       MockData.scatterSpot0,
@@ -357,7 +363,7 @@ void main() {
       ScatterSpot(1.5, 1.5, color: const Color(0x19191919)),
       MockData.scatterSpot4,
     ]);
-    expect(lerpScatterSpotList(list1, list2, 1.0), list2);
+    expect(lerpScatterSpotList(list1, list2, 1), list2);
   });
 
   test('test lerpGradient', () {
@@ -367,7 +373,7 @@ void main() {
       MockData.color2,
       MockData.color3,
     ];
-    expect(lerpGradient(colors, [], 0.0), const Color(0x00000000));
+    expect(lerpGradient(colors, [], 0), const Color(0x00000000));
     expect(lerpGradient(colors, [], 0.2), const Color(0x00000000));
     expect(lerpGradient(colors, [], 0.4), const Color(0x0a0a0a0a));
     expect(lerpGradient(colors, [], 0.6), const Color(0x17171717));

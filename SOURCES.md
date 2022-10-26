@@ -13,8 +13,23 @@ Did you find any new article or source? please contribute to have them all here.
 
 #### Video:
 
+<!--- 2022-09-01 --->
+* [how to create line chart in flutter | fl_chart](https://www.youtube.com/watch?v=Iv3F2HO5Jvc)
+
+<!--- 2022-01-19 --->
+* [line chart in flutter - flutter tutorial](https://www.youtube.com/watch?v=xHzDAewbSGY)
+
 <!--- 2021-12-04 --->
 * [Portfolio Dashboard Flutter UI Desktop & Web](https://www.youtube.com/watch?v=H9vXUine7Zo)
+
+<!--- 2021-11-20 --->
+* [Flutter UI | Stocks App UI Design - Day 55](https://www.youtube.com/watch?v=oILraFu8OE8)
+
+<!--- 2021-09-14 --->
+* [Implementing Chart in Flutter - Pair Programming with Fl_Chart Author](https://www.youtube.com/watch?v=msMxuUERtg8)
+
+<!--- 2021-09-01 --->
+* [how to create line chart in flutter | fl_chart](https://www.youtube.com/watch?v=Iv3F2HO5Jvc)
 
 <!--- 2021-07-28 --->
 * [Responsive Admin Dashboard or Panel using Flutter - Flutter Web UI - Part 1](https://www.youtube.com/watch?v=MRiZpwdy1CM)

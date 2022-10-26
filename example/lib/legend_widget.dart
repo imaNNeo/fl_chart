@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class LegendWidget extends StatelessWidget {
-  final String name;
-  final Color color;
-
   const LegendWidget({
-    Key? key,
+    super.key,
     required this.name,
     required this.color,
-  }) : super(key: key);
+  });
+  final String name;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +36,11 @@ class LegendWidget extends StatelessWidget {
 }
 
 class LegendsListWidget extends StatelessWidget {
-  final List<Legend> legends;
-
   const LegendsListWidget({
-    Key? key,
+    super.key,
     required this.legends,
-  }) : super(key: key);
+  });
+  final List<Legend> legends;
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +59,7 @@ class LegendsListWidget extends StatelessWidget {
 }
 
 class Legend {
+  Legend(this.name, this.color);
   final String name;
   final Color color;
-
-  Legend(this.name, this.color);
 }

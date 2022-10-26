@@ -1,4 +1,23 @@
+----
+This is a temporary and a very important message:
+
+![Iran needs help](https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/tmp_iran_banner.png)
+
+As you might know, Islamic Republic of Iran is murdering people in silence right now in Iran
+They shut the Internet down to do that. That’s why I cannot maintain this library for a while.
+Now we need your help, please be our voice by spreading news in your media to support us
+Search these hashtags:          
+
+[#MahsaAmini](https://twitter.com/search?q=%23MahsaAmini&src=typeahead_click)
+[مهسا_امینی](https://twitter.com/search?q=%23%D9%85%D9%87%D8%B3%D8%A7_%D8%A7%D9%85%DB%8C%D9%86%DB%8C&src=typeahead_click&f=top)
+[OpIran](https://twitter.com/search?q=%23OpIran&src=typeahead_click&f=top)
+
+Also, [this article](https://www.bbc.com/news/world-middle-east-62984076) might help.
+
+------
 💥 FL Chart is a highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.  💥
+
+[![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png "Buy Me A Coffee")](https://www.buymeacoffee.com/fl_chart "Buy Me A Coffee")
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
 [![codecov](https://codecov.io/gh/imaNNeoFighT/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeoFighT/fl_chart)

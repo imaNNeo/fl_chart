@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample7 extends StatelessWidget {
-  const LineChartSample7({Key? key}) : super(key: key);
+  const LineChartSample7({super.key});
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -52,16 +52,23 @@ class LineChartSample7 extends StatelessWidget {
         return Container();
     }
 
-    return Padding(
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 4,
       child: Text(text, style: style),
-      padding: const EdgeInsets.only(top: 4),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
 
-    return Text('\$ ${value + 0.5}', style: style);
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(
+        '\$ ${value + 0.5}',
+        style: style,
+      ),
+    );
   }
 
   @override
@@ -98,7 +105,7 @@ class LineChartSample7 extends StatelessWidget {
               ),
               LineChartBarData(
                 spots: const [
-                  FlSpot(0, 0),
+                  FlSpot.zero,
                   FlSpot(1, 3),
                   FlSpot(2, 4),
                   FlSpot(3, 5),

@@ -1,4 +1,5 @@
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
@@ -7,8 +8,6 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-import 'axis_chart_data.dart';
-
 /// This class is responsible to draw the grid behind all axis base charts.
 /// also we have two useful function [getPixelX] and [getPixelY] that used
 /// in child classes -> [BarChartPainter], [LineChartPainter]
@@ -16,11 +15,6 @@ import 'axis_chart_data.dart';
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData>
     extends BaseChartPainter<D> {
-  late Paint _gridPaint, _backgroundPaint;
-
-  /// [_rangeAnnotationPaint] draws range annotations;
-  late Paint _rangeAnnotationPaint;
-
   AxisChartPainter() : super() {
     _gridPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -28,11 +22,19 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
   }
+  late Paint _gridPaint;
+  late Paint _backgroundPaint;
+
+  /// [_rangeAnnotationPaint] draws range annotations;
+  late Paint _rangeAnnotationPaint;
 
   /// Paints [AxisChartData] into the provided canvas.
   @override
-  void paint(BuildContext context, CanvasWrapper canvasWrapper,
-      PaintHolder<D> holder) {
+  void paint(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<D> holder,
+  ) {
     super.paint(context, canvasWrapper, holder);
     drawBackground(canvasWrapper, holder);
     drawRangeAnnotation(canvasWrapper, holder);
@@ -61,14 +63,15 @@ abstract class AxisChartPainter<D extends AxisChartData>
         baseLine: data.baselineX,
         interval: verticalInterval,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         if (!data.gridData.checkToShowVerticalLine(axisValue)) {
           continue;
         }
         final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
-        _gridPaint.color = flLineStyle.color;
-        _gridPaint.strokeWidth = flLineStyle.strokeWidth;
-        _gridPaint.transparentIfWidthIsZero();
+        _gridPaint
+          ..color = flLineStyle.color
+          ..strokeWidth = flLineStyle.strokeWidth
+          ..transparentIfWidthIsZero();
 
         final bothX = getPixelX(axisValue, viewSize, holder);
         final x1 = bothX;
@@ -76,7 +79,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final x2 = bothX;
         final y2 = viewSize.height;
         canvasWrapper.drawDashedLine(
-            Offset(x1, y1), Offset(x2, y2), _gridPaint, flLineStyle.dashArray);
+          Offset(x1, y1),
+          Offset(x2, y2),
+          _gridPaint,
+          flLineStyle.dashArray,
+        );
       }
     }
 
@@ -93,14 +100,15 @@ abstract class AxisChartPainter<D extends AxisChartData>
         baseLine: data.baselineY,
         interval: horizontalInterval,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         if (!data.gridData.checkToShowHorizontalLine(axisValue)) {
           continue;
         }
         final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
-        _gridPaint.color = flLine.color;
-        _gridPaint.strokeWidth = flLine.strokeWidth;
-        _gridPaint.transparentIfWidthIsZero();
+        _gridPaint
+          ..color = flLine.color
+          ..strokeWidth = flLine.strokeWidth
+          ..transparentIfWidthIsZero();
 
         final bothY = getPixelY(axisValue, viewSize, holder);
         const x1 = 0.0;
@@ -108,7 +116,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final x2 = viewSize.width;
         final y2 = bothY;
         canvasWrapper.drawDashedLine(
-            Offset(x1, y1), Offset(x2, y2), _gridPaint, flLine.dashArray);
+          Offset(x1, y1),
+          Offset(x2, y2),
+          _gridPaint,
+          flLine.dashArray,
+        );
       }
     }
   }
@@ -136,8 +148,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     List<List<Offset>> rangeAnnotationCoordinates = [];
 
     if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
-      for (var annotation in data.rangeAnnotations.verticalRangeAnnotations) {
-        final from = Offset(getPixelX(annotation.x1, viewSize, holder), 0.0);
+      for (final annotation in data.rangeAnnotations.verticalRangeAnnotations) {
+        final from = Offset(getPixelX(annotation.x1, viewSize, holder), 0);
         final to = Offset(
           getPixelX(annotation.x2, viewSize, holder),
           viewSize.height,
@@ -180,7 +192,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final data = holder.data;
     final deltaX = data.maxX - data.minX;
     if (deltaX == 0.0) {
-      return 0.0;
+      return 0;
     }
     return ((spotX - data.minX) / deltaX) * viewSize.width;
   }
@@ -193,8 +205,6 @@ abstract class AxisChartPainter<D extends AxisChartData>
     if (deltaY == 0.0) {
       return viewSize.height;
     }
-    var y = ((spotY - data.minY) / deltaY) * viewSize.height;
-    y = viewSize.height - y;
-    return y;
+    return viewSize.height - (((spotY - data.minY) / deltaY) * viewSize.height);
   }
 }

@@ -11,7 +11,7 @@ void main() {
   test('test ListWrapper equality check', () {
     final wrapper1 = ['test1', 'test2'].toWrapperClass();
     final wrapper2 = ['test1', 'test2'].toWrapperClass();
-    var myMap = <ListWrapper, int>{};
+    final myMap = <ListWrapper<String>, int>{};
     myMap[wrapper1] = 11;
     expect(myMap.containsKey(wrapper2), true);
   });

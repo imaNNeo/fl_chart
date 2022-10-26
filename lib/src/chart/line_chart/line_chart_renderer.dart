@@ -10,14 +10,22 @@ import 'package:flutter/material.dart';
 
 /// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
-  const LineChartLeaf({Key? key, required this.data, required this.targetData})
-      : super(key: key);
+  const LineChartLeaf({
+    super.key,
+    required this.data,
+    required this.targetData,
+  });
 
-  final LineChartData data, targetData;
+  final LineChartData data;
+  final LineChartData targetData;
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
-      context, data, targetData, MediaQuery.of(context).textScaleFactor);
+        context,
+        data,
+        targetData,
+        MediaQuery.of(context).textScaleFactor,
+      );
 
   @override
   void updateRenderObject(BuildContext context, RenderLineChart renderObject) {
@@ -32,9 +40,12 @@ class LineChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our LineChart, also handles hitTest.
 class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
-  RenderLineChart(BuildContext context, LineChartData data,
-      LineChartData targetData, double textScale)
-      : _data = data,
+  RenderLineChart(
+    BuildContext context,
+    LineChartData data,
+    LineChartData targetData,
+    double textScale,
+  )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
         super(targetData.lineTouchData, context);
@@ -69,7 +80,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = LineChartPainter();
+  LineChartPainter painter = LineChartPainter();
 
   PaintHolder<LineChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -77,9 +88,9 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final canvas = context.canvas;
-    canvas.save();
-    canvas.translate(offset.dx, offset.dy);
+    final canvas = context.canvas
+      ..save()
+      ..translate(offset.dx, offset.dy);
     painter.paint(
       buildContext,
       CanvasWrapper(canvas, mockTestSize ?? size),
@@ -90,7 +101,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
 
   @override
   LineTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpots = painter.handleTouch(
+    final touchedSpots = painter.handleTouch(
       localPosition,
       mockTestSize ?? size,
       paintHolder,

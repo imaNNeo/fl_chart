@@ -3,7 +3,7 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 extension BarChartDataExtension on BarChartData {
   List<double> calculateGroupsX(double viewWidth) {
     assert(barGroups.isNotEmpty);
-    final groupsX = List.filled(barGroups.length, 0.0, growable: false);
+    final groupsX = List<double>.filled(barGroups.length, 0);
     switch (alignment) {
       case BarChartAlignment.start:
         var tempX = 0.0;

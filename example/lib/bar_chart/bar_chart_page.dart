@@ -1,17 +1,16 @@
+import 'package:example/bar_chart/samples/bar_chart_sample1.dart';
 import 'package:flutter/material.dart';
 
-import 'samples/bar_chart_sample1.dart';
-
 class BarChartPage extends StatelessWidget {
-  const BarChartPage({Key? key}) : super(key: key);
+  const BarChartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xff232040),
-      child: const Center(
+    return const ColoredBox(
+      color: Color(0xff232040),
+      child: Center(
         child: Padding(
-          padding: EdgeInsets.all(28.0),
+          padding: EdgeInsets.all(28),
           child: BarChartSample1(),
         ),
       ),

@@ -5,21 +5,21 @@ void main() {
   const tolerance = 0.0001;
   group('iterateThroughAxis()', () {
     test('test 1', () {
-      List<double> results = [];
+      final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         max: 0.1,
         interval: 0.001,
         baseLine: 0,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         results.add(axisValue);
       }
       expect(results.length, 101);
     });
 
     test('test 2', () {
-      List<double> results = [];
+      final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         minIncluded: false,
@@ -28,7 +28,7 @@ void main() {
         interval: 0.001,
         baseLine: 0,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         results.add(axisValue);
       }
       expect(results.length, 99);
@@ -37,14 +37,14 @@ void main() {
     });
 
     test('test 3', () {
-      List<double> results = [];
+      final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         max: 1000,
         interval: 200,
         baseLine: 0,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         results.add(axisValue);
       }
       expect(results.length, 6);
@@ -57,14 +57,14 @@ void main() {
     });
 
     test('test 4', () {
-      List<double> results = [];
+      final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         max: 10,
         interval: 3,
         baseLine: 0,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         results.add(axisValue);
       }
       expect(results.length, 5);
@@ -76,7 +76,7 @@ void main() {
     });
 
     test('test 4', () {
-      List<double> results = [];
+      final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
         minIncluded: false,
@@ -85,7 +85,7 @@ void main() {
         interval: 3,
         baseLine: 0,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         results.add(axisValue);
       }
       expect(results.length, 3);
@@ -95,16 +95,14 @@ void main() {
     });
 
     test('test 4', () {
-      List<double> results = [];
+      final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 35,
-        minIncluded: true,
         max: 130,
-        maxIncluded: true,
         interval: 50,
         baseLine: 0,
       );
-      for (double axisValue in axisValues) {
+      for (final axisValue in axisValues) {
         results.add(axisValue);
       }
       expect(results.length, 4);

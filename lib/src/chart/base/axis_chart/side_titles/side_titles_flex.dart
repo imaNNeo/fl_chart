@@ -1,19 +1,19 @@
+import 'dart:math' as math;
+
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:math' as math;
 
 /// Inspired from [Flex]
 class SideTitlesFlex extends MultiChildRenderObjectWidget {
   SideTitlesFlex({
-    Key? key,
+    super.key,
     required this.direction,
     required this.axisSideMetaData,
     List<AxisSideTitleWidgetHolder> widgetHolders =
         const <AxisSideTitleWidgetHolder>[],
   })  : axisSideTitlesMetaData = widgetHolders.map((e) => e.metaData).toList(),
-        super(key: key, children: widgetHolders.map((e) => e.widget).toList());
+        super(children: widgetHolders.map((e) => e.widget).toList());
 
   final Axis direction;
   final AxisSideMetaData axisSideMetaData;
@@ -30,10 +30,13 @@ class SideTitlesFlex extends MultiChildRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, covariant AxisSideTitlesRenderFlex renderObject) {
-    renderObject.direction = direction;
-    renderObject.axisSideMetaData = axisSideMetaData;
-    renderObject.axisSideTitlesMetaData = axisSideTitlesMetaData;
+    BuildContext context,
+    covariant AxisSideTitlesRenderFlex renderObject,
+  ) {
+    renderObject
+      ..direction = direction
+      ..axisSideMetaData = axisSideMetaData
+      ..axisSideTitlesMetaData = axisSideTitlesMetaData;
   }
 
   @override
@@ -125,7 +128,7 @@ class AxisSideTitlesRenderFlex extends RenderBox
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
-    final _LayoutSizes sizes = _computeSizes(
+    final sizes = _computeSizes(
       layoutChild: ChildLayoutHelper.dryLayoutChild,
       constraints: constraints,
     );
@@ -138,22 +141,21 @@ class AxisSideTitlesRenderFlex extends RenderBox
     }
   }
 
-  _LayoutSizes _computeSizes(
-      {required BoxConstraints constraints,
-      required ChildLayouter layoutChild}) {
+  _LayoutSizes _computeSizes({
+    required BoxConstraints constraints,
+    required ChildLayouter layoutChild,
+  }) {
     // Determine used flex factor, size inflexible items, calculate free space.
-    final double maxMainSize = _direction == Axis.horizontal
+    final maxMainSize = _direction == Axis.horizontal
         ? constraints.maxWidth
         : constraints.maxHeight;
-    final bool canFlex = maxMainSize < double.infinity;
+    final canFlex = maxMainSize < double.infinity;
 
-    double crossSize = 0.0;
-    double allocatedSize =
-        0.0; // Sum of the sizes of the non-flexible children.
-    RenderBox? child = firstChild;
+    var crossSize = 0.0;
+    var allocatedSize = 0.0; // Sum of the sizes of the non-flexible children.
+    var child = firstChild;
     while (child != null) {
-      final FlexParentData childParentData =
-          child.parentData! as FlexParentData;
+      final childParentData = child.parentData! as FlexParentData;
       final BoxConstraints innerConstraints;
 
       // Stretch
@@ -168,14 +170,14 @@ class AxisSideTitlesRenderFlex extends RenderBox
           break;
       }
 
-      final Size childSize = layoutChild(child, innerConstraints);
+      final childSize = layoutChild(child, innerConstraints);
       allocatedSize += _getMainSize(childSize);
       crossSize = math.max(crossSize, _getCrossSize(childSize));
       assert(child.parentData == childParentData);
       child = childParentData.nextSibling;
     }
 
-    final double idealSize = canFlex ? maxMainSize : allocatedSize;
+    final idealSize = canFlex ? maxMainSize : allocatedSize;
     return _LayoutSizes(
       mainSize: idealSize,
       crossSize: crossSize,
@@ -185,14 +187,14 @@ class AxisSideTitlesRenderFlex extends RenderBox
 
   @override
   void performLayout() {
-    final BoxConstraints constraints = this.constraints;
-    final _LayoutSizes sizes = _computeSizes(
+    final constraints = this.constraints;
+    final sizes = _computeSizes(
       layoutChild: ChildLayoutHelper.layoutChild,
       constraints: constraints,
     );
 
-    double actualSize = sizes.mainSize;
-    double crossSize = sizes.crossSize;
+    var actualSize = sizes.mainSize;
+    var crossSize = sizes.crossSize;
 
     // Align items along the main axis.
     switch (_direction) {
@@ -209,11 +211,10 @@ class AxisSideTitlesRenderFlex extends RenderBox
     }
 
     // Position elements
-    RenderBox? child = firstChild;
-    int counter = 0;
+    var child = firstChild;
+    var counter = 0;
     while (child != null) {
-      final FlexParentData childParentData =
-          child.parentData! as FlexParentData;
+      final childParentData = child.parentData! as FlexParentData;
       final metaData = _axisSideTitlesMetaData[counter];
       final double childCrossPosition;
 
@@ -281,20 +282,18 @@ class _LayoutSizes {
 }
 
 class AxisSideMetaData {
+  AxisSideMetaData(this.minValue, this.maxValue, this.axisViewSize);
   final double minValue;
   final double maxValue;
   final double axisViewSize;
 
   double get diff => maxValue - minValue;
-
-  AxisSideMetaData(this.minValue, this.maxValue, this.axisViewSize);
 }
 
 class AxisSideTitleMetaData with EquatableMixin {
+  AxisSideTitleMetaData(this.axisValue, this.axisPixelLocation);
   final double axisValue;
   final double axisPixelLocation;
-
-  AxisSideTitleMetaData(this.axisValue, this.axisPixelLocation);
 
   @override
   List<Object?> get props => [
@@ -304,8 +303,7 @@ class AxisSideTitleMetaData with EquatableMixin {
 }
 
 class AxisSideTitleWidgetHolder {
+  AxisSideTitleWidgetHolder(this.metaData, this.widget);
   final AxisSideTitleMetaData metaData;
   final Widget widget;
-
-  AxisSideTitleWidgetHolder(this.metaData, this.widget);
 }

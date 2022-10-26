@@ -7,7 +7,6 @@ void main() {
   test('test totalReservedSize', () {
     expect(
       AxisTitles(
-        axisNameWidget: null,
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: true,

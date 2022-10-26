@@ -1,18 +1,20 @@
 import 'dart:math' as math;
 import 'dart:ui';
+import 'dart:ui' as ui show Gradient;
+
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import '../data_pool.dart';
 import 'line_chart_painter_test.mocks.dart';
-import 'dart:ui' as ui show Gradient;
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils, LineChartPainter])
 void main() {
@@ -28,6 +30,11 @@ void main() {
           FlSpot(3, 1),
           FlSpot(4, 0),
         ],
+        showingIndicators: [
+          0,
+          2,
+          3,
+        ],
       );
       final bar2 = LineChartBarData(
         spots: const [
@@ -38,63 +45,171 @@ void main() {
           FlSpot(4, 0),
         ],
       );
-      final LineChartData data = LineChartData(
-          lineBarsData: [
-            bar1,
-            bar2,
+      final data = LineChartData(
+        lineBarsData: [
+          bar1,
+          bar2,
+        ],
+        clipData: FlClipData.all(),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(y: 1),
           ],
-          clipData: FlClipData.all(),
-          extraLinesData: ExtraLinesData(
-            horizontalLines: [
-              HorizontalLine(y: 1),
-            ],
-            verticalLines: [
-              VerticalLine(x: 4),
-            ],
-          ),
-          betweenBarsData: [
-            BetweenBarsData(fromIndex: 0, toIndex: 1),
+          verticalLines: [
+            VerticalLine(x: 4),
           ],
-          showingTooltipIndicators: [
-            ShowingTooltipIndicators([
-              LineBarSpot(bar1, 0, bar1.spots.first),
-              LineBarSpot(bar2, 1, bar2.spots.first),
-            ])
-          ],
-          lineTouchData: LineTouchData(
-            enabled: true,
-          ));
+        ),
+        betweenBarsData: [
+          BetweenBarsData(fromIndex: 0, toIndex: 1),
+        ],
+        showingTooltipIndicators: [
+          ShowingTooltipIndicators([
+            LineBarSpot(bar1, 0, bar1.spots.first),
+            LineBarSpot(bar2, 1, bar2.spots.first),
+          ])
+        ],
+        lineTouchData: LineTouchData(
+          enabled: true,
+          getTouchedSpotIndicator:
+              (LineChartBarData barData, List<int> spotIndexes) {
+            return spotIndexes.asMap().entries.map((entry) {
+              final i = entry.key;
+              if (i == 0) {
+                return null;
+              }
+              return TouchedSpotIndicatorData(
+                FlLine(color: MockData.color0),
+                FlDotData(show: true),
+              );
+            }).toList();
+          },
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenAnswer((realInvocation) => textStyle1);
-      when(_mockUtils.calculateRotationOffset(any, any))
+      when(mockUtils.calculateRotationOffset(any, any))
           .thenAnswer((realInvocation) => Offset.zero);
-      when(_mockUtils.convertRadiusToSigma(any))
+      when(mockUtils.convertRadiusToSigma(any))
           .thenAnswer((realInvocation) => 4.0);
-      when(_mockUtils.getEfficientInterval(any, any))
+      when(mockUtils.getEfficientInterval(any, any))
           .thenAnswer((realInvocation) => 1.0);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 1.0);
 
-      final _mockBuildContext = MockBuildContext();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       lineChartPainter.paint(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verify(_mockCanvasWrapper.clipRect(any)).called(1);
-      verify(_mockCanvasWrapper.drawLine(any, any, any)).called(4);
-      verify(_mockCanvasWrapper.drawDot(any, any, any)).called(10);
-      verify(_mockCanvasWrapper.drawPath(any, any)).called(3);
+      verify(mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
+      verify(mockCanvasWrapper.drawPath(any, any)).called(3);
+    });
+    test('test 2', () {
+      const viewSize = Size(400, 400);
+
+      final bar1 = LineChartBarData(
+        spots: const [
+          FlSpot(0, 4),
+          FlSpot(1, 3),
+          FlSpot(2, 2),
+          FlSpot(3, 1),
+          FlSpot(4, 0),
+        ],
+      );
+      final bar2 = LineChartBarData(
+        spots: const [
+          FlSpot(0, 2),
+          FlSpot(1, 5),
+          FlSpot(2, 1),
+          FlSpot(3, 2),
+          FlSpot(4, 3),
+        ],
+      );
+      final data = LineChartData(
+        lineBarsData: [
+          bar1,
+          bar2,
+        ],
+        clipData: FlClipData.all(),
+        lineTouchData: LineTouchData(
+          enabled: true,
+          getTouchedSpotIndicator:
+              (LineChartBarData barData, List<int> spotIndexes) {
+            return List.generate(
+              spotIndexes.length + 1,
+              (index) {
+                return TouchedSpotIndicatorData(
+                  FlLine(color: MockData.color0),
+                  FlDotData(show: true),
+                );
+              },
+            ).toList();
+          },
+        ),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(y: 1),
+          ],
+          verticalLines: [
+            VerticalLine(x: 4),
+          ],
+          extraLinesOnTop: false,
+        ),
+        showingTooltipIndicators: [
+          ShowingTooltipIndicators([
+            LineBarSpot(bar1, 0, bar1.spots[0]),
+            LineBarSpot(bar1, 0, bar1.spots[2]),
+            LineBarSpot(bar2, 1, bar1.spots[2]),
+            LineBarSpot(bar2, 1, bar1.spots[3]),
+            LineBarSpot(bar2, 1, bar1.spots[4]),
+          ])
+        ],
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      Exception? exception;
+      try {
+        lineChartPainter.paint(
+          mockBuildContext,
+          mockCanvasWrapper,
+          holder,
+        );
+      } on Exception catch (e) {
+        exception = e;
+      }
+      expect(exception != null, true);
     });
   });
 
@@ -102,7 +217,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         clipData: FlClipData(
           top: false,
           bottom: false,
@@ -111,18 +226,18 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       lineChartPainter.clipToBorder(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         holder,
       );
 
-      final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
+      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
+      final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
       expect(rect.left, 0);
       expect(rect.top, 0);
@@ -133,17 +248,21 @@ void main() {
     test('test 2', () {
       const viewSize = Size(400, 400);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
           leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+            sideTitles: SideTitles(showTitles: true, reservedSize: 10),
+          ),
           topTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 20)),
+            sideTitles: SideTitles(showTitles: true, reservedSize: 20),
+          ),
           rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
+            sideTitles: SideTitles(showTitles: true, reservedSize: 30),
+          ),
           bottomTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
+            sideTitles: SideTitles(showTitles: true, reservedSize: 40),
+          ),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
         clipData: FlClipData(
@@ -154,18 +273,18 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       lineChartPainter.clipToBorder(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         holder,
       );
 
-      final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
+      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
+      final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
       expect(rect.left, 4);
       expect(rect.top, 0);
@@ -176,20 +295,24 @@ void main() {
     test('test 3', () {
       const viewSize = Size(400, 400);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         titlesData: FlTitlesData(
           show: true,
           leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 10)),
+            sideTitles: SideTitles(showTitles: true, reservedSize: 10),
+          ),
           topTitles: AxisTitles(
-              sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 40,
-          )),
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+            ),
+          ),
           rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 30)),
+            sideTitles: SideTitles(showTitles: true, reservedSize: 30),
+          ),
           bottomTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 40)),
+            sideTitles: SideTitles(showTitles: true, reservedSize: 40),
+          ),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
         clipData: FlClipData(
@@ -200,18 +323,18 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       lineChartPainter.clipToBorder(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         holder,
       );
 
-      final verifyResult = verify(_mockCanvasWrapper.clipRect(captureAny));
-      final Rect rect = verifyResult.captured.single;
+      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
+      final rect = verifyResult.captured.single as Rect;
       verifyResult.called(1);
       expect(rect.left, 4);
       expect(rect.top, 4);
@@ -224,7 +347,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           flSpot1,
@@ -234,27 +357,27 @@ void main() {
         ],
       );
 
-      final LineChartData data = LineChartData(lineBarsData: [barData]);
+      final data = LineChartData(lineBarsData: [barData]);
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawBarLine(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         barData,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawPath(any, any)).called(1);
+      verify(mockCanvasWrapper.drawPath(any, any)).called(1);
     });
 
     test('test 2', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           flSpot1,
@@ -265,27 +388,27 @@ void main() {
         ],
       );
 
-      final LineChartData data = LineChartData(lineBarsData: [barData]);
+      final data = LineChartData(lineBarsData: [barData]);
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawBarLine(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         barData,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawPath(any, any)).called(2);
+      verify(mockCanvasWrapper.drawPath(any, any)).called(2);
     });
 
     test('test 3', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           flSpot1,
@@ -295,28 +418,30 @@ void main() {
         ],
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [barData],
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawBarLine(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         barData,
         holder,
       );
 
       final verificationResult =
-          verify(_mockCanvasWrapper.drawPath(any, captureAny));
+          verify(mockCanvasWrapper.drawPath(any, captureAny));
       final paint = verificationResult.captured.single as Paint;
       verificationResult.called(1);
-      expect(paint.color.value,
-          barData.gradient?.colors.first.value ?? barData.color?.value);
+      expect(
+        paint.color.value,
+        barData.gradient?.colors.first.value ?? barData.color?.value,
+      );
     });
   });
 
@@ -324,7 +449,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           flSpot1,
@@ -334,7 +459,7 @@ void main() {
         ],
       );
 
-      final LineChartBarData barData2 = LineChartBarData(
+      final barData2 = LineChartBarData(
         show: true,
         spots: const [
           flSpot2,
@@ -350,7 +475,7 @@ void main() {
         color: const Color(0xFFFF0000),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [
           barData,
           barData2,
@@ -360,26 +485,26 @@ void main() {
         ],
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawBetweenBarsArea(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         data,
         betweenBarData,
         holder,
       );
 
       final verifyResult = verifyInOrder([
-        _mockCanvasWrapper.saveLayer(const Rect.fromLTWH(0, 0, 400, 400), any),
-        _mockCanvasWrapper.drawPath(any, captureAny),
-        _mockCanvasWrapper.restore(),
+        mockCanvasWrapper.saveLayer(const Rect.fromLTWH(0, 0, 400, 400), any),
+        mockCanvasWrapper.drawPath(any, captureAny),
+        mockCanvasWrapper.restore(),
       ]);
 
-      final Paint paint = verifyResult[1].captured.first;
+      final paint = verifyResult[1].captured.first as Paint;
       expect(paint.shader, null);
       expect(paint.color, const Color(0xFFFF0000));
     });
@@ -389,67 +514,67 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [],
         dotData: FlDotData(show: true),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [
           barData,
         ],
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawDots(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         barData,
         holder,
       );
 
-      verifyNever(_mockCanvasWrapper.drawDot(any, any, any));
+      verifyNever(mockCanvasWrapper.drawDot(any, any, any));
     });
 
     test('test 2', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [FlSpot(1, 1)],
         dotData: FlDotData(show: false),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [
           barData,
         ],
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawDots(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         barData,
         holder,
       );
 
-      verifyNever(_mockCanvasWrapper.drawDot(any, any, any));
+      verifyNever(mockCanvasWrapper.drawDot(any, any, any));
     });
 
     test('test 3', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -462,31 +587,31 @@ void main() {
         dotData: FlDotData(show: true),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [
           barData,
         ],
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawDots(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         barData,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawDot(any, any, any)).called(5);
+      verify(mockCanvasWrapper.drawDot(any, any, any)).called(5);
     });
 
     test('test 4', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -499,7 +624,7 @@ void main() {
         dotData: FlDotData(show: true),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minX: 0,
         maxX: 10,
         minY: 0,
@@ -510,40 +635,40 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawDots(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         barData,
         holder,
       );
 
       verifyInOrder([
-        _mockCanvasWrapper.drawDot(
+        mockCanvasWrapper.drawDot(
           any,
           const FlSpot(1, 1),
           const Offset(10, 90),
         ),
-        _mockCanvasWrapper.drawDot(
+        mockCanvasWrapper.drawDot(
           any,
           const FlSpot(2, 2),
           const Offset(20, 80),
         ),
-        _mockCanvasWrapper.drawDot(
+        mockCanvasWrapper.drawDot(
           any,
           const FlSpot(3, 3),
           const Offset(30, 70),
         ),
-        _mockCanvasWrapper.drawDot(
+        mockCanvasWrapper.drawDot(
           any,
           const FlSpot(4, 4),
           const Offset(40, 60),
         ),
-        _mockCanvasWrapper.drawDot(
+        mockCanvasWrapper.drawDot(
           any,
           const FlSpot(5, 5),
           const Offset(50, 50),
@@ -553,33 +678,69 @@ void main() {
   });
 
   group('drawTouchedSpotsIndicator()', () {
+    List<LineIndexDrawingInfo> getDrawingInfo(LineChartData data) {
+      final lineIndexDrawingInfo = <LineIndexDrawingInfo>[];
+
+      /// draw each line independently on the chart
+      for (var i = 0; i < data.lineBarsData.length; i++) {
+        final barData = data.lineBarsData[i];
+
+        if (!barData.show) {
+          continue;
+        }
+
+        final indicatorsData = data.lineTouchData
+            .getTouchedSpotIndicator(barData, barData.showingIndicators);
+
+        if (indicatorsData.length != barData.showingIndicators.length) {
+          throw Exception(
+            'indicatorsData and touchedSpotOffsets size should be same',
+          );
+        }
+
+        for (var j = 0; j < barData.showingIndicators.length; j++) {
+          final indicatorData = indicatorsData[j];
+          final index = barData.showingIndicators[j];
+          final spot = barData.spots[index];
+
+          if (indicatorData == null) {
+            continue;
+          }
+          lineIndexDrawingInfo.add(
+            LineIndexDrawingInfo(barData, i, spot, index, indicatorData),
+          );
+        }
+      }
+      return lineIndexDrawingInfo;
+    }
+
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [],
         dotData: FlDotData(show: true),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       lineChartPainter.drawTouchedSpotsIndicator(
-        _mockCanvasWrapper,
-        lineChartBarData,
+        mockCanvasWrapper,
+        getDrawingInfo(data),
         holder,
       );
 
-      verifyNever(_mockCanvasWrapper.drawPath(any, any));
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
     });
 
     test('test 2', () {
@@ -588,13 +749,14 @@ void main() {
       const spot1 = FlSpot(1, 1);
       const spot2 = FlSpot(2, 2);
       const spot3 = FlSpot(3, 3);
-      final LineChartBarData lineChartBarData = LineChartBarData(
-          show: true,
-          spots: const [spot1, spot2, spot3],
-          dotData: FlDotData(show: true),
-          showingIndicators: [0, 1]);
+      final lineChartBarData = LineChartBarData(
+        show: true,
+        spots: const [spot1, spot2, spot3],
+        dotData: FlDotData(show: true),
+        showingIndicators: [0, 1],
+      );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [lineChartBarData],
         lineTouchData: LineTouchData(
           enabled: true,
@@ -614,16 +776,21 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawDashedLine(
-              captureAny, captureAny, captureAny, any))
-          .thenAnswer((inv) {
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          any,
+        ),
+      ).thenAnswer((inv) {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
@@ -634,18 +801,18 @@ void main() {
       });
 
       lineChartPainter.drawTouchedSpotsIndicator(
-        _mockCanvasWrapper,
-        lineChartBarData,
+        mockCanvasWrapper,
+        getDrawingInfo(data),
         holder,
       );
 
       expect(results.length, 2);
 
-      expect(results[0]['paint_color'], const Color(0xFF00FF00));
-      expect(results[0]['paint_stroke_width'], 8.0);
+      expect(results[0]['paint_color'], const Color(0xFF0000FF));
+      expect(results[0]['paint_stroke_width'], 12);
 
-      expect(results[1]['paint_color'], const Color(0xFF0000FF));
-      expect(results[1]['paint_stroke_width'], 12);
+      expect(results[1]['paint_color'], const Color(0xFF00FF00));
+      expect(results[1]['paint_stroke_width'], 8.0);
     });
 
     test('test 3', () {
@@ -654,12 +821,13 @@ void main() {
       const spot1 = FlSpot(1, 1);
       const spot2 = FlSpot(2, 2);
       const spot3 = FlSpot(3, 3);
-      final LineChartBarData lineChartBarData = LineChartBarData(
-          show: true,
-          spots: const [spot1, spot2, spot3],
-          showingIndicators: [0, 1]);
+      final lineChartBarData = LineChartBarData(
+        show: true,
+        spots: const [spot1, spot2, spot3],
+        showingIndicators: [0, 1],
+      );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         lineBarsData: [lineChartBarData],
         lineTouchData: LineTouchData(
           enabled: true,
@@ -679,16 +847,21 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawDashedLine(
-              captureAny, captureAny, captureAny, any))
-          .thenAnswer((inv) {
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          any,
+        ),
+      ).thenAnswer((inv) {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
@@ -699,20 +872,20 @@ void main() {
       });
 
       lineChartPainter.drawTouchedSpotsIndicator(
-        _mockCanvasWrapper,
-        lineChartBarData,
+        mockCanvasWrapper,
+        getDrawingInfo(data),
         holder,
       );
 
       expect(results.length, 2);
 
-      expect(results[0]['paint_color'], const Color(0xFF00FF00));
-      expect(results[0]['paint_stroke_width'], 8.0);
+      expect(results[0]['paint_color'], const Color(0xFF0000FF));
+      expect(results[0]['paint_stroke_width'], 12);
 
-      expect(results[1]['paint_color'], const Color(0xFF0000FF));
-      expect(results[1]['paint_stroke_width'], 12);
+      expect(results[1]['paint_color'], const Color(0xFF00FF00));
+      expect(results[1]['paint_stroke_width'], 8.0);
 
-      verify(_mockCanvasWrapper.drawDot(any, any, any)).called(2);
+      verify(mockCanvasWrapper.drawDot(any, any, any)).called(2);
     });
   });
 
@@ -720,17 +893,17 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
         dotData: FlDotData(show: true),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -740,13 +913,13 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path path = lineChartPainter.generateBarPath(
+      final path = lineChartPainter.generateBarPath(
         viewSize,
         lineChartBarData,
         lineChartBarData.spots,
@@ -755,7 +928,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;
@@ -775,10 +949,10 @@ void main() {
     test('test 2', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
@@ -786,7 +960,7 @@ void main() {
         isStepLineChart: true,
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -796,13 +970,13 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path path = lineChartPainter.generateBarPath(
+      final path = lineChartPainter.generateBarPath(
         viewSize,
         lineChartBarData,
         lineChartBarData.spots,
@@ -811,7 +985,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;
@@ -833,17 +1008,17 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
         dotData: FlDotData(show: true),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -853,13 +1028,13 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path path = lineChartPainter.generateNormalBarPath(
+      final path = lineChartPainter.generateNormalBarPath(
         viewSize,
         lineChartBarData,
         lineChartBarData.spots,
@@ -868,7 +1043,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;
@@ -890,10 +1066,10 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: const [
-          FlSpot(0, 0),
+          FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
@@ -901,7 +1077,7 @@ void main() {
         isStepLineChart: true,
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -911,13 +1087,13 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path path = lineChartPainter.generateStepBarPath(
+      final path = lineChartPainter.generateStepBarPath(
         viewSize,
         lineChartBarData,
         lineChartBarData.spots,
@@ -926,7 +1102,8 @@ void main() {
 
       final iterator = path.computeMetrics().iterator;
 
-      PathMetric? firstMetric, lastMetric;
+      PathMetric? firstMetric;
+      PathMetric? lastMetric;
       while (iterator.moveNext()) {
         firstMetric ??= iterator.current;
         lastMetric = iterator.current;
@@ -954,14 +1131,14 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: barSpots,
         dotData: FlDotData(show: true),
         isStepLineChart: true,
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -971,19 +1148,24 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(50, 50)
         ..lineTo(80, 10);
 
-      final Path belowBarPath = lineChartPainter.generateBelowBarPath(
-          viewSize, lineChartBarData, barPath, barSpots, holder);
+      final belowBarPath = lineChartPainter.generateBelowBarPath(
+        viewSize,
+        lineChartBarData,
+        barPath,
+        barSpots,
+        holder,
+      );
 
       expect(belowBarPath.getBounds().bottom, 100);
       expect(belowBarPath.getBounds().left, 10);
@@ -1000,17 +1182,18 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
-          show: true,
-          spots: barSpots,
-          dotData: FlDotData(show: true),
-          isStepLineChart: true,
-          belowBarData: BarAreaData(
-            cutOffY: 4,
-            applyCutOffY: true,
-          ));
+      final lineChartBarData = LineChartBarData(
+        show: true,
+        spots: barSpots,
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+        belowBarData: BarAreaData(
+          cutOffY: 4,
+          applyCutOffY: true,
+        ),
+      );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1020,19 +1203,24 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(50, 50)
         ..lineTo(80, 10);
 
-      final Path belowBarPath = lineChartPainter.generateBelowBarPath(
-          viewSize, lineChartBarData, barPath, barSpots, holder);
+      final belowBarPath = lineChartPainter.generateBelowBarPath(
+        viewSize,
+        lineChartBarData,
+        barPath,
+        barSpots,
+        holder,
+      );
 
       expect(belowBarPath.getBounds().bottom, 60);
       expect(belowBarPath.getBounds().left, 10);
@@ -1051,14 +1239,14 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: barSpots,
         dotData: FlDotData(show: true),
         isStepLineChart: true,
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1068,19 +1256,24 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(50, 50)
         ..lineTo(80, 10);
 
-      final Path belowBarPath = lineChartPainter.generateAboveBarPath(
-          viewSize, lineChartBarData, barPath, barSpots, holder);
+      final belowBarPath = lineChartPainter.generateAboveBarPath(
+        viewSize,
+        lineChartBarData,
+        barPath,
+        barSpots,
+        holder,
+      );
 
       expect(belowBarPath.getBounds().bottom, 50);
       expect(belowBarPath.getBounds().left, 10);
@@ -1098,7 +1291,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: barSpots,
         dotData: FlDotData(show: true),
@@ -1111,7 +1304,7 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1121,29 +1314,34 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path belowBarPath = Path()
+      final belowBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
-      final Path filletAboveBarPath = Path()
+      final filletAboveBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10)
         ..lineTo(80, 0)
         ..lineTo(10, 0)
         ..lineTo(10, 10);
 
-      lineChartPainter.drawBelowBar(_mockCanvasWrapper, belowBarPath,
-          filletAboveBarPath, holder, lineChartBarData);
+      lineChartPainter.drawBelowBar(
+        mockCanvasWrapper,
+        belowBarPath,
+        filletAboveBarPath,
+        holder,
+        lineChartBarData,
+      );
 
       final result =
-          verify(_mockCanvasWrapper.drawPath(belowBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(belowBarPath, captureAny))
+            ..called(1);
 
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
@@ -1159,7 +1357,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: barSpots,
         dotData: FlDotData(show: true),
@@ -1182,7 +1380,7 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1192,27 +1390,32 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path belowBarPath = Path()
+      final belowBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
-      final Path filletAboveBarPath = Path()
+      final filletAboveBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10)
         ..lineTo(80, 0)
         ..lineTo(10, 0)
         ..lineTo(10, 10);
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawDashedLine(
-              captureAny, captureAny, captureAny, any))
-          .thenAnswer((inv) {
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          any,
+        ),
+      ).thenAnswer((inv) {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
@@ -1222,33 +1425,41 @@ void main() {
         });
       });
 
-      lineChartPainter.drawBelowBar(_mockCanvasWrapper, belowBarPath,
-          filletAboveBarPath, holder, lineChartBarData);
+      lineChartPainter.drawBelowBar(
+        mockCanvasWrapper,
+        belowBarPath,
+        filletAboveBarPath,
+        holder,
+        lineChartBarData,
+      );
 
-      verify(_mockCanvasWrapper.saveLayer(
-              Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any))
-          .called(1);
+      verify(
+        mockCanvasWrapper.saveLayer(
+          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
+          any,
+        ),
+      ).called(1);
 
       final result =
-          verify(_mockCanvasWrapper.drawPath(belowBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(belowBarPath, captureAny))
+            ..called(1);
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
       expect(paint.shader is ui.Gradient, true);
 
       final result2 =
-          verify(_mockCanvasWrapper.drawPath(filletAboveBarPath, captureAny));
-      result2.called(1);
+          verify(mockCanvasWrapper.drawPath(filletAboveBarPath, captureAny))
+            ..called(1);
       final paint2 = result2.captured.single as Paint;
       expect(paint2.color, const Color(0x00000000));
       expect(paint2.blendMode, BlendMode.dstIn);
       expect(paint2.style, PaintingStyle.fill);
 
-      verify(_mockCanvasWrapper.restore()).called(1);
+      verify(mockCanvasWrapper.restore()).called(1);
 
       expect(results.length, 2);
 
-      for (Map<String, dynamic> item in results) {
+      for (final item in results) {
         expect((item['paint_color'] as Color).alpha, 0);
         expect(item['paint_stroke_width'], 18);
       }
@@ -1264,7 +1475,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: barSpots,
         dotData: FlDotData(show: true),
@@ -1277,7 +1488,7 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1287,29 +1498,34 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path aboveBarPath = Path()
+      final aboveBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
-      final Path filledBelowBarPath = Path()
+      final filledBelowBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10)
         ..lineTo(80, 0)
         ..lineTo(10, 0)
         ..lineTo(10, 10);
 
-      lineChartPainter.drawAboveBar(_mockCanvasWrapper, aboveBarPath,
-          filledBelowBarPath, holder, lineChartBarData);
+      lineChartPainter.drawAboveBar(
+        mockCanvasWrapper,
+        aboveBarPath,
+        filledBelowBarPath,
+        holder,
+        lineChartBarData,
+      );
 
       final result =
-          verify(_mockCanvasWrapper.drawPath(aboveBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny))
+            ..called(1);
 
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
@@ -1325,7 +1541,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData = LineChartBarData(
+      final lineChartBarData = LineChartBarData(
         show: true,
         spots: barSpots,
         dotData: FlDotData(show: true),
@@ -1348,7 +1564,7 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1358,27 +1574,32 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path aboveBarPath = Path()
+      final aboveBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
-      final Path filledBelowBarPath = Path()
+      final filledBelowBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10)
         ..lineTo(80, 0)
         ..lineTo(10, 0)
         ..lineTo(10, 10);
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawDashedLine(
-              captureAny, captureAny, captureAny, any))
-          .thenAnswer((inv) {
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          any,
+        ),
+      ).thenAnswer((inv) {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
@@ -1388,33 +1609,41 @@ void main() {
         });
       });
 
-      lineChartPainter.drawAboveBar(_mockCanvasWrapper, aboveBarPath,
-          filledBelowBarPath, holder, lineChartBarData);
+      lineChartPainter.drawAboveBar(
+        mockCanvasWrapper,
+        aboveBarPath,
+        filledBelowBarPath,
+        holder,
+        lineChartBarData,
+      );
 
-      verify(_mockCanvasWrapper.saveLayer(
-              Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any))
-          .called(1);
+      verify(
+        mockCanvasWrapper.saveLayer(
+          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
+          any,
+        ),
+      ).called(1);
 
       final result =
-          verify(_mockCanvasWrapper.drawPath(aboveBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny))
+            ..called(1);
       final paint = result.captured.single as Paint;
       expect(paint.color, const Color(0xFF000000));
       expect(paint.shader is ui.Gradient, true);
 
       final result2 =
-          verify(_mockCanvasWrapper.drawPath(filledBelowBarPath, captureAny));
-      result2.called(1);
+          verify(mockCanvasWrapper.drawPath(filledBelowBarPath, captureAny))
+            ..called(1);
       final paint2 = result2.captured.single as Paint;
       expect(paint2.color, const Color(0x00000000));
       expect(paint2.blendMode, BlendMode.dstIn);
       expect(paint2.style, PaintingStyle.fill);
 
-      verify(_mockCanvasWrapper.restore()).called(1);
+      verify(mockCanvasWrapper.restore()).called(1);
 
       expect(results.length, 2);
 
-      for (Map<String, dynamic> item in results) {
+      for (final item in results) {
         expect((item['paint_color'] as Color).alpha, 0);
         expect(item['paint_stroke_width'], 18);
       }
@@ -1435,7 +1664,7 @@ void main() {
         FlSpot(8, 5),
       ];
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: barSpots1,
         dotData: FlDotData(show: true),
@@ -1448,11 +1677,12 @@ void main() {
         ),
       );
 
-      final LineChartBarData lineChartBarData2 = LineChartBarData(
-          show: true,
-          spots: barSpots2,
-          dotData: FlDotData(show: true),
-          isStepLineChart: true);
+      final lineChartBarData2 = LineChartBarData(
+        show: true,
+        spots: barSpots2,
+        dotData: FlDotData(show: true),
+        isStepLineChart: true,
+      );
 
       final betweenBarData1 = BetweenBarsData(
         fromIndex: 0,
@@ -1460,7 +1690,7 @@ void main() {
         color: const Color(0xFFFF0000),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1471,32 +1701,36 @@ void main() {
         betweenBarsData: [betweenBarData1],
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path aboveBarPath = Path()
+      final aboveBarPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
       lineChartPainter.drawBetweenBar(
-        _mockCanvasWrapper,
+        mockCanvasWrapper,
         aboveBarPath,
         betweenBarData1,
         MockData.rect1,
         holder,
       );
 
-      verify(_mockCanvasWrapper.saveLayer(
-          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any));
+      verify(
+        mockCanvasWrapper.saveLayer(
+          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
+          any,
+        ),
+      );
       final result =
-          verify(_mockCanvasWrapper.drawPath(aboveBarPath, captureAny));
-      result.called(1);
+          verify(mockCanvasWrapper.drawPath(aboveBarPath, captureAny))
+            ..called(1);
       final painter = result.captured.single as Paint;
       expect(painter.color, const Color(0xFFFF0000));
-      verify(_mockCanvasWrapper.restore());
+      verify(mockCanvasWrapper.restore());
     });
   });
 
@@ -1507,7 +1741,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: barSpots1,
         dotData: FlDotData(show: true),
@@ -1515,16 +1749,19 @@ void main() {
         shadow: const Shadow(color: Color(0x0000FF00)),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
       lineChartPainter.drawBarShadow(
-          _mockCanvasWrapper, barPath, lineChartBarData1);
-      verifyNever(_mockCanvasWrapper.drawPath(any, any));
+        mockCanvasWrapper,
+        barPath,
+        lineChartBarData1,
+      );
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
     });
 
     test('test 2', () {
@@ -1535,7 +1772,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: barSpots1,
         dotData: FlDotData(show: true),
@@ -1549,20 +1786,22 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
       lineChartPainter.drawBarShadow(
-          _mockCanvasWrapper, barPath, lineChartBarData1);
-      final result =
-          verify(_mockCanvasWrapper.drawPath(captureAny, captureAny));
-      result.called(1);
+        mockCanvasWrapper,
+        barPath,
+        lineChartBarData1,
+      );
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny))
+        ..called(1);
       final path = result.captured[0] as Path;
       expect(path.getBounds(), barPath.shift(const Offset(10, 15)).getBounds());
 
@@ -1588,7 +1827,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: false,
         spots: barSpots1,
         dotData: FlDotData(show: true),
@@ -1602,7 +1841,7 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1612,19 +1851,23 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
       lineChartPainter.drawBar(
-          _mockCanvasWrapper, barPath, lineChartBarData1, holder);
-      verifyNever(_mockCanvasWrapper.drawPath(any, any));
+        mockCanvasWrapper,
+        barPath,
+        lineChartBarData1,
+        holder,
+      );
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
     });
 
     test('test 2', () {
@@ -1635,7 +1878,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: barSpots1,
         dotData: FlDotData(show: true),
@@ -1650,7 +1893,7 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1660,21 +1903,24 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
       lineChartPainter.drawBar(
-          _mockCanvasWrapper, barPath, lineChartBarData1, holder);
-      final result =
-          verify(_mockCanvasWrapper.drawPath(captureAny, captureAny));
-      result.called(1);
+        mockCanvasWrapper,
+        barPath,
+        lineChartBarData1,
+        holder,
+      );
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny))
+        ..called(1);
       final drewPath = result.captured[0] as Path;
       expect(drewPath, barPath);
 
@@ -1693,7 +1939,7 @@ void main() {
         FlSpot(8, 9),
       ];
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: barSpots1,
         dotData: FlDotData(show: true),
@@ -1706,7 +1952,7 @@ void main() {
         dashArray: [1, 2, 3],
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1716,21 +1962,24 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final Path barPath = Path()
+      final barPath = Path()
         ..moveTo(10, 10)
         ..lineTo(80, 10);
 
       lineChartPainter.drawBar(
-          _mockCanvasWrapper, barPath, lineChartBarData1, holder);
-      final result =
-          verify(_mockCanvasWrapper.drawPath(captureAny, captureAny));
-      result.called(1);
+        mockCanvasWrapper,
+        barPath,
+        lineChartBarData1,
+        holder,
+      );
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny))
+        ..called(1);
       final drewPath = result.captured[0] as Path;
       expect(
         drewPath.computeMetrics().length,
@@ -1748,33 +1997,36 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          titlesData: FlTitlesData(show: false),
-          extraLinesData:
-              ExtraLinesData(horizontalLines: [], verticalLines: []));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(horizontalLines: [], verticalLines: []),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockBuildContext _mockBuildContext = MockBuildContext();
+      final mockBuildContext = MockBuildContext();
 
       lineChartPainter.drawExtraLines(
-          _mockBuildContext, _mockCanvasWrapper, holder);
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
 
-      verifyNever(_mockCanvasWrapper.drawDashedLine(any, any, any, captureAny));
+      verifyNever(mockCanvasWrapper.drawDashedLine(any, any, any, captureAny));
     });
 
     test('test 2', () {
       const viewSize = Size(100, 100);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -1782,51 +2034,69 @@ void main() {
         titlesData: FlTitlesData(show: false),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockBuildContext _mockBuildContext = MockBuildContext();
+      final mockBuildContext = MockBuildContext();
 
       lineChartPainter.drawExtraLines(
-          _mockBuildContext, _mockCanvasWrapper, holder);
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
 
-      verifyNever(_mockCanvasWrapper.drawDashedLine(any, any, any, captureAny));
+      verifyNever(mockCanvasWrapper.drawDashedLine(any, any, any, captureAny));
     });
 
     test('test 3', () {
       const viewSize = Size(100, 100);
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          titlesData: FlTitlesData(show: false),
-          extraLinesData: ExtraLinesData(horizontalLines: [
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
             HorizontalLine(
-                y: 1, color: const Color(0x11111111), strokeWidth: 11),
+              y: 1,
+              color: const Color(0x11111111),
+              strokeWidth: 11,
+            ),
             HorizontalLine(
-                y: 2, color: const Color(0x22222222), strokeWidth: 22),
-          ], verticalLines: [
+              y: 2,
+              color: const Color(0x22222222),
+              strokeWidth: 22,
+            ),
+          ],
+          verticalLines: [
             VerticalLine(x: 4, color: const Color(0x33333333), strokeWidth: 33),
             VerticalLine(x: 5, color: const Color(0x44444444), strokeWidth: 44),
-          ]));
+          ],
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockBuildContext _mockBuildContext = MockBuildContext();
+      final mockBuildContext = MockBuildContext();
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawDashedLine(
-              captureAny, captureAny, captureAny, any))
-          .thenAnswer((inv) {
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          any,
+        ),
+      ).thenAnswer((inv) {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
@@ -1837,7 +2107,10 @@ void main() {
       });
 
       lineChartPainter.drawExtraLines(
-          _mockBuildContext, _mockCanvasWrapper, holder);
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
 
       expect(results.length, 4);
 
@@ -1867,7 +2140,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -1880,62 +2153,67 @@ void main() {
         dotData: FlDotData(show: true),
       );
 
-      final LineTouchTooltipData tooltipData = LineTouchTooltipData(
-          tooltipBgColor: const Color(0x11111111),
-          tooltipRoundedRadius: 12,
-          rotateAngle: 43,
-          maxContentWidth: 100,
-          tooltipMargin: 12,
-          tooltipPadding: const EdgeInsets.all(12),
-          fitInsideHorizontally: true,
-          fitInsideVertically: true,
-          showOnTopOfTheChartBoxArea: false,
-          getTooltipItems: (List<LineBarSpot> touchedSpots) {
-            return touchedSpots
-                .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
-                .toList();
-          });
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          titlesData: FlTitlesData(show: false),
-          extraLinesData: ExtraLinesData(
-            horizontalLines: [],
-            verticalLines: [],
-          ),
-          lineTouchData: LineTouchData(
-            touchTooltipData: tooltipData,
-          ));
+      final tooltipData = LineTouchTooltipData(
+        tooltipBgColor: const Color(0x11111111),
+        tooltipRoundedRadius: 12,
+        rotateAngle: 43,
+        maxContentWidth: 100,
+        tooltipMargin: 12,
+        tooltipPadding: const EdgeInsets.all(12),
+        fitInsideHorizontally: true,
+        fitInsideVertically: true,
+        showOnTopOfTheChartBoxArea: false,
+        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          return touchedSpots
+              .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
+              .toList();
+        },
+        tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+      );
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [],
+          verticalLines: [],
+        ),
+        lineTouchData: LineTouchData(
+          touchTooltipData: tooltipData,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockBuildContext _mockBuildContext = MockBuildContext();
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      final mockBuildContext = MockBuildContext();
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenAnswer((realInvocation) => textStyle1);
-      when(_mockUtils.calculateRotationOffset(any, any))
+      when(mockUtils.calculateRotationOffset(any, any))
           .thenAnswer((realInvocation) => Offset.zero);
-      when(_mockCanvasWrapper.drawRotated(
-        size: anyNamed('size'),
-        rotationOffset: anyNamed('rotationOffset'),
-        drawOffset: anyNamed('drawOffset'),
-        angle: anyNamed('angle'),
-        drawCallback: anyNamed('drawCallback'),
-      )).thenAnswer((realInvocation) {
-        final callback =
-            realInvocation.namedArguments[const Symbol('drawCallback')];
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((realInvocation) {
+        final callback = realInvocation
+            .namedArguments[const Symbol('drawCallback')] as DrawCallback;
         callback();
       });
       lineChartPainter.drawTouchTooltip(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         tooltipData,
         barData.spots.first,
         ShowingTooltipIndicators([
@@ -1949,22 +2227,31 @@ void main() {
       );
 
       final result1 =
-          verify(_mockCanvasWrapper.drawRRect(captureAny, captureAny));
-      result1.called(1);
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
       final rRect = result1.captured[0] as RRect;
       final paint = result1.captured[1] as Paint;
-      expect(rRect,
-          RRect.fromLTRBR(0.0, 40.0, 38.0, 78.0, const Radius.circular(12)));
+      expect(
+        rRect,
+        RRect.fromLTRBR(0, 40, 38, 78, const Radius.circular(12)),
+      );
       expect(paint.color, const Color(0x11111111));
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+      expect(
+        rRectBorder,
+        RRect.fromLTRBR(0, 40, 38, 78, const Radius.circular(12)),
+      );
+      expect(paintBorder.color, const Color(0x11111111));
+      expect(paintBorder.strokeWidth, 2);
 
-      final result2 =
-          verify(_mockCanvasWrapper.drawText(captureAny, captureAny));
-      result2.called(1);
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
+        ..called(1);
       final textPainter = result2.captured[0] as TextPainter;
       final drawOffset = result2.captured[1] as Offset;
-      expect((textPainter.text as TextSpan).text, "0");
-      expect((textPainter.text as TextSpan).style, textStyle1);
-      expect(drawOffset, const Offset(12.0, 52.0));
+      expect((textPainter.text as TextSpan?)!.text, '0');
+      expect((textPainter.text as TextSpan?)!.style, textStyle1);
+      expect(drawOffset, const Offset(12, 52));
     });
   });
 
@@ -1972,7 +2259,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData barData = LineChartBarData(
+      final barData = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -1985,15 +2272,15 @@ void main() {
         dotData: FlDotData(show: true),
       );
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
         maxX: 10,
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
       final result = lineChartPainter.getBarLineXLength(
         barData,
         viewSize,
@@ -2007,7 +2294,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: false,
         spots: const [
           FlSpot(1, 1),
@@ -2026,7 +2313,7 @@ void main() {
         ),
       );
 
-      final LineChartBarData lineChartBarData2 = LineChartBarData(
+      final lineChartBarData2 = LineChartBarData(
         show: false,
         spots: const [
           FlSpot(1.1, 2),
@@ -2045,20 +2332,21 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          lineBarsData: [lineChartBarData1, lineChartBarData2],
-          showingTooltipIndicators: [],
-          titlesData: FlTitlesData(show: false),
-          lineTouchData: LineTouchData(
-            touchSpotThreshold: 0.5,
-          ));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData1, lineChartBarData2],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchSpotThreshold: 0.5,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
       final touchResponse =
           lineChartPainter.handleTouch(const Offset(35, 0), viewSize, holder);
       expect(touchResponse, null);
@@ -2067,7 +2355,7 @@ void main() {
     test('test 2', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -2086,7 +2374,7 @@ void main() {
         ),
       );
 
-      final LineChartBarData lineChartBarData2 = LineChartBarData(
+      final lineChartBarData2 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1.1, 2),
@@ -2105,40 +2393,47 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          lineBarsData: [lineChartBarData1, lineChartBarData2],
-          showingTooltipIndicators: [],
-          titlesData: FlTitlesData(show: false),
-          lineTouchData: LineTouchData(
-            touchSpotThreshold: 5,
-          ));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData1, lineChartBarData2],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchSpotThreshold: 5,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
       expect(
-          lineChartPainter
-              .handleTouch(const Offset(30, 0), viewSize, holder)!
-              .length,
-          1);
+        lineChartPainter
+            .handleTouch(const Offset(30, 0), viewSize, holder)!
+            .length,
+        1,
+      );
       expect(
-          lineChartPainter.handleTouch(
-              const Offset(29.99, 0), viewSize, holder),
-          null);
+        lineChartPainter.handleTouch(
+          const Offset(29.99, 0),
+          viewSize,
+          holder,
+        ),
+        null,
+      );
       expect(
-          lineChartPainter
-              .handleTouch(const Offset(10.0, 0), viewSize, holder)!
-              .length,
-          2);
+        lineChartPainter
+            .handleTouch(const Offset(10, 0), viewSize, holder)!
+            .length,
+        2,
+      );
     });
 
     test('test 3', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -2157,7 +2452,7 @@ void main() {
         ),
       );
 
-      final LineChartBarData lineChartBarData2 = LineChartBarData(
+      final lineChartBarData2 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1.3, 1),
@@ -2176,20 +2471,21 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          lineBarsData: [lineChartBarData1, lineChartBarData2],
-          showingTooltipIndicators: [],
-          titlesData: FlTitlesData(show: false),
-          lineTouchData: LineTouchData(
-            touchSpotThreshold: 5,
-          ));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData1, lineChartBarData2],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchSpotThreshold: 5,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
 
       final result1 =
           lineChartPainter.handleTouch(const Offset(11, 0), viewSize, holder)!;
@@ -2207,7 +2503,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: false,
         spots: const [
           FlSpot(1, 1),
@@ -2226,7 +2522,7 @@ void main() {
         ),
       );
 
-      final LineChartBarData lineChartBarData2 = LineChartBarData(
+      final lineChartBarData2 = LineChartBarData(
         show: false,
         spots: const [
           FlSpot(1.1, 2),
@@ -2245,33 +2541,44 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          lineBarsData: [lineChartBarData1, lineChartBarData2],
-          showingTooltipIndicators: [],
-          titlesData: FlTitlesData(show: false),
-          lineTouchData: LineTouchData(
-            touchSpotThreshold: 0.5,
-          ));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData1, lineChartBarData2],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchSpotThreshold: 0.5,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
       final touchResponse = lineChartPainter.getNearestTouchedSpot(
-          viewSize, const Offset(35, 0), data.lineBarsData[0], 0, holder);
+        viewSize,
+        const Offset(35, 0),
+        data.lineBarsData[0],
+        0,
+        holder,
+      );
       expect(touchResponse, null);
 
       final touchResponse2 = lineChartPainter.getNearestTouchedSpot(
-          viewSize, const Offset(35, 0), data.lineBarsData[0], 0, holder);
+        viewSize,
+        const Offset(35, 0),
+        data.lineBarsData[0],
+        0,
+        holder,
+      );
       expect(touchResponse2, null);
     });
 
     test('test 2', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -2290,7 +2597,7 @@ void main() {
         ),
       );
 
-      final LineChartBarData lineChartBarData2 = LineChartBarData(
+      final lineChartBarData2 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1.1, 2),
@@ -2309,45 +2616,79 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          lineBarsData: [lineChartBarData1, lineChartBarData2],
-          showingTooltipIndicators: [],
-          titlesData: FlTitlesData(show: false),
-          lineTouchData: LineTouchData(
-            touchSpotThreshold: 5,
-          ));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData1, lineChartBarData2],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchSpotThreshold: 5,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
       expect(
-          lineChartPainter.getNearestTouchedSpot(
-              viewSize, const Offset(30, 0), data.lineBarsData[0], 0, holder),
-          null);
+        lineChartPainter.getNearestTouchedSpot(
+          viewSize,
+          const Offset(30, 0),
+          data.lineBarsData[0],
+          0,
+          holder,
+        ),
+        null,
+      );
       final result1 = lineChartPainter.getNearestTouchedSpot(
-          viewSize, const Offset(30, 0), data.lineBarsData[1], 1, holder);
+        viewSize,
+        const Offset(30, 0),
+        data.lineBarsData[1],
+        1,
+        holder,
+      );
       expect(result1!.barIndex, 1);
       expect(result1.spotIndex, 2);
 
       expect(
-          lineChartPainter.getNearestTouchedSpot(viewSize,
-              const Offset(29.99, 0), data.lineBarsData[0], 0, holder),
-          null);
+        lineChartPainter.getNearestTouchedSpot(
+          viewSize,
+          const Offset(29.99, 0),
+          data.lineBarsData[0],
+          0,
+          holder,
+        ),
+        null,
+      );
       expect(
-          lineChartPainter.getNearestTouchedSpot(viewSize,
-              const Offset(29.99, 0), data.lineBarsData[1], 1, holder),
-          null);
+        lineChartPainter.getNearestTouchedSpot(
+          viewSize,
+          const Offset(29.99, 0),
+          data.lineBarsData[1],
+          1,
+          holder,
+        ),
+        null,
+      );
 
       final result2 = lineChartPainter.getNearestTouchedSpot(
-          viewSize, const Offset(10.0, 0), data.lineBarsData[0], 0, holder);
+        viewSize,
+        const Offset(10, 0),
+        data.lineBarsData[0],
+        0,
+        holder,
+      );
       expect(result2!.barIndex, 0);
       expect(result2.spotIndex, 0);
 
       final result3 = lineChartPainter.getNearestTouchedSpot(
-          viewSize, const Offset(10.0, 0), data.lineBarsData[1], 1, holder);
+        viewSize,
+        const Offset(10, 0),
+        data.lineBarsData[1],
+        1,
+        holder,
+      );
       expect(result3!.barIndex, 1);
       expect(result3.spotIndex, 0);
     });
@@ -2355,7 +2696,7 @@ void main() {
     test('test 3', () {
       const viewSize = Size(100, 100);
 
-      final LineChartBarData lineChartBarData1 = LineChartBarData(
+      final lineChartBarData1 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1, 1),
@@ -2374,7 +2715,7 @@ void main() {
         ),
       );
 
-      final LineChartBarData lineChartBarData2 = LineChartBarData(
+      final lineChartBarData2 = LineChartBarData(
         show: true,
         spots: const [
           FlSpot(1.1, 4),
@@ -2393,45 +2734,74 @@ void main() {
         ),
       );
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          lineBarsData: [lineChartBarData1, lineChartBarData2],
-          showingTooltipIndicators: [],
-          titlesData: FlTitlesData(show: false),
-          lineTouchData: LineTouchData(
-            distanceCalculator: (Offset a, Offset b) {
-              final dx = a.dx - b.dx;
-              final dy = a.dy - b.dy;
-              return math.sqrt(dx * dx + dy * dy);
-            },
-            touchSpotThreshold: 5,
-          ));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        lineBarsData: [lineChartBarData1, lineChartBarData2],
+        showingTooltipIndicators: [],
+        titlesData: FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          distanceCalculator: (Offset a, Offset b) {
+            final dx = a.dx - b.dx;
+            final dy = a.dy - b.dy;
+            return math.sqrt(dx * dx + dy * dy);
+          },
+          touchSpotThreshold: 5,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
       expect(
-          lineChartPainter.getNearestTouchedSpot(
-              viewSize, const Offset(30, 0), data.lineBarsData[0], 0, holder),
-          null);
+        lineChartPainter.getNearestTouchedSpot(
+          viewSize,
+          const Offset(30, 0),
+          data.lineBarsData[0],
+          0,
+          holder,
+        ),
+        null,
+      );
       final result1 = lineChartPainter.getNearestTouchedSpot(
-          viewSize, const Offset(60, 65), data.lineBarsData[0], 0, holder);
+        viewSize,
+        const Offset(60, 65),
+        data.lineBarsData[0],
+        0,
+        holder,
+      );
       expect(result1!.barIndex, 0);
       expect(result1.spotIndex, 2);
 
       expect(
-          lineChartPainter.getNearestTouchedSpot(viewSize,
-              const Offset(60, 65.01), data.lineBarsData[0], 0, holder),
-          null);
+        lineChartPainter.getNearestTouchedSpot(
+          viewSize,
+          const Offset(60, 65.01),
+          data.lineBarsData[0],
+          0,
+          holder,
+        ),
+        null,
+      );
       expect(
-          lineChartPainter.getNearestTouchedSpot(viewSize,
-              const Offset(29.99, 0), data.lineBarsData[1], 1, holder),
-          null);
+        lineChartPainter.getNearestTouchedSpot(
+          viewSize,
+          const Offset(29.99, 0),
+          data.lineBarsData[1],
+          1,
+          holder,
+        ),
+        null,
+      );
 
       final result2 = lineChartPainter.getNearestTouchedSpot(
-          viewSize, const Offset(63.5, 63.5), data.lineBarsData[0], 0, holder);
+        viewSize,
+        const Offset(63.5, 63.5),
+        data.lineBarsData[0],
+        0,
+        holder,
+      );
       expect(result2!.barIndex, 0);
       expect(result2.spotIndex, 2);
     });
@@ -2441,82 +2811,90 @@ void main() {
     test('test 1 - none', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          titlesData: FlTitlesData(show: false),
-          gridData: FlGridData(
-            show: false,
-            drawVerticalLine: true,
-            drawHorizontalLine: true,
-            horizontalInterval: 2,
-          ));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        gridData: FlGridData(
+          show: false,
+          drawVerticalLine: true,
+          drawHorizontalLine: true,
+          horizontalInterval: 2,
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 0);
 
-      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
-      verifyNever(_mockCanvasWrapper.drawDashedLine(any, any, any, any));
+      lineChartPainter.drawGrid(mockCanvasWrapper, holder);
+      verifyNever(mockCanvasWrapper.drawDashedLine(any, any, any, any));
     });
 
     test('test 2 - horizontal', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
-          minY: 0,
-          maxY: 10,
-          minX: 0,
-          maxX: 10,
-          titlesData: FlTitlesData(show: false),
-          gridData: FlGridData(
-              show: true,
-              drawVerticalLine: false,
-              drawHorizontalLine: true,
-              horizontalInterval: 2,
-              checkToShowHorizontalLine: (value) => value != 2 && value != 8,
-              getDrawingHorizontalLine: (value) {
-                if (value == 4) {
-                  return FlLine(
-                    color: MockData.color1,
-                    strokeWidth: 11,
-                    dashArray: [1, 1],
-                  );
-                } else if (value == 6) {
-                  return FlLine(
-                    color: MockData.color2,
-                    strokeWidth: 22,
-                    dashArray: [2, 2],
-                  );
-                } else {
-                  throw StateError("We shouldn't draw these lines");
-                }
-              }));
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: false,
+          drawHorizontalLine: true,
+          horizontalInterval: 2,
+          checkToShowHorizontalLine: (value) => value != 2 && value != 8,
+          getDrawingHorizontalLine: (value) {
+            if (value == 4) {
+              return FlLine(
+                color: MockData.color1,
+                strokeWidth: 11,
+                dashArray: [1, 1],
+              );
+            } else if (value == 6) {
+              return FlLine(
+                color: MockData.color2,
+                strokeWidth: 22,
+                dashArray: [2, 2],
+              );
+            } else {
+              throw StateError("We shouldn't draw these lines");
+            }
+          },
+        ),
+      );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 0);
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawDashedLine(
-              captureAny, captureAny, captureAny, captureAny))
-          .thenAnswer((inv) {
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
@@ -2527,7 +2905,7 @@ void main() {
         });
       });
 
-      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
+      lineChartPainter.drawGrid(mockCanvasWrapper, holder);
       expect(results.length, 2);
 
       expect(results[0]['from'], const Offset(0, 60));
@@ -2546,52 +2924,58 @@ void main() {
     test('test 3 - vertical', () {
       const viewSize = Size(100, 20);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
         maxX: 10,
         titlesData: FlTitlesData(show: false),
         gridData: FlGridData(
-            show: true,
-            drawVerticalLine: true,
-            drawHorizontalLine: false,
-            verticalInterval: 2,
-            checkToShowVerticalLine: (value) => value != 2 && value != 8,
-            getDrawingVerticalLine: (value) {
-              if (value == 4) {
-                return FlLine(
-                  color: MockData.color1,
-                  strokeWidth: 11,
-                  dashArray: [1, 1],
-                );
-              } else if (value == 6) {
-                return FlLine(
-                  color: MockData.color2,
-                  strokeWidth: 22,
-                  dashArray: [2, 2],
-                );
-              } else {
-                throw StateError("We shouldn't draw these lines");
-              }
-            }),
+          show: true,
+          drawVerticalLine: true,
+          drawHorizontalLine: false,
+          verticalInterval: 2,
+          checkToShowVerticalLine: (value) => value != 2 && value != 8,
+          getDrawingVerticalLine: (value) {
+            if (value == 4) {
+              return FlLine(
+                color: MockData.color1,
+                strokeWidth: 11,
+                dashArray: [1, 1],
+              );
+            } else if (value == 6) {
+              return FlLine(
+                color: MockData.color2,
+                strokeWidth: 22,
+                dashArray: [2, 2],
+              );
+            } else {
+              throw StateError("We shouldn't draw these lines");
+            }
+          },
+        ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 0);
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawDashedLine(
-              captureAny, captureAny, captureAny, captureAny))
-          .thenAnswer((inv) {
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
@@ -2602,7 +2986,7 @@ void main() {
         });
       });
 
-      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
+      lineChartPainter.drawGrid(mockCanvasWrapper, holder);
       expect(results.length, 2);
 
       expect(results[0]['from'], const Offset(40, 0));
@@ -2621,7 +3005,7 @@ void main() {
     test('test 4 - both', () {
       const viewSize = Size(100, 20);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -2633,21 +3017,21 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getEfficientInterval(any, any))
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getEfficientInterval(any, any))
           .thenAnswer((realInvocation) => 3);
-      when(_mockUtils.getBestInitialIntervalValue(any, any, any))
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 0);
 
-      lineChartPainter.drawGrid(_mockCanvasWrapper, holder);
-      verify(_mockCanvasWrapper.drawDashedLine(any, any, any, any)).called(6);
+      lineChartPainter.drawGrid(mockCanvasWrapper, holder);
+      verify(mockCanvasWrapper.drawDashedLine(any, any, any, any)).called(6);
     });
   });
 
@@ -2655,7 +3039,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -2664,20 +3048,20 @@ void main() {
         backgroundColor: MockData.color1.withOpacity(0),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      lineChartPainter.drawBackground(_mockCanvasWrapper, holder);
-      verifyNever(_mockCanvasWrapper.drawRect(any, any));
+      lineChartPainter.drawBackground(mockCanvasWrapper, holder);
+      verifyNever(mockCanvasWrapper.drawRect(any, any));
     });
 
     test('test 2', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -2686,15 +3070,15 @@ void main() {
         backgroundColor: MockData.color1,
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      lineChartPainter.drawBackground(_mockCanvasWrapper, holder);
+      lineChartPainter.drawBackground(mockCanvasWrapper, holder);
       final result = verify(
-        _mockCanvasWrapper.drawRect(
+        mockCanvasWrapper.drawRect(
           const Rect.fromLTRB(0, 0, 20, 100),
           captureAny,
         ),
@@ -2708,7 +3092,7 @@ void main() {
     test('test 1 - none', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -2717,20 +3101,20 @@ void main() {
         rangeAnnotations: RangeAnnotations(),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
-      verifyNever(_mockCanvasWrapper.drawRect(any, any));
+      lineChartPainter.drawRangeAnnotation(mockCanvasWrapper, holder);
+      verifyNever(mockCanvasWrapper.drawRect(any, any));
     });
 
     test('test 2 - horizontal', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -2744,14 +3128,14 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawRect(captureAny, captureAny))
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawRect(captureAny, captureAny))
           .thenAnswer((inv) {
         results.add({
           'rect': inv.positionalArguments[0] as Rect,
@@ -2759,20 +3143,20 @@ void main() {
         });
       });
 
-      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
+      lineChartPainter.drawRangeAnnotation(mockCanvasWrapper, holder);
       expect(results.length, 2);
 
-      expect(results[0]['rect'], const Rect.fromLTRB(0.0, 0.0, 20.0, 60.0));
+      expect(results[0]['rect'], const Rect.fromLTRB(0, 0, 20, 60));
       expect(results[0]['paint_color'], MockData.color1);
 
-      expect(results[1]['rect'], const Rect.fromLTRB(0.0, -40.0, 20.0, -20.0));
+      expect(results[1]['rect'], const Rect.fromLTRB(0, -40, 20, -20));
       expect(results[1]['paint_color'], MockData.color2);
     });
 
     test('test 3 - vertical', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -2786,14 +3170,14 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawRect(captureAny, captureAny))
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawRect(captureAny, captureAny))
           .thenAnswer((inv) {
         results.add({
           'rect': inv.positionalArguments[0] as Rect,
@@ -2801,20 +3185,20 @@ void main() {
         });
       });
 
-      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
+      lineChartPainter.drawRangeAnnotation(mockCanvasWrapper, holder);
       expect(results.length, 2);
 
-      expect(results[0]['rect'], const Rect.fromLTRB(2.0, 0.0, 4.0, 100.0));
+      expect(results[0]['rect'], const Rect.fromLTRB(2, 0, 4, 100));
       expect(results[0]['paint_color'], MockData.color1);
 
-      expect(results[1]['rect'], const Rect.fromLTRB(8.0, 0.0, 10.0, 100.0));
+      expect(results[1]['rect'], const Rect.fromLTRB(8, 0, 10, 100));
       expect(results[1]['paint_color'], MockData.color2);
     });
 
     test('test 4 - both', () {
       const viewSize = Size(20, 100);
 
-      final LineChartData data = LineChartData(
+      final data = LineChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
@@ -2832,14 +3216,14 @@ void main() {
         ),
       );
 
-      final LineChartPainter lineChartPainter = LineChartPainter();
-      final holder = PaintHolder<LineChartData>(data, data, 1.0);
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      lineChartPainter.drawRangeAnnotation(_mockCanvasWrapper, holder);
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      lineChartPainter.drawRangeAnnotation(mockCanvasWrapper, holder);
 
-      verify(_mockCanvasWrapper.drawRect(captureAny, captureAny)).called(4);
+      verify(mockCanvasWrapper.drawRect(captureAny, captureAny)).called(4);
     });
   });
 }

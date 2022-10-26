@@ -3,30 +3,13 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
-  final spots = const [
-    FlSpot(0, 1),
-    FlSpot(2, 5),
-    FlSpot(4, 3),
-    FlSpot(6, 5),
-  ];
-
-  final spots2 = const [
-    FlSpot(0, 3),
-    FlSpot(2, 1),
-    FlSpot(4, 2),
-    FlSpot(6, 1),
-  ];
-
-  late double minSpotX, maxSpotX;
-  late double minSpotY, maxSpotY;
-
-  LineChartSample6({Key? key}) : super(key: key) {
+  LineChartSample6({super.key}) {
     minSpotX = spots.first.x;
     maxSpotX = spots.first.x;
     minSpotY = spots.first.y;
     maxSpotY = spots.first.y;
 
-    for (var spot in spots) {
+    for (final spot in spots) {
       if (spot.x > maxSpotX) {
         maxSpotX = spot.x;
       }
@@ -44,6 +27,24 @@ class LineChartSample6 extends StatelessWidget {
       }
     }
   }
+  final spots = const [
+    FlSpot(0, 1),
+    FlSpot(2, 5),
+    FlSpot(4, 3),
+    FlSpot(6, 5),
+  ];
+
+  final spots2 = const [
+    FlSpot(0, 3),
+    FlSpot(2, 1),
+    FlSpot(4, 2),
+    FlSpot(6, 1),
+  ];
+
+  late double minSpotX;
+  late double maxSpotX;
+  late double minSpotY;
+  late double maxSpotY;
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -88,32 +89,38 @@ class LineChartSample6 extends StatelessWidget {
       fontWeight: FontWeight.bold,
       color: Colors.black,
     );
-    return Center(child: Text(value.toInt().toString(), style: style));
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(value.toInt().toString(), style: style),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black,
-              blurRadius: 10,
-              spreadRadius: 0,
-            )
-          ]),
-      child: Container(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 10,
+          )
+        ],
+      ),
+      child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(colors: [
-            Colors.yellowAccent,
-            Colors.yellowAccent.withOpacity(0.1),
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+          gradient: LinearGradient(
+            colors: [
+              Colors.yellowAccent,
+              Colors.yellowAccent.withOpacity(0.1),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(right: 22.0, bottom: 20),
+          padding: const EdgeInsets.only(right: 22, bottom: 20),
           child: SizedBox(
             width: 300,
             height: 200,
@@ -127,8 +134,6 @@ class LineChartSample6 extends StatelessWidget {
                         Colors.deepOrangeAccent,
                         Colors.orangeAccent,
                       ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
                     ),
                     spots: reverseSpots(spots, minSpotY, maxSpotY),
                     isCurved: true,
@@ -141,8 +146,9 @@ class LineChartSample6 extends StatelessWidget {
                       show: true,
                       getDotPainter: (spot, percent, barData, index) =>
                           FlDotCirclePainter(
-                              radius: 12,
-                              color: Colors.deepOrange.withOpacity(0.5)),
+                        radius: 12,
+                        color: Colors.deepOrange.withOpacity(0.5),
+                      ),
                     ),
                   ),
                   LineChartBarData(
@@ -151,8 +157,6 @@ class LineChartSample6 extends StatelessWidget {
                         Colors.lightBlueAccent,
                         Colors.blue,
                       ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
                     ),
                     spots: reverseSpots(spots2, minSpotY, maxSpotY),
                     isCurved: true,
@@ -165,7 +169,9 @@ class LineChartSample6 extends StatelessWidget {
                       show: true,
                       getDotPainter: (spot, percent, barData, index) =>
                           FlDotCirclePainter(
-                              radius: 12, color: Colors.blue.withOpacity(0.5)),
+                        radius: 12,
+                        color: Colors.blue.withOpacity(0.5),
+                      ),
                     ),
                   ),
                 ],
@@ -181,9 +187,10 @@ class LineChartSample6 extends StatelessWidget {
                   ),
                   rightTitles: AxisTitles(
                     sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: rightTitleWidgets,
-                        reservedSize: 30),
+                      showTitles: true,
+                      getTitlesWidget: rightTitleWidgets,
+                      reservedSize: 30,
+                    ),
                   ),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
@@ -197,23 +204,24 @@ class LineChartSample6 extends StatelessWidget {
                   ),
                 ),
                 gridData: FlGridData(
-                    show: true,
-                    drawVerticalLine: true,
-                    checkToShowHorizontalLine: (value) {
-                      final intValue =
-                          reverseY(value, minSpotY, maxSpotY).toInt();
+                  show: true,
+                  drawVerticalLine: true,
+                  checkToShowHorizontalLine: (value) {
+                    final intValue =
+                        reverseY(value, minSpotY, maxSpotY).toInt();
 
-                      if (intValue.toInt() == (maxSpotY + minSpotY).toInt()) {
-                        return false;
-                      }
+                    if (intValue == (maxSpotY + minSpotY).toInt()) {
+                      return false;
+                    }
 
-                      return true;
-                    }),
+                    return true;
+                  },
+                ),
                 borderData: FlBorderData(
                   show: true,
                   border: const Border(
-                    left: BorderSide(color: Colors.black),
-                    top: BorderSide(color: Colors.black),
+                    left: BorderSide(),
+                    top: BorderSide(),
                     bottom: BorderSide(color: Colors.transparent),
                     right: BorderSide(color: Colors.transparent),
                   ),

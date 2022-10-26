@@ -1,8 +1,73 @@
+## newVersion
+* **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis
+* **BREAKING** (by @lsaudon) Update dart sdk to 2.17.0 (flutter 3.0.0)
+
+## 0.55.2
+* **BUGFIX** (by @imaNNeoFighT): Fix inner border of pieChart with single section, #1089
+* **IMPORTANT** **IRAN NEEDS HELP**
+
+<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/tmp_iran_banner.png" width=500 />
+
+As you might know, Islamic Republic of Iran is murdering people in silence right now in Iran
+They shut the Internet down to do that. That’s why I cannot maintain this library for a while.
+Now we need your help, please be our voice by spreading news in your media to support us
+Search these hashtags:
+
+[#MahsaAmini](https://twitter.com/search?q=%23MahsaAmini&src=typeahead_click)
+[مهسا_امینی](https://twitter.com/search?q=%23%D9%85%D9%87%D8%B3%D8%A7_%D8%A7%D9%85%DB%8C%D9%86%DB%8C&src=typeahead_click&f=top)
+[OpIran](https://twitter.com/search?q=%23OpIran&src=typeahead_click&f=top)
+
+Also, [this article](https://www.bbc.com/news/world-middle-east-62984076) might help.
+
+
+## 0.55.1
+* **BUGFIX** (by @ateich): Fix infinite loop in RadarChart when all values in RadarDataSet are equal, #882.
+* **BUGFIX** (by @ateich): Fix uneven titles in RadarChart when using titlePositionPercentageOffset, #1074.
+* **BUGFIX** (by @imaNNeoFighT): Fix PieChart single section stroke issue, #1089
+
+## 0.55.0
+* **FEATURE** (by @emelinepal): Add `tooltipBorder` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData], #692.
+* **BUGFIX** (by @imaNNeoFighT): Fix tooltip issue on negative bar charts, #978.
+* **IMPROVEMENT** (by @imaNNeoFighT): Use Container to draw axis-based charts border.
+* **FEATURE** (by @FlorianArnould) Add the ability to select the RadarChart shape (circle or polygon), #1047.
+* **BUGFIX** (by @imaNNeoFighT): Fix LineChart titles problem with single FlSpot, #1053.
+* **FEATURE** (by @FlorianArnould) Add the ability to rotate the RadarChar titles, #883. 
+* **BREAKING** (by @FlorianArnould) [RadarChartData.getTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#RadarChartData) have a new parameter `angle` and now returns a [RadarChartTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/radar_chart.md#RadarChartTitle) instead of a simple `string`. (Read our [Migration Guide](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/0.55.0/MIGRATION_00_55_00.md) to learn more about it)
+
+## 0.51.0
+* **FEATURE** (by @imaNNeoFighT): Add `SideTitleWidget` to help you use it in [SideTitles.getTitlesWidget]. It's a wrapper around your widget. It keeps your provided `child` widget close to the chart. It has `angle` and `space` properties to handle margin and rotation. There is a `axisSide` property that you should fill, it has provided to you in the MetaData object. Check the below sample:
+```dart
+getTitlesWidget: (double value, TitleMeta meta) {
+  return SideTitleWidget(
+    axisSide: meta.axisSide,
+    space: 8.0,
+    angle: 0.0,
+    child: const Text("This is your widget"),
+  );
+},
+```
+* **IMPROVEMENT** (by @imaNNeoFighT): Fix default LineChart interval issue on small view sizes, #909.
+
+## 0.50.6
+* **IMPROVEMENT** Fix a backward compatibility issue with Flutter 3.0, #1016
+
+## 0.50.5
+* **IMPROVEMENT** Fix test coverage problem again :/
+
+## 0.50.4
+* **IMPROVEMENT** Fix test coverage problem 
+
+## 0.50.3
+* **IMPROVEMENT** Fix order of drawing lineChart bar indicator problem, #198.
+* **FEATURE** Add `isStrokeJoinRound` property in [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata).
+* **IMPROVEMENT** Upgrade to Flutter 3, #997.
+* **FEATURE** Add `chartRendererKey` property to the [LineChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md), [BarChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md), and [ScatterChart](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/scatter_chart.md). We pass it directly to our chart renderers that are responsible to render the chart itself (without anything around it like titles), #987.
+
 ## 0.50.1 
 * **BUGFIX** Allow to show axisTitle without sideTitles, #963
 
 ## 0.50.0
-**This release has some breaking changes. So please check out the migration guide [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/MIGRATION_00_50_00.md)**
+**This release has some breaking changes. So please check out the migration guide [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/0.50.0/MIGRATION_00_50_00.md)**
 * **IMPROVEMENT** Allow to return a Widget in [SideTitles.getTitlesWidget](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) instead of a `String`. For example, you can pass an [Icon](https://api.flutter.dev/flutter/widgets/Icon-class.html) widget as a title, #183. Check below samples:
 > **LineChartSample 8** ([Source Code](https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/line_chart/samples/line_chart_sample8.dart))
 > <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
@@ -10,10 +75,10 @@
 > **BarChartSample 7** ([Source Code](https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/bar_chart/samples/bar_chart_sample7.dart))
 > 
 > <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
-* **BREAKING** Structure of `FlTitlesData`, `AxisTitles`, and `SideTitles` are changed. Because we are using a new system which allows you to pass any [Flutter Widget](https://docs.flutter.dev/development/ui/widgets) as a title instead of passing `string`, `textStyle`, `textAlign`, `rotation`, ... (Read our [Migration Guide](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/MIGRATION_00_50_00.md))
+* **BREAKING** Structure of `FlTitlesData`, `AxisTitles`, and `SideTitles` are changed. Because we are using a new system which allows you to pass any [Flutter Widget](https://docs.flutter.dev/development/ui/widgets) as a title instead of passing `string`, `textStyle`, `textAlign`, `rotation`, ... (Read our [Migration Guide](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/0.50.0/MIGRATION_00_50_00.md))
 * **FEATURE** Now we can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) and [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html) everywhere we have gradient.
 * **BUGFIX** Fix BarChart rods gradient problem, #703.
-* **BREAKING** `colors` property renamed to `color` to keep only one solid color. And now we have a `gradient` field instead of `colorStops`, `gradientFrom` and `gradientTo` in following classes: [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#BarAreaData), [BetweenBarsData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#betweenbarsdata), [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata). (Read our [Migration Guide](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/MIGRATION_00_50_00.md) to learn more about it)
+* **BREAKING** `colors` property renamed to `color` to keep only one solid color. And now we have a `gradient` field instead of `colorStops`, `gradientFrom` and `gradientTo` in following classes: [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata), [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#BarAreaData), [BetweenBarsData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#betweenbarsdata), [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata). (Read our [Migration Guide](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/migration_guides/0.50.0/MIGRATION_00_50_00.md) to learn more about it)
 
 ## 0.46.0
 * **BUGFIX** Fix drawing BetweenBarsArea problem when there are `nullSpots` in fromLine and toLine, #912.

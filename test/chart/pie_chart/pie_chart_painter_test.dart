@@ -1,13 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import '../../helper_methods.dart';
 import '../data_pool.dart';
 import 'pie_chart_painter_test.mocks.dart';
@@ -18,38 +20,40 @@ void main() {
     test('test 1', () {
       final utilsMainInstance = Utils();
       const viewSize = Size(400, 400);
-      final PieChartData data = PieChartData(sections: [
-        PieChartSectionData(
-          value: 10,
-        ),
-        PieChartSectionData(
-          value: 20,
-        ),
-        PieChartSectionData(
-          value: 30,
-        ),
-      ]);
+      final data = PieChartData(
+        sections: [
+          PieChartSectionData(
+            value: 10,
+          ),
+          PieChartSectionData(
+            value: 20,
+          ),
+          PieChartSectionData(
+            value: 30,
+          ),
+        ],
+      );
 
       final pieChartPainter = PieChartPainter();
-      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+      final holder = PaintHolder<PieChartData>(data, data, 1);
 
-      MockUtils _mockUtils = MockUtils();
-      Utils.changeInstance(_mockUtils);
-      when(_mockUtils.getThemeAwareTextStyle(any, any))
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
           .thenAnswer((realInvocation) => textStyle1);
-      when(_mockUtils.radians(any)).thenAnswer((realInvocation) => 12);
+      when(mockUtils.radians(any)).thenAnswer((realInvocation) => 12);
 
-      final _mockBuildContext = MockBuildContext();
-      MockCanvasWrapper _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       pieChartPainter.paint(
-        _mockBuildContext,
-        _mockCanvasWrapper,
+        mockBuildContext,
+        mockCanvasWrapper,
         holder,
       );
 
-      verify(_mockCanvasWrapper.drawPath(any, any)).called(3);
+      verify(mockCanvasWrapper.drawPath(any, any)).called(3);
       Utils.changeInstance(utilsMainInstance);
     });
   });
@@ -86,20 +90,21 @@ void main() {
     test('test 1', () {
       const viewSize = Size(200, 200);
 
-      final PieChartData data = PieChartData(
+      final data = PieChartData(
         centerSpaceColor: MockData.color1,
       );
 
-      final PieChartPainter barChartPainter = PieChartPainter();
-      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+      final barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1);
 
-      final _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      barChartPainter.drawCenterSpace(_mockCanvasWrapper, 10, holder);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      barChartPainter.drawCenterSpace(mockCanvasWrapper, 10, holder);
 
-      final result = verify(_mockCanvasWrapper.drawCircle(
-          const Offset(100, 100), 10, captureAny));
+      final result = verify(
+        mockCanvasWrapper.drawCircle(const Offset(100, 100), 10, captureAny),
+      );
       expect(result.callCount, 1);
       expect((result.captured.first as Paint).color, MockData.color1);
     });
@@ -110,49 +115,87 @@ void main() {
       const viewSize = Size(200, 200);
 
       final sections = [
-        PieChartSectionData(color: MockData.color2, radius: 30, value: 10)
+        PieChartSectionData(
+          color: MockData.color2,
+          radius: 30,
+          value: 10,
+          borderSide: const BorderSide(
+            color: MockData.color3,
+            width: 3,
+          ),
+        )
       ];
-      final PieChartData data = PieChartData(
+      final data = PieChartData(
         sections: sections,
       );
 
-      final PieChartPainter barChartPainter = PieChartPainter();
-      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+      final barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1);
 
-      final _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      barChartPainter.drawSections(_mockCanvasWrapper, [360], 10, holder);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      barChartPainter.drawSections(mockCanvasWrapper, [360], 10, holder);
 
-      final result = verify(_mockCanvasWrapper.drawCircle(
-          const Offset(100, 100), 10 + 15, captureAny));
+      final result = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + 15,
+          captureAny,
+        ),
+      );
       expect(result.callCount, 1);
       expect((result.captured.single as Paint).color, MockData.color2);
       expect((result.captured.single as Paint).strokeWidth, 30);
       expect((result.captured.single as Paint).style, PaintingStyle.stroke);
+
+      final result2 = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + 30 - (3 / 2),
+          captureAny,
+        ),
+      );
+      expect(result2.callCount, 1);
+      expect((result2.captured.single as Paint).color, MockData.color3);
+      expect((result2.captured.single as Paint).strokeWidth, 3);
+      expect((result2.captured.single as Paint).style, PaintingStyle.stroke);
+
+      final result3 = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + (3 / 2),
+          captureAny,
+        ),
+      );
+      expect(result3.callCount, 1);
+      expect((result3.captured.single as Paint).color, MockData.color3);
+      expect((result3.captured.single as Paint).strokeWidth, 3);
+      expect((result3.captured.single as Paint).style, PaintingStyle.stroke);
     });
 
     test('test 2', () {
       const viewSize = Size(200, 200);
 
-      final PieChartData data = PieChartData(
-          centerSpaceColor: MockData.color1,
-          sectionsSpace: 10,
-          sections: [
-            PieChartSectionData(color: MockData.color1, value: 1),
-            PieChartSectionData(color: MockData.color2, value: 2),
-            PieChartSectionData(color: MockData.color3, value: 3),
-            PieChartSectionData(color: MockData.color4, value: 4),
-          ]);
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(color: MockData.color1, value: 1),
+          PieChartSectionData(color: MockData.color2, value: 2),
+          PieChartSectionData(color: MockData.color3, value: 3),
+          PieChartSectionData(color: MockData.color4, value: 4),
+        ],
+      );
 
-      final PieChartPainter barChartPainter = PieChartPainter();
-      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+      final barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1);
 
-      final _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         results.add({
@@ -163,56 +206,99 @@ void main() {
       });
 
       barChartPainter.drawSections(
-          _mockCanvasWrapper, [36, 72, 108, 144], 10, holder);
-      verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
+        mockCanvasWrapper,
+        [36, 72, 108, 144],
+        10,
+        holder,
+      );
+      verifyNever(mockCanvasWrapper.drawCircle(any, any, any));
 
       expect(results.length, 4);
 
       final path0 = barChartPainter.generateSectionPath(
-          data.sections[0], 10, 0, 36, const Offset(100, 100), 10);
+        data.sections[0],
+        10,
+        0,
+        36,
+        const Offset(100, 100),
+        10,
+      );
       expect(
-          HelperMethods.equalsPaths(results[0]['path'] as Path, path0), true);
-      expect((results[0]['paint_color'] as Color), MockData.color1);
-      expect((results[0]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+        HelperMethods.equalsPaths(results[0]['path'] as Path, path0),
+        true,
+      );
+      expect(results[0]['paint_color'] as Color, MockData.color1);
+      expect(results[0]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path1 = barChartPainter.generateSectionPath(
-          data.sections[1], 10, 36, 72, const Offset(100, 100), 10);
+        data.sections[1],
+        10,
+        36,
+        72,
+        const Offset(100, 100),
+        10,
+      );
       expect(
-          HelperMethods.equalsPaths(results[1]['path'] as Path, path1), true);
-      expect((results[1]['paint_color'] as Color), MockData.color2);
-      expect((results[1]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+        HelperMethods.equalsPaths(results[1]['path'] as Path, path1),
+        true,
+      );
+      expect(results[1]['paint_color'] as Color, MockData.color2);
+      expect(results[1]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path2 = barChartPainter.generateSectionPath(
-          data.sections[2], 10, 108, 108, const Offset(100, 100), 10);
+        data.sections[2],
+        10,
+        108,
+        108,
+        const Offset(100, 100),
+        10,
+      );
       expect(
-          HelperMethods.equalsPaths(results[2]['path'] as Path, path2), true);
-      expect((results[2]['paint_color'] as Color), MockData.color3);
-      expect((results[2]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+        HelperMethods.equalsPaths(results[2]['path'] as Path, path2),
+        true,
+      );
+      expect(results[2]['paint_color'] as Color, MockData.color3);
+      expect(results[2]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path3 = barChartPainter.generateSectionPath(
-          data.sections[3], 10, 216, 144, const Offset(100, 100), 10);
+        data.sections[3],
+        10,
+        216,
+        144,
+        const Offset(100, 100),
+        10,
+      );
       expect(
-          HelperMethods.equalsPaths(results[3]['path'] as Path, path3), true);
-      expect((results[3]['paint_color'] as Color), MockData.color4);
-      expect((results[3]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+        HelperMethods.equalsPaths(results[3]['path'] as Path, path3),
+        true,
+      );
+      expect(results[3]['paint_color'] as Color, MockData.color4);
+      expect(results[3]['paint_style'] as PaintingStyle, PaintingStyle.fill);
     });
   });
 
   group('generateSectionPath()', () {
     test('test 1', () {
-      final PieChartData data = PieChartData(
-          centerSpaceColor: MockData.color1,
-          sectionsSpace: 10,
-          sections: [
-            PieChartSectionData(color: MockData.color1, value: 1),
-            PieChartSectionData(color: MockData.color2, value: 2),
-            PieChartSectionData(color: MockData.color3, value: 3),
-            PieChartSectionData(color: MockData.color4, value: 4),
-          ]);
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(color: MockData.color1, value: 1),
+          PieChartSectionData(color: MockData.color2, value: 2),
+          PieChartSectionData(color: MockData.color3, value: 3),
+          PieChartSectionData(color: MockData.color4, value: 4),
+        ],
+      );
+      final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
-          data.sections[0], 10, 0, 36, const Offset(100, 100), 10);
+        data.sections[0],
+        10,
+        0,
+        36,
+        const Offset(100, 100),
+        10,
+      );
       final path0Length = path0
           .computeMetrics()
           .toList()
@@ -221,7 +307,13 @@ void main() {
       expect(path0Length, 90.08028411865234);
 
       final path1 = barChartPainter.generateSectionPath(
-          data.sections[1], 10, 36, 72, const Offset(100, 100), 10);
+        data.sections[1],
+        10,
+        36,
+        72,
+        const Offset(100, 100),
+        10,
+      );
       final path1Length = path1
           .computeMetrics()
           .toList()
@@ -230,7 +322,13 @@ void main() {
       expect(path1Length, 136.93048095703125);
 
       final path2 = barChartPainter.generateSectionPath(
-          data.sections[2], 10, 108, 108, const Offset(100, 100), 10);
+        data.sections[2],
+        10,
+        108,
+        108,
+        const Offset(100, 100),
+        10,
+      );
       final path2Length = path2
           .computeMetrics()
           .toList()
@@ -239,7 +337,13 @@ void main() {
       expect(path2Length, 174.60133361816406);
 
       final path3 = barChartPainter.generateSectionPath(
-          data.sections[3], 10, 216, 144, const Offset(100, 100), 10);
+        data.sections[3],
+        10,
+        216,
+        144,
+        const Offset(100, 100),
+        10,
+      );
       final path3Length = path3
           .computeMetrics()
           .toList()
@@ -249,19 +353,26 @@ void main() {
     });
 
     test('test 2', () {
-      final PieChartData data = PieChartData(
-          centerSpaceColor: MockData.color1,
-          sectionsSpace: 0,
-          sections: [
-            PieChartSectionData(color: MockData.color1, value: 1),
-            PieChartSectionData(color: MockData.color2, value: 2),
-            PieChartSectionData(color: MockData.color3, value: 3),
-            PieChartSectionData(color: MockData.color4, value: 4),
-          ]);
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 0,
+        sections: [
+          PieChartSectionData(color: MockData.color1, value: 1),
+          PieChartSectionData(color: MockData.color2, value: 2),
+          PieChartSectionData(color: MockData.color3, value: 3),
+          PieChartSectionData(color: MockData.color4, value: 4),
+        ],
+      );
+      final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
-          data.sections[0], 0, 0, 36, const Offset(100, 100), 10);
+        data.sections[0],
+        0,
+        0,
+        36,
+        const Offset(100, 100),
+        10,
+      );
       final path0Length = path0
           .computeMetrics()
           .toList()
@@ -270,7 +381,13 @@ void main() {
       expect(path0Length, 117.56398010253906);
 
       final path1 = barChartPainter.generateSectionPath(
-          data.sections[1], 0, 36, 72, const Offset(100, 100), 10);
+        data.sections[1],
+        0,
+        36,
+        72,
+        const Offset(100, 100),
+        10,
+      );
       final path1Length = path1
           .computeMetrics()
           .toList()
@@ -279,7 +396,13 @@ void main() {
       expect(path1Length, 155.1278076171875);
 
       final path2 = barChartPainter.generateSectionPath(
-          data.sections[2], 0, 108, 108, const Offset(100, 100), 10);
+        data.sections[2],
+        0,
+        108,
+        108,
+        const Offset(100, 100),
+        10,
+      );
       final path2Length = path2
           .computeMetrics()
           .toList()
@@ -288,29 +411,42 @@ void main() {
       expect(path2Length, 192.84017944335938);
 
       final path3 = barChartPainter.generateSectionPath(
-          data.sections[3], 0, 216, 144, const Offset(100, 100), 10);
+        data.sections[3],
+        0,
+        216,
+        144,
+        const Offset(100, 100),
+        10,
+      );
       final path3Length = path3
           .computeMetrics()
           .toList()
           .map((e) => e.length)
           .reduce((a, b) => a + b);
-      expect(path3Length, 230.37237548828125);
+      expect(nearEqual(path3Length, 230.37237548828125, 0.0001), true);
     });
 
     test('test 3', () {
-      final PieChartData data = PieChartData(
-          centerSpaceColor: MockData.color1,
-          sectionsSpace: 0,
-          sections: [
-            PieChartSectionData(color: MockData.color1, value: 1),
-            PieChartSectionData(color: MockData.color2, value: 2),
-            PieChartSectionData(color: MockData.color3, value: 3),
-            PieChartSectionData(color: MockData.color4, value: 4),
-          ]);
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 0,
+        sections: [
+          PieChartSectionData(color: MockData.color1, value: 1),
+          PieChartSectionData(color: MockData.color2, value: 2),
+          PieChartSectionData(color: MockData.color3, value: 3),
+          PieChartSectionData(color: MockData.color4, value: 4),
+        ],
+      );
+      final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
-          data.sections[0], 0, 0, 36, const Offset(100, 100), 3);
+        data.sections[0],
+        0,
+        0,
+        36,
+        const Offset(100, 100),
+        3,
+      );
       final path0Length = path0
           .computeMetrics()
           .toList()
@@ -319,7 +455,13 @@ void main() {
       expect(path0Length, 108.80243682861328);
 
       final path1 = barChartPainter.generateSectionPath(
-          data.sections[1], 0, 36, 72, const Offset(100, 100), 4);
+        data.sections[1],
+        0,
+        36,
+        72,
+        const Offset(100, 100),
+        4,
+      );
       final path1Length = path1
           .computeMetrics()
           .toList()
@@ -328,7 +470,13 @@ void main() {
       expect(path1Length, 140.05465698242188);
 
       final path2 = barChartPainter.generateSectionPath(
-          data.sections[2], 0, 108, 108, const Offset(100, 100), 5);
+        data.sections[2],
+        0,
+        108,
+        108,
+        const Offset(100, 100),
+        5,
+      );
       final path2Length = path2
           .computeMetrics()
           .toList()
@@ -337,7 +485,13 @@ void main() {
       expect(path2Length, 173.86875915527344);
 
       final path3 = barChartPainter.generateSectionPath(
-          data.sections[3], 0, 216, 144, const Offset(100, 100), 6);
+        data.sections[3],
+        0,
+        216,
+        144,
+        const Offset(100, 100),
+        6,
+      );
       final path3Length = path3
           .computeMetrics()
           .toList()
@@ -349,9 +503,11 @@ void main() {
 
   group('createRectPathAroundLine()', () {
     test('test 1', () {
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final barChartPainter = PieChartPainter();
       final path0 = barChartPainter.createRectPathAroundLine(
-          Line(const Offset(0, 0), const Offset(10, 0)), 4);
+        Line(Offset.zero, const Offset(10, 0)),
+        4,
+      );
       final path0Length = path0
           .computeMetrics()
           .toList()
@@ -360,7 +516,9 @@ void main() {
       expect(path0Length, 32.0);
 
       final path1 = barChartPainter.createRectPathAroundLine(
-          Line(const Offset(32, 11), const Offset(12, 5)), 66);
+        Line(const Offset(32, 11), const Offset(12, 5)),
+        66,
+      );
       final path1Length = path1
           .computeMetrics()
           .toList()
@@ -373,23 +531,24 @@ void main() {
   group('drawSection()', () {
     test('test 1', () {
       const viewSize = Size(200, 200);
-      final PieChartData data = PieChartData(
-          centerSpaceColor: MockData.color1,
-          sectionsSpace: 10,
-          sections: [
-            PieChartSectionData(color: MockData.color1, value: 1),
-            PieChartSectionData(color: MockData.color2, value: 2),
-            PieChartSectionData(color: MockData.color3, value: 3),
-            PieChartSectionData(color: MockData.color4, value: 4),
-          ]);
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(color: MockData.color1, value: 1),
+          PieChartSectionData(color: MockData.color2, value: 2),
+          PieChartSectionData(color: MockData.color3, value: 3),
+          PieChartSectionData(color: MockData.color4, value: 4),
+        ],
+      );
+      final barChartPainter = PieChartPainter();
 
-      final _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         results.add({
@@ -399,55 +558,69 @@ void main() {
         });
       });
 
-      barChartPainter.drawSection(
-          data.sections[0], MockData.path1, _mockCanvasWrapper);
-      barChartPainter.drawSection(
-          data.sections[1], MockData.path2, _mockCanvasWrapper);
-      barChartPainter.drawSection(
-          data.sections[2], MockData.path3, _mockCanvasWrapper);
-      barChartPainter.drawSection(
-          data.sections[3], MockData.path4, _mockCanvasWrapper);
+      barChartPainter
+        ..drawSection(
+          data.sections[0],
+          MockData.path1,
+          mockCanvasWrapper,
+        )
+        ..drawSection(
+          data.sections[1],
+          MockData.path2,
+          mockCanvasWrapper,
+        )
+        ..drawSection(
+          data.sections[2],
+          MockData.path3,
+          mockCanvasWrapper,
+        )
+        ..drawSection(
+          data.sections[3],
+          MockData.path4,
+          mockCanvasWrapper,
+        );
 
       expect(results.length, 4);
 
-      expect((results[0]['path'] as Path), MockData.path1);
-      expect((results[0]['paint_color'] as Color), MockData.color1);
-      expect((results[0]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+      expect(results[0]['path'] as Path, MockData.path1);
+      expect(results[0]['paint_color'] as Color, MockData.color1);
+      expect(results[0]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
-      expect((results[1]['path'] as Path), MockData.path2);
-      expect((results[1]['paint_color'] as Color), MockData.color2);
-      expect((results[1]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+      expect(results[1]['path'] as Path, MockData.path2);
+      expect(results[1]['paint_color'] as Color, MockData.color2);
+      expect(results[1]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
-      expect((results[2]['path'] as Path), MockData.path3);
-      expect((results[2]['paint_color'] as Color), MockData.color3);
-      expect((results[2]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+      expect(results[2]['path'] as Path, MockData.path3);
+      expect(results[2]['paint_color'] as Color, MockData.color3);
+      expect(results[2]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
-      expect((results[3]['path'] as Path), MockData.path4);
-      expect((results[3]['paint_color'] as Color), MockData.color4);
-      expect((results[3]['paint_style'] as PaintingStyle), PaintingStyle.fill);
+      expect(results[3]['path'] as Path, MockData.path4);
+      expect(results[3]['paint_color'] as Color, MockData.color4);
+      expect(results[3]['paint_style'] as PaintingStyle, PaintingStyle.fill);
     });
   });
 
   group('drawSectionStroke()', () {
     test('test 1', () {
       const viewSize = Size(200, 200);
-      final PieChartData data = PieChartData(
-          centerSpaceColor: MockData.color1,
-          sectionsSpace: 10,
-          sections: [
-            PieChartSectionData(color: MockData.color1, value: 1),
-            PieChartSectionData(color: MockData.color2, value: 2),
-            PieChartSectionData(color: MockData.color3, value: 3),
-            PieChartSectionData(color: MockData.color4, value: 4),
-          ]);
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(color: MockData.color1, value: 1),
+          PieChartSectionData(color: MockData.color2, value: 2),
+          PieChartSectionData(color: MockData.color3, value: 3),
+          PieChartSectionData(color: MockData.color4, value: 4),
+        ],
+      );
+      final barChartPainter = PieChartPainter();
 
-      final _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      List<Map<String, dynamic>> results = [];
-      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         results.add({
@@ -457,60 +630,81 @@ void main() {
         });
       });
 
-      barChartPainter.drawSectionStroke(
-          data.sections[0], MockData.path1, _mockCanvasWrapper, viewSize);
-      barChartPainter.drawSectionStroke(
-          data.sections[1], MockData.path2, _mockCanvasWrapper, viewSize);
-      barChartPainter.drawSectionStroke(
-          data.sections[2], MockData.path3, _mockCanvasWrapper, viewSize);
-      barChartPainter.drawSectionStroke(
-          data.sections[3], MockData.path4, _mockCanvasWrapper, viewSize);
+      barChartPainter
+        ..drawSectionStroke(
+          data.sections[0],
+          MockData.path1,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[1],
+          MockData.path2,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[2],
+          MockData.path3,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[3],
+          MockData.path4,
+          mockCanvasWrapper,
+          viewSize,
+        );
 
-      verifyNever(_mockCanvasWrapper.saveLayer(any, any));
-      verifyNever(_mockCanvasWrapper.clipPath(any));
-      verifyNever(_mockCanvasWrapper.drawPath(any, any));
-      verifyNever(_mockCanvasWrapper.restore());
+      verifyNever(mockCanvasWrapper.saveLayer(any, any));
+      verifyNever(mockCanvasWrapper.clipPath(any));
+      verifyNever(mockCanvasWrapper.drawPath(any, any));
+      verifyNever(mockCanvasWrapper.restore());
     });
 
     test('test 2', () {
       const viewSize = Size(200, 200);
-      final PieChartData data = PieChartData(
+      final data = PieChartData(
         centerSpaceColor: MockData.color1,
         sectionsSpace: 10,
         sections: [
           PieChartSectionData(
-              color: MockData.color1,
-              value: 1,
-              borderSide: MockData.borderSide1),
+            color: MockData.color1,
+            value: 1,
+            borderSide: MockData.borderSide1,
+          ),
           PieChartSectionData(
-              color: MockData.color2,
-              value: 2,
-              borderSide: MockData.borderSide2),
+            color: MockData.color2,
+            value: 2,
+            borderSide: MockData.borderSide2,
+          ),
           PieChartSectionData(
-              color: MockData.color3,
-              value: 3,
-              borderSide: MockData.borderSide3),
+            color: MockData.color3,
+            value: 3,
+            borderSide: MockData.borderSide3,
+          ),
           PieChartSectionData(
-              color: MockData.color4,
-              value: 4,
-              borderSide: MockData.borderSide4),
+            color: MockData.color4,
+            value: 4,
+            borderSide: MockData.borderSide4,
+          ),
         ],
       );
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final barChartPainter = PieChartPainter();
 
-      final _mockCanvasWrapper = MockCanvasWrapper();
-      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      List<Map<String, dynamic>> clipPathResults = [];
-      when(_mockCanvasWrapper.clipPath(captureAny)).thenAnswer((inv) {
+      final clipPathResults = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.clipPath(captureAny)).thenAnswer((inv) {
         clipPathResults.add({
           'path': inv.positionalArguments[0] as Path,
         });
       });
 
-      List<Map<String, dynamic>> drawPathResults = [];
-      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
+      final drawPathResults = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         drawPathResults.add({
@@ -521,18 +715,38 @@ void main() {
         });
       });
 
-      barChartPainter.drawSectionStroke(
-          data.sections[0], MockData.path1, _mockCanvasWrapper, viewSize);
-      barChartPainter.drawSectionStroke(
-          data.sections[1], MockData.path2, _mockCanvasWrapper, viewSize);
-      barChartPainter.drawSectionStroke(
-          data.sections[2], MockData.path3, _mockCanvasWrapper, viewSize);
-      barChartPainter.drawSectionStroke(
-          data.sections[3], MockData.path4, _mockCanvasWrapper, viewSize);
+      barChartPainter
+        ..drawSectionStroke(
+          data.sections[0],
+          MockData.path1,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[1],
+          MockData.path2,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[2],
+          MockData.path3,
+          mockCanvasWrapper,
+          viewSize,
+        )
+        ..drawSectionStroke(
+          data.sections[3],
+          MockData.path4,
+          mockCanvasWrapper,
+          viewSize,
+        );
 
-      verify(_mockCanvasWrapper.saveLayer(
-              Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any))
-          .called(4);
+      verify(
+        mockCanvasWrapper.saveLayer(
+          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
+          any,
+        ),
+      ).called(4);
       expect(clipPathResults.length, 4);
       expect(clipPathResults[0]['path'], MockData.path1);
       expect(clipPathResults[1]['path'], MockData.path2);
@@ -544,28 +758,36 @@ void main() {
       expect(drawPathResults[0]['path'], MockData.path1);
       expect(drawPathResults[0]['paint_color'], MockData.color1);
       expect(drawPathResults[0]['paint_style'], PaintingStyle.stroke);
-      expect(drawPathResults[0]['paint_stroke_width'],
-          MockData.borderSide1.width * 2);
+      expect(
+        drawPathResults[0]['paint_stroke_width'],
+        MockData.borderSide1.width * 2,
+      );
 
       expect(drawPathResults[1]['path'], MockData.path2);
       expect(drawPathResults[1]['paint_color'], MockData.color2);
       expect(drawPathResults[1]['paint_style'], PaintingStyle.stroke);
-      expect(drawPathResults[1]['paint_stroke_width'],
-          MockData.borderSide2.width * 2);
+      expect(
+        drawPathResults[1]['paint_stroke_width'],
+        MockData.borderSide2.width * 2,
+      );
 
       expect(drawPathResults[2]['path'], MockData.path3);
       expect(drawPathResults[2]['paint_color'], MockData.color3);
       expect(drawPathResults[2]['paint_style'], PaintingStyle.stroke);
-      expect(drawPathResults[2]['paint_stroke_width'],
-          MockData.borderSide3.width * 2);
+      expect(
+        drawPathResults[2]['paint_stroke_width'],
+        MockData.borderSide3.width * 2,
+      );
 
       expect(drawPathResults[3]['path'], MockData.path4);
       expect(drawPathResults[3]['paint_color'], MockData.color4);
       expect(drawPathResults[3]['paint_style'], PaintingStyle.stroke);
-      expect(drawPathResults[3]['paint_stroke_width'],
-          MockData.borderSide4.width * 2);
+      expect(
+        drawPathResults[3]['paint_stroke_width'],
+        MockData.borderSide4.width * 2,
+      );
 
-      verify(_mockCanvasWrapper.restore()).called(4);
+      verify(mockCanvasWrapper.restore()).called(4);
     });
   });
 
@@ -582,13 +804,14 @@ void main() {
           radius: 11,
         ),
         PieChartSectionData(
-            color: MockData.color2,
-            value: 2,
-            borderSide: MockData.borderSide2,
-            showTitle: true,
-            titleStyle: MockData.textStyle2,
-            radius: 22,
-            title: '22-22'),
+          color: MockData.color2,
+          value: 2,
+          borderSide: MockData.borderSide2,
+          showTitle: true,
+          titleStyle: MockData.textStyle2,
+          radius: 22,
+          title: '22-22',
+        ),
         PieChartSectionData(
           color: MockData.color3,
           value: 3,
@@ -606,20 +829,19 @@ void main() {
           radius: 44,
         ),
       ];
-      final PieChartPainter barChartPainter = PieChartPainter();
+      final barChartPainter = PieChartPainter();
 
-      final PieChartData data1 =
-          PieChartData(sections: sections, centerSpaceRadius: 15);
+      final data1 = PieChartData(sections: sections, centerSpaceRadius: 15);
       final result1 = barChartPainter.calculateCenterRadius(
         viewSize,
-        PaintHolder<PieChartData>(data1, data1, 1.0),
+        PaintHolder<PieChartData>(data1, data1, 1),
       );
       expect(result1, 15);
 
-      final PieChartData data2 = PieChartData(sections: sections);
+      final data2 = PieChartData(sections: sections);
       final result2 = barChartPainter.calculateCenterRadius(
         viewSize,
-        PaintHolder<PieChartData>(data2, data2, 1.0),
+        PaintHolder<PieChartData>(data2, data2, 1),
       );
       expect(result2, 56);
     });
@@ -628,249 +850,293 @@ void main() {
   group('handleTouch()', () {
     test('test 2', () {
       const viewSize = Size(200, 200);
-      final PieChartData data = PieChartData(
+      final data = PieChartData(
         centerSpaceColor: MockData.color1,
         sectionsSpace: 10,
         sections: [
           PieChartSectionData(
-              color: MockData.color1,
-              value: 1,
-              borderSide: MockData.borderSide1,
-              radius: 10),
+            color: MockData.color1,
+            value: 1,
+            borderSide: MockData.borderSide1,
+            radius: 10,
+          ),
           PieChartSectionData(
-              color: MockData.color2,
-              value: 2,
-              borderSide: MockData.borderSide2,
-              radius: 20),
+            color: MockData.color2,
+            value: 2,
+            borderSide: MockData.borderSide2,
+            radius: 20,
+          ),
           PieChartSectionData(
-              color: MockData.color3,
-              value: 3,
-              borderSide: MockData.borderSide3,
-              radius: 30),
+            color: MockData.color3,
+            value: 3,
+            borderSide: MockData.borderSide3,
+            radius: 30,
+          ),
           PieChartSectionData(
-              color: MockData.color4,
-              value: 4,
-              borderSide: MockData.borderSide4,
-              radius: 40),
+            color: MockData.color4,
+            value: 4,
+            borderSide: MockData.borderSide4,
+            radius: 40,
+          ),
         ],
       );
-      final PieChartPainter barChartPainter = PieChartPainter();
-      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+      final barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1);
 
       expect(
-          barChartPainter
-              .handleTouch(const Offset(191, 110), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(191, 110), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(156, 110), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(156, 110), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(107, 190), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(107, 190), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(90, 156), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(90, 156), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(53, 131), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(53, 131), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(53, 131), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(53, 131), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(43, 94), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(43, 94), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(36, 57), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(36, 57), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(36, 57), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(36, 57), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(65, 4.3), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(65, 4.3), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(7, 108), viewSize, holder)
-              .touchedSectionIndex,
-          -1);
+        barChartPainter
+            .handleTouch(const Offset(7, 108), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
 
       expect(
-          barChartPainter
-              .handleTouch(const Offset(159.76, 135.56), viewSize, holder)
-              .touchedSectionIndex,
-          0);
+        barChartPainter
+            .handleTouch(const Offset(159.76, 135.56), viewSize, holder)
+            .touchedSectionIndex,
+        0,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(169.35, 108.4), viewSize, holder)
-              .touchedSectionIndex,
-          0);
+        barChartPainter
+            .handleTouch(const Offset(169.35, 108.4), viewSize, holder)
+            .touchedSectionIndex,
+        0,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(162.32, 109.37), viewSize, holder)
-              .touchedSectionIndex,
-          0);
+        barChartPainter
+            .handleTouch(const Offset(162.32, 109.37), viewSize, holder)
+            .touchedSectionIndex,
+        0,
+      );
 
       expect(
-          barChartPainter
-              .handleTouch(const Offset(146.67, 144.94), viewSize, holder)
-              .touchedSectionIndex,
-          1);
+        barChartPainter
+            .handleTouch(const Offset(146.67, 144.94), viewSize, holder)
+            .touchedSectionIndex,
+        1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(121.06, 160.38), viewSize, holder)
-              .touchedSectionIndex,
-          1);
+        barChartPainter
+            .handleTouch(const Offset(121.06, 160.38), viewSize, holder)
+            .touchedSectionIndex,
+        1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(89.66, 163.60), viewSize, holder)
-              .touchedSectionIndex,
-          1);
+        barChartPainter
+            .handleTouch(const Offset(89.66, 163.60), viewSize, holder)
+            .touchedSectionIndex,
+        1,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(85.04, 177.85), viewSize, holder)
-              .touchedSectionIndex,
-          1);
+        barChartPainter
+            .handleTouch(const Offset(85.04, 177.85), viewSize, holder)
+            .touchedSectionIndex,
+        1,
+      );
 
       expect(
-          barChartPainter
-              .handleTouch(const Offset(75.2, 158.4), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(75.2, 158.4), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(66.2, 177.0), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(66.2, 177), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(40.3, 124.8), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(40.3, 124.8), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(19.1, 131.0), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(19.1, 131), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(19.1, 131.0), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(19.1, 131), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(17.7, 83.7), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(17.7, 83.7), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(27.8, 59.4), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(27.8, 59.4), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(44.1, 75.2), viewSize, holder)
-              .touchedSectionIndex,
-          2);
+        barChartPainter
+            .handleTouch(const Offset(44.1, 75.2), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
 
       expect(
-          barChartPainter
-              .handleTouch(const Offset(56.1, 55.6), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(56.1, 55.6), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(42.1, 46.3), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(42.1, 46.3), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(30.9, 38.4), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(30.9, 38.4), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(55.3, 17.8), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(55.3, 17.8), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(81.2, 39.8), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(81.2, 39.8), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(100.5, 4.1), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(100.5, 4.1), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(126.7, 40.6), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(126.7, 40.6), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(181.8, 51.3), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(181.8, 51.3), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(174.5, 40.2), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(174.5, 40.2), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
       expect(
-          barChartPainter
-              .handleTouch(const Offset(164.5, 91.4), viewSize, holder)
-              .touchedSectionIndex,
-          3);
+        barChartPainter
+            .handleTouch(const Offset(164.5, 91.4), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
     });
   });
 
   group('getBadgeOffsets()', () {
     test('test 1', () {
       const viewSize = Size(200, 200);
-      final PieChartData data = PieChartData(
+      final data = PieChartData(
         centerSpaceColor: MockData.color1,
         sectionsSpace: 10,
         sections: [
           PieChartSectionData(
-              color: MockData.color1,
-              value: 1,
-              borderSide: MockData.borderSide1),
+            color: MockData.color1,
+            value: 1,
+            borderSide: MockData.borderSide1,
+          ),
           PieChartSectionData(
-              color: MockData.color2,
-              value: 2,
-              borderSide: MockData.borderSide2),
+            color: MockData.color2,
+            value: 2,
+            borderSide: MockData.borderSide2,
+          ),
           PieChartSectionData(
-              color: MockData.color3,
-              value: 3,
-              borderSide: MockData.borderSide3),
+            color: MockData.color3,
+            value: 3,
+            borderSide: MockData.borderSide3,
+          ),
           PieChartSectionData(
-              color: MockData.color4,
-              value: 4,
-              borderSide: MockData.borderSide4),
+            color: MockData.color4,
+            value: 4,
+            borderSide: MockData.borderSide4,
+          ),
         ],
       );
-      final PieChartPainter barChartPainter = PieChartPainter();
-      final holder = PaintHolder<PieChartData>(data, data, 1.0);
+      final barChartPainter = PieChartPainter();
+      final holder = PaintHolder<PieChartData>(data, data, 1);
 
       final result = barChartPainter.getBadgeOffsets(viewSize, holder);
       expect(

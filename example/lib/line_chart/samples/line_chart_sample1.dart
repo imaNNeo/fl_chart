@@ -150,7 +150,11 @@ class _LineChart extends StatelessWidget {
         break;
     }
 
-    return Padding(child: text, padding: const EdgeInsets.only(top: 10.0));
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 10,
+      child: text,
+    );
   }
 
   SideTitles get bottomTitles => SideTitles(
@@ -284,7 +288,7 @@ class _LineChart extends StatelessWidget {
 }
 
 class LineChartSample1 extends StatefulWidget {
-  const LineChartSample1({Key? key}) : super(key: key);
+  const LineChartSample1({super.key});
 
   @override
   State<StatefulWidget> createState() => LineChartSample1State();
@@ -303,7 +307,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.23,
-      child: Container(
+      child: DecoratedBox(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(18)),
           gradient: LinearGradient(
@@ -349,7 +353,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+                    padding: const EdgeInsets.only(right: 16, left: 6),
                     child: _LineChart(isShowingMainData: isShowingMainData),
                   ),
                 ),

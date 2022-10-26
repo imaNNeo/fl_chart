@@ -1,14 +1,13 @@
+import 'package:example/scatter_chart/samples/scatter_chart_sample1.dart';
+import 'package:example/scatter_chart/samples/scatter_chart_sample2.dart';
 import 'package:flutter/material.dart';
 
-import 'samples/scatter_chart_sample1.dart';
-import 'samples/scatter_chart_sample2.dart';
-
 class ScatterChartPage extends StatelessWidget {
-  final Color barColor = Colors.white;
-  final Color barBackgroundColor = const Color(0xff72d8bf);
-  final double width = 22;
+  const ScatterChartPage({super.key});
 
-  const ScatterChartPage({Key? key}) : super(key: key);
+  Color get barColor => Colors.white;
+  Color get barBackgroundColor => const Color(0xff72d8bf);
+  double get width => 22;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class ScatterChartPage extends StatelessWidget {
         children: const <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: 18.0,
+              vertical: 18,
               horizontal: 22,
             ),
             child: Text(
@@ -34,11 +33,11 @@ class ScatterChartPage extends StatelessWidget {
             height: 9,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
+            padding: EdgeInsets.only(left: 18, right: 18, bottom: 18),
             child: ScatterChartSample1(),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
+            padding: EdgeInsets.only(left: 18, right: 18, bottom: 18),
             child: ScatterChartSample2(),
           )
         ],

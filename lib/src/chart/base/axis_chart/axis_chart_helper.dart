@@ -1,13 +1,12 @@
 import 'package:fl_chart/src/utils/utils.dart';
 
 class AxisChartHelper {
-  static final _singleton = AxisChartHelper._internal();
-
   factory AxisChartHelper() {
     return _singleton;
   }
 
   AxisChartHelper._internal();
+  static final _singleton = AxisChartHelper._internal();
 
   /// Iterates over an axis from [min] to [max].
   ///

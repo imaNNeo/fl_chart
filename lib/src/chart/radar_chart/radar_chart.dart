@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 
 /// Renders a radar chart as a widget, using provided [RadarChartData].
 class RadarChart extends ImplicitlyAnimatedWidget {
-  /// Determines how the [RadarChart] should be look like.
-  final RadarChartData data;
-
   /// [data] determines how the [RadarChart] should be look like,
   /// when you make any change in the [RadarChart], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
@@ -14,14 +11,16 @@ class RadarChart extends ImplicitlyAnimatedWidget {
   /// which default is [Curves.linear].
   const RadarChart(
     this.data, {
-    Key? key,
+    super.key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
   }) : super(
-          key: key,
           duration: swapAnimationDuration,
           curve: swapAnimationCurve,
         );
+
+  /// Determines how the [RadarChart] should be look like.
+  final RadarChartData data;
 
   @override
   _RadarChartState createState() => _RadarChartState();
@@ -47,11 +46,12 @@ class _RadarChartState extends AnimatedWidgetBaseState<RadarChart> {
   }
 
   @override
-  void forEachTween(visitor) {
+  void forEachTween(TweenVisitor<dynamic> visitor) {
     _radarChartDataTween = visitor(
       _radarChartDataTween,
       widget.data,
-      (dynamic value) => RadarChartDataTween(begin: value, end: widget.data),
-    ) as RadarChartDataTween;
+      (dynamic value) =>
+          RadarChartDataTween(begin: value as RadarChartData, end: widget.data),
+    ) as RadarChartDataTween?;
   }
 }

@@ -2,18 +2,18 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample5 extends StatelessWidget {
-  final List<int> showIndexes = const [1, 3, 5];
-  final List<FlSpot> allSpots = const [
-    FlSpot(0, 1),
-    FlSpot(1, 2),
-    FlSpot(2, 1.5),
-    FlSpot(3, 3),
-    FlSpot(4, 3.5),
-    FlSpot(5, 5),
-    FlSpot(6, 8),
-  ];
+  const LineChartSample5({super.key});
 
-  const LineChartSample5({Key? key}) : super(key: key);
+  List<int> get showIndexes => const [1, 3, 5];
+  List<FlSpot> get allSpots => const [
+        FlSpot(0, 1),
+        FlSpot(1, 2),
+        FlSpot(2, 1.5),
+        FlSpot(3, 3),
+        FlSpot(4, 3.5),
+        FlSpot(5, 5),
+        FlSpot(6, 8),
+      ];
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -49,9 +49,9 @@ class LineChartSample5 extends StatelessWidget {
         return Container();
     }
 
-    return Padding(
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
       child: Text(text, style: style),
-      padding: const EdgeInsets.only(top: 4),
     );
   }
 
@@ -65,7 +65,6 @@ class LineChartSample5 extends StatelessWidget {
         barWidth: 4,
         shadow: const Shadow(
           blurRadius: 8,
-          color: Colors.black,
         ),
         belowBarData: BarAreaData(
           show: true,
@@ -75,8 +74,6 @@ class LineChartSample5 extends StatelessWidget {
               const Color(0xffc471ed).withOpacity(0.4),
               const Color(0xfff64f59).withOpacity(0.4),
             ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
           ),
         ),
         dotData: FlDotData(show: false),
@@ -87,8 +84,6 @@ class LineChartSample5 extends StatelessWidget {
             Color(0xfff64f59),
           ],
           stops: [0.1, 0.4, 0.9],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
         ),
       ),
     ];
@@ -102,8 +97,11 @@ class LineChartSample5 extends StatelessWidget {
         LineChartData(
           showingTooltipIndicators: showIndexes.map((index) {
             return ShowingTooltipIndicators([
-              LineBarSpot(tooltipsOnBar, lineBarsData.indexOf(tooltipsOnBar),
-                  tooltipsOnBar.spots[index]),
+              LineBarSpot(
+                tooltipsOnBar,
+                lineBarsData.indexOf(tooltipsOnBar),
+                tooltipsOnBar.spots[index],
+              ),
             ]);
           }).toList(),
           lineTouchData: LineTouchData(
@@ -140,7 +138,9 @@ class LineChartSample5 extends StatelessWidget {
                   return LineTooltipItem(
                     lineBarSpot.y.toString(),
                     const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   );
                 }).toList();
               },
@@ -210,8 +210,10 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
   }
 
   for (var s = 0; s < stops.length - 1; s++) {
-    final leftStop = stops[s], rightStop = stops[s + 1];
-    final leftColor = colors[s], rightColor = colors[s + 1];
+    final leftStop = stops[s];
+    final rightStop = stops[s + 1];
+    final leftColor = colors[s];
+    final rightColor = colors[s + 1];
     if (t <= leftStop) {
       return leftColor;
     } else if (t < rightStop) {

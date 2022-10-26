@@ -18,13 +18,15 @@ void main() {
     });
 
     test('LineChartBarData late init values test', () {
-      final bar = LineChartBarData(spots: const [
-        FlSpot(1, 1),
-        FlSpot(2, 4),
-        FlSpot(-3, 8),
-        FlSpot(2, -5),
-        FlSpot(9, 0),
-      ]);
+      final bar = LineChartBarData(
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(2, 4),
+          FlSpot(-3, 8),
+          FlSpot(2, -5),
+          FlSpot(9, 0),
+        ],
+      );
       expect(bar.mostLeftSpot, const FlSpot(-3, 8));
       expect(bar.mostTopSpot, const FlSpot(-3, 8));
       expect(bar.mostRightSpot, const FlSpot(9, 0));
@@ -137,6 +139,8 @@ void main() {
       expect(lineTouchTooltipData1 == lineTouchTooltipData3, false);
       expect(lineTouchTooltipData1 == lineTouchTooltipData4, false);
       expect(lineTouchTooltipData1 == lineTouchTooltipData5, false);
+      expect(lineTouchTooltipData1 == lineTouchTooltipData6, false);
+      expect(lineTouchTooltipData1 == lineTouchTooltipData7, false);
     });
 
     test('LineBarSpot equality test', () {

@@ -1,11 +1,10 @@
 // coverage:ignore-file
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-
-import 'base_chart_data.dart';
 
 /// It implements shared logics between our renderers such as touch/pointer events recognition, size, layout, ...
 abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
@@ -50,33 +49,47 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   /// Initializes our recognizers and implement their callbacks.
   void initGestureRecognizers() {
     _panGestureRecognizer = PanGestureRecognizer();
-    _panGestureRecognizer.onDown =
-        (dragDownDetails) => _notifyTouchEvent(FlPanDownEvent(dragDownDetails));
-    _panGestureRecognizer.onStart = (dragStartDetails) =>
+    _panGestureRecognizer
+      ..onDown = (dragDownDetails) {
+        _notifyTouchEvent(FlPanDownEvent(dragDownDetails));
+      }
+      ..onStart = (dragStartDetails) {
         _notifyTouchEvent(FlPanStartEvent(dragStartDetails));
-    _panGestureRecognizer.onUpdate = (dragUpdateDetails) =>
+      }
+      ..onUpdate = (dragUpdateDetails) {
         _notifyTouchEvent(FlPanUpdateEvent(dragUpdateDetails));
-    _panGestureRecognizer.onCancel =
-        () => _notifyTouchEvent(FlPanCancelEvent());
-    _panGestureRecognizer.onEnd =
-        (dragEndDetails) => _notifyTouchEvent(FlPanEndEvent(dragEndDetails));
+      }
+      ..onCancel = () {
+        _notifyTouchEvent(FlPanCancelEvent());
+      }
+      ..onEnd = (dragEndDetails) {
+        _notifyTouchEvent(FlPanEndEvent(dragEndDetails));
+      };
 
     _tapGestureRecognizer = TapGestureRecognizer();
-    _tapGestureRecognizer.onTapDown =
-        (tapDownDetails) => _notifyTouchEvent(FlTapDownEvent(tapDownDetails));
-    _tapGestureRecognizer.onTapCancel =
-        () => _notifyTouchEvent(FlTapCancelEvent());
-    _tapGestureRecognizer.onTapUp =
-        (tapUpDetails) => _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
+    _tapGestureRecognizer
+      ..onTapDown = (tapDownDetails) {
+        _notifyTouchEvent(FlTapDownEvent(tapDownDetails));
+      }
+      ..onTapCancel = () {
+        _notifyTouchEvent(FlTapCancelEvent());
+      }
+      ..onTapUp = (tapUpDetails) {
+        _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
+      };
 
     _longPressGestureRecognizer = LongPressGestureRecognizer();
-    _longPressGestureRecognizer.onLongPressStart = (longPressStartDetails) =>
+    _longPressGestureRecognizer
+      ..onLongPressStart = (longPressStartDetails) {
         _notifyTouchEvent(FlLongPressStart(longPressStartDetails));
-    _longPressGestureRecognizer.onLongPressMoveUpdate =
-        (longPressMoveUpdateDetails) => _notifyTouchEvent(
-            FlLongPressMoveUpdate(longPressMoveUpdateDetails));
-    _longPressGestureRecognizer.onLongPressEnd = (longPressEndDetails) =>
-        _notifyTouchEvent(FlLongPressEnd(longPressEndDetails));
+      }
+      ..onLongPressMoveUpdate = (longPressMoveUpdateDetails) {
+        _notifyTouchEvent(
+          FlLongPressMoveUpdate(longPressMoveUpdateDetails),
+        );
+      }
+      ..onLongPressEnd = (longPressEndDetails) =>
+          _notifyTouchEvent(FlLongPressEnd(longPressEndDetails));
   }
 
   @override

@@ -21,8 +21,9 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |dataSets| list of [RadarDataSet ](#RadarDataSet) that is shown on the radar chart|[]|
 |radarBackgroundColor| This property fills the background of the radar with the specified color.| Colors.transparent|
+|radarShape| the shape of the border and background |RadarShape.circle|
 |radarBorderData| shows a border for radar chart|BorderSide(color: Colors.black, width: 2)|
-|getTitle| This function helps the radar chart to draw titles outside the chart.|null|
+|getTitle| This function helps the radar chart to draw titles outside the chart. The default angle provided when called is making the title tangent to the radar chart. |null|
 |titleTextStyle|TextStyle of the titles|TextStyle(color: Colors.black, fontSize: 12)|
 |titlePositionPercentageOffset|this field is the place of showing title on the RadarChart. The higher the value of this field, the more titles move away from the chart. this field should be between 0 and 1.|0.2|
 |tickCount|Defines the number of ticks that should be paint in RadarChart|1|
@@ -66,6 +67,12 @@ When you change the chart's state, it animates to the new state internally (usin
 |touchedDataSetIndex| index of the [RadarDataSet](#RadarDataSet) that user touched| null |
 |touchedRadarEntry|the [RadarEntry](#RadarEntry) that user touched| null |
 |touchedRadarEntryIndex| index of the [RadarEntry](#RadarEntry) that user touched| null |
+
+### RadarChartTitle
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|text|the text of the title|required|
+|angle|the angle used to rotate the title (in degree)|0|
 
 ### some samples
 ----
