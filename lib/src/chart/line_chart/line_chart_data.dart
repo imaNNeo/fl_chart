@@ -1,6 +1,6 @@
 // coverage:ignore-file
 import 'dart:ui';
-
+import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
@@ -1557,7 +1557,8 @@ typedef CalculateTouchDistance = double Function(
 
 /// Default distanceCalculator only considers distance on x axis
 double _xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
-  return (touchPoint.dx - spotPixelCoordinates.dx).abs();
+  return sqrt(pow(spotPixelCoordinates.dx - touchPoint.dx, 2) +
+                  pow(spotPixelCoordinates.dy - touchPoint.dy, 2),);
 }
 
 /// Default presentation of touched indicators.
