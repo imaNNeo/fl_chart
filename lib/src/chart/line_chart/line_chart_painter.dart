@@ -125,6 +125,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       for (var j = 0; j < barData.showingIndicators.length; j++) {
         final indicatorData = indicatorsData[j];
         final index = barData.showingIndicators[j];
+        if (index < 0 || index >= barData.spots.length) {
+          continue;
+        }
         final spot = barData.spots[index];
 
         if (indicatorData == null) {
