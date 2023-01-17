@@ -99,7 +99,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
  |tooltipMargin|margin between the tooltip and the touched spot|16|
- |tooltipAlignment|horizontal alginment of tooltip relative to the bar|FLHorizontalAlignment.center|
+ |tooltipHorizontalAlignment|horizontal alginment of tooltip relative to the bar|FLHorizontalAlignment.center|
  |tooltipHorizontalOffset|horizontal offset of tooltip|0|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve [BarTooltipItem](#BarTooltipItem) by the given [BarChartGroupData](#BarChartGroupData), groupIndex, [BarChartRodData](#BarChartRodData) and rodIndex |defaultBarTooltipItem|

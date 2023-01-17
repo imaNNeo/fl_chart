@@ -250,26 +250,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
-    double tooltipLeft;
-    switch (tooltipData.tooltipAlignment) {
-      case FLHorizontalAlignment.center:
-        tooltipLeft = mostTopOffset.dx -
-            (tooltipWidth / 2) +
-            tooltipData.tooltipHorizontalOffset;
-        break;
-      case FLHorizontalAlignment.right:
-        tooltipLeft = mostTopOffset.dx + tooltipData.tooltipHorizontalOffset;
-        break;
-      case FLHorizontalAlignment.left:
-        tooltipLeft = mostTopOffset.dx -
-            tooltipWidth +
-            tooltipData.tooltipHorizontalOffset;
-        break;
-    }
+    final tooltipLeftPosition = getTooltipLeft(mostTopOffset.dx, tooltipWidth, tooltipData.tooltipHorizontalAlignment, tooltipData.tooltipHorizontalOffset);
 
     /// draw the background rect with rounded radius
     var rect = Rect.fromLTWH(
-      tooltipLeft,
+      tooltipLeftPosition,
       mostTopOffset.dy -
           tooltipHeight -
           showOnSpot.radius -

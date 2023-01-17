@@ -53,7 +53,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |tooltipBorder|border of the tooltip bubble|BorderSide.none|
 |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
 |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
-|tooltipAlignment|horizontal alginment of tooltip relative to the spot|FLHorizontalAlignment.center|
+|tooltipHorizontalAlignment|horizontal alginment of tooltip relative to the spot|FLHorizontalAlignment.center|
 |tooltipHorizontalOffset|horizontal offset of tooltip|0|
 |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
 |getTooltipItems|a callback that retrieve a [ScatterTooltipItem](#ScatterTooltipItem) by the given [ScatterSpot](#ScatterSpot) |defaultScatterTooltipItem|
