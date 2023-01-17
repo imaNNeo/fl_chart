@@ -996,7 +996,7 @@ void main() {
         rotateAngle: 12,
         direction: TooltipDirection.bottom,
         tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
-        tooltipAlignment: FLHorizontalAlignment.left,
+        tooltipHorizontalAlignment: FLHorizontalAlignment.left,
         tooltipHorizontalOffset: -1.5,
         getTooltipItem: (
           group,
@@ -1163,7 +1163,7 @@ void main() {
         fitInsideHorizontally: true,
         fitInsideVertically: true,
         direction: TooltipDirection.top,
-        tooltipAlignment: FLHorizontalAlignment.right,
+        tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
         getTooltipItem: (
           group,

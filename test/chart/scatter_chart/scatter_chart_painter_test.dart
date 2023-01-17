@@ -433,7 +433,7 @@ void main() {
             fitInsideHorizontally: false,
             fitInsideVertically: true,
             tooltipPadding: const EdgeInsets.all(12),
-            tooltipAlignment: FLHorizontalAlignment.left,
+            tooltipHorizontalAlignment: FLHorizontalAlignment.left,
             getTooltipItems: (_) {
               return ScatterTooltipItem(
                 'faketext',
@@ -536,7 +536,7 @@ void main() {
             fitInsideHorizontally: false,
             fitInsideVertically: true,
             tooltipPadding: const EdgeInsets.all(12),
-            tooltipAlignment: FLHorizontalAlignment.right,
+            tooltipHorizontalAlignment: FLHorizontalAlignment.right,
             getTooltipItems: (_) {
               return ScatterTooltipItem(
                 'faketext',

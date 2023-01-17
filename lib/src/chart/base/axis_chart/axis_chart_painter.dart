@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
@@ -391,5 +390,23 @@ abstract class AxisChartPainter<D extends AxisChartData>
       return viewSize.height;
     }
     return viewSize.height - (((spotY - data.minY) / deltaY) * viewSize.height);
+  }
+
+  /// With this function we can get horizontal
+  /// position for the tooltip.
+  double getTooltipLeft(
+    double dx,
+    double tooltipWidth,
+    FLHorizontalAlignment tooltipHorizontalAlignment,
+    double tooltipHorizontalOffset,
+  ) {
+    switch (tooltipHorizontalAlignment) {
+      case FLHorizontalAlignment.center:
+        return dx - (tooltipWidth / 2) + tooltipHorizontalOffset;
+      case FLHorizontalAlignment.right:
+        return dx + tooltipHorizontalOffset;
+      case FLHorizontalAlignment.left:
+        return dx - tooltipWidth + tooltipHorizontalOffset;
+    }
   }
 }
