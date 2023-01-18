@@ -64,20 +64,22 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     );
 
     if (!data.extraLinesData.extraLinesOnTop) {
-      super.drawExtraLines(
+      super.drawHorizontalLines(
         context,
         canvasWrapper,
         holder,
+        canvasWrapper.size,
       );
     }
 
     drawBars(canvasWrapper, _groupBarsPosition!, holder);
 
     if (data.extraLinesData.extraLinesOnTop) {
-      super.drawExtraLines(
+      super.drawHorizontalLines(
         context,
         canvasWrapper,
         holder,
+        canvasWrapper.size,
       );
     }
 
