@@ -5,6 +5,7 @@
 * **FEATURE** (by @HTsuruo): Add `longPressDuration` optional property that allows to control the duration LongPress gesture occurs, #1114 #1127.
 * **IMPROVEMENT** (by @imaNNeoFighT) Add some screenshots in `pubspec.yaml` to support new [pub.dev](pub.dev) feature. Read more about it [here](https://dart.dev/tools/pub/pubspec#screenshots) and [here](https://medium.com/dartlang/screenshots-and-automated-publishing-for-pub-dev-9bceb19edf79).
 * **IMPROVEMENT** (by @imaNNeo) Update the homepage url in `pubspec.yaml` (I just renamed my username)
+* **FEATURE** Add ability to draw extra horizontal lines on BarChart
 
 ## 0.55.2
 * **BUGFIX** (by @imaNNeoFighT): Fix inner border of pieChart with single section, #1089

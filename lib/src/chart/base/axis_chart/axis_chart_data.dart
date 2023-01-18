@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Image;
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -28,12 +28,14 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     Color? backgroundColor,
     super.borderData,
     required super.touchData,
+    ExtraLinesData? extraLinesData,
   })  : gridData = gridData ?? FlGridData(),
         rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
         baselineX = baselineX ?? 0,
         baselineY = baselineY ?? 0,
         clipData = clipData ?? FlClipData.none(),
-        backgroundColor = backgroundColor ?? Colors.transparent;
+        backgroundColor = backgroundColor ?? Colors.transparent,
+        extraLinesData = extraLinesData ?? ExtraLinesData();
   final FlGridData gridData;
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
@@ -48,7 +50,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// clip the chart to the border (prevent draw outside the border)
   FlClipData clipData;
 
-  /// A background color which is drawn behind th chart.
+  /// A background color which is drawn behind the chart.
   Color backgroundColor;
 
   /// Difference of [maxY] and [minY]
@@ -56,6 +58,9 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
 
   /// Difference of [maxX] and [minX]
   double get horizontalDiff => maxX - minX;
+
+  /// Extra horizontal or vertical lines to draw on the chart.
+  final ExtraLinesData extraLinesData;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -73,6 +78,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         backgroundColor,
         borderData,
         touchData,
+        extraLinesData,
       ];
 }
 
@@ -839,5 +845,161 @@ class VerticalRangeAnnotation with EquatableMixin {
         x1,
         x2,
         color,
+      ];
+}
+
+/// Holds data for drawing extra horizontal lines.
+///
+/// [LineChart] draws some [HorizontalLine] (set by [LineChartData.extraLinesData]),
+/// in below or above of everything, it draws from left to right side of the chart.
+class HorizontalLine extends FlLine with EquatableMixin {
+  /// [LineChart] draws horizontal lines from left to right side of the chart
+  /// in the provided [y] value, and color it using [color].
+  /// You can define the thickness using [strokeWidth]
+  ///
+  /// It draws a [label] over it.
+  ///
+  /// You can have a dashed line by filling [dashArray] with dash size and space respectively.
+  ///
+  /// It draws an image in left side of the chart, use [sizedPicture] for vectors,
+  /// or [image] for any kind of image.
+  HorizontalLine({
+    required this.y,
+    HorizontalLineLabel? label,
+    Color? color,
+    double? strokeWidth,
+    super.dashArray,
+    this.image,
+    this.sizedPicture,
+  })  : label = label ?? HorizontalLineLabel(),
+        super(
+          color: color ?? Colors.black,
+          strokeWidth: strokeWidth ?? 2,
+        );
+
+  /// Draws from left to right of the chart using the [y] value.
+  final double y;
+
+  /// Use it for any kind of image, to draw it in left side of the chart.
+  Image? image;
+
+  /// Use it for vector images, to draw it in left side of the chart.
+  SizedPicture? sizedPicture;
+
+  /// Draws a text label over the line.
+  final HorizontalLineLabel label;
+
+  /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
+  static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
+    return HorizontalLine(
+      y: lerpDouble(a.y, b.y, t)!,
+      label: HorizontalLineLabel.lerp(a.label, b.label, t),
+      color: Color.lerp(a.color, b.color, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      image: b.image,
+      sizedPicture: b.sizedPicture,
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        y,
+        label,
+        color,
+        strokeWidth,
+        dashArray,
+        image,
+        sizedPicture,
+      ];
+}
+
+/// Holds data for drawing extra vertical lines.
+///
+/// [LineChart] draws some [VerticalLine] (set by [LineChartData.extraLinesData]),
+/// in below or above of everything, it draws from bottom to top side of the chart.
+class VerticalLine extends FlLine with EquatableMixin {
+  /// [LineChart] draws vertical lines from bottom to top side of the chart
+  /// in the provided [x] value, and color it using [color].
+  /// You can define the thickness using [strokeWidth]
+  ///
+  /// It draws a [label] over it.
+  ///
+  /// You can have a dashed line by filling [dashArray] with dash size and space respectively.
+  ///
+  /// It draws an image in bottom side of the chart, use [sizedPicture] for vectors,
+  /// or [image] for any kind of image.
+  VerticalLine({
+    required this.x,
+    VerticalLineLabel? label,
+    Color? color,
+    double? strokeWidth,
+    super.dashArray,
+    this.image,
+    this.sizedPicture,
+  })  : label = label ?? VerticalLineLabel(),
+        super(
+          color: color ?? Colors.black,
+          strokeWidth: strokeWidth ?? 2,
+        );
+
+  /// Draws from bottom to top of the chart using the [x] value.
+  final double x;
+
+  /// Use it for any kind of image, to draw it in bottom side of the chart.
+  Image? image;
+
+  /// Use it for vector images, to draw it in bottom side of the chart.
+  SizedPicture? sizedPicture;
+
+  /// Draws a text label over the line.
+  final VerticalLineLabel label;
+
+  /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
+  static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
+    return VerticalLine(
+      x: lerpDouble(a.x, b.x, t)!,
+      label: VerticalLineLabel.lerp(a.label, b.label, t),
+      color: Color.lerp(a.color, b.color, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      image: b.image,
+      sizedPicture: b.sizedPicture,
+    );
+  }
+
+  /// Copies current [VerticalLine] to a new [VerticalLine]
+  /// and replaces provided values.
+  VerticalLine copyVerticalLineWith({
+    double? x,
+    VerticalLineLabel? label,
+    Color? color,
+    double? strokeWidth,
+    List<int>? dashArray,
+    Image? image,
+    SizedPicture? sizedPicture,
+  }) {
+    return VerticalLine(
+      x: x ?? this.x,
+      label: label ?? this.label,
+      color: color ?? this.color,
+      strokeWidth: strokeWidth ?? this.strokeWidth,
+      dashArray: dashArray ?? this.dashArray,
+      image: image ?? this.image,
+      sizedPicture: sizedPicture ?? this.sizedPicture,
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        x,
+        label,
+        color,
+        strokeWidth,
+        dashArray,
+        image,
+        sizedPicture,
       ];
 }

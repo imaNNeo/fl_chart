@@ -61,7 +61,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
-        extraLinesData = extraLinesData ?? ExtraLinesData(),
         lineTouchData = lineTouchData ?? LineTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
         super(
@@ -70,6 +69,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
           titlesData: titlesData ?? FlTitlesData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
           clipData: clipData ?? FlClipData.none(),
+          extraLinesData: extraLinesData = extraLinesData ?? ExtraLinesData(),
           minX: minX ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .minX,
@@ -89,9 +89,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
 
   /// Fills area between two [LineChartBarData] with a color or gradient.
   final List<BetweenBarsData> betweenBarsData;
-
-  /// [LineChart] draws some horizontal or vertical lines on above or below of everything
-  final ExtraLinesData extraLinesData;
 
   /// Handles touch behaviors and responses.
   final LineTouchData lineTouchData;
@@ -1050,140 +1047,6 @@ typedef CheckToShowDot = bool Function(FlSpot spot, LineChartBarData barData);
 /// Shows all dots on spots.
 bool showAllDots(FlSpot spot, LineChartBarData barData) {
   return true;
-}
-
-/// Holds data for drawing extra horizontal lines.
-///
-/// [LineChart] draws some [HorizontalLine] (set by [LineChartData.extraLinesData]),
-/// in below or above of everything, it draws from left to right side of the chart.
-class HorizontalLine extends FlLine with EquatableMixin {
-  /// [LineChart] draws horizontal lines from left to right side of the chart
-  /// in the provided [y] value, and color it using [color].
-  /// You can define the thickness using [strokeWidth]
-  ///
-  /// It draws a [label] over it.
-  ///
-  /// You can have a dashed line by filling [dashArray] with dash size and space respectively.
-  ///
-  /// It draws an image in left side of the chart, use [sizedPicture] for vectors,
-  /// or [image] for any kind of image.
-  HorizontalLine({
-    required this.y,
-    HorizontalLineLabel? label,
-    Color? color,
-    double? strokeWidth,
-    super.dashArray,
-    this.image,
-    this.sizedPicture,
-  })  : label = label ?? HorizontalLineLabel(),
-        super(
-          color: color ?? Colors.black,
-          strokeWidth: strokeWidth ?? 2,
-        );
-
-  /// Draws from left to right of the chart using the [y] value.
-  final double y;
-
-  /// Use it for any kind of image, to draw it in left side of the chart.
-  Image? image;
-
-  /// Use it for vector images, to draw it in left side of the chart.
-  SizedPicture? sizedPicture;
-
-  /// Draws a text label over the line.
-  final HorizontalLineLabel label;
-
-  /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
-  static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
-    return HorizontalLine(
-      y: lerpDouble(a.y, b.y, t)!,
-      label: HorizontalLineLabel.lerp(a.label, b.label, t),
-      color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
-      image: b.image,
-      sizedPicture: b.sizedPicture,
-    );
-  }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        y,
-        label,
-        color,
-        strokeWidth,
-        dashArray,
-        image,
-        sizedPicture,
-      ];
-}
-
-/// Holds data for drawing extra vertical lines.
-///
-/// [LineChart] draws some [VerticalLine] (set by [LineChartData.extraLinesData]),
-/// in below or above of everything, it draws from bottom to top side of the chart.
-class VerticalLine extends FlLine with EquatableMixin {
-  /// [LineChart] draws vertical lines from bottom to top side of the chart
-  /// in the provided [x] value, and color it using [color].
-  /// You can define the thickness using [strokeWidth]
-  ///
-  /// It draws a [label] over it.
-  ///
-  /// You can have a dashed line by filling [dashArray] with dash size and space respectively.
-  ///
-  /// It draws an image in bottom side of the chart, use [sizedPicture] for vectors,
-  /// or [image] for any kind of image.
-  VerticalLine({
-    required this.x,
-    VerticalLineLabel? label,
-    Color? color,
-    double? strokeWidth,
-    super.dashArray,
-    this.image,
-    this.sizedPicture,
-  })  : label = label ?? VerticalLineLabel(),
-        super(
-          color: color ?? Colors.black,
-          strokeWidth: strokeWidth ?? 2,
-        );
-
-  /// Draws from bottom to top of the chart using the [x] value.
-  final double x;
-
-  /// Use it for any kind of image, to draw it in bottom side of the chart.
-  Image? image;
-
-  /// Use it for vector images, to draw it in bottom side of the chart.
-  SizedPicture? sizedPicture;
-
-  /// Draws a text label over the line.
-  final VerticalLineLabel label;
-
-  /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
-  static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
-    return VerticalLine(
-      x: lerpDouble(a.x, b.x, t)!,
-      label: VerticalLineLabel.lerp(a.label, b.label, t),
-      color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
-      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
-      image: b.image,
-      sizedPicture: b.sizedPicture,
-    );
-  }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        x,
-        label,
-        color,
-        strokeWidth,
-        dashArray,
-        image,
-        sizedPicture,
-      ];
 }
 
 /// Shows a text label
