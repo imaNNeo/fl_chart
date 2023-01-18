@@ -141,6 +141,7 @@ void main() {
       expect(barChartData1 == barChartData12, false);
       expect(barChartData1 == barChartData13, false);
       expect(barChartData1 == barChartData14, false);
+      expect(barChartData1 == barChartData15, false);
     });
   });
 }

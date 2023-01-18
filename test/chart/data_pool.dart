@@ -3020,6 +3020,7 @@ final BarChartData barChartData1 = BarChartData(
   ],
   barTouchData: barTouchData1,
   groupsSpace: 23,
+  extraLinesData: extraLinesData1,
 );
 final BarChartData barChartData1Clone = barChartData1.copyWith(
   titlesData: MockData.flTitlesData1Clone,
@@ -3071,6 +3072,9 @@ final BarChartData barChartData13 = barChartData1.copyWith(
 );
 final BarChartData barChartData14 = barChartData1.copyWith(
   groupsSpace: 444,
+);
+final BarChartData barChartData15 = barChartData1.copyWith(
+  extraLinesData: extraLinesData2,
 );
 
 final RadarDataSet radarDataSet1 = RadarDataSet(

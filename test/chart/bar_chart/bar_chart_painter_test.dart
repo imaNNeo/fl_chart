@@ -4,7 +4,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -1637,6 +1637,455 @@ void main() {
       expect(result3!.touchedBarGroupIndex, 0);
       expect(result3.touchedRodDataIndex, 0);
       expect(result3.touchedStackItemIndex, -1);
+    });
+  });
+
+  group('drawExtraLines()', () {
+    test(
+        'should not draw lines when constructor is called with empty ExtraLinesData object',
+        () {
+      const viewSize = Size(400, 400);
+      final data = BarChartData(
+        barGroups: [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(fromY: 1, toY: 10),
+              BarChartRodData(fromY: 2, toY: 10),
+            ],
+            showingTooltipIndicators: [
+              1,
+              2,
+            ],
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(fromY: 3, toY: 10),
+              BarChartRodData(fromY: 4, toY: 10),
+            ],
+          ),
+        ],
+        extraLinesData: ExtraLinesData(),
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          any,
+          any,
+        ),
+      );
+    });
+
+    test('should not draw lines when constructor is not passed extraLinesData',
+        () {
+      const viewSize = Size(400, 400);
+      final data = BarChartData(
+        barGroups: [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(fromY: 1, toY: 10),
+              BarChartRodData(fromY: 2, toY: 10),
+            ],
+            showingTooltipIndicators: [
+              1,
+              2,
+            ],
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(fromY: 3, toY: 10),
+              BarChartRodData(fromY: 4, toY: 10),
+            ],
+          ),
+        ],
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          any,
+          any,
+        ),
+      );
+    });
+
+    test('should not paint vertical lines', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final data = BarChartData(
+        barGroups: [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(fromY: 1, toY: 10),
+              BarChartRodData(fromY: 2, toY: 10),
+            ],
+            showingTooltipIndicators: [
+              1,
+              2,
+            ],
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(fromY: 3, toY: 10),
+              BarChartRodData(fromY: 4, toY: 10),
+            ],
+          ),
+        ],
+        extraLinesData: ExtraLinesData(
+          verticalLines: [verticalLine1],
+        ),
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+                (p0) => p0.color.value, 'colors match', equals(Colors.red)),
+          ),
+          holder.data.extraLinesData.verticalLines[0].dashArray,
+        ),
+      );
+
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('should not paint horizontal line if Y value is greater than Y axis',
+        () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final data = BarChartData(
+        barGroups: [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(fromY: 1, toY: 10),
+              BarChartRodData(fromY: 2, toY: 10),
+            ],
+            showingTooltipIndicators: [
+              1,
+              2,
+            ],
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(fromY: 3, toY: 10),
+              BarChartRodData(fromY: 4, toY: 10),
+            ],
+          ),
+        ],
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [horizontalLine1],
+        ),
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having((p0) => p0.color.value,
+                'colors match', equals(Colors.red.value)),
+          ),
+          holder.data.extraLinesData.horizontalLines[0].dashArray,
+        ),
+      );
+
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('should not paint horizontal line if Y value is 0', () {
+      final horizontalLine =
+          HorizontalLine(y: 0, color: Colors.red, dashArray: [1, 0]);
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final data = BarChartData(
+        barGroups: [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(fromY: 1, toY: 10),
+              BarChartRodData(fromY: 2, toY: 10),
+            ],
+            showingTooltipIndicators: [
+              1,
+              2,
+            ],
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(fromY: 3, toY: 10),
+              BarChartRodData(fromY: 4, toY: 10),
+            ],
+          ),
+        ],
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [horizontalLine],
+        ),
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having((p0) => p0.color.value,
+                'colors match', equals(Colors.red.value)),
+          ),
+          holder.data.extraLinesData.horizontalLines[0].dashArray,
+        ),
+      );
+
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('should paint horizontal lines', () {
+      final horizontalLine = HorizontalLine(
+        y: 2.5,
+        strokeWidth: 90,
+        color: Colors.cyanAccent,
+        dashArray: [100, 20],
+      );
+      final horizontalLine1 = HorizontalLine(
+        y: 0.2,
+        strokeWidth: 100,
+        color: Colors.cyanAccent,
+        dashArray: [100, 20],
+      );
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final data = BarChartData(
+        barGroups: [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(fromY: 1, toY: 10),
+              BarChartRodData(fromY: 2, toY: 10),
+            ],
+            showingTooltipIndicators: [
+              1,
+              2,
+            ],
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(fromY: 3, toY: 10),
+              BarChartRodData(fromY: 4, toY: 10),
+            ],
+          ),
+        ],
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [horizontalLine, horizontalLine1],
+        ),
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final results = <Map<String, dynamic>>[];
+
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          captureThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.cyanAccent.value),
+            ),
+          ),
+          [100, 20],
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'from': inv.positionalArguments[0] as Offset,
+          'to': inv.positionalArguments[1] as Offset,
+          'paint_color': (inv.positionalArguments[2] as Paint).color.value,
+          'paint_stroke_width':
+              (inv.positionalArguments[2] as Paint).strokeWidth,
+        });
+      });
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 2);
+
+      expect(results[0]['paint_color'], Colors.cyanAccent.value);
+      expect(results[0]['paint_stroke_width'], 90);
+      expect(results[0]['from'], const Offset(0, 300));
+      expect(results[0]['to'], const Offset(400, 300));
+
+      expect(results[1]['paint_color'], Colors.cyanAccent.value);
+      expect(results[1]['paint_stroke_width'], 100);
+      expect(results[1]['from'], const Offset(0, 392));
+      expect(results[1]['to'], const Offset(400, 392));
+
+      Utils.changeInstance(utilsMainInstance);
     });
   });
 }

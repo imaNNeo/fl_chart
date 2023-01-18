@@ -31,6 +31,8 @@ class BarChartData extends AxisChartData with EquatableMixin {
   /// You can annotate some regions with a highlight color using [rangeAnnotations].
   ///
   /// You can modify [barTouchData] to customize touch behaviors and responses.
+  ///
+  /// Horizontal lines are drawn with [extraLinesData]. Vertical lines will not be painted if received.
   BarChartData({
     List<BarChartGroupData>? barGroups,
     double? groupsSpace,
@@ -44,6 +46,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
     super.borderData,
     RangeAnnotations? rangeAnnotations,
     super.backgroundColor,
+    ExtraLinesData? extraLinesData,
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
@@ -60,6 +63,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
           gridData: gridData ?? FlGridData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
           touchData: barTouchData ?? BarTouchData(),
+          extraLinesData: extraLinesData ?? ExtraLinesData(),
           minX: 0,
           maxX: 1,
           maxY: maxY ??
@@ -95,6 +99,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
     double? minY,
     double? baselineY,
     Color? backgroundColor,
+    ExtraLinesData? extraLinesData,
   }) {
     return BarChartData(
       barGroups: barGroups ?? this.barGroups,
@@ -109,6 +114,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
       minY: minY ?? this.minY,
       baselineY: baselineY ?? this.baselineY,
       backgroundColor: backgroundColor ?? this.backgroundColor,
+      extraLinesData: extraLinesData ?? this.extraLinesData,
     );
   }
 
@@ -130,6 +136,8 @@ class BarChartData extends AxisChartData with EquatableMixin {
         minY: lerpDouble(a.minY, b.minY, t),
         baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+        extraLinesData:
+            ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
       );
     } else {
       throw Exception('Illegal State');
@@ -151,6 +159,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         borderData,
         rangeAnnotations,
         backgroundColor,
+        extraLinesData,
       ];
 }
 

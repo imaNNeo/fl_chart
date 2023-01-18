@@ -63,7 +63,25 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       data.barGroups,
     );
 
+    if (!data.extraLinesData.extraLinesOnTop) {
+      super.drawHorizontalLines(
+        context,
+        canvasWrapper,
+        holder,
+        canvasWrapper.size,
+      );
+    }
+
     drawBars(canvasWrapper, _groupBarsPosition!, holder);
+
+    if (data.extraLinesData.extraLinesOnTop) {
+      super.drawHorizontalLines(
+        context,
+        canvasWrapper,
+        holder,
+        canvasWrapper.size,
+      );
+    }
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
       final barGroup = targetData.barGroups[i];
