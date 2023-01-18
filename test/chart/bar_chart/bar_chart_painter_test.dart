@@ -1810,7 +1810,10 @@ void main() {
           any,
           argThat(
             const TypeMatcher<Paint>().having(
-                (p0) => p0.color.value, 'colors match', equals(Colors.red)),
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.red),
+            ),
           ),
           holder.data.extraLinesData.verticalLines[0].dashArray,
         ),
@@ -1886,8 +1889,11 @@ void main() {
           any,
           any,
           argThat(
-            const TypeMatcher<Paint>().having((p0) => p0.color.value,
-                'colors match', equals(Colors.red.value)),
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.red.value),
+            ),
           ),
           holder.data.extraLinesData.horizontalLines[0].dashArray,
         ),
@@ -1965,8 +1971,11 @@ void main() {
           any,
           any,
           argThat(
-            const TypeMatcher<Paint>().having((p0) => p0.color.value,
-                'colors match', equals(Colors.red.value)),
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.red.value),
+            ),
           ),
           holder.data.extraLinesData.horizontalLines[0].dashArray,
         ),
