@@ -1425,40 +1425,6 @@ class ExtraLinesData with EquatableMixin {
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
 class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
-<<<<<<< HEAD
-=======
-  /// Configs of how touch tooltip popup.
-  final LineTouchTooltipData touchTooltipData;
-
-  /// Configs of how touch indicator looks like.
-  final GetTouchedSpotIndicator getTouchedSpotIndicator;
-
-  /// Distance threshold to handle the touch event.
-  final double touchSpotThreshold;
-
-  /// Distance function used when finding closest points to touch point
-  final CalculateTouchDistance distanceCalculator;
-
-  /// Determines to handle default built-in touch responses,
-  /// [LineTouchResponse] shows a tooltip popup above the touched spot.
-  final bool handleBuiltInTouches;
-
-  /// The starting point on y axis of the touch line. By default, line starts on the bottom of
-  /// the chart.
-  final GetTouchLineY getTouchLineStart;
-
-  /// The end point on y axis of the touch line. By default, line ends at the touched point.
-  /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
-  final GetTouchLineY getTouchLineEnd;
-
-<<<<<<< HEAD
-  /// This property that allows to customize the duration of the longPress gesture.
-  /// default to 500 milliseconds.
-  final Duration? longPressDuration;
-
->>>>>>> 575fe53 (Moved `longPressDuration` property to `LineTouchData`)
-=======
->>>>>>> 2124beb (Remove longPressDuration property from `LineChartData`)
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
