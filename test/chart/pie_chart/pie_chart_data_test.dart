@@ -150,8 +150,7 @@ void main() {
       );
       expect(sample1 == disabled, false);
 
-      final PieTouchData zeroLongPressDuration = PieTouchData(
-        touchCallback: null,
+      final zeroLongPressDuration = PieTouchData(
         enabled: true,
         longPressDuration: Duration.zero,
       );
