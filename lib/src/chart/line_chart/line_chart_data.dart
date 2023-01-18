@@ -7,7 +7,6 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Image;
 
 /// [LineChart] needs this class to render itself.
@@ -1452,11 +1451,14 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
   final GetTouchLineY getTouchLineEnd;
 
+<<<<<<< HEAD
   /// This property that allows to customize the duration of the longPress gesture.
   /// default to 500 milliseconds.
   final Duration? longPressDuration;
 
 >>>>>>> 575fe53 (Moved `longPressDuration` property to `LineTouchData`)
+=======
+>>>>>>> 2124beb (Remove longPressDuration property from `LineChartData`)
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -1494,7 +1496,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
-        longPressDuration = longPressDuration ?? kLongPressTimeout,
         super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Configs of how touch tooltip popup.
