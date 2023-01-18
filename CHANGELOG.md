@@ -2,6 +2,7 @@
 * **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis
 * **BREAKING** (by @lsaudon) Update dart sdk to 2.17.0 (flutter 3.0.0)
 * **BUGFIX** (by @imaNNeoFighT) Fix indicator out of range error in line chart, #1187
+* **FEATURE** (by @HTsuruo): Add `longPressDuration` optional property that allows to control the duration LongPress gesture occurs, #1114 #1127.
 
 ## 0.55.2
 * **BUGFIX** (by @imaNNeoFighT): Fix inner border of pieChart with single section, #1089

@@ -48,7 +48,10 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
-        super(targetData.lineTouchData, context);
+        super(
+          targetData.lineTouchData,
+          context,
+        );
 
   LineChartData get data => _data;
   LineChartData _data;

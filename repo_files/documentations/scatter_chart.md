@@ -44,6 +44,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |touchSpotThreshold|the threshold of the touch accuracy|0|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)| null|
+|longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 ### ScatterTouchTooltipData
 |PropName|Description|default value|

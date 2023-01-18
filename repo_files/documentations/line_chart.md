@@ -171,6 +171,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
 |getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
 |touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [LineTouchResponse](#LineTouchResponse)| null|
+|longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 
 ### LineTouchTooltipData

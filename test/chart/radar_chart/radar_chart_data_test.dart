@@ -247,6 +247,17 @@ void main() {
             ),
         false,
       );
+
+      expect(
+        radarTouchData1 ==
+            RadarTouchData(
+              enabled: true,
+              touchCallback: radarTouchCallback,
+              touchSpotThreshold: 12,
+              longPressDuration: Duration.zero,
+            ),
+        false,
+      );
     });
 
     test('RadarTouchedSpot equality test', () {

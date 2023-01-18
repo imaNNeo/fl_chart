@@ -1446,6 +1446,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     bool? enabled,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
@@ -1461,7 +1462,12 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
-        super(enabled ?? true, touchCallback, mouseCursorResolver);
+        super(
+          enabled ?? true,
+          touchCallback,
+          mouseCursorResolver,
+          longPressDuration,
+        );
 
   /// Configs of how touch tooltip popup.
   final LineTouchTooltipData touchTooltipData;
@@ -1493,6 +1499,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     bool? enabled,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
@@ -1505,6 +1512,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
       enabled: enabled ?? this.enabled,
       touchCallback: touchCallback ?? this.touchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
+      longPressDuration: longPressDuration ?? this.longPressDuration,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator:
           getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
@@ -1522,6 +1530,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         enabled,
         touchCallback,
         mouseCursorResolver,
+        longPressDuration,
         touchTooltipData,
         getTouchedSpotIndicator,
         touchSpotThreshold,

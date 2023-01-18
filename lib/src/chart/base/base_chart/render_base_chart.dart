@@ -28,10 +28,12 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   void updateBaseTouchData(FlTouchData<R>? value) {
     _touchCallback = value?.touchCallback;
     _mouseCursorResolver = value?.mouseCursorResolver;
+    _longPressDuration = value?.longPressDuration;
   }
 
   BaseTouchCallback<R>? _touchCallback;
   MouseCursorResolver<R>? _mouseCursorResolver;
+  Duration? _longPressDuration;
 
   MouseCursor _latestMouseCursor = MouseCursor.defer;
 
@@ -78,7 +80,8 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
       };
 
-    _longPressGestureRecognizer = LongPressGestureRecognizer();
+    _longPressGestureRecognizer =
+        LongPressGestureRecognizer(duration: _longPressDuration);
     _longPressGestureRecognizer
       ..onLongPressStart = (longPressStartDetails) {
         _notifyTouchEvent(FlLongPressStart(longPressStartDetails));

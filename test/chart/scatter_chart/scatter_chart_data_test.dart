@@ -432,6 +432,13 @@ void main() {
             ),
         false,
       );
+      expect(
+        sample ==
+            sampleClone.copyWith(
+              longPressDuration: Duration.zero,
+            ),
+        false,
+      );
     });
 
     test('ScatterTouchTooltipData equality test', () {

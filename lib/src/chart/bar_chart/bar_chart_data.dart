@@ -604,6 +604,7 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
     bool? enabled,
     BaseTouchCallback<BarTouchResponse>? touchCallback,
     MouseCursorResolver<BarTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
     BarTouchTooltipData? touchTooltipData,
     EdgeInsets? touchExtraThreshold,
     bool? allowTouchBarBackDraw,
@@ -612,7 +613,12 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
         touchExtraThreshold = touchExtraThreshold ?? const EdgeInsets.all(4),
         allowTouchBarBackDraw = allowTouchBarBackDraw ?? false,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
-        super(enabled ?? true, touchCallback, mouseCursorResolver);
+        super(
+          enabled ?? true,
+          touchCallback,
+          mouseCursorResolver,
+          longPressDuration,
+        );
 
   /// Configs of how touch tooltip popup.
   final BarTouchTooltipData touchTooltipData;
@@ -633,6 +639,7 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
     bool? enabled,
     BaseTouchCallback<BarTouchResponse>? touchCallback,
     MouseCursorResolver<BarTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
     BarTouchTooltipData? touchTooltipData,
     EdgeInsets? touchExtraThreshold,
     bool? allowTouchBarBackDraw,
@@ -642,6 +649,7 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
       enabled: enabled ?? this.enabled,
       touchCallback: touchCallback ?? this.touchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
+      longPressDuration: longPressDuration ?? this.longPressDuration,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       touchExtraThreshold: touchExtraThreshold ?? this.touchExtraThreshold,
       allowTouchBarBackDraw:
@@ -656,6 +664,7 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
         enabled,
         touchCallback,
         mouseCursorResolver,
+        longPressDuration,
         touchTooltipData,
         touchExtraThreshold,
         allowTouchBarBackDraw,

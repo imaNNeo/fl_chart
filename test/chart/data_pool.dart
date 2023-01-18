@@ -1362,6 +1362,15 @@ final LineTouchData lineTouchData7 = LineTouchData(
   touchTooltipData: lineTouchTooltipData1,
   getTouchLineEnd: (barData, index) => double.infinity,
 );
+final LineTouchData lineTouchData8 = LineTouchData(
+  enabled: true,
+  touchCallback: lineTouchCallback,
+  getTouchedSpotIndicator: getTouchedSpotIndicator,
+  handleBuiltInTouches: false,
+  touchSpotThreshold: 12,
+  touchTooltipData: lineTouchTooltipData1,
+  longPressDuration: Duration.zero,
+);
 
 String horizontalLabelResolver(HorizontalLine horizontalLine) => 'test';
 
@@ -2984,6 +2993,15 @@ final BarTouchData barTouchData9 = BarTouchData(
   enabled: false,
   allowTouchBarBackDraw: true,
   touchExtraThreshold: const EdgeInsets.only(left: 12),
+);
+final BarTouchData barTouchData10 = BarTouchData(
+  touchTooltipData: barTouchTooltipData1,
+  handleBuiltInTouches: false,
+  touchCallback: barTouchCallback,
+  enabled: false,
+  allowTouchBarBackDraw: true,
+  touchExtraThreshold: const EdgeInsets.all(12),
+  longPressDuration: Duration.zero,
 );
 
 final BarChartData barChartData1 = BarChartData(

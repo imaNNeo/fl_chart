@@ -267,13 +267,19 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
     bool? enabled,
     BaseTouchCallback<ScatterTouchResponse>? touchCallback,
     MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
   })  : touchTooltipData = touchTooltipData ?? ScatterTouchTooltipData(),
         touchSpotThreshold = touchSpotThreshold ?? 0,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
-        super(enabled ?? true, touchCallback, mouseCursorResolver);
+        super(
+          enabled ?? true,
+          touchCallback,
+          mouseCursorResolver,
+          longPressDuration,
+        );
 
   /// show a tooltip on touched spots
   final ScatterTouchTooltipData touchTooltipData;
@@ -291,6 +297,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
     bool? enabled,
     BaseTouchCallback<ScatterTouchResponse>? touchCallback,
     MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
     ScatterTouchTooltipData? touchTooltipData,
     double? touchSpotThreshold,
     bool? handleBuiltInTouches,
@@ -299,6 +306,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
       enabled: enabled ?? this.enabled,
       touchCallback: touchCallback ?? this.touchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
+      longPressDuration: longPressDuration ?? this.longPressDuration,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
@@ -311,6 +319,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
         enabled,
         touchCallback,
         mouseCursorResolver,
+        longPressDuration,
         touchTooltipData,
         touchSpotThreshold,
         handleBuiltInTouches,

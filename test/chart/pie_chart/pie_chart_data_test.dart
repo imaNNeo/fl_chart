@@ -149,6 +149,12 @@ void main() {
         enabled: false,
       );
       expect(sample1 == disabled, false);
+
+      final zeroLongPressDuration = PieTouchData(
+        enabled: true,
+        longPressDuration: Duration.zero,
+      );
+      expect(sample1 == zeroLongPressDuration, false);
     });
   });
 }
