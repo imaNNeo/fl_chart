@@ -1924,6 +1924,7 @@ void main() {
         ],
         extraLinesData: ExtraLinesData(
           horizontalLines: [horizontalLine],
+          extraLinesOnTop: false,
         ),
       );
 

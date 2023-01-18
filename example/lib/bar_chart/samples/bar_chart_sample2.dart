@@ -15,6 +15,7 @@ class BarChartSample2State extends State<BarChartSample2> {
 
   late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
+  late ExtraLinesData extraLinesData;
 
   int touchedGroupIndex = -1;
 
@@ -38,6 +39,17 @@ class BarChartSample2State extends State<BarChartSample2> {
       barGroup6,
       barGroup7,
     ];
+
+    extraLinesData = ExtraLinesData(
+      extraLinesOnTop: false,
+      horizontalLines: [
+        HorizontalLine(
+          y: 5,
+          label: HorizontalLineLabel(show: true, labelResolver: (p0) => '2.5k'),
+        ),
+        HorizontalLine(y: 19)
+      ],
+    );
 
     rawBarGroups = items;
 
@@ -160,6 +172,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                     ),
                     barGroups: showingBarGroups,
                     gridData: FlGridData(show: false),
+                    extraLinesData: extraLinesData,
                   ),
                 ),
               ),

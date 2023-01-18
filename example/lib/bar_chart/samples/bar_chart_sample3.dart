@@ -15,6 +15,7 @@ class _BarChart extends StatelessWidget {
         gridData: FlGridData(show: false),
         alignment: BarChartAlignment.spaceAround,
         maxY: 20,
+        extraLinesData: _extraLinesData,
       ),
     );
   }
@@ -187,6 +188,51 @@ class _BarChart extends StatelessWidget {
           showingTooltipIndicators: [0],
         ),
       ];
+
+  ExtraLinesData get _extraLinesData => ExtraLinesData(
+        horizontalLines: [
+          HorizontalLine(
+            y: 11.6,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => 'μ: ${p0.y}',
+            ),
+            color: Colors.amber,
+          ),
+          HorizontalLine(
+            y: 14.15,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '1σ: ${p0.y}',
+            ),
+            color: Colors.lightBlueAccent,
+          ),
+          HorizontalLine(
+            y: 16.64,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '2σ: ${p0.y}',
+            ),
+            color: Colors.blueAccent,
+          ),
+          HorizontalLine(
+            y: 9.1,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '-1σ: ${p0.y}',
+            ),
+            color: Colors.lightBlueAccent,
+          ),
+          HorizontalLine(
+            y: 6.61,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '-2σ: ${p0.y}',
+            ),
+            color: Colors.blueAccent,
+          ),
+        ],
+      );
 }
 
 class BarChartSample3 extends StatefulWidget {

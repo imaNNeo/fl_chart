@@ -23,7 +23,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |betweenBarsData| list of [BetweenBarsData](#BetweenBarsData ) to fill the area between 2 chart lines|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
-|extraLinesData| [ExtraLinesData](#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines.|
+|extraLinesData| [ExtraLinesData](base_chart.md#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines. Check [ExtraLinesData](base_chart.md#ExtraLinesData)|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
 |showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot)| [] |
@@ -100,63 +100,6 @@ When you change the chart's state, it animates to the new state internally (usin
 |show|determines to show or hide the dots|true|
 |checkToShowDot|a function to determine whether to show or hide the dot on the given spot|showAllDots|
 |getDotPainter|a function to determine how the dot is drawn on the given spot|_defaultGetDotPainter|
-
-
-### HorizontalLine
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|y|draw straight line from left to right of the chart with dynamic y value|null|
-|color|color of the line|Colors.black|
-|strokeWidth|strokeWidth of the line|2|
-|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
-|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
-|label|a [HorizontalLineLabel](#HorizontalLineLabel) object with label parameters|null
-
-
-### VerticalLine
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|x|draw straight line from bottom to top of the chart with dynamic x value|null|
-|color|color of the line|Colors.black|
-|strokeWidth|strokeWidth of the line|2|
-|image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
-|sizedPicture|uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
-|label|a [VerticalLineLabel](#VerticalLineLabel) object with label parameters|null
-
-### SizedPicture
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|Picture|a Dart UI Picture which should be derived from the svg. see example for how to get a Picture from an svg.|null|
-|width|the width of the picture|null|
-|height|the height of the picture|null|
-
-### HorizontalLineLabel
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|show| Determines showing or not showing label|false|
-|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
-|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
-|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
-|labelResolver|Getter function returning label title|defaultLineLabelResolver|
-
-### VerticalLineLabel
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|show| Determines showing or not showing label|false|
-|padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
-|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
-|alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
-|labelResolver|Getter function returning label title|defaultLineLabelResolver|
-
-
-
-### ExtraLinesData
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|extraLinesOnTop|determines to paint the extraLines over the trendline or below it|true|
-|horizontalLines|list of [HorizontalLine](#HorizontalLine) to draw on the chart|[]|
-|verticalLines|list of [VerticalLine](#VerticalLine) to draw on the chart|[]|
-
 
 ### LineTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
