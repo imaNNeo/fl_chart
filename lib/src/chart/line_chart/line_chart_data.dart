@@ -7,6 +7,7 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Image;
 
 /// [LineChart] needs this class to render itself.
@@ -1425,6 +1426,37 @@ class ExtraLinesData with EquatableMixin {
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
 class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
+<<<<<<< HEAD
+=======
+  /// Configs of how touch tooltip popup.
+  final LineTouchTooltipData touchTooltipData;
+
+  /// Configs of how touch indicator looks like.
+  final GetTouchedSpotIndicator getTouchedSpotIndicator;
+
+  /// Distance threshold to handle the touch event.
+  final double touchSpotThreshold;
+
+  /// Distance function used when finding closest points to touch point
+  final CalculateTouchDistance distanceCalculator;
+
+  /// Determines to handle default built-in touch responses,
+  /// [LineTouchResponse] shows a tooltip popup above the touched spot.
+  final bool handleBuiltInTouches;
+
+  /// The starting point on y axis of the touch line. By default, line starts on the bottom of
+  /// the chart.
+  final GetTouchLineY getTouchLineStart;
+
+  /// The end point on y axis of the touch line. By default, line ends at the touched point.
+  /// If line end is overlap with the dot, it will be automatically adjusted to the edge of the dot.
+  final GetTouchLineY getTouchLineEnd;
+
+  /// This property that allows to customize the duration of the longPress gesture.
+  /// default to 500 milliseconds.
+  final Duration? longPressDuration;
+
+>>>>>>> 575fe53 (Moved `longPressDuration` property to `LineTouchData`)
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -1453,6 +1485,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     bool? handleBuiltInTouches,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
+    Duration? longPressDuration,
   })  : touchTooltipData = touchTooltipData ?? LineTouchTooltipData(),
         getTouchedSpotIndicator =
             getTouchedSpotIndicator ?? defaultTouchedIndicators,
@@ -1461,6 +1494,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
+        longPressDuration = longPressDuration ?? kLongPressTimeout,
         super(enabled ?? true, touchCallback, mouseCursorResolver);
 
   /// Configs of how touch tooltip popup.
@@ -1499,6 +1533,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     CalculateTouchDistance? distanceCalculator,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
+    Duration? longPressDuration,
     bool? handleBuiltInTouches,
   }) {
     return LineTouchData(
@@ -1512,6 +1547,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
       distanceCalculator: distanceCalculator ?? this.distanceCalculator,
       getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
       getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
+      longPressDuration: longPressDuration ?? this.longPressDuration,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
     );
   }

@@ -130,7 +130,6 @@ void main() {
         data,
         targetData,
         textScale,
-        longPressDuration: Duration.zero,
       );
 
       renderLineChart.mockTestSize = mockSize;

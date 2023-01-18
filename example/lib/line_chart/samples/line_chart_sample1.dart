@@ -11,8 +11,6 @@ class _LineChart extends StatelessWidget {
     return LineChart(
       isShowingMainData ? sampleData1 : sampleData2,
       swapAnimationDuration: const Duration(milliseconds: 250),
-      // You can customize how long it takes for tooltips to appear.
-      // longPressDuration: Duration.zero,
     );
   }
 
@@ -45,6 +43,8 @@ class _LineChart extends StatelessWidget {
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
         ),
+        // You can customize how long it takes for tooltips to appear.
+        // longPressDuration: Duration.zero,
       );
 
   FlTitlesData get titlesData1 => FlTitlesData(
