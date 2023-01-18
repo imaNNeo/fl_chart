@@ -1003,3 +1003,201 @@ class VerticalLine extends FlLine with EquatableMixin {
         sizedPicture,
       ];
 }
+
+/// Draws a title on the [HorizontalLine]
+class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
+  /// Draws a title on the [HorizontalLine], align it with [alignment] over the line,
+  /// applies [padding] for spaces, and applies [style for changing color,
+  /// size, ... of the text.
+  /// Drawing text will retrieve through [labelResolver],
+  /// you can override it with your custom data.
+  /// /// [show] determines showing label or not.
+  HorizontalLineLabel({
+    EdgeInsets? padding,
+    super.style,
+    Alignment? alignment,
+    super.show = false,
+    String Function(HorizontalLine)? labelResolver,
+  })  : labelResolver =
+            labelResolver ?? HorizontalLineLabel.defaultLineLabelResolver,
+        super(
+          padding: padding ?? const EdgeInsets.all(6),
+          alignment: alignment ?? Alignment.topLeft,
+        );
+
+  /// Resolves a label for showing.
+  final String Function(HorizontalLine) labelResolver;
+
+  /// Returns the [HorizontalLine.y] as the drawing label.
+  static String defaultLineLabelResolver(HorizontalLine line) =>
+      line.y.toStringAsFixed(1);
+
+  /// Lerps a [HorizontalLineLabel] based on [t] value, check [Tween.lerp].
+  static HorizontalLineLabel lerp(
+    HorizontalLineLabel a,
+    HorizontalLineLabel b,
+    double t,
+  ) {
+    return HorizontalLineLabel(
+      padding:
+          EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t),
+      style: TextStyle.lerp(a.style, b.style, t),
+      alignment: Alignment.lerp(a.alignment, b.alignment, t),
+      labelResolver: b.labelResolver,
+      show: b.show,
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        labelResolver,
+        show,
+        padding,
+        style,
+        alignment,
+      ];
+}
+
+/// Draws a title on the [VerticalLine]
+class VerticalLineLabel extends FlLineLabel with EquatableMixin {
+  /// Draws a title on the [VerticalLine], align it with [alignment] over the line,
+  /// applies [padding] for spaces, and applies [style for changing color,
+  /// size, ... of the text.
+  /// Drawing text will retrieve through [labelResolver],
+  /// you can override it with your custom data.
+  /// [show] determines showing label or not.
+  VerticalLineLabel({
+    EdgeInsets? padding,
+    TextStyle? style,
+    Alignment? alignment,
+    bool? show,
+    String Function(VerticalLine)? labelResolver,
+  })  : labelResolver =
+            labelResolver ?? VerticalLineLabel.defaultLineLabelResolver,
+        super(
+          show: show ?? false,
+          padding: padding ?? const EdgeInsets.all(6),
+          style: style ??
+              const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+          alignment: alignment ?? Alignment.bottomRight,
+        );
+
+  /// Resolves a label for showing.
+  final String Function(VerticalLine) labelResolver;
+
+  /// Returns the [VerticalLine.x] as the drawing label.
+  static String defaultLineLabelResolver(VerticalLine line) =>
+      line.x.toStringAsFixed(1);
+
+  /// Lerps a [VerticalLineLabel] based on [t] value, check [Tween.lerp].
+  static VerticalLineLabel lerp(
+    VerticalLineLabel a,
+    VerticalLineLabel b,
+    double t,
+  ) {
+    return VerticalLineLabel(
+      padding:
+          EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t),
+      style: TextStyle.lerp(a.style, b.style, t),
+      alignment: Alignment.lerp(a.alignment, b.alignment, t),
+      labelResolver: b.labelResolver,
+      show: b.show,
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        labelResolver,
+        show,
+        padding,
+        style,
+        alignment,
+      ];
+}
+
+/// Holds data for showing a vector image inside the chart.
+///
+/// for example:
+/// ```
+/// Future<SizedPicture> loadSvg() async {
+///    const String rawSvg = 'your svg string';
+///    final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
+///    final sizedPicture = SizedPicture(svgRoot.toPicture(), 14, 14);
+///    return sizedPicture;
+///  }
+/// ```
+class SizedPicture with EquatableMixin {
+  /// [picture] is the showing image,
+  /// it can retrieve from a svg icon,
+  /// for example:
+  /// ```
+  ///    const String rawSvg = 'your svg string';
+  ///    final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
+  ///    final picture = svgRoot.toPicture()
+  /// ```
+  /// [width] and [height] determines the size of our picture.
+  SizedPicture(this.picture, this.width, this.height);
+
+  /// Is the showing image.
+  Picture picture;
+
+  /// width of our [picture].
+  int width;
+
+  /// height of our [picture].
+  int height;
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        picture,
+        width,
+        height,
+      ];
+}
+
+/// Draws some straight horizontal or vertical lines in the [LineChart]
+class ExtraLinesData with EquatableMixin {
+  /// [LineChart] draws some straight horizontal or vertical lines,
+  /// you should set [LineChartData.extraLinesData].
+  /// Draws horizontal lines using [horizontalLines],
+  /// and vertical lines using [verticalLines].
+  ///
+  /// If [extraLinesOnTop] sets true, it draws the line above the main bar lines, otherwise
+  /// it draws them below the main bar lines.
+  ExtraLinesData({
+    List<HorizontalLine>? horizontalLines,
+    List<VerticalLine>? verticalLines,
+    bool? extraLinesOnTop,
+  })  : horizontalLines = horizontalLines ?? const [],
+        verticalLines = verticalLines ?? const [],
+        extraLinesOnTop = extraLinesOnTop ?? true;
+  final List<HorizontalLine> horizontalLines;
+  final List<VerticalLine> verticalLines;
+
+  final bool extraLinesOnTop;
+
+  /// Lerps a [ExtraLinesData] based on [t] value, check [Tween.lerp].
+  static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
+    return ExtraLinesData(
+      extraLinesOnTop: b.extraLinesOnTop,
+      horizontalLines:
+          lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
+      verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        horizontalLines,
+        verticalLines,
+        extraLinesOnTop,
+      ];
+}
