@@ -32,7 +32,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
 |minY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
 |baselineY| defines the baseline of y-axis | 0|
-|extraLinesData|[ExtraLinesData](#ExtraLinesData) allows extra horizontal and vertical lines to be drawn on the chart. Please see [#1149](https://github.com/imaNNeoFighT/fl_chart/issues/1149) for using vertical lines. Check [ExtraLinesData](base_chart.md#RangeAnnotations)|
+|extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeoFighT/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|
 
 
 ### BarChartGroupData

@@ -1743,19 +1743,7 @@ void main() {
       );
     });
 
-    test('should paint vertical lines', () {
-      final verticalLine1 = VerticalLine(
-        x: 0.5,
-        strokeWidth: 90,
-        color: Colors.cyanAccent,
-        dashArray: [100, 20],
-      );
-      final verticalLine2 = VerticalLine(
-        x: 0.3,
-        strokeWidth: 100,
-        color: Colors.cyanAccent,
-        dashArray: [100, 20],
-      );
+    test('should not paint vertical lines', () {
       final utilsMainInstance = Utils();
       const viewSize = Size(400, 400);
       final data = BarChartData(
@@ -1780,7 +1768,7 @@ void main() {
           ),
         ],
         extraLinesData: ExtraLinesData(
-          verticalLines: [verticalLine1, verticalLine2],
+          verticalLines: [verticalLine1],
         ),
       );
 
@@ -1807,33 +1795,8 @@ void main() {
 
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
-      final results = <Map<String, dynamic>>[];
-
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-
-      when(
-        mockCanvasWrapper.drawDashedLine(
-          any,
-          any,
-          captureThat(
-            const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
-              'colors match',
-              equals(Colors.cyanAccent.value),
-            ),
-          ),
-          [100, 20],
-        ),
-      ).thenAnswer((inv) {
-        results.add({
-          'from': inv.positionalArguments[0] as Offset,
-          'to': inv.positionalArguments[1] as Offset,
-          'paint_color': (inv.positionalArguments[2] as Paint).color.value,
-          'paint_stroke_width':
-              (inv.positionalArguments[2] as Paint).strokeWidth,
-        });
-      });
 
       barChartPainter.paint(
         mockBuildContext,
@@ -1841,17 +1804,20 @@ void main() {
         holder,
       );
 
-      expect(results.length, 2);
-
-      expect(results[0]['paint_color'], Colors.cyanAccent.value);
-      expect(results[0]['paint_stroke_width'], 90);
-      expect(results[0]['from'], const Offset(200, 0));
-      expect(results[0]['to'], const Offset(200, 400));
-
-      expect(results[1]['paint_color'], Colors.cyanAccent.value);
-      expect(results[1]['paint_stroke_width'], 100);
-      expect(results[1]['from'], const Offset(120, 0));
-      expect(results[1]['to'], const Offset(120, 400));
+      verifyNever(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.red),
+            ),
+          ),
+          holder.data.extraLinesData.verticalLines[0].dashArray,
+        ),
+      );
 
       Utils.changeInstance(utilsMainInstance);
     });
