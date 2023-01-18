@@ -613,8 +613,12 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
         touchExtraThreshold = touchExtraThreshold ?? const EdgeInsets.all(4),
         allowTouchBarBackDraw = allowTouchBarBackDraw ?? false,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
-        super(enabled ?? true, touchCallback, mouseCursorResolver,
-            longPressDuration);
+        super(
+          enabled ?? true,
+          touchCallback,
+          mouseCursorResolver,
+          longPressDuration,
+        );
 
   /// Configs of how touch tooltip popup.
   final BarTouchTooltipData touchTooltipData;

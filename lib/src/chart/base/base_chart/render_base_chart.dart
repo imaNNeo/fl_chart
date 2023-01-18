@@ -80,7 +80,8 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
       };
 
-    _longPressGestureRecognizer = LongPressGestureRecognizer();
+    _longPressGestureRecognizer =
+        LongPressGestureRecognizer(duration: _longPressDuration);
     _longPressGestureRecognizer
       ..onLongPressStart = (longPressStartDetails) {
         _notifyTouchEvent(FlLongPressStart(longPressStartDetails));
