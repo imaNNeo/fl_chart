@@ -32,7 +32,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
   ///
   /// You can modify [barTouchData] to customize touch behaviors and responses.
   ///
-  /// Horizontal lines are drawn with [extraLinesData]. Vertical lines will not be painted if received.
+  /// Extra vertical and horizontal lines are drawn with [extraLinesData]
   BarChartData({
     List<BarChartGroupData>? barGroups,
     double? groupsSpace,

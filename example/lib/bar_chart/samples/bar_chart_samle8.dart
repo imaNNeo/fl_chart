@@ -15,6 +15,7 @@ class _BarChart extends StatelessWidget {
         gridData: FlGridData(show: false),
         alignment: BarChartAlignment.spaceAround,
         maxY: 20,
+        extraLinesData: _extraLinesData,
       ),
     );
   }
@@ -44,32 +45,32 @@ class _BarChart extends StatelessWidget {
 
   Widget getTitles(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Color(0xff7589a2),
+      color: Colors.white70,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
     String text;
     switch (value.toInt()) {
       case 0:
-        text = 'Mn';
+        text = 'User 1';
         break;
       case 1:
-        text = 'Te';
+        text = 'User 2';
         break;
       case 2:
-        text = 'Wd';
+        text = 'User 3';
         break;
       case 3:
-        text = 'Tu';
+        text = 'User 4';
         break;
       case 4:
-        text = 'Fr';
+        text = 'User 5';
         break;
       case 5:
-        text = 'St';
+        text = 'User 6';
         break;
       case 6:
-        text = 'Sn';
+        text = 'User 7';
         break;
       default:
         text = '';
@@ -108,8 +109,8 @@ class _BarChart extends StatelessWidget {
 
   LinearGradient get _barsGradient => const LinearGradient(
         colors: [
-          Colors.lightBlueAccent,
-          Colors.greenAccent,
+          Colors.pink,
+          Colors.lightBlue,
         ],
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
@@ -187,16 +188,66 @@ class _BarChart extends StatelessWidget {
           showingTooltipIndicators: [0],
         ),
       ];
+
+  ExtraLinesData get _extraLinesData => ExtraLinesData(
+        horizontalLines: [
+          HorizontalLine(
+            y: 11.6,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => 'μ: ${p0.y}',
+              style: const TextStyle(color: Colors.white70),
+            ),
+            color: Colors.pink,
+          ),
+          HorizontalLine(
+            y: 14.15,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '1σ: ${p0.y}',
+              style: const TextStyle(color: Colors.white70),
+            ),
+            color: Colors.lightBlueAccent,
+          ),
+          HorizontalLine(
+            y: 16.64,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '2σ: ${p0.y}',
+              style: const TextStyle(color: Colors.white70),
+            ),
+            color: Colors.blueAccent,
+          ),
+          HorizontalLine(
+            y: 9.1,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '-1σ: ${p0.y}',
+              style: const TextStyle(color: Colors.white70),
+            ),
+            color: Colors.lightBlueAccent,
+          ),
+          HorizontalLine(
+            y: 6.61,
+            label: HorizontalLineLabel(
+              show: true,
+              labelResolver: (p0) => '-2σ: ${p0.y}',
+              style: const TextStyle(color: Colors.white70),
+            ),
+            color: Colors.blueAccent,
+          ),
+        ],
+      );
 }
 
-class BarChartSample3 extends StatefulWidget {
-  const BarChartSample3({super.key});
+class BarChartSample8 extends StatefulWidget {
+  const BarChartSample8({super.key});
 
   @override
-  State<StatefulWidget> createState() => BarChartSample3State();
+  State<StatefulWidget> createState() => BarChartSample8State();
 }
 
-class BarChartSample3State extends State<BarChartSample3> {
+class BarChartSample8State extends State<BarChartSample8> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -204,7 +255,7 @@ class BarChartSample3State extends State<BarChartSample3> {
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        color: const Color(0xff2c4260),
+        color: Colors.blueGrey,
         child: const _BarChart(),
       ),
     );
