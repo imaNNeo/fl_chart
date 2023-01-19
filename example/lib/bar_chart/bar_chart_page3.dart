@@ -1,9 +1,9 @@
-import 'package:example/bar_chart/samples/bar_chart_samle8.dart';
 import 'package:example/bar_chart/samples/bar_chart_sample3.dart';
 import 'package:example/bar_chart/samples/bar_chart_sample4.dart';
 import 'package:example/bar_chart/samples/bar_chart_sample5.dart';
 import 'package:example/bar_chart/samples/bar_chart_sample6.dart';
 import 'package:example/bar_chart/samples/bar_chart_sample7.dart';
+import 'package:example/bar_chart/samples/bar_chart_sample8.dart';
 import 'package:flutter/material.dart';
 
 class BarChartPage3 extends StatelessWidget {
