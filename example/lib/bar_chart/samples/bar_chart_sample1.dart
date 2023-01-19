@@ -22,7 +22,7 @@ class BarChartSample1 extends StatefulWidget {
 }
 
 class BarChartSample1State extends State<BarChartSample1> {
-  final Color barBackgroundColor = const Color(0xff72d8bf);
+  final List<Color> barBackgroundColors = const [Color(0xff72d8bf)];
   final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;
@@ -127,7 +127,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 20,
-            color: barBackgroundColor,
+            colors: barBackgroundColors,
           ),
         ),
       ],
