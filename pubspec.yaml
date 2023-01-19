@@ -21,3 +21,19 @@ dev_dependencies:
   mockito: ^5.3.2
   vector_math: ^2.1.2 #Added to use in some generated codes of mockito
   very_good_analysis: ^3.1.0
+
+screenshots:
+  - description: 'This screenshot shows two LineCharts. First one has curved lines with different colors. Second one has a below colored area.'
+    path: repo_files/images/line_chart/line_chart.jpg
+  - description: 'This screenshot shows a linechart sample which updates continuously. You can connect it with a real-time data stream'
+    path: repo_files/images/line_chart/line_chart_sample_10.gif
+  - description: 'This screenshot shows two BarCharts. First one is a grouped bar chart. Second one has a back draw bars and shows a tooltip when you hover or touch the lines.'
+    path: repo_files/images/bar_chart/bar_chart.jpg
+  - description: 'This is a barchart with some icons as its bottom titles. So we used flutter widgets and you can put any customized widget you want.'
+    path: repo_files/images/bar_chart/bar_chart_sample_7.gif
+  - description: 'This screenshot shows three PieCharts. First one is a pieChart with a space between the sections. Second one has a centered circle blank area. Third one has some widgets in the PieChartSections'
+    path: repo_files/images/pie_chart/pie_chart.jpg
+  - description: 'This screenshot shows a ScatterChart. When you touch/click on a spot, it turns to a colored spot with a tooltip above it'
+    path: repo_files/images/scatter_chart/scatter_chart_sample_2.gif
+  - description: 'This screenshot shows a RadarChart. There are three metrics and there are 5 data entries with different colors'
+    path: repo_files/images/radar_chart/radar_chart_sample_1.jpg
