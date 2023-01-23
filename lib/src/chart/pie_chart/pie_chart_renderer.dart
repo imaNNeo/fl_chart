@@ -161,7 +161,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
   @override
   void visitChildrenForSemantics(RenderObjectVisitor visitor) {
     /// It produces an error when we change the sections list, Check this issue:
-    /// https://github.com/imaNNeoFighT/fl_chart/issues/861
+    /// https://github.com/imaNNeo/fl_chart/issues/861
     ///
     /// Below is the error message:
     /// Updated layout information required for RenderSemanticsAnnotations#f3b96 NEEDS-LAYOUT NEEDS-PAINT to calculate semantics.

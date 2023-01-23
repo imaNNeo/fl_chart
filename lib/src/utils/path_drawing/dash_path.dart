@@ -17,7 +17,7 @@ Path dashPath(
   assert(dashArray != null); // ignore: unnecessary_null_comparison
 
   dashOffset = dashOffset ?? const DashOffset.absolute(0);
-  // TODO(imaNNeoFighT): Is there some way to determine how much of a path would be visible today?
+  // TODO(imaNNeo): Is there some way to determine how much of a path would be visible today?
 
   final dest = Path();
   for (final metric in source.computeMetrics()) {
