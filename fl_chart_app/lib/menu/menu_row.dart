@@ -21,37 +21,34 @@ class MenuRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: AppDimens.menuRowVerticalSpace),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            height: AppDimens.menuRowHeight,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 36,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: AppDimens.menuRowHeight,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 36,
+              ),
+              SvgPicture.asset(
+                svgPath,
+                width: AppDimens.menuIconSize,
+                height: AppDimens.menuIconSize,
+                color: AppColors.flCyan,
+              ),
+              SizedBox(
+                width: 18,
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                  color: _showSelectedState ? AppColors.flCyan : Colors.white,
+                  fontSize: AppDimens.menuTextSize,
                 ),
-                SvgPicture.asset(
-                  svgPath,
-                  width: AppDimens.menuIconSize,
-                  height: AppDimens.menuIconSize,
-                  color: AppColors.flCyan,
-                ),
-                SizedBox(
-                  width: 18,
-                ),
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: _showSelectedState ? AppColors.flCyan : Colors.white,
-                    fontSize: AppDimens.menuTextSize,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
