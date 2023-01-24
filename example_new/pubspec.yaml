@@ -8,10 +8,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.3
-  google_fonts: ^2.1.0
-  flutter_svg: ^0.22.0
-  universal_platform: ^1.0.0-nullsafety
+  cupertino_icons: ^1.0.5
+  google_fonts: ^3.0.1
+  flutter_svg: ^1.1.6
+  universal_platform: ^1.0.0+1
   fl_chart:
     path: ../
 
