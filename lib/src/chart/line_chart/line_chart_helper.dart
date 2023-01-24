@@ -47,6 +47,10 @@ class LineChartHelper {
     var maxY = firstValidSpot.y;
 
     for (final barData in lineBarsData) {
+      if (barData.spots.isEmpty) {
+        continue;
+      }
+
       if (barData.mostRightSpot.x > maxX) {
         maxX = barData.mostRightSpot.x;
       }
