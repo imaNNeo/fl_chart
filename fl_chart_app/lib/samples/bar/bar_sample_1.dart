@@ -10,16 +10,16 @@ class BarSample1 extends StatelessWidget {
     return BarChart(BarChartData(
       barGroups: [
         BarChartGroupData(x: 0, barRods: [
-          BarChartRodData(y: 4, colors: [AppColors.flCyan])
+          BarChartRodData(toY: 4, color: AppColors.flCyan)
         ]),
         BarChartGroupData(x: 1, barRods: [
-          BarChartRodData(y: 6, colors: [AppColors.flCyan])
+          BarChartRodData(toY: 6, color: AppColors.flCyan)
         ]),
         BarChartGroupData(x: 2, barRods: [
-          BarChartRodData(y: 3, colors: [AppColors.flCyan])
+          BarChartRodData(toY: 3, color: AppColors.flCyan)
         ]),
         BarChartGroupData(x: 3, barRods: [
-          BarChartRodData(y: 1, colors: [AppColors.flCyan])
+          BarChartRodData(toY: 1, color: AppColors.flCyan)
         ]),
       ],
       titlesData: FlTitlesData(show: false),
