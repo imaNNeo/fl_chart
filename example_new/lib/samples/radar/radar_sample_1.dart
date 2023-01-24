@@ -16,7 +16,7 @@ class RadarSample1 extends StatelessWidget {
               RadarEntry(value: 1),
               RadarEntry(value: 3),
             ],
-            fillColor: AppColors.flCyan.withOpacity(0.7),
+            fillColor: AppColors.primary.withOpacity(0.7),
           ),
           RadarDataSet(
             dataEntries: [

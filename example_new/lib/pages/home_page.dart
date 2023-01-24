@@ -16,11 +16,11 @@ class _HomePageState extends State<HomePage> {
   late int selectedMenuIndex;
 
   final menuItems = [
-    ChartMenuItem(ChartType.LINE, ChartType.LINE.getSimpleName(), AppAssets.icLineChart),
-    ChartMenuItem(ChartType.BAR, ChartType.BAR.getSimpleName(), AppAssets.icBarChart),
-    ChartMenuItem(ChartType.PIE, ChartType.PIE.getSimpleName(), AppAssets.icPieChart),
-    ChartMenuItem(ChartType.SCATTER, ChartType.SCATTER.getSimpleName(), AppAssets.icScatterChart),
-    ChartMenuItem(ChartType.RADAR, ChartType.RADAR.getSimpleName(), AppAssets.icRadarChart),
+    ChartMenuItem(ChartType.line, ChartType.line.getSimpleName(), AppAssets.icLineChart),
+    ChartMenuItem(ChartType.bar, ChartType.bar.getSimpleName(), AppAssets.icBarChart),
+    ChartMenuItem(ChartType.pie, ChartType.pie.getSimpleName(), AppAssets.icPieChart),
+    ChartMenuItem(ChartType.scatter, ChartType.scatter.getSimpleName(), AppAssets.icScatterChart),
+    ChartMenuItem(ChartType.radar, ChartType.radar.getSimpleName(), AppAssets.icRadarChart),
   ];
 
   @override

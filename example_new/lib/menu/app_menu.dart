@@ -73,7 +73,7 @@ class _AppMenuState extends State<AppMenu> {
                   child: Text(
                     'Update',
                     style: TextStyle(
-                      color: AppColors.flCyan,
+                      color: AppColors.primary,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),

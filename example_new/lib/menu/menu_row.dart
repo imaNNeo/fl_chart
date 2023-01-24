@@ -36,7 +36,7 @@ class MenuRow extends StatelessWidget {
                 svgPath,
                 width: AppDimens.menuIconSize,
                 height: AppDimens.menuIconSize,
-                color: AppColors.flCyan,
+                color: AppColors.primary,
               ),
               SizedBox(
                 width: 18,
@@ -44,7 +44,7 @@ class MenuRow extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: _showSelectedState ? AppColors.flCyan : Colors.white,
+                  color: _showSelectedState ? AppColors.primary : Colors.white,
                   fontSize: AppDimens.menuTextSize,
                 ),
               ),
