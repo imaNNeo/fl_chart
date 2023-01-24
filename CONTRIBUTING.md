@@ -46,6 +46,12 @@ It makes draw functions testable.
 
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
+## Keep your branch updated
+While you are developing your branch, It is common that your branch gets outdated and you need to update your branch with the `master` branch.
+To do that, please use `rebase` instead of `merge`. Because when you finish the PR, we must `rebase` your branch and merge it with the master.
+The reason that we prefer `rebase` over `merge` is the simplicity of the commit history. It allows us to have sequential commits in the `master`
+[This article](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) might help to understand it better.
+
 ## Checking Your Code's Quality
 
 After you have made your changes, you have to make sure your code works
