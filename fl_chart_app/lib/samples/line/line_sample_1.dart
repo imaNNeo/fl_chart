@@ -14,9 +14,7 @@ class LineSample1 extends StatelessWidget {
             dotData: FlDotData(
               show: false,
             ),
-            colors: [
-              AppColors.flCyan,
-            ],
+            color: AppColors.flCyan,
             spots: [
               FlSpot(0, 0),
               FlSpot(1, 2),
