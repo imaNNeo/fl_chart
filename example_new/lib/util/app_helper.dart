@@ -1,19 +1,19 @@
-enum ChartType { LINE, BAR, PIE, SCATTER, RADAR }
+enum ChartType { line, bar, pie, scatter, radar }
 
 extension ChartTypeExtension on ChartType {
   String getName() => '${getSimpleName()} Chart';
 
   String getSimpleName() {
     switch (this) {
-      case ChartType.LINE:
+      case ChartType.line:
         return 'Line';
-      case ChartType.BAR:
+      case ChartType.bar:
         return 'Bar';
-      case ChartType.PIE:
+      case ChartType.pie:
         return 'Pie';
-      case ChartType.SCATTER:
+      case ChartType.scatter:
         return 'Scatter';
-      case ChartType.RADAR:
+      case ChartType.radar:
         return 'Radar';
     }
   }

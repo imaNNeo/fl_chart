@@ -9,9 +9,9 @@ class PieSample1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return PieChart(PieChartData(
       sections: [
-        PieChartSectionData(value: 10, radius: 80, color: AppColors.flCyan),
-        PieChartSectionData(value: 20, radius: 80, color: AppColors.flCyan),
-        PieChartSectionData(value: 30, radius: 80, color: AppColors.flCyan),
+        PieChartSectionData(value: 10, radius: 80, color: AppColors.primary),
+        PieChartSectionData(value: 20, radius: 80, color: AppColors.primary),
+        PieChartSectionData(value: 30, radius: 80, color: AppColors.primary),
       ],
     ));
   }
