@@ -31,7 +31,7 @@ void main() {
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (double value, TitleMeta meta) {
-            return Text('L-${value.toInt().toString()}');
+            return Text('L-${value.toInt()}');
           },
           interval: 1,
         ),
@@ -41,7 +41,7 @@ void main() {
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (double value, TitleMeta meta) {
-            return Text('T-${value.toInt().toString()}');
+            return Text('T-${value.toInt()}');
           },
           interval: 1,
         ),
@@ -51,7 +51,7 @@ void main() {
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (double value, TitleMeta meta) {
-            return Text('R-${value.toInt().toString()}');
+            return Text('R-${value.toInt()}');
           },
           interval: 1,
         ),
@@ -61,7 +61,7 @@ void main() {
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (double value, TitleMeta meta) {
-            return Text('B-${value.toInt().toString()}');
+            return Text('B-${value.toInt()}');
           },
           interval: 1,
         ),
@@ -77,7 +77,7 @@ void main() {
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (double value, TitleMeta meta) {
-            return Text('L-${value.toInt().toString()}');
+            return Text('L-${value.toInt()}');
           },
           interval: 1,
         ),
@@ -96,7 +96,7 @@ void main() {
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (double value, TitleMeta meta) {
-            return Text('L-${value.toInt().toString()}');
+            return Text('L-${value.toInt()}');
           },
           interval: 1,
         ),
