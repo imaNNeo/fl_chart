@@ -14,8 +14,8 @@ Look at the below samples:
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
 **Breaking:**
-Previously in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlTitlesData), there were four [SideTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles). Now we have four [AxisTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#axistitle) instead and [SideTitles](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) can be placed inside [AxisTitle](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#AxisTitle).
-In fact, we removed `AxisTitlesData` class (which used to hold four `AxisTitle`). Now you can put them in [FlTitlesData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltitlesdata).
+Previously in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlTitlesData), there were four [SideTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles). Now we have four [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#axistitle) instead and [SideTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) can be placed inside [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#AxisTitle).
+In fact, we removed `AxisTitlesData` class (which used to hold four `AxisTitle`). Now you can put them in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltitlesdata).
 
     bool? showTitle,
     String? titleText,
@@ -121,11 +121,11 @@ Gradient? gradient,
 * You need to fill one of them.
 
 These are the affected classes:
-* [BarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata)
-* [BackgroundBarChartRodData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata)
-* [BarAreaData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#BarAreaData)
-* [BetweenBarsData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#betweenbarsdata)
-* [LineChartBarData](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata)
+* [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata)
+* [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata)
+* [BarAreaData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#BarAreaData)
+* [BetweenBarsData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#betweenbarsdata)
+* [LineChartBarData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata)
 
 Check the below sample:
 
