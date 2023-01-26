@@ -1,6 +1,6 @@
 name: fl_chart
 description: A highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.
-version: 0.55.2
+version: 0.60.0
 homepage: https://github.com/imaNNeo/fl_chart
 
 environment:
@@ -23,17 +23,17 @@ dev_dependencies:
   very_good_analysis: ^3.1.0
 
 screenshots:
-  - description: 'This screenshot shows two LineCharts. The first one has curved lines with different colors. The second one has a below-colored area.'
-    path: repo_files/images/line_chart/line_chart.jpg
+  - description: 'The first LineChart has curved lines with different colors. The second one has a below-colored area.'
+    path: pub_screenshots/line_chart.jpg
   - description: 'This screenshot shows a LineChart sample that updates continuously. You can connect it with a real-time data stream.'
-    path: repo_files/images/line_chart/line_chart_sample_10.gif
+    path: pub_screenshots/line_chart_sample_10.gif
   - description: 'This screenshot shows two BarCharts. The first one is a grouped bar chart. The second one has back-draw bars and shows a tooltip when you hover or touch the lines.'
-    path: repo_files/images/bar_chart/bar_chart.jpg
+    path: pub_screenshots/bar_chart.jpg
   - description: 'This is a BarChart with some icons as its bottom titles. So we used flutter widgets and you can put any customized widget you want.'
-    path: repo_files/images/bar_chart/bar_chart_sample_7.gif
-  - description: 'This screenshot shows three PieCharts. The first one is a PieChart with a space between the sections. The second one has a centered circle blank area. The third one has some widgets in the PieChartSections.'
-    path: repo_files/images/pie_chart/pie_chart.jpg
+    path: pub_screenshots/bar_chart_sample_7.gif
+  - description: 'The first PieChart has a space between the sections. The second one has a centered circle blank area. The third one has some widgets in the PieChartSections.'
+    path: pub_screenshots/pie_chart.jpg
   - description: 'This screenshot shows a ScatterChart. When you touch/click on a spot, it turns to a colored spot with a tooltip above it.'
-    path: repo_files/images/scatter_chart/scatter_chart_sample_2.gif
-  - description: 'This screenshot shows a RadarChart. There are three metrics and 5 data entries with different colors.'
-    path: repo_files/images/radar_chart/radar_chart_sample_1.jpg
+    path: pub_screenshots/scatter_chart_sample_2.gif
+  - description: 'A RadarChart with three metrics and 5 data entries with different colors.'
+    path: pub_screenshots/radar_chart_sample_1.jpg
