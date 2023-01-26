@@ -235,7 +235,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         ..text = span
         ..layout();
       final angle = diffAngle * index - pi / 2;
-      final threshold = 1.0 + data.titlePositionPercentageOffset;
+      final threshold = 1.0 +
+          (title.positionPercentageOffset ??
+              data.titlePositionPercentageOffset);
       final titleX = centerX +
           cos(angle) * (radius * threshold + (_titleTextPaint.height / 2));
       final titleY = centerY +
