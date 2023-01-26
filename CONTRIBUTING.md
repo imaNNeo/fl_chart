@@ -92,7 +92,7 @@ Please check it to understand how it works and how is the convention. Simply new
 
 When you are done in your PR, it's time to write a changelog for you changes. 
 
-Most of the times, there will be a [newVersion](https://github.com/imaNNeoFighT/fl_chart/blob/master/CHANGELOG.md#newversion) tag at the top of the `CHANGELOG.md` file in the `master` branch. If it doesn't exist, you can write it and write your change below that.
+Most of the times, there will be a [newVersion](https://github.com/imaNNeo/fl_chart/blob/master/CHANGELOG.md#newversion) tag at the top of the `CHANGELOG.md` file in the `master` branch. If it doesn't exist, you can write it and write your change below that.
 
 Each change should be started with one of the following prefixes:
 1. **IMPROVEMENT** (When you are improving something, for example improving performance)

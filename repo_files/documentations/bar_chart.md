@@ -32,7 +32,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
 |minY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
 |baselineY| defines the baseline of y-axis | 0|
-|extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeoFighT/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|
+|extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeo/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|
 
 
 ### BarChartGroupData
@@ -159,7 +159,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
 ##### Sample 8 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample8.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_8.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_8.png" width="300" >
 
 ##### Gist - Toggleable Tooltip ([Source Code](https://gist.github.com/imaNNeo/bce3f0169ff3fd6c3f137cdeb5005c0e))
 https://user-images.githubusercontent.com/7009300/156784816-53f95dd9-f387-4600-8a92-d05b1aeea3da.mov
