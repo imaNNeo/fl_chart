@@ -8,6 +8,8 @@
 * **FEATURE** (by @JoshMart) Add ability to draw extra horizontal lines on BarChart, #476
 * **FEATURE** (by @soraef) Add a `positionPercentageOffset` optional property to RadarChartTitle to allow individual title positioning
 * **BUGFIX** (by @imaNNeo) Allow to draw empty radarChart (with all zero values), #1217
+* **IMPORTANT** **IRAN NEEDS YOU. SPREAD THE NEWS.**
+  <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/tmp_iran_banner.png" width=500 />
 
 ## 0.55.2
 * **BUGFIX** (by @imaNNeo): Fix inner border of pieChart with single section, #1089
