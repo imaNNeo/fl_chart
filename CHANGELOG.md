@@ -6,7 +6,8 @@
 * **IMPROVEMENT** (by @imaNNeo) Add some screenshots in `pubspec.yaml` to support new [pub.dev](pub.dev) feature. Read more about it [here](https://dart.dev/tools/pub/pubspec#screenshots) and [here](https://medium.com/dartlang/screenshots-and-automated-publishing-for-pub-dev-9bceb19edf79).
 * **IMPROVEMENT** (by @imaNNeo) Update the homepage url in `pubspec.yaml` (I just renamed my username)
 * **FEATURE** (by @JoshMart) Add ability to draw extra horizontal lines on BarChart, #476
-* * **FEATURE** (by @soraef) Add a `positionPercentageOffset` optional property to RadarChartTitle to allow individual title positioning
+* **FEATURE** (by @soraef) Add a `positionPercentageOffset` optional property to RadarChartTitle to allow individual title positioning
+* **BUGFIX** (by @imaNNeo) Allow to draw empty radarChart (with all zero values), #1217
 
 ## 0.55.2
 * **BUGFIX** (by @imaNNeo): Fix inner border of pieChart with single section, #1089
