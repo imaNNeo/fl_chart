@@ -1,4 +1,4 @@
-## newVersion
+## 0.60.0
 * **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis
 * **BREAKING** (by @lsaudon) Update dart sdk to 2.17.0 (flutter 3.0.0)
 * **BUGFIX** (by @imaNNeo) Fix indicator out of range error in line chart, #1187
