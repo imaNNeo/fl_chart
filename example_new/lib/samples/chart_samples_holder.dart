@@ -6,6 +6,8 @@ import 'package:example_new/samples/line/line_chart_sample1.dart';
 import 'package:example_new/samples/pie/pie_chart_sample1.dart';
 import 'package:example_new/samples/pie/pie_chart_sample2.dart';
 import 'package:example_new/samples/pie/pie_chart_sample3.dart';
+import 'package:example_new/samples/scatter/scatter_chart_sample1.dart';
+import 'package:example_new/samples/scatter/scatter_chart_sample2.dart';
 import 'package:example_new/util/app_helper.dart';
 
 import 'bar/bar_chart_sample2.dart';
@@ -22,7 +24,6 @@ import 'line/line_chart_sample7.dart';
 import 'line/line_chart_sample8.dart';
 import 'line/line_chart_sample9.dart';
 import 'radar/radar_sample_1.dart';
-import 'scatter/scatter_sample_1.dart';
 
 class ChartSamplesHolder {
   static final Map<ChartType, List<ChartSample>> samples = {
@@ -53,10 +54,8 @@ class ChartSamplesHolder {
       PieChartSample('Pie Chart Sample 3', 'link 3', (context) => const PieChartSample3()),
     ],
     ChartType.scatter: [
-      ScatterChartSample('Scatter Chart Sample 1', 'link 1', (context) => const ScatterSample1()),
-      ScatterChartSample('Scatter Chart Sample 2', 'link 2', (context) => const ScatterSample1()),
-      ScatterChartSample('Scatter Chart Sample 3', 'link 3', (context) => const ScatterSample1()),
-      ScatterChartSample('Scatter Chart Sample 4', 'link 4', (context) => const ScatterSample1()),
+      ScatterChartSample('Scatter Chart Sample 1', 'link 1', (context) => ScatterChartSample1()),
+      ScatterChartSample('Scatter Chart Sample 2', 'link 2', (context) => const ScatterChartSample2()),
     ],
     ChartType.radar: [
       RadarChartSample('Radar Chart Sample 1', 'link 1', (context) => const RadarSample1()),
