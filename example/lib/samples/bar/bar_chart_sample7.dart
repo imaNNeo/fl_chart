@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart_app/resources/app_resources.dart';
-import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -126,11 +125,11 @@ class _BarChartSample7State extends State<BarChartSample7> {
                 tooltipBgColor: Colors.transparent,
                 tooltipMargin: 0,
                 getTooltipItem: (
-                    BarChartGroupData group,
-                    int groupIndex,
-                    BarChartRodData rod,
-                    int rodIndex,
-                    ) {
+                  BarChartGroupData group,
+                  int groupIndex,
+                  BarChartRodData rod,
+                  int rodIndex,
+                ) {
                   return BarTooltipItem(
                     rod.toY.toString(),
                     TextStyle(
@@ -152,8 +151,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                     response != null &&
                     response.spot != null) {
                   setState(() {
-                    touchedGroupIndex =
-                        response.spot!.touchedBarGroupIndex;
+                    touchedGroupIndex = response.spot!.touchedBarGroupIndex;
                   });
                 } else {
                   setState(() {

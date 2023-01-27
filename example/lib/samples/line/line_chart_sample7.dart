@@ -10,7 +10,8 @@ class LineChartSample7 extends StatelessWidget {
     Color? betweenColor,
   })  : line1Color = line1Color ?? AppColors.contentColorGreen,
         line2Color = line2Color ?? AppColors.contentColorRed,
-        betweenColor = betweenColor ?? AppColors.contentColorRed.withOpacity(0.5);
+        betweenColor =
+            betweenColor ?? AppColors.contentColorRed.withOpacity(0.5);
 
   final Color line1Color;
   final Color line2Color;
@@ -150,7 +151,9 @@ class LineChartSample7 extends StatelessWidget {
               )
             ],
             minY: 0,
-            borderData: FlBorderData(show: false,),
+            borderData: FlBorderData(
+              show: false,
+            ),
             titlesData: FlTitlesData(
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(

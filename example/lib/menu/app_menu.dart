@@ -24,7 +24,7 @@ class AppMenu extends StatefulWidget {
 class AppMenuState extends State<AppMenu> {
   @override
   Widget build(BuildContext context) {
-    const needToUpdate = false;
+    const needToUpdate = 1 == 0;
     return Container(
       color: AppColors.itemsBackground,
       child: Column(
