@@ -12,6 +12,7 @@ class AppColors {
   static const Color mainGridLineColor = Colors.white10;
   static const Color borderColor = Colors.white54;
 
+  static const Color contentColorWhite = Colors.white;
   static const Color contentColorBlue = Color(0xFF2196F3);
   static const Color contentColorYellow = Color(0xFFFFC300);
   static const Color contentColorOrange = Color(0xFFFF683B);
