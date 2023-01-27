@@ -1,9 +1,49 @@
 import 'package:example_new/resources/app_colors.dart';
+import 'package:example_new/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample3 extends StatefulWidget {
-  const LineChartSample3({super.key});
+  LineChartSample3({
+    super.key,
+    Color? lineColor,
+    Color? indicatorLineColor,
+    Color? indicatorTouchedLineColor,
+    Color? indicatorSpotStrokeColor,
+    Color? indicatorTouchedSpotStrokeColor,
+    Color? bottomTextColor,
+    Color? bottomTouchedTextColor,
+    Color? averageLineColor,
+    Color? tooltipBgColor,
+    Color? tooltipTextColor,
+  })  : lineColor = lineColor ?? AppColors.contentColorRed,
+        indicatorLineColor =
+            indicatorLineColor ?? AppColors.contentColorYellow.withOpacity(0.2),
+        indicatorTouchedLineColor =
+            indicatorTouchedLineColor ?? AppColors.contentColorYellow,
+        indicatorSpotStrokeColor = indicatorSpotStrokeColor ??
+            AppColors.contentColorYellow.withOpacity(0.5),
+        indicatorTouchedSpotStrokeColor =
+            indicatorTouchedSpotStrokeColor ?? AppColors.contentColorYellow,
+        bottomTextColor =
+            bottomTextColor ?? AppColors.contentColorYellow.withOpacity(0.2),
+        bottomTouchedTextColor =
+            bottomTouchedTextColor ?? AppColors.contentColorYellow,
+        averageLineColor =
+            averageLineColor ?? AppColors.contentColorGreen.withOpacity(0.8),
+        tooltipBgColor = tooltipBgColor ?? AppColors.contentColorGreen,
+        tooltipTextColor = tooltipTextColor ?? Colors.black;
+
+  final Color lineColor;
+  final Color indicatorLineColor;
+  final Color indicatorTouchedLineColor;
+  final Color indicatorSpotStrokeColor;
+  final Color indicatorTouchedSpotStrokeColor;
+  final Color bottomTextColor;
+  final Color bottomTouchedTextColor;
+  final Color averageLineColor;
+  final Color tooltipBgColor;
+  final Color tooltipTextColor;
 
   List<String> get weekDays =>
       const ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
@@ -24,7 +64,13 @@ class _LineChartSample3State extends State<LineChartSample3> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    final style = TextStyle(color: AppColors.mainTextColor.withOpacity(0.5), fontSize: 10);
+    if (value % 1 != 0) {
+      return Container();
+    }
+    final style = TextStyle(
+      color: AppColors.mainTextColor1.withOpacity(0.5),
+      fontSize: 10,
+    );
     String text;
     switch (value.toInt()) {
       case 0:
@@ -53,14 +99,20 @@ class _LineChartSample3State extends State<LineChartSample3> {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     final isTouched = value == touchedValue;
     final style = TextStyle(
-      color: isTouched ? AppColors.contentColorOrange: AppColors.contentColorOrange.withOpacity(0.5),
+      color: isTouched ? widget.bottomTouchedTextColor : widget.bottomTextColor,
       fontWeight: FontWeight.bold,
     );
 
+    if (value % 1 != 0) {
+      return Container();
+    }
     return SideTitleWidget(
       space: 4,
       axisSide: meta.axisSide,
-      child: Text(widget.weekDays[value.toInt()], style: style),
+      child: Text(
+        widget.weekDays[value.toInt()],
+        style: style,
+      ),
     );
   }
 
@@ -71,19 +123,19 @@ class _LineChartSample3State extends State<LineChartSample3> {
       children: <Widget>[
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: const <Widget>[
+          children: <Widget>[
             Text(
               'Average Line',
               style: TextStyle(
-                color: AppColors.contentColorGreen,
+                color: widget.averageLineColor.withOpacity(1),
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
-            Text(
+            const Text(
               ' and ',
               style: TextStyle(
-                color: AppColors.mainTextColor,
+                color: AppColors.mainTextColor1,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -91,7 +143,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
             Text(
               'Indicators',
               style: TextStyle(
-                color: AppColors.contentColorBlue,
+                color: widget.indicatorLineColor.withOpacity(1),
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -116,7 +168,10 @@ class _LineChartSample3State extends State<LineChartSample3> {
                         return null;
                       }
                       return TouchedSpotIndicatorData(
-                        FlLine(color: AppColors.contentColorBlue, strokeWidth: 4),
+                        FlLine(
+                          color: widget.indicatorTouchedLineColor,
+                          strokeWidth: 4,
+                        ),
                         FlDotData(
                           getDotPainter: (spot, percent, barData, index) {
                             if (index.isEven) {
@@ -124,14 +179,16 @@ class _LineChartSample3State extends State<LineChartSample3> {
                                 radius: 8,
                                 color: Colors.white,
                                 strokeWidth: 5,
-                                strokeColor: AppColors.contentColorOrange,
+                                strokeColor:
+                                    widget.indicatorTouchedSpotStrokeColor,
                               );
                             } else {
                               return FlDotSquarePainter(
                                 size: 16,
                                 color: Colors.white,
                                 strokeWidth: 5,
-                                strokeColor: AppColors.contentColorOrange,
+                                strokeColor:
+                                    widget.indicatorTouchedSpotStrokeColor,
                               );
                             }
                           },
@@ -140,7 +197,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                     }).toList();
                   },
                   touchTooltipData: LineTouchTooltipData(
-                    tooltipBgColor: AppColors.contentColorBlue,
+                    tooltipBgColor: widget.tooltipBgColor,
                     getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
                       return touchedBarSpots.map((barSpot) {
                         final flSpot = barSpot;
@@ -162,23 +219,23 @@ class _LineChartSample3State extends State<LineChartSample3> {
 
                         return LineTooltipItem(
                           '${widget.weekDays[flSpot.x.toInt()]} \n',
-                          const TextStyle(
-                            color: Colors.white,
+                          TextStyle(
+                            color: widget.tooltipTextColor,
                             fontWeight: FontWeight.bold,
                           ),
                           children: [
                             TextSpan(
                               text: flSpot.y.toString(),
                               style: TextStyle(
-                                color: Colors.grey[100],
-                                fontWeight: FontWeight.normal,
+                                color: widget.tooltipTextColor,
+                                fontWeight: FontWeight.w900,
                               ),
                             ),
                             const TextSpan(
                               text: ' k ',
                               style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.w900,
                               ),
                             ),
                             const TextSpan(
@@ -221,9 +278,9 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   horizontalLines: [
                     HorizontalLine(
                       y: 1.8,
-                      color: Colors.green.withOpacity(0.8),
+                      color: widget.averageLineColor,
                       strokeWidth: 3,
-                      dashArray: [20, 2],
+                      dashArray: [20, 10],
                     ),
                   ],
                 ),
@@ -235,13 +292,13 @@ class _LineChartSample3State extends State<LineChartSample3> {
                     }).toList(),
                     isCurved: false,
                     barWidth: 4,
-                    color: AppColors.contentColorOrange,
+                    color: widget.lineColor,
                     belowBarData: BarAreaData(
                       show: true,
                       gradient: LinearGradient(
                         colors: [
-                          Colors.orange.withOpacity(0.5),
-                          Colors.orange.withOpacity(0),
+                          widget.lineColor.withOpacity(0.5),
+                          widget.lineColor.withOpacity(0),
                         ],
                         stops: const [0.5, 1.0],
                         begin: Alignment.topCenter,
@@ -250,7 +307,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                       spotsLine: BarAreaSpotsLine(
                         show: true,
                         flLineStyle: FlLine(
-                          color: AppColors.contentColorBlue,
+                          color: widget.indicatorLineColor,
                           strokeWidth: 2,
                         ),
                         checkToShowSpotLine: (spot) {
@@ -270,14 +327,14 @@ class _LineChartSample3State extends State<LineChartSample3> {
                             radius: 6,
                             color: Colors.white,
                             strokeWidth: 3,
-                            strokeColor: AppColors.contentColorOrange,
+                            strokeColor: widget.indicatorSpotStrokeColor,
                           );
                         } else {
                           return FlDotSquarePainter(
                             size: 12,
                             color: Colors.white,
                             strokeWidth: 3,
-                            strokeColor: AppColors.contentColorOrange,
+                            strokeColor: widget.indicatorSpotStrokeColor,
                           );
                         }
                       },
@@ -288,10 +345,18 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   ),
                 ],
                 minY: 0,
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(
+                    color: AppColors.borderColor,
+                  ),
+                ),
                 gridData: FlGridData(
                   show: true,
                   drawHorizontalLine: true,
                   drawVerticalLine: true,
+                  checkToShowHorizontalLine: (value) => value % 1 == 0,
+                  checkToShowVerticalLine: (value) => value % 1 == 0,
                   getDrawingHorizontalLine: (value) {
                     if (value == 0) {
                       return FlLine(
@@ -300,7 +365,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                       );
                     } else {
                       return FlLine(
-                        color: Colors.grey,
+                        color: AppColors.mainGridLineColor,
                         strokeWidth: 0.5,
                       );
                     }
@@ -308,12 +373,12 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   getDrawingVerticalLine: (value) {
                     if (value == 0) {
                       return FlLine(
-                        color: Colors.black,
-                        strokeWidth: 2,
+                        color: Colors.redAccent,
+                        strokeWidth: 10,
                       );
                     } else {
                       return FlLine(
-                        color: Colors.grey,
+                        color: AppColors.mainGridLineColor,
                         strokeWidth: 0.5,
                       );
                     }

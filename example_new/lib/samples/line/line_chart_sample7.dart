@@ -1,13 +1,24 @@
+import 'package:example_new/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample7 extends StatelessWidget {
-  const LineChartSample7({super.key});
+  LineChartSample7({
+    super.key,
+    Color? line1Color,
+    Color? line2Color,
+    Color? betweenColor,
+  })  : line1Color = line1Color ?? AppColors.contentColorGreen,
+        line2Color = line2Color ?? AppColors.contentColorRed,
+        betweenColor = betweenColor ?? AppColors.contentColorRed.withOpacity(0.5);
+
+  final Color line1Color;
+  final Color line2Color;
+  final Color betweenColor;
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontSize: 10,
-      color: Colors.purple,
       fontWeight: FontWeight.bold,
     );
     String text;
@@ -74,9 +85,14 @@ class LineChartSample7 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 2.6,
+      aspectRatio: 2,
       child: Padding(
-        padding: const EdgeInsets.only(left: 28, right: 18),
+        padding: const EdgeInsets.only(
+          left: 10,
+          right: 18,
+          top: 10,
+          bottom: 4,
+        ),
         child: LineChart(
           LineChartData(
             lineTouchData: LineTouchData(enabled: false),
@@ -98,29 +114,7 @@ class LineChartSample7 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 2,
-                color: Colors.green,
-                dotData: FlDotData(
-                  show: false,
-                ),
-              ),
-              LineChartBarData(
-                spots: const [
-                  FlSpot.zero,
-                  FlSpot(1, 3),
-                  FlSpot(2, 4),
-                  FlSpot(3, 5),
-                  FlSpot(4, 8),
-                  FlSpot(5, 3),
-                  FlSpot(6, 5),
-                  FlSpot(7, 8),
-                  FlSpot(8, 4),
-                  FlSpot(9, 7),
-                  FlSpot(10, 7),
-                  FlSpot(11, 8),
-                ],
-                isCurved: true,
-                barWidth: 2,
-                color: Colors.black,
+                color: line1Color,
                 dotData: FlDotData(
                   show: false,
                 ),
@@ -130,19 +124,19 @@ class LineChartSample7 extends StatelessWidget {
                   FlSpot(0, 7),
                   FlSpot(1, 3),
                   FlSpot(2, 4),
-                  FlSpot(3, 0),
+                  FlSpot(3, 2),
                   FlSpot(4, 3),
                   FlSpot(5, 4),
                   FlSpot(6, 5),
                   FlSpot(7, 3),
-                  FlSpot(8, 2),
-                  FlSpot(9, 4),
+                  FlSpot(8, 1),
+                  FlSpot(9, 8),
                   FlSpot(10, 1),
                   FlSpot(11, 3),
                 ],
                 isCurved: false,
                 barWidth: 2,
-                color: Colors.red,
+                color: line2Color,
                 dotData: FlDotData(
                   show: false,
                 ),
@@ -151,11 +145,12 @@ class LineChartSample7 extends StatelessWidget {
             betweenBarsData: [
               BetweenBarsData(
                 fromIndex: 0,
-                toIndex: 2,
-                color: Colors.red.withOpacity(0.3),
+                toIndex: 1,
+                color: betweenColor,
               )
             ],
             minY: 0,
+            borderData: FlBorderData(show: false,),
             titlesData: FlTitlesData(
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(

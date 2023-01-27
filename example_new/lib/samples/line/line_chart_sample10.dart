@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:example_new/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample10 extends StatefulWidget {
   const LineChartSample10({super.key});
 
+  final Color sinColor = AppColors.contentColorBlue;
+  final Color cosColor = AppColors.contentColorPink;
+
   @override
   State<LineChartSample10> createState() => _LineChartSample10State();
 }
 
 class _LineChartSample10State extends State<LineChartSample10> {
-  final Color sinColor = Colors.redAccent;
-  final Color cosColor = Colors.blueAccent;
-
   final limitCount = 100;
   final sinPoints = <FlSpot>[];
   final cosPoints = <FlSpot>[];
@@ -46,10 +47,11 @@ class _LineChartSample10State extends State<LineChartSample10> {
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 12),
               Text(
                 'x: ${xValue.toStringAsFixed(1)}',
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: AppColors.mainTextColor2,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -57,7 +59,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
               Text(
                 'sin: ${sinPoints.last.y.toStringAsFixed(1)}',
                 style: TextStyle(
-                  color: sinColor,
+                  color: widget.sinColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -65,7 +67,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
               Text(
                 'cos: ${cosPoints.last.y.toStringAsFixed(1)}',
                 style: TextStyle(
-                  color: cosColor,
+                  color: widget.cosColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -73,27 +75,30 @@ class _LineChartSample10State extends State<LineChartSample10> {
               const SizedBox(
                 height: 12,
               ),
-              SizedBox(
-                width: 300,
-                height: 300,
-                child: LineChart(
-                  LineChartData(
-                    minY: -1,
-                    maxY: 1,
-                    minX: sinPoints.first.x,
-                    maxX: sinPoints.last.x,
-                    lineTouchData: LineTouchData(enabled: false),
-                    clipData: FlClipData.all(),
-                    gridData: FlGridData(
-                      show: true,
-                      drawVerticalLine: false,
-                    ),
-                    lineBarsData: [
-                      sinLine(sinPoints),
-                      cosLine(cosPoints),
-                    ],
-                    titlesData: FlTitlesData(
-                      show: false,
+              AspectRatio(
+                aspectRatio: 1.5,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: LineChart(
+                    LineChartData(
+                      minY: -1,
+                      maxY: 1,
+                      minX: sinPoints.first.x,
+                      maxX: sinPoints.last.x,
+                      lineTouchData: LineTouchData(enabled: false),
+                      clipData: FlClipData.all(),
+                      gridData: FlGridData(
+                        show: true,
+                        drawVerticalLine: false,
+                      ),
+                      borderData: FlBorderData(show: false),
+                      lineBarsData: [
+                        sinLine(sinPoints),
+                        cosLine(cosPoints),
+                      ],
+                      titlesData: FlTitlesData(
+                        show: false,
+                      ),
                     ),
                   ),
                 ),
@@ -110,7 +115,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
         show: false,
       ),
       gradient: LinearGradient(
-        colors: [sinColor.withOpacity(0), sinColor],
+        colors: [widget.sinColor.withOpacity(0), widget.sinColor],
         stops: const [0.1, 1.0],
       ),
       barWidth: 4,
@@ -125,7 +130,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
         show: false,
       ),
       gradient: LinearGradient(
-        colors: [sinColor.withOpacity(0), sinColor],
+        colors: [widget.cosColor.withOpacity(0), widget.cosColor],
         stops: const [0.1, 1.0],
       ),
       barWidth: 4,
