@@ -1,9 +1,20 @@
+import 'package:example_new/resources/app_resources.dart';
+import 'package:example_new/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LineChartSample6 extends StatelessWidget {
-  LineChartSample6({super.key}) {
+  LineChartSample6({
+    super.key,
+    Color? line1Color1,
+    Color? line1Color2,
+    Color? line2Color1,
+    Color? line2Color2,
+  })  : line1Color1 = line1Color1 ?? AppColors.contentColorOrange,
+        line1Color2 = line1Color2 ?? AppColors.contentColorOrange.darken(60),
+        line2Color1 = line2Color1 ?? AppColors.contentColorBlue.darken(60),
+        line2Color2 = line2Color2 ?? AppColors.contentColorBlue {
     minSpotX = spots.first.x;
     maxSpotX = spots.first.x;
     minSpotY = spots.first.y;
@@ -27,6 +38,12 @@ class LineChartSample6 extends StatelessWidget {
       }
     }
   }
+
+  final Color line1Color1;
+  final Color line1Color2;
+  final Color line2Color1;
+  final Color line2Color2;
+
   final spots = const [
     FlSpot(0, 1),
     FlSpot(2, 5),
@@ -47,8 +64,8 @@ class LineChartSample6 extends StatelessWidget {
   late double maxSpotY;
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.deepOrange,
+    final style = TextStyle(
+      color: line1Color1,
       fontWeight: FontWeight.bold,
       fontSize: 18,
     );
@@ -56,7 +73,7 @@ class LineChartSample6 extends StatelessWidget {
     final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
 
     if (intValue == (maxSpotY + minSpotY)) {
-      return const Text('', style: style);
+      return Text('', style: style);
     }
 
     return Padding(
@@ -70,24 +87,27 @@ class LineChartSample6 extends StatelessWidget {
   }
 
   Widget rightTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.blue,
+    final style = TextStyle(
+      color: line2Color2,
       fontWeight: FontWeight.bold,
       fontSize: 18,
     );
     final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
 
     if (intValue == (maxSpotY + minSpotY)) {
-      return const Text('', style: style);
+      return Text('', style: style);
     }
 
     return Text(intValue.toString(), style: style, textAlign: TextAlign.right);
   }
 
   Widget topTitleWidgets(double value, TitleMeta meta) {
+    if (value % 1 != 0) {
+      return Container();
+    }
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      color: Colors.black,
+      color: AppColors.mainTextColor2,
     );
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -97,135 +117,111 @@ class LineChartSample6 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 10,
-          )
-        ],
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(
-            colors: [
-              Colors.yellowAccent,
-              Colors.yellowAccent.withOpacity(0.1),
+    return Padding(
+      padding: const EdgeInsets.only(right: 22, bottom: 20),
+      child: AspectRatio(
+        aspectRatio: 2,
+        child: LineChart(
+          LineChartData(
+            lineTouchData: LineTouchData(enabled: false),
+            lineBarsData: [
+              LineChartBarData(
+                gradient: LinearGradient(
+                  colors: [
+                    line1Color1,
+                    line1Color2,
+                  ],
+                ),
+                spots: reverseSpots(spots, minSpotY, maxSpotY),
+                isCurved: true,
+                isStrokeCapRound: true,
+                barWidth: 10,
+                belowBarData: BarAreaData(
+                  show: false,
+                ),
+                dotData: FlDotData(
+                  show: true,
+                  getDotPainter: (spot, percent, barData, index) =>
+                      FlDotCirclePainter(
+                    radius: 12,
+                    color: Colors.transparent,
+                    strokeColor: AppColors.mainTextColor2,
+                  ),
+                ),
+              ),
+              LineChartBarData(
+                gradient: LinearGradient(
+                  colors: [
+                    line2Color1,
+                    line2Color2,
+                  ],
+                ),
+                spots: reverseSpots(spots2, minSpotY, maxSpotY),
+                isCurved: true,
+                isStrokeCapRound: true,
+                barWidth: 10,
+                belowBarData: BarAreaData(
+                  show: false,
+                ),
+                dotData: FlDotData(
+                  show: true,
+                  getDotPainter: (spot, percent, barData, index) =>
+                      FlDotCirclePainter(
+                    radius: 12,
+                    color: Colors.transparent,
+                    strokeColor: AppColors.mainTextColor2,
+                  ),
+                ),
+              ),
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(right: 22, bottom: 20),
-          child: SizedBox(
-            width: 300,
-            height: 200,
-            child: LineChart(
-              LineChartData(
-                lineTouchData: LineTouchData(enabled: false),
-                lineBarsData: [
-                  LineChartBarData(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Colors.deepOrangeAccent,
-                        Colors.orangeAccent,
-                      ],
-                    ),
-                    spots: reverseSpots(spots, minSpotY, maxSpotY),
-                    isCurved: true,
-                    isStrokeCapRound: true,
-                    barWidth: 10,
-                    belowBarData: BarAreaData(
-                      show: false,
-                    ),
-                    dotData: FlDotData(
-                      show: true,
-                      getDotPainter: (spot, percent, barData, index) =>
-                          FlDotCirclePainter(
-                        radius: 12,
-                        color: Colors.deepOrange.withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                  LineChartBarData(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Colors.lightBlueAccent,
-                        Colors.blue,
-                      ],
-                    ),
-                    spots: reverseSpots(spots2, minSpotY, maxSpotY),
-                    isCurved: true,
-                    isStrokeCapRound: true,
-                    barWidth: 10,
-                    belowBarData: BarAreaData(
-                      show: false,
-                    ),
-                    dotData: FlDotData(
-                      show: true,
-                      getDotPainter: (spot, percent, barData, index) =>
-                          FlDotCirclePainter(
-                        radius: 12,
-                        color: Colors.blue.withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                ],
-                minY: 0,
-                maxY: maxSpotY + minSpotY,
-                titlesData: FlTitlesData(
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: leftTitleWidgets,
-                      reservedSize: 38,
-                    ),
-                  ),
-                  rightTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: rightTitleWidgets,
-                      reservedSize: 30,
-                    ),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  topTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 32,
-                      getTitlesWidget: topTitleWidgets,
-                    ),
-                  ),
+            minY: 0,
+            maxY: maxSpotY + minSpotY,
+            titlesData: FlTitlesData(
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: leftTitleWidgets,
+                  reservedSize: 38,
                 ),
-                gridData: FlGridData(
-                  show: true,
-                  drawVerticalLine: true,
-                  checkToShowHorizontalLine: (value) {
-                    final intValue =
-                        reverseY(value, minSpotY, maxSpotY).toInt();
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: rightTitleWidgets,
+                  reservedSize: 30,
+                ),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 32,
+                  getTitlesWidget: topTitleWidgets,
+                ),
+              ),
+            ),
+            gridData: FlGridData(
+              show: true,
+              drawVerticalLine: true,
+              checkToShowHorizontalLine: (value) {
+                final intValue = reverseY(value, minSpotY, maxSpotY).toInt();
 
-                    if (intValue == (maxSpotY + minSpotY).toInt()) {
-                      return false;
-                    }
+                if (intValue == (maxSpotY + minSpotY).toInt()) {
+                  return false;
+                }
 
-                    return true;
-                  },
-                ),
-                borderData: FlBorderData(
-                  show: true,
-                  border: const Border(
-                    left: BorderSide(),
-                    top: BorderSide(),
-                    bottom: BorderSide(color: Colors.transparent),
-                    right: BorderSide(color: Colors.transparent),
-                  ),
-                ),
+                return true;
+              },
+            ),
+            borderData: FlBorderData(
+              show: true,
+              border: const Border(
+                left: BorderSide(color: AppColors.borderColor),
+                top: BorderSide(color: AppColors.borderColor),
+                bottom: BorderSide(color: Colors.transparent),
+                right: BorderSide(color: Colors.transparent),
               ),
             ),
           ),

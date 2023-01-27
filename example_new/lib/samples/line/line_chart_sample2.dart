@@ -59,7 +59,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Color(0xff68737d),
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
@@ -87,7 +86,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Color(0xff67727d),
       fontWeight: FontWeight.bold,
       fontSize: 15,
     );
@@ -118,13 +116,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
         verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return FlLine(
-            color: const Color(0xff37434d),
+            color: AppColors.mainGridLineColor,
             strokeWidth: 1,
           );
         },
         getDrawingVerticalLine: (value) {
           return FlLine(
-            color: const Color(0xff37434d),
+            color: AppColors.mainGridLineColor,
             strokeWidth: 1,
           );
         },

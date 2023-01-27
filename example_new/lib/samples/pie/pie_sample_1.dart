@@ -7,12 +7,17 @@ class PieSample1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PieChart(PieChartData(
-      sections: [
-        PieChartSectionData(value: 10, radius: 80, color: AppColors.primary),
-        PieChartSectionData(value: 20, radius: 80, color: AppColors.primary),
-        PieChartSectionData(value: 30, radius: 80, color: AppColors.primary),
-      ],
-    ));
+    return AspectRatio(
+      aspectRatio: 1,
+      child: PieChart(
+        PieChartData(
+          sections: [
+            PieChartSectionData(value: 10, radius: 80, color: AppColors.primary),
+            PieChartSectionData(value: 20, radius: 80, color: AppColors.primary),
+            PieChartSectionData(value: 30, radius: 80, color: AppColors.primary),
+          ],
+        ),
+      ),
+    );
   }
 }

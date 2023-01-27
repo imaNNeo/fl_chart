@@ -94,7 +94,6 @@ class _LineChart extends StatelessWidget {
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Color(0xff75729e),
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
@@ -131,7 +130,6 @@ class _LineChart extends StatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Color(0xff72719b),
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
@@ -203,7 +201,7 @@ class _LineChart extends StatelessWidget {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: false,
-          color: const Color(0x00aa4cfc),
+          color: AppColors.contentColorPink.withOpacity(0),
         ),
         spots: const [
           FlSpot(1, 1),

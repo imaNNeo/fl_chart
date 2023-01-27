@@ -1,8 +1,23 @@
+import 'package:example_new/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample4 extends StatelessWidget {
-  const LineChartSample4({super.key});
+  LineChartSample4({
+    super.key,
+    Color? mainLineColor,
+    Color? belowLineColor,
+    Color? aboveLineColor,
+  })  : mainLineColor =
+            mainLineColor ?? AppColors.contentColorYellow.withOpacity(1),
+        belowLineColor =
+            belowLineColor ?? AppColors.contentColorPink.withOpacity(1),
+        aboveLineColor =
+            aboveLineColor ?? AppColors.contentColorPurple.withOpacity(0.7);
+
+  final Color mainLineColor;
+  final Color belowLineColor;
+  final Color aboveLineColor;
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     String text;
@@ -50,32 +65,41 @@ class LineChartSample4 extends StatelessWidget {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 4,
-      child: Text(text, style: _dateTextStyle),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 10,
+          color: mainLineColor,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.black, fontSize: 12);
+    const style = TextStyle(
+      color: AppColors.mainTextColor3,
+      fontSize: 12,
+    );
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text('\$ ${value + 0.5}', style: style),
     );
   }
 
-  static const _dateTextStyle = TextStyle(
-    fontSize: 10,
-    color: Colors.purple,
-    fontWeight: FontWeight.bold,
-  );
-
   @override
   Widget build(BuildContext context) {
     const cutOffYValue = 5.0;
 
     return AspectRatio(
-      aspectRatio: 2.4,
+      aspectRatio: 2,
       child: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 24),
+        padding: const EdgeInsets.only(
+          left: 12,
+          right: 28,
+          top: 22,
+          bottom: 12,
+        ),
         child: LineChart(
           LineChartData(
             lineTouchData: LineTouchData(enabled: false),
@@ -97,16 +121,16 @@ class LineChartSample4 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 8,
-                color: Colors.purpleAccent,
+                color: mainLineColor,
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.deepPurple.withOpacity(0.4),
+                  color: belowLineColor,
                   cutOffY: cutOffYValue,
                   applyCutOffY: true,
                 ),
                 aboveBarData: BarAreaData(
                   show: true,
-                  color: Colors.orange.withOpacity(0.6),
+                  color: aboveLineColor,
                   cutOffY: cutOffYValue,
                   applyCutOffY: true,
                 ),
@@ -125,9 +149,13 @@ class LineChartSample4 extends StatelessWidget {
                 sideTitles: SideTitles(showTitles: false),
               ),
               bottomTitles: AxisTitles(
-                axisNameWidget: const Text(
+                axisNameWidget: Text(
                   '2019',
-                  style: _dateTextStyle,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: mainLineColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 sideTitles: SideTitles(
                   showTitles: true,
@@ -138,9 +166,11 @@ class LineChartSample4 extends StatelessWidget {
               ),
               leftTitles: AxisTitles(
                 axisNameSize: 20,
-                axisNameWidget: const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: Text('Value'),
+                axisNameWidget: const Text(
+                  'Value',
+                  style: TextStyle(
+                    color: AppColors.mainTextColor2,
+                  ),
                 ),
                 sideTitles: SideTitles(
                   showTitles: true,
@@ -148,6 +178,12 @@ class LineChartSample4 extends StatelessWidget {
                   reservedSize: 40,
                   getTitlesWidget: leftTitleWidgets,
                 ),
+              ),
+            ),
+            borderData: FlBorderData(
+              show: true,
+              border: Border.all(
+                color: AppColors.borderColor,
               ),
             ),
             gridData: FlGridData(

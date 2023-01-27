@@ -9,6 +9,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,11 +18,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         textTheme: GoogleFonts.assistantTextTheme(
-          Theme.of(context).textTheme,
+          Theme.of(context).textTheme.apply(
+            bodyColor: AppColors.mainTextColor3,
+          ),
         ),
         scaffoldBackgroundColor: AppColors.pageBackground,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

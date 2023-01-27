@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:example_new/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -71,7 +72,10 @@ class _LineChartSample8State extends State<LineChartSample8> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.black87, fontSize: 10);
+    const style = TextStyle(
+      fontSize: 10,
+      color: AppColors.mainTextColor1,
+    );
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(meta.formattedValue, style: style),
@@ -84,19 +88,19 @@ class _LineChartSample8State extends State<LineChartSample8> {
     switch (value.toInt()) {
       case 0:
         icon = Icons.wb_sunny;
-        color = const Color(0xFFffab01);
+        color = AppColors.contentColorYellow;
         break;
       case 2:
         icon = Icons.wine_bar_sharp;
-        color = const Color(0xFFff0000);
+        color = AppColors.contentColorRed;
         break;
       case 4:
         icon = Icons.watch_later;
-        color = Colors.green;
+        color = AppColors.contentColorGreen;
         break;
       case 6:
         icon = Icons.whatshot;
-        color = Colors.deepOrangeAccent;
+        color = AppColors.contentColorOrange;
         break;
       default:
         throw StateError('Invalid');
@@ -118,19 +122,19 @@ class _LineChartSample8State extends State<LineChartSample8> {
           VerticalRangeAnnotation(
             x1: 2,
             x2: 5,
-            color: const Color(0xffD5DAE5),
+            color: AppColors.contentColorBlue.withOpacity(0.2),
           ),
           VerticalRangeAnnotation(
             x1: 8,
             x2: 9,
-            color: const Color(0xffD5DAE5),
+            color: AppColors.contentColorBlue.withOpacity(0.2),
           ),
         ],
         horizontalRangeAnnotations: [
           HorizontalRangeAnnotation(
             y1: 2,
             y2: 3,
-            color: const Color(0xffEEF3FE),
+            color: AppColors.contentColorGreen.withOpacity(0.3),
           ),
         ],
       ),
@@ -140,14 +144,17 @@ class _LineChartSample8State extends State<LineChartSample8> {
         horizontalLines: [
           HorizontalLine(
             y: 5,
-            color: const Color.fromRGBO(197, 210, 214, 1),
+            color: AppColors.contentColorGreen,
             strokeWidth: 2,
             dashArray: [5, 10],
             label: HorizontalLineLabel(
               show: true,
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(right: 5, bottom: 5),
-              style: const TextStyle(color: Colors.black, fontSize: 9),
+              style: const TextStyle(
+                fontSize: 9,
+                fontWeight: FontWeight.bold,
+              ),
               labelResolver: (line) => 'H: ${line.y}',
             ),
           ),
@@ -155,19 +162,27 @@ class _LineChartSample8State extends State<LineChartSample8> {
         verticalLines: [
           VerticalLine(
             x: 5.7,
-            color: const Color.fromRGBO(197, 210, 214, 1),
+            color: AppColors.contentColorBlue,
             strokeWidth: 2,
             dashArray: [5, 10],
             label: VerticalLineLabel(
               show: true,
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(left: 10, top: 5),
-              style: const TextStyle(color: Colors.black, fontSize: 9),
+              style: const TextStyle(
+                fontSize: 9,
+                fontWeight: FontWeight.bold,
+              ),
               labelResolver: (line) => 'V: ${line.x}',
             ),
           ),
           VerticalLine(
             x: 8.5,
+            color: Colors.transparent,
+            sizedPicture: sizedPicture,
+          ),
+          VerticalLine(
+            x: 3.5,
             color: Colors.transparent,
             sizedPicture: sizedPicture,
           )
@@ -211,21 +226,26 @@ class _LineChartSample8State extends State<LineChartSample8> {
             (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
             return TouchedSpotIndicatorData(
-              FlLine(color: Colors.orange, strokeWidth: 3),
+              FlLine(color: AppColors.contentColorOrange, strokeWidth: 3),
               FlDotData(
                 getDotPainter: (spot, percent, barData, index) =>
-                    FlDotCirclePainter(radius: 8, color: Colors.deepOrange),
+                    FlDotCirclePainter(
+                  radius: 8,
+                  color: AppColors.contentColorOrange,
+                ),
               ),
             );
           }).toList();
         },
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueAccent,
+          tooltipBgColor: AppColors.contentColorBlue,
         ),
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border.all(color: const Color(0xffecf1fe)),
+        border: Border.all(
+          color: AppColors.borderColor,
+        ),
       ),
       minX: 0,
       maxX: 11,
@@ -238,30 +258,20 @@ class _LineChartSample8State extends State<LineChartSample8> {
             FlSpot(2, 1),
             FlSpot(4.9, 5),
             FlSpot(6.8, 5),
-            FlSpot(7.5, 4),
+            FlSpot(7.5, 3.5),
             FlSpot.nullSpot,
             FlSpot(7.5, 2),
             FlSpot(8, 1),
             FlSpot(10, 2),
             FlSpot(11, 2.5),
           ],
-          dashArray: [2, 4],
+          dashArray: [10, 6],
           isCurved: true,
-          gradient: const LinearGradient(
-            colors: [Color(0xff0F2BF6), Color(0xff0F2BF6)],
-          ),
-          barWidth: 2,
+          color: AppColors.contentColorRed,
+          barWidth: 4,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: false,
-            gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.5))
-                  .toList(),
-            ),
           ),
         ),
       ],

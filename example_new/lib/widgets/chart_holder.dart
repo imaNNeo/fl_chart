@@ -21,13 +21,14 @@ class ChartHolder extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            chartSample.name,
-            style: const TextStyle(
-              color: AppColors.mainTextColor,
-            ),
-          ),
+          // Text(
+          //   chartSample.name,
+          //   style: const TextStyle(
+          //     color: AppColors.mainTextColor,
+          //   ),
+          // ),
           chartSample.builder(context),
         ],
       ),
