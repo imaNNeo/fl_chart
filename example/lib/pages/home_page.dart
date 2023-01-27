@@ -16,11 +16,16 @@ class HomePageState extends State<HomePage> {
   late int selectedMenuIndex;
 
   final menuItems = [
-    ChartMenuItem(ChartType.line, ChartType.line.getSimpleName(), AppAssets.icLineChart),
-    ChartMenuItem(ChartType.bar, ChartType.bar.getSimpleName(), AppAssets.icBarChart),
-    ChartMenuItem(ChartType.pie, ChartType.pie.getSimpleName(), AppAssets.icPieChart),
-    ChartMenuItem(ChartType.scatter, ChartType.scatter.getSimpleName(), AppAssets.icScatterChart),
-    ChartMenuItem(ChartType.radar, ChartType.radar.getSimpleName(), AppAssets.icRadarChart),
+    ChartMenuItem(
+        ChartType.line, ChartType.line.getSimpleName(), AppAssets.icLineChart),
+    ChartMenuItem(
+        ChartType.bar, ChartType.bar.getSimpleName(), AppAssets.icBarChart),
+    ChartMenuItem(
+        ChartType.pie, ChartType.pie.getSimpleName(), AppAssets.icPieChart),
+    ChartMenuItem(ChartType.scatter, ChartType.scatter.getSimpleName(),
+        AppAssets.icScatterChart),
+    ChartMenuItem(ChartType.radar, ChartType.radar.getSimpleName(),
+        AppAssets.icRadarChart),
   ];
 
   @override
@@ -34,8 +39,8 @@ class HomePageState extends State<HomePage> {
     final selectedMenu = menuItems[selectedMenuIndex];
     return LayoutBuilder(
       builder: (context, constraints) {
-        final needsDrawer =
-            constraints.maxWidth <= AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
+        final needsDrawer = constraints.maxWidth <=
+            AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
         final appMenuWidget = AppMenu(
           menuItems: menuItems,
           currentSelectedIndex: selectedMenuIndex,
@@ -51,7 +56,9 @@ class HomePageState extends State<HomePage> {
         );
         final samplesSectionWidget = IndexedStack(
           index: selectedMenuIndex,
-          children: menuItems.map((e) => ChartSamplesPage(chartType: e.chartType)).toList(),
+          children: menuItems
+              .map((e) => ChartSamplesPage(chartType: e.chartType))
+              .toList(),
         );
 
         final body = needsDrawer

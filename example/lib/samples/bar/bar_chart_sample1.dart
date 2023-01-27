@@ -18,7 +18,8 @@ class BarChartSample1 extends StatefulWidget {
         AppColors.contentColorRed,
       ];
 
-  final Color barBackgroundColor = AppColors.contentColorWhite.darken().withOpacity(0.3);
+  final Color barBackgroundColor =
+      AppColors.contentColorWhite.darken().withOpacity(0.3);
   final Color barColor = AppColors.contentColorWhite;
   final Color touchedBarColor = AppColors.contentColorGreen;
 
@@ -27,7 +28,6 @@ class BarChartSample1 extends StatefulWidget {
 }
 
 class BarChartSample1State extends State<BarChartSample1> {
-
   final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;

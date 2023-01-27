@@ -1,5 +1,4 @@
 import 'package:fl_chart_app/resources/app_resources.dart';
-import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,12 +53,7 @@ class PieChartSample3State extends State {
       final fontSize = isTouched ? 20.0 : 16.0;
       final radius = isTouched ? 110.0 : 100.0;
       final widgetSize = isTouched ? 55.0 : 40.0;
-      const shadows = [
-        Shadow(
-            color: Colors.black,
-            blurRadius: 2
-        )
-      ];
+      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
       switch (i) {
         case 0:

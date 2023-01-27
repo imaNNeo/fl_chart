@@ -102,10 +102,6 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
-    if (constraints.maxWidth == double.infinity || constraints.maxHeight == double.infinity) {
-      throw StateError('size should be finite in charts');
-    }
-    print(constraints);
     return Size(constraints.maxWidth, constraints.maxHeight);
   }
 

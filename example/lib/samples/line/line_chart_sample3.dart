@@ -1,5 +1,4 @@
 import 'package:fl_chart_app/resources/app_colors.dart';
-import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
