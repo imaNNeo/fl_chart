@@ -23,6 +23,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Digital
+      fonts:
+        - asset: assets/fonts/digital-7.ttf
 
   assets:
     - assets/icons/
+    - assets/fonts/
