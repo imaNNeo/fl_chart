@@ -1,8 +1,8 @@
-import 'package:fl_chart_app/resources/app_colors.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'pages/home_page.dart';
+import 'presentation/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
