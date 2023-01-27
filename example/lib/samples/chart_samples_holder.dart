@@ -28,7 +28,7 @@ import 'line/line_chart_sample9.dart';
 class ChartSamplesHolder {
   static final Map<ChartType, List<ChartSample>> samples = {
     ChartType.line: [
-      LineChartSample('Line Chart Sample 1', 'link1',
+      LineChartSample('Line Chart Sample 1', 'https://www.google.com',
           (context) => const LineChartSample1()),
       LineChartSample('Line Chart Sample 2', 'link2',
           (context) => const LineChartSample2()),
