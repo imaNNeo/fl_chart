@@ -24,11 +24,12 @@ class AppMenu extends StatefulWidget {
 class AppMenuState extends State<AppMenu> {
   @override
   Widget build(BuildContext context) {
+    const needToUpdate = false;
     return Container(
       color: AppColors.itemsBackground,
       child: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             child: AspectRatio(
               aspectRatio: 3,
               child: Center(
@@ -52,36 +53,37 @@ class AppMenuState extends State<AppMenu> {
               itemCount: widget.menuItems.length,
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'FL Chart v 1.00 - update to get the latest features!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
+          if (needToUpdate)
+            Container(
+              margin: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'FL Chart v 1.00 - update to get the latest features!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Update',
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Update',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )
+                ],
+              ),
+            )
         ],
       ),
     );
