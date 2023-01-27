@@ -9,17 +9,17 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   late int selectedMenuIndex;
 
   final menuItems = [
     ChartMenuItem(ChartType.line, ChartType.line.getSimpleName(), AppAssets.icLineChart),
     ChartMenuItem(ChartType.bar, ChartType.bar.getSimpleName(), AppAssets.icBarChart),
     ChartMenuItem(ChartType.pie, ChartType.pie.getSimpleName(), AppAssets.icPieChart),
-    // ChartMenuItem(ChartType.scatter, ChartType.scatter.getSimpleName(), AppAssets.icScatterChart),
+    ChartMenuItem(ChartType.scatter, ChartType.scatter.getSimpleName(), AppAssets.icScatterChart),
     // ChartMenuItem(ChartType.radar, ChartType.radar.getSimpleName(), AppAssets.icRadarChart),
   ];
 
