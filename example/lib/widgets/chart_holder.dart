@@ -38,7 +38,7 @@ class ChartHolder extends StatelessWidget {
                 }
               },
               icon: const Icon(
-                Icons.source,
+                Icons.code,
                 color: AppColors.primary,
               ),
               tooltip: 'Source code',
