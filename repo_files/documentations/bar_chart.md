@@ -133,32 +133,32 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 
 ### Some Samples
 ----
-##### Sample 1 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample1.dart))
+##### Sample 1 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample1.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1.gif" width="300" >
 
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif" width="300" >
 
 
 
-##### Sample 2 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample2.dart))
+##### Sample 2 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample2.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_2.gif" width="300" >
 
-##### Sample 3 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample3.dart))
+##### Sample 3 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample3.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_3.png" width="300" >
 
-##### Sample 4 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample4.dart))
+##### Sample 4 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample4.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_4.png" width="300" >
 
-##### Sample 5 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample5.dart))
+##### Sample 5 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample5.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_5.gif" width="300" >
 
-##### Sample 6 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample6.dart))
+##### Sample 6 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample6.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_6.png" width="300" >
 
-##### Sample 7 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample7.dart))
+##### Sample 7 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample7.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
-##### Sample 8 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample8.dart))
+##### Sample 8 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample8.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_8.png" width="300" >
 
 ##### Gist - Toggleable Tooltip ([Source Code](https://gist.github.com/imaNNeo/bce3f0169ff3fd6c3f137cdeb5005c0e))

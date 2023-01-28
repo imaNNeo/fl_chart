@@ -5,11 +5,11 @@ We did a lot of hard-work to bring widgets to our titles around the axis-based c
 It means that you can now put a widget as a title instead of a string.
 Look at the below samples:
 
-**LineChartSample 8** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/master/example/lib/line_chart/samples/line_chart_sample8.dart))
+**LineChartSample 8** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/master/example/lib/presentation/samples/line/line_chart_sample8.dart))
 
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
 
-**BarChartSample 7** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/master/example/lib/bar_chart/samples/bar_chart_sample7.dart))
+**BarChartSample 7** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/master/example/lib/presentation/samples/bar/bar_chart_sample7.dart))
 
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
