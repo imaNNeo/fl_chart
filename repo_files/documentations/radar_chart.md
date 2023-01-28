@@ -78,5 +78,5 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ### some samples
 ----
-##### Sample 1 ([Source Code](/example/lib/radar_chart/samples/radar_chart_sample1.dart))
+##### Sample 1 ([Source Code](/example/lib/presentation/samples/radar/radar_chart_sample1.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/radar_chart/radar_chart_sample_1.jpg" width="300" >

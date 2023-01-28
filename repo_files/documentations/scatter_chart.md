@@ -90,9 +90,9 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ### some samples
 ----
-##### Sample 1 ([Source Code](/example/lib/scatter_chart/samples/scatter_chart_sample1.dart))
+##### Sample 1 ([Source Code](/example/lib/presentation/samples/scatter/scatter_chart_sample1.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_1.gif" width="300" >
 
 
-##### Sample 2 ([Source Code](/example/lib/scatter_chart/samples/scatter_chart_sample2.dart))
+##### Sample 2 ([Source Code](/example/lib/presentation/samples/scatter/scatter_chart_sample2.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_2.gif" width="300" >
