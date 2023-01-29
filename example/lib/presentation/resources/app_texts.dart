@@ -1,3 +1,3 @@
 class AppTexts {
-  static const appName = 'FL Chart ';
+  static const appName = 'FL Chart App';
 }
