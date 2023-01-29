@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "dev.flchart.app" "\0"
-            VALUE "FileDescription", "example_new" "\0"
+            VALUE "FileDescription", "FL Chart App" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "example_new" "\0"
+            VALUE "InternalName", "FL Chart App" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 dev.flchart.app. All rights reserved." "\0"
-            VALUE "OriginalFilename", "example_new.exe" "\0"
-            VALUE "ProductName", "example_new" "\0"
+            VALUE "OriginalFilename", "fl_chart_app.exe" "\0"
+            VALUE "ProductName", "fl_chart_app" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

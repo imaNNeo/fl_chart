@@ -1,4 +1,4 @@
-package dev.flchart.app.example_new
+package dev.flchart.app
 
 import io.flutter.embedding.android.FlutterActivity
 

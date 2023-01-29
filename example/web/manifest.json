@@ -1,6 +1,6 @@
 {
-    "name": "example_new",
-    "short_name": "example_new",
+    "name": "FL Chart App",
+    "short_name": "FL Chart App",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
