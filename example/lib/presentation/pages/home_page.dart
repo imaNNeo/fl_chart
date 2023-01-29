@@ -1,66 +1,58 @@
+import 'package:dartx/dartx.dart';
 import 'package:fl_chart_app/presentation/menu/app_menu.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'chart_samples_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  HomePageState createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> {
-  late int selectedMenuIndex;
-
-  final menuItems = [
-    ChartMenuItem(
-        ChartType.line, ChartType.line.getSimpleName(), AppAssets.icLineChart),
-    ChartMenuItem(
-        ChartType.bar, ChartType.bar.getSimpleName(), AppAssets.icBarChart),
-    ChartMenuItem(
-        ChartType.pie, ChartType.pie.getSimpleName(), AppAssets.icPieChart),
-    ChartMenuItem(ChartType.scatter, ChartType.scatter.getSimpleName(),
-        AppAssets.icScatterChart),
-    ChartMenuItem(ChartType.radar, ChartType.radar.getSimpleName(),
-        AppAssets.icRadarChart),
-  ];
-
-  @override
-  void initState() {
-    selectedMenuIndex = 0;
-    super.initState();
+class HomePage extends StatelessWidget {
+  HomePage({
+    Key? key,
+    required this.showingChartType,
+  }) : super(key: key) {
+    _initMenuItems();
   }
+
+  void _initMenuItems() {
+    _menuItemsIndices = {};
+    _menuItems = ChartType.values.mapIndexed(
+      (int index, ChartType type) {
+        _menuItemsIndices[type] = index;
+        return ChartMenuItem(
+          type,
+          type.getSimpleName(),
+          type.assetIcon,
+        );
+      },
+    ).toList();
+  }
+
+  final ChartType showingChartType;
+  late final Map<ChartType, int> _menuItemsIndices;
+  late final List<ChartMenuItem> _menuItems;
 
   @override
   Widget build(BuildContext context) {
-    final selectedMenu = menuItems[selectedMenuIndex];
+    final selectedMenuIndex = _menuItemsIndices[showingChartType]!;
     return LayoutBuilder(
       builder: (context, constraints) {
         final needsDrawer = constraints.maxWidth <=
             AppDimens.menuMaxNeededWidth + AppDimens.chartBoxMinWidth;
         final appMenuWidget = AppMenu(
-          menuItems: menuItems,
+          menuItems: _menuItems,
           currentSelectedIndex: selectedMenuIndex,
           onItemSelected: (newIndex, chartMenuItem) {
-            setState(() {
-              selectedMenuIndex = newIndex;
-            });
+            context.go('/${chartMenuItem.chartType.name}');
             if (needsDrawer) {
               /// to close the drawer
               Navigator.of(context).pop();
             }
           },
         );
-        final samplesSectionWidget = IndexedStack(
-          index: selectedMenuIndex,
-          children: menuItems
-              .map((e) => ChartSamplesPage(chartType: e.chartType))
-              .toList(),
-        );
-
+        final samplesSectionWidget =
+            ChartSamplesPage(chartType: showingChartType);
         final body = needsDrawer
             ? samplesSectionWidget
             : Row(
@@ -86,7 +78,7 @@ class HomePageState extends State<HomePage> {
               ? AppBar(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  title: Text(selectedMenu.chartType.getName()),
+                  title: Text(showingChartType.getDisplayName()),
                 )
               : null,
         );

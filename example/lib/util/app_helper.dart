@@ -1,7 +1,9 @@
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
+
 enum ChartType { line, bar, pie, scatter, radar }
 
 extension ChartTypeExtension on ChartType {
-  String getName() => '${getSimpleName()} Chart';
+  String getDisplayName() => '${getSimpleName()} Chart';
 
   String getSimpleName() {
     switch (this) {
@@ -17,4 +19,6 @@ extension ChartTypeExtension on ChartType {
         return 'Radar';
     }
   }
+
+  String get assetIcon => AppAssets.getChartIcon(this);
 }
