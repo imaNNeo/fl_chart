@@ -15,6 +15,7 @@ class AppAssets {
         return 'assets/icons/ic_radar_chart.svg';
     }
   }
+
   static const flChartLogoIcon = 'assets/icons/fl_chart_logo_icon.png';
   static const flChartLogoText = 'assets/icons/fl_chart_logo_text.svg';
 }

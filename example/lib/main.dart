@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: AppTexts.appName,
       theme: ThemeData(
         brightness: Brightness.dark,
         useMaterial3: true,
