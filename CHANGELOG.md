@@ -1,5 +1,6 @@
 ## newVersion
 * **IMPROVEMENT** (by @imaNNeo) Remove assertion to check to provide only one of `color` or `gradient` property in the [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) and [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), #1121.
+* **IMPROVEMENT** (by @imaNNeo) Make `drawBehindEverything` property default to `true` in [AxisTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#axistitle) class, #1097.
 * **BUGFIX** (by @imaNNeo) Show `0` instead of `-0` in some edge-cases in the default titles 
 
 ## 0.60.0
