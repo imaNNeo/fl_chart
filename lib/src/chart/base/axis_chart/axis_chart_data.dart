@@ -226,7 +226,7 @@ class AxisTitles with EquatableMixin {
     bool? drawBehindEverything,
   })  : axisNameSize = axisNameSize ?? 16,
         sideTitles = sideTitles ?? SideTitles(),
-        drawBelowEverything = drawBehindEverything ?? false;
+        drawBelowEverything = drawBehindEverything ?? true;
 
   /// Determines the size of [axisName]
   final double axisNameSize;
