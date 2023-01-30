@@ -159,7 +159,7 @@ class _Chart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: getVerticalTitles,
-              reservedSize: 28,
+              reservedSize: 36,
             ),
           ),
           topTitles: AxisTitles(
@@ -172,7 +172,7 @@ class _Chart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: getVerticalTitles,
-              reservedSize: 28,
+              reservedSize: 36,
             ),
           ),
           bottomTitles: AxisTitles(
