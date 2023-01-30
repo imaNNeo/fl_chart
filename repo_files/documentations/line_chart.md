@@ -218,5 +218,5 @@ When you change the chart's state, it animates to the new state internally (usin
 ##### Sample 10 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample10.dart))
 <img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >
 
-##### Gist - baseLineX, baselineY sample ([Source Code](https://gist.github.com/imaNNeo/5822eda603bdad18cf46f212d5a48822))
+##### Sample 11 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample11.dart))
 https://user-images.githubusercontent.com/7009300/152555425-3b53ac8c-257f-49b0-8d75-1a878c03ccaa.mp4

@@ -1,40 +1,42 @@
+import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class ChartSample {
-  final String name;
-  final String url;
+  final int number;
   final WidgetBuilder builder;
   ChartType get type;
-  ChartSample(this.name, this.url, this.builder);
+  String get name => '${type.getDisplayName()} Sample $number';
+  String get url => Urls.getChartSourceCodeUrl(type, number);
+  ChartSample(this.number, this.builder);
 }
 
 class LineChartSample extends ChartSample {
-  LineChartSample(super.name, super.url, super.builder);
+  LineChartSample(super.number, super.builder);
   @override
   ChartType get type => ChartType.line;
 }
 
 class BarChartSample extends ChartSample {
-  BarChartSample(super.name, super.url, super.builder);
+  BarChartSample(super.number, super.builder);
   @override
   ChartType get type => ChartType.bar;
 }
 
 class PieChartSample extends ChartSample {
-  PieChartSample(super.name, super.url, super.builder);
+  PieChartSample(super.number, super.builder);
   @override
   ChartType get type => ChartType.pie;
 }
 
 class ScatterChartSample extends ChartSample {
-  ScatterChartSample(super.name, super.url, super.builder);
+  ScatterChartSample(super.number, super.builder);
   @override
   ChartType get type => ChartType.scatter;
 }
 
 class RadarChartSample extends ChartSample {
-  RadarChartSample(super.name, super.url, super.builder);
+  RadarChartSample(super.number, super.builder);
   @override
   ChartType get type => ChartType.radar;
 }
