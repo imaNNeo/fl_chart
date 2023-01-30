@@ -223,6 +223,10 @@ void main() {
 
   test('test formatNumber', () {
     expect(Utils().formatNumber(0), '0');
+    expect(Utils().formatNumber(-0), '0');
+    expect(Utils().formatNumber(-0.01), '0');
+    expect(Utils().formatNumber(0.01), '0');
+    expect(Utils().formatNumber(-0.1), '-0.1');
     expect(Utils().formatNumber(423), '423');
     expect(Utils().formatNumber(-423), '-423');
     expect(Utils().formatNumber(1000), '1K');

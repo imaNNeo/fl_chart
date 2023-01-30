@@ -249,6 +249,10 @@ class Utils {
       resultNumber = '-$resultNumber';
     }
 
+    if (resultNumber == '-0') {
+      resultNumber = '0';
+    }
+
     return resultNumber + symbol;
   }
 

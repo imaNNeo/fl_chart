@@ -1,5 +1,6 @@
 ## newVersion
 * **IMPROVEMENT** (by @imaNNeo) Remove assertion to check to provide only one of `color` or `gradient` property in the [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) and [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), #1121.
+* **BUGFIX** (by @imaNNeo) Show `0` instead of `-0` in some edge-cases in the default titles 
 
 ## 0.60.0
 * **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis
