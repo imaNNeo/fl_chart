@@ -333,14 +333,7 @@ class BarChartRodData with EquatableMixin {
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-        rodStackItems = rodStackItems ?? const [] {
-    assert(
-      (gradient == null && this.color != null) ||
-          (this.color == null && gradient != null),
-      'You cannot provide both color and gradient at the same time, '
-      'color is ${this.color} and gradient is $gradient',
-    );
-  }
+        rodStackItems = rodStackItems ?? const [];
 
   /// [BarChart] renders rods vertically from [fromY].
   final double fromY;
@@ -533,14 +526,7 @@ class BackgroundBarChartRodData with EquatableMixin {
         toY = toY ?? 0,
         show = show ?? false,
         color = color ??
-            ((color == null && gradient == null) ? Colors.blueGrey : null) {
-    assert(
-      (gradient == null && this.color != null) ||
-          (this.color == null && gradient != null),
-      'You cannot provide both color and gradient at the same time, '
-      'color is ${this.color} and gradient is $gradient',
-    );
-  }
+            ((color == null && gradient == null) ? Colors.blueGrey : null);
 
   /// Determines to show or hide this
   final bool show;
