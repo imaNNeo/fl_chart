@@ -22,7 +22,12 @@ class ChartSamplesPage extends StatelessWidget {
       body: MasonryGridView.builder(
         itemCount: samples[chartType]!.length,
         key: ValueKey(chartType),
-        padding: const EdgeInsets.all(AppDimens.chartSamplesSpace),
+        padding: const EdgeInsets.only(
+          left: AppDimens.chartSamplesSpace,
+          right: AppDimens.chartSamplesSpace,
+          top: AppDimens.chartSamplesSpace,
+          bottom: AppDimens.chartSamplesSpace + 68,
+        ),
         crossAxisSpacing: AppDimens.chartSamplesSpace,
         mainAxisSpacing: AppDimens.chartSamplesSpace,
         itemBuilder: (BuildContext context, int index) {
