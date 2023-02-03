@@ -5,6 +5,12 @@ All sources are sorted by date.
 Did you find any new article or source? please contribute to have them all here.
 
 #### Blog post:
+<!--- 2022-11-33 --->
+* [Design Stunning Charts with fl_charts in Flutter](https://www.atatus.com/blog/design-stunning-charts-with-fl-charts-in-flutter/)
+
+<!--- 2022-04-12 --->
+* [Build beautiful charts in Flutter with FL Chart](https://blog.logrocket.com/build-beautiful-charts-flutter-fl-chart)
+
 <!--- 2021-11-18 --->
 * [Flutter4Fun UI Challenge 7](https://flutter4fun.com/ui-challenge-7/)
 
