@@ -61,9 +61,12 @@ class PieChartData extends BaseChartData with EquatableMixin {
   final PieTouchData pieTouchData;
 
   /// We hold this value to determine weight of each [PieChartSectionData.value].
-  double get sumValue => sections
+  double get sumValue {
+     if(sections.isEmpty) return 0;
+     return sections
       .map((data) => data.value)
       .reduce((first, second) => first + second);
+  }
 
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.
