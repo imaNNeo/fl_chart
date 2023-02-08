@@ -162,6 +162,8 @@ class SideTitlesWidget extends StatelessWidget {
               sideTitles: sideTitles,
               formattedValue: Utils().formatNumber(metaData.axisValue),
               axisSide: side,
+              parentAxisSize: axisViewSize,
+              axisPosition: metaData.axisPixelLocation,
             ),
           ),
         );

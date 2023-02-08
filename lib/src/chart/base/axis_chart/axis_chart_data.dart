@@ -90,6 +90,8 @@ class TitleMeta {
   TitleMeta({
     required this.min,
     required this.max,
+    required this.parentAxisSize,
+    required this.axisPosition,
     required this.appliedInterval,
     required this.sideTitles,
     required this.formattedValue,
@@ -101,6 +103,13 @@ class TitleMeta {
 
   /// max axis value
   final double max;
+
+  /// parent axis max width/height
+  final double parentAxisSize;
+
+  /// The position (in pixel) that applied to 
+  /// this drawing title along its axis.
+  final double axisPosition;
 
   /// The interval that applied to this drawing title
   final double appliedInterval;
