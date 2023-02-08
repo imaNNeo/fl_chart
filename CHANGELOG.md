@@ -3,6 +3,7 @@
 * **IMPROVEMENT** (by @imaNNeo) Make `drawBehindEverything` property default to `true` in [AxisTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#axistitle) class, #1097.
 * **BUGFIX** (by @imaNNeo) Show `0` instead of `-0` in some edge-cases in the default titles 
 * **FEATURE** (by @tamasapps): Add `tooltipHorizontalAlignment` and `tooltipHorizontalOffset` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData].
+* **FEATURE** (by @dhiyaaulauliyaa) Add ability to force SideTitle to be placed inside its corresponding axis bounding box, #603.
 
 ## 0.60.0
 * **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis
