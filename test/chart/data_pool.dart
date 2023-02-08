@@ -425,7 +425,7 @@ class MockData {
     distanceFromEdge: 0,
   );
   static const sideTitleFitInsideData5 = SideTitleFitInsideData(
-   enabled: true,
+    enabled: true,
     axisPosition: 200,
     parentAxisSize: 200,
     distanceFromEdge: 10,
