@@ -11,8 +11,8 @@ import 'package:flutter/scheduler.dart';
 /// You can also fill [angle] in radians if you need to rotate your widget.
 /// To force widget to be positioned within its axis bounding box,
 /// define [fitInside] by passing [SideTitleFitInsideData]
-class SideTitleWidget extends StatelessWidget {
-  SideTitleWidget({
+class SideTitleWidget extends StatefulWidget {
+  const SideTitleWidget({
     super.key,
     required this.child,
     required this.axisSide,
@@ -47,8 +47,13 @@ class SideTitleWidget extends StatelessWidget {
   /// spacing between [SideTitles] children might be not equal.
   final SideTitleFitInsideData fitInside;
 
+  @override
+  State<SideTitleWidget> createState() => _SideTitleWidgetState();
+}
+
+class _SideTitleWidgetState extends State<SideTitleWidget> {
   Alignment _getAlignment() {
-    switch (axisSide) {
+    switch (widget.axisSide) {
       case AxisSide.left:
         return Alignment.centerRight;
       case AxisSide.top:
@@ -63,15 +68,15 @@ class SideTitleWidget extends StatelessWidget {
   }
 
   EdgeInsets _getMargin() {
-    switch (axisSide) {
+    switch (widget.axisSide) {
       case AxisSide.left:
-        return EdgeInsets.only(right: space);
+        return EdgeInsets.only(right: widget.space);
       case AxisSide.top:
-        return EdgeInsets.only(bottom: space);
+        return EdgeInsets.only(bottom: widget.space);
       case AxisSide.right:
-        return EdgeInsets.only(left: space);
+        return EdgeInsets.only(left: widget.space);
       case AxisSide.bottom:
-        return EdgeInsets.only(top: space);
+        return EdgeInsets.only(top: widget.space);
       default:
         throw StateError('Invalid side');
     }
@@ -82,10 +87,10 @@ class SideTitleWidget extends StatelessWidget {
   /// The offset will translate the child to the closest edge inside
   /// of the parent
   Offset _getOffset() {
-    if (!fitInside.enabled || _childSize.value == null) return Offset.zero;
+    if (!widget.fitInside.enabled || _childSize == null) return Offset.zero;
 
-    final parentAxisSize = fitInside.parentAxisSize;
-    final axisPosition = fitInside.axisPosition;
+    final parentAxisSize = widget.fitInside.parentAxisSize;
+    final axisPosition = widget.fitInside.axisPosition;
 
     // Find title alignment along its axis
     final axisMid = parentAxisSize / 2;
@@ -94,7 +99,7 @@ class SideTitleWidget extends StatelessWidget {
         : MainAxisAlignment.end;
 
     // Find if child widget overflowed outside the chart
-    final childSize = _childSize.value!;
+    final childSize = _childSize!;
     late bool isOverflowed;
     if (mainAxisAligment == MainAxisAlignment.start) {
       isOverflowed = (axisPosition - (childSize / 2)).isNegative;
@@ -107,14 +112,15 @@ class SideTitleWidget extends StatelessWidget {
     // Calc offset if child overflowed
     late double offset;
     if (mainAxisAligment == MainAxisAlignment.start) {
-      offset = (childSize / 2) - axisPosition + fitInside.distanceFromEdge;
+      offset =
+          (childSize / 2) - axisPosition + widget.fitInside.distanceFromEdge;
     } else {
       offset = -(childSize / 2) +
           (parentAxisSize - axisPosition) -
-          fitInside.distanceFromEdge;
+          widget.fitInside.distanceFromEdge;
     }
 
-    switch (axisSide) {
+    switch (widget.axisSide) {
       case AxisSide.left:
       case AxisSide.right:
         return Offset(0, offset);
@@ -126,20 +132,22 @@ class SideTitleWidget extends StatelessWidget {
 
   /// Calculate child width/height
   final GlobalKey widgetKey = GlobalKey();
-  final ValueNotifier<double?> _childSize = ValueNotifier(null);
+
+  double? _childSize;
+
   void _getChildSize(_) {
     // If fitInside is false, no need to find child size
-    if (!fitInside.enabled) return;
+    if (!widget.fitInside.enabled) return;
 
     // If childSize is not null, no need to find the size anymore
-    if (_childSize.value != null) return;
+    if (_childSize != null) return;
 
     final context = widgetKey.currentContext;
     if (context == null) return;
 
     // Set size based on its axis side
     late double size;
-    switch (axisSide) {
+    switch (widget.axisSide) {
       case AxisSide.left:
       case AxisSide.right:
         size = context.size?.height ?? 0;
@@ -151,33 +159,34 @@ class SideTitleWidget extends StatelessWidget {
     }
 
     // If childSize is the same, no need to set new value
-    if (_childSize.value == size) return;
+    if (_childSize == size) return;
 
-    _childSize.value = size;
+    setState(() => _childSize = size);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback(_getChildSize);
+  }
+
+  @override
+  void didUpdateWidget(covariant SideTitleWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    SchedulerBinding.instance.addPostFrameCallback(_getChildSize);
   }
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback(_getChildSize);
-
-    return ValueListenableBuilder(
-      valueListenable: _childSize,
-      builder: (_, double? size, Widget? child) {
-        return Transform.translate(
-          offset: _getOffset(),
-          child: Opacity(
-            opacity: fitInside.enabled && size == null ? 0 : 1,
-            child: child,
-          ),
-        );
-      },
+    return Transform.translate(
+      offset: _getOffset(),
       child: Transform.rotate(
-        angle: angle,
+        angle: widget.angle,
         child: Container(
           key: widgetKey,
           margin: _getMargin(),
           alignment: _getAlignment(),
-          child: child,
+          child: widget.child,
         ),
       ),
     );
