@@ -56,6 +56,9 @@ class LineChartSample3 extends StatefulWidget {
 class _LineChartSample3State extends State<LineChartSample3> {
   late double touchedValue;
 
+  bool fitInsideBottomTitle = true;
+  bool fitInsideLeftTitle = false;
+
   @override
   void initState() {
     touchedValue = -1;
@@ -91,6 +94,9 @@ class _LineChartSample3State extends State<LineChartSample3> {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 6,
+      fitInside: fitInsideLeftTitle
+          ? SideTitleFitInsideData.fromTitleMeta(meta)
+          : SideTitleFitInsideData.disable(),
       child: Text(text, style: style, textAlign: TextAlign.center),
     );
   }
@@ -108,6 +114,9 @@ class _LineChartSample3State extends State<LineChartSample3> {
     return SideTitleWidget(
       space: 4,
       axisSide: meta.axisSide,
+      fitInside: fitInsideBottomTitle
+          ? SideTitleFitInsideData.fromTitleMeta(meta, distanceFromEdge: 0)
+          : SideTitleFitInsideData.disable(),
       child: Text(
         widget.weekDays[value.toInt()],
         style: style,
@@ -120,6 +129,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        const SizedBox(height: 10),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -409,6 +419,31 @@ class _LineChartSample3State extends State<LineChartSample3> {
               ),
             ),
           ),
+        ),
+        Column(
+          children: [
+            const Text('Fit Inside Title Option'),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Left Title'),
+                Switch(
+                  value: fitInsideLeftTitle,
+                  onChanged: (value) => setState(() {
+                    fitInsideLeftTitle = value;
+                  }),
+                ),
+                const Text('Bottom Title'),
+                Switch(
+                  value: fitInsideBottomTitle,
+                  onChanged: (value) => setState(() {
+                    fitInsideBottomTitle = value;
+                  }),
+                )
+              ],
+            ),
+          ],
         ),
       ],
     );
