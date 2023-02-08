@@ -32,6 +32,14 @@
 |reservedSize| It determines the maximum space that your titles need, |22|
 |interval| Texts are showing with provided `interval`. If you don't provide anything, we try to find a suitable value to set as `interval` under the hood. | null |
 
+### SideTitleFitInsideData
+|PropName		|Description	|default value|
+|:---------------|:---------------|:-------|
+|enabled| determines whether to enable fit inside to SideTitleWidget |true|
+|axisPosition| position (in pixel) that applied to the center of child widget along its corresponding axis |null|
+|parentAxisSize| child widget's corresponding axis maximum width/height |null|
+|distanceFromEdge| distance between child widget and its closest corresponding axis edge | 6 |
+
 ### FlGridData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
