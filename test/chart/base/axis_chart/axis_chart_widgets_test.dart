@@ -7,11 +7,11 @@ void main() {
     'SideTitleWidget left',
     (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: SideTitleWidget(
               axisSide: AxisSide.left,
-              child: const Text('1s'),
+              child: Text('1s'),
             ),
           ),
         ),
@@ -25,11 +25,11 @@ void main() {
     'SideTitleWidget top',
     (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: SideTitleWidget(
               axisSide: AxisSide.top,
-              child: const Text('1s'),
+              child: Text('1s'),
             ),
           ),
         ),
@@ -43,11 +43,11 @@ void main() {
     'SideTitleWidget right',
     (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: SideTitleWidget(
               axisSide: AxisSide.right,
-              child: const Text('1s'),
+              child: Text('1s'),
             ),
           ),
         ),
@@ -61,11 +61,11 @@ void main() {
     'SideTitleWidget bottom',
     (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: SideTitleWidget(
               axisSide: AxisSide.bottom,
-              child: const Text('1s'),
+              child: Text('1s'),
             ),
           ),
         ),
