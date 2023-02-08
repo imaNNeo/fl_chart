@@ -17,3 +17,4 @@ example/android/app/.project
 example/android/app/.settings/org.eclipse.buildship.core.prefs
 example/macos/Flutter/ephemeral/
 coverage/
+.fvm/
