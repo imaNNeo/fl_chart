@@ -261,7 +261,7 @@ class SideTitleFitInsideData with EquatableMixin {
   factory SideTitleFitInsideData.fromTitleMeta(
     TitleMeta meta, {
     bool enabled = true,
-    double distanceFromEdge = 0,
+    double distanceFromEdge = 6,
   }) =>
       SideTitleFitInsideData(
         enabled: enabled,
