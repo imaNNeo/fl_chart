@@ -107,7 +107,7 @@ class TitleMeta {
   /// parent axis max width/height
   final double parentAxisSize;
 
-  /// The position (in pixel) that applied to 
+  /// The position (in pixel) that applied to
   /// this drawing title along its axis.
   final double axisPosition;
 
@@ -217,6 +217,78 @@ class SideTitles with EquatableMixin {
         getTitlesWidget,
         reservedSize,
         interval,
+      ];
+}
+
+/// Force child widget to be positioned inside its
+/// corresponding axis bounding box
+///
+/// To makes things simpler, it's recommended to use
+/// [SideTitleFitInsideData.fromTitleMeta] and pass the
+/// TitleMeta provided from [SideTitles.getTitlesWidget]
+class SideTitleFitInsideData with EquatableMixin {
+  /// Force child widget to be positioned inside its
+  /// corresponding axis bounding box
+  ///
+  /// To makes things simpler, it's recommended to use
+  /// [SideTitleFitInsideData.fromTitleMeta] and pass the
+  /// TitleMeta provided from [SideTitles.getTitlesWidget]
+  ///
+  /// Some translations will be applied to force
+  /// children to be positioned inside the parent axis bounding box.
+  ///
+  /// Will override the [SideTitleWidget.space] and caused
+  /// spacing between [SideTitles] children might be not equal.
+  const SideTitleFitInsideData({
+    required this.enabled,
+    required this.axisPosition,
+    required this.parentAxisSize,
+    required this.distanceFromEdge,
+  });
+
+  /// Create a disabled [SideTitleFitInsideData].
+  /// If used, the child widget wouldn't be fitted
+  /// inside its corresponding axis bounding box
+  factory SideTitleFitInsideData.disable() => const SideTitleFitInsideData(
+        enabled: false,
+        distanceFromEdge: 0,
+        parentAxisSize: 0,
+        axisPosition: 0,
+      );
+
+  /// Help to Create [SideTitleFitInsideData] from [TitleMeta].
+  /// [TitleMeta] is provided by [SideTitles.getTitlesWidget] function.
+  factory SideTitleFitInsideData.fromTitleMeta(
+    TitleMeta meta, {
+    bool enabled = true,
+    double distanceFromEdge = 0,
+  }) =>
+      SideTitleFitInsideData(
+        enabled: enabled,
+        distanceFromEdge: distanceFromEdge,
+        parentAxisSize: meta.parentAxisSize,
+        axisPosition: meta.axisPosition,
+      );
+
+  /// Whether to enable fit inside to SideTitleWidget
+  final bool enabled;
+
+  /// Distance between child widget and its closest corresponding axis edge
+  final double distanceFromEdge;
+
+  /// Parent axis max width/height
+  final double parentAxisSize;
+
+  /// The position (in pixel) that applied to
+  /// the child widget along its corresponding axis.
+  final double axisPosition;
+
+  @override
+  List<Object?> get props => [
+        enabled,
+        distanceFromEdge,
+        parentAxisSize,
+        axisPosition,
       ];
 }
 
