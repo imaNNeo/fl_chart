@@ -10,7 +10,7 @@ import 'package:flutter/scheduler.dart';
 /// It also applies a [space] to the chart.
 /// You can also fill [angle] in radians if you need to rotate your widget.
 /// To force widget to be positioned within its axis bounding box,
-/// define [fitInside] by passing [SideTitleFitInsideData] 
+/// define [fitInside] by passing [SideTitleFitInsideData]
 class SideTitleWidget extends StatelessWidget {
   SideTitleWidget({
     super.key,
@@ -107,9 +107,11 @@ class SideTitleWidget extends StatelessWidget {
     // Calc offset if child overflowed
     late double offset;
     if (mainAxisAligment == MainAxisAlignment.start) {
-      offset = (childSize / 2) - axisPosition;
+      offset = (childSize / 2) - axisPosition + fitInside.distanceFromEdge;
     } else {
-      offset = -(childSize / 2) + parentAxisSize - axisPosition;
+      offset = -(childSize / 2) +
+          (parentAxisSize - axisPosition) -
+          fitInside.distanceFromEdge;
     }
 
     switch (axisSide) {
