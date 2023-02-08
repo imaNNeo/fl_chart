@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -62,8 +63,6 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
         return Alignment.centerLeft;
       case AxisSide.bottom:
         return Alignment.topCenter;
-      default:
-        throw StateError('Invalid side');
     }
   }
 
@@ -77,64 +76,12 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
         return EdgeInsets.only(left: widget.space);
       case AxisSide.bottom:
         return EdgeInsets.only(top: widget.space);
-      default:
-        throw StateError('Invalid side');
-    }
-  }
-
-  /// Calculate translate offset to keep child
-  /// placed inside its corresponding axis.
-  /// The offset will translate the child to the closest edge inside
-  /// of the parent
-  Offset _getOffset() {
-    if (!widget.fitInside.enabled || _childSize == null) return Offset.zero;
-
-    final parentAxisSize = widget.fitInside.parentAxisSize;
-    final axisPosition = widget.fitInside.axisPosition;
-
-    // Find title alignment along its axis
-    final axisMid = parentAxisSize / 2;
-    final mainAxisAligment = (axisPosition - axisMid).isNegative
-        ? MainAxisAlignment.start
-        : MainAxisAlignment.end;
-
-    // Find if child widget overflowed outside the chart
-    final childSize = _childSize!;
-    late bool isOverflowed;
-    if (mainAxisAligment == MainAxisAlignment.start) {
-      isOverflowed = (axisPosition - (childSize / 2)).isNegative;
-    } else {
-      isOverflowed = (axisPosition + (childSize / 2)) > parentAxisSize;
-    }
-
-    if (isOverflowed == false) return Offset.zero;
-
-    // Calc offset if child overflowed
-    late double offset;
-    if (mainAxisAligment == MainAxisAlignment.start) {
-      offset =
-          (childSize / 2) - axisPosition + widget.fitInside.distanceFromEdge;
-    } else {
-      offset = -(childSize / 2) +
-          (parentAxisSize - axisPosition) -
-          widget.fitInside.distanceFromEdge;
-    }
-
-    switch (widget.axisSide) {
-      case AxisSide.left:
-      case AxisSide.right:
-        return Offset(0, offset);
-      case AxisSide.top:
-      case AxisSide.bottom:
-        return Offset(offset, 0);
     }
   }
 
   /// Calculate child width/height
   final GlobalKey widgetKey = GlobalKey();
-
   double? _childSize;
-
   void _getChildSize(_) {
     // If fitInside is false, no need to find child size
     if (!widget.fitInside.enabled) return;
@@ -179,7 +126,15 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
-      offset: _getOffset(),
+      offset: !widget.fitInside.enabled
+          ? Offset.zero
+          : AxisChartHelper().calcFitInsideOffset(
+              axisSide: widget.axisSide,
+              childSize: _childSize,
+              parentAxisSize: widget.fitInside.parentAxisSize,
+              axisPosition: widget.fitInside.axisPosition,
+              distanceFromEdge: widget.fitInside.distanceFromEdge,
+            ),
       child: Transform.rotate(
         angle: widget.angle,
         child: Container(
