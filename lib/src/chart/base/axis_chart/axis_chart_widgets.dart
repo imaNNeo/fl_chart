@@ -9,6 +9,8 @@ import 'package:flutter/scheduler.dart';
 /// It forces the widget to be close to the chart.
 /// It also applies a [space] to the chart.
 /// You can also fill [angle] in radians if you need to rotate your widget.
+/// To force widget to be positioned within its axis bounding box,
+/// define [fitInside] by passing [SideTitleFitInsideData] 
 class SideTitleWidget extends StatelessWidget {
   SideTitleWidget({
     super.key,
@@ -16,27 +18,34 @@ class SideTitleWidget extends StatelessWidget {
     required this.axisSide,
     this.space = 8.0,
     this.angle = 0.0,
-    this.fitInside = false,
-    this.titleMeta,
-  }) : assert(fitInside && titleMeta != null || !fitInside);
+    this.fitInside = const SideTitleFitInsideData(
+      enabled: false,
+      distanceFromEdge: 0,
+      parentAxisSize: 0,
+      axisPosition: 0,
+    ),
+  });
 
   final AxisSide axisSide;
   final double space;
   final Widget child;
   final double angle;
-  final TitleMeta? titleMeta;
 
-  /// If true, the widget will be placed
+  /// Define fitInside options with [SideTitleFitInsideData]
+  ///
+  /// To makes things simpler, it's recommended to use
+  /// [SideTitleFitInsideData.fromTitleMeta] and pass the
+  /// TitleMeta provided from [SideTitles.getTitlesWidget]
+  ///
+  /// If [fitInside.enabled] is true, the widget will be placed
   /// inside the parent axis bounding box.
   ///
   /// Some translations will be applied to force
   /// children to be positioned inside the parent axis bounding box.
   ///
-  /// Will override the [SideTitleWidget.space] and spacing between
-  /// [SideTitles] children might be not equal.
-  ///
-  /// If set to true, [SideTitleWidget.titleMeta] shouldn't be null.
-  final bool fitInside;
+  /// Will override the [SideTitleWidget.space] and caused
+  /// spacing between [SideTitles] children might be not equal.
+  final SideTitleFitInsideData fitInside;
 
   Alignment _getAlignment() {
     switch (axisSide) {
@@ -68,18 +77,19 @@ class SideTitleWidget extends StatelessWidget {
     }
   }
 
-  /// Calculate translate offset to keep child 
+  /// Calculate translate offset to keep child
   /// placed inside its corresponding axis.
   /// The offset will translate the child to the closest edge inside
   /// of the parent
   Offset _getOffset() {
-    if (!fitInside || _childSize.value == null) return Offset.zero;
+    if (!fitInside.enabled || _childSize.value == null) return Offset.zero;
 
-    final meta = titleMeta!;
+    final parentAxisSize = fitInside.parentAxisSize;
+    final axisPosition = fitInside.axisPosition;
 
     // Find title alignment along its axis
-    final axisMid = meta.parentAxisSize / 2;
-    final mainAxisAligment = (meta.axisPosition - axisMid).isNegative
+    final axisMid = parentAxisSize / 2;
+    final mainAxisAligment = (axisPosition - axisMid).isNegative
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
 
@@ -87,10 +97,9 @@ class SideTitleWidget extends StatelessWidget {
     final childSize = _childSize.value!;
     late bool isOverflowed;
     if (mainAxisAligment == MainAxisAlignment.start) {
-      isOverflowed = (meta.axisPosition - (childSize / 2)).isNegative;
+      isOverflowed = (axisPosition - (childSize / 2)).isNegative;
     } else {
-      isOverflowed =
-          (meta.axisPosition + (childSize / 2)) > meta.parentAxisSize;
+      isOverflowed = (axisPosition + (childSize / 2)) > parentAxisSize;
     }
 
     if (isOverflowed == false) return Offset.zero;
@@ -98,9 +107,9 @@ class SideTitleWidget extends StatelessWidget {
     // Calc offset if child overflowed
     late double offset;
     if (mainAxisAligment == MainAxisAlignment.start) {
-      offset = (childSize / 2) - meta.axisPosition;
+      offset = (childSize / 2) - axisPosition;
     } else {
-      offset = -(childSize / 2) + meta.parentAxisSize - meta.axisPosition;
+      offset = -(childSize / 2) + parentAxisSize - axisPosition;
     }
 
     switch (axisSide) {
@@ -118,7 +127,7 @@ class SideTitleWidget extends StatelessWidget {
   final ValueNotifier<double?> _childSize = ValueNotifier(null);
   void _getChildSize(_) {
     // If fitInside is false, no need to find child size
-    if (!fitInside) return;
+    if (!fitInside.enabled) return;
 
     // If childSize is not null, no need to find the size anymore
     if (_childSize.value != null) return;
@@ -155,7 +164,7 @@ class SideTitleWidget extends StatelessWidget {
         return Transform.translate(
           offset: _getOffset(),
           child: Opacity(
-            opacity: fitInside && size == null ? 0 : 1,
+            opacity: fitInside.enabled && size == null ? 0 : 1,
             child: child,
           ),
         );
