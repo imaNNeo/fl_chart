@@ -31,6 +31,34 @@ void main() {
       expect(MockData.sideTitles1 == MockData.sideTitles6, false);
     });
 
+    test('SideTitleFitInsideData equality test', () {
+      expect(
+        MockData.sideTitleFitInsideData1 ==
+            MockData.sideTitleFitInsideData1Clone,
+        true,
+      );
+      expect(
+        MockData.sideTitleFitInsideData1 == MockData.sideTitleFitInsideData2,
+        false,
+      );
+      expect(
+        MockData.sideTitleFitInsideData1 == MockData.sideTitleFitInsideData3,
+        false,
+      );
+      expect(
+        MockData.sideTitleFitInsideData1 == MockData.sideTitleFitInsideData4,
+        false,
+      );
+      expect(
+        MockData.sideTitleFitInsideData1 == MockData.sideTitleFitInsideData5,
+        false,
+      );
+      expect(
+        MockData.sideTitleFitInsideData1 == MockData.sideTitleFitInsideData6,
+        false,
+      );
+    });
+
     test('FlSpot equality test', () {
       expect(flSpot1 == flSpot1Clone, true);
 

@@ -394,6 +394,49 @@ class MockData {
     interval: 22,
   );
 
+  static const sideTitleFitInsideData1 = SideTitleFitInsideData(
+    enabled: true,
+    axisPosition: 0,
+    parentAxisSize: 100,
+    distanceFromEdge: 0,
+  );
+  static const sideTitleFitInsideData1Clone = SideTitleFitInsideData(
+    enabled: true,
+    axisPosition: 0,
+    parentAxisSize: 100,
+    distanceFromEdge: 0,
+  );
+  static const sideTitleFitInsideData2 = SideTitleFitInsideData(
+    enabled: true,
+    axisPosition: 0,
+    parentAxisSize: 100,
+    distanceFromEdge: 10,
+  );
+  static const sideTitleFitInsideData3 = SideTitleFitInsideData(
+    enabled: false,
+    axisPosition: 0,
+    parentAxisSize: 100,
+    distanceFromEdge: 0,
+  );
+  static const sideTitleFitInsideData4 = SideTitleFitInsideData(
+    enabled: true,
+    axisPosition: 200,
+    parentAxisSize: 200,
+    distanceFromEdge: 0,
+  );
+  static const sideTitleFitInsideData5 = SideTitleFitInsideData(
+   enabled: true,
+    axisPosition: 200,
+    parentAxisSize: 200,
+    distanceFromEdge: 10,
+  );
+  static const sideTitleFitInsideData6 = SideTitleFitInsideData(
+    enabled: false,
+    axisPosition: 200,
+    parentAxisSize: 200,
+    distanceFromEdge: 0,
+  );
+
   static const widget1 = Text('axis1');
   static const widget2 = Text('axis2');
   static const widget3 = Text('axis3');
