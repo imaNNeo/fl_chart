@@ -69,13 +69,13 @@ class AxisChartHelper {
 
     // Find title alignment along its axis
     final axisMid = parentAxisSize / 2;
-    final mainAxisAligment = (axisPosition - axisMid).isNegative
+    final mainAxisAlignment = (axisPosition - axisMid).isNegative
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
 
     // Find if child widget overflowed outside the chart
     late bool isOverflowed;
-    if (mainAxisAligment == MainAxisAlignment.start) {
+    if (mainAxisAlignment == MainAxisAlignment.start) {
       isOverflowed = (axisPosition - (childSize / 2)).isNegative;
     } else {
       isOverflowed = (axisPosition + (childSize / 2)) > parentAxisSize;
@@ -85,7 +85,7 @@ class AxisChartHelper {
 
     // Calc offset if child overflowed
     late double offset;
-    if (mainAxisAligment == MainAxisAlignment.start) {
+    if (mainAxisAlignment == MainAxisAlignment.start) {
       offset = (childSize / 2) - axisPosition + distanceFromEdge;
     } else {
       offset =
