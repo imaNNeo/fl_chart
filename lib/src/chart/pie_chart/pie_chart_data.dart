@@ -148,6 +148,7 @@ class PieChartSectionData {
     double? value,
     Color? color,
     double? radius,
+    double? centerOffset,
     bool? showTitle,
     this.titleStyle,
     String? title,
@@ -158,6 +159,7 @@ class PieChartSectionData {
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
+        centerOffset = centerOffset ?? 0,
         showTitle = showTitle ?? true,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
@@ -177,6 +179,9 @@ class PieChartSectionData {
 
   /// Defines the radius of section.
   final double radius;
+
+  /// Defines the offset radius of section.
+  final double centerOffset;
 
   /// Defines show or hide the title of section.
   final bool showTitle;
@@ -216,6 +221,7 @@ class PieChartSectionData {
     double? value,
     Color? color,
     double? radius,
+    double? centerOffset,
     bool? showTitle,
     TextStyle? titleStyle,
     String? title,
@@ -228,6 +234,7 @@ class PieChartSectionData {
       value: value ?? this.value,
       color: color ?? this.color,
       radius: radius ?? this.radius,
+      centerOffset: centerOffset ?? 0,
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
       title: title ?? this.title,
@@ -250,6 +257,7 @@ class PieChartSectionData {
       value: lerpDouble(a.value, b.value, t),
       color: Color.lerp(a.color, b.color, t),
       radius: lerpDouble(a.radius, b.radius, t),
+      centerOffset: lerpDouble(a.centerOffset, b.centerOffset, t),
       showTitle: b.showTitle,
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
       title: b.title,

@@ -136,7 +136,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         tempAngle,
         sectionDegree,
         center,
-        centerRadius,
+        centerRadius + section.centerOffset,
       );
 
       drawSection(section, sectionPath, canvasWrapper);
@@ -327,9 +327,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           center +
           Offset(
             math.cos(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.radius * percentageOffset)),
+                (centerRadius +
+                    section.centerOffset +
+                    (section.radius * percentageOffset)),
             math.sin(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.radius * percentageOffset)),
+                (centerRadius +
+                    section.centerOffset +
+                    (section.radius * percentageOffset)),
           );
 
       final sectionCenterOffsetTitle =
@@ -421,7 +425,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           relativeTouchAngle >= fromDegree && relativeTouchAngle <= toDegree;
 
       /// radius criteria
-      final centerRadius = calculateCenterRadius(viewSize, holder);
+      final centerRadius =
+          calculateCenterRadius(viewSize, holder) + section.centerOffset;
       final sectionRadius = centerRadius + section.radius;
       final isInRadius = touchR > centerRadius && touchR <= sectionRadius;
 
@@ -463,7 +468,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final startAngle = tempAngle;
       final sweepAngle = sectionsAngle[i];
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
-      final centerRadius = calculateCenterRadius(viewSize, holder);
+      final centerRadius =
+          calculateCenterRadius(viewSize, holder) + section.centerOffset;
 
       Offset sectionCenter(double percentageOffset) =>
           center +
