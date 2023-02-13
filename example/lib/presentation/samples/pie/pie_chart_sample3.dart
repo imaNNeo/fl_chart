@@ -80,6 +80,7 @@ class PieChartSample3State extends State {
             color: AppColors.contentColorYellow,
             value: 30,
             title: '30%',
+            centerOffset: 30,
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

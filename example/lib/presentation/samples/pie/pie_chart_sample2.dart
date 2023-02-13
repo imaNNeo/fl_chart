@@ -148,6 +148,7 @@ class PieChart2State extends State {
             color: AppColors.contentColorGreen,
             value: 15,
             title: '15%',
+            centerOffset: 20,
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
