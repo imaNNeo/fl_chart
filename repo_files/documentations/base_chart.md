@@ -48,7 +48,7 @@
 |horizontalInterval|interval space of grid, left it null to be calculate automatically |null|
 |getDrawingHorizontalLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
 |checkToShowHorizontalLine|a function to check whether to show or hide the horizontal grid by giving the related axis value |showAllGrids|
-|drawVerticalLine|determines to show or hide the vertical grid lines|false|
+|drawVerticalLine|determines to show or hide the vertical grid lines|true|
 |verticalInterval|interval space of grid, left it null to be calculate automatically |null|
 |getDrawingVerticalLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
 |checkToShowVerticalLine|a function to determine whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
