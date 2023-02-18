@@ -4,6 +4,7 @@
 * **BUGFIX** (by @imaNNeo) Show `0` instead of `-0` in some edge-cases in the default titles 
 * **FEATURE** (by @tamasapps): Add `tooltipHorizontalAlignment` and `tooltipHorizontalOffset` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData].
 * **FEATURE** (by @dhiyaaulauliyaa) Add ability to force SideTitle to be placed inside its corresponding axis bounding box, #603.
+* **BUGFIX** (by @JoshMart) Fix horizontal lines not painting when at chart min or max, #1255.
 
 ## 0.60.0
 * **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis

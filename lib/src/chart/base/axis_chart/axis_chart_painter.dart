@@ -214,11 +214,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
       final from = Offset(0, getPixelY(line.y, viewSize, holder));
       final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
 
-      final isLineBeingDrawnOutsideChart = from.dy <= 0 || to.dy <= 0;
-      final isLineBeingDrawnOnXAxis =
-          from.dy == viewSize.height || to.dy == viewSize.height;
+      final isLineBeingDrawnOutsideChart = from.dy < 0 || to.dy < 0;
 
-      if (!(isLineBeingDrawnOutsideChart || isLineBeingDrawnOnXAxis)) {
+      if (!isLineBeingDrawnOutsideChart) {
         _extraLinesPaint
           ..color = line.color
           ..strokeWidth = line.strokeWidth
