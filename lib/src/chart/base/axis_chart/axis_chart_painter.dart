@@ -214,9 +214,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
       final from = Offset(0, getPixelY(line.y, viewSize, holder));
       final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
 
-      final isLineBeingDrawnOutsideChart = from.dy < 0 || to.dy < 0;
+      final isLineOutsideOfChart = from.dy < 0 ||
+          to.dy < 0 ||
+          from.dy > viewSize.height ||
+          to.dy > viewSize.height;
 
-      if (!isLineBeingDrawnOutsideChart) {
+      if (!isLineOutsideOfChart) {
         _extraLinesPaint
           ..color = line.color
           ..strokeWidth = line.strokeWidth
@@ -297,72 +300,79 @@ abstract class AxisChartPainter<D extends AxisChartData>
       final from = Offset(getPixelX(line.x, viewSize, holder), 0);
       final to = Offset(getPixelX(line.x, viewSize, holder), viewSize.height);
 
-      _extraLinesPaint
-        ..color = line.color
-        ..strokeWidth = line.strokeWidth
-        ..transparentIfWidthIsZero();
+      final isLineOutsideOfChart = from.dx < 0 ||
+          to.dx < 0 ||
+          from.dx > viewSize.width ||
+          to.dx > viewSize.width;
 
-      canvasWrapper.drawDashedLine(
-        from,
-        to,
-        _extraLinesPaint,
-        line.dashArray,
-      );
+      if (!isLineOutsideOfChart) {
+        _extraLinesPaint
+          ..color = line.color
+          ..strokeWidth = line.strokeWidth
+          ..transparentIfWidthIsZero();
 
-      if (line.sizedPicture != null) {
-        final centerX = line.sizedPicture!.width / 2;
-        final centerY = line.sizedPicture!.height / 2;
-        final xPosition = to.dx - centerX;
-        final yPosition = viewSize.height - centerY;
-
-        canvasWrapper
-          ..save()
-          ..translate(xPosition, yPosition)
-          ..drawPicture(line.sizedPicture!.picture)
-          ..restore();
-      }
-
-      if (line.image != null) {
-        final centerX = line.image!.width / 2;
-        final centerY = line.image!.height + 2;
-        final centeredImageOffset =
-            Offset(to.dx - centerX, viewSize.height - centerY);
-        canvasWrapper.drawImage(
-          line.image!,
-          centeredImageOffset,
-          _imagePaint,
-        );
-      }
-
-      if (line.label.show) {
-        final label = line.label;
-        final style =
-            TextStyle(fontSize: 11, color: line.color).merge(label.style);
-        final padding = label.padding as EdgeInsets;
-
-        final span = TextSpan(
-          text: label.labelResolver(line),
-          style: Utils().getThemeAwareTextStyle(context, style),
+        canvasWrapper.drawDashedLine(
+          from,
+          to,
+          _extraLinesPaint,
+          line.dashArray,
         );
 
-        final tp = TextPainter(
-          text: span,
-          textDirection: TextDirection.ltr,
-        );
-        // ignore: cascade_invocations
-        tp.layout();
+        if (line.sizedPicture != null) {
+          final centerX = line.sizedPicture!.width / 2;
+          final centerY = line.sizedPicture!.height / 2;
+          final xPosition = to.dx - centerX;
+          final yPosition = viewSize.height - centerY;
 
-        canvasWrapper.drawText(
-          tp,
-          label.alignment.withinRect(
-            Rect.fromLTRB(
-              to.dx - padding.right - tp.width,
-              from.dy + padding.top,
-              from.dx + padding.left,
-              to.dy - padding.bottom,
+          canvasWrapper
+            ..save()
+            ..translate(xPosition, yPosition)
+            ..drawPicture(line.sizedPicture!.picture)
+            ..restore();
+        }
+
+        if (line.image != null) {
+          final centerX = line.image!.width / 2;
+          final centerY = line.image!.height + 2;
+          final centeredImageOffset =
+              Offset(to.dx - centerX, viewSize.height - centerY);
+          canvasWrapper.drawImage(
+            line.image!,
+            centeredImageOffset,
+            _imagePaint,
+          );
+        }
+
+        if (line.label.show) {
+          final label = line.label;
+          final style =
+              TextStyle(fontSize: 11, color: line.color).merge(label.style);
+          final padding = label.padding as EdgeInsets;
+
+          final span = TextSpan(
+            text: label.labelResolver(line),
+            style: Utils().getThemeAwareTextStyle(context, style),
+          );
+
+          final tp = TextPainter(
+            text: span,
+            textDirection: TextDirection.ltr,
+          );
+          // ignore: cascade_invocations
+          tp.layout();
+
+          canvasWrapper.drawText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                to.dx - padding.right - tp.width,
+                from.dy + padding.top,
+                from.dx + padding.left,
+                to.dy - padding.bottom,
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
     }
   }

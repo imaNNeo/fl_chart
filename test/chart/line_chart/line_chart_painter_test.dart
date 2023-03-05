@@ -8,7 +8,7 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -2133,6 +2133,180 @@ void main() {
       expect(results[3]['paint_stroke_width'], 44);
       expect(results[3]['from'], const Offset(50, 0));
       expect(results[3]['to'], const Offset(50, 100));
+    });
+
+    test('should draw horizontal lines at max and min', () {
+      const viewSize = Size(100, 100);
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 0,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+            HorizontalLine(
+              y: 10,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.cyanAccent.value),
+            ),
+          ),
+          holder.data.extraLinesData.horizontalLines[0].dashArray,
+        ),
+      ).called(2);
+    });
+
+    test('should draw vertical lines at max and min', () {
+      const viewSize = Size(100, 100);
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 0,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+            VerticalLine(
+              x: 10,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.cyanAccent.value),
+            ),
+          ),
+          holder.data.extraLinesData.verticalLines[0].dashArray,
+        ),
+      ).called(2);
+    });
+
+    test('should not draw extra lines beyond chart max and min', () {
+      const viewSize = Size(100, 100);
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: -1.1,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+            VerticalLine(
+              x: 11,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+          ],
+          horizontalLines: [
+            HorizontalLine(
+              y: -1.1,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+            HorizontalLine(
+              y: 11,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.cyanAccent.value),
+            ),
+          ),
+          holder.data.extraLinesData.verticalLines[0].dashArray,
+        ),
+      );
     });
   });
 

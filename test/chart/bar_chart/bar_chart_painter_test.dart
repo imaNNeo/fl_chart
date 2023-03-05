@@ -1746,7 +1746,7 @@ void main() {
       );
     });
 
-    test('should not paint vertical lines', () {
+    test('bar chart should not paint vertical lines', () {
       final utilsMainInstance = Utils();
       const viewSize = Size(400, 400);
       final data = BarChartData(
@@ -1825,11 +1825,27 @@ void main() {
       Utils.changeInstance(utilsMainInstance);
     });
 
-    test('should not paint horizontal line if Y value is greater than Y axis',
+    test(
+        'should not paint horizontal line if Y value is greater or less than Y axis',
         () {
       final utilsMainInstance = Utils();
       const viewSize = Size(400, 400);
+
+      final horizontalLine1 = HorizontalLine(
+        y: 10.1,
+        color: Colors.red,
+        dashArray: [0, 1],
+      );
+
+      final horizontalLine2 = HorizontalLine(
+        y: -10.1,
+        color: Colors.red,
+        dashArray: [0, 1],
+      );
+
       final data = BarChartData(
+        minY: -10,
+        maxY: 10,
         barGroups: [
           BarChartGroupData(
             x: 1,
@@ -1851,7 +1867,7 @@ void main() {
           ),
         ],
         extraLinesData: ExtraLinesData(
-          horizontalLines: [horizontalLine1],
+          horizontalLines: [horizontalLine1, horizontalLine2],
         ),
       );
 
