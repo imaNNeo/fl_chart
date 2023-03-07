@@ -2156,6 +2156,7 @@ void main() {
               dashArray: [12, 22],
             ),
           ],
+          extraLinesOnTop: false,
         ),
       );
 
