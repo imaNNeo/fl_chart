@@ -2034,5 +2034,67 @@ void main() {
 
       Utils.changeInstance(utilsMainInstance);
     });
+
+    test('should draw extra horizontal lines under chart', () {
+      const viewSize = Size(100, 100);
+      final data = BarChartData(
+        minY: -10,
+        maxY: 10,
+        barGroups: [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(fromY: 1, toY: 10),
+              BarChartRodData(fromY: 2, toY: 10),
+            ],
+          )
+        ],
+        titlesData: FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: -9.9,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+            HorizontalLine(
+              y: -.5,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+          ],
+          extraLinesOnTop: false,
+        ),
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color.value,
+              'colors match',
+              equals(Colors.cyanAccent.value),
+            ),
+          ),
+          holder.data.extraLinesData.horizontalLines[0].dashArray,
+        ),
+      ).called(2);
+    });
   });
 }

@@ -1,10 +1,12 @@
+## newRelease
+* **BUGFIX** (by @JoshMart) Fix extra lines not painting when at chart min or max, #1255.
+
 ## 0.61.0
 * **IMPROVEMENT** (by @imaNNeo) Remove assertion to check to provide only one of `color` or `gradient` property in the [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) and [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), #1121.
 * **IMPROVEMENT** (by @imaNNeo) Make `drawBehindEverything` property default to `true` in [AxisTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#axistitle) class, #1097.
 * **BUGFIX** (by @imaNNeo) Show `0` instead of `-0` in some edge-cases in the default titles 
 * **FEATURE** (by @tamasapps): Add `tooltipHorizontalAlignment` and `tooltipHorizontalOffset` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData].
 * **FEATURE** (by @dhiyaaulauliyaa) Add ability to force SideTitle to be placed inside its corresponding axis bounding box, #603.
-* **BUGFIX** (by @JoshMart) Fix horizontal lines not painting when at chart min or max, #1255.
 
 ## 0.60.0
 * **IMPROVEMENT** (by @lsaudon) Replace flutter_lints by very_good_analysis
