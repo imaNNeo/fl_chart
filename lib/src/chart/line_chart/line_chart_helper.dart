@@ -11,11 +11,9 @@ class LineChartHelper {
       _cachedResults = {};
 
   static LineChartMinMaxAxisValues calculateMaxAxisValues(
-    List<LineChartBarData> lineBarsData,
-    {
-      bool isEnableCache = true,
-    },
-  ) {
+    List<LineChartBarData> lineBarsData, {
+    bool isEnableCache = true,
+  }) {
     if (lineBarsData.isEmpty) {
       return LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
@@ -72,7 +70,7 @@ class LineChartHelper {
     }
 
     final result = LineChartMinMaxAxisValues(minX, maxX, minY, maxY);
-    if(isEnableCache) {
+    if (isEnableCache) {
       _cachedResults[listWrapper] = result;
     }
     return result;
