@@ -58,6 +58,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double? maxY,
     super.baselineY,
     FlClipData? clipData,
+    bool isEnableCache = true,
     super.backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
@@ -71,16 +72,16 @@ class LineChartData extends AxisChartData with EquatableMixin {
           clipData: clipData ?? FlClipData.none(),
           extraLinesData: extraLinesData = extraLinesData ?? ExtraLinesData(),
           minX: minX ??
-              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
+              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [], isEnableCache: isEnableCache,)
                   .minX,
           maxX: maxX ??
-              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
+              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [], isEnableCache: isEnableCache,)
                   .maxX,
           minY: minY ??
-              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
+              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [], isEnableCache: isEnableCache,)
                   .minY,
           maxY: maxY ??
-              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
+              LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [], isEnableCache: isEnableCache,)
                   .maxY,
         );
 
