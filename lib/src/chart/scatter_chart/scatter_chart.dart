@@ -86,6 +86,9 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
     FlTouchEvent event,
     ScatterTouchResponse? touchResponse,
   ) {
+    if (!mounted) {
+      return;
+    }
     _providedTouchCallback?.call(event, touchResponse);
 
     final desiredTouch = event is FlPanDownEvent ||

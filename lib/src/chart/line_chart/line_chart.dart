@@ -94,6 +94,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     FlTouchEvent event,
     LineTouchResponse? touchResponse,
   ) {
+    if (!mounted) {
+      return;
+    }
     _providedTouchCallback?.call(event, touchResponse);
 
     if (!event.isInterestedForInteractions ||
