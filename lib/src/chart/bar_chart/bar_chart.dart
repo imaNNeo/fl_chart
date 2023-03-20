@@ -96,6 +96,9 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     FlTouchEvent event,
     BarTouchResponse? touchResponse,
   ) {
+    if (!mounted) {
+      return;
+    }
     _providedTouchCallback?.call(event, touchResponse);
 
     if (!event.isInterestedForInteractions ||
