@@ -162,7 +162,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         final rect = Rect.fromPoints(from, to);
 
-        _rangeAnnotationPaint.color = annotation.color;
+        _rangeAnnotationPaint.setColorOrGradient(
+          annotation.color,
+          annotation.gradient,
+          rect,
+        );
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
       }
@@ -179,7 +183,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         final rect = Rect.fromPoints(from, to);
 
-        _rangeAnnotationPaint.color = annotation.color;
+        _rangeAnnotationPaint.setColorOrGradient(
+          annotation.color,
+          annotation.gradient,
+          rect,
+        );
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
       }
