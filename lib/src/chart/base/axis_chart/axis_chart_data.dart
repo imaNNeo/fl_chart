@@ -827,7 +827,9 @@ class HorizontalRangeAnnotation with EquatableMixin {
     required this.y1,
     required this.y2,
     Color? color,
-  }) : color = color ?? Colors.white;
+    this.gradient,
+  }) : color = color ??
+            ((color == null && gradient == null) ? Colors.white : null);
 
   /// Determines starting point in vertical (y) axis.
   final double y1;
@@ -836,7 +838,10 @@ class HorizontalRangeAnnotation with EquatableMixin {
   final double y2;
 
   /// Fills the area with this color.
-  final Color color;
+  final Color? color;
+
+  /// Fills the area with gradient color.
+  final Gradient? gradient;
 
   /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static HorizontalRangeAnnotation lerp(
@@ -848,6 +853,7 @@ class HorizontalRangeAnnotation with EquatableMixin {
       y1: lerpDouble(a.y1, b.y1, t)!,
       y2: lerpDouble(a.y2, b.y2, t)!,
       color: Color.lerp(a.color, b.color, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
     );
   }
 
@@ -857,11 +863,13 @@ class HorizontalRangeAnnotation with EquatableMixin {
     double? y1,
     double? y2,
     Color? color,
+    Gradient? gradient,
   }) {
     return HorizontalRangeAnnotation(
       y1: y1 ?? this.y1,
       y2: y2 ?? this.y2,
       color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
     );
   }
 
@@ -871,6 +879,7 @@ class HorizontalRangeAnnotation with EquatableMixin {
         y1,
         y2,
         color,
+        gradient,
       ];
 }
 
@@ -882,7 +891,9 @@ class VerticalRangeAnnotation with EquatableMixin {
     required this.x1,
     required this.x2,
     Color? color,
-  }) : color = color ?? Colors.white;
+    this.gradient,
+  }) : color = color ??
+            ((color == null && gradient == null) ? Colors.white : null);
 
   /// Determines starting point in horizontal (x) axis.
   final double x1;
@@ -891,7 +902,10 @@ class VerticalRangeAnnotation with EquatableMixin {
   final double x2;
 
   /// Fills the area with this color.
-  final Color color;
+  final Color? color;
+
+  /// Fills the area with gradient color.
+  final Gradient? gradient;
 
   /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static VerticalRangeAnnotation lerp(
@@ -903,6 +917,7 @@ class VerticalRangeAnnotation with EquatableMixin {
       x1: lerpDouble(a.x1, b.x1, t)!,
       x2: lerpDouble(a.x2, b.x2, t)!,
       color: Color.lerp(a.color, b.color, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
     );
   }
 
@@ -912,11 +927,13 @@ class VerticalRangeAnnotation with EquatableMixin {
     double? x1,
     double? x2,
     Color? color,
+    Gradient? gradient,
   }) {
     return VerticalRangeAnnotation(
       x1: x1 ?? this.x1,
       x2: x2 ?? this.x2,
       color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
     );
   }
 
@@ -926,6 +943,7 @@ class VerticalRangeAnnotation with EquatableMixin {
         x1,
         x2,
         color,
+        gradient,
       ];
 }
 
