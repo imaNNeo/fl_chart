@@ -231,7 +231,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
         _extraLinesPaint
           ..color = line.color
           ..strokeWidth = line.strokeWidth
-          ..transparentIfWidthIsZero();
+          ..transparentIfWidthIsZero()
+          ..strokeCap = line.strokeCap;
 
         canvasWrapper.drawDashedLine(
           from,
@@ -317,7 +318,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
         _extraLinesPaint
           ..color = line.color
           ..strokeWidth = line.strokeWidth
-          ..transparentIfWidthIsZero();
+          ..transparentIfWidthIsZero()
+          ..strokeCap = line.strokeCap;
 
         canvasWrapper.drawDashedLine(
           from,
