@@ -7,18 +7,28 @@ extension BarChartDataExtension on BarChartData {
     switch (alignment) {
       case BarChartAlignment.start:
         var tempX = 0.0;
-        barGroups.asMap().forEach((i, group) {
+        for (var i = 0; i < barGroups.length; i++) {
+          final group = barGroups[i];
           groupsX[i] = tempX + group.width / 2;
-          tempX += group.width;
-        });
+
+          final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
+          tempX += group.width + groupSpace;
+        }
         break;
 
       case BarChartAlignment.end:
+        var sumWidth =
+            barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        sumWidth += groupsSpace * (barGroups.length - 1);
+        final horizontalMargin = viewWidth - sumWidth;
+
         var tempX = 0.0;
-        for (var i = barGroups.length - 1; i >= 0; i--) {
+        for (var i = 0; i < barGroups.length; i++) {
           final group = barGroups[i];
-          groupsX[i] = viewWidth - tempX - group.width / 2;
-          tempX += group.width;
+          groupsX[i] = horizontalMargin + tempX + group.width / 2;
+
+          final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
+          tempX += group.width + groupSpace;
         }
         break;
 
