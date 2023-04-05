@@ -982,6 +982,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
     super.dashArray,
     this.image,
     this.sizedPicture,
+    this.strokeCap = StrokeCap.butt,
   })  : label = label ?? HorizontalLineLabel(),
         super(
           color: color ?? Colors.black,
@@ -1000,6 +1001,10 @@ class HorizontalLine extends FlLine with EquatableMixin {
   /// Draws a text label over the line.
   final HorizontalLineLabel label;
 
+  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// i.e. if the two ends of the line is round or butt or square.
+  final StrokeCap strokeCap;
+
   /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
   static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
     return HorizontalLine(
@@ -1010,6 +1015,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       image: b.image,
       sizedPicture: b.sizedPicture,
+      strokeCap: b.strokeCap,
     );
   }
 
@@ -1023,6 +1029,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
         dashArray,
         image,
         sizedPicture,
+        strokeCap,
       ];
 }
 
@@ -1049,6 +1056,7 @@ class VerticalLine extends FlLine with EquatableMixin {
     super.dashArray,
     this.image,
     this.sizedPicture,
+    this.strokeCap = StrokeCap.butt,
   })  : label = label ?? VerticalLineLabel(),
         super(
           color: color ?? Colors.black,
@@ -1067,6 +1075,10 @@ class VerticalLine extends FlLine with EquatableMixin {
   /// Draws a text label over the line.
   final VerticalLineLabel label;
 
+  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// i.e. if the two ends of the line is round or butt or square.
+  final StrokeCap strokeCap;
+
   /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
   static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
     return VerticalLine(
@@ -1077,6 +1089,7 @@ class VerticalLine extends FlLine with EquatableMixin {
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       image: b.image,
       sizedPicture: b.sizedPicture,
+      strokeCap: b.strokeCap,
     );
   }
 
@@ -1090,6 +1103,7 @@ class VerticalLine extends FlLine with EquatableMixin {
     List<int>? dashArray,
     Image? image,
     SizedPicture? sizedPicture,
+    StrokeCap? strokeCap,
   }) {
     return VerticalLine(
       x: x ?? this.x,
@@ -1099,6 +1113,7 @@ class VerticalLine extends FlLine with EquatableMixin {
       dashArray: dashArray ?? this.dashArray,
       image: image ?? this.image,
       sizedPicture: sizedPicture ?? this.sizedPicture,
+      strokeCap: strokeCap ?? this.strokeCap,
     );
   }
 
@@ -1112,6 +1127,7 @@ class VerticalLine extends FlLine with EquatableMixin {
         dashArray,
         image,
         sizedPicture,
+        strokeCap,
       ];
 }
 
