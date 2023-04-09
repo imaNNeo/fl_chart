@@ -88,11 +88,10 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   double getScaledPoint(RadarEntry point, double radius, RadarChartData data) {
     final centerValue = getChartCenterValue(data);
     final distanceFromPointToCenter = point.value - centerValue;
-    var distanceFromMaxToCenter = data.maxEntry.value - centerValue;
+    final distanceFromMaxToCenter = data.maxEntry.value - centerValue;
 
     if (distanceFromMaxToCenter == 0) {
-      const preventDividingByZero = 0.001;
-      distanceFromMaxToCenter += preventDividingByZero;
+      return radius * distanceFromPointToCenter / 0.001;
     }
 
     return radius * distanceFromPointToCenter / distanceFromMaxToCenter;
