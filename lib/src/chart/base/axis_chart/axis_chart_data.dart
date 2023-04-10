@@ -822,7 +822,7 @@ class RangeAnnotations with EquatableMixin {
 /// Defines an annotation region in y (vertical) axis.
 class HorizontalRangeAnnotation with EquatableMixin {
   /// Annotates a horizontal region from most left to most right point of the chart, and
-  /// from [y1] to [y2], and fills the area with [color].
+  /// from [y1] to [y2], and fills the area with [color] or [gradient].
   HorizontalRangeAnnotation({
     required this.y1,
     required this.y2,
@@ -837,10 +837,16 @@ class HorizontalRangeAnnotation with EquatableMixin {
   /// Determines ending point in vertical (y) axis.
   final double y2;
 
-  /// Fills the area with this color.
+  /// If provided, this [HorizontalRangeAnnotation] draws with this [color]
+  /// Otherwise we use [gradient] to draw the background.
+  /// It draws with [gradient] if you provide both [color] and [gradient].
+  /// If none is provided, it draws with a white color.
   final Color? color;
 
-  /// Fills the area with gradient color.
+  /// If provided, this [HorizontalRangeAnnotation] draws with this [gradient]
+  /// Otherwise we use [color] to draw the background.
+  /// It draws with [gradient] if you provide both [color] and [gradient].
+  /// If none is provided, it draws with a white color.
   final Gradient? gradient;
 
   /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
@@ -886,7 +892,7 @@ class HorizontalRangeAnnotation with EquatableMixin {
 /// Defines an annotation region in x (horizontal) axis.
 class VerticalRangeAnnotation with EquatableMixin {
   /// Annotates a vertical region from most bottom to most top point of the chart, and
-  /// from [x1] to [x2], and fills the area with [color].
+  /// from [x1] to [x2], and fills the area with [color] or [gradient].
   VerticalRangeAnnotation({
     required this.x1,
     required this.x2,
@@ -901,10 +907,16 @@ class VerticalRangeAnnotation with EquatableMixin {
   /// Determines ending point in horizontal (x) axis.
   final double x2;
 
-  /// Fills the area with this color.
+  /// If provided, this [VerticalRangeAnnotation] draws with this [color]
+  /// Otherwise we use [gradient] to draw the background.
+  /// It draws with [gradient] if you provide both [color] and [gradient].
+  /// If none is provided, it draws with a white color.
   final Color? color;
 
-  /// Fills the area with gradient color.
+  /// If provided, this [VerticalRangeAnnotation] draws with this [gradient]
+  /// Otherwise we use [color] to draw the background.
+  /// It draws with [gradient] if you provide both [color] and [gradient].
+  /// If none is provided, it draws with a white color.
   final Gradient? gradient;
 
   /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].

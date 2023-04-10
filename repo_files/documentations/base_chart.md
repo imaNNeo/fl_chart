@@ -90,6 +90,7 @@
 |y1|start interval of horizontal rectangle|null|
 |y2|end interval of horizontal rectangle|null|
 |color|color of the rectangle|Colors.white|
+|gradient|gradient of the rectangle|null|
 
 
 ### VerticalRangeAnnotation
@@ -98,6 +99,7 @@
 |x1|start interval of vertical rectangle|null|
 |x2|end interval of vertical rectangle|null|
 |color|color of the rectangle|Colors.white|
+|gradient|gradient of the rectangle|null|
 
 ### FlTouchEvent
 Base class for all supported touch/pointer events.
