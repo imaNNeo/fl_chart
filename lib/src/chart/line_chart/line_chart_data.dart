@@ -1017,6 +1017,7 @@ abstract class FlLineLabel with EquatableMixin {
     required this.padding,
     required this.style,
     required this.alignment,
+    this.angle = 0,
   });
 
   /// Determines showing label or not.
@@ -1031,6 +1032,9 @@ abstract class FlLineLabel with EquatableMixin {
   /// Aligns the text on the line.
   final Alignment alignment;
 
+  /// [angle] is used to rotate the label (in degrees)
+  final double angle;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -1038,6 +1042,7 @@ abstract class FlLineLabel with EquatableMixin {
         padding,
         style,
         alignment,
+        angle,
       ];
 }
 

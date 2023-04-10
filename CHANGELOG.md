@@ -1,5 +1,6 @@
 ## nextVersion
-* **FEATURE** (by @Dartek12): Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine) 
+* **FEATURE** (by @Dartek12): Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine)
+* **FEATURE** (by @imaNNeo) Add `angle` property in the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#verticallinelabel) classes to make it possible to rotate the labels in degrees, #1261
 
 ## 0.64.0
 * **BUGFIX** (by @Anas35) Fix Tooltip not displaying when value from BackgroundBarChartRodData is less than zero. #1345.
