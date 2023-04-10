@@ -178,7 +178,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final border = data.borderData.show ? data.borderData.border : null;
 
     var left = 0.0;
-    var top = 0.0;
+    var top = -40.0;
     var right = viewSize.width;
     var bottom = viewSize.height;
 
