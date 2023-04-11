@@ -135,6 +135,7 @@ Base class for all supported touch/pointer events.
 |y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|strokeCap|strokeCap of the line,e.g. Setting to StrokeCap.round will draw the tow ends of line rounded. NOTE: this might not work on dash lines.|StrokeCap.butt|
 |image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
 |sizedPicture|[SizedPicture](#Sizedpicture) uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
 |label|a [HorizontalLineLabel](#HorizontalLineLabel) object with label parameters|null
@@ -145,6 +146,7 @@ Base class for all supported touch/pointer events.
 |x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
 |strokeWidth|strokeWidth of the line|2|
+|strokeCap|strokeCap of the line,e.g. Setting to StrokeCap.round will draw the tow ends of line rounded. NOTE: this might not work on dash lines.|StrokeCap.butt|
 |image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
 |sizedPicture|[SizedPicture](#SizedPicture) uses an svg to annotate the line with a picture. the Future must be complete at the time this is received by the chart|null|
 |label|a [VerticalLineLabel](#VerticalLineLabel) object with label parameters|null
