@@ -2,6 +2,9 @@
 * **BUGFIX** (by @JoshMart) Fix extra lines not painting when at chart min or max, #1255.
 * **BUGFIX** (by @imaNNeo) Check if mounted before calling setState in _handleBuiltInTouch methods in bar, line and scatter charts, #1101
 * **FEATURE** (by @MagdyYacoub1): Added gradient color to [RangeAnnotations](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#rangeannotations) by adding gradient attribute to [horizontalRangeAnnotations](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#horizontalrangeannotation) and [VerticalRangeAnnotation](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#verticalrangeannotation), #1195.
+* **BUGFIX** (by @Motionz-Von)Fix windows build for example app
+* **FEATURE** (by @Motionz-Von)BarChart groupSpace also takes effect when alignment is BarChartAlignment.end or BarChartAlignment.start.
+* **FEATURE** (by @Motionz-Von) supports setting line StrokeCap on HorizontalLine/VerticalLine
 
 ## 0.61.0
 * **IMPROVEMENT** (by @imaNNeo) Remove assertion to check to provide only one of `color` or `gradient` property in the [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) and [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), #1121.
