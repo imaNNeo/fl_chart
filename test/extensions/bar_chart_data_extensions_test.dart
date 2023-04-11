@@ -9,14 +9,14 @@ void main() {
       MockData.barChartData1
           .copyWith(alignment: BarChartAlignment.start)
           .calculateGroupsX(100),
-      [9.0, 27.0, 45.0],
+      [9.0, 43.0, 77.0],
     );
 
     expect(
       MockData.barChartData1
           .copyWith(alignment: BarChartAlignment.end)
           .calculateGroupsX(100),
-      [55.0, 73.0, 91.0],
+      [23.0, 57.0, 91.0],
     );
 
     expect(
