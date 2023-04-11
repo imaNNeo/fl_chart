@@ -124,8 +124,8 @@ void main() {
       }
 
       expect(callWithAlignment(BarChartAlignment.center), [50, 92.5, 142.5]);
-      expect(callWithAlignment(BarChartAlignment.start), [20, 52.5, 92.5]);
-      expect(callWithAlignment(BarChartAlignment.end), [100, 132.5, 172.5]);
+      expect(callWithAlignment(BarChartAlignment.start), [20, 62.5, 112.5]);
+      expect(callWithAlignment(BarChartAlignment.end), [80.0, 122.5, 172.5]);
       expect(
         callWithAlignment(BarChartAlignment.spaceEvenly),
         [40, 92.5, 152.5],
@@ -252,10 +252,10 @@ void main() {
       expect(centerResult[2].barsX, [120, 135, 150, 165]);
 
       final startResult = callWithAlignment(BarChartAlignment.start);
-      expect(startResult.map((e) => e.groupX).toList(), [20, 52.5, 92.5]);
+      expect(startResult.map((e) => e.groupX).toList(), [20.0, 62.5, 112.5]);
       expect(startResult[0].barsX, [5, 20, 35]);
-      expect(startResult[1].barsX, [45, 60]);
-      expect(startResult[2].barsX, [70, 85, 100, 115]);
+      expect(startResult[1].barsX, [55, 70]);
+      expect(startResult[2].barsX, [90, 105, 120, 135]);
     });
   });
 
