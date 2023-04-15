@@ -6,6 +6,7 @@
 * **FEATURE** (by @Motionz-Von)BarChart groupSpace also takes effect when alignment is BarChartAlignment.end or BarChartAlignment.start.
 * **FEATURE** (by @Motionz-Von) supports setting line StrokeCap on HorizontalLine/VerticalLine
 * **BUGFIX** (by @nav-28) Fix radar chart tick and graph point not matching #1078
+* **IMPROVEMENT** (by @imaNNeo) Update LineChartSample5 to demonstrate click to toggle show/hide tooltip, #118
 
 ## 0.61.0
 * **IMPROVEMENT** (by @imaNNeo) Remove assertion to check to provide only one of `color` or `gradient` property in the [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata) and [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata), #1121.
