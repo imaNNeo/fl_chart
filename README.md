@@ -1,12 +1,3 @@
-----
-This is a temporary and a **very important** message:
-
-![Iran needs help](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/tmp_iran_banner.png)
-
-([#MahsaAmini](https://twitter.com/search?q=%23MahsaAmini&src=typeahead_click) |
-[IranRevoIution](https://twitter.com/search?q=%23IranRevoIution&src=typeahead_click) |
-[مهسا_امینی](https://twitter.com/search?q=%23%D9%85%D9%87%D8%B3%D8%A7_%D8%A7%D9%85%DB%8C%D9%86%DB%8C&src=typeahead_click&f=top))
-------
 💥 FL Chart is a highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.  💥
 
 <a href="https://www.buymeacoffee.com/fl_chart"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=fl_chart&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
@@ -16,7 +7,7 @@ This is a temporary and a **very important** message:
 <a href="https://github.com/Solido/awesome-flutter#charts"><img src="https://img.shields.io/badge/awesome-flutter-blue.svg?longCache=true" alt="Awesome Flutter"></a>
 <a href="https://pub.dev/packages/fl_chart"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/imaNNeo/fl_chart"></a>
 <a href="https://github.com/imaNNeo/fl_chart/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/imaNNeo/fl_chart"></a>
-<a href="https://github.com/imaNNeo/fl_chart/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/imaNNeo/fl_chart" alt="GitHub closed issues"></a>
+<a href="https://githubc.com/imaNNeo/fl_chart/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/imaNNeo/fl_chart" alt="GitHub closed issues"></a>
 <span class="badge-buymeacoffee">
 <a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
 </span>
