@@ -4,11 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'presentation/router/app_router.dart';
 
-import 'package:fl_chart_app/util/web/non_web_url_strategy.dart'
-    if (dart.library.html) 'package:fl_chart_app/util/web/web_url_strategy.dart';
-
 void main() {
-  configureWebUrl();
   runApp(const MyApp());
 }
 
