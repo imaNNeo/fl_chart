@@ -1,3 +1,0 @@
-void configureWebUrl() {
-  // No-op.
-}
