@@ -2,7 +2,7 @@ import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LineChartSample5 extends StatelessWidget {
+class LineChartSample5 extends StatefulWidget {
   const LineChartSample5({
     super.key,
     Color? gradientColor1,
@@ -19,7 +19,12 @@ class LineChartSample5 extends StatelessWidget {
   final Color gradientColor3;
   final Color indicatorStrokeColor;
 
-  List<int> get showIndexes => const [1, 3, 5];
+  @override
+  State<LineChartSample5> createState() => _LineChartSample5State();
+}
+
+class _LineChartSample5State extends State<LineChartSample5> {
+  List<int> showingTooltipOnSpots = [1, 3, 5];
 
   List<FlSpot> get allSpots => const [
         FlSpot(0, 1),
@@ -75,7 +80,7 @@ class LineChartSample5 extends StatelessWidget {
   Widget build(BuildContext context) {
     final lineBarsData = [
       LineChartBarData(
-        showingIndicators: showIndexes,
+        showingIndicators: showingTooltipOnSpots,
         spots: allSpots,
         isCurved: true,
         barWidth: 4,
@@ -86,18 +91,18 @@ class LineChartSample5 extends StatelessWidget {
           show: true,
           gradient: LinearGradient(
             colors: [
-              gradientColor1.withOpacity(0.4),
-              gradientColor2.withOpacity(0.4),
-              gradientColor3.withOpacity(0.4),
+              widget.gradientColor1.withOpacity(0.4),
+              widget.gradientColor2.withOpacity(0.4),
+              widget.gradientColor3.withOpacity(0.4),
             ],
           ),
         ),
         dotData: FlDotData(show: false),
         gradient: LinearGradient(
           colors: [
-            gradientColor1,
-            gradientColor2,
-            gradientColor3,
+            widget.gradientColor1,
+            widget.gradientColor2,
+            widget.gradientColor3,
           ],
           stops: const [0.1, 0.4, 0.9],
         ),
@@ -116,7 +121,7 @@ class LineChartSample5 extends StatelessWidget {
         child: LayoutBuilder(builder: (context, constraints) {
           return LineChart(
             LineChartData(
-              showingTooltipIndicators: showIndexes.map((index) {
+              showingTooltipIndicators: showingTooltipOnSpots.map((index) {
                 return ShowingTooltipIndicators([
                   LineBarSpot(
                     tooltipsOnBar,
@@ -126,7 +131,31 @@ class LineChartSample5 extends StatelessWidget {
                 ]);
               }).toList(),
               lineTouchData: LineTouchData(
-                enabled: false,
+                enabled: true,
+                handleBuiltInTouches: false,
+                touchCallback:
+                    (FlTouchEvent event, LineTouchResponse? response) {
+                  if (response == null || response.lineBarSpots == null) {
+                    return;
+                  }
+                  if (event is FlTapUpEvent) {
+                    final spotIndex = response.lineBarSpots!.first.spotIndex;
+                    setState(() {
+                      if (showingTooltipOnSpots.contains(spotIndex)) {
+                        showingTooltipOnSpots.remove(spotIndex);
+                      } else {
+                        showingTooltipOnSpots.add(spotIndex);
+                      }
+                    });
+                  }
+                },
+                mouseCursorResolver:
+                    (FlTouchEvent event, LineTouchResponse? response) {
+                  if (response == null || response.lineBarSpots == null) {
+                    return SystemMouseCursors.basic;
+                  }
+                  return SystemMouseCursors.click;
+                },
                 getTouchedSpotIndicator:
                     (LineChartBarData barData, List<int> spotIndexes) {
                   return spotIndexes.map((index) {
@@ -145,7 +174,7 @@ class LineChartSample5 extends StatelessWidget {
                             percent / 100,
                           ),
                           strokeWidth: 2,
-                          strokeColor: indicatorStrokeColor,
+                          strokeColor: widget.indicatorStrokeColor,
                         ),
                       ),
                     );
