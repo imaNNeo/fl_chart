@@ -35,7 +35,8 @@ class MenuRow extends StatelessWidget {
                 svgPath,
                 width: AppDimens.menuIconSize,
                 height: AppDimens.menuIconSize,
-                color: AppColors.primary,
+                colorFilter:
+                    const ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
               ),
               const SizedBox(
                 width: 18,

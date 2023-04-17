@@ -1,4 +1,4 @@
-import 'dart:math' show pi, cos, sin, min;
+import 'dart:math' show cos, min, pi, sin;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';

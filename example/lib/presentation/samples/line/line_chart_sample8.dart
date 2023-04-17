@@ -33,10 +33,10 @@ class _LineChartSample8State extends State<LineChartSample8> {
     const rawSvg =
         '<svg height="14" width="14" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" transform="translate(-.000014)"><circle cx="7" cy="7" fill="#495DFF" r="7"/><path d="m7 10.9999976c1.6562389 0 2.99998569-1.34374678 2.99998569-2.99999283s-1.34374679-4.99998808-2.99998569-4.99998808c-1.6562532 0-3 3.34374203-3 4.99998808s1.3437468 2.99999283 3 2.99999283z" fill="#fff" fill-rule="nonzero"/></g></svg>';
 
-    final svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
+    final pictureInfo =
+        await vg.loadPicture(const SvgStringLoader(rawSvg), null);
 
-    final picture = svgRoot.toPicture();
-    final sizedPicture = SizedPicture(picture, 14, 14);
+    final sizedPicture = SizedPicture(pictureInfo.picture, 14, 14);
     return sizedPicture;
   }
 
