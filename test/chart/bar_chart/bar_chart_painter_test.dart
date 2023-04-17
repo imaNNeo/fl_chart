@@ -112,7 +112,7 @@ void main() {
       ];
 
       final data = BarChartData(
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
       );
@@ -170,7 +170,7 @@ void main() {
       ];
 
       final data = BarChartData(
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         alignment: BarChartAlignment.center,
         barGroups: barGroups,
@@ -227,7 +227,7 @@ void main() {
       ];
 
       final data = BarChartData(
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
       );
@@ -339,7 +339,7 @@ void main() {
       ];
 
       final data = BarChartData(
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
         alignment: BarChartAlignment.center,
@@ -599,7 +599,7 @@ void main() {
       ];
 
       final data = BarChartData(
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
         alignment: BarChartAlignment.center,
@@ -1487,7 +1487,7 @@ void main() {
 
       final data = BarChartData(
         barGroups: barGroups,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         alignment: BarChartAlignment.center,
         groupsSpace: 10,
         barTouchData: BarTouchData(
@@ -1585,7 +1585,7 @@ void main() {
 
       final data = BarChartData(
         barGroups: barGroups,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         alignment: BarChartAlignment.center,
         groupsSpace: 10,
         barTouchData: BarTouchData(
@@ -1669,7 +1669,7 @@ void main() {
             ],
           ),
         ],
-        extraLinesData: ExtraLinesData(),
+        extraLinesData: const ExtraLinesData(),
       );
 
       final barChartPainter = BarChartPainter();
@@ -2049,7 +2049,7 @@ void main() {
             ],
           )
         ],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         extraLinesData: ExtraLinesData(
           horizontalLines: [
             HorizontalLine(

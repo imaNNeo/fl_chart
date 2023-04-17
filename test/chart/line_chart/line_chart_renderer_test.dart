@@ -15,28 +15,28 @@ import 'line_chart_renderer_test.mocks.dart';
 void main() {
   group('LineChartRenderer', () {
     final data = LineChartData(
-      titlesData: FlTitlesData(
+      titlesData: const FlTitlesData(
         leftTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 20, showTitles: true),
         ),
         rightTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 464, showTitles: true),
         ),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: AxisTitles(),
+        bottomTitles: AxisTitles(),
       ),
     );
 
     final targetData = LineChartData(
-      titlesData: FlTitlesData(
+      titlesData: const FlTitlesData(
         leftTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 8, showTitles: true),
         ),
         rightTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 20, showTitles: true),
         ),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: AxisTitles(),
+        bottomTitles: AxisTitles(),
       ),
     );
 

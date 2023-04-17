@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData>
     extends BaseChartPainter<D> {
-  AxisChartPainter() : super() {
+  AxisChartPainter() {
     _gridPaint = Paint()..style = PaintingStyle.stroke;
 
     _backgroundPaint = Paint()..style = PaintingStyle.fill;

@@ -14,7 +14,7 @@ class LineChartHelper {
     List<LineChartBarData> lineBarsData,
   ) {
     if (lineBarsData.isEmpty) {
-      return LineChartMinMaxAxisValues(0, 0, 0, 0);
+      return const LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
     final listWrapper = lineBarsData.toWrapperClass();
@@ -29,7 +29,7 @@ class LineChartHelper {
           lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
     } catch (e) {
       // There is no lineBarData with at least one spot
-      return LineChartMinMaxAxisValues(0, 0, 0, 0);
+      return const LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
     final FlSpot firstValidSpot;
@@ -38,7 +38,7 @@ class LineChartHelper {
           lineBarData.spots.firstWhere((element) => element != FlSpot.nullSpot);
     } catch (e) {
       // There is no valid spot
-      return LineChartMinMaxAxisValues(0, 0, 0, 0);
+      return const LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
     var minX = firstValidSpot.x;
@@ -76,7 +76,7 @@ class LineChartHelper {
 
 /// Holds minX, maxX, minY, and maxY for use in [LineChartData]
 class LineChartMinMaxAxisValues with EquatableMixin {
-  LineChartMinMaxAxisValues(
+  const LineChartMinMaxAxisValues(
     this.minX,
     this.maxX,
     this.minY,

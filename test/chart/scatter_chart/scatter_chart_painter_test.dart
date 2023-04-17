@@ -78,8 +78,8 @@ void main() {
           ScatterSpot(8, 2, radius: 4),
           ScatterSpot(7, 5, radius: 6),
         ],
-        titlesData: FlTitlesData(show: false),
-        clipData: FlClipData.all(),
+        titlesData: const FlTitlesData(show: false),
+        clipData: const FlClipData.all(),
       );
 
       final scatterChartPainter = ScatterChartPainter();
@@ -120,8 +120,8 @@ void main() {
           ScatterSpot(8, 2, show: false),
           ScatterSpot(7, 5, show: false),
         ],
-        titlesData: FlTitlesData(show: false),
-        clipData: FlClipData.none(),
+        titlesData: const FlTitlesData(show: false),
+        clipData: const FlClipData.none(),
       );
 
       final scatterChartPainter = ScatterChartPainter();
@@ -159,8 +159,8 @@ void main() {
           ScatterSpot(7, 5, radius: 20),
           ScatterSpot(4, 6, radius: 24),
         ],
-        titlesData: FlTitlesData(show: false),
-        clipData: FlClipData.all(),
+        titlesData: const FlTitlesData(show: false),
+        clipData: const FlClipData.all(),
         scatterLabelSettings: ScatterLabelSettings(
           showLabel: true,
           getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
@@ -227,7 +227,7 @@ void main() {
           ScatterSpot(7, 5, radius: 6),
         ],
         showingTooltipIndicators: [0, 2, 3],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final scatterChartPainter = ScatterChartPainter();
@@ -278,7 +278,7 @@ void main() {
             getTooltipItems: (spot) => null,
           ),
         ),
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final scatterChartPainter = ScatterChartPainter();
@@ -326,7 +326,7 @@ void main() {
           scatterSpot4,
         ],
         showingTooltipIndicators: [0, 2, 3],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         scatterTouchData: ScatterTouchData(
           touchTooltipData: ScatterTouchTooltipData(
             rotateAngle: 18,
@@ -424,7 +424,7 @@ void main() {
           scatterSpot4,
         ],
         showingTooltipIndicators: [0, 2, 3],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         scatterTouchData: ScatterTouchData(
           touchTooltipData: ScatterTouchTooltipData(
             rotateAngle: 18,
@@ -527,7 +527,7 @@ void main() {
           scatterSpot4,
         ],
         showingTooltipIndicators: [0, 2, 3],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         scatterTouchData: ScatterTouchData(
           touchTooltipData: ScatterTouchTooltipData(
             rotateAngle: 18,
@@ -630,7 +630,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         scatterSpots: spots,
       );
 
@@ -700,11 +700,10 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(
-          show: true,
+        titlesData: const FlTitlesData(
           leftTitles: AxisTitles(
             axisNameSize: 4,
-            axisNameWidget: const Text('ss1'),
+            axisNameWidget: Text('ss1'),
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 10,
@@ -724,7 +723,7 @@ void main() {
           ),
           bottomTitles: AxisTitles(
             axisNameSize: 4,
-            axisNameWidget: const Text('ss2'),
+            axisNameWidget: Text('ss2'),
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 6,
