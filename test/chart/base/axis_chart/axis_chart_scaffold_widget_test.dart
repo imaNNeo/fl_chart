@@ -14,7 +14,7 @@ void main() {
   );
 
   final lineChartDataWithNoTitles = lineChartDataBase.copyWith(
-    titlesData: FlTitlesData(
+    titlesData: const FlTitlesData(
       show: false,
       leftTitles: AxisTitles(),
       topTitles: AxisTitles(),
@@ -33,7 +33,6 @@ void main() {
       ),
     ),
     titlesData: FlTitlesData(
-      show: true,
       leftTitles: AxisTitles(
         axisNameWidget: const Icon(Icons.arrow_left),
         axisNameSize: 10,
@@ -96,7 +95,6 @@ void main() {
       ),
     ),
     titlesData: FlTitlesData(
-      show: true,
       leftTitles: AxisTitles(
         axisNameWidget: const Icon(Icons.arrow_left),
         axisNameSize: 10,
@@ -109,9 +107,9 @@ void main() {
           interval: 1,
         ),
       ),
-      topTitles: AxisTitles(),
-      rightTitles: AxisTitles(),
-      bottomTitles: AxisTitles(),
+      topTitles: const AxisTitles(),
+      rightTitles: const AxisTitles(),
+      bottomTitles: const AxisTitles(),
     ),
   );
 
@@ -119,7 +117,6 @@ void main() {
       lineChartDataBase.copyWith(
     borderData: FlBorderData(show: false),
     titlesData: FlTitlesData(
-      show: true,
       leftTitles: AxisTitles(
         axisNameSize: 10,
         sideTitles: SideTitles(
@@ -131,9 +128,9 @@ void main() {
           interval: 1,
         ),
       ),
-      topTitles: AxisTitles(),
-      rightTitles: AxisTitles(),
-      bottomTitles: AxisTitles(),
+      topTitles: const AxisTitles(),
+      rightTitles: const AxisTitles(),
+      bottomTitles: const AxisTitles(),
     ),
   );
 
@@ -141,12 +138,10 @@ void main() {
       lineChartDataBase.copyWith(
     borderData: FlBorderData(show: false),
     titlesData: FlTitlesData(
-      show: true,
       leftTitles: AxisTitles(
         axisNameSize: 10,
         axisNameWidget: const Icon(Icons.arrow_left),
         sideTitles: SideTitles(
-          showTitles: false,
           reservedSize: 10,
           getTitlesWidget: (double value, TitleMeta meta) {
             return Text('L-${value.toInt()}');
@@ -154,9 +149,9 @@ void main() {
           interval: 1,
         ),
       ),
-      topTitles: AxisTitles(),
-      rightTitles: AxisTitles(),
-      bottomTitles: AxisTitles(),
+      topTitles: const AxisTitles(),
+      rightTitles: const AxisTitles(),
+      bottomTitles: const AxisTitles(),
     ),
   );
 

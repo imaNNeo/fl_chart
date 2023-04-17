@@ -14,7 +14,7 @@ void main() {
   );
 
   final lineChartDataWithNoTitles = lineChartDataBase.copyWith(
-    titlesData: FlTitlesData(
+    titlesData: const FlTitlesData(
       show: false,
       leftTitles: AxisTitles(),
       topTitles: AxisTitles(),
@@ -25,7 +25,6 @@ void main() {
 
   final lineChartDataWithAllTitles = lineChartDataBase.copyWith(
     titlesData: FlTitlesData(
-      show: true,
       leftTitles: AxisTitles(
         axisNameWidget: const Text('Left Titles'),
         sideTitles: SideTitles(
@@ -71,7 +70,6 @@ void main() {
 
   final lineChartDataWithOnlyLeftTitles = lineChartDataBase.copyWith(
     titlesData: FlTitlesData(
-      show: true,
       leftTitles: AxisTitles(
         axisNameWidget: const Text('Left Titles'),
         sideTitles: SideTitles(
@@ -82,16 +80,15 @@ void main() {
           interval: 1,
         ),
       ),
-      topTitles: AxisTitles(),
-      rightTitles: AxisTitles(),
-      bottomTitles: AxisTitles(),
+      topTitles: const AxisTitles(),
+      rightTitles: const AxisTitles(),
+      bottomTitles: const AxisTitles(),
     ),
   );
 
   final lineChartDataWithOnlyLeftTitlesWithoutAxisName =
       lineChartDataBase.copyWith(
     titlesData: FlTitlesData(
-      show: true,
       leftTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
@@ -101,9 +98,9 @@ void main() {
           interval: 1,
         ),
       ),
-      topTitles: AxisTitles(),
-      rightTitles: AxisTitles(),
-      bottomTitles: AxisTitles(),
+      topTitles: const AxisTitles(),
+      rightTitles: const AxisTitles(),
+      bottomTitles: const AxisTitles(),
     ),
   );
 
@@ -129,10 +126,9 @@ void main() {
       ),
     ],
     titlesData: FlTitlesData(
-      show: true,
-      leftTitles: AxisTitles(),
-      topTitles: AxisTitles(),
-      rightTitles: AxisTitles(),
+      leftTitles: const AxisTitles(),
+      topTitles: const AxisTitles(),
+      rightTitles: const AxisTitles(),
       bottomTitles: AxisTitles(
         axisNameWidget: const Icon(Icons.check),
         sideTitles: SideTitles(
@@ -172,9 +168,8 @@ void main() {
       ),
     ],
     titlesData: FlTitlesData(
-      show: true,
-      leftTitles: AxisTitles(),
-      topTitles: AxisTitles(),
+      leftTitles: const AxisTitles(),
+      topTitles: const AxisTitles(),
       rightTitles: AxisTitles(
         axisNameWidget: const Icon(Icons.arrow_right),
         sideTitles: SideTitles(
@@ -190,16 +185,15 @@ void main() {
           },
         ),
       ),
-      bottomTitles: AxisTitles(),
+      bottomTitles: const AxisTitles(),
     ),
   );
 
   final barChartDataWithEmptyGroups = BarChartData(
     barGroups: [],
     titlesData: FlTitlesData(
-      show: true,
-      leftTitles: AxisTitles(),
-      topTitles: AxisTitles(),
+      leftTitles: const AxisTitles(),
+      topTitles: const AxisTitles(),
       rightTitles: AxisTitles(
         axisNameWidget: const Icon(Icons.arrow_right),
         sideTitles: SideTitles(
@@ -215,7 +209,7 @@ void main() {
           },
         ),
       ),
-      bottomTitles: AxisTitles(),
+      bottomTitles: const AxisTitles(),
     ),
   );
 

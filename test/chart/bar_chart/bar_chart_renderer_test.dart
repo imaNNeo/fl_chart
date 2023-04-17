@@ -15,28 +15,28 @@ import 'bar_chart_renderer_test.mocks.dart';
 void main() {
   group('BarChartRenderer', () {
     final data = BarChartData(
-      titlesData: FlTitlesData(
+      titlesData: const FlTitlesData(
         leftTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 20, showTitles: true),
         ),
         rightTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 64, showTitles: true),
         ),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: AxisTitles(),
+        bottomTitles: AxisTitles(),
       ),
     );
 
     final targetData = BarChartData(
-      titlesData: FlTitlesData(
+      titlesData: const FlTitlesData(
         leftTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 8, showTitles: true),
         ),
         rightTitles: AxisTitles(
           sideTitles: SideTitles(reservedSize: 20, showTitles: true),
         ),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: AxisTitles(),
+        bottomTitles: AxisTitles(),
       ),
     );
 

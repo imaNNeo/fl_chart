@@ -68,7 +68,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
             titlesData: FlTitlesData(
               show: true,
               leftTitles: AxisTitles(
-                drawBehindEverything: true,
+                drawBelowEverything: true,
                 sideTitles: SideTitles(
                   showTitles: true,
                   reservedSize: 30,
@@ -96,8 +96,8 @@ class _BarChartSample7State extends State<BarChartSample7> {
                   },
                 ),
               ),
-              rightTitles: AxisTitles(),
-              topTitles: AxisTitles(),
+              rightTitles: const AxisTitles(),
+              topTitles: const AxisTitles(),
             ),
             gridData: FlGridData(
               show: true,

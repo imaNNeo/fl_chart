@@ -62,7 +62,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
         _notifyTouchEvent(FlPanUpdateEvent(dragUpdateDetails));
       }
       ..onCancel = () {
-        _notifyTouchEvent(FlPanCancelEvent());
+        _notifyTouchEvent(const FlPanCancelEvent());
       }
       ..onEnd = (dragEndDetails) {
         _notifyTouchEvent(FlPanEndEvent(dragEndDetails));
@@ -74,7 +74,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
         _notifyTouchEvent(FlTapDownEvent(tapDownDetails));
       }
       ..onTapCancel = () {
-        _notifyTouchEvent(FlTapCancelEvent());
+        _notifyTouchEvent(const FlTapCancelEvent());
       }
       ..onTapUp = (tapUpDetails) {
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));

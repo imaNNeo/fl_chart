@@ -85,7 +85,7 @@ class FlBorderData with EquatableMixin {
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
 abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
-  FlTouchData(
+  const FlTouchData(
     this.enabled,
     this.touchCallback,
     this.mouseCursorResolver,
@@ -122,7 +122,7 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
 /// Holds data to clipping chart around its borders.
 class FlClipData with EquatableMixin {
   /// Creates data that clips specified sides
-  FlClipData({
+  const FlClipData({
     required this.top,
     required this.bottom,
     required this.left,
@@ -130,19 +130,21 @@ class FlClipData with EquatableMixin {
   });
 
   /// Creates data that clips all sides
-  FlClipData.all() : this(top: true, bottom: true, left: true, right: true);
+  const FlClipData.all()
+      : this(top: true, bottom: true, left: true, right: true);
 
   /// Creates data that clips only top and bottom side
-  FlClipData.vertical()
+  const FlClipData.vertical()
       : this(top: true, bottom: true, left: false, right: false);
 
   /// Creates data that clips only left and right side
-  FlClipData.horizontal()
+  const FlClipData.horizontal()
       : this(top: false, bottom: false, left: true, right: true);
 
   /// Creates data that doesn't clip any side
-  FlClipData.none()
+  const FlClipData.none()
       : this(top: false, bottom: false, left: false, right: false);
+
   final bool top;
   final bool bottom;
   final bool left;
@@ -188,7 +190,7 @@ typedef MouseCursorResolver<R extends BaseTouchResponse> = MouseCursor Function(
 
 /// This class holds the touch response details of charts.
 abstract class BaseTouchResponse {
-  BaseTouchResponse();
+  const BaseTouchResponse();
 }
 
 /// Controls an element horizontal alignment to given point.

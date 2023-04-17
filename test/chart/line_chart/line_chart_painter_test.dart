@@ -50,7 +50,7 @@ void main() {
           bar1,
           bar2,
         ],
-        clipData: FlClipData.all(),
+        clipData: const FlClipData.all(),
         extraLinesData: ExtraLinesData(
           horizontalLines: [
             HorizontalLine(y: 1),
@@ -69,7 +69,6 @@ void main() {
           ])
         ],
         lineTouchData: LineTouchData(
-          enabled: true,
           getTouchedSpotIndicator:
               (LineChartBarData barData, List<int> spotIndexes) {
             return spotIndexes.asMap().entries.map((entry) {
@@ -77,9 +76,9 @@ void main() {
               if (i == 0) {
                 return null;
               }
-              return TouchedSpotIndicatorData(
+              return const TouchedSpotIndicatorData(
                 FlLine(color: MockData.color0),
-                FlDotData(show: true),
+                FlDotData(),
               );
             }).toList();
           },
@@ -142,17 +141,16 @@ void main() {
           bar1,
           bar2,
         ],
-        clipData: FlClipData.all(),
+        clipData: const FlClipData.all(),
         lineTouchData: LineTouchData(
-          enabled: true,
           getTouchedSpotIndicator:
               (LineChartBarData barData, List<int> spotIndexes) {
             return List.generate(
               spotIndexes.length + 1,
               (index) {
-                return TouchedSpotIndicatorData(
+                return const TouchedSpotIndicatorData(
                   FlLine(color: MockData.color0),
-                  FlDotData(show: true),
+                  FlDotData(),
                 );
               },
             ).toList();
@@ -217,14 +215,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final data = LineChartData(
-        clipData: FlClipData(
-          top: false,
-          bottom: false,
-          left: false,
-          right: false,
-        ),
-      );
+      final data = LineChartData();
 
       final lineChartPainter = LineChartPainter();
       final holder = PaintHolder<LineChartData>(data, data, 1);
@@ -249,8 +240,7 @@ void main() {
       const viewSize = Size(400, 400);
 
       final data = LineChartData(
-        titlesData: FlTitlesData(
-          show: true,
+        titlesData: const FlTitlesData(
           leftTitles: AxisTitles(
             sideTitles: SideTitles(showTitles: true, reservedSize: 10),
           ),
@@ -265,7 +255,7 @@ void main() {
           ),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
-        clipData: FlClipData(
+        clipData: const FlClipData(
           top: false,
           bottom: false,
           left: true,
@@ -296,8 +286,7 @@ void main() {
       const viewSize = Size(400, 400);
 
       final data = LineChartData(
-        titlesData: FlTitlesData(
-          show: true,
+        titlesData: const FlTitlesData(
           leftTitles: AxisTitles(
             sideTitles: SideTitles(showTitles: true, reservedSize: 10),
           ),
@@ -315,7 +304,7 @@ void main() {
           ),
         ),
         borderData: FlBorderData(show: true, border: Border.all(width: 8)),
-        clipData: FlClipData(
+        clipData: const FlClipData(
           top: true,
           bottom: true,
           left: true,
@@ -348,7 +337,6 @@ void main() {
       const viewSize = Size(400, 400);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           flSpot1,
           flSpot2,
@@ -378,7 +366,6 @@ void main() {
       const viewSize = Size(400, 400);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           flSpot1,
           flSpot2,
@@ -409,7 +396,6 @@ void main() {
       const viewSize = Size(400, 400);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           flSpot1,
           flSpot2,
@@ -450,7 +436,6 @@ void main() {
       const viewSize = Size(400, 400);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           flSpot1,
           flSpot2,
@@ -460,7 +445,6 @@ void main() {
       );
 
       final barData2 = LineChartBarData(
-        show: true,
         spots: const [
           flSpot2,
           flSpot1,
@@ -514,11 +498,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final barData = LineChartBarData(
-        show: true,
-        spots: const [],
-        dotData: FlDotData(show: true),
-      );
+      final barData = LineChartBarData();
 
       final data = LineChartData(
         lineBarsData: [
@@ -545,9 +525,8 @@ void main() {
       const viewSize = Size(400, 400);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [FlSpot(1, 1)],
-        dotData: FlDotData(show: false),
+        dotData: const FlDotData(show: false),
       );
 
       final data = LineChartData(
@@ -575,7 +554,6 @@ void main() {
       const viewSize = Size(400, 400);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(2, 2),
@@ -584,7 +562,6 @@ void main() {
           FlSpot.nullSpot,
           FlSpot(5, 5),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final data = LineChartData(
@@ -612,7 +589,6 @@ void main() {
       const viewSize = Size(100, 100);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(2, 2),
@@ -621,7 +597,6 @@ void main() {
           FlSpot.nullSpot,
           FlSpot(5, 5),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final data = LineChartData(
@@ -632,7 +607,7 @@ void main() {
         lineBarsData: [
           barData,
         ],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -717,11 +692,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
 
-      final lineChartBarData = LineChartBarData(
-        show: true,
-        spots: const [],
-        dotData: FlDotData(show: true),
-      );
+      final lineChartBarData = LineChartBarData();
 
       final data = LineChartData(
         lineBarsData: [lineChartBarData],
@@ -750,16 +721,13 @@ void main() {
       const spot2 = FlSpot(2, 2);
       const spot3 = FlSpot(3, 3);
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: const [spot1, spot2, spot3],
-        dotData: FlDotData(show: true),
         showingIndicators: [0, 1],
       );
 
       final data = LineChartData(
         lineBarsData: [lineChartBarData],
         lineTouchData: LineTouchData(
-          enabled: true,
           getTouchedSpotIndicator: (barData, spotIndexes) {
             return spotIndexes.asMap().entries.map((e) {
               final index = e.key;
@@ -769,7 +737,7 @@ void main() {
               final strokeWidth = index == 0 ? 8.0 : 12.0;
               return TouchedSpotIndicatorData(
                 FlLine(color: color, strokeWidth: strokeWidth),
-                FlDotData(show: false),
+                const FlDotData(show: false),
               );
             }).toList();
           },
@@ -822,7 +790,6 @@ void main() {
       const spot2 = FlSpot(2, 2);
       const spot3 = FlSpot(3, 3);
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: const [spot1, spot2, spot3],
         showingIndicators: [0, 1],
       );
@@ -830,7 +797,6 @@ void main() {
       final data = LineChartData(
         lineBarsData: [lineChartBarData],
         lineTouchData: LineTouchData(
-          enabled: true,
           getTouchedSpotIndicator: (barData, spotIndexes) {
             return spotIndexes.asMap().entries.map((e) {
               final index = e.key;
@@ -840,7 +806,7 @@ void main() {
               final strokeWidth = index == 0 ? 8.0 : 12.0;
               return TouchedSpotIndicatorData(
                 FlLine(color: color, strokeWidth: strokeWidth),
-                FlDotData(show: true),
+                const FlDotData(),
               );
             }).toList();
           },
@@ -894,13 +860,11 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final data = LineChartData(
@@ -910,7 +874,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -950,13 +914,11 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
       );
 
@@ -967,7 +929,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1009,13 +971,11 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final data = LineChartData(
@@ -1025,7 +985,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1067,13 +1027,11 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot.zero,
           FlSpot(5, 5),
           FlSpot(10, 0),
         ],
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
       );
 
@@ -1084,7 +1042,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1132,9 +1090,7 @@ void main() {
       ];
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: barSpots,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
       );
 
@@ -1145,7 +1101,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1183,9 +1139,7 @@ void main() {
       ];
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: barSpots,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
         belowBarData: BarAreaData(
           cutOffY: 4,
@@ -1200,7 +1154,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1240,9 +1194,7 @@ void main() {
       ];
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: barSpots,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
       );
 
@@ -1253,7 +1205,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1292,9 +1244,7 @@ void main() {
       ];
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: barSpots,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
         belowBarData: BarAreaData(
           show: true,
@@ -1311,7 +1261,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1358,9 +1308,7 @@ void main() {
       ];
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: barSpots,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
         belowBarData: BarAreaData(
           show: true,
@@ -1369,11 +1317,11 @@ void main() {
           ),
           applyCutOffY: true,
           cutOffY: 8,
-          spotsLine: BarAreaSpotsLine(
+          spotsLine: const BarAreaSpotsLine(
             show: true,
             applyCutOffY: false,
             flLineStyle: FlLine(
-              color: const Color(0x00F0F0F0),
+              color: Color(0x00F0F0F0),
               strokeWidth: 18,
             ),
           ),
@@ -1387,7 +1335,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1476,9 +1424,7 @@ void main() {
       ];
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: barSpots,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
         aboveBarData: BarAreaData(
           show: true,
@@ -1495,7 +1441,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1542,9 +1488,7 @@ void main() {
       ];
 
       final lineChartBarData = LineChartBarData(
-        show: true,
         spots: barSpots,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
         aboveBarData: BarAreaData(
           show: true,
@@ -1553,11 +1497,11 @@ void main() {
           ),
           applyCutOffY: true,
           cutOffY: 8,
-          spotsLine: BarAreaSpotsLine(
+          spotsLine: const BarAreaSpotsLine(
             show: true,
             applyCutOffY: false,
             flLineStyle: FlLine(
-              color: const Color(0x00F0F0F0),
+              color: Color(0x00F0F0F0),
               strokeWidth: 18,
             ),
           ),
@@ -1571,7 +1515,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1665,9 +1609,7 @@ void main() {
       ];
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: barSpots1,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
         aboveBarData: BarAreaData(
           show: true,
@@ -1678,9 +1620,7 @@ void main() {
       );
 
       final lineChartBarData2 = LineChartBarData(
-        show: true,
         spots: barSpots2,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
       );
 
@@ -1697,7 +1637,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1, lineChartBarData2],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         betweenBarsData: [betweenBarData1],
       );
 
@@ -1742,9 +1682,7 @@ void main() {
       ];
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: barSpots1,
-        dotData: FlDotData(show: true),
         isStepLineChart: true,
         shadow: const Shadow(color: Color(0x0000FF00)),
       );
@@ -1773,9 +1711,7 @@ void main() {
       ];
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: barSpots1,
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -1830,7 +1766,6 @@ void main() {
       final lineChartBarData1 = LineChartBarData(
         show: false,
         spots: barSpots1,
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -1848,7 +1783,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1879,9 +1814,7 @@ void main() {
       ];
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: barSpots1,
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -1900,7 +1833,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -1940,9 +1873,7 @@ void main() {
       ];
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: barSpots1,
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -1959,7 +1890,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -2002,8 +1933,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
-        extraLinesData: ExtraLinesData(horizontalLines: [], verticalLines: []),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -2031,7 +1961,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -2059,7 +1989,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         extraLinesData: ExtraLinesData(
           horizontalLines: [
             HorizontalLine(
@@ -2142,7 +2072,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         extraLinesData: ExtraLinesData(
           horizontalLines: [
             HorizontalLine(
@@ -2197,7 +2127,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         extraLinesData: ExtraLinesData(
           verticalLines: [
             VerticalLine(
@@ -2251,7 +2181,7 @@ void main() {
         maxY: 10,
         minX: -1,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         extraLinesData: ExtraLinesData(
           verticalLines: [
             VerticalLine(
@@ -2316,7 +2246,6 @@ void main() {
       const viewSize = Size(100, 100);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(2, 2),
@@ -2325,7 +2254,6 @@ void main() {
           FlSpot.nullSpot,
           FlSpot(5, 5),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final tooltipData = LineTouchTooltipData(
@@ -2337,7 +2265,6 @@ void main() {
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideHorizontally: true,
         fitInsideVertically: true,
-        showOnTopOfTheChartBoxArea: false,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
@@ -2350,11 +2277,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
-        extraLinesData: ExtraLinesData(
-          horizontalLines: [],
-          verticalLines: [],
-        ),
+        titlesData: const FlTitlesData(show: false),
         lineTouchData: LineTouchData(
           touchTooltipData: tooltipData,
         ),
@@ -2433,7 +2356,6 @@ void main() {
       const viewSize = Size(100, 100);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(2, 2),
@@ -2442,7 +2364,6 @@ void main() {
           FlSpot.nullSpot,
           FlSpot(5, 5),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final tooltipData = LineTouchTooltipData(
@@ -2453,9 +2374,7 @@ void main() {
         tooltipMargin: 12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.left,
         tooltipPadding: const EdgeInsets.all(12),
-        fitInsideHorizontally: false,
         fitInsideVertically: true,
-        showOnTopOfTheChartBoxArea: false,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
@@ -2468,11 +2387,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
-        extraLinesData: ExtraLinesData(
-          horizontalLines: [],
-          verticalLines: [],
-        ),
+        titlesData: const FlTitlesData(show: false),
         lineTouchData: LineTouchData(
           touchTooltipData: tooltipData,
         ),
@@ -2551,7 +2466,6 @@ void main() {
       const viewSize = Size(100, 100);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(2, 2),
@@ -2560,7 +2474,6 @@ void main() {
           FlSpot.nullSpot,
           FlSpot(5, 5),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final tooltipData = LineTouchTooltipData(
@@ -2571,9 +2484,7 @@ void main() {
         tooltipMargin: 12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
-        fitInsideHorizontally: false,
         fitInsideVertically: true,
-        showOnTopOfTheChartBoxArea: false,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
@@ -2586,11 +2497,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
-        extraLinesData: ExtraLinesData(
-          horizontalLines: [],
-          verticalLines: [],
-        ),
+        titlesData: const FlTitlesData(show: false),
         lineTouchData: LineTouchData(
           touchTooltipData: tooltipData,
         ),
@@ -2671,7 +2578,6 @@ void main() {
       const viewSize = Size(100, 100);
 
       final barData = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(2, 2),
@@ -2680,7 +2586,6 @@ void main() {
           FlSpot.nullSpot,
           FlSpot(5, 5),
         ],
-        dotData: FlDotData(show: true),
       );
 
       final data = LineChartData(
@@ -2713,7 +2618,6 @@ void main() {
           FlSpot(6, 1),
           FlSpot(8, 1),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2732,7 +2636,6 @@ void main() {
           FlSpot(3.5, 2),
           FlSpot(4.3, 2),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2750,8 +2653,8 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1, lineChartBarData2],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
-        lineTouchData: LineTouchData(
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: const LineTouchData(
           touchSpotThreshold: 0.5,
         ),
       );
@@ -2767,14 +2670,12 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(4, 1),
           FlSpot(6, 1),
           FlSpot(8, 1),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2786,14 +2687,12 @@ void main() {
       );
 
       final lineChartBarData2 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1.1, 2),
           FlSpot(2, 2),
           FlSpot(3.5, 2),
           FlSpot(4.3, 2),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2811,8 +2710,8 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1, lineChartBarData2],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
-        lineTouchData: LineTouchData(
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: const LineTouchData(
           touchSpotThreshold: 5,
         ),
       );
@@ -2845,14 +2744,12 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(2, 1),
           FlSpot(3, 1),
           FlSpot(8, 1),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2864,14 +2761,12 @@ void main() {
       );
 
       final lineChartBarData2 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1.3, 1),
           FlSpot(2, 1),
           FlSpot(3, 1),
           FlSpot(4, 1),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2889,8 +2784,8 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1, lineChartBarData2],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
-        lineTouchData: LineTouchData(
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: const LineTouchData(
           touchSpotThreshold: 5,
         ),
       );
@@ -2922,7 +2817,6 @@ void main() {
           FlSpot(6, 1),
           FlSpot(8, 1),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2941,7 +2835,6 @@ void main() {
           FlSpot(3.5, 2),
           FlSpot(4.3, 2),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -2959,8 +2852,8 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1, lineChartBarData2],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
-        lineTouchData: LineTouchData(
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: const LineTouchData(
           touchSpotThreshold: 0.5,
         ),
       );
@@ -2990,14 +2883,12 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(4, 1),
           FlSpot(6, 1),
           FlSpot(8, 1),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -3009,14 +2900,12 @@ void main() {
       );
 
       final lineChartBarData2 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1.1, 2),
           FlSpot(2, 2),
           FlSpot(3.5, 2),
           FlSpot(4.3, 2),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -3034,8 +2923,8 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1, lineChartBarData2],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
-        lineTouchData: LineTouchData(
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: const LineTouchData(
           touchSpotThreshold: 5,
         ),
       );
@@ -3108,14 +2997,12 @@ void main() {
       const viewSize = Size(100, 100);
 
       final lineChartBarData1 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1, 1),
           FlSpot(4, 1),
           FlSpot(6, 4),
           FlSpot(8, 1),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -3127,14 +3014,12 @@ void main() {
       );
 
       final lineChartBarData2 = LineChartBarData(
-        show: true,
         spots: const [
           FlSpot(1.1, 4),
           FlSpot(2, 4),
           FlSpot(3.5, 1),
           FlSpot(4.3, 4),
         ],
-        dotData: FlDotData(show: true),
         barWidth: 80,
         isStrokeCapRound: true,
         isStepLineChart: true,
@@ -3152,7 +3037,7 @@ void main() {
         maxX: 10,
         lineBarsData: [lineChartBarData1, lineChartBarData2],
         showingTooltipIndicators: [],
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         lineTouchData: LineTouchData(
           distanceCalculator: (Offset a, Offset b) {
             final dx = a.dx - b.dx;
@@ -3227,11 +3112,9 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
-        gridData: FlGridData(
+        titlesData: const FlTitlesData(show: false),
+        gridData: const FlGridData(
           show: false,
-          drawVerticalLine: true,
-          drawHorizontalLine: true,
           horizontalInterval: 2,
         ),
       );
@@ -3259,22 +3142,20 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         gridData: FlGridData(
-          show: true,
           drawVerticalLine: false,
-          drawHorizontalLine: true,
           horizontalInterval: 2,
           checkToShowHorizontalLine: (value) => value != 2 && value != 8,
           getDrawingHorizontalLine: (value) {
             if (value == 4) {
-              return FlLine(
+              return const FlLine(
                 color: MockData.color1,
                 strokeWidth: 11,
                 dashArray: [1, 1],
               );
             } else if (value == 6) {
-              return FlLine(
+              return const FlLine(
                 color: MockData.color2,
                 strokeWidth: 22,
                 dashArray: [2, 2],
@@ -3340,22 +3221,20 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         gridData: FlGridData(
-          show: true,
-          drawVerticalLine: true,
           drawHorizontalLine: false,
           verticalInterval: 2,
           checkToShowVerticalLine: (value) => value != 2 && value != 8,
           getDrawingVerticalLine: (value) {
             if (value == 4) {
-              return FlLine(
+              return const FlLine(
                 color: MockData.color1,
                 strokeWidth: 11,
                 dashArray: [1, 1],
               );
             } else if (value == 6) {
-              return FlLine(
+              return const FlLine(
                 color: MockData.color2,
                 strokeWidth: 22,
                 dashArray: [2, 2],
@@ -3421,11 +3300,6 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        gridData: FlGridData(
-          show: true,
-          drawVerticalLine: true,
-          drawHorizontalLine: true,
-        ),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -3455,7 +3329,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         backgroundColor: MockData.color1.withOpacity(0),
       );
 
@@ -3477,7 +3351,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         backgroundColor: MockData.color1,
       );
 
@@ -3508,8 +3382,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
-        rangeAnnotations: RangeAnnotations(),
+        titlesData: const FlTitlesData(show: false),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -3530,7 +3403,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         rangeAnnotations: RangeAnnotations(
           horizontalRangeAnnotations: [
             HorizontalRangeAnnotation(y1: 4, y2: 10, color: MockData.color1),
@@ -3572,7 +3445,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         rangeAnnotations: RangeAnnotations(
           verticalRangeAnnotations: [
             VerticalRangeAnnotation(x1: 1, x2: 2, color: MockData.color1),
@@ -3614,7 +3487,7 @@ void main() {
         maxY: 10,
         minX: 0,
         maxX: 10,
-        titlesData: FlTitlesData(show: false),
+        titlesData: const FlTitlesData(show: false),
         rangeAnnotations: RangeAnnotations(
           horizontalRangeAnnotations: [
             HorizontalRangeAnnotation(y1: 4, y2: 10, color: MockData.color1),

@@ -188,7 +188,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           )
         ],
       ),
-      gridData: FlGridData(
+      gridData: const FlGridData(
         show: true,
         drawVerticalLine: false,
         drawHorizontalLine: false,
@@ -205,7 +205,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           ),
         ),
         leftTitles: AxisTitles(
-          drawBehindEverything: true,
+          drawBelowEverything: true,
           sideTitles: SideTitles(
             interval: 2,
             showTitles: true,
@@ -213,10 +213,10 @@ class _LineChartSample8State extends State<LineChartSample8> {
             reservedSize: 40,
           ),
         ),
-        rightTitles: AxisTitles(
+        rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        topTitles: AxisTitles(
+        topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
       ),
@@ -226,7 +226,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             (LineChartBarData barData, List<int> spotIndexes) {
           return spotIndexes.map((spotIndex) {
             return TouchedSpotIndicatorData(
-              FlLine(color: AppColors.contentColorOrange, strokeWidth: 3),
+              const FlLine(color: AppColors.contentColorOrange, strokeWidth: 3),
               FlDotData(
                 getDotPainter: (spot, percent, barData, index) =>
                     FlDotCirclePainter(
@@ -237,7 +237,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             );
           }).toList();
         },
-        touchTooltipData: LineTouchTooltipData(
+        touchTooltipData: const LineTouchTooltipData(
           tooltipBgColor: AppColors.contentColorBlue,
         ),
       ),
@@ -270,7 +270,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
           color: AppColors.contentColorRed,
           barWidth: 4,
           isStrokeCapRound: true,
-          dotData: FlDotData(
+          dotData: const FlDotData(
             show: false,
           ),
         ),

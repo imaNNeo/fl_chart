@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 
 /// Parent class for several kind of touch/pointer events (like tap, panMode, longPressStart, ...)
 abstract class FlTouchEvent {
+  const FlTouchEvent();
+
   /// Represents the position of happened touch/pointer event
   ///
   /// Some events such as [FlPanCancelEvent] and [FlTapCancelEvent]
@@ -41,7 +43,7 @@ abstract class FlTouchEvent {
 /// The [details] object provides the position of the touch.
 /// Inspired from [GestureDragDownCallback]
 class FlPanDownEvent extends FlTouchEvent {
-  FlPanDownEvent(this.details);
+  const FlPanDownEvent(this.details);
 
   /// Contains information of happened touch gesture
   final DragDownDetails details;
@@ -58,7 +60,7 @@ class FlPanDownEvent extends FlTouchEvent {
 /// Inspired from [GestureDragStartCallback].
 class FlPanStartEvent extends FlTouchEvent {
   /// Creates
-  FlPanStartEvent(this.details);
+  const FlPanStartEvent(this.details);
 
   /// Contains information of happened touch gesture
   final DragStartDetails details;
@@ -75,7 +77,7 @@ class FlPanStartEvent extends FlTouchEvent {
 /// has traveled since the last update.
 /// Inspired from [GestureDragUpdateCallback]
 class FlPanUpdateEvent extends FlTouchEvent {
-  FlPanUpdateEvent(this.details);
+  const FlPanUpdateEvent(this.details);
 
   /// Contains information of happened touch gesture
   final DragUpdateDetails details;
@@ -87,7 +89,9 @@ class FlPanUpdateEvent extends FlTouchEvent {
 
 /// When the pointer that previously triggered a [FlPanStartEvent] did not complete.
 /// Inspired from [GestureDragCancelCallback]
-class FlPanCancelEvent extends FlTouchEvent {}
+class FlPanCancelEvent extends FlTouchEvent {
+  const FlPanCancelEvent();
+}
 
 /// When a pointer that was previously in contact with the screen
 /// and moving is no longer in contact with the screen.
@@ -96,7 +100,7 @@ class FlPanCancelEvent extends FlTouchEvent {}
 /// the screen is available in the [details].
 /// Inspired from [GestureDragEndCallback]
 class FlPanEndEvent extends FlTouchEvent {
-  FlPanEndEvent(this.details);
+  const FlPanEndEvent(this.details);
 
   /// Contains information of happened touch gesture
   final DragEndDetails details;
@@ -109,7 +113,7 @@ class FlPanEndEvent extends FlTouchEvent {
 /// [details].
 /// Inspired from [GestureTapDownCallback]
 class FlTapDownEvent extends FlTouchEvent {
-  FlTapDownEvent(this.details);
+  const FlTapDownEvent(this.details);
 
   /// Contains information of happened touch gesture
   final TapDownDetails details;
@@ -121,7 +125,9 @@ class FlTapDownEvent extends FlTouchEvent {
 
 /// When the pointer that previously triggered a [FlTapDownEvent] will not end up causing a tap.
 /// Inspired from [GestureTapCancelCallback]
-class FlTapCancelEvent extends FlTouchEvent {}
+class FlTapCancelEvent extends FlTouchEvent {
+  const FlTapCancelEvent();
+}
 
 /// When a pointer that will trigger a tap has stopped contacting
 /// the screen.
@@ -130,7 +136,7 @@ class FlTapCancelEvent extends FlTouchEvent {}
 /// in the [details].
 /// Inspired from [GestureTapUpCallback]
 class FlTapUpEvent extends FlTouchEvent {
-  FlTapUpEvent(this.details);
+  const FlTapUpEvent(this.details);
 
   /// Contains information of happened touch gesture
   final TapUpDetails details;
@@ -147,7 +153,7 @@ class FlTapUpEvent extends FlTouchEvent {
 ///
 /// Inspired from [GestureLongPressStartCallback]
 class FlLongPressStart extends FlTouchEvent {
-  FlLongPressStart(this.details);
+  const FlLongPressStart(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressStartDetails details;
@@ -165,7 +171,7 @@ class FlLongPressStart extends FlTouchEvent {
 ///
 /// Inspired from [GestureLongPressMoveUpdateCallback]
 class FlLongPressMoveUpdate extends FlTouchEvent {
-  FlLongPressMoveUpdate(this.details);
+  const FlLongPressMoveUpdate(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressMoveUpdateDetails details;
@@ -183,7 +189,7 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
 ///
 /// Inspired from [GestureLongPressEndCallback]
 class FlLongPressEnd extends FlTouchEvent {
-  FlLongPressEnd(this.details);
+  const FlLongPressEnd(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressEndDetails details;
@@ -200,7 +206,7 @@ class FlLongPressEnd extends FlTouchEvent {
 ///
 /// Inspired from [PointerEnterEventListener]
 class FlPointerEnterEvent extends FlTouchEvent {
-  FlPointerEnterEvent(this.event);
+  const FlPointerEnterEvent(this.event);
 
   /// Contains information of happened pointer event
   final PointerEnterEvent event;
@@ -217,7 +223,7 @@ class FlPointerEnterEvent extends FlTouchEvent {
 ///
 /// Inspired from [PointerHoverEventListener]
 class FlPointerHoverEvent extends FlTouchEvent {
-  FlPointerHoverEvent(this.event);
+  const FlPointerHoverEvent(this.event);
 
   /// Contains information of happened pointer event
   final PointerHoverEvent event;
@@ -232,7 +238,7 @@ class FlPointerHoverEvent extends FlTouchEvent {
 ///
 /// Inspired from [PointerExitEventListener] which contains [PointerExitEvent]
 class FlPointerExitEvent extends FlTouchEvent {
-  FlPointerExitEvent(this.event);
+  const FlPointerExitEvent(this.event);
 
   /// Contains information of happened pointer event
   final PointerExitEvent event;

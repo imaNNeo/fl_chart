@@ -98,16 +98,16 @@ class _ScatterChartSample2State extends State {
             show: true,
             drawHorizontalLine: true,
             checkToShowHorizontalLine: (value) => true,
-            getDrawingHorizontalLine: (value) => FlLine(
+            getDrawingHorizontalLine: (value) => const FlLine(
               color: AppColors.gridLinesColor,
             ),
             drawVerticalLine: true,
             checkToShowVerticalLine: (value) => true,
-            getDrawingVerticalLine: (value) => FlLine(
+            getDrawingVerticalLine: (value) => const FlLine(
               color: AppColors.gridLinesColor,
             ),
           ),
-          titlesData: FlTitlesData(
+          titlesData: const FlTitlesData(
             show: false,
           ),
           showingTooltipIndicators: selectedSpots,

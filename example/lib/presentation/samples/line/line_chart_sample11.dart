@@ -115,13 +115,13 @@ class _Chart extends StatelessWidget {
 
   FlLine getHorizontalVerticalLine(double value) {
     if ((value - baselineY).abs() <= 0.1) {
-      return FlLine(
+      return const FlLine(
         color: Colors.white70,
         strokeWidth: 1,
         dashArray: [8, 4],
       );
     } else {
-      return FlLine(
+      return const FlLine(
         color: Colors.blueGrey,
         strokeWidth: 0.4,
         dashArray: [8, 4],
@@ -131,13 +131,13 @@ class _Chart extends StatelessWidget {
 
   FlLine getVerticalVerticalLine(double value) {
     if ((value - baselineX).abs() <= 0.1) {
-      return FlLine(
+      return const FlLine(
         color: Colors.white70,
         strokeWidth: 1,
         dashArray: [8, 4],
       );
     } else {
-      return FlLine(
+      return const FlLine(
         color: Colors.blueGrey,
         strokeWidth: 0.4,
         dashArray: [8, 4],
@@ -196,7 +196,7 @@ class _Chart extends StatelessWidget {
         maxX: 10,
         baselineX: baselineX,
       ),
-      swapAnimationDuration: Duration.zero,
+      duration: Duration.zero,
     );
   }
 }

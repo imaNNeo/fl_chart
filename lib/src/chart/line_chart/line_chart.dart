@@ -15,12 +15,9 @@ class LineChart extends ImplicitlyAnimatedWidget {
     this.data, {
     this.chartRendererKey,
     super.key,
-    Duration swapAnimationDuration = const Duration(milliseconds: 150),
-    Curve swapAnimationCurve = Curves.linear,
-  }) : super(
-          duration: swapAnimationDuration,
-          curve: swapAnimationCurve,
-        );
+    super.duration = const Duration(milliseconds: 150),
+    super.curve = Curves.linear,
+  });
 
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;

@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 
 /// Describes a line model (contains [from], and end [to])
 class Line {
-  Line(this.from, this.to);
+  const Line(this.from, this.to);
 
   /// Start of the line
   final Offset from;

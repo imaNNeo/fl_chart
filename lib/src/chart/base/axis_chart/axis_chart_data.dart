@@ -29,13 +29,13 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     super.borderData,
     required super.touchData,
     ExtraLinesData? extraLinesData,
-  })  : gridData = gridData ?? FlGridData(),
-        rangeAnnotations = rangeAnnotations ?? RangeAnnotations(),
+  })  : gridData = gridData ?? const FlGridData(),
+        rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
         baselineY = baselineY ?? 0,
-        clipData = clipData ?? FlClipData.none(),
+        clipData = clipData ?? const FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
-        extraLinesData = extraLinesData ?? ExtraLinesData();
+        extraLinesData = extraLinesData ?? const ExtraLinesData();
   final FlGridData gridData;
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
@@ -156,18 +156,12 @@ class SideTitles with EquatableMixin {
   ///
   /// Texts are showing with provided [interval]. If you don't provide anything,
   /// we try to find a suitable value to set as [interval] under the hood.
-  SideTitles({
-    bool? showTitles,
-    GetTitleWidgetFunction? getTitlesWidget,
-    double? reservedSize,
+  const SideTitles({
+    this.showTitles = false,
+    this.getTitlesWidget = defaultGetTitle,
+    this.reservedSize = 22,
     this.interval,
-  })  : showTitles = showTitles ?? false,
-        getTitlesWidget = getTitlesWidget ?? defaultGetTitle,
-        reservedSize = reservedSize ?? 22 {
-    if (interval == 0) {
-      throw ArgumentError("SideTitles.interval couldn't be zero");
-    }
-  }
+  }) : assert(interval != 0, "SideTitles.interval couldn't be zero");
 
   /// Determines showing or hiding this side titles
   final bool showTitles;
@@ -189,7 +183,7 @@ class SideTitles with EquatableMixin {
     return SideTitles(
       showTitles: b.showTitles,
       getTitlesWidget: b.getTitlesWidget,
-      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t),
+      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t)!,
       interval: lerpDouble(a.interval, b.interval, t),
     );
   }
@@ -300,14 +294,12 @@ class AxisTitles with EquatableMixin {
   /// [axisNameSize] determines the maximum size that [axisName] can use
   ///
   /// [sideTitles] property is responsible to show your axis side labels
-  AxisTitles({
+  const AxisTitles({
     this.axisNameWidget,
-    double? axisNameSize,
-    SideTitles? sideTitles,
-    bool? drawBehindEverything,
-  })  : axisNameSize = axisNameSize ?? 16,
-        sideTitles = sideTitles ?? SideTitles(),
-        drawBelowEverything = drawBehindEverything ?? true;
+    this.axisNameSize = 16,
+    this.sideTitles = const SideTitles(),
+    this.drawBelowEverything = true,
+  });
 
   /// Determines the size of [axisName]
   final double axisNameSize;
@@ -335,9 +327,9 @@ class AxisTitles with EquatableMixin {
   static AxisTitles lerp(AxisTitles a, AxisTitles b, double t) {
     return AxisTitles(
       axisNameWidget: b.axisNameWidget,
-      axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t),
+      axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t)!,
       sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
-      drawBehindEverything: b.drawBelowEverything,
+      drawBelowEverything: b.drawBelowEverything,
     );
   }
 
@@ -353,7 +345,7 @@ class AxisTitles with EquatableMixin {
       axisNameWidget: axisNameWidget ?? this.axisNameWidget,
       axisNameSize: axisNameSize ?? this.axisNameSize,
       sideTitles: sideTitles ?? this.sideTitles,
-      drawBehindEverything: drawBelowEverything ?? this.drawBelowEverything,
+      drawBelowEverything: drawBelowEverything ?? this.drawBelowEverything,
     );
   }
 
@@ -372,43 +364,35 @@ class FlTitlesData with EquatableMixin {
   /// [show] determines showing or hiding all titles,
   /// [leftTitles], [topTitles], [rightTitles], [bottomTitles] defines
   /// side titles of left, top, right, bottom sides respectively.
-  FlTitlesData({
-    bool? show,
-    AxisTitles? leftTitles,
-    AxisTitles? topTitles,
-    AxisTitles? rightTitles,
-    AxisTitles? bottomTitles,
-  })  : show = show ?? true,
-        leftTitles = leftTitles ??
-            AxisTitles(
-              sideTitles: SideTitles(
-                reservedSize: 44,
-                showTitles: true,
-              ),
-            ),
-        topTitles = topTitles ??
-            AxisTitles(
-              sideTitles: SideTitles(
-                reservedSize: 30,
-                showTitles: true,
-              ),
-            ),
-        rightTitles = rightTitles ??
-            AxisTitles(
-              sideTitles: SideTitles(
-                reservedSize: 44,
-                showTitles: true,
-              ),
-            ),
-        bottomTitles = bottomTitles ??
-            AxisTitles(
-              sideTitles: SideTitles(
-                reservedSize: 30,
-                showTitles: true,
-              ),
-            );
-  final bool show;
+  const FlTitlesData({
+    this.show = true,
+    this.leftTitles = const AxisTitles(
+      sideTitles: SideTitles(
+        reservedSize: 44,
+        showTitles: true,
+      ),
+    ),
+    this.topTitles = const AxisTitles(
+      sideTitles: SideTitles(
+        reservedSize: 30,
+        showTitles: true,
+      ),
+    ),
+    this.rightTitles = const AxisTitles(
+      sideTitles: SideTitles(
+        reservedSize: 44,
+        showTitles: true,
+      ),
+    ),
+    this.bottomTitles = const AxisTitles(
+      sideTitles: SideTitles(
+        reservedSize: 30,
+        showTitles: true,
+      ),
+    ),
+  });
 
+  final bool show;
   final AxisTitles leftTitles;
   final AxisTitles topTitles;
   final AxisTitles rightTitles;
@@ -541,30 +525,24 @@ class FlGridData with EquatableMixin {
   /// it gives you a double value (in the x axis), and you should return a boolean that determines
   /// showing or hiding specified line.
   /// or you can hide all vertical lines by setting [drawVerticalLine] false.
-  FlGridData({
-    bool? show,
-    bool? drawHorizontalLine,
+  const FlGridData({
+    this.show = true,
+    this.drawHorizontalLine = true,
     this.horizontalInterval,
-    GetDrawingGridLine? getDrawingHorizontalLine,
-    CheckToShowGrid? checkToShowHorizontalLine,
-    bool? drawVerticalLine,
+    this.getDrawingHorizontalLine = defaultGridLine,
+    this.checkToShowHorizontalLine = showAllGrids,
+    this.drawVerticalLine = true,
     this.verticalInterval,
-    GetDrawingGridLine? getDrawingVerticalLine,
-    CheckToShowGrid? checkToShowVerticalLine,
-  })  : show = show ?? true,
-        drawHorizontalLine = drawHorizontalLine ?? true,
-        getDrawingHorizontalLine = getDrawingHorizontalLine ?? defaultGridLine,
-        checkToShowHorizontalLine = checkToShowHorizontalLine ?? showAllGrids,
-        drawVerticalLine = drawVerticalLine ?? true,
-        getDrawingVerticalLine = getDrawingVerticalLine ?? defaultGridLine,
-        checkToShowVerticalLine = checkToShowVerticalLine ?? showAllGrids {
-    if (horizontalInterval == 0) {
-      throw ArgumentError("FlGridData.horizontalInterval couldn't be zero");
-    }
-    if (verticalInterval == 0) {
-      throw ArgumentError("FlGridData.verticalInterval couldn't be zero");
-    }
-  }
+    this.getDrawingVerticalLine = defaultGridLine,
+    this.checkToShowVerticalLine = showAllGrids,
+  })  : assert(
+          horizontalInterval != 0,
+          "FlGridData.horizontalInterval couldn't be zero",
+        ),
+        assert(
+          verticalInterval != 0,
+          "FlGridData.verticalInterval couldn't be zero",
+        );
 
   /// Determines showing or hiding all horizontal and vertical lines.
   final bool show;
@@ -670,7 +648,7 @@ typedef GetDrawingGridLine = FlLine Function(double value);
 
 /// Returns a grey line for all values.
 FlLine defaultGridLine(double value) {
-  return FlLine(
+  return const FlLine(
     color: Colors.blueGrey,
     strokeWidth: 0.4,
     dashArray: [8, 4],
@@ -685,12 +663,11 @@ class FlLine with EquatableMixin {
   /// it is a circular array of dash offsets and lengths.
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
-  FlLine({
-    Color? color,
-    double? strokeWidth,
+  const FlLine({
+    this.color = Colors.black,
+    this.strokeWidth = 2,
     this.dashArray,
-  })  : color = color ?? Colors.black,
-        strokeWidth = strokeWidth ?? 2;
+  });
 
   /// Defines color of the line.
   final Color color;
@@ -708,8 +685,8 @@ class FlLine with EquatableMixin {
   /// Lerps a [FlLine] based on [t] value, check [Tween.lerp].
   static FlLine lerp(FlLine a, FlLine b, double t) {
     return FlLine(
-      color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      color: Color.lerp(a.color, b.color, t)!,
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
   }
@@ -769,11 +746,11 @@ abstract class TouchedSpot with EquatableMixin {
 class RangeAnnotations with EquatableMixin {
   /// Axis based charts can annotate some horizontal and vertical regions,
   /// using [horizontalRangeAnnotations], and [verticalRangeAnnotations] respectively.
-  RangeAnnotations({
-    List<HorizontalRangeAnnotation>? horizontalRangeAnnotations,
-    List<VerticalRangeAnnotation>? verticalRangeAnnotations,
-  })  : horizontalRangeAnnotations = horizontalRangeAnnotations ?? const [],
-        verticalRangeAnnotations = verticalRangeAnnotations ?? const [];
+  const RangeAnnotations({
+    this.horizontalRangeAnnotations = const [],
+    this.verticalRangeAnnotations = const [],
+  });
+
   final List<HorizontalRangeAnnotation> horizontalRangeAnnotations;
   final List<VerticalRangeAnnotation> verticalRangeAnnotations;
 
@@ -788,12 +765,12 @@ class RangeAnnotations with EquatableMixin {
         a.horizontalRangeAnnotations,
         b.horizontalRangeAnnotations,
         t,
-      ),
+      )!,
       verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
         a.verticalRangeAnnotations,
         b.verticalRangeAnnotations,
         t,
-      ),
+      )!,
     );
   }
 
@@ -1298,16 +1275,14 @@ class ExtraLinesData with EquatableMixin {
   ///
   /// If [extraLinesOnTop] sets true, it draws the line above the main bar lines, otherwise
   /// it draws them below the main bar lines.
-  ExtraLinesData({
-    List<HorizontalLine>? horizontalLines,
-    List<VerticalLine>? verticalLines,
-    bool? extraLinesOnTop,
-  })  : horizontalLines = horizontalLines ?? const [],
-        verticalLines = verticalLines ?? const [],
-        extraLinesOnTop = extraLinesOnTop ?? true;
+  const ExtraLinesData({
+    this.horizontalLines = const [],
+    this.verticalLines = const [],
+    this.extraLinesOnTop = true,
+  });
+
   final List<HorizontalLine> horizontalLines;
   final List<VerticalLine> verticalLines;
-
   final bool extraLinesOnTop;
 
   /// Lerps a [ExtraLinesData] based on [t] value, check [Tween.lerp].
@@ -1315,8 +1290,8 @@ class ExtraLinesData with EquatableMixin {
     return ExtraLinesData(
       extraLinesOnTop: b.extraLinesOnTop,
       horizontalLines:
-          lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t),
-      verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t),
+          lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t)!,
+      verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t)!,
     );
   }
 

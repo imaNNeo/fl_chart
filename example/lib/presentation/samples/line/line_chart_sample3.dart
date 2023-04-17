@@ -368,12 +368,12 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   checkToShowVerticalLine: (value) => value % 1 == 0,
                   getDrawingHorizontalLine: (value) {
                     if (value == 0) {
-                      return FlLine(
+                      return const FlLine(
                         color: AppColors.contentColorOrange,
                         strokeWidth: 2,
                       );
                     } else {
-                      return FlLine(
+                      return const FlLine(
                         color: AppColors.mainGridLineColor,
                         strokeWidth: 0.5,
                       );
@@ -381,12 +381,12 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   },
                   getDrawingVerticalLine: (value) {
                     if (value == 0) {
-                      return FlLine(
+                      return const FlLine(
                         color: Colors.redAccent,
                         strokeWidth: 10,
                       );
                     } else {
-                      return FlLine(
+                      return const FlLine(
                         color: AppColors.mainGridLineColor,
                         strokeWidth: 0.5,
                       );
@@ -395,10 +395,10 @@ class _LineChartSample3State extends State<LineChartSample3> {
                 ),
                 titlesData: FlTitlesData(
                   show: true,
-                  topTitles: AxisTitles(
+                  topTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
-                  rightTitles: AxisTitles(
+                  rightTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
                   leftTitles: AxisTitles(

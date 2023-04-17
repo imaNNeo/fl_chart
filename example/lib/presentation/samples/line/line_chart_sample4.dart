@@ -102,7 +102,7 @@ class LineChartSample4 extends StatelessWidget {
         ),
         child: LineChart(
           LineChartData(
-            lineTouchData: LineTouchData(enabled: false),
+            lineTouchData: const LineTouchData(enabled: false),
             lineBarsData: [
               LineChartBarData(
                 spots: const [
@@ -134,7 +134,7 @@ class LineChartSample4 extends StatelessWidget {
                   cutOffY: cutOffYValue,
                   applyCutOffY: true,
                 ),
-                dotData: FlDotData(
+                dotData: const FlDotData(
                   show: false,
                 ),
               ),
@@ -142,10 +142,10 @@ class LineChartSample4 extends StatelessWidget {
             minY: 0,
             titlesData: FlTitlesData(
               show: true,
-              topTitles: AxisTitles(
+              topTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),
               ),
-              rightTitles: AxisTitles(
+              rightTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),
               ),
               bottomTitles: AxisTitles(

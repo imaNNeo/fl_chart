@@ -97,7 +97,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
             ],
           ),
         ),
-        dotData: FlDotData(show: false),
+        dotData: const FlDotData(show: false),
         gradient: LinearGradient(
           colors: [
             widget.gradientColor1,
@@ -160,7 +160,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
                     (LineChartBarData barData, List<int> spotIndexes) {
                   return spotIndexes.map((index) {
                     return TouchedSpotIndicatorData(
-                      FlLine(
+                      const FlLine(
                         color: Colors.pink,
                       ),
                       FlDotData(
@@ -199,8 +199,8 @@ class _LineChartSample5State extends State<LineChartSample5> {
               lineBarsData: lineBarsData,
               minY: 0,
               titlesData: FlTitlesData(
-                leftTitles: AxisTitles(
-                  axisNameWidget: const Text('count'),
+                leftTitles: const AxisTitles(
+                  axisNameWidget: Text('count'),
                   axisNameSize: 24,
                   sideTitles: SideTitles(
                     showTitles: false,
@@ -221,15 +221,15 @@ class _LineChartSample5State extends State<LineChartSample5> {
                     reservedSize: 30,
                   ),
                 ),
-                rightTitles: AxisTitles(
-                  axisNameWidget: const Text('count'),
+                rightTitles: const AxisTitles(
+                  axisNameWidget: Text('count'),
                   sideTitles: SideTitles(
                     showTitles: false,
                     reservedSize: 0,
                   ),
                 ),
-                topTitles: AxisTitles(
-                  axisNameWidget: const Text(
+                topTitles: const AxisTitles(
+                  axisNameWidget: Text(
                     'Wall clock',
                     textAlign: TextAlign.left,
                   ),
@@ -240,7 +240,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
                   ),
                 ),
               ),
-              gridData: FlGridData(show: false),
+              gridData: const FlGridData(show: false),
               borderData: FlBorderData(
                 show: true,
                 border: Border.all(
