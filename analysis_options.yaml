@@ -4,6 +4,7 @@ analyzer:
     - "**.mocks.dart"
 linter:
   rules:
+    always_put_required_named_parameters_first: false
     avoid_bool_literals_in_conditional_expressions: false
     avoid_positional_boolean_parameters: false
     comment_references: false
