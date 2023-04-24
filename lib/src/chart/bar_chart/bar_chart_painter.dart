@@ -168,6 +168,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final cornerHeight =
             max(borderRadius.topLeft.y, borderRadius.topRight.y) +
                 max(borderRadius.bottomLeft.y, borderRadius.bottomRight.y);
+        
+
+        final lineWidthHalf = barRod.width / 40;
+        final leftline = x - lineWidthHalf;
+        final rightLine = x + lineWidthHalf;
 
         RRect barRRect;
 
@@ -187,9 +192,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
 
             barRRect = RRect.fromLTRBAndCorners(
-              left,
+              leftline,
               top,
-              right,
+              rightLine,
               bottom,
               topLeft: borderRadius.topLeft,
               topRight: borderRadius.topRight,
