@@ -52,6 +52,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   final Color centerSpaceColor;
 
   /// Defines gap between sections.
+  ///
+  /// Does not work on html-renderer,
+  /// https://github.com/imaNNeo/fl_chart/issues/955
   final double sectionsSpace;
 
   /// [PieChart] draws [sections] from zero degree (right side of the circle) clockwise.
