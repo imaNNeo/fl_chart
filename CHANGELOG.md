@@ -1,3 +1,6 @@
+## newVersion
+* **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955
+
 ## 0.62.0
 * **BUGFIX** (by @JoshMart) Fix extra lines not painting when at chart min or max, #1255.
 * **BUGFIX** (by @imaNNeo) Check if mounted before calling setState in _handleBuiltInTouch methods in bar, line and scatter charts, #1101
