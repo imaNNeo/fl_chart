@@ -197,19 +197,29 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         Line(startLineFrom, startLineTo),
         sectionSpace,
       );
-      sectionPath = Path.combine(
-        PathOperation.difference,
-        sectionPath,
-        startLineSeparatorPath,
-      );
+      try {
+        sectionPath = Path.combine(
+          PathOperation.difference,
+          sectionPath,
+          startLineSeparatorPath,
+        );
+      } catch (e) {
+        /// It's a flutter engine issue with [Path.combine] in web-html renderer
+        /// https://github.com/imaNNeo/fl_chart/issues/955
+      }
 
       final endLineSeparatorPath =
           createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
-      sectionPath = Path.combine(
-        PathOperation.difference,
-        sectionPath,
-        endLineSeparatorPath,
-      );
+      try {
+        sectionPath = Path.combine(
+          PathOperation.difference,
+          sectionPath,
+          endLineSeparatorPath,
+        );
+      } catch (e) {
+        /// It's a flutter engine issue with [Path.combine] in web-html renderer
+        /// https://github.com/imaNNeo/fl_chart/issues/955
+      }
     }
 
     return sectionPath;
