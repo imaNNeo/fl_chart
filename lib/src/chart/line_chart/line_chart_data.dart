@@ -1,4 +1,5 @@
 // coverage:ignore-file
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -982,6 +983,66 @@ class FlDotSquarePainter extends FlDotPainter {
       ];
 }
 
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a polygon shape
+class PolygonDotPainter extends FlDotPainter {
+  final int sides;
+  final Color color;
+  final double radius;
+  final double strokeWidth;
+  final Color strokeColor;
+
+  PolygonDotPainter({
+    this.sides = 6,
+    this.color = Colors.red,
+    this.radius = 4,
+    this.strokeWidth = 1,
+    this.strokeColor = Colors.black,
+  });
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    final centerX = offsetInCanvas.dx;
+    final centerY = offsetInCanvas.dy;
+
+    final path = Path();
+    final angle = (2 * pi) / sides;
+    final startAngle = -pi / 2;
+
+    path.moveTo(centerX + radius * cos(startAngle), centerY + radius * sin(startAngle));
+
+    for (int i = 1; i <= sides; i++) {
+      final currentAngle = startAngle + (i * angle);
+      final x = centerX + radius * cos(currentAngle);
+      final y = centerY + radius * sin(currentAngle);
+      path.lineTo(x, y);
+    }
+
+    path.close();
+
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.fill;
+
+    final strokePaint = Paint()
+      ..color = strokeColor
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    canvas.drawPath(path, paint);
+    canvas.drawPath(path, strokePaint);
+  }
+
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(radius * 2, radius * 2);
+  }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
 /// This class is an implementation of a [FlDotPainter] that draws
 /// a cross (X mark) shape
 class FlDotCrossPainter extends FlDotPainter {
