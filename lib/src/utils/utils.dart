@@ -9,6 +9,7 @@ class Utils {
   }
 
   Utils._internal();
+
   static Utils _singleton = Utils._internal();
 
   @visibleForTesting
@@ -100,6 +101,24 @@ class Utils {
       topRight: topRight,
       bottomLeft: bottomLeft,
       bottomRight: bottomRight,
+    );
+  }
+
+  /// Default value for Border where border value is not exists (uniform border)
+  static const Border defaultBorder =
+      Border.fromBorderSide(BorderSide(width: 0));
+
+  /// Decreases [borderSide] to <= width / 2
+  Border normalizeBorder(Border? border, double width) {
+    if (border == null) {
+      return defaultBorder;
+    }
+
+    return Border(
+      top: normalizeBorderSide(border.top, width),
+      bottom: normalizeBorderSide(border.bottom, width),
+      left: normalizeBorderSide(border.left, width),
+      right: normalizeBorderSide(border.right, width),
     );
   }
 

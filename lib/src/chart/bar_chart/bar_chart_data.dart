@@ -319,7 +319,7 @@ class BarChartRodData with EquatableMixin {
     this.gradient,
     double? width,
     BorderRadius? borderRadius,
-    BorderSide? borderSide,
+    Border? border,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
   })  : fromY = fromY ?? 0,
@@ -327,7 +327,7 @@ class BarChartRodData with EquatableMixin {
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         width = width ?? 8,
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
-        borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
+        border = Utils().normalizeBorder(border, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
         rodStackItems = rodStackItems ?? const [];
 
@@ -354,7 +354,7 @@ class BarChartRodData with EquatableMixin {
   final BorderRadius? borderRadius;
 
   /// If you want to have a border for rod, set this value.
-  final BorderSide borderSide;
+  final Border border;
 
   /// If you want to have a bar drawn in rear of this rod, use [backDrawRodData],
   /// it uses to have a bar with a passive color in rear of the rod,
@@ -377,7 +377,7 @@ class BarChartRodData with EquatableMixin {
     Gradient? gradient,
     double? width,
     BorderRadius? borderRadius,
-    BorderSide? borderSide,
+    Border? border,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
   }) {
@@ -388,7 +388,7 @@ class BarChartRodData with EquatableMixin {
       gradient: gradient ?? this.gradient,
       width: width ?? this.width,
       borderRadius: borderRadius ?? this.borderRadius,
-      borderSide: borderSide ?? this.borderSide,
+      border: border ?? this.border,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
       rodStackItems: rodStackItems ?? this.rodStackItems,
     );
@@ -402,7 +402,7 @@ class BarChartRodData with EquatableMixin {
       color: Color.lerp(a.color, b.color, t),
       width: lerpDouble(a.width, b.width, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
-      borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
+      border: Border.lerp(a.border, b.border, t),
       fromY: lerpDouble(a.fromY, b.fromY, t),
       toY: lerpDouble(a.toY, b.toY, t)!,
       backDrawRodData: BackgroundBarChartRodData.lerp(
@@ -422,7 +422,7 @@ class BarChartRodData with EquatableMixin {
         toY,
         width,
         borderRadius,
-        borderSide,
+        border,
         backDrawRodData,
         rodStackItems,
         color,
