@@ -123,9 +123,11 @@ class BarChartSample1State extends State<BarChartSample1> {
           toY: isTouched ? y + 1 : y,
           color: isTouched ? widget.touchedBarColor : barColor,
           width: width,
-          borderSide: isTouched
-              ? BorderSide(color: widget.touchedBarColor.darken(80))
-              : const BorderSide(color: Colors.white, width: 0),
+          border: isTouched
+              ? Border.fromBorderSide(
+                  BorderSide(color: widget.touchedBarColor.darken(80)))
+              : const Border.fromBorderSide(
+                  BorderSide(color: Colors.white, width: 0)),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 20,
