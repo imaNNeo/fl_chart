@@ -60,8 +60,9 @@ void main() {
           .thenAnswer((realInvocation) => 1.0);
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenAnswer((realInvocation) => BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
-        (realInvocation) => const BorderSide(color: MockData.color0),
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) =>
+            const Border.fromBorderSide(BorderSide(color: MockData.color0)),
       );
 
       final mockBuildContext = MockBuildContext();
@@ -792,7 +793,8 @@ void main() {
       when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any))
+          .thenReturn(const Border.fromBorderSide(BorderSide.none));
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
@@ -984,7 +986,8 @@ void main() {
       when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any))
+          .thenReturn(const Border.fromBorderSide(BorderSide.none));
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
@@ -1179,7 +1182,8 @@ void main() {
       when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenReturn(BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.normalizeBorder(any, any))
+          .thenReturn(const Border.fromBorderSide(BorderSide.none));
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
       when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
@@ -1919,8 +1923,9 @@ void main() {
           .thenAnswer((realInvocation) => 1.0);
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenAnswer((realInvocation) => BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
-        (realInvocation) => const BorderSide(color: MockData.color0),
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) =>
+            const Border.fromBorderSide(BorderSide(color: MockData.color0)),
       );
 
       final mockBuildContext = MockBuildContext();
@@ -2015,8 +2020,9 @@ void main() {
           .thenAnswer((realInvocation) => 1.0);
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenAnswer((realInvocation) => BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
-        (realInvocation) => const BorderSide(color: MockData.color0),
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) =>
+            const Border.fromBorderSide(BorderSide(color: MockData.color0)),
       );
 
       final mockBuildContext = MockBuildContext();
@@ -2106,8 +2112,9 @@ void main() {
           .thenAnswer((realInvocation) => 1.0);
       when(mockUtils.normalizeBorderRadius(any, any))
           .thenAnswer((realInvocation) => BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
-        (realInvocation) => const BorderSide(color: MockData.color0),
+      when(mockUtils.normalizeBorder(any, any)).thenAnswer(
+        (realInvocation) =>
+            const Border.fromBorderSide(BorderSide(color: MockData.color0)),
       );
 
       final mockBuildContext = MockBuildContext();

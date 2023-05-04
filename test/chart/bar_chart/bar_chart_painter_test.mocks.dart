@@ -111,8 +111,8 @@ class _FakeOffset_6 extends _i1.SmartFake implements _i2.Offset {
         );
 }
 
-class _FakeBorderSide_7 extends _i1.SmartFake implements _i3.BorderSide {
-  _FakeBorderSide_7(
+class _FakeBorder_7 extends _i1.SmartFake implements _i3.Border {
+  _FakeBorder_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -1229,29 +1229,29 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
         ],
       )) as _i3.BorderRadius?);
   @override
-  _i3.BorderSide normalizeBorderSide(
-    _i3.BorderSide? borderSide,
+  _i3.Border normalizeBorder(
+    _i3.Border? border,
     double? width,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #normalizeBorderSide,
+          #normalizeBorder,
           [
-            borderSide,
+            border,
             width,
           ],
         ),
-        returnValue: _FakeBorderSide_7(
+        returnValue: _FakeBorder_7(
           this,
           Invocation.method(
-            #normalizeBorderSide,
+            #normalizeBorder,
             [
-              borderSide,
+              border,
               width,
             ],
           ),
         ),
-      ) as _i3.BorderSide);
+      ) as _i3.Border);
   @override
   double getEfficientInterval(
     double? axisViewSize,
