@@ -329,7 +329,15 @@ class BarChartRodData with EquatableMixin {
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
         border = Utils().normalizeBorder(border, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-        rodStackItems = rodStackItems ?? const [];
+        rodStackItems = rodStackItems ?? const [],
+        assert(
+        (borderRadius == null && border == null) ||
+          (borderRadius != null && border == null) ||
+            (borderRadius == null && border != null && border.isUniform) ||
+              (borderRadius != null && border != null && border.isUniform) ||
+              (borderRadius == BorderRadius.zero && border != null && !border.isUniform),
+          'A borderRadius can only be given for a uniform Border. Solve this problem by specifying broderRadius to equal BorderRadius.zero or specifying border so that all border sides have the same attributes. You may use Border.all() or Border.fromBorderSide().',
+        );
 
   /// [BarChart] renders rods vertically from [fromY].
   final double fromY;
