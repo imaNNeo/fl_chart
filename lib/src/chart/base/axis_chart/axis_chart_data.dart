@@ -180,7 +180,7 @@ class SideTitles with EquatableMixin {
   /// We recommend you to use [SideTitleWidget].
   final GetTitleWidgetFunction getTitlesWidget;
 
-  /// It determines the maximum width that your titles need
+  /// It determines the maximum width that your titles need,
   final double? reservedWidth;
 
   /// It determines the maximum height that your titles need,

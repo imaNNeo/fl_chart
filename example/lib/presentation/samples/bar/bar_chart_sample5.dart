@@ -1,9 +1,10 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/app_utils.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample5 extends StatefulWidget {
-  const BarChartSample5({Key? key}) : super(key: key);
+  const BarChartSample5({super.key});
 
   @override
   State<StatefulWidget> createState() => BarChartSample5State();
@@ -108,7 +109,7 @@ class BarChartSample5State extends State<BarChartSample5> {
     return SideTitleWidget(
       angle: AppUtils().degreeToRadian(value < 0 ? -45 : 45),
       axisSide: meta.axisSide,
-      space: 4.0,
+      space: 4,
       child: Text(
         text,
         style: style,
@@ -144,7 +145,7 @@ class BarChartSample5State extends State<BarChartSample5> {
     double value3,
     double value4,
   ) {
-    bool isTop = value1 > 0;
+    final isTop = value1 > 0;
     final sum = value1 + value2 + value3 + value4;
     final isTouched = touchedIndex == x;
     return BarChartGroupData(
@@ -168,7 +169,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               0,
               value1,
-              const Color(0xff2bdb90),
+              AppColors.contentColorGreen,
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -177,7 +178,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               value1,
               value1 + value2,
-              const Color(0xffffdd80),
+              AppColors.contentColorYellow,
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -186,7 +187,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               value1 + value2,
               value1 + value2 + value3,
-              const Color(0xffff4d94),
+              AppColors.contentColorPink,
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -195,7 +196,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               value1 + value2 + value3,
               value1 + value2 + value3 + value4,
-              const Color(0xff19bfff),
+              AppColors.contentColorBlue,
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
