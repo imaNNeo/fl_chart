@@ -258,96 +258,90 @@ class BarChartSample5State extends State<BarChartSample5> {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 0.8,
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-        color: const Color(0xff020227),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: BarChart(
-            BarChartData(
-              alignment: BarChartAlignment.center,
-              maxY: 20,
-              minY: -20,
-              groupsSpace: 12,
-              barTouchData: BarTouchData(
-                handleBuiltInTouches: false,
-                touchCallback: (FlTouchEvent event, barTouchResponse) {
-                  if (!event.isInterestedForInteractions ||
-                      barTouchResponse == null ||
-                      barTouchResponse.spot == null) {
-                    setState(() {
-                      touchedIndex = -1;
-                    });
-                    return;
-                  }
-                  final rodIndex = barTouchResponse.spot!.touchedRodDataIndex;
-                  if (isShadowBar(rodIndex)) {
-                    setState(() {
-                      touchedIndex = -1;
-                    });
-                    return;
-                  }
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: BarChart(
+          BarChartData(
+            alignment: BarChartAlignment.center,
+            maxY: 20,
+            minY: -20,
+            groupsSpace: 12,
+            barTouchData: BarTouchData(
+              handleBuiltInTouches: false,
+              touchCallback: (FlTouchEvent event, barTouchResponse) {
+                if (!event.isInterestedForInteractions ||
+                    barTouchResponse == null ||
+                    barTouchResponse.spot == null) {
                   setState(() {
-                    touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+                    touchedIndex = -1;
                   });
-                },
-              ),
-              titlesData: FlTitlesData(
-                show: true,
-                topTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedHeight: 32,
-                    getTitlesWidget: topTitles,
-                  ),
-                ),
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedHeight: 32,
-                    getTitlesWidget: bottomTitles,
-                  ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: leftTitles,
-                    interval: 5,
-                    reservedWidth: 42,
-                  ),
-                ),
-                rightTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: rightTitles,
-                    interval: 5,
-                    reservedWidth: 42,
-                  ),
-                ),
-              ),
-              gridData: FlGridData(
-                show: true,
-                checkToShowHorizontalLine: (value) => value % 5 == 0,
-                getDrawingHorizontalLine: (value) {
-                  if (value == 0) {
-                    return const FlLine(
-                        color: Color(0xff363753), strokeWidth: 3);
-                  }
-                  return const FlLine(
-                    color: Color(0xff2a2747),
-                    strokeWidth: 0.8,
-                  );
-                },
-              ),
-              borderData: FlBorderData(
-                show: false,
-              ),
-              barGroups: mainItems.entries
-                  .map((e) => generateGroup(
-                      e.key, e.value[0], e.value[1], e.value[2], e.value[3]))
-                  .toList(),
+                  return;
+                }
+                final rodIndex = barTouchResponse.spot!.touchedRodDataIndex;
+                if (isShadowBar(rodIndex)) {
+                  setState(() {
+                    touchedIndex = -1;
+                  });
+                  return;
+                }
+                setState(() {
+                  touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+                });
+              },
             ),
+            titlesData: FlTitlesData(
+              show: true,
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedHeight: 32,
+                  getTitlesWidget: topTitles,
+                ),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedHeight: 32,
+                  getTitlesWidget: bottomTitles,
+                ),
+              ),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: leftTitles,
+                  interval: 5,
+                  reservedWidth: 42,
+                ),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: rightTitles,
+                  interval: 5,
+                  reservedWidth: 42,
+                ),
+              ),
+            ),
+            gridData: FlGridData(
+              show: true,
+              checkToShowHorizontalLine: (value) => value % 5 == 0,
+              getDrawingHorizontalLine: (value) {
+                if (value == 0) {
+                  return const FlLine(color: Color(0xff363753), strokeWidth: 3);
+                }
+                return const FlLine(
+                  color: Color(0xff2a2747),
+                  strokeWidth: 0.8,
+                );
+              },
+            ),
+            borderData: FlBorderData(
+              show: false,
+            ),
+            barGroups: mainItems.entries
+                .map((e) => generateGroup(
+                    e.key, e.value[0], e.value[1], e.value[2], e.value[3]))
+                .toList(),
           ),
         ),
       ),
