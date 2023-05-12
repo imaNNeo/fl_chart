@@ -219,29 +219,33 @@ class BarChartSample5State extends State<BarChartSample5> {
                 ),
           rodStackItems: [
             BarChartRodStackItem(
-                0,
-                -value1,
-                AppColors.contentColorGreen
-                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
-                const BorderSide(color: Colors.transparent)),
+              0,
+              -value1,
+              AppColors.contentColorGreen
+                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              const BorderSide(color: Colors.transparent),
+            ),
             BarChartRodStackItem(
-                -value1,
-                -(value1 + value2),
-                AppColors.contentColorYellow
-                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
-                const BorderSide(color: Colors.transparent)),
+              -value1,
+              -(value1 + value2),
+              AppColors.contentColorYellow
+                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              const BorderSide(color: Colors.transparent),
+            ),
             BarChartRodStackItem(
-                -(value1 + value2),
-                -(value1 + value2 + value3),
-                AppColors.contentColorPink
-                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
-                const BorderSide(color: Colors.transparent)),
+              -(value1 + value2),
+              -(value1 + value2 + value3),
+              AppColors.contentColorPink
+                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              const BorderSide(color: Colors.transparent),
+            ),
             BarChartRodStackItem(
-                -(value1 + value2 + value3),
-                -(value1 + value2 + value3 + value4),
-                AppColors.contentColorBlue
-                    .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
-                const BorderSide(color: Colors.transparent)),
+              -(value1 + value2 + value3),
+              -(value1 + value2 + value3 + value4),
+              AppColors.contentColorBlue
+                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              const BorderSide(color: Colors.transparent),
+            ),
           ],
         ),
       ],
