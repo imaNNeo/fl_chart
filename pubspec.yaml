@@ -4,7 +4,7 @@ version: 0.62.0
 homepage: https://github.com/imaNNeo/fl_chart
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ^3.0.0
 
 funding:
   - https://www.buymeacoffee.com/fl_chart
