@@ -1,22 +1,39 @@
 name: fl_chart
-description: A powerful Flutter chart library, currently supporting Line Chart, Bar Chart and Pie Chart.
-version: 0.55.0
-homepage: https://github.com/imaNNeoFighT/fl_chart
+description: A highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.
+version: 0.62.0
+homepage: https://github.com/imaNNeo/fl_chart
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
+
+funding:
+  - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
-  equatable: ^2.0.3
 
 dev_dependencies:
-  mockito: ^5.1.0
-  build_runner: ^2.1.10
-  flutter_lints: ^2.0.1
-  vector_math: ^2.1.2 #Added to use in some generated codes of mockito
+  build_runner: ^2.3.3
   flutter_test:
     sdk: flutter
+  mockito: ^5.4.0
+  vector_math: ^2.1.4 #Added to use in some generated codes of mockito
+  very_good_analysis: ^4.0.0+1
 
-
+screenshots:
+  - description: 'LineChartSample1 and LineChartSample2'
+    path: pub_screenshots/line_chart.jpg
+  - description: 'LineChartSample10'
+    path: pub_screenshots/line_chart_sample_10.gif
+  - description: 'BarChartSample1 and BarChartSample2'
+    path: pub_screenshots/bar_chart.jpg
+  - description: 'BarChartSample7'
+    path: pub_screenshots/bar_chart_sample_7.gif
+  - description: 'PieChartSample1, PieChartSample2 and PieChartSample3'
+    path: pub_screenshots/pie_chart.jpg
+  - description: 'ScatterChartSample2'
+    path: pub_screenshots/scatter_chart_sample_2.gif
+  - description: 'RadarChartSample1'
+    path: pub_screenshots/radar_chart_sample_1.jpg

@@ -3,12 +3,14 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/radar_chart/radar_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/src/chart/radar_chart/radar_extension.dart';
 
 typedef GetTitleByIndexFunction = RadarChartTitle Function(
-    int index, double angle);
+  int index,
+  double angle,
+);
 
 enum RadarShape {
   circle,
@@ -16,13 +18,23 @@ enum RadarShape {
 }
 
 class RadarChartTitle {
+  const RadarChartTitle({
+    required this.text,
+    this.angle = 0,
+    this.positionPercentageOffset,
+  });
+
   /// [text] is used to draw titles outside the [RadarChart]
   final String text;
 
   /// [angle] is used to rotate the title
   final double angle;
 
-  const RadarChartTitle({required this.text, this.angle = 0});
+  /// [positionPercentageOffset] is the place of showing title on the [RadarChart]
+  /// The higher the value of this field, the more titles move away from the chart.
+  /// The value of [positionPercentageOffset] takes precedence over the value of
+  /// [RadarChartData.titlePositionPercentageOffset], even if it is set.
+  final double? positionPercentageOffset;
 }
 
 /// [RadarChart] needs this class to render itself.
@@ -30,6 +42,59 @@ class RadarChartTitle {
 /// It holds data needed to draw a radar chart,
 /// including radar dataSets, colors, ...
 class RadarChartData extends BaseChartData with EquatableMixin {
+  /// [RadarChart] draws some [dataSets] in a radar-shaped chart.
+  /// it fills the radar area with [radarBackgroundColor]
+  /// and draws radar border with [radarBorderData]
+  /// then draws a grid over it, you can customize it using [gridBorderData].
+  ///
+  /// it draws some titles based on the number of [dataSets] values.
+  /// the titles are shown near each radar grid or line.
+  /// for changing the titles you can modify the [getTitle] field.
+  /// and for styling the titles you can use [titleTextStyle].
+  ///
+  /// it draws some ticks. and you can customize the number of ticks by modifying the [titleCount]
+  /// and style the ticks titles with [ticksTextStyle].
+  /// for changing the ticks color and border width you can use [tickBorderData].
+  ///
+  /// You can modify [radarTouchData] to customize touch behaviors and responses.
+  RadarChartData({
+    @required List<RadarDataSet>? dataSets,
+    Color? radarBackgroundColor,
+    BorderSide? radarBorderData,
+    RadarShape? radarShape,
+    this.getTitle,
+    this.titleTextStyle,
+    double? titlePositionPercentageOffset,
+    int? tickCount,
+    this.ticksTextStyle,
+    BorderSide? tickBorderData,
+    BorderSide? gridBorderData,
+    RadarTouchData? radarTouchData,
+    super.borderData,
+  })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
+        assert(
+          tickCount == null || tickCount >= 1,
+          "RadarChart need's at least 1 tick",
+        ),
+        assert(
+          titlePositionPercentageOffset == null ||
+              titlePositionPercentageOffset >= 0 &&
+                  titlePositionPercentageOffset <= 1,
+          'titlePositionPercentageOffset must be something between 0 and 1 ',
+        ),
+        dataSets = dataSets ?? const [],
+        radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
+        radarBorderData = radarBorderData ?? const BorderSide(width: 2),
+        radarShape = radarShape ?? RadarShape.circle,
+        radarTouchData = radarTouchData ?? RadarTouchData(),
+        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
+        tickCount = tickCount ?? 1,
+        tickBorderData = tickBorderData ?? const BorderSide(width: 2),
+        gridBorderData = gridBorderData ?? const BorderSide(width: 2),
+        super(
+          touchData: radarTouchData ?? RadarTouchData(),
+        );
+
   /// [RadarChart] draw [dataSets] that each of them showing a list of [RadarEntry]
   final List<RadarDataSet> dataSets;
 
@@ -119,63 +184,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     return minimum;
   }
 
-  /// [RadarChart] draws some [dataSets] in a radar-shaped chart.
-  /// it fills the radar area with [radarBackgroundColor]
-  /// and draws radar border with [radarBorderData]
-  /// then draws a grid over it, you can customize it using [gridBorderData].
-  ///
-  /// it draws some titles based on the number of [dataSets] values.
-  /// the titles are shown near each radar grid or line.
-  /// for changing the titles you can modify the [getTitle] field.
-  /// and for styling the titles you can use [titleTextStyle].
-  ///
-  /// it draws some ticks. and you can customize the number of ticks by modifying the [titleCount]
-  /// and style the ticks titles with [ticksTextStyle].
-  /// for changing the ticks color and border width you can use [tickBorderData].
-  ///
-  /// You can modify [radarTouchData] to customize touch behaviors and responses.
-  RadarChartData({
-    @required List<RadarDataSet>? dataSets,
-    Color? radarBackgroundColor,
-    BorderSide? radarBorderData,
-    RadarShape? radarShape,
-    GetTitleByIndexFunction? getTitle,
-    TextStyle? titleTextStyle,
-    double? titlePositionPercentageOffset,
-    int? tickCount,
-    TextStyle? ticksTextStyle,
-    BorderSide? tickBorderData,
-    BorderSide? gridBorderData,
-    RadarTouchData? radarTouchData,
-    FlBorderData? borderData,
-  })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
-        assert(tickCount == null || tickCount >= 1,
-            "RadarChart need's at least 1 tick"),
-        assert(
-          titlePositionPercentageOffset == null ||
-              titlePositionPercentageOffset >= 0 &&
-                  titlePositionPercentageOffset <= 1,
-          'titlePositionPercentageOffset must be something between 0 and 1 ',
-        ),
-        dataSets = dataSets ?? const [],
-        radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
-        radarBorderData =
-            radarBorderData ?? const BorderSide(color: Colors.black, width: 2),
-        radarShape = radarShape ?? RadarShape.circle,
-        radarTouchData = radarTouchData ?? RadarTouchData(),
-        getTitle = getTitle,
-        titleTextStyle = titleTextStyle,
-        titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
-        tickCount = tickCount ?? 1,
-        ticksTextStyle = ticksTextStyle,
-        tickBorderData =
-            tickBorderData ?? const BorderSide(color: Colors.black, width: 2),
-        gridBorderData =
-            gridBorderData ?? const BorderSide(color: Colors.black, width: 2),
-        super(
-            borderData: borderData,
-            touchData: radarTouchData ?? RadarTouchData());
-
   /// Copies current [RadarChartData] to a new [RadarChartData],
   /// and replaces provided values.
   RadarChartData copyWith({
@@ -262,24 +270,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
 
 /// the data values for drawing [RadarChart] sections
 class RadarDataSet with EquatableMixin {
-  /// each section or dataSets consists of a set of [dataEntries].
-  final List<RadarEntry> dataEntries;
-
-  /// defines the color that fills the [RadarDataSet].
-  final Color fillColor;
-
-  /// defines the border color of the [RadarDataSet].
-  /// if [borderColor] is not defined it will replaced with [fillColor].
-  final Color borderColor;
-
-  /// defines the width of [RadarDataSet] border.
-  /// the default value of this field is 2.0
-  final double borderWidth;
-
-  /// defines the radius of each entry
-  /// the default value of this field is 5.0
-  final double entryRadius;
-
   /// [RadarChart] can contain multiple [RadarDataSet] And it shows them on top of each other.
   /// each [RadarDataSet] has a set of [dataEntries]
   /// and the [RadarChart] uses this [dataEntries] to draw the chart.
@@ -303,6 +293,24 @@ class RadarDataSet with EquatableMixin {
         borderColor = borderColor ?? Colors.cyan,
         borderWidth = borderWidth ?? 2.0,
         entryRadius = entryRadius ?? 5.0;
+
+  /// each section or dataSets consists of a set of [dataEntries].
+  final List<RadarEntry> dataEntries;
+
+  /// defines the color that fills the [RadarDataSet].
+  final Color fillColor;
+
+  /// defines the border color of the [RadarDataSet].
+  /// if [borderColor] is not defined it will replaced with [fillColor].
+  final Color borderColor;
+
+  /// defines the width of [RadarDataSet] border.
+  /// the default value of this field is 2.0
+  final double borderWidth;
+
+  /// defines the radius of each entry
+  /// the default value of this field is 5.0
+  final double entryRadius;
 
   /// Copies current [RadarDataSet] to a new [RadarDataSet],
   /// and replaces provided values.
@@ -345,11 +353,11 @@ class RadarDataSet with EquatableMixin {
 
 /// holds the data about each entry or point in [RadarChart]
 class RadarEntry with EquatableMixin {
+  /// [RadarChart] draws every point or entry with [RadarEntry]
+  const RadarEntry({required this.value});
+
   /// [RadarChart] uses this field to render every point in chart.
   final double value;
-
-  /// [RadarChart] draws every point or entry with [RadarEntry]
-  const RadarEntry({required double value}) : value = value;
 
   /// Lerps a [RadarEntry] based on [t] value, check [Tween.lerp].
   RadarEntry copyWith({double? value}) =>
@@ -367,14 +375,11 @@ class RadarEntry with EquatableMixin {
 
 /// Holds data to handle touch events, and touch responses in the [RadarChart].
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [RadarTouchResponse].
 class RadarTouchData extends FlTouchData<RadarTouchResponse>
     with EquatableMixin {
-  /// we find the nearest spots on touched position based on this threshold
-  final double touchSpotThreshold;
-
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -388,9 +393,18 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
     bool? enabled,
     BaseTouchCallback<RadarTouchResponse>? touchCallback,
     MouseCursorResolver<RadarTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
     double? touchSpotThreshold,
   })  : touchSpotThreshold = touchSpotThreshold ?? 10,
-        super(enabled ?? true, touchCallback, mouseCursorResolver);
+        super(
+          enabled ?? true,
+          touchCallback,
+          mouseCursorResolver,
+          longPressDuration,
+        );
+
+  /// we find the nearest spots on touched position based on this threshold
+  final double touchSpotThreshold;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -398,6 +412,7 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
         enabled,
         touchCallback,
         mouseCursorResolver,
+        longPressDuration,
         touchSpotThreshold,
       ];
 }
@@ -407,14 +422,12 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
 /// You can override [RadarTouchData.touchCallback] to handle touch events,
 /// it gives you a [RadarTouchResponse] and you can do whatever you want.
 class RadarTouchResponse extends BaseTouchResponse {
-  /// touch happened on this spot. this spot has useful information about spot or entry
-  final RadarTouchedSpot? touchedSpot;
-
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
-  RadarTouchResponse(RadarTouchedSpot? touchedSpot)
-      : touchedSpot = touchedSpot,
-        super();
+  RadarTouchResponse(this.touchedSpot) : super();
+
+  /// touch happened on this spot. this spot has useful information about spot or entry
+  final RadarTouchedSpot? touchedSpot;
 
   /// Copies current [RadarTouchResponse] to a new [RadarTouchResponse],
   /// and replaces provided values.
@@ -429,12 +442,6 @@ class RadarTouchResponse extends BaseTouchResponse {
 
 /// It gives you information about the touched spot.
 class RadarTouchedSpot extends TouchedSpot with EquatableMixin {
-  final RadarDataSet touchedDataSet;
-  final int touchedDataSetIndex;
-
-  final RadarEntry touchedRadarEntry;
-  final int touchedRadarEntryIndex;
-
   /// When touch happens, a [RadarTouchedSpot] returns as a output,
   /// it tells you where the touch happened.
   /// [touchedDataSet], and [touchedDataSetIndex] tell you in which dataSet touch happened,
@@ -442,17 +449,18 @@ class RadarTouchedSpot extends TouchedSpot with EquatableMixin {
   /// You can also have the touched x and y in the chart as a [FlSpot] using [spot] value,
   /// and you can have the local touch coordinates on the screen as a [Offset] using [offset] value.
   RadarTouchedSpot(
-    RadarDataSet touchedDataSet,
-    int touchedDataSetIndex,
-    RadarEntry touchedRadarEntry,
-    int touchedRadarEntryIndex,
+    this.touchedDataSet,
+    this.touchedDataSetIndex,
+    this.touchedRadarEntry,
+    this.touchedRadarEntryIndex,
     FlSpot spot,
     Offset offset,
-  )   : touchedDataSet = touchedDataSet,
-        touchedDataSetIndex = touchedDataSetIndex,
-        touchedRadarEntry = touchedRadarEntry,
-        touchedRadarEntryIndex = touchedRadarEntryIndex,
-        super(spot, offset);
+  ) : super(spot, offset);
+  final RadarDataSet touchedDataSet;
+  final int touchedDataSetIndex;
+
+  final RadarEntry touchedRadarEntry;
+  final int touchedRadarEntryIndex;
 
   /// Used for equality check, see [EquatableMixin].
   @override

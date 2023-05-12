@@ -11,12 +11,13 @@ class LineChartHelper {
       _cachedResults = {};
 
   static LineChartMinMaxAxisValues calculateMaxAxisValues(
-      List<LineChartBarData> lineBarsData) {
+    List<LineChartBarData> lineBarsData,
+  ) {
     if (lineBarsData.isEmpty) {
-      return LineChartMinMaxAxisValues(0, 0, 0, 0);
+      return const LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
-    var listWrapper = lineBarsData.toWrapperClass();
+    final listWrapper = lineBarsData.toWrapperClass();
 
     if (_cachedResults.containsKey(listWrapper)) {
       return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
@@ -28,7 +29,7 @@ class LineChartHelper {
           lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
     } catch (e) {
       // There is no lineBarData with at least one spot
-      return LineChartMinMaxAxisValues(0, 0, 0, 0);
+      return const LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
     final FlSpot firstValidSpot;
@@ -37,7 +38,7 @@ class LineChartHelper {
           lineBarData.spots.firstWhere((element) => element != FlSpot.nullSpot);
     } catch (e) {
       // There is no valid spot
-      return LineChartMinMaxAxisValues(0, 0, 0, 0);
+      return const LineChartMinMaxAxisValues(0, 0, 0, 0);
     }
 
     var minX = firstValidSpot.x;
@@ -45,7 +46,11 @@ class LineChartHelper {
     var minY = firstValidSpot.y;
     var maxY = firstValidSpot.y;
 
-    for (var barData in lineBarsData) {
+    for (final barData in lineBarsData) {
+      if (barData.spots.isEmpty) {
+        continue;
+      }
+
       if (barData.mostRightSpot.x > maxX) {
         maxX = barData.mostRightSpot.x;
       }
@@ -71,29 +76,29 @@ class LineChartHelper {
 
 /// Holds minX, maxX, minY, and maxY for use in [LineChartData]
 class LineChartMinMaxAxisValues with EquatableMixin {
-  final double minX;
-  final double maxX;
-  final double minY;
-  final double maxY;
-  final bool readFromCache;
-
-  LineChartMinMaxAxisValues(
+  const LineChartMinMaxAxisValues(
     this.minX,
     this.maxX,
     this.minY,
     this.maxY, {
     this.readFromCache = false,
   });
+  final double minX;
+  final double maxX;
+  final double minY;
+  final double maxY;
+  final bool readFromCache;
 
   @override
   List<Object?> get props => [minX, maxX, minY, maxY, readFromCache];
 
-  LineChartMinMaxAxisValues copyWith(
-      {double? minX,
-      double? maxX,
-      double? minY,
-      double? maxY,
-      bool? readFromCache}) {
+  LineChartMinMaxAxisValues copyWith({
+    double? minX,
+    double? maxX,
+    double? minY,
+    double? maxY,
+    bool? readFromCache,
+  }) {
     return LineChartMinMaxAxisValues(
       minX ?? this.minX,
       maxX ?? this.maxX,

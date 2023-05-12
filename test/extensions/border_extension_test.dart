@@ -10,20 +10,17 @@ void main() {
           color: Colors.red.withOpacity(0.00001),
           width: 10,
         ),
-        top: BorderSide.none,
-        right: BorderSide.none,
-        bottom: BorderSide.none,
       );
       expect(border.isVisible(), true);
     });
 
     test('test 2', () {
-      final border = Border.all(color: Colors.black, width: 0);
+      final border = Border.all(width: 0);
       expect(border.isVisible(), false);
     });
 
     test('test 3', () {
-      Border border = Border.all(
+      final border = Border.all(
         color: Colors.red.withOpacity(0),
         width: 10,
       );

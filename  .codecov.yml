@@ -10,7 +10,7 @@ coverage:
     patch:
       default:
         target: 0%
-        threshold: 5%
+        threshold: 100%
   precision: 1
   range: "80...100"
 

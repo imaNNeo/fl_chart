@@ -2,16 +2,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import '../../utils/utils.dart';
-import 'scatter_chart_data.dart';
 
 /// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
-  /// [_spotsPaint] is responsible to draw scatter spots
-  late Paint _spotsPaint, _bgTouchTooltipPaint, _borderTouchTooltipPaint;
-
   /// Paints [dataList] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
@@ -33,10 +28,18 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       ..strokeWidth = 1.0;
   }
 
+  /// [_spotsPaint] is responsible to draw scatter spots
+  late Paint _spotsPaint;
+  late Paint _bgTouchTooltipPaint;
+  late Paint _borderTouchTooltipPaint;
+
   /// Paints [ScatterChartData] into the provided canvas.
   @override
-  void paint(BuildContext context, CanvasWrapper canvasWrapper,
-      PaintHolder<ScatterChartData> holder) {
+  void paint(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<ScatterChartData> holder,
+  ) {
     super.paint(context, canvasWrapper, holder);
     drawSpots(context, canvasWrapper, holder);
     drawTouchTooltips(context, canvasWrapper, holder);
@@ -89,7 +92,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
     }
 
-    final List<ScatterSpot> sortedSpots = data.scatterSpots.toList()
+    final sortedSpots = data.scatterSpots.toList()
       ..sort((ScatterSpot a, ScatterSpot b) => b.radius.compareTo(a.radius));
 
     for (final scatterSpot in sortedSpots) {
@@ -109,11 +112,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
 
     if (data.scatterLabelSettings.showLabel) {
-      for (int i = 0; i < data.scatterSpots.length; i++) {
-        final ScatterSpot scatterSpot = data.scatterSpots[i];
-        final int spotIndex = i;
+      for (var i = 0; i < data.scatterSpots.length; i++) {
+        final scatterSpot = data.scatterSpots[i];
+        final spotIndex = i;
 
-        String label =
+        final label =
             data.scatterLabelSettings.getLabelFunction(spotIndex, scatterSpot);
 
         if (label.isEmpty || !scatterSpot.show) {
@@ -136,9 +139,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           textAlign: TextAlign.center,
           textDirection: holder.data.scatterLabelSettings.textDirection,
           textScaleFactor: holder.textScale,
-        );
-
-        tp.layout(maxWidth: viewSize.width);
+        )..layout(maxWidth: viewSize.width);
 
         final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
         final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
@@ -146,16 +147,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
         double newPixelY;
 
         /// To ensure the label is centered horizontally with respect to the spot.
-        double newPixelX = pixelX - tp.width / 2;
+        final newPixelX = pixelX - tp.width / 2;
 
-        double centerChartY = viewSize.height / 2;
+        final centerChartY = viewSize.height / 2;
 
         /// if the spot is in the lower half of the chart, then draw the label either in the center or above the spot,
         /// if the spot is in upper half of the chart, then draw the label either in the center or below the spot.
         if (pixelY > centerChartY) {
           /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label above the bubble,
           /// else draw the label inside the bubble.
-          var off = (scatterSpot.radius * 1.5 < tp.height ||
+          final off = (scatterSpot.radius * 1.5 < tp.height ||
                   scatterSpot.radius * 1.5 < tp.width)
               ? scatterSpot.radius + tp.height
               : tp.height / 2;
@@ -164,7 +165,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
         } else {
           /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label below the bubble,
           /// else draw the label inside the bubble.
-          var off = (scatterSpot.radius * 1.5 < tp.height ||
+          final off = (scatterSpot.radius * 1.5 < tp.height ||
                   scatterSpot.radius * 1.5 < tp.width)
               ? scatterSpot.radius
               : -tp.height / 2;
@@ -184,8 +185,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   }
 
   @visibleForTesting
-  void drawTouchTooltips(BuildContext context, CanvasWrapper canvasWrapper,
-      PaintHolder<ScatterChartData> holder) {
+  void drawTouchTooltips(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<ScatterChartData> holder,
+  ) {
     final targetData = holder.targetData;
     for (var i = 0; i < targetData.scatterSpots.length; i++) {
       if (!targetData.showingTooltipIndicators.contains(i)) {
@@ -205,11 +209,12 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
   @visibleForTesting
   void drawTouchTooltip(
-      BuildContext context,
-      CanvasWrapper canvasWrapper,
-      ScatterTouchTooltipData tooltipData,
-      ScatterSpot showOnSpot,
-      PaintHolder<ScatterChartData> holder) {
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    ScatterTouchTooltipData tooltipData,
+    ScatterSpot showOnSpot,
+    PaintHolder<ScatterChartData> holder,
+  ) {
     final viewSize = canvasWrapper.size;
 
     final tooltipItem = tooltipData.getTooltipItems(showOnSpot);
@@ -225,11 +230,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     );
 
     final drawingTextPainter = TextPainter(
-        text: span,
-        textAlign: tooltipItem.textAlign,
-        textDirection: tooltipItem.textDirection,
-        textScaleFactor: holder.textScale);
-    drawingTextPainter.layout(maxWidth: tooltipData.maxContentWidth);
+      text: span,
+      textAlign: tooltipItem.textAlign,
+      textDirection: tooltipItem.textDirection,
+      textScaleFactor: holder.textScale,
+    )..layout(maxWidth: tooltipData.maxContentWidth);
 
     final width = drawingTextPainter.width;
     final height = drawingTextPainter.height;
@@ -245,9 +250,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
+    final tooltipLeftPosition = getTooltipLeft(
+      mostTopOffset.dx,
+      tooltipWidth,
+      tooltipData.tooltipHorizontalAlignment,
+      tooltipData.tooltipHorizontalOffset,
+    );
+
     /// draw the background rect with rounded radius
     var rect = Rect.fromLTWH(
-      mostTopOffset.dx - (tooltipWidth / 2),
+      tooltipLeftPosition,
       mostTopOffset.dy -
           tooltipHeight -
           showOnSpot.radius -
@@ -301,11 +313,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
 
     final radius = Radius.circular(tooltipData.tooltipRoundedRadius);
-    final roundedRect = RRect.fromRectAndCorners(rect,
-        topLeft: radius,
-        topRight: radius,
-        bottomLeft: radius,
-        bottomRight: radius);
+    final roundedRect = RRect.fromRectAndCorners(
+      rect,
+      topLeft: radius,
+      topRight: radius,
+      bottomLeft: radius,
+      bottomRight: radius,
+    );
     _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
 
     final rotateAngle = tooltipData.rotateAngle;
@@ -325,8 +339,9 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     );
 
     if (tooltipData.tooltipBorder != BorderSide.none) {
-      _borderTouchTooltipPaint.color = tooltipData.tooltipBorder.color;
-      _borderTouchTooltipPaint.strokeWidth = tooltipData.tooltipBorder.width;
+      _borderTouchTooltipPaint
+        ..color = tooltipData.tooltipBorder.color
+        ..strokeWidth = tooltipData.tooltipBorder.width;
     }
 
     canvasWrapper.drawRotated(
@@ -335,9 +350,10 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       drawOffset: rectDrawOffset,
       angle: rotateAngle,
       drawCallback: () {
-        canvasWrapper.drawRRect(roundedRect, _bgTouchTooltipPaint);
-        canvasWrapper.drawRRect(roundedRect, _borderTouchTooltipPaint);
-        canvasWrapper.drawText(drawingTextPainter, drawOffset);
+        canvasWrapper
+          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
+          ..drawText(drawingTextPainter, drawOffset);
       },
     );
   }

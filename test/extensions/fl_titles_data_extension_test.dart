@@ -13,7 +13,7 @@ void main() {
 
     expect(
       MockData.flTitlesData1.allSidesPadding,
-      const EdgeInsets.fromLTRB(27.0, 16.0, 16.0, 16.0),
+      const EdgeInsets.fromLTRB(27, 16, 16, 16),
     );
   });
 }

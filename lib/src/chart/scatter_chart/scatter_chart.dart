@@ -5,13 +5,6 @@ import 'package:flutter/cupertino.dart';
 
 /// Renders a pie chart as a widget, using provided [ScatterChartData].
 class ScatterChart extends ImplicitlyAnimatedWidget {
-  /// Determines how the [ScatterChart] should be look like.
-  final ScatterChartData data;
-
-  /// We pass this key to our renderers which are responsible to
-  /// render the chart itself (without anything around the chart).
-  final Key? chartRendererKey;
-
   /// [data] determines how the [ScatterChart] should be look like,
   /// when you make any change in the [ScatterChartData], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
@@ -20,13 +13,20 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   const ScatterChart(
     this.data, {
     this.chartRendererKey,
-    Key? key,
+    super.key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
   }) : super(
-            key: key,
-            duration: swapAnimationDuration,
-            curve: swapAnimationCurve);
+          duration: swapAnimationDuration,
+          curve: swapAnimationCurve,
+        );
+
+  /// Determines how the [ScatterChart] should be look like.
+  final ScatterChartData data;
+
+  /// We pass this key to our renderers which are responsible to
+  /// render the chart itself (without anything around the chart).
+  final Key? chartRendererKey;
 
   /// Creates a [_ScatterChartState]
   @override
@@ -83,12 +83,15 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   }
 
   void _handleBuiltInTouch(
-      FlTouchEvent event, ScatterTouchResponse? touchResponse) {
+    FlTouchEvent event,
+    ScatterTouchResponse? touchResponse,
+  ) {
+    if (!mounted) {
+      return;
+    }
     _providedTouchCallback?.call(event, touchResponse);
 
-    final desiredTouch = event is FlPanDownEvent ||
-        event is FlPanUpdateEvent ||
-        event is FlPointerHoverEvent;
+    final desiredTouch = event.isInterestedForInteractions;
 
     if (!desiredTouch ||
         touchResponse == null ||
@@ -104,12 +107,14 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
   }
 
   @override
-  void forEachTween(visitor) {
+  void forEachTween(TweenVisitor<dynamic> visitor) {
     _scatterChartDataTween = visitor(
       _scatterChartDataTween,
       _getData(),
       (dynamic value) => ScatterChartDataTween(
-          begin: value as ScatterChartData, end: widget.data),
-    ) as ScatterChartDataTween;
+        begin: value as ScatterChartData,
+        end: widget.data,
+      ),
+    ) as ScatterChartDataTween?;
   }
 }

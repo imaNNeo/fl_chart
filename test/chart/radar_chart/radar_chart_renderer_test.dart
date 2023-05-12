@@ -1,45 +1,47 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_painter.dart';
 import 'package:fl_chart/src/chart/radar_chart/radar_chart_renderer.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import '../data_pool.dart';
 import 'radar_chart_renderer_test.mocks.dart';
 
 @GenerateMocks([Canvas, PaintingContext, BuildContext, RadarChartPainter])
 void main() {
   group('RadarChartRenderer', () {
-    final RadarChartData data = RadarChartData(
+    final data = RadarChartData(
       dataSets: [MockData.radarDataSet1],
       tickCount: 1,
     );
 
-    final RadarChartData targetData = RadarChartData(
+    final targetData = RadarChartData(
       dataSets: [MockData.radarDataSet2],
       tickCount: 1,
     );
 
     const textScale = 4.0;
 
-    MockBuildContext mockBuildContext = MockBuildContext();
-    RenderRadarChart renderRadarChart = RenderRadarChart(
+    final mockBuildContext = MockBuildContext();
+    final renderRadarChart = RenderRadarChart(
       mockBuildContext,
       data,
       targetData,
       textScale,
     );
 
-    MockRadarChartPainter mockPainter = MockRadarChartPainter();
-    MockPaintingContext mockPaintingContext = MockPaintingContext();
-    MockCanvas mockCanvas = MockCanvas();
-    Size mockSize = const Size(44, 44);
+    final mockPainter = MockRadarChartPainter();
+    final mockPaintingContext = MockPaintingContext();
+    final mockCanvas = MockCanvas();
+    const mockSize = Size(44, 44);
     when(mockPaintingContext.canvas).thenAnswer((realInvocation) => mockCanvas);
-    renderRadarChart.mockTestSize = mockSize;
-    renderRadarChart.painter = mockPainter;
+    renderRadarChart
+      ..mockTestSize = mockSize
+      ..painter = mockPainter;
 
     test('test 1 correct data set', () {
       expect(renderRadarChart.data == data, true);
@@ -71,13 +73,13 @@ void main() {
     });
 
     test('test 3 check getResponseAtLocation function', () {
-      List<Map<String, dynamic>> results = [];
+      final results = <Map<String, dynamic>>[];
       when(mockPainter.handleTouch(captureAny, captureAny, captureAny))
           .thenAnswer((inv) {
         results.add({
           'local_position': inv.positionalArguments[0] as Offset,
           'size': inv.positionalArguments[1] as Size,
-          'paint_holder': (inv.positionalArguments[2] as PaintHolder),
+          'paint_holder': inv.positionalArguments[2] as PaintHolder,
         });
         return MockData.radarTouchedSpot;
       });
@@ -93,9 +95,10 @@ void main() {
     });
 
     test('test 4 check setters', () {
-      renderRadarChart.data = targetData;
-      renderRadarChart.targetData = data;
-      renderRadarChart.textScale = 22;
+      renderRadarChart
+        ..data = targetData
+        ..targetData = data
+        ..textScale = 22;
 
       expect(renderRadarChart.data, targetData);
       expect(renderRadarChart.targetData, data);

@@ -1,13 +1,14 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/utils.dart';
+import 'package:flutter/material.dart';
 
 class AxisChartHelper {
-  static final _singleton = AxisChartHelper._internal();
-
   factory AxisChartHelper() {
     return _singleton;
   }
 
   AxisChartHelper._internal();
+  static final _singleton = AxisChartHelper._internal();
 
   /// Iterates over an axis from [min] to [max].
   ///
@@ -50,6 +51,54 @@ class AxisChartHelper {
     }
     if (maxIncluded && !lastPositionOverlapsWithMax) {
       yield max;
+    }
+  }
+
+  /// Calculate translate offset to keep [SideTitle] child
+  /// placed inside its corresponding axis.
+  /// The offset will translate the child to the closest edge inside
+  /// of the corresponding axis bounding box
+  Offset calcFitInsideOffset({
+    required AxisSide axisSide,
+    required double? childSize,
+    required double parentAxisSize,
+    required double axisPosition,
+    required double distanceFromEdge,
+  }) {
+    if (childSize == null) return Offset.zero;
+
+    // Find title alignment along its axis
+    final axisMid = parentAxisSize / 2;
+    final mainAxisAlignment = (axisPosition - axisMid).isNegative
+        ? MainAxisAlignment.start
+        : MainAxisAlignment.end;
+
+    // Find if child widget overflowed outside the chart
+    late bool isOverflowed;
+    if (mainAxisAlignment == MainAxisAlignment.start) {
+      isOverflowed = (axisPosition - (childSize / 2)).isNegative;
+    } else {
+      isOverflowed = (axisPosition + (childSize / 2)) > parentAxisSize;
+    }
+
+    if (isOverflowed == false) return Offset.zero;
+
+    // Calc offset if child overflowed
+    late double offset;
+    if (mainAxisAlignment == MainAxisAlignment.start) {
+      offset = (childSize / 2) - axisPosition + distanceFromEdge;
+    } else {
+      offset =
+          -(childSize / 2) + (parentAxisSize - axisPosition) - distanceFromEdge;
+    }
+
+    switch (axisSide) {
+      case AxisSide.left:
+      case AxisSide.right:
+        return Offset(0, offset);
+      case AxisSide.top:
+      case AxisSide.bottom:
+        return Offset(offset, 0);
     }
   }
 }

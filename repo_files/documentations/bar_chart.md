@@ -1,6 +1,6 @@
 # BarChart
 
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
 
 ### How to use
 ```dart
@@ -32,6 +32,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
 |minY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
 |baselineY| defines the baseline of y-axis | 0|
+|extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeo/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|ExtraLinesData()|
 
 
 ### BarChartGroupData
@@ -82,12 +83,13 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)|MouseCursor.defer|
+|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)|MouseCursor.defer|
 |touchTooltipData|a [BarTouchTooltipData](#BarTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|BarTouchTooltipData()|
 |touchExtraThreshold|an [EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) class to hold a bounding threshold of touch accuracy|EdgeInsets.all(4)|
 |allowTouchBarBackDraw| if sets true, touch works on backdraw bar line| false |
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
-|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeoFighT/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)| null|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)| null|
+|longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 ### BarTouchTooltipData
  |PropName|Description|default value|
@@ -97,6 +99,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
  |tooltipMargin|margin between the tooltip and the touched spot|16|
+ |tooltipHorizontalAlignment|horizontal alginment of tooltip relative to the bar|FLHorizontalAlignment.center|
+ |tooltipHorizontalOffset|horizontal offset of tooltip|0|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
  |getTooltipItems|a callback that retrieve [BarTooltipItem](#BarTooltipItem) by the given [BarChartGroupData](#BarChartGroupData), groupIndex, [BarChartRodData](#BarChartRodData) and rodIndex |defaultBarTooltipItem|
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
@@ -131,32 +135,30 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 
 ### Some Samples
 ----
-##### Sample 1 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample1.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1.gif" width="300" >
+##### Sample 1 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample1.dart))
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1.gif" width="300" >
 
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif" width="300" >
-
-
-
-##### Sample 2 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample2.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_2.gif" width="300" >
-
-##### Sample 3 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample3.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_3.png" width="300" >
-
-##### Sample 4 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample4.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_4.png" width="300" >
-
-##### Sample 5 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample5.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_5.gif" width="300" >
-
-##### Sample 6 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample6.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_6.png" width="300" >
-
-##### Sample 7 ([Source Code](/example/lib/bar_chart/samples/bar_chart_sample7.dart))
-<img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif" width="300" >
 
 
 
-##### Gist - Toggleable Tooltip ([Source Code](https://gist.github.com/imaNNeoFighT/bce3f0169ff3fd6c3f137cdeb5005c0e))
+##### Sample 2 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample2.dart))
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_2.gif" width="300" >
+
+##### Sample 3 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample3.dart))
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_3.png" width="300" >
+
+##### Sample 4 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample4.dart))
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_4.png" width="300" >
+
+##### Sample 5 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample5.dart))
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_5.gif" width="300" >
+
+##### Sample 6 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample6.dart))
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_6.png" width="300" >
+
+##### Sample 7 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample7.dart))
+<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
+
+##### Gist - Toggleable Tooltip ([Source Code](https://gist.github.com/imaNNeo/bce3f0169ff3fd6c3f137cdeb5005c0e))
 https://user-images.githubusercontent.com/7009300/156784816-53f95dd9-f387-4600-8a92-d05b1aeea3da.mov

@@ -32,29 +32,35 @@ void main() {
     test('BarChartRodStackItem equality test', () {
       expect(barChartRodStackItem1 == barChartRodStackItem1Clone, true);
       expect(
-          barChartRodStackItem1 ==
-              barChartRodStackItem1Clone.copyWith(fromY: 2),
-          false);
+        barChartRodStackItem1 == barChartRodStackItem1Clone.copyWith(fromY: 2),
+        false,
+      );
       expect(
-          barChartRodStackItem1 == barChartRodStackItem1Clone.copyWith(toY: 2),
-          true);
+        barChartRodStackItem1 == barChartRodStackItem1Clone.copyWith(toY: 2),
+        true,
+      );
       expect(
-          barChartRodStackItem1 == barChartRodStackItem1Clone.copyWith(toY: 3),
-          false);
+        barChartRodStackItem1 == barChartRodStackItem1Clone.copyWith(toY: 3),
+        false,
+      );
       expect(
-          barChartRodStackItem1 ==
-              barChartRodStackItem1Clone.copyWith(color: Colors.red),
-          false);
+        barChartRodStackItem1 ==
+            barChartRodStackItem1Clone.copyWith(color: Colors.red),
+        false,
+      );
       expect(
-          barChartRodStackItem1 ==
-              barChartRodStackItem1Clone.copyWith(color: Colors.green),
-          true);
+        barChartRodStackItem1 ==
+            barChartRodStackItem1Clone.copyWith(color: Colors.green),
+        true,
+      );
       expect(barChartRodStackItem1 == barChartRodStackItem2, false);
     });
 
     test('BackgroundBarChartRodData equality test', () {
       expect(
-          backgroundBarChartRodData1 == backgroundBarChartRodData1Clone, true);
+        backgroundBarChartRodData1 == backgroundBarChartRodData1Clone,
+        true,
+      );
       expect(backgroundBarChartRodData1 == backgroundBarChartRodData2, false);
       expect(backgroundBarChartRodData2 == backgroundBarChartRodData3, false);
 
@@ -85,6 +91,7 @@ void main() {
       expect(barTouchData1 == barTouchData7, false);
       expect(barTouchData1 == barTouchData8, false);
       expect(barTouchData1 == barTouchData9, false);
+      expect(barTouchData1 == barTouchData10, false);
     });
 
     test('BarTouchTooltipData equality test', () {
@@ -134,6 +141,7 @@ void main() {
       expect(barChartData1 == barChartData12, false);
       expect(barChartData1 == barChartData13, false);
       expect(barChartData1 == barChartData14, false);
+      expect(barChartData1 == barChartData15, false);
     });
   });
 }

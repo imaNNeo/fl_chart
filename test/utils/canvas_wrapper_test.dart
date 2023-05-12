@@ -11,8 +11,8 @@ import 'canvas_wrapper_test.mocks.dart';
 
 @GenerateMocks([Canvas, FlDotPainter, Utils])
 void main() {
-  MockCanvas mockCanvas = MockCanvas();
-  CanvasWrapper canvasWrapper = CanvasWrapper(mockCanvas, MockData.size1);
+  final mockCanvas = MockCanvas();
+  final canvasWrapper = CanvasWrapper(mockCanvas, MockData.size1);
 
   test('test drawRRect', () {
     canvasWrapper.drawRRect(MockData.rRect1, MockData.paint1);
@@ -71,11 +71,13 @@ void main() {
 
   test('test drawLine', () {
     canvasWrapper.drawLine(MockData.offset1, MockData.offset2, MockData.paint1);
-    verify(mockCanvas.drawLine(
-      MockData.offset1,
-      MockData.offset2,
-      MockData.paint1,
-    )).called(1);
+    verify(
+      mockCanvas.drawLine(
+        MockData.offset1,
+        MockData.offset2,
+        MockData.paint1,
+      ),
+    ).called(1);
   });
 
   test('test drawCircle', () {
@@ -91,7 +93,7 @@ void main() {
   });
 
   test('test drawDot', () {
-    MockFlDotPainter painter = MockFlDotPainter();
+    final painter = MockFlDotPainter();
     canvasWrapper.drawDot(painter, MockData.lineBarSpot1, MockData.offset1);
     verify(painter.draw(mockCanvas, MockData.lineBarSpot1, MockData.offset1))
         .called(1);

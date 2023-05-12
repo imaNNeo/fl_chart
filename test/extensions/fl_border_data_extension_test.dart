@@ -18,22 +18,22 @@ void main() {
 
     expect(
       FlBorderData(
-          show: true,
-          border: Border(
-              left: const BorderSide(
-                width: 1,
-                color: Colors.transparent,
-              ),
-              top: BorderSide(
-                width: 10,
-                color: Colors.red.withOpacity(0.5),
-              ),
-              right: BorderSide.none,
-              bottom: const BorderSide(
-                width: 4,
-                color: Colors.red,
-              ))).allSidesPadding,
-      const EdgeInsets.fromLTRB(1.0, 10.0, 0.0, 4.0),
+        show: true,
+        border: Border(
+          left: const BorderSide(
+            color: Colors.transparent,
+          ),
+          top: BorderSide(
+            width: 10,
+            color: Colors.red.withOpacity(0.5),
+          ),
+          bottom: const BorderSide(
+            width: 4,
+            color: Colors.red,
+          ),
+        ),
+      ).allSidesPadding,
+      const EdgeInsets.fromLTRB(1, 10, 0, 4),
     );
   });
 }

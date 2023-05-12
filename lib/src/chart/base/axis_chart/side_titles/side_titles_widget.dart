@@ -1,4 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_flex.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/edge_insets_extension.dart';
 import 'package:fl_chart/src/extensions/fl_border_data_extension.dart';
@@ -6,20 +8,16 @@ import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-import '../axis_chart_helper.dart';
-import 'side_titles_flex.dart';
-
 class SideTitlesWidget extends StatelessWidget {
-  final AxisSide side;
-  final AxisChartData axisChartData;
-  final Size parentSize;
-
   const SideTitlesWidget({
-    Key? key,
+    super.key,
     required this.side,
     required this.axisChartData,
     required this.parentSize,
-  }) : super(key: key);
+  });
+  final AxisSide side;
+  final AxisChartData axisChartData;
+  final Size parentSize;
 
   bool get isHorizontal => side == AxisSide.top || side == AxisSide.bottom;
 
@@ -125,6 +123,9 @@ class SideTitlesWidget extends StatelessWidget {
         );
     if (isHorizontal && axisChartData is BarChartData) {
       final barChartData = axisChartData as BarChartData;
+      if (barChartData.barGroups.isEmpty) {
+        return [];
+      }
       final xLocations = barChartData.calculateGroupsX(axisViewSize);
       axisPositions = xLocations.asMap().entries.map((e) {
         final index = e.key;
@@ -165,6 +166,8 @@ class SideTitlesWidget extends StatelessWidget {
               sideTitles: sideTitles,
               formattedValue: Utils().formatNumber(metaData.axisValue),
               axisSide: side,
+              parentAxisSize: axisViewSize,
+              axisPosition: metaData.axisPixelLocation,
             ),
           ),
         );
@@ -183,7 +186,6 @@ class SideTitlesWidget extends StatelessWidget {
       child: Flex(
         direction: counterDirection,
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (isLeftOrTop && axisTitles.axisNameWidget != null)
             _AxisTitleWidget(
@@ -227,16 +229,14 @@ class SideTitlesWidget extends StatelessWidget {
 }
 
 class _AxisTitleWidget extends StatelessWidget {
-  final AxisTitles axisTitles;
-  final AxisSide side;
-  final double axisViewSize;
-
   const _AxisTitleWidget({
-    Key? key,
     required this.axisTitles,
     required this.side,
     required this.axisViewSize,
-  }) : super(key: key);
+  });
+  final AxisTitles axisTitles;
+  final AxisSide side;
+  final double axisViewSize;
 
   int get axisNameQuarterTurns {
     switch (side) {

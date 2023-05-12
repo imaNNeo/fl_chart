@@ -5,6 +5,12 @@ All sources are sorted by date.
 Did you find any new article or source? please contribute to have them all here.
 
 #### Blog post:
+<!--- 2022-11-33 --->
+* [Design Stunning Charts with fl_charts in Flutter](https://www.atatus.com/blog/design-stunning-charts-with-fl-charts-in-flutter/)
+
+<!--- 2022-04-12 --->
+* [Build beautiful charts in Flutter with FL Chart](https://blog.logrocket.com/build-beautiful-charts-flutter-fl-chart)
+
 <!--- 2021-11-18 --->
 * [Flutter4Fun UI Challenge 7](https://flutter4fun.com/ui-challenge-7/)
 
@@ -13,8 +19,23 @@ Did you find any new article or source? please contribute to have them all here.
 
 #### Video:
 
+<!--- 2022-09-01 --->
+* [how to create line chart in flutter | fl_chart](https://www.youtube.com/watch?v=Iv3F2HO5Jvc)
+
+<!--- 2022-01-19 --->
+* [line chart in flutter - flutter tutorial](https://www.youtube.com/watch?v=xHzDAewbSGY)
+
 <!--- 2021-12-04 --->
 * [Portfolio Dashboard Flutter UI Desktop & Web](https://www.youtube.com/watch?v=H9vXUine7Zo)
+
+<!--- 2021-11-20 --->
+* [Flutter UI | Stocks App UI Design - Day 55](https://www.youtube.com/watch?v=oILraFu8OE8)
+
+<!--- 2021-09-14 --->
+* [Implementing Chart in Flutter - Pair Programming with Fl_Chart Author](https://www.youtube.com/watch?v=msMxuUERtg8)
+
+<!--- 2021-09-01 --->
+* [how to create line chart in flutter | fl_chart](https://www.youtube.com/watch?v=Iv3F2HO5Jvc)
 
 <!--- 2021-07-28 --->
 * [Responsive Admin Dashboard or Panel using Flutter - Flutter Web UI - Part 1](https://www.youtube.com/watch?v=MRiZpwdy1CM)

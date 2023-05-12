@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/utils/list_wrapper.dart';
-
-import 'bar_chart_data.dart';
 
 /// Contains anything that helps BarChart works
 class BarChartHelper {
@@ -14,12 +13,13 @@ class BarChartHelper {
   /// Calculates minY, and maxY based on [barGroups],
   /// returns cached values, to prevent redundant calculations.
   static BarChartMinMaxAxisValues calculateMaxAxisValues(
-      List<BarChartGroupData> barGroups) {
+    List<BarChartGroupData> barGroups,
+  ) {
     if (barGroups.isEmpty) {
       return BarChartMinMaxAxisValues(0, 0);
     }
 
-    var listWrapper = barGroups.toWrapperClass();
+    final listWrapper = barGroups.toWrapperClass();
 
     if (_cachedResults.containsKey(listWrapper)) {
       return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
@@ -67,17 +67,19 @@ class BarChartHelper {
 
 /// Holds minY, and maxY for use in [BarChartData]
 class BarChartMinMaxAxisValues with EquatableMixin {
+  BarChartMinMaxAxisValues(this.minY, this.maxY, {this.readFromCache = false});
   final double minY;
   final double maxY;
   final bool readFromCache;
 
-  BarChartMinMaxAxisValues(this.minY, this.maxY, {this.readFromCache = false});
-
   @override
   List<Object?> get props => [minY, maxY, readFromCache];
 
-  BarChartMinMaxAxisValues copyWith(
-      {double? minY, double? maxY, bool? readFromCache}) {
+  BarChartMinMaxAxisValues copyWith({
+    double? minY,
+    double? maxY,
+    bool? readFromCache,
+  }) {
     return BarChartMinMaxAxisValues(
       minY ?? this.minY,
       maxY ?? this.maxY,

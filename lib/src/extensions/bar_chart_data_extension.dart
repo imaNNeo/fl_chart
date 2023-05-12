@@ -3,22 +3,32 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 extension BarChartDataExtension on BarChartData {
   List<double> calculateGroupsX(double viewWidth) {
     assert(barGroups.isNotEmpty);
-    final groupsX = List.filled(barGroups.length, 0.0, growable: false);
+    final groupsX = List<double>.filled(barGroups.length, 0);
     switch (alignment) {
       case BarChartAlignment.start:
         var tempX = 0.0;
-        barGroups.asMap().forEach((i, group) {
+        for (var i = 0; i < barGroups.length; i++) {
+          final group = barGroups[i];
           groupsX[i] = tempX + group.width / 2;
-          tempX += group.width;
-        });
+
+          final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
+          tempX += group.width + groupSpace;
+        }
         break;
 
       case BarChartAlignment.end:
+        var sumWidth =
+            barGroups.map((group) => group.width).reduce((a, b) => a + b);
+        sumWidth += groupsSpace * (barGroups.length - 1);
+        final horizontalMargin = viewWidth - sumWidth;
+
         var tempX = 0.0;
-        for (var i = barGroups.length - 1; i >= 0; i--) {
+        for (var i = 0; i < barGroups.length; i++) {
           final group = barGroups[i];
-          groupsX[i] = viewWidth - tempX - group.width / 2;
-          tempX += group.width;
+          groupsX[i] = horizontalMargin + tempX + group.width / 2;
+
+          final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
+          tempX += group.width + groupSpace;
         }
         break;
 

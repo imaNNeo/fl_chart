@@ -6,8 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('test totalReservedWidth', () {
     expect(
-      AxisTitles(
-        axisNameWidget: null,
+      const AxisTitles(
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: true,
@@ -18,11 +17,10 @@ void main() {
     );
 
     expect(
-      AxisTitles(
-        axisNameWidget: const Text('asdf'),
+      const AxisTitles(
+        axisNameWidget: Text('asdf'),
         axisNameSize: 12,
         sideTitles: SideTitles(
-          showTitles: false,
           reservedWidth: 20,
         ),
       ).totalReservedWidth,
@@ -30,8 +28,8 @@ void main() {
     );
 
     expect(
-      AxisTitles(
-        axisNameWidget: const Text('asdf'),
+      const AxisTitles(
+        axisNameWidget: Text('asdf'),
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: true,
@@ -43,8 +41,7 @@ void main() {
   });
   test('test totalReservedHeight', () {
     expect(
-      AxisTitles(
-        axisNameWidget: null,
+      const AxisTitles(
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: true,
@@ -55,11 +52,10 @@ void main() {
     );
 
     expect(
-      AxisTitles(
-        axisNameWidget: const Text('asdf'),
+      const AxisTitles(
+        axisNameWidget: Text('asdf'),
         axisNameSize: 12,
         sideTitles: SideTitles(
-          showTitles: false,
           reservedHeight: 20,
         ),
       ).totalReservedHeight,
@@ -67,8 +63,8 @@ void main() {
     );
 
     expect(
-      AxisTitles(
-        axisNameWidget: const Text('asdf'),
+      const AxisTitles(
+        axisNameWidget: Text('asdf'),
         axisNameSize: 12,
         sideTitles: SideTitles(
           showTitles: true,
