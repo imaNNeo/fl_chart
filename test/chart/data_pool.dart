@@ -348,23 +348,19 @@ class MockData {
 
   static const sideTitles1 = SideTitles(
     reservedHeight: 10,
-    showTitles: false,
     interval: 23,
   );
   static const sideTitles1Clone = SideTitles(
     reservedHeight: 10,
-    showTitles: false,
     interval: 23,
   );
   static const sideTitles2 = SideTitles(
     reservedHeight: 10,
-    showTitles: false,
     getTitlesWidget: getTitles,
     interval: 12,
   );
   static const sideTitles3 = SideTitles(
     reservedHeight: 10,
-    showTitles: false,
     getTitlesWidget: getTitles,
     interval: 12,
   );
@@ -376,13 +372,11 @@ class MockData {
   );
   static const sideTitles5 = SideTitles(
     reservedHeight: 10,
-    showTitles: false,
     getTitlesWidget: getTitles,
     interval: 43,
   );
   static const sideTitles6 = SideTitles(
     reservedHeight: 10,
-    showTitles: false,
     getTitlesWidget: getTitles,
     interval: 22,
   );

@@ -159,27 +159,29 @@ class _Chart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: getVerticalTitles,
-              reservedSize: 36,
+              reservedWidth: 36,
             ),
           ),
           topTitles: AxisTitles(
             sideTitles: SideTitles(
-                showTitles: true,
-                getTitlesWidget: getHorizontalTitles,
-                reservedSize: 32),
+              showTitles: true,
+              getTitlesWidget: getHorizontalTitles,
+              reservedHeight: 32,
+            ),
           ),
           rightTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: getVerticalTitles,
-              reservedSize: 36,
+              reservedWidth: 36,
             ),
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-                showTitles: true,
-                getTitlesWidget: getHorizontalTitles,
-                reservedSize: 32),
+              showTitles: true,
+              getTitlesWidget: getHorizontalTitles,
+              reservedHeight: 32,
+            ),
           ),
         ),
         gridData: FlGridData(

@@ -141,24 +141,6 @@ Widget defaultGetTitle(double value, TitleMeta meta) {
 
 /// Holds data for showing label values on axis numbers
 class SideTitles with EquatableMixin {
-  /// Determines showing or hiding this side titles
-  final bool showTitles;
-
-  /// You can override it to pass your custom widget to show in each axis value
-  /// We recommend you to use [SideTitleWidget].
-  final GetTitleWidgetFunction getTitlesWidget;
-
-  /// It determines the maximum width that your titles need
-  final double? reservedWidth;
-
-  /// It determines the maximum height that your titles need,
-  /// (All titles will stretch using this value)
-  final double? reservedHeight;
-
-  /// Texts are showing with provided [interval]. If you don't provide anything,
-  /// we try to find a suitable value to set as [interval] under the hood.
-  final double? interval;
-
   /// It draws some title on an axis, per axis values,
   /// [showTitles] determines showing or hiding this side,
   ///
@@ -189,7 +171,25 @@ class SideTitles with EquatableMixin {
         reservedHeight = (reservedWidth != null || reservedHeight != null)
             ? reservedHeight
             : 22,
-        assert(interval != 0, "SideTitles.interval couldn't be zero") {}
+        assert(interval != 0, "SideTitles.interval couldn't be zero");
+
+  /// Determines showing or hiding this side titles
+  final bool showTitles;
+
+  /// You can override it to pass your custom widget to show in each axis value
+  /// We recommend you to use [SideTitleWidget].
+  final GetTitleWidgetFunction getTitlesWidget;
+
+  /// It determines the maximum width that your titles need
+  final double? reservedWidth;
+
+  /// It determines the maximum height that your titles need,
+  /// (All titles will stretch using this value)
+  final double? reservedHeight;
+
+  /// Texts are showing with provided [interval]. If you don't provide anything,
+  /// we try to find a suitable value to set as [interval] under the hood.
+  final double? interval;
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
@@ -385,31 +385,30 @@ class FlTitlesData with EquatableMixin {
   /// side titles of left, top, right, bottom sides respectively.
   const FlTitlesData({
     this.show = true,
-    this.leftTitles = const
-            AxisTitles(
-              sideTitles: SideTitles(
-                reservedWidth: 44,
-                showTitles: true,
-              ),
-            ),
+    this.leftTitles = const AxisTitles(
+      sideTitles: SideTitles(
+        reservedWidth: 44,
+        showTitles: true,
+      ),
+    ),
     this.topTitles = const AxisTitles(
-              sideTitles: SideTitles(
-                reservedHeight: 30,
-                showTitles: true,
-              ),
-            ),
+      sideTitles: SideTitles(
+        reservedHeight: 30,
+        showTitles: true,
+      ),
+    ),
     this.rightTitles = const AxisTitles(
-              sideTitles: SideTitles(
-                reservedWidth: 44,
-                showTitles: true,
-              ),
-            ),
+      sideTitles: SideTitles(
+        reservedWidth: 44,
+        showTitles: true,
+      ),
+    ),
     this.bottomTitles = const AxisTitles(
-              sideTitles: SideTitles(
-                reservedHeight: 30,
-                showTitles: true,
-              ),
-            ),
+      sideTitles: SideTitles(
+        reservedHeight: 30,
+        showTitles: true,
+      ),
+    ),
   });
 
   final bool show;

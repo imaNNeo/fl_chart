@@ -204,7 +204,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
                   axisNameSize: 24,
                   sideTitles: SideTitles(
                     showTitles: false,
-                    reservedSize: 0,
+                    reservedWidth: 0,
                   ),
                 ),
                 bottomTitles: AxisTitles(
@@ -218,14 +218,14 @@ class _LineChartSample5State extends State<LineChartSample5> {
                         constraints.maxWidth,
                       );
                     },
-                    reservedSize: 30,
+                    reservedHeight: 30,
                   ),
                 ),
                 rightTitles: const AxisTitles(
                   axisNameWidget: Text('count'),
                   sideTitles: SideTitles(
                     showTitles: false,
-                    reservedSize: 0,
+                    reservedWidth: 0,
                   ),
                 ),
                 topTitles: const AxisTitles(
@@ -236,7 +236,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
                   axisNameSize: 24,
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 0,
+                    reservedHeight: 0,
                   ),
                 ),
               ),

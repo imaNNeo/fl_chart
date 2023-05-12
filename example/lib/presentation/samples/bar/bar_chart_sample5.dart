@@ -1,5 +1,5 @@
-import 'package:example/app_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/util/app_utils.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample5 extends StatefulWidget {
@@ -58,8 +58,8 @@ class BarChartSample5State extends State<BarChartSample5> {
         break;
     }
     return SideTitleWidget(
-      child: Text(text, style: style),
       axisSide: meta.axisSide,
+      child: Text(text, style: style),
     );
   }
 
@@ -92,8 +92,8 @@ class BarChartSample5State extends State<BarChartSample5> {
         return Container();
     }
     return SideTitleWidget(
-      child: Text(text, style: style),
       axisSide: meta.axisSide,
+      child: Text(text, style: style),
     );
   }
 
@@ -326,11 +326,11 @@ class BarChartSample5State extends State<BarChartSample5> {
                 checkToShowHorizontalLine: (value) => value % 5 == 0,
                 getDrawingHorizontalLine: (value) {
                   if (value == 0) {
-                    return FlLine(
-                        color: const Color(0xff363753), strokeWidth: 3);
+                    return const FlLine(
+                        color: Color(0xff363753), strokeWidth: 3);
                   }
-                  return FlLine(
-                    color: const Color(0xff2a2747),
+                  return const FlLine(
+                    color: Color(0xff2a2747),
                     strokeWidth: 0.8,
                   );
                 },

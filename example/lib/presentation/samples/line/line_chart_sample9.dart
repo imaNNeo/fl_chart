@@ -99,7 +99,7 @@ class LineChartSample9 extends StatelessWidget {
                       showTitles: true,
                       getTitlesWidget: (value, meta) =>
                           leftTitleWidgets(value, meta, constraints.maxWidth),
-                      reservedSize: 56,
+                      reservedWidth: 56,
                     ),
                     drawBelowEverything: true,
                   ),
@@ -111,7 +111,7 @@ class LineChartSample9 extends StatelessWidget {
                       showTitles: true,
                       getTitlesWidget: (value, meta) =>
                           bottomTitleWidgets(value, meta, constraints.maxWidth),
-                      reservedSize: 36,
+                      reservedHeight: 36,
                       interval: 1,
                     ),
                     drawBelowEverything: true,

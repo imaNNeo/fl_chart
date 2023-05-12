@@ -144,129 +144,126 @@ void main() {
         false,
       );
       expect(
-          scatterChartData1 ==
-              scatterChartData1Clone.copyWith(
-                titlesData: const FlTitlesData(
-                  leftTitles: AxisTitles(
-                    axisNameSize: 33,
-                    axisNameWidget: MockData.widget1,
-                  ),
-                  rightTitles: AxisTitles(
-                    axisNameSize: 1326,
-                    axisNameWidget: MockData.widget3,
-                    sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
-                  ),
-                  topTitles: AxisTitles(
-                    axisNameSize: 34,
-                    axisNameWidget: MockData.widget4,
-                  ),
-                  bottomTitles: AxisTitles(
-                    axisNameSize: 22,
-                    axisNameWidget: MockData.widget2,
-                  ),
+        scatterChartData1 ==
+            scatterChartData1Clone.copyWith(
+              titlesData: const FlTitlesData(
+                leftTitles: AxisTitles(
+                  axisNameSize: 33,
+                  axisNameWidget: MockData.widget1,
+                ),
+                rightTitles: AxisTitles(
+                  axisNameSize: 1326,
+                  axisNameWidget: MockData.widget3,
+                  sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
+                ),
+                topTitles: AxisTitles(
+                  axisNameSize: 34,
+                  axisNameWidget: MockData.widget4,
+                ),
+                bottomTitles: AxisTitles(
+                  axisNameSize: 22,
+                  axisNameWidget: MockData.widget2,
                 ),
               ),
             ),
         true,
       );
       expect(
-          scatterChartData1 ==
-              scatterChartData1Clone.copyWith(
-                titlesData: const FlTitlesData(
-                  leftTitles: AxisTitles(
-                    axisNameSize: 332,
-                    axisNameWidget: Text('title 1'),
-                  ),
-                  rightTitles: AxisTitles(
-                    axisNameSize: 1326,
-                    axisNameWidget: Text('title 3'),
-                    sideTitles: SideTitles(reservedSize: 500, showTitles: true),
-                  ),
-                  topTitles: AxisTitles(
-                    axisNameSize: 34,
-                    axisNameWidget: Text('title 4'),
-                  ),
-                  bottomTitles: AxisTitles(
-                    axisNameSize: 22,
-                    axisNameWidget: Text('title 2'),
-                  ),
+        scatterChartData1 ==
+            scatterChartData1Clone.copyWith(
+              titlesData: const FlTitlesData(
+                leftTitles: AxisTitles(
+                  axisNameSize: 332,
+                  axisNameWidget: Text('title 1'),
+                ),
+                rightTitles: AxisTitles(
+                  axisNameSize: 1326,
+                  axisNameWidget: Text('title 3'),
+                  sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
+                ),
+                topTitles: AxisTitles(
+                  axisNameSize: 34,
+                  axisNameWidget: Text('title 4'),
+                ),
+                bottomTitles: AxisTitles(
+                  axisNameSize: 22,
+                  axisNameWidget: Text('title 2'),
                 ),
               ),
             ),
         false,
       );
       expect(
-          scatterChartData1 ==
-              scatterChartData1Clone.copyWith(
-                titlesData: const FlTitlesData(
-                  leftTitles: AxisTitles(
-                    axisNameSize: 33,
-                    axisNameWidget: Text('title 1'),
-                  ),
-                  rightTitles: AxisTitles(
-                    axisNameSize: 1326,
-                    axisNameWidget: Text('title 3'),
-                    sideTitles: SideTitles(reservedSize: 500, showTitles: true),
-                  ),
-                  topTitles: AxisTitles(
-                    axisNameSize: 34,
-                    axisNameWidget: Text('title 4'),
-                  ),
-                  bottomTitles: AxisTitles(
-                    axisNameSize: 22,
-                    axisNameWidget: Text('title 2'),
-                    sideTitles: SideTitles(showTitles: true),
-                  ),
+        scatterChartData1 ==
+            scatterChartData1Clone.copyWith(
+              titlesData: const FlTitlesData(
+                leftTitles: AxisTitles(
+                  axisNameSize: 33,
+                  axisNameWidget: Text('title 1'),
                 ),
-              ),
-          false);
-      expect(
-          scatterChartData1 ==
-              scatterChartData1Clone.copyWith(
-                titlesData: const FlTitlesData(
-                  leftTitles: AxisTitles(
-                    axisNameSize: 33,
-                    axisNameWidget: Text('title 1'),
-                  ),
-                  rightTitles: AxisTitles(
-                    axisNameSize: 1326,
-                    axisNameWidget: Text('title 1'),
-                    sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
-                  ),
-                  topTitles: AxisTitles(
-                    axisNameSize: 34,
-                    axisNameWidget: Text('title 4'),
-                  ),
-                  bottomTitles: AxisTitles(
-                    axisNameSize: 22,
-                    axisNameWidget: Text('title 2'),
-                  ),
+                rightTitles: AxisTitles(
+                  axisNameSize: 1326,
+                  axisNameWidget: Text('title 3'),
+                  sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
+                ),
+                topTitles: AxisTitles(
+                  axisNameSize: 34,
+                  axisNameWidget: Text('title 4'),
+                ),
+                bottomTitles: AxisTitles(
+                  axisNameSize: 22,
+                  axisNameWidget: Text('title 2'),
+                  sideTitles: SideTitles(showTitles: true),
                 ),
               ),
             ),
         false,
       );
       expect(
-          scatterChartData1 ==
-              scatterChartData1Clone.copyWith(
-                titlesData: const FlTitlesData(
-                  leftTitles: AxisTitles(
-                    axisNameSize: 33,
-                    axisNameWidget: Text('title 1'),
-                  ),
-                  rightTitles: AxisTitles(
-                    axisNameSize: 13262,
-                    axisNameWidget: Text('title 3'),
-                    sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
-                  ),
-                  topTitles: AxisTitles(
-                    axisNameSize: 34,
-                    axisNameWidget: Text('title 4'),
-                  ),
-                  bottomTitles: AxisTitles(
-                    axisNameSize: 22,
-                    axisNameWidget: Text('title 2'),
-                  ),
+        scatterChartData1 ==
+            scatterChartData1Clone.copyWith(
+              titlesData: const FlTitlesData(
+                leftTitles: AxisTitles(
+                  axisNameSize: 33,
+                  axisNameWidget: Text('title 1'),
+                ),
+                rightTitles: AxisTitles(
+                  axisNameSize: 1326,
+                  axisNameWidget: Text('title 1'),
+                  sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
+                ),
+                topTitles: AxisTitles(
+                  axisNameSize: 34,
+                  axisNameWidget: Text('title 4'),
+                ),
+                bottomTitles: AxisTitles(
+                  axisNameSize: 22,
+                  axisNameWidget: Text('title 2'),
+                ),
+              ),
+            ),
+        false,
+      );
+      expect(
+        scatterChartData1 ==
+            scatterChartData1Clone.copyWith(
+              titlesData: const FlTitlesData(
+                leftTitles: AxisTitles(
+                  axisNameSize: 33,
+                  axisNameWidget: Text('title 1'),
+                ),
+                rightTitles: AxisTitles(
+                  axisNameSize: 13262,
+                  axisNameWidget: Text('title 3'),
+                  sideTitles: SideTitles(reservedWidth: 500, showTitles: true),
+                ),
+                topTitles: AxisTitles(
+                  axisNameSize: 34,
+                  axisNameWidget: Text('title 4'),
+                ),
+                bottomTitles: AxisTitles(
+                  axisNameSize: 22,
+                  axisNameWidget: Text('title 2'),
                 ),
               ),
             ),
