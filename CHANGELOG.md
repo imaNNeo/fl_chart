@@ -57,7 +57,6 @@ Also, [this article](https://www.bbc.com/news/world-middle-east-62984076) might 
 * **BUGFIX** (by @ateich): Fix uneven titles in RadarChart when using titlePositionPercentageOffset, #1074.
 * **BUGFIX** (by @imaNNeo): Fix PieChart single section stroke issue, #1089
 
-
 ## 0.55.0
 * **FEATURE** (by @emelinepal): Add `tooltipBorder` property in [LineTouchTooltipData], [BarTouchTooltipData], [ScatterTouchTooltipData], #692.
 * **BUGFIX** (by @imaNNeo): Fix tooltip issue on negative bar charts, #978.
