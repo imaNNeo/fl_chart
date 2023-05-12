@@ -55,7 +55,7 @@ Also, [this article](https://www.bbc.com/news/world-middle-east-62984076) might 
 ## 0.55.1
 * **BUGFIX** (by @ateich): Fix infinite loop in RadarChart when all values in RadarDataSet are equal, #882.
 * **BUGFIX** (by @ateich): Fix uneven titles in RadarChart when using titlePositionPercentageOffset, #1074.
-* **BUGFIX** (by @imaNNeoFighT): Fix PieChart single section stroke issue, #1089
+* **BUGFIX** (by @imaNNeo): Fix PieChart single section stroke issue, #1089
 
 
 ## 0.55.0
