@@ -11,12 +11,12 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   cupertino_icons: ^1.0.5
-  google_fonts: ^4.0.3
+  google_fonts: ^4.0.4
   flutter_svg: ^2.0.5
   universal_platform: ^1.0.0+1
   flutter_staggered_grid_view: ^0.6.2
-  url_launcher: ^6.1.10
-  go_router: ^6.5.6
+  url_launcher: ^6.1.11
+  go_router: ^7.0.1
   dartx: ^1.1.0
   fl_chart:
     path: ../
