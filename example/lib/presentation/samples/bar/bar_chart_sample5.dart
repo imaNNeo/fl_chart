@@ -221,25 +221,25 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
                 0,
                 -value1,
-                const Color(0xff2bdb90)
+                AppColors.contentColorGreen
                     .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
                 const BorderSide(color: Colors.transparent)),
             BarChartRodStackItem(
                 -value1,
                 -(value1 + value2),
-                const Color(0xffffdd80)
+                AppColors.contentColorYellow
                     .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
                 const BorderSide(color: Colors.transparent)),
             BarChartRodStackItem(
                 -(value1 + value2),
                 -(value1 + value2 + value3),
-                const Color(0xffff4d94)
+                AppColors.contentColorPink
                     .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
                 const BorderSide(color: Colors.transparent)),
             BarChartRodStackItem(
                 -(value1 + value2 + value3),
                 -(value1 + value2 + value3 + value4),
-                const Color(0xff19bfff)
+                AppColors.contentColorBlue
                     .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
                 const BorderSide(color: Colors.transparent)),
           ],
