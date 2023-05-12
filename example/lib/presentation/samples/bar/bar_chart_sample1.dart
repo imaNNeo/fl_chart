@@ -304,7 +304,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           sideTitles: SideTitles(
             showTitles: true,
             getTitlesWidget: getTitles,
-            reservedWidth: 38,
+            reservedHeight: 38,
           ),
         ),
         leftTitles: const AxisTitles(
