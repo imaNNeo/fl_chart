@@ -259,7 +259,7 @@ class BarChartSample5State extends State<BarChartSample5> {
     return AspectRatio(
       aspectRatio: 0.8,
       child: Padding(
-        padding: const EdgeInsets.only(top: 16.0),
+        padding: const EdgeInsets.only(top: 16),
         child: BarChart(
           BarChartData(
             alignment: BarChartAlignment.center,
@@ -327,10 +327,13 @@ class BarChartSample5State extends State<BarChartSample5> {
               checkToShowHorizontalLine: (value) => value % 5 == 0,
               getDrawingHorizontalLine: (value) {
                 if (value == 0) {
-                  return const FlLine(color: Color(0xff363753), strokeWidth: 3);
+                  return FlLine(
+                    color: AppColors.borderColor.withOpacity(0.1),
+                    strokeWidth: 3,
+                  );
                 }
-                return const FlLine(
-                  color: Color(0xff2a2747),
+                return FlLine(
+                  color: AppColors.borderColor.withOpacity(0.05),
                   strokeWidth: 0.8,
                 );
               },
@@ -339,8 +342,15 @@ class BarChartSample5State extends State<BarChartSample5> {
               show: false,
             ),
             barGroups: mainItems.entries
-                .map((e) => generateGroup(
-                    e.key, e.value[0], e.value[1], e.value[2], e.value[3]))
+                .map(
+                  (e) => generateGroup(
+                    e.key,
+                    e.value[0],
+                    e.value[1],
+                    e.value[2],
+                    e.value[3],
+                  ),
+                )
                 .toList(),
           ),
         ),
