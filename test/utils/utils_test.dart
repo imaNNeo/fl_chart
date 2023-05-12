@@ -3,7 +3,6 @@ import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 
 import '../chart/data_pool.dart';
 import 'utils_test.mocks.dart';
@@ -252,50 +251,45 @@ void main() {
   });
 
   group('test getThemeAwareTextStyle', () {
-    test('test 1', () {
-      final mockBuildContext = MockBuildContext();
-      const defaultTextStyle = DefaultTextStyle.fallback();
+    testWidgets('test 1', (WidgetTester tester) async {
+      const style = TextStyle(color: Colors.brown);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DefaultTextStyle(
+              style: style,
+              child: Container(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final context = tester.element(find.byType(Container));
 
-      var callCount = 0;
-      when(mockBuildContext.dependOnInheritedWidgetOfExactType())
-          .thenAnswer((realInvocation) {
-        if (callCount == 0) {
-          callCount++;
-          return defaultTextStyle;
-        } else {
-          return MediaQuery(
-            data: const MediaQueryData(),
-            child: Container(),
-          );
-        }
-      });
       expect(
-        Utils().getThemeAwareTextStyle(mockBuildContext, null),
-        defaultTextStyle.style,
+        Utils().getThemeAwareTextStyle(context, style),
+        style,
       );
     });
 
-    test('test 2', () {
-      final mockBuildContext = MockBuildContext();
-      const defaultTextStyle = DefaultTextStyle.fallback();
+    testWidgets('test 2', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: MediaQuery(
+              data: const MediaQueryData(boldText: true),
+              child: Container(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final context = tester.element(find.byType(Container));
 
-      var callCount = 0;
-      when(mockBuildContext.dependOnInheritedWidgetOfExactType())
-          .thenAnswer((realInvocation) {
-        if (callCount == 0) {
-          callCount++;
-          return defaultTextStyle;
-        } else {
-          return MediaQuery(
-            data: const MediaQueryData(boldText: true),
-            child: Container(),
-          );
-        }
-      });
       expect(
         Utils()
             .getThemeAwareTextStyle(
-              mockBuildContext,
+              context,
               MockData.textStyle1,
             )
             .fontWeight,
