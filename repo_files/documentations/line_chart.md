@@ -154,7 +154,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |bar|the [LineChartBarData](#LineChartBarData) that contains a spot|null|
 |barIndex|index of the target [LineChartBarData](#LineChartBarData) inside [LineChartData](#LineChartData)|null|
-|spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
+|spotIndex|index of the target [FlSpot](base_chart.md#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
 
 
 ### TouchLineBarSpot
@@ -162,7 +162,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |bar|the [LineChartBarData](#LineChartBarData) that contains a spot|null|
 |barIndex|index of the target [LineChartBarData](#LineChartBarData) inside [LineChartData](#LineChartData)|null|
-|spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
+|spotIndex|index of the target [FlSpot](base_chart.md#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
 |distance|distance to the touch event|null|
 
 
