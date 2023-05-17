@@ -20,7 +20,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.4.0
   vector_math: ^2.1.4 #Added to use in some generated codes of mockito
-  very_good_analysis: ^4.0.0+1
+  very_good_analysis: ">=4.0.0+1 <6.0.0"
 
 screenshots:
   - description: 'LineChartSample1 and LineChartSample2'
