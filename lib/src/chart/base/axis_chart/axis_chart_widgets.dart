@@ -93,17 +93,10 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
     if (context == null) return;
 
     // Set size based on its axis side
-    late double size;
-    switch (widget.axisSide) {
-      case AxisSide.left:
-      case AxisSide.right:
-        size = context.size?.height ?? 0;
-        break;
-      case AxisSide.top:
-      case AxisSide.bottom:
-        size = context.size?.width ?? 0;
-        break;
-    }
+    final size = switch (widget.axisSide) {
+      AxisSide.left || AxisSide.right => context.size?.height ?? 0,
+      AxisSide.top || AxisSide.bottom => context.size?.width ?? 0,
+    };
 
     // If childSize is the same, no need to set new value
     if (_childSize == size) return;

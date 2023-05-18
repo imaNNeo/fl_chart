@@ -217,23 +217,12 @@ void main() {
       );
 
       Future<void> checkSide(AxisSide side) async {
-        String axisChar;
-        switch (side) {
-          case AxisSide.left:
-            axisChar = 'L';
-            break;
-          case AxisSide.top:
-            axisChar = 'T';
-            break;
-          case AxisSide.right:
-            axisChar = 'R';
-            break;
-          case AxisSide.bottom:
-            axisChar = 'B';
-            break;
-          default:
-            throw StateError('Invalid');
-        }
+        final axisChar = switch (side) {
+          AxisSide.left => 'L',
+          AxisSide.top => 'T',
+          AxisSide.right => 'R',
+          AxisSide.bottom => 'B',
+        };
         for (var i = 0; i <= 10; i++) {
           expect(find.text('$axisChar-$i'), findsOneWidget);
         }
