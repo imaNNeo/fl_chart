@@ -14,7 +14,6 @@ extension BarChartDataExtension on BarChartData {
           final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
           tempX += group.width + groupSpace;
         }
-        break;
 
       case BarChartAlignment.end:
         var sumWidth =
@@ -30,7 +29,6 @@ extension BarChartDataExtension on BarChartData {
           final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
           tempX += group.width + groupSpace;
         }
-        break;
 
       case BarChartAlignment.center:
         var sumWidth =
@@ -46,7 +44,6 @@ extension BarChartDataExtension on BarChartData {
           final groupSpace = i == barGroups.length - 1 ? 0 : groupsSpace;
           tempX += group.width + groupSpace;
         }
-        break;
 
       case BarChartAlignment.spaceBetween:
         final sumWidth =
@@ -63,7 +60,6 @@ extension BarChartDataExtension on BarChartData {
           groupsX[index] = tempX;
           tempX += group.width / 2;
         });
-        break;
 
       case BarChartAlignment.spaceAround:
         final sumWidth =
@@ -79,7 +75,6 @@ extension BarChartDataExtension on BarChartData {
           tempX += group.width / 2;
           tempX += eachSpace;
         });
-        break;
 
       case BarChartAlignment.spaceEvenly:
         final sumWidth =
@@ -94,7 +89,6 @@ extension BarChartDataExtension on BarChartData {
           groupsX[i] = tempX;
           tempX += group.width / 2;
         });
-        break;
     }
 
     return groupsX;

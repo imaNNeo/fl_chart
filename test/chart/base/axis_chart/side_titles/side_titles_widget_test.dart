@@ -260,23 +260,12 @@ void main() {
           ),
         );
 
-        String axisName;
-        switch (side) {
-          case AxisSide.left:
-            axisName = 'Left';
-            break;
-          case AxisSide.top:
-            axisName = 'Top';
-            break;
-          case AxisSide.right:
-            axisName = 'Right';
-            break;
-          case AxisSide.bottom:
-            axisName = 'Bottom';
-            break;
-          default:
-            throw StateError('Invalid');
-        }
+        final axisName = switch (side) {
+          AxisSide.left => 'Left',
+          AxisSide.top => 'Top',
+          AxisSide.right => 'Right',
+          AxisSide.bottom => 'Bottom',
+        };
         expect(find.text('$axisName Titles'), findsOneWidget);
         for (var i = 0; i <= 10; i++) {
           expect(find.text('${axisName.characters.first}-$i'), findsOneWidget);

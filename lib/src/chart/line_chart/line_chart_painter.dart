@@ -1140,18 +1140,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           textRotationOffset.dy +
           rectRotationOffset.dy;
 
-      double xOffset;
-      switch (tp.textAlign.getFinalHorizontalAlignment(tp.textDirection)) {
-        case HorizontalAlignment.left:
-          xOffset = rect.left + tooltipData.tooltipPadding.left;
-          break;
-        case HorizontalAlignment.right:
-          xOffset = rect.right - tooltipData.tooltipPadding.right - tp.width;
-          break;
-        default:
-          xOffset = rect.center.dx - (tp.width / 2);
-          break;
-      }
+      final align = tp.textAlign.getFinalHorizontalAlignment(tp.textDirection);
+      final xOffset = switch (align) {
+        HorizontalAlignment.left => rect.left + tooltipData.tooltipPadding.left,
+        HorizontalAlignment.right =>
+          rect.right - tooltipData.tooltipPadding.right - tp.width,
+        _ => rect.center.dx - (tp.width / 2),
+      };
 
       final drawOffset = Offset(
         xOffset,

@@ -156,19 +156,16 @@ class AxisSideTitlesRenderFlex extends RenderBox
     var child = firstChild;
     while (child != null) {
       final childParentData = child.parentData! as FlexParentData;
-      final BoxConstraints innerConstraints;
 
       // Stretch
-      switch (_direction) {
-        case Axis.horizontal:
-          innerConstraints =
-              BoxConstraints.tightFor(height: constraints.maxHeight);
-          break;
-        case Axis.vertical:
-          innerConstraints =
-              BoxConstraints.tightFor(width: constraints.maxWidth);
-          break;
-      }
+      final innerConstraints = switch (_direction) {
+        Axis.horizontal => BoxConstraints.tightFor(
+            height: constraints.maxHeight,
+          ),
+        Axis.vertical => BoxConstraints.tightFor(
+            width: constraints.maxWidth,
+          ),
+      };
 
       final childSize = layoutChild(child, innerConstraints);
       allocatedSize += _getMainSize(childSize);
@@ -202,12 +199,10 @@ class AxisSideTitlesRenderFlex extends RenderBox
         size = constraints.constrain(Size(actualSize, crossSize));
         actualSize = size.width;
         crossSize = size.height;
-        break;
       case Axis.vertical:
         size = constraints.constrain(Size(crossSize, actualSize));
         actualSize = size.height;
         crossSize = size.width;
-        break;
     }
 
     // Position elements
@@ -222,16 +217,10 @@ class AxisSideTitlesRenderFlex extends RenderBox
       childCrossPosition = 0.0;
       final childMainPosition =
           metaData.axisPixelLocation - (_getMainSize(child.size) / 2);
-      switch (_direction) {
-        case Axis.horizontal:
-          childParentData.offset =
-              Offset(childMainPosition, childCrossPosition);
-          break;
-        case Axis.vertical:
-          childParentData.offset =
-              Offset(childCrossPosition, childMainPosition);
-          break;
-      }
+      childParentData.offset = switch (_direction) {
+        Axis.horizontal => Offset(childMainPosition, childCrossPosition),
+        Axis.vertical => Offset(childCrossPosition, childMainPosition),
+      };
       child = childParentData.nextSibling;
       counter++;
     }
