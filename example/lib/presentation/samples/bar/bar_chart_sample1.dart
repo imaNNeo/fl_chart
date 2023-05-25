@@ -162,7 +162,35 @@ class BarChartSample1State extends State<BarChartSample1> {
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.blueGrey,
+          getTooltipColor: (group) {
+            Color bgColor;
+            switch (group.x) {
+              case 0:
+                bgColor = AppColors.contentColorPurple.withAlpha(100);
+                break;
+              case 1:
+                bgColor = AppColors.contentColorYellow.withAlpha(100);
+                break;
+              case 2:
+                bgColor = AppColors.contentColorBlue.withAlpha(100);
+                break;
+              case 3:
+                bgColor = AppColors.contentColorOrange.withAlpha(100);
+                break;
+              case 4:
+                bgColor = AppColors.contentColorPink.withAlpha(100);
+                break;
+              case 5:
+                bgColor = AppColors.contentColorRed.withAlpha(100);
+                break;
+              case 6:
+                bgColor = AppColors.contentColorPurple.withAlpha(150);
+                break;
+              default:
+                throw Error();
+            }
+            return bgColor;
+          },
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
@@ -202,8 +230,8 @@ class BarChartSample1State extends State<BarChartSample1> {
               children: <TextSpan>[
                 TextSpan(
                   text: (rod.toY - 1).toString(),
-                  style: TextStyle(
-                    color: widget.touchedBarColor,
+                  style: const TextStyle(
+                    color: Colors.white, //widget.touchedBarColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
