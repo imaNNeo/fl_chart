@@ -314,7 +314,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                     );
                 }
                 canvasWrapper.drawPath(path, _barStrokePaint);
-                break;
               case BorderStyle.none:
                 break;
             }
@@ -340,7 +339,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                     );
                 }
                 canvasWrapper.drawPath(path, _barStrokePaint);
-                break;
               case BorderStyle.none:
                 break;
             }
@@ -366,7 +364,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                     );
                 }
                 canvasWrapper.drawPath(path, _barStrokePaint);
-                break;
               case BorderStyle.none:
                 break;
             }
@@ -392,7 +389,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                     );
                 }
                 canvasWrapper.drawPath(path, _barStrokePaint);
-                break;
               case BorderStyle.none:
                 break;
             }
