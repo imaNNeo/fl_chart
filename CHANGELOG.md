@@ -1,7 +1,10 @@
-## newVersion
+## nextVersion
+
+## 0.63.0
 * **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955
 * **BUGFIX** (by @imaNNeo) Fix ScatterChart long-press interaction bug (disappears when long-pressing on the chart), #1318
 * **FEATURE** (by @imaNNeo) Upgrade dart version to [3.0](https://dart.dev/resources/dart-3-migration)
+* **IMPROVEMENT** (by @imaNNeo) Use [new approach](https://dart.dev/tools/pub/automated-publishing) for publishing package
 
 ## 0.62.0
 * **BUGFIX** (by @JoshMart) Fix extra lines not painting when at chart min or max, #1255.
