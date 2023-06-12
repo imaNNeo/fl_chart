@@ -317,6 +317,31 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               case BorderStyle.none:
                 break;
             }
+            // left border
+            switch (border.left.style) {
+              case BorderStyle.solid:
+                _barStrokePaint.color = border.left.color;
+                path.reset();
+                path.moveTo(barRRect.left, barRRect.bottom);
+                path.lineTo(barRRect.left, barRRect.top);
+                if (border.left.width == 0.0) {
+                  _barStrokePaint.style = PaintingStyle.stroke;
+                } else {
+                  _barStrokePaint.style = PaintingStyle.fill;
+                  path
+                    ..lineTo(
+                      barRRect.left + border.left.width,
+                      barRRect.top + border.top.width,
+                    )
+                    ..lineTo(
+                      barRRect.left + border.left.width,
+                      barRRect.bottom - border.bottom.width,
+                    );
+                }
+                canvasWrapper.drawPath(path, _barStrokePaint);
+              case BorderStyle.none:
+                break;
+            }
             // right border
             switch (border.right.style) {
               case BorderStyle.solid:
@@ -360,31 +385,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                     )
                     ..lineTo(
                       barRRect.right - border.right.width,
-                      barRRect.bottom - border.bottom.width,
-                    );
-                }
-                canvasWrapper.drawPath(path, _barStrokePaint);
-              case BorderStyle.none:
-                break;
-            }
-            // left border
-            switch (border.left.style) {
-              case BorderStyle.solid:
-                _barStrokePaint.color = border.left.color;
-                path.reset();
-                path.moveTo(barRRect.left, barRRect.bottom);
-                path.lineTo(barRRect.left, barRRect.top);
-                if (border.left.width == 0.0) {
-                  _barStrokePaint.style = PaintingStyle.stroke;
-                } else {
-                  _barStrokePaint.style = PaintingStyle.fill;
-                  path
-                    ..lineTo(
-                      barRRect.left + border.left.width,
-                      barRRect.top + border.top.width,
-                    )
-                    ..lineTo(
-                      barRRect.left + border.left.width,
                       barRRect.bottom - border.bottom.width,
                     );
                 }
