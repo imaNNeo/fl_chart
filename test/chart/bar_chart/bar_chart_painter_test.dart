@@ -273,18 +273,21 @@ void main() {
               width: 10,
               color: const Color(0x00000000),
               borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+              border: Border.all(color: const Color(0x55555555)),
             ),
             BarChartRodData(
               toY: 8,
               width: 11,
               color: const Color(0x11111111),
               borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+              border: Border.all(color: const Color(0x66666666), width: 2),
             ),
             BarChartRodData(
               toY: 8,
               width: 12,
               color: const Color(0x22222222),
               borderRadius: const BorderRadius.all(Radius.circular(0.3)),
+              border: Border.all(color: const Color(0x77777777), width: 3),
             ),
           ],
           barsSpace: 5,
@@ -377,11 +380,12 @@ void main() {
             bottomLeft: rRect.blRadius,
           ),
           'paint_color': paint.color,
+          'paint_style': paint.style,
         });
       });
 
       barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
-      expect(results.length, 11);
+      expect(results.length, 14);
 
       expect(
         HelperMethods.equalsRRects(
@@ -402,6 +406,22 @@ void main() {
         HelperMethods.equalsRRects(
           results[1]['rRect'] as RRect,
           RRect.fromLTRBR(
+            28.5,
+            0,
+            38.5,
+            76.9,
+            const Radius.circular(0.1),
+          ),
+        ),
+        true,
+      );
+      expect(results[1]['paint_color'] as Color, const Color(0x55555555));
+      expect(results[1]['paint_style'] as PaintingStyle, PaintingStyle.stroke);
+
+      expect(
+        HelperMethods.equalsRRects(
+          results[2]['rRect'] as RRect,
+          RRect.fromLTRBR(
             43.5,
             15.4,
             54.5,
@@ -411,11 +431,27 @@ void main() {
         ),
         true,
       );
-      expect(results[1]['paint_color'] as Color, const Color(0x11111111));
+      expect(results[2]['paint_color'] as Color, const Color(0x11111111));
 
       expect(
         HelperMethods.equalsRRects(
-          results[2]['rRect'] as RRect,
+          results[3]['rRect'] as RRect,
+          RRect.fromLTRBR(
+            43.5,
+            15.4,
+            54.5,
+            76.9,
+            const Radius.circular(0.2),
+          ),
+        ),
+        true,
+      );
+      expect(results[3]['paint_color'] as Color, const Color(0x66666666));
+      expect(results[3]['paint_style'] as PaintingStyle, PaintingStyle.stroke);
+
+      expect(
+        HelperMethods.equalsRRects(
+          results[4]['rRect'] as RRect,
           RRect.fromLTRBR(
             59.5,
             15.4,
@@ -426,11 +462,27 @@ void main() {
         ),
         true,
       );
-      expect(results[2]['paint_color'] as Color, const Color(0x22222222));
+      expect(results[4]['paint_color'] as Color, const Color(0x22222222));
 
       expect(
         HelperMethods.equalsRRects(
-          results[3]['rRect'] as RRect,
+          results[5]['rRect'] as RRect,
+          RRect.fromLTRBR(
+            59.5,
+            15.4,
+            71.5,
+            76.9,
+            const Radius.circular(0.3),
+          ),
+        ),
+        true,
+      );
+      expect(results[5]['paint_color'] as Color, const Color(0x77777777));
+      expect(results[5]['paint_style'] as PaintingStyle, PaintingStyle.stroke);
+
+      expect(
+        HelperMethods.equalsRRects(
+          results[6]['rRect'] as RRect,
           RRect.fromLTRBR(
             81.5,
             0,
@@ -443,7 +495,7 @@ void main() {
       );
       expect(
         HelperMethods.equalsRRects(
-          results[4]['rRect'] as RRect,
+          results[7]['rRect'] as RRect,
           RRect.fromLTRBR(
             96.5,
             15.4,
@@ -457,7 +509,7 @@ void main() {
 
       expect(
         HelperMethods.equalsRRects(
-          results[5]['rRect'] as RRect,
+          results[8]['rRect'] as RRect,
           RRect.fromLTRBR(
             116.5,
             15.4,
@@ -471,7 +523,7 @@ void main() {
 
       expect(
         HelperMethods.equalsRRects(
-          results[6]['rRect'] as RRect,
+          results[9]['rRect'] as RRect,
           RRect.fromLTRBR(
             116.5,
             0,
@@ -484,7 +536,7 @@ void main() {
       );
       expect(
         HelperMethods.equalsRRects(
-          results[7]['rRect'] as RRect,
+          results[10]['rRect'] as RRect,
           RRect.fromLTRBR(
             131.5,
             15.4,
@@ -498,7 +550,7 @@ void main() {
 
       expect(
         HelperMethods.equalsRRects(
-          results[8]['rRect'] as RRect,
+          results[11]['rRect'] as RRect,
           RRect.fromLTRBR(
             146.5,
             76.9,
@@ -512,7 +564,7 @@ void main() {
 
       expect(
         HelperMethods.equalsRRects(
-          results[9]['rRect'] as RRect,
+          results[12]['rRect'] as RRect,
           RRect.fromLTRBR(
             146.5,
             15.4,
@@ -525,7 +577,7 @@ void main() {
       );
       expect(
         HelperMethods.equalsRRects(
-          results[10]['rRect'] as RRect,
+          results[13]['rRect'] as RRect,
           RRect.fromLTRBR(
             161.5,
             15.4,
@@ -732,27 +784,44 @@ void main() {
 
     test('test 3', () {
       const viewSize = Size(200, 100);
-
       final barGroups = [
         BarChartGroupData(
           x: 0,
           barRods: [
             BarChartRodData(
-              fromY: -10,
               toY: 10,
+              width: 10,
               color: const Color(0x00000000),
-              rodStackItems: [
-                BarChartRodStackItem(-5, -10, const Color(0x11111111)),
-                BarChartRodStackItem(0, -5, const Color(0x22222222)),
-                BarChartRodStackItem(0, 5, const Color(0x33333333)),
-                BarChartRodStackItem(5, 10, const Color(0x44444444)),
-              ],
+              borderRadius: BorderRadius.zero,
+              border: const Border(
+                top: BorderSide(color: Color(0x00000000)),
+                left: BorderSide(color: Color(0x11111111), width: 2),
+                right: BorderSide(color: Color(0x22222222), width: 3),
+                bottom: BorderSide(color: Color(0x33333333), width: 4),
+              ),
+            ),
+            BarChartRodData(
+              toY: 8,
+              width: 11,
+              color: const Color(0x11111111),
+              borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+            ),
+            BarChartRodData(
+              toY: 8,
+              width: 12,
+              color: const Color(0x22222222),
+              borderRadius: const BorderRadius.all(Radius.circular(0.3)),
             ),
           ],
         ),
       ];
 
-      final data = BarChartData(barGroups: barGroups);
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        //groupsSpace: 10,
+        barGroups: barGroups,
+        alignment: BarChartAlignment.center,
+      );
 
       final barChartPainter = BarChartPainter();
       final holder = PaintHolder<BarChartData>(data, data, 1);
@@ -768,21 +837,326 @@ void main() {
         barGroups,
       );
 
-      final results = <Map<String, dynamic>>[];
+      final rRectResults = <Map<String, dynamic>>[];
       when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
           .thenAnswer((inv) {
+        final rRect = inv.positionalArguments[0] as RRect;
         final paint = inv.positionalArguments[1] as Paint;
-        results.add({
+        rRectResults.add({
+          'rRect': RRect.fromLTRBAndCorners(
+            rRect.left,
+            rRect.top,
+            rRect.right,
+            rRect.bottom,
+            topLeft: rRect.tlRadius,
+            topRight: rRect.trRadius,
+            bottomRight: rRect.brRadius,
+            bottomLeft: rRect.blRadius,
+          ),
           'paint_color': paint.color,
         });
       });
 
+      final pathResults = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final paint = inv.positionalArguments[1] as Paint;
+        pathResults.add({
+          'path': Path.from(inv.positionalArguments[0] as Path),
+          'paint_color': paint.color,
+          'paint_style': paint.style,
+        });
+      });
+
       barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
-      expect(results.length, 5);
-      expect(results[1]['paint_color'], const Color(0x11111111));
-      expect(results[2]['paint_color'], const Color(0x22222222));
-      expect(results[3]['paint_color'], const Color(0x33333333));
-      expect(results[4]['paint_color'], const Color(0x44444444));
+      expect(rRectResults.length, 3);
+      expect(pathResults.length, 4);
+
+      final rRect = RRect.fromLTRBR(
+        81.5,
+        0,
+        91.5,
+        100,
+        Radius.zero,
+      );
+      expect(
+        HelperMethods.equalsRRects(
+          rRectResults[0]['rRect'] as RRect,
+          rRect,
+        ),
+        true,
+      );
+      expect(rRectResults[0]['paint_color'] as Color, const Color(0x00000000));
+
+      expect(
+        HelperMethods.equalsPaths(
+          pathResults[0]['path'] as Path,
+          Path()
+            ..moveTo(rRect.left, rRect.top)
+            ..lineTo(rRect.right, rRect.top)
+            ..lineTo(rRect.right - 3, rRect.top + 1)
+            ..lineTo(rRect.left + 2, rRect.top + 1),
+        ),
+        true,
+      );
+      expect(pathResults[0]['paint_color'] as Color, const Color(0x00000000));
+      expect(
+        pathResults[0]['paint_style'] as PaintingStyle,
+        PaintingStyle.fill,
+      );
+
+      expect(
+        HelperMethods.equalsPaths(
+          pathResults[1]['path'] as Path,
+          Path()
+            ..moveTo(rRect.left, rRect.bottom)
+            ..lineTo(rRect.left, rRect.top)
+            ..lineTo(rRect.left + 2, rRect.top + 1)
+            ..lineTo(rRect.left + 2, rRect.bottom - 4),
+        ),
+        true,
+      );
+      expect(pathResults[1]['paint_color'] as Color, const Color(0x11111111));
+      expect(
+        pathResults[1]['paint_style'] as PaintingStyle,
+        PaintingStyle.fill,
+      );
+
+      expect(
+        HelperMethods.equalsPaths(
+          pathResults[2]['path'] as Path,
+          Path()
+            ..moveTo(rRect.right, rRect.top)
+            ..lineTo(rRect.right, rRect.bottom)
+            ..lineTo(rRect.right - 3, rRect.bottom - 4)
+            ..lineTo(rRect.right - 3, rRect.top + 1),
+        ),
+        true,
+      );
+      expect(pathResults[2]['paint_color'] as Color, const Color(0x22222222));
+      expect(
+        pathResults[2]['paint_style'] as PaintingStyle,
+        PaintingStyle.fill,
+      );
+
+      expect(
+        HelperMethods.equalsPaths(
+          pathResults[3]['path'] as Path,
+          Path()
+            ..moveTo(rRect.right, rRect.bottom)
+            ..lineTo(rRect.left, rRect.bottom)
+            ..lineTo(rRect.left + 2, rRect.bottom - 4)
+            ..lineTo(rRect.right - 3, rRect.bottom - 4),
+        ),
+        true,
+      );
+      expect(pathResults[3]['paint_color'] as Color, const Color(0x33333333));
+      expect(
+        pathResults[3]['paint_style'] as PaintingStyle,
+        PaintingStyle.fill,
+      );
+
+      expect(
+        HelperMethods.equalsRRects(
+          rRectResults[1]['rRect'] as RRect,
+          RRect.fromLTRBR(
+            93.5,
+            20,
+            104.5,
+            100,
+            const Radius.circular(0.2),
+          ),
+        ),
+        true,
+      );
+      expect(rRectResults[1]['paint_color'] as Color, const Color(0x11111111));
+
+      expect(
+        HelperMethods.equalsRRects(
+          rRectResults[2]['rRect'] as RRect,
+          RRect.fromLTRBR(
+            106.5,
+            20,
+            118.5,
+            100,
+            const Radius.circular(0.3),
+          ),
+        ),
+        true,
+      );
+      expect(rRectResults[2]['paint_color'] as Color, const Color(0x22222222));
+    });
+
+    test('test 4', () {
+      const viewSize = Size(200, 100);
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: BorderRadius.zero,
+              border: const Border(
+                top: BorderSide(color: Color(0x00000000), width: 0),
+                left: BorderSide(
+                  color: Color(0x11111111),
+                  width: 2,
+                  style: BorderStyle.none,
+                ),
+                right: BorderSide(color: Color(0x22222222), width: 4),
+              ),
+            ),
+            BarChartRodData(
+              toY: 8,
+              width: 11,
+              color: const Color(0x11111111),
+              borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+            ),
+            BarChartRodData(
+              toY: 8,
+              width: 12,
+              color: const Color(0x22222222),
+              borderRadius: const BorderRadius.all(Radius.circular(0.3)),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        //groupsSpace: 10,
+        barGroups: barGroups,
+        alignment: BarChartAlignment.center,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final rRectResults = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final rRect = inv.positionalArguments[0] as RRect;
+        final paint = inv.positionalArguments[1] as Paint;
+        rRectResults.add({
+          'rRect': RRect.fromLTRBAndCorners(
+            rRect.left,
+            rRect.top,
+            rRect.right,
+            rRect.bottom,
+            topLeft: rRect.tlRadius,
+            topRight: rRect.trRadius,
+            bottomRight: rRect.brRadius,
+            bottomLeft: rRect.blRadius,
+          ),
+          'paint_color': paint.color,
+        });
+      });
+
+      final pathResults = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final paint = inv.positionalArguments[1] as Paint;
+        pathResults.add({
+          'path': Path.from(inv.positionalArguments[0] as Path),
+          'paint_color': paint.color,
+          'paint_style': paint.style,
+        });
+      });
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+      expect(rRectResults.length, 3);
+      expect(pathResults.length, 2);
+
+      final rRect = RRect.fromLTRBR(
+        81.5,
+        0,
+        91.5,
+        100,
+        Radius.zero,
+      );
+      expect(
+        HelperMethods.equalsRRects(
+          rRectResults[0]['rRect'] as RRect,
+          rRect,
+        ),
+        true,
+      );
+      expect(rRectResults[0]['paint_color'] as Color, const Color(0x00000000));
+
+      expect(
+        HelperMethods.equalsPaths(
+          pathResults[0]['path'] as Path,
+          Path()
+            ..moveTo(rRect.left, rRect.top)
+            ..lineTo(rRect.right, rRect.top),
+        ),
+        true,
+      );
+      expect(pathResults[0]['paint_color'] as Color, const Color(0x00000000));
+      expect(
+        pathResults[0]['paint_style'] as PaintingStyle,
+        PaintingStyle.stroke,
+      );
+
+      expect(
+        HelperMethods.equalsPaths(
+          pathResults[1]['path'] as Path,
+          Path()
+            ..moveTo(rRect.right, rRect.top)
+            ..lineTo(rRect.right, rRect.bottom)
+            ..lineTo(rRect.right - 4, rRect.bottom - 0)
+            ..lineTo(rRect.right - 4, rRect.top + 0),
+        ),
+        true,
+      );
+      expect(pathResults[1]['paint_color'] as Color, const Color(0x22222222));
+      expect(
+        pathResults[1]['paint_style'] as PaintingStyle,
+        PaintingStyle.fill,
+      );
+
+      expect(
+        HelperMethods.equalsRRects(
+          rRectResults[1]['rRect'] as RRect,
+          RRect.fromLTRBR(
+            93.5,
+            20,
+            104.5,
+            100,
+            const Radius.circular(0.2),
+          ),
+        ),
+        true,
+      );
+      expect(rRectResults[1]['paint_color'] as Color, const Color(0x11111111));
+
+      expect(
+        HelperMethods.equalsRRects(
+          rRectResults[2]['rRect'] as RRect,
+          RRect.fromLTRBR(
+            106.5,
+            20,
+            118.5,
+            100,
+            const Radius.circular(0.3),
+          ),
+        ),
+        true,
+      );
+      expect(rRectResults[2]['paint_color'] as Color, const Color(0x22222222));
     });
   });
 
@@ -1699,78 +2073,6 @@ void main() {
       expect(result3!.touchedBarGroupIndex, 0);
       expect(result3.touchedRodDataIndex, 0);
       expect(result3.touchedStackItemIndex, -1);
-    });
-
-    test('test 3', () {
-      const viewSize = Size(200, 100);
-
-      final barGroups = [
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              toY: 5,
-              backDrawRodData: BackgroundBarChartRodData(
-                show: true,
-                fromY: -5,
-                toY: 5,
-              ),
-            ),
-          ],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              toY: -6,
-              backDrawRodData: BackgroundBarChartRodData(
-                show: true,
-                fromY: 5,
-                toY: -6,
-              ),
-            ),
-          ],
-        ),
-      ];
-
-      final data = BarChartData(
-        barGroups: barGroups,
-        titlesData: const FlTitlesData(show: false),
-        alignment: BarChartAlignment.start,
-        groupsSpace: 10,
-        minY: -10,
-        maxY: 15,
-        barTouchData: BarTouchData(
-          enabled: true,
-          handleBuiltInTouches: true,
-          allowTouchBarBackDraw: true,
-          touchExtraThreshold: const EdgeInsets.all(1),
-        ),
-      );
-
-      final painter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
-
-      final result1 =
-          painter.handleTouch(const Offset(4, 60), viewSize, holder);
-      expect(result1!.touchedBarGroupIndex, 0);
-      expect(result1.touchedRodDataIndex, 0);
-
-      // tap below the positive bar
-      final result11 =
-          painter.handleTouch(const Offset(4, 61.1), viewSize, holder);
-      expect(result11!.touchedBarGroupIndex, 0);
-      expect(result11.touchedRodDataIndex, 0);
-
-      final result2 =
-          painter.handleTouch(const Offset(22, 60), viewSize, holder);
-      expect(result2!.touchedBarGroupIndex, 1);
-      expect(result2.touchedRodDataIndex, 0);
-
-      final result22 =
-          painter.handleTouch(const Offset(22, 58.9), viewSize, holder);
-      expect(result22!.touchedBarGroupIndex, 1);
-      expect(result22.touchedRodDataIndex, 0);
     });
   });
 
