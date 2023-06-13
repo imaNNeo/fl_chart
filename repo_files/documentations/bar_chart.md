@@ -106,6 +106,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
  |direction| Controls showing tooltip on top or bottom, default is auto.| auto|
+ |getTooltipColor|a callback that retrieves the Color for each rod separately from the given [BarChartGroupData](#BarChartGroupData) to set the background color of the tooltip bubble|Colors.white| 
 
 ### BarTooltipItem
 |PropName|Description|default value|
