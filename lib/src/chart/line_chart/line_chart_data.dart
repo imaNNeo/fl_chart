@@ -1246,6 +1246,7 @@ class LineTouchTooltipData with EquatableMixin {
     this.tooltipHorizontalOffset = 0,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
+    this.getTooltipColor = defaultLineTooltipColor,
     this.fitInsideHorizontally = false,
     this.fitInsideVertically = false,
     this.showOnTopOfTheChartBoxArea = false,
@@ -1292,6 +1293,9 @@ class LineTouchTooltipData with EquatableMixin {
   /// The tooltip border color.
   final BorderSide tooltipBorder;
 
+  // /// Retrieves data for setting background color of the tooltip.
+  final GetLineTooltipColor getTooltipColor;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -1308,6 +1312,7 @@ class LineTouchTooltipData with EquatableMixin {
         showOnTopOfTheChartBoxArea,
         rotateAngle,
         tooltipBorder,
+        getTooltipColor,
       ];
 }
 
@@ -1334,6 +1339,21 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
     );
     return LineTooltipItem(touchedSpot.y.toString(), textStyle);
   }).toList();
+}
+
+//// Provides a [Color] to show different background color for each touched spot
+///
+/// You can override [LineTouchTooltipData.getTooltipColors], it gives you
+/// [touchedSpots] list that touch happened on, then you should and pass your custom [Color] list
+/// (length should be equal to the [touchedSpots.length]), to set background color
+/// of tooltip popup.
+typedef GetLineTooltipColor = Color Function(
+  LineBarSpot touchedSpot,
+);
+
+/// Default implementation for [LineTouchTooltipData.getTooltipItems].
+Color defaultLineTooltipColor(LineBarSpot touchedSpots) {
+  return const Color.fromRGBO(96, 125, 139, 1);
 }
 
 /// Represent a targeted spot inside a line bar.

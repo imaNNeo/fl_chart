@@ -750,9 +750,6 @@ class BarTouchTooltipData with EquatableMixin {
   /// Retrieves data for showing content inside the tooltip.
   final GetBarTooltipItem getTooltipItem;
 
-  /// Retrieves data for setting background color of the tooltip.
-  final GetBarTooltipColor getTooltipColor;
-
   /// Forces the tooltip to shift horizontally inside the chart, if overflow happens.
   final bool fitInsideHorizontally;
 
@@ -767,6 +764,9 @@ class BarTouchTooltipData with EquatableMixin {
 
   /// The tooltip border color.
   final BorderSide tooltipBorder;
+
+  /// Retrieves data for setting background color of the tooltip.
+  final GetBarTooltipColor getTooltipColor;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -796,15 +796,6 @@ typedef GetBarTooltipItem = BarTooltipItem? Function(
   int groupIndex,
   BarChartRodData rod,
   int rodIndex,
-);
-
-//// Provides a [Color] to show different background color for each rod
-///
-/// You can override [BarTouchTooltipData.getTooltipColor], it gives you
-/// [group] that touch happened on, then you should and pass your custom [Color] to set background color
-/// of tooltip popup.
-typedef GetBarTooltipColor = Color Function(
-  BarChartGroupData group,
 );
 
 /// Default implementation for [BarTouchTooltipData.getTooltipItem].
@@ -860,6 +851,15 @@ class BarTooltipItem with EquatableMixin {
         children,
       ];
 }
+
+//// Provides a [Color] to show different background color for each rod
+///
+/// You can override [BarTouchTooltipData.getTooltipColor], it gives you
+/// [group] that touch happened on, then you should and pass your custom [Color] to set background color
+/// of tooltip popup.
+typedef GetBarTooltipColor = Color Function(
+  BarChartGroupData group,
+);
 
 /// Holds information about touch response in the [BarChart].
 ///
