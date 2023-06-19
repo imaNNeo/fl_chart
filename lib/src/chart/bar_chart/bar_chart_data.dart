@@ -453,7 +453,11 @@ class BarChartRodStackItem with EquatableMixin {
     this.toY,
     this.color, [
     this.borderSide = Utils.defaultBorderSide,
+    this.title = '',
   ]);
+
+  /// Renders a Stacked Chart section from [title]
+  final String title;
 
   /// Renders a Stacked Chart section from [fromY]
   final double fromY;
@@ -474,12 +478,14 @@ class BarChartRodStackItem with EquatableMixin {
     double? toY,
     Color? color,
     BorderSide? borderSide,
+    String? title,
   }) {
     return BarChartRodStackItem(
       fromY ?? this.fromY,
       toY ?? this.toY,
       color ?? this.color,
       borderSide ?? this.borderSide,
+      title ?? this.title,
     );
   }
 
@@ -499,7 +505,7 @@ class BarChartRodStackItem with EquatableMixin {
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [fromY, toY, color, borderSide];
+  List<Object?> get props => [fromY, toY, color, borderSide, title];
 }
 
 /// Holds values to draw a rod in rear of the main rod.
