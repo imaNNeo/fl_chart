@@ -454,6 +454,9 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// The tooltip border color.
   final BorderSide tooltipBorder;
 
+  /// Retrieves data for showing content inside the tooltip.
+  final GetScatterTooltipColor getTooltipColor;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -468,6 +471,7 @@ class ScatterTouchTooltipData with EquatableMixin {
         fitInsideVertically,
         rotateAngle,
         tooltipBorder,
+        getTooltipColor,
       ];
 
   /// Copies current [ScatterTouchTooltipData] to a new [ScatterTouchTooltipData],
@@ -500,6 +504,7 @@ class ScatterTouchTooltipData with EquatableMixin {
       fitInsideVertically: fitInsideVertically ?? this.fitInsideVertically,
       rotateAngle: rotateAngle ?? this.rotateAngle,
       tooltipBorder: tooltipBorder ?? this.tooltipBorder,
+      getTooltipColor: getTooltipColor ?? this.getTooltipColor,
     );
   }
 }
@@ -525,6 +530,21 @@ ScatterTooltipItem? defaultScatterTooltipItem(ScatterSpot touchedSpot) {
     '${touchedSpot.radius.toInt()}',
     textStyle: textStyle,
   );
+}
+
+/// Provides a [Color] to show different background color inside the [ScatterTouchTooltipData].
+///
+/// You can override [ScatterTouchTooltipData.getTooltipColor], it gives you
+/// [touchedSpot] that touch happened on,
+/// then you should and pass your custom [Color]
+/// to show it inside the tooltip popup.
+typedef GetScatterTooltipColor = Color? Function(
+  ScatterSpot touchedSpot,
+);
+
+/// Default implementation for [ScatterTouchTooltipData.getTooltipItems].
+Color? defaultScatterTooltipColor(ScatterSpot touchedSpot) {
+  return Colors.blueGrey.darken(15);
 }
 
 /// Holds data of showing each item in the tooltip popup.
