@@ -121,7 +121,40 @@ class _ScatterChartSample2State extends State {
                   : SystemMouseCursors.click;
             },
             touchTooltipData: ScatterTouchTooltipData(
-              tooltipBgColor: Colors.black,
+              //   tooltipBgColor: Colors.black,
+              getTooltipColor: (ScatterSpot touchedBarSpot) {
+                Color bgColor;
+
+                switch ((touchedBarSpot.x.toInt(), touchedBarSpot.y.toInt())) {
+                  case (4, 4):
+                    bgColor = AppColors.contentColorPurple.withAlpha(100);
+                    break;
+                  case (2, 5):
+                    bgColor = AppColors.contentColorYellow.withAlpha(100);
+                    break;
+                  case (4, 5):
+                    bgColor = AppColors.contentColorBlue.withAlpha(100);
+                    break;
+                  case (8, 6):
+                    bgColor = AppColors.contentColorOrange.withAlpha(100);
+                    break;
+                  case (5, 7):
+                    bgColor = AppColors.contentColorPink.withAlpha(100);
+                    break;
+                  case (7, 2):
+                    bgColor = AppColors.contentColorRed.withAlpha(100);
+                    break;
+                  case (3, 2):
+                    bgColor = AppColors.contentColorPurple.withAlpha(150);
+                    break;
+                  case (2, 8):
+                    bgColor = AppColors.contentColorYellow.withAlpha(100);
+                    break;
+                  default:
+                    throw Error();
+                }
+                return bgColor;
+              },
               getTooltipItems: (ScatterSpot touchedBarSpot) {
                 return ScatterTooltipItem(
                   'X: ',

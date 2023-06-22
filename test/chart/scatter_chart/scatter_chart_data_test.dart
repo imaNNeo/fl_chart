@@ -362,7 +362,7 @@ void main() {
       final sample = ScatterTouchData(
         touchTooltipData: ScatterTouchTooltipData(
           maxContentWidth: 2,
-          tooltipBgColor: Colors.red,
+          getTooltipColor: (touchedSpots) => Colors.red,
           tooltipPadding: const EdgeInsets.all(11),
         ),
         handleBuiltInTouches: false,
@@ -372,7 +372,7 @@ void main() {
       final sampleClone = ScatterTouchData(
         touchTooltipData: ScatterTouchTooltipData(
           maxContentWidth: 2,
-          tooltipBgColor: Colors.red,
+          getTooltipColor: (touchedSpots) => Colors.red,
           tooltipPadding: const EdgeInsets.all(11),
         ),
         handleBuiltInTouches: false,
