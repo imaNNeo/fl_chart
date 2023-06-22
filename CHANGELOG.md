@@ -7,8 +7,13 @@
 * **FEATURE**  (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change backgroud color of tooltip dynamically.[issue](https://github.com/imaNNeo/fl_chart/issues/1279).
 * **BREAKING** (by @apekshamehta) Removed tooltipBgColor property from Bar,Line and Scatter Charts.
 
+<<<<<<< HEAD
 * **FEATURE**  (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change backgroud color of tooltip dynamically.[issue](https://github.com/imaNNeo/fl_chart/issues/1279).
 * **BREAKING** (by @apekshamehta) Removed tooltipBgColor property from Bar,Line and Scatter Charts.
+=======
+## 0.64.0
+* **FEATURE** (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change backgroud color of tooltip dynamically.[issue](https://github.com/imaNNeo/fl_chart/issues/1279).
+>>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
 
 ## 0.63.0
 * **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955
