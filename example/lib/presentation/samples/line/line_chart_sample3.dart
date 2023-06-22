@@ -206,29 +206,32 @@ class _LineChartSample3State extends State<LineChartSample3> {
                     }).toList();
                   },
                   touchTooltipData: LineTouchTooltipData(
-                    tooltipBgColor: widget.tooltipBgColor,
+                    // tooltipBgColor: widget.tooltipBgColor,
                     getTooltipColor: (touchedSpot) {
                       Color bgColor = Colors.white;
-                      switch (touchedSpot.x.toInt()) {
-                        case 0:
+                      switch ((
+                        touchedSpot.x.toInt(),
+                        touchedSpot.y.toDouble()
+                      )) {
+                        case (0, 1.3):
                           bgColor = AppColors.contentColorPurple.withAlpha(100);
                           break;
-                        case 1:
+                        case (1, 1):
                           bgColor = AppColors.contentColorYellow.withAlpha(100);
                           break;
-                        case 2:
+                        case (2, 1.8):
                           bgColor = AppColors.contentColorBlue.withAlpha(100);
                           break;
-                        case 3:
+                        case (3, 1.5):
                           bgColor = AppColors.contentColorOrange.withAlpha(100);
                           break;
-                        case 4:
+                        case (4, 2.2):
                           bgColor = AppColors.contentColorPink.withAlpha(100);
                           break;
-                        case 5:
+                        case (5, 1.8):
                           bgColor = AppColors.contentColorRed.withAlpha(100);
                           break;
-                        case 6:
+                        case (6, 3):
                           bgColor = AppColors.contentColorPurple.withAlpha(150);
                           break;
                         default:

@@ -1226,7 +1226,7 @@ class LineTouchTooltipData with EquatableMixin {
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
-  /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
+  /// Tooltip shows on top of spots, with [getTooltipColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
@@ -1237,7 +1237,6 @@ class LineTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   const LineTouchTooltipData({
-    this.tooltipBgColor = const Color.fromRGBO(96, 125, 139, 1),
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -1253,9 +1252,6 @@ class LineTouchTooltipData with EquatableMixin {
     this.rotateAngle = 0.0,
     this.tooltipBorder = BorderSide.none,
   });
-
-  /// The tooltip background color.
-  final Color tooltipBgColor;
 
   /// Sets a rounded radius for the tooltip.
   final double tooltipRoundedRadius;
@@ -1299,7 +1295,6 @@ class LineTouchTooltipData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
         tooltipMargin,

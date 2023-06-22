@@ -7,6 +7,9 @@
 * **BUGFIX** (by @imaNNeo) Fix bar_chart_helper minY calculation bug, #1388
 * **IMPROVEMENT** (by @imaNNeo) Consider fraction digits when formatting chart side titles, #1267
 
+## 0.64.0
+* **FEATURE** (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change backgroud color of tooltip dynamically.[issue](https://github.com/imaNNeo/fl_chart/issues/1279).
+
 ## 0.63.0
 * **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955
 * **BUGFIX** (by @imaNNeo) Fix ScatterChart long-press interaction bug (disappears when long-pressing on the chart), #1318
