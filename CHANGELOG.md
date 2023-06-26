@@ -1,4 +1,5 @@
 ## nextVersion
+* **BUGFIX** (by @Anas35) Fix Tooltip not displaying when value from BackgroundBarChartRodData is less than zero. #1345.
 
 ## 0.63.0
 * **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955
