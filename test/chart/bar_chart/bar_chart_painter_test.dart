@@ -1641,6 +1641,78 @@ void main() {
       expect(result3.touchedRodDataIndex, 0);
       expect(result3.touchedStackItemIndex, -1);
     });
+
+    test('test 3', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(
+              toY: 5,
+              backDrawRodData: BackgroundBarChartRodData(
+                show: true,
+                fromY: -5,
+                toY: 5,
+              ),
+            ),
+          ],
+        ),
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(
+              toY: -6,
+              backDrawRodData: BackgroundBarChartRodData(
+                show: true,
+                fromY: 5,
+                toY: -6,
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        titlesData: const FlTitlesData(show: false),
+        alignment: BarChartAlignment.start,
+        groupsSpace: 10,
+        minY: -10,
+        maxY: 15,
+        barTouchData: BarTouchData(
+          enabled: true,
+          handleBuiltInTouches: true,
+          allowTouchBarBackDraw: true,
+          touchExtraThreshold: const EdgeInsets.all(1),
+        ),
+      );
+
+      final painter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final result1 =
+          painter.handleTouch(const Offset(4, 60), viewSize, holder);
+      expect(result1!.touchedBarGroupIndex, 0);
+      expect(result1.touchedRodDataIndex, 0);
+
+      // tap below the positive bar
+      final result11 =
+          painter.handleTouch(const Offset(4, 61.1), viewSize, holder);
+      expect(result11!.touchedBarGroupIndex, 0);
+      expect(result11.touchedRodDataIndex, 0);
+
+      final result2 =
+          painter.handleTouch(const Offset(22, 60), viewSize, holder);
+      expect(result2!.touchedBarGroupIndex, 1);
+      expect(result2.touchedRodDataIndex, 0);
+
+      final result22 =
+          painter.handleTouch(const Offset(22, 58.9), viewSize, holder);
+      expect(result22!.touchedBarGroupIndex, 1);
+      expect(result22.touchedRodDataIndex, 0);
+    });
   });
 
   group('drawExtraLines()', () {

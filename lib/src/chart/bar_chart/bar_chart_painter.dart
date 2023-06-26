@@ -599,13 +599,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             holder,
           );
           barBotY = getPixelY(
-            targetData.barGroups[i].barRods[j].fromY,
+            targetData.barGroups[i].barRods[j].fromY +
+                targetData.barGroups[i].barRods[j].backDrawRodData.fromY,
             viewSize,
             holder,
           );
         } else {
           barTopY = getPixelY(
-            targetData.barGroups[i].barRods[j].fromY,
+            targetData.barGroups[i].barRods[j].fromY +
+                targetData.barGroups[i].barRods[j].backDrawRodData.fromY,
             viewSize,
             holder,
           );
