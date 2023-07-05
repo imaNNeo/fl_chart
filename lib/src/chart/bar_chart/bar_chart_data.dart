@@ -453,11 +453,11 @@ class BarChartRodStackItem with EquatableMixin {
     this.toY,
     this.color, [
     this.borderSide = Utils.defaultBorderSide,
-    this.title = '',
+    this.title,
   ]);
 
   /// Renders a Stacked Chart section from [title]
-  final String title;
+  final dynamic title;
 
   /// Renders a Stacked Chart section from [fromY]
   final double fromY;

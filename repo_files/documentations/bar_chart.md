@@ -78,7 +78,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |toY|draw stack item to this value|null|
 |color|color of the stack item|null|
 |borderSide|draw border stroke for each stack item|null|
-|title|title of the stack item|''|
+|title|title of the stack item|null|
 
 ### BarTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
