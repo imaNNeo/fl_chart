@@ -1348,7 +1348,7 @@ typedef GetLineTooltipColor = Color Function(
 
 /// Default implementation for [LineTouchTooltipData.getTooltipItems].
 Color defaultLineTooltipColor(LineBarSpot touchedSpots) {
-  return const Color.fromRGBO(96, 125, 139, 1);
+  return Colors.blueGrey.darken(15);
 }
 
 /// Represent a targeted spot inside a line bar.
