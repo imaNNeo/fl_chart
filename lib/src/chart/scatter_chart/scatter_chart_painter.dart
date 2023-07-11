@@ -320,7 +320,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       bottomLeft: radius,
       bottomRight: radius,
     );
-    // _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+
     _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnSpot);
 
     final rotateAngle = tooltipData.rotateAngle;

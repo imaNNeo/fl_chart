@@ -765,7 +765,6 @@ class BarTouchTooltipData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        // tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
         tooltipMargin,
@@ -777,6 +776,7 @@ class BarTouchTooltipData with EquatableMixin {
         fitInsideVertically,
         rotateAngle,
         tooltipBorder,
+        getTooltipColor,
       ];
 }
 

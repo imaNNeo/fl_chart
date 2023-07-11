@@ -130,7 +130,7 @@ When you change the chart's state, it animates to the new state internally (usin
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
  |showOnTopOfTheChartBoxArea| forces the tooltip container to top of the line| false|
- |getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [LineBarSpot](#LineBarSpot) to set the background color of the tooltip bubble|Colors.white| 
+ |getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [LineBarSpot](#LineBarSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
 
 ### LineTooltipItem
 |PropName|Description|default value|
