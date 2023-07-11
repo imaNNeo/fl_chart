@@ -58,11 +58,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |getTooltipItems|a callback that retrieve a [ScatterTooltipItem](#ScatterTooltipItem) by the given [ScatterSpot](#ScatterSpot) |defaultScatterTooltipItem|
 |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
 |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
-<<<<<<< HEAD
 |getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [ScatterSpot](#ScatterSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
-=======
-|getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [ScatterSpot](#ScatterSpot) to set the background color of the tooltip bubble|Colors.white| 
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
 
 ### ScatterTooltipItem
 |PropName|Description|default value|
