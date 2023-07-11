@@ -292,10 +292,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               final stackFromY = getPixelY(stackItem.fromY, viewSize, holder);
               final stackToY = getPixelY(stackItem.toY, viewSize, holder);
 
+              final isNegative = stackItem.toY < stackItem.fromY;
               _barPaint.color = stackItem.color;
+              final rect = isNegative
+                  ? Rect.fromLTRB(left, stackFromY, right, stackToY)
+                  : Rect.fromLTRB(left, stackToY, right, stackFromY);
               canvasWrapper
                 ..save()
-                ..clipRect(Rect.fromLTRB(left, stackToY, right, stackFromY))
+                ..clipRect(rect)
                 ..drawRRect(barRRect, _barPaint)
                 ..restore();
 
