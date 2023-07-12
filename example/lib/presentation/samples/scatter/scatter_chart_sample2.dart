@@ -121,10 +121,6 @@ class _ScatterChartSample2State extends State {
                   : SystemMouseCursors.click;
             },
             touchTooltipData: ScatterTouchTooltipData(
-<<<<<<< HEAD
-=======
-              //   tooltipBgColor: Colors.black,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
               getTooltipColor: (ScatterSpot touchedBarSpot) {
                 Color bgColor;
 
