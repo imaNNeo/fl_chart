@@ -1338,8 +1338,8 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
 
 //// Provides a [Color] to show different background color for each touched spot
 ///
-/// You can override [LineTouchTooltipData.getTooltipColors], it gives you
-/// [touchedSpots] list that touch happened on, then you should and pass your custom [Color] list
+/// You can override [LineTouchTooltipData.getTooltipColor], it gives you
+/// [touchedSpot] object that touch happened on, then you should and pass your custom [Color] list
 /// (length should be equal to the [touchedSpots.length]), to set background color
 /// of tooltip popup.
 typedef GetLineTooltipColor = Color Function(
