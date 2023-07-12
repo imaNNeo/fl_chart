@@ -2317,11 +2317,7 @@ final ScatterTouchTooltipData scatterTouchTooltipData1 =
     ScatterTouchTooltipData(
   tooltipRoundedRadius: 23,
   tooltipPadding: const EdgeInsets.all(11),
-<<<<<<< HEAD
   getTooltipColor: scatterChartGetTooltipGreenColor,
-=======
-  getTooltipColor: (touchedSpots) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   maxContentWidth: 33,
   fitInsideVertically: true,
   fitInsideHorizontally: false,
@@ -2332,11 +2328,7 @@ final ScatterTouchTooltipData scatterTouchTooltipData1Clone =
     ScatterTouchTooltipData(
   tooltipRoundedRadius: 23,
   tooltipPadding: const EdgeInsets.all(11),
-<<<<<<< HEAD
   getTooltipColor: scatterChartGetTooltipGreenColor,
-=======
-  getTooltipColor: (touchedSpots) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   maxContentWidth: 33,
   fitInsideVertically: true,
   fitInsideHorizontally: false,
@@ -2347,11 +2339,7 @@ final ScatterTouchTooltipData scatterTouchTooltipData2 =
     ScatterTouchTooltipData(
   tooltipRoundedRadius: 23,
   tooltipPadding: const EdgeInsets.all(11),
-<<<<<<< HEAD
   getTooltipColor: scatterChartGetTooltipGreenColor,
-=======
-  getTooltipColor: (touchedSpots) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   maxContentWidth: 33,
   fitInsideVertically: true,
   fitInsideHorizontally: false,
@@ -2363,11 +2351,7 @@ final ScatterTouchTooltipData scatterTouchTooltipData3 =
     ScatterTouchTooltipData(
   tooltipRoundedRadius: 23,
   tooltipPadding: const EdgeInsets.all(11),
-<<<<<<< HEAD
   getTooltipColor: scatterChartGetTooltipGreenColor,
-=======
-  getTooltipColor: (touchedSpots) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   maxContentWidth: 33,
   fitInsideVertically: true,
   fitInsideHorizontally: false,
@@ -2758,11 +2742,7 @@ final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2773,11 +2753,7 @@ final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2788,11 +2764,7 @@ final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2804,11 +2776,7 @@ final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   fitInsideVertically: true,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2820,11 +2788,7 @@ final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: false,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2836,11 +2800,7 @@ final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23.00001,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2853,11 +2813,7 @@ final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipBlueColor,
-=======
-  getTooltipColor: (group) => Colors.blue,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2870,11 +2826,7 @@ final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
@@ -2886,11 +2838,7 @@ final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   tooltipMargin: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
@@ -2900,11 +2848,7 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 333,
@@ -2915,11 +2859,7 @@ final BarTouchTooltipData barTouchTooltipData10 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
@@ -2930,11 +2870,7 @@ final BarTouchTooltipData barTouchTooltipData11 = BarTouchTooltipData(
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
-<<<<<<< HEAD
   getTooltipColor: getTooltipGreenColor,
-=======
-  getTooltipColor: (group) => Colors.green,
->>>>>>> f501b62a (feat: Remove old property called tooltipBgColor for Bar,Line and Scatter Charts, Added new method called getTooltipColor for which user can provide their own custom implementation to change backgroud color for each tooltip of given chart, Updated sample charts, Updated test cases, Updated bar_chart.md,line_chart.md and scatter_chart.md files for the brief description about new method, Updated version code in pubspec)
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
