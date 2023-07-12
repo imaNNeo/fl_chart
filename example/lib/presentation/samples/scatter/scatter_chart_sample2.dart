@@ -121,7 +121,6 @@ class _ScatterChartSample2State extends State {
                   : SystemMouseCursors.click;
             },
             touchTooltipData: ScatterTouchTooltipData(
-              //   tooltipBgColor: Colors.black,
               getTooltipColor: (ScatterSpot touchedBarSpot) {
                 Color bgColor;
 
