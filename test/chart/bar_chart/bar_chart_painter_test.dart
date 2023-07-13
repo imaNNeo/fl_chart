@@ -728,6 +728,61 @@ void main() {
         true,
       );
     });
+
+    test('test 3', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: -10,
+              toY: 10,
+              color: const Color(0x00000000),
+              rodStackItems: [
+                BarChartRodStackItem(-5, -10, const Color(0x11111111)),
+                BarChartRodStackItem(0, -5, const Color(0x22222222)),
+                BarChartRodStackItem(0, 5, const Color(0x33333333)),
+                BarChartRodStackItem(5, 10, const Color(0x44444444)),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(barGroups: barGroups);
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final paint = inv.positionalArguments[1] as Paint;
+        results.add({
+          'paint_color': paint.color,
+        });
+      });
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+      expect(results.length, 5);
+      expect(results[1]['paint_color'], const Color(0x11111111));
+      expect(results[2]['paint_color'], const Color(0x22222222));
+      expect(results[3]['paint_color'], const Color(0x33333333));
+      expect(results[4]['paint_color'], const Color(0x44444444));
+    });
   });
 
   group('drawTouchTooltip()', () {
