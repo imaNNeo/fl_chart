@@ -34,7 +34,7 @@ class BarChartHelper {
     }
 
     var maxY = barGroup.barRods[0].toY;
-    var minY = 0.0;
+    var minY = barGroup.barRods[0].fromY;
 
     for (var i = 0; i < barGroups.length; i++) {
       final barGroup = barGroups[i];
