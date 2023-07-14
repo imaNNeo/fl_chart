@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/utils/list_wrapper.dart';
@@ -41,20 +42,22 @@ class BarChartHelper {
       for (var j = 0; j < barGroup.barRods.length; j++) {
         final rod = barGroup.barRods[j];
 
-        if (rod.toY > maxY) {
-          maxY = rod.toY;
+        if (rod.toY > maxY || rod.fromY > maxY) {
+          maxY = max(rod.toY, rod.fromY);
         }
 
-        if (rod.backDrawRodData.show && rod.backDrawRodData.toY > maxY) {
-          maxY = rod.backDrawRodData.toY;
+        if (rod.backDrawRodData.show && rod.backDrawRodData.toY > maxY ||
+            rod.backDrawRodData.fromY > maxY) {
+          maxY = max(rod.backDrawRodData.toY, rod.backDrawRodData.fromY);
         }
 
-        if (rod.toY < minY) {
-          minY = rod.toY;
+        if (rod.fromY < minY || rod.toY < minY) {
+          minY = min(rod.fromY, rod.toY);
         }
 
-        if (rod.backDrawRodData.show && rod.backDrawRodData.toY < minY) {
-          minY = rod.backDrawRodData.toY;
+        if (rod.backDrawRodData.show && rod.backDrawRodData.fromY < minY ||
+            rod.backDrawRodData.toY < minY) {
+          minY = min(rod.backDrawRodData.fromY, rod.backDrawRodData.toY);
         }
       }
     }
