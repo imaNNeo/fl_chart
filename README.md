@@ -53,13 +53,11 @@ We suggest you to check samples source code.
 
 ### Donation
 Your donation **motivates** me to work more on the **fl_chart** and resolve more issues.
-You can <a href="https://www.buymeacoffee.com/fl_chart">buy me a coffee!</a>
+There are multiple ways to donate me:
 
-<a href="https://www.buymeacoffee.com/fl_chart"><img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/buy_me_a_coffee.jpeg" width=360 /></a>
-
-Or if you are a fan of crypto, you can donate me Bitcoins here:
-
-`1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
+1. You can be my sponsor on [GitHub](https://github.com/sponsors/imaNNeo) (This is the most reliable way to donate me)
+2. You can <a href="https://www.buymeacoffee.com/fl_chart">buy me a coffee!</a>
+3. Or if you are a fan of crypto, you can donate me Bitcoins here: `1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
 
 ### Contributing
 ##### :beer: Pull requests are welcome!
