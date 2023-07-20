@@ -10,6 +10,7 @@ environment:
   sdk: ^3.0.0
 
 funding:
+  - https://github.com/sponsors/imaNNeo
   - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
