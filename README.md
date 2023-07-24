@@ -1,6 +1,8 @@
-💥 FL Chart is a highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.  💥
+📊 FL Chart is a highly customizable Flutter chart library that supports **[Line Chart](https://app.flchart.dev/#/line)**, **[Bar Chart](https://app.flchart.dev/#/bar)**, **[Pie Chart](https://app.flchart.dev/#/pie)**, **[Scatter Chart](https://app.flchart.dev/#/scatter)**, and **[Radar Chart](https://app.flchart.dev/#/radar)**.
 
-<a href="https://www.buymeacoffee.com/fl_chart"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=fl_chart&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
+✅ Do you want to **motivate me to work more on fl_chart?** You can **[donate me](https://github.com/imaNNeo/fl_chart/edit/master/README.md#donation)** ;)
+
+![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/landing_logo.jpg)
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
 [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
@@ -8,11 +10,10 @@
 <a href="https://pub.dev/packages/fl_chart"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/imaNNeo/fl_chart"></a>
 <a href="https://github.com/imaNNeo/fl_chart/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/imaNNeo/fl_chart"></a>
 <a href="https://githubc.com/imaNNeo/fl_chart/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/imaNNeo/fl_chart" alt="GitHub closed issues"></a>
+![GitHub Sponsors](https://img.shields.io/github/sponsors/imaNNeo) 
 <span class="badge-buymeacoffee">
 <a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
 </span>
-
-![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/landing_logo.jpg)
 
 ### Chart Types
 
