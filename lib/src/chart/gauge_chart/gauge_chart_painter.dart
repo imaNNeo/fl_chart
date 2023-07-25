@@ -7,7 +7,6 @@ import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
-  late Paint _backgroundPaint, _valuePaint, _tickPaint;
 
   GaugeChartPainter() : super() {
     _backgroundPaint = Paint()
@@ -16,6 +15,10 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
       ..isAntiAlias = true;
     _tickPaint = Paint();
   }
+
+  late Paint _backgroundPaint;
+  late Paint _valuePaint;
+  late Paint _tickPaint;
 
   @override
   void paint(BuildContext context, CanvasWrapper canvasWrapper,
@@ -59,19 +62,12 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
     }
   }
 
-  _drawTick(CanvasWrapper canvasWrapper, Offset center, double angle, double radius, GaugeTicks ticks, double strokeWidth) {
-    double positionRadius;
-    switch (ticks.position) {
-      case GaugeTickPosition.inner:
-        positionRadius = radius - strokeWidth - ticks.radius - ticks.margin;
-        break;
-      case GaugeTickPosition.outer:
-        positionRadius = radius + ticks.radius + ticks.margin;
-        break;
-      case GaugeTickPosition.center:
-        positionRadius = radius - strokeWidth / 2;
-        break;
-    }
+  void _drawTick(CanvasWrapper canvasWrapper, Offset center, double angle, double radius, GaugeTicks ticks, double strokeWidth) {
+    final positionRadius = switch (ticks.position) {
+      GaugeTickPosition.inner => radius - strokeWidth - ticks.radius - ticks.margin,
+      GaugeTickPosition.outer => radius + ticks.radius + ticks.margin,
+      GaugeTickPosition.center =>  radius - strokeWidth / 2,
+    };
     final tickX = center.dx + cos(angle) * positionRadius;
     final tickY = center.dy + sin(angle) * positionRadius;
 
@@ -82,11 +78,11 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
   void drawValue(CanvasWrapper canvasWrapper,
       PaintHolder<GaugeChartData> holder) {
     final data = holder.data;
-    var size = Size.square(
+    final size = Size.square(
       canvasWrapper.size.shortestSide - data.strokeWidth,
     );
     final demiStroke = data.strokeWidth / 2;
-    var offset = Offset(
+    final offset = Offset(
       max(canvasWrapper.size.width - canvasWrapper.size.height, 0) / 2 + demiStroke,
       max(canvasWrapper.size.height - canvasWrapper.size.width, 0) / 2 + demiStroke,
     );

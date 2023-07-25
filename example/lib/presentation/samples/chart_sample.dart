@@ -40,3 +40,9 @@ class RadarChartSample extends ChartSample {
   @override
   ChartType get type => ChartType.radar;
 }
+
+class GaugeChartSample extends ChartSample {
+  GaugeChartSample(super.number, super.builder);
+  @override
+  ChartType get type => ChartType.gauge;
+}

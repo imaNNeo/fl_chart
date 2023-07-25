@@ -1,30 +1,30 @@
 import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_data.dart';
 import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_renderer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 class GaugeChart extends ImplicitlyAnimatedWidget {
-  /// Determines how the [GaugeChartData] should be look like.
-  final GaugeChartData data;
-
-  /// We pass this key to our renderers which are supposed to
-  /// render the chart itself (without anything around the chart).
-  final Key? chartRendererKey;
-
   /// [data] determines how the [GaugeChart] should be look like,
   /// when you make any change in the [GaugeChartData], it updates
   /// new values with animation, and duration is [swapAnimationDuration].
   /// also you can change the [swapAnimationCurve]
   /// which default is [Curves.linear].
   const GaugeChart(
-      this.data, {
-        this.chartRendererKey,
-        Key? key,
-        Duration swapAnimationDuration = const Duration(milliseconds: 150),
-        Curve swapAnimationCurve = Curves.linear,
-      }) : super(
-      key: key,
-      duration: swapAnimationDuration,
-      curve: swapAnimationCurve);
+    this.data, {
+    this.chartRendererKey,
+    super.key,
+    Duration swapAnimationDuration = const Duration(milliseconds: 150),
+    Curve swapAnimationCurve = Curves.linear,
+  }) : super(
+          duration: swapAnimationDuration,
+          curve: swapAnimationCurve,
+        );
+
+  /// Determines how the [GaugeChartData] should be look like.
+  final GaugeChartData data;
+
+  /// We pass this key to our renderers which are supposed to
+  /// render the chart itself (without anything around the chart).
+  final Key? chartRendererKey;
 
   /// Creates a [_GaugeChartState]
   @override
@@ -51,11 +51,12 @@ class _GaugeChartState extends AnimatedWidgetBaseState<GaugeChart> {
   }
 
   @override
-  void forEachTween(visitor) {
+  void forEachTween(TweenVisitor<dynamic> visitor) {
     _gaugeChartDataTween = visitor(
       _gaugeChartDataTween,
       widget.data,
-          (dynamic value) => GaugeChartDataTween(begin: value, end: widget.data),
-    ) as GaugeChartDataTween;
+      (dynamic value) =>
+          GaugeChartDataTween(begin: value as GaugeChartData, end: widget.data),
+    ) as GaugeChartDataTween?;
   }
 }

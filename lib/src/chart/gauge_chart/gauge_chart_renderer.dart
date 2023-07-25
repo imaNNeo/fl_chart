@@ -1,21 +1,28 @@
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/render_base_chart.dart';
+import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_data.dart';
 import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/widgets.dart';
 
-import '../base/base_chart/base_chart_painter.dart';
-import 'gauge_chart_data.dart';
-
 /// Low level GaugeChart Widget.
 class GaugeChartLeaf extends LeafRenderObjectWidget {
-  const GaugeChartLeaf({Key? key, required this.data, required this.targetData})
-      : super(key: key);
+  const GaugeChartLeaf({
+    super.key,
+    required this.data,
+    required this.targetData,
+  });
 
-  final GaugeChartData data, targetData;
+  final GaugeChartData data;
+  final GaugeChartData targetData;
 
   @override
   RenderGaugeChart createRenderObject(BuildContext context) => RenderGaugeChart(
-      context, data, targetData, MediaQuery.of(context).textScaleFactor);
+        context,
+        data,
+        targetData,
+        MediaQuery.of(context).textScaleFactor,
+      );
 
   @override
   void updateRenderObject(BuildContext context, RenderGaugeChart renderObject) {
@@ -29,9 +36,12 @@ class GaugeChartLeaf extends LeafRenderObjectWidget {
 
 /// Renders our RadarChart, also handles hitTest.
 class RenderGaugeChart extends RenderBaseChart<GaugeTouchResponse> {
-  RenderGaugeChart(BuildContext context, GaugeChartData data,
-      GaugeChartData targetData, double textScale)
-      : _data = data,
+  RenderGaugeChart(
+    BuildContext context,
+    GaugeChartData data,
+    GaugeChartData targetData,
+    double textScale,
+  )   : _data = data,
         _targetData = targetData,
         _textScale = textScale,
         super(targetData.gaugeTouchData, context);
@@ -69,7 +79,7 @@ class RenderGaugeChart extends RenderBaseChart<GaugeTouchResponse> {
   Size? mockTestSize;
 
   @visibleForTesting
-  var painter = GaugeChartPainter();
+  GaugeChartPainter painter = GaugeChartPainter();
 
   PaintHolder<GaugeChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -77,9 +87,9 @@ class RenderGaugeChart extends RenderBaseChart<GaugeTouchResponse> {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final canvas = context.canvas;
-    canvas.save();
-    canvas.translate(offset.dx, offset.dy);
+    final canvas = context.canvas
+      ..save()
+      ..translate(offset.dx, offset.dy);
     painter.paint(
       buildContext,
       CanvasWrapper(canvas, mockTestSize ?? size),
@@ -90,11 +100,12 @@ class RenderGaugeChart extends RenderBaseChart<GaugeTouchResponse> {
 
   @override
   GaugeTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpot = painter.handleTouch(
-      localPosition,
-      mockTestSize ?? size,
-      paintHolder,
+    return GaugeTouchResponse(
+      painter.handleTouch(
+        localPosition,
+        mockTestSize ?? size,
+        paintHolder,
+      ),
     );
-    return GaugeTouchResponse(touchedSpot);
   }
 }

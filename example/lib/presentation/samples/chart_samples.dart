@@ -1,3 +1,4 @@
+import 'package:fl_chart_app/presentation/samples/gauge/guage_chart_sample1.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 
 import 'bar/bar_chart_sample1.dart';
@@ -61,6 +62,9 @@ class ChartSamples {
     ],
     ChartType.radar: [
       RadarChartSample(1, (context) => RadarChartSample1()),
+    ],
+    ChartType.gauge: [
+      GaugeChartSample(1, (context) => const GaugeChartSample1()),
     ],
   };
 }

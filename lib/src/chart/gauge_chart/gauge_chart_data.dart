@@ -3,16 +3,15 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ColoredTick {
+  const ColoredTick(this.position, this.color);
   final double position;
   final Color color;
-
-  const ColoredTick(this.position, this.color);
 }
 
-abstract class ColoredTicksGenerator {
+mixin ColoredTicksGenerator {
   Iterable<ColoredTick> getColoredTicks();
 }
 
@@ -26,9 +25,10 @@ abstract class GaugeColor {
 }
 
 class _LerpGaugeColor implements GaugeColor, ColoredTicksGenerator {
-  final GaugeColor a, b;
-  final double t;
   _LerpGaugeColor(this.a, this.b, this.t);
+  final GaugeColor a;
+  final GaugeColor b;
+  final double t;
 
   @override
   Color getColor(double value) {
@@ -52,33 +52,32 @@ class _LerpGaugeColor implements GaugeColor, ColoredTicksGenerator {
 
 @immutable
 class SimpleGaugeColor implements GaugeColor {
-  final Color color;
   const SimpleGaugeColor({required this.color});
+  final Color color;
 
   @override
   Color getColor(double value) => color;
 }
 
 class VariableGaugeColor implements GaugeColor, ColoredTicksGenerator {
-  final List<double> limits;
-  final List<Color> colors;
-
   VariableGaugeColor({
     required this.limits,
     required this.colors,
-  }) : assert(
-    colors.length - 1 == limits.length,
-    'length of limits should be equals to colors length minus one'
-  ) {
-    assert(
-      limits.reduce((a, b) => a < b ? 0 : 2) == 0,
-      'the limits list should be sorted in ascending order',
-    );
-    assert(
-      limits.first > 0 || limits.last < 1.0,
-      'limits values should be in range 0, 1 (exclusive)',
-    );
-  }
+  })  : assert(
+          colors.length - 1 == limits.length,
+          'length of limits should be equals to colors length minus one',
+        ),
+        assert(
+          limits.reduce((a, b) => a < b ? 0 : 2) == 0,
+          'the limits list should be sorted in ascending order',
+        ),
+        assert(
+          limits.first > 0 || limits.last < 1.0,
+          'limits values should be in range 0, 1 (exclusive)',
+        );
+
+  final List<double> limits;
+  final List<Color> colors;
 
   @override
   Color getColor(double value) {
@@ -90,7 +89,7 @@ class VariableGaugeColor implements GaugeColor, ColoredTicksGenerator {
 
   @override
   Iterable<ColoredTick> getColoredTicks() sync* {
-    for(var i = 0; i < limits.length; i++) {
+    for (var i = 0; i < limits.length; i++) {
       yield ColoredTick(limits[i], colors[i + 1]);
     }
   }
@@ -104,13 +103,6 @@ enum GaugeTickPosition {
 
 @immutable
 class GaugeTicks {
-  final int count;
-  final double radius;
-  final Color color;
-  final GaugeTickPosition position;
-  final double margin;
-  final bool showChangingColorTicks;
-
   const GaugeTicks({
     this.count = 3,
     this.radius = 3.0,
@@ -118,8 +110,14 @@ class GaugeTicks {
     this.position = GaugeTickPosition.outer,
     this.margin = 3,
     this.showChangingColorTicks = true,
-  }) : assert(count > 2, 'count should be >= 2'),
+  })  : assert(count > 2, 'count should be >= 2'),
         assert(radius > 0, 'radius should be > 0');
+  final int count;
+  final double radius;
+  final Color color;
+  final GaugeTickPosition position;
+  final double margin;
+  final bool showChangingColorTicks;
 
   static GaugeTicks? lerp(GaugeTicks? a, GaugeTicks? b, double t) {
     if (a == null || b == null) return b;
@@ -135,16 +133,6 @@ class GaugeTicks {
 }
 
 class GaugeChartData extends BaseChartData with EquatableMixin {
-  final StrokeCap strokeCap;
-  final double value;
-  final double strokeWidth;
-  final GaugeColor valueColor;
-  final Color? backgroundColor;
-  final double startAngle;
-  final double endAngle;
-  final GaugeTouchData gaugeTouchData;
-  final GaugeTicks? ticks;
-
   GaugeChartData({
     this.strokeCap = StrokeCap.butt,
     this.backgroundColor,
@@ -154,12 +142,19 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
     required this.startAngle,
     required this.endAngle,
     this.ticks,
-    FlBorderData? borderData,
+    super.borderData,
     GaugeTouchData? touchData,
-  }) : gaugeTouchData = touchData ?? GaugeTouchData(),
-        super(
-          borderData: borderData,
-          touchData: touchData ?? GaugeTouchData());
+  })  : gaugeTouchData = touchData ?? GaugeTouchData(),
+        super(touchData: touchData ?? GaugeTouchData());
+  final StrokeCap strokeCap;
+  final double value;
+  final double strokeWidth;
+  final GaugeColor valueColor;
+  final Color? backgroundColor;
+  final double startAngle;
+  final double endAngle;
+  final GaugeTouchData gaugeTouchData;
+  final GaugeTicks? ticks;
 
   GaugeChartData copyWith({
     StrokeCap? strokeCap,
@@ -186,7 +181,6 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         touchData: gaugeTouchData ?? this.gaugeTouchData,
       );
 
-
   @override
   GaugeChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is GaugeChartData && b is GaugeChartData) {
@@ -207,23 +201,24 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    ticks,
-    strokeCap,
-    backgroundColor,
-    valueColor,
-    value,
-    strokeWidth,
-    startAngle,
-    endAngle,
-  ];
+        ticks,
+        strokeCap,
+        backgroundColor,
+        valueColor,
+        value,
+        strokeWidth,
+        startAngle,
+        endAngle,
+      ];
 }
 
 class GaugeTouchData extends FlTouchData<GaugeTouchResponse> {
   GaugeTouchData({
     bool? enabled,
     BaseTouchCallback<GaugeTouchResponse>? touchCallback,
-    MouseCursorResolver<GaugeTouchResponse>? mouseCursorResolver
-  }) : super(enabled ?? true, touchCallback, mouseCursorResolver);
+    MouseCursorResolver<GaugeTouchResponse>? mouseCursorResolver,
+    Duration? longPressDuration,
+  }) : super(enabled ?? true, touchCallback, mouseCursorResolver, longPressDuration);
 }
 
 class GaugeTouchResponse extends BaseTouchResponse {
