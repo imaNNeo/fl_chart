@@ -1,4 +1,4 @@
-import 'package:fl_chart_app/presentation/samples/gauge/guage_chart_sample1.dart';
+import 'package:fl_chart_app/presentation/samples/gauge/gauge_chart_sample1.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 
 import 'bar/bar_chart_sample1.dart';

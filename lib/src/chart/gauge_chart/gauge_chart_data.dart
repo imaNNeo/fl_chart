@@ -222,11 +222,22 @@ class GaugeTouchData extends FlTouchData<GaugeTouchResponse> {
 }
 
 class GaugeTouchResponse extends BaseTouchResponse {
-  GaugeTouchResponse(GaugeTouchedSpot? touchedSpot);
+  GaugeTouchResponse(this.spot);
+  GaugeTouchedSpot? spot;
+
+  @override
+  String toString() {
+    return 'GaugeTouchResponse(spot: $spot)';
+  }
 }
 
 class GaugeTouchedSpot extends TouchedSpot with EquatableMixin {
-  GaugeTouchedSpot(FlSpot spot, Offset offset) : super(spot, offset);
+  GaugeTouchedSpot(super.spot, super.offset);
+
+  @override
+  String toString() {
+    return 'GaugeTouchedSpot(spot: $spot, offset: $offset)';
+  }
 }
 
 /// It lerps a [GaugeChartData] to another [GaugeChartData] (handles animation for updating values)

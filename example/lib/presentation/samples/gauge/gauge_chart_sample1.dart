@@ -12,6 +12,7 @@ class GaugeChartSample1 extends StatefulWidget {
 
 class GaugeChartSample1State extends State {
   double _value = 0.7;
+  bool _isSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class GaugeChartSample1State extends State {
                   colors: [AppColors.contentColorYellow, AppColors.contentColorBlue, AppColors.contentColorRed],
                   limits: [0.35, 0.5],
                 ),
-                backgroundColor: AppColors.contentColorPurple,
+                backgroundColor: AppColors.contentColorPurple.withOpacity(_isSelected ? 0.2 : 1),
                 strokeWidth: 30,
                 startAngle: 45,
                 endAngle: -225,
@@ -40,6 +41,12 @@ class GaugeChartSample1State extends State {
                   radius: 5,
                   position: GaugeTickPosition.inner,
                   margin: 5,
+                ),
+                touchData: GaugeTouchData(
+                  enabled: true,
+                  touchCallback: (_, value) => setState(() {
+                    _isSelected = value?.spot != null;
+                  }),
                 ),
               ),
             ),
