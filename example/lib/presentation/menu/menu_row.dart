@@ -85,13 +85,13 @@ class _DocumentationIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 60,
-      height: 60,
+      width: AppDimens.menuDocumentationIconSize,
+      height: AppDimens.menuDocumentationIconSize,
       child: IconButton(
         onPressed: onTap,
         icon: const Icon(
           Icons.article,
-          color: Colors.white,
+          color: AppColors.contentColorWhite,
         ),
         tooltip: 'Documentation',
       ),
