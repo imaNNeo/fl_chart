@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
         _menuItemsIndices[type] = index;
         return ChartMenuItem(
           type,
-          type.getSimpleName(),
+          type.displayName,
           type.assetIcon,
         );
       },
@@ -78,7 +78,7 @@ class HomePage extends StatelessWidget {
               ? AppBar(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  title: Text(showingChartType.getDisplayName()),
+                  title: Text(showingChartType.displayName),
                 )
               : null,
         );
