@@ -1,6 +1,7 @@
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'fl_chart_banner.dart';
 import 'menu_row.dart';
@@ -47,6 +48,12 @@ class AppMenuState extends State<AppMenu> {
                   isSelected: widget.currentSelectedIndex == position,
                   onTap: () {
                     widget.onItemSelected(position, menuItem);
+                  },
+                  onDocumentsTap: () async {
+                    final url = Uri.parse(menuItem.chartType.documentationUrl);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    }
                   },
                 );
               },
