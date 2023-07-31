@@ -6,7 +6,7 @@ abstract class ChartSample {
   final int number;
   final WidgetBuilder builder;
   ChartType get type;
-  String get name => '${type.getDisplayName()} Sample $number';
+  String get name => '${type.displayName} Sample $number';
   String get url => Urls.getChartSourceCodeUrl(type, number);
   ChartSample(this.number, this.builder);
 }
