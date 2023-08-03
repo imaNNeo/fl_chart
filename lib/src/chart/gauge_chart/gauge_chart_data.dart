@@ -218,7 +218,12 @@ class GaugeTouchData extends FlTouchData<GaugeTouchResponse> {
     BaseTouchCallback<GaugeTouchResponse>? touchCallback,
     MouseCursorResolver<GaugeTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
-  }) : super(enabled ?? true, touchCallback, mouseCursorResolver, longPressDuration);
+  }) : super(
+          enabled ?? true,
+          touchCallback,
+          mouseCursorResolver,
+          longPressDuration,
+        );
 }
 
 class GaugeTouchResponse extends BaseTouchResponse {

@@ -2,7 +2,6 @@ import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-
 class GaugeChartSample1 extends StatefulWidget {
   const GaugeChartSample1({super.key});
 
@@ -27,10 +26,15 @@ class GaugeChartSample1State extends State {
               GaugeChartData(
                 value: _value,
                 valueColor: VariableGaugeColor(
-                  colors: [AppColors.contentColorYellow, AppColors.contentColorBlue, AppColors.contentColorRed],
+                  colors: [
+                    AppColors.contentColorYellow,
+                    AppColors.contentColorBlue,
+                    AppColors.contentColorRed
+                  ],
                   limits: [0.35, 0.5],
                 ),
-                backgroundColor: AppColors.contentColorPurple.withOpacity(_isSelected ? 0.2 : 1),
+                backgroundColor: AppColors.contentColorPurple
+                    .withOpacity(_isSelected ? 0.2 : 1),
                 strokeWidth: 30,
                 startAngle: 45,
                 endAngle: -225,
