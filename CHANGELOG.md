@@ -1,14 +1,14 @@
 ## nextVersion
 * **FEATURE** (by @Dartek12): Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine), #1197
+* **FEATURE**  (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change backgroud color of tooltip dynamically.[issue](https://github.com/imaNNeo/fl_chart/issues/1279).
+* **BREAKING** (by @apekshamehta) Removed tooltipBgColor property from Bar,Line and Scatter Charts.
+
 
 ## 0.64.0
 * **BUGFIX** (by @Anas35) Fix Tooltip not displaying when value from BackgroundBarChartRodData is less than zero. #1345.
 * **BUGFIX** (by @imaNNeo) Fix Negative BarChartRodStackItem are not drawn correctly bug, #1347
 * **BUGFIX** (by @imaNNeo) Fix bar_chart_helper minY calculation bug, #1388
 * **IMPROVEMENT** (by @imaNNeo) Consider fraction digits when formatting chart side titles, #1267
-
-* **FEATURE**  (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change backgroud color of tooltip dynamically.[issue](https://github.com/imaNNeo/fl_chart/issues/1279).
-* **BREAKING** (by @apekshamehta) Removed tooltipBgColor property from Bar,Line and Scatter Charts.
 
 ## 0.63.0
 * **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955
