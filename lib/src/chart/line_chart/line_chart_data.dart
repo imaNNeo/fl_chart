@@ -1346,8 +1346,8 @@ typedef GetLineTooltipColor = Color Function(
   LineBarSpot touchedSpot,
 );
 
-/// Default implementation for [LineTouchTooltipData.getTooltipItems].
-Color defaultLineTooltipColor(LineBarSpot touchedSpots) {
+/// Default implementation for [LineTouchTooltipData.getTooltipColor].
+Color defaultLineTooltipColor(LineBarSpot touchedSpot) {
   return Colors.blueGrey.darken(15);
 }
 

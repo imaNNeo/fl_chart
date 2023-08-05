@@ -714,8 +714,7 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
-        getTooltipColor = getTooltipColor ??
-            ((BarChartGroupData? group) => Colors.blueGrey.darken(15)),
+        getTooltipColor = getTooltipColor ?? defaultBarTooltipColor,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
         direction = direction ?? TooltipDirection.auto,
@@ -854,6 +853,11 @@ class BarTooltipItem with EquatableMixin {
 typedef GetBarTooltipColor = Color Function(
   BarChartGroupData group,
 );
+
+/// Default implementation for [BarTouchTooltipData.getTooltipColor].
+Color defaultBarTooltipColor(BarChartGroupData group) {
+  return Colors.blueGrey.darken(15);
+}
 
 /// Holds information about touch response in the [BarChart].
 ///

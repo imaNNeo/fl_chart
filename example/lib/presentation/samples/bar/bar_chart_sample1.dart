@@ -163,32 +163,16 @@ class BarChartSample1State extends State<BarChartSample1> {
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
           getTooltipColor: (group) {
-            Color bgColor;
-            switch (group.x) {
-              case 0:
-                bgColor = AppColors.contentColorPurple.withAlpha(100);
-                break;
-              case 1:
-                bgColor = AppColors.contentColorYellow.withAlpha(100);
-                break;
-              case 2:
-                bgColor = AppColors.contentColorBlue.withAlpha(100);
-                break;
-              case 3:
-                bgColor = AppColors.contentColorOrange.withAlpha(100);
-                break;
-              case 4:
-                bgColor = AppColors.contentColorPink.withAlpha(100);
-                break;
-              case 5:
-                bgColor = AppColors.contentColorRed.withAlpha(100);
-                break;
-              case 6:
-                bgColor = AppColors.contentColorPurple.withAlpha(150);
-                break;
-              default:
-                throw Error();
-            }
+            Color bgColor = switch (group.x) {
+              0 => AppColors.contentColorPurple.withAlpha(100),
+              1 => AppColors.contentColorYellow.withAlpha(100),
+              2 => AppColors.contentColorBlue.withAlpha(100),
+              3 => AppColors.contentColorOrange.withAlpha(100),
+              4 => AppColors.contentColorPink.withAlpha(100),
+              5 => AppColors.contentColorRed.withAlpha(100),
+              6 => AppColors.contentColorPurple.withAlpha(150),
+              _ => throw Error(),
+            };
             return bgColor;
           },
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,

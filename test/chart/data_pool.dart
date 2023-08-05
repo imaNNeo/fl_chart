@@ -1162,11 +1162,11 @@ List<LineTooltipItem?> lineChartGetTooltipItems(List<LineBarSpot> list) {
   return list.map((s) => lineTooltipItem1).toList();
 }
 
-Color lineChartGetGreenColor(LineBarSpot touchedSpots) {
+Color lineChartGetGreenColor(LineBarSpot touchedSpot) {
   return Colors.green;
 }
 
-Color lineChartGetRedColor(LineBarSpot touchedSpots) {
+Color lineChartGetRedColor(LineBarSpot touchedSpot) {
   return Colors.red;
 }
 
@@ -2278,7 +2278,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
       fitInsideHorizontally: true,
       fitInsideVertically: false,
       maxContentWidth: 33,
-      getTooltipColor: (touchedSpots) => Colors.white,
+      getTooltipColor: (touchedSpot) => Colors.white,
       tooltipPadding: const EdgeInsets.all(23),
       tooltipRoundedRadius: 534,
     ),

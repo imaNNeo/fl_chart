@@ -207,35 +207,19 @@ class _LineChartSample3State extends State<LineChartSample3> {
                   },
                   touchTooltipData: LineTouchTooltipData(
                     getTooltipColor: (touchedSpot) {
-                      Color bgColor = Colors.white;
-                      switch ((
+                      Color bgColor = switch ((
                         touchedSpot.x.toInt(),
                         touchedSpot.y.toDouble()
                       )) {
-                        case (0, 1.3):
-                          bgColor = AppColors.contentColorPurple.withAlpha(100);
-                          break;
-                        case (1, 1):
-                          bgColor = AppColors.contentColorYellow.withAlpha(100);
-                          break;
-                        case (2, 1.8):
-                          bgColor = AppColors.contentColorBlue.withAlpha(100);
-                          break;
-                        case (3, 1.5):
-                          bgColor = AppColors.contentColorOrange.withAlpha(100);
-                          break;
-                        case (4, 2.2):
-                          bgColor = AppColors.contentColorPink.withAlpha(100);
-                          break;
-                        case (5, 1.8):
-                          bgColor = AppColors.contentColorRed.withAlpha(100);
-                          break;
-                        case (6, 3):
-                          bgColor = AppColors.contentColorPurple.withAlpha(150);
-                          break;
-                        default:
-                          throw Error();
-                      }
+                        (0, 1.3) => AppColors.contentColorPurple.withAlpha(100),
+                        (1, 1) => AppColors.contentColorYellow.withAlpha(100),
+                        (2, 1.8) => AppColors.contentColorBlue.withAlpha(100),
+                        (3, 1.5) => AppColors.contentColorOrange.withAlpha(100),
+                        (4, 2.2) => AppColors.contentColorPink.withAlpha(100),
+                        (5, 1.8) => AppColors.contentColorRed.withAlpha(100),
+                        (6, 3) => AppColors.contentColorPurple.withAlpha(150),
+                        _ => throw Error(),
+                      };
                       return bgColor;
                     },
                     getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
