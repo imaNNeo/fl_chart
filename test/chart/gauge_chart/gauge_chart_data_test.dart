@@ -318,9 +318,8 @@ void main() {
       expect(data.endAngle, 260);
       expect(data.valueColor.getColor(0.5), MockData.color1);
       expect(data.valueColor.getColor(0.5), MockData.color1);
-      final colorTicks = (data.valueColor as ColoredTicksGenerator)
-          .getColoredTicks()
-          .toList();
+      final colorTicks =
+          (data.valueColor as ColoredTicksGenerator).getColoredTicks().toList();
       expect(colorTicks, [ColoredTick(0.4, MockData.color2.withOpacity(0.5))]);
       expect(data.strokeCap, StrokeCap.square);
       expect(data.ticks?.color, MockData.color1);
@@ -335,11 +334,21 @@ void main() {
     test('GaugeColor lerp', () {
       final a = VariableGaugeColor(
         limits: [0.2, 0.5, 0.7],
-        colors: [MockData.color0, MockData.color1, MockData.color2, MockData.color3],
+        colors: [
+          MockData.color0,
+          MockData.color1,
+          MockData.color2,
+          MockData.color3
+        ],
       );
       final b = VariableGaugeColor(
         limits: [0.3, 0.6, 0.8],
-        colors: [MockData.color6, MockData.color5, MockData.color4, MockData.color3],
+        colors: [
+          MockData.color6,
+          MockData.color5,
+          MockData.color4,
+          MockData.color3
+        ],
       );
       final color = GaugeColor.lerp(a, b, 0.2);
 

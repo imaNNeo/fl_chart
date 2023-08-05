@@ -1,4 +1,3 @@
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_painter.dart';
@@ -110,7 +109,7 @@ void main() {
         return gaugeTouchedSpot1;
       });
       final touchResponse =
-      renderGaugeChart.getResponseAtLocation(MockData.offset1);
+          renderGaugeChart.getResponseAtLocation(MockData.offset1);
       expect(touchResponse.spot, gaugeTouchedSpot1);
       expect(results[0]['local_position'] as Offset, MockData.offset1);
       expect(results[0]['size'] as Size, mockSize);

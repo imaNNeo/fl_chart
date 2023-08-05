@@ -167,7 +167,6 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
       false,
       _valuePaint,
     );
-
   }
 
   GaugeTouchedSpot? handleTouch(

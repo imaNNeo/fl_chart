@@ -65,7 +65,9 @@ class SimpleGaugeColor with EquatableMixin implements GaugeColor {
   List<Object?> get props => [color];
 }
 
-class VariableGaugeColor with EquatableMixin implements GaugeColor, ColoredTicksGenerator {
+class VariableGaugeColor
+    with EquatableMixin
+    implements GaugeColor, ColoredTicksGenerator {
   VariableGaugeColor({
     required this.limits,
     required this.colors,
@@ -144,7 +146,8 @@ class GaugeTicks with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [count, radius, color, position, margin, showChangingColorTicks];
+  List<Object?> get props =>
+      [count, radius, color, position, margin, showChangingColorTicks];
 }
 
 class GaugeChartData extends BaseChartData with EquatableMixin {
@@ -215,18 +218,18 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
 
   @override
   List<Object?> get props => [
-    ticks,
-    strokeCap,
-    backgroundColor,
-    valueColor,
-    value,
-    strokeWidth,
-    startAngle,
-    endAngle,
-    gaugeTouchData,
-    ticks,
-    borderData
-  ];
+        ticks,
+        strokeCap,
+        backgroundColor,
+        valueColor,
+        value,
+        strokeWidth,
+        startAngle,
+        endAngle,
+        gaugeTouchData,
+        ticks,
+        borderData
+      ];
 }
 
 class GaugeTouchData extends FlTouchData<GaugeTouchResponse> {

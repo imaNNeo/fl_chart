@@ -130,7 +130,7 @@ void main() {
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
       when(mockUtils.radians(any)).thenAnswer(
-            (realInvocation) => realInvocation.positionalArguments[0] as double,
+        (realInvocation) => realInvocation.positionalArguments[0] as double,
       );
 
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -153,7 +153,7 @@ void main() {
           'use_center': inv.positionalArguments[3] as bool,
           'paint_color': (inv.positionalArguments[4] as Paint).color,
           'paint_stroke_width':
-          (inv.positionalArguments[4] as Paint).strokeWidth,
+              (inv.positionalArguments[4] as Paint).strokeWidth,
           'paint_stroke_cap': (inv.positionalArguments[4] as Paint).strokeCap,
         });
       });
@@ -226,7 +226,7 @@ void main() {
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
       when(mockUtils.radians(any)).thenAnswer(
-            (realInvocation) => realInvocation.positionalArguments[0] as double,
+        (realInvocation) => realInvocation.positionalArguments[0] as double,
       );
 
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -250,7 +250,6 @@ void main() {
       final radius = 200 - data.strokeWidth / 2;
       final angle = Utils().radians(90 / 4);
       for (var i = 0; i < drawCircleResults.length; i++) {
-
         final tickX = 200 + cos(angle * i) * radius;
         final tickY = 200 + sin(angle * i) * radius;
 
@@ -273,7 +272,12 @@ void main() {
       );
       final gaugeColor = VariableGaugeColor(
         limits: [0.3, 0.5, 0.8],
-        colors: [MockData.color0, MockData.color1, MockData.color2, MockData.color3,],
+        colors: [
+          MockData.color0,
+          MockData.color1,
+          MockData.color2,
+          MockData.color3,
+        ],
       );
       final data = GaugeChartData(
         startAngle: 0,
@@ -288,7 +292,7 @@ void main() {
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
       when(mockUtils.radians(any)).thenAnswer(
-            (realInvocation) => realInvocation.positionalArguments[0] as double,
+        (realInvocation) => realInvocation.positionalArguments[0] as double,
       );
 
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -315,7 +319,11 @@ void main() {
         final tickX = 200 + cos(angle * i) * radius;
         final tickY = 200 + sin(angle * i) * radius;
 
-        expect(drawCircleResults[i]['offset'], Offset(tickX, tickY), reason: 'index $i');
+        expect(
+          drawCircleResults[i]['offset'],
+          Offset(tickX, tickY),
+          reason: 'index $i',
+        );
         expect(drawCircleResults[i]['radius'], gaugeTicks.radius);
         expect(drawCircleResults[i]['paint_color'], gaugeTicks.color);
       }
@@ -325,9 +333,16 @@ void main() {
         final tickX = 200 + cos(angle) * radius;
         final tickY = 200 + sin(angle) * radius;
 
-        expect(drawCircleResults[5 + i]['offset'], Offset(tickX, tickY), reason: 'index $i');
+        expect(
+          drawCircleResults[5 + i]['offset'],
+          Offset(tickX, tickY),
+          reason: 'index $i',
+        );
         expect(drawCircleResults[5 + i]['radius'], gaugeTicks.radius);
-        expect(drawCircleResults[5 + i]['paint_color'], gaugeColor.colors[i + 1]);
+        expect(
+          drawCircleResults[5 + i]['paint_color'],
+          gaugeColor.colors[i + 1],
+        );
       }
 
       Utils.changeInstance(utilsMainInstance);
@@ -375,10 +390,12 @@ void main() {
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
       when(mockUtils.radians(captureAny)).thenAnswer(
-            (realInvocation) => utilsMainInstance.radians(realInvocation.positionalArguments[0] as double),
+        (realInvocation) => utilsMainInstance
+            .radians(realInvocation.positionalArguments[0] as double),
       );
       when(mockUtils.degrees(captureAny)).thenAnswer(
-            (realInvocation) => utilsMainInstance.degrees(realInvocation.positionalArguments[0] as double),
+        (realInvocation) => utilsMainInstance
+            .degrees(realInvocation.positionalArguments[0] as double),
       );
 
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -395,10 +412,22 @@ void main() {
         });
       });
 
-      expect(gaugePainter.handleTouch(const Offset(189, 217), viewSize, holder), null);
-      expect(gaugePainter.handleTouch(const Offset(52, 71), viewSize, holder), null);
-      expect(gaugePainter.handleTouch(const Offset(40, 184), viewSize, holder), null);
-      expect(gaugePainter.handleTouch(const Offset(156, 133), viewSize, holder), null);
+      expect(
+        gaugePainter.handleTouch(const Offset(189, 217), viewSize, holder),
+        null,
+      );
+      expect(
+        gaugePainter.handleTouch(const Offset(52, 71), viewSize, holder),
+        null,
+      );
+      expect(
+        gaugePainter.handleTouch(const Offset(40, 184), viewSize, holder),
+        null,
+      );
+      expect(
+        gaugePainter.handleTouch(const Offset(156, 133), viewSize, holder),
+        null,
+      );
       final expected = GaugeTouchedSpot(
         const FlSpot(196.4392853163202, 41.3553437839966),
         const Offset(196.4, 41.4),
