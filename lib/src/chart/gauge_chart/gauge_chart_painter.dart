@@ -50,7 +50,7 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
 
     final radius = gaugeRadius(size);
 
-    /// draw radar ticks
+    /// draw gauge ticks
     for (var i = 0; i < ticks.count; i++) {
       final angle = Utils().radians(data.startAngle + interTickAngle * i);
       _drawTick(
@@ -63,6 +63,7 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
       );
     }
 
+    // draw changing color ticks
     final valueColor = data.valueColor;
     if (ticks.showChangingColorTicks && valueColor is ColoredTicksGenerator) {
       for (final tick
@@ -137,7 +138,6 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
     final position =
         _gaugePosition = _calculateValuePosition(canvasWrapper.size, holder);
 
-    // for(var i = 0; i < 3; i++) {
     /// Draw background if needed
     if (backgroundColor != null) {
       _backgroundPaint
@@ -168,9 +168,6 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
       _valuePaint,
     );
 
-    //   offset = offset + Offset(data.strokeWidth + 3, data.strokeWidth + 3);
-    //   size = Size.square(size.width - 2 * (data.strokeWidth + 3));
-    // }
   }
 
   GaugeTouchedSpot? handleTouch(

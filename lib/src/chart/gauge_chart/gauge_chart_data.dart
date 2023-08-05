@@ -5,10 +5,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/widgets.dart';
 
-class ColoredTick {
+class ColoredTick with EquatableMixin {
   const ColoredTick(this.position, this.color);
   final double position;
   final Color color;
+
+  @override
+  List<Object?> get props => [position, color];
 }
 
 mixin ColoredTicksGenerator {
@@ -51,15 +54,18 @@ class _LerpGaugeColor implements GaugeColor, ColoredTicksGenerator {
 }
 
 @immutable
-class SimpleGaugeColor implements GaugeColor {
+class SimpleGaugeColor with EquatableMixin implements GaugeColor {
   const SimpleGaugeColor({required this.color});
   final Color color;
 
   @override
   Color getColor(double value) => color;
+
+  @override
+  List<Object?> get props => [color];
 }
 
-class VariableGaugeColor implements GaugeColor, ColoredTicksGenerator {
+class VariableGaugeColor with EquatableMixin implements GaugeColor, ColoredTicksGenerator {
   VariableGaugeColor({
     required this.limits,
     required this.colors,
@@ -68,7 +74,7 @@ class VariableGaugeColor implements GaugeColor, ColoredTicksGenerator {
           'length of limits should be equals to colors length minus one',
         ),
         assert(
-          limits.reduce((a, b) => a < b ? 0 : 2) == 0,
+          limits.length <= 1 || limits.reduce((a, b) => a < b ? 0 : 2) == 0,
           'the limits list should be sorted in ascending order',
         ),
         assert(
@@ -93,6 +99,9 @@ class VariableGaugeColor implements GaugeColor, ColoredTicksGenerator {
       yield ColoredTick(limits[i], colors[i + 1]);
     }
   }
+
+  @override
+  List<Object?> get props => [limits, colors];
 }
 
 enum GaugeTickPosition {
@@ -102,7 +111,7 @@ enum GaugeTickPosition {
 }
 
 @immutable
-class GaugeTicks {
+class GaugeTicks with EquatableMixin {
   const GaugeTicks({
     this.count = 3,
     this.radius = 3.0,
@@ -120,6 +129,9 @@ class GaugeTicks {
   final bool showChangingColorTicks;
 
   static GaugeTicks? lerp(GaugeTicks? a, GaugeTicks? b, double t) {
+    // TODO(FlorianArnould): if showChangingColorTicks are different
+    // or just a or b is null, handle this with a fade like effect by replacing
+    // the null value with a default one
     if (a == null || b == null) return b;
     return GaugeTicks(
       color: Color.lerp(a.color, b.color, t)!,
@@ -130,6 +142,9 @@ class GaugeTicks {
       showChangingColorTicks: b.showChangingColorTicks,
     );
   }
+
+  @override
+  List<Object?> get props => [count, radius, color, position, margin, showChangingColorTicks];
 }
 
 class GaugeChartData extends BaseChartData with EquatableMixin {
@@ -142,7 +157,6 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
     required this.startAngle,
     required this.endAngle,
     this.ticks,
-    super.borderData,
     GaugeTouchData? touchData,
   })  : gaugeTouchData = touchData ?? GaugeTouchData(),
         super(touchData: touchData ?? GaugeTouchData());
@@ -177,7 +191,6 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         startAngle: startAngle ?? this.startAngle,
         endAngle: endAngle ?? this.endAngle,
         ticks: ticks ?? this.ticks,
-        borderData: borderData ?? this.borderData,
         touchData: gaugeTouchData ?? this.gaugeTouchData,
       );
 
@@ -193,6 +206,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
         startAngle: lerpDouble(a.startAngle, b.startAngle, t)!,
         endAngle: lerpDouble(a.endAngle, b.endAngle, t)!,
+        touchData: b.gaugeTouchData,
       );
     } else {
       throw Exception('Illegal State');
@@ -201,15 +215,18 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        ticks,
-        strokeCap,
-        backgroundColor,
-        valueColor,
-        value,
-        strokeWidth,
-        startAngle,
-        endAngle,
-      ];
+    ticks,
+    strokeCap,
+    backgroundColor,
+    valueColor,
+    value,
+    strokeWidth,
+    startAngle,
+    endAngle,
+    gaugeTouchData,
+    ticks,
+    borderData
+  ];
 }
 
 class GaugeTouchData extends FlTouchData<GaugeTouchResponse> {
@@ -229,20 +246,10 @@ class GaugeTouchData extends FlTouchData<GaugeTouchResponse> {
 class GaugeTouchResponse extends BaseTouchResponse {
   GaugeTouchResponse(this.spot);
   GaugeTouchedSpot? spot;
-
-  @override
-  String toString() {
-    return 'GaugeTouchResponse(spot: $spot)';
-  }
 }
 
 class GaugeTouchedSpot extends TouchedSpot with EquatableMixin {
   GaugeTouchedSpot(super.spot, super.offset);
-
-  @override
-  String toString() {
-    return 'GaugeTouchedSpot(spot: $spot, offset: $offset)';
-  }
 }
 
 /// It lerps a [GaugeChartData] to another [GaugeChartData] (handles animation for updating values)

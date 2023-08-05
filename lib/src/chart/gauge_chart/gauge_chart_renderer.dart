@@ -5,6 +5,8 @@ import 'package:fl_chart/src/chart/gauge_chart/gauge_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/widgets.dart';
 
+// coverage:ignore-start
+
 /// Low level GaugeChart Widget.
 class GaugeChartLeaf extends LeafRenderObjectWidget {
   const GaugeChartLeaf({
@@ -33,8 +35,9 @@ class GaugeChartLeaf extends LeafRenderObjectWidget {
       ..buildContext = context;
   }
 }
+// coverage:ignore-end
 
-/// Renders our RadarChart, also handles hitTest.
+/// Renders our GaugeChart, also handles hitTest.
 class RenderGaugeChart extends RenderBaseChart<GaugeTouchResponse> {
   RenderGaugeChart(
     BuildContext context,
