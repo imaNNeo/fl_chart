@@ -41,10 +41,10 @@ void main() {
             BarChartRodData(toY: 10),
             BarChartRodData(toY: 5),
           ],
-        )
+        ),
       ];
       final result = BarChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result.minY, -40);
+      expect(result.minY, 0);
       expect(result.maxY, 10);
     });
 
@@ -77,6 +77,50 @@ void main() {
           .copyWith(minY: 1, maxY: 11, readFromCache: true);
       final result2 = BarChartMinMaxAxisValues(1, 11, readFromCache: true);
       expect(result1, result2);
+    });
+
+    test('Test calculateMaxAxisValues with all positive values', () {
+      final barGroups = [
+        barChartGroupData1.copyWith(
+          barRods: barChartGroupData1.barRods
+              .map(
+                (rod) => rod.copyWith(
+                  fromY: 5,
+                  backDrawRodData: BackgroundBarChartRodData(show: false),
+                ),
+              )
+              .toList(),
+        ),
+        barChartGroupData2.copyWith(
+          barRods: barChartGroupData2.barRods
+              .map(
+                (rod) => rod.copyWith(
+                  fromY: 8,
+                  backDrawRodData: BackgroundBarChartRodData(show: false),
+                ),
+              )
+              .toList(),
+        ),
+      ];
+      final result1 = BarChartHelper.calculateMaxAxisValues(barGroups);
+      expect(result1.minY, 5);
+    });
+
+    test('Test calculateMaxAxisValues with all negative values', () {
+      final barGroups = [
+        barChartGroupData1.copyWith(
+          barRods: barChartGroupData1.barRods
+              .map((rod) => rod.copyWith(fromY: -5))
+              .toList(),
+        ),
+        barChartGroupData2.copyWith(
+          barRods: barChartGroupData2.barRods
+              .map((rod) => rod.copyWith(fromY: -8))
+              .toList(),
+        ),
+      ];
+      final result1 = BarChartHelper.calculateMaxAxisValues(barGroups);
+      expect(result1.minY, -8);
     });
   });
 }

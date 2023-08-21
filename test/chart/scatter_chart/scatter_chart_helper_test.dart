@@ -22,7 +22,7 @@ void main() {
       final scatterSpotsClone = [
         scatterSpot1Clone,
         scatterSpot2Clone,
-        scatterSpot3
+        scatterSpot3,
       ];
       final result1 = ScatterChartHelper.calculateMaxAxisValues(scatterSpots);
       final result2 =
@@ -36,7 +36,7 @@ void main() {
         scatterSpot1,
         scatterSpot2,
         scatterSpot3,
-        scatterSpot4
+        scatterSpot4,
       ];
       final result = ScatterChartHelper.calculateMaxAxisValues(scatterSpots);
       expect(result.minX, -14);
@@ -71,7 +71,7 @@ void main() {
       final scatterSpotsClone = [
         scatterSpot1Clone,
         scatterSpot2Clone,
-        scatterSpot3
+        scatterSpot3,
       ];
       final result1 = ScatterChartHelper.calculateMaxAxisValues(scatterSpots);
       final result2 =

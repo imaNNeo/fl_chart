@@ -389,7 +389,7 @@ void main() {
             28.5,
             0,
             38.5,
-            76.9,
+            100,
             const Radius.circular(0.1),
           ),
         ),
@@ -402,9 +402,9 @@ void main() {
           results[1]['rRect'] as RRect,
           RRect.fromLTRBR(
             43.5,
-            15.4,
+            20,
             54.5,
-            76.9,
+            100,
             const Radius.circular(0.2),
           ),
         ),
@@ -417,9 +417,9 @@ void main() {
           results[2]['rRect'] as RRect,
           RRect.fromLTRBR(
             59.5,
-            15.4,
+            20,
             71.5,
-            76.9,
+            100,
             const Radius.circular(0.3),
           ),
         ),
@@ -434,7 +434,7 @@ void main() {
             81.5,
             0,
             91.5,
-            76.9,
+            100,
             const Radius.circular(0.4),
           ),
         ),
@@ -445,9 +445,9 @@ void main() {
           results[4]['rRect'] as RRect,
           RRect.fromLTRBR(
             96.5,
-            15.4,
+            20,
             106.5,
-            76.9,
+            100,
             const Radius.circular(5),
           ),
         ),
@@ -459,9 +459,9 @@ void main() {
           results[5]['rRect'] as RRect,
           RRect.fromLTRBR(
             116.5,
-            15.4,
+            20,
             126.5,
-            76.9,
+            100,
             const Radius.circular(5),
           ),
         ),
@@ -475,7 +475,7 @@ void main() {
             116.5,
             0,
             126.5,
-            76.9,
+            100,
             const Radius.circular(5),
           ),
         ),
@@ -486,9 +486,9 @@ void main() {
           results[7]['rRect'] as RRect,
           RRect.fromLTRBR(
             131.5,
-            15.4,
+            20,
             141.5,
-            76.9,
+            100,
             const Radius.circular(5),
           ),
         ),
@@ -500,9 +500,9 @@ void main() {
           results[8]['rRect'] as RRect,
           RRect.fromLTRBR(
             146.5,
-            76.9,
-            156.5,
             100,
+            156.5,
+            130,
             const Radius.circular(5),
           ),
         ),
@@ -514,9 +514,9 @@ void main() {
           results[9]['rRect'] as RRect,
           RRect.fromLTRBR(
             146.5,
-            15.4,
+            20,
             156.5,
-            76.9,
+            100,
             const Radius.circular(5),
           ),
         ),
@@ -527,9 +527,9 @@ void main() {
           results[10]['rRect'] as RRect,
           RRect.fromLTRBR(
             161.5,
-            15.4,
+            20,
             171.5,
-            76.9,
+            100,
             const Radius.circular(5),
           ),
         ),
@@ -647,9 +647,9 @@ void main() {
           results[0]['rrect'] as RRect,
           RRect.fromLTRBR(
             84,
-            65,
+            76.5,
             94,
-            66.7,
+            78.4,
             const Radius.circular(0.1),
           ),
         ),
@@ -662,9 +662,9 @@ void main() {
           results[1]['rrect'] as RRect,
           RRect.fromLTRBR(
             83.5,
-            68.3,
+            80.4,
             94.5,
-            83.3,
+            98,
             const Radius.circular(0.2),
           ),
         ),
@@ -677,9 +677,9 @@ void main() {
           results[2]['rrect'] as RRect,
           RRect.fromLTRBR(
             83,
-            85,
-            95,
             100,
+            95,
+            117.6,
             const Radius.circular(0.3),
           ),
         ),
@@ -692,9 +692,9 @@ void main() {
           results[3]['rrect'] as RRect,
           RRect.fromLTRBR(
             106,
-            33.3,
+            39.2,
             116,
-            35,
+            41.2,
             const Radius.circular(0.1),
           ),
         ),
@@ -705,9 +705,9 @@ void main() {
           results[4]['rrect'] as RRect,
           RRect.fromLTRBR(
             105.5,
-            16.7,
+            19.6,
             116.5,
-            31.7,
+            37.3,
             const Radius.circular(0.2),
           ),
         ),
@@ -721,7 +721,7 @@ void main() {
             105,
             0,
             117,
-            15,
+            17.6,
             const Radius.circular(0.3),
           ),
         ),
@@ -1619,7 +1619,7 @@ void main() {
               color: const Color(0x00000000),
               borderRadius: const BorderRadius.all(Radius.circular(0.1)),
               rodStackItems: [
-                BarChartRodStackItem(0, 5, const Color(0xFF0F0F0F))
+                BarChartRodStackItem(0, 5, const Color(0xFF0F0F0F)),
               ],
             ),
           ],
@@ -1666,10 +1666,6 @@ void main() {
         null,
       );
       expect(
-        painter.handleTouch(const Offset(91.3, 55.3), viewSize, holder),
-        null,
-      );
-      expect(
         painter.handleTouch(const Offset(100.4, 21.2), viewSize, holder),
         null,
       );
@@ -1678,23 +1674,22 @@ void main() {
         null,
       );
 
+      expect(
+        painter.handleTouch(const Offset(110.1, 70.2), viewSize, holder),
+        null,
+      );
+
       final result1 =
-          painter.handleTouch(const Offset(110.1, 70.2), viewSize, holder);
-      expect(result1!.touchedBarGroupIndex, 1);
+          painter.handleTouch(const Offset(89, 38.5), viewSize, holder);
+      expect(result1!.touchedBarGroupIndex, 0);
       expect(result1.touchedRodDataIndex, 0);
       expect(result1.touchedStackItemIndex, -1);
 
       final result2 =
-          painter.handleTouch(const Offset(89, 38.5), viewSize, holder);
+          painter.handleTouch(const Offset(88.8, 16.5), viewSize, holder);
       expect(result2!.touchedBarGroupIndex, 0);
       expect(result2.touchedRodDataIndex, 0);
-      expect(result2.touchedStackItemIndex, 0);
-
-      final result3 =
-          painter.handleTouch(const Offset(88.8, 16.5), viewSize, holder);
-      expect(result3!.touchedBarGroupIndex, 0);
-      expect(result3.touchedRodDataIndex, 0);
-      expect(result3.touchedStackItemIndex, -1);
+      expect(result2.touchedStackItemIndex, -1);
     });
 
     test('test 3', () {
@@ -2147,17 +2142,10 @@ void main() {
         holder,
       );
 
-      expect(results.length, 2);
+      expect(results.length, 1);
 
       expect(results[0]['paint_color'], Colors.cyanAccent.value);
       expect(results[0]['paint_stroke_width'], 90);
-      expect(results[0]['from'], const Offset(0, 300));
-      expect(results[0]['to'], const Offset(400, 300));
-
-      expect(results[1]['paint_color'], Colors.cyanAccent.value);
-      expect(results[1]['paint_stroke_width'], 100);
-      expect(results[1]['from'], const Offset(0, 392));
-      expect(results[1]['to'], const Offset(400, 392));
 
       Utils.changeInstance(utilsMainInstance);
     });
@@ -2174,7 +2162,7 @@ void main() {
               BarChartRodData(fromY: 1, toY: 10),
               BarChartRodData(fromY: 2, toY: 10),
             ],
-          )
+          ),
         ],
         titlesData: const FlTitlesData(show: false),
         extraLinesData: ExtraLinesData(

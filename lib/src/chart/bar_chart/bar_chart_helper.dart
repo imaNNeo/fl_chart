@@ -34,7 +34,7 @@ class BarChartHelper {
     }
 
     var maxY = barGroup.barRods[0].toY;
-    var minY = 0.0;
+    var minY = barGroup.barRods[0].fromY;
 
     for (var i = 0; i < barGroups.length; i++) {
       final barGroup = barGroups[i];
@@ -49,12 +49,12 @@ class BarChartHelper {
           maxY = rod.backDrawRodData.toY;
         }
 
-        if (rod.toY < minY) {
-          minY = rod.toY;
+        if (rod.fromY < minY) {
+          minY = rod.fromY;
         }
 
-        if (rod.backDrawRodData.show && rod.backDrawRodData.toY < minY) {
-          minY = rod.backDrawRodData.toY;
+        if (rod.backDrawRodData.show && rod.backDrawRodData.fromY < minY) {
+          minY = rod.backDrawRodData.fromY;
         }
       }
     }

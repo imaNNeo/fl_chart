@@ -72,7 +72,7 @@ class AxisChartScaffoldWidget extends StatelessWidget {
           border: data.borderData.isVisible() ? data.borderData.border : null,
         ),
         child: chart,
-      )
+      ),
     ];
 
     int insertIndex(bool drawBelow) => drawBelow ? 0 : widgets.length;

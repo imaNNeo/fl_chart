@@ -66,7 +66,7 @@ void main() {
           ShowingTooltipIndicators([
             LineBarSpot(bar1, 0, bar1.spots.first),
             LineBarSpot(bar2, 1, bar2.spots.first),
-          ])
+          ]),
         ],
         lineTouchData: LineTouchData(
           getTouchedSpotIndicator:
@@ -172,7 +172,7 @@ void main() {
             LineBarSpot(bar2, 1, bar1.spots[2]),
             LineBarSpot(bar2, 1, bar1.spots[3]),
             LineBarSpot(bar2, 1, bar1.spots[4]),
-          ])
+          ]),
         ],
       );
 

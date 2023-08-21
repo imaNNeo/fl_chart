@@ -124,7 +124,7 @@ void main() {
             color: MockData.color3,
             width: 3,
           ),
-        )
+        ),
       ];
       final data = PieChartData(
         sections: sections,
