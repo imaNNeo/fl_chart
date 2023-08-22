@@ -338,7 +338,7 @@ void main() {
           MockData.color0,
           MockData.color1,
           MockData.color2,
-          MockData.color3
+          MockData.color3,
         ],
       );
       final b = VariableGaugeColor(
@@ -347,7 +347,7 @@ void main() {
           MockData.color6,
           MockData.color5,
           MockData.color4,
-          MockData.color3
+          MockData.color3,
         ],
       );
       final color = GaugeColor.lerp(a, b, 0.2);

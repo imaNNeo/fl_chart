@@ -228,7 +228,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         endAngle,
         gaugeTouchData,
         ticks,
-        borderData
+        borderData,
       ];
 }
 
