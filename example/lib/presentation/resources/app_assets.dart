@@ -14,7 +14,7 @@ class AppAssets {
       case ChartType.radar:
         return 'assets/icons/ic_radar_chart.svg';
       case ChartType.gauge:
-        return 'assets/icons/ic_radar_chart.svg';
+        return 'assets/icons/ic_gauge_chart.svg';
     }
   }
 
