@@ -47,16 +47,22 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   List<LineChartBarData> _lineBarsData = [];
 
+  /// Keeps index of bar and spot that currently is being dragging
+  (int barIndex, int spotIndex)? _draggingSpotIndexes;
+
+  bool get _isAnyDraggable =>
+      _lineBarsData.indexWhere((lineBarData) => lineBarData.isDraggable) != -1;
+
   @override
   void initState() {
-    _lineBarsData = widget.data.lineBarsData;
+    _lineBarsData = List.from(widget.data.lineBarsData);
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant LineChart oldWidget) {
     if (widget.data.lineBarsData != _lineBarsData) {
-      _lineBarsData = widget.data.lineBarsData;
+      _lineBarsData = List.from(widget.data.lineBarsData);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -98,12 +104,14 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       _providedTouchCallback = lineTouchData.touchCallback;
       return widget.data.copyWith(
         lineBarsData: _lineBarsData,
-        lineTouchData: widget.data.lineTouchData
-            .copyWith(touchCallback: _handleBuiltInTouch),
+        lineTouchData: widget.data.lineTouchData.copyWith(
+          touchCallback: _handleBuiltInTouch,
+          distanceCalculator: _isAnyDraggable ? vectorDistanceCalculator : null,
+        ),
       );
     }
 
-    return widget.data.copyWith(lineBarsData: _lineBarsData);
+    return widget.data;
   }
 
   void _handleBuiltInTouch(
@@ -112,6 +120,20 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   ) {
     if (!mounted) {
       return;
+    }
+
+    if (event is FlPanEndEvent || event is FlLongPressEnd) {
+      setState(() {
+        _draggingSpotIndexes = null;
+      });
+    }
+
+    if (_draggingSpotIndexes != null) {
+      setState(() {
+        final (barIndex, spotIndex) = _draggingSpotIndexes!;
+        _lineBarsData[barIndex].spots[spotIndex] =
+            touchResponse!.touchedAxesPoint!;
+      });
     }
 
     _providedTouchCallback?.call(event, touchResponse);
@@ -141,17 +163,16 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         ..add(ShowingTooltipIndicators(sortedLineSpots));
     });
 
-    if (event is FlPanStartEvent || event is FlPanUpdateEvent) {
+    if (event is FlPanStartEvent || event is FlLongPressStart) {
       final barIndex = touchResponse.lineBarSpots?.first.barIndex;
       final spotIndex = touchResponse.lineBarSpots?.first.spotIndex;
-      final newDataSpot = touchResponse.lineBarSpots?.first.touchedAxesPoint;
 
-      if (spotIndex != null && newDataSpot != null && barIndex != null) {
+      if (spotIndex != null && barIndex != null) {
         final isDraggable = widget.data.lineBarsData[barIndex].isDraggable;
 
         if (isDraggable) {
           setState(() {
-            _lineBarsData[barIndex].spots[spotIndex] = newDataSpot;
+            _draggingSpotIndexes = (barIndex, spotIndex);
           });
         }
       }
