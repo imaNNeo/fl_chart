@@ -1265,10 +1265,14 @@ class TouchLineBarSpot extends LineBarSpot {
     super.barIndex,
     super.spot,
     this.distance,
+    this.touchedAxesPoint,
   );
 
   /// Distance in pixels from where the user taped
   final double distance;
+
+  /// Position in spots' values converted from local position
+  final FlSpot touchedAxesPoint;
 }
 
 /// Holds data of showing each row item in the tooltip popup.
