@@ -41,7 +41,7 @@ class ChartSamples {
       LineChartSample(9, (context) => LineChartSample9()),
       LineChartSample(10, (context) => const LineChartSample10()),
       LineChartSample(11, (context) => const LineChartSample11()),
-      LineChartSample(11, (context) => const LineChartSample12()),
+      LineChartSample(12, (context) => const LineChartSample12()),
     ],
     ChartType.bar: [
       BarChartSample(1, (context) => BarChartSample1()),
