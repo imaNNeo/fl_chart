@@ -467,6 +467,25 @@ abstract class AxisChartPainter<D extends AxisChartData>
     return viewSize.height - (((spotY - data.minY) / deltaY) * viewSize.height);
   }
 
+  /// Function converts pixelX and pixelY to the [FlSpot],
+  /// reversed logic of [getPixelY] and [getPixelX]
+  FlSpot getTouchedCoordinates(
+    double pixelX,
+    double pixelY,
+    Size viewSize,
+    PaintHolder<D> holder,
+  ) {
+    final data = holder.data;
+    final deltaY = data.maxY - data.minY;
+    final deltaX = data.maxX - data.minX;
+
+    final x = ((pixelX * deltaX) / viewSize.width) + data.minX;
+    final y =
+        ((viewSize.height - pixelY) * deltaY) / viewSize.height + data.minY;
+
+    return FlSpot(x, y);
+  }
+
   /// With this function we can get horizontal
   /// position for the tooltip.
   double getTooltipLeft(

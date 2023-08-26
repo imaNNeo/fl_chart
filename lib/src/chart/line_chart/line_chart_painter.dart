@@ -1263,6 +1263,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       return null;
     }
 
+    final axesPoint = getTouchedCoordinates(
+      touchedPoint.dx,
+      touchedPoint.dy,
+      viewSize,
+      holder,
+    );
+
     /// Find the nearest spot (based on distanceCalculator)
     final sortedSpots = <FlSpot>[];
     double? smallestDistance;
@@ -1294,6 +1301,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         barDataPosition,
         sortedSpots.first,
         smallestDistance!,
+        axesPoint,
       );
     } else {
       return null;

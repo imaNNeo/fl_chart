@@ -45,7 +45,21 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
 
-  final _lineChartHelper = LineChartHelper();
+  List<LineChartBarData> _lineBarsData = [];
+
+  @override
+  void initState() {
+    _lineBarsData = widget.data.lineBarsData;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant LineChart oldWidget) {
+    if (widget.data.lineBarsData != _lineBarsData) {
+      _lineBarsData = widget.data.lineBarsData;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,35 +93,17 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   }
 
   LineChartData _getData() {
-    var newData = widget.data;
-
-    /// Calculate minX, maxX, minY, maxY for [LineChartData] if they are null,
-    /// it is necessary to render the chart correctly.
-    if (newData.minX.isNaN ||
-        newData.maxX.isNaN ||
-        newData.minY.isNaN ||
-        newData.maxY.isNaN) {
-      final values = _lineChartHelper.calculateMaxAxisValues(
-        newData.lineBarsData,
-      );
-      newData = newData.copyWith(
-        minX: newData.minX.isNaN ? values.minX : newData.minX,
-        maxX: newData.maxX.isNaN ? values.maxX : newData.maxX,
-        minY: newData.minY.isNaN ? values.minY : newData.minY,
-        maxY: newData.maxY.isNaN ? values.maxY : newData.maxY,
-      );
-    }
-
-    final lineTouchData = newData.lineTouchData;
+    final lineTouchData = widget.data.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       _providedTouchCallback = lineTouchData.touchCallback;
-      newData = newData.copyWith(
-        lineTouchData:
-            newData.lineTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+      return widget.data.copyWith(
+        lineBarsData: _lineBarsData,
+        lineTouchData: widget.data.lineTouchData
+            .copyWith(touchCallback: _handleBuiltInTouch),
       );
     }
 
-    return newData;
+    return widget.data.copyWith(lineBarsData: _lineBarsData);
   }
 
   void _handleBuiltInTouch(
@@ -117,8 +113,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (!mounted) {
       return;
     }
-    _providedTouchCallback?.call(event, touchResponse);
 
+    _providedTouchCallback?.call(event, touchResponse);
     if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
@@ -144,6 +140,22 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         ..clear()
         ..add(ShowingTooltipIndicators(sortedLineSpots));
     });
+
+    if (event is FlPanStartEvent || event is FlPanUpdateEvent) {
+      final barIndex = touchResponse.lineBarSpots?.first.barIndex;
+      final spotIndex = touchResponse.lineBarSpots?.first.spotIndex;
+      final newDataSpot = touchResponse.lineBarSpots?.first.touchedAxesPoint;
+
+      if (spotIndex != null && newDataSpot != null && barIndex != null) {
+        final isDraggable = widget.data.lineBarsData[barIndex].isDraggable;
+
+        if (isDraggable) {
+          setState(() {
+            _lineBarsData[barIndex].spots[spotIndex] = newDataSpot;
+          });
+        }
+      }
+    }
   }
 
   @override
