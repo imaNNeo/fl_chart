@@ -1,4 +1,5 @@
 // coverage:ignore-file
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -227,7 +228,7 @@ class LineChartBarData with EquatableMixin {
   /// If you want to have a Step Line Chart style, just set [isStepLineChart] true,
   /// also you can tweak the [LineChartBarData.lineChartStepData].
   LineChartBarData({
-    this.spots = const [],
+    List<FlSpot> spots = const [],
     this.show = true,
     Color? color,
     this.gradient,
@@ -257,6 +258,7 @@ class LineChartBarData with EquatableMixin {
     FlSpot? mostBottom;
 
     FlSpot? firstValidSpot;
+    this.spots = List.from(spots);
     try {
       firstValidSpot =
           spots.firstWhere((element) => element != FlSpot.nullSpot);
@@ -295,7 +297,7 @@ class LineChartBarData with EquatableMixin {
   ///
   /// You can have multiple lines by splitting them,
   /// put a [FlSpot.nullSpot] between each section.
-  final List<FlSpot> spots;
+  late final List<FlSpot> spots;
 
   /// We keep the most left spot to prevent redundant calculations
   late final FlSpot mostLeftSpot;
@@ -385,6 +387,7 @@ class LineChartBarData with EquatableMixin {
       aboveBarData: BarAreaData.lerp(a.aboveBarData, b.aboveBarData, t),
       curveSmoothness: b.curveSmoothness,
       isCurved: b.isCurved,
+      isDraggable: b.isDraggable,
       isStrokeCapRound: b.isStrokeCapRound,
       isStrokeJoinRound: b.isStrokeJoinRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
@@ -1187,6 +1190,17 @@ double _xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
   return (touchPoint.dx - spotPixelCoordinates.dx).abs();
 }
 
+/// distance calculator that calculates distance using vectors' math
+double vectorDistanceCalculator(
+  Offset touchPoint,
+  Offset spotPixelCoordinates,
+) {
+  return sqrt(
+    pow(touchPoint.dx - spotPixelCoordinates.dx, 2) +
+        pow(touchPoint.dy - spotPixelCoordinates.dy, 2),
+  );
+}
+
 /// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
   LineChartBarData barData,
@@ -1380,14 +1394,10 @@ class TouchLineBarSpot extends LineBarSpot {
     super.barIndex,
     super.spot,
     this.distance,
-    this.touchedAxesPoint,
   );
 
   /// Distance in pixels from where the user taped
   final double distance;
-
-  /// Position in spots' values converted from local position
-  final FlSpot touchedAxesPoint;
 }
 
 /// Holds data of showing each row item in the tooltip popup.
@@ -1478,19 +1488,24 @@ class LineTouchResponse extends BaseTouchResponse {
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// They are sorted based on their distance to the touch event
-  const LineTouchResponse(this.lineBarSpots);
+  const LineTouchResponse(this.lineBarSpots, this.touchedAxesPoint);
 
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
   final List<TouchLineBarSpot>? lineBarSpots;
 
+  /// Position in spots' values converted from local position
+  final FlSpot? touchedAxesPoint;
+
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
     List<TouchLineBarSpot>? lineBarSpots,
+    FlSpot? touchedAxesPoint,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,
+      touchedAxesPoint ?? this.touchedAxesPoint,
     );
   }
 }

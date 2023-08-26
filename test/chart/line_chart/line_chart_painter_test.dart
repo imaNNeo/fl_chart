@@ -2663,7 +2663,7 @@ void main() {
       final holder = PaintHolder<LineChartData>(data, data, 1);
       final touchResponse =
           lineChartPainter.handleTouch(const Offset(35, 0), viewSize, holder);
-      expect(touchResponse, null);
+      expect(touchResponse.lineBarSpots, null);
     });
 
     test('test 2', () {
@@ -2720,21 +2720,25 @@ void main() {
       final holder = PaintHolder<LineChartData>(data, data, 1);
       expect(
         lineChartPainter
-            .handleTouch(const Offset(30, 0), viewSize, holder)!
+            .handleTouch(const Offset(30, 0), viewSize, holder)
+            .lineBarSpots!
             .length,
         1,
       );
       expect(
-        lineChartPainter.handleTouch(
-          const Offset(29.99, 0),
-          viewSize,
-          holder,
-        ),
+        lineChartPainter
+            .handleTouch(
+              const Offset(29.99, 0),
+              viewSize,
+              holder,
+            )
+            .lineBarSpots,
         null,
       );
       expect(
         lineChartPainter
-            .handleTouch(const Offset(10, 0), viewSize, holder)!
+            .handleTouch(const Offset(10, 0), viewSize, holder)
+            .lineBarSpots!
             .length,
         2,
       );
@@ -2794,14 +2798,14 @@ void main() {
       final holder = PaintHolder<LineChartData>(data, data, 1);
 
       final result1 =
-          lineChartPainter.handleTouch(const Offset(11, 0), viewSize, holder)!;
-      expect(result1[0].barIndex, 0);
-      expect(result1[1].barIndex, 1);
+          lineChartPainter.handleTouch(const Offset(11, 0), viewSize, holder);
+      expect(result1.lineBarSpots![0].barIndex, 0);
+      expect(result1.lineBarSpots![1].barIndex, 1);
 
       final result2 =
-          lineChartPainter.handleTouch(const Offset(12, 0), viewSize, holder)!;
-      expect(result2[0].barIndex, 1);
-      expect(result2[1].barIndex, 0);
+          lineChartPainter.handleTouch(const Offset(12, 0), viewSize, holder);
+      expect(result2.lineBarSpots![0].barIndex, 1);
+      expect(result2.lineBarSpots![1].barIndex, 0);
     });
   });
 

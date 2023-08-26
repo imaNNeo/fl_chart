@@ -1191,7 +1191,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// Processes [localPosition] and checks
   /// the elements of the chart that are near the offset,
   /// then makes a [LineTouchResponse] from the elements that has been touched.
-  List<TouchLineBarSpot>? handleTouch(
+  LineTouchResponse handleTouch(
     Offset localPosition,
     Size size,
     PaintHolder<LineChartData> holder,
@@ -1214,9 +1214,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
     }
 
-    touchedSpots.sort((a, b) => a.distance.compareTo(b.distance));
+    final axesPoint = getTouchedCoordinates(
+      localPosition.dx,
+      localPosition.dy,
+      size,
+      holder,
+    );
 
-    return touchedSpots.isEmpty ? null : touchedSpots;
+    touchedSpots.sort((a, b) => a.distance.compareTo(b.distance));
+    final response = LineTouchResponse(
+      touchedSpots.isEmpty ? null : touchedSpots,
+      axesPoint,
+    );
+
+    return response;
   }
 
   /// find the nearest spot base on the touched offset
@@ -1232,13 +1243,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (!barData.show) {
       return null;
     }
-
-    final axesPoint = getTouchedCoordinates(
-      touchedPoint.dx,
-      touchedPoint.dy,
-      viewSize,
-      holder,
-    );
 
     /// Find the nearest spot (based on distanceCalculator)
     final sortedSpots = <FlSpot>[];
@@ -1271,7 +1275,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         barDataPosition,
         sortedSpots.first,
         smallestDistance!,
-        axesPoint,
       );
     } else {
       return null;
