@@ -104,11 +104,11 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
 
   @override
   LineTouchResponse getResponseAtLocation(Offset localPosition) {
-    final touchedSpots = painter.handleTouch(
+    final touchedSpotsResponse = painter.handleTouch(
       localPosition,
       mockTestSize ?? size,
       paintHolder,
     );
-    return LineTouchResponse(touchedSpots);
+    return touchedSpotsResponse;
   }
 }
