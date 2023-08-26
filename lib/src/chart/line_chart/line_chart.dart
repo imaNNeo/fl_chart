@@ -75,21 +75,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             .toList(),
       );
     }
-
-    final oldSpots = oldWidget.data.lineBarsData
-        .map((e) => e.spots)
-        .toList()
-        .expand((list) => list)
-        .toList();
-    final currentSpots = oldWidget.data.lineBarsData
-        .map((e) => e.spots)
-        .toList()
-        .expand((list) => list)
-        .toList();
-
-    if (!listEquals(oldSpots, currentSpots)) {
-      _lineBarsData = List.from(widget.data.lineBarsData);
-    }
     super.didUpdateWidget(oldWidget);
   }
 
