@@ -57,12 +57,24 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   @override
   void initState() {
-    _lineBarsData = List.from(widget.data.lineBarsData);
+    _lineBarsData = List.from(
+      widget.data.lineBarsData
+          .map((lineBarData) => lineBarData.copyWith())
+          .toList(),
+    );
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant LineChart oldWidget) {
+    if (!listEquals(oldWidget.data.lineBarsData, widget.data.lineBarsData)) {
+      _lineBarsData = List.from(
+        widget.data.lineBarsData
+            .map((lineBarData) => lineBarData.copyWith())
+            .toList(),
+      );
+    }
+
     final oldSpots = oldWidget.data.lineBarsData
         .map((e) => e.spots)
         .toList()
