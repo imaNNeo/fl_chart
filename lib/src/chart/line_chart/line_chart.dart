@@ -41,6 +41,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<LineTouchResponse>? _providedTouchCallback;
 
+  DragSpotUpdatedCallback? _dragSpotUpdatedCallback;
+
   final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
@@ -102,6 +104,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final lineTouchData = widget.data.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       _providedTouchCallback = lineTouchData.touchCallback;
+      _dragSpotUpdatedCallback = lineTouchData.dragSpotUpdatedCallback;
       return widget.data.copyWith(
         lineBarsData: _lineBarsData,
         lineTouchData: widget.data.lineTouchData.copyWith(
@@ -122,18 +125,25 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       return;
     }
 
+    // Cancel dragging
     if (event is FlPanEndEvent || event is FlLongPressEnd) {
       setState(() {
         _draggingSpotIndexes = null;
       });
     }
 
+    // if indexes of dragging spot exist, changes it's position
     if (_draggingSpotIndexes != null) {
+      final (barIndex, spotIndex) = _draggingSpotIndexes!;
       setState(() {
-        final (barIndex, spotIndex) = _draggingSpotIndexes!;
         _lineBarsData[barIndex].spots[spotIndex] =
             touchResponse!.touchedAxesPoint!;
       });
+      _dragSpotUpdatedCallback?.call(UpdatedDragSpotsData(
+        barIndex,
+        spotIndex,
+        _lineBarsData[barIndex].spots,
+      ));
     }
 
     _providedTouchCallback?.call(event, touchResponse);
@@ -163,6 +173,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         ..add(ShowingTooltipIndicators(sortedLineSpots));
     });
 
+    // If there is needed event and any lineBar with .isDraggable flag exists,
+    // sets indexes of needed spot and starts dragging process.
     if (event is FlPanStartEvent || event is FlLongPressStart) {
       final barIndex = touchResponse.lineBarSpots?.first.barIndex;
       final spotIndex = touchResponse.lineBarSpots?.first.spotIndex;

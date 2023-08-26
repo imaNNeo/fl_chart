@@ -880,6 +880,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     BaseTouchCallback<LineTouchResponse>? touchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
+    this.dragSpotUpdatedCallback,
     this.touchTooltipData = const LineTouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
@@ -899,6 +900,8 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
 
   /// Configs of how touch indicator looks like.
   final GetTouchedSpotIndicator getTouchedSpotIndicator;
+
+  final DragSpotUpdatedCallback? dragSpotUpdatedCallback;
 
   /// Distance threshold to handle the touch event.
   final double touchSpotThreshold;
@@ -924,6 +927,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     bool? enabled,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
+    DragSpotUpdatedCallback? dragSpotUpdatedCallback,
     Duration? longPressDuration,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
@@ -937,6 +941,8 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
       enabled: enabled ?? this.enabled,
       touchCallback: touchCallback ?? this.touchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
+      dragSpotUpdatedCallback:
+          dragSpotUpdatedCallback ?? this.dragSpotUpdatedCallback,
       longPressDuration: longPressDuration ?? this.longPressDuration,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator:
@@ -963,6 +969,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
+        dragSpotUpdatedCallback,
       ];
 }
 
@@ -988,6 +995,8 @@ typedef CalculateTouchDistance = double Function(
   Offset touchPoint,
   Offset spotPixelCoordinates,
 );
+
+typedef DragSpotUpdatedCallback = void Function(UpdatedDragSpotsData);
 
 /// Default distanceCalculator only considers distance on x axis
 double _xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
@@ -1203,6 +1212,31 @@ class LineBarSpot extends FlSpot with EquatableMixin {
         spotIndex,
         x,
         y,
+      ];
+}
+
+/// Contains information about spots that have been updated using dragging feature.
+class UpdatedDragSpotsData with EquatableMixin {
+  const UpdatedDragSpotsData(
+    this.updatedBarIndex,
+    this.updatedSpotIndex,
+    this.newSpots,
+  );
+
+  /// Index of updated bar
+  final int updatedBarIndex;
+
+  /// Index of updated spot
+  final int updatedSpotIndex;
+
+  /// New list of spots in updated line bar
+  final List<FlSpot> newSpots;
+
+  @override
+  List<Object?> get props => [
+        updatedBarIndex,
+        updatedSpotIndex,
+        newSpots,
       ];
 }
 
