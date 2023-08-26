@@ -44,6 +44,22 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
 
+  List<LineChartBarData> _lineBarsData = [];
+
+  @override
+  void initState() {
+    _lineBarsData = widget.data.lineBarsData;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant LineChart oldWidget) {
+    if (widget.data.lineBarsData != _lineBarsData) {
+      _lineBarsData = widget.data.lineBarsData;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     final showingData = _getData();
@@ -80,11 +96,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       _providedTouchCallback = lineTouchData.touchCallback;
       return widget.data.copyWith(
+        lineBarsData: _lineBarsData,
         lineTouchData: widget.data.lineTouchData
             .copyWith(touchCallback: _handleBuiltInTouch),
       );
     }
-    return widget.data;
+
+    return widget.data.copyWith(lineBarsData: _lineBarsData);
   }
 
   void _handleBuiltInTouch(
@@ -94,8 +112,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (!mounted) {
       return;
     }
-    _providedTouchCallback?.call(event, touchResponse);
 
+    _providedTouchCallback?.call(event, touchResponse);
     if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
@@ -121,6 +139,22 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         ..clear()
         ..add(ShowingTooltipIndicators(sortedLineSpots));
     });
+
+    if (event is FlPanStartEvent || event is FlPanUpdateEvent) {
+      final barIndex = touchResponse.lineBarSpots?.first.barIndex;
+      final spotIndex = touchResponse.lineBarSpots?.first.spotIndex;
+      final newDataSpot = touchResponse.lineBarSpots?.first.touchedAxesPoint;
+
+      if (spotIndex != null && newDataSpot != null && barIndex != null) {
+        final isDraggable = widget.data.lineBarsData[barIndex].isDraggable;
+
+        if (isDraggable) {
+          setState(() {
+            _lineBarsData[barIndex].spots[spotIndex] = newDataSpot;
+          });
+        }
+      }
+    }
   }
 
   @override
