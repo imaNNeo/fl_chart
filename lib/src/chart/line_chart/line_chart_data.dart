@@ -246,6 +246,7 @@ class LineChartBarData with EquatableMixin {
     this.shadow = const Shadow(color: Colors.transparent),
     this.isStepLineChart = false,
     this.lineChartStepData = const LineChartStepData(),
+    this.isDraggable = false,
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         belowBarData = belowBarData ?? BarAreaData(),
@@ -310,6 +311,9 @@ class LineChartBarData with EquatableMixin {
 
   /// Determines to show or hide the line.
   final bool show;
+
+  /// Determines if spots are draggable
+  final bool isDraggable;
 
   /// If provided, this [LineChartBarData] draws with this [color]
   /// Otherwise we use  [gradient] to draw the background.
@@ -1376,10 +1380,14 @@ class TouchLineBarSpot extends LineBarSpot {
     super.barIndex,
     super.spot,
     this.distance,
+    this.touchedAxesPoint,
   );
 
   /// Distance in pixels from where the user taped
   final double distance;
+
+  /// Position in spots' values converted from local position
+  final FlSpot touchedAxesPoint;
 }
 
 /// Holds data of showing each row item in the tooltip popup.
