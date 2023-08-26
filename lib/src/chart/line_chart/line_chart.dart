@@ -138,11 +138,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         _lineBarsData[barIndex].spots[spotIndex] =
             touchResponse!.touchedAxesPoint!;
       });
-      _dragSpotUpdatedCallback?.call(UpdatedDragSpotsData(
-        barIndex,
-        spotIndex,
-        _lineBarsData[barIndex].spots,
-      ));
+      _dragSpotUpdatedCallback?.call(
+        UpdatedDragSpotsData(
+          barIndex,
+          spotIndex,
+          _lineBarsData[barIndex].spots,
+        ),
+      );
     }
 
     _providedTouchCallback?.call(event, touchResponse);
