@@ -474,6 +474,7 @@ class LineChartBarData with EquatableMixin {
         shadow,
         isStepLineChart,
         lineChartStepData,
+        isDraggable,
       ];
 }
 
