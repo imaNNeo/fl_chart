@@ -219,7 +219,11 @@ class BarChartGroupData with EquatableMixin {
   /// you can show some tooltipIndicators (a popup with an information)
   /// on top of each [BarChartRodData] using [showingTooltipIndicators],
   /// just put indices you want to show it on top of them.
-  final List<int> showingTooltipIndicators;
+  List<int> showingTooltipIndicators;
+
+  void updateShowingTooltipIndicators(list){
+    showingTooltipIndicators = list;
+  }
 
   /// width of the group (sum of all [BarChartRodData]'s width and spaces)
   double get width {
