@@ -1125,6 +1125,38 @@ void main() {
         ],
       );
     });
+
+    test('can be factor scaled', () {
+      const viewSize = Size(400, 300);
+
+      final data = RadarChartData(
+        scaleFactor: 0.5,
+        dataSets: [
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 1),
+              const RadarEntry(value: 2),
+              const RadarEntry(value: 3),
+            ],
+          ),
+        ],
+      );
+
+      final radarChartPainter = RadarChartPainter();
+      final holder = PaintHolder<RadarChartData>(data, data, 1);
+
+      final result =
+          radarChartPainter.calculateDataSetsPosition(viewSize, holder);
+      expect(result.length, 1);
+      expect(
+        result[0].entriesOffset,
+        [
+          const Offset(200, 120),
+          const Offset(238.97114317029974, 172.5),
+          const Offset(148.03847577293368, 180.00000000000003),
+        ],
+      );
+    });
   });
 
   group('getDefaultChartCenterValue()', () {

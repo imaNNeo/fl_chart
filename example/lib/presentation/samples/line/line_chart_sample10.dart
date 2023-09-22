@@ -100,6 +100,8 @@ class _LineChartSample10State extends State<LineChartSample10> {
                         show: false,
                       ),
                     ),
+                    initialAnimationConfiguration:
+                        const InitialAnimationConfiguration(enabled: false),
                   ),
                 ),
               )

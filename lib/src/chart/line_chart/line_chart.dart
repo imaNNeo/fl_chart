@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
+import 'package:fl_chart/src/chart/base/base_chart/initial_animation_mixin.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class LineChart extends ImplicitlyAnimatedWidget {
   const LineChart(
     this.data, {
     this.chartRendererKey,
+    this.initialAnimationConfiguration = const InitialAnimationConfiguration(),
     super.key,
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
@@ -26,12 +28,16 @@ class LineChart extends ImplicitlyAnimatedWidget {
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
 
+  /// Determines if the initial animation is enabled.
+  final InitialAnimationConfiguration initialAnimationConfiguration;
+
   /// Creates a [_LineChartState]
   @override
   _LineChartState createState() => _LineChartState();
 }
 
-class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
+class _LineChartState extends AnimatedWidgetBaseState<LineChart>
+    with InitialAnimationMixin<LineChartData, LineChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [LineChartData] to the new one.
   LineChartDataTween? _lineChartDataTween;
@@ -43,6 +49,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
+
+  @override
+  InitialAnimationConfiguration get initialAnimationConfiguration =>
+      widget.initialAnimationConfiguration;
+
+  @override
+  Tween? get tween => _lineChartDataTween;
 
   @override
   Widget build(BuildContext context) {
@@ -124,12 +137,34 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   }
 
   @override
+  LineChartData getAppearanceAnimationData(LineChartData data) {
+    final startingY = getAppearanceValue(data.minY, data.maxY);
+    return data.copyWith(
+      lineBarsData: data.lineBarsData.map((barData) {
+        return barData.copyWith(
+          spots: barData.spots.map((spot) {
+            if (spot.isNull()) {
+              return FlSpot.nullSpot;
+            }
+            return FlSpot(spot.x, startingY);
+          }).toList(),
+        );
+      }).toList(),
+    );
+  }
+
+  @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _lineChartDataTween = visitor(
       _lineChartDataTween,
       _getData(),
-      (dynamic value) =>
-          LineChartDataTween(begin: value as LineChartData, end: widget.data),
+      (dynamic value) {
+        final initialData = constructInitialData(value as LineChartData);
+        return LineChartDataTween(
+          begin: initialData,
+          end: initialData,
+        );
+      },
     ) as LineChartDataTween?;
   }
 }

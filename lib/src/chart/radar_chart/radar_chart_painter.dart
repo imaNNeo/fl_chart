@@ -444,7 +444,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
         final xAngle = cos(angle * j - pi / 2);
         final yAngle = sin(angle * j - pi / 2);
-        final scaledPoint = getScaledPoint(point, radius, data);
+        final scaledPoint =
+            getScaledPoint(point, radius, data) * data.scaleFactor;
 
         final entryOffset = Offset(
           centerX + scaledPoint * xAngle,

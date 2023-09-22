@@ -137,10 +137,7 @@ void main() {
       );
 
       expect(
-        radarChartData1 ==
-            radarChartData1Clone.copyWith(
-              titleTextStyle: radarChartData2.titleTextStyle,
-            ),
+        radarChartData1 == radarChartData1Clone.copyWith(scaleFactor: 0.5),
         false,
       );
     });

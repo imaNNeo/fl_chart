@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LineChartSample8 extends StatefulWidget {
@@ -22,12 +20,8 @@ class _LineChartSample8State extends State<LineChartSample8> {
 
   bool showAvg = false;
 
-  Future<ui.Image> loadImage(String asset) async {
-    final data = await rootBundle.load(asset);
-    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-    final fi = await codec.getNextFrame();
-    return fi.image;
-  }
+  // Caching the future to prevent rebuilding the widget
+  late final Future<SizedPicture> _loadSvgFuture = loadSvg();
 
   Future<SizedPicture> loadSvg() async {
     const rawSvg =
@@ -43,7 +37,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SizedPicture>(
-      future: loadSvg(),
+      future: _loadSvgFuture,
       builder: (BuildContext context, imageSnapshot) {
         if (imageSnapshot.connectionState == ConnectionState.done) {
           return Stack(

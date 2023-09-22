@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
+import 'package:fl_chart/src/chart/base/base_chart/initial_animation_mixin.dart';
 import 'package:flutter/cupertino.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
@@ -13,6 +14,7 @@ class BarChart extends ImplicitlyAnimatedWidget {
   const BarChart(
     this.data, {
     this.chartRendererKey,
+    this.initialAnimationConfiguration = const InitialAnimationConfiguration(),
     super.key,
     Duration swapAnimationDuration = const Duration(milliseconds: 150),
     Curve swapAnimationCurve = Curves.linear,
@@ -28,12 +30,16 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
 
+  /// Determines if the initial animation is enabled.
+  final InitialAnimationConfiguration initialAnimationConfiguration;
+
   /// Creates a [_BarChartState]
   @override
   _BarChartState createState() => _BarChartState();
 }
 
-class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
+class _BarChartState extends AnimatedWidgetBaseState<BarChart>
+    with InitialAnimationMixin<BarChartData, BarChart> {
   /// we handle under the hood animations (implicit animations) via this tween,
   /// it lerps between the old [BarChartData] to the new one.
   BarChartDataTween? _barChartDataTween;
@@ -43,6 +49,13 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   BaseTouchCallback<BarTouchResponse>? _providedTouchCallback;
 
   final Map<int, List<int>> _showingTouchedTooltips = {};
+
+  @override
+  InitialAnimationConfiguration get initialAnimationConfiguration =>
+      widget.initialAnimationConfiguration;
+
+  @override
+  Tween? get tween => _barChartDataTween;
 
   @override
   Widget build(BuildContext context) {
@@ -118,12 +131,48 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   }
 
   @override
+  BarChartData getAppearanceAnimationData(BarChartData data) {
+    final startingY = getAppearanceValue(data.minY, data.maxY);
+    return data.copyWith(
+      barGroups: data.barGroups.map((barGroup) {
+        return barGroup.copyWith(
+          barRods: _getAppearanceBarRods(startingY, barGroup.barRods),
+        );
+      }).toList(),
+    );
+  }
+
+  List<BarChartRodData> _getAppearanceBarRods(
+    double startingY,
+    List<BarChartRodData> barRods,
+  ) {
+    final rods = <BarChartRodData>[];
+    BarChartRodData? previousRod;
+    var offset = 0.0;
+
+    for (final rod in barRods) {
+      if (previousRod != null) {
+        offset += rod.fromY - previousRod.toY;
+      }
+      final y = startingY + offset;
+      rods.add(rod.copyWith(fromY: y, toY: y));
+      previousRod = rod;
+    }
+    return rods;
+  }
+
+  @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _barChartDataTween = visitor(
       _barChartDataTween,
-      widget.data,
-      (dynamic value) =>
-          BarChartDataTween(begin: value as BarChartData, end: widget.data),
+      _getData(),
+      (dynamic value) {
+        final initialData = constructInitialData(value as BarChartData);
+        return BarChartDataTween(
+          begin: initialData,
+          end: initialData,
+        );
+      },
     ) as BarChartDataTween?;
   }
 }

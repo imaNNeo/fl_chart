@@ -45,10 +45,13 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                   color: AppColors.mainTextColor2,
                 ),
               ),
-              Slider(
-                value: angleValue,
-                max: 360,
-                onChanged: (double value) => setState(() => angleValue = value),
+              Expanded(
+                child: Slider(
+                  value: angleValue,
+                  max: 360,
+                  onChanged: (double value) =>
+                      setState(() => angleValue = value),
+                ),
               ),
             ],
           ),

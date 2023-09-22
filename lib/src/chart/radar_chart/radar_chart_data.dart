@@ -71,6 +71,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
     super.borderData,
+    double? scaleFactor,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
           tickCount == null || tickCount >= 1,
@@ -82,6 +83,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
                   titlePositionPercentageOffset <= 1,
           'titlePositionPercentageOffset must be something between 0 and 1 ',
         ),
+        assert(scaleFactor == null || scaleFactor >= 0 && scaleFactor <= 1),
         dataSets = dataSets ?? const [],
         radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
         radarBorderData = radarBorderData ?? const BorderSide(width: 2),
@@ -91,6 +93,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickCount = tickCount ?? 1,
         tickBorderData = tickBorderData ?? const BorderSide(width: 2),
         gridBorderData = gridBorderData ?? const BorderSide(width: 2),
+        scaleFactor = scaleFactor ?? 1.0,
         super(
           touchData: radarTouchData ?? RadarTouchData(),
         );
@@ -151,6 +154,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// Defines style of showing [RadarChart] grid borders.
   final BorderSide gridBorderData;
 
+  /// Defines scale factor of showing [RadarChart] radars.
+  final double scaleFactor;
+
   /// Handles touch behaviors and responses.
   final RadarTouchData radarTouchData;
 
@@ -200,6 +206,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
     FlBorderData? borderData,
+    double? scaleFactor,
   }) =>
       RadarChartData(
         dataSets: dataSets ?? this.dataSets,
@@ -216,6 +223,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         gridBorderData: gridBorderData ?? this.gridBorderData,
         radarTouchData: radarTouchData ?? this.radarTouchData,
         borderData: borderData ?? this.borderData,
+        scaleFactor: scaleFactor ?? this.scaleFactor,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -241,6 +249,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarShape: b.radarShape,
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        scaleFactor: lerpDouble(a.scaleFactor, b.scaleFactor, t),
         radarTouchData: b.radarTouchData,
       );
     } else {
@@ -264,6 +273,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         ticksTextStyle,
         tickBorderData,
         gridBorderData,
+        scaleFactor,
         radarTouchData,
       ];
 }
