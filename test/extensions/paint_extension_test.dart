@@ -36,4 +36,20 @@ void main() {
     expect(paint.color, MockData.color0);
     expect(paint.shader, isNull);
   });
+
+  test('test setColorOrGradientForLine', () {
+    final paint = Paint()
+      ..color = MockData.color0
+      ..setColorOrGradientForLine(
+        null,
+        MockData.gradient1,
+        from: MockData.rect1.topLeft,
+        to: MockData.rect1.bottomRight,
+      );
+    expect(paint.shader, isNotNull);
+
+    paint.setColorOrGradient(MockData.color0, null, MockData.rect1);
+    expect(paint.color, MockData.color0);
+    expect(paint.shader, isNull);
+  });
 }

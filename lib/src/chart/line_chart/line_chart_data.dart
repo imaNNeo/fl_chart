@@ -1195,7 +1195,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
       lineColor = _defaultGetDotColor(barData.spots[index], 0, barData);
     }
     const lineStrokeWidth = 4.0;
-    final flLine = FlLine(color: lineColor!, strokeWidth: lineStrokeWidth);
+    final flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
 
     var dotSize = 10.0;
     if (barData.dotData.show) {

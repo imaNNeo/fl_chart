@@ -18,4 +18,14 @@ extension PaintExtension on Paint {
       shader = null;
     }
   }
+
+  void setColorOrGradientForLine(
+    Color? color,
+    Gradient? gradient, {
+    required Offset from,
+    required Offset to,
+  }) {
+    final rect = Rect.fromPoints(from, to);
+    setColorOrGradient(color, gradient, rect);
+  }
 }
