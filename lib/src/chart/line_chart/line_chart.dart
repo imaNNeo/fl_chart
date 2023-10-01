@@ -42,7 +42,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<LineTouchResponse>? _providedTouchCallback;
 
-  DragSpotUpdateFinishedCallback? _dragSpotUpdatedCallback;
+  DragSpotUpdateCallback? _dragSpotUpdateFinishedCallback;
+  DragSpotUpdateCallback? _dragSpotUpdateCallback;
+  DragSpotUpdateCallback? _dragSpotUpdateStartedCallback;
 
   final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
 
@@ -113,7 +115,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final lineTouchData = widget.data.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       _providedTouchCallback = lineTouchData.touchCallback;
-      _dragSpotUpdatedCallback = lineTouchData.dragSpotUpdateFinishedCallback;
+      _dragSpotUpdateFinishedCallback =
+          lineTouchData.dragSpotUpdateFinishedCallback;
       return widget.data.copyWith(
         lineBarsData: _lineBarsData,
         lineTouchData: widget.data.lineTouchData.copyWith(
@@ -138,7 +141,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (event is FlPanEndEvent || event is FlLongPressEnd) {
       if (_draggingSpotIndexes != null) {
         final (barIndex, spotIndex) = _draggingSpotIndexes!;
-        _dragSpotUpdatedCallback?.call(
+        _dragSpotUpdateFinishedCallback?.call(
           UpdatedDragSpotsData(
             barIndex,
             spotIndex,
@@ -158,6 +161,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         _lineBarsData[barIndex].spots[spotIndex] =
             touchResponse!.touchedAxesPoint!;
       });
+      _dragSpotUpdateCallback?.call(
+        UpdatedDragSpotsData(
+          barIndex,
+          spotIndex,
+          _lineBarsData[barIndex].spots,
+        ),
+      );
     }
 
     _providedTouchCallback?.call(event, touchResponse);
@@ -201,6 +211,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             _draggingSpotIndexes = (barIndex, spotIndex);
           });
         }
+        _dragSpotUpdateStartedCallback?.call(
+          UpdatedDragSpotsData(
+            barIndex,
+            spotIndex,
+            _lineBarsData[barIndex].spots,
+          ),
+        );
       }
     }
   }
