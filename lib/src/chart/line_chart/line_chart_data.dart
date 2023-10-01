@@ -1,4 +1,5 @@
 // coverage:ignore-file
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -227,7 +228,7 @@ class LineChartBarData with EquatableMixin {
   /// If you want to have a Step Line Chart style, just set [isStepLineChart] true,
   /// also you can tweak the [LineChartBarData.lineChartStepData].
   LineChartBarData({
-    this.spots = const [],
+    List<FlSpot> spots = const [],
     this.show = true,
     Color? color,
     this.gradient,
@@ -246,6 +247,7 @@ class LineChartBarData with EquatableMixin {
     this.shadow = const Shadow(color: Colors.transparent),
     this.isStepLineChart = false,
     this.lineChartStepData = const LineChartStepData(),
+    this.isDraggable = false,
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         belowBarData = belowBarData ?? BarAreaData(),
@@ -256,6 +258,7 @@ class LineChartBarData with EquatableMixin {
     FlSpot? mostBottom;
 
     FlSpot? firstValidSpot;
+    this.spots = List.from(spots);
     try {
       firstValidSpot =
           spots.firstWhere((element) => element != FlSpot.nullSpot);
@@ -294,7 +297,7 @@ class LineChartBarData with EquatableMixin {
   ///
   /// You can have multiple lines by splitting them,
   /// put a [FlSpot.nullSpot] between each section.
-  final List<FlSpot> spots;
+  late final List<FlSpot> spots;
 
   /// We keep the most left spot to prevent redundant calculations
   late final FlSpot mostLeftSpot;
@@ -310,6 +313,9 @@ class LineChartBarData with EquatableMixin {
 
   /// Determines to show or hide the line.
   final bool show;
+
+  /// Determines if spots are draggable
+  final bool isDraggable;
 
   /// If provided, this [LineChartBarData] draws with this [color]
   /// Otherwise we use  [gradient] to draw the background.
@@ -381,6 +387,7 @@ class LineChartBarData with EquatableMixin {
       aboveBarData: BarAreaData.lerp(a.aboveBarData, b.aboveBarData, t),
       curveSmoothness: b.curveSmoothness,
       isCurved: b.isCurved,
+      isDraggable: b.isDraggable,
       isStrokeCapRound: b.isStrokeCapRound,
       isStrokeJoinRound: b.isStrokeJoinRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
@@ -472,6 +479,7 @@ class LineChartBarData with EquatableMixin {
         shadow,
         isStepLineChart,
         lineChartStepData,
+        isDraggable,
       ];
 }
 
@@ -1069,6 +1077,9 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     BaseTouchCallback<LineTouchResponse>? touchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
+    this.dragSpotUpdateFinishedCallback,
+    this.dragSpotUpdateCallback,
+    this.dragSpotUpdateStartedCallback,
     this.touchTooltipData = const LineTouchTooltipData(),
     this.getTouchedSpotIndicator = defaultTouchedIndicators,
     this.touchSpotThreshold = 10,
@@ -1088,6 +1099,15 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
 
   /// Configs of how touch indicator looks like.
   final GetTouchedSpotIndicator getTouchedSpotIndicator;
+
+  /// Action when dragging of draggable spot is finished.
+  final DragSpotUpdateCallback? dragSpotUpdateFinishedCallback;
+
+  /// Action when draggable spot has been updated.
+  final DragSpotUpdateCallback? dragSpotUpdateCallback;
+
+  /// Action when dragging of draggable spot has been started
+  final DragSpotUpdateCallback? dragSpotUpdateStartedCallback;
 
   /// Distance threshold to handle the touch event.
   final double touchSpotThreshold;
@@ -1113,6 +1133,9 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     bool? enabled,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
+    DragSpotUpdateCallback? dragSpotUpdateFinishedCallback,
+    DragSpotUpdateCallback? dragSpotUpdateCallback,
+    DragSpotUpdateCallback? dragSpotUpdateStartedCallback,
     Duration? longPressDuration,
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
@@ -1126,6 +1149,12 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
       enabled: enabled ?? this.enabled,
       touchCallback: touchCallback ?? this.touchCallback,
       mouseCursorResolver: mouseCursorResolver ?? this.mouseCursorResolver,
+      dragSpotUpdateFinishedCallback:
+          dragSpotUpdateFinishedCallback ?? this.dragSpotUpdateFinishedCallback,
+      dragSpotUpdateCallback:
+          dragSpotUpdateCallback ?? this.dragSpotUpdateCallback,
+      dragSpotUpdateStartedCallback:
+          dragSpotUpdateStartedCallback ?? this.dragSpotUpdateStartedCallback,
       longPressDuration: longPressDuration ?? this.longPressDuration,
       touchTooltipData: touchTooltipData ?? this.touchTooltipData,
       getTouchedSpotIndicator:
@@ -1152,6 +1181,9 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
+        dragSpotUpdateFinishedCallback,
+        dragSpotUpdateCallback,
+        dragSpotUpdateStartedCallback,
       ];
 }
 
@@ -1178,9 +1210,22 @@ typedef CalculateTouchDistance = double Function(
   Offset spotPixelCoordinates,
 );
 
+typedef DragSpotUpdateCallback = void Function(UpdatedDragSpotsData);
+
 /// Default distanceCalculator only considers distance on x axis
 double _xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
   return (touchPoint.dx - spotPixelCoordinates.dx).abs();
+}
+
+/// distance calculator that calculates distance using vectors' math
+double vectorDistanceCalculator(
+  Offset touchPoint,
+  Offset spotPixelCoordinates,
+) {
+  return sqrt(
+    pow(touchPoint.dx - spotPixelCoordinates.dx, 2) +
+        pow(touchPoint.dy - spotPixelCoordinates.dy, 2),
+  );
 }
 
 /// Default presentation of touched indicators.
@@ -1369,6 +1414,31 @@ class LineBarSpot extends FlSpot with EquatableMixin {
       ];
 }
 
+/// Contains information about spots that have been updated using dragging feature.
+class UpdatedDragSpotsData with EquatableMixin {
+  const UpdatedDragSpotsData(
+    this.updatedBarIndex,
+    this.updatedSpotIndex,
+    this.newSpots,
+  );
+
+  /// Index of updated bar
+  final int updatedBarIndex;
+
+  /// Index of updated spot
+  final int updatedSpotIndex;
+
+  /// New list of spots in updated line bar
+  final List<FlSpot> newSpots;
+
+  @override
+  List<Object?> get props => [
+        updatedBarIndex,
+        updatedSpotIndex,
+        newSpots,
+      ];
+}
+
 /// A [LineBarSpot] that holds information about the event that selected it
 class TouchLineBarSpot extends LineBarSpot {
   TouchLineBarSpot(
@@ -1470,19 +1540,24 @@ class LineTouchResponse extends BaseTouchResponse {
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// They are sorted based on their distance to the touch event
-  const LineTouchResponse(this.lineBarSpots);
+  const LineTouchResponse(this.lineBarSpots, this.touchedAxesPoint);
 
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
   final List<TouchLineBarSpot>? lineBarSpots;
 
+  /// Position in spots' values converted from local position
+  final FlSpot? touchedAxesPoint;
+
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
     List<TouchLineBarSpot>? lineBarSpots,
+    FlSpot? touchedAxesPoint,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,
+      touchedAxesPoint ?? this.touchedAxesPoint,
     );
   }
 }

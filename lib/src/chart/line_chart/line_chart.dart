@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Renders a line chart as a widget, using provided [LineChartData].
@@ -40,9 +41,43 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<LineTouchResponse>? _providedTouchCallback;
 
+  DragSpotUpdateCallback? _dragSpotUpdateFinishedCallback;
+  DragSpotUpdateCallback? _dragSpotUpdateCallback;
+  DragSpotUpdateCallback? _dragSpotUpdateStartedCallback;
+
   final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
+
+  List<LineChartBarData> _lineBarsData = [];
+
+  /// Keeps index of bar and spot that currently is being dragging
+  (int barIndex, int spotIndex)? _draggingSpotIndexes;
+
+  bool get _isAnyDraggable =>
+      _lineBarsData.indexWhere((lineBarData) => lineBarData.isDraggable) != -1;
+
+  @override
+  void initState() {
+    _lineBarsData = List.from(
+      widget.data.lineBarsData
+          .map((lineBarData) => lineBarData.copyWith())
+          .toList(),
+    );
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant LineChart oldWidget) {
+    if (!listEquals(oldWidget.data.lineBarsData, widget.data.lineBarsData)) {
+      _lineBarsData = List.from(
+        widget.data.lineBarsData
+            .map((lineBarData) => lineBarData.copyWith())
+            .toList(),
+      );
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +114,20 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final lineTouchData = widget.data.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       _providedTouchCallback = lineTouchData.touchCallback;
+      _dragSpotUpdateFinishedCallback =
+          lineTouchData.dragSpotUpdateFinishedCallback;
+      _dragSpotUpdateCallback = lineTouchData.dragSpotUpdateCallback;
+      _dragSpotUpdateStartedCallback =
+          lineTouchData.dragSpotUpdateStartedCallback;
       return widget.data.copyWith(
-        lineTouchData: widget.data.lineTouchData
-            .copyWith(touchCallback: _handleBuiltInTouch),
+        lineBarsData: _lineBarsData,
+        lineTouchData: widget.data.lineTouchData.copyWith(
+          touchCallback: _handleBuiltInTouch,
+          distanceCalculator: _isAnyDraggable ? vectorDistanceCalculator : null,
+        ),
       );
     }
+
     return widget.data;
   }
 
@@ -94,8 +138,41 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (!mounted) {
       return;
     }
-    _providedTouchCallback?.call(event, touchResponse);
 
+    // Cancel dragging
+    if (event is FlPanEndEvent || event is FlLongPressEnd) {
+      if (_draggingSpotIndexes != null) {
+        final (barIndex, spotIndex) = _draggingSpotIndexes!;
+        _dragSpotUpdateFinishedCallback?.call(
+          UpdatedDragSpotsData(
+            barIndex,
+            spotIndex,
+            _lineBarsData[barIndex].spots,
+          ),
+        );
+      }
+      setState(() {
+        _draggingSpotIndexes = null;
+      });
+    }
+
+    // if indexes of dragging spot exist, changes it's position
+    if (_draggingSpotIndexes != null) {
+      final (barIndex, spotIndex) = _draggingSpotIndexes!;
+      setState(() {
+        _lineBarsData[barIndex].spots[spotIndex] =
+            touchResponse!.touchedAxesPoint!;
+      });
+      _dragSpotUpdateCallback?.call(
+        UpdatedDragSpotsData(
+          barIndex,
+          spotIndex,
+          _lineBarsData[barIndex].spots,
+        ),
+      );
+    }
+
+    _providedTouchCallback?.call(event, touchResponse);
     if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
@@ -121,6 +198,30 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         ..clear()
         ..add(ShowingTooltipIndicators(sortedLineSpots));
     });
+
+    // If there is needed event and any lineBar with .isDraggable flag exists,
+    // sets indexes of needed spot and starts dragging process.
+    if (event is FlPanStartEvent || event is FlLongPressStart) {
+      final barIndex = touchResponse.lineBarSpots?.first.barIndex;
+      final spotIndex = touchResponse.lineBarSpots?.first.spotIndex;
+
+      if (spotIndex != null && barIndex != null) {
+        final isDraggable = widget.data.lineBarsData[barIndex].isDraggable;
+
+        if (isDraggable) {
+          setState(() {
+            _draggingSpotIndexes = (barIndex, spotIndex);
+          });
+        }
+        _dragSpotUpdateStartedCallback?.call(
+          UpdatedDragSpotsData(
+            barIndex,
+            spotIndex,
+            _lineBarsData[barIndex].spots,
+          ),
+        );
+      }
+    }
   }
 
   @override

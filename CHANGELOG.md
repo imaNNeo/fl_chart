@@ -2,6 +2,7 @@
 * **BUGFIX** (by @Anas35) Fix Tooltip not displaying when value from BackgroundBarChartRodData is less than zero. #1345.
 * **BUGFIX** (by @imaNNeo) Fix Negative BarChartRodStackItem are not drawn correctly bug, #1347
 * **BUGFIX** (by @imaNNeo) Fix bar_chart_helper minY calculation bug, #1388
+* **FEATURE** (by @G33kFreak) Add drag spots feature for LineChart, [#1420](https://github.com/imaNNeo/fl_chart/issues/1420)
 
 ## 0.63.0
 * **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955

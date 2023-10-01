@@ -97,7 +97,7 @@ void main() {
           'size': inv.positionalArguments[1] as Size,
           'paint_holder': inv.positionalArguments[2] as PaintHolder,
         });
-        return MockData.lineTouchResponse1.lineBarSpots;
+        return MockData.lineTouchResponse1;
       });
       final touchResponse =
           renderLineChart.getResponseAtLocation(MockData.offset1);
