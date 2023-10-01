@@ -116,6 +116,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       _providedTouchCallback = lineTouchData.touchCallback;
       _dragSpotUpdateFinishedCallback =
           lineTouchData.dragSpotUpdateFinishedCallback;
+      _dragSpotUpdateCallback = lineTouchData.dragSpotUpdateCallback;
+      _dragSpotUpdateStartedCallback =
+          lineTouchData.dragSpotUpdateStartedCallback;
       return widget.data.copyWith(
         lineBarsData: _lineBarsData,
         lineTouchData: widget.data.lineTouchData.copyWith(
