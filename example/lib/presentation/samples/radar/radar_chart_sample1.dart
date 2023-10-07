@@ -50,6 +50,10 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 max: 360,
                 onChanged: (double value) => setState(() => angleValue = value),
               ),
+            ],
+          ),
+          Row(
+            children: [
               Checkbox(
                 value: relativeAngleMode,
                 onChanged: (v) => setState(() => relativeAngleMode = v!),
