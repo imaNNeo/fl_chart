@@ -19,12 +19,12 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  build_runner: ^2.4.2
+  build_runner: ^2.4.6
   flutter_test:
     sdk: flutter
-  mockito: ^5.4.0
+  mockito: ^5.4.2
   vector_math: ^2.1.4 #Added to use in some generated codes of mockito
-  very_good_analysis: ^5.0.0
+  very_good_analysis: ^5.1.0
 
 screenshots:
   - description: 'LineChartSample1 and LineChartSample2'
