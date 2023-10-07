@@ -1,4 +1,5 @@
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
+import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,11 +31,19 @@ class AppMenuState extends State<AppMenu> {
       color: AppColors.itemsBackground,
       child: Column(
         children: [
-          const SafeArea(
+          SafeArea(
             child: AspectRatio(
               aspectRatio: 3,
               child: Center(
-                child: FlChartBanner(),
+                child: InkWell(
+                  onTap: () async {
+                    final url = Uri.parse(Urls.flChartUrl);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    }
+                  },
+                  child: const FlChartBanner(),
+                ),
               ),
             ),
           ),
