@@ -795,7 +795,7 @@ void main() {
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
-      when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
+      when(mockUtils.formatNumber(any, any, captureAny)).thenAnswer((inv) {
         final value = inv.positionalArguments[0] as double;
         return '${value.toInt()}';
       });
@@ -987,7 +987,7 @@ void main() {
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
-      when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
+      when(mockUtils.formatNumber(any, any, captureAny)).thenAnswer((inv) {
         final value = inv.positionalArguments[0] as double;
         return '${value.toInt()}';
       });
@@ -1182,7 +1182,7 @@ void main() {
       when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
       when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
       when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
-      when(mockUtils.formatNumber(captureAny)).thenAnswer((inv) {
+      when(mockUtils.formatNumber(any, any, captureAny)).thenAnswer((inv) {
         final value = inv.positionalArguments[0] as double;
         return '${value.toInt()}';
       });

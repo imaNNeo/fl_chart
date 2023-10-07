@@ -211,6 +211,32 @@ class Utils {
   /// kilo (thousands) number
   static const double kilo = 1000;
 
+  /// Returns count of fraction digits of a value
+  int getFractionDigits(double value) {
+    if (value >= 1) {
+      return 1;
+    } else if (value >= 0.1) {
+      return 2;
+    } else if (value >= 0.01) {
+      return 3;
+    } else if (value >= 0.001) {
+      return 4;
+    } else if (value >= 0.0001) {
+      return 5;
+    } else if (value >= 0.00001) {
+      return 6;
+    } else if (value >= 0.000001) {
+      return 7;
+    } else if (value >= 0.0000001) {
+      return 8;
+    } else if (value >= 0.00000001) {
+      return 9;
+    } else if (value >= 0.000000001) {
+      return 10;
+    }
+    return 1;
+  }
+
   /// Formats and add symbols (K, M, B) at the end of number.
   ///
   /// if number is larger than [billion], it returns a short number like 13.3B,
@@ -218,26 +244,29 @@ class Utils {
   /// if number is larger than [kilo], it returns a short number like 4K,
   /// otherwise it returns number itself.
   /// also it removes .0, at the end of number for simplicity.
-  String formatNumber(double number) {
-    final isNegative = number < 0;
+  String formatNumber(double axisMin, double axisMax, double axisValue) {
+    final isNegative = axisValue < 0;
 
     if (isNegative) {
-      number = number.abs();
+      axisValue = axisValue.abs();
     }
 
     String resultNumber;
     String symbol;
-    if (number >= billion) {
-      resultNumber = (number / billion).toStringAsFixed(1);
+    if (axisValue >= billion) {
+      resultNumber = (axisValue / billion).toStringAsFixed(1);
       symbol = 'B';
-    } else if (number >= million) {
-      resultNumber = (number / million).toStringAsFixed(1);
+    } else if (axisValue >= million) {
+      resultNumber = (axisValue / million).toStringAsFixed(1);
       symbol = 'M';
-    } else if (number >= kilo) {
-      resultNumber = (number / kilo).toStringAsFixed(1);
+    } else if (axisValue >= kilo) {
+      resultNumber = (axisValue / kilo).toStringAsFixed(1);
       symbol = 'K';
     } else {
-      resultNumber = number.toStringAsFixed(1);
+      final diff = (axisMin - axisMax).abs();
+      resultNumber = axisValue.toStringAsFixed(
+        getFractionDigits(diff),
+      );
       symbol = '';
     }
 
