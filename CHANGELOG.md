@@ -1,4 +1,4 @@
-## nextVersion
+## 0.64.0
 * **BUGFIX** (by @Anas35) Fix Tooltip not displaying when value from BackgroundBarChartRodData is less than zero. #1345.
 * **BUGFIX** (by @imaNNeo) Fix Negative BarChartRodStackItem are not drawn correctly bug, #1347
 * **BUGFIX** (by @imaNNeo) Fix bar_chart_helper minY calculation bug, #1388
