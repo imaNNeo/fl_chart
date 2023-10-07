@@ -1470,19 +1470,27 @@ class LineTouchResponse extends BaseTouchResponse {
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// They are sorted based on their distance to the touch event
-  const LineTouchResponse(this.lineBarSpots);
+  const LineTouchResponse(
+    this.lineBarSpots,
+    this.touchedChartPosition,
+  );
 
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
   final List<TouchLineBarSpot>? lineBarSpots;
 
+  /// Touched position in the chart's axis scale
+  final Offset touchedChartPosition;
+
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
     List<TouchLineBarSpot>? lineBarSpots,
+    Offset? touchedChartPosition,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,
+      touchedChartPosition ?? this.touchedChartPosition,
     );
   }
 }

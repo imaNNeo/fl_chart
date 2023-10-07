@@ -109,6 +109,10 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
       mockTestSize ?? size,
       paintHolder,
     );
-    return LineTouchResponse(touchedSpots);
+    final touchedPosition = Offset(
+      painter.getXByPixel(localPosition.dx, size, paintHolder),
+      painter.getYByPixel(localPosition.dy, size, paintHolder),
+    );
+    return LineTouchResponse(touchedSpots, touchedPosition);
   }
 }

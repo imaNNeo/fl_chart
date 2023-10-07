@@ -852,18 +852,26 @@ class BarTooltipItem with EquatableMixin {
 class BarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
-  BarTouchResponse(this.spot) : super();
+  BarTouchResponse(
+    this.spot,
+    this.touchedChartPosition,
+  ) : super();
 
   /// Gives information about the touched spot
   final BarTouchedSpot? spot;
+
+  /// Touched position in the chart's axis scale
+  final Offset touchedChartPosition;
 
   /// Copies current [BarTouchResponse] to a new [BarTouchResponse],
   /// and replaces provided values.
   BarTouchResponse copyWith({
     BarTouchedSpot? spot,
+    Offset? touchedChartPosition,
   }) {
     return BarTouchResponse(
       spot ?? this.spot,
+      touchedChartPosition ?? this.touchedChartPosition,
     );
   }
 }

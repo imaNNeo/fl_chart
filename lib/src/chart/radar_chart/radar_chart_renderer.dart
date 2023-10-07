@@ -110,4 +110,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
     );
     return RadarTouchResponse(touchedSpot);
   }
+
+  @override
+  Offset? getChartPositionByPixel(Offset pixelPosition) => null;
 }

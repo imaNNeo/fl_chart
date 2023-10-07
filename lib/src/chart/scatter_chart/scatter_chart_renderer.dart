@@ -112,6 +112,10 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
       mockTestSize ?? size,
       paintHolder,
     );
-    return ScatterTouchResponse(touchedSpot);
+    final touchedPosition = Offset(
+      painter.getXByPixel(localPosition.dx, size, paintHolder),
+      painter.getYByPixel(localPosition.dy, size, paintHolder),
+    );
+    return ScatterTouchResponse(touchedSpot, touchedPosition);
   }
 }

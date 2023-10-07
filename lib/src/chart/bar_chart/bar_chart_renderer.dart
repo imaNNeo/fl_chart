@@ -104,6 +104,10 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
       mockTestSize ?? size,
       paintHolder,
     );
-    return BarTouchResponse(touchedSpot);
+    final touchedPosition = Offset(
+      painter.getXByPixel(localPosition.dx, size, paintHolder),
+      painter.getYByPixel(localPosition.dy, size, paintHolder),
+    );
+    return BarTouchResponse(touchedSpot, touchedPosition);
   }
 }

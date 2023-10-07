@@ -168,4 +168,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     ///
     /// I don't know how to solve this error. That's why we disabled semantics for now.
   }
+
+  @override
+  Offset? getChartPositionByPixel(Offset pixelPosition) => null;
 }
