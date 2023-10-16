@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
+import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -786,6 +787,203 @@ void main() {
       expect(results[2]['paint_color'], const Color(0x22222222));
       expect(results[3]['paint_color'], const Color(0x33333333));
       expect(results[4]['paint_color'], const Color(0x44444444));
+    });
+
+    test('test 4', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: 0,
+              toY: 5,
+              borderRadius: BorderRadius.zero,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(
+              fromY: 0,
+              toY: 10,
+              borderRadius: BorderRadius.zero,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        BarChartGroupData(
+          x: 3,
+          barRods: [
+            BarChartRodData(
+              fromY: 0,
+              toY: 15,
+              dashArray: [4, 4],
+              borderSide: const BorderSide(
+                color: Colors.white,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.zero,
+              color: Colors.transparent,
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(barGroups: barGroups);
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final rodDataResults = <Map<String, dynamic>>[];
+      final borderResult = <Map<String, dynamic>>[];
+
+      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final rrect = inv.positionalArguments[0] as RRect;
+        final paint = inv.positionalArguments[1] as Paint;
+        rodDataResults.add({
+          'rrect': rrect,
+          'paint_color': paint.color,
+        });
+      });
+
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final path = inv.positionalArguments[0] as Path;
+        final paint = inv.positionalArguments[1] as Paint;
+        borderResult.add({
+          'path': path,
+          'paint_color': paint.color,
+        });
+      });
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+      expect(rodDataResults.length, 3);
+      expect(rodDataResults[0]['paint_color'], Colors.white);
+      expect(rodDataResults[1]['paint_color'], Colors.white);
+      expect(rodDataResults[2]['paint_color'], Colors.transparent);
+
+      expect(borderResult.length, 1);
+      expect(borderResult[0]['paint_color'], Colors.white);
+      final rrect = rodDataResults[2]['rrect'] as RRect;
+      final path = Path()..addRRect(rrect);
+      final expectedPath = path.toDashedPath([4, 4]);
+      final currentPath = borderResult[0]['path'] as Path;
+
+      expect(HelperMethods.equalsPaths(expectedPath, currentPath), true);
+    });
+
+    test('test 5', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: 0,
+              toY: 5,
+              borderRadius: BorderRadius.zero,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(
+              fromY: 0,
+              toY: 10,
+              borderRadius: BorderRadius.zero,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        BarChartGroupData(
+          x: 3,
+          barRods: [
+            BarChartRodData(
+              fromY: 0,
+              toY: 15,
+              borderSide: const BorderSide(
+                color: Colors.white,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.zero,
+              color: Colors.transparent,
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(barGroups: barGroups);
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(data, data, 1);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final rodDataResults = <Map<String, dynamic>>[];
+      final borderResult = <Map<String, dynamic>>[];
+
+      when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final rrect = inv.positionalArguments[0] as RRect;
+        final paint = inv.positionalArguments[1] as Paint;
+        rodDataResults.add({
+          'rrect': rrect,
+          'paint_color': paint.color,
+        });
+      });
+
+      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+          .thenAnswer((inv) {
+        final path = inv.positionalArguments[0] as Path;
+        final paint = inv.positionalArguments[1] as Paint;
+        borderResult.add({
+          'path': path,
+          'paint_color': paint.color,
+        });
+      });
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+      expect(rodDataResults.length, 3);
+      expect(rodDataResults[0]['paint_color'], Colors.white);
+      expect(rodDataResults[1]['paint_color'], Colors.white);
+      expect(rodDataResults[2]['paint_color'], Colors.transparent);
+
+      expect(borderResult.length, 1);
+      expect(borderResult[0]['paint_color'], Colors.white);
+      final rrect = rodDataResults[2]['rrect'] as RRect;
+      final path = Path()..addRRect(rrect);
+      final expectedPath = path.toDashedPath(null);
+      final currentPath = borderResult[0]['path'] as Path;
+
+      expect(HelperMethods.equalsPaths(expectedPath, currentPath), true);
     });
   });
 
