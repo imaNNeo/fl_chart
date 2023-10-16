@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
+import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -277,14 +278,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           );
           canvasWrapper.drawRRect(barRRect, _barPaint);
 
-          // draw border stroke
-          if (borderSide.width > 0 && borderSide.color.opacity > 0) {
-            _barStrokePaint
-              ..color = borderSide.color
-              ..strokeWidth = borderSide.width;
-            canvasWrapper.drawRRect(barRRect, _barStrokePaint);
-          }
-
           // draw rod stack
           if (barRod.rodStackItems.isNotEmpty) {
             for (var i = 0; i < barRod.rodStackItems.length; i++) {
@@ -315,6 +308,22 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                 holder,
               );
             }
+          }
+
+          // draw border stroke
+          if (borderSide.width > 0 && borderSide.color.opacity > 0) {
+            _barStrokePaint
+              ..color = borderSide.color
+              ..strokeWidth = borderSide.width;
+
+            final borderPath = Path()..addRRect(barRRect);
+
+            canvasWrapper.drawPath(
+              borderPath.toDashedPath(
+                barRod.dashArray,
+              ),
+              _barStrokePaint,
+            );
           }
         }
       }
