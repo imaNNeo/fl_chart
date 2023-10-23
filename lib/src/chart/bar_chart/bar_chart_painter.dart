@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
@@ -34,6 +35,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
   }
+
   late Paint _barPaint;
   late Paint _barStrokePaint;
   late Paint _bgTouchTooltipPaint;
@@ -355,21 +357,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       switch (decoration.runtimeType) {
         case BoxDecoration:
           bgColor = (decoration as BoxDecoration).color;
-          break;
         case ShapeDecoration:
           bgColor = (decoration as ShapeDecoration).color;
-          break;
         default:
           throw UnsupportedError(
             'Unsupported decoration type: ${decoration.runtimeType}',
           );
       }
     }
-    _bgTouchTooltipPaint.color = bgColor ?? tooltipData.tooltipBgColor;
+    _bgTouchTooltipPaint.color = bgColor ?? Colors.blueGrey.darken(15);
 
     final span = TextSpan(
-      style: Utils()
-          .getThemeAwareTextStyle(context, textStyle),
+      style: Utils().getThemeAwareTextStyle(context, textStyle),
       text: tooltipItem.text,
       children: tooltipItem.children,
     );
@@ -723,6 +722,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 @visibleForTesting
 class GroupBarsPosition {
   GroupBarsPosition(this.groupX, this.barsX);
+
   final double groupX;
   final List<double> barsX;
 }

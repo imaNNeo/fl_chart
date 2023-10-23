@@ -3,6 +3,7 @@
 * **BUGFIX** (by @imaNNeo) Fix Negative BarChartRodStackItem are not drawn correctly bug, #1347
 * **BUGFIX** (by @imaNNeo) Fix bar_chart_helper minY calculation bug, #1388
 * **IMPROVEMENT** (by @imaNNeo) Consider fraction digits when formatting chart side titles, #1267
+* **IMPROVEMENT** (by @devilk10) Use the default theme available by the themeData for tooltips instead of color params #1464
 
 ## 0.63.0
 * **BUGFIX** (by @imaNNeo) Fix PieChart crash on web-renderer html by ignoring `sectionsSpace` when `Path.combine()` does not work (it's flutter engine [issue](https://github.com/flutter/flutter/issues/44572)), #955

@@ -122,7 +122,11 @@ class _BarChartSample7State extends State<BarChartSample7> {
               enabled: true,
               handleBuiltInTouches: false,
               touchTooltipData: BarTouchTooltipData(
-                tooltipBgColor: Colors.transparent,
+                tooltipThemeData: const TooltipThemeData(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                ),
                 tooltipMargin: 0,
                 getTooltipItem: (
                   BarChartGroupData group,
