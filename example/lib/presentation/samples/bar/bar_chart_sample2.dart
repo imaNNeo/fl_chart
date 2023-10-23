@@ -1,14 +1,16 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/extensions/color_extensions.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample2 extends StatefulWidget {
   BarChartSample2({super.key});
+
   final Color leftBarColor = AppColors.contentColorYellow;
   final Color rightBarColor = AppColors.contentColorRed;
   final Color avgColor =
       AppColors.contentColorOrange.avg(AppColors.contentColorRed);
+
   @override
   State<StatefulWidget> createState() => BarChartSample2State();
 }
@@ -85,7 +87,11 @@ class BarChartSample2State extends State<BarChartSample2> {
                   maxY: 20,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
-                      tooltipBgColor: Colors.grey,
+                      tooltipThemeData: const TooltipThemeData(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                        ),
+                      ),
                       getTooltipItem: (a, b, c, d) => null,
                     ),
                     touchCallback: (FlTouchEvent event, response) {

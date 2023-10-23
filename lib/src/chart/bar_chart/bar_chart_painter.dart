@@ -348,8 +348,28 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       return;
     }
 
+    final decoration = tooltipData.tooltipThemeData?.decoration;
+    final textStyle = tooltipData.tooltipThemeData?.textStyle;
+    Color? bgColor;
+    if (decoration != null) {
+      switch (decoration.runtimeType) {
+        case BoxDecoration:
+          bgColor = (decoration as BoxDecoration).color;
+          break;
+        case ShapeDecoration:
+          bgColor = (decoration as ShapeDecoration).color;
+          break;
+        default:
+          throw UnsupportedError(
+            'Unsupported decoration type: ${decoration.runtimeType}',
+          );
+      }
+    }
+    _bgTouchTooltipPaint.color = bgColor ?? tooltipData.tooltipBgColor;
+
     final span = TextSpan(
-      style: Utils().getThemeAwareTextStyle(context, tooltipItem.textStyle),
+      style: Utils()
+          .getThemeAwareTextStyle(context, textStyle),
       text: tooltipItem.text,
       children: tooltipItem.children,
     );
@@ -463,7 +483,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       bottomLeft: radius,
       bottomRight: radius,
     );
-    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =

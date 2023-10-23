@@ -705,6 +705,7 @@ class BarTouchTooltipData with EquatableMixin {
     TooltipDirection? direction,
     double? rotateAngle,
     BorderSide? tooltipBorder,
+    this.tooltipThemeData,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
@@ -723,7 +724,11 @@ class BarTouchTooltipData with EquatableMixin {
         super();
 
   /// The tooltip background color.
+  @Deprecated('Use BarTouchTooltipData.tooltipThemeData instead')
   final Color tooltipBgColor;
+
+  /// The tooltip background color and text decoration.
+  final TooltipThemeData? tooltipThemeData;
 
   /// Sets a rounded radius for the tooltip.
   final double tooltipRoundedRadius;
