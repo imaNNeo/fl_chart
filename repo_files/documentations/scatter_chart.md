@@ -49,7 +49,6 @@ When you change the chart's state, it animates to the new state internally (usin
 ### ScatterTouchTooltipData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|tooltipBgColor|background color of the tooltip bubble|Colors.white|
 |tooltipBorder|border of the tooltip bubble|BorderSide.none|
 |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
 |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
@@ -59,6 +58,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |getTooltipItems|a callback that retrieve a [ScatterTooltipItem](#ScatterTooltipItem) by the given [ScatterSpot](#ScatterSpot) |defaultScatterTooltipItem|
 |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
 |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
+|getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [ScatterSpot](#ScatterSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
 
 ### ScatterTooltipItem
 |PropName|Description|default value|
