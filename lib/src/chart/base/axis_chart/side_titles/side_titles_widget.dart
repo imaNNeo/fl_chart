@@ -160,7 +160,11 @@ class SideTitlesWidget extends StatelessWidget {
               max: axisMax,
               appliedInterval: interval,
               sideTitles: sideTitles,
-              formattedValue: Utils().formatNumber(metaData.axisValue),
+              formattedValue: Utils().formatNumber(
+                axisMin,
+                axisMax,
+                metaData.axisValue,
+              ),
               axisSide: side,
               parentAxisSize: axisViewSize,
               axisPosition: metaData.axisPixelLocation,
