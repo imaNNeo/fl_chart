@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 
+import 'package:fl_chart/src/extensions/double_extension.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -162,7 +163,7 @@ class Utils {
     }
 
     final inputString = input.toString();
-    var precisionCount = inputString.length - 2;
+    var precisionCount = input.precisionCount;
 
     var zeroCount = 0;
     for (var i = 2; i <= inputString.length; i++) {

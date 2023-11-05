@@ -5,6 +5,20 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   const tolerance = 0.0001;
   group('iterateThroughAxis()', () {
+    test('test 0', () {
+      final results = <double>[];
+      final axisValues = AxisChartHelper().iterateThroughAxis(
+        min: 0,
+        max: 0.001,
+        interval: 0.000000001,
+        baseLine: 0,
+      );
+      for (final axisValue in axisValues) {
+        results.add(axisValue);
+      }
+      expect(results.length, 1000001);
+    });
+
     test('test 1', () {
       final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
@@ -76,7 +90,7 @@ void main() {
       expect(results[4], 10);
     });
 
-    test('test 4', () {
+    test('test 5', () {
       final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
@@ -95,7 +109,7 @@ void main() {
       expect(results[2], 9);
     });
 
-    test('test 4', () {
+    test('test 6', () {
       final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 35,

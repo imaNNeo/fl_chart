@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/extensions/double_extension.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -45,14 +48,23 @@ class AxisChartHelper {
     if (minIncluded && !firstPositionOverlapsWithMin) {
       yield min;
     }
+    final intervalPrecision = pow(10, interval.precisionCount).toInt();
     while (axisSeek <= end + epsilon) {
       yield axisSeek;
-      axisSeek += interval;
+      axisSeek = _roundTo(
+        axisSeek + interval,
+        intervalPrecision,
+      );
     }
     if (maxIncluded && !lastPositionOverlapsWithMax) {
       yield max;
     }
   }
+
+  /// Fixes the float precisionIssue
+  /// https://stackoverflow.com/a/57491365/3543738
+  double _roundTo(double value, int precision) =>
+      (value * precision).round() / precision;
 
   /// Calculate translate offset to keep [SideTitle] child
   /// placed inside its corresponding axis.
