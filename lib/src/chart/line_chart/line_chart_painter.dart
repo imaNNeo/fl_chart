@@ -909,6 +909,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (!barData.show || barData.shadow.color.opacity == 0.0) {
       return;
     }
+    if (barPath.computeMetrics().isEmpty) {
+      return;
+    }
 
     _barPaint
       ..strokeCap = barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt
