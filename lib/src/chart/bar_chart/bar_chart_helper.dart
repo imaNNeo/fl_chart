@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/utils/list_wrapper.dart';
@@ -33,28 +35,25 @@ class BarChartHelper {
       return BarChartMinMaxAxisValues(0, 0);
     }
 
-    var maxY = barGroup.barRods[0].toY;
-    var minY = barGroup.barRods[0].fromY;
+    var maxY = max(barGroup.barRods[0].fromY, barGroup.barRods[0].toY);
+    var minY = min(barGroup.barRods[0].fromY, barGroup.barRods[0].toY);
 
     for (var i = 0; i < barGroups.length; i++) {
       final barGroup = barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
         final rod = barGroup.barRods[j];
 
-        if (rod.toY > maxY) {
-          maxY = rod.toY;
-        }
+        maxY = max(maxY, rod.fromY);
+        minY = min(minY, rod.fromY);
 
-        if (rod.backDrawRodData.show && rod.backDrawRodData.toY > maxY) {
-          maxY = rod.backDrawRodData.toY;
-        }
+        maxY = max(maxY, rod.toY);
+        minY = min(minY, rod.toY);
 
-        if (rod.fromY < minY) {
-          minY = rod.fromY;
-        }
-
-        if (rod.backDrawRodData.show && rod.backDrawRodData.fromY < minY) {
-          minY = rod.backDrawRodData.fromY;
+        if (rod.backDrawRodData.show) {
+          maxY = max(maxY, rod.backDrawRodData.fromY);
+          minY = min(minY, rod.backDrawRodData.fromY);
+          maxY = max(maxY, rod.backDrawRodData.toY);
+          minY = min(minY, rod.backDrawRodData.toY);
         }
       }
     }
@@ -68,6 +67,7 @@ class BarChartHelper {
 /// Holds minY, and maxY for use in [BarChartData]
 class BarChartMinMaxAxisValues with EquatableMixin {
   BarChartMinMaxAxisValues(this.minY, this.maxY, {this.readFromCache = false});
+
   final double minY;
   final double maxY;
   final bool readFromCache;

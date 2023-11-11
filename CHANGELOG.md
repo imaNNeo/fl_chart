@@ -1,6 +1,7 @@
 ## nextVersion
-* **FEATURE** (by @Dartek12): Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine), #1197
-* **BUGFIX** (by @imaNNeo): Fix bar line shadow crash when we have only one (or zero) spot, #1466
+* **FEATURE** (by @Dartek12) Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine), #1197
+* **BUGFIX** (by @imaNNeo) Fix bar line shadow crash when we have only one (or zero) spot, #1466
+* **BUGFIX** (by @imaNNeo) Fix having negative `toY` (or positive `fromY`) in BarChart's `minY` and `maxY` calculations, #1470
 
 ## 0.64.0
 * **BUGFIX** (by @Anas35) Fix Tooltip not displaying when value from BackgroundBarChartRodData is less than zero. #1345.
