@@ -1,5 +1,4 @@
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
-import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,12 +10,14 @@ class AppMenu extends StatefulWidget {
   final List<ChartMenuItem> menuItems;
   final int currentSelectedIndex;
   final Function(int, ChartMenuItem) onItemSelected;
+  final VoidCallback? onBannerClicked;
 
   const AppMenu({
     Key? key,
     required this.menuItems,
     required this.currentSelectedIndex,
     required this.onItemSelected,
+    required this.onBannerClicked,
   }) : super(key: key);
 
   @override
@@ -36,12 +37,7 @@ class AppMenuState extends State<AppMenu> {
               aspectRatio: 3,
               child: Center(
                 child: InkWell(
-                  onTap: () async {
-                    final url = Uri.parse(Urls.flChartUrl);
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url);
-                    }
-                  },
+                  onTap: widget.onBannerClicked,
                   child: const FlChartBanner(),
                 ),
               ),
