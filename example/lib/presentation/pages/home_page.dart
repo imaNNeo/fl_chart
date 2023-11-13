@@ -53,19 +53,21 @@ class HomePage extends StatelessWidget {
               Navigator.of(context).pop();
             }
           },
-          onBannerClicked: kIsWeb || needsDrawer ? () async {
-            if (kIsWeb) {
-              final url = Uri.parse(Urls.flChartUrl);
-              if (await canLaunchUrl(url)) {
-                await launchUrl(url);
-              }
-              return;
-            }
-            if (needsDrawer) {
-              Navigator.of(context).pop();
-              return;
-            }
-          } : null,
+          onBannerClicked: kIsWeb || needsDrawer
+              ? () async {
+                  if (kIsWeb) {
+                    final url = Uri.parse(Urls.flChartUrl);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    }
+                    return;
+                  }
+                  if (needsDrawer) {
+                    Navigator.of(context).pop();
+                    return;
+                  }
+                }
+              : null,
         );
         final samplesSectionWidget =
             ChartSamplesPage(chartType: showingChartType);
