@@ -73,20 +73,28 @@ abstract class AxisChartPainter<D extends AxisChartData>
         if (!data.gridData.checkToShowVerticalLine(axisValue)) {
           continue;
         }
-        final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
-        _gridPaint
-          ..color = flLineStyle.color
-          ..strokeWidth = flLineStyle.strokeWidth
-          ..transparentIfWidthIsZero();
-
         final bothX = getPixelX(axisValue, viewSize, holder);
         final x1 = bothX;
         const y1 = 0.0;
         final x2 = bothX;
         final y2 = viewSize.height;
+        final from = Offset(x1, y1);
+        final to = Offset(x2, y2);
+
+        final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
+        _gridPaint
+          ..setColorOrGradientForLine(
+            flLineStyle.color,
+            flLineStyle.gradient,
+            from: from,
+            to: to,
+          )
+          ..strokeWidth = flLineStyle.strokeWidth
+          ..transparentIfWidthIsZero();
+
         canvasWrapper.drawDashedLine(
-          Offset(x1, y1),
-          Offset(x2, y2),
+          from,
+          to,
           _gridPaint,
           flLineStyle.dashArray,
         );
@@ -111,19 +119,28 @@ abstract class AxisChartPainter<D extends AxisChartData>
           continue;
         }
         final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
-        _gridPaint
-          ..color = flLine.color
-          ..strokeWidth = flLine.strokeWidth
-          ..transparentIfWidthIsZero();
 
         final bothY = getPixelY(axisValue, viewSize, holder);
         const x1 = 0.0;
         final y1 = bothY;
         final x2 = viewSize.width;
         final y2 = bothY;
+        final from = Offset(x1, y1);
+        final to = Offset(x2, y2);
+
+        _gridPaint
+          ..setColorOrGradientForLine(
+            flLine.color,
+            flLine.gradient,
+            from: from,
+            to: to,
+          )
+          ..strokeWidth = flLine.strokeWidth
+          ..transparentIfWidthIsZero();
+
         canvasWrapper.drawDashedLine(
-          Offset(x1, y1),
-          Offset(x2, y2),
+          from,
+          to,
           _gridPaint,
           flLine.dashArray,
         );
@@ -229,7 +246,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
       if (!isLineOutsideOfChart) {
         _extraLinesPaint
-          ..color = line.color
+          ..setColorOrGradientForLine(
+            line.color,
+            line.gradient,
+            from: from,
+            to: to,
+          )
           ..strokeWidth = line.strokeWidth
           ..transparentIfWidthIsZero()
           ..strokeCap = line.strokeCap;
@@ -316,7 +338,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
       if (!isLineOutsideOfChart) {
         _extraLinesPaint
-          ..color = line.color
+          ..setColorOrGradientForLine(
+            line.color,
+            line.gradient,
+            from: from,
+            to: to,
+          )
           ..strokeWidth = line.strokeWidth
           ..transparentIfWidthIsZero()
           ..strokeCap = line.strokeCap;

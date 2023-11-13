@@ -67,6 +67,7 @@
 |propName|Description|default value|
 |:-------|:----------|:------------|
 |color|determines the color of line|Colors.black|
+|gradient|gradient of the line|null|
 |strokeWidth|determines the stroke width of the line|2|
 |dashArray|A circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
 

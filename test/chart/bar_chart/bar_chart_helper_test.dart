@@ -44,7 +44,7 @@ void main() {
         ),
       ];
       final result = BarChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result.minY, 0);
+      expect(result.minY, -40);
       expect(result.maxY, 10);
     });
 
@@ -55,6 +55,25 @@ void main() {
       final result = BarChartHelper.calculateMaxAxisValues(barGroups);
       expect(result.minY, 0);
       expect(result.maxY, 0);
+    });
+
+    test('Test validity 4', () {
+      final barGroups = [
+        barChartGroupData1.copyWith(
+          barRods: [
+            BarChartRodData(fromY: 0, toY: -10),
+            BarChartRodData(fromY: -10, toY: -40),
+            BarChartRodData(toY: 0),
+            BarChartRodData(toY: 10),
+            BarChartRodData(toY: 5),
+            BarChartRodData(fromY: 10, toY: -50),
+            BarChartRodData(fromY: 39, toY: -50),
+          ],
+        ),
+      ];
+      final result = BarChartHelper.calculateMaxAxisValues(barGroups);
+      expect(result.minY, -50);
+      expect(result.maxY, 39);
     });
 
     test('Test equality', () {

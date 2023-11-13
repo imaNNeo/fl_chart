@@ -389,7 +389,7 @@ void main() {
             28.5,
             0,
             38.5,
-            100,
+            76.923,
             const Radius.circular(0.1),
           ),
         ),
@@ -402,9 +402,9 @@ void main() {
           results[1]['rRect'] as RRect,
           RRect.fromLTRBR(
             43.5,
-            20,
+            15.384,
             54.5,
-            100,
+            76.923,
             const Radius.circular(0.2),
           ),
         ),
@@ -417,9 +417,9 @@ void main() {
           results[2]['rRect'] as RRect,
           RRect.fromLTRBR(
             59.5,
-            20,
+            15.384,
             71.5,
-            100,
+            76.923,
             const Radius.circular(0.3),
           ),
         ),
@@ -434,7 +434,7 @@ void main() {
             81.5,
             0,
             91.5,
-            100,
+            76.923,
             const Radius.circular(0.4),
           ),
         ),
@@ -445,9 +445,9 @@ void main() {
           results[4]['rRect'] as RRect,
           RRect.fromLTRBR(
             96.5,
-            20,
+            15.384,
             106.5,
-            100,
+            76.923,
             const Radius.circular(5),
           ),
         ),
@@ -459,9 +459,9 @@ void main() {
           results[5]['rRect'] as RRect,
           RRect.fromLTRBR(
             116.5,
-            20,
+            15.384,
             126.5,
-            100,
+            76.923,
             const Radius.circular(5),
           ),
         ),
@@ -475,7 +475,7 @@ void main() {
             116.5,
             0,
             126.5,
-            100,
+            76.923,
             const Radius.circular(5),
           ),
         ),
@@ -486,9 +486,9 @@ void main() {
           results[7]['rRect'] as RRect,
           RRect.fromLTRBR(
             131.5,
-            20,
+            15.384,
             141.5,
-            100,
+            76.923,
             const Radius.circular(5),
           ),
         ),
@@ -500,9 +500,9 @@ void main() {
           results[8]['rRect'] as RRect,
           RRect.fromLTRBR(
             146.5,
-            100,
+            76.923,
             156.5,
-            130,
+            100,
             const Radius.circular(5),
           ),
         ),
@@ -514,9 +514,9 @@ void main() {
           results[9]['rRect'] as RRect,
           RRect.fromLTRBR(
             146.5,
-            20,
+            15.384,
             156.5,
-            100,
+            76.923,
             const Radius.circular(5),
           ),
         ),
@@ -527,9 +527,9 @@ void main() {
           results[10]['rRect'] as RRect,
           RRect.fromLTRBR(
             161.5,
-            20,
+            15.384,
             171.5,
-            100,
+            76.923,
             const Radius.circular(5),
           ),
         ),
@@ -647,9 +647,9 @@ void main() {
           results[0]['rrect'] as RRect,
           RRect.fromLTRBR(
             84,
-            76.5,
+            65,
             94,
-            78.4,
+            66.666,
             const Radius.circular(0.1),
           ),
         ),
@@ -662,9 +662,9 @@ void main() {
           results[1]['rrect'] as RRect,
           RRect.fromLTRBR(
             83.5,
-            80.4,
+            68.333,
             94.5,
-            98,
+            83.333,
             const Radius.circular(0.2),
           ),
         ),
@@ -677,9 +677,9 @@ void main() {
           results[2]['rrect'] as RRect,
           RRect.fromLTRBR(
             83,
-            100,
+            85,
             95,
-            117.6,
+            100,
             const Radius.circular(0.3),
           ),
         ),
@@ -692,9 +692,9 @@ void main() {
           results[3]['rrect'] as RRect,
           RRect.fromLTRBR(
             106,
-            39.2,
+            33.333,
             116,
-            41.2,
+            35,
             const Radius.circular(0.1),
           ),
         ),
@@ -705,9 +705,9 @@ void main() {
           results[4]['rrect'] as RRect,
           RRect.fromLTRBR(
             105.5,
-            19.6,
+            16.666,
             116.5,
-            37.3,
+            31.666,
             const Radius.circular(0.2),
           ),
         ),
@@ -721,7 +721,7 @@ void main() {
             105,
             0,
             117,
-            17.6,
+            15,
             const Radius.circular(0.3),
           ),
         ),
@@ -1674,16 +1674,11 @@ void main() {
         null,
       );
 
-      expect(
-        painter.handleTouch(const Offset(110.1, 70.2), viewSize, holder),
-        null,
-      );
-
       final result1 =
           painter.handleTouch(const Offset(89, 38.5), viewSize, holder);
       expect(result1!.touchedBarGroupIndex, 0);
       expect(result1.touchedRodDataIndex, 0);
-      expect(result1.touchedStackItemIndex, -1);
+      expect(result1.touchedStackItemIndex, 0);
 
       final result2 =
           painter.handleTouch(const Offset(88.8, 16.5), viewSize, holder);

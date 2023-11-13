@@ -664,13 +664,18 @@ class FlLine with EquatableMixin {
   /// For example, the array `[5, 10]` would result in dashes 5 pixels long
   /// followed by blank spaces 10 pixels long.
   const FlLine({
-    this.color = Colors.black,
+    Color? color,
+    this.gradient,
     this.strokeWidth = 2,
     this.dashArray,
-  });
+  }) : color = color ??
+            ((color == null && gradient == null) ? Colors.black : null);
 
   /// Defines color of the line.
-  final Color color;
+  final Color? color;
+
+  /// Defines the gradient of the line.
+  final Gradient? gradient;
 
   /// Defines thickness of the line.
   final double strokeWidth;
@@ -685,7 +690,8 @@ class FlLine with EquatableMixin {
   /// Lerps a [FlLine] based on [t] value, check [Tween.lerp].
   static FlLine lerp(FlLine a, FlLine b, double t) {
     return FlLine(
-      color: Color.lerp(a.color, b.color, t)!,
+      color: Color.lerp(a.color, b.color, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
       strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
     );
@@ -695,11 +701,13 @@ class FlLine with EquatableMixin {
   /// and replaces provided values.
   FlLine copyWith({
     Color? color,
+    Gradient? gradient,
     double? strokeWidth,
     List<int>? dashArray,
   }) {
     return FlLine(
       color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
       strokeWidth: strokeWidth ?? this.strokeWidth,
       dashArray: dashArray ?? this.dashArray,
     );
@@ -709,6 +717,7 @@ class FlLine with EquatableMixin {
   @override
   List<Object?> get props => [
         color,
+        gradient,
         strokeWidth,
         dashArray,
       ];
