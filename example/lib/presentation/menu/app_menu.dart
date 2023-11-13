@@ -1,7 +1,9 @@
 import 'package:dartx/dartx.dart';
 import 'package:fl_chart_app/cubits/app/app_cubit.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
+import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
+import 'package:fl_chart_app/util/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -116,18 +118,29 @@ class _AppVersionRow extends StatelessWidget {
                 ),
               ),
             ),
-            if (state.availableVersionToUpdate.isNotBlank)
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Update',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+            state.availableVersionToUpdate.isNotBlank
+                ? TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Update to ${state.availableVersionToUpdate}',
+                      style: const TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () => AppUtils().tryToLaunchUrl(Urls.aboutUrl),
+                    child: const Text(
+                      'About',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-              ),
           ],
         ),
       );

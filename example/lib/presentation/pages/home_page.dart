@@ -3,10 +3,10 @@ import 'package:fl_chart_app/presentation/menu/app_menu.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
+import 'package:fl_chart_app/util/app_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'chart_samples_page.dart';
 
@@ -56,10 +56,7 @@ class HomePage extends StatelessWidget {
           onBannerClicked: kIsWeb || needsDrawer
               ? () async {
                   if (kIsWeb) {
-                    final url = Uri.parse(Urls.flChartUrl);
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url);
-                    }
+                    await AppUtils().tryToLaunchUrl(Urls.flChartUrl);
                     return;
                   }
                   if (needsDrawer) {
