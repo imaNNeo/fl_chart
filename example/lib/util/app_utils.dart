@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:url_launcher/url_launcher.dart';
+
 class AppUtils {
   factory AppUtils() {
     return _singleton;
@@ -14,5 +16,13 @@ class AppUtils {
 
   double radianToDegree(double radian) {
     return radian * 180 / math.pi;
+  }
+
+  Future<bool> tryToLaunchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      return await launchUrl(uri);
+    }
+    return false;
   }
 }

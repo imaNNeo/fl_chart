@@ -11,4 +11,6 @@ class Urls {
     final chartDir = chartType.name.toLowerCase();
     return 'https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/${chartDir}_chart.md';
   }
+
+  static String get aboutUrl => '$flChartUrl/about';
 }

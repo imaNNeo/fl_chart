@@ -1,7 +1,7 @@
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/presentation/samples/chart_sample.dart';
+import 'package:fl_chart_app/util/app_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ChartHolder extends StatelessWidget {
   final ChartSample chartSample;
@@ -30,12 +30,7 @@ class ChartHolder extends StatelessWidget {
             ),
             Expanded(child: Container()),
             IconButton(
-              onPressed: () async {
-                final url = Uri.parse(chartSample.url);
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url);
-                }
-              },
+              onPressed: () => AppUtils().tryToLaunchUrl(chartSample.url),
               icon: const Icon(
                 Icons.code,
                 color: AppColors.primary,
