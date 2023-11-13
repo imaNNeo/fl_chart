@@ -9,8 +9,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4 # Only works with v2
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v4
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+
+      - name: Set fl_chart Version
+        run: |
+          VERSION=$(grep "version:" fl_chart.yaml | awk '{ print $2 }')
+          echo "USING_FL_CHART_VERSION=$VERSION" >> $GITHUB_ENV
+
       - uses: bluefireteam/flutter-gh-pages@v8
         with:
           workingDir: example
+          customArgs: --dart-define="USING_FL_CHART_VERSION=${{ env.USING_FL_CHART_VERSION }}"
