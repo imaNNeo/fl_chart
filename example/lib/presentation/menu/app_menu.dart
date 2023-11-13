@@ -1,6 +1,9 @@
+import 'package:dartx/dartx.dart';
+import 'package:fl_chart_app/cubits/app/app_cubit.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'fl_chart_banner.dart';
@@ -27,7 +30,6 @@ class AppMenu extends StatefulWidget {
 class AppMenuState extends State<AppMenu> {
   @override
   Widget build(BuildContext context) {
-    const needToUpdateTheApp = 1 == 0;
     return Container(
       color: AppColors.itemsBackground,
       child: Column(
@@ -65,40 +67,71 @@ class AppMenuState extends State<AppMenu> {
               itemCount: widget.menuItems.length,
             ),
           ),
-          if (needToUpdateTheApp)
-            Container(
-              margin: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  const Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'FL Chart v 1.00 - update to get the latest features!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Update',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
+          const _AppVersionRow(),
         ],
       ),
     );
+  }
+}
+
+class _AppVersionRow extends StatelessWidget {
+  const _AppVersionRow();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AppCubit, AppState>(builder: (context, state) {
+      if (state.appVersion.isNullOrBlank) {
+        return Container();
+      }
+      return Container(
+        margin: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: '',
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      const TextSpan(text: 'App version: '),
+                      TextSpan(
+                        text: 'v${state.appVersion!}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (state.usingFlChartVersion.isNotBlank) ...[
+                        const TextSpan(text: '\nfl_chart: '),
+                        TextSpan(
+                          text: 'v${state.usingFlChartVersion}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ]
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            if (state.availableVersionToUpdate.isNotBlank)
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Update',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
+    });
   }
 }
 
