@@ -67,17 +67,34 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     if (data.clipData.any) {
+      final clipRect = Rect.fromLTWH(
+        0,
+        -40,
+        canvasWrapper.size.width + 40,
+        canvasWrapper.size.height + 40,
+      );
+
       canvasWrapper.saveLayer(
-        Rect.fromLTWH(
-          0,
-          -40,
-          canvasWrapper.size.width + 40,
-          canvasWrapper.size.height + 40,
-        ),
+        clipRect,
         Paint(),
       );
 
       clipToBorder(canvasWrapper, holder);
+
+      super.paint(context, canvasWrapper, holder);
+
+      if (!data.extraLinesData.extraLinesOnTop) {
+        canvasWrapper.restore();
+        super.drawExtraLines(context, canvasWrapper, holder);
+        canvasWrapper.saveLayer(clipRect, Paint());
+        clipToBorder(canvasWrapper, holder);
+      }
+    } else {
+      super.paint(context, canvasWrapper, holder);
+    }
+
+    for (final betweenBarsData in data.betweenBarsData) {
+      drawBetweenBarsArea(canvasWrapper, data, betweenBarsData, holder);
     }
 
     super.paint(context, canvasWrapper, holder);
@@ -102,10 +119,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
       drawBarLine(canvasWrapper, barData, holder);
       drawDots(canvasWrapper, barData, holder);
-
-      if (data.extraLinesData.extraLinesOnTop) {
-        super.drawExtraLines(context, canvasWrapper, holder);
-      }
 
       final indicatorsData = data.lineTouchData
           .getTouchedSpotIndicator(barData, barData.showingIndicators);
@@ -137,6 +150,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     if (data.clipData.any) {
       canvasWrapper.restore();
+    }
+
+    if (data.extraLinesData.extraLinesOnTop) {
+      super.drawExtraLines(context, canvasWrapper, holder);
     }
 
     // Draw touch tooltip on most top spot

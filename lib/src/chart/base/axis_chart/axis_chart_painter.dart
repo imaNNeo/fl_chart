@@ -312,7 +312,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                 from.dx + padding.left,
                 from.dy - padding.bottom - tp.height,
                 to.dx - padding.right - tp.width,
-                to.dy + padding.top,
+                to.dy - padding.bottom + padding.top,
               ),
             ),
           );
@@ -405,7 +405,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                 to.dx - padding.right - tp.width,
                 from.dy + padding.top,
                 from.dx + padding.left,
-                to.dy - padding.bottom,
+                to.dy + padding.top - padding.bottom,
               ),
             ),
           );
