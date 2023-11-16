@@ -821,7 +821,7 @@ void main() {
             BarChartRodData(
               fromY: 0,
               toY: 15,
-              dashArray: [4, 4],
+              borderDashArray: [4, 4],
               borderSide: const BorderSide(
                 color: Colors.white,
                 width: 2,

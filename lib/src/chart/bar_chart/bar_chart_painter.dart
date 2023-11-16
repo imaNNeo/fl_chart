@@ -320,7 +320,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
             canvasWrapper.drawPath(
               borderPath.toDashedPath(
-                barRod.dashArray,
+                barRod.borderDashArray,
               ),
               _barStrokePaint,
             );
