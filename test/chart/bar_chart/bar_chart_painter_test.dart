@@ -836,7 +836,8 @@ void main() {
       final data = BarChartData(barGroups: barGroups);
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -934,7 +935,8 @@ void main() {
       final data = BarChartData(barGroups: barGroups);
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
