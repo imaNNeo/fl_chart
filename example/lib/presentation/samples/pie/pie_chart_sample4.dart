@@ -126,10 +126,8 @@ class PieChartSample4State extends State {
                       color: AppColors.contentColorWhite.withOpacity(0)),
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
-                color: color0,
-                numberOfLayers: 500,
-                minDarkenValue: 40,
-                maxDarkenValue: 70,
+                maskFilter: const MaskFilter.blur(BlurStyle.normal, 2),
+                color: Colors.black.withOpacity(0.4),
               ),
             );
           case 1:
@@ -146,10 +144,8 @@ class PieChartSample4State extends State {
                       color: AppColors.contentColorWhite.withOpacity(0)),
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
-                color: color1,
-                numberOfLayers: 500,
-                minDarkenValue: 40,
-                maxDarkenValue: 70,
+                maskFilter: const MaskFilter.blur(BlurStyle.normal, 2),
+                color: Colors.black.withOpacity(0.4),
               ),
             );
           case 2:
@@ -166,10 +162,8 @@ class PieChartSample4State extends State {
                       color: AppColors.contentColorWhite.withOpacity(0)),
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
-                color: color2,
-                numberOfLayers: 500,
-                minDarkenValue: 40,
-                maxDarkenValue: 70,
+                maskFilter: const MaskFilter.blur(BlurStyle.normal, 2),
+                color: Colors.black.withOpacity(0.4),
               ),
             );
           case 3:
@@ -186,10 +180,8 @@ class PieChartSample4State extends State {
                       color: AppColors.contentColorWhite.withOpacity(0)),
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
-                color: color3,
-                numberOfLayers: 500,
-                minDarkenValue: 40,
-                maxDarkenValue: 70,
+                maskFilter: const MaskFilter.blur(BlurStyle.normal, 2),
+                color: Colors.black.withOpacity(0.4),
               ),
             );
           default:
