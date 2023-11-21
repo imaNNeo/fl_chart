@@ -24,7 +24,7 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
         context,
         data,
         targetData,
-        MediaQuery.of(context).textScaleFactor,
+        MediaQuery.of(context).textScaler,
       );
 
   @override
@@ -35,7 +35,7 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor
+      ..textScaler = MediaQuery.of(context).textScaler
       ..buildContext = context;
   }
 }
@@ -47,10 +47,10 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     BuildContext context,
     ScatterChartData data,
     ScatterChartData targetData,
-    double textScale,
+    TextScaler textScaler,
   )   : _data = data,
         _targetData = targetData,
-        _textScale = textScale,
+        _textScaler = textScaler,
         super(targetData.scatterTouchData, context);
 
   ScatterChartData get data => _data;
@@ -72,12 +72,12 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     markNeedsPaint();
   }
 
-  double get textScale => _textScale;
-  double _textScale;
+  TextScaler get textScaler => _textScaler;
+  TextScaler _textScaler;
 
-  set textScale(double value) {
-    if (_textScale == value) return;
-    _textScale = value;
+  set textScaler(TextScaler value) {
+    if (_textScaler == value) return;
+    _textScaler = value;
     markNeedsPaint();
   }
 
@@ -88,9 +88,8 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
   @visibleForTesting
   ScatterChartPainter painter = ScatterChartPainter();
 
-  PaintHolder<ScatterChartData> get paintHolder {
-    return PaintHolder(data, targetData, textScale);
-  }
+  PaintHolder<ScatterChartData> get paintHolder =>
+      PaintHolder(data, targetData, textScaler);
 
   @override
   void paint(PaintingContext context, Offset offset) {

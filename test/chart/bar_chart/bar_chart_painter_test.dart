@@ -44,7 +44,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -346,7 +347,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -606,7 +608,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -754,7 +757,8 @@ void main() {
       final data = BarChartData(barGroups: barGroups);
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -887,7 +891,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -1082,7 +1087,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -1251,7 +1257,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -1374,7 +1381,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -1552,7 +1560,8 @@ void main() {
       );
 
       final painter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       expect(painter.handleTouch(const Offset(10, 10), viewSize, holder), null);
       expect(
@@ -1650,7 +1659,8 @@ void main() {
       );
 
       final painter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       expect(
         painter.handleTouch(const Offset(134, 48.6), viewSize, holder),
@@ -1735,7 +1745,8 @@ void main() {
       );
 
       final painter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final result1 =
           painter.handleTouch(const Offset(4, 60), viewSize, holder);
@@ -1790,7 +1801,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
 
@@ -1840,7 +1852,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
 
@@ -1893,7 +1906,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -1989,7 +2003,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -2080,7 +2095,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -2178,7 +2194,8 @@ void main() {
       );
 
       final barChartPainter = BarChartPainter();
-      final holder = PaintHolder<BarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());

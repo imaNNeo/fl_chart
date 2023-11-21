@@ -276,7 +276,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     _titleTextPaint
       ..textAlign = TextAlign.center
       ..textDirection = TextDirection.ltr
-      ..textScaleFactor = holder.textScale;
+      ..textScaler = holder.textScaler;
 
     for (var index = 0; index < data.titleCount; index++) {
       final baseTitleAngle = Utils().degrees(diffAngle * index);

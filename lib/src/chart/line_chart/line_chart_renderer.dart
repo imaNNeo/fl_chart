@@ -24,7 +24,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         context,
         data,
         targetData,
-        MediaQuery.of(context).textScaleFactor,
+        MediaQuery.of(context).textScaler,
       );
 
   @override
@@ -32,7 +32,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     renderObject
       ..data = data
       ..targetData = targetData
-      ..textScale = MediaQuery.of(context).textScaleFactor
+      ..textScaler = MediaQuery.of(context).textScaler
       ..buildContext = context;
   }
 }
@@ -44,10 +44,10 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     BuildContext context,
     LineChartData data,
     LineChartData targetData,
-    double textScale,
+    TextScaler textScaler,
   )   : _data = data,
         _targetData = targetData,
-        _textScale = textScale,
+        _textScaler = textScaler,
         super(
           targetData.lineTouchData,
           context,
@@ -70,11 +70,11 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     markNeedsPaint();
   }
 
-  double get textScale => _textScale;
-  double _textScale;
-  set textScale(double value) {
-    if (_textScale == value) return;
-    _textScale = value;
+  TextScaler get textScaler => _textScaler;
+  TextScaler _textScaler;
+  set textScaler(TextScaler value) {
+    if (_textScaler == value) return;
+    _textScaler = value;
     markNeedsPaint();
   }
 
@@ -85,9 +85,8 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   @visibleForTesting
   LineChartPainter painter = LineChartPainter();
 
-  PaintHolder<LineChartData> get paintHolder {
-    return PaintHolder(data, targetData, textScale);
-  }
+  PaintHolder<LineChartData> get paintHolder =>
+      PaintHolder(data, targetData, textScaler);
 
   @override
   void paint(PaintingContext context, Offset offset) {

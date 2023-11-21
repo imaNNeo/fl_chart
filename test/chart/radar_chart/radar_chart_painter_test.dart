@@ -44,7 +44,11 @@ void main() {
       );
 
       final radarPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder = PaintHolder<RadarChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -114,7 +118,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -205,7 +210,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -292,7 +298,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -380,7 +387,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -437,7 +445,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -541,7 +550,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -693,7 +703,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -784,7 +795,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -871,7 +883,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -1095,7 +1108,8 @@ void main() {
       );
 
       final radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1);
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
 
       final result =
           radarChartPainter.calculateDataSetsPosition(viewSize, holder);
