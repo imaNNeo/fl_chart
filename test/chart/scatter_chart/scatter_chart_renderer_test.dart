@@ -20,14 +20,14 @@ void main() {
 
     final targetData = ScatterChartData(scatterSpots: [MockData.scatterSpot3]);
 
-    const textScale = 4.0;
+    const textScaler = TextScaler.linear(4);
 
     final mockBuildContext = MockBuildContext();
     final renderScatterChart = RenderScatterChart(
       mockBuildContext,
       data,
       targetData,
-      textScale,
+      textScaler,
     );
 
     final mockPainter = MockScatterChartPainter();
@@ -43,10 +43,10 @@ void main() {
       expect(renderScatterChart.data == data, true);
       expect(renderScatterChart.data == targetData, false);
       expect(renderScatterChart.targetData == targetData, true);
-      expect(renderScatterChart.textScale == textScale, true);
+      expect(renderScatterChart.textScaler == textScaler, true);
       expect(renderScatterChart.paintHolder.data == data, true);
       expect(renderScatterChart.paintHolder.targetData == targetData, true);
-      expect(renderScatterChart.paintHolder.textScale == textScale, true);
+      expect(renderScatterChart.paintHolder.textScaler == textScaler, true);
     });
 
     test('test 2 check paint function', () {
@@ -63,7 +63,7 @@ void main() {
       final paintHolder = result.captured[1] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
-      expect(paintHolder.textScale, textScale);
+      expect(paintHolder.textScaler, textScaler);
 
       verify(mockCanvas.restore()).called(1);
     });
@@ -87,18 +87,18 @@ void main() {
       final paintHolder = results[0]['paint_holder'] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
-      expect(paintHolder.textScale, textScale);
+      expect(paintHolder.textScaler, textScaler);
     });
 
     test('test 4 check setters', () {
       renderScatterChart
         ..data = targetData
         ..targetData = data
-        ..textScale = 22;
+        ..textScaler = const TextScaler.linear(22);
 
       expect(renderScatterChart.data, targetData);
       expect(renderScatterChart.targetData, data);
-      expect(renderScatterChart.textScale, 22);
+      expect(renderScatterChart.textScaler, const TextScaler.linear(22));
     });
   });
 }

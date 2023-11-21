@@ -40,14 +40,14 @@ void main() {
       ),
     );
 
-    const textScale = 4.0;
+    const textScaler = TextScaler.linear(4);
 
     final mockBuildContext = MockBuildContext();
     final renderBarChart = RenderBarChart(
       mockBuildContext,
       data,
       targetData,
-      textScale,
+      textScaler,
     );
 
     final mockPainter = MockBarChartPainter();
@@ -63,10 +63,10 @@ void main() {
       expect(renderBarChart.data == data, true);
       expect(renderBarChart.data == targetData, false);
       expect(renderBarChart.targetData == targetData, true);
-      expect(renderBarChart.textScale == textScale, true);
+      expect(renderBarChart.textScaler == textScaler, true);
       expect(renderBarChart.paintHolder.data == data, true);
       expect(renderBarChart.paintHolder.targetData == targetData, true);
-      expect(renderBarChart.paintHolder.textScale == textScale, true);
+      expect(renderBarChart.paintHolder.textScaler == textScaler, true);
     });
 
     test('test 2 check paint function', () {
@@ -83,7 +83,7 @@ void main() {
       final paintHolder = result.captured[1] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
-      expect(paintHolder.textScale, textScale);
+      expect(paintHolder.textScaler, textScaler);
 
       verify(mockCanvas.restore()).called(1);
     });
@@ -107,18 +107,18 @@ void main() {
       final paintHolder = results[0]['paint_holder'] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
-      expect(paintHolder.textScale, textScale);
+      expect(paintHolder.textScaler, textScaler);
     });
 
     test('test 4 check setters', () {
       renderBarChart
         ..data = targetData
         ..targetData = data
-        ..textScale = 22;
+        ..textScaler = const TextScaler.linear(22);
 
       expect(renderBarChart.data, targetData);
       expect(renderBarChart.targetData, data);
-      expect(renderBarChart.textScale, 22);
+      expect(renderBarChart.textScaler, const TextScaler.linear(22));
     });
   });
 }

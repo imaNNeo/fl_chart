@@ -138,7 +138,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           text: span,
           textAlign: TextAlign.center,
           textDirection: holder.data.scatterLabelSettings.textDirection,
-          textScaleFactor: holder.textScale,
+          textScaler: holder.textScaler,
         )..layout(maxWidth: viewSize.width);
 
         final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
@@ -233,7 +233,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       text: span,
       textAlign: tooltipItem.textAlign,
       textDirection: tooltipItem.textDirection,
-      textScaleFactor: holder.textScale,
+      textScaler: holder.textScaler,
     )..layout(maxWidth: tooltipData.maxContentWidth);
 
     final width = drawingTextPainter.width;

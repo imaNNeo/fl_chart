@@ -40,14 +40,14 @@ void main() {
       ),
     );
 
-    const textScale = 4.0;
+    const textScaler = TextScaler.linear(4);
 
     final mockBuildContext = MockBuildContext();
     final renderLineChart = RenderLineChart(
       mockBuildContext,
       data,
       targetData,
-      textScale,
+      textScaler,
     );
 
     final mockPainter = MockLineChartPainter();
@@ -63,10 +63,10 @@ void main() {
       expect(renderLineChart.data == data, true);
       expect(renderLineChart.data == targetData, false);
       expect(renderLineChart.targetData == targetData, true);
-      expect(renderLineChart.textScale == textScale, true);
+      expect(renderLineChart.textScaler == textScaler, true);
       expect(renderLineChart.paintHolder.data == data, true);
       expect(renderLineChart.paintHolder.targetData == targetData, true);
-      expect(renderLineChart.paintHolder.textScale == textScale, true);
+      expect(renderLineChart.paintHolder.textScaler == textScaler, true);
     });
 
     test('test 2 check paint function', () {
@@ -83,7 +83,7 @@ void main() {
       final paintHolder = result.captured[1] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
-      expect(paintHolder.textScale, textScale);
+      expect(paintHolder.textScaler, textScaler);
 
       verify(mockCanvas.restore()).called(1);
     });
@@ -110,18 +110,18 @@ void main() {
       final paintHolder = results[0]['paint_holder'] as PaintHolder;
       expect(paintHolder.data, data);
       expect(paintHolder.targetData, targetData);
-      expect(paintHolder.textScale, textScale);
+      expect(paintHolder.textScaler, textScaler);
     });
 
     test('test 4 check setters', () {
       renderLineChart
         ..data = targetData
         ..targetData = data
-        ..textScale = 22;
+        ..textScaler = const TextScaler.linear(22);
 
       expect(renderLineChart.data, targetData);
       expect(renderLineChart.targetData, data);
-      expect(renderLineChart.textScale, 22);
+      expect(renderLineChart.textScaler, const TextScaler.linear(22));
     });
   });
 }

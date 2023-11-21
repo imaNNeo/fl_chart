@@ -28,7 +28,11 @@ void main() {
       );
 
       final scatterPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -83,7 +87,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
 
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -125,7 +133,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
 
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -175,7 +187,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
 
       final mockBuildContext = MockBuildContext();
       final mockCanvasWrapper = MockCanvasWrapper();
@@ -231,7 +247,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
       final mockCanvasWrapper = MockCanvasWrapper();
       final mockBuildContext = MockBuildContext();
       final mockUtils = MockUtils();
@@ -282,7 +302,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
       final mockCanvasWrapper = MockCanvasWrapper();
       final mockBuildContext = MockBuildContext();
       final mockUtils = MockUtils();
@@ -350,7 +374,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
       final mockCanvasWrapper = MockCanvasWrapper();
       final mockBuildContext = MockBuildContext();
       final mockUtils = MockUtils();
@@ -451,7 +479,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
       final mockCanvasWrapper = MockCanvasWrapper();
       final mockBuildContext = MockBuildContext();
       final mockUtils = MockUtils();
@@ -554,7 +586,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
       final mockCanvasWrapper = MockCanvasWrapper();
       final mockBuildContext = MockBuildContext();
       final mockUtils = MockUtils();
@@ -635,7 +671,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
       final touchedSpot = scatterChartPainter.handleTouch(
         const Offset(10, 90),
         viewSize,
@@ -734,7 +774,11 @@ void main() {
       );
 
       final scatterChartPainter = ScatterChartPainter();
-      final holder = PaintHolder<ScatterChartData>(data, data, 1);
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
       final touchedSpot = scatterChartPainter.handleTouch(
         const Offset(10, 90),
         viewSize,
