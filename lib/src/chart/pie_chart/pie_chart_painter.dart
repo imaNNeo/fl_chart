@@ -380,11 +380,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         _sectionShadowPaint.color = shadow.color.darken(dDarken.round());
       }
       canvasWrapper.drawPath(
-        sectionPath.transform(
-          Float64List.fromList(
-            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, dx, dy, 0, 1],
-          ),
-        ),
+        sectionPath.shift(Offset(dx, dy)),
         _sectionShadowPaint,
       );
     }
