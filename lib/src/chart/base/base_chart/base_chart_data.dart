@@ -101,9 +101,11 @@ class FlShadowData with EquatableMixin {
         numberOfLayers = numberOfLayers ?? 1,
         minDarkenValue = minDarkenValue ?? 0,
         maxDarkenValue = maxDarkenValue ?? 0,
-        assert(minDarkenValue == null ||
-            maxDarkenValue == null ||
-            maxDarkenValue >= minDarkenValue);
+        assert(
+          minDarkenValue == null ||
+              maxDarkenValue == null ||
+              maxDarkenValue >= minDarkenValue,
+        );
   final bool show;
   final Offset offset;
   final Color color;
