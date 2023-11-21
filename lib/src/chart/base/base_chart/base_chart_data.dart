@@ -78,6 +78,77 @@ class FlBorderData with EquatableMixin {
       ];
 }
 
+/// Holds data to drawing shdow for the chart.
+class FlShadowData with EquatableMixin {
+  /// [show] Determines showing or hiding border around the chart.
+  /// [offset] Determines the offset that shadow differ from the object.
+  /// [color] Determines the shadow color.
+  /// [maskFilter] Determines the mask filter will be applied to visual the shadow.
+  /// [numberOfLayers] Determines number of layers that will be painted (it should be 1 layer in case of normal shadow).
+  /// [minDarkenValue] Determines the start value of darken will be applied on the color in case of multiple layers.
+  /// [maxDarkenValue] Determines the end value of darken will be applied on the color in case of multiple layers.
+  FlShadowData({
+    bool? show,
+    Offset? offset,
+    Color? color,
+    this.maskFilter,
+    int? numberOfLayers,
+    int? minDarkenValue,
+    int? maxDarkenValue,
+  })  : show = show ?? true,
+        offset = offset ?? const Offset(3, 3),
+        color = color ?? Colors.black.withOpacity(0.5),
+        numberOfLayers = numberOfLayers ?? 1,
+        minDarkenValue = minDarkenValue ?? 0,
+        maxDarkenValue = maxDarkenValue ?? 0,
+        assert(minDarkenValue == null ||
+            maxDarkenValue == null ||
+            maxDarkenValue >= minDarkenValue);
+  final bool show;
+  final Offset offset;
+  final Color color;
+  final MaskFilter? maskFilter;
+  final int numberOfLayers;
+  final int minDarkenValue;
+  final int maxDarkenValue;
+
+  bool isVisible() => show;
+
+  /// Copies current [FlBorderData] to a new [FlBorderData],
+  /// and replaces provided values.
+  FlShadowData copyWith({
+    bool? show,
+    Offset? offset,
+    Color? color,
+    MaskFilter? maskFilter,
+    int? numberOfLayers,
+    int? minDarkenValue,
+    int? maxDarkenValue,
+  }) {
+    return FlShadowData(
+      show: show ?? this.show,
+      offset: offset ?? this.offset,
+      color: color ?? this.color,
+      maskFilter: maskFilter ?? this.maskFilter,
+      numberOfLayers: numberOfLayers ?? 1,
+      minDarkenValue: minDarkenValue ?? 0,
+      maxDarkenValue: maxDarkenValue ?? 0,
+    );
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        show,
+        offset,
+        color,
+        maskFilter,
+        numberOfLayers,
+        minDarkenValue,
+        maxDarkenValue,
+      ];
+}
+
 /// Holds data to handle touch events, and touch responses in abstract way.
 ///
 /// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/handle_touches.md)

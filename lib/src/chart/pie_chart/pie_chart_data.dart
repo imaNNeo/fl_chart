@@ -158,6 +158,7 @@ class PieChartSectionData {
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    this.shadow,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
@@ -213,6 +214,8 @@ class PieChartSectionData {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
+  final FlShadowData? shadow;
+
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -226,6 +229,7 @@ class PieChartSectionData {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    FlShadowData? shadow,
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
@@ -240,6 +244,7 @@ class PieChartSectionData {
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
       badgePositionPercentageOffset:
           badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
+      shadow: shadow,
     );
   }
 
@@ -268,6 +273,7 @@ class PieChartSectionData {
         b.badgePositionPercentageOffset,
         t,
       ),
+      shadow: b.shadow,
     );
   }
 }

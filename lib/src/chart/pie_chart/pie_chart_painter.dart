@@ -1,9 +1,11 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
+import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +23,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   PieChartPainter() : super() {
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
+    _sectionShadowPaint = Paint()..style = PaintingStyle.stroke;
+
     _sectionStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;
   }
   late Paint _sectionPaint;
+  late Paint _sectionShadowPaint;
   late Paint _sectionStrokePaint;
   late Paint _centerSpacePaint;
 
@@ -92,6 +97,37 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     var tempAngle = data.startDegreeOffset;
+
+    /// Paint the shadows
+    for (var i = 0; i < data.sections.length; i++) {
+      final section = data.sections[i];
+      if (section.shadow == null) continue;
+      final sectionDegree = sectionsAngle[i];
+
+      if (sectionDegree == 360) {
+        drawSectionFullCircleShadow(
+          section,
+          center,
+          centerRadius,
+          canvasWrapper,
+        );
+        break;
+      }
+
+      final sectionPath = generateSectionPath(
+        section,
+        data.sectionsSpace,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
+
+      drawSectionShadow(section, sectionPath, canvasWrapper);
+      tempAngle += sectionDegree;
+    }
+
+    tempAngle = data.startDegreeOffset;
 
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
@@ -281,6 +317,77 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       ..color = section.color
       ..style = PaintingStyle.fill;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
+  }
+
+  @visibleForTesting
+  void drawSectionFullCircleShadow(
+    PieChartSectionData section,
+    Offset center,
+    double centerRadius,
+    CanvasWrapper canvasWrapper,
+  ) {
+    if (section.shadow == null || section.shadow?.show == false) return;
+    final shadow = section.shadow!;
+
+    _sectionShadowPaint
+      ..color = section.shadow!.color
+      ..strokeWidth = section.radius
+      ..style = PaintingStyle.stroke
+      ..maskFilter = section.shadow!.maskFilter;
+
+    for (var dx = shadow.offset.dx,
+            dy = shadow.offset.dy,
+            dDarken = shadow.maxDarkenValue.toDouble();
+        dx >= 0.0 && dy >= 0.0;
+        dx -= shadow.offset.dx / shadow.numberOfLayers,
+        dy -= shadow.offset.dy / shadow.numberOfLayers,
+        dDarken -= (shadow.maxDarkenValue - shadow.minDarkenValue) /
+            shadow.numberOfLayers) {
+      if (1 <= dDarken.round() && dDarken.round() <= 100) {
+        _sectionShadowPaint.color = shadow.color.darken(dDarken.round());
+      }
+      canvasWrapper.drawCircle(
+        center + Offset(dx, dy),
+        centerRadius + section.radius / 2,
+        _sectionShadowPaint,
+      );
+    }
+  }
+
+  @visibleForTesting
+  void drawSectionShadow(
+    PieChartSectionData section,
+    Path sectionPath,
+    CanvasWrapper canvasWrapper,
+  ) {
+    if (section.shadow == null || section.shadow?.show == false) return;
+    final shadow = section.shadow!;
+
+    _sectionShadowPaint
+      ..color = shadow.color
+      ..style = PaintingStyle.fill
+      ..maskFilter = shadow.maskFilter;
+
+    for (var dx = shadow.offset.dx,
+            dy = shadow.offset.dy,
+            dDarken = shadow.maxDarkenValue.toDouble();
+        dx >= 0.0 && dy >= 0.0;
+        dx -= shadow.offset.dx / shadow.numberOfLayers,
+        dy -= shadow.offset.dy / shadow.numberOfLayers,
+        dDarken -= (shadow.maxDarkenValue - shadow.minDarkenValue) /
+            shadow.numberOfLayers) {
+      if (1 <= dDarken.round() && dDarken.round() <= 100) {
+        _sectionShadowPaint.color = shadow.color.darken(dDarken.round());
+      }
+      canvasWrapper.drawPath(
+        sectionPath.transform(
+          Float64List.fromList(
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, dx, dy, 0, 1],
+          ),
+        ),
+        _sectionShadowPaint,
+      );
+    }
   }
 
   @visibleForTesting
