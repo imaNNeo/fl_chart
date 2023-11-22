@@ -13,7 +13,7 @@ You can change the [Duration](https://api.flutter.dev/flutter/dart-core/Duration
 ```dart
 LineChart(
   swapAnimationDuration: Duration(milliseconds: 150),
-  swapAnimationCurve = Curves.linear,
+  swapAnimationCurve: Curves.linear,
   LineChartData(
     isShowingMainData ? sampleData1() : sampleData2(),
   ),
