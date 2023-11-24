@@ -4,7 +4,6 @@ import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:fl_chart_app/util/app_utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,18 +52,7 @@ class HomePage extends StatelessWidget {
               Navigator.of(context).pop();
             }
           },
-          onBannerClicked: kIsWeb || needsDrawer
-              ? () async {
-                  if (kIsWeb) {
-                    await AppUtils().tryToLaunchUrl(Urls.flChartUrl);
-                    return;
-                  }
-                  if (needsDrawer) {
-                    Navigator.of(context).pop();
-                    return;
-                  }
-                }
-              : null,
+          onBannerClicked: () => AppUtils().tryToLaunchUrl(Urls.flChartUrl),
         );
         final samplesSectionWidget =
             ChartSamplesPage(chartType: showingChartType);
