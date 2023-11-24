@@ -15,7 +15,7 @@ jobs:
 
       - name: Set fl_chart Version
         run: |
-          VERSION=$(grep "version:" fl_chart.yaml | awk '{ print $2 }')
+          VERSION=$(grep "version:" pubspec.yaml | awk '{ print $2 }')
           echo "USING_FL_CHART_VERSION=$VERSION" >> $GITHUB_ENV
 
       - uses: bluefireteam/flutter-gh-pages@v8
