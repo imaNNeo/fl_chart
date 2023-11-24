@@ -489,6 +489,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final y = getPixelY(barSpots[0].y, viewSize, holder);
     if (appendToPath == null) {
       path.moveTo(x, y);
+      if (size == 1) {
+        path.lineTo(x, y);
+      }
     } else {
       path.lineTo(x, y);
     }
@@ -1299,6 +1302,7 @@ class LineIndexDrawingInfo {
     this.spotIndex,
     this.indicatorData,
   );
+
   final LineChartBarData line;
   final int lineIndex;
   final FlSpot spot;
