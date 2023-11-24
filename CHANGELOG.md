@@ -3,6 +3,7 @@
 * **BUGFIX** (by @imaNNeo) Fix bar line shadow crash when we have only one (or zero) spot, #1466
 * **BUGFIX** (by @imaNNeo) Fix having negative `toY` (or positive `fromY`) in BarChart's `minY` and `maxY` calculations, #1470
 * **BUGFIX** (by @bobatsar) Fix bars drawn outside of diagram
+* **FEATURE** (by @k0psutin) Add dashed border to BarChartRodData, #1144
 
 ## 0.64.0
 * **BUGFIX** (by @Anas35) Fix Tooltip not displaying when value from BackgroundBarChartRodData is less than zero. #1345.
