@@ -127,7 +127,7 @@ class PieChartSample5State extends State {
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
                 color: color0,
-                numberOfLayers: 500,
+                numberOfLayers: 7,
                 minDarkenValue: 40,
                 maxDarkenValue: 70,
               ),
@@ -147,7 +147,7 @@ class PieChartSample5State extends State {
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
                 color: color1,
-                numberOfLayers: 500,
+                numberOfLayers: 7,
                 minDarkenValue: 40,
                 maxDarkenValue: 70,
               ),
@@ -167,7 +167,7 @@ class PieChartSample5State extends State {
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
                 color: color2,
-                numberOfLayers: 500,
+                numberOfLayers: 7,
                 minDarkenValue: 40,
                 maxDarkenValue: 70,
               ),
@@ -187,7 +187,7 @@ class PieChartSample5State extends State {
               shadow: FlShadowData(
                 offset: const Offset(7, 7),
                 color: color3,
-                numberOfLayers: 500,
+                numberOfLayers: 7,
                 minDarkenValue: 40,
                 maxDarkenValue: 70,
               ),
