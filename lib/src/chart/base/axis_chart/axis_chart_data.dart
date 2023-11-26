@@ -29,6 +29,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     super.borderData,
     required super.touchData,
     ExtraLinesData? extraLinesData,
+    this.horizontalZoomConfig = const ZoomConfig(),
   })  : gridData = gridData ?? const FlGridData(),
         rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
@@ -62,6 +63,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Extra horizontal or vertical lines to draw on the chart.
   final ExtraLinesData extraLinesData;
 
+  final ZoomConfig horizontalZoomConfig;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -79,6 +82,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         borderData,
         touchData,
         extraLinesData,
+        horizontalZoomConfig,
       ];
 }
 
@@ -1638,4 +1642,20 @@ class FlDotCrossPainter extends FlDotPainter {
         size,
         width,
       ];
+}
+
+class ZoomConfig with EquatableMixin {
+  const ZoomConfig({
+    this.enabled = false,
+    this.amount = 10,
+  });
+
+  final bool enabled;
+  final double amount;
+
+  @override
+  List<Object?> get props => [
+    enabled,
+    amount,
+  ];
 }

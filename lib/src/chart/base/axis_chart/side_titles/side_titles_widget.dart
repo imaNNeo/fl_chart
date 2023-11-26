@@ -14,18 +14,23 @@ class SideTitlesWidget extends StatelessWidget {
     required this.side,
     required this.axisChartData,
     required this.parentSize,
+    this.axisMinOverride,
+    this.axisMaxOverride,
   });
+
   final AxisSide side;
   final AxisChartData axisChartData;
   final Size parentSize;
+  final double? axisMinOverride;
+  final double? axisMaxOverride;
 
   bool get isHorizontal => side == AxisSide.top || side == AxisSide.bottom;
 
   bool get isVertical => !isHorizontal;
 
-  double get minX => axisChartData.minX;
+  double get minX => axisMinOverride ?? axisChartData.minX;
 
-  double get maxX => axisChartData.maxX;
+  double get maxX => axisMaxOverride ?? axisChartData.maxX;
 
   double get baselineX => axisChartData.baselineX;
 
@@ -110,6 +115,7 @@ class SideTitlesWidget extends StatelessWidget {
     double axisMin,
     double axisMax,
     AxisSide side,
+    ZoomConfig xAxisZoom,
   ) {
     List<AxisSideTitleMetaData> axisPositions;
     final interval = sideTitles.interval ??
@@ -153,9 +159,17 @@ class SideTitlesWidget extends StatelessWidget {
     }
     return axisPositions.map(
       (metaData) {
-        return AxisSideTitleWidgetHolder(
-          metaData,
-          sideTitles.getTitlesWidget(
+        final Widget widget;
+        final isOutOfHorizontalAxis = isHorizontal &&
+            (metaData.axisValue < axisChartData.minX ||
+                metaData.axisValue > axisChartData.maxX);
+        final isOutOfVerticalAxis = isVertical &&
+            (metaData.axisValue < axisChartData.minY ||
+                metaData.axisValue > axisChartData.maxY);
+        if (isOutOfHorizontalAxis || isOutOfVerticalAxis) {
+          widget = Container();
+        } else {
+          widget = sideTitles.getTitlesWidget(
             metaData.axisValue,
             TitleMeta(
               min: axisMin,
@@ -171,8 +185,9 @@ class SideTitlesWidget extends StatelessWidget {
               parentAxisSize: axisViewSize,
               axisPosition: metaData.axisPixelLocation,
             ),
-          ),
-        );
+          );
+        }
+        return AxisSideTitleWidgetHolder(metaData, widget);
       },
     ).toList();
   }
@@ -197,6 +212,7 @@ class SideTitlesWidget extends StatelessWidget {
             ),
           if (sideTitles.showTitles)
             Container(
+              color: Colors.red,
               width: isHorizontal ? axisViewSize : sideTitles.reservedSize,
               height: isHorizontal ? sideTitles.reservedSize : axisViewSize,
               margin: thisSidePadding,
@@ -212,6 +228,7 @@ class SideTitlesWidget extends StatelessWidget {
                   axisMin,
                   axisMax,
                   side,
+                  axisChartData.horizontalZoomConfig,
                 ),
               ),
             ),
@@ -233,6 +250,7 @@ class _AxisTitleWidget extends StatelessWidget {
     required this.side,
     required this.axisViewSize,
   });
+
   final AxisTitles axisTitles;
   final AxisSide side;
   final double axisViewSize;

@@ -1,10 +1,8 @@
-import 'package:fl_chart_app/cubits/app/app_cubit.dart';
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'dart:math';
 
-import 'presentation/router/app_router.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,23 +13,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AppCubit>(create: (BuildContext context) => AppCubit()),
-      ],
-      child: MaterialApp.router(
-        title: AppTexts.appName,
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          useMaterial3: true,
-          textTheme: GoogleFonts.assistantTextTheme(
-            Theme.of(context).textTheme.apply(
-                  bodyColor: AppColors.mainTextColor3,
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: SizedBox(
+            height: 300,
+            child: LineChart(
+              LineChartData(
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: List.generate(
+                      360 * 1,
+                      (index) => FlSpot(
+                        index.toDouble(),
+                        sin(radians(index.toDouble())),
+                      ),
+                    ),
+                  ),
+                ],
+                horizontalZoomConfig: const ZoomConfig(
+                  enabled: true,
+                  amount: 20,
                 ),
+              ),
+            ),
           ),
-          scaffoldBackgroundColor: AppColors.pageBackground,
         ),
-        routerConfig: appRouterConfig,
       ),
     );
   }
