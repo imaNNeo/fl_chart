@@ -10,13 +10,11 @@ class PieChartSample1 extends StatefulWidget {
   State<StatefulWidget> createState() => PieChartSample1State();
 }
 
-class PieChartSample1State extends State<PieChartSample1> {
+class PieChartSample1State extends State {
   int touchedIndex = -1;
-  Offset? touchOffset;
 
   @override
   Widget build(BuildContext context) {
-    print('touchedIndex: ${touchedIndex}');
     return AspectRatio(
       aspectRatio: 1.3,
       child: Column(
@@ -71,42 +69,29 @@ class PieChartSample1State extends State<PieChartSample1> {
           Expanded(
             child: AspectRatio(
               aspectRatio: 1,
-              child: MouseRegion(
-                onHover: (event) {
-                  setState(() {
-                    touchOffset = event.localPosition;
-                  });
-                },
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(
-                      externalTouchPosition: touchOffset,
-                      externalTouchCallback: (response) {
-                        WidgetsBinding.instance
-                            .addPostFrameCallback((timeStamp) {
-                          if (mounted) {
-                            int newTouchedIndex =
-                                response?.touchedSection?.touchedSectionIndex ??
-                                    -1;
-                            if (newTouchedIndex != touchedIndex) {
-                              setState(() {
-                                touchedIndex = newTouchedIndex;
-                              });
-                            }
-                          }
-                        });
-                        // print(
-                        //     'touchedSectionIndex: ${response?.touchedSection!.touchedSectionIndex}');
-                      },
-                    ),
-                    startDegreeOffset: 180,
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                    sectionsSpace: 1,
-                    centerSpaceRadius: 0,
-                    sections: showingSections(),
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedIndex = -1;
+                          return;
+                        }
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+                      });
+                    },
                   ),
+                  startDegreeOffset: 180,
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 1,
+                  centerSpaceRadius: 0,
+                  sections: showingSections(),
                 ),
               ),
             ),
