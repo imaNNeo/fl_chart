@@ -22,6 +22,7 @@ import 'line/line_chart_sample9.dart';
 import 'pie/pie_chart_sample1.dart';
 import 'pie/pie_chart_sample2.dart';
 import 'pie/pie_chart_sample3.dart';
+import 'pie/pie_chart_sample4.dart';
 import 'radar/radar_chart_sample1.dart';
 import 'scatter/scatter_chart_sample1.dart';
 import 'scatter/scatter_chart_sample2.dart';
@@ -54,6 +55,7 @@ class ChartSamples {
       PieChartSample(1, (context) => const PieChartSample1()),
       PieChartSample(2, (context) => const PieChartSample2()),
       PieChartSample(3, (context) => const PieChartSample3()),
+      PieChartSample(4, (context) => const PieChartSample4()),
     ],
     ChartType.scatter: [
       ScatterChartSample(1, (context) => ScatterChartSample1()),
