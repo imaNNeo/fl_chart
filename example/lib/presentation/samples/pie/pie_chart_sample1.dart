@@ -89,7 +89,7 @@ class PieChartSample1State extends State {
                   borderData: FlBorderData(
                     show: false,
                   ),
-                  sectionsSpace: 1,
+                  sectionsSpace: 30,
                   centerSpaceRadius: 0,
                   sections: showingSections(),
                 ),
@@ -117,7 +117,7 @@ class PieChartSample1State extends State {
               color: color0,
               value: 25,
               title: '',
-              radius: 80,
+              radius: 80 * 2,
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? const BorderSide(
@@ -130,7 +130,7 @@ class PieChartSample1State extends State {
               color: color1,
               value: 25,
               title: '',
-              radius: 65,
+              radius: 80 * 2,
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? const BorderSide(
@@ -143,7 +143,7 @@ class PieChartSample1State extends State {
               color: color2,
               value: 25,
               title: '',
-              radius: 60,
+              radius: 80 * 2,
               titlePositionPercentageOffset: 0.6,
               borderSide: isTouched
                   ? const BorderSide(
@@ -156,7 +156,7 @@ class PieChartSample1State extends State {
               color: color3,
               value: 25,
               title: '',
-              radius: 70,
+              radius: 80 * 2,
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? const BorderSide(
