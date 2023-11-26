@@ -11,6 +11,7 @@ class PieChartSample4 extends StatefulWidget {
 }
 
 class PieChartSample4State extends State {
+  Offset? hoveredOffset;
   int innerTouchedIndex = -1;
   int outerTouchedIndex = -1;
 
@@ -74,65 +75,74 @@ class PieChartSample4State extends State {
           Expanded(
             child: AspectRatio(
                 aspectRatio: 1,
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: PieChart(
-                        PieChartData(
-                          pieTouchData: PieTouchData(
-                            touchCallback:
-                                (FlTouchEvent event, pieTouchResponse) {
-                              setState(() {
-                                if (!event.isInterestedForInteractions ||
-                                    pieTouchResponse == null ||
-                                    pieTouchResponse.touchedSection == null) {
-                                  innerTouchedIndex = -1;
-                                  return;
-                                }
-                                innerTouchedIndex = pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex;
-                              });
-                            },
+                child: MouseRegion(
+                  onHover: (event) {
+                    setState(() {
+                      hoveredOffset = event.localPosition;
+                    });
+                  },
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: PieChart(
+                          PieChartData(
+                            pieTouchData: PieTouchData(
+                              externalTouchPosition: hoveredOffset,
+                              externalTouchCallback: (pieTouchResponse) {
+                                int? newTouchedIndex = pieTouchResponse
+                                    ?.touchedSection?.touchedSectionIndex;
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((timeStamp) {
+                                  if (mounted &&
+                                      newTouchedIndex != innerTouchedIndex) {
+                                    setState(() {
+                                      innerTouchedIndex = newTouchedIndex ?? -1;
+                                    });
+                                  }
+                                });
+                              },
+                            ),
+                            startDegreeOffset: 180,
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            sectionsSpace: 1,
+                            centerSpaceRadius: 0,
+                            sections: showingInnerSections(),
                           ),
-                          startDegreeOffset: 180,
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          sectionsSpace: 1,
-                          centerSpaceRadius: 0,
-                          sections: showingInnerSections(),
                         ),
                       ),
-                    ),
-                    Positioned.fill(
-                      child: PieChart(
-                        PieChartData(
-                          pieTouchData: PieTouchData(
-                            touchCallback:
-                                (FlTouchEvent event, pieTouchResponse) {
-                              setState(() {
-                                if (!event.isInterestedForInteractions ||
-                                    pieTouchResponse == null ||
-                                    pieTouchResponse.touchedSection == null) {
-                                  outerTouchedIndex = -1;
-                                  return;
-                                }
-                                outerTouchedIndex = pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex;
-                              });
-                            },
+                      Positioned.fill(
+                        child: PieChart(
+                          PieChartData(
+                            pieTouchData: PieTouchData(
+                              externalTouchPosition: hoveredOffset,
+                              externalTouchCallback: (pieTouchResponse) {
+                                int? newTouchedIndex = pieTouchResponse
+                                    ?.touchedSection?.touchedSectionIndex;
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((timeStamp) {
+                                  if (mounted &&
+                                      newTouchedIndex != outerTouchedIndex) {
+                                    setState(() {
+                                      outerTouchedIndex = newTouchedIndex ?? -1;
+                                    });
+                                  }
+                                });
+                              },
+                            ),
+                            startDegreeOffset: 180,
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            sectionsSpace: 1,
+                            centerSpaceRadius: 50,
+                            sections: showingOuterSections(),
                           ),
-                          startDegreeOffset: 180,
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          sectionsSpace: 1,
-                          centerSpaceRadius: 50,
-                          sections: showingOuterSections(),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )),
           ),
         ],
