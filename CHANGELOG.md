@@ -1,3 +1,6 @@
+## newVersion
+* **IMPROVEMENT** Add Flutter sdk constraints to the pubspec.yaml to force the user/developer to upgrade the Flutter version to 3.16.0 (latest), #1509
+
 ## 0.65.0
 * **FEATURE** (by @Dartek12) Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine), #1197
 * **BUGFIX** (by @imaNNeo) Fix bar line shadow crash when we have only one (or zero) spot, #1466
