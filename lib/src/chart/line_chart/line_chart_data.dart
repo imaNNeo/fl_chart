@@ -808,6 +808,8 @@ abstract class FlDotPainter with EquatableMixin {
 
   /// Used to show default UIs, for example [defaultScatterTooltipItem]
   Color get mainColor;
+
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t);
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
@@ -876,6 +878,27 @@ class FlDotCirclePainter extends FlDotPainter {
         strokeColor,
         strokeWidth,
       ];
+
+  FlDotCirclePainter _lerp(
+    FlDotCirclePainter a,
+    FlDotCirclePainter b,
+    double t,
+  ) {
+    return FlDotCirclePainter(
+      color: Color.lerp(a.color, b.color, t)!,
+      radius: lerpDouble(a.radius, b.radius, t),
+      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+    );
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotCirclePainter || b is! FlDotCirclePainter) {
+      return b;
+    }
+    return _lerp(a, b, t);
+  }
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
@@ -948,6 +971,27 @@ class FlDotSquarePainter extends FlDotPainter {
         strokeColor,
         strokeWidth,
       ];
+
+  FlDotSquarePainter _lerp(
+    FlDotSquarePainter a,
+    FlDotSquarePainter b,
+    double t,
+  ) {
+    return FlDotSquarePainter(
+      color: Color.lerp(a.color, b.color, t)!,
+      size: lerpDouble(a.size, b.size, t)!,
+      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+    );
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotSquarePainter || b is! FlDotSquarePainter) {
+      return b;
+    }
+    return _lerp(a, b, t);
+  }
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
@@ -997,6 +1041,26 @@ class FlDotCrossPainter extends FlDotPainter {
 
   @override
   Color get mainColor => color;
+
+  FlDotCrossPainter _lerp(
+    FlDotCrossPainter a,
+    FlDotCrossPainter b,
+    double t,
+  ) {
+    return FlDotCrossPainter(
+      color: Color.lerp(a.color, b.color, t)!,
+      size: lerpDouble(a.size, b.size, t)!,
+      width: lerpDouble(a.width, b.width, t)!,
+    );
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotCrossPainter || b is! FlDotCrossPainter) {
+      return b;
+    }
+    return _lerp(a, b, t);
+  }
 
   /// Used for equality check, see [EquatableMixin].
   @override

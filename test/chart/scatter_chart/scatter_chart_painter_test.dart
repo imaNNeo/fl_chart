@@ -106,9 +106,27 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.drawDot(dotPainter1, spot1, const Offset(10, 90))).called(1);
-      verify(mockCanvasWrapper.drawDot(dotPainter3, spot3, const Offset(80, 80))).called(1);
-      verify(mockCanvasWrapper.drawDot(dotPainter4, spot4, const Offset(70, 50))).called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          dotPainter1,
+          spot1,
+          const Offset(10, 90),
+        ),
+      ).called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          dotPainter3,
+          spot3,
+          const Offset(80, 80),
+        ),
+      ).called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          dotPainter4,
+          spot4,
+          const Offset(70, 50),
+        ),
+      ).called(1);
 
       verifyNever(mockCanvasWrapper.drawText(any, any));
       verify(mockCanvasWrapper.clipRect(any)).called(1);
@@ -210,16 +228,41 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[0], const Offset(10, 90)))
-          .called(1);
-      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[1], const Offset(20, 80)))
-          .called(1);
-      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[3], const Offset(80, 20)))
-          .called(1);
-      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[4], const Offset(70, 50)))
-          .called(1);
-      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[5], const Offset(40, 40)))
-          .called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          any,
+          data.scatterSpots[0],
+          const Offset(10, 90),
+        ),
+      ).called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          any,
+          data.scatterSpots[1],
+          const Offset(20, 80),
+        ),
+      ).called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          any,
+          data.scatterSpots[3],
+          const Offset(80, 20),
+        ),
+      ).called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          any,
+          data.scatterSpots[4],
+          const Offset(70, 50),
+        ),
+      ).called(1);
+      verify(
+        mockCanvasWrapper.drawDot(
+          any,
+          data.scatterSpots[5],
+          const Offset(40, 40),
+        ),
+      ).called(1);
 
       verify(mockCanvasWrapper.drawText(any, any)).called(4);
 
