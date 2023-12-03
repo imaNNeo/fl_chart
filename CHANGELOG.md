@@ -23,6 +23,7 @@ ScatterSpot(
   ),
 ),
 ```
+* **BUGFIX** (by @imaNNeo) Fix barChart tooltip for values below or above the 0 point, #1462
 
 ## 0.65.0
 * **FEATURE** (by @Dartek12) Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine), #1197

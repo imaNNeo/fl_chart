@@ -386,17 +386,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final barOffset = Offset(
+    final barToYPixel = Offset(
       groupPositions[barGroupIndex].barsX[barRodIndex],
       getPixelY(showOnRodData.toY, viewSize, holder),
+    );
+
+    final barFromYPixel = Offset(
+      groupPositions[barGroupIndex].barsX[barRodIndex],
+      getPixelY(showOnRodData.fromY, viewSize, holder),
     );
 
     final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
 
-    final zeroY = getPixelY(0, viewSize, holder);
-    final barTopY = min(zeroY, barOffset.dy);
-    final barBottomY = max(zeroY, barOffset.dy);
+    final barTopY = min(barToYPixel.dy, barFromYPixel.dy);
+    final barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
     final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
         (tooltipData.direction == TooltipDirection.auto &&
             showOnRodData.isUpward());
@@ -405,7 +409,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         : barBottomY + tooltipData.tooltipMargin;
 
     final tooltipLeft = getTooltipLeft(
-      barOffset.dx,
+      barToYPixel.dx,
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
