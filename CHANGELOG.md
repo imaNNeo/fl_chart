@@ -1,5 +1,8 @@
 ## newVersion
-* **IMPROVEMENT** Add Flutter sdk constraints to the pubspec.yaml to force the user/developer to upgrade the Flutter version to 3.16.0 (latest), #1509
+* **IMPROVEMENT** (by @imaNNeo) Add Flutter sdk constraints to the pubspec.yaml to force the user/developer to upgrade the Flutter version to 3.16.0 (latest), #1509
+* **IMPROVEMENT** (by @imaNNeo) Add `dotPainter` property to ScatterSpot to allow customizing the dot painter, #568
+* **BREAKING** (by @imaNNeo) Remove `color` and `radius` properties from ScatterSpot (use `dotPainter` instead), #568
+* **BREAKING** (by @imaNNeo) Change the default value of FlDotCirclePainter.`strokeWidth` to 0.0
 
 ## 0.65.0
 * **FEATURE** (by @Dartek12) Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlLine), #1197
