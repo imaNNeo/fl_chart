@@ -232,7 +232,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       lerpDouble(a.x, b.x, t)!,
       lerpDouble(a.y, b.y, t)!,
       show: b.show,
-      dotPainter: b.dotPainter,
+      dotPainter: t == 0 ? a.dotPainter : b.dotPainter,
     );
   }
 
