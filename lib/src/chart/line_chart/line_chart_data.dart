@@ -810,6 +810,25 @@ abstract class FlDotPainter with EquatableMixin {
   Color get mainColor;
 
   FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t);
+
+  /// Used to implement touch behaviour of this dot, for example,
+  /// it behaves like a square of [getSize]
+  /// Check [FlDotCirclePainter.hitTest] for an example of an implementation
+  bool hitTest(
+    FlSpot spot,
+    Offset touched,
+    Offset center,
+    double extraThreshold,
+  ) {
+    final size = getSize(spot);
+    final spotRect = Rect.fromCenter(
+      center: center,
+      width: size.width,
+      height: size.height,
+    );
+    final thresholdRect = spotRect.inflate(extraThreshold);
+    return thresholdRect.contains(touched);
+  }
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
@@ -870,15 +889,6 @@ class FlDotCirclePainter extends FlDotPainter {
   @override
   Color get mainColor => color;
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        color,
-        radius,
-        strokeColor,
-        strokeWidth,
-      ];
-
   FlDotCirclePainter _lerp(
     FlDotCirclePainter a,
     FlDotCirclePainter b,
@@ -899,6 +909,26 @@ class FlDotCirclePainter extends FlDotPainter {
     }
     return _lerp(a, b, t);
   }
+
+  @override
+  bool hitTest(
+    FlSpot spot,
+    Offset touched,
+    Offset center,
+    double extraThreshold,
+  ) {
+    final distance = (touched - center).distance.abs();
+    return distance < radius + extraThreshold;
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        color,
+        radius,
+        strokeColor,
+        strokeWidth,
+      ];
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws

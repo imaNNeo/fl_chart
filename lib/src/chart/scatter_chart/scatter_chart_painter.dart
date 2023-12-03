@@ -370,25 +370,14 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       final spotPixelY = getPixelY(spot.y, viewSize, holder);
       final center = Offset(spotPixelX, spotPixelY);
 
-      if (spot.dotPainter is FlDotCirclePainter) {
-        final radius = (spot.dotPainter as FlDotCirclePainter).radius;
-        final distance = (localPosition - center).distance.abs();
-
-        if (distance < radius + data.scatterTouchData.touchSpotThreshold) {
-          return ScatterTouchedSpot(spot, i);
-        }
-      } else {
-        final spotRect = Rect.fromCenter(
-          center: center,
-          width: spot.size.width,
-          height: spot.size.height,
-        );
-        final thresholdRect = spotRect.inflate(
-          data.scatterTouchData.touchSpotThreshold,
-        );
-        if (thresholdRect.contains(localPosition)) {
-          return ScatterTouchedSpot(spot, i);
-        }
+      final touched = spot.dotPainter.hitTest(
+        spot,
+        localPosition,
+        center,
+        data.scatterTouchData.touchSpotThreshold,
+      );
+      if (touched) {
+        return ScatterTouchedSpot(spot, i);
       }
     }
     return null;
