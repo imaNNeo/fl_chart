@@ -1312,3 +1312,308 @@ class ExtraLinesData with EquatableMixin {
         extraLinesOnTop,
       ];
 }
+
+/// This class contains the interface that all DotPainters should conform to.
+abstract class FlDotPainter with EquatableMixin {
+  const FlDotPainter();
+
+  /// This method should be overridden to draw the dot shape.
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas);
+
+  /// This method should be overridden to return the size of the shape.
+  Size getSize(FlSpot spot);
+
+  /// Used to show default UIs, for example [defaultScatterTooltipItem]
+  Color get mainColor;
+
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t);
+
+  /// Used to implement touch behaviour of this dot, for example,
+  /// it behaves like a square of [getSize]
+  /// Check [FlDotCirclePainter.hitTest] for an example of an implementation
+  bool hitTest(
+    FlSpot spot,
+    Offset touched,
+    Offset center,
+    double extraThreshold,
+  ) {
+    final size = getSize(spot);
+    final spotRect = Rect.fromCenter(
+      center: center,
+      width: size.width,
+      height: size.height,
+    );
+    final thresholdRect = spotRect.inflate(extraThreshold);
+    return thresholdRect.contains(touched);
+  }
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a circled shape
+class FlDotCirclePainter extends FlDotPainter {
+  /// The color of the circle is determined determined by [color],
+  /// [radius] determines the radius of the circle.
+  /// You can have a stroke line around the circle,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of of the stroke with [strokeColor].
+  FlDotCirclePainter({
+    this.color = Colors.green,
+    double? radius,
+    this.strokeColor = const Color.fromRGBO(76, 175, 80, 1),
+    this.strokeWidth = 0.0,
+  }) : radius = radius ?? 4.0;
+
+  /// The fill color to use for the circle
+  Color color;
+
+  /// Customizes the radius of the circle
+  double radius;
+
+  /// The stroke color to use for the circle
+  Color strokeColor;
+
+  /// The stroke width to use for the circle
+  double strokeWidth;
+
+  /// Implementation of the parent class to draw the circle
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    if (strokeWidth != 0.0 && strokeColor.opacity != 0.0) {
+      canvas.drawCircle(
+        offsetInCanvas,
+        radius + (strokeWidth / 2),
+        Paint()
+          ..color = strokeColor
+          ..strokeWidth = strokeWidth
+          ..style = PaintingStyle.stroke,
+      );
+    }
+    canvas.drawCircle(
+      offsetInCanvas,
+      radius,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.fill,
+    );
+  }
+
+  /// Implementation of the parent class to get the size of the circle
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(radius * 2, radius * 2);
+  }
+
+  @override
+  Color get mainColor => color;
+
+  FlDotCirclePainter _lerp(
+    FlDotCirclePainter a,
+    FlDotCirclePainter b,
+    double t,
+  ) {
+    return FlDotCirclePainter(
+      color: Color.lerp(a.color, b.color, t)!,
+      radius: lerpDouble(a.radius, b.radius, t),
+      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+    );
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotCirclePainter || b is! FlDotCirclePainter) {
+      return b;
+    }
+    return _lerp(a, b, t);
+  }
+
+  @override
+  bool hitTest(
+    FlSpot spot,
+    Offset touched,
+    Offset center,
+    double extraThreshold,
+  ) {
+    final distance = (touched - center).distance.abs();
+    return distance < radius + extraThreshold;
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        color,
+        radius,
+        strokeColor,
+        strokeWidth,
+      ];
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a squared shape
+class FlDotSquarePainter extends FlDotPainter {
+  /// The color of the square is determined determined by [color],
+  /// [size] determines the size of the square.
+  /// You can have a stroke line around the square,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of of the stroke with [strokeColor].
+  FlDotSquarePainter({
+    this.color = Colors.green,
+    this.size = 4.0,
+    this.strokeColor = const Color.fromRGBO(76, 175, 80, 1),
+    this.strokeWidth = 1.0,
+  });
+
+  /// The fill color to use for the square
+  Color color;
+
+  /// Customizes the size of the square
+  double size;
+
+  /// The stroke color to use for the square
+  Color strokeColor;
+
+  /// The stroke width to use for the square
+  double strokeWidth;
+
+  /// Implementation of the parent class to draw the square
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    if (strokeWidth != 0.0 && strokeColor.opacity != 0.0) {
+      canvas.drawRect(
+        Rect.fromCircle(
+          center: offsetInCanvas,
+          radius: (size / 2) + (strokeWidth / 2),
+        ),
+        Paint()
+          ..color = strokeColor
+          ..strokeWidth = strokeWidth
+          ..style = PaintingStyle.stroke,
+      );
+    }
+    canvas.drawRect(
+      Rect.fromCircle(
+        center: offsetInCanvas,
+        radius: size / 2,
+      ),
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.fill,
+    );
+  }
+
+  /// Implementation of the parent class to get the size of the square
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(size, size);
+  }
+
+  @override
+  Color get mainColor => color;
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        color,
+        size,
+        strokeColor,
+        strokeWidth,
+      ];
+
+  FlDotSquarePainter _lerp(
+    FlDotSquarePainter a,
+    FlDotSquarePainter b,
+    double t,
+  ) {
+    return FlDotSquarePainter(
+      color: Color.lerp(a.color, b.color, t)!,
+      size: lerpDouble(a.size, b.size, t)!,
+      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+    );
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotSquarePainter || b is! FlDotSquarePainter) {
+      return b;
+    }
+    return _lerp(a, b, t);
+  }
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a cross (X mark) shape
+class FlDotCrossPainter extends FlDotPainter {
+  /// The [color] and [width] properties determines the color and thickness of the cross shape,
+  /// [size] determines the width and height of the shape.
+  FlDotCrossPainter({
+    this.color = Colors.green,
+    this.size = 8.0,
+    this.width = 2.0,
+  });
+
+  /// The fill color to use for the X mark
+  Color color;
+
+  /// Determines size (width and height) of shape.
+  double size;
+
+  /// Determines thickness of X mark.
+  double width;
+
+  /// Implementation of the parent class to draw the cross
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    final path = Path()
+      ..moveTo(offsetInCanvas.dx, offsetInCanvas.dy)
+      ..relativeMoveTo(-size / 2, -size / 2)
+      ..relativeLineTo(size, size)
+      ..moveTo(offsetInCanvas.dx, offsetInCanvas.dy)
+      ..relativeMoveTo(size / 2, -size / 2)
+      ..relativeLineTo(-size, size);
+
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = width
+      ..color = color;
+
+    canvas.drawPath(path, paint);
+  }
+
+  /// Implementation of the parent class to get the size of the circle
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(size, size);
+  }
+
+  @override
+  Color get mainColor => color;
+
+  FlDotCrossPainter _lerp(
+    FlDotCrossPainter a,
+    FlDotCrossPainter b,
+    double t,
+  ) {
+    return FlDotCrossPainter(
+      color: Color.lerp(a.color, b.color, t)!,
+      size: lerpDouble(a.size, b.size, t)!,
+      width: lerpDouble(a.width, b.width, t)!,
+    );
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotCrossPainter || b is! FlDotCrossPainter) {
+      return b;
+    }
+    return _lerp(a, b, t);
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        color,
+        size,
+        width,
+      ];
+}
