@@ -26,65 +26,81 @@ class _ScatterChartSample2State extends State {
             ScatterSpot(
               4,
               4,
-              color: selectedSpots.contains(0)
-                  ? AppColors.contentColorGreen
-                  : AppColors.contentColorWhite.withOpacity(0.5),
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(0)
+                    ? AppColors.contentColorGreen
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+              ),
             ),
             ScatterSpot(
               2,
               5,
-              color: selectedSpots.contains(1)
-                  ? AppColors.contentColorYellow
-                  : AppColors.contentColorWhite.withOpacity(0.5),
-              radius: 12,
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(1)
+                    ? AppColors.contentColorYellow
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+                radius: 12,
+              ),
             ),
             ScatterSpot(
               4,
               5,
-              color: selectedSpots.contains(2)
-                  ? AppColors.contentColorPink
-                  : AppColors.contentColorWhite.withOpacity(0.5),
-              radius: 8,
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(2)
+                    ? AppColors.contentColorPink
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+                radius: 8,
+              ),
             ),
             ScatterSpot(
               8,
               6,
-              color: selectedSpots.contains(3)
-                  ? AppColors.contentColorOrange
-                  : AppColors.contentColorWhite.withOpacity(0.5),
-              radius: 20,
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(3)
+                    ? AppColors.contentColorOrange
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+                radius: 20,
+              ),
             ),
             ScatterSpot(
               5,
               7,
-              color: selectedSpots.contains(4)
-                  ? AppColors.contentColorPurple
-                  : AppColors.contentColorWhite.withOpacity(0.5),
-              radius: 14,
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(4)
+                    ? AppColors.contentColorPurple
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+                radius: 14,
+              ),
             ),
             ScatterSpot(
               7,
               2,
-              color: selectedSpots.contains(5)
-                  ? AppColors.contentColorBlue
-                  : AppColors.contentColorWhite.withOpacity(0.5),
-              radius: 18,
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(5)
+                    ? AppColors.contentColorBlue
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+                radius: 18,
+              ),
             ),
             ScatterSpot(
               3,
               2,
-              color: selectedSpots.contains(6)
-                  ? AppColors.contentColorRed
-                  : AppColors.contentColorWhite.withOpacity(0.5),
-              radius: 36,
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(6)
+                    ? AppColors.contentColorRed
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+                radius: 36,
+              ),
             ),
             ScatterSpot(
               2,
               8,
-              color: selectedSpots.contains(7)
-                  ? AppColors.contentColorCyan
-                  : AppColors.contentColorWhite.withOpacity(0.5),
-              radius: 22,
+              dotPainter: FlDotCirclePainter(
+                color: selectedSpots.contains(7)
+                    ? AppColors.contentColorCyan
+                    : AppColors.contentColorWhite.withOpacity(0.5),
+                radius: 22,
+              ),
             ),
           ],
           minX: 0,

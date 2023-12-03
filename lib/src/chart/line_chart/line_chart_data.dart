@@ -805,6 +805,9 @@ abstract class FlDotPainter with EquatableMixin {
 
   /// This method should be overridden to return the size of the shape.
   Size getSize(FlSpot spot);
+
+  /// Used to show default UIs, for example [defaultScatterTooltipItem]
+  Color get mainColor;
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
@@ -819,7 +822,7 @@ class FlDotCirclePainter extends FlDotPainter {
     this.color = Colors.green,
     double? radius,
     this.strokeColor = const Color.fromRGBO(76, 175, 80, 1),
-    this.strokeWidth = 1.0,
+    this.strokeWidth = 0.0,
   }) : radius = radius ?? 4.0;
 
   /// The fill color to use for the circle
@@ -861,6 +864,9 @@ class FlDotCirclePainter extends FlDotPainter {
   Size getSize(FlSpot spot) {
     return Size(radius * 2, radius * 2);
   }
+
+  @override
+  Color get mainColor => color;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -931,6 +937,9 @@ class FlDotSquarePainter extends FlDotPainter {
     return Size(size, size);
   }
 
+  @override
+  Color get mainColor => color;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -985,6 +994,9 @@ class FlDotCrossPainter extends FlDotPainter {
   Size getSize(FlSpot spot) {
     return Size(size, size);
   }
+
+  @override
+  Color get mainColor => color;
 
   /// Used for equality check, see [EquatableMixin].
   @override

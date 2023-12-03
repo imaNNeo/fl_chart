@@ -16,8 +16,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
   ScatterChartPainter() : super() {
-    _spotsPaint = Paint()..style = PaintingStyle.fill;
-
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
@@ -28,8 +26,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       ..strokeWidth = 1.0;
   }
 
-  /// [_spotsPaint] is responsible to draw scatter spots
-  late Paint _spotsPaint;
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
 
@@ -92,22 +88,17 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
     }
 
-    final sortedSpots = data.scatterSpots.toList()
-      ..sort((ScatterSpot a, ScatterSpot b) => b.radius.compareTo(a.radius));
-
-    for (final scatterSpot in sortedSpots) {
+    for (final scatterSpot in data.scatterSpots) {
       if (!scatterSpot.show) {
         continue;
       }
       final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
       final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
 
-      _spotsPaint.color = scatterSpot.color;
-
-      canvasWrapper.drawCircle(
+      canvasWrapper.drawDot(
+        scatterSpot.dotPainter,
+        scatterSpot,
         Offset(pixelX, pixelY),
-        scatterSpot.radius,
-        _spotsPaint,
       );
     }
 
@@ -151,23 +142,23 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
         final centerChartY = viewSize.height / 2;
 
+        final radius = scatterSpot.dotPainter.getSize(scatterSpot).width / 2;
+
         /// if the spot is in the lower half of the chart, then draw the label either in the center or above the spot,
         /// if the spot is in upper half of the chart, then draw the label either in the center or below the spot.
         if (pixelY > centerChartY) {
           /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label above the bubble,
           /// else draw the label inside the bubble.
-          final off = (scatterSpot.radius * 1.5 < tp.height ||
-                  scatterSpot.radius * 1.5 < tp.width)
-              ? scatterSpot.radius + tp.height
+          final off = (radius * 1.5 < tp.height || radius * 1.5 < tp.width)
+              ? radius + tp.height
               : tp.height / 2;
 
           newPixelY = pixelY - off;
         } else {
           /// if either the height or the width of the spot is greater than the radius of the spot, then draw the label below the bubble,
           /// else draw the label inside the bubble.
-          final off = (scatterSpot.radius * 1.5 < tp.height ||
-                  scatterSpot.radius * 1.5 < tp.width)
-              ? scatterSpot.radius
+          final off = (radius * 1.5 < tp.height || radius * 1.5 < tp.width)
+              ? radius
               : -tp.height / 2;
           newPixelY = pixelY + off;
         }
@@ -262,7 +253,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       tooltipLeftPosition,
       mostTopOffset.dy -
           tooltipHeight -
-          showOnSpot.radius -
+          (showOnSpot.size.height / 2) -
           tooltipItem.bottomMargin,
       tooltipWidth,
       tooltipHeight,
@@ -377,12 +368,27 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
       final spotPixelX = getPixelX(spot.x, viewSize, holder);
       final spotPixelY = getPixelY(spot.y, viewSize, holder);
+      final center = Offset(spotPixelX, spotPixelY);
 
-      final distance =
-          (localPosition - Offset(spotPixelX, spotPixelY)).distance;
+      if (spot.dotPainter is FlDotCirclePainter) {
+        final radius = (spot.dotPainter as FlDotCirclePainter).radius;
+        final distance = (localPosition - center).distance.abs();
 
-      if (distance < spot.radius + data.scatterTouchData.touchSpotThreshold) {
-        return ScatterTouchedSpot(spot, i);
+        if (distance < radius + data.scatterTouchData.touchSpotThreshold) {
+          return ScatterTouchedSpot(spot, i);
+        }
+      } else {
+        final spotRect = Rect.fromCenter(
+          center: center,
+          width: spot.size.width,
+          height: spot.size.height,
+        );
+        final thresholdRect = spotRect.inflate(
+          data.scatterTouchData.touchSpotThreshold,
+        );
+        if (thresholdRect.contains(localPosition)) {
+          return ScatterTouchedSpot(spot, i);
+        }
       }
     }
     return null;

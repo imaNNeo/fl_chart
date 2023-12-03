@@ -186,36 +186,43 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     super.x,
     super.y, {
     bool? show,
-    double? radius,
-    Color? color,
+    FlDotPainter? dotPainter,
   })  : show = show ?? true,
-        radius = radius ?? 6,
-        color = color ??
-            Colors.primaries[((x * y) % Colors.primaries.length).toInt()];
+        dotPainter = dotPainter ??
+            FlDotCirclePainter(
+              radius: 6,
+              color:
+                  Colors.primaries[((x * y) % Colors.primaries.length).toInt()],
+            );
 
   /// Determines show or hide the spot.
   final bool show;
 
-  /// Determines size of the spot.
-  final double radius;
+  /// Determines shape of the spot
+  final FlDotPainter dotPainter;
 
-  /// Determines color of the spot.
-  Color color;
+  Size get size => dotPainter.getSize(this);
+
+  String get defaultLabel {
+    if (dotPainter is FlDotCirclePainter) {
+      return '${(dotPainter as FlDotCirclePainter).radius.toInt()}';
+    } else {
+      return '${x.toInt()}, ${y.toInt()}';
+    }
+  }
 
   @override
   ScatterSpot copyWith({
     double? x,
     double? y,
     bool? show,
-    double? radius,
-    Color? color,
+    FlDotPainter? dotPainter,
   }) {
     return ScatterSpot(
       x ?? this.x,
       y ?? this.y,
       show: show ?? this.show,
-      radius: radius ?? this.radius,
-      color: color ?? this.color,
+      dotPainter: dotPainter ?? this.dotPainter,
     );
   }
 
@@ -225,8 +232,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
       lerpDouble(a.x, b.x, t)!,
       lerpDouble(a.y, b.y, t)!,
       show: b.show,
-      radius: lerpDouble(a.radius, b.radius, t),
-      color: Color.lerp(a.color, b.color, t),
+      dotPainter: b.dotPainter,
     );
   }
 
@@ -236,8 +242,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         x,
         y,
         show,
-        radius,
-        color,
+        dotPainter,
       ];
 }
 
@@ -517,12 +522,18 @@ typedef GetScatterTooltipItems = ScatterTooltipItem? Function(
 /// Default implementation for [ScatterTouchTooltipData.getTooltipItems].
 ScatterTooltipItem? defaultScatterTooltipItem(ScatterSpot touchedSpot) {
   final textStyle = TextStyle(
-    color: touchedSpot.color,
+    color: touchedSpot.dotPainter.mainColor,
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
+  String text;
+  if (touchedSpot.dotPainter is FlDotCirclePainter) {
+    text = '${(touchedSpot.dotPainter as FlDotCirclePainter).radius.toInt()}';
+  } else {
+    text = '${touchedSpot.x.toInt()}, ${touchedSpot.y.toInt()}';
+  }
   return ScatterTooltipItem(
-    '${touchedSpot.radius.toInt()}',
+    text,
     textStyle: textStyle,
   );
 }
@@ -630,9 +641,8 @@ TextStyle? getDefaultLabelTextStyleFunction(
 String getDefaultLabelFunction(
   int spotIndex,
   ScatterSpot spot,
-) {
-  return '${spot.radius}';
-}
+) =>
+    spot.defaultLabel;
 
 /// Defines information about the labels in the [ScatterChart]
 class ScatterLabelSettings with EquatableMixin {
