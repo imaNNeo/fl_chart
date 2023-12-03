@@ -62,7 +62,7 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.drawCircle(any, any, any)).called(3);
+      verify(mockCanvasWrapper.drawDot(any, any, any)).called(3);
       Utils.changeInstance(utilsMainInstance);
     });
   });
@@ -71,17 +71,20 @@ void main() {
     test('test 1', () {
       const viewSize = Size(100, 100);
 
+      final dotPainter1 = FlDotCirclePainter(radius: 18);
+      final dotPainter3 = FlDotCirclePainter(radius: 4);
+      final dotPainter4 = FlDotCirclePainter(radius: 6);
+
+      final spot1 = ScatterSpot(1, 1, dotPainter: dotPainter1);
+      final spot2 = ScatterSpot(3, 9, show: false);
+      final spot3 = ScatterSpot(8, 2, dotPainter: dotPainter3);
+      final spot4 = ScatterSpot(7, 5, dotPainter: dotPainter4);
       final data = ScatterChartData(
         minY: 0,
         maxY: 10,
         minX: 0,
         maxX: 10,
-        scatterSpots: [
-          ScatterSpot(1, 1, radius: 18),
-          ScatterSpot(3, 9, show: false),
-          ScatterSpot(8, 2, radius: 4),
-          ScatterSpot(7, 5, radius: 6),
-        ],
+        scatterSpots: [spot1, spot2, spot3, spot4],
         titlesData: const FlTitlesData(show: false),
         clipData: const FlClipData.all(),
       );
@@ -103,12 +106,9 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
-          .called(1);
-      verify(mockCanvasWrapper.drawCircle(const Offset(80, 80), 4, any))
-          .called(1);
-      verify(mockCanvasWrapper.drawCircle(const Offset(70, 50), 6, any))
-          .called(1);
+      verify(mockCanvasWrapper.drawDot(dotPainter1, spot1, const Offset(10, 90))).called(1);
+      verify(mockCanvasWrapper.drawDot(dotPainter3, spot3, const Offset(80, 80))).called(1);
+      verify(mockCanvasWrapper.drawDot(dotPainter4, spot4, const Offset(70, 50))).called(1);
 
       verifyNever(mockCanvasWrapper.drawText(any, any));
       verify(mockCanvasWrapper.clipRect(any)).called(1);
@@ -164,12 +164,12 @@ void main() {
         minX: 0,
         maxX: 10,
         scatterSpots: [
-          ScatterSpot(1, 1, radius: 18),
-          ScatterSpot(2, 2, radius: 8),
+          ScatterSpot(1, 1, dotPainter: FlDotCirclePainter(radius: 18)),
+          ScatterSpot(2, 2, dotPainter: FlDotCirclePainter(radius: 8)),
           ScatterSpot(3, 9, show: false),
-          ScatterSpot(8, 8, radius: 4),
-          ScatterSpot(7, 5, radius: 20),
-          ScatterSpot(4, 6, radius: 24),
+          ScatterSpot(8, 8, dotPainter: FlDotCirclePainter(radius: 4)),
+          ScatterSpot(7, 5, dotPainter: FlDotCirclePainter(radius: 20)),
+          ScatterSpot(4, 6, dotPainter: FlDotCirclePainter(radius: 24)),
         ],
         titlesData: const FlTitlesData(show: false),
         clipData: const FlClipData.all(),
@@ -210,15 +210,15 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.drawCircle(const Offset(10, 90), 18, any))
+      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[0], const Offset(10, 90)))
           .called(1);
-      verify(mockCanvasWrapper.drawCircle(const Offset(20, 80), 8, any))
+      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[1], const Offset(20, 80)))
           .called(1);
-      verify(mockCanvasWrapper.drawCircle(const Offset(80, 20), 4, any))
+      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[3], const Offset(80, 20)))
           .called(1);
-      verify(mockCanvasWrapper.drawCircle(const Offset(70, 50), 20, any))
+      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[4], const Offset(70, 50)))
           .called(1);
-      verify(mockCanvasWrapper.drawCircle(const Offset(40, 40), 24, any))
+      verify(mockCanvasWrapper.drawDot(any, data.scatterSpots[5], const Offset(40, 40)))
           .called(1);
 
       verify(mockCanvasWrapper.drawText(any, any)).called(4);
@@ -237,10 +237,10 @@ void main() {
         minX: 0,
         maxX: 10,
         scatterSpots: [
-          ScatterSpot(1, 1, radius: 18),
+          ScatterSpot(1, 1, dotPainter: FlDotCirclePainter(radius: 18)),
           ScatterSpot(3, 9, show: false),
-          ScatterSpot(8, 2, radius: 4),
-          ScatterSpot(7, 5, radius: 6),
+          ScatterSpot(8, 2, dotPainter: FlDotCirclePainter(radius: 4)),
+          ScatterSpot(7, 5, dotPainter: FlDotCirclePainter(radius: 6)),
         ],
         showingTooltipIndicators: [0, 2, 3],
         titlesData: const FlTitlesData(show: false),
@@ -287,10 +287,10 @@ void main() {
         minX: 0,
         maxX: 10,
         scatterSpots: [
-          ScatterSpot(1, 1, radius: 18),
+          ScatterSpot(1, 1, dotPainter: FlDotCirclePainter(radius: 18)),
           ScatterSpot(3, 9, show: false),
-          ScatterSpot(8, 2, radius: 4),
-          ScatterSpot(7, 5, radius: 6),
+          ScatterSpot(8, 2, dotPainter: FlDotCirclePainter(radius: 4)),
+          ScatterSpot(7, 5, dotPainter: FlDotCirclePainter(radius: 6)),
         ],
         showingTooltipIndicators: [0, 2, 3],
         scatterTouchData: ScatterTouchData(
@@ -657,7 +657,7 @@ void main() {
       final spots = [
         ScatterSpot(1, 1),
         ScatterSpot(2, 4),
-        ScatterSpot(5, 2, radius: 0.5),
+        ScatterSpot(5, 2, dotPainter: FlDotCirclePainter(radius: 0.5)),
         ScatterSpot(8, 7),
       ];
 
@@ -704,7 +704,7 @@ void main() {
       );
       expect(touchedSpot4, null);
 
-      final radius = spots[2].radius;
+      final radius = spots[2].size.width / 2;
       final touchedSpot5 = scatterChartPainter.handleTouch(
         Offset(
           50 + (math.cos(math.pi / 4) * radius) - 0.01,
@@ -731,7 +731,7 @@ void main() {
       final spots = [
         ScatterSpot(1, 1),
         ScatterSpot(2, 4),
-        ScatterSpot(5, 2, radius: 0.5),
+        ScatterSpot(5, 2, dotPainter: FlDotCirclePainter(radius: 0.5)),
         ScatterSpot(8, 7),
       ];
 
@@ -807,7 +807,7 @@ void main() {
       );
       expect(touchedSpot4, null);
 
-      final radius = spots[2].radius;
+      final radius = spots[2].size.width / 2;
       final touchedSpot5 = scatterChartPainter.handleTouch(
         Offset(
           50 + (math.cos(math.pi / 4) * radius) - 0.01,

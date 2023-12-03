@@ -275,11 +275,31 @@ class MockData {
     radius: 4,
   );
 
-  static final scatterSpot0 = ScatterSpot(0, 0, color: color0);
-  static final scatterSpot1 = ScatterSpot(1, 1, color: color1);
-  static final scatterSpot2 = ScatterSpot(2, 2, color: color2);
-  static final scatterSpot3 = ScatterSpot(3, 3, color: color3);
-  static final scatterSpot4 = ScatterSpot(4, 4, color: color4);
+  static final scatterSpot0 = ScatterSpot(
+    0,
+    0,
+    dotPainter: FlDotCirclePainter(color: color0),
+  );
+  static final scatterSpot1 = ScatterSpot(
+    1,
+    1,
+    dotPainter: FlDotCirclePainter(color: color1),
+  );
+  static final scatterSpot2 = ScatterSpot(
+    2,
+    2,
+    dotPainter: FlDotCirclePainter(color: color2),
+  );
+  static final scatterSpot3 = ScatterSpot(
+    3,
+    3,
+    dotPainter: FlDotCirclePainter(color: color3),
+  );
+  static final scatterSpot4 = ScatterSpot(
+    4,
+    4,
+    dotPainter: FlDotCirclePainter(color: color4),
+  );
 
   static final scatterTouchedSpot = ScatterTouchedSpot(scatterSpot1, 0);
 
@@ -2251,9 +2271,24 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     ),
   ),
   scatterSpots: [
-    ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
-    ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
-    ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
+    ScatterSpot(
+      0,
+      0,
+      show: false,
+      dotPainter: FlDotCirclePainter(radius: 33, color: Colors.yellow),
+    ),
+    ScatterSpot(
+      2,
+      2,
+      show: false,
+      dotPainter: FlDotCirclePainter(radius: 11, color: Colors.purple),
+    ),
+    ScatterSpot(
+      1,
+      2,
+      show: false,
+      dotPainter: FlDotCirclePainter(radius: 11, color: Colors.white),
+    ),
   ],
   scatterTouchData: ScatterTouchData(
     enabled: true,

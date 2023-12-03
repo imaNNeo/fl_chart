@@ -358,9 +358,17 @@ void main() {
       MockData.scatterSpot4,
     ]);
     expect(lerpScatterSpotList(list1, list2, 0.5), [
-      ScatterSpot(0.5, 0.5, color: const Color(0x08080808)),
+      ScatterSpot(
+        0.5,
+        0.5,
+        dotPainter: FlDotCirclePainter(color: const Color(0x08080808)),
+      ),
       MockData.scatterSpot1,
-      ScatterSpot(1.5, 1.5, color: const Color(0x19191919)),
+      ScatterSpot(
+        1.5,
+        1.5,
+        dotPainter: FlDotCirclePainter(color: const Color(0x19191919)),
+      ),
       MockData.scatterSpot4,
     ]);
     expect(lerpScatterSpotList(list1, list2, 1), list2);
