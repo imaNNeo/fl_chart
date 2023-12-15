@@ -21,11 +21,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   PieChartPainter() : super() {
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
+    _sectionSaveLayerPaint = Paint();
+
     _sectionStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;
   }
+
   late Paint _sectionPaint;
+  late Paint _sectionSaveLayerPaint;
   late Paint _sectionStrokePaint;
   late Paint _centerSpacePaint;
 
@@ -100,13 +104,24 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       if (sectionDegree == 360) {
         _sectionPaint
           ..color = section.color
-          ..strokeWidth = section.radius
-          ..style = PaintingStyle.stroke;
-        canvasWrapper.drawCircle(
-          center,
-          centerRadius + section.radius / 2,
-          _sectionPaint,
+          ..style = PaintingStyle.fill;
+        final bounds = Rect.fromCircle(
+          center: center,
+          radius: centerRadius + section.radius,
         );
+        canvasWrapper
+          ..saveLayer(bounds, _sectionSaveLayerPaint)
+          ..drawCircle(
+            center,
+            centerRadius + section.radius,
+            _sectionPaint..blendMode = BlendMode.srcOver,
+          )
+          ..drawCircle(
+            center,
+            centerRadius,
+            _sectionPaint..blendMode = BlendMode.srcOut,
+          )
+          ..restore();
         if (section.borderSide.width != 0.0 &&
             section.borderSide.color.opacity != 0.0) {
           _sectionStrokePaint
