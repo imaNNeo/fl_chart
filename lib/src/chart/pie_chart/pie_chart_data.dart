@@ -150,6 +150,7 @@ class PieChartSectionData {
   PieChartSectionData({
     double? value,
     Color? color,
+    this.gradient,
     double? radius,
     bool? showTitle,
     this.titleStyle,
@@ -177,6 +178,9 @@ class PieChartSectionData {
 
   /// Defines the color of section.
   final Color color;
+
+  /// Defines the gradient of section. If specified, overrides the color setting.
+  final Gradient? gradient;
 
   /// Defines the radius of section.
   final double radius;
@@ -218,6 +222,7 @@ class PieChartSectionData {
   PieChartSectionData copyWith({
     double? value,
     Color? color,
+    Gradient? gradient,
     double? radius,
     bool? showTitle,
     TextStyle? titleStyle,
@@ -230,6 +235,7 @@ class PieChartSectionData {
     return PieChartSectionData(
       value: value ?? this.value,
       color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
       radius: radius ?? this.radius,
       showTitle: showTitle ?? this.showTitle,
       titleStyle: titleStyle ?? this.titleStyle,
@@ -252,6 +258,7 @@ class PieChartSectionData {
     return PieChartSectionData(
       value: lerpDouble(a.value, b.value, t),
       color: Color.lerp(a.color, b.color, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
       radius: lerpDouble(a.radius, b.radius, t),
       showTitle: b.showTitle,
       titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
