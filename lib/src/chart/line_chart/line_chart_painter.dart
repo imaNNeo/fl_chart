@@ -335,7 +335,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     for (var i = 0; i < barData.spots.length; i++) {
       final spot = barData.spots[i];
       if (spot.isNotNull() && barData.dotData.checkToShowDot(spot, barData)) {
-        final x = getPixelX(spot.x, viewSize, holder);
+        final x = getPixelX(spot.x + xOffset, viewSize, holder);
         final y = getPixelY(spot.y, viewSize, holder);
         final xPercentInLine = (x / barXDelta) * 100;
         final painter =
@@ -458,6 +458,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
   }
 
+  final xOffset = 0.1;
+
   /// firstly we generate the bar line that we should draw,
   /// then we reuse it to fill below bar space.
   /// there is two type of barPath that generate here,
@@ -489,19 +491,19 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     for (var i = 1; i < size; i++) {
       /// CurrentSpot
       final current = Offset(
-        getPixelX(barSpots[i].x, viewSize, holder),
+        getPixelX(barSpots[i].x + xOffset, viewSize, holder),
         getPixelY(barSpots[i].y, viewSize, holder),
       );
 
       /// previous spot
       final previous = Offset(
-        getPixelX(barSpots[i - 1].x, viewSize, holder),
+        getPixelX(barSpots[i - 1].x + xOffset, viewSize, holder),
         getPixelY(barSpots[i - 1].y, viewSize, holder),
       );
 
       /// next point
       final next = Offset(
-        getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize, holder),
+        getPixelX(barSpots[i + 1 < size ? i + 1 : i].x + xOffset, viewSize, holder),
         getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize, holder),
       );
 

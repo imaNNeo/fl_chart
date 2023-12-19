@@ -221,7 +221,7 @@ class BarChartGroupData with EquatableMixin {
   /// just put indices you want to show it on top of them.
   List<int> showingTooltipIndicators;
 
-  void updateShowingTooltipIndicators(list){
+  void updateShowingTooltipIndicators(List<int> list){
     showingTooltipIndicators = list;
   }
 
