@@ -23,3 +23,11 @@ LineChart(
 ##### How to disable
 
 If you want to disable the animations, you can set `Duration.zero` as `swapAnimationDuration`.
+```dart 
+LineChart(
+  swapAnimationDuration: Duration.zero,
+  LineChartData(
+    // Your chart data here
+  ),
+)
+
