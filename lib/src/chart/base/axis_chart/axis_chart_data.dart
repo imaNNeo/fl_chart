@@ -1042,7 +1042,7 @@ class VerticalLine extends FlLine with EquatableMixin {
     this.image,
     this.sizedPicture,
     this.strokeCap = StrokeCap.butt,
-  })  : label = label ?? VerticalLineLabel();
+  }) : label = label ?? VerticalLineLabel();
 
   /// Draws from bottom to top of the chart using the [x] value.
   final double x;
