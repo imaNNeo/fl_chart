@@ -1,6 +1,6 @@
 # LineChart
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart.jpg" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart.jpg" width="300" >
 
 ### How to use
 ```dart
@@ -104,7 +104,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [LineTouchResponse](#LineTouchResponse)|MouseCursor.defer|
+|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [LineTouchResponse](#LineTouchResponse)|MouseCursor.defer|
 |touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
@@ -112,7 +112,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
 |getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
-|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [LineTouchResponse](#LineTouchResponse)| null|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [LineTouchResponse](#LineTouchResponse)| null|
 |longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 
@@ -179,45 +179,45 @@ When you change the chart's state, it animates to the new state internally (usin
 ### some samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample1.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_1.gif" width="300" >
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1_anim.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_1_anim.gif" width="300" >
 
 
 ##### Sample 2 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample2.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_2.gif" width="300" >
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2_anim.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_2_anim.gif" width="300" >
 
 
 ##### Sample 3 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample3.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_3.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_3.gif" width="300" >
 
 
 ##### Sample 4 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample4.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_4.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_4.png" width="300" >
 
 
 ##### Sample 5 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample5.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_5.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_5.png" width="300" >
 
 
 ##### Sample 6 - Reversed ([Source Code](/example/lib/presentation/samples/line/line_chart_sample6.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_6.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_6.png" width="300" >
 
 
 ##### Sample 7 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample7.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_7.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_7.png" width="300" >
 
 
 ##### Sample 8 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample8.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
 
 ##### Sample 9 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample9.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_9.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_9.gif" width="300" >
 
 ##### Sample 10 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample10.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >
 
 ##### Sample 11 ([Source Code](/example/lib/presentation/samples/line/line_chart_sample11.dart))
 https://user-images.githubusercontent.com/7009300/152555425-3b53ac8c-257f-49b0-8d75-1a878c03ccaa.mp4

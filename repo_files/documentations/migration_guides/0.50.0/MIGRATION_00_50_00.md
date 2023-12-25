@@ -5,17 +5,17 @@ We did a lot of hard-work to bring widgets to our titles around the axis-based c
 It means that you can now put a widget as a title instead of a string.
 Look at the below samples:
 
-**LineChartSample 8** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/master/example/lib/presentation/samples/line/line_chart_sample8.dart))
+**LineChartSample 8** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/main/example/lib/presentation/samples/line/line_chart_sample8.dart))
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_8.png" width="300" >
 
-**BarChartSample 7** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/master/example/lib/presentation/samples/bar/bar_chart_sample7.dart))
+**BarChartSample 7** ([Source Code](https://github.com/imaNNeo/fl_chart/blob/main/example/lib/presentation/samples/bar/bar_chart_sample7.dart))
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
 **Breaking:**
-Previously in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#FlTitlesData), there were four [SideTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles). Now we have four [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#axistitle) instead and [SideTitles](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#sidetitles) can be placed inside [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#AxisTitle).
-In fact, we removed `AxisTitlesData` class (which used to hold four `AxisTitle`). Now you can put them in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltitlesdata).
+Previously in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#FlTitlesData), there were four [SideTitles](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#sidetitles). Now we have four [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#axistitle) instead and [SideTitles](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#sidetitles) can be placed inside [AxisTitle](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#AxisTitle).
+In fact, we removed `AxisTitlesData` class (which used to hold four `AxisTitle`). Now you can put them in [FlTitlesData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltitlesdata).
 
     bool? showTitle,
     String? titleText,
@@ -121,11 +121,11 @@ Gradient? gradient,
 * You need to fill one of them.
 
 These are the affected classes:
-* [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#barchartroddata)
-* [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#backgroundbarchartroddata)
-* [BarAreaData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#BarAreaData)
-* [BetweenBarsData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#betweenbarsdata)
-* [LineChartBarData](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#linechartbardata)
+* [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#barchartroddata)
+* [BackgroundBarChartRodData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#backgroundbarchartroddata)
+* [BarAreaData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#BarAreaData)
+* [BetweenBarsData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#betweenbarsdata)
+* [LineChartBarData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#linechartbardata)
 
 Check the below sample:
 

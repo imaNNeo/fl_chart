@@ -1,6 +1,6 @@
 # BarChart
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
 
 ### How to use
 ```dart
@@ -84,12 +84,12 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)|MouseCursor.defer|
+|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)|MouseCursor.defer|
 |touchTooltipData|a [BarTouchTooltipData](#BarTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|BarTouchTooltipData()|
 |touchExtraThreshold|an [EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) class to hold a bounding threshold of touch accuracy|EdgeInsets.all(4)|
 |allowTouchBarBackDraw| if sets true, touch works on backdraw bar line| false |
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
-|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)| null|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)| null|
 |longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 ### BarTouchTooltipData
@@ -137,29 +137,29 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### Some Samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample1.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_1.gif" width="300" >
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif" width="300" >
 
 
 
 ##### Sample 2 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample2.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_2.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_2.gif" width="300" >
 
 ##### Sample 3 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample3.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_3.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_3.png" width="300" >
 
 ##### Sample 4 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample4.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_4.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_4.png" width="300" >
 
 ##### Sample 5 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample5.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_5.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_5.gif" width="300" >
 
 ##### Sample 6 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample6.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_6.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_6.png" width="300" >
 
 ##### Sample 7 ([Source Code](/example/lib/presentation/samples/bar/bar_chart_sample7.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_7.gif" width="300" >
 
 ##### Gist - Toggleable Tooltip ([Source Code](https://gist.github.com/imaNNeo/bce3f0169ff3fd6c3f137cdeb5005c0e))
 https://user-images.githubusercontent.com/7009300/156784816-53f95dd9-f387-4600-8a92-d05b1aeea3da.mov

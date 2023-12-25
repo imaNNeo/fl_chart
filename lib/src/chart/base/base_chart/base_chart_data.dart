@@ -80,7 +80,7 @@ class FlBorderData with EquatableMixin {
 
 /// Holds data to handle touch events, and touch responses in abstract way.
 ///
-/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/handle_touches.md)
+/// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
 abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {

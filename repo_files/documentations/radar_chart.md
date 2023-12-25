@@ -1,5 +1,5 @@
 # RadarChart
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/radar_chart/radar_chart_sample_1.jpg" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/radar_chart/radar_chart_sample_1.jpg" width="300" >
 
 ### How to use
 ```dart
@@ -50,8 +50,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [RadarTouchResponse](#RadarTouchResponse)|MouseCursor.defer|
-|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [RadarTouchResponse](#RadarTouchResponse)| null|
+|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [RadarTouchResponse](#RadarTouchResponse)|MouseCursor.defer|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [RadarTouchResponse](#RadarTouchResponse)| null|
 |longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 |touchSpotThreshold|the threshold of the touch accuracy. we find the nearest spots on touched position based on this field.|10|
 
@@ -79,4 +79,4 @@ When you change the chart's state, it animates to the new state internally (usin
 ### some samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/presentation/samples/radar/radar_chart_sample1.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/radar_chart/radar_chart_sample_1.jpg" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/radar_chart/radar_chart_sample_1.jpg" width="300" >
