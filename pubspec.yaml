@@ -8,7 +8,7 @@ documentation: https://github.com/imaNNeo/fl_chart
 
 environment:
   sdk: ^3.2.0
-  flutter: ^3.16.0
+  flutter: '>=3.16.0'
 
 funding:
   - https://github.com/sponsors/imaNNeo

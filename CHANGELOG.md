@@ -28,6 +28,7 @@ ScatterSpot(
 * **IMPROVEMENT** (by @imaNNeo) Add gradient property to the [HorizontalLine](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontalline) and [VerticalLine](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticalline), #1525
 * **FEATURE** (by @raldhafiri) Add gradient property to the [PieChartSectionData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#piechartsectiondata), #1511
 * **IMPROVEMENT** (by @imaNNeo) Rename default branch `master` to `main`
+* **IMPROVEMENT** (by @imaNNeo) Update flutter sdk constraints to remove the upper bound limit (Read more [here](https://dart.dev/go/flutter-upper-bound-deprecation)).
 
 ## 0.65.0
 * **FEATURE** (by @Dartek12) Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#FlLine), #1197
