@@ -42,7 +42,7 @@ CanvasWrapper class holds a canvas and all draw functions proxies through it.
 You should use it for drawing on the canvas, Instead of direct accessing to canvas.
 It makes draw functions testable.
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/architecture/fl_chart_architecture.jpg" />
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/architecture/fl_chart_architecture.jpg" />
 
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
@@ -78,7 +78,7 @@ We should write unit-test for our written code. If you are not familiar with uni
 
 [Mockito](https://pub.dev/packages/mockito) is the library that we use to mock our classes, please read more about it from their docs [here](https://github.com/dart-lang/mockito#lets-create-mocks).
 
-Our code coverage is calculated by [Codecov](https://app.codecov.io/gh/imaNNeo/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
+Our code coverage is calculated by [Codecov](https://app.codecov.io/gh/imaNNeo/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
  at the moment)
 
 When you push something in your PR (after approving your PR by one of us), you see a coverage report which describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 

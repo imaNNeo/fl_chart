@@ -1,6 +1,6 @@
 # ScatterChart
 
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart.png" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/scatter_chart/scatter_chart.png" width="300" >
 
 ### How to use
 ```dart
@@ -39,11 +39,11 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |enabled|determines to enable or disable touch behaviors|true|
-|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)|MouseCursor.defer|
+|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)|MouseCursor.defer|
 |touchTooltipData|a [ScatterTouchTooltipData](#ScatterTouchTooltipData), that determines how show the tooltip on top of touched spot (appearance of the showing tooltip bubble)|ScatterTouchTooltipData()|
 |touchSpotThreshold|the threshold of the touch accuracy|0|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
-|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)| null|
+|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)| null|
 |longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 ### ScatterTouchTooltipData
@@ -93,8 +93,8 @@ When you change the chart's state, it animates to the new state internally (usin
 ### some samples
 ----
 ##### Sample 1 ([Source Code](/example/lib/presentation/samples/scatter/scatter_chart_sample1.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_1.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/scatter_chart/scatter_chart_sample_1.gif" width="300" >
 
 
 ##### Sample 2 ([Source Code](/example/lib/presentation/samples/scatter/scatter_chart_sample2.dart))
-<img src="https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_2.gif" width="300" >
+<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/scatter_chart/scatter_chart_sample_2.gif" width="300" >

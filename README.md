@@ -2,10 +2,10 @@
 
 ✅ Do you want to **motivate me to work more on fl_chart?** You can **[donate me](https://github.com/imaNNeo/fl_chart#donation)** ;)
 
-![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/landing_logo.jpg)
+![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/landing_logo.jpg)
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
-[![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/master/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
+[![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
 <a href="https://github.com/Solido/awesome-flutter#charts"><img src="https://img.shields.io/badge/awesome-flutter-blue.svg?longCache=true" alt="Awesome Flutter"></a>
 <a href="https://pub.dev/packages/fl_chart"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/imaNNeo/fl_chart"></a>
 <a href="https://github.com/imaNNeo/fl_chart/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/imaNNeo/fl_chart"></a>
@@ -19,13 +19,13 @@
 
 |LineChart	|BarChart		|PieChart		|
 |:------------:|:------------:|:-------------:|
-|	[![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-2-source-code)  |	[![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-2-source-code)  | [![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/pie_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/pie_chart/pie_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/pie_chart.md#sample-2-source-code) |
-|[Read More](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md)|[Read More](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md)|[Read More](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/pie_chart.md)|
+|	[![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#sample-2-source-code)  |	[![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#sample-2-source-code)  | [![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/pie_chart/pie_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/pie_chart/pie_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#sample-2-source-code) |
+|[Read More](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md)|[Read More](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md)|[Read More](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md)|
 
 |ScatterChart	|RadarChart| Coming Soon|
 |:------------:|:------------:|:-------------:|
-|	[![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/scatter_chart/scatter_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/scatter_chart.md#sample-2-source-code)  |	![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/radar_chart/radar_chart_sample_1.jpg)  ![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/blank.jpg)|![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/blank.jpg) ![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/blank.jpg)|
-|[Read More](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/scatter_chart.md)|[Read More](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/radar_chart.md)||
+|	[![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/scatter_chart/scatter_chart_sample_1.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#sample-1-source-code) [![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/scatter_chart/scatter_chart_sample_2.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#sample-2-source-code)  |	![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/radar_chart/radar_chart_sample_1.jpg)  ![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/blank.jpg)|![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/blank.jpg) ![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/blank.jpg)|
+|[Read More](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md)|[Read More](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md)||
 
 Banner designed by [Soheil Saffar](https://www.linkedin.com/in/soheilsaffar), and
 samples inspired from
@@ -42,14 +42,14 @@ Thank you all!
 
 First of all you need to add the `fl_chart` in your project. In order to do that, follow [this guide](https://pub.dev/packages/fl_chart/install).
 
-Then you need to read the docs. Start from [here](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/index.md).
+Then you need to read the docs. Start from [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/index.md).
 
 We suggest you to check samples source code.
 
-##### - You can read about the animation handling [here](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/handle_animations.md)
+##### - You can read about the animation handling [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_animations.md)
 |Sample1	|Sample2		|Sample3		|
 |:------------:|:------------:|:-------------:|
-|	[![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_1_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-1-source-code)   |	[![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_2_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/line_chart.md#sample-2-source-code) | [![](https://github.com/imaNNeo/fl_chart/raw/master/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/master/repo_files/documentations/bar_chart.md#sample-1-source-code) |
+|	[![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_1_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#sample-1-source-code)   |	[![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_2_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#sample-2-source-code) | [![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#sample-1-source-code) |
 
 
 ### Donation
@@ -66,7 +66,7 @@ Don't forget that `open-source` makes no sense without contributors. No matter h
 
 There might be a lot of grammar issues in the docs. It's a big help to us to fix them if you are fluent in English.
 
-Check out [CONTRIBUTING.md](https://github.com/imaNNeo/fl_chart/blob/master/CONTRIBUTING.md), which contains a guide for those who want to contribute to the FL Chart.
+Check out [CONTRIBUTING.md](https://github.com/imaNNeo/fl_chart/blob/main/CONTRIBUTING.md), which contains a guide for those who want to contribute to the FL Chart.
 
 Reporting bugs and issues are contribution too, yes it is.
 
