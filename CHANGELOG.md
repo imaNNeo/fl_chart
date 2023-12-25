@@ -1,4 +1,4 @@
-## newVersion
+## 0.66.0
 * **IMPROVEMENT** (by @imaNNeo) Add Flutter sdk constraints to the pubspec.yaml to force the user/developer to upgrade the Flutter version to 3.16.0 (latest), #1509
 * **IMPROVEMENT** (by @imaNNeo) Add `dotPainter` property to ScatterSpot to allow customizing the dot painter, #568
 * **BREAKING** (by @imaNNeo) Remove `color` and `radius` properties from ScatterSpot (use `dotPainter` instead), #568
