@@ -26,6 +26,7 @@ ScatterSpot(
 * **BUGFIX** (by @imaNNeo) Fix barChart tooltip for values below or above the 0 point, #1462
 * **BUGFIX** (by @imaNNeo) Fix pieChart drawing single section on iPhone, #1515
 * **IMPROVEMENT** (by @imaNNeo) Add gradient property to the [HorizontalLine](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontalline) and [VerticalLine](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticalline), #1525
+* **FEATURE** (by @raldhafiri) Add gradient property to the [PieChartSectionData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#piechartsectiondata), #1511
 
 ## 0.65.0
 * **FEATURE** (by @Dartek12) Added gradient to [FlLine](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#FlLine), #1197
