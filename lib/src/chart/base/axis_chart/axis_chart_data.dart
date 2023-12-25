@@ -963,17 +963,14 @@ class HorizontalLine extends FlLine with EquatableMixin {
   HorizontalLine({
     required this.y,
     HorizontalLineLabel? label,
-    Color? color,
-    double? strokeWidth,
+    super.color,
+    super.gradient,
+    super.strokeWidth,
     super.dashArray,
     this.image,
     this.sizedPicture,
     this.strokeCap = StrokeCap.butt,
-  })  : label = label ?? HorizontalLineLabel(),
-        super(
-          color: color ?? Colors.black,
-          strokeWidth: strokeWidth ?? 2,
-        );
+  }) : label = label ?? HorizontalLineLabel();
 
   /// Draws from left to right of the chart using the [y] value.
   final double y;
@@ -997,7 +994,8 @@ class HorizontalLine extends FlLine with EquatableMixin {
       y: lerpDouble(a.y, b.y, t)!,
       label: HorizontalLineLabel.lerp(a.label, b.label, t),
       color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       image: b.image,
       sizedPicture: b.sizedPicture,
@@ -1037,17 +1035,14 @@ class VerticalLine extends FlLine with EquatableMixin {
   VerticalLine({
     required this.x,
     VerticalLineLabel? label,
-    Color? color,
-    double? strokeWidth,
+    super.color,
+    super.gradient,
+    super.strokeWidth,
     super.dashArray,
     this.image,
     this.sizedPicture,
     this.strokeCap = StrokeCap.butt,
-  })  : label = label ?? VerticalLineLabel(),
-        super(
-          color: color ?? Colors.black,
-          strokeWidth: strokeWidth ?? 2,
-        );
+  })  : label = label ?? VerticalLineLabel();
 
   /// Draws from bottom to top of the chart using the [x] value.
   final double x;
@@ -1071,7 +1066,8 @@ class VerticalLine extends FlLine with EquatableMixin {
       x: lerpDouble(a.x, b.x, t)!,
       label: VerticalLineLabel.lerp(a.label, b.label, t),
       color: Color.lerp(a.color, b.color, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       image: b.image,
       sizedPicture: b.sizedPicture,
