@@ -1613,3 +1613,100 @@ class FlDotCrossPainter extends FlDotPainter {
         width,
       ];
 }
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a line segment with a value label above it.
+class FlDotLineSegmentPainter extends FlDotPainter {
+  /// Constructs a [FlDotLineSegmentPainter].
+  FlDotLineSegmentPainter({
+    required this.width,
+    required this.height,
+    required this.value,
+    required this.textColor,
+    this.color = Colors.blue,
+    this.showText = true,
+  });
+
+  /// The color of the line segment.
+  final Color color;
+
+  /// The width of the line segment.
+  final double width;
+
+  /// The height of the line segment.
+  final double height;
+
+  /// The numerical value to display above the line segment.
+  final double value;
+
+  /// The color of the text displaying the value.
+  final Color textColor;
+
+  /// Whether to show the text label.
+  final bool showText;
+
+  /// Draws the line segment and the value label on the canvas.
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    // Draw the line segment
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = width;
+    canvas.drawLine(
+      Offset(offsetInCanvas.dx, offsetInCanvas.dy - height / 2),
+      Offset(offsetInCanvas.dx, offsetInCanvas.dy + height / 2),
+      paint,
+    );
+
+    // Draw the value label
+    if (showText) {
+      final textSpan = TextSpan(
+            text: value.toStringAsFixed(1),
+            style: TextStyle(color: textColor),
+          );
+      final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+      )..layout();
+      textPainter.paint(
+        canvas,
+        Offset(
+          offsetInCanvas.dx - textPainter.width / 2,
+          offsetInCanvas.dy - height / 2 - textPainter.height - 5,
+        ),
+      );
+    }
+  }
+
+  /// Returns the size of the painter area.
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(width, height);
+  }
+
+  /// Properties used for the equality check.
+  @override
+  List<Object?> get props => [color, width, height, value, textColor];
+
+  /// Interpolates between two [FlDotLineSegmentPainter]s.
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is FlDotLineSegmentPainter && b is FlDotLineSegmentPainter) {
+      return FlDotLineSegmentPainter(
+        width: lerpDouble(a.width, b.width, t)!,
+        height: lerpDouble(a.height, b.height, t)!,
+        color: Color.lerp(a.color, b.color, t)!,
+        value: lerpDouble(a.value, b.value, t)!,
+        textColor: Color.lerp(a.textColor, b.textColor, t)!,
+      );
+    } else {
+      throw Exception(
+          'Cannot interpolate between different types of FlDotPainters',);
+    }
+  }
+
+  /// The main color of the dot painter.
+  @override
+  Color get mainColor => color;
+}
