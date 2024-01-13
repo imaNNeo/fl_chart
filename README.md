@@ -1,8 +1,4 @@
-📊 FL Chart is a highly customizable Flutter chart library that supports **[Line Chart](https://app.flchart.dev/#/line)**, **[Bar Chart](https://app.flchart.dev/#/bar)**, **[Pie Chart](https://app.flchart.dev/#/pie)**, **[Scatter Chart](https://app.flchart.dev/#/scatter)**, and **[Radar Chart](https://app.flchart.dev/#/radar)**.
-
-✅ Do you want to **motivate me to work more on fl_chart?** You can **[donate me](https://github.com/imaNNeo/fl_chart#donation)** ;)
-
-![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/landing_logo.jpg)
+![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/landing_logo.png)
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
 [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
@@ -14,6 +10,11 @@
 <span class="badge-buymeacoffee">
 <a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
 </span>
+
+### Overview
+📊 FL Chart is a highly customizable Flutter chart library that supports **[Line Chart](https://app.flchart.dev/#/line)**, **[Bar Chart](https://app.flchart.dev/#/bar)**, **[Pie Chart](https://app.flchart.dev/#/pie)**, **[Scatter Chart](https://app.flchart.dev/#/scatter)**, and **[Radar Chart](https://app.flchart.dev/#/radar)**.
+
+[![FL Chart Overview Video Thumbnail](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/landing_logo.png)](https://youtu.be/hVRU-kpKNjQ)
 
 ### Chart Types
 
