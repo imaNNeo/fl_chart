@@ -4,7 +4,7 @@
   "editor.formatOnType": true,
   "editor.suggest.snippetsPreventQuickSuggestions": false,
   "editor.tabCompletion": "onlySnippets",
-  "editor.wordBasedSuggestions": false,
+  "editor.wordBasedSuggestions": "off",
   "files.insertFinalNewline": true,
   "editor.defaultFormatter": "Dart-Code.dart-code"
 }
