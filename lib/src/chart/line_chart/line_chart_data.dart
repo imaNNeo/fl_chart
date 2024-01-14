@@ -59,6 +59,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     super.baselineY,
     super.clipData = const FlClipData.none(),
     super.backgroundColor,
+    this.enableLinesVerticalAnimation = true,
   }) : super(
           touchData: lineTouchData,
           minX:
@@ -70,6 +71,9 @@ class LineChartData extends AxisChartData with EquatableMixin {
           maxY:
               maxY ?? LineChartHelper.calculateMaxAxisValues(lineBarsData).maxY,
         );
+
+  /// Allows the lines in the chart to animate vertically on state change.
+  final bool enableLinesVerticalAnimation;
 
   /// [LineChart] draws some lines in various shapes and overlaps them.
   final List<LineChartBarData> lineBarsData;
@@ -105,8 +109,9 @@ class LineChartData extends AxisChartData with EquatableMixin {
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         rangeAnnotations:
             RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
-        lineBarsData:
-            lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t)!,
+        lineBarsData: enableLinesVerticalAnimation
+            ? lerpLineChartBarDataList(a.lineBarsData, b.lineBarsData, t)!
+            : b.lineBarsData,
         betweenBarsData:
             lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t)!,
         lineTouchData: b.lineTouchData,
