@@ -1,3 +1,7 @@
+## newVersion
+* **BUGFIX** (by @imaNNeo) Fix PieChart blackout issue, #1538
+* **BUGFIX** (by @imaNNeo) Fix memory leak in LineChart and BarChart, #1106
+
 ## 0.66.0
 * **IMPROVEMENT** (by @imaNNeo) Add Flutter sdk constraints to the pubspec.yaml to force the user/developer to upgrade the Flutter version to 3.16.0 (latest), #1509
 * **IMPROVEMENT** (by @imaNNeo) Add `dotPainter` property to ScatterSpot to allow customizing the dot painter, #568
