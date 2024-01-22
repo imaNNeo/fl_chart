@@ -1,4 +1,4 @@
-## newVersion
+## 0.66.1
 * **BUGFIX** (by @imaNNeo) Fix PieChart blackout issue, #1538
 * **BUGFIX** (by @imaNNeo) Fix memory leak in LineChart and BarChart, #1106
 
