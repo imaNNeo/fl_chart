@@ -8,7 +8,7 @@
 PRODUCT_NAME = FL Chart App
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = dev.flchart.app.exampleNew
+PRODUCT_BUNDLE_IDENTIFIER = dev.flchart.app
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 dev.flchart.app. All rights reserved.

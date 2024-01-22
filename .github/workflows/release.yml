@@ -1,0 +1,81 @@
+name: Deploy artifacts
+
+on: push
+
+jobs:
+  release_ios:
+    name: Build and Deploy iOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+      - name: Bundle install
+        working-directory: ./example
+        run: cd ./ios && bundle install
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Setup Firebase
+        working-directory: ./example
+        run: |
+          curl -sL https://firebase.tools | bash
+          dart pub global activate flutterfire_cli
+          echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_FILE_BASE64 }}" | base64 -d > gcloud-service-key.json
+          GOOGLE_APPLICATION_CREDENTIALS=gcloud-service-key.json \
+          flutterfire configure \
+          --project save-the-potato  \
+          --android-app-id=dev.app2pack.savethepotato \
+          --ios-bundle-id=dev.app2pack.savethepotato \
+          --platforms=android,ios \
+          > /dev/null 2>&1
+      - name: Setup Flutter
+        working-directory: ./example
+        run: |
+          flutter pub get
+          cd ./ios && pod install
+      - name: Setup SSH Keys and known_hosts for fastlane match
+        run: |
+          SSH_PATH="$HOME/.ssh"
+          mkdir -p "$SSH_PATH"
+          touch "$SSH_PATH/known_hosts"
+          echo "$PRIVATE_KEY" > "$SSH_PATH/id_rsa"
+          chmod 700 "$SSH_PATH"
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          chmod 600 "$SSH_PATH/known_hosts"
+          chmod 600 "$SSH_PATH/id_rsa"
+          eval $(ssh-agent)
+          ssh-add "$SSH_PATH/id_rsa"
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Build and Deploy to TestFlight
+        working-directory: ./example
+        run: |
+          cd ./ios
+          bundle exec fastlane ios release
+        env:
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+          ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
+          FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
+          MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+          DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS: ${{ secrets.DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_KEY_ISSUER_ID: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
+          APPSTORE_KEY_CONTENT: ${{ secrets.APPSTORE_KEY_CONTENT }}
+      - name: Rename the iPA file
+        working-directory: ./example
+        run: |
+          mkdir artifacts
+          cp ios/Runner.ipa artifacts/SaveThePotato-iOS-${{ github.ref_name }}.ipa
+      - name: Upload iOS artifacts to the release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: example/artifacts/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true

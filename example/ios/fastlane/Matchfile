@@ -1,0 +1,3 @@
+git_url("git@github.com:imaNNeo/app2pack_match_credentials.git")
+storage_mode("git")
+type("development")

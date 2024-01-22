@@ -1,0 +1,41 @@
+default_platform(:ios)
+
+platform :ios do
+desc "[Developer] Get certificates"
+  desc "Push a new release build to the App Store"
+  lane :release do
+    keychain_name = ENV["MATCH_KEYCHAIN_NAME"]
+    keychain_password = ENV["MATCH_KEYCHAIN_PASSWORD"]
+    app_store_connect_api_key(
+      key_id: ENV['APPSTORE_KEY_ID'],
+      issuer_id: ENV['APPSTORE_KEY_ISSUER_ID'],
+      key_content: ENV['APPSTORE_KEY_CONTENT'],
+    )
+    if is_ci
+      delete_keychain(
+        name: keychain_name
+      ) if File.exist? File.expand_path("~/Library/Keychains/#{keychain_name}-db")
+      create_keychain(
+        name: keychain_name,
+        password: keychain_password,
+        default_keychain: true,
+        unlock: true,
+        timeout: 3600,
+        lock_when_sleeps: false,
+        require_create: true,
+      )
+    end
+    match(
+      type: "appstore",
+      readonly: is_ci,
+      keychain_name: keychain_name,
+      keychain_password: keychain_password,
+    )
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+    )
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+    upload_symbols_to_crashlytics
+  end
+end
