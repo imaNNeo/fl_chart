@@ -9,12 +9,12 @@ class BarChartHelper {
   /// Contains List of cached results, base on [List<BarChartGroupData>]
   ///
   /// We use it to prevent redundant calculations
-  static final Map<ListWrapper<BarChartGroupData>, BarChartMinMaxAxisValues>
+  final Map<ListWrapper<BarChartGroupData>, BarChartMinMaxAxisValues>
       _cachedResults = {};
 
   /// Calculates minY, and maxY based on [barGroups],
   /// returns cached values, to prevent redundant calculations.
-  static BarChartMinMaxAxisValues calculateMaxAxisValues(
+  BarChartMinMaxAxisValues calculateMaxAxisValues(
     List<BarChartGroupData> barGroups,
   ) {
     if (barGroups.isEmpty) {

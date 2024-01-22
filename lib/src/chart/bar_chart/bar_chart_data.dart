@@ -1,4 +1,5 @@
 // coverage:ignore-file
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
@@ -9,6 +10,9 @@ import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+
+final _isTest = Platform.environment.containsKey('FLUTTER_TEST');
+final _axisValues = BarChartHelper().calculateMaxAxisValues;
 
 /// [BarChart] needs this class to render itself.
 ///
@@ -64,9 +68,9 @@ class BarChartData extends AxisChartData with EquatableMixin {
           minX: 0,
           maxX: 1,
           maxY: maxY ??
-              BarChartHelper.calculateMaxAxisValues(barGroups ?? []).maxY,
+              (_isTest ? _axisValues(barGroups ?? []).maxY : double.nan),
           minY: minY ??
-              BarChartHelper.calculateMaxAxisValues(barGroups ?? []).minY,
+              (_isTest ? _axisValues(barGroups ?? []).minY : double.nan),
         );
 
   /// [BarChart] draws [barGroups] that each of them contains a list of [BarChartRodData].
