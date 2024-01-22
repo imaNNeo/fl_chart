@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
 
+  final _lineChartHelper = LineChartHelper();
+
   @override
   Widget build(BuildContext context) {
     final showingData = _getData();
@@ -76,15 +79,35 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   }
 
   LineChartData _getData() {
-    final lineTouchData = widget.data.lineTouchData;
-    if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
-      _providedTouchCallback = lineTouchData.touchCallback;
-      return widget.data.copyWith(
-        lineTouchData: widget.data.lineTouchData
-            .copyWith(touchCallback: _handleBuiltInTouch),
+    var newData = widget.data;
+
+    /// Calculate minX, maxX, minY, maxY for [LineChartData] if they are null,
+    /// it is necessary to render the chart correctly.
+    if (newData.minX.isNaN ||
+        newData.maxX.isNaN ||
+        newData.minY.isNaN ||
+        newData.maxY.isNaN) {
+      final values = _lineChartHelper.calculateMaxAxisValues(
+        newData.lineBarsData,
+      );
+      newData = newData.copyWith(
+        minX: newData.minX.isNaN ? values.minX : newData.minX,
+        maxX: newData.maxX.isNaN ? values.maxX : newData.maxX,
+        minY: newData.minY.isNaN ? values.minY : newData.minY,
+        maxY: newData.maxY.isNaN ? values.maxY : newData.maxY,
       );
     }
-    return widget.data;
+
+    final lineTouchData = newData.lineTouchData;
+    if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
+      _providedTouchCallback = lineTouchData.touchCallback;
+      newData = newData.copyWith(
+        lineTouchData:
+            newData.lineTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+      );
+    }
+
+    return newData;
   }
 
   void _handleBuiltInTouch(
