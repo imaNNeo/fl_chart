@@ -8,9 +8,10 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
 
-final _isTest = Platform.environment.containsKey('FLUTTER_TEST');
+final _isTest = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
 final _axisValues = LineChartHelper().calculateMaxAxisValues;
 
 /// [LineChart] needs this class to render itself.
