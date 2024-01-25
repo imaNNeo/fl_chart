@@ -9,9 +9,10 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-final _isTest = Platform.environment.containsKey('FLUTTER_TEST');
+final _isTest = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
 final _axisValues = BarChartHelper().calculateMaxAxisValues;
 
 /// [BarChart] needs this class to render itself.
