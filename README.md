@@ -41,7 +41,7 @@ Thank you all!
 
 # Let's get started
 
-First of all you need to add the `fl_chart` in your project. In order to do that, follow [this guide](https://pub.dev/packages/fl_chart/install).
+First of all, you need to add the `fl_chart` in your project. In order to do that, follow [this guide](https://pub.dev/packages/fl_chart/install).
 
 Then you need to read the docs. Start from [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/index.md).
 
