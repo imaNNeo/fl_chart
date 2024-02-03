@@ -50,3 +50,11 @@ topics:
   - graph
   - diagram
 
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
