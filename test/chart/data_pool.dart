@@ -1414,7 +1414,6 @@ final VerticalLineLabel verticalLineLabel1Clone = VerticalLineLabel(
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel2 = VerticalLineLabel(
-  show: false,
   style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
@@ -1436,7 +1435,6 @@ final VerticalLineLabel verticalLineLabel5 = VerticalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
-  alignment: Alignment.bottomRight,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel6 = VerticalLineLabel(
@@ -1447,7 +1445,6 @@ final VerticalLineLabel verticalLineLabel6 = VerticalLineLabel(
   padding: const EdgeInsets.all(44),
 );
 final VerticalLineLabel verticalLineLabel7 = VerticalLineLabel(
-  show: false,
   style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
