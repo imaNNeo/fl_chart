@@ -1397,6 +1397,7 @@ final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
+  direction: LabelDirection.vertical,
 );
 
 final VerticalLineLabel verticalLineLabel1 = VerticalLineLabel(
@@ -1449,6 +1450,7 @@ final VerticalLineLabel verticalLineLabel7 = VerticalLineLabel(
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
+  direction: LabelDirection.vertical,
 );
 
 final HorizontalLine horizontalLine1 = HorizontalLine(
