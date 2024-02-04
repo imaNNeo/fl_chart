@@ -305,17 +305,32 @@ abstract class AxisChartPainter<D extends AxisChartData>
           // ignore: cascade_invocations
           tp.layout();
 
-          canvasWrapper.drawText(
-            tp,
-            label.alignment.withinRect(
-              Rect.fromLTRB(
-                from.dx + padding.left,
-                from.dy - padding.bottom - tp.height,
-                to.dx - padding.right - tp.width,
-                to.dy + padding.top,
-              ),
-            ),
-          );
+          switch (label.direction) {
+            case LabelDirection.horizontal:
+              canvasWrapper.drawText(
+                tp,
+                label.alignment.withinRect(
+                  Rect.fromLTRB(
+                    from.dx + padding.left,
+                    from.dy - padding.bottom - tp.height,
+                    to.dx - padding.right - tp.width,
+                    to.dy + padding.top,
+                  ),
+                ),
+              );
+            case LabelDirection.vertical:
+              canvasWrapper.drawVerticalText(
+                tp,
+                label.alignment.withinRect(
+                  Rect.fromLTRB(
+                    from.dx + padding.left,
+                    from.dy - padding.bottom - tp.width,
+                    to.dx - padding.right,
+                    to.dy + padding.top,
+                  ),
+                ),
+              );
+          }
         }
       }
     }
@@ -398,17 +413,32 @@ abstract class AxisChartPainter<D extends AxisChartData>
           // ignore: cascade_invocations
           tp.layout();
 
-          canvasWrapper.drawText(
-            tp,
-            label.alignment.withinRect(
-              Rect.fromLTRB(
-                to.dx - padding.right - tp.width,
-                from.dy + padding.top,
-                from.dx + padding.left,
-                to.dy - padding.bottom,
-              ),
-            ),
-          );
+          switch (label.direction) {
+            case LabelDirection.horizontal:
+              canvasWrapper.drawText(
+                tp,
+                label.alignment.withinRect(
+                  Rect.fromLTRB(
+                    to.dx - padding.right - tp.width,
+                    from.dy + padding.top,
+                    from.dx + padding.left,
+                    to.dy - padding.bottom,
+                  ),
+                ),
+              );
+            case LabelDirection.vertical:
+              canvasWrapper.drawVerticalText(
+                tp,
+                label.alignment.withinRect(
+                  Rect.fromLTRB(
+                    to.dx - padding.right,
+                    from.dy + padding.top,
+                    from.dx + padding.left + tp.height,
+                    to.dy - padding.bottom - tp.width,
+                  ),
+                ),
+              );
+          }
         }
       }
     }
