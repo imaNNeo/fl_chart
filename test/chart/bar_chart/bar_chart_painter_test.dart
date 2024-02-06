@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
@@ -21,27 +22,33 @@ void main() {
     test('test 1', () {
       final utilsMainInstance = Utils();
       const viewSize = Size(400, 400);
+      final barGroups = <BarChartGroupData>[
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(fromY: 1, toY: 10),
+            BarChartRodData(fromY: 2, toY: 10),
+          ],
+          showingTooltipIndicators: [
+            1,
+            2,
+          ],
+        ),
+        BarChartGroupData(
+          x: 2,
+          barRods: [
+            BarChartRodData(fromY: 3, toY: 10),
+            BarChartRodData(fromY: 4, toY: 10),
+          ],
+        ),
+      ];
+
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
-        barGroups: [
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(fromY: 1, toY: 10),
-              BarChartRodData(fromY: 2, toY: 10),
-            ],
-            showingTooltipIndicators: [
-              1,
-              2,
-            ],
-          ),
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(fromY: 3, toY: 10),
-              BarChartRodData(fromY: 4, toY: 10),
-            ],
-          ),
-        ],
+        barGroups: barGroups,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -340,11 +347,15 @@ void main() {
         ),
       ];
 
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
         alignment: BarChartAlignment.center,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -601,11 +612,15 @@ void main() {
         ),
       ];
 
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
         alignment: BarChartAlignment.center,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -833,7 +848,13 @@ void main() {
         ),
       ];
 
-      final data = BarChartData(barGroups: barGroups);
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
+      );
 
       final barChartPainter = BarChartPainter();
       final holder =
@@ -932,7 +953,13 @@ void main() {
         ),
       ];
 
-      final data = BarChartData(barGroups: barGroups);
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
+      );
 
       final barChartPainter = BarChartPainter();
       final holder =
@@ -1081,6 +1108,8 @@ void main() {
         },
       );
 
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         groupsSpace: 10,
         barGroups: barGroups,
@@ -1088,6 +1117,8 @@ void main() {
           touchTooltipData: tooltipData,
         ),
         alignment: BarChartAlignment.center,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1277,6 +1308,8 @@ void main() {
         },
       );
 
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         groupsSpace: 10,
         barGroups: barGroups,
@@ -1284,6 +1317,8 @@ void main() {
           touchTooltipData: tooltipData,
         ),
         alignment: BarChartAlignment.center,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1447,6 +1482,9 @@ void main() {
           );
         },
       );
+
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         groupsSpace: 10,
         barGroups: barGroups,
@@ -1454,6 +1492,8 @@ void main() {
           touchTooltipData: tooltipData,
         ),
         alignment: BarChartAlignment.center,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1574,10 +1614,14 @@ void main() {
         BarChartGroupData(x: 0, barRods: [barRod], barsSpace: 5),
       ];
 
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         groupsSpace: 10,
         barGroups: barGroups,
         barTouchData: BarTouchData(),
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1748,6 +1792,8 @@ void main() {
         ),
       ];
 
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         barGroups: barGroups,
         titlesData: const FlTitlesData(show: false),
@@ -1757,6 +1803,8 @@ void main() {
           handleBuiltInTouches: true,
           touchExtraThreshold: const EdgeInsets.all(1),
         ),
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final painter = BarChartPainter();
@@ -1847,6 +1895,8 @@ void main() {
         ),
       ];
 
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
         barGroups: barGroups,
         titlesData: const FlTitlesData(show: false),
@@ -1856,6 +1906,8 @@ void main() {
           handleBuiltInTouches: true,
           touchExtraThreshold: const EdgeInsets.all(1),
         ),
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
       );
 
       final painter = BarChartPainter();
@@ -2079,27 +2131,34 @@ void main() {
     test('bar chart should not paint vertical lines', () {
       final utilsMainInstance = Utils();
       const viewSize = Size(400, 400);
+
+      final barGroups = <BarChartGroupData>[
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(fromY: 1, toY: 10),
+            BarChartRodData(fromY: 2, toY: 10),
+          ],
+          showingTooltipIndicators: [
+            1,
+            2,
+          ],
+        ),
+        BarChartGroupData(
+          x: 2,
+          barRods: [
+            BarChartRodData(fromY: 3, toY: 10),
+            BarChartRodData(fromY: 4, toY: 10),
+          ],
+        ),
+      ];
+
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
-        barGroups: [
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(fromY: 1, toY: 10),
-              BarChartRodData(fromY: 2, toY: 10),
-            ],
-            showingTooltipIndicators: [
-              1,
-              2,
-            ],
-          ),
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(fromY: 3, toY: 10),
-              BarChartRodData(fromY: 4, toY: 10),
-            ],
-          ),
-        ],
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
+        barGroups: barGroups,
         extraLinesData: ExtraLinesData(
           verticalLines: [verticalLine1],
         ),
@@ -2268,27 +2327,34 @@ void main() {
       );
       final utilsMainInstance = Utils();
       const viewSize = Size(400, 400);
+
+      final barGroups = <BarChartGroupData>[
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(fromY: 1, toY: 10),
+            BarChartRodData(fromY: 2, toY: 10),
+          ],
+          showingTooltipIndicators: [
+            1,
+            2,
+          ],
+        ),
+        BarChartGroupData(
+          x: 2,
+          barRods: [
+            BarChartRodData(fromY: 3, toY: 10),
+            BarChartRodData(fromY: 4, toY: 10),
+          ],
+        ),
+      ];
+
+      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
       final data = BarChartData(
-        barGroups: [
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(fromY: 1, toY: 10),
-              BarChartRodData(fromY: 2, toY: 10),
-            ],
-            showingTooltipIndicators: [
-              1,
-              2,
-            ],
-          ),
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(fromY: 3, toY: 10),
-              BarChartRodData(fromY: 4, toY: 10),
-            ],
-          ),
-        ],
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
+        barGroups: barGroups,
         extraLinesData: ExtraLinesData(
           horizontalLines: [horizontalLine, horizontalLine1],
         ),
