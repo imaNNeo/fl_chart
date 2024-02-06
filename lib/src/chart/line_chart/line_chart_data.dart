@@ -1,18 +1,12 @@
 // coverage:ignore-file
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
-
-final _isTest = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
-final _axisValues = LineChartHelper().calculateMaxAxisValues;
 
 /// [LineChart] needs this class to render itself.
 ///
@@ -66,10 +60,10 @@ class LineChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
   }) : super(
           touchData: lineTouchData,
-          minX: minX ?? (_isTest ? _axisValues(lineBarsData).minX : double.nan),
-          maxX: maxX ?? (_isTest ? _axisValues(lineBarsData).maxX : double.nan),
-          minY: minY ?? (_isTest ? _axisValues(lineBarsData).minY : double.nan),
-          maxY: maxY ?? (_isTest ? _axisValues(lineBarsData).maxY : double.nan),
+          minX: minX ?? double.nan,
+          maxX: maxX ?? double.nan,
+          minY: minY ?? double.nan,
+          maxY: maxY ?? double.nan,
         );
 
   /// [LineChart] draws some lines in various shapes and overlaps them.

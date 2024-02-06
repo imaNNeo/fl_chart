@@ -4,6 +4,7 @@ import 'dart:ui' as ui show Gradient;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
@@ -45,11 +46,18 @@ void main() {
           FlSpot(4, 0),
         ],
       );
+
+      final lineChartBarsData = <LineChartBarData>[bar1, bar2];
+      final axisValues = LineChartHelper().calculateMaxAxisValues(
+        lineChartBarsData,
+      );
+
       final data = LineChartData(
-        lineBarsData: [
-          bar1,
-          bar2,
-        ],
+        minX: axisValues.minX,
+        maxX: axisValues.maxX,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
+        lineBarsData: lineChartBarsData,
         clipData: const FlClipData.all(),
         extraLinesData: ExtraLinesData(
           horizontalLines: [
@@ -137,11 +145,18 @@ void main() {
           FlSpot(4, 3),
         ],
       );
+
+      final lineChartBarsData = <LineChartBarData>[bar1, bar2];
+      final axisValues = LineChartHelper().calculateMaxAxisValues(
+        lineChartBarsData,
+      );
+
       final data = LineChartData(
-        lineBarsData: [
-          bar1,
-          bar2,
-        ],
+        minX: axisValues.minX,
+        maxX: axisValues.maxX,
+        minY: axisValues.minY,
+        maxY: axisValues.maxY,
+        lineBarsData: lineChartBarsData,
         clipData: const FlClipData.all(),
         lineTouchData: LineTouchData(
           getTouchedSpotIndicator:
