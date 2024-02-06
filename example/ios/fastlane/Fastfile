@@ -34,6 +34,12 @@ desc "[Developer] Get certificates"
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "dev.flchart.app" => "match AppStore dev.flchart.app"
+        }
+      }
     )
     upload_to_testflight(skip_waiting_for_build_processing: true)
     upload_symbols_to_crashlytics

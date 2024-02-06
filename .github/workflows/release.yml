@@ -24,10 +24,10 @@ jobs:
           echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON_FILE_BASE64 }}" | base64 -d > gcloud-service-key.json
           GOOGLE_APPLICATION_CREDENTIALS=gcloud-service-key.json \
           flutterfire configure \
-          --project save-the-potato  \
-          --android-app-id=dev.app2pack.savethepotato \
-          --ios-bundle-id=dev.app2pack.savethepotato \
-          --platforms=android,ios \
+          --project fl-chart  \
+          --android-app-id=dev.flchart.app \
+          --ios-bundle-id=dev.flchart.app \
+          --platforms=android,ios,macos,web \
           > /dev/null 2>&1
       - name: Setup Flutter
         working-directory: ./example

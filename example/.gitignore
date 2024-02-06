@@ -74,3 +74,11 @@ pubspec.lock
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Firebase related files
+android/app/google-services.json
+ios/firebase_app_id_file.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+macos/Runner/GoogleService-Info.plist
+macos/firebase_app_id_file.json
