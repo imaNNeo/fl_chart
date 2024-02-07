@@ -26,7 +26,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
 |backgroundColor| a background color which is drawn behind the chart| null |
-|barTouchData| [BarTouchData](#BarTouchData) holds the touch interactivity details|BarTouchData()|
+|barTouchData| [BarTouchData](#bartouchdata-read-about-touch-handling) holds the touch interactivity details|BarTouchData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
