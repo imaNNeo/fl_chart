@@ -27,7 +27,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |centerSpaceColor| colors the free space in the middle of the PieChart|Colors.transparent|
 |sectionsSpace| space between the sections (margin of them). It does not work on html-rendere, read more about it [here](https://github.com/imaNNeo/fl_chart/issues/955) |2|
 |startDegreeOffset| degree offset of the sections around the pie chart, should be between 0 and 360|0|
-|pieTouchData| [PieTouchData](#PieTouchData) holds the touch interactivity details| PieTouchData()|
+|pieTouchData| [PieTouchData](#pietouchdata-read-about-touch-handling) holds the touch interactivity details| PieTouchData()|
 |borderData| shows a border around the chart, check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 
 
