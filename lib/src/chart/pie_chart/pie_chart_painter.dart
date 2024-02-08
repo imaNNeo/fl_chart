@@ -362,6 +362,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sweepAngle = 360 * (section.value / data.sumValue);
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
 
+      double? rotateAngle;
+      if (data.titleSunbeamLayout) {
+        rotateAngle = sectionCenterAngle;
+        if (sectionCenterAngle >= 90 && sectionCenterAngle <= 260) {
+          rotateAngle = sectionCenterAngle - 180;
+        }
+      }
+
       Offset sectionCenter(double percentageOffset) =>
           center +
           Offset(
@@ -389,6 +397,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         canvasWrapper.drawText(
           tp,
           sectionCenterOffsetTitle - Offset(tp.width / 2, tp.height / 2),
+          rotateAngle,
         );
       }
 
