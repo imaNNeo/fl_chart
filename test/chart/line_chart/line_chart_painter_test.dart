@@ -2291,6 +2291,79 @@ void main() {
         ),
       );
     });
+
+    test('test lines label', () {
+      const viewSize = Size(100, 100);
+
+      String horizontalLabelResolver(HorizontalLine line) {
+        return 'test';
+      }
+
+      String verticalLabelResolver(VerticalLine line) {
+        return 'test';
+      }
+
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 3,
+              label: VerticalLineLabel(
+                show: true,
+                labelResolver: verticalLabelResolver,
+              ),
+            ),
+            VerticalLine(
+              x: 6,
+              label: VerticalLineLabel(
+                show: true,
+                labelResolver: verticalLabelResolver,
+                direction: LabelDirection.vertical,
+              ),
+            ),
+          ],
+          horizontalLines: [
+            HorizontalLine(
+              y: 3,
+              label: HorizontalLineLabel(
+                show: true,
+                labelResolver: horizontalLabelResolver,
+              ),
+            ),
+            HorizontalLine(
+              y: 6,
+              label: HorizontalLineLabel(
+                show: true,
+                labelResolver: horizontalLabelResolver,
+                direction: LabelDirection.vertical,
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(mockCanvasWrapper.drawText(any, any)).called(2);
+      verify(mockCanvasWrapper.drawVerticalText(any, any)).called(2);
+    });
   });
 
   group('drawTouchTooltip()', () {
