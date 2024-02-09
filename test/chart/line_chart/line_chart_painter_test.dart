@@ -2361,8 +2361,20 @@ void main() {
         holder,
       );
 
-      verify(mockCanvasWrapper.drawText(any, any)).called(2);
-      verify(mockCanvasWrapper.drawVerticalText(any, any)).called(2);
+      final result1 = verify(mockCanvasWrapper.drawText(any, captureAny))
+        ..called(2);
+      final result2 =
+          verify(mockCanvasWrapper.drawVerticalText(any, captureAny))
+            ..called(2);
+
+      final offset1 = result1.captured[0] as Offset;
+      final offset2 = result1.captured[1] as Offset;
+      final offset3 = result2.captured[0] as Offset;
+      final offset4 = result2.captured[1] as Offset;
+      expect(offset1, const Offset(6, 50));
+      expect(offset2, const Offset(36, 94));
+      expect(offset3, const Offset(6, -22));
+      expect(offset4, const Offset(80, 38));
     });
   });
 
