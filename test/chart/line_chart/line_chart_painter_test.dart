@@ -2372,8 +2372,8 @@ void main() {
       final offset3 = result2.captured[0] as Offset;
       final offset4 = result2.captured[1] as Offset;
       expect(offset1, const Offset(6, 50));
-      expect(offset2, const Offset(36, 94));
-      expect(offset3, const Offset(6, -22));
+      expect(offset2, const Offset(36, 80));
+      expect(offset3, const Offset(20, -22));
       expect(offset4, const Offset(80, 38));
     });
   });
