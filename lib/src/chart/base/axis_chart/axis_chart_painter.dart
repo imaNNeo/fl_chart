@@ -323,7 +323,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                 tp,
                 label.alignment.withinRect(
                   Rect.fromLTRB(
-                    from.dx + padding.left,
+                    from.dx + padding.left + tp.height,
                     from.dy - padding.bottom - tp.width,
                     to.dx - padding.right,
                     to.dy + padding.top,
@@ -422,7 +422,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
                     from.dx - padding.right - tp.width,
                     from.dy + padding.top,
                     to.dx + padding.left,
-                    to.dy - padding.bottom,
+                    to.dy - padding.bottom - tp.height,
                   ),
                 ),
               );
