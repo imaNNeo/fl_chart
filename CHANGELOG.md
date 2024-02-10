@@ -1,3 +1,6 @@
+## 0.66.2
+* **BUGFIX** (by @stwarwas) Remove dart.io to fix web platform issue, #1577
+
 ## 0.66.1
 * **BUGFIX** (by @imaNNeo) Fix PieChart blackout issue, #1538
 * **BUGFIX** (by @imaNNeo) Fix memory leak in LineChart and BarChart, #1106
