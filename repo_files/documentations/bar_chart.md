@@ -95,7 +95,6 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BarTouchTooltipData
  |PropName|Description|default value|
  |:-------|:----------|:------------|
- |tooltipBgColor|background color of the tooltip bubble|Colors.white|
  |tooltipBorder|border of the tooltip bubble|BorderSide.none|
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
@@ -107,6 +106,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
  |direction| Controls showing tooltip on top or bottom, default is auto.| auto|
+ |getTooltipColor|a callback that retrieves the Color for each rod separately from the given [BarChartGroupData](#BarChartGroupData) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
 
 ### BarTooltipItem
 |PropName|Description|default value|
