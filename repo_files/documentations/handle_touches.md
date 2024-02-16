@@ -22,7 +22,7 @@ LineChart(
   LineChartData(
     lineTouchData: LineTouchData(
       touchTooltipData: TouchTooltipData (
-        tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+        getTooltipColor: (touchedSpot) => Colors.blueGrey.withOpacity(0.8),
          .
          .
          .
