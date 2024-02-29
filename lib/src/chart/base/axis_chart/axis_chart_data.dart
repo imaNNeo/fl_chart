@@ -1151,6 +1151,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
       alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
       labelResolver: b.labelResolver,
       show: b.show,
+      direction: b.direction,
     );
   }
 
@@ -1208,6 +1209,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
       alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
       labelResolver: b.labelResolver,
       show: b.show,
+      direction: b.direction,
     );
   }
 
