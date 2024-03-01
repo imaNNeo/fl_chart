@@ -23,7 +23,6 @@ When you change the chart's state, it animates to the new state internally (usin
 |groupsSpace| space between groups, it applies only when the [alignment](#BarChartAlignment) is `BarChartAlignment.start`, `BarChartAlignment.center` or `BarChartAlignment.end`|16|
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
-|axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
 |backgroundColor| a background color which is drawn behind the chart| null |
 |barTouchData| [BarTouchData](#bartouchdata-read-about-touch-handling) holds the touch interactivity details|BarTouchData()|
