@@ -974,6 +974,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..transparentIfWidthIsZero();
 
     barPath = barPath.toDashedPath(barData.dashArray);
+    barPath = adjustPath(barPath, rectAroundTheLine);
     canvasWrapper.drawPath(barPath, _barPaint);
   }
 
@@ -1290,6 +1291,42 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     } else {
       return null;
     }
+  }
+
+  Path adjustPath(Path barPath, Rect rectAroundTheLine) {
+    final newPath = Path();
+    final pathMetrics = barPath.computeMetrics();
+
+    for (final pathMetric in pathMetrics) {
+      for (var i = 0.0; i < pathMetric.length; i++) {
+        final tangent = pathMetric.getTangentForOffset(i);
+        if (tangent != null) {
+          var point = tangent.position;
+
+          if (!rectAroundTheLine.contains(point)) {
+            if (point.dx < rectAroundTheLine.left) {
+              point = Offset(rectAroundTheLine.left, point.dy);
+            } else if (point.dx > rectAroundTheLine.right) {
+              point = Offset(rectAroundTheLine.right, point.dy);
+            }
+
+            if (point.dy < rectAroundTheLine.top) {
+              point = Offset(point.dx, rectAroundTheLine.top);
+            } else if (point.dy > rectAroundTheLine.bottom) {
+              point = Offset(point.dx, rectAroundTheLine.bottom);
+            }
+          }
+
+          if (i == 0.0) {
+            newPath.moveTo(point.dx, point.dy);
+          } else {
+            newPath.lineTo(point.dx, point.dy);
+          }
+        }
+      }
+    }
+
+    return newPath;
   }
 }
 
