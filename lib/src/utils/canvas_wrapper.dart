@@ -98,6 +98,18 @@ class CanvasWrapper {
     }
   }
 
+  /// Paints a vertical text on the [Canvas]
+  ///
+  /// Gets a [TextPainter] and call its [TextPainter.paint] using our canvas
+  void drawVerticalText(TextPainter tp, Offset offset) {
+    save();
+    translate(offset.dx, offset.dy);
+    rotate(Utils().radians(90));
+    translate(-offset.dx, -offset.dy);
+    tp.paint(canvas, offset);
+    restore();
+  }
+
   /// Paints a dot using customized [FlDotPainter]
   ///
   /// Paints a customized dot using [FlDotPainter] at the [spot]'s position,

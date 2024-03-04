@@ -91,6 +91,10 @@ class MockData {
   static const size2 = Size(22, 22);
 
   static final textPainter1 = TextPainter();
+  static final textPainter2 = TextPainter()
+    ..text = const TextSpan(text: 'test')
+    ..textDirection = TextDirection.ltr
+    ..layout();
 
   static final rect1 = Rect.fromCenter(center: offset1, width: 11, height: 11);
   static final rect2 = Rect.fromCenter(center: offset2, width: 22, height: 22);
@@ -1352,6 +1356,7 @@ final HorizontalLineLabel horizontalLineLabel1 = HorizontalLineLabel(
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
+  direction: LabelDirection.vertical,
 );
 final HorizontalLineLabel horizontalLineLabel1Clone = HorizontalLineLabel(
   show: true,
@@ -1359,6 +1364,7 @@ final HorizontalLineLabel horizontalLineLabel1Clone = HorizontalLineLabel(
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
+  direction: LabelDirection.vertical,
 );
 final HorizontalLineLabel horizontalLineLabel2 = HorizontalLineLabel(
   style: const TextStyle(color: Colors.green),
@@ -1397,6 +1403,7 @@ final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
   labelResolver: horizontalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
+  direction: LabelDirection.vertical,
 );
 
 final VerticalLineLabel verticalLineLabel1 = VerticalLineLabel(
@@ -1414,7 +1421,6 @@ final VerticalLineLabel verticalLineLabel1Clone = VerticalLineLabel(
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel2 = VerticalLineLabel(
-  show: false,
   style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
@@ -1436,7 +1442,6 @@ final VerticalLineLabel verticalLineLabel5 = VerticalLineLabel(
   show: true,
   style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
-  alignment: Alignment.bottomRight,
   padding: const EdgeInsets.all(12),
 );
 final VerticalLineLabel verticalLineLabel6 = VerticalLineLabel(
@@ -1447,11 +1452,11 @@ final VerticalLineLabel verticalLineLabel6 = VerticalLineLabel(
   padding: const EdgeInsets.all(44),
 );
 final VerticalLineLabel verticalLineLabel7 = VerticalLineLabel(
-  show: false,
   style: const TextStyle(color: Colors.green),
   labelResolver: verticalLabelResolver,
   alignment: Alignment.topCenter,
   padding: const EdgeInsets.all(12),
+  direction: LabelDirection.vertical,
 );
 
 final HorizontalLine horizontalLine1 = HorizontalLine(
