@@ -19,8 +19,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
   ///
   /// It draws some titles on left, top, right, bottom sides per each axis number,
   /// you can modify [titlesData] to have your custom titles,
-  /// also you can define the axis title (one text per axis) for each side
-  /// using [axisTitleData], you can restrict the y axis using [minY] and [maxY] value,
+  /// you can restrict the y axis using [minY] and [maxY] value,
   /// and restrict x axis using [minX] and [maxX].
   ///
   /// It draws a color as a background behind everything you can set it using [backgroundColor],

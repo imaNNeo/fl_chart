@@ -1,3 +1,7 @@
+## newVersion
+* **IMPROVEMENT** (by @JoshMart) Remove references to deprecated `axisTitleData` property from code and docs, #1259, #1201
+
+
 ## 0.66.2
 * **BUGFIX** (by @stwarwas) Remove dart.io to fix web platform issue, #1577
 
