@@ -58,6 +58,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     super.baselineY,
     super.clipData = const FlClipData.none(),
     super.backgroundColor,
+    super.horizontalZoomConfig,
   }) : super(
           touchData: lineTouchData,
           minX: minX ?? double.nan,
@@ -132,6 +133,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
+    ZoomConfig? horizontalZoomConfig,
   }) {
     return LineChartData(
       lineBarsData: lineBarsData ?? this.lineBarsData,
@@ -152,6 +154,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
       baselineY: baselineY ?? this.baselineY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
+      horizontalZoomConfig: horizontalZoomConfig ?? this.horizontalZoomConfig,
     );
   }
 
@@ -175,6 +178,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         baselineY,
         clipData,
         backgroundColor,
+        horizontalZoomConfig,
       ];
 }
 
