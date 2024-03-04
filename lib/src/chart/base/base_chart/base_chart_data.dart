@@ -89,8 +89,10 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
     this.enabled,
     this.touchCallback,
     this.mouseCursorResolver,
-    this.longPressDuration,
-  );
+    this.longPressDuration, [
+    this.externalTouchPosition,
+    this.externalTouchCallback,
+  ]);
 
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
@@ -109,6 +111,14 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// default to 500 milliseconds refer to [kLongPressTimeout].
   final Duration? longPressDuration;
 
+  /// If you will use an external touch handlers, you will need to pass the position.
+  final Offset? externalTouchPosition;
+
+  /// [externalTouchCallback] notifies you about the happened touch/pointer events.
+  /// It gives you a [BaseTouchResponse] which is the chart specific type and contains information
+  /// about the elements that has touched.
+  final BaseExternalTouchCallback<R>? externalTouchCallback;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -116,6 +126,8 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
         touchCallback,
         mouseCursorResolver,
         longPressDuration,
+        externalTouchCallback,
+        externalTouchPosition,
       ];
 }
 
@@ -177,6 +189,11 @@ class FlClipData with EquatableMixin {
 /// Chart's touch callback.
 typedef BaseTouchCallback<R extends BaseTouchResponse> = void Function(
   FlTouchEvent,
+  R?,
+);
+
+/// Chart's touch callback.
+typedef BaseExternalTouchCallback<R extends BaseTouchResponse> = void Function(
   R?,
 );
 
