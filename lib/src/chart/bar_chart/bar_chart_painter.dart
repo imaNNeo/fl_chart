@@ -103,6 +103,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           j,
           holder,
         );
+
+        drawTouchBottomTooltip(
+          context,
+          canvasWrapper,
+          _groupBarsPosition!,
+          targetData.barTouchData.touchTooltipData,
+          barGroup,
+          i,
+          barRod,
+          j,
+          holder,
+        );
       }
     }
   }
@@ -408,6 +420,185 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
         : barBottomY + tooltipData.tooltipMargin;
 
+    final tooltipLeft = getTooltipLeft(
+      barToYPixel.dx,
+      tooltipWidth,
+      tooltipData.tooltipHorizontalAlignment,
+      tooltipData.tooltipHorizontalOffset,
+    );
+
+    /// draw the background rect with rounded radius
+    // ignore: omit_local_variable_types
+    Rect rect = Rect.fromLTWH(
+      tooltipLeft,
+      tooltipTop,
+      tooltipWidth,
+      tooltipHeight,
+    );
+
+    if (tooltipData.fitInsideHorizontally) {
+      if (rect.left < 0) {
+        final shiftAmount = 0 - rect.left;
+        rect = Rect.fromLTRB(
+          rect.left + shiftAmount,
+          rect.top,
+          rect.right + shiftAmount,
+          rect.bottom,
+        );
+      }
+
+      if (rect.right > viewSize.width) {
+        final shiftAmount = rect.right - viewSize.width;
+        rect = Rect.fromLTRB(
+          rect.left - shiftAmount,
+          rect.top,
+          rect.right - shiftAmount,
+          rect.bottom,
+        );
+      }
+    }
+
+    if (tooltipData.fitInsideVertically) {
+      if (rect.top < 0) {
+        final shiftAmount = 0 - rect.top;
+        rect = Rect.fromLTRB(
+          rect.left,
+          rect.top + shiftAmount,
+          rect.right,
+          rect.bottom + shiftAmount,
+        );
+      }
+
+      if (rect.bottom > viewSize.height) {
+        final shiftAmount = rect.bottom - viewSize.height;
+        rect = Rect.fromLTRB(
+          rect.left,
+          rect.top - shiftAmount,
+          rect.right,
+          rect.bottom - shiftAmount,
+        );
+      }
+    }
+
+    final radius = Radius.circular(tooltipData.tooltipRoundedRadius);
+    final roundedRect = RRect.fromRectAndCorners(
+      rect,
+      topLeft: radius,
+      topRight: radius,
+      bottomLeft: radius,
+      bottomRight: radius,
+    );
+    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+
+    final rotateAngle = tooltipData.rotateAngle;
+    final rectRotationOffset =
+        Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
+    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+
+    final textRotationOffset =
+        Utils().calculateRotationOffset(tp.size, rotateAngle);
+
+    /// draw the texts one by one in below of each other
+    final top = tooltipData.tooltipPadding.top;
+    final drawOffset = Offset(
+      rect.center.dx - (tp.width / 2),
+      rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
+    );
+
+    if (tooltipData.tooltipBorder != BorderSide.none) {
+      _borderTouchTooltipPaint
+        ..color = tooltipData.tooltipBorder.color
+        ..strokeWidth = tooltipData.tooltipBorder.width;
+    }
+
+    canvasWrapper.drawRotated(
+      size: rect.size,
+      rotationOffset: rectRotationOffset,
+      drawOffset: rectDrawOffset,
+      angle: rotateAngle,
+      drawCallback: () {
+        canvasWrapper
+          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
+          ..drawText(tp, drawOffset);
+      },
+    );
+  }
+
+  @visibleForTesting
+  void drawTouchBottomTooltip(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    List<GroupBarsPosition> groupPositions,
+    BarTouchTooltipData tooltipData,
+    BarChartGroupData showOnBarGroup,
+    int barGroupIndex,
+    BarChartRodData showOnRodData,
+    int barRodIndex,
+    PaintHolder<BarChartData> holder,
+  ) {
+    final viewSize = canvasWrapper.size;
+
+    const textsBelowMargin = 4;
+
+    final tooltipItem = tooltipData.getBottomTooltipItem != null
+        ? tooltipData.getBottomTooltipItem!(
+            showOnBarGroup,
+            barGroupIndex,
+            showOnRodData,
+            barRodIndex,
+          )
+        : null;
+
+    if (tooltipItem == null) {
+      return;
+    }
+
+    final span = TextSpan(
+      style: Utils().getThemeAwareTextStyle(context, tooltipItem.textStyle),
+      text: tooltipItem.text,
+      children: tooltipItem.children,
+    );
+
+    final tp = TextPainter(
+      text: span,
+      textAlign: tooltipItem.textAlign,
+      textDirection: tooltipItem.textDirection,
+      textScaler: holder.textScaler,
+    )..layout(maxWidth: tooltipData.maxContentWidth);
+
+    /// creating TextPainters to calculate the width and height of the tooltip
+    final drawingTextPainter = tp;
+
+    /// biggerWidth
+    /// some texts maybe larger, then we should
+    /// draw the tooltip' width as wide as biggerWidth
+    ///
+    /// sumTextsHeight
+    /// sum up all Texts height, then we should
+    /// draw the tooltip's height as tall as sumTextsHeight
+    final textWidth = drawingTextPainter.width;
+    final textHeight = drawingTextPainter.height + textsBelowMargin;
+
+    /// if we have multiple bar lines,
+    /// there are more than one FlCandidate on touch area,
+    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
+    final barToYPixel = Offset(
+      groupPositions[barGroupIndex].barsX[barRodIndex],
+      getPixelY(showOnRodData.toY, viewSize, holder),
+    );
+
+    final barFromYPixel = Offset(
+      groupPositions[barGroupIndex].barsX[barRodIndex],
+      getPixelY(showOnRodData.fromY, viewSize, holder),
+    );
+
+    final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
+    final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
+
+    final barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
+
+    final tooltipTop = barBottomY + tooltipData.tooltipMargin;
     final tooltipLeft = getTooltipLeft(
       barToYPixel.dx,
       tooltipWidth,
