@@ -687,7 +687,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
-  /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color,
+  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
@@ -698,7 +698,6 @@ class BarTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   BarTouchTooltipData({
-    Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
     double? tooltipMargin,
@@ -706,13 +705,13 @@ class BarTouchTooltipData with EquatableMixin {
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
     GetBarTooltipItem? getTooltipItem,
+    GetBarTooltipColor? getTooltipColor,
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
     TooltipDirection? direction,
     double? rotateAngle,
     BorderSide? tooltipBorder,
-  })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
-        tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+  })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipMargin = tooltipMargin ?? 16,
@@ -721,15 +720,13 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItem = getTooltipItem ?? defaultBarTooltipItem,
+        getTooltipColor = getTooltipColor ?? defaultBarTooltipColor,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
         direction = direction ?? TooltipDirection.auto,
         rotateAngle = rotateAngle ?? 0.0,
         tooltipBorder = tooltipBorder ?? BorderSide.none,
         super();
-
-  /// The tooltip background color.
-  final Color tooltipBgColor;
 
   /// Sets a rounded radius for the tooltip.
   final double tooltipRoundedRadius;
@@ -767,10 +764,12 @@ class BarTouchTooltipData with EquatableMixin {
   /// The tooltip border color.
   final BorderSide tooltipBorder;
 
+  /// Retrieves data for setting background color of the tooltip.
+  final GetBarTooltipColor getTooltipColor;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
         tooltipMargin,
@@ -782,6 +781,7 @@ class BarTouchTooltipData with EquatableMixin {
         fitInsideVertically,
         rotateAngle,
         tooltipBorder,
+        getTooltipColor,
       ];
 }
 
@@ -849,6 +849,20 @@ class BarTooltipItem with EquatableMixin {
         textDirection,
         children,
       ];
+}
+
+//// Provides a [Color] to show different background color for each rod
+///
+/// You can override [BarTouchTooltipData.getTooltipColor], it gives you
+/// [group] that touch happened on, then you should and pass your custom [Color] to set background color
+/// of tooltip popup.
+typedef GetBarTooltipColor = Color Function(
+  BarChartGroupData group,
+);
+
+/// Default implementation for [BarTouchTooltipData.getTooltipColor].
+Color defaultBarTooltipColor(BarChartGroupData group) {
+  return Colors.blueGrey.darken(15);
 }
 
 /// Holds information about touch response in the [BarChart].
