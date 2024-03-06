@@ -132,6 +132,14 @@ void main() {
             ),
         false,
       );
+
+      expect(
+        pieChartData1 ==
+            pieChartData1Clone.copyWith(
+              titleSunbeamLayout: true,
+            ),
+        false,
+      );
     });
 
     test('PieTouchData equality test', () {

@@ -2237,6 +2237,7 @@ final PieChartData pieChartData1 = PieChartData(
     enabled: false,
   ),
   sectionsSpace: 44,
+  titleSunbeamLayout: false,
 );
 final PieChartData pieChartData1Clone = pieChartData1.copyWith();
 

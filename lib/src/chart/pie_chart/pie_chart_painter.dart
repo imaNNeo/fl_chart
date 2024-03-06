@@ -364,9 +364,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       double? rotateAngle;
       if (data.titleSunbeamLayout) {
-        rotateAngle = sectionCenterAngle;
-        if (sectionCenterAngle >= 90 && sectionCenterAngle <= 260) {
+        if (sectionCenterAngle >= 90 && sectionCenterAngle <= 270) {
           rotateAngle = sectionCenterAngle - 180;
+        } else {
+          rotateAngle = sectionCenterAngle;
         }
       }
 
