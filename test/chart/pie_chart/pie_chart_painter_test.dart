@@ -113,6 +113,60 @@ void main() {
     });
   });
 
+  group('drawTexts()', () {
+    test('test 1', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(200, 200);
+
+      final data = PieChartData(
+        sections: List.generate(2, (i) {
+          return PieChartSectionData(
+            value: 10,
+            title: '$i%',
+          );
+        }),
+        titleSunbeamLayout: true,
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.radians(any)).thenAnswer((realInvocation) => 12);
+
+      final centerRadius = pieChartPainter.calculateCenterRadius(
+        viewSize,
+        holder,
+      );
+
+      pieChartPainter.drawTexts(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+        centerRadius,
+      );
+
+      final results = verifyInOrder([
+        mockCanvasWrapper.drawText(any, any, captureAny),
+        mockCanvasWrapper.drawText(any, any, captureAny),
+      ]);
+
+      expect(results[0].captured.single, -90);
+      expect(results[1].captured.single, 90);
+
+      Utils.changeInstance(utilsMainInstance);
+    });
+  });
+
   group('drawSections()', () {
     test('test 1', () {
       const viewSize = Size(200, 200);
