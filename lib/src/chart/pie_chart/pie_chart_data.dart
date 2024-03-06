@@ -131,6 +131,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         sectionsSpace,
         startDegreeOffset,
         borderData,
+        titleSunbeamLayout,
       ];
 }
 

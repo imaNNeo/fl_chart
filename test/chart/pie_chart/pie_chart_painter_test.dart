@@ -113,6 +113,127 @@ void main() {
     });
   });
 
+  group('drawTexts()', () {
+    test('test 1', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(200, 200);
+
+      final data = PieChartData(
+        sections: List.generate(2, (i) {
+          return PieChartSectionData(
+            value: 10,
+            title: '$i%',
+          );
+        }),
+        titleSunbeamLayout: true,
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.radians(any)).thenAnswer((realInvocation) => 12);
+
+      final centerRadius = pieChartPainter.calculateCenterRadius(
+        viewSize,
+        holder,
+      );
+
+      pieChartPainter.drawTexts(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+        centerRadius,
+      );
+
+      final results = verifyInOrder([
+        mockCanvasWrapper.drawText(any, any, captureAny),
+        mockCanvasWrapper.drawText(any, any, captureAny),
+      ]);
+
+      expect(results[0].captured.single, -90);
+      expect(results[1].captured.single, 90);
+
+      Utils.changeInstance(utilsMainInstance);
+    });
+    test('test 2', () {
+      const viewSize = Size(200, 200);
+
+      const radius = 30.0;
+      const centerSpace = 10.0;
+      final sections = [
+        PieChartSectionData(
+          color: MockData.color2,
+          radius: radius,
+          value: 10,
+          borderSide: const BorderSide(
+            color: MockData.color3,
+            width: 3,
+          ),
+        ),
+      ];
+      final data = PieChartData(
+        sections: sections,
+      );
+
+      final barChartPainter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      barChartPainter.drawSections(mockCanvasWrapper, [360], 10, holder);
+
+      final rect = Rect.fromCircle(
+        center: viewSize.center(Offset.zero),
+        radius: radius + centerSpace,
+      );
+      final results = verifyInOrder([
+        mockCanvasWrapper.saveLayer(
+          rect,
+          any,
+        ),
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + 30,
+          captureAny,
+        ),
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10,
+          captureAny,
+        ),
+        mockCanvasWrapper.restore(),
+      ]);
+      final result = results[1];
+      expect(result.callCount, 1);
+      expect((result.captured.single as Paint).color, MockData.color2);
+      expect((result.captured.single as Paint).style, PaintingStyle.fill);
+
+      final result2 = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          10 + (3 / 2),
+          captureAny,
+        ),
+      );
+      expect(result2.callCount, 1);
+      expect((result2.captured.single as Paint).color, MockData.color3);
+      expect((result2.captured.single as Paint).strokeWidth, 3);
+      expect((result2.captured.single as Paint).style, PaintingStyle.stroke);
+    });
+  });
+
   group('drawSections()', () {
     test('test 1', () {
       const viewSize = Size(200, 200);
