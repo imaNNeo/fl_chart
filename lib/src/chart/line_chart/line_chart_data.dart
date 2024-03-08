@@ -225,6 +225,9 @@ class LineChartBarData with EquatableMixin {
     this.spots = const [],
     this.show = true,
     Color? color,
+    Color? secondColor,
+    this.applyCutOffY = false,
+    this.cutOffY = 0.0,
     this.gradient,
     this.barWidth = 2.0,
     this.isCurved = false,
@@ -243,6 +246,7 @@ class LineChartBarData with EquatableMixin {
     this.lineChartStepData = const LineChartStepData(),
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
+        secondColor = secondColor ?? color,
         belowBarData = belowBarData ?? BarAreaData(),
         aboveBarData = aboveBarData ?? BarAreaData() {
     FlSpot? mostLeft;
@@ -310,6 +314,17 @@ class LineChartBarData with EquatableMixin {
   /// Otherwise we use  [gradient] to draw the background.
   /// It throws an exception if you provide both [color] and [gradient]
   final Color? color;
+
+  /// If provided, this [LineChartBarData] draws with this [color] under cutO
+  /// Otherwise we use  [gradient] to draw the background.
+  /// It throws an exception if you provide both [color] and [gradient]
+  final Color? secondColor;
+
+  /// cut the drawing below or above area to this y value
+  final double cutOffY;
+
+  /// determines should or shouldn't apply cutOffY
+  final bool applyCutOffY;
 
   /// If provided, this [LineChartBarData] draws with this [gradient].
   /// Otherwise we use [color] to draw the background.
@@ -387,6 +402,9 @@ class LineChartBarData with EquatableMixin {
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       color: Color.lerp(a.color, b.color, t),
+      secondColor: Color.lerp(a.secondColor, b.secondColor, t),
+      applyCutOffY: b.applyCutOffY,
+      cutOffY: b.cutOffY,
       gradient: Gradient.lerp(a.gradient, b.gradient, t),
       spots: lerpFlSpotList(a.spots, b.spots, t)!,
       showingIndicators: b.showingIndicators,
@@ -403,7 +421,10 @@ class LineChartBarData with EquatableMixin {
     List<FlSpot>? spots,
     bool? show,
     Color? color,
+    Color? secondColor,
     Gradient? gradient,
+    bool? applyCutOffY,
+    double? cutOffY,
     double? barWidth,
     bool? isCurved,
     double? curveSmoothness,
@@ -424,6 +445,9 @@ class LineChartBarData with EquatableMixin {
       spots: spots ?? this.spots,
       show: show ?? this.show,
       color: color ?? this.color,
+      secondColor: secondColor ?? this.secondColor,
+      applyCutOffY: applyCutOffY ?? this.applyCutOffY,
+      cutOffY: cutOffY ?? this.cutOffY,
       gradient: gradient ?? this.gradient,
       barWidth: barWidth ?? this.barWidth,
       isCurved: isCurved ?? this.isCurved,
@@ -451,6 +475,9 @@ class LineChartBarData with EquatableMixin {
         spots,
         show,
         color,
+        secondColor,
+        applyCutOffY,
+        cutOffY,
         gradient,
         barWidth,
         isCurved,
