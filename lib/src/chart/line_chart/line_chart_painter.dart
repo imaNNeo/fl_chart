@@ -253,6 +253,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         holder,
         barData,
       );
+
+      if (barData.applyCutOffY) {
+        drawLineBelowBar(canvasWrapper, barPath, holder, barData);
+        drawLineAboveBar(canvasWrapper, barPath, holder, barData);
+
+        return;
+      }
+
       drawBarShadow(canvasWrapper, barPath, barData);
       drawBar(canvasWrapper, barPath, barData, holder);
     }
@@ -693,6 +701,91 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   /// [belowBarPath] maybe draw over the main bar line,
   /// then to fix the problem we use [filledAboveBarPath] to clear the above section from this draw.
   @visibleForTesting
+  void drawLineBelowBar(
+    CanvasWrapper canvasWrapper,
+    Path barPath,
+    PaintHolder<LineChartData> holder,
+    LineChartBarData barData,
+  ) {
+    if (!barData.show) {
+      return;
+    }
+
+    final viewSize = canvasWrapper.size;
+
+    canvasWrapper.saveLayer(
+      Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
+      Paint(),
+    );
+
+    drawBar(
+      canvasWrapper,
+      barPath,
+      barData,
+      holder,
+      color: barData.secondColor,
+    );
+
+    canvasWrapper
+      ..drawPath(
+          Path()
+            ..addRect(Rect.fromLTRB(
+              getPixelX(barData.mostLeftSpot.x, viewSize, holder),
+              getPixelY(barData.mostTopSpot.y, viewSize, holder),
+              getPixelX(barData.mostRightSpot.x, viewSize, holder),
+              getPixelY(barData.belowBarData.cutOffY, viewSize, holder),
+            )),
+          _clearBarAreaPaint)
+      ..restore();
+  }
+
+  /// firstly we draw [aboveBarPath], then if cutOffY value is provided in [BarAreaData],
+  /// [aboveBarPath] maybe draw over the main bar line,
+  /// then to fix the problem we use [filledBelowBarPath] to clear the above section from this draw.
+  @visibleForTesting
+  void drawLineAboveBar(
+    CanvasWrapper canvasWrapper,
+    Path barPath,
+    PaintHolder<LineChartData> holder,
+    LineChartBarData barData,
+  ) {
+    if (!barData.show) {
+      return;
+    }
+
+    final viewSize = canvasWrapper.size;
+
+    canvasWrapper.saveLayer(
+      Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
+      Paint(),
+    );
+
+    drawBar(
+      canvasWrapper,
+      barPath,
+      barData,
+      holder,
+      color: barData.color,
+    );
+
+    canvasWrapper
+      ..drawPath(
+        Path()
+          ..addRect(Rect.fromLTRB(
+            getPixelX(barData.mostLeftSpot.x, viewSize, holder),
+            getPixelY(barData.belowBarData.cutOffY, viewSize, holder),
+            getPixelX(barData.mostRightSpot.x, viewSize, holder),
+            getPixelY(barData.mostBottomSpot.y, viewSize, holder),
+          )),
+        _clearBarAreaPaint,
+      )
+      ..restore();
+  }
+
+  /// firstly we draw [belowBarPath], then if cutOffY value is provided in [BarAreaData],
+  /// [belowBarPath] maybe draw over the main bar line,
+  /// then to fix the problem we use [filledAboveBarPath] to clear the above section from this draw.
+  @visibleForTesting
   void drawBelowBar(
     CanvasWrapper canvasWrapper,
     Path belowBarPath,
@@ -945,8 +1038,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     Path barPath,
     LineChartBarData barData,
-    PaintHolder<LineChartData> holder,
-  ) {
+    PaintHolder<LineChartData> holder, {
+    Color? color,
+  }) {
     if (!barData.show) {
       return;
     }
@@ -963,9 +1057,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       getPixelX(barData.mostRightSpot.x, viewSize, holder),
       getPixelY(barData.mostBottomSpot.y, viewSize, holder),
     );
+
     _barPaint
       ..setColorOrGradient(
-        barData.color,
+        color ?? barData.color,
         barData.gradient,
         rectAroundTheLine,
       )
