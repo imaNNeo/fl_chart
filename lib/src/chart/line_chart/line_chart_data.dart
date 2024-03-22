@@ -805,12 +805,14 @@ bool showAllDots(FlSpot spot, LineChartBarData barData) {
 /// Shows a text label
 abstract class FlLineLabel with EquatableMixin {
   /// Draws a title on the line, align it with [alignment] over the line,
-  /// applies [padding] for spaces, and applies [style] for changing color,
+  /// applies [padding] for label padding, applies [horizontalOffset] and [verticalOffset] for label space andapplies [style] for changing color,
   /// size, ... of the text.
   /// [show] determines showing label or not.
   const FlLineLabel({
     required this.show,
     required this.padding,
+    required this.horizontalOffset,
+    required this.verticalOffset,
     required this.style,
     required this.alignment,
   });
@@ -820,6 +822,10 @@ abstract class FlLineLabel with EquatableMixin {
 
   /// Inner spaces around the drawing text.
   final EdgeInsetsGeometry padding;
+
+  final double verticalOffset;
+
+  final double horizontalOffset;
 
   /// Sets style of the drawing text.
   final TextStyle? style;
@@ -832,6 +838,8 @@ abstract class FlLineLabel with EquatableMixin {
   List<Object?> get props => [
         show,
         padding,
+        verticalOffset,
+        horizontalOffset,
         style,
         alignment,
       ];
@@ -1024,8 +1032,9 @@ class LineTouchTooltipData with EquatableMixin {
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
   /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
-  /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
-  /// or If you want to have a bottom margin, set [tooltipMargin].
+  /// If you want to have tooltip padding, fill [tooltipPadding],
+  /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
+  /// If you want to adjust tooltip horizontal position, set [tooltipHorizontalOffset]
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -1037,8 +1046,8 @@ class LineTouchTooltipData with EquatableMixin {
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    this.tooltipMargin = 16,
     this.tooltipHorizontalAlignment = FLHorizontalAlignment.center,
+    this.tooltipVerticalOffset = 16,
     this.tooltipHorizontalOffset = 0,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
@@ -1058,14 +1067,14 @@ class LineTouchTooltipData with EquatableMixin {
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
 
-  /// Applies a bottom margin for showing tooltip on top of rods.
-  final double tooltipMargin;
-
   /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
   final FLHorizontalAlignment tooltipHorizontalAlignment;
 
   /// Applies horizontal offset for showing tooltip, default is zero.
   final double tooltipHorizontalOffset;
+
+  /// Adds a offset for tooltip vertical position (offset is applied to bottom of the tooltip) for showing tooltip on top of rods.
+  final double tooltipVerticalOffset;
 
   /// Restricts the tooltip's width.
   final double maxContentWidth;
@@ -1094,7 +1103,7 @@ class LineTouchTooltipData with EquatableMixin {
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipMargin,
+        tooltipVerticalOffset,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,
         maxContentWidth,

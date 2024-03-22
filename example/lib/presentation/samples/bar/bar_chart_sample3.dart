@@ -26,7 +26,7 @@ class _BarChart extends StatelessWidget {
         touchTooltipData: BarTouchTooltipData(
           tooltipBgColor: Colors.transparent,
           tooltipPadding: EdgeInsets.zero,
-          tooltipMargin: 8,
+          tooltipVerticalOffset: 8,
           getTooltipItem: (
             BarChartGroupData group,
             int groupIndex,

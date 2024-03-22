@@ -1171,9 +1171,9 @@ void main() {
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 112);
-      expect(rrect.height, 90);
+      expect(rrect.height, 86);
       expect(rrect.left, -22.5);
-      expect(rrect.top, -106);
+      expect(rrect.top, -102);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
@@ -1184,9 +1184,9 @@ void main() {
 
       expect(rRectBorder.blRadius, const Radius.circular(8));
       expect(rRectBorder.width, 112);
-      expect(rRectBorder.height, 90);
+      expect(rRectBorder.height, 86);
       expect(rRectBorder.left, -22.5);
-      expect(rRectBorder.top, -106);
+      expect(rRectBorder.top, -102);
       expect(paintBorder.color, const Color(0xf33f33f3));
       expect(paintBorder.strokeWidth, 2);
       expect(paintBorder.style, PaintingStyle.stroke);
@@ -1211,7 +1211,7 @@ void main() {
       );
 
       final drawOffset = result2.captured[1] as Offset;
-      expect(drawOffset, const Offset(-6.5, -98));
+      expect(drawOffset, const Offset(-6.5, -94));
     });
 
     test('test 2', () {
@@ -1371,9 +1371,9 @@ void main() {
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 112);
-      expect(rrect.height, 90);
+      expect(rrect.height, 86);
       expect(rrect.left, -80);
-      expect(rrect.top, 116);
+      expect(rrect.top, 100);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
@@ -1384,9 +1384,9 @@ void main() {
 
       expect(rRectBorder.blRadius, const Radius.circular(8));
       expect(rRectBorder.width, 112);
-      expect(rRectBorder.height, 90);
+      expect(rRectBorder.height, 86);
       expect(rRectBorder.left, -80);
-      expect(rRectBorder.top, 116);
+      expect(rRectBorder.top, 100);
       expect(paintBorder.color, const Color(0xf33f33f3));
       expect(paintBorder.strokeWidth, 2);
       expect(paintBorder.style, PaintingStyle.stroke);
@@ -1411,7 +1411,7 @@ void main() {
       );
 
       final drawOffset = result2.captured[1] as Offset;
-      expect(drawOffset, const Offset(-64, 124));
+      expect(drawOffset, const Offset(-64, 108));
     });
 
     test('test 3', () {
@@ -1546,9 +1546,9 @@ void main() {
       final rrect = result1.captured[0] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 2636);
-      expect(rrect.height, 7034.0);
+      expect(rrect.height, 7030.0);
       expect(rrect.left, -2436);
-      expect(rrect.top, -6934.0);
+      expect(rrect.top, -6930.0);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
       expect(bgTooltipPaint.color, const Color(0xf33f33f3));
@@ -1559,9 +1559,9 @@ void main() {
 
       expect(rRectBorder.blRadius, const Radius.circular(8));
       expect(rRectBorder.width, 2636);
-      expect(rRectBorder.height, 7034.0);
+      expect(rRectBorder.height, 7030.0);
       expect(rRectBorder.left, -2436);
-      expect(rRectBorder.top, -6934.0);
+      expect(rRectBorder.top, -6930.0);
       expect(paintBorder.color, const Color(0xf33f33f3));
       expect(paintBorder.strokeWidth, 2);
       expect(paintBorder.style, PaintingStyle.stroke);
@@ -1573,7 +1573,7 @@ void main() {
         ..called(1);
 
       final drawOffset = result2.captured[1] as Offset;
-      expect(drawOffset, const Offset(-2420, -6926));
+      expect(drawOffset, const Offset(-2420, -6922));
     });
   });
 

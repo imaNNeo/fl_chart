@@ -1,3 +1,42 @@
+## newVersion
+
+* **IMPROVEMENT** (by @k0psutin) Add `tooltipPadding` to BarTouchTooltipData, LineTouchTooltipData and ScatterTouchTooltipData, #824
+* **BREAKING**  (by @k0psutin) Remove `margin` from HorizontalLineLabel and VerticalLineLabel, #824
+* **BREAKING** (by @k0psutin) Remove `bottomMargin` from ScatterTooltipItem , #824
+* **IMPROVEMENT** (by @k0psutin) Add `verticalOFfset` and `horizontalOffset` to HorizontalLineLabel and VerticalLineLabel to replace `margin`, #824
+* **BREAKING**  (by @k0psutin) Remove `tooltipMargin` from HorizontalLineLabel and VerticalLineLabel, #824
+* **BREAKING** (by @kopsutin) Add property `tooltipVerticalOffset` to BarTouchTooltipData, LineTouchTooltipData and ScatterTooltipItem to replace `tooltipMargin`, #824  
+* **BUGFIX**  (by @k0psutin) Fix `padding` to apply padding correctly in HorizontalLineLabel and VerticalLineLabel, #824
+
+
+```dart
+/// Migration guide:
+/// Old way:
+BarTouchTooltipData(
+  tooltipMargin: -10,
+)
+
+/// New way:
+BarTouchTooltipData(
+  tooltipVerticalOffset: -10, // same effect as old tooltipMargin
+  tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adds padding to tooltip
+)
+```
+* **BREAKING** (by @k0psutin) Remove `tooltipMargin` property from ScatterTooltipItem, #824
+```dart
+/// Migration guide:
+/// Old way:
+ScatterTooltipItem(
+  bottomMargin: 10,
+)
+
+/// New way:
+ScatterTouchTooltipData(
+  tooltipVerticalOffset: 10, // same effect as old tooltipMargin
+  tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adds padding to tooltip
+)
+```
+
 ## 0.66.2
 * **BUGFIX** (by @stwarwas) Remove dart.io to fix web platform issue, #1577
 

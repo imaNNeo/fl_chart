@@ -126,6 +126,7 @@ class _ScatterChartSample2State extends State {
                       : SystemMouseCursors.click;
                 },
                 touchTooltipData: ScatterTouchTooltipData(
+                  tooltipVerticalOffset: 10,
                   tooltipBgColor: Colors.black,
                   getTooltipItems: (ScatterSpot touchedBarSpot) {
                     return ScatterTooltipItem(
@@ -135,7 +136,6 @@ class _ScatterChartSample2State extends State {
                         color: Colors.grey[100],
                         fontStyle: FontStyle.italic,
                       ),
-                      bottomMargin: 10,
                       children: [
                         TextSpan(
                           text: '${touchedBarSpot.x.toInt()} \n',

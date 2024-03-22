@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
+import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/extensions/text_align_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -988,8 +989,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   ) {
     final viewSize = canvasWrapper.size;
 
-    const textsBelowMargin = 4;
-
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
 
@@ -1038,7 +1037,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
       sumTextsHeight += tp.height;
     }
-    sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowMargin;
+    sumTextsHeight +=
+        (drawingTextPainters.length - 1) * tooltipData.tooltipPadding.bottom;
 
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
@@ -1048,15 +1048,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       getPixelY(showOnSpot.y, viewSize, holder),
     );
 
-    final tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
+    final tooltipWidth = biggerWidth;
+    final tooltipHeight = sumTextsHeight;
 
     double tooltipTopPosition;
     if (tooltipData.showOnTopOfTheChartBoxArea) {
-      tooltipTopPosition = 0 - tooltipHeight - tooltipData.tooltipMargin;
+      tooltipTopPosition = 0 -
+          tooltipHeight -
+          tooltipData.tooltipVerticalOffset -
+          (tooltipData.tooltipPadding.vertical / 2);
     } else {
-      tooltipTopPosition =
-          mostTopOffset.dy - tooltipHeight - tooltipData.tooltipMargin;
+      tooltipTopPosition = mostTopOffset.dy -
+          tooltipHeight -
+          tooltipData.tooltipVerticalOffset -
+          (tooltipData.tooltipPadding.vertical / 2);
     }
 
     final tooltipLeftPosition = getTooltipLeft(
@@ -1064,6 +1069,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
+      tooltipData.tooltipPadding,
     );
 
     /// draw the background rect with rounded radius
@@ -1072,7 +1078,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       tooltipTopPosition,
       tooltipWidth,
       tooltipHeight,
-    );
+    ).applyPadding(tooltipData.tooltipPadding);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
@@ -1166,7 +1172,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final xOffset = switch (align) {
         HorizontalAlignment.left => rect.left + tooltipData.tooltipPadding.left,
         HorizontalAlignment.right =>
-          rect.right - tooltipData.tooltipPadding.right - tp.width,
+          rect.right - tp.width - tooltipData.tooltipPadding.right,
         _ => rect.center.dx - (tp.width / 2),
       };
 
@@ -1185,7 +1191,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         },
       );
       topPosSeek += tp.height;
-      topPosSeek += textsBelowMargin;
+      topPosSeek += tooltipData.tooltipPadding.bottom;
     }
   }
 
