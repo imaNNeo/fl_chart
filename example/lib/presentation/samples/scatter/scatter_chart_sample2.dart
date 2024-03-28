@@ -130,19 +130,37 @@ class _ScatterChartSample2State extends State {
                     return touchedBarSpot.dotPainter.mainColor;
                   },
                   getTooltipItems: (ScatterSpot touchedBarSpot) {
+                    final bool isBgDark =
+                        switch ((touchedBarSpot.x, touchedBarSpot.y)) {
+                      (4.0, 4.0) => false,
+                      (2.0, 5.0) => false,
+                      (4.0, 5.0) => true,
+                      (8.0, 6.0) => true,
+                      (5.0, 7.0) => true,
+                      (7.0, 2.0) => true,
+                      (3.0, 2.0) => true,
+                      (2.0, 8.0) => false,
+                      (8.0, 8.0) => true,
+                      (5.0, 2.5) => false,
+                      (3.0, 7.0) => true,
+                      _ => false,
+                    };
+
+                    final color1 = isBgDark ? Colors.grey[100] : Colors.black87;
+                    final color2 = isBgDark ? Colors.white : Colors.black;
                     return ScatterTooltipItem(
                       'X: ',
                       textStyle: TextStyle(
                         height: 1.2,
-                        color: Colors.grey[100],
+                        color: color1,
                         fontStyle: FontStyle.italic,
                       ),
                       bottomMargin: 10,
                       children: [
                         TextSpan(
                           text: '${touchedBarSpot.x.toInt()} \n',
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: color2,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold,
                           ),
@@ -151,14 +169,14 @@ class _ScatterChartSample2State extends State {
                           text: 'Y: ',
                           style: TextStyle(
                             height: 1.2,
-                            color: Colors.grey[100],
+                            color: color1,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
                         TextSpan(
                           text: touchedBarSpot.y.toInt().toString(),
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: color2,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold,
                           ),
