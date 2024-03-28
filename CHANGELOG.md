@@ -1,5 +1,5 @@
 ## newVersion
-* **FEATURE** (by @julien4215 ) Add direction property to the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticallinelabel), #1579
+* **FEATURE** (by @julien4215) Add direction property to the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticallinelabel), #1574
 
 ## 0.66.2
 * **BUGFIX** (by @stwarwas) Remove dart.io to fix web platform issue, #1577
