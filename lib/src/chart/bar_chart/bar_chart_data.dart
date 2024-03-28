@@ -711,6 +711,8 @@ class BarTouchTooltipData with EquatableMixin {
     TooltipDirection? direction,
     double? rotateAngle,
     BorderSide? tooltipBorder,
+    bool? showBottomTooltip,
+    GetBarTooltipItem? getBottomTooltipItem,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
@@ -726,6 +728,7 @@ class BarTouchTooltipData with EquatableMixin {
         direction = direction ?? TooltipDirection.auto,
         rotateAngle = rotateAngle ?? 0.0,
         tooltipBorder = tooltipBorder ?? BorderSide.none,
+        getBottomTooltipItem = getBottomTooltipItem,
         super();
 
   /// The tooltip background color.
@@ -751,6 +754,9 @@ class BarTouchTooltipData with EquatableMixin {
 
   /// Retrieves data for showing content inside the tooltip.
   final GetBarTooltipItem getTooltipItem;
+
+  /// Retrieves data for showing content inside the bottom tooltip.
+  final GetBarTooltipItem? getBottomTooltipItem;
 
   /// Forces the tooltip to shift horizontally inside the chart, if overflow happens.
   final bool fitInsideHorizontally;
