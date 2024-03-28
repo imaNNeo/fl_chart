@@ -1,4 +1,4 @@
-## newVersion
+## 0.67.0
 * **FEATURE** (by @julien4215) Add direction property to the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticallinelabel), #1574
 * **FEATURE**  (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change background color of tooltip dynamically.[issue](https://github.com/imaNNeo/fl_chart/issues/1279).
 * **BREAKING** (by @apekshamehta) Removed tooltipBgColor property from Bar, Line and Scatter Charts (you can now use `getTooltipColor` which provides more customizability), checkout the [full migration guide here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/migration_guides/0.67.0/MIGRATION_00_67_00.md).
