@@ -1029,6 +1029,7 @@ final LineChartBarData lineChartBarData9 = LineChartBarData(
   preventCurveOverShooting: true,
   preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
+  isDraggable: true,
 );
 
 final TouchLineBarSpot lineBarSpot1 = TouchLineBarSpot(
@@ -1292,6 +1293,9 @@ const LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
 );
 
 void lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
+void dragSpotUpdateFinishedCallback(UpdatedDragSpotsData data) {}
+void dragSpotUpdateCallback(UpdatedDragSpotsData data) {}
+void dragSpotUpdateStartedCallback(UpdatedDragSpotsData data) {}
 
 List<TouchedSpotIndicatorData?> getTouchedSpotIndicator(
   LineChartBarData barData,
@@ -1319,6 +1323,9 @@ const LineTouchData lineTouchData2 = LineTouchData(
   handleBuiltInTouches: false,
   touchSpotThreshold: 12,
   touchTooltipData: lineTouchTooltipData1,
+  dragSpotUpdateCallback: dragSpotUpdateCallback,
+  dragSpotUpdateFinishedCallback: dragSpotUpdateCallback,
+  dragSpotUpdateStartedCallback: dragSpotUpdateCallback,
 );
 const LineTouchData lineTouchData3 = LineTouchData(
   touchCallback: lineTouchCallback,
