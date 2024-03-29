@@ -57,7 +57,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   (int barIndex, int spotIndex)? _draggingSpotIndexes;
 
   bool get _isAnyDraggable =>
-      _lineBarsData.indexWhere((lineBarData) => lineBarData.isDraggable) != -1;
+      _lineBarsData.any((lineBarData) => lineBarData.isDraggable);
 
   @override
   void initState() {
@@ -144,7 +144,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         lineBarsData: _lineBarsData,
         lineTouchData: newData.lineTouchData.copyWith(
           touchCallback: _handleBuiltInTouch,
-          distanceCalculator: true ? vectorDistanceCalculator : null,
+          distanceCalculator: _isAnyDraggable ? vectorDistanceCalculator : null,
         ),
       );
     }

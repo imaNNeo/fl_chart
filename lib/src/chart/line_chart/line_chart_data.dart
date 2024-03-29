@@ -413,6 +413,7 @@ class LineChartBarData with EquatableMixin {
     Gradient? gradient,
     double? barWidth,
     bool? isCurved,
+    bool? isDraggable,
     double? curveSmoothness,
     bool? preventCurveOverShooting,
     double? preventCurveOvershootingThreshold,
@@ -434,6 +435,7 @@ class LineChartBarData with EquatableMixin {
       gradient: gradient ?? this.gradient,
       barWidth: barWidth ?? this.barWidth,
       isCurved: isCurved ?? this.isCurved,
+      isDraggable: isDraggable ?? this.isDraggable,
       curveSmoothness: curveSmoothness ?? this.curveSmoothness,
       preventCurveOverShooting:
           preventCurveOverShooting ?? this.preventCurveOverShooting,

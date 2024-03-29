@@ -3,20 +3,20 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:typed_data' as _i7;
+import 'dart:typed_data' as _i8;
 import 'dart:ui' as _i2;
 
-import 'package:fl_chart/fl_chart.dart' as _i13;
-import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart' as _i10;
+import 'package:fl_chart/fl_chart.dart' as _i7;
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart' as _i11;
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart'
-    as _i12;
-import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
+    as _i13;
+import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i12;
 import 'package:flutter/foundation.dart' as _i5;
-import 'package:flutter/gestures.dart' as _i8;
+import 'package:flutter/gestures.dart' as _i9;
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/rendering.dart' as _i3;
 import 'package:flutter/src/rendering/layer.dart' as _i4;
-import 'package:flutter/src/widgets/notification_listener.dart' as _i9;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -139,6 +139,16 @@ class _FakeDiagnosticsNode_7 extends _i1.SmartFake
       super.toString();
 }
 
+class _FakeFlSpot_8 extends _i1.SmartFake implements _i7.FlSpot {
+  _FakeFlSpot_8(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [Canvas].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -257,7 +267,7 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 
   @override
-  void transform(_i7.Float64List? matrix4) => super.noSuchMethod(
+  void transform(_i8.Float64List? matrix4) => super.noSuchMethod(
         Invocation.method(
           #transform,
           [matrix4],
@@ -266,13 +276,13 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 
   @override
-  _i7.Float64List getTransform() => (super.noSuchMethod(
+  _i8.Float64List getTransform() => (super.noSuchMethod(
         Invocation.method(
           #getTransform,
           [],
         ),
-        returnValue: _i7.Float64List(0),
-      ) as _i7.Float64List);
+        returnValue: _i8.Float64List(0),
+      ) as _i8.Float64List);
 
   @override
   void clipRect(
@@ -619,7 +629,7 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
   @override
   void drawRawPoints(
     _i2.PointMode? pointMode,
-    _i7.Float32List? points,
+    _i8.Float32List? points,
     _i2.Paint? paint,
   ) =>
       super.noSuchMethod(
@@ -681,9 +691,9 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
   @override
   void drawRawAtlas(
     _i2.Image? atlas,
-    _i7.Float32List? rstTransforms,
-    _i7.Float32List? rects,
-    _i7.Int32List? colors,
+    _i8.Float32List? rstTransforms,
+    _i8.Float32List? rects,
+    _i8.Int32List? colors,
     _i2.BlendMode? blendMode,
     _i2.Rect? cullRect,
     _i2.Paint? paint,
@@ -975,7 +985,7 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
   _i4.TransformLayer? pushTransform(
     bool? needsCompositing,
     _i2.Offset? offset,
-    _i8.Matrix4? transform,
+    _i9.Matrix4? transform,
     _i3.PaintingContextCallback? painter, {
     _i4.TransformLayer? oldLayer,
   }) =>
@@ -1152,7 +1162,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
       );
 
   @override
-  void dispatchNotification(_i9.Notification? notification) =>
+  void dispatchNotification(_i10.Notification? notification) =>
       super.noSuchMethod(
         Invocation.method(
           #dispatchNotification,
@@ -1235,7 +1245,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
 /// A class which mocks [BarChartPainter].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
+class MockBarChartPainter extends _i1.Mock implements _i11.BarChartPainter {
   MockBarChartPainter() {
     _i1.throwOnMissingStub(this);
   }
@@ -1243,8 +1253,8 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   @override
   void paint(
     _i6.BuildContext? context,
-    _i11.CanvasWrapper? canvasWrapper,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1259,10 +1269,10 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
       );
 
   @override
-  List<_i10.GroupBarsPosition> calculateGroupAndBarsPosition(
+  List<_i11.GroupBarsPosition> calculateGroupAndBarsPosition(
     _i2.Size? viewSize,
     List<double>? groupsX,
-    List<_i13.BarChartGroupData>? barGroups,
+    List<_i7.BarChartGroupData>? barGroups,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1273,14 +1283,14 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
             barGroups,
           ],
         ),
-        returnValue: <_i10.GroupBarsPosition>[],
-      ) as List<_i10.GroupBarsPosition>);
+        returnValue: <_i11.GroupBarsPosition>[],
+      ) as List<_i11.GroupBarsPosition>);
 
   @override
   void drawBars(
-    _i11.CanvasWrapper? canvasWrapper,
-    List<_i10.GroupBarsPosition>? groupBarsPosition,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    List<_i11.GroupBarsPosition>? groupBarsPosition,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1297,14 +1307,14 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   @override
   void drawTouchTooltip(
     _i6.BuildContext? context,
-    _i11.CanvasWrapper? canvasWrapper,
-    List<_i10.GroupBarsPosition>? groupPositions,
-    _i13.BarTouchTooltipData? tooltipData,
-    _i13.BarChartGroupData? showOnBarGroup,
+    _i12.CanvasWrapper? canvasWrapper,
+    List<_i11.GroupBarsPosition>? groupPositions,
+    _i7.BarTouchTooltipData? tooltipData,
+    _i7.BarChartGroupData? showOnBarGroup,
     int? barGroupIndex,
-    _i13.BarChartRodData? showOnRodData,
+    _i7.BarChartRodData? showOnRodData,
     int? barRodIndex,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1326,14 +1336,14 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
 
   @override
   void drawStackItemBorderStroke(
-    _i11.CanvasWrapper? canvasWrapper,
-    _i13.BarChartRodStackItem? stackItem,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i7.BarChartRodStackItem? stackItem,
     int? index,
     int? rodStacksSize,
     double? barThickSize,
     _i2.RRect? barRRect,
     _i2.Size? drawSize,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1353,10 +1363,10 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
       );
 
   @override
-  _i13.BarTouchedSpot? handleTouch(
+  _i7.BarTouchedSpot? handleTouch(
     _i2.Offset? localPosition,
     _i2.Size? viewSize,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       (super.noSuchMethod(Invocation.method(
         #handleTouch,
@@ -1365,12 +1375,12 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
           viewSize,
           holder,
         ],
-      )) as _i13.BarTouchedSpot?);
+      )) as _i7.BarTouchedSpot?);
 
   @override
   void drawGrid(
-    _i11.CanvasWrapper? canvasWrapper,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1385,8 +1395,8 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
 
   @override
   void drawBackground(
-    _i11.CanvasWrapper? canvasWrapper,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1401,8 +1411,8 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
 
   @override
   void drawRangeAnnotation(
-    _i11.CanvasWrapper? canvasWrapper,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1418,8 +1428,8 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   @override
   void drawExtraLines(
     _i6.BuildContext? context,
-    _i11.CanvasWrapper? canvasWrapper,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1436,8 +1446,8 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   @override
   void drawHorizontalLines(
     _i6.BuildContext? context,
-    _i11.CanvasWrapper? canvasWrapper,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
     _i2.Size? viewSize,
   ) =>
       super.noSuchMethod(
@@ -1456,8 +1466,8 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   @override
   void drawVerticalLines(
     _i6.BuildContext? context,
-    _i11.CanvasWrapper? canvasWrapper,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i12.CanvasWrapper? canvasWrapper,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
     _i2.Size? viewSize,
   ) =>
       super.noSuchMethod(
@@ -1477,7 +1487,7 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   double getPixelX(
     double? spotX,
     _i2.Size? viewSize,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1495,7 +1505,7 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   double getPixelY(
     double? spotY,
     _i2.Size? viewSize,
-    _i12.PaintHolder<_i13.BarChartData>? holder,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1510,10 +1520,41 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
       ) as double);
 
   @override
+  _i7.FlSpot getTouchedCoordinates(
+    double? pixelX,
+    double? pixelY,
+    _i2.Size? viewSize,
+    _i13.PaintHolder<_i7.BarChartData>? holder,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTouchedCoordinates,
+          [
+            pixelX,
+            pixelY,
+            viewSize,
+            holder,
+          ],
+        ),
+        returnValue: _FakeFlSpot_8(
+          this,
+          Invocation.method(
+            #getTouchedCoordinates,
+            [
+              pixelX,
+              pixelY,
+              viewSize,
+              holder,
+            ],
+          ),
+        ),
+      ) as _i7.FlSpot);
+
+  @override
   double getTooltipLeft(
     double? dx,
     double? tooltipWidth,
-    _i13.FLHorizontalAlignment? tooltipHorizontalAlignment,
+    _i7.FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
   ) =>
       (super.noSuchMethod(
