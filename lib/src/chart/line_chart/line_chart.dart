@@ -45,10 +45,11 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   DragSpotUpdateCallback? _dragSpotUpdateFinishedCallback;
   DragSpotUpdateCallback? _dragSpotUpdateCallback;
   DragSpotUpdateCallback? _dragSpotUpdateStartedCallback;
-
   final List<ShowingTooltipIndicators> _showingTouchedTooltips = [];
 
   final Map<int, List<int>> _showingTouchedIndicators = {};
+
+  final _lineChartHelper = LineChartHelper();
 
   List<LineChartBarData> _lineBarsData = [];
 
@@ -112,7 +113,26 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   }
 
   LineChartData _getData() {
-    final lineTouchData = widget.data.lineTouchData;
+    var newData = widget.data;
+
+    /// Calculate minX, maxX, minY, maxY for [LineChartData] if they are null,
+    /// it is necessary to render the chart correctly.
+    if (newData.minX.isNaN ||
+        newData.maxX.isNaN ||
+        newData.minY.isNaN ||
+        newData.maxY.isNaN) {
+      final values = _lineChartHelper.calculateMaxAxisValues(
+        newData.lineBarsData,
+      );
+      newData = newData.copyWith(
+        minX: newData.minX.isNaN ? values.minX : newData.minX,
+        maxX: newData.maxX.isNaN ? values.maxX : newData.maxX,
+        minY: newData.minY.isNaN ? values.minY : newData.minY,
+        maxY: newData.maxY.isNaN ? values.maxY : newData.maxY,
+      );
+    }
+
+    final lineTouchData = newData.lineTouchData;
     if (lineTouchData.enabled && lineTouchData.handleBuiltInTouches) {
       _providedTouchCallback = lineTouchData.touchCallback;
       _dragSpotUpdateFinishedCallback =
@@ -120,16 +140,16 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       _dragSpotUpdateCallback = lineTouchData.dragSpotUpdateCallback;
       _dragSpotUpdateStartedCallback =
           lineTouchData.dragSpotUpdateStartedCallback;
-      return widget.data.copyWith(
+      newData = newData.copyWith(
         lineBarsData: _lineBarsData,
-        lineTouchData: widget.data.lineTouchData.copyWith(
+        lineTouchData: newData.lineTouchData.copyWith(
           touchCallback: _handleBuiltInTouch,
-          distanceCalculator: _isAnyDraggable ? vectorDistanceCalculator : null,
+          distanceCalculator: true ? vectorDistanceCalculator : null,
         ),
       );
     }
 
-    return widget.data;
+    return newData;
   }
 
   void _handleBuiltInTouch(
@@ -174,6 +194,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     }
 
     _providedTouchCallback?.call(event, touchResponse);
+
     if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
