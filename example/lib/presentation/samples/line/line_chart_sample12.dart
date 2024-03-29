@@ -95,7 +95,6 @@ class _LineChartSample12State extends State<LineChartSample12> {
                       return spotIndexes.map((index) {}).toList();
                     },
                     touchTooltipData: LineTouchTooltipData(
-                      tooltipBgColor: Colors.transparent,
                       getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                         return lineBarsSpot.map((lineBarSpot) {}).toList();
                       },
