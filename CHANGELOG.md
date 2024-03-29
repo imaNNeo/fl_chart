@@ -1,4 +1,6 @@
 ## newVersion
+* **FEATURE** (by @G33kFreak) Add drag spots feature for LineChart, [#1420](https://github.com/imaNNeo/fl_chart/issues/1420)
+
 
 ## 0.67.0
 * **FEATURE** (by @julien4215) Add direction property to the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticallinelabel), #1574
