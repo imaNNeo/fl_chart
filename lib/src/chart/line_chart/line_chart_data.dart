@@ -801,17 +801,21 @@ bool showAllDots(FlSpot spot, LineChartBarData barData) {
   return true;
 }
 
+enum LabelDirection { horizontal, vertical }
+
 /// Shows a text label
 abstract class FlLineLabel with EquatableMixin {
   /// Draws a title on the line, align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
   /// [show] determines showing label or not.
+  /// [direction] determines if the direction of the text should be horizontal or vertical.
   const FlLineLabel({
     required this.show,
     required this.padding,
     required this.style,
     required this.alignment,
+    required this.direction,
   });
 
   /// Determines showing label or not.
@@ -826,6 +830,9 @@ abstract class FlLineLabel with EquatableMixin {
   /// Aligns the text on the line.
   final Alignment alignment;
 
+  /// Determines the direction of the text.
+  final LabelDirection direction;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -833,6 +840,7 @@ abstract class FlLineLabel with EquatableMixin {
         padding,
         style,
         alignment,
+        direction,
       ];
 }
 
@@ -1021,7 +1029,7 @@ class LineTouchTooltipData with EquatableMixin {
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
-  /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
+  /// Tooltip shows on top of spots, with [getTooltipColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
@@ -1032,7 +1040,6 @@ class LineTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   const LineTouchTooltipData({
-    this.tooltipBgColor = const Color.fromRGBO(96, 125, 139, 1),
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -1041,15 +1048,13 @@ class LineTouchTooltipData with EquatableMixin {
     this.tooltipHorizontalOffset = 0,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
+    this.getTooltipColor = defaultLineTooltipColor,
     this.fitInsideHorizontally = false,
     this.fitInsideVertically = false,
     this.showOnTopOfTheChartBoxArea = false,
     this.rotateAngle = 0.0,
     this.tooltipBorder = BorderSide.none,
   });
-
-  /// The tooltip background color.
-  final Color tooltipBgColor;
 
   /// Sets a rounded radius for the tooltip.
   final double tooltipRoundedRadius;
@@ -1087,10 +1092,12 @@ class LineTouchTooltipData with EquatableMixin {
   /// The tooltip border color.
   final BorderSide tooltipBorder;
 
+  // /// Retrieves data for setting background color of the tooltip.
+  final GetLineTooltipColor getTooltipColor;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
         tooltipMargin,
@@ -1103,6 +1110,7 @@ class LineTouchTooltipData with EquatableMixin {
         showOnTopOfTheChartBoxArea,
         rotateAngle,
         tooltipBorder,
+        getTooltipColor,
       ];
 }
 
@@ -1129,6 +1137,21 @@ List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
     );
     return LineTooltipItem(touchedSpot.y.toString(), textStyle);
   }).toList();
+}
+
+//// Provides a [Color] to show different background color for each touched spot
+///
+/// You can override [LineTouchTooltipData.getTooltipColor], it gives you
+/// [touchedSpot] object that touch happened on, then you should and pass your custom [Color] list
+/// (length should be equal to the [touchedSpots.length]), to set background color
+/// of tooltip popup.
+typedef GetLineTooltipColor = Color Function(
+  LineBarSpot touchedSpot,
+);
+
+/// Default implementation for [LineTouchTooltipData.getTooltipColor].
+Color defaultLineTooltipColor(LineBarSpot touchedSpot) {
+  return Colors.blueGrey.darken(15);
 }
 
 /// Represent a targeted spot inside a line bar.

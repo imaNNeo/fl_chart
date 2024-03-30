@@ -2291,6 +2291,91 @@ void main() {
         ),
       );
     });
+
+    test('test lines label', () {
+      const viewSize = Size(100, 100);
+
+      String horizontalLabelResolver(HorizontalLine line) {
+        return 'test';
+      }
+
+      String verticalLabelResolver(VerticalLine line) {
+        return 'test';
+      }
+
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 3,
+              label: VerticalLineLabel(
+                show: true,
+                labelResolver: verticalLabelResolver,
+              ),
+            ),
+            VerticalLine(
+              x: 6,
+              label: VerticalLineLabel(
+                show: true,
+                labelResolver: verticalLabelResolver,
+                direction: LabelDirection.vertical,
+              ),
+            ),
+          ],
+          horizontalLines: [
+            HorizontalLine(
+              y: 3,
+              label: HorizontalLineLabel(
+                show: true,
+                labelResolver: horizontalLabelResolver,
+              ),
+            ),
+            HorizontalLine(
+              y: 6,
+              label: HorizontalLineLabel(
+                show: true,
+                labelResolver: horizontalLabelResolver,
+                direction: LabelDirection.vertical,
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final result1 = verify(mockCanvasWrapper.drawText(any, captureAny))
+        ..called(2);
+      final result2 =
+          verify(mockCanvasWrapper.drawVerticalText(any, captureAny))
+            ..called(2);
+
+      final offset1 = result1.captured[0] as Offset;
+      final offset2 = result1.captured[1] as Offset;
+      final offset3 = result2.captured[0] as Offset;
+      final offset4 = result2.captured[1] as Offset;
+      expect(offset1, const Offset(6, 50));
+      expect(offset2, const Offset(36, 80));
+      expect(offset3, const Offset(20, -22));
+      expect(offset4, const Offset(80, 38));
+    });
   });
 
   group('drawTouchTooltip()', () {
@@ -2309,7 +2394,7 @@ void main() {
       );
 
       final tooltipData = LineTouchTooltipData(
-        tooltipBgColor: const Color(0x11111111),
+        getTooltipColor: (touchedSpot) => const Color(0x11111111),
         tooltipRoundedRadius: 12,
         rotateAngle: 43,
         maxContentWidth: 100,
@@ -2420,7 +2505,7 @@ void main() {
       );
 
       final tooltipData = LineTouchTooltipData(
-        tooltipBgColor: const Color(0x11111111),
+        getTooltipColor: (touchedSpot) => const Color(0x11111111),
         tooltipRoundedRadius: 12,
         rotateAngle: 43,
         maxContentWidth: 100,
@@ -2531,7 +2616,7 @@ void main() {
       );
 
       final tooltipData = LineTouchTooltipData(
-        tooltipBgColor: const Color(0x11111111),
+        getTooltipColor: (touchedSpot) => const Color(0x11111111),
         tooltipRoundedRadius: 12,
         rotateAngle: 43,
         maxContentWidth: 100,
