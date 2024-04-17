@@ -240,6 +240,8 @@ class LineChartBarData with EquatableMixin {
     this.dashArray,
     this.shadow = const Shadow(color: Colors.transparent),
     this.isStepLineChart = false,
+    this.isStepLineEdgesCurved = false,
+    this.stepLineEdgesSmoothness = 2,
     this.lineChartStepData = const LineChartStepData(),
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
@@ -360,6 +362,12 @@ class LineChartBarData with EquatableMixin {
   /// If sets true, it draws the chart in Step Line Chart style, using [LineChartBarData.lineChartStepData].
   final bool isStepLineChart;
 
+  /// if sets true, it draws the chart in Step Line Chart style with curved edges.
+  final bool isStepLineEdgesCurved;
+
+  /// If [isStepLineEdgesCurved] is true, it determines the curve smoothness of the step line edges.
+  final double stepLineEdgesSmoothness;
+
   /// Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.
   final LineChartStepData lineChartStepData;
 
@@ -392,6 +400,8 @@ class LineChartBarData with EquatableMixin {
       showingIndicators: b.showingIndicators,
       shadow: Shadow.lerp(a.shadow, b.shadow, t)!,
       isStepLineChart: b.isStepLineChart,
+      isStepLineEdgesCurved: b.isStepLineEdgesCurved,
+      stepLineEdgesSmoothness: b.stepLineEdgesSmoothness,
       lineChartStepData:
           LineChartStepData.lerp(a.lineChartStepData, b.lineChartStepData, t),
     );
@@ -418,6 +428,8 @@ class LineChartBarData with EquatableMixin {
     List<int>? showingIndicators,
     Shadow? shadow,
     bool? isStepLineChart,
+    bool? isStepLineEdgesCurved,
+    double? stepLineEdgesSmoothness,
     LineChartStepData? lineChartStepData,
   }) {
     return LineChartBarData(
@@ -441,6 +453,8 @@ class LineChartBarData with EquatableMixin {
       showingIndicators: showingIndicators ?? this.showingIndicators,
       shadow: shadow ?? this.shadow,
       isStepLineChart: isStepLineChart ?? this.isStepLineChart,
+      isStepLineEdgesCurved: isStepLineEdgesCurved ?? this.isStepLineEdgesCurved,
+      stepLineEdgesSmoothness: stepLineEdgesSmoothness ?? this.stepLineEdgesSmoothness,
       lineChartStepData: lineChartStepData ?? this.lineChartStepData,
     );
   }
@@ -466,6 +480,8 @@ class LineChartBarData with EquatableMixin {
         dashArray,
         shadow,
         isStepLineChart,
+        isStepLineEdgesCurved,
+        stepLineEdgesSmoothness,
         lineChartStepData,
       ];
 }

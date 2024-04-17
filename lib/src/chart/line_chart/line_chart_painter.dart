@@ -590,10 +590,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         path.lineTo(next.dx, next.dy);
       } else {
         final deltaX = next.dx - current.dx;
+        final isYIncreasing = current.dy < next.dy;
+
+        // ignore 2 last points
+        final smoothness = i + 2 < size ? (barData.isStepLineEdgesCurved ? barData.stepLineEdgesSmoothness : 0) : 0;
 
         path
-          ..lineTo(current.dx + deltaX - (deltaX * stepDirection), current.dy)
-          ..lineTo(current.dx + deltaX - (deltaX * stepDirection), next.dy)
+          ..lineTo(current.dx + deltaX - (deltaX * stepDirection) - smoothness, current.dy)
+          ..quadraticBezierTo(current.dx + deltaX - (deltaX * stepDirection), current.dy, current.dx + deltaX - (deltaX * stepDirection), current.dy + (isYIncreasing ? smoothness : -smoothness))
+          ..lineTo(current.dx + deltaX - (deltaX * stepDirection), next.dy + (isYIncreasing ? -smoothness : smoothness))
+          ..quadraticBezierTo(current.dx + deltaX - (deltaX * stepDirection), next.dy, current.dx + deltaX - (deltaX * stepDirection) + smoothness, next.dy)
           ..lineTo(next.dx, next.dy);
       }
     }
