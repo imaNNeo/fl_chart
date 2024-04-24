@@ -1,3 +1,37 @@
+## newVersion
+
+## 0.67.0
+* **FEATURE** (by @julien4215) Add direction property to the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticallinelabel), #1574
+* **FEATURE**  (by @apekshamehta) Added new method called getTooltipColor for axis charts (bar,line,scatter) to change background color of tooltip dynamically, #1279.
+* **BREAKING** (by @apekshamehta) Removed tooltipBgColor property from Bar, Line and Scatter Charts (you can now use `getTooltipColor` which provides more customizability), checkout the [full migration guide here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/migration_guides/0.67.0/MIGRATION_00_67_00.md).
+```dart
+/// Migration guide:
+/// This is the old way:
+BarChartData(
+  barTouchData: BarTouchData(
+    touchTooltipData: BarTouchTooltipData(
+      tooltipBgColor: Colors.blueGrey,
+    )
+  )
+)
+
+/// This is the new way:
+BarChartData(
+  barTouchData: BarTouchData(
+    touchTooltipData: BarTouchTooltipData(
+      getTooltipColor: (BarChartGroupData group) => Colors.blueGrey,
+    )
+  )
+)
+```
+
+## 0.66.2
+* **BUGFIX** (by @stwarwas) Remove dart.io to fix web platform issue, #1577
+
+## 0.66.1
+* **BUGFIX** (by @imaNNeo) Fix PieChart blackout issue, #1538
+* **BUGFIX** (by @imaNNeo) Fix memory leak in LineChart and BarChart, #1106
+
 ## 0.66.0
 * **IMPROVEMENT** (by @imaNNeo) Add Flutter sdk constraints to the pubspec.yaml to force the user/developer to upgrade the Flutter version to 3.16.0 (latest), #1509
 * **IMPROVEMENT** (by @imaNNeo) Add `dotPainter` property to ScatterSpot to allow customizing the dot painter, #568

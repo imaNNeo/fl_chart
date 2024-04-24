@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -146,8 +147,8 @@ void main() {
     ),
   );
 
-  final barChartDataWithOnlyRightTitles = BarChartData(
-    barGroups: [
+  BarChartData createBarChartDataWithOnlyRightTitles() {
+    final barGroups = <BarChartGroupData>[
       BarChartGroupData(
         x: 0,
         barRods: [
@@ -166,52 +167,67 @@ void main() {
           BarChartRodData(toY: 10),
         ],
       ),
-    ],
-    titlesData: FlTitlesData(
-      leftTitles: const AxisTitles(),
-      topTitles: const AxisTitles(),
-      rightTitles: AxisTitles(
-        axisNameWidget: const Icon(Icons.arrow_right),
-        sideTitles: SideTitles(
-          showTitles: true,
-          interval: 1,
-          getTitlesWidget: (value, meta) {
-            return TextButton(
-              onPressed: () {},
-              child: Text(
-                value.toInt().toString(),
-              ),
-            );
-          },
-        ),
-      ),
-      bottomTitles: const AxisTitles(),
-    ),
-  );
+    ];
 
-  final barChartDataWithEmptyGroups = BarChartData(
-    barGroups: [],
-    titlesData: FlTitlesData(
-      leftTitles: const AxisTitles(),
-      topTitles: const AxisTitles(),
-      rightTitles: AxisTitles(
-        axisNameWidget: const Icon(Icons.arrow_right),
-        sideTitles: SideTitles(
-          showTitles: true,
-          interval: 1,
-          getTitlesWidget: (value, meta) {
-            return TextButton(
-              onPressed: () {},
-              child: Text(
-                value.toInt().toString(),
-              ),
-            );
-          },
+    final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+    return BarChartData(
+      barGroups: barGroups,
+      titlesData: FlTitlesData(
+        leftTitles: const AxisTitles(),
+        topTitles: const AxisTitles(),
+        rightTitles: AxisTitles(
+          axisNameWidget: const Icon(Icons.arrow_right),
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitlesWidget: (value, meta) {
+              return TextButton(
+                onPressed: () {},
+                child: Text(
+                  value.toInt().toString(),
+                ),
+              );
+            },
+          ),
         ),
+        bottomTitles: const AxisTitles(),
       ),
-      bottomTitles: const AxisTitles(),
-    ),
-  );
+      minY: axisValues.minY,
+      maxY: axisValues.maxY,
+    );
+  }
+
+  BarChartData createBarChartDataWithEmptyGroups() {
+    final barGroups = <BarChartGroupData>[];
+    final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+    return BarChartData(
+      barGroups: [],
+      titlesData: FlTitlesData(
+        leftTitles: const AxisTitles(),
+        topTitles: const AxisTitles(),
+        rightTitles: AxisTitles(
+          axisNameWidget: const Icon(Icons.arrow_right),
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitlesWidget: (value, meta) {
+              return TextButton(
+                onPressed: () {},
+                child: Text(
+                  value.toInt().toString(),
+                ),
+              );
+            },
+          ),
+        ),
+        bottomTitles: const AxisTitles(),
+      ),
+      minY: axisValues.minY,
+      maxY: axisValues.maxY,
+    );
+  }
 
   testWidgets(
     'LineChart with no titles',
@@ -377,7 +393,7 @@ void main() {
                 height: viewSize.height,
                 child: SideTitlesWidget(
                   side: AxisSide.right,
-                  axisChartData: barChartDataWithOnlyRightTitles,
+                  axisChartData: createBarChartDataWithOnlyRightTitles(),
                   parentSize: viewSize,
                 ),
               ),
@@ -406,7 +422,7 @@ void main() {
                 height: viewSize.height,
                 child: SideTitlesWidget(
                   side: AxisSide.right,
-                  axisChartData: barChartDataWithEmptyGroups,
+                  axisChartData: createBarChartDataWithEmptyGroups(),
                   parentSize: viewSize,
                 ),
               ),

@@ -5,12 +5,12 @@ coverage:
   status:
     project:
       default:
-        target: 85%
-        threshold: 2%
+        target: auto
+        threshold: 1%
     patch:
       default:
-        target: 0%
-        threshold: 100%
+        target: 50%
+        threshold: 10%
   precision: 1
   range: "80...100"
 

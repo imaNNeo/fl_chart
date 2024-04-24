@@ -131,6 +131,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
             _sectionPaint..blendMode = BlendMode.srcOut,
           )
           ..restore();
+        _sectionPaint.blendMode = BlendMode.srcOver;
         if (section.borderSide.width != 0.0 &&
             section.borderSide.color.opacity != 0.0) {
           _sectionStrokePaint

@@ -7,10 +7,10 @@ class LineChartHelper {
   /// Contains List of cached results, base on [List<LineChartBarData>]
   ///
   /// We use it to prevent redundant calculations
-  static final Map<ListWrapper<LineChartBarData>, LineChartMinMaxAxisValues>
+  final Map<ListWrapper<LineChartBarData>, LineChartMinMaxAxisValues>
       _cachedResults = {};
 
-  static LineChartMinMaxAxisValues calculateMaxAxisValues(
+  LineChartMinMaxAxisValues calculateMaxAxisValues(
     List<LineChartBarData> lineBarsData,
   ) {
     if (lineBarsData.isEmpty) {

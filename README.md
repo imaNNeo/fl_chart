@@ -1,8 +1,4 @@
-📊 FL Chart is a highly customizable Flutter chart library that supports **[Line Chart](https://app.flchart.dev/#/line)**, **[Bar Chart](https://app.flchart.dev/#/bar)**, **[Pie Chart](https://app.flchart.dev/#/pie)**, **[Scatter Chart](https://app.flchart.dev/#/scatter)**, and **[Radar Chart](https://app.flchart.dev/#/radar)**.
-
-✅ Do you want to **motivate me to work more on fl_chart?** You can **[donate me](https://github.com/imaNNeo/fl_chart#donation)** ;)
-
-![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/landing_logo.jpg)
+![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/landing_logo.png)
 
 [![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
 [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
@@ -14,6 +10,45 @@
 <span class="badge-buymeacoffee">
 <a href="https://www.buymeacoffee.com/fl_chart" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a>
 </span>
+
+### Our Financial Heroes
+Your financial support acts as fuel for fl_chart's development. [Support here](https://github.com/sponsors/imaNNeo).
+<table>
+	<tbody>
+		<tr>
+				<td>
+					<a href="https://github.com/sponsors/imaNNeo">
+						<picture>
+							<source media="(prefers-color-scheme: dark)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_dark.png">
+							<source media="(prefers-color-scheme: light)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_light.png">
+							<img alt="Become a sponsor" >
+						</picture>
+					</a>
+				</td>
+				<td>
+					<a href="https://github.com/sponsors/imaNNeo">
+						<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_empty.png">
+					</a>
+				</td>
+				<td>
+					<a href="https://github.com/sponsors/imaNNeo">
+						<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_empty.png">
+					</a>
+				</td>
+				<td>
+					<a href="https://github.com/sponsors/imaNNeo">
+						<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_empty.png">
+					</a>
+				</td>
+		</tr>
+	</tbody>
+</table>
+
+### Overview
+FL Chart is a highly customizable Flutter chart library that supports **[Line Chart](https://app.flchart.dev/#/line)**, **[Bar Chart](https://app.flchart.dev/#/bar)**, **[Pie Chart](https://app.flchart.dev/#/pie)**, **[Scatter Chart](https://app.flchart.dev/#/scatter)**, and **[Radar Chart](https://app.flchart.dev/#/radar)**.
+
+<a href="https://youtu.be/hVRU-kpKNjQ"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/overview_thumbnail.png"></p></a>
+
 
 ### Chart Types
 
@@ -40,7 +75,7 @@ Thank you all!
 
 # Let's get started
 
-First of all you need to add the `fl_chart` in your project. In order to do that, follow [this guide](https://pub.dev/packages/fl_chart/install).
+First of all, you need to add the `fl_chart` in your project. In order to do that, follow [this guide](https://pub.dev/packages/fl_chart/install).
 
 Then you need to read the docs. Start from [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/index.md).
 

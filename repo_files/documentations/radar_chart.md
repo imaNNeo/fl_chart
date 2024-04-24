@@ -30,7 +30,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |ticksTextStyle|TextStyle of the tick titles|TextStyle(fontSize: 10, color: Colors.black)|
 |tickBorderData|Style of the tick borders|BorderSide(color: Colors.black, width: 2)|
 |gridBorderData|Style of the grid borders|BorderSide(color: Colors.black, width: 2)|
-|radarTouchData|Handles touch behaviors and responses.|RadarTouchData()|
+|radarTouchData|[RadarTouchData](#radartouchdata-read-about-touch-handling) handles the touch behaviors and responses.|RadarTouchData()|
 
 ### RadarDataSet
 |PropName		|Description	|default value|

@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,6 +45,8 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
   final Map<int, List<int>> _showingTouchedTooltips = {};
 
+  final _barChartHelper = BarChartHelper();
+
   @override
   Widget build(BuildContext context) {
     final showingData = _getData();
@@ -81,15 +84,24 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   }
 
   BarChartData _getData() {
-    final barTouchData = widget.data.barTouchData;
-    if (barTouchData.enabled && barTouchData.handleBuiltInTouches) {
-      _providedTouchCallback = barTouchData.touchCallback;
-      return widget.data.copyWith(
-        barTouchData: widget.data.barTouchData
-            .copyWith(touchCallback: _handleBuiltInTouch),
+    var newData = widget.data;
+    if (newData.minY.isNaN || newData.maxY.isNaN) {
+      final values = _barChartHelper.calculateMaxAxisValues(newData.barGroups);
+      newData = newData.copyWith(
+        minY: newData.minY.isNaN ? values.minY : newData.minY,
+        maxY: newData.maxY.isNaN ? values.maxY : newData.maxY,
       );
     }
-    return widget.data;
+
+    final barTouchData = newData.barTouchData;
+    if (barTouchData.enabled && barTouchData.handleBuiltInTouches) {
+      _providedTouchCallback = barTouchData.touchCallback;
+      return newData.copyWith(
+        barTouchData:
+            newData.barTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+      );
+    }
+    return newData;
   }
 
   void _handleBuiltInTouch(
@@ -121,7 +133,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _barChartDataTween = visitor(
       _barChartDataTween,
-      widget.data,
+      _getData(),
       (dynamic value) =>
           BarChartDataTween(begin: value as BarChartData, end: widget.data),
     ) as BarChartDataTween?;

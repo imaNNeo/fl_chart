@@ -162,7 +162,7 @@ class BarChartSample1State extends State<BarChartSample1> {
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.blueGrey,
+          getTooltipColor: (_) => Colors.blueGrey,
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
@@ -202,8 +202,8 @@ class BarChartSample1State extends State<BarChartSample1> {
               children: <TextSpan>[
                 TextSpan(
                   text: (rod.toY - 1).toString(),
-                  style: TextStyle(
-                    color: widget.touchedBarColor,
+                  style: const TextStyle(
+                    color: Colors.white, //widget.touchedBarColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
