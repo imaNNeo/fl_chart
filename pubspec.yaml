@@ -28,6 +28,8 @@ dev_dependencies:
   very_good_analysis: ^5.1.0
 
 screenshots:
+  - description: 'FL Chart Logo'
+    path: pub_screenshots/logo_1024.png
   - description: 'LineChartSample1 and LineChartSample2'
     path: pub_screenshots/line_chart.jpg
   - description: 'LineChartSample10'
