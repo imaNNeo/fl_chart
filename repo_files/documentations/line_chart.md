@@ -1,6 +1,4 @@
-# LineChart
-
-<a href="https://youtu.be/F3wTxTdAFaU"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_video_thumbnail.png"></a>
+<a href="https://youtu.be/F3wTxTdAFaU"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
