@@ -41,7 +41,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |x| x position of the group on horizontal axis|null|
 |barRods| list of [BarChartRodData](#BarChartRodData) that are a bar line| []
 |barsSpace| the space between barRods of the group|2|
-|showingTooltipIndicators| indexes of barRods to show the tooltip on top of them | []|
+|showingTooltipIndicators| indexes of barRods to show the tooltip on top of them, The point is that you need to disable touches to show these tooltips manually | []|
 
 
 ### BarChartAlignment
