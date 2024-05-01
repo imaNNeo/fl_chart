@@ -78,6 +78,9 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// You can show some tooltipIndicators (a popup with an information)
   /// on top of each [LineChartBarData.spots] using [showingTooltipIndicators],
   /// just put line indicator number and spots indices you want to show it on top of them.
+  ///
+  /// An important point is that you have to disable the default touch behaviour
+  /// to show the tooltip manually, see [LineTouchData.handleBuiltInTouches].
   final List<ShowingTooltipIndicators> showingTooltipIndicators;
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].

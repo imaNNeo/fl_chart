@@ -77,7 +77,15 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         );
   final List<ScatterSpot> scatterSpots;
   final ScatterTouchData scatterTouchData;
+
+  /// you can show some tooltipIndicators (a popup with an information)
+  /// on top of each [ScatterSpot] using [showingTooltipIndicators],
+  /// just put indices you want to show it on top of them.
+  ///
+  /// An important point is that you have to disable the default touch behaviour
+  /// to show the tooltip manually, see [ScatterTouchData.handleBuiltInTouches].
   final List<int> showingTooltipIndicators;
+
   final ScatterLabelSettings scatterLabelSettings;
 
   /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
