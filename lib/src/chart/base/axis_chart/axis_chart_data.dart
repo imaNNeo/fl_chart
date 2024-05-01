@@ -439,7 +439,8 @@ class FlTitlesData with EquatableMixin {
 }
 
 /// Represents a conceptual position in cartesian (axis based) space.
-class FlSpot with EquatableMixin {
+@immutable
+class FlSpot {
   /// [x] determines cartesian (axis based) horizontally position
   /// 0 means most left point of the chart
   ///
@@ -477,13 +478,6 @@ class FlSpot with EquatableMixin {
   /// Determines if [x] and [y] is not null.
   bool isNotNull() => !isNull();
 
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        x,
-        y,
-      ];
-
   /// Lerps a [FlSpot] based on [t] value, check [Tween.lerp].
   static FlSpot lerp(FlSpot a, FlSpot b, double t) {
     if (a == FlSpot.nullSpot) {
@@ -499,6 +493,25 @@ class FlSpot with EquatableMixin {
       lerpDouble(a.y, b.y, t)!,
     );
   }
+
+  /// Two [FlSpot] are equal if their [x] and [y] are equal.
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! FlSpot) {
+      return false;
+    }
+
+    if (x.isNaN && y.isNaN && other.x.isNaN && other.y.isNaN) {
+      return true;
+    }
+
+    return other.x == x && other.y == y;
+  }
+
+  /// Override hashCode
+  @override
+  int get hashCode => x.hashCode ^ y.hashCode;
 }
 
 /// Responsible to hold grid data,
