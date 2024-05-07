@@ -2399,7 +2399,7 @@ void main() {
         rotateAngle: 43,
         maxContentWidth: 100,
         getTooltipMargin: (_) => 12,
-        tooltipPadding: const EdgeInsets.all(12),
+        getTooltipPadding: (_) => const EdgeInsets.all(12),
         fitInsideHorizontally: true,
         fitInsideVertically: true,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
@@ -2511,7 +2511,7 @@ void main() {
         maxContentWidth: 100,
         getTooltipMargin: (_) => 12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.left,
-        tooltipPadding: const EdgeInsets.all(12),
+        getTooltipPadding: (_) => const EdgeInsets.all(12),
         fitInsideVertically: true,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
           return touchedSpots
@@ -2622,7 +2622,7 @@ void main() {
         maxContentWidth: 100,
         getTooltipMargin: (_) => 12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
-        tooltipPadding: const EdgeInsets.all(12),
+        getTooltipPadding: (_) => const EdgeInsets.all(12),
         fitInsideVertically: true,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
           return touchedSpots

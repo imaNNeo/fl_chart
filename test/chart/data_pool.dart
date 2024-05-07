@@ -1199,7 +1199,7 @@ Color lineChartGetRedColor(LineBarSpot touchedSpot) {
 }
 
 LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.1),
   getTooltipColor: lineChartGetGreenColor,
   maxContentWidth: 12,
   getTooltipItems: lineChartGetTooltipItems,
@@ -1209,7 +1209,7 @@ LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   tooltipBorder: const BorderSide(color: Colors.red),
 );
 LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.1),
   getTooltipColor: lineChartGetGreenColor,
   maxContentWidth: 12,
   getTooltipItems: lineChartGetTooltipItems,
@@ -1220,7 +1220,7 @@ LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
 );
 
 LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.1),
   getTooltipColor: lineChartGetRedColor,
   maxContentWidth: 12,
   getTooltipItems: lineChartGetTooltipItems,
@@ -1230,7 +1230,7 @@ LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
   tooltipBorder: const BorderSide(color: Colors.red),
 );
 LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.2),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.2),
   getTooltipColor: lineChartGetGreenColor,
   maxContentWidth: 12,
   getTooltipItems: lineChartGetTooltipItems,
@@ -1241,7 +1241,7 @@ LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   tooltipHorizontalAlignment: FLHorizontalAlignment.left,
 );
 LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.1),
   getTooltipColor: lineChartGetGreenColor,
   maxContentWidth: 13,
   getTooltipItems: lineChartGetTooltipItems,
@@ -1252,7 +1252,7 @@ LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   tooltipHorizontalAlignment: FLHorizontalAlignment.right,
 );
 LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.1),
   getTooltipColor: lineChartGetGreenColor,
   maxContentWidth: 12,
   getTooltipItems: lineChartGetTooltipItems,
@@ -1263,7 +1263,7 @@ LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipHorizontalOffset: 10,
 );
 LineTouchTooltipData lineTouchTooltipData6 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.1),
   getTooltipColor: lineChartGetGreenColor,
   maxContentWidth: 12,
   getTooltipItems: lineChartGetTooltipItems,
@@ -1275,7 +1275,7 @@ LineTouchTooltipData lineTouchTooltipData6 = LineTouchTooltipData(
   tooltipHorizontalOffset: -10,
 );
 LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
+  getTooltipPadding: (_) => const EdgeInsets.all(0.1),
   getTooltipColor: lineChartGetGreenColor,
   maxContentWidth: 12,
   getTooltipItems: lineChartGetTooltipItems,

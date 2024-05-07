@@ -46,6 +46,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
   }
+
   late Paint _barPaint;
   late Paint _barAreaPaint;
   late Paint _barAreaLinesPaint;
@@ -1048,11 +1049,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       getPixelY(showOnSpot.y, viewSize, holder),
     );
 
-    final tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
-
     final firstSpot = showingTooltipSpots.showingSpots[0];
+    final padding = tooltipData.getTooltipPadding(firstSpot);
     final margin = tooltipData.getTooltipMargin(firstSpot);
+
+    final tooltipWidth = biggerWidth + padding.horizontal;
+    final tooltipHeight = sumTextsHeight + padding.vertical;
 
     double tooltipTopPosition;
     if (tooltipData.showOnTopOfTheChartBoxArea) {
@@ -1165,7 +1167,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     );
 
     /// draw the texts one by one in below of each other
-    var topPosSeek = tooltipData.tooltipPadding.top;
+    var topPosSeek = padding.top;
     for (final tp in drawingTextPainters) {
       final yOffset = rect.topCenter.dy +
           topPosSeek -
@@ -1174,9 +1176,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
       final align = tp.textAlign.getFinalHorizontalAlignment(tp.textDirection);
       final xOffset = switch (align) {
-        HorizontalAlignment.left => rect.left + tooltipData.tooltipPadding.left,
-        HorizontalAlignment.right =>
-          rect.right - tooltipData.tooltipPadding.right - tp.width,
+        HorizontalAlignment.left => rect.left + padding.left,
+        HorizontalAlignment.right => rect.right - padding.right - tp.width,
         _ => rect.center.dx - (tp.width / 2),
       };
 
