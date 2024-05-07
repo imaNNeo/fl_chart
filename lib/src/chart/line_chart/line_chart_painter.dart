@@ -1051,12 +1051,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
 
+    final firstSpot = showingTooltipSpots.showingSpots[0];
+    final margin = tooltipData.getTooltipMargin(firstSpot);
+
     double tooltipTopPosition;
     if (tooltipData.showOnTopOfTheChartBoxArea) {
-      tooltipTopPosition = 0 - tooltipHeight - tooltipData.tooltipMargin;
+      tooltipTopPosition = 0 - tooltipHeight - margin;
     } else {
-      tooltipTopPosition =
-          mostTopOffset.dy - tooltipHeight - tooltipData.tooltipMargin;
+      tooltipTopPosition = mostTopOffset.dy - tooltipHeight - margin;
     }
 
     final tooltipLeftPosition = getTooltipLeft(

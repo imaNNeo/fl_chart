@@ -1,6 +1,6 @@
 import 'dart:math' as math;
-import 'dart:ui';
 import 'dart:ui' as ui show Gradient;
+import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -2398,7 +2398,7 @@ void main() {
         tooltipRoundedRadius: 12,
         rotateAngle: 43,
         maxContentWidth: 100,
-        tooltipMargin: 12,
+        getTooltipMargin: (_) => 12,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideHorizontally: true,
         fitInsideVertically: true,
@@ -2509,7 +2509,7 @@ void main() {
         tooltipRoundedRadius: 12,
         rotateAngle: 43,
         maxContentWidth: 100,
-        tooltipMargin: 12,
+        getTooltipMargin: (_) => 12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.left,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
@@ -2620,7 +2620,7 @@ void main() {
         tooltipRoundedRadius: 12,
         rotateAngle: 43,
         maxContentWidth: 100,
-        tooltipMargin: 12,
+        getTooltipMargin: (_) => 12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,

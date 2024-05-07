@@ -1047,12 +1047,12 @@ class LineTouchTooltipData with EquatableMixin {
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    this.tooltipMargin = 16,
     this.tooltipHorizontalAlignment = FLHorizontalAlignment.center,
     this.tooltipHorizontalOffset = 0,
     this.maxContentWidth = 120,
     this.getTooltipItems = defaultLineTooltipItem,
     this.getTooltipColor = defaultLineTooltipColor,
+    this.getTooltipMargin = defaultLineTooltipMargin,
     this.fitInsideHorizontally = false,
     this.fitInsideVertically = false,
     this.showOnTopOfTheChartBoxArea = false,
@@ -1065,9 +1065,6 @@ class LineTouchTooltipData with EquatableMixin {
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
-
-  /// Applies a bottom margin for showing tooltip on top of rods.
-  final double tooltipMargin;
 
   /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
   final FLHorizontalAlignment tooltipHorizontalAlignment;
@@ -1096,15 +1093,17 @@ class LineTouchTooltipData with EquatableMixin {
   /// The tooltip border color.
   final BorderSide tooltipBorder;
 
-  // /// Retrieves data for setting background color of the tooltip.
+  /// Retrieves data for setting background color of the tooltip.
   final GetLineTooltipColor getTooltipColor;
+
+  /// Retrieves data for setting margin of the tooltip.
+  final GetLineTooltipMargin getTooltipMargin;
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipMargin,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,
         maxContentWidth,
@@ -1115,6 +1114,7 @@ class LineTouchTooltipData with EquatableMixin {
         rotateAngle,
         tooltipBorder,
         getTooltipColor,
+        getTooltipMargin,
       ];
 }
 
@@ -1156,6 +1156,21 @@ typedef GetLineTooltipColor = Color Function(
 /// Default implementation for [LineTouchTooltipData.getTooltipColor].
 Color defaultLineTooltipColor(LineBarSpot touchedSpot) {
   return Colors.blueGrey.darken(15);
+}
+
+//// Provides a margin value to show different margins for each touched spot
+///
+/// You can override [LineTouchTooltipData.getTooltipMargin], it gives you
+/// [touchedSpot] object that touch happened on, then you should and pass your custom margin value list
+/// (length should be equal to the [touchedSpots.length]), to set margin
+/// of tooltip popup.
+typedef GetLineTooltipMargin = int Function(
+  LineBarSpot touchedSpot,
+);
+
+/// Default implementation for [LineTouchTooltipData.getTooltipMargin].
+int defaultLineTooltipMargin(LineBarSpot touchedSpot) {
+  return 16;
 }
 
 /// Represent a targeted spot inside a line bar.
