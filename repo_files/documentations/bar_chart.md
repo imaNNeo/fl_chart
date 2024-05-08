@@ -1,6 +1,4 @@
-# BarChart
-
-<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
+<a href="https://youtu.be/vYe0RY1nCAA"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
