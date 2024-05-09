@@ -1,5 +1,7 @@
 ## newVersion
 * **Improvement** (by @imaNNeo) Update LineChartSample6 to implement a way to show a tooltip on a single spot, #1620
+* **Feature** (by @herna) Add `titleSunbeamLayout` inside the [BarChartData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#barchartdata) to allow the user to customize the layout of the title sunbeam
+* **Improvement** (by @imaNNeo) Add LineChart and BarChart explanation videos on top of the respective documentation pages ([LineChart video](https://youtu.be/F3wTxTdAFaU?si=8lwlypKjt-0aJJK0), [BarChart video](https://youtu.be/vYe0RY1nCAA?si=30q_7eNn9MDLcph4))
 
 ## 0.67.0
 * **FEATURE** (by @julien4215) Add direction property to the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticallinelabel), #1574
