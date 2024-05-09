@@ -22,7 +22,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |scatterSpots| list of [ScatterSpot ](#ScatterSpot ) to show the scatter spots on the chart|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |scatterTouchData| [ScatterTouchData](#scattertouchdata-read-about-touch-handling) holds the touch interactivity details| ScatterTouchData()|
-|showingTooltipIndicators| indices of showing tooltip|[]|
+|showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
 
 
 

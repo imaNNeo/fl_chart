@@ -1,5 +1,6 @@
 ## newVersion
 * **IMPROVEMENT** (by @JoshMart) Remove references to deprecated `axisTitleData` property from code and docs, #1259, #1201
+* **Improvement** (by @imaNNeo) Update LineChartSample6 to implement a way to show a tooltip on a single spot, #1620
 
 ## 0.67.0
 * **FEATURE** (by @julien4215) Add direction property to the [HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#horizontallinelabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#verticallinelabel), #1574

@@ -65,6 +65,12 @@ void main() {
       expect(flSpot1 == flSpot2, false);
 
       expect(flSpot2 == flSpot2Clone, true);
+
+      expect(nullSpot1 == nullSpot2, true);
+
+      expect(nullSpot2 == nullSpot3, true);
+
+      expect(nullSpot1 == nullSpot3, true);
     });
 
     test('FlGridData equality test', () {

@@ -76,7 +76,7 @@ void main() {
       expect(results[4], 10);
     });
 
-    test('test 4', () {
+    test('test 5', () {
       final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 0,
@@ -95,7 +95,7 @@ void main() {
       expect(results[2], 9);
     });
 
-    test('test 4', () {
+    test('test 6', () {
       final results = <double>[];
       final axisValues = AxisChartHelper().iterateThroughAxis(
         min: 35,
@@ -111,6 +111,24 @@ void main() {
       expect(results[1], 50);
       expect(results[2], 100);
       expect(results[3], 130);
+    });
+
+    test('test 7', () {
+      final results = <double>[];
+      final axisValues = AxisChartHelper().iterateThroughAxis(
+        min: 5,
+        max: 35,
+        interval: 10,
+        baseLine: 5,
+      );
+      for (final axisValue in axisValues) {
+        results.add(axisValue);
+      }
+      expect(results.length, 4);
+      expect(results[0], 5);
+      expect(results[1], 15);
+      expect(results[2], 25);
+      expect(results[3], 35);
     });
   });
 
