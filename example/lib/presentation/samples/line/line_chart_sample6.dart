@@ -123,7 +123,39 @@ class LineChartSample6 extends StatelessWidget {
         aspectRatio: 2,
         child: LineChart(
           LineChartData(
-            lineTouchData: const LineTouchData(enabled: false),
+            lineTouchData: LineTouchData(
+              touchTooltipData: LineTouchTooltipData(
+                tooltipRoundedRadius: 0,
+                getTooltipColor: (spot) => Colors.white,
+                getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                  return touchedSpots.map((LineBarSpot touchedSpot) {
+                    return LineTooltipItem(
+                      touchedSpot.y.toString(),
+                      TextStyle(
+                        color: touchedSpot.bar.gradient!.colors.first,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    );
+                  }).toList();
+                },
+              ),
+              getTouchedSpotIndicator: (
+                _,
+                indicators,
+              ) {
+                return indicators
+                    .map((int index) => const TouchedSpotIndicatorData(
+                          FlLine(color: Colors.transparent),
+                          FlDotData(show: false),
+                        ))
+                    .toList();
+              },
+              touchSpotThreshold: 12,
+              distanceCalculator:
+                  (Offset touchPoint, Offset spotPixelCoordinates) =>
+                      (touchPoint - spotPixelCoordinates).distance,
+            ),
             lineBarsData: [
               LineChartBarData(
                 gradient: LinearGradient(
@@ -141,12 +173,18 @@ class LineChartSample6 extends StatelessWidget {
                 ),
                 dotData: FlDotData(
                   show: true,
-                  getDotPainter: (spot, percent, barData, index) =>
-                      FlDotCirclePainter(
-                    radius: 12,
-                    color: Colors.transparent,
-                    strokeColor: AppColors.mainTextColor2,
-                  ),
+                  getDotPainter: (spot, percent, barData, index) {
+                    return FlDotCirclePainter(
+                      radius: 12,
+                      color: Color.lerp(
+                        line1Color1,
+                        line1Color2,
+                        percent / 100,
+                      )!,
+                      strokeColor: Colors.white,
+                      strokeWidth: 1,
+                    );
+                  },
                 ),
               ),
               LineChartBarData(
@@ -165,12 +203,18 @@ class LineChartSample6 extends StatelessWidget {
                 ),
                 dotData: FlDotData(
                   show: true,
-                  getDotPainter: (spot, percent, barData, index) =>
-                      FlDotCirclePainter(
-                    radius: 12,
-                    color: Colors.transparent,
-                    strokeColor: AppColors.mainTextColor2,
-                  ),
+                  getDotPainter: (spot, percent, barData, index) {
+                    return FlDotCirclePainter(
+                      radius: 12,
+                      color: Color.lerp(
+                        line2Color1,
+                        line2Color2,
+                        percent / 100,
+                      )!,
+                      strokeColor: Colors.white,
+                      strokeWidth: 1,
+                    );
+                  },
                 ),
               ),
             ],
