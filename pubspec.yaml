@@ -1,6 +1,6 @@
 name: fl_chart
 description: A highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.
-version: 0.67.0
+version: 0.68.0
 homepage: https://flchart.dev/
 repository: https://github.com/imaNNeo/fl_chart
 issue_tracker: https://github.com/imaNNeo/fl_chart/issues
