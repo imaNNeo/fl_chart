@@ -7,6 +7,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
+import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -344,8 +345,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   ) {
     final viewSize = canvasWrapper.size;
 
-    const textsBelowMargin = 4;
-
     final tooltipItem = tooltipData.getTooltipItem(
       showOnBarGroup,
       barGroupIndex,
@@ -373,16 +372,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainter = tp;
 
-    /// biggerWidth
-    /// some texts maybe larger, then we should
-    /// draw the tooltip' width as wide as biggerWidth
-    ///
-    /// sumTextsHeight
-    /// sum up all Texts height, then we should
-    /// draw the tooltip's height as tall as sumTextsHeight
-    final textWidth = drawingTextPainter.width;
-    final textHeight = drawingTextPainter.height + textsBelowMargin;
-
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
@@ -395,9 +384,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       groupPositions[barGroupIndex].barsX[barRodIndex],
       getPixelY(showOnRodData.fromY, viewSize, holder),
     );
-
-    final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
+    final tooltipWidth = drawingTextPainter.width;
+    final tooltipHeight = drawingTextPainter.height;
 
     final barTopY = min(barToYPixel.dy, barFromYPixel.dy);
     final barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
@@ -405,24 +393,27 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         (tooltipData.direction == TooltipDirection.auto &&
             showOnRodData.isUpward());
     final tooltipTop = drawTooltipOnTop
-        ? barTopY - tooltipHeight - tooltipData.tooltipMargin
-        : barBottomY + tooltipData.tooltipMargin;
-
+        ? barTopY -
+            tooltipHeight -
+            tooltipData.tooltipVerticalOffset -
+            (tooltipData.tooltipPadding.vertical / 2)
+        : barBottomY +
+            tooltipData.tooltipVerticalOffset +
+            (tooltipData.tooltipPadding.vertical / 2);
     final tooltipLeft = getTooltipLeft(
       barToYPixel.dx,
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
+      tooltipData.tooltipPadding,
     );
 
-    /// draw the background rect with rounded radius
-    // ignore: omit_local_variable_types
-    Rect rect = Rect.fromLTWH(
+    var rect = Rect.fromLTWH(
       tooltipLeft,
       tooltipTop,
       tooltipWidth,
       tooltipHeight,
-    );
+    ).applyPadding(tooltipData.tooltipPadding);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {

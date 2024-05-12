@@ -159,10 +159,6 @@ class _FakePath_9 extends _i1.SmartFake implements _i2.Path {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCanvas extends _i1.Mock implements _i2.Canvas {
-  MockCanvas() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   void save() => super.noSuchMethod(
         Invocation.method(
@@ -213,6 +209,7 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
           [],
         ),
         returnValue: 0,
+        returnValueForMissingStub: 0,
       ) as int);
 
   @override
@@ -288,6 +285,7 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
           [],
         ),
         returnValue: _i5.Float64List(0),
+        returnValueForMissingStub: _i5.Float64List(0),
       ) as _i5.Float64List);
 
   @override
@@ -349,6 +347,13 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
             [],
           ),
         ),
+        returnValueForMissingStub: _FakeRect_0(
+          this,
+          Invocation.method(
+            #getLocalClipBounds,
+            [],
+          ),
+        ),
       ) as _i2.Rect);
 
   @override
@@ -358,6 +363,13 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
           [],
         ),
         returnValue: _FakeRect_0(
+          this,
+          Invocation.method(
+            #getDestinationClipBounds,
+            [],
+          ),
+        ),
+        returnValueForMissingStub: _FakeRect_0(
           this,
           Invocation.method(
             #getDestinationClipBounds,
@@ -745,14 +757,14 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
-  MockCanvasWrapper() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i2.Canvas get canvas => (super.noSuchMethod(
         Invocation.getter(#canvas),
         returnValue: _FakeCanvas_1(
+          this,
+          Invocation.getter(#canvas),
+        ),
+        returnValueForMissingStub: _FakeCanvas_1(
           this,
           Invocation.getter(#canvas),
         ),
@@ -762,6 +774,10 @@ class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
   _i2.Size get size => (super.noSuchMethod(
         Invocation.getter(#size),
         returnValue: _FakeSize_2(
+          this,
+          Invocation.getter(#size),
+        ),
+        returnValueForMissingStub: _FakeSize_2(
           this,
           Invocation.getter(#size),
         ),
@@ -1091,14 +1107,14 @@ class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
-  MockBuildContext() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i3.Widget get widget => (super.noSuchMethod(
         Invocation.getter(#widget),
         returnValue: _FakeWidget_3(
+          this,
+          Invocation.getter(#widget),
+        ),
+        returnValueForMissingStub: _FakeWidget_3(
           this,
           Invocation.getter(#widget),
         ),
@@ -1108,12 +1124,14 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
   bool get mounted => (super.noSuchMethod(
         Invocation.getter(#mounted),
         returnValue: false,
+        returnValueForMissingStub: false,
       ) as bool);
 
   @override
   bool get debugDoingBuild => (super.noSuchMethod(
         Invocation.getter(#debugDoingBuild),
         returnValue: false,
+        returnValueForMissingStub: false,
       ) as bool);
 
   @override
@@ -1128,6 +1146,14 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
           {#aspect: aspect},
         ),
         returnValue: _FakeInheritedWidget_4(
+          this,
+          Invocation.method(
+            #dependOnInheritedElement,
+            [ancestor],
+            {#aspect: aspect},
+          ),
+        ),
+        returnValueForMissingStub: _FakeInheritedWidget_4(
           this,
           Invocation.method(
             #dependOnInheritedElement,
@@ -1185,6 +1211,14 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
             {#style: style},
           ),
         ),
+        returnValueForMissingStub: _FakeDiagnosticsNode_5(
+          this,
+          Invocation.method(
+            #describeElement,
+            [name],
+            {#style: style},
+          ),
+        ),
       ) as _i3.DiagnosticsNode);
 
   @override
@@ -1206,6 +1240,14 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
             {#style: style},
           ),
         ),
+        returnValueForMissingStub: _FakeDiagnosticsNode_5(
+          this,
+          Invocation.method(
+            #describeWidget,
+            [name],
+            {#style: style},
+          ),
+        ),
       ) as _i3.DiagnosticsNode);
 
   @override
@@ -1218,6 +1260,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
           {#expectedAncestorType: expectedAncestorType},
         ),
         returnValue: <_i3.DiagnosticsNode>[],
+        returnValueForMissingStub: <_i3.DiagnosticsNode>[],
       ) as List<_i3.DiagnosticsNode>);
 
   @override
@@ -1234,6 +1277,13 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
             [name],
           ),
         ),
+        returnValueForMissingStub: _FakeDiagnosticsNode_5(
+          this,
+          Invocation.method(
+            #describeOwnershipChain,
+            [name],
+          ),
+        ),
       ) as _i3.DiagnosticsNode);
 }
 
@@ -1241,10 +1291,6 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUtils extends _i1.Mock implements _i8.Utils {
-  MockUtils() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   double radians(double? degrees) => (super.noSuchMethod(
         Invocation.method(
@@ -1252,6 +1298,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           [degrees],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -1261,6 +1308,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           [radians],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -1270,6 +1318,13 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           [screenSize],
         ),
         returnValue: _FakeSize_2(
+          this,
+          Invocation.method(
+            #getDefaultSize,
+            [screenSize],
+          ),
+        ),
+        returnValueForMissingStub: _FakeSize_2(
           this,
           Invocation.method(
             #getDefaultSize,
@@ -1292,6 +1347,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           ],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -1317,6 +1373,16 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
             ],
           ),
         ),
+        returnValueForMissingStub: _FakeOffset_6(
+          this,
+          Invocation.method(
+            #calculateRotationOffset,
+            [
+              size,
+              degree,
+            ],
+          ),
+        ),
       ) as _i2.Offset);
 
   @override
@@ -1324,13 +1390,16 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
     _i3.BorderRadius? borderRadius,
     double? width,
   ) =>
-      (super.noSuchMethod(Invocation.method(
-        #normalizeBorderRadius,
-        [
-          borderRadius,
-          width,
-        ],
-      )) as _i3.BorderRadius?);
+      (super.noSuchMethod(
+        Invocation.method(
+          #normalizeBorderRadius,
+          [
+            borderRadius,
+            width,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      ) as _i3.BorderRadius?);
 
   @override
   _i3.BorderSide normalizeBorderSide(
@@ -1346,6 +1415,16 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           ],
         ),
         returnValue: _FakeBorderSide_7(
+          this,
+          Invocation.method(
+            #normalizeBorderSide,
+            [
+              borderSide,
+              width,
+            ],
+          ),
+        ),
+        returnValueForMissingStub: _FakeBorderSide_7(
           this,
           Invocation.method(
             #normalizeBorderSide,
@@ -1373,6 +1452,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           {#pixelPerInterval: pixelPerInterval},
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -1382,6 +1462,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           [input],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -1391,6 +1472,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           [value],
         ),
         returnValue: 0,
+        returnValueForMissingStub: 0,
       ) as int);
 
   @override
@@ -1409,6 +1491,17 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           ],
         ),
         returnValue: _i9.dummyValue<String>(
+          this,
+          Invocation.method(
+            #formatNumber,
+            [
+              axisMin,
+              axisMax,
+              axisValue,
+            ],
+          ),
+        ),
+        returnValueForMissingStub: _i9.dummyValue<String>(
           this,
           Invocation.method(
             #formatNumber,
@@ -1444,6 +1537,16 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
             ],
           ),
         ),
+        returnValueForMissingStub: _FakeTextStyle_8(
+          this,
+          Invocation.method(
+            #getThemeAwareTextStyle,
+            [
+              context,
+              providedStyle,
+            ],
+          ),
+        ),
       ) as _i3.TextStyle);
 
   @override
@@ -1464,6 +1567,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           {#baseline: baseline},
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -1473,6 +1577,7 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
           [radius],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 }
 
@@ -1480,10 +1585,6 @@ class MockUtils extends _i1.Mock implements _i8.Utils {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
-  MockLineChartPainter() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   void paint(
     _i3.BuildContext? context,
@@ -1624,6 +1725,19 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             {#appendToPath: appendToPath},
           ),
         ),
+        returnValueForMissingStub: _FakePath_9(
+          this,
+          Invocation.method(
+            #generateBarPath,
+            [
+              viewSize,
+              barData,
+              barSpots,
+              holder,
+            ],
+            {#appendToPath: appendToPath},
+          ),
+        ),
       ) as _i2.Path);
 
   @override
@@ -1658,6 +1772,19 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             {#appendToPath: appendToPath},
           ),
         ),
+        returnValueForMissingStub: _FakePath_9(
+          this,
+          Invocation.method(
+            #generateNormalBarPath,
+            [
+              viewSize,
+              barData,
+              barSpots,
+              holder,
+            ],
+            {#appendToPath: appendToPath},
+          ),
+        ),
       ) as _i2.Path);
 
   @override
@@ -1680,6 +1807,19 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           {#appendToPath: appendToPath},
         ),
         returnValue: _FakePath_9(
+          this,
+          Invocation.method(
+            #generateStepBarPath,
+            [
+              viewSize,
+              barData,
+              barSpots,
+              holder,
+            ],
+            {#appendToPath: appendToPath},
+          ),
+        ),
+        returnValueForMissingStub: _FakePath_9(
           this,
           Invocation.method(
             #generateStepBarPath,
@@ -1729,6 +1869,20 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             {#fillCompletely: fillCompletely},
           ),
         ),
+        returnValueForMissingStub: _FakePath_9(
+          this,
+          Invocation.method(
+            #generateBelowBarPath,
+            [
+              viewSize,
+              barData,
+              barPath,
+              barSpots,
+              holder,
+            ],
+            {#fillCompletely: fillCompletely},
+          ),
+        ),
       ) as _i2.Path);
 
   @override
@@ -1753,6 +1907,20 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           {#fillCompletely: fillCompletely},
         ),
         returnValue: _FakePath_9(
+          this,
+          Invocation.method(
+            #generateAboveBarPath,
+            [
+              viewSize,
+              barData,
+              barPath,
+              barSpots,
+              holder,
+            ],
+            {#fillCompletely: fillCompletely},
+          ),
+        ),
+        returnValueForMissingStub: _FakePath_9(
           this,
           Invocation.method(
             #generateAboveBarPath,
@@ -1912,6 +2080,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -1920,14 +2089,17 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
     _i2.Size? size,
     _i11.PaintHolder<_i7.LineChartData>? holder,
   ) =>
-      (super.noSuchMethod(Invocation.method(
-        #handleTouch,
-        [
-          localPosition,
-          size,
-          holder,
-        ],
-      )) as List<_i7.TouchLineBarSpot>?);
+      (super.noSuchMethod(
+        Invocation.method(
+          #handleTouch,
+          [
+            localPosition,
+            size,
+            holder,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      ) as List<_i7.TouchLineBarSpot>?);
 
   @override
   _i7.TouchLineBarSpot? getNearestTouchedSpot(
@@ -1937,16 +2109,19 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
     int? barDataPosition,
     _i11.PaintHolder<_i7.LineChartData>? holder,
   ) =>
-      (super.noSuchMethod(Invocation.method(
-        #getNearestTouchedSpot,
-        [
-          viewSize,
-          touchedPoint,
-          barData,
-          barDataPosition,
-          holder,
-        ],
-      )) as _i7.TouchLineBarSpot?);
+      (super.noSuchMethod(
+        Invocation.method(
+          #getNearestTouchedSpot,
+          [
+            viewSize,
+            touchedPoint,
+            barData,
+            barDataPosition,
+            holder,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      ) as _i7.TouchLineBarSpot?);
 
   @override
   void drawGrid(
@@ -2055,6 +2230,36 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
       );
 
   @override
+  void drawLineLabel(
+    _i7.LabelDirection? direction,
+    _i2.Color? backgroundColor,
+    _i3.Alignment? alignment,
+    _i2.Rect? textArea,
+    _i3.EdgeInsets? padding,
+    double? verticalOffset,
+    double? horizontalOffset,
+    _i3.TextPainter? tp,
+    _i6.CanvasWrapper? canvasWrapper,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineLabel,
+          [
+            direction,
+            backgroundColor,
+            alignment,
+            textArea,
+            padding,
+            verticalOffset,
+            horizontalOffset,
+            tp,
+            canvasWrapper,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   double getPixelX(
     double? spotX,
     _i2.Size? viewSize,
@@ -2070,6 +2275,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -2088,6 +2294,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 
   @override
@@ -2096,6 +2303,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
     double? tooltipWidth,
     _i7.FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
+    _i3.EdgeInsets? tooltipPadding,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -2105,8 +2313,10 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             tooltipWidth,
             tooltipHorizontalAlignment,
             tooltipHorizontalOffset,
+            tooltipPadding,
           ],
         ),
         returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
       ) as double);
 }

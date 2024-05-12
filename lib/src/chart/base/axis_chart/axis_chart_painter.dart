@@ -4,6 +4,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
+import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
 
+    _labelBackgroundPaint = Paint()..style = PaintingStyle.fill;
+
     _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
     _imagePaint = Paint();
@@ -29,6 +32,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
   late Paint _gridPaint;
   late Paint _backgroundPaint;
   late Paint _extraLinesPaint;
+  late Paint _labelBackgroundPaint;
   late Paint _imagePaint;
 
   /// [_rangeAnnotationPaint] draws range annotations;
@@ -291,46 +295,53 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final label = line.label;
           final style =
               TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final padding = label.padding as EdgeInsets;
+          final padding = label.padding;
+          final verticalOffset = label.verticalOffset;
+          final horizontalOffset = label.horizontalOffset;
+          final alignment = label.alignment;
+
+          final backgroundColor =
+              Utils().getThemeAwareTextStyle(context, style).backgroundColor ??
+                  Colors.transparent;
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
+            style: Utils().getThemeAwareTextStyle(context, style).copyWith(
+                  backgroundColor: Colors.transparent,
+                ),
           );
 
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
-          );
-          // ignore: cascade_invocations
-          tp.layout();
+          )..layout();
 
-          switch (label.direction) {
-            case LabelDirection.horizontal:
-              canvasWrapper.drawText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx + padding.left,
-                    from.dy - padding.bottom - tp.height,
-                    to.dx - padding.right - tp.width,
-                    to.dy + padding.top,
-                  ),
-                ),
-              );
-            case LabelDirection.vertical:
-              canvasWrapper.drawVerticalText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx + padding.left + tp.height,
-                    from.dy - padding.bottom - tp.width,
-                    to.dx - padding.right,
-                    to.dy + padding.top,
-                  ),
-                ),
-              );
-          }
+          final textArea = switch (label.direction) {
+            LabelDirection.horizontal => Rect.fromLTRB(
+                from.dx,
+                from.dy - tp.height,
+                to.dx - tp.width,
+                to.dy,
+              ),
+            _ => Rect.fromLTRB(
+                from.dx + tp.height,
+                from.dy - tp.width,
+                to.dx,
+                to.dy,
+              ),
+          };
+
+          drawLineLabel(
+            label.direction,
+            backgroundColor,
+            alignment,
+            textArea,
+            padding,
+            verticalOffset,
+            horizontalOffset,
+            tp,
+            canvasWrapper,
+          );
         }
       }
     }
@@ -399,48 +410,103 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final label = line.label;
           final style =
               TextStyle(fontSize: 11, color: line.color).merge(label.style);
-          final padding = label.padding as EdgeInsets;
+          final padding = label.padding;
+          final verticalOffset = label.verticalOffset;
+          final horizontalOffset = label.horizontalOffset;
+          final alignment = label.alignment;
+
+          final backgroundColor =
+              Utils().getThemeAwareTextStyle(context, style).backgroundColor ??
+                  Colors.transparent;
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
+            style: Utils().getThemeAwareTextStyle(context, style).copyWith(
+                  backgroundColor: Colors.transparent,
+                ),
           );
 
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
-          );
-          // ignore: cascade_invocations
-          tp.layout();
+          )..layout();
 
-          switch (label.direction) {
-            case LabelDirection.horizontal:
-              canvasWrapper.drawText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right - tp.width,
-                    from.dy + padding.top,
-                    to.dx + padding.left,
-                    to.dy - padding.bottom - tp.height,
-                  ),
-                ),
-              );
-            case LabelDirection.vertical:
-              canvasWrapper.drawVerticalText(
-                tp,
-                label.alignment.withinRect(
-                  Rect.fromLTRB(
-                    from.dx - padding.right,
-                    from.dy + padding.top,
-                    to.dx + padding.left + tp.height,
-                    to.dy - padding.bottom - tp.width,
-                  ),
-                ),
-              );
-          }
+          final textArea = switch (label.direction) {
+            LabelDirection.horizontal => Rect.fromLTRB(
+                from.dx - tp.width,
+                from.dy,
+                to.dx,
+                to.dy - tp.height,
+              ),
+            _ => Rect.fromLTRB(
+                from.dx,
+                from.dy,
+                to.dx + tp.height,
+                to.dy - tp.width,
+              ),
+          };
+
+          drawLineLabel(
+            label.direction,
+            backgroundColor,
+            alignment,
+            textArea,
+            padding,
+            verticalOffset,
+            horizontalOffset,
+            tp,
+            canvasWrapper,
+          );
         }
       }
+    }
+  }
+
+  @visibleForTesting
+  void drawLineLabel(
+    LabelDirection direction,
+    Color backgroundColor,
+    Alignment alignment,
+    Rect textArea,
+    EdgeInsets padding,
+    double verticalOffset,
+    double horizontalOffset,
+    TextPainter tp,
+    CanvasWrapper canvasWrapper,
+  ) {
+    final currenfOffset = alignment.withinRect(
+      textArea,
+    );
+
+    final offset = Offset(
+      currenfOffset.dx + horizontalOffset,
+      currenfOffset.dy - verticalOffset,
+    );
+
+    final backgroundRect = Rect.fromCenter(
+      center: Offset(
+        offset.dx,
+        offset.dy,
+      ),
+      width: tp.width,
+      height: tp.height,
+    ).applyPadding(padding);
+
+    canvasWrapper.drawRect(
+      backgroundRect,
+      _labelBackgroundPaint..color = backgroundColor,
+    );
+
+    if (direction == LabelDirection.vertical) {
+      canvasWrapper.drawVerticalText(
+        tp,
+        offset,
+      );
+    } else {
+      canvasWrapper.drawText(
+        tp,
+        offset,
+      );
     }
   }
 
@@ -474,14 +540,18 @@ abstract class AxisChartPainter<D extends AxisChartData>
     double tooltipWidth,
     FLHorizontalAlignment tooltipHorizontalAlignment,
     double tooltipHorizontalOffset,
+    EdgeInsets tooltipPadding,
   ) {
     switch (tooltipHorizontalAlignment) {
       case FLHorizontalAlignment.center:
         return dx - (tooltipWidth / 2) + tooltipHorizontalOffset;
       case FLHorizontalAlignment.right:
-        return dx + tooltipHorizontalOffset;
+        return dx + tooltipHorizontalOffset + (tooltipPadding.horizontal / 2);
       case FLHorizontalAlignment.left:
-        return dx - tooltipWidth + tooltipHorizontalOffset;
+        return dx -
+            tooltipWidth +
+            tooltipHorizontalOffset -
+            (tooltipPadding.horizontal / 2);
     }
   }
 }

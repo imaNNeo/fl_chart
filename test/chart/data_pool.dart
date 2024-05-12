@@ -1205,7 +1205,7 @@ const LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
+  tooltipVerticalOffset: 33,
   tooltipBorder: BorderSide(color: Colors.red),
 );
 const LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
@@ -1215,7 +1215,7 @@ const LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
+  tooltipVerticalOffset: 33,
   tooltipBorder: BorderSide(color: Colors.red),
 );
 
@@ -1226,7 +1226,7 @@ const LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
+  tooltipVerticalOffset: 33,
   tooltipBorder: BorderSide(color: Colors.red),
 );
 const LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
@@ -1236,7 +1236,7 @@ const LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
+  tooltipVerticalOffset: 33,
   tooltipBorder: BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.left,
 );
@@ -1247,7 +1247,7 @@ const LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
+  tooltipVerticalOffset: 33,
   tooltipBorder: BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.right,
 );
@@ -1258,7 +1258,7 @@ const LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 34,
+  tooltipVerticalOffset: 34,
   tooltipBorder: BorderSide(color: Colors.red),
   tooltipHorizontalOffset: 10,
 );
@@ -1269,7 +1269,7 @@ const LineTouchTooltipData lineTouchTooltipData6 = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
+  tooltipVerticalOffset: 33,
   tooltipBorder: BorderSide(color: Colors.pink),
   tooltipHorizontalAlignment: FLHorizontalAlignment.left,
   tooltipHorizontalOffset: -10,
@@ -1281,7 +1281,7 @@ const LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
   getTooltipItems: lineChartGetTooltipItems,
   fitInsideHorizontally: true,
   tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
+  tooltipVerticalOffset: 33,
   tooltipBorder: BorderSide(color: Colors.red, width: 2),
   tooltipHorizontalAlignment: FLHorizontalAlignment.right,
   tooltipHorizontalOffset: 10,
@@ -2249,7 +2249,6 @@ ScatterTooltipItem? scatterChartGetTooltipItems(ScatterSpot spots) {
   return ScatterTooltipItem(
     'check',
     textStyle: const TextStyle(color: Colors.blue),
-    bottomMargin: 23,
   );
 }
 
@@ -2790,7 +2789,7 @@ final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
@@ -2801,7 +2800,7 @@ final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
@@ -2812,7 +2811,7 @@ final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.center,
 );
@@ -2824,7 +2823,7 @@ final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.left,
 );
@@ -2836,7 +2835,7 @@ final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.right,
 );
@@ -2848,7 +2847,7 @@ final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.center,
   tooltipHorizontalOffset: 10,
@@ -2861,7 +2860,7 @@ final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   getTooltipColor: getTooltipBlueColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.left,
   tooltipHorizontalOffset: -10,
@@ -2873,7 +2872,7 @@ final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   maxContentWidth: 23,
   getTooltipColor: getTooltipGreenColor,
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
   tooltipHorizontalAlignment: FLHorizontalAlignment.right,
   tooltipHorizontalOffset: 10,
@@ -2885,7 +2884,7 @@ final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   maxContentWidth: 23,
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
@@ -2896,7 +2895,7 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 333,
+  tooltipVerticalOffset: 333,
   tooltipBorder: const BorderSide(color: Colors.red),
 );
 final BarTouchTooltipData barTouchTooltipData10 = BarTouchTooltipData(
@@ -2907,7 +2906,7 @@ final BarTouchTooltipData barTouchTooltipData10 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.blue),
 );
 final BarTouchTooltipData barTouchTooltipData11 = BarTouchTooltipData(
@@ -2918,7 +2917,7 @@ final BarTouchTooltipData barTouchTooltipData11 = BarTouchTooltipData(
   getTooltipColor: getTooltipGreenColor,
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
+  tooltipVerticalOffset: 12,
   tooltipBorder: const BorderSide(color: Colors.red, width: 2),
 );
 

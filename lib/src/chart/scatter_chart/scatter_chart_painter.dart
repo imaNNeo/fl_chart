@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -238,14 +239,15 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       getPixelY(showOnSpot.y, viewSize, holder),
     );
 
-    final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
+    final tooltipWidth = width;
+    final tooltipHeight = height;
 
     final tooltipLeftPosition = getTooltipLeft(
       mostTopOffset.dx,
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
+      tooltipData.tooltipPadding,
     );
 
     /// draw the background rect with rounded radius
@@ -254,10 +256,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       mostTopOffset.dy -
           tooltipHeight -
           (showOnSpot.size.height / 2) -
-          tooltipItem.bottomMargin,
+          tooltipData.tooltipVerticalOffset -
+          (tooltipData.tooltipPadding.vertical / 2),
       tooltipWidth,
       tooltipHeight,
-    );
+    ).applyPadding(tooltipData.tooltipPadding);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
