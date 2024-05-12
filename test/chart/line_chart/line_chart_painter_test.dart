@@ -2401,7 +2401,6 @@ void main() {
               x: 5,
               color: Colors.white,
               label: VerticalLineLabel(
-                show: false,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,
