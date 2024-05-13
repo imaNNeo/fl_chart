@@ -1670,9 +1670,9 @@ class FlDotLineSegmentPainter extends FlDotPainter {
     // Draw the value label
     if (showText) {
       final textSpan = TextSpan(
-            text: value.toStringAsFixed(1),
-            style: TextStyle(color: textColor),
-          );
+        text: value.toStringAsFixed(1),
+        style: TextStyle(color: textColor),
+      );
       final textPainter = TextPainter(
         text: textSpan,
         textDirection: TextDirection.ltr,
@@ -1710,7 +1710,8 @@ class FlDotLineSegmentPainter extends FlDotPainter {
       );
     } else {
       throw Exception(
-          'Cannot interpolate between different types of FlDotPainters',);
+        'Cannot interpolate between different types of FlDotPainters',
+      );
     }
   }
 
