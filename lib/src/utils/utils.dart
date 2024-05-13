@@ -304,7 +304,7 @@ class Utils {
 
   /// Finds the best initial interval value
   ///
-  /// If there is a zero point in the axis, we a value that passes through it.
+  /// If there is a zero point in the axis, we want to have a value that passes through it.
   /// For example if we have -3 to +3, with interval 2. if we start from -3, we get something like this: -3, -1, +1, +3
   /// But the most important point is zero in most cases. with this logic we get this: -2, 0, 2
   double getBestInitialIntervalValue(

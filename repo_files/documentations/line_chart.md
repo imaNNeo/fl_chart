@@ -1,6 +1,4 @@
-# LineChart
-
-<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart.jpg" width="300" >
+<a href="https://youtu.be/F3wTxTdAFaU"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
@@ -25,7 +23,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |extraLinesData| [ExtraLinesData](base_chart.md#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines. Check [ExtraLinesData](base_chart.md#ExtraLinesData)|ExtraLinesData()|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
-|showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot)| [] |
+|showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot), The point is that you need to disable touches to show these tooltips manually| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
