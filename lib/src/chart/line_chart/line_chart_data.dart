@@ -244,6 +244,7 @@ class LineChartBarData with EquatableMixin {
     this.shadow = const Shadow(color: Colors.transparent),
     this.isStepLineChart = false,
     this.lineChartStepData = const LineChartStepData(),
+    this.properties = const {},
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         belowBarData = belowBarData ?? BarAreaData(),
@@ -366,6 +367,9 @@ class LineChartBarData with EquatableMixin {
   /// Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.
   final LineChartStepData lineChartStepData;
 
+  /// Holds custom properties for this [LineChartBarData], like curve title, subtitle that can be used in the tooltip, etc.
+  final Map<String, dynamic> properties;
+
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(
     LineChartBarData a,
@@ -397,6 +401,9 @@ class LineChartBarData with EquatableMixin {
       isStepLineChart: b.isStepLineChart,
       lineChartStepData:
           LineChartStepData.lerp(a.lineChartStepData, b.lineChartStepData, t),
+      properties: {}
+        ..addAll(a.properties)
+        ..addAll(b.properties),
     );
   }
 
@@ -422,6 +429,7 @@ class LineChartBarData with EquatableMixin {
     Shadow? shadow,
     bool? isStepLineChart,
     LineChartStepData? lineChartStepData,
+    Map<String, dynamic>? properties,
   }) {
     return LineChartBarData(
       spots: spots ?? this.spots,
@@ -445,6 +453,7 @@ class LineChartBarData with EquatableMixin {
       shadow: shadow ?? this.shadow,
       isStepLineChart: isStepLineChart ?? this.isStepLineChart,
       lineChartStepData: lineChartStepData ?? this.lineChartStepData,
+      properties: properties ?? this.properties,
     );
   }
 
@@ -470,6 +479,7 @@ class LineChartBarData with EquatableMixin {
         shadow,
         isStepLineChart,
         lineChartStepData,
+        properties,
       ];
 }
 
