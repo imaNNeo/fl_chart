@@ -26,6 +26,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   /// then a grid over it, you can customize it using [gridData],
   /// and it draws 4 borders around your chart, you can customize it using [borderData].
   ///
+  /// You can annotate some regions with a highlight color using [rangeAnnotations].
+  ///
   /// You can modify [scatterTouchData] to customize touch behaviors and responses.
   ///
   /// You can show some tooltipIndicators (a popup with an information)
@@ -40,6 +42,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
     super.borderData,
+    super.rangeAnnotations = const RangeAnnotations(),
     double? minX,
     double? maxX,
     super.baselineX,
@@ -95,6 +98,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
       return ScatterChartData(
         scatterSpots: lerpScatterSpotList(a.scatterSpots, b.scatterSpots, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        rangeAnnotations:
+            RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         scatterTouchData: b.scatterTouchData,
         showingTooltipIndicators: lerpIntList(
           a.showingTooltipIndicators,
@@ -127,6 +132,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   ScatterChartData copyWith({
     List<ScatterSpot>? scatterSpots,
     FlTitlesData? titlesData,
+    RangeAnnotations? rangeAnnotations,
     ScatterTouchData? scatterTouchData,
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
@@ -144,6 +150,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     return ScatterChartData(
       scatterSpots: scatterSpots ?? this.scatterSpots,
       titlesData: titlesData ?? this.titlesData,
+      rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
       scatterTouchData: scatterTouchData ?? this.scatterTouchData,
       showingTooltipIndicators:
           showingTooltipIndicators ?? this.showingTooltipIndicators,
@@ -176,7 +183,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         minY,
         maxY,
         baselineY,
-        rangeAnnotations,
         scatterLabelSettings,
         clipData,
         backgroundColor,
