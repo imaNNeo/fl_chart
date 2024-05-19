@@ -284,6 +284,7 @@ class RadarDataSet with EquatableMixin {
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
+    Gradient? gradientcolor,
   })  : assert(
           dataEntries == null || dataEntries.isEmpty || dataEntries.length >= 3,
           'Radar needs at least 3 RadarEntry',
@@ -292,7 +293,9 @@ class RadarDataSet with EquatableMixin {
         fillColor = fillColor ?? Colors.cyan.withOpacity(0.2),
         borderColor = borderColor ?? Colors.cyan,
         borderWidth = borderWidth ?? 2.0,
-        entryRadius = entryRadius ?? 5.0;
+        entryRadius = entryRadius ?? 5.0,
+        gradientcolor = gradientcolor ??
+            LinearGradient(colors: [Colors.transparent, Colors.transparent]);
 
   /// each section or dataSets consists of a set of [dataEntries].
   final List<RadarEntry> dataEntries;
@@ -312,6 +315,10 @@ class RadarDataSet with EquatableMixin {
   /// the default value of this field is 5.0
   final double entryRadius;
 
+  /// defines the lineargardient
+  /// the default value of this field is transparent
+  final Gradient gradientcolor;
+
   /// Copies current [RadarDataSet] to a new [RadarDataSet],
   /// and replaces provided values.
   RadarDataSet copyWith({
@@ -320,6 +327,7 @@ class RadarDataSet with EquatableMixin {
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
+    Gradient? gradientcolor,
   }) =>
       RadarDataSet(
         dataEntries: dataEntries ?? this.dataEntries,
@@ -327,6 +335,7 @@ class RadarDataSet with EquatableMixin {
         borderColor: borderColor ?? this.borderColor,
         borderWidth: borderWidth ?? this.borderWidth,
         entryRadius: entryRadius ?? this.entryRadius,
+        gradientcolor: gradientcolor ?? this.gradientcolor,
       );
 
   /// Lerps a [RadarDataSet] based on [t] value, check [Tween.lerp].
@@ -348,6 +357,7 @@ class RadarDataSet with EquatableMixin {
         borderColor,
         borderWidth,
         entryRadius,
+        gradientcolor
       ];
 }
 
