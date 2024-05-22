@@ -1,6 +1,4 @@
-# PieChart
-
-<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/pie_chart/pie_chart.jpg" width="300" >
+<a href="https://youtu.be/VlXC-RAaX4Y"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/pie_chart/pie_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
