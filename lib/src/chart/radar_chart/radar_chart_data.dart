@@ -70,6 +70,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
+    this.isMinValueAtCenter = false,
     super.borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
@@ -153,6 +154,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
 
   /// Handles touch behaviors and responses.
   final RadarTouchData radarTouchData;
+
+  /// If [isMinValueAtCenter] is true, the minimum value of the [RadarChart] will be at the center of the chart.
+  final bool isMinValueAtCenter;
 
   /// [titleCount] we use this value to determine number of [RadarChart] grid or lines.
   int get titleCount => dataSets[0].dataEntries.length;
