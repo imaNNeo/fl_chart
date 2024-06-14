@@ -31,6 +31,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |tickBorderData|Style of the tick borders|BorderSide(color: Colors.black, width: 2)|
 |gridBorderData|Style of the grid borders|BorderSide(color: Colors.black, width: 2)|
 |radarTouchData|[RadarTouchData](#radartouchdata-read-about-touch-handling) handles the touch behaviors and responses.|RadarTouchData()|
+|isMinValueAtCenter|If true, the minimum value of the [RadarChart] will be at the center of the chart.|false|
 
 ### RadarDataSet
 |PropName		|Description	|default value|
