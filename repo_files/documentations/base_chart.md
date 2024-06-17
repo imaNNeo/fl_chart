@@ -31,6 +31,9 @@
 |getTitlesWidget| A function to retrieve the title widget with given value on the related axis.|defaultGetTitle|
 |reservedSize| It determines the maximum space that your titles need, |22|
 |interval| Texts are showing with provided `interval`. If you don't provide anything, we try to find a suitable value to set as `interval` under the hood. | null |
+|minIncluded| Determines whether to include title for minimum data value | true |
+|maxIncluded| Determines whether to include title for maximum data value | true |
+
 
 ### SideTitleFitInsideData
 |PropName		|Description	|default value|
