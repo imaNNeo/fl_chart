@@ -180,7 +180,11 @@ class SideTitles with EquatableMixin {
   /// we try to find a suitable value to set as [interval] under the hood.
   final double? interval;
 
+  /// If true (default), a title for the minimum data value is included
+  /// independent of the sampling interval
   final bool minIncluded;
+  /// If true (default), a title for the maximum data value is included
+  /// independent of the sampling interval
   final bool maxIncluded;
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
@@ -190,6 +194,8 @@ class SideTitles with EquatableMixin {
       getTitlesWidget: b.getTitlesWidget,
       reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t)!,
       interval: lerpDouble(a.interval, b.interval, t),
+      minIncluded: b.minIncluded,
+      maxIncluded: b.maxIncluded,
     );
   }
 
@@ -200,12 +206,16 @@ class SideTitles with EquatableMixin {
     GetTitleWidgetFunction? getTitlesWidget,
     double? reservedSize,
     double? interval,
+    bool? minIncluded,
+    bool? maxIncluded,
   }) {
     return SideTitles(
       showTitles: showTitles ?? this.showTitles,
       getTitlesWidget: getTitlesWidget ?? this.getTitlesWidget,
       reservedSize: reservedSize ?? this.reservedSize,
       interval: interval ?? this.interval,
+      minIncluded: minIncluded ?? this.minIncluded,
+      maxIncluded: maxIncluded ?? this.maxIncluded,
     );
   }
 
@@ -216,6 +226,8 @@ class SideTitles with EquatableMixin {
         getTitlesWidget,
         reservedSize,
         interval,
+        minIncluded,
+        maxIncluded,
       ];
 }
 
