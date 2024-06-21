@@ -26,11 +26,11 @@ When you change the chart's state, it animates to the new state internally (usin
 |showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot), The point is that you need to disable touches to show these tooltips manually| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
-|minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
-|maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
+|minX| gets minimum x of x axis, if null, value will read from the input lineBars (But it is more performant if you provide them)|null|
+|maxX| gets maximum x of x axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
 |baselineX| defines the baseline of x-axis | 0|
-|minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
-|maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
+|minY| gets minimum y of y axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
+|maxY| gets maximum y of y axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
 |baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |

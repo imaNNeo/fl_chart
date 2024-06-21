@@ -6,36 +6,15 @@ import '../data_pool.dart';
 
 void main() {
   group('Check caching of LineChartHelper.calculateMaxAxisValues', () {
-    test('Test read from cache1', () {
-      final lineChartHelper = LineChartHelper();
-      final lineBars1 = [lineChartBarData1];
-      final result1 = lineChartHelper.calculateMaxAxisValues(lineBars1);
-
-      final lineBars2 = [lineChartBarData2];
-      final result2 = lineChartHelper.calculateMaxAxisValues(lineBars2);
-
-      expect(result1.readFromCache, false);
-      expect(result2.readFromCache, false);
-    });
-
-    test('Test read from cache2', () {
-      final lineChartHelper = LineChartHelper();
-      final lineBars = [lineChartBarData1, lineChartBarData2];
-      final lineBarsClone = [lineChartBarData1Clone, lineChartBarData2];
-      final result1 = lineChartHelper.calculateMaxAxisValues(lineBars);
-      final result2 = lineChartHelper.calculateMaxAxisValues(lineBarsClone);
-      expect(result1.readFromCache, false);
-      expect(result2.readFromCache, true);
-    });
-
     test('Test validity 1', () {
       final lineChartHelper = LineChartHelper();
       final lineBars = [lineChartBarData1, lineChartBarData2];
-      final result = lineChartHelper.calculateMaxAxisValues(lineBars);
-      expect(result.minX, 1);
-      expect(result.maxX, 4);
-      expect(result.minY, 1);
-      expect(result.maxY, 2);
+      final (minX, maxX, minY, maxY) =
+          lineChartHelper.calculateMaxAxisValues(lineBars);
+      expect(minX, 1);
+      expect(maxX, 4);
+      expect(minY, 1);
+      expect(maxY, 2);
     });
 
     test('Test validity 2', () {
@@ -49,11 +28,12 @@ void main() {
           ],
         ),
       ];
-      final result = lineChartHelper.calculateMaxAxisValues(lineBars);
-      expect(result.minX, -3);
-      expect(result.maxX, 14);
-      expect(result.minY, -10);
-      expect(result.maxY, 50);
+      final (minX, maxX, minY, maxY) =
+          lineChartHelper.calculateMaxAxisValues(lineBars);
+      expect(minX, -3);
+      expect(maxX, 14);
+      expect(minY, -10);
+      expect(maxY, 50);
     });
 
     test('Test equality', () {
@@ -61,10 +41,7 @@ void main() {
       final lineBars = [lineChartBarData1, lineChartBarData2];
       final lineBarsClone = [lineChartBarData1Clone, lineChartBarData2];
       final result1 = lineChartHelper.calculateMaxAxisValues(lineBars);
-      final result2 =
-          lineChartHelper.calculateMaxAxisValues(lineBarsClone).copyWith(
-                readFromCache: false,
-              );
+      final result2 = lineChartHelper.calculateMaxAxisValues(lineBarsClone);
       expect(result1, result2);
     });
 
@@ -80,8 +57,7 @@ void main() {
           ],
         ),
       ];
-      final result1 = lineChartHelper.calculateMaxAxisValues(lineBars);
-      expect(result1, const LineChartMinMaxAxisValues(0, 0, 0, 0));
+      expect(lineChartHelper.calculateMaxAxisValues(lineBars), (0, 0, 0, 0));
     });
 
     test('Test null spot 2', () {
@@ -96,8 +72,7 @@ void main() {
           ],
         ),
       ];
-      final result1 = lineChartHelper.calculateMaxAxisValues(lineBars);
-      expect(result1, const LineChartMinMaxAxisValues(-1, 4, -3, 5));
+      expect(lineChartHelper.calculateMaxAxisValues(lineBars), (-1, 4, -3, 5));
     });
   });
 }
