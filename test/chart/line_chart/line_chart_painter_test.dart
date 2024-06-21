@@ -48,15 +48,15 @@ void main() {
       );
 
       final lineChartBarsData = <LineChartBarData>[bar1, bar2];
-      final axisValues = LineChartHelper().calculateMaxAxisValues(
+      final (minX, maxX, minY, maxY) = LineChartHelper().calculateMaxAxisValues(
         lineChartBarsData,
       );
 
       final data = LineChartData(
-        minX: axisValues.minX,
-        maxX: axisValues.maxX,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minX: minX,
+        maxX: maxX,
+        minY: minY,
+        maxY: maxY,
         lineBarsData: lineChartBarsData,
         clipData: const FlClipData.all(),
         extraLinesData: ExtraLinesData(
@@ -147,15 +147,15 @@ void main() {
       );
 
       final lineChartBarsData = <LineChartBarData>[bar1, bar2];
-      final axisValues = LineChartHelper().calculateMaxAxisValues(
+      final (minX, maxX, minY, maxY) = LineChartHelper().calculateMaxAxisValues(
         lineChartBarsData,
       );
 
       final data = LineChartData(
-        minX: axisValues.minX,
-        maxX: axisValues.maxX,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minX: minX,
+        maxX: maxX,
+        minY: minY,
+        maxY: maxY,
         lineBarsData: lineChartBarsData,
         clipData: const FlClipData.all(),
         lineTouchData: LineTouchData(

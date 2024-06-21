@@ -87,14 +87,14 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         newData.maxX.isNaN ||
         newData.minY.isNaN ||
         newData.maxY.isNaN) {
-      final values = _lineChartHelper.calculateMaxAxisValues(
+      final (minX, maxX, minY, maxY) = _lineChartHelper.calculateMaxAxisValues(
         newData.lineBarsData,
       );
       newData = newData.copyWith(
-        minX: newData.minX.isNaN ? values.minX : newData.minX,
-        maxX: newData.maxX.isNaN ? values.maxX : newData.maxX,
-        minY: newData.minY.isNaN ? values.minY : newData.minY,
-        maxY: newData.maxY.isNaN ? values.maxY : newData.maxY,
+        minX: newData.minX.isNaN ? minX : newData.minX,
+        maxX: newData.maxX.isNaN ? maxX : newData.maxX,
+        minY: newData.minY.isNaN ? minY : newData.minY,
+        maxY: newData.maxY.isNaN ? maxY : newData.maxY,
       );
     }
 
