@@ -61,19 +61,19 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           minX: minX ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).minX,
+              ).$1,
           maxX: maxX ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).maxX,
+              ).$2,
           minY: minY ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).minY,
+              ).$3,
           maxY: maxY ??
               ScatterChartHelper.calculateMaxAxisValues(
                 scatterSpots ?? const [],
-              ).maxY,
+              ).$4,
         );
   final List<ScatterSpot> scatterSpots;
   final ScatterTouchData scatterTouchData;
