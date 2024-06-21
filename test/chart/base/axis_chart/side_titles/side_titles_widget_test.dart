@@ -169,7 +169,7 @@ void main() {
       ),
     ];
 
-    final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+    final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
     return BarChartData(
       barGroups: barGroups,
@@ -193,14 +193,14 @@ void main() {
         ),
         bottomTitles: const AxisTitles(),
       ),
-      minY: axisValues.minY,
-      maxY: axisValues.maxY,
+      minY: minY,
+      maxY: maxY,
     );
   }
 
   BarChartData createBarChartDataWithEmptyGroups() {
     final barGroups = <BarChartGroupData>[];
-    final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+    final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
     return BarChartData(
       barGroups: [],
@@ -224,8 +224,8 @@ void main() {
         ),
         bottomTitles: const AxisTitles(),
       ),
-      minY: axisValues.minY,
-      maxY: axisValues.maxY,
+      minY: minY,
+      maxY: maxY,
     );
   }
 

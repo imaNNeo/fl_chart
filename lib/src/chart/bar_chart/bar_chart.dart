@@ -86,10 +86,11 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   BarChartData _getData() {
     var newData = widget.data;
     if (newData.minY.isNaN || newData.maxY.isNaN) {
-      final values = _barChartHelper.calculateMaxAxisValues(newData.barGroups);
+      final (minY, maxY) =
+          _barChartHelper.calculateMaxAxisValues(newData.barGroups);
       newData = newData.copyWith(
-        minY: newData.minY.isNaN ? values.minY : newData.minY,
-        maxY: newData.maxY.isNaN ? values.maxY : newData.maxY,
+        minY: newData.minY.isNaN ? minY : newData.minY,
+        maxY: newData.maxY.isNaN ? maxY : newData.maxY,
       );
     }
 

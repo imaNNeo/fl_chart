@@ -43,12 +43,12 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         barGroups: barGroups,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -347,15 +347,15 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
         alignment: BarChartAlignment.center,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -612,15 +612,15 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         titlesData: const FlTitlesData(show: false),
         groupsSpace: 10,
         barGroups: barGroups,
         alignment: BarChartAlignment.center,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -848,12 +848,12 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         barGroups: barGroups,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -953,12 +953,12 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         barGroups: barGroups,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1108,7 +1108,7 @@ void main() {
         },
       );
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         groupsSpace: 10,
@@ -1117,8 +1117,8 @@ void main() {
           touchTooltipData: tooltipData,
         ),
         alignment: BarChartAlignment.center,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1308,7 +1308,7 @@ void main() {
         },
       );
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         groupsSpace: 10,
@@ -1317,8 +1317,8 @@ void main() {
           touchTooltipData: tooltipData,
         ),
         alignment: BarChartAlignment.center,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1483,7 +1483,7 @@ void main() {
         },
       );
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         groupsSpace: 10,
@@ -1492,8 +1492,8 @@ void main() {
           touchTooltipData: tooltipData,
         ),
         alignment: BarChartAlignment.center,
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1614,14 +1614,14 @@ void main() {
         BarChartGroupData(x: 0, barRods: [barRod], barsSpace: 5),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         groupsSpace: 10,
         barGroups: barGroups,
         barTouchData: BarTouchData(),
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final barChartPainter = BarChartPainter();
@@ -1792,7 +1792,7 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         barGroups: barGroups,
@@ -1803,8 +1803,8 @@ void main() {
           handleBuiltInTouches: true,
           touchExtraThreshold: const EdgeInsets.all(1),
         ),
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final painter = BarChartPainter();
@@ -1895,7 +1895,7 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
         barGroups: barGroups,
@@ -1906,8 +1906,8 @@ void main() {
           handleBuiltInTouches: true,
           touchExtraThreshold: const EdgeInsets.all(1),
         ),
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
       );
 
       final painter = BarChartPainter();
@@ -2153,11 +2153,11 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
         barGroups: barGroups,
         extraLinesData: ExtraLinesData(
           verticalLines: [verticalLine1],
@@ -2349,11 +2349,11 @@ void main() {
         ),
       ];
 
-      final axisValues = BarChartHelper().calculateMaxAxisValues(barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
 
       final data = BarChartData(
-        minY: axisValues.minY,
-        maxY: axisValues.maxY,
+        minY: minY,
+        maxY: maxY,
         barGroups: barGroups,
         extraLinesData: ExtraLinesData(
           horizontalLines: [horizontalLine, horizontalLine1],
