@@ -6,32 +6,12 @@ import '../data_pool.dart';
 
 void main() {
   group('Check caching of BarChartHelper.calculateMaxAxisValues', () {
-    test('Test read from cache1', () {
-      final barChartHelper = BarChartHelper();
-      final barGroups1 = [barChartGroupData1];
-      final result1 = barChartHelper.calculateMaxAxisValues(barGroups1);
-
-      final barGroups2 = [barChartGroupData2];
-      final result2 = barChartHelper.calculateMaxAxisValues(barGroups2);
-      expect(result1.readFromCache, false);
-      expect(result2.readFromCache, false);
-    });
-
-    test('Test read from cache2', () {
-      final barChartHelper = BarChartHelper();
-      final barGroups = [barChartGroupData1, barChartGroupData2];
-      final result1 = barChartHelper.calculateMaxAxisValues(barGroups);
-      final result2 = barChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result1.readFromCache, false);
-      expect(result2.readFromCache, true);
-    });
-
     test('Test validity 1', () {
       final barChartHelper = BarChartHelper();
       final barGroups = [barChartGroupData1, barChartGroupData2];
-      final result = barChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result.minY, 0);
-      expect(result.maxY, 1132);
+      final (minY, maxY) = barChartHelper.calculateMaxAxisValues(barGroups);
+      expect(minY, 0);
+      expect(maxY, 1132);
     });
 
     test('Test validity 2', () {
@@ -47,9 +27,9 @@ void main() {
           ],
         ),
       ];
-      final result = barChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result.minY, -40);
-      expect(result.maxY, 10);
+      final (minY, maxY) = barChartHelper.calculateMaxAxisValues(barGroups);
+      expect(minY, -40);
+      expect(maxY, 10);
     });
 
     test('Test validity 3', () {
@@ -57,9 +37,9 @@ void main() {
       final barGroups = [
         barChartGroupData1.copyWith(barRods: []),
       ];
-      final result = barChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result.minY, 0);
-      expect(result.maxY, 0);
+      final (minY, maxY) = barChartHelper.calculateMaxAxisValues(barGroups);
+      expect(minY, 0);
+      expect(maxY, 0);
     });
 
     test('Test validity 4', () {
@@ -77,35 +57,16 @@ void main() {
           ],
         ),
       ];
-      final result = barChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result.minY, -50);
-      expect(result.maxY, 39);
+      final (minY, maxY) = barChartHelper.calculateMaxAxisValues(barGroups);
+      expect(minY, -50);
+      expect(maxY, 39);
     });
 
     test('Test equality', () {
       final barChartHelper = BarChartHelper();
       final barGroups = [barChartGroupData1, barChartGroupData2];
       final result1 = barChartHelper.calculateMaxAxisValues(barGroups);
-      final result2 = barChartHelper.calculateMaxAxisValues(barGroups).copyWith(
-            readFromCache: false,
-          );
-      expect(result1, result2);
-    });
-
-    test('Test equality2', () {
-      final barChartHelper = BarChartHelper();
-      final barGroups = [barChartGroupData1, barChartGroupData2];
-      final result1 = barChartHelper
-          .calculateMaxAxisValues(barGroups)
-          .copyWith(readFromCache: true);
-      final result2 = result1.copyWith(readFromCache: false);
-      expect(result1 != result2, true);
-    });
-
-    test('Test BarChartMinMaxAxisValues class', () {
-      final result1 = BarChartMinMaxAxisValues(0, 10)
-          .copyWith(minY: 1, maxY: 11, readFromCache: true);
-      final result2 = BarChartMinMaxAxisValues(1, 11, readFromCache: true);
+      final result2 = barChartHelper.calculateMaxAxisValues(barGroups);
       expect(result1, result2);
     });
 
@@ -133,8 +94,8 @@ void main() {
               .toList(),
         ),
       ];
-      final result1 = barChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result1.minY, 5);
+      final (minY, _) = barChartHelper.calculateMaxAxisValues(barGroups);
+      expect(minY, 5);
     });
 
     test('Test calculateMaxAxisValues with all negative values', () {
@@ -151,8 +112,8 @@ void main() {
               .toList(),
         ),
       ];
-      final result1 = barChartHelper.calculateMaxAxisValues(barGroups);
-      expect(result1.minY, -8);
+      final (minY, _) = barChartHelper.calculateMaxAxisValues(barGroups);
+      expect(minY, -8);
     });
   });
 }
