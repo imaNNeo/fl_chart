@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -45,9 +44,9 @@ class Utils {
 
   Offset calculateRotationOffset(Size size, double degree) {
     final rotatedHeight = (size.width * math.sin(radians(degree))).abs() +
-        (size.height * cos(radians(degree))).abs();
-    final rotatedWidth = (size.width * cos(radians(degree))).abs() +
-        (size.height * sin(radians(degree))).abs();
+        (size.height * math.cos(radians(degree))).abs();
+    final rotatedWidth = (size.width * math.cos(radians(degree))).abs() +
+        (size.height * math.sin(radians(degree))).abs();
     return Offset(
       (size.width - rotatedWidth) / 2,
       (size.height - rotatedHeight) / 2,
@@ -178,7 +177,7 @@ class Utils {
       precisionCount -= numbersToRemove;
     }
 
-    final pow10onPrecision = pow(10, precisionCount);
+    final pow10onPrecision = math.pow(10, precisionCount);
     input *= pow10onPrecision;
     return _roundIntervalAboveOne(input) / pow10onPrecision;
   }
@@ -186,18 +185,18 @@ class Utils {
   double _roundIntervalAboveOne(double input) {
     assert(input >= 1.0);
     final decimalCount = input.toInt().toString().length - 1;
-    input /= pow(10, decimalCount);
+    input /= math.pow(10, decimalCount);
 
     final scaled = input >= 10 ? input.round() / 10 : input;
 
     if (scaled >= 7.6) {
-      return 10 * pow(10, decimalCount).toInt().toDouble();
+      return 10 * math.pow(10, decimalCount).toInt().toDouble();
     } else if (scaled >= 2.6) {
-      return 5 * pow(10, decimalCount).toInt().toDouble();
+      return 5 * math.pow(10, decimalCount).toInt().toDouble();
     } else if (scaled >= 1.6) {
-      return 2 * pow(10, decimalCount).toInt().toDouble();
+      return 2 * math.pow(10, decimalCount).toInt().toDouble();
     } else {
-      return 1 * pow(10, decimalCount).toInt().toDouble();
+      return 1 * math.pow(10, decimalCount).toInt().toDouble();
     }
   }
 
