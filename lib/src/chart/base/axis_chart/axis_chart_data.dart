@@ -183,6 +183,7 @@ class SideTitles with EquatableMixin {
   /// If true (default), a title for the minimum data value is included
   /// independent of the sampling interval
   final bool minIncluded;
+
   /// If true (default), a title for the maximum data value is included
   /// independent of the sampling interval
   final bool maxIncluded;
