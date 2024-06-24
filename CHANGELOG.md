@@ -1,6 +1,7 @@
 ## newVersion
 * **BUGFIX** Fix a memory leak issue in the axis-based charts, there was a logic to calculate and cache the minX, maxX, minY and maxY properties to reduce the computation cost. But it caused some memory issues, as we don't have a quick solution for this, we disabled the caching logic for now, later we can move the calculation logic to the render objects to keep and update them only when the data is changed, #1106, #1693
 * **BUGFIX** Fix showing grid lines even when there is no line to show in the LineChart, #1691
+* **Improvement** (by @sczesla) Allow users to control minIncluded and maxIncluded using SideTitles, #906
 
 ## 0.68.0
 * **Improvement** (by @imaNNeo) Update LineChartSample6 to implement a way to show a tooltip on a single spot, #1620
