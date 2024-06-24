@@ -13,13 +13,16 @@ void main() {
 
   testWidgets(
     'Test the effect of minIncluded and maxIncluded in sideTitles',
-        (WidgetTester tester) async {
-
+    (WidgetTester tester) async {
       // Minimum/maximum included
-      final mima = [[true, true], [true, false], [false, true], [false, false]];
+      final mima = [
+        [true, true],
+        [true, false],
+        [false, true],
+        [false, false],
+      ];
 
-      for(final e in mima) {
-
+      for (final e in mima) {
         final titlesData = FlTitlesData(
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
@@ -28,7 +31,8 @@ void main() {
               maxIncluded: e[1],
               reservedSize: 50,
               interval: 1,
-            ),),
+            ),
+          ),
           rightTitles: const AxisTitles(),
           topTitles: const AxisTitles(),
           bottomTitles: const AxisTitles(),
@@ -57,14 +61,17 @@ void main() {
           ),
         );
         // Number of expected text widgets (titles) on the y-axis
-        expect(find.byType(Text), findsNWidgets((e[0] ? 1 : 0) + (e[1] ? 1 : 0) + 1));
+        expect(
+          find.byType(Text),
+          findsNWidgets((e[0] ? 1 : 0) + (e[1] ? 1 : 0) + 1),
+        );
         // Always there
         expect(find.text('1'), findsOneWidget);
-        if(e[0]) {
+        if (e[0]) {
           // Minimum included
           expect(find.text('0.5'), findsOneWidget);
         }
-        if(e[1]) {
+        if (e[1]) {
           // Maximum included
           expect(find.text('1.9'), findsOneWidget);
         }
