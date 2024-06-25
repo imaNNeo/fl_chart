@@ -1241,7 +1241,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
 /// Holds data for showing a vector image inside the chart.
 ///
 /// for example:
-/// ```
+/// ```dart
 /// Future<SizedPicture> loadSvg() async {
 ///    const String rawSvg = 'your svg string';
 ///    final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
@@ -1253,7 +1253,7 @@ class SizedPicture with EquatableMixin {
   /// [picture] is the showing image,
   /// it can retrieve from a svg icon,
   /// for example:
-  /// ```
+  /// ```dart
   ///    const String rawSvg = 'your svg string';
   ///    final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
   ///    final picture = svgRoot.toPicture()
