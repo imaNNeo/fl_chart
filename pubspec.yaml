@@ -25,7 +25,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.4.2
   vector_math: ^2.1.4 #Added to use in some generated codes of mockito
-  very_good_analysis: ^5.1.0
+  very_good_analysis: ">=5.1.0 <7.0.0"
 
 screenshots:
   - description: 'FL Chart Logo'
