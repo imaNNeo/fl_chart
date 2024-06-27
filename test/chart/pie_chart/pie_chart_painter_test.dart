@@ -285,6 +285,7 @@ void main() {
         36,
         const Offset(100, 100),
         10,
+        CapStyle.none,
       );
       expect(
         HelperMethods.equalsPaths(results[0]['path'] as Path, path0),
@@ -300,6 +301,7 @@ void main() {
         72,
         const Offset(100, 100),
         10,
+        CapStyle.startCapped,
       );
       expect(
         HelperMethods.equalsPaths(results[1]['path'] as Path, path1),
@@ -315,6 +317,7 @@ void main() {
         108,
         const Offset(100, 100),
         10,
+        CapStyle.endCapped,
       );
       expect(
         HelperMethods.equalsPaths(results[2]['path'] as Path, path2),
@@ -330,6 +333,7 @@ void main() {
         144,
         const Offset(100, 100),
         10,
+        CapStyle.none,
       );
       expect(
         HelperMethods.equalsPaths(results[3]['path'] as Path, path3),
@@ -361,6 +365,7 @@ void main() {
         36,
         const Offset(100, 100),
         10,
+        CapStyle.startCapped,
       );
       final path0Length = path0
           .computeMetrics()
@@ -376,6 +381,7 @@ void main() {
         72,
         const Offset(100, 100),
         10,
+        CapStyle.endCapped,
       );
       final path1Length = path1
           .computeMetrics()
@@ -391,6 +397,7 @@ void main() {
         108,
         const Offset(100, 100),
         10,
+        CapStyle.none,
       );
       final path2Length = path2
           .computeMetrics()
@@ -406,6 +413,7 @@ void main() {
         144,
         const Offset(100, 100),
         10,
+        CapStyle.startCapped,
       );
       final path3Length = path3
           .computeMetrics()
@@ -435,6 +443,7 @@ void main() {
         36,
         const Offset(100, 100),
         10,
+        CapStyle.endCapped,
       );
       final path0Length = path0
           .computeMetrics()
@@ -450,6 +459,7 @@ void main() {
         72,
         const Offset(100, 100),
         10,
+        CapStyle.none,
       );
       final path1Length = path1
           .computeMetrics()
@@ -465,6 +475,7 @@ void main() {
         108,
         const Offset(100, 100),
         10,
+        CapStyle.startCapped,
       );
       final path2Length = path2
           .computeMetrics()
@@ -480,6 +491,7 @@ void main() {
         144,
         const Offset(100, 100),
         10,
+        CapStyle.endCapped,
       );
       final path3Length = path3
           .computeMetrics()
@@ -509,6 +521,7 @@ void main() {
         36,
         const Offset(100, 100),
         3,
+        CapStyle.none,
       );
       final path0Length = path0
           .computeMetrics()
@@ -524,6 +537,7 @@ void main() {
         72,
         const Offset(100, 100),
         4,
+        CapStyle.none,
       );
       final path1Length = path1
           .computeMetrics()
@@ -539,6 +553,7 @@ void main() {
         108,
         const Offset(100, 100),
         5,
+        CapStyle.startCapped,
       );
       final path2Length = path2
           .computeMetrics()
@@ -554,6 +569,7 @@ void main() {
         144,
         const Offset(100, 100),
         6,
+        CapStyle.endCapped,
       );
       final path3Length = path3
           .computeMetrics()
