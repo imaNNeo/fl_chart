@@ -165,6 +165,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         data.capstyle,
       );
 
+      if (data.shadow) {
+        canvasWrapper.canvas.drawShadow(
+          sectionPath,
+          section.color.withOpacity(data.shadowOpacity),
+          data.shadowElevation,
+          true,
+        );
+      }
+
       drawSection(section, sectionPath, canvasWrapper);
       drawSectionStroke(section, sectionPath, canvasWrapper, viewSize);
       tempAngle += sectionDegree;
