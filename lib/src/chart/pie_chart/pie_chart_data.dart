@@ -79,6 +79,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// and replaces provided values.
 
   /// The style of the cap at the end of the pie chart
+  /// It Accepts [CapStyle.none] for no cap, [CapStyle.startCapped] for a cap at the start of the chart,
+  /// [CapStyle.endCapped] for a cap at the end of the chart.
+  /// Default is [CapStyle.none]
   final CapStyle capstyle;
 
   PieChartData copyWith({

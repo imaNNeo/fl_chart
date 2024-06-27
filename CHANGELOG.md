@@ -1,3 +1,8 @@
+## NewerVersion
+* **Enhancement** Added a Option to add Rounded Cap Style to Bar Charts. Now their is a field in PieChartData by the Name capStyle which accepts three parameters: none, startCapped and endCapped, respectively.
+* This is mentionned in this issue https://github.com/imaNNeo/fl_chart/issues/1175
+
+
 ## newVersion
 * **BUGFIX** Fix a memory leak issue in the axis-based charts, there was a logic to calculate and cache the minX, maxX, minY and maxY properties to reduce the computation cost. But it caused some memory issues, as we don't have a quick solution for this, we disabled the caching logic for now, later we can move the calculation logic to the render objects to keep and update them only when the data is changed, #1106, #1693
 * **BUGFIX** Fix showing grid lines even when there is no line to show in the LineChart, #1691
