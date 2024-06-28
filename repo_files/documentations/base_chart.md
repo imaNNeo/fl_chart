@@ -135,7 +135,7 @@ Base class for all supported touch/pointer events.
 |:-------|:----------|:------------|
 |y|draw straight line from left to right of the chart with dynamic y value|null|
 |color|color of the line|Colors.black|
-|gradient|gradient of the line (you have to provide either `color` or `gradient`|null|
+|gradient|gradient of the line (you have to provide either `color` or `gradient`)|null|
 |strokeWidth|strokeWidth of the line|2|
 |strokeCap|strokeCap of the line,e.g. Setting to StrokeCap.round will draw the tow ends of line rounded. NOTE: this might not work on dash lines.|StrokeCap.butt|
 |image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
@@ -147,7 +147,7 @@ Base class for all supported touch/pointer events.
 |:-------|:----------|:------------|
 |x|draw straight line from bottom to top of the chart with dynamic x value|null|
 |color|color of the line|Colors.black|
-|gradient|gradient of the line (you have to provide either `color` or `gradient`|null|
+|gradient|gradient of the line (you have to provide either `color` or `gradient`)|null|
 |strokeWidth|strokeWidth of the line|2|
 |strokeCap|strokeCap of the line,e.g. Setting to StrokeCap.round will draw the tow ends of line rounded. NOTE: this might not work on dash lines.|StrokeCap.butt|
 |image|image to annotate the line. the Future must be complete at the time this is received by the chart|null|
@@ -166,6 +166,8 @@ Base class for all supported touch/pointer events.
 |:-------|:----------|:------------|
 |show| Determines showing or not showing label|false|
 |padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
+|horizontalOffset|Label horizontal offset|0|
+|verticalOffset|Label horizontal offset|0|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
 |direction|Direction of the text (horizontal or vertical)|LabelDirection.horizontal|
@@ -177,6 +179,8 @@ Base class for all supported touch/pointer events.
 |show| Determines showing or not showing label|false|
 |padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
+|horizontalOffset|Label horizontal offset|0|
+|verticalOffset|Label horizontal offset|0|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
 |direction|Direction of the text (horizontal or vertical)|LabelDirection.horizontal|
 |labelResolver|Getter function returning label title|defaultLineLabelResolver|

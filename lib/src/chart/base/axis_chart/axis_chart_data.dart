@@ -1129,7 +1129,7 @@ class VerticalLine extends FlLine with EquatableMixin {
 /// Draws a title on the [HorizontalLine]
 class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
   /// Draws a title on the [HorizontalLine], align it with [alignment] over the line,
-  /// applies [padding] for spaces, and applies [style for changing color,
+  /// applies [padding] for label padding, applies [verticalOffset] and [horizontalOffset] for label space and applies [style] for changing color,
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
@@ -1137,6 +1137,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
   /// [direction] determines if the direction of the text should be horizontal or vertical.
   HorizontalLineLabel({
     super.padding = const EdgeInsets.all(6),
+    super.horizontalOffset = 0.0,
+    super.verticalOffset = 0.0,
     super.style,
     super.alignment = Alignment.topLeft,
     super.show = false,
@@ -1158,8 +1160,9 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
     double t,
   ) {
     return HorizontalLineLabel(
-      padding:
-          EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t)!,
+      padding: EdgeInsets.lerp(a.padding, b.padding, t)!,
+      horizontalOffset: lerpDouble(a.horizontalOffset, b.horizontalOffset, t)!,
+      verticalOffset: lerpDouble(a.verticalOffset, b.verticalOffset, t)!,
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
       labelResolver: b.labelResolver,
@@ -1174,6 +1177,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         labelResolver,
         show,
         padding,
+        horizontalOffset,
+        verticalOffset,
         style,
         alignment,
         direction,
@@ -1183,7 +1188,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
 /// Draws a title on the [VerticalLine]
 class VerticalLineLabel extends FlLineLabel with EquatableMixin {
   /// Draws a title on the [VerticalLine], align it with [alignment] over the line,
-  /// applies [padding] for spaces, and applies [style for changing color,
+  /// applies [padding] for label padding, applies [verticalOffset] and [horizontalOffset] for label space and applies [style] for changing color,
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
@@ -1191,6 +1196,8 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
   /// [direction] determines if the direction of the text should be horizontal or vertical.
   VerticalLineLabel({
     super.padding = const EdgeInsets.all(6),
+    super.horizontalOffset = 0.0,
+    super.verticalOffset = 0.0,
     super.style = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.bold,
@@ -1216,8 +1223,9 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
     double t,
   ) {
     return VerticalLineLabel(
-      padding:
-          EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t)!,
+      padding: EdgeInsets.lerp(a.padding, b.padding, t)!,
+      horizontalOffset: lerpDouble(a.horizontalOffset, b.horizontalOffset, t)!,
+      verticalOffset: lerpDouble(a.verticalOffset, b.verticalOffset, t)!,
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
       labelResolver: b.labelResolver,
@@ -1232,6 +1240,8 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
         labelResolver,
         show,
         padding,
+        horizontalOffset,
+        verticalOffset,
         style,
         alignment,
         direction,

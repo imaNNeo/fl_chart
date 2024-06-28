@@ -452,33 +452,28 @@ void main() {
       final sample1 = ScatterTooltipItem(
         'aa',
         textStyle: const TextStyle(color: Colors.red),
-        bottomMargin: 23,
       );
       final sample2 = ScatterTooltipItem(
         'aa',
         textStyle: const TextStyle(color: Colors.red),
-        bottomMargin: 23,
       );
       expect(sample1 == sample2, true);
 
       var changed = ScatterTooltipItem(
         'a3a',
         textStyle: const TextStyle(color: Colors.red),
-        bottomMargin: 23,
       );
       expect(sample1 == changed, false);
 
       changed = ScatterTooltipItem(
         'aa',
         textStyle: const TextStyle(color: Colors.green),
-        bottomMargin: 23,
       );
       expect(sample1 == changed, false);
 
       changed = ScatterTooltipItem(
         'aa',
-        textStyle: const TextStyle(color: Colors.red),
-        bottomMargin: 0,
+        textStyle: const TextStyle(color: Colors.red, fontSize: 11),
       );
       expect(sample1 == changed, false);
     });

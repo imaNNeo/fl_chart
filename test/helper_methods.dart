@@ -45,6 +45,26 @@ class HelperMethods {
     return true;
   }
 
+  static bool equalsRects(Rect rect1, Rect rect2, {double tolerance = 0.05}) {
+    if ((rect1.left - rect2.left).abs() > tolerance) {
+      return false;
+    }
+
+    if ((rect1.top - rect2.top).abs() > tolerance) {
+      return false;
+    }
+
+    if ((rect1.right - rect2.right).abs() > tolerance) {
+      return false;
+    }
+
+    if ((rect1.bottom - rect2.bottom).abs() > tolerance) {
+      return false;
+    }
+
+    return true;
+  }
+
   static bool equalsRRects(
     RRect rrect1,
     RRect rrect2, {

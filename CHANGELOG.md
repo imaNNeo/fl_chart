@@ -1,6 +1,42 @@
 ## newVersion
 * **BUGFIX** Fix a memory leak issue in the axis-based charts, there was a logic to calculate and cache the minX, maxX, minY and maxY properties to reduce the computation cost. But it caused some memory issues, as we don't have a quick solution for this, we disabled the caching logic for now, later we can move the calculation logic to the render objects to keep and update them only when the data is changed, #1106, #1693
 * **BUGFIX** Fix showing grid lines even when there is no line to show in the LineChart, #1691
+* **IMPROVEMENT** (by @k0psutin) Add `tooltipPadding` to BarTouchTooltipData, LineTouchTooltipData and ScatterTouchTooltipData, #824
+* **BREAKING**  (by @k0psutin) Remove `margin` from HorizontalLineLabel and VerticalLineLabel, #824
+* **BREAKING** (by @k0psutin) Remove `bottomMargin` from ScatterTooltipItem , #824
+* **IMPROVEMENT** (by @k0psutin) Add `verticalOFfset` and `horizontalOffset` to HorizontalLineLabel and VerticalLineLabel to replace `margin`, #824
+* **BREAKING**  (by @k0psutin) Remove `tooltipMargin` from HorizontalLineLabel and VerticalLineLabel, #824
+* **BREAKING** (by @kopsutin) Add property `tooltipVerticalOffset` to BarTouchTooltipData, LineTouchTooltipData and ScatterTooltipItem to replace `tooltipMargin`, #824  
+* **BUGFIX**  (by @k0psutin) Fix `padding` to apply padding correctly in HorizontalLineLabel and VerticalLineLabel, #824
+
+
+```dart
+/// Migration guide:
+/// Old way:
+BarTouchTooltipData(
+  tooltipMargin: -10,
+)
+
+/// New way:
+BarTouchTooltipData(
+  tooltipVerticalOffset: -10, // same effect as old tooltipMargin
+  tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adds padding to tooltip
+)
+```
+* **BREAKING** (by @k0psutin) Remove `tooltipMargin` property from ScatterTooltipItem, #824
+```dart
+/// Migration guide:
+/// Old way:
+ScatterTooltipItem(
+  bottomMargin: 10,
+)
+
+/// New way:
+ScatterTouchTooltipData(
+  tooltipVerticalOffset: 10, // same effect as old tooltipMargin
+  tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adds padding to tooltip
+)
+```
 
 ## 0.68.0
 * **Improvement** (by @imaNNeo) Update LineChartSample6 to implement a way to show a tooltip on a single spot, #1620
