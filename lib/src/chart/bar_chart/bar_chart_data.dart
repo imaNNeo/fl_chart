@@ -324,6 +324,7 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
+    bool? showValueBanner,
   })  : fromY = fromY ?? 0,
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
@@ -331,7 +332,8 @@ class BarChartRodData with EquatableMixin {
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-        rodStackItems = rodStackItems ?? const [];
+        rodStackItems = rodStackItems ?? const [],
+        showValueBanner = showValueBanner ?? false;
 
   /// [BarChart] renders rods vertically from [fromY].
   final double fromY;
@@ -369,6 +371,8 @@ class BarChartRodData with EquatableMixin {
   /// If you are a fan of stacked charts (If you don't know what is it, google it),
   /// you can fill up the [rodStackItems] to have a Stacked Chart.
   final List<BarChartRodStackItem> rodStackItems;
+
+  final bool? showValueBanner;
 
   /// Determines the upward or downward direction
   bool isUpward() => toY >= fromY;
