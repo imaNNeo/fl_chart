@@ -9,10 +9,16 @@ import 'package:flutter/cupertino.dart';
 
 /// Low level BarChart Widget.
 class BarChartLeaf extends LeafRenderObjectWidget {
-  const BarChartLeaf({super.key, required this.data, required this.targetData});
+  const BarChartLeaf({
+    super.key,
+    required this.data,
+    required this.targetData,
+    this.showValueBanner = false,
+  });
 
   final BarChartData data;
   final BarChartData targetData;
+  final bool showValueBanner;
 
   @override
   RenderBarChart createRenderObject(BuildContext context) => RenderBarChart(
@@ -43,7 +49,10 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        super(targetData.barTouchData, context);
+        super(
+          targetData.barTouchData,
+          context,
+        );
 
   BarChartData get data => _data;
   BarChartData _data;
@@ -80,8 +89,14 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   @visibleForTesting
   BarChartPainter painter = BarChartPainter();
 
-  PaintHolder<BarChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler);
+  PaintHolder<BarChartData> get paintHolder {
+    return PaintHolder(
+      data,
+      targetData,
+      textScaler,
+      showValueBanner: showValueBanner,
+    );
+  }
 
   @override
   void paint(PaintingContext context, Offset offset) {

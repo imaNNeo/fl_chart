@@ -326,6 +326,60 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
           }
         }
+
+        if (barRod.toY.toInt() > 9) {
+          final barBottom =
+              getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
+
+          final widgetTop = min(
+                getPixelY(barRod.toY, viewSize, holder),
+                barBottom - cornerHeight,
+              ) +
+              5;
+          final widgetBottom = min(
+            widgetTop + 30,
+            barBottom - 5,
+          );
+          final widgetLeft = left + 5;
+          final widgetRight = right - 5;
+
+          barRRect = RRect.fromLTRBAndCorners(
+            widgetLeft,
+            widgetTop,
+            widgetRight,
+            widgetBottom,
+            topLeft: borderRadius.topLeft,
+            topRight: borderRadius.topRight,
+            bottomLeft: borderRadius.bottomLeft,
+            bottomRight: borderRadius.bottomRight,
+          );
+
+          _barPaint.setColorOrGradient(
+            Colors.white.withOpacity(0.3),
+            barRod.gradient,
+            barRRect.getRect(),
+          );
+          canvasWrapper.drawRRect(barRRect, _barPaint);
+
+          const textStyle = TextStyle(
+            color: Colors.black,
+            fontSize: 12,
+          );
+          final textSpan = TextSpan(
+            text: '${(barRod.toY < 1 ? 1 : barRod.toY).toInt()}%',
+            style: textStyle,
+          );
+          final textPainter = TextPainter(
+            text: textSpan,
+            textDirection: TextDirection.ltr,
+          )..layout();
+
+          final offset = Offset(
+            widgetLeft + (barRod.width - 10 - textPainter.width) * 0.5,
+            widgetTop + textPainter.height * 0.5,
+          );
+          textPainter.paint(canvasWrapper.canvas, offset);
+        }
       }
     }
   }
