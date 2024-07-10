@@ -352,28 +352,33 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           canvasWrapper.drawRRect(barRRect, _barPaint);
         }
 
-        if (barRod.toY.toInt() > 11) {
+        // draw banner widget with value text inside each bar, if the value is > 11
+        if (barRod.toY.toInt() > 12) {
+          const paddingPixels = 5;
+          const bannerHeight = 30;
+
           final barBottom =
               getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
 
-          final widgetTop = min(
+          final bannerTop = min(
                 getPixelY(barRod.toY, viewSize, holder),
                 barBottom - cornerHeight,
               ) +
-              5;
-          final widgetBottom = min(
-            widgetTop + 30,
-            barBottom - 5,
+              paddingPixels;
+
+          final bannerBottom = min(
+            bannerTop + bannerHeight,
+            barBottom - paddingPixels,
           );
 
-          final widgetLeft = left + 5;
-          final widgetRight = right - 5;
+          final bannerLeft = left + paddingPixels;
+          final bannerRight = right - paddingPixels;
 
           barRRect = RRect.fromLTRBAndCorners(
-            widgetLeft,
-            widgetTop,
-            widgetRight,
-            widgetBottom,
+            bannerLeft,
+            bannerTop,
+            bannerRight,
+            bannerBottom,
             topLeft: borderRadius.topLeft,
             topRight: borderRadius.topRight,
             bottomLeft: borderRadius.bottomLeft,
@@ -400,9 +405,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             textDirection: TextDirection.ltr,
           )..layout();
 
-          final offsetX =
-              widgetLeft + (barRod.width - 10 - textPainter.width) * 0.5;
-          final offsetY = widgetTop + textPainter.height * 0.5;
+          // Pixel for the left edge of the banner
+          final offsetX = bannerLeft -
+              paddingPixels +
+              (barRod.width - textPainter.width) * 0.5;
+
+          // Pixel for the top edge of the banner
+          final offsetY = bannerTop + textPainter.height * 0.5;
 
           final offset = Offset(offsetX, offsetY);
           textPainter.paint(canvasWrapper.canvas, offset);
