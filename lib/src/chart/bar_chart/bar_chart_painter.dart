@@ -325,7 +325,80 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               _barStrokePaint,
             );
           }
+
+          // Draw banner widget with value text inside each bar, if the value is > 11
+          if (barRod.toY.toInt() > 11) {
+            const paddingPixels = 5;
+            const bannerHeight = 30;
+
+            final barBottom =
+                getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
+
+            final bannerTop = min(
+                  getPixelY(barRod.toY, viewSize, holder),
+                  barBottom - cornerHeight,
+                ) +
+                paddingPixels;
+
+            final bannerBottom = min(
+              bannerTop + bannerHeight,
+              barBottom - paddingPixels,
+            );
+
+            final bannerLeft = left + paddingPixels;
+            final bannerRight = right - paddingPixels;
+
+            barRRect = RRect.fromLTRBAndCorners(
+              bannerLeft,
+              bannerTop,
+              bannerRight,
+              bannerBottom,
+              topLeft: borderRadius.topLeft,
+              topRight: borderRadius.topRight,
+              bottomLeft: borderRadius.bottomLeft,
+              bottomRight: borderRadius.bottomRight,
+            );
+
+            _barPaint.setColorOrGradient(
+              Colors.white.withOpacity(0.3),
+              barRod.gradient,
+              barRRect.getRect(),
+            );
+            canvasWrapper.drawRRect(barRRect, _barPaint);
+
+            const textStyle = TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+            );
+            final textSpan = TextSpan(
+              text: '${(barRod.toY < 1 ? 1 : barRod.toY).toInt()}%',
+              style: textStyle,
+            );
+            final textPainter = TextPainter(
+              text: textSpan,
+              textDirection: TextDirection.ltr,
+            )..layout();
+
+            // Pixel for the left edge of the banner
+            final offsetX = bannerLeft -
+                paddingPixels +
+                (barRod.width - textPainter.width) * 0.5;
+
+            // Pixel for the top edge of the banner
+            var offsetY = bannerTop + textPainter.height * 0.5;
+
+            if (barRod.toY.toInt() < 14) {
+              offsetY -= 2;
+            }
+
+            final offset = Offset(offsetX, offsetY);
+            textPainter.paint(canvasWrapper.canvas, offset);
+          }
         } else {
+          /// In case: [barRod.toY] = [barRod.fromY], which in our case will
+          /// only be possible when [barRod.toY] = [barRod.fromY] = 0
+          /// In such case, instead of removing the base, show a small notch
+          /// that is visually different than <1 values and 0 value.
           final bottom =
               getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
           final top = min(
@@ -350,71 +423,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             barRRect.getRect(),
           );
           canvasWrapper.drawRRect(barRRect, _barPaint);
-        }
-
-        // draw banner widget with value text inside each bar, if the value is > 11
-        if (barRod.toY.toInt() > 12) {
-          const paddingPixels = 5;
-          const bannerHeight = 30;
-
-          final barBottom =
-              getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
-
-          final bannerTop = min(
-                getPixelY(barRod.toY, viewSize, holder),
-                barBottom - cornerHeight,
-              ) +
-              paddingPixels;
-
-          final bannerBottom = min(
-            bannerTop + bannerHeight,
-            barBottom - paddingPixels,
-          );
-
-          final bannerLeft = left + paddingPixels;
-          final bannerRight = right - paddingPixels;
-
-          barRRect = RRect.fromLTRBAndCorners(
-            bannerLeft,
-            bannerTop,
-            bannerRight,
-            bannerBottom,
-            topLeft: borderRadius.topLeft,
-            topRight: borderRadius.topRight,
-            bottomLeft: borderRadius.bottomLeft,
-            bottomRight: borderRadius.bottomRight,
-          );
-
-          _barPaint.setColorOrGradient(
-            Colors.white.withOpacity(0.3),
-            barRod.gradient,
-            barRRect.getRect(),
-          );
-          canvasWrapper.drawRRect(barRRect, _barPaint);
-
-          const textStyle = TextStyle(
-            color: Colors.black,
-            fontSize: 12,
-          );
-          final textSpan = TextSpan(
-            text: '${(barRod.toY < 1 ? 1 : barRod.toY).toInt()}%',
-            style: textStyle,
-          );
-          final textPainter = TextPainter(
-            text: textSpan,
-            textDirection: TextDirection.ltr,
-          )..layout();
-
-          // Pixel for the left edge of the banner
-          final offsetX = bannerLeft -
-              paddingPixels +
-              (barRod.width - textPainter.width) * 0.5;
-
-          // Pixel for the top edge of the banner
-          final offsetY = bannerTop + textPainter.height * 0.5;
-
-          final offset = Offset(offsetX, offsetY);
-          textPainter.paint(canvasWrapper.canvas, offset);
         }
       }
     }
