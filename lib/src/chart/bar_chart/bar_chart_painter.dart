@@ -325,9 +325,34 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               _barStrokePaint,
             );
           }
+        } else {
+          final bottom =
+              getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
+          final top = min(
+            getPixelY(barRod.toY, viewSize, holder),
+            bottom - cornerHeight,
+          );
+
+          barRRect = RRect.fromLTRBAndCorners(
+            left,
+            top + 10,
+            right,
+            bottom,
+            topLeft: borderRadius.topLeft,
+            topRight: borderRadius.topRight,
+            bottomLeft: borderRadius.bottomLeft,
+            bottomRight: borderRadius.bottomRight,
+          );
+
+          _barPaint.setColorOrGradient(
+            barRod.color,
+            barRod.gradient,
+            barRRect.getRect(),
+          );
+          canvasWrapper.drawRRect(barRRect, _barPaint);
         }
 
-        if (barRod.toY.toInt() > 9) {
+        if (barRod.toY.toInt() > 11) {
           final barBottom =
               getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
 
@@ -340,6 +365,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             widgetTop + 30,
             barBottom - 5,
           );
+
           final widgetLeft = left + 5;
           final widgetRight = right - 5;
 
@@ -374,10 +400,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             textDirection: TextDirection.ltr,
           )..layout();
 
-          final offset = Offset(
-            widgetLeft + (barRod.width - 10 - textPainter.width) * 0.5,
-            widgetTop + textPainter.height * 0.5,
-          );
+          final offsetX =
+              widgetLeft + (barRod.width - 10 - textPainter.width) * 0.5;
+          final offsetY = widgetTop + textPainter.height * 0.5;
+
+          final offset = Offset(offsetX, offsetY);
           textPainter.paint(canvasWrapper.canvas, offset);
         }
       }
