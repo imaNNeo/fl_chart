@@ -13,12 +13,10 @@ class BarChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
-    this.showValueBanner = false,
   });
 
   final BarChartData data;
   final BarChartData targetData;
-  final bool showValueBanner;
 
   @override
   RenderBarChart createRenderObject(BuildContext context) => RenderBarChart(
@@ -94,7 +92,6 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
       data,
       targetData,
       textScaler,
-      showValueBanner: showValueBanner,
     );
   }
 

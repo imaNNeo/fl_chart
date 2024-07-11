@@ -22,9 +22,8 @@ class PaintHolder<Data extends BaseChartData> {
   const PaintHolder(
     this.data,
     this.targetData,
-    this.textScaler, {
-    this.showValueBanner,
-  });
+    this.textScaler,
+  );
 
   /// [data] is what we need to show frame by frame (it might be changed by an animator)
   final Data data;
@@ -34,6 +33,4 @@ class PaintHolder<Data extends BaseChartData> {
 
   /// system [TextScaler] used for scaling texts for better readability
   final TextScaler textScaler;
-
-  final bool? showValueBanner;
 }

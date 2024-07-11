@@ -368,7 +368,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
             const textStyle = TextStyle(
               color: Colors.black,
-              fontSize: 12,
+              fontSize: 14,
+              height: 1,
             );
             final textSpan = TextSpan(
               text: '${(barRod.toY < 1 ? 1 : barRod.toY).toInt()}%',
@@ -387,7 +388,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             // Pixel for the top edge of the banner
             var offsetY = bannerTop + textPainter.height * 0.5;
 
-            if (barRod.toY.toInt() < 14) {
+            if (barRod.toY.toInt() < 20) {
               offsetY -= 2;
             }
 

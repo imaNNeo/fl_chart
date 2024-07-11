@@ -13,15 +13,11 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   /// to invoke them when touch happens.
   RenderBaseChart(
     FlTouchData<R>? touchData,
-    BuildContext context, {
-    this.showValueBanner,
-  }) : _buildContext = context {
+    BuildContext context,
+  ) : _buildContext = context {
     updateBaseTouchData(touchData);
     initGestureRecognizers();
-    showValueBanner = showValueBanner;
   }
-
-  bool? showValueBanner;
 
   // We use buildContext to retrieve Theme data
   BuildContext get buildContext => _buildContext;
