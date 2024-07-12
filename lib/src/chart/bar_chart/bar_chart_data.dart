@@ -324,6 +324,13 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
+    bool? showBannerWidget,
+    double? bannerWidgetHeight,
+    TextStyle? bannerTextStyle,
+    double? bannerWidgetMargin,
+    bool? showZeroValueBar,
+    Color? zeroValueBarColor,
+    double? zeroValueBarHeight,
   })  : fromY = fromY ?? 0,
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
@@ -331,7 +338,18 @@ class BarChartRodData with EquatableMixin {
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
-        rodStackItems = rodStackItems ?? const [];
+        rodStackItems = rodStackItems ?? const [],
+        showBannerWidget = showBannerWidget ?? false,
+        showZeroValueBar = showZeroValueBar ?? false,
+        zeroValueBarColor = zeroValueBarColor ?? Colors.grey,
+        bannerWidgetHeight = bannerWidgetHeight ?? 30,
+        bannerTextStyle = bannerTextStyle ??
+            const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+        bannerWidgetMargin = bannerWidgetMargin ?? 5,
+        zeroValueBarHeight = zeroValueBarHeight ?? 10;
 
   /// [BarChart] renders rods vertically from [fromY].
   final double fromY;
@@ -373,6 +391,27 @@ class BarChartRodData with EquatableMixin {
   /// Determines the upward or downward direction
   bool isUpward() => toY >= fromY;
 
+  /// [BarChart] will render an [RRect] widget inside each Bar if [showBannerWidget] is true.
+  final bool? showBannerWidget;
+
+  /// [BarChart] will render a thin bar instead of empty bar, when [toY] is of the range [0,1].
+  final bool? showZeroValueBar;
+
+  /// [BarChart] will provide [zeroValueBarColor] to the bars with [toY] of the range [0,1]
+  final Color? zeroValueBarColor;
+
+  /// [BarChart] will provide a height of [bannerWidgetHeight] to each banner widget inside a bar.
+  final double? bannerWidgetHeight;
+
+  /// [BarChart] will provider a [TextStyle] of [bannerTextStyle] to the text inside the banner widget.
+  final TextStyle bannerTextStyle;
+
+  /// [BarChart] will provider a margin of [bannerWidgetMargin] to all sides of the banner widget.
+  final double bannerWidgetMargin;
+
+  /// [BarChart] will set the height of the zero value bar to [zeroValueBarHeight].
+  final double zeroValueBarHeight;
+
   /// Copies current [BarChartRodData] to a new [BarChartRodData],
   /// and replaces provided values.
   BarChartRodData copyWith({
@@ -386,6 +425,13 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
+    bool? showBannerWidget,
+    double? bannerWidgetHeight,
+    TextStyle? bannerTextStyle,
+    double? bannerWidgetMargin,
+    bool? showZeroValueBar,
+    Color? zeroValueBarColor,
+    double? zeroValueBarHeight,
   }) {
     return BarChartRodData(
       fromY: fromY ?? this.fromY,
@@ -398,6 +444,13 @@ class BarChartRodData with EquatableMixin {
       borderSide: borderSide ?? this.borderSide,
       backDrawRodData: backDrawRodData ?? this.backDrawRodData,
       rodStackItems: rodStackItems ?? this.rodStackItems,
+      showBannerWidget: showBannerWidget ?? this.showBannerWidget,
+      bannerWidgetHeight: bannerWidgetHeight ?? this.bannerWidgetHeight,
+      bannerTextStyle: bannerTextStyle ?? this.bannerTextStyle,
+      bannerWidgetMargin: bannerWidgetMargin ?? this.bannerWidgetMargin,
+      showZeroValueBar: showZeroValueBar ?? this.showZeroValueBar,
+      zeroValueBarColor: zeroValueBarColor ?? this.zeroValueBarColor,
+      zeroValueBarHeight: zeroValueBarHeight ?? this.zeroValueBarHeight,
     );
   }
 

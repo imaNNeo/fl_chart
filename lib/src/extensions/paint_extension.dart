@@ -9,6 +9,11 @@ extension PaintExtension on Paint {
     }
   }
 
+  void setColor(Color? color) {
+    this.color = color ?? Colors.transparent;
+    shader = null;
+  }
+
   void setColorOrGradient(Color? color, Gradient? gradient, Rect rect) {
     if (gradient != null) {
       this.color = Colors.black;
