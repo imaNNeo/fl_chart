@@ -68,6 +68,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         maxIncluded: false,
         baseLine: data.baselineX,
         interval: verticalInterval,
+        startMin: data.gridData.startMin,
       );
       for (final axisValue in axisValues) {
         if (!data.gridData.checkToShowVerticalLine(axisValue)) {
@@ -113,6 +114,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         maxIncluded: false,
         baseLine: data.baselineY,
         interval: horizontalInterval,
+        startMin: data.gridData.startMin,
       );
       for (final axisValue in axisValues) {
         if (!data.gridData.checkToShowHorizontalLine(axisValue)) {
@@ -121,6 +123,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
 
         final bothY = getPixelY(axisValue, viewSize, holder);
+
         const x1 = 0.0;
         final y1 = bothY;
         final x2 = viewSize.width;
