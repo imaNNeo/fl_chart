@@ -169,7 +169,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             label: VerticalLineLabel(
               show: true,
               verticalOffset: 5,
-              horizontalOffset: 5,
+              horizontalOffset: -5,
               alignment: Alignment.bottomRight,
               style: const TextStyle(
                 fontSize: 9,
