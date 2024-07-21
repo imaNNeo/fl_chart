@@ -483,31 +483,32 @@ abstract class AxisChartPainter<D extends AxisChartData>
       currenfOffset.dy - verticalOffset,
     );
 
-    final backgroundRect = Rect.fromCenter(
-      center: Offset(
-        offset.dx,
-        offset.dy,
-      ),
-      width: tp.width,
-      height: tp.height,
+    final backgroundRect = Rect.fromLTWH(
+      offset.dx,
+      offset.dy,
+      tp.width,
+      tp.height,
     ).applyPadding(padding);
 
-    canvasWrapper.drawRect(
-      backgroundRect,
-      _labelBackgroundPaint..color = backgroundColor,
-    );
+    canvasWrapper.save();
 
     if (direction == LabelDirection.vertical) {
-      canvasWrapper.drawVerticalText(
-        tp,
-        offset,
-      );
-    } else {
-      canvasWrapper.drawText(
-        tp,
-        offset,
-      );
+      canvasWrapper
+        ..translate(currenfOffset.dx, currenfOffset.dy)
+        ..rotate(Utils().radians(90))
+        ..translate(-currenfOffset.dx, -currenfOffset.dy);
     }
+
+    canvasWrapper
+      ..drawRect(
+        backgroundRect,
+        _labelBackgroundPaint..color = backgroundColor,
+      )
+      ..drawText(
+        tp,
+        offset,
+      )
+      ..restore();
   }
 
   /// With this function we can convert our [FlSpot] x

@@ -2369,19 +2369,12 @@ void main() {
       );
 
       final result1 = verify(mockCanvasWrapper.drawText(any, captureAny))
-        ..called(2);
-      final result2 =
-          verify(mockCanvasWrapper.drawVerticalText(any, captureAny))
-            ..called(2);
+        ..called(4);
 
       final offset1 = result1.captured[0] as Offset;
       final offset2 = result1.captured[1] as Offset;
-      final offset3 = result2.captured[0] as Offset;
-      final offset4 = result2.captured[1] as Offset;
       expect(offset1, const Offset(0, 56));
-      expect(offset2, const Offset(30, 86));
-      expect(offset3, const Offset(14, -16));
-      expect(offset4, const Offset(74, 44));
+      expect(offset2, const Offset(14, -16));
     });
   });
 
@@ -2673,7 +2666,7 @@ void main() {
 
       expect(rect != null, true, reason: 'Expected that Rect is not null');
 
-      const expected = Rect.fromLTRB(-27, 8.5, 27, 34.5);
+      const expected = Rect.fromLTRB(-2, 19.5, 44, 37.5);
 
       expect(
         HelperMethods.equalsRects(
@@ -2745,7 +2738,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(-27, 28.5, 27, 54.5);
+      const expected = Rect.fromLTRB(-2, 39.5, 44, 57.5);
 
       expect(
         HelperMethods.equalsRects(
@@ -2817,7 +2810,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(-17, 18.5, 37, 44.5);
+      const expected = Rect.fromLTRB(8, 29.5, 54, 47.5);
 
       expect(
         HelperMethods.equalsRects(
@@ -2889,7 +2882,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(-37, 18.5, 17, 44.5);
+      const expected = Rect.fromLTRB(-12, 29.5, 34, 47.5);
       expect(
         HelperMethods.equalsRects(
           rect,
@@ -2960,7 +2953,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(27.5, 83, 81.5, 109);
+      const expected = Rect.fromLTRB(52.5, 94, 98.5, 112);
       expect(
         HelperMethods.equalsRects(
           rect,
@@ -3031,7 +3024,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(27.5, 63, 81.5, 89);
+      const expected = Rect.fromLTRB(52.5, 74, 98.5, 92);
       expect(
         HelperMethods.equalsRects(
           rect,
@@ -3102,7 +3095,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(37.5, 73, 91.5, 99);
+      const expected = Rect.fromLTRB(62.5, 84, 108.5, 102);
       expect(
         HelperMethods.equalsRects(
           rect,
@@ -3173,7 +3166,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(17.5, 73, 71.5, 99);
+      const expected = Rect.fromLTRB(42.5, 84, 88.5, 102);
       expect(
         HelperMethods.equalsRects(
           rect,
@@ -3244,7 +3237,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(17.5, 63, 91.5, 109);
+      const expected = Rect.fromLTRB(38.5, 70, 112.5, 116);
       expect(
         HelperMethods.equalsRects(
           rect,
@@ -3315,7 +3308,7 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      const expected = Rect.fromLTRB(-37, 8.5, 37, 54.5);
+      const expected = Rect.fromLTRB(-16, 15.5, 58, 61.5);
       expect(
         HelperMethods.equalsRects(
           rect,
