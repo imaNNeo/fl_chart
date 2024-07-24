@@ -281,7 +281,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     for (var index = 0; index < data.titleCount; index++) {
       final baseTitleAngle = Utils().degrees(diffAngle * index);
       final title = data.getTitle!(index, baseTitleAngle);
-      final span = TextSpan(text: title.text, style: style);
+      final span = TextSpan(text: title.text, children: title.children, style: style);
       _titleTextPaint
         ..text = span
         ..layout();

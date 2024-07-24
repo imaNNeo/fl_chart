@@ -168,6 +168,24 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                     case 0:
                       return RadarChartTitle(
                         text: 'Mobile or Tablet',
+                        children:[
+                          const TextSpan(
+                            text: "\n(or sth else....",
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w700
+                            ),
+                          ),
+                          const TextSpan(
+                            text: "or watever it is....)",
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.green,
+                                fontWeight: FontWeight.w700
+                            ),
+                          ),
+                        ],
                         angle: usedAngle,
                       );
                     case 2:

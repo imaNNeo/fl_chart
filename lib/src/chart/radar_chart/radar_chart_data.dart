@@ -20,12 +20,16 @@ enum RadarShape {
 class RadarChartTitle {
   const RadarChartTitle({
     required this.text,
+    this.children,
     this.angle = 0,
     this.positionPercentageOffset,
   });
 
   /// [text] is used to draw titles outside the [RadarChart]
   final String text;
+
+  /// [children] is used to draw additional titles outside the [RadarChart]
+  final List<InlineSpan>? children;
 
   /// [angle] is used to rotate the title
   final double angle;
