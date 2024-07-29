@@ -302,7 +302,7 @@ class BarChartRodData with EquatableMixin {
   /// If you are a fan of stacked charts (If you don't know what is it, google it),
   /// you can fill up the [rodStackItems] to have a Stacked Chart.
   /// for example if you want to have a Stacked Chart with three colors:
-  /// ```
+  /// ```dart
   /// BarChartRodData(
   ///   y: 9,
   ///   color: Colors.grey,
@@ -446,7 +446,7 @@ class BarChartRodData with EquatableMixin {
 class BarChartRodStackItem with EquatableMixin {
   /// Renders a section of Stacked Chart from [fromY] to [toY] with [color]
   /// for example if you want to have a Stacked Chart with three colors:
-  /// ```
+  /// ```dart
   /// BarChartRodData(
   ///   y: 9,
   ///   color: Colors.grey,
