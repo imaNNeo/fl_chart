@@ -382,6 +382,12 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
     with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
+  /// You can disable or enable the scale detection using [detectScale] flag,
+  /// detecting scale gesture will disable pan gesture detection
+  ///
+  /// You can disable or enable the scale detection using [detectScale] flag,
+  /// detecting scale gesture will disable pan gesture detection
+  ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
   /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
   /// It also gives you a [RadarTouchResponse] which contains information
@@ -391,6 +397,7 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
   /// based on the provided [FlTouchEvent] and [RadarTouchResponse]
   RadarTouchData({
     bool? enabled,
+    bool? detectScale = false,
     BaseTouchCallback<RadarTouchResponse>? touchCallback,
     MouseCursorResolver<RadarTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
@@ -401,6 +408,7 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
           touchCallback,
           mouseCursorResolver,
           longPressDuration,
+          detectScale ?? false,
         );
 
   /// we find the nearest spots on touched position based on this threshold

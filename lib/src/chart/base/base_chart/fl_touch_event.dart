@@ -38,6 +38,33 @@ abstract class FlTouchEvent {
   }
 }
 
+class FlScaleStartEvent extends FlTouchEvent {
+  const FlScaleStartEvent(this.details);
+
+  final ScaleStartDetails details;
+
+  @override
+  Offset get localPosition => details.focalPoint;
+}
+
+class FlScaleUpdateEvent extends FlTouchEvent {
+  const FlScaleUpdateEvent(this.details);
+
+  final ScaleUpdateDetails details;
+
+  @override
+  Offset get localPosition => details.focalPoint;
+}
+
+class FlScaleEndEvent extends FlTouchEvent {
+  const FlScaleEndEvent(this.details);
+
+  final ScaleEndDetails details;
+
+  @override
+  Offset get localPosition => Offset.zero;
+}
+
 /// When a pointer has contacted the screen and might begin to move
 ///
 /// The [details] object provides the position of the touch.

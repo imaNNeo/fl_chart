@@ -90,10 +90,15 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
     this.touchCallback,
     this.mouseCursorResolver,
     this.longPressDuration,
+    this.detectScale,
   );
 
   /// You can disable or enable the touch system using [enabled] flag,
   final bool enabled;
+
+  /// You can disable or enable the scale detection using [detectScale] flag,
+  /// detecting scale gesture will disable pan gesture detection
+  final bool detectScale;
 
   /// [touchCallback] notifies you about the happened touch/pointer events.
   /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...

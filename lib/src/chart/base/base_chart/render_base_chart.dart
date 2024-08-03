@@ -29,18 +29,24 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     _touchCallback = value?.touchCallback;
     _mouseCursorResolver = value?.mouseCursorResolver;
     _longPressDuration = value?.longPressDuration;
+    _detectScale = value?.detectScale ?? false;
   }
 
   BaseTouchCallback<R>? _touchCallback;
   MouseCursorResolver<R>? _mouseCursorResolver;
   Duration? _longPressDuration;
+  bool _detectScale = false;
 
   MouseCursor _latestMouseCursor = MouseCursor.defer;
 
   late bool _validForMouseTracker;
 
-  /// Recognizes pan gestures, such as onDown, onStart, onUpdate, onCancel, ...
-  late PanGestureRecognizer _panGestureRecognizer;
+  // late ScaleGestureRecognizer _scaleGestureRecognizer;
+
+  // if [detectScale] is true, we use ScaleGestureRecognizer, otherwise we use PanGestureRecognizer
+  // Recognizes pan gestures, such as onDown, onStart, onUpdate, onCancel, ...
+  // or alternatively detects scale gestures, such as onStart, onUpdate, onEnd, ...
+  late OneSequenceGestureRecognizer _panOrScaleGestureRecognizer;
 
   /// Recognizes tap gestures, such as onTapDown, onTapCancel and onTapUp
   late TapGestureRecognizer _tapGestureRecognizer;
@@ -50,23 +56,37 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
 
   /// Initializes our recognizers and implement their callbacks.
   void initGestureRecognizers() {
-    _panGestureRecognizer = PanGestureRecognizer();
-    _panGestureRecognizer
-      ..onDown = (dragDownDetails) {
-        _notifyTouchEvent(FlPanDownEvent(dragDownDetails));
-      }
-      ..onStart = (dragStartDetails) {
-        _notifyTouchEvent(FlPanStartEvent(dragStartDetails));
-      }
-      ..onUpdate = (dragUpdateDetails) {
-        _notifyTouchEvent(FlPanUpdateEvent(dragUpdateDetails));
-      }
-      ..onCancel = () {
-        _notifyTouchEvent(const FlPanCancelEvent());
-      }
-      ..onEnd = (dragEndDetails) {
-        _notifyTouchEvent(FlPanEndEvent(dragEndDetails));
-      };
+    if (_detectScale) {
+      final scaleGestureRecognizer = ScaleGestureRecognizer()
+        ..onStart = (details) {
+          _notifyTouchEvent(FlScaleStartEvent(details));
+        }
+        ..onUpdate = (details) {
+          _notifyTouchEvent(FlScaleUpdateEvent(details));
+        }
+        ..onEnd = (details) {
+          _notifyTouchEvent(FlScaleEndEvent(details));
+        };
+      _panOrScaleGestureRecognizer = scaleGestureRecognizer;
+    } else {
+      final panGestureRecognizer = PanGestureRecognizer()
+        ..onDown = (dragDownDetails) {
+          _notifyTouchEvent(FlPanDownEvent(dragDownDetails));
+        }
+        ..onStart = (dragStartDetails) {
+          _notifyTouchEvent(FlPanStartEvent(dragStartDetails));
+        }
+        ..onUpdate = (dragUpdateDetails) {
+          _notifyTouchEvent(FlPanUpdateEvent(dragUpdateDetails));
+        }
+        ..onCancel = () {
+          _notifyTouchEvent(const FlPanCancelEvent());
+        }
+        ..onEnd = (dragEndDetails) {
+          _notifyTouchEvent(FlPanEndEvent(dragEndDetails));
+        };
+      _panOrScaleGestureRecognizer = panGestureRecognizer;
+    }
 
     _tapGestureRecognizer = TapGestureRecognizer();
     _tapGestureRecognizer
@@ -88,7 +108,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       }
       ..onLongPressMoveUpdate = (longPressMoveUpdateDetails) {
         _notifyTouchEvent(
-          FlLongPressMoveUpdate(longPressMoveUpdateDetails),
+          FlLongPressMoveUpdate(longPreqssMoveUpdateDetails),
         );
       }
       ..onLongPressEnd = (longPressEndDetails) =>
@@ -124,7 +144,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (event is PointerDownEvent) {
       _longPressGestureRecognizer.addPointer(event);
       _tapGestureRecognizer.addPointer(event);
-      _panGestureRecognizer.addPointer(event);
+      _panOrScaleGestureRecognizer.addPointer(event);
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
     }
