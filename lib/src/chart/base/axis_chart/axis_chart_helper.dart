@@ -26,9 +26,16 @@ class AxisChartHelper {
     bool maxIncluded = true,
     required double baseLine,
     required double interval,
+    bool startMin = false,
   }) sync* {
-    final initialValue = Utils()
-        .getBestInitialIntervalValue(min, max, interval, baseline: baseLine);
+    final initialValue = startMin
+        ? min
+        : Utils().getBestInitialIntervalValue(
+            min,
+            max,
+            interval,
+            baseline: baseLine,
+          );
     var axisSeek = initialValue;
     final firstPositionOverlapsWithMin = axisSeek == min;
     if (!minIncluded && firstPositionOverlapsWithMin) {
