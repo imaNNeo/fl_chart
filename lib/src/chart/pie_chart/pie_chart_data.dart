@@ -31,6 +31,10 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    CapStyle? capStyle,
+    bool? shadow,
+    double? shadowElevation,
+    double? shadowOpacity,
   })  : sections = sections?.where((element) => element.value != 0).toList() ??
             const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
@@ -39,6 +43,10 @@ class PieChartData extends BaseChartData with EquatableMixin {
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
         titleSunbeamLayout = titleSunbeamLayout ?? false,
+        capstyle = capStyle ?? CapStyle.none,
+        shadow = shadow ?? false,
+        shadowElevation = shadowElevation ?? 0,
+        shadowOpacity = shadowOpacity ?? 0.5,
         super(
           borderData: borderData ?? FlBorderData(show: false),
           touchData: pieTouchData ?? PieTouchData(),
@@ -75,6 +83,17 @@ class PieChartData extends BaseChartData with EquatableMixin {
 
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.
+
+  /// The style of the cap at the end of the pie chart
+  /// It Accepts [CapStyle.none] for no cap, [CapStyle.startCapped] for a cap at the start of the chart,
+  /// [CapStyle.endCapped] for a cap at the end of the chart.
+  /// Default is [CapStyle.none]
+  final CapStyle capstyle;
+
+  final bool shadow;
+  final double shadowElevation;
+  final double shadowOpacity;
+
   PieChartData copyWith({
     List<PieChartSectionData>? sections,
     double? centerSpaceRadius,
@@ -389,4 +408,10 @@ class PieChartDataTween extends Tween<PieChartData> {
   /// Lerps a [PieChartData] based on [t] value, check [Tween.lerp].
   @override
   PieChartData lerp(double t) => begin!.lerp(begin!, end!, t);
+}
+
+enum CapStyle {
+  none,
+  startCapped,
+  endCapped,
 }
