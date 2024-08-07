@@ -15,6 +15,7 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i11;
 import 'package:flutter/foundation.dart' as _i5;
 import 'package:flutter/gestures.dart' as _i8;
 import 'package:flutter/material.dart' as _i6;
+import 'package:flutter/painting.dart' as _i14;
 import 'package:flutter/rendering.dart' as _i3;
 import 'package:flutter/src/rendering/layer.dart' as _i4;
 import 'package:flutter/src/widgets/notification_listener.dart' as _i9;
@@ -1440,6 +1441,36 @@ class MockScatterChartPainter extends _i1.Mock
       );
 
   @override
+  void drawLineLabel(
+    _i13.LabelDirection? direction,
+    _i2.Color? backgroundColor,
+    _i14.Alignment? alignment,
+    _i2.Rect? textArea,
+    _i14.EdgeInsets? padding,
+    double? verticalOffset,
+    double? horizontalOffset,
+    _i14.TextPainter? tp,
+    _i11.CanvasWrapper? canvasWrapper,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawLineLabel,
+          [
+            direction,
+            backgroundColor,
+            alignment,
+            textArea,
+            padding,
+            verticalOffset,
+            horizontalOffset,
+            tp,
+            canvasWrapper,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   double getPixelX(
     double? spotX,
     _i2.Size? viewSize,
@@ -1481,6 +1512,7 @@ class MockScatterChartPainter extends _i1.Mock
     double? tooltipWidth,
     _i13.FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
+    _i14.EdgeInsets? tooltipPadding,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1490,6 +1522,7 @@ class MockScatterChartPainter extends _i1.Mock
             tooltipWidth,
             tooltipHorizontalAlignment,
             tooltipHorizontalOffset,
+            tooltipPadding,
           ],
         ),
         returnValue: 0.0,
