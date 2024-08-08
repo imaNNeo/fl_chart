@@ -856,6 +856,9 @@ abstract class FlLineLabel with EquatableMixin {
 class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
+  /// You can disable or enable the scale detection using [detectScale] flag,
+  /// detecting scale gesture will disable pan gesture detection
+  ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
   /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
   /// It also gives you a [LineTouchResponse] which contains information
@@ -873,6 +876,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
   const LineTouchData({
     bool enabled = true,
+    bool detectScale = false,
     BaseTouchCallback<LineTouchResponse>? touchCallback,
     MouseCursorResolver<LineTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
@@ -888,6 +892,7 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
           touchCallback,
           mouseCursorResolver,
           longPressDuration,
+          detectScale,
         );
 
   /// Configs of how touch tooltip popup.

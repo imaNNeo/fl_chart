@@ -263,6 +263,9 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
     with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
+  /// You can disable or enable the scale detection using [detectScale] flag,
+  /// detecting scale gesture will disable pan gesture detection
+  ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
   /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
   /// It also gives you a [ScatterTouchResponse] which contains information
@@ -278,6 +281,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
   /// If you need to have a distance threshold for handling touches, use [touchSpotThreshold].
   ScatterTouchData({
     bool? enabled,
+    bool? detectScale,
     BaseTouchCallback<ScatterTouchResponse>? touchCallback,
     MouseCursorResolver<ScatterTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
@@ -292,6 +296,7 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
           touchCallback,
           mouseCursorResolver,
           longPressDuration,
+          detectScale ?? false,
         );
 
   /// show a tooltip on touched spots

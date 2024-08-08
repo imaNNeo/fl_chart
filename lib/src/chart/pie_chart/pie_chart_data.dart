@@ -296,6 +296,9 @@ class PieChartSectionData {
 class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
+  /// You can disable or enable the scale detection using [detectScale] flag,
+  /// detecting scale gesture will disable pan gesture detection
+  ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
   /// It gives you a [FlTouchEvent] which is the happened event such as [FlPointerHoverEvent], [FlTapUpEvent], ...
   /// It also gives you a [PieTouchResponse] which contains information
@@ -305,6 +308,7 @@ class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
   /// based on the provided [FlTouchEvent] and [PieTouchResponse]
   PieTouchData({
     bool? enabled,
+    bool? detectScale,
     BaseTouchCallback<PieTouchResponse>? touchCallback,
     MouseCursorResolver<PieTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
@@ -313,6 +317,7 @@ class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
           touchCallback,
           mouseCursorResolver,
           longPressDuration,
+          detectScale ?? false,
         );
 
   /// Used for equality check, see [EquatableMixin].
