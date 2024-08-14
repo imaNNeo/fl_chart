@@ -39,8 +39,10 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
 
   late bool _validForMouseTracker;
 
-  /// Recognizes pan gestures, such as onDown, onStart, onUpdate, onCancel, ...
-  late PanGestureRecognizer _panGestureRecognizer;
+  // Instead of drag we use scale which also includes pan gestures
+  // Recognizes pan gestures, such as onDown, onStart, onUpdate, onCancel, ...
+  // and detects scale gestures scroll, pinch in out, such as onStart, onUpdate, onEnd, ...
+  late ScaleGestureRecognizer _scaleGestureRecognizer;
 
   /// Recognizes tap gestures, such as onTapDown, onTapCancel and onTapUp
   late TapGestureRecognizer _tapGestureRecognizer;
@@ -50,22 +52,20 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
 
   /// Initializes our recognizers and implement their callbacks.
   void initGestureRecognizers() {
-    _panGestureRecognizer = PanGestureRecognizer();
-    _panGestureRecognizer
-      ..onDown = (dragDownDetails) {
-        _notifyTouchEvent(FlPanDownEvent(dragDownDetails));
+    _scaleGestureRecognizer = ScaleGestureRecognizer();
+    _scaleGestureRecognizer
+      ..onStart = (details) {
+        _notifyScaleEvent(FlScaleStartEvent(details));
+        _notifyTouchEvent(FlPanDownEvent(details));
+        _notifyTouchEvent(FlPanStartEvent(details));
       }
-      ..onStart = (dragStartDetails) {
-        _notifyTouchEvent(FlPanStartEvent(dragStartDetails));
+      ..onUpdate = (details) {
+        _notifyScaleEvent(FlScaleUpdateEvent(details));
+        _notifyTouchEvent(FlPanUpdateEvent(details));
       }
-      ..onUpdate = (dragUpdateDetails) {
-        _notifyTouchEvent(FlPanUpdateEvent(dragUpdateDetails));
-      }
-      ..onCancel = () {
-        _notifyTouchEvent(const FlPanCancelEvent());
-      }
-      ..onEnd = (dragEndDetails) {
-        _notifyTouchEvent(FlPanEndEvent(dragEndDetails));
+      ..onEnd = (details) {
+        _notifyScaleEvent(FlScaleEndEvent(details));
+        _notifyTouchEvent(FlPanEndEvent(details));
       };
 
     _tapGestureRecognizer = TapGestureRecognizer();
@@ -124,7 +124,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (event is PointerDownEvent) {
       _longPressGestureRecognizer.addPointer(event);
       _tapGestureRecognizer.addPointer(event);
-      _panGestureRecognizer.addPointer(event);
+      _scaleGestureRecognizer.addPointer(event);
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
     }
@@ -140,7 +140,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   PointerExitEventListener? get onExit =>
       (event) => _notifyTouchEvent(FlPointerExitEvent(event));
 
-  /// Invokes the [_touchCallback] to notify listeners of this [FlTouchEvent]
+  /// Invokes the [_touchCallback] to notify listeners of this [FlTouchEvent] if the pointer is one or zero(exit events).
   ///
   /// We get a [BaseTouchResponse] using [getResponseAtLocation] for events which contains a localPosition.
   /// Then we invoke [_touchCallback] using the [event] and [response].
@@ -149,16 +149,36 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       return;
     }
     final localPosition = event.localPosition;
+    final pointerCount = event.pointerCount;
+
     R? response;
-    if (localPosition != null) {
+    if (localPosition != null && pointerCount == 1) {
       response = getResponseAtLocation(localPosition);
     }
-    _touchCallback!(event, response);
+
+    if (pointerCount <= 1) _touchCallback!(event, response);
 
     if (_mouseCursorResolver == null) {
       _latestMouseCursor = MouseCursor.defer;
     } else {
       _latestMouseCursor = _mouseCursorResolver!(event, response);
+    }
+  }
+
+  /// Invokes the [_touchCallback] to notify listeners of this [FlTouchEvent]
+  ///
+  /// We don't get a response for events which contains a localPosition because they are scale events.
+  /// Then we invoke [_touchCallback] using the [event] and null [response].
+  void _notifyScaleEvent(FlTouchEvent event) {
+    if (_touchCallback == null) {
+      return;
+    }
+    final localPosition = event.localPosition;
+    final pointerCount = event.pointerCount;
+
+    R? response;
+    if (pointerCount > 1) {
+      _touchCallback!(event, response);
     }
   }
 
