@@ -54,7 +54,7 @@ class FlScaleStartEvent extends FlTouchEvent {
   @override
   Offset get localPosition => details.focalPoint;
 
-  /// Represents the count of pointers /// Represents the count of pointers
+  /// Represents the count of pointers
   @override
   int get pointerCount => details.pointerCount;
 }
@@ -150,7 +150,8 @@ class FlPanUpdateEvent extends FlTouchEvent {
   Offset get localPosition => details.localFocalPoint;
 
   /// Represents the count of pointers
-  /// Represents the count of pointers
+  @override
+  int get pointerCount => details.pointerCount;
 }
 
 /// When the pointer that previously triggered a [FlPanStartEvent] did not complete.
