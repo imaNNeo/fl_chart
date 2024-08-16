@@ -169,8 +169,8 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
 
   /// Invokes the [_touchCallback] to notify listeners of this [FlTouchEvent]
   ///
-  /// We don't get a response for events which contains a localPosition because they are scale events (scroll, pinch.etc).
-  /// Then we invoke [_touchCallback] using the [event] and null [response].
+  /// We don't get a response for these events because they are scale events (scroll, pinch.etc)
+  /// We just invoke [_touchCallback] using the [event].
   void _notifyScaleEvent(FlTouchEvent event) {
     if (_touchCallback == null) {
       return;
