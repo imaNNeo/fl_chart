@@ -171,6 +171,12 @@ class FlPanEndEvent extends FlTouchEvent {
 
   /// Contains information of happened touch gesture
   final ScaleEndDetails details;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 0;
 }
 
 /// When a pointer that might cause a tap has contacted the
@@ -217,6 +223,12 @@ class FlTapUpEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 0;
 }
 
 /// Called When a pointer has remained in contact with the screen at the
@@ -287,7 +299,7 @@ class FlLongPressEnd extends FlTouchEvent {
   ///
   /// This type of event can only have one pointer that is contact with the screen
   @override
-  int get pointerCount => 1;
+  int get pointerCount => 0;
 }
 
 /// The pointer has moved with respect to the device while the pointer is or is
@@ -354,5 +366,5 @@ class FlPointerExitEvent extends FlTouchEvent {
   ///
   /// This type of event can only have one pointer that is contact with the screen
   @override
-  int get pointerCount => 1;
+  int get pointerCount => 0;
 }

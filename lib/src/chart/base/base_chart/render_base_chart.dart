@@ -152,11 +152,9 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     final pointerCount = event.pointerCount;
 
     R? response;
-    if (localPosition != null && pointerCount == 1) {
+    if (localPosition != null && pointerCount <= 1) {
       response = getResponseAtLocation(localPosition);
     }
-
-    if (pointerCount <= 1) _touchCallback!(event, response);
 
     if (_mouseCursorResolver == null) {
       _latestMouseCursor = MouseCursor.defer;
@@ -174,10 +172,11 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       return;
     }
 
+    final localPosition = event.localPosition;
     final pointerCount = event.pointerCount;
 
     R? response;
-    if (pointerCount > 1) {
+    if (localPosition != null && pointerCount > 1) {
       _touchCallback!(event, response);
     }
   }
