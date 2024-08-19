@@ -156,7 +156,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       response = getResponseAtLocation(localPosition);
     }
 
-    if(pointerCount <= 1){
+    if (pointerCount <= 1) {
       _touchCallback!(event, response);
     }
 
