@@ -1,4 +1,4 @@
-<a href="https://youtu.be/vYe0RY1nCAA"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_video_thumbnail.png" width=540></a>
+<a href="https://www.youtube.com/watch?v=vYe0RY1nCAA&list=PL1-_rCwRcnbNpvodmbt43O81wMUdBv8-a"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
