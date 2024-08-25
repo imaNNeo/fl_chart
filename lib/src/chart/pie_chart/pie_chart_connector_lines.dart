@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Type of connector line.
-enum FLConnectorType { curve, line }
+enum FLConnectorType { line }
 
 class FLConnectorLineSettings {
   const FLConnectorLineSettings({
