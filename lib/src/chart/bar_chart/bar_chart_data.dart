@@ -684,7 +684,8 @@ enum TooltipDirection {
   /// Tooltip always shows on bottom.
   bottom,
 
-  right,
+  /// Tooltip always shows on right
+  right
 }
 
 /// Holds representation data for showing tooltip popup on top of rods.
