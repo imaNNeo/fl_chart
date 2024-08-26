@@ -19,8 +19,8 @@ Your financial support acts as fuel for fl_chart's development. [Support here](h
 				<td>
 					<a href="https://github.com/sponsors/imaNNeo">
 						<picture>
-							<source media="(prefers-color-scheme: dark)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_dark.png">
-							<source media="(prefers-color-scheme: light)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_light.png">
+							<source media="(prefers-color-scheme: dark)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_sponsor_dark.png">
+							<source media="(prefers-color-scheme: light)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_sponsor_light.png">
 							<img alt="Become a sponsor" >
 						</picture>
 					</a>
