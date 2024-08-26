@@ -31,6 +31,9 @@
 |getTitlesWidget| A function to retrieve the title widget with given value on the related axis.|defaultGetTitle|
 |reservedSize| It determines the maximum space that your titles need, |22|
 |interval| Texts are showing with provided `interval`. If you don't provide anything, we try to find a suitable value to set as `interval` under the hood. | null |
+|minIncluded| Determines whether to include title for minimum data value | true |
+|maxIncluded| Determines whether to include title for maximum data value | true |
+
 
 ### SideTitleFitInsideData
 |PropName		|Description	|default value|
@@ -168,6 +171,7 @@ Base class for all supported touch/pointer events.
 |padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|direction|Direction of the text (horizontal or vertical)|LabelDirection.horizontal|
 |labelResolver|Getter function returning label title|defaultLineLabelResolver|
 
 ### VerticalLineLabel
@@ -177,6 +181,7 @@ Base class for all supported touch/pointer events.
 |padding|[EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) object with label padding configuration|EdgeInsets.zero|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
+|direction|Direction of the text (horizontal or vertical)|LabelDirection.horizontal|
 |labelResolver|Getter function returning label title|defaultLineLabelResolver|
 
 ### FLHorizontalAlignment

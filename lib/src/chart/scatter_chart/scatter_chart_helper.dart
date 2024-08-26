@@ -1,28 +1,19 @@
-import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
-import 'package:fl_chart/src/utils/list_wrapper.dart';
 
 /// Contains anything that helps ScatterChart works
 class ScatterChartHelper {
-  /// Contains List of cached results, base on [List<ScatterSpot>]
-  ///
-  /// We use it to prevent redundant calculations
-  static final Map<ListWrapper<ScatterSpot>, ScatterChartMinMaxAxisValues>
-      _cachedResults = {};
-
   /// Calculates minX, maxX, minY, and maxY based on [scatterSpots],
   /// returns cached values, to prevent redundant calculations.
-  static ScatterChartMinMaxAxisValues calculateMaxAxisValues(
+  static (
+    double minX,
+    double maxX,
+    double minY,
+    double maxY,
+  ) calculateMaxAxisValues(
     List<ScatterSpot> scatterSpots,
   ) {
     if (scatterSpots.isEmpty) {
-      return ScatterChartMinMaxAxisValues(0, 0, 0, 0);
-    }
-
-    final listWrapper = scatterSpots.toWrapperClass();
-
-    if (_cachedResults.containsKey(listWrapper)) {
-      return _cachedResults[listWrapper]!.copyWith(readFromCache: true);
+      return (0, 0, 0, 0);
     }
 
     var minX = scatterSpots[0].x;
@@ -47,44 +38,6 @@ class ScatterChartHelper {
         minY = spot.y;
       }
     }
-
-    final result = ScatterChartMinMaxAxisValues(minX, maxX, minY, maxY);
-    _cachedResults[listWrapper] = result;
-    return result;
-  }
-}
-
-/// Holds minX, maxX, minY, and maxY for use in [ScatterChartData]
-class ScatterChartMinMaxAxisValues with EquatableMixin {
-  ScatterChartMinMaxAxisValues(
-    this.minX,
-    this.maxX,
-    this.minY,
-    this.maxY, {
-    this.readFromCache = false,
-  });
-  final double minX;
-  final double maxX;
-  final double minY;
-  final double maxY;
-  final bool readFromCache;
-
-  @override
-  List<Object?> get props => [minX, maxX, minY, maxY, readFromCache];
-
-  ScatterChartMinMaxAxisValues copyWith({
-    double? minX,
-    double? maxX,
-    double? minY,
-    double? maxY,
-    bool? readFromCache,
-  }) {
-    return ScatterChartMinMaxAxisValues(
-      minX ?? this.minX,
-      maxX ?? this.maxX,
-      minY ?? this.minY,
-      maxY ?? this.maxY,
-      readFromCache: readFromCache ?? this.readFromCache,
-    );
+    return (minX, maxX, minY, maxY);
   }
 }

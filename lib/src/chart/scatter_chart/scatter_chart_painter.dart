@@ -311,7 +311,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       bottomLeft: radius,
       bottomRight: radius,
     );
-    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+
+    _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnSpot);
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
@@ -363,7 +364,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   ) {
     final data = holder.data;
 
-    for (var i = 0; i < data.scatterSpots.length; i++) {
+    for (var i = data.scatterSpots.length - 1; i >= 0; i--) {
+      // Reverse the loop to check the topmost spot first
       final spot = data.scatterSpots[i];
 
       final spotPixelX = getPixelX(spot.x, viewSize, holder);

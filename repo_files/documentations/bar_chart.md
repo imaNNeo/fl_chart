@@ -1,6 +1,4 @@
-# BarChart
-
-<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart.jpg" width="300" >
+<a href="https://www.youtube.com/watch?v=vYe0RY1nCAA&list=PL1-_rCwRcnbNpvodmbt43O81wMUdBv8-a"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
@@ -21,16 +19,16 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |barGroups| list of [BarChartGroupData ](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show normal bar chart|[]|
 |groupsSpace| space between groups, it applies only when the [alignment](#BarChartAlignment) is `BarChartAlignment.start`, `BarChartAlignment.center` or `BarChartAlignment.end`|16|
-|alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceBetween|
+|alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceEvenly|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
 |backgroundColor| a background color which is drawn behind the chart| null |
-|barTouchData| [BarTouchData](#BarTouchData) holds the touch interactivity details|BarTouchData()|
+|barTouchData| [BarTouchData](#bartouchdata-read-about-touch-handling) holds the touch interactivity details|BarTouchData()|
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
-|maxY| gets maximum y of y axis, if null, value will be read from the input barGroups | null|
-|minY| gets minimum y of y axis, if null, value will be read from the input barGroups | null|
+|maxY| gets maximum y of y axis, if null, value will be read from the input barGroups (But it is more performant if you provide them) | null|
+|minY| gets minimum y of y axis, if null, value will be read from the input barGroups (But it is more performant if you provide them) | null|
 |baselineY| defines the baseline of y-axis | 0|
 |extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeo/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|ExtraLinesData()|
 
@@ -41,7 +39,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |x| x position of the group on horizontal axis|null|
 |barRods| list of [BarChartRodData](#BarChartRodData) that are a bar line| []
 |barsSpace| the space between barRods of the group|2|
-|showingTooltipIndicators| indexes of barRods to show the tooltip on top of them | []|
+|showingTooltipIndicators| indexes of barRods to show the tooltip on top of them, The point is that you need to disable touches to show these tooltips manually | []|
 
 
 ### BarChartAlignment
@@ -95,7 +93,6 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BarTouchTooltipData
  |PropName|Description|default value|
  |:-------|:----------|:------------|
- |tooltipBgColor|background color of the tooltip bubble|Colors.white|
  |tooltipBorder|border of the tooltip bubble|BorderSide.none|
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
@@ -107,6 +104,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
  |direction| Controls showing tooltip on top or bottom, default is auto.| auto|
+ |getTooltipColor|a callback that retrieves the Color for each rod separately from the given [BarChartGroupData](#BarChartGroupData) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
 
 ### BarTooltipItem
 |PropName|Description|default value|

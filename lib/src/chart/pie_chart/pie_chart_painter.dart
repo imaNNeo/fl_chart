@@ -131,6 +131,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
             _sectionPaint..blendMode = BlendMode.srcOut,
           )
           ..restore();
+        _sectionPaint.blendMode = BlendMode.srcOver;
         if (section.borderSide.width != 0.0 &&
             section.borderSide.color.opacity != 0.0) {
           _sectionStrokePaint
@@ -361,6 +362,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sweepAngle = 360 * (section.value / data.sumValue);
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
 
+      double? rotateAngle;
+      if (data.titleSunbeamLayout) {
+        if (sectionCenterAngle >= 90 && sectionCenterAngle <= 270) {
+          rotateAngle = sectionCenterAngle - 180;
+        } else {
+          rotateAngle = sectionCenterAngle;
+        }
+      }
+
       Offset sectionCenter(double percentageOffset) =>
           center +
           Offset(
@@ -388,6 +398,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         canvasWrapper.drawText(
           tp,
           sectionCenterOffsetTitle - Offset(tp.width / 2, tp.height / 2),
+          rotateAngle,
         );
       }
 

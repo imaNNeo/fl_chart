@@ -1,6 +1,4 @@
-# LineChart
-
-<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart.jpg" width="300" >
+<a href="https://www.youtube.com/watch?v=F3wTxTdAFaU&list=PL1-_rCwRcnbNpvodmbt43O81wMUdBv8-a"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
@@ -25,14 +23,14 @@ When you change the chart's state, it animates to the new state internally (usin
 |extraLinesData| [ExtraLinesData](base_chart.md#ExtraLinesData) object to hold drawing details of extra horizontal and vertical lines. Check [ExtraLinesData](base_chart.md#ExtraLinesData)|ExtraLinesData()|
 |lineTouchData| [LineTouchData](#linetouchdata-read-about-touch-handling) holds the touch interactivity details| LineTouchData()|
 |rangeAnnotations| show range annotations behind the chart, check [RangeAnnotations](base_chart.md#RangeAnnotations) | RangeAnnotations()|
-|showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot)| [] |
+|showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot), The point is that you need to disable touches to show these tooltips manually| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
-|minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
-|maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
+|minX| gets minimum x of x axis, if null, value will read from the input lineBars (But it is more performant if you provide them)|null|
+|maxX| gets maximum x of x axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
 |baselineX| defines the baseline of x-axis | 0|
-|minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
-|maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
+|minY| gets minimum y of y axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
+|maxY| gets maximum y of y axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
 |baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |
@@ -119,7 +117,6 @@ When you change the chart's state, it animates to the new state internally (usin
 ### LineTouchTooltipData
  |PropName|Description|default value|
  |:-------|:----------|:------------|
- |tooltipBgColor|background color of the tooltip bubble|Colors.white|
  |tooltipBorder|border of the tooltip bubble|BorderSide.none|
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
@@ -131,6 +128,7 @@ When you change the chart's state, it animates to the new state internally (usin
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
  |showOnTopOfTheChartBoxArea| forces the tooltip container to top of the line| false|
+ |getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [LineBarSpot](#LineBarSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
 
 ### LineTooltipItem
 |PropName|Description|default value|

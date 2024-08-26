@@ -62,6 +62,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     PaintHolder<LineChartData> holder,
   ) {
     final data = holder.data;
+    super.paint(context, canvasWrapper, holder);
     if (data.lineBarsData.isEmpty) {
       return;
     }
@@ -79,8 +80,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
       clipToBorder(canvasWrapper, holder);
     }
-
-    super.paint(context, canvasWrapper, holder);
 
     for (final betweenBarsData in data.betweenBarsData) {
       drawBetweenBarsArea(canvasWrapper, data, betweenBarsData, holder);
@@ -1126,7 +1125,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       bottomLeft: radius,
       bottomRight: radius,
     );
-    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+
+    var topSpot = showingTooltipSpots.showingSpots[0];
+    for (final barSpot in showingTooltipSpots.showingSpots) {
+      if (barSpot.y > topSpot.y) {
+        topSpot = barSpot;
+      }
+    }
+
+    _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(topSpot);
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =

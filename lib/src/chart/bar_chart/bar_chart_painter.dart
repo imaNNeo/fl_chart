@@ -488,7 +488,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       bottomLeft: radius,
       bottomRight: radius,
     );
-    _bgTouchTooltipPaint.color = tooltipData.tooltipBgColor;
+
+    /// set tooltip's background color for each rod
+    _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnBarGroup);
 
     bool isLastIndex = isRightTooltip && groupPositions[barGroupIndex] == groupPositions.last;
 
