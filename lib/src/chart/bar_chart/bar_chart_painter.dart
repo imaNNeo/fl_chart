@@ -23,10 +23,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// parent can use [MediaQuery.textScaleFactor] to respect
   /// the system's font size.
   BarChartPainter() : super() {
-    _barPaint = Paint()
-      ..style = PaintingStyle.fill;
-    _barStrokePaint = Paint()
-      ..style = PaintingStyle.stroke;
+    _barPaint = Paint()..style = PaintingStyle.fill;
+    _barStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
@@ -47,9 +45,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   /// Paints [BarChartData] into the provided canvas.
   @override
-  void paint(BuildContext context,
-      CanvasWrapper canvasWrapper,
-      PaintHolder<BarChartData> holder,) {
+  void paint(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<BarChartData> holder,
+  ) {
     super.paint(context, canvasWrapper, holder);
     final data = holder.data;
     final targetData = holder.targetData;
@@ -110,9 +110,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   /// Calculates bars position alongside group positions.
   @visibleForTesting
-  List<GroupBarsPosition> calculateGroupAndBarsPosition(Size viewSize,
-      List<double> groupsX,
-      List<BarChartGroupData> barGroups,) {
+  List<GroupBarsPosition> calculateGroupAndBarsPosition(
+    Size viewSize,
+    List<double> groupsX,
+    List<BarChartGroupData> barGroups,
+  ) {
     if (groupsX.length != barGroups.length) {
       throw Exception('inconsistent state groupsX.length != barGroups.length');
     }
@@ -144,9 +146,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   }
 
   @visibleForTesting
-  void drawBars(CanvasWrapper canvasWrapper,
-      List<GroupBarsPosition> groupBarsPosition,
-      PaintHolder<BarChartData> holder,) {
+  void drawBars(
+    CanvasWrapper canvasWrapper,
+    List<GroupBarsPosition> groupBarsPosition,
+    PaintHolder<BarChartData> holder,
+  ) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
 
@@ -308,8 +312,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               ..color = borderSide.color
               ..strokeWidth = borderSide.width;
 
-            final borderPath = Path()
-              ..addRRect(barRRect);
+            final borderPath = Path()..addRRect(barRRect);
 
             canvasWrapper.drawPath(
               borderPath.toDashedPath(
@@ -324,15 +327,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   }
 
   @visibleForTesting
-  void drawTouchTooltip(BuildContext context,
-      CanvasWrapper canvasWrapper,
-      List<GroupBarsPosition> groupPositions,
-      BarTouchTooltipData tooltipData,
-      BarChartGroupData showOnBarGroup,
-      int barGroupIndex,
-      BarChartRodData showOnRodData,
-      int barRodIndex,
-      PaintHolder<BarChartData> holder,) {
+  void drawTouchTooltip(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    List<GroupBarsPosition> groupPositions,
+    BarTouchTooltipData tooltipData,
+    BarChartGroupData showOnBarGroup,
+    int barGroupIndex,
+    BarChartRodData showOnRodData,
+    int barRodIndex,
+    PaintHolder<BarChartData> holder,
+  ) {
     final viewSize = canvasWrapper.size;
 
     const textsBelowMargin = 4;
@@ -359,8 +364,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       textAlign: tooltipItem.textAlign,
       textDirection: tooltipItem.textDirection,
       textScaler: holder.textScaler,
-    )
-      ..layout(maxWidth: tooltipData.maxContentWidth);
+    )..layout(maxWidth: tooltipData.maxContentWidth);
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainter = tp;
@@ -411,8 +415,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     final tooltipTop = drawTooltipOnTop
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
-        : isRightTooltip ? (barFromYPixel.dy -
-        ((barToYPixel.dy - barFromYPixel.dy - tooltipHeight).abs() / 2)).abs() : barBottomY + tooltipData.tooltipMargin;
+        : isRightTooltip
+            ? (barFromYPixel.dy - ((barToYPixel.dy - barFromYPixel.dy - tooltipHeight).abs() / 2)).abs()
+            : barBottomY + tooltipData.tooltipMargin;
 
     double tooltipLeft = 0;
 
@@ -497,12 +502,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final rotateAngle = tooltipData.rotateAngle;
 
     final rectRotationOffset = isLastIndex
-        ? Offset(-(showOnBarGroup.width + rect.width + 12), Utils()
-        .calculateRotationOffset(rect.size, rotateAngle)
-        .dy)
-        : Offset(0, Utils()
-        .calculateRotationOffset(rect.size, rotateAngle)
-        .dy);
+        ? Offset(-(showOnBarGroup.width + rect.width + 12), Utils().calculateRotationOffset(rect.size, rotateAngle).dy)
+        : Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
 
     final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
 
@@ -528,21 +529,24 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       angle: rotateAngle,
       drawCallback: () {
         canvasWrapper
-          ..drawRRect(roundedRect, _bgTouchTooltipPaint)..drawRRect(roundedRect, _borderTouchTooltipPaint)
+          ..drawRRect(roundedRect, _bgTouchTooltipPaint)
+          ..drawRRect(roundedRect, _borderTouchTooltipPaint)
           ..drawText(tp, drawOffset);
       },
     );
   }
 
   @visibleForTesting
-  void drawStackItemBorderStroke(CanvasWrapper canvasWrapper,
-      BarChartRodStackItem stackItem,
-      int index,
-      int rodStacksSize,
-      double barThickSize,
-      RRect barRRect,
-      Size drawSize,
-      PaintHolder<BarChartData> holder,) {
+  void drawStackItemBorderStroke(
+    CanvasWrapper canvasWrapper,
+    BarChartRodStackItem stackItem,
+    int index,
+    int rodStacksSize,
+    double barThickSize,
+    RRect barRRect,
+    Size drawSize,
+    PaintHolder<BarChartData> holder,
+  ) {
     if (stackItem.borderSide.width == 0 || stackItem.borderSide.color.opacity == 0) return;
     RRect strokeBarRect;
     if (index == 0) {
@@ -589,9 +593,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// then makes a [BarTouchedSpot] from the elements that has been touched.
   ///
   /// Returns null if finds nothing!
-  BarTouchedSpot? handleTouch(Offset localPosition,
-      Size viewSize,
-      PaintHolder<BarChartData> holder,) {
+  BarTouchedSpot? handleTouch(
+    Offset localPosition,
+    Size viewSize,
+    PaintHolder<BarChartData> holder,
+  ) {
     final data = holder.data;
     final targetData = holder.targetData;
     final touchedPoint = localPosition;
