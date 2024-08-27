@@ -334,12 +334,7 @@ class PieTouchedSection with EquatableMixin {
   /// you touch happened on which section,
   /// [touchAngle] gives you angle of touch,
   /// and [touchRadius] gives you radius of the touch.
-  PieTouchedSection(
-      this.touchedSection,
-      this.touchedSectionIndex,
-      this.touchAngle,
-      this.touchRadius,
-      );
+  PieTouchedSection(this.touchedSection, this.touchedSectionIndex, this.touchAngle, this.touchRadius);
 
   /// touch happened on this section
   final PieChartSectionData? touchedSection;
