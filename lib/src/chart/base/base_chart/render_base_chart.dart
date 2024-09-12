@@ -178,9 +178,8 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
 
     final pointerCount = event.pointerCount;
 
-    R? response;
     if (pointerCount > 1) {
-      _touchCallback!(event, response);
+      _touchCallback!(event, null);
     }
   }
 
