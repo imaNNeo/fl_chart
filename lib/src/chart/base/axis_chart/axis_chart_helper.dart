@@ -32,6 +32,8 @@ class AxisChartHelper {
     var axisSeek = initialValue;
     final firstPositionOverlapsWithMin = axisSeek == min;
     if (!minIncluded && firstPositionOverlapsWithMin) {
+      // If inital value is equal to data minimum,
+      // move first label one interval further
       axisSeek += interval;
     }
     final diff = max - min;
@@ -43,6 +45,7 @@ class AxisChartHelper {
 
     final epsilon = interval / 100000;
     if (minIncluded && !firstPositionOverlapsWithMin) {
+      // Data minimum shall be included and is not yet covered
       yield min;
     }
     while (axisSeek <= end + epsilon) {
