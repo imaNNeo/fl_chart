@@ -60,6 +60,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     List<PieChartSectionData> sections,
     double sumValue,
   ) {
+    if (sumValue == 0) {
+      return List<double>.filled(sections.length, 0);
+    }
+
     return sections.map((section) {
       return 360 * (section.value / sumValue);
     }).toList();
@@ -100,6 +104,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
+      if (section.value == 0) {
+        continue;
+      }
       final sectionDegree = sectionsAngle[i];
 
       if (sectionDegree == 360) {
@@ -358,6 +365,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
+      if (section.value == 0) {
+        continue;
+      }
       final startAngle = tempAngle;
       final sweepAngle = 360 * (section.value / data.sumValue);
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
