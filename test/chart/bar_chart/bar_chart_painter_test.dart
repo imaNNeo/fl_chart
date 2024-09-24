@@ -1789,7 +1789,10 @@ void main() {
       ];
 
       final tooltipData = BarTouchTooltipData(
-        tooltipRoundedRadius: 8,
+        tooltipBorderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(8),
+        ),
         getTooltipColor: (group) => const Color(0xf33f33f3),
         maxContentWidth: 80,
         rotateAngle: 12,
@@ -1877,7 +1880,10 @@ void main() {
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
             ..called(2);
       final rrect = result1.captured[0] as RRect;
-      expect(rrect.blRadius, const Radius.circular(8));
+      expect(rrect.tlRadius, const Radius.circular(10));
+      expect(rrect.trRadius, const Radius.circular(8));
+      expect(rrect.blRadius, Radius.zero);
+      expect(rrect.brRadius,  Radius.zero);
       expect(rrect.width, 112);
       expect(rrect.height, 90);
       expect(rrect.left, -80);
@@ -1890,7 +1896,10 @@ void main() {
       final rRectBorder = result1.captured[2] as RRect;
       final paintBorder = result1.captured[3] as Paint;
 
-      expect(rRectBorder.blRadius, const Radius.circular(8));
+      expect(rRectBorder.tlRadius, const Radius.circular(10));
+      expect(rRectBorder.trRadius, const Radius.circular(8));
+      expect(rRectBorder.blRadius, Radius.zero);
+      expect(rRectBorder.brRadius,  Radius.zero);
       expect(rRectBorder.width, 112);
       expect(rRectBorder.height, 90);
       expect(rRectBorder.left, -80);
