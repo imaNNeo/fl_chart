@@ -324,7 +324,5 @@ class Utils {
   }
 
   /// Converts radius number to sigma for drawing shadows
-  double convertRadiusToSigma(double radius) {
-    return radius * 0.57735 + 0.5;
-  }
+  double convertRadiusToSigma(double radius) => radius * 0.57735 + 0.5;
 }

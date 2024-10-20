@@ -53,35 +53,24 @@ class SideTitleWidget extends StatefulWidget {
 }
 
 class _SideTitleWidgetState extends State<SideTitleWidget> {
-  Alignment _getAlignment() {
-    switch (widget.axisSide) {
-      case AxisSide.left:
-        return Alignment.centerRight;
-      case AxisSide.top:
-        return Alignment.bottomCenter;
-      case AxisSide.right:
-        return Alignment.centerLeft;
-      case AxisSide.bottom:
-        return Alignment.topCenter;
-    }
-  }
+  Alignment _getAlignment() => switch (widget.axisSide) {
+        AxisSide.left => Alignment.centerRight,
+        AxisSide.top => Alignment.bottomCenter,
+        AxisSide.right => Alignment.centerLeft,
+        AxisSide.bottom => Alignment.topCenter,
+      };
 
-  EdgeInsets _getMargin() {
-    switch (widget.axisSide) {
-      case AxisSide.left:
-        return EdgeInsets.only(right: widget.space);
-      case AxisSide.top:
-        return EdgeInsets.only(bottom: widget.space);
-      case AxisSide.right:
-        return EdgeInsets.only(left: widget.space);
-      case AxisSide.bottom:
-        return EdgeInsets.only(top: widget.space);
-    }
-  }
+  EdgeInsets _getMargin() => switch (widget.axisSide) {
+        AxisSide.left => EdgeInsets.only(right: widget.space),
+        AxisSide.top => EdgeInsets.only(bottom: widget.space),
+        AxisSide.right => EdgeInsets.only(left: widget.space),
+        AxisSide.bottom => EdgeInsets.only(top: widget.space),
+      };
 
   /// Calculate child width/height
   final GlobalKey widgetKey = GlobalKey();
   double? _childSize;
+
   void _getChildSize(_) {
     // If fitInside is false, no need to find child size
     if (!widget.fitInside.enabled) return;
