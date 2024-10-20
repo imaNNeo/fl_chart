@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_connector_lines.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
@@ -345,11 +346,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// - badge widget positions
   @visibleForTesting
   void drawTexts(
-    BuildContext context,
-    CanvasWrapper canvasWrapper,
-    PaintHolder<PieChartData> holder,
-    double centerRadius,
-  ) {
+      BuildContext context,
+      CanvasWrapper canvasWrapper,
+      PaintHolder<PieChartData> holder,
+      double centerRadius,
+      ) {
     final data = holder.data;
     final viewSize = canvasWrapper.size;
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
@@ -362,27 +363,33 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sweepAngle = 360 * (section.value / data.sumValue);
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
 
-      double? rotateAngle;
-      if (data.titleSunbeamLayout) {
-        if (sectionCenterAngle >= 90 && sectionCenterAngle <= 270) {
-          rotateAngle = sectionCenterAngle - 180;
-        } else {
-          rotateAngle = sectionCenterAngle;
-        }
-      }
-
       Offset sectionCenter(double percentageOffset) =>
           center +
-          Offset(
-            math.cos(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.radius * percentageOffset)),
-            math.sin(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.radius * percentageOffset)),
-          );
+              Offset(
+                math.cos(Utils().radians(sectionCenterAngle)) *
+                    (centerRadius + (section.radius * percentageOffset)),
+                math.sin(Utils().radians(sectionCenterAngle)) *
+                    (centerRadius + (section.radius * percentageOffset)),
+              );
 
+      // Calculate the center offset for the title (label) position
       final sectionCenterOffsetTitle =
-          sectionCenter(section.titlePositionPercentageOffset);
+      sectionCenter(section.titlePositionPercentageOffset);
 
+      // Draw the connector line and get the end position
+      Offset endPosition = sectionCenterOffsetTitle;
+      if (section.connectorLineSettings != null) {
+        endPosition = _drawConnectorLine(
+          canvasWrapper,
+          sectionCenterOffsetTitle,
+          section.connectorLineSettings!,
+          sectionCenterAngle,
+          center,
+          centerRadius + section.radius,
+        );
+      }
+
+      // Adjust the text position to align with the end of the connector line
       if (section.showTitle) {
         final span = TextSpan(
           style: Utils().getThemeAwareTextStyle(context, section.titleStyle),
@@ -395,15 +402,97 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           textScaler: holder.textScaler,
         )..layout();
 
-        canvasWrapper.drawText(
-          tp,
-          sectionCenterOffsetTitle - Offset(tp.width / 2, tp.height / 2),
-          rotateAngle,
+        // Calculate the angle to rotate the text based on the connector line's angle
+        final double angleAdjustment = math.atan2(
+          endPosition.dy - sectionCenterOffsetTitle.dy,
+          endPosition.dx - sectionCenterOffsetTitle.dx,
         );
+
+        // Calculate the offset based on the angle and position the text above the connector line
+        final Offset adjustedTextPosition = endPosition +
+            Offset(
+              -tp.width / 3,
+              -tp.height / 2,
+            ).translate(
+              math.cos(angleAdjustment) * 11,  // Increased from 5 to 8 for a slight move away
+              math.sin(angleAdjustment) * 11,  // Increased from 5 to 8 for a slight move away
+            );
+
+        // Draw the text at the calculated position
+        canvasWrapper.drawText(tp, adjustedTextPosition);
       }
 
       tempAngle += sweepAngle;
     }
+  }
+
+  Offset _drawConnectorLine(
+      CanvasWrapper canvas,
+      Offset start,
+      FLConnectorLineSettings settings,
+      double sectionCenterAngle,
+      Offset center,
+      double radius,
+      ) {
+    // Adjust the start position to be slightly closer to the outer edge
+    final double adjustedRadius = radius - 0.5;
+
+    // Calculate the start position on the adjusted outer edge of the pie chart
+    final Offset startPosition = center + Offset(
+      math.cos(Utils().radians(sectionCenterAngle)) * adjustedRadius,
+      math.sin(Utils().radians(sectionCenterAngle)) * adjustedRadius,
+    );
+
+    // Define the curve offset length
+    final double curveLength = 10.0;
+
+    // Calculate the first point where the line bends (extends outward)
+    final Offset curvePosition = startPosition + Offset(
+      math.cos(Utils().radians(sectionCenterAngle)) * curveLength,
+      math.sin(Utils().radians(sectionCenterAngle)) * curveLength,
+    );
+
+    // Determine the direction for the second line based on the section's position
+    final bool isLeftSide = sectionCenterAngle > 90 && sectionCenterAngle < 270;
+
+    // Adjust the angle slightly for segments near the edges to ensure the line points outward
+    final double endAngleAdjustment = isLeftSide ? -30.0 : 30.0;
+
+    // Handle both percentage-based and fixed length values
+    final double lineLength = (settings.length is String)
+        ? _parseLength(settings.length as String)
+        : (settings.length is double ? settings.length as double : 15.0);
+
+    // Calculate the end position for the label connector based on the parsed length
+    final Offset endPosition = curvePosition + Offset(
+      math.cos(Utils().radians(sectionCenterAngle + endAngleAdjustment)) * lineLength,
+      math.sin(Utils().radians(sectionCenterAngle + endAngleAdjustment)) * lineLength,
+    );
+
+    final paint = Paint()
+      ..color = settings.color ?? Colors.black
+      ..strokeWidth = settings.width
+      ..style = PaintingStyle.stroke;
+
+    // Draw the first part of the line (straight outward)
+    canvas.drawLine(startPosition, curvePosition, paint);
+
+    // Draw the second part of the line (angled toward the label)
+    canvas.drawLine(curvePosition, endPosition, paint);
+
+    return endPosition;
+  }
+
+// Helper method to parse percentage-based length strings like '10%', '20%' etc.
+  double _parseLength(String length) {
+    if (length.endsWith('%')) {
+      final percentageValue = double.tryParse(length.replaceAll('%', ''));
+      if (percentageValue != null) {
+        return (percentageValue / 100) * 30.0; // Scale this multiplier as needed
+      }
+    }
+    // Default to a fixed value if parsing fails
+    return 15.0;
   }
 
   /// Calculates center radius based on the provided sections radius

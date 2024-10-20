@@ -23,6 +23,17 @@ class Utils {
   /// Converts radians to degrees
   double degrees(double radians) => radians * _radians2Degrees;
 
+  /// Converts a percentage string (e.g., '20%') to a double value.
+  static double calculatePercentageOffset(String percentage, double baseValue) {
+    if (percentage.endsWith('%')) {
+      final percentageValue = double.tryParse(percentage.replaceAll('%', ''));
+      if (percentageValue != null) {
+        return (percentageValue / 100) * baseValue;
+      }
+    }
+    throw ArgumentError('Invalid percentage format: $percentage');
+  }
+
   /// Returns a default size based on the screen size
   /// that is a 70% scaled square based on the screen.
   Size getDefaultSize(Size screenSize) {
@@ -55,9 +66,9 @@ class Utils {
 
   /// Decreases [borderRadius] to <= width / 2
   BorderRadius? normalizeBorderRadius(
-    BorderRadius? borderRadius,
-    double width,
-  ) {
+      BorderRadius? borderRadius,
+      double width,
+      ) {
     if (borderRadius == null) {
       return null;
     }
@@ -129,16 +140,16 @@ class Utils {
   /// then we round that number by finding nearest number in this pattern:
   /// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
   double getEfficientInterval(
-    double axisViewSize,
-    double diffInAxis, {
-    double pixelPerInterval = 40,
-  }) {
+      double axisViewSize,
+      double diffInAxis, {
+        double pixelPerInterval = 40,
+      }) {
     final allowedCount = math.max(axisViewSize ~/ pixelPerInterval, 1);
     if (diffInAxis == 0) {
       return 1;
     }
     final accurateInterval =
-        diffInAxis == 0 ? axisViewSize : diffInAxis / allowedCount;
+    diffInAxis == 0 ? axisViewSize : diffInAxis / allowedCount;
     if (allowedCount <= 2) {
       return accurateInterval;
     }
@@ -286,9 +297,9 @@ class Utils {
 
   /// Returns a TextStyle based on provided [context], if [providedStyle] provided we try to merge it.
   TextStyle getThemeAwareTextStyle(
-    BuildContext context,
-    TextStyle? providedStyle,
-  ) {
+      BuildContext context,
+      TextStyle? providedStyle,
+      ) {
     final defaultTextStyle = DefaultTextStyle.of(context);
     var effectiveTextStyle = providedStyle;
     if (providedStyle == null || providedStyle.inherit) {
@@ -307,11 +318,11 @@ class Utils {
   /// For example if we have -3 to +3, with interval 2. if we start from -3, we get something like this: -3, -1, +1, +3
   /// But the most important point is zero in most cases. with this logic we get this: -2, 0, 2
   double getBestInitialIntervalValue(
-    double min,
-    double max,
-    double interval, {
-    double baseline = 0.0,
-  }) {
+      double min,
+      double max,
+      double interval, {
+        double baseline = 0.0,
+      }) {
     final diff = baseline - min;
     final mod = diff % interval;
     if ((max - min).abs() <= mod) {

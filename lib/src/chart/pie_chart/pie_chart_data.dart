@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_connector_lines.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
   })  : sections = sections?.where((element) => element.value != 0).toList() ??
-            const [],
+      const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
@@ -40,9 +41,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData = pieTouchData ?? PieTouchData(),
         titleSunbeamLayout = titleSunbeamLayout ?? false,
         super(
-          borderData: borderData ?? FlBorderData(show: false),
-          touchData: pieTouchData ?? PieTouchData(),
-        );
+        borderData: borderData ?? FlBorderData(show: false),
+        touchData: pieTouchData ?? PieTouchData(),
+      );
 
   /// Defines showing sections of the [PieChart].
   final List<PieChartSectionData> sections;
@@ -112,7 +113,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData: b.pieTouchData,
         sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
         startDegreeOffset:
-            lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
+        lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
         sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
         titleSunbeamLayout: b.titleSunbeamLayout,
       );
@@ -124,15 +125,15 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        sections,
-        centerSpaceRadius,
-        centerSpaceColor,
-        pieTouchData,
-        sectionsSpace,
-        startDegreeOffset,
-        borderData,
-        titleSunbeamLayout,
-      ];
+    sections,
+    centerSpaceRadius,
+    centerSpaceColor,
+    pieTouchData,
+    sectionsSpace,
+    startDegreeOffset,
+    borderData,
+    titleSunbeamLayout,
+  ];
 }
 
 /// Holds data related to drawing each [PieChart] section.
@@ -166,6 +167,7 @@ class PieChartSectionData {
     String? title,
     BorderSide? borderSide,
     this.badgeWidget,
+    this.connectorLineSettings,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
   })  : value = value ?? 10,
@@ -226,6 +228,8 @@ class PieChartSectionData {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
+  final FLConnectorLineSettings? connectorLineSettings;
+
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -252,18 +256,18 @@ class PieChartSectionData {
       borderSide: borderSide ?? this.borderSide,
       badgeWidget: badgeWidget ?? this.badgeWidget,
       titlePositionPercentageOffset:
-          titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+      titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
       badgePositionPercentageOffset:
-          badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
+      badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
     );
   }
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
   static PieChartSectionData lerp(
-    PieChartSectionData a,
-    PieChartSectionData b,
-    double t,
-  ) {
+      PieChartSectionData a,
+      PieChartSectionData b,
+      double t,
+      ) {
     return PieChartSectionData(
       value: lerpDouble(a.value, b.value, t),
       color: Color.lerp(a.color, b.color, t),
@@ -309,20 +313,20 @@ class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
     MouseCursorResolver<PieTouchResponse>? mouseCursorResolver,
     Duration? longPressDuration,
   }) : super(
-          enabled ?? true,
-          touchCallback,
-          mouseCursorResolver,
-          longPressDuration,
-        );
+    enabled ?? true,
+    touchCallback,
+    mouseCursorResolver,
+    longPressDuration,
+  );
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        enabled,
-        touchCallback,
-        mouseCursorResolver,
-        longPressDuration,
-      ];
+    enabled,
+    touchCallback,
+    mouseCursorResolver,
+    longPressDuration,
+  ];
 }
 
 class PieTouchedSection with EquatableMixin {
@@ -330,12 +334,7 @@ class PieTouchedSection with EquatableMixin {
   /// you touch happened on which section,
   /// [touchAngle] gives you angle of touch,
   /// and [touchRadius] gives you radius of the touch.
-  PieTouchedSection(
-    this.touchedSection,
-    this.touchedSectionIndex,
-    this.touchAngle,
-    this.touchRadius,
-  );
+  PieTouchedSection(this.touchedSection, this.touchedSectionIndex, this.touchAngle, this.touchRadius);
 
   /// touch happened on this section
   final PieChartSectionData? touchedSection;
@@ -352,11 +351,11 @@ class PieTouchedSection with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        touchedSection,
-        touchedSectionIndex,
-        touchAngle,
-        touchRadius,
-      ];
+    touchedSection,
+    touchedSectionIndex,
+    touchAngle,
+    touchRadius,
+  ];
 }
 
 /// Holds information about touch response in the [PieChart].
