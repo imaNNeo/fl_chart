@@ -51,24 +51,22 @@ class FlBorderData with EquatableMixin {
   bool isVisible() => show && border.isVisible();
 
   /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
-  static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
-    return FlBorderData(
-      show: b.show,
-      border: Border.lerp(a.border, b.border, t),
-    );
-  }
+  static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) =>
+      FlBorderData(
+        show: b.show,
+        border: Border.lerp(a.border, b.border, t),
+      );
 
   /// Copies current [FlBorderData] to a new [FlBorderData],
   /// and replaces provided values.
   FlBorderData copyWith({
     bool? show,
     Border? border,
-  }) {
-    return FlBorderData(
-      show: show ?? this.show,
-      border: border ?? this.border,
-    );
-  }
+  }) =>
+      FlBorderData(
+        show: show ?? this.show,
+        border: border ?? this.border,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -160,14 +158,13 @@ class FlClipData with EquatableMixin {
     bool? bottom,
     bool? left,
     bool? right,
-  }) {
-    return FlClipData(
-      top: top ?? this.top,
-      bottom: bottom ?? this.bottom,
-      left: left ?? this.left,
-      right: right ?? this.right,
-    );
-  }
+  }) =>
+      FlClipData(
+        top: top ?? this.top,
+        bottom: bottom ?? this.bottom,
+        left: left ?? this.left,
+        right: right ?? this.right,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override

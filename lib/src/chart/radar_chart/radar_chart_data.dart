@@ -330,15 +330,14 @@ class RadarDataSet with EquatableMixin {
       );
 
   /// Lerps a [RadarDataSet] based on [t] value, check [Tween.lerp].
-  static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
-    return RadarDataSet(
-      dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
-      fillColor: Color.lerp(a.fillColor, b.fillColor, t),
-      borderColor: Color.lerp(a.borderColor, b.borderColor, t),
-      borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
-      entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
-    );
-  }
+  static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) =>
+      RadarDataSet(
+        dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
+        fillColor: Color.lerp(a.fillColor, b.fillColor, t),
+        borderColor: Color.lerp(a.borderColor, b.borderColor, t),
+        borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
+        entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -364,9 +363,8 @@ class RadarEntry with EquatableMixin {
       RadarEntry(value: value ?? this.value);
 
   /// Lerps a [RadarDataSet] based on [t] value, check [Tween.lerp].
-  static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) {
-    return RadarEntry(value: lerpDouble(a.value, b.value, t)!);
-  }
+  static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) =>
+      RadarEntry(value: lerpDouble(a.value, b.value, t)!);
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -433,11 +431,10 @@ class RadarTouchResponse extends BaseTouchResponse {
   /// and replaces provided values.
   RadarTouchResponse copyWith({
     RadarTouchedSpot? touchedSpot,
-  }) {
-    return RadarTouchResponse(
-      touchedSpot ?? this.touchedSpot,
-    );
-  }
+  }) =>
+      RadarTouchResponse(
+        touchedSpot ?? this.touchedSpot,
+      );
 }
 
 /// It gives you information about the touched spot.

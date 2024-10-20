@@ -26,6 +26,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     _imagePaint = Paint();
   }
+
   late Paint _gridPaint;
   late Paint _backgroundPaint;
   late Paint _extraLinesPaint;
@@ -474,14 +475,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
     double tooltipWidth,
     FLHorizontalAlignment tooltipHorizontalAlignment,
     double tooltipHorizontalOffset,
-  ) {
-    switch (tooltipHorizontalAlignment) {
-      case FLHorizontalAlignment.center:
-        return dx - (tooltipWidth / 2) + tooltipHorizontalOffset;
-      case FLHorizontalAlignment.right:
-        return dx + tooltipHorizontalOffset;
-      case FLHorizontalAlignment.left:
-        return dx - tooltipWidth + tooltipHorizontalOffset;
-    }
-  }
+  ) =>
+      switch (tooltipHorizontalAlignment) {
+        FLHorizontalAlignment.center =>
+          dx - (tooltipWidth / 2) + tooltipHorizontalOffset,
+        FLHorizontalAlignment.right => dx + tooltipHorizontalOffset,
+        FLHorizontalAlignment.left =>
+          dx - tooltipWidth + tooltipHorizontalOffset,
+      };
 }

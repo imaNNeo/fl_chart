@@ -8,6 +8,7 @@ class AxisChartHelper {
   }
 
   AxisChartHelper._internal();
+
   static final _singleton = AxisChartHelper._internal();
 
   /// Iterates over an axis from [min] to [max].
@@ -32,7 +33,7 @@ class AxisChartHelper {
     var axisSeek = initialValue;
     final firstPositionOverlapsWithMin = axisSeek == min;
     if (!minIncluded && firstPositionOverlapsWithMin) {
-      // If inital value is equal to data minimum,
+      // If initial value is equal to data minimum,
       // move first label one interval further
       axisSeek += interval;
     }
@@ -95,13 +96,9 @@ class AxisChartHelper {
           -(childSize / 2) + (parentAxisSize - axisPosition) - distanceFromEdge;
     }
 
-    switch (axisSide) {
-      case AxisSide.left:
-      case AxisSide.right:
-        return Offset(0, offset);
-      case AxisSide.top:
-      case AxisSide.bottom:
-        return Offset(offset, 0);
-    }
+    return switch (axisSide) {
+      AxisSide.left || AxisSide.right => Offset(0, offset),
+      AxisSide.top || AxisSide.bottom => Offset(offset, 0),
+    };
   }
 }

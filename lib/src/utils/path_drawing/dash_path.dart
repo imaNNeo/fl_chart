@@ -60,11 +60,8 @@ class DashOffset {
   final double _rawVal;
   final _DashOffsetType _dashOffsetType;
 
-  double _calculate(double length) {
-    return _dashOffsetType == _DashOffsetType.absolute
-        ? _rawVal
-        : length * _rawVal;
-  }
+  double _calculate(double length) =>
+      _dashOffsetType == _DashOffsetType.absolute ? _rawVal : length * _rawVal;
 }
 
 /// A circular array of dash offsets and lengths.
