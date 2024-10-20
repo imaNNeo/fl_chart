@@ -39,7 +39,7 @@ In case you couldn't find any issue, it's better to create an issue to explain w
 We have a *_chart_painter.dart class per each chart type. It draws elements into the Canvas.
 We made the CanvasWrapper class, because we wanted to test draw functions.
 CanvasWrapper class holds a canvas and all draw functions proxies through it.
-You should use it for drawing on the canvas,Instead of directly accessing the canvas.
+You should use it for drawing on the canvas, Instead of directly accessing the canvas.
 It makes draw functions testable.
 
 <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/architecture/fl_chart_architecture.jpg" />
