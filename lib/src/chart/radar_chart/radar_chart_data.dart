@@ -203,6 +203,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
+    bool? isMinValueAtCenter,
     FlBorderData? borderData,
   }) =>
       RadarChartData(
@@ -219,6 +220,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData: tickBorderData ?? this.tickBorderData,
         gridBorderData: gridBorderData ?? this.gridBorderData,
         radarTouchData: radarTouchData ?? this.radarTouchData,
+        isMinValueAtCenter: isMinValueAtCenter ?? this.isMinValueAtCenter,
         borderData: borderData ?? this.borderData,
       );
 
@@ -245,6 +247,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarShape: b.radarShape,
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        isMinValueAtCenter: b.isMinValueAtCenter,
         radarTouchData: b.radarTouchData,
       );
     } else {
@@ -269,6 +272,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData,
         gridBorderData,
         radarTouchData,
+        isMinValueAtCenter,
       ];
 }
 
