@@ -1,3 +1,6 @@
+## UNRELEASED
+* **IMPROVEMENT** (by @MattiaPispisa) custom border radius in BarTouchTooltipData, #1715
+
 ## 0.69.0
 * **BUGFIX** (by @imaNNeo) Fix a memory leak issue in the axis-based charts, there was a logic to calculate and cache the minX, maxX, minY and maxY properties to reduce the computation cost. But it caused some memory issues, as we don't have a quick solution for this, we disabled the caching logic for now, later we can move the calculation logic to the render objects to keep and update them only when the data is changed, #1106, #1693
 * **BUGFIX**  (by @imaNNeo) Fix showing grid lines even when there is no line to show in the LineChart, #1691

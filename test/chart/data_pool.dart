@@ -2784,6 +2784,7 @@ Color getTooltipBlueColor(
 
 final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
+  tooltipBorderRadius: BorderRadius.circular(12),
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
@@ -2795,6 +2796,7 @@ final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
 );
 final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
+  tooltipBorderRadius: BorderRadius.circular(12),
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
@@ -2806,6 +2808,7 @@ final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
 );
 final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   tooltipRoundedRadius: 13,
+  tooltipBorderRadius: BorderRadius.circular(13),
   fitInsideVertically: false,
   fitInsideHorizontally: true,
   maxContentWidth: 23,
