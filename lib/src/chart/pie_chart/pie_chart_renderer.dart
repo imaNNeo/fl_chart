@@ -143,7 +143,20 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
       paintHolder,
     );
     canvas.restore();
-    defaultPaint(context, offset);
+    badgeWidgetPaint(context, offset);
+  }
+
+  void badgeWidgetPaint(PaintingContext context, Offset offset) {
+    RenderObject? child = firstChild;
+    var counter = 0;
+    while (child != null) {
+      final childParentData = child.parentData! as MultiChildLayoutParentData;
+      if (data.sections[counter].value > 0) {
+        context.paintChild(child, childParentData.offset + offset);
+      }
+      child = childParentData.nextSibling;
+      counter++;
+    }
   }
 
   @override
