@@ -193,8 +193,10 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     super.x,
     super.y, {
     bool? show,
+    int? renderPriority,
     FlDotPainter? dotPainter,
   })  : show = show ?? true,
+        renderPriority = renderPriority ?? 0,
         dotPainter = dotPainter ??
             FlDotCirclePainter(
               radius: 6,
@@ -204,6 +206,9 @@ class ScatterSpot extends FlSpot with EquatableMixin {
 
   /// Determines show or hide the spot.
   final bool show;
+
+  // Determines Z-Index of the spot
+  final int renderPriority;
 
   /// Determines shape of the spot
   final FlDotPainter dotPainter;
@@ -223,12 +228,14 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     double? x,
     double? y,
     bool? show,
+    int? renderPriority,
     FlDotPainter? dotPainter,
   }) =>
       ScatterSpot(
         x ?? this.x,
         y ?? this.y,
         show: show ?? this.show,
+        renderPriority: renderPriority ?? this.renderPriority,
         dotPainter: dotPainter ?? this.dotPainter,
       );
 
@@ -238,6 +245,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         lerpDouble(a.x, b.x, t)!,
         lerpDouble(a.y, b.y, t)!,
         show: b.show,
+        renderPriority: a.renderPriority + (t * (b.renderPriority - a.renderPriority)).round(),
         dotPainter: a.dotPainter.lerp(a.dotPainter, b.dotPainter, t),
       );
 
@@ -247,6 +255,7 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         x,
         y,
         show,
+        renderPriority,
         dotPainter,
       ];
 }
