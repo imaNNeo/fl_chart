@@ -433,6 +433,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   ) {
     final data = holder.data;
     final sectionsAngle = calculateSectionsAngle(data.sections, data.sumValue);
+    final centerRadius = calculateCenterRadius(viewSize, holder);
 
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
@@ -448,33 +449,34 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     PieChartSectionData? foundSectionData;
     var foundSectionDataPosition = -1;
 
-    /// Find the nearest section base on the touch spot
-    final relativeTouchAngle = (touchAngle - data.startDegreeOffset) % 360;
-    var tempAngle = 0.0;
+    var tempAngle = data.startDegreeOffset;
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
-      var sectionAngle = sectionsAngle[i];
+      final sectionAngle = sectionsAngle[i];
 
-      tempAngle %= 360;
-      if (data.sections.length == 1) {
-        sectionAngle = 360;
-      } else {
-        sectionAngle %= 360;
+      if (sectionAngle == 360) {
+        final distance = math.sqrt(
+          math.pow(localPosition.dx - center.dx, 2) +
+              math.pow(localPosition.dy - center.dy, 2),
+        );
+        if (distance >= centerRadius &&
+            distance <= section.radius + centerRadius) {
+          foundSectionData = section;
+          foundSectionDataPosition = i;
+        }
+        break;
       }
 
-      /// degree criteria
-      final space = data.sectionsSpace / 2;
-      final fromDegree = tempAngle + space;
-      final toDegree = sectionAngle + tempAngle - space;
-      final isInDegree =
-          relativeTouchAngle >= fromDegree && relativeTouchAngle <= toDegree;
+      final sectionPath = generateSectionPath(
+        section,
+        data.sectionsSpace,
+        tempAngle,
+        sectionAngle,
+        center,
+        centerRadius,
+      );
 
-      /// radius criteria
-      final centerRadius = calculateCenterRadius(viewSize, holder);
-      final sectionRadius = centerRadius + section.radius;
-      final isInRadius = touchR > centerRadius && touchR <= sectionRadius;
-
-      if (isInDegree && isInRadius) {
+      if (sectionPath.contains(localPosition)) {
         foundSectionData = section;
         foundSectionDataPosition = i;
         break;

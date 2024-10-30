@@ -5,12 +5,12 @@ Don't forget that `open-source` makes no sense without contributors. No matter h
 
 This file is intended to be a guide for those who are interested in contributing to the FL Chart.
 
-#### Below are the people who has contributed to the FL Chart. We hope we have your picture here soon.
+#### Below are the people who have contributed to the FL Chart. We hope we have your picture here soon.
 [![](https://opencollective.com/fl_chart/contributors.svg?width=890&button=false)](https://github.com/imaNNeo/fl_chart/graphs/contributors)
 
 ## Let's get Started
 
-Make sure you have Flutter installed and on your path (follow [installation guide](https://docs.flutter.dev/get-started/install)).
+Make sure you have Flutter installed and on your path (follow the [installation guide](https://docs.flutter.dev/get-started/install)).
 
 Follow these steps to clone FL Chart and set up the development environment:
 
@@ -27,7 +27,7 @@ Follow these steps to clone FL Chart and set up the development environment:
 ## Before Modifying the Code
 
 If the work you intend to do is non-trivial, it is necessary to open
-an issue before starting writing your code. This helps us and the
+an issue before starting to write your code. This helps us and the
 community to discuss the issue and choose what is deemed to be the
 best solution.
 
@@ -39,7 +39,7 @@ In case you couldn't find any issue, it's better to create an issue to explain w
 We have a *_chart_painter.dart class per each chart type. It draws elements into the Canvas.
 We made the CanvasWrapper class, because we wanted to test draw functions.
 CanvasWrapper class holds a canvas and all draw functions proxies through it.
-You should use it for drawing on the canvas, Instead of direct accessing to canvas.
+You should use it for drawing on the canvas, Instead of directly accessing the canvas.
 It makes draw functions testable.
 
 <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/architecture/fl_chart_architecture.jpg" />
@@ -50,7 +50,7 @@ It makes draw functions testable.
 While you are developing your branch, It is common that your branch gets outdated and you need to update your branch with the `master` branch.
 To do that, please use `rebase` instead of `merge`. Because when you finish the PR, we must `rebase` your branch and merge it with the master.
 The reason that we prefer `rebase` over `merge` is the simplicity of the commit history. It allows us to have sequential commits in the `master`
-[This article](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) might help to understand it better.
+[This article](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) might help you understand it better.
 
 ## Checking Your Code's Quality
 
@@ -60,7 +60,7 @@ correctly and meets our guidelines. Our guidelines are:
 You can simply run `make checkstyle`, and if you faced any formatting problem, run `make format`.
 
 ##### Run `make checkstyle` to ensure that your code is formatted correctly
-- It runs `flutter analyze` to verify that there is no any warning or error.
+- It runs `flutter analyze` to verify that there are no warnings or errors.
 - It runs `dart format --set-exit-if-changed --dry-run .` to verify that code has formatted correctly.
 
 #### Run `make format` to reformat the code
@@ -74,9 +74,9 @@ You can simply run `make checkstyle`, and if you faced any formatting problem, r
 - It runs both `make runTests` and then `make checkstyle` sequentially with a single command.
 
 ## Test coverage (unit tests)
-We should write unit-test for our written code. If you are not familiar with unit-tests, please start from [here](https://docs.flutter.dev/cookbook/testing/unit/introduction).
+We should write unit tests for our written code. If you are not familiar with unit-tests, please start from [here](https://docs.flutter.dev/cookbook/testing/unit/introduction).
 
-[Mockito](https://pub.dev/packages/mockito) is the library that we use to mock our classes, please read more about it from their docs [here](https://github.com/dart-lang/mockito#lets-create-mocks).
+[Mockito](https://pub.dev/packages/mockito) is the library that we use to mock our classes. Please read more about it in their docs [here](https://github.com/dart-lang/mockito#lets-create-mocks).
 
 Our code coverage is calculated by [Codecov](https://app.codecov.io/gh/imaNNeo/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
  at the moment)
@@ -88,12 +88,12 @@ Please make sure that your code is **not decreasing** the coverage.
 ## Creating a Pull Request
 
 Congratulations! Your code meets all of our guidelines :100:. Now you have to
-submit a pull request (or PR for short) to us. These are the steps you should
+submit a pull request (PR for short) to us. These are the steps you should
 follow when creating a PR:
  
 - Make a descriptive title that summarizes what changes were in the PR.
 
-- Mention the issues that you are fixing (if doesn't exist, try to make one and explain the issue clearly)
+- Mention the issues that you are fixing (if they don't exist, try to make one and explain the issue clearly)
 
 - Change your code according to feedback (if any).
 

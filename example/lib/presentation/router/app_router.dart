@@ -13,20 +13,18 @@ final appRouterConfig = GoRouter(
         return '/${ChartType.values.first.name}';
       },
     ),
-    ...ChartType.values
-        .map(
-          (ChartType chartType) => GoRoute(
-            path: '/${chartType.name}',
-            pageBuilder: (BuildContext context, GoRouterState state) =>
-                MaterialPage<void>(
-              /// We set a key for HomePage to prevent recreate it
-              /// when user choose a new chart type to show
-              key: const ValueKey('home_page'),
-              child: HomePage(showingChartType: chartType),
-            ),
-          ),
-        )
-        .toList(),
+    ...ChartType.values.map(
+      (ChartType chartType) => GoRoute(
+        path: '/${chartType.name}',
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            MaterialPage<void>(
+          /// We set a key for HomePage to prevent recreate it
+          /// when user choose a new chart type to show
+          key: const ValueKey('home_page'),
+          child: HomePage(showingChartType: chartType),
+        ),
+      ),
+    ),
     GoRoute(
       path: '/:any',
       builder: (context, state) => Container(color: AppColors.pageBackground),

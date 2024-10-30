@@ -69,9 +69,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   }
 
   @visibleForTesting
-  double getDefaultChartCenterValue() {
-    return 0;
-  }
+  double getDefaultChartCenterValue() => 0;
 
   double getChartCenterValue(RadarChartData data) {
     final dataSetMaxValue = data.maxEntry.value;

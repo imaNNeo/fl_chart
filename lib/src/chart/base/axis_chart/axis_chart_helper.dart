@@ -8,6 +8,7 @@ class AxisChartHelper {
   }
 
   AxisChartHelper._internal();
+
   static final _singleton = AxisChartHelper._internal();
 
   /// Iterates over an axis from [min] to [max].
@@ -39,6 +40,8 @@ class AxisChartHelper {
     var axisSeek = initialValue;
     final firstPositionOverlapsWithMin = axisSeek == min;
     if (!minIncluded && firstPositionOverlapsWithMin) {
+      // If initial value is equal to data minimum,
+      // move first label one interval further
       axisSeek += interval;
     }
     final diff = max - min;
@@ -50,6 +53,7 @@ class AxisChartHelper {
 
     final epsilon = interval / 100000;
     if (minIncluded && !firstPositionOverlapsWithMin) {
+      // Data minimum shall be included and is not yet covered
       yield min;
     }
     while (axisSeek <= end + epsilon) {
@@ -99,13 +103,9 @@ class AxisChartHelper {
           -(childSize / 2) + (parentAxisSize - axisPosition) - distanceFromEdge;
     }
 
-    switch (axisSide) {
-      case AxisSide.left:
-      case AxisSide.right:
-        return Offset(0, offset);
-      case AxisSide.top:
-      case AxisSide.bottom:
-        return Offset(offset, 0);
-    }
+    return switch (axisSide) {
+      AxisSide.left || AxisSide.right => Offset(0, offset),
+      AxisSide.top || AxisSide.bottom => Offset(offset, 0),
+    };
   }
 }

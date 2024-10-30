@@ -19,12 +19,12 @@ class AppMenu extends StatefulWidget {
   final VoidCallback? onBannerClicked;
 
   const AppMenu({
-    Key? key,
+    super.key,
     required this.menuItems,
     required this.currentSelectedIndex,
     required this.onItemSelected,
     required this.onBannerClicked,
-  }) : super(key: key);
+  });
 
   @override
   AppMenuState createState() => AppMenuState();

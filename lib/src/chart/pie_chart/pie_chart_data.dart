@@ -84,18 +84,17 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
-  }) {
-    return PieChartData(
-      sections: sections ?? this.sections,
-      centerSpaceRadius: centerSpaceRadius ?? this.centerSpaceRadius,
-      centerSpaceColor: centerSpaceColor ?? this.centerSpaceColor,
-      sectionsSpace: sectionsSpace ?? this.sectionsSpace,
-      startDegreeOffset: startDegreeOffset ?? this.startDegreeOffset,
-      pieTouchData: pieTouchData ?? this.pieTouchData,
-      borderData: borderData ?? this.borderData,
-      titleSunbeamLayout: titleSunbeamLayout ?? this.titleSunbeamLayout,
-    );
-  }
+  }) =>
+      PieChartData(
+        sections: sections ?? this.sections,
+        centerSpaceRadius: centerSpaceRadius ?? this.centerSpaceRadius,
+        centerSpaceColor: centerSpaceColor ?? this.centerSpaceColor,
+        sectionsSpace: sectionsSpace ?? this.sectionsSpace,
+        startDegreeOffset: startDegreeOffset ?? this.startDegreeOffset,
+        pieTouchData: pieTouchData ?? this.pieTouchData,
+        borderData: borderData ?? this.borderData,
+        titleSunbeamLayout: titleSunbeamLayout ?? this.titleSunbeamLayout,
+      );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
@@ -240,52 +239,50 @@ class PieChartSectionData {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
-  }) {
-    return PieChartSectionData(
-      value: value ?? this.value,
-      color: color ?? this.color,
-      gradient: gradient ?? this.gradient,
-      radius: radius ?? this.radius,
-      showTitle: showTitle ?? this.showTitle,
-      titleStyle: titleStyle ?? this.titleStyle,
-      title: title ?? this.title,
-      borderSide: borderSide ?? this.borderSide,
-      badgeWidget: badgeWidget ?? this.badgeWidget,
-      titlePositionPercentageOffset:
-          titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
-      badgePositionPercentageOffset:
-          badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
-    );
-  }
+  }) =>
+      PieChartSectionData(
+        value: value ?? this.value,
+        color: color ?? this.color,
+        gradient: gradient ?? this.gradient,
+        radius: radius ?? this.radius,
+        showTitle: showTitle ?? this.showTitle,
+        titleStyle: titleStyle ?? this.titleStyle,
+        title: title ?? this.title,
+        borderSide: borderSide ?? this.borderSide,
+        badgeWidget: badgeWidget ?? this.badgeWidget,
+        titlePositionPercentageOffset:
+            titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+        badgePositionPercentageOffset:
+            badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
+      );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
   static PieChartSectionData lerp(
     PieChartSectionData a,
     PieChartSectionData b,
     double t,
-  ) {
-    return PieChartSectionData(
-      value: lerpDouble(a.value, b.value, t),
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
-      radius: lerpDouble(a.radius, b.radius, t),
-      showTitle: b.showTitle,
-      titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
-      title: b.title,
-      borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
-      badgeWidget: b.badgeWidget,
-      titlePositionPercentageOffset: lerpDouble(
-        a.titlePositionPercentageOffset,
-        b.titlePositionPercentageOffset,
-        t,
-      ),
-      badgePositionPercentageOffset: lerpDouble(
-        a.badgePositionPercentageOffset,
-        b.badgePositionPercentageOffset,
-        t,
-      ),
-    );
-  }
+  ) =>
+      PieChartSectionData(
+        value: lerpDouble(a.value, b.value, t),
+        color: Color.lerp(a.color, b.color, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
+        radius: lerpDouble(a.radius, b.radius, t),
+        showTitle: b.showTitle,
+        titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
+        title: b.title,
+        borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
+        badgeWidget: b.badgeWidget,
+        titlePositionPercentageOffset: lerpDouble(
+          a.titlePositionPercentageOffset,
+          b.titlePositionPercentageOffset,
+          t,
+        ),
+        badgePositionPercentageOffset: lerpDouble(
+          a.badgePositionPercentageOffset,
+          b.badgePositionPercentageOffset,
+          t,
+        ),
+      );
 }
 
 /// Holds data to handle touch events, and touch responses in the [PieChart].
@@ -374,11 +371,10 @@ class PieTouchResponse extends BaseTouchResponse {
   /// and replaces provided values.
   PieTouchResponse copyWith({
     PieTouchedSection? touchedSection,
-  }) {
-    return PieTouchResponse(
-      touchedSection ?? this.touchedSection,
-    );
-  }
+  }) =>
+      PieTouchResponse(
+        touchedSection ?? this.touchedSection,
+      );
 }
 
 /// It lerps a [PieChartData] to another [PieChartData] (handles animation for updating values)
