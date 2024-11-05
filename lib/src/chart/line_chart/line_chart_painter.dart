@@ -57,6 +57,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
   late Paint _clipPaint;
+  late Paint _shadowTouchTooltipPaint;
 
   /// Paints [LineChartData] into the provided canvas.
   @override
