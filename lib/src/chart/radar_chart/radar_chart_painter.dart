@@ -62,10 +62,10 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     dataSetsPosition = calculateDataSetsPosition(canvasWrapper.size, holder);
 
-    drawGrids(canvasWrapper, holder);
     drawTicks(context, canvasWrapper, holder);
     drawTitles(context, canvasWrapper, holder);
     drawDataSets(canvasWrapper, holder);
+    drawGrids(canvasWrapper, holder);
   }
 
   @visibleForTesting
@@ -152,10 +152,14 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       final path =
           _generatePolygonPath(centerX, centerY, radius, data.titleCount);
 
+      /// draw radar shadow
+      if (data.elevation > 0) {
+        canvasWrapper.canvas
+            .drawShadow(path, data.radarShadowColor, data.elevation, true);
+      }
       /// draw radar background
       canvasWrapper
         ..drawPath(path, _backgroundPaint)
-
         /// draw radar border
         ..drawPath(path, _borderPaint);
     }
@@ -279,7 +283,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     for (var index = 0; index < data.titleCount; index++) {
       final baseTitleAngle = Utils().degrees(diffAngle * index);
       final title = data.getTitle!(index, baseTitleAngle);
-      final span = TextSpan(text: title.text, style: style);
+      final span =
+          TextSpan(text: title.text, children: title.children, style: style);
       _titleTextPaint
         ..text = span
         ..layout();
@@ -328,12 +333,28 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     final data = holder.data;
     // we will use dataSetsPosition to draw the graphs
     dataSetsPosition ??= calculateDataSetsPosition(canvasWrapper.size, holder);
+
+    final size = canvasWrapper.size;
+    final centerX = radarCenterX(size);
+    final centerY = radarCenterY(size);
+    final centerOffset = Offset(centerX, centerY);
+    final radius = radarRadius(size);
+
     dataSetsPosition!.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
-      _graphPaint
-        ..color = graph.fillColor
-        ..style = PaintingStyle.fill;
-
+      // if gradient exists
+      if (graph.gradient != null) {
+        // Create the shader
+        final rect = Rect.fromCircle(center: centerOffset, radius: radius);
+        _graphPaint
+          ..shader = graph.gradient!.createShader(rect)
+          ..style = PaintingStyle.fill;
+      } else {
+        // else solid fill color
+        _graphPaint
+          ..color = graph.fillColor
+          ..style = PaintingStyle.fill;
+      }
       _graphBorderPaint
         ..color = graph.borderColor
         ..style = PaintingStyle.stroke

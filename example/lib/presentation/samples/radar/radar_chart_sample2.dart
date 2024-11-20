@@ -2,9 +2,10 @@ import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' show pi;
 
-class RadarChartSample1 extends StatefulWidget {
-  RadarChartSample1({super.key});
+class RadarChartSample2 extends StatefulWidget {
+  RadarChartSample2({super.key});
 
   final gridColor = AppColors.contentColorPurple.lighten(80);
   final titleColor = AppColors.contentColorPurple.lighten(80);
@@ -15,10 +16,10 @@ class RadarChartSample1 extends StatefulWidget {
   final offRoadColor = AppColors.contentColorYellow;
 
   @override
-  State<RadarChartSample1> createState() => _RadarChartSample1State();
+  State<RadarChartSample2> createState() => _RadarChartSample2State();
 }
 
-class _RadarChartSample1State extends State<RadarChartSample1> {
+class _RadarChartSample2State extends State<RadarChartSample2> {
   int selectedDataSetIndex = -1;
   double angleValue = 0;
   bool relativeAngleMode = true;
@@ -137,9 +138,13 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 .toList(),
           ),
           AspectRatio(
-            aspectRatio: 1.3,
+            aspectRatio: 1.0,
             child: RadarChart(
               RadarChartData(
+                elevation: 10,
+                radarShape: RadarShape.polygon,
+                radarBackgroundColor: Colors.amber,
+                radarShadowColor: Colors.white,
                 radarTouchData: RadarTouchData(
                   touchCallback: (FlTouchEvent event, response) {
                     if (!event.isInterestedForInteractions) {
@@ -155,10 +160,9 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                   },
                 ),
                 dataSets: showingDataSets(),
-                radarBackgroundColor: Colors.transparent,
                 borderData: FlBorderData(show: false),
                 radarBorderData: const BorderSide(color: Colors.transparent),
-                titlePositionPercentageOffset: 0.2,
+                titlePositionPercentageOffset: 0.1,
                 titleTextStyle:
                     TextStyle(color: widget.titleColor, fontSize: 14),
                 getTitle: (index, angle) {
@@ -168,26 +172,30 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                     case 0:
                       return RadarChartTitle(
                         text: 'Mobile or Tablet',
-                        children:[
+                        children: [
                           const TextSpan(
-                            text: "\n(or sth else....",
+                            text: "\n(or sth else..",
                             style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w700
-                            ),
+                                fontSize: 17,
+                                color: Colors.red,
+                                fontWeight: FontWeight.w700),
                           ),
                           const TextSpan(
-                            text: "or watever it is....)",
+                            text: "or watever)",
                             style: TextStyle(
                                 fontSize: 17,
                                 color: Colors.green,
-                                fontWeight: FontWeight.w700
-                            ),
+                                fontWeight: FontWeight.w700),
                           ),
                         ],
                         angle: usedAngle,
                       );
+                    case 5:
+                      return RadarChartTitle(text: '55555', angle: usedAngle);
+                    case 4:
+                      return RadarChartTitle(text: '4444', angle: usedAngle);
+                    case 3:
+                      return RadarChartTitle(text: '333', angle: usedAngle);
                     case 2:
                       return RadarChartTitle(
                         text: 'Desktop',
@@ -205,7 +213,7 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 tickBorderData: const BorderSide(color: Colors.transparent),
                 gridBorderData: BorderSide(color: widget.gridColor, width: 2),
               ),
-              duration: const Duration(milliseconds: 400),
+              swapAnimationDuration: const Duration(milliseconds: 400),
             ),
           ),
         ],
@@ -226,14 +234,30 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
 
       return RadarDataSet(
         fillColor: isSelected
-            ? rawDataSet.color.withOpacity(0.2)
-            : rawDataSet.color.withOpacity(0.05),
+            ? rawDataSet.color.withOpacity(0.75)
+            : rawDataSet.color.withOpacity(0.15),
         borderColor:
-            isSelected ? rawDataSet.color : rawDataSet.color.withOpacity(0.25),
+            isSelected ? rawDataSet.color : rawDataSet.color.withOpacity(0.2),
         entryRadius: isSelected ? 3 : 2,
+        gradient: SweepGradient(
+          startAngle: 3 * pi / 2,
+          endAngle: 7 * pi / 2,
+          tileMode: TileMode.repeated,
+          colors: isSelected
+              ? [
+                  rawDataSet.color.withOpacity(0.9),
+                  rawDataSet.color.withOpacity(0.8),
+                  rawDataSet.color.withOpacity(0.7),
+                  rawDataSet.color.withOpacity(0.6),
+                  rawDataSet.color.withOpacity(0.5),
+                  rawDataSet.color.withOpacity(0.4),
+                ]
+              : List.filled(6, Colors.grey.withOpacity(0.2)),
+          stops: const [0, 0.16, 0.32, 0.48, 0.64, 0.8],
+        ),
         dataEntries:
             rawDataSet.values.map((e) => RadarEntry(value: e)).toList(),
-        borderWidth: isSelected ? 2.3 : 2,
+        borderWidth: isSelected ? 1.3 : 0.3,
       );
     }).toList();
   }
@@ -242,47 +266,53 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
     return [
       RawDataSet(
         title: 'Fashion',
-        color: widget.fashionColor,
+        color: Colors.grey, //widget.fashionColor,
         values: [
           300,
           50,
           250,
-        ],
-      ),
-      RawDataSet(
-        title: 'Art & Tech',
-        color: widget.artColor,
-        values: [
           250,
-          100,
-          200,
+          250,
+          250,
         ],
       ),
-      RawDataSet(
-        title: 'Entertainment',
-        color: widget.entertainmentColor,
-        values: [
-          200,
-          150,
-          50,
-        ],
-      ),
-      RawDataSet(
-        title: 'Off-road Vehicle',
-        color: widget.offRoadColor,
-        values: [
-          150,
-          200,
-          150,
-        ],
-      ),
+      // RawDataSet(
+      //   title: 'Art & Tech',
+      //   color: widget.artColor,
+      //   values: [
+      //     250,
+      //     100,
+      //     200,
+      //   ],
+      // ),
+      // RawDataSet(
+      //   title: 'Entertainment',
+      //   color: widget.entertainmentColor,
+      //   values: [
+      //     200,
+      //     150,
+      //     50,
+      //   ],
+      // ),
+      // RawDataSet(
+      //   title: 'Off-road Vehicle',
+      //   color: widget.offRoadColor,
+      //   values: [
+      //     150,
+      //     200,
+      //     150,
+      //   ],
+      // ),
       RawDataSet(
         title: 'Boxing',
         color: widget.boxingColor,
         values: [
-          100,
-          250,
-          100,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
         ],
       ),
     ];
