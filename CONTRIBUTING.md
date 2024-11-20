@@ -32,7 +32,7 @@ community to discuss the issue and choose what is deemed to be the
 best solution.
 
 ### Mention the related issues:
-If you are going to fix or improve something, please find and mention the related issues in [CHANGELOG.md](#changelog), commit message and Pull Request description.
+If you are going to fix or improve something, please find and mention the related issues in commit message and Pull Request description.
 In case you couldn't find any issue, it's better to create an issue to explain what's the issue that you are going to fix.
 
 ## Let's start by our drawing architecture
