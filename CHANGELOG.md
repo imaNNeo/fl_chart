@@ -1,4 +1,4 @@
-## newVersion
+## 0.69.1
 * **IMPROVEMENT** (by @moshe5745) Update the docs related to line chart's `duration` and `curve` properties, #1618
 * **IMPROVEMENT** (by @imaNNeo) Deprecate `swapAnimationDuration` and `swapAnimationCurve` properties to use `curve` and `duration` instead to keep the consistency over the project, #1618
 * **BUGFIX** (by @aimawari) Fixed lots of issues related to the zero value in the PieChartSectionData, #697, #817 and #1632
