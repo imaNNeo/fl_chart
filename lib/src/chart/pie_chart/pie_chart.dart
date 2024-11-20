@@ -6,17 +6,20 @@ import 'package:flutter/material.dart';
 class PieChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [PieChart] should be look like,
   /// when you make any change in the [PieChartData], it updates
-  /// new values with animation, and duration is [swapAnimationDuration].
-  /// also you can change the [swapAnimationCurve]
+  /// new values with animation, and duration is [duration].
+  /// also you can change the [curve]
   /// which default is [Curves.linear].
   const PieChart(
     this.data, {
     super.key,
-    Duration swapAnimationDuration = defaultDuration,
-    Curve swapAnimationCurve = Curves.linear,
+    @Deprecated('Please use [duration] instead')
+    Duration? swapAnimationDuration,
+    Duration duration = const Duration(milliseconds: 150),
+    @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
+    Curve curve = Curves.linear,
   }) : super(
-          duration: swapAnimationDuration,
-          curve: swapAnimationCurve,
+          duration: swapAnimationDuration ?? duration,
+          curve: swapAnimationCurve ?? curve,
         );
 
   /// Default duration to reuse externally.
@@ -86,6 +89,7 @@ class BadgeWidgetsDelegate extends MultiChildLayoutDelegate {
     required this.badgeWidgetsCount,
     required this.badgeWidgetsOffsets,
   });
+
   final int badgeWidgetsCount;
   final Map<int, Offset> badgeWidgetsOffsets;
 

@@ -51,8 +51,8 @@ class ScatterChartSample1State extends State<ScatterChartSample1> {
               enabled: false,
             ),
           ),
-          swapAnimationDuration: const Duration(milliseconds: 600),
-          swapAnimationCurve: Curves.fastOutSlowIn,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.fastOutSlowIn,
         ),
       ),
     );

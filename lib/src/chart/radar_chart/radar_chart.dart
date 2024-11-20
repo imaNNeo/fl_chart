@@ -6,17 +6,20 @@ import 'package:flutter/material.dart';
 class RadarChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [RadarChart] should be look like,
   /// when you make any change in the [RadarChart], it updates
-  /// new values with animation, and duration is [swapAnimationDuration].
-  /// also you can change the [swapAnimationCurve]
+  /// new values with animation, and duration is [duration].
+  /// also you can change the [curve]
   /// which default is [Curves.linear].
   const RadarChart(
     this.data, {
     super.key,
-    Duration swapAnimationDuration = const Duration(milliseconds: 150),
-    Curve swapAnimationCurve = Curves.linear,
+    @Deprecated('Please use [duration] instead')
+    Duration? swapAnimationDuration,
+    Duration duration = const Duration(milliseconds: 150),
+    @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
+    Curve curve = Curves.linear,
   }) : super(
-          duration: swapAnimationDuration,
-          curve: swapAnimationCurve,
+          duration: swapAnimationDuration ?? duration,
+          curve: swapAnimationCurve ?? curve,
         );
 
   /// Determines how the [RadarChart] should be look like.
