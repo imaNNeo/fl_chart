@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 class LineChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [LineChart] should be look like,
   /// when you make any change in the [LineChartData], it updates
-  /// new values with animation, and duration is [swapAnimationDuration].
-  /// also you can change the [swapAnimationCurve]
+  /// new values with animation, and duration is [duration].
+  /// also you can change the [curve]
   /// which default is [Curves.linear].
   const LineChart(
     this.data, {

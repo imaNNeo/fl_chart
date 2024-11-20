@@ -187,7 +187,7 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 tickBorderData: const BorderSide(color: Colors.transparent),
                 gridBorderData: BorderSide(color: widget.gridColor, width: 2),
               ),
-              swapAnimationDuration: const Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 400),
             ),
           ),
         ],

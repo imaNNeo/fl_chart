@@ -72,7 +72,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: BarChart(
                       isPlaying ? randomData() : mainBarData(),
-                      swapAnimationDuration: animDuration,
+                      duration: animDuration,
                     ),
                   ),
                 ),
