@@ -20,10 +20,10 @@ abstract class BaseChartData with EquatableMixin {
   }) : borderData = borderData ?? FlBorderData();
 
   /// Holds data to drawing border around the chart.
-  FlBorderData borderData;
+  final FlBorderData borderData;
 
   /// Holds data needed to touch behavior and responses.
-  FlTouchData touchData;
+  final FlTouchData touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
@@ -45,7 +45,7 @@ class FlBorderData with EquatableMixin {
   })  : show = show ?? true,
         border = border ?? Border.all();
   final bool show;
-  Border border;
+  final Border border;
 
   /// returns false if all borders have 0 width or 0 opacity
   bool isVisible() => show && border.isVisible();

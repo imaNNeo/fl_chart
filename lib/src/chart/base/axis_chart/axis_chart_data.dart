@@ -40,18 +40,18 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
 
-  double minX;
-  double maxX;
-  double baselineX;
-  double minY;
-  double maxY;
-  double baselineY;
+  final double minX;
+  final double maxX;
+  final double baselineX;
+  final double minY;
+  final double maxY;
+  final double baselineY;
 
   /// clip the chart to the border (prevent draw outside the border)
-  FlClipData clipData;
+  final FlClipData clipData;
 
   /// A background color which is drawn behind the chart.
-  Color backgroundColor;
+  final Color backgroundColor;
 
   /// Difference of [maxY] and [minY]
   double get verticalDiff => maxY - minY;
@@ -449,6 +449,7 @@ class FlTitlesData with EquatableMixin {
 }
 
 /// Represents a conceptual position in cartesian (axis based) space.
+@immutable
 class FlSpot {
   /// [x] determines cartesian (axis based) horizontally position
   /// 0 means most left point of the chart
@@ -982,10 +983,10 @@ class HorizontalLine extends FlLine with EquatableMixin {
   final double y;
 
   /// Use it for any kind of image, to draw it in left side of the chart.
-  Image? image;
+  final Image? image;
 
   /// Use it for vector images, to draw it in left side of the chart.
-  SizedPicture? sizedPicture;
+  final SizedPicture? sizedPicture;
 
   /// Draws a text label over the line.
   final HorizontalLineLabel label;
@@ -1053,10 +1054,10 @@ class VerticalLine extends FlLine with EquatableMixin {
   final double x;
 
   /// Use it for any kind of image, to draw it in bottom side of the chart.
-  Image? image;
+  final Image? image;
 
   /// Use it for vector images, to draw it in bottom side of the chart.
-  SizedPicture? sizedPicture;
+  final SizedPicture? sizedPicture;
 
   /// Draws a text label over the line.
   final VerticalLineLabel label;
@@ -1256,13 +1257,13 @@ class SizedPicture with EquatableMixin {
   SizedPicture(this.picture, this.width, this.height);
 
   /// Is the showing image.
-  Picture picture;
+  final Picture picture;
 
   /// width of our [picture].
-  int width;
+  final int width;
 
   /// height of our [picture].
-  int height;
+  final int height;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1362,16 +1363,16 @@ class FlDotCirclePainter extends FlDotPainter {
   }) : radius = radius ?? 4.0;
 
   /// The fill color to use for the circle
-  Color color;
+  final Color color;
 
   /// Customizes the radius of the circle
-  double radius;
+  final double radius;
 
   /// The stroke color to use for the circle
-  Color strokeColor;
+  final Color strokeColor;
 
   /// The stroke width to use for the circle
-  double strokeWidth;
+  final double strokeWidth;
 
   /// Implementation of the parent class to draw the circle
   @override
@@ -1459,16 +1460,16 @@ class FlDotSquarePainter extends FlDotPainter {
   });
 
   /// The fill color to use for the square
-  Color color;
+  final Color color;
 
   /// Customizes the size of the square
-  double size;
+  final double size;
 
   /// The stroke color to use for the square
-  Color strokeColor;
+  final Color strokeColor;
 
   /// The stroke width to use for the square
-  double strokeWidth;
+  final double strokeWidth;
 
   /// Implementation of the parent class to draw the square
   @override
@@ -1545,13 +1546,13 @@ class FlDotCrossPainter extends FlDotPainter {
   });
 
   /// The fill color to use for the X mark
-  Color color;
+  final Color color;
 
   /// Determines size (width and height) of shape.
-  double size;
+  final double size;
 
   /// Determines thickness of X mark.
-  double width;
+  final double width;
 
   /// Implementation of the parent class to draw the cross
   @override
