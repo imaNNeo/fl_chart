@@ -449,7 +449,6 @@ class FlTitlesData with EquatableMixin {
 }
 
 /// Represents a conceptual position in cartesian (axis based) space.
-@immutable
 class FlSpot {
   /// [x] determines cartesian (axis based) horizontally position
   /// 0 means most left point of the chart
