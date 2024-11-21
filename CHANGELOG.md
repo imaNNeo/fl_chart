@@ -1,3 +1,6 @@
+## 0.69.2
+* **IMPROVEMENT** (by @imaNNeo) Fix the analyzer warnings (to have maximum score in the [pub.dev](https://pub.dev/packages/fl_chart/score))
+
 ## 0.69.1
 * **IMPROVEMENT** (by @moshe5745) Update the docs related to line chart's `duration` and `curve` properties, #1618
 * **IMPROVEMENT** (by @imaNNeo) Deprecate `swapAnimationDuration` and `swapAnimationCurve` properties to use `curve` and `duration` instead to keep the consistency over the project, #1618
