@@ -388,4 +388,137 @@ void main() {
     expect(lerpGradient(colors, [], 0.8), const Color(0x25252525));
     expect(lerpGradient(colors, [], 1), const Color(0x33333333));
   });
+
+  test('lerpLineChartBarDataList uses `LineChartBarData.lerp`', () {
+    final list1 = [
+      MockData.lineChartBarData1,
+      MockData.lineChartBarData1,
+      MockData.lineChartBarData1,
+    ];
+    final list2 = [
+      MockData.lineChartBarData2,
+      MockData.lineChartBarData2,
+      MockData.lineChartBarData2,
+      MockData.lineChartBarData2,
+    ];
+
+    expect(
+      lerpLineChartBarDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: LineChartBarData.lerp),
+    );
+  });
+
+  test('lerpBetweenBarsDataList uses `BetweenBarsData.lerp`', () {
+    final list1 = [
+      betweenBarsData1,
+      betweenBarsData1,
+      betweenBarsData1,
+    ];
+    final list2 = [
+      betweenBarsData2,
+      betweenBarsData2,
+      betweenBarsData2,
+      betweenBarsData2,
+    ];
+
+    expect(
+      lerpBetweenBarsDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BetweenBarsData.lerp),
+    );
+  });
+
+  test('lerpBarChartGroupDataList uses `BarChartGroupData.lerp`', () {
+    final list1 = [
+      barChartGroupData1,
+      barChartGroupData1,
+      barChartGroupData1,
+    ];
+    final list2 = [
+      barChartGroupData2,
+      barChartGroupData2,
+      barChartGroupData2,
+      barChartGroupData2,
+    ];
+
+    expect(
+      lerpBarChartGroupDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BarChartGroupData.lerp),
+    );
+  });
+
+  test('lerpBarChartRodDataList uses `BarChartRodData.lerp`', () {
+    final list1 = [
+      barChartRodData1,
+      barChartRodData1,
+      barChartRodData1,
+    ];
+    final list2 = [
+      barChartRodData2,
+      barChartRodData2,
+      barChartRodData2,
+      barChartRodData2,
+    ];
+
+    expect(
+      lerpBarChartRodDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BarChartRodData.lerp),
+    );
+  });
+
+  test('lerpPieChartSectionDataList uses `PieChartSectionData.lerp`', () {
+    final list1 = [
+      MockData.pieChartSectionData1,
+      MockData.pieChartSectionData1,
+      MockData.pieChartSectionData1,
+    ];
+    final list2 = [
+      MockData.pieChartSectionData2,
+      MockData.pieChartSectionData2,
+      MockData.pieChartSectionData2,
+      MockData.pieChartSectionData2,
+    ];
+
+    expect(
+      lerpPieChartSectionDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: PieChartSectionData.lerp),
+    );
+  });
+
+  test('lerpBarChartRodStackList uses `BarChartRodStackItem.lerp`', () {
+    final list1 = [
+      barChartRodStackItem1,
+      barChartRodStackItem1,
+      barChartRodStackItem1,
+    ];
+    final list2 = [
+      barChartRodStackItem2,
+      barChartRodStackItem2,
+      barChartRodStackItem2,
+      barChartRodStackItem2,
+    ];
+
+    expect(
+      lerpBarChartRodStackList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BarChartRodStackItem.lerp),
+    );
+  });
+
+  test('lerpRadarDataSetList uses `RadarDataSet.lerp`', () {
+    final list1 = [
+      MockData.radarDataSet1,
+      MockData.radarDataSet1,
+      MockData.radarDataSet1,
+    ];
+    final list2 = [
+      MockData.radarDataSet2,
+      MockData.radarDataSet2,
+      MockData.radarDataSet2,
+      MockData.radarDataSet2,
+    ];
+
+    expect(
+      lerpRadarDataSetList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: RadarDataSet.lerp),
+    );
+  });
 }

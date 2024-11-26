@@ -134,7 +134,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
 }
 
 /// Holds data related to drawing each [PieChart] section.
-class PieChartSectionData {
+class PieChartSectionData with EquatableMixin {
   /// [PieChart] draws section from right side of the circle (0 degrees),
   /// each section have a [value] that determines how much it should occupy,
   /// this is depends on sum of all sections, each section should
@@ -282,6 +282,22 @@ class PieChartSectionData {
           t,
         ),
       );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        value,
+        color,
+        gradient,
+        radius,
+        showTitle,
+        titleStyle,
+        title,
+        borderSide,
+        badgeWidget,
+        titlePositionPercentageOffset,
+        badgePositionPercentageOffset,
+      ];
 }
 
 /// Holds data to handle touch events, and touch responses in the [PieChart].

@@ -308,6 +308,9 @@ class MockData {
   static final scatterTouchedSpot = ScatterTouchedSpot(scatterSpot1, 0);
 
   static final pieChartSectionData1 = PieChartSectionData(value: 12);
+
+  static final pieChartSectionData2 = PieChartSectionData(value: 22);
+
   static final pieTouchedSection1 = PieTouchedSection(
     pieChartSectionData1,
     0,
