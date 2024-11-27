@@ -47,15 +47,42 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final _lineChartHelper = LineChartHelper();
 
+  late TransformationController _transformationController;
+  Matrix4 _viewTransformation = Matrix4.identity();
+
+  @override
+  void initState() {
+    super.initState();
+    _transformationController = TransformationController()
+      ..addListener(() {
+        if (_transformationController.value == _viewTransformation) return;
+
+        setState(() {
+          _viewTransformation = _transformationController.value;
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _transformationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final showingData = _getData();
 
     return AxisChartScaffoldWidget(
-      chart: LineChartLeaf(
-        data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
-        targetData: _withTouchedIndicators(showingData),
-        key: widget.chartRendererKey,
+      chart: InteractiveViewer(
+        clipBehavior: Clip.none,
+        transformationController: _transformationController,
+        child: LineChartLeaf(
+          data:
+              _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
+          targetData: _withTouchedIndicators(showingData),
+          key: widget.chartRendererKey,
+        ),
       ),
       data: showingData,
     );
@@ -104,6 +131,25 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       newData = newData.copyWith(
         lineTouchData:
             newData.lineTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+      );
+    }
+
+    if (_viewTransformation != Matrix4.identity()) {
+      final scaleX = _viewTransformation[0];
+      final scaleY = _viewTransformation[5];
+      final translateX = _viewTransformation[12];
+      final translateY = _viewTransformation[13];
+
+      final newMinX = newData.minX * scaleX - translateX;
+      final newMaxX = newData.maxX * scaleX - translateX;
+      final newMinY = newData.minY * scaleY - translateY;
+      final newMaxY = newData.maxY * scaleY - translateY;
+
+      newData = newData.copyWith(
+        minX: newMinX,
+        maxX: newMaxX,
+        minY: newMinY,
+        maxY: newMaxY,
       );
     }
 
