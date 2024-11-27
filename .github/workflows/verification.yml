@@ -21,4 +21,4 @@ jobs:
       - name: Analyze the source code
         run: make analyze
       - name: Run tests
-        run: make test
+        run: make runTests
