@@ -1,6 +1,7 @@
 ## newVersion
 * **IMPROVEMENT** (by @Peetee06) Added some new unit tests in `bar_chart_data_extensions_test.dart`, `gradient_extension_test.dart` and fixed a typo in `bar_chart_data.dart`
 * **BREAKING** (by @Peetee06) Fixed the equatable functionality in our BarChart. We hope it will not affect anything in our chart, but because the behaviour is changed, we marked it as a breaking change. (read more [here](https://github.com/imaNNeo/fl_chart/pull/1789#discussion_r1858371718))
+* **IMPROVEMENT** (by AliAkberAakash) Minor typo fix in our line chart documentation, #1795
 
 ## 0.69.2
 * **IMPROVEMENT** (by @imaNNeo) Fix the analyzer warnings (to have maximum score in the [pub.dev](https://pub.dev/packages/fl_chart/score))
