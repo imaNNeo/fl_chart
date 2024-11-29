@@ -87,10 +87,11 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       return;
     }
 
-    final factor = isTouch ? -0.05 : 0.05;
+    final factorX = isTouch ? -0.05 : 0.05;
+    final factorY = isTouch ? 0.05 : -0.05;
 
-    final dx = details.focalPointDelta.dx * factor;
-    final dy = details.focalPointDelta.dy * -factor;
+    final dx = details.focalPointDelta.dx * factorX;
+    final dy = details.focalPointDelta.dy * factorY;
 
     final newData = _axisChartDataController.value;
 
@@ -166,6 +167,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             scale: scaleEvent.scale,
             focalPointDelta: scaleEvent.delta,
           ),
+          isTouch: false,
         );
 
       case final PointerScrollEvent scrollEvent:
@@ -174,6 +176,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             ScaleUpdateDetails(
               focalPointDelta: scrollEvent.scrollDelta,
             ),
+            isTouch: false,
           );
           return;
         }
@@ -186,6 +189,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             scale: math.exp(-scrollEvent.scrollDelta.dy),
             focalPointDelta: scrollEvent.scrollDelta,
           ),
+          isTouch: false,
         );
 
       default:
