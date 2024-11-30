@@ -95,57 +95,96 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
     final newData = _axisChartDataController.value;
 
-    final originalXDistance = _maxX - _minX;
-    final originalYDistance = _maxY - _minY;
+    // Calculate proposed scaled values
+    final xScale = scale;
+    final yScale = scale;
 
-    final minXDistance = 0.5 * originalXDistance;
-    final maxXDistance = originalXDistance;
-    final minYDistance = 0.5 * originalYDistance;
-    final maxYDistance = originalYDistance;
+    var scaledMinX = newData.minX * xScale;
+    var scaledMaxX = newData.maxX / xScale;
+    var scaledMinY = newData.minY * yScale;
+    var scaledMaxY = newData.maxY / yScale;
 
-    final newXDistance = (newData.maxX / scale) - (newData.minX * scale);
-    final newYDistance = (newData.maxY / scale) - (newData.minY * scale);
+    // Store the scaled widths
+    final xWidth = scaledMaxX - scaledMinX;
+    final yWidth = scaledMaxY - scaledMinY;
 
-    final xScale = newXDistance < minXDistance || newXDistance > maxXDistance
-        ? 1.0
-        : scale;
-    final yScale = newYDistance < minYDistance || newYDistance > maxYDistance
-        ? 1.0
-        : scale;
+    // Adjust min values and maintain width
+    if (scaledMinX < _minX) {
+      scaledMinX = _minX;
+      scaledMaxX = _minX + xWidth;
+    }
+    if (scaledMinY < _minY) {
+      scaledMinY = _minY;
+      scaledMaxY = _minY + yWidth;
+    }
 
-    final scaledMinX = newData.minX * xScale;
-    final scaledMaxX = newData.maxX / xScale;
-    final scaledMinY = newData.minY * yScale;
-    final scaledMaxY = newData.maxY / yScale;
+    // Adjust max values and maintain width
+    if (scaledMaxX > _maxX) {
+      scaledMaxX = _maxX;
+      scaledMinX = _maxX - xWidth;
+    }
+    if (scaledMaxY > _maxY) {
+      scaledMaxY = _maxY;
+      scaledMinY = _maxY - yWidth;
+    }
 
-    final isScaled = (scaledMinX - _minX).abs() > 0.01 ||
-        (scaledMaxX - _maxX).abs() > 0.01 ||
-        (scaledMinY - _minY).abs() > 0.01 ||
-        (scaledMaxY - _maxY).abs() > 0.01;
+    // Final safety clamp
+    scaledMinX = scaledMinX.clamp(_minX, _maxX);
+    scaledMaxX = scaledMaxX.clamp(_minX, _maxX);
+    scaledMinY = scaledMinY.clamp(_minY, _maxY);
+    scaledMaxY = scaledMaxY.clamp(_minY, _maxY);
+
+    // Ensure minimum distance is maintained
+    final xDistance = scaledMaxX - scaledMinX;
+    final yDistance = scaledMaxY - scaledMinY;
+
+    if (xDistance < 0.5 * (_maxX - _minX) ||
+        yDistance < 0.5 * (_maxY - _minY)) {
+      scaledMinX = newData.minX;
+      scaledMaxX = newData.maxX;
+      scaledMinY = newData.minY;
+      scaledMaxY = newData.maxY;
+    }
+
+    // Calculate translation within bounds
+    var translatedMinX = scaledMinX + dx;
+    var translatedMaxX = scaledMaxX + dx;
+    var translatedMinY = scaledMinY + dy;
+    var translatedMaxY = scaledMaxY + dy;
+
+    // Clamp translated values
+    if (translatedMinX < _minX) {
+      translatedMaxX += _minX - translatedMinX;
+      translatedMinX = _minX;
+    }
+    if (translatedMaxX > _maxX) {
+      translatedMinX -= translatedMaxX - _maxX;
+      translatedMaxX = _maxX;
+    }
+    if (translatedMinY < _minY) {
+      translatedMaxY += _minY - translatedMinY;
+      translatedMinY = _minY;
+    }
+    if (translatedMaxY > _maxY) {
+      translatedMinY -= translatedMaxY - _maxY;
+      translatedMaxY = _maxY;
+    }
+
+    final isScaled = (translatedMinX - _minX).abs() > 0.01 ||
+        (translatedMaxX - _maxX).abs() > 0.01 ||
+        (translatedMinY - _minY).abs() > 0.01 ||
+        (translatedMaxY - _maxY).abs() > 0.01;
 
     if (!isScaled) {
       _resetScale();
       return;
     }
 
-    final translatedMinX = scaledMinX + dx;
-    final translatedMaxX = scaledMaxX + dx;
-    final translatedMinY = scaledMinY + dy;
-    final translatedMaxY = scaledMaxY + dy;
-
-    final canTranslateX = translatedMinX >= _minX && translatedMaxX <= _maxX;
-    final canTranslateY = translatedMinY >= _minY && translatedMaxY <= _maxY;
-
-    final newMinX = canTranslateX ? translatedMinX : scaledMinX;
-    final newMaxX = canTranslateX ? translatedMaxX : scaledMaxX;
-    final newMinY = canTranslateY ? translatedMinY : scaledMinY;
-    final newMaxY = canTranslateY ? translatedMaxY : scaledMaxY;
-
     final scaledData = newData.copyWith(
-      minX: _round(newMinX),
-      maxX: _round(newMaxX),
-      minY: _round(newMinY),
-      maxY: _round(newMaxY),
+      minX: _round(translatedMinX),
+      maxX: _round(translatedMaxX),
+      minY: _round(translatedMinY),
+      maxY: _round(translatedMaxY),
       clipData: isScaled ? const FlClipData.all() : null,
     );
 
