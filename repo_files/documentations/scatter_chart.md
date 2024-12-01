@@ -33,6 +33,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |show| determines to show or hide the spot|true|
 |radius| radius of the showing spot| [8]
 |color| colors of the spot|// a color based on the values|
+|renderPriority| sort by this to manage overlap|0|
 
 
 ### ScatterTouchData ([read about touch handling](handle_touches.md))
