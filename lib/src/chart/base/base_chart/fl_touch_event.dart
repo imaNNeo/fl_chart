@@ -247,3 +247,42 @@ class FlPointerExitEvent extends FlTouchEvent {
   @override
   Offset get localPosition => event.localPosition;
 }
+
+/// When a pointer has contacted the screen and has begun to scale.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [ScaleGestureRecognizer.onStart]
+class FlScaleStartEvent extends FlTouchEvent {
+  const FlScaleStartEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleStartDetails details;
+}
+
+/// When a pointer is moving after being held in contact at the same
+/// location for a long period of time. Reports the new position and its offset
+/// from the original down position.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [ScaleGestureRecognizer.onUpdate]
+class FlScaleUpdateEvent extends FlTouchEvent {
+  const FlScaleUpdateEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleUpdateDetails details;
+}
+
+/// When a pointer stops contacting the screen after a scale
+/// gesture was detected.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [ScaleGestureRecognizer.onEnd]
+class FlScaleEndEvent extends FlTouchEvent {
+  const FlScaleEndEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleEndDetails details;
+}

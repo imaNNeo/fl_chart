@@ -1,13 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_pan_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
+import 'package:fl_chart/src/utils/chart_transformation_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
@@ -51,151 +52,79 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final _lineChartHelper = LineChartHelper();
 
-  late final double _minX;
-  late final double _maxX;
-  late final double _minY;
-  late final double _maxY;
+  late double _viewWidth;
+  late double _viewHeight;
 
-  late final AxisChartDataController<LineChartData> _axisChartDataController;
+  final double _minScale = 1;
+  final double _maxScale = 3;
 
-  @override
-  void initState() {
-    super.initState();
-    final data = _getData();
-    _axisChartDataController = AxisChartDataController(data: data);
-    _minX = data.minX;
-    _maxX = data.maxX;
-    _minY = data.minY;
-    _maxY = data.maxY;
-  }
+  final ChartTransformationController _chartTransformationController =
+      ChartTransformationController();
+
+  double? _scaleStart;
 
   @override
   void dispose() {
-    _axisChartDataController.dispose();
+    _chartTransformationController.dispose();
     super.dispose();
   }
 
-  @override
-  void didUpdateWidget(LineChart oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _axisChartDataController.value = _getData();
-  }
-
-  void _onScaleUpdate(ScaleUpdateDetails details, {bool isTouch = true}) {
-    final scale = details.scale;
-    if (scale.isNaN || scale == 0) {
+  void _onScaleUpdate(ScaleUpdateDetails details, {bool isTouch = false}) {
+    // Skip if no change in scale or translation
+    final isScaleUpdate = details.scale != 1.0;
+    final isTranslationUpdate = details.focalPointDelta != Offset.zero;
+    if (!(isScaleUpdate || isTranslationUpdate)) {
       return;
     }
 
-    final factorX = isTouch ? -0.05 : 0.05;
-    final factorY = isTouch ? 0.05 : -0.05;
+    final matrix = _chartTransformationController.value.clone();
 
-    final dx = details.focalPointDelta.dx * factorX;
-    final dy = details.focalPointDelta.dy * factorY;
-
-    final newData = _axisChartDataController.value;
-
-    // Calculate proposed scaled values
-    final xScale = scale;
-    final yScale = scale;
-
-    var scaledMinX = newData.minX * xScale;
-    var scaledMaxX = newData.maxX / xScale;
-    var scaledMinY = newData.minY * yScale;
-    var scaledMaxY = newData.maxY / yScale;
-
-    // Store the scaled widths
-    final xWidth = scaledMaxX - scaledMinX;
-    final yWidth = scaledMaxY - scaledMinY;
-
-    // Adjust min values and maintain width
-    if (scaledMinX < _minX) {
-      scaledMinX = _minX;
-      scaledMaxX = _minX + xWidth;
-    }
-    if (scaledMinY < _minY) {
-      scaledMinY = _minY;
-      scaledMaxY = _minY + yWidth;
+    if (details.scale != 1.0) {
+      late double scaleChange;
+      if (_scaleStart != null) {
+        final desiredScale = details.scale * _scaleStart!;
+        final currentScale = matrix.scaleX;
+        scaleChange = desiredScale / currentScale;
+      } else {
+        scaleChange = details.scale;
+      }
+      matrix
+        ..scale(scaleChange)
+        ..clamp(
+          minScale: _minScale,
+          maxScale: _maxScale,
+        );
     }
 
-    // Adjust max values and maintain width
-    if (scaledMaxX > _maxX) {
-      scaledMaxX = _maxX;
-      scaledMinX = _maxX - xWidth;
-    }
-    if (scaledMaxY > _maxY) {
-      scaledMaxY = _maxY;
-      scaledMinY = _maxY - yWidth;
-    }
+    final data = _getData();
 
-    // Final safety clamp
-    scaledMinX = scaledMinX.clamp(_minX, _maxX);
-    scaledMaxX = scaledMaxX.clamp(_minX, _maxX);
-    scaledMinY = scaledMinY.clamp(_minY, _maxY);
-    scaledMaxY = scaledMaxY.clamp(_minY, _maxY);
+    final dataRangeX = data.maxX - data.minX;
+    final dataRangeY = data.maxY - data.minY;
 
-    // Ensure minimum distance is maintained
-    final xDistance = scaledMaxX - scaledMinX;
-    final yDistance = scaledMaxY - scaledMinY;
+    final scaledDataRangeX = dataRangeX / matrix.scaleX;
+    final scaledDataRangeY = dataRangeY / matrix.scaleY;
 
-    if (xDistance < 0.5 * (_maxX - _minX) ||
-        yDistance < 0.5 * (_maxY - _minY)) {
-      scaledMinX = newData.minX;
-      scaledMaxX = newData.maxX;
-      scaledMinY = newData.minY;
-      scaledMaxY = newData.maxY;
-    }
+    final translationX = details.focalPointDelta.dx * (isTouch ? -1 : 1);
+    final translationY = details.focalPointDelta.dy;
 
-    // Calculate translation within bounds
-    var translatedMinX = scaledMinX + dx;
-    var translatedMaxX = scaledMaxX + dx;
-    var translatedMinY = scaledMinY + dy;
-    var translatedMaxY = scaledMaxY + dy;
+    final normalizedTranslationX = translationX / _viewWidth * scaledDataRangeX;
+    final normalizedTranslationY =
+        translationY / _viewHeight * scaledDataRangeY;
 
-    // Clamp translated values
-    if (translatedMinX < _minX) {
-      translatedMaxX += _minX - translatedMinX;
-      translatedMinX = _minX;
-    }
-    if (translatedMaxX > _maxX) {
-      translatedMinX -= translatedMaxX - _maxX;
-      translatedMaxX = _maxX;
-    }
-    if (translatedMinY < _minY) {
-      translatedMaxY += _minY - translatedMinY;
-      translatedMinY = _minY;
-    }
-    if (translatedMaxY > _maxY) {
-      translatedMinY -= translatedMaxY - _maxY;
-      translatedMaxY = _maxY;
-    }
-
-    final isScaled = (translatedMinX - _minX).abs() > 0.01 ||
-        (translatedMaxX - _maxX).abs() > 0.01 ||
-        (translatedMinY - _minY).abs() > 0.01 ||
-        (translatedMaxY - _maxY).abs() > 0.01;
-
-    if (!isScaled) {
-      _resetScale();
-      return;
-    }
-
-    final scaledData = newData.copyWith(
-      minX: _round(translatedMinX),
-      maxX: _round(translatedMaxX),
-      minY: _round(translatedMinY),
-      maxY: _round(translatedMaxY),
-      clipData: isScaled ? const FlClipData.all() : null,
-    );
-
-    _axisChartDataController.value = scaledData;
-
-    setState(() {
-      _lineChartDataTween = LineChartDataTween(
-        begin: _axisChartDataController.value,
-        end: scaledData,
+    matrix
+      ..translate(
+        x: normalizedTranslationX,
+        y: normalizedTranslationY,
+      )
+      ..clamp(
+        minX: data.minX,
+        maxX: data.maxX - scaledDataRangeX,
+        minY: data.minY,
+        maxY: data.maxY - scaledDataRangeY,
       );
-    });
+
+    // Update the transformation controller
+    _chartTransformationController.value = matrix;
   }
 
   void _onPointerSignal(PointerSignalEvent event) {
@@ -206,7 +135,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             scale: scaleEvent.scale,
             focalPointDelta: scaleEvent.delta,
           ),
-          isTouch: false,
         );
 
       case final PointerScrollEvent scrollEvent:
@@ -215,7 +143,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             ScaleUpdateDetails(
               focalPointDelta: scrollEvent.scrollDelta,
             ),
-            isTouch: false,
           );
           return;
         }
@@ -223,12 +150,12 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         if (scrollEvent.scrollDelta.dy == 0.0) {
           return;
         }
+
         _onScaleUpdate(
           ScaleUpdateDetails(
             scale: math.exp(-scrollEvent.scrollDelta.dy),
             focalPointDelta: scrollEvent.scrollDelta,
           ),
-          isTouch: false,
         );
 
       default:
@@ -237,34 +164,63 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   }
 
   void _resetScale() {
-    _axisChartDataController.value = _getData();
-    setState(() {
-      _lineChartDataTween = LineChartDataTween(
-        begin: _axisChartDataController.value,
-        end: _getData(),
-      );
-    });
+    _chartTransformationController.value = Matrix3.identity();
+  }
+
+  LineChartData _transformData(LineChartData data, Matrix3 matrix) {
+    final isTransformed = matrix.scaleX != 1.0 ||
+        matrix.scaleY != 1.0 ||
+        matrix.translationX != 0 ||
+        matrix.translationY != 0;
+
+    final newData = data.copyWith(
+      minX: (data.minX * matrix.scaleX) + matrix.translationX,
+      maxX: (data.maxX / matrix.scaleX) + matrix.translationX,
+      minY: (data.minY * matrix.scaleY) + matrix.translationY,
+      maxY: (data.maxY / matrix.scaleY) + matrix.translationY,
+      clipData: isTransformed ? const FlClipData.all() : null,
+    );
+
+    if (newData.minX.isNaN ||
+        newData.maxX.isNaN ||
+        newData.minY.isNaN ||
+        newData.maxY.isNaN) {
+      throw Exception('Invalid data range');
+    }
+
+    return newData;
   }
 
   @override
   Widget build(BuildContext context) {
+    final constraints = MediaQuery.sizeOf(context);
+    _viewWidth = constraints.width;
+    _viewHeight = constraints.height;
+
     return Listener(
       onPointerSignal: _onPointerSignal,
       child: GestureDetector(
-        onScaleUpdate: _onScaleUpdate,
+        // onScaleUpdate: _onScaleUpdate,
         onDoubleTap: _resetScale,
-        child: ValueListenableBuilder<LineChartData>(
-          valueListenable: _axisChartDataController,
-          builder: (context, data, child) => AxisChartScaffoldWidget(
-            chart: LineChartLeaf(
-              data: _withTouchedIndicators(
-                _lineChartDataTween!.evaluate(animation),
+        child: ValueListenableBuilder<Matrix3>(
+          valueListenable: _chartTransformationController,
+          builder: (context, matrix, child) {
+            final transformedData = _transformData(_getData(), matrix);
+            _lineChartDataTween = LineChartDataTween(
+              begin: transformedData,
+              end: widget.data,
+            );
+            return AxisChartScaffoldWidget(
+              chart: LineChartLeaf(
+                data: _withTouchedIndicators(
+                  _lineChartDataTween!.evaluate(animation),
+                ),
+                targetData: _withTouchedIndicators(transformedData),
+                key: widget.chartRendererKey,
               ),
-              targetData: _withTouchedIndicators(data),
-              key: widget.chartRendererKey,
-            ),
-            data: data,
-          ),
+              data: transformedData,
+            );
+          },
         ),
       ),
     );
@@ -312,6 +268,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       _providedTouchCallback = lineTouchData.touchCallback;
       newData = newData.copyWith(
         lineTouchData:
+            // TODO(Peetee06): Add scale/translate touch callback also when enabled or handleBuiltInTouches are false
             newData.lineTouchData.copyWith(touchCallback: _handleBuiltInTouch),
       );
     }
@@ -326,6 +283,20 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (!mounted) {
       return;
     }
+    if (event is FlScaleStartEvent) {
+      _scaleStart = _chartTransformationController.value.scaleX;
+    } else if (event is FlScaleEndEvent) {
+      _scaleStart = null;
+    } else if (event is FlScaleUpdateEvent) {
+      _onScaleUpdate(
+        ScaleUpdateDetails(
+          scale: event.details.scale,
+          focalPointDelta: event.details.focalPointDelta,
+        ),
+        isTouch: true,
+      );
+    }
+
     _providedTouchCallback?.call(event, touchResponse);
 
     if (!event.isInterestedForInteractions ||
@@ -359,16 +330,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _lineChartDataTween = visitor(
       _lineChartDataTween,
-      _getData(),
+      _transformData(_getData(), _chartTransformationController.value),
       (dynamic value) =>
           LineChartDataTween(begin: value as LineChartData, end: widget.data),
     ) as LineChartDataTween?;
-  }
-
-  double _round(double value) {
-    if (value == 0) return 0;
-
-    final fac = math.pow(10, 2).toInt();
-    return (value * fac).round() / fac;
   }
 }
