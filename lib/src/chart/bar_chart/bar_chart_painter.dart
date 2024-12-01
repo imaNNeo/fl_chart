@@ -401,19 +401,40 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     final barTopY = min(barToYPixel.dy, barFromYPixel.dy);
     final barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
-    final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
-        (tooltipData.direction == TooltipDirection.auto &&
-            showOnRodData.isUpward());
+
+    final drawTooltipOnTop = (() {
+      switch (tooltipData.direction) {
+        case TooltipDirection.top:
+          return true;
+        case TooltipDirection.auto:
+          return showOnRodData.isUpward();
+        case TooltipDirection.right:
+          return false;
+        default:
+          return false;
+      }
+    })();
+
+    final isRightTooltip = tooltipData.direction == TooltipDirection.right;
+
     final tooltipTop = drawTooltipOnTop
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
-        : barBottomY + tooltipData.tooltipMargin;
+        : isRightTooltip ? (barFromYPixel.dy -
+        ((barToYPixel.dy - barFromYPixel.dy - tooltipHeight).abs() / 2)).abs() : barBottomY + tooltipData.tooltipMargin;
 
-    final tooltipLeft = getTooltipLeft(
-      barToYPixel.dx,
-      tooltipWidth,
-      tooltipData.tooltipHorizontalAlignment,
-      tooltipData.tooltipHorizontalOffset,
-    );
+    double tooltipLeft = 0;
+
+    if (isRightTooltip) {
+      //Add Custom Width
+      tooltipLeft = barToYPixel.dx + tooltipData.tooltipMargin + showOnBarGroup.width + 6;
+    } else {
+      tooltipLeft = getTooltipLeft(
+        barToYPixel.dx,
+        tooltipWidth,
+        tooltipData.tooltipHorizontalAlignment,
+        tooltipData.tooltipHorizontalOffset,
+      );
+    }
 
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types
