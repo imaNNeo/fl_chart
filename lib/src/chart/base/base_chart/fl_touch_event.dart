@@ -14,6 +14,11 @@ abstract class FlTouchEvent {
   /// That's why this field is nullable
   Offset? get localPosition => null;
 
+  /// Represents the count of pointers that is in contact with the screen
+  ///
+  /// Default is 0, nothing is in contact with the screen
+  int get pointerCount => 0;
+
   /// excludes exit or up events to show interactions on charts
   bool get isInterestedForInteractions {
     final isLinux = defaultTargetPlatform == TargetPlatform.linux;
@@ -38,7 +43,56 @@ abstract class FlTouchEvent {
   }
 }
 
+/// When a pointers has contacted the screen and might begin to move
+class FlScaleStartEvent extends FlTouchEvent {
+  const FlScaleStartEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleStartDetails details;
+
+  /// Represents the position of happened touch/pointer events and count of pointers
+  @override
+  Offset get localPosition => details.focalPoint;
+
+  /// Represents the count of pointers
+  @override
+  int get pointerCount => details.pointerCount;
+}
+
+/// When a pointers that is in contact with the screen and has moved again.
+class FlScaleUpdateEvent extends FlTouchEvent {
+  const FlScaleUpdateEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleUpdateDetails details;
+
+  /// Represents the position of happened touch/pointer events and count of pointers
+  @override
+  Offset get localPosition => details.focalPoint;
+
+  /// Represents the count of pointers
+  @override
+  int get pointerCount => details.pointerCount;
+}
+
+/// When a pointers has stopped contacting the screen and the scale gesture has ended.
+class FlScaleEndEvent extends FlTouchEvent {
+  const FlScaleEndEvent(this.details);
+
+  final ScaleEndDetails details;
+
+  @override
+  Offset get localPosition => Offset.zero;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can no longer have any pointers in contact with the screen
+  @override
+  int get pointerCount => 0;
+}
+
 /// When a pointer has contacted the screen and might begin to move
+/// Uses [ScaleStartDetails] to provide the position of the touch.
 ///
 /// The [details] object provides the position of the touch.
 /// Inspired from [GestureDragDownCallback]
@@ -46,14 +100,19 @@ class FlPanDownEvent extends FlTouchEvent {
   const FlPanDownEvent(this.details);
 
   /// Contains information of happened touch gesture
-  final DragDownDetails details;
+  final ScaleStartDetails details;
 
-  /// Represents the position of happened touch/pointer event
+  /// Represents the position of happened touch/pointer events and count of pointers
   @override
-  Offset get localPosition => details.localPosition;
+  Offset get localPosition => details.focalPoint;
+
+  /// Represents the count of pointers
+  @override
+  int get pointerCount => details.pointerCount;
 }
 
 /// When a pointer has contacted the screen and has begun to move.
+/// Uses [ScaleStartDetails] to provide the position of the touch.
 ///
 /// The [details] object provides the position of the touch when it first
 /// touched the surface.
@@ -63,15 +122,19 @@ class FlPanStartEvent extends FlTouchEvent {
   const FlPanStartEvent(this.details);
 
   /// Contains information of happened touch gesture
-  final DragStartDetails details;
+  final ScaleStartDetails details;
 
   /// Represents the position of happened touch/pointer event
   @override
-  Offset get localPosition => details.localPosition;
+  Offset get localPosition => details.localFocalPoint;
+
+  /// Represents the count of pointers
+  @override
+  int get pointerCount => details.pointerCount;
 }
 
-/// When a pointer that is in contact with the screen and moving
-/// has moved again.
+/// When a pointer that is in contact with the screen and has moved again.
+/// Uses [ScaleStartDetails] to provide the position of the touch.
 ///
 /// The [details] object provides the position of the touch and the distance it
 /// has traveled since the last update.
@@ -80,11 +143,15 @@ class FlPanUpdateEvent extends FlTouchEvent {
   const FlPanUpdateEvent(this.details);
 
   /// Contains information of happened touch gesture
-  final DragUpdateDetails details;
+  final ScaleUpdateDetails details;
 
   /// Represents the position of happened touch/pointer event
   @override
-  Offset get localPosition => details.localPosition;
+  Offset get localPosition => details.localFocalPoint;
+
+  /// Represents the count of pointers
+  @override
+  int get pointerCount => details.pointerCount;
 }
 
 /// When the pointer that previously triggered a [FlPanStartEvent] did not complete.
@@ -103,7 +170,13 @@ class FlPanEndEvent extends FlTouchEvent {
   const FlPanEndEvent(this.details);
 
   /// Contains information of happened touch gesture
-  final DragEndDetails details;
+  final ScaleEndDetails details;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 0;
 }
 
 /// When a pointer that might cause a tap has contacted the
@@ -121,6 +194,12 @@ class FlTapDownEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 1;
 }
 
 /// When the pointer that previously triggered a [FlTapDownEvent] will not end up causing a tap.
@@ -144,6 +223,12 @@ class FlTapUpEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 0;
 }
 
 /// Called When a pointer has remained in contact with the screen at the
@@ -161,6 +246,12 @@ class FlLongPressStart extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 1;
 }
 
 /// When a pointer is moving after being held in contact at the same
@@ -179,6 +270,12 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 1;
 }
 
 /// When a pointer stops contacting the screen after a long press
@@ -197,6 +294,12 @@ class FlLongPressEnd extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 0;
 }
 
 /// The pointer has moved with respect to the device while the pointer is or is
@@ -214,6 +317,12 @@ class FlPointerEnterEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => event.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 1;
 }
 
 /// The pointer has moved with respect to the device while the pointer is not
@@ -231,6 +340,12 @@ class FlPointerHoverEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => event.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 1;
 }
 
 /// The pointer has moved with respect to the device while the pointer is or is
@@ -246,4 +361,10 @@ class FlPointerExitEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => event.localPosition;
+
+  /// Represents the count of pointers
+  ///
+  /// This type of event can only have one pointer that is contact with the screen
+  @override
+  int get pointerCount => 0;
 }
