@@ -1041,6 +1041,9 @@ class LineTouchTooltipData with EquatableMixin {
     this.showOnTopOfTheChartBoxArea = false,
     this.rotateAngle = 0.0,
     this.tooltipBorder = BorderSide.none,
+    this.shadowColor = Colors.transparent,
+    this.shadowBlur = 5,
+    this.shadowOffset = Offset.zero,
   });
 
   /// Sets a rounded radius for the tooltip.
@@ -1082,6 +1085,15 @@ class LineTouchTooltipData with EquatableMixin {
   // /// Retrieves data for setting background color of the tooltip.
   final GetLineTooltipColor getTooltipColor;
 
+  /// The shadow color of the tooltip.
+  final Color shadowColor;
+
+  /// The sigma value of shadow blur of the tooltip.
+  final double shadowBlur;
+
+  /// The shadow offset of the tooltip.
+  final Offset shadowOffset;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -1098,6 +1110,9 @@ class LineTouchTooltipData with EquatableMixin {
         rotateAngle,
         tooltipBorder,
         getTooltipColor,
+        shadowColor,
+        shadowBlur,
+        shadowOffset,
       ];
 }
 
