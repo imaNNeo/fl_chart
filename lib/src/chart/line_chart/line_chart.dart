@@ -193,10 +193,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   @override
   Widget build(BuildContext context) {
-    final constraints = MediaQuery.sizeOf(context);
-    _viewWidth = constraints.width;
-    _viewHeight = constraints.height;
-
     return Listener(
       onPointerSignal: _onPointerSignal,
       child: GestureDetector(
@@ -216,6 +212,10 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
                   _lineChartDataTween!.evaluate(animation),
                 ),
                 targetData: _withTouchedIndicators(transformedData),
+                onSizeChanged: (size) {
+                  _viewWidth = size.width;
+                  _viewHeight = size.height;
+                },
                 key: widget.chartRendererKey,
               ),
               data: transformedData,
