@@ -14,10 +14,12 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
+    required this.onSizeChanged,
   });
 
   final LineChartData data;
   final LineChartData targetData;
+  final void Function(Size size) onSizeChanged;
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
@@ -25,6 +27,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
+        onSizeChanged,
       );
 
   @override
@@ -45,6 +48,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     LineChartData data,
     LineChartData targetData,
     TextScaler textScaler,
+    this.onSizeChanged,
   )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
@@ -52,6 +56,8 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
           targetData.lineTouchData,
           context,
         );
+
+  void Function(Size size)? onSizeChanged;
 
   LineChartData get data => _data;
   LineChartData _data;
@@ -76,6 +82,12 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     if (_textScaler == value) return;
     _textScaler = value;
     markNeedsPaint();
+  }
+
+  @override
+  void performLayout() {
+    super.performLayout();
+    onSizeChanged?.call(size);
   }
 
   // We couldn't mock [size] property of this class, that's why we have this
