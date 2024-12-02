@@ -138,6 +138,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         );
 
       case final PointerScrollEvent scrollEvent:
+        // TODO(Peter): Add flag to enable scaling via trackpad scroll
         if (scrollEvent.kind == PointerDeviceKind.trackpad) {
           _onScaleUpdate(
             ScaleUpdateDetails(
@@ -146,14 +147,23 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
           );
           return;
         }
+
         // Ignore left and right mouse wheel scroll.
         if (scrollEvent.scrollDelta.dy == 0.0) {
           return;
         }
 
+        // This value reduces the amount of scaling that occurs with each scroll
+        // to make it feel more natural. It was eyeballed to feel right.
+        const scaleFactor = 100;
+        final scale = math.exp(
+          -scrollEvent.scrollDelta.dy /
+              _chartTransformationController.value.scaleY /
+              scaleFactor,
+        );
         _onScaleUpdate(
           ScaleUpdateDetails(
-            scale: math.exp(-scrollEvent.scrollDelta.dy),
+            scale: scale,
             focalPointDelta: scrollEvent.scrollDelta,
           ),
         );
@@ -196,7 +206,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     return Listener(
       onPointerSignal: _onPointerSignal,
       child: GestureDetector(
-        // onScaleUpdate: _onScaleUpdate,
         onDoubleTap: _resetScale,
         child: ValueListenableBuilder<Matrix3>(
           valueListenable: _chartTransformationController,
