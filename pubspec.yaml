@@ -18,13 +18,13 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
+  vector_math: ^2.1.4
 
 dev_dependencies:
   build_runner: ^2.4.6
   flutter_test:
     sdk: flutter
   mockito: ^5.4.2
-  vector_math: ^2.1.4 #Added to use in some generated codes of mockito
   very_good_analysis: ^6.0.0
 
 screenshots:
