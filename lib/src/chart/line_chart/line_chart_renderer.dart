@@ -6,23 +6,18 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-/// Callback function that is called when the size of the chart changes.
-typedef OnSizeChanged = void Function(Size size);
-
 // coverage:ignore-start
 
 /// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
   const LineChartLeaf({
     super.key,
-    this.onSizeChanged,
     required this.data,
     required this.targetData,
   });
 
   final LineChartData data;
   final LineChartData targetData;
-  final OnSizeChanged? onSizeChanged;
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
@@ -30,7 +25,6 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
-        onSizeChanged,
       );
 
   @override
@@ -50,18 +44,14 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     BuildContext context,
     LineChartData data,
     LineChartData targetData,
-    TextScaler textScaler, [
-    OnSizeChanged? onSizeChanged,
-  ])  : _data = data,
+    TextScaler textScaler,
+  )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        _onSizeChanged = onSizeChanged,
         super(
           targetData.lineTouchData,
           context,
         );
-
-  final OnSizeChanged? _onSizeChanged;
 
   LineChartData get data => _data;
   LineChartData _data;
@@ -86,12 +76,6 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     if (_textScaler == value) return;
     _textScaler = value;
     markNeedsPaint();
-  }
-
-  @override
-  void performLayout() {
-    super.performLayout();
-    _onSizeChanged?.call(size);
   }
 
   // We couldn't mock [size] property of this class, that's why we have this

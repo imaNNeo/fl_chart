@@ -216,16 +216,18 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
               end: widget.data,
             );
             return AxisChartScaffoldWidget(
-              chart: LineChartLeaf(
-                data: _withTouchedIndicators(
-                  _lineChartDataTween!.evaluate(animation),
-                ),
-                targetData: _withTouchedIndicators(transformedData),
-                onSizeChanged: (size) {
-                  _viewWidth = size.width;
-                  _viewHeight = size.height;
+              chart: LayoutBuilder(
+                builder: (context, constraints) {
+                  _viewWidth = constraints.maxWidth;
+                  _viewHeight = constraints.maxHeight;
+                  return LineChartLeaf(
+                    data: _withTouchedIndicators(
+                      _lineChartDataTween!.evaluate(animation),
+                    ),
+                    targetData: _withTouchedIndicators(transformedData),
+                    key: widget.chartRendererKey,
+                  );
                 },
-                key: widget.chartRendererKey,
               ),
               data: transformedData,
             );
