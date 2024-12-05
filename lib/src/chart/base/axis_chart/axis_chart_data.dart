@@ -450,7 +450,7 @@ class FlTitlesData with EquatableMixin {
 
 /// Represents a conceptual position in cartesian (axis based) space.
 @immutable
-class FlSpot {
+class FlSpot with EquatableMixin {
   /// [x] determines cartesian (axis based) horizontally position
   /// 0 means most left point of the chart
   ///
@@ -522,6 +522,9 @@ class FlSpot {
   /// Override hashCode
   @override
   int get hashCode => x.hashCode ^ y.hashCode;
+
+  @override
+  List<Object?> get props => [x, y];
 }
 
 /// Responsible to hold grid data,
