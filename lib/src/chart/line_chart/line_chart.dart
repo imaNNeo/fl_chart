@@ -4,11 +4,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
-import 'package:fl_chart/src/utils/chart_transformation_controller.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
@@ -52,188 +51,242 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final _lineChartHelper = LineChartHelper();
 
-  late double _viewWidth;
-  late double _viewHeight;
+  Size _chartSize = Size.zero;
 
-  final double _minScale = 1;
-  final double _maxScale = 3;
+  // Default full data range
+  late double defaultMinX;
+  late double defaultMaxX;
+  late double defaultMinY;
+  late double defaultMaxY;
 
-  final ChartTransformationController _chartTransformationController =
-      ChartTransformationController();
+  // Current transformed data range (after zooming/panning)
+  late double currentMinX;
+  late double currentMaxX;
+  late double currentMinY;
+  late double currentMaxY;
 
-  double? _scaleStart;
+  // For convenience
+  double get currentDataWidth => currentMaxX - currentMinX;
+  double get currentDataHeight => currentMaxY - currentMinY;
+
+  // Scale boundaries
+  final double minScaleFactor = 1;
+  final double maxScaleFactor = 3;
+
+  // current scale factor relative to defaultData range
+  double currentScaleX = 1;
+  double currentScaleY = 1;
+
+  Offset lastFocalPoint = Offset.zero;
+  bool isScaling = false;
+
+  late LineChartData _data;
 
   @override
-  void dispose() {
-    _chartTransformationController.dispose();
-    super.dispose();
+  void initState() {
+    _data = _getData();
+    updateDefaultDataRange();
+    resetData();
+
+    super.initState();
   }
 
-  void _onScaleUpdate(ScaleUpdateDetails details, {bool isTouch = false}) {
-    // Skip if no change in scale or translation
-    final isScaleUpdate = details.scale != 1.0;
-    final isTranslationUpdate = details.focalPointDelta != Offset.zero;
-    if (!(isScaleUpdate || isTranslationUpdate)) {
-      return;
+  @override
+  void didUpdateWidget(covariant LineChart oldWidget) {
+    if (widget.data != _data) {
+      _data = _getData();
+      updateDefaultDataRange();
     }
+    super.didUpdateWidget(oldWidget);
+  }
 
-    final matrix = _chartTransformationController.value.clone();
+  void updateDefaultDataRange() {
+    defaultMinX = _data.minX;
+    defaultMaxX = _data.maxX;
+    defaultMinY = _data.minY;
+    defaultMaxY = _data.maxY;
+  }
 
-    if (details.scale != 1.0) {
-      late double scaleChange;
-      if (_scaleStart != null) {
-        final desiredScale = details.scale * _scaleStart!;
-        final currentScale = matrix.scaleX;
-        scaleChange = desiredScale / currentScale;
-      } else {
-        scaleChange = details.scale;
-      }
-      matrix
-        ..scale(scaleChange)
-        ..clamp(
-          minScale: _minScale,
-          maxScale: _maxScale,
-        );
-    }
+  void resetDataAndSetState() {
+    setState(resetData);
+  }
 
-    final data = _getData();
-
-    final dataRangeX = data.maxX - data.minX;
-    final dataRangeY = data.maxY - data.minY;
-
-    final scaledDataRangeX = dataRangeX / matrix.scaleX;
-    final scaledDataRangeY = dataRangeY / matrix.scaleY;
-
-    final translationX = details.focalPointDelta.dx * (isTouch ? -1 : 1);
-    final translationY = details.focalPointDelta.dy;
-
-    final normalizedTranslationX = translationX / _viewWidth * scaledDataRangeX;
-    final normalizedTranslationY =
-        translationY / _viewHeight * scaledDataRangeY;
-
-    matrix
-      ..translate(
-        x: normalizedTranslationX,
-        y: normalizedTranslationY,
-      )
-      ..clamp(
-        minX: data.minX,
-        maxX: data.maxX - scaledDataRangeX,
-        minY: data.minY,
-        maxY: data.maxY - scaledDataRangeY,
-      );
-
-    // Update the transformation controller
-    _chartTransformationController.value = matrix;
+  void resetData() {
+    currentMinX = defaultMinX;
+    currentMaxX = defaultMaxX;
+    currentMinY = defaultMinY;
+    currentMaxY = defaultMaxY;
+    currentScaleX = 1;
+    currentScaleY = 1;
   }
 
   void _onPointerSignal(PointerSignalEvent event) {
+    final double scaleChange;
     switch (event) {
       case final PointerScaleEvent scaleEvent:
-        _onScaleUpdate(
-          ScaleUpdateDetails(
-            scale: scaleEvent.scale,
-            focalPointDelta: scaleEvent.delta,
-          ),
-        );
-
-      case final PointerScrollEvent scrollEvent:
-        // TODO(Peter): Add flag to enable scaling via trackpad scroll
-        if (scrollEvent.kind == PointerDeviceKind.trackpad) {
-          _onScaleUpdate(
-            ScaleUpdateDetails(
-              focalPointDelta: scrollEvent.scrollDelta,
-            ),
-          );
-          return;
-        }
-
-        // Ignore left and right mouse wheel scroll.
-        if (scrollEvent.scrollDelta.dy == 0.0) {
-          return;
-        }
-
-        // This value reduces the amount of scaling that occurs with each scroll
-        // to make it feel more natural. It was eyeballed to feel right.
-        const scaleFactor = 100;
-        final scale = math.exp(
-          -scrollEvent.scrollDelta.dy /
-              _chartTransformationController.value.scaleY /
-              scaleFactor,
-        );
-        _onScaleUpdate(
-          ScaleUpdateDetails(
-            scale: scale,
-            focalPointDelta: scrollEvent.scrollDelta,
-          ),
-        );
-
+        scaleChange = scaleEvent.scale;
       default:
         return;
     }
+
+    updateDataRangeForScale(
+      focalPixel: event.localPosition,
+      scaleChange: scaleChange,
+    );
   }
 
-  void _resetScale() {
-    _chartTransformationController.value = Matrix3.identity();
-  }
+  // After scaling, we want the `focalDataPoint` (the point under the cursor before scaling)
+  // to remain at the same pixel (focalPixel).
+  // We'll adjust currentMinX, currentMaxX, currentMinY, currentMaxY accordingly.
+  void updateDataRangeForScale({
+    required Offset focalPixel,
+    required double scaleChange,
+  }) {
+    // Convert the current focal pixel to data coordinates before scaling
+    final focalDataPoint = pixelsToData(focalPixel);
 
-  LineChartData _transformData(LineChartData data, Matrix3 matrix) {
-    final isTransformed = matrix.scaleX != 1.0 ||
-        matrix.scaleY != 1.0 ||
-        matrix.translationX != 0 ||
-        matrix.translationY != 0;
+    // The new data width/height after scaling
+    final newDataWidth = currentDataWidth / scaleChange;
+    final newDataHeight = currentDataHeight / scaleChange;
 
-    final newData = data.copyWith(
-      minX: (data.minX * matrix.scaleX) + matrix.translationX,
-      maxX: (data.maxX / matrix.scaleX) + matrix.translationX,
-      minY: (data.minY * matrix.scaleY) + matrix.translationY,
-      maxY: (data.maxY / matrix.scaleY) + matrix.translationY,
-      clipData: isTransformed ? const FlClipData.all() : null,
+    // Bound the scaling within allowed limits
+    final defaultDataWidth = defaultMaxX - defaultMinX;
+    final defaultDataHeight = defaultMaxY - defaultMinY;
+    final boundedDataWidth = clampDouble(
+      newDataWidth,
+      defaultDataWidth / maxScaleFactor,
+      defaultDataWidth * minScaleFactor,
+    );
+    final boundedDataHeight = clampDouble(
+      newDataHeight,
+      defaultDataHeight / maxScaleFactor,
+      defaultDataHeight * minScaleFactor,
     );
 
-    if (newData.minX.isNaN ||
-        newData.maxX.isNaN ||
-        newData.minY.isNaN ||
-        newData.maxY.isNaN) {
-      throw Exception('Invalid data range');
+    // Recalculate scaleChange based on bounded values
+    // Just recalculate the effective scale by comparing old data width to new bounded width
+    final effectiveScaleX = currentDataWidth / boundedDataWidth;
+    final effectiveScaleY = currentDataHeight / boundedDataHeight;
+
+    // Now we solve for newMinX, newMaxX so that focalDataPoint stays under focalPixel.
+    // focalPixel.x = dxRatio * chartWidth
+    // dxRatio = (focalDataX - newMinX) / newDataWidth
+    // => newMinX = focalDataX - dxRatio * newDataWidth
+    // But we know dxRatio = focalPixel.dx / size.width
+    final dxRatio = focalPixel.dx / _chartSize.width;
+    final newWidth = currentDataWidth / effectiveScaleX;
+    var newMinX = focalDataPoint.dx - dxRatio * newWidth;
+    var newMaxX = newMinX + newWidth;
+
+    // Similarly for Y:
+    // dyRatio = (newMaxY - focalDataY) / newDataHeight
+    // dyRatio = focalPixel.dy / size.height
+    final dyRatio = focalPixel.dy / _chartSize.height;
+    final newHeight = currentDataHeight / effectiveScaleY;
+    var newMaxY = focalDataPoint.dy + dyRatio * newHeight;
+    var newMinY = newMaxY - newHeight;
+
+    // Ensure X range does not exceed defaults
+    if (newMinX < defaultMinX) {
+      final delta = defaultMinX - newMinX;
+      // Shift the range to the right
+      final shiftedMinX = defaultMinX;
+      final shiftedMaxX = newMaxX + delta;
+      // If shiftedMaxX exceeds defaultMaxX, clamp it again (if needed)
+      // ... similar logic if the new range surpasses defaultMaxX
+      newMinX = shiftedMinX;
+      newMaxX = math.min(shiftedMaxX, defaultMaxX);
     }
+
+    if (newMaxX > defaultMaxX) {
+      final delta = newMaxX - defaultMaxX;
+      // Shift the range to the left
+      final shiftedMaxX = defaultMaxX;
+      final shiftedMinX = newMinX - delta;
+      // If shiftedMinX falls below defaultMinX, clamp it again
+      newMaxX = shiftedMaxX;
+      newMinX = math.max(shiftedMinX, defaultMinX);
+    }
+
+    // Similarly for the Y values
+    if (newMinY < defaultMinY) {
+      final delta = defaultMinY - newMinY;
+      newMinY = defaultMinY;
+      newMaxY = math.min(newMaxY + delta, defaultMaxY);
+    }
+
+    if (newMaxY > defaultMaxY) {
+      final delta = newMaxY - defaultMaxY;
+      newMaxY = defaultMaxY;
+      newMinY = math.max(newMinY - delta, defaultMinY);
+    }
+
+    setState(() {
+      currentMinX = newMinX;
+      currentMaxX = newMaxX;
+      currentMinY = newMinY;
+      currentMaxY = newMaxY;
+    });
+  }
+
+  // Convert a pixel coordinate (localPosition) to data coordinates
+  // given the current min/max and size of the chart.
+  Offset pixelsToData(Offset pixelPos) {
+    final dxRatio = pixelPos.dx / _chartSize.width;
+    final dyRatio = pixelPos.dy / _chartSize.height;
+
+    // Assuming Y increases upwards in data, but screen Y increases downward.
+    // We'll invert Y mapping.
+    final dataX = currentMinX + dxRatio * currentDataWidth;
+    final dataY = currentMaxY - dyRatio * currentDataHeight;
+
+    return Offset(dataX, dataY);
+  }
+
+  LineChartData _transformData(LineChartData data) {
+    final isTransformed = currentMinX != data.minX ||
+        currentMaxX != data.maxX ||
+        currentMinY != data.minY ||
+        currentMaxY != data.maxY;
+
+    final newData = data.copyWith(
+      minX: currentMinX,
+      maxX: currentMaxX,
+      minY: currentMinY,
+      maxY: currentMaxY,
+      clipData: isTransformed ? const FlClipData.all() : null,
+    );
 
     return newData;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      onPointerSignal: _onPointerSignal,
-      child: GestureDetector(
-        onDoubleTap: _resetScale,
-        child: ValueListenableBuilder<Matrix3>(
-          valueListenable: _chartTransformationController,
-          builder: (context, matrix, child) {
-            final transformedData = _transformData(_getData(), matrix);
-            _lineChartDataTween = LineChartDataTween(
-              begin: transformedData,
-              end: widget.data,
-            );
-            return AxisChartScaffoldWidget(
-              chart: LayoutBuilder(
-                builder: (context, constraints) {
-                  _viewWidth = constraints.maxWidth;
-                  _viewHeight = constraints.maxHeight;
-                  return LineChartLeaf(
-                    data: _withTouchedIndicators(
-                      _lineChartDataTween!.evaluate(animation),
-                    ),
-                    targetData: _withTouchedIndicators(transformedData),
-                    key: widget.chartRendererKey,
-                  );
-                },
+    final transformedData = _transformData(_data);
+    _lineChartDataTween = LineChartDataTween(
+      begin: transformedData,
+      end: _data,
+    );
+    return AxisChartScaffoldWidget(
+      chart: LayoutBuilder(
+        builder: (context, constraints) {
+          _chartSize = constraints.biggest;
+          return Listener(
+            onPointerSignal: _onPointerSignal,
+            child: GestureDetector(
+              onDoubleTap: resetDataAndSetState,
+              child: LineChartLeaf(
+                data: _withTouchedIndicators(
+                  _lineChartDataTween!.evaluate(animation),
+                ),
+                targetData: _withTouchedIndicators(transformedData),
+                key: widget.chartRendererKey,
               ),
-              data: transformedData,
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
+      data: transformedData,
     );
   }
 
@@ -294,19 +347,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (!mounted) {
       return;
     }
-    if (event is FlScaleStartEvent) {
-      _scaleStart = _chartTransformationController.value.scaleX;
-    } else if (event is FlScaleEndEvent) {
-      _scaleStart = null;
-    } else if (event is FlScaleUpdateEvent) {
-      _onScaleUpdate(
-        ScaleUpdateDetails(
-          scale: event.details.scale,
-          focalPointDelta: event.details.focalPointDelta,
-        ),
-        isTouch: true,
-      );
-    }
 
     _providedTouchCallback?.call(event, touchResponse);
 
@@ -341,7 +381,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _lineChartDataTween = visitor(
       _lineChartDataTween,
-      _transformData(_getData(), _chartTransformationController.value),
+      _data,
       (dynamic value) =>
           LineChartDataTween(begin: value as LineChartData, end: widget.data),
     ) as LineChartDataTween?;
