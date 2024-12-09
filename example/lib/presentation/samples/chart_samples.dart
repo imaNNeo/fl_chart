@@ -1,3 +1,4 @@
+import 'package:fl_chart_app/presentation/samples/bar/bar_chart_hori_sample1.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 
 import 'bar/bar_chart_sample1.dart';
@@ -29,6 +30,17 @@ import 'scatter/scatter_chart_sample2.dart';
 
 class ChartSamples {
   static final Map<ChartType, List<ChartSample>> samples = {
+    ChartType.bar: [
+      BarChartSample(1, (context) => BarChartSample1()),
+      BarChartSample(9, (context) => BarChartHoriSample1()),
+      BarChartSample(2, (context) => BarChartSample2()),
+      BarChartSample(3, (context) => const BarChartSample3()),
+      BarChartSample(4, (context) => BarChartSample4()),
+      BarChartSample(5, (context) => const BarChartSample5()),
+      BarChartSample(6, (context) => const BarChartSample6()),
+      BarChartSample(7, (context) => BarChartSample7()),
+      BarChartSample(8, (context) => BarChartSample8()),
+    ],
     ChartType.line: [
       LineChartSample(1, (context) => const LineChartSample1()),
       LineChartSample(2, (context) => const LineChartSample2()),
@@ -41,16 +53,6 @@ class ChartSamples {
       LineChartSample(9, (context) => LineChartSample9()),
       LineChartSample(10, (context) => const LineChartSample10()),
       LineChartSample(11, (context) => const LineChartSample11()),
-    ],
-    ChartType.bar: [
-      BarChartSample(1, (context) => BarChartSample1()),
-      BarChartSample(2, (context) => BarChartSample2()),
-      BarChartSample(3, (context) => const BarChartSample3()),
-      BarChartSample(4, (context) => BarChartSample4()),
-      BarChartSample(5, (context) => const BarChartSample5()),
-      BarChartSample(6, (context) => const BarChartSample6()),
-      BarChartSample(7, (context) => BarChartSample7()),
-      BarChartSample(8, (context) => BarChartSample8()),
     ],
     ChartType.pie: [
       PieChartSample(1, (context) => const PieChartSample1()),

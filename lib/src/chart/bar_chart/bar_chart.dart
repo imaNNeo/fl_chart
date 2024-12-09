@@ -14,6 +14,7 @@ class BarChart extends ImplicitlyAnimatedWidget {
   const BarChart(
     this.data, {
     this.chartRendererKey,
+        this.isHorizontal = false,
     super.key,
     @Deprecated('Please use [duration] instead')
     Duration? swapAnimationDuration,
@@ -28,6 +29,9 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// Determines how the [BarChart] should be look like.
   final BarChartData data;
 
+  /// Determines if the chart should be rendered horizontally.
+  final bool isHorizontal;
+
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
@@ -38,12 +42,8 @@ class BarChart extends ImplicitlyAnimatedWidget {
 }
 
 class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
-  /// we handle under the hood animations (implicit animations) via this tween,
-  /// it lerps between the old [BarChartData] to the new one.
   BarChartDataTween? _barChartDataTween;
 
-  /// If [BarTouchData.handleBuiltInTouches] is true, we override the callback to handle touches internally,
-  /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<BarTouchResponse>? _providedTouchCallback;
 
   final Map<int, List<int>> _showingTouchedTooltips = {};
@@ -56,10 +56,13 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
-      chart: BarChartLeaf(
-        data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
-        targetData: _withTouchedIndicators(showingData),
-        key: widget.chartRendererKey,
+      chart: RotatedBox(
+        quarterTurns: widget.isHorizontal ? 1 : 0,
+        child: BarChartLeaf(
+          data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
+          targetData: _withTouchedIndicators(showingData),
+          key: widget.chartRendererKey,
+        ),
       ),
     );
   }
@@ -90,7 +93,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     var newData = widget.data;
     if (newData.minY.isNaN || newData.maxY.isNaN) {
       final (minY, maxY) =
-          _barChartHelper.calculateMaxAxisValues(newData.barGroups);
+      _barChartHelper.calculateMaxAxisValues(newData.barGroups);
       newData = newData.copyWith(
         minY: newData.minY.isNaN ? minY : newData.minY,
         maxY: newData.maxY.isNaN ? maxY : newData.maxY,
@@ -102,16 +105,16 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
       _providedTouchCallback = barTouchData.touchCallback;
       return newData.copyWith(
         barTouchData:
-            newData.barTouchData.copyWith(touchCallback: _handleBuiltInTouch),
+        newData.barTouchData.copyWith(touchCallback: _handleBuiltInTouch),
       );
     }
     return newData;
   }
 
   void _handleBuiltInTouch(
-    FlTouchEvent event,
-    BarTouchResponse? touchResponse,
-  ) {
+      FlTouchEvent event,
+      BarTouchResponse? touchResponse,
+      ) {
     if (!mounted) {
       return;
     }
@@ -138,7 +141,7 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
     _barChartDataTween = visitor(
       _barChartDataTween,
       _getData(),
-      (dynamic value) =>
+          (dynamic value) =>
           BarChartDataTween(begin: value as BarChartData, end: widget.data),
     ) as BarChartDataTween?;
   }
