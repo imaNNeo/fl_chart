@@ -125,6 +125,9 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     switch (event) {
       case final PointerScaleEvent scaleEvent:
         scaleChange = scaleEvent.scale;
+      case final PointerScrollEvent scrollEvent:
+        translateDataRangeFromScroll(scrollEvent: scrollEvent);
+        return;
       default:
         return;
     }
@@ -133,6 +136,60 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       focalPixel: event.localPosition,
       scaleChange: scaleChange,
     );
+  }
+
+  void translateDataRangeFromScroll({
+    required PointerScrollEvent scrollEvent,
+  }) {
+    final localDelta = PointerEvent.transformDeltaViaPositions(
+      untransformedEndPosition: scrollEvent.position + scrollEvent.scrollDelta,
+      untransformedDelta: scrollEvent.scrollDelta,
+      transform: scrollEvent.transform,
+    );
+
+    // Convert pixel delta to data delta
+    // currentDataWidth and currentDataHeight are the current displayed data ranges
+    final dataDeltaX = localDelta.dx * (currentDataWidth / _chartSize.width);
+    // Y is inverted because screen Y increases downward while data Y increases upward
+    final dataDeltaY = -localDelta.dy * (currentDataHeight / _chartSize.height);
+
+    var newMinX = currentMinX + dataDeltaX;
+    var newMaxX = currentMaxX + dataDeltaX;
+    var newMinY = currentMinY + dataDeltaY;
+    var newMaxY = currentMaxY + dataDeltaY;
+
+    // Clamp and shift to ensure we never exceed default ranges
+
+    // Handle X range
+    if (newMinX < defaultMinX) {
+      final delta = defaultMinX - newMinX;
+      newMinX = defaultMinX;
+      newMaxX = math.min(newMaxX + delta, defaultMaxX);
+    }
+    if (newMaxX > defaultMaxX) {
+      final delta = newMaxX - defaultMaxX;
+      newMaxX = defaultMaxX;
+      newMinX = math.max(newMinX - delta, defaultMinX);
+    }
+
+    // Handle Y range
+    if (newMinY < defaultMinY) {
+      final delta = defaultMinY - newMinY;
+      newMinY = defaultMinY;
+      newMaxY = math.min(newMaxY + delta, defaultMaxY);
+    }
+    if (newMaxY > defaultMaxY) {
+      final delta = newMaxY - defaultMaxY;
+      newMaxY = defaultMaxY;
+      newMinY = math.max(newMinY - delta, defaultMinY);
+    }
+
+    setState(() {
+      currentMinX = newMinX;
+      currentMaxX = newMaxX;
+      currentMinY = newMinY;
+      currentMaxY = newMaxY;
+    });
   }
 
   // After scaling, we want the `focalDataPoint` (the point under the cursor before scaling)
