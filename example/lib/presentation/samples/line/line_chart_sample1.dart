@@ -9,9 +9,9 @@ class _LineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
+    return InteractiveLineChart(
       isShowingMainData ? sampleData1 : sampleData2,
-      duration: const Duration(milliseconds: 250),
+      duration: Duration.zero,
     );
   }
 
