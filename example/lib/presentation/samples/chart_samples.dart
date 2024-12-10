@@ -2,6 +2,7 @@ import 'package:fl_chart_app/presentation/samples/bar/bar_chart_hori_sample1.dar
 import 'package:fl_chart_app/util/app_helper.dart';
 
 import 'bar/bar_chart_hori_sample2.dart';
+import 'bar/bar_chart_hori_sample3.dart';
 import 'bar/bar_chart_sample1.dart';
 import 'bar/bar_chart_sample2.dart';
 import 'bar/bar_chart_sample3.dart';
@@ -35,8 +36,9 @@ class ChartSamples {
       BarChartSample(1, false, (context) => BarChartSample1()),
       BarChartSample(1, true, (context) => BarChartHoriSample1()),
       BarChartSample(2, false, (context) => BarChartSample2()),
-      BarChartSample(2, false, (context) => BarChartHoriSample2()),
+      BarChartSample(2, true, (context) => BarChartHoriSample2()),
       BarChartSample(3,false,  (context) => const BarChartSample3()),
+      BarChartSample(3,true,  (context) => const BarChartHoriSample3()),
       BarChartSample(4,false, (context) => BarChartSample4()),
       BarChartSample(5,false,  (context) => const BarChartSample5()),
       BarChartSample(6, false, (context) => const BarChartSample6()),
