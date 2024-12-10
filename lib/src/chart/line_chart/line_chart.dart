@@ -327,15 +327,12 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
           _chartSize = constraints.biggest;
           return Listener(
             onPointerSignal: _onPointerSignal,
-            child: GestureDetector(
-              onDoubleTap: resetDataAndSetState,
-              child: LineChartLeaf(
-                data: _withTouchedIndicators(
-                  _lineChartDataTween!.evaluate(animation),
-                ),
-                targetData: _withTouchedIndicators(transformedData),
-                key: widget.chartRendererKey,
+            child: LineChartLeaf(
+              data: _withTouchedIndicators(
+                _lineChartDataTween!.evaluate(animation),
               ),
+              targetData: _withTouchedIndicators(transformedData),
+              key: widget.chartRendererKey,
             ),
           );
         },
@@ -399,6 +396,11 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     LineTouchResponse? touchResponse,
   ) {
     if (!mounted) {
+      return;
+    }
+
+    if (event is FlDoubleTapEvent) {
+      resetDataAndSetState();
       return;
     }
 
