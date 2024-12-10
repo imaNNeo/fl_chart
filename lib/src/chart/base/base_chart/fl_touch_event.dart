@@ -129,6 +129,11 @@ class FlTapCancelEvent extends FlTouchEvent {
   const FlTapCancelEvent();
 }
 
+/// When a double tap gesture is detected.
+class FlDoubleTapEvent extends FlTouchEvent {
+  const FlDoubleTapEvent();
+}
+
 /// When a pointer that will trigger a tap has stopped contacting
 /// the screen.
 ///
@@ -246,4 +251,43 @@ class FlPointerExitEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => event.localPosition;
+}
+
+/// When a pointer has contacted the screen and has begun to scale.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [ScaleGestureRecognizer.onStart]
+class FlScaleStartEvent extends FlTouchEvent {
+  const FlScaleStartEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleStartDetails details;
+}
+
+/// When a pointer is moving after being held in contact at the same
+/// location for a long period of time. Reports the new position and its offset
+/// from the original down position.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [ScaleGestureRecognizer.onUpdate]
+class FlScaleUpdateEvent extends FlTouchEvent {
+  const FlScaleUpdateEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleUpdateDetails details;
+}
+
+/// When a pointer stops contacting the screen after a scale
+/// gesture was detected.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [ScaleGestureRecognizer.onEnd]
+class FlScaleEndEvent extends FlTouchEvent {
+  const FlScaleEndEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final ScaleEndDetails details;
 }
