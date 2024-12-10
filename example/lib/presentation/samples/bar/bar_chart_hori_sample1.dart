@@ -284,7 +284,7 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 16,
-      child: Transform.rotate(
+      child: Transform.rotate(   // THIS TO ROTATE ALL THE TEXT
         angle: -1.5708,
         child: text,
       ),
@@ -298,7 +298,6 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
       ),
       titlesData: FlTitlesData(
         show: true,
-
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             getTitlesWidget: getTitles,
