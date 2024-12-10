@@ -129,6 +129,11 @@ class FlTapCancelEvent extends FlTouchEvent {
   const FlTapCancelEvent();
 }
 
+/// When a double tap gesture is detected.
+class FlDoubleTapEvent extends FlTouchEvent {
+  const FlDoubleTapEvent();
+}
+
 /// When a pointer that will trigger a tap has stopped contacting
 /// the screen.
 ///
