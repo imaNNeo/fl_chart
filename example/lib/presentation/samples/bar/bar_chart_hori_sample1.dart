@@ -64,7 +64,7 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
                   ),
                 ),
                 const SizedBox(
-                  height: 38,
+                  height: 18,
                 ),
                 Expanded(
                   child: Padding(
@@ -72,7 +72,7 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
                     child: BarChart(
                       isPlaying ? randomData() : mainBarData(),
                       duration: animDuration,
-                      isHorizontal: true,
+                      isHorizontal: true, //IS HORIZONTAL TO APPEAR THE BAR GRAPH HORIZONTALLY
                     ),
                   ),
                 ),
@@ -112,7 +112,7 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
     double y, {
     bool isTouched = false,
     Color? barColor,
-    double width = 22,
+    double width = 20,
     List<int> showTooltips = const [],
   }) {
     barColor ??= widget.barColor;
@@ -161,7 +161,8 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
           getTooltipColor: (_) => Colors.blueGrey,
-          tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+          rotateAngle: 270, //HERE MADE THE ROTATION OF THE TOOLTIP
+          tooltipHorizontalAlignment: FLHorizontalAlignment.center,
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
             String weekDay;
@@ -222,7 +223,6 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        isHorizontal: true,
         rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
@@ -231,15 +231,13 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
         ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
             getTitlesWidget: getTitles,
             reservedSize: 38,
+            showTitles: true,
           ),
         ),
         leftTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
+          sideTitles: SideTitles(showTitles: false),
         ),
       ),
       borderData: FlBorderData(
@@ -286,7 +284,10 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 16,
-      child: text,
+      child: Transform.rotate(
+        angle: -1.5708,
+        child: text,
+      ),
     );
   }
 
@@ -297,18 +298,16 @@ class BarChartHoriSample1State extends State<BarChartHoriSample1> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        isHorizontal: true,
+
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
             getTitlesWidget: getTitles,
             reservedSize: 38,
+            showTitles: true,
           ),
         ),
         leftTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
+          sideTitles: SideTitles(showTitles: false),
         ),
         topTitles: const AxisTitles(
           sideTitles: SideTitles(

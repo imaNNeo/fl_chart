@@ -377,7 +377,6 @@ class FlTitlesData with EquatableMixin {
   /// side titles of left, top, right, bottom sides respectively.
   const FlTitlesData({
     this.show = true,
-    this.isHorizontal = false,
     this.leftTitles = const AxisTitles(
       sideTitles: SideTitles(
         reservedSize: 44,
@@ -405,7 +404,6 @@ class FlTitlesData with EquatableMixin {
   });
 
   final bool show;
-  final bool isHorizontal;
   final AxisTitles leftTitles;
   final AxisTitles topTitles;
   final AxisTitles rightTitles;
@@ -431,10 +429,10 @@ class FlTitlesData with EquatableMixin {
   }) {
     return FlTitlesData(
       show: show ?? this.show,
-      leftTitles: isHorizontal? topTitles ?? this.topTitles : leftTitles ?? this.leftTitles,
-      topTitles: isHorizontal?rightTitles ?? this.rightTitles : topTitles ?? this.topTitles,
-      rightTitles:isHorizontal? bottomTitles ?? this.bottomTitles: rightTitles ?? this.rightTitles,
-      bottomTitles:isHorizontal? leftTitles ?? this.leftTitles: bottomTitles ?? this.bottomTitles,
+      leftTitles:  leftTitles ?? this.leftTitles,
+      topTitles: topTitles ?? this.topTitles,
+      rightTitles:rightTitles ?? this.rightTitles,
+      bottomTitles: bottomTitles ?? this.bottomTitles,
     );
   }
 

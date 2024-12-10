@@ -54,11 +54,11 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    return AxisChartScaffoldWidget(
+    return RotatedBox(
+      quarterTurns: widget.isHorizontal ? 1 : 0,
+      child:  AxisChartScaffoldWidget(
       data: showingData,
-      chart: RotatedBox(
-        quarterTurns: widget.isHorizontal ? 1 : 0,
-        child: BarChartLeaf(
+      chart: BarChartLeaf(
           data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
           targetData: _withTouchedIndicators(showingData),
           key: widget.chartRendererKey,
