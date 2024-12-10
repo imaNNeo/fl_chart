@@ -59,13 +59,15 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   late double defaultMinY;
   late double defaultMaxY;
 
+  double get defaultDataWidth => defaultMaxX - defaultMinX;
+  double get defaultDataHeight => defaultMaxY - defaultMinY;
+
   // Current transformed data range (after zooming/panning)
   late double currentMinX;
   late double currentMaxX;
   late double currentMinY;
   late double currentMaxY;
 
-  // For convenience
   double get currentDataWidth => currentMaxX - currentMinX;
   double get currentDataHeight => currentMaxY - currentMinY;
 
@@ -73,14 +75,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   final double minScaleFactor = 1;
   final double maxScaleFactor = 3;
 
-  // current scale factor relative to defaultData range
-  double currentScaleX = 1;
-  double currentScaleY = 1;
-
   Offset lastFocalPoint = Offset.zero;
   bool isScaling = false;
 
   late LineChartData _data;
+
+  double? _scaleStart;
+  Offset? _referenceFocalPoint;
 
   @override
   void initState() {
@@ -116,8 +117,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     currentMaxX = defaultMaxX;
     currentMinY = defaultMinY;
     currentMaxY = defaultMaxY;
-    currentScaleX = 1;
-    currentScaleY = 1;
   }
 
   void _onPointerSignal(PointerSignalEvent event) {
@@ -126,7 +125,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       case final PointerScaleEvent scaleEvent:
         scaleChange = scaleEvent.scale;
       case final PointerScrollEvent scrollEvent:
-        translateDataRangeFromScroll(scrollEvent: scrollEvent);
+        final localDelta = PointerEvent.transformDeltaViaPositions(
+          untransformedEndPosition:
+              scrollEvent.position + scrollEvent.scrollDelta,
+          untransformedDelta: scrollEvent.scrollDelta,
+          transform: scrollEvent.transform,
+        );
+        translateDataRangeFromScroll(localDelta: localDelta);
         return;
       default:
         return;
@@ -139,14 +144,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   }
 
   void translateDataRangeFromScroll({
-    required PointerScrollEvent scrollEvent,
+    required Offset localDelta,
   }) {
-    final localDelta = PointerEvent.transformDeltaViaPositions(
-      untransformedEndPosition: scrollEvent.position + scrollEvent.scrollDelta,
-      untransformedDelta: scrollEvent.scrollDelta,
-      transform: scrollEvent.transform,
-    );
-
     // Convert pixel delta to data delta
     // currentDataWidth and currentDataHeight are the current displayed data ranges
     final dataDeltaX = localDelta.dx * (currentDataWidth / _chartSize.width);
@@ -207,8 +206,6 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final newDataHeight = currentDataHeight / scaleChange;
 
     // Bound the scaling within allowed limits
-    final defaultDataWidth = defaultMaxX - defaultMinX;
-    final defaultDataHeight = defaultMaxY - defaultMinY;
     final boundedDataWidth = clampDouble(
       newDataWidth,
       defaultDataWidth / maxScaleFactor,
@@ -403,6 +400,38 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   ) {
     if (!mounted) {
       return;
+    }
+
+    if (event is FlScaleStartEvent) {
+      _scaleStart = defaultDataHeight / currentDataHeight;
+      _referenceFocalPoint = event.details.localFocalPoint;
+    } else if (event is FlScaleUpdateEvent) {
+      assert(_scaleStart != null, 'Scale start event must be called first');
+      if (event.details.scale != 1) {
+        final desiredScale = _scaleStart! * event.details.scale;
+        final currentScale = defaultDataHeight / currentDataHeight;
+        final scaleChange = desiredScale / currentScale;
+        updateDataRangeForScale(
+          focalPixel: event.details.localFocalPoint,
+          scaleChange: scaleChange,
+        );
+        return;
+      }
+
+      assert(
+        _referenceFocalPoint != null,
+        'Reference focal point must be set before scale update',
+      );
+
+      final translationChange =
+          event.details.localFocalPoint - _referenceFocalPoint!;
+      translateDataRangeFromScroll(
+        localDelta: Offset(-translationChange.dx, -translationChange.dy),
+      );
+      _referenceFocalPoint = event.details.localFocalPoint;
+    } else if (event is FlScaleEndEvent) {
+      _scaleStart = null;
+      _referenceFocalPoint = null;
     }
 
     _providedTouchCallback?.call(event, touchResponse);
