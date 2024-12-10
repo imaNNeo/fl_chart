@@ -45,6 +45,9 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   /// Recognizes tap gestures, such as onTapDown, onTapCancel and onTapUp
   late TapGestureRecognizer _tapGestureRecognizer;
 
+  /// Recognizes double tap gestures, such as onDoubleTap
+  late DoubleTapGestureRecognizer _doubleTapGestureRecognizer;
+
   /// Recognizes longPress gestures, such as onLongPressStart, onLongPressMoveUpdate and onLongPressEnd
   late LongPressGestureRecognizer _longPressGestureRecognizer;
 
@@ -95,6 +98,11 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
       };
 
+    _doubleTapGestureRecognizer = DoubleTapGestureRecognizer();
+    _doubleTapGestureRecognizer.onDoubleTap = () {
+      _notifyTouchEvent(const FlDoubleTapEvent());
+    };
+
     _longPressGestureRecognizer =
         LongPressGestureRecognizer(duration: _longPressDuration);
     _longPressGestureRecognizer
@@ -139,6 +147,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (event is PointerDownEvent) {
       _longPressGestureRecognizer.addPointer(event);
       _tapGestureRecognizer.addPointer(event);
+      _doubleTapGestureRecognizer.addPointer(event);
       // _panGestureRecognizer.addPointer(event);
       _scaleGestureRecognizer.addPointer(event);
     } else if (event is PointerHoverEvent) {
