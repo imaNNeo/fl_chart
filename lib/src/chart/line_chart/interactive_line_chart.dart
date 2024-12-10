@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 
@@ -57,11 +58,31 @@ class _InteractiveLineChartState extends State<InteractiveLineChart> {
   }
 
   void updateDataBounds() {
+    var newData = widget.data;
+
+    /// Calculate minX, maxX, minY, maxY for [LineChartData] if they are null,
+    /// it is necessary to render the chart correctly.
+    if (newData.minX.isNaN ||
+        newData.maxX.isNaN ||
+        newData.minY.isNaN ||
+        newData.maxY.isNaN) {
+      final (minX, maxX, minY, maxY) = LineChartHelper().calculateMaxAxisValues(
+        newData.lineBarsData,
+      );
+
+      newData = newData.copyWith(
+        minX: newData.minX.isNaN ? minX : newData.minX,
+        maxX: newData.maxX.isNaN ? maxX : newData.maxX,
+        minY: newData.minY.isNaN ? minY : newData.minY,
+        maxY: newData.maxY.isNaN ? maxY : newData.maxY,
+      );
+    }
+
     _dataBounds = ChartBounds(
-      minX: widget.data.minX,
-      maxX: widget.data.maxX,
-      minY: widget.data.minY,
-      maxY: widget.data.maxY,
+      minX: newData.minX,
+      maxX: newData.maxX,
+      minY: newData.minY,
+      maxY: newData.maxY,
     );
   }
 
