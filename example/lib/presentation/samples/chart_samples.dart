@@ -1,8 +1,8 @@
-import 'package:fl_chart_app/presentation/samples/bar/bar_chart_hori_sample1.dart';
+import 'package:fl_chart_app/presentation/samples/bar/horizontal/bar_chart_hori_sample1.dart';
+import 'package:fl_chart_app/presentation/samples/bar/horizontal/bar_chart_hori_sample6.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 
-import 'bar/bar_chart_hori_sample2.dart';
-import 'bar/bar_chart_hori_sample3.dart';
+import 'bar/horizontal/bar_chart_hori_sample2.dart';
 import 'bar/bar_chart_sample1.dart';
 import 'bar/bar_chart_sample2.dart';
 import 'bar/bar_chart_sample3.dart';
@@ -11,6 +11,9 @@ import 'bar/bar_chart_sample5.dart';
 import 'bar/bar_chart_sample6.dart';
 import 'bar/bar_chart_sample7.dart';
 import 'bar/bar_chart_sample8.dart';
+import 'bar/horizontal/bar_chart_hori_sample3.dart';
+import 'bar/horizontal/bar_chart_hori_sample4.dart';
+import 'bar/horizontal/bar_chart_hori_sample5.dart';
 import 'chart_sample.dart';
 import 'line/line_chart_sample1.dart';
 import 'line/line_chart_sample10.dart';
@@ -37,13 +40,16 @@ class ChartSamples {
       BarChartSample(1, true, (context) => BarChartHoriSample1()),
       BarChartSample(2, false, (context) => BarChartSample2()),
       BarChartSample(2, true, (context) => BarChartHoriSample2()),
-      BarChartSample(3,false,  (context) => const BarChartSample3()),
-      BarChartSample(3,true,  (context) => const BarChartHoriSample3()),
-      BarChartSample(4,false, (context) => BarChartSample4()),
-      BarChartSample(5,false,  (context) => const BarChartSample5()),
+      BarChartSample(3, false, (context) => const BarChartSample3()),
+      BarChartSample(3, true, (context) => const BarChartHoriSample3()),
+      BarChartSample(4, false, (context) => BarChartSample4()),
+      BarChartSample(4, true, (context) => BarChartHoriSample4()),
+      BarChartSample(5, false, (context) => const BarChartSample5()),
+      BarChartSample(5, true, (context) => const BarChartHoriSample5()),
       BarChartSample(6, false, (context) => const BarChartSample6()),
+      BarChartSample(6, true, (context) => const BarChartHoriSample6()),
       BarChartSample(7, false, (context) => BarChartSample7()),
-      BarChartSample(8,false,  (context) => BarChartSample8()),
+      BarChartSample(8, false, (context) => BarChartSample8()),
     ],
     ChartType.line: [
       LineChartSample(1, (context) => const LineChartSample1()),
