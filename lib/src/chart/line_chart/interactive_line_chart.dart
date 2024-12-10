@@ -65,6 +65,27 @@ class _InteractiveLineChartState extends State<InteractiveLineChart> {
     );
   }
 
+  @override
+  void didUpdateWidget(covariant InteractiveLineChart oldWidget) {
+    if (oldWidget.data != widget.data) {
+      final adjustmentMinX = _adjustedDataBounds.minX - _dataBounds.minX;
+      final adjustmentMaxX = _adjustedDataBounds.maxX - _dataBounds.maxX;
+      final adjustmentMinY = _adjustedDataBounds.minY - _dataBounds.minY;
+      final adjustmentMaxY = _adjustedDataBounds.maxY - _dataBounds.maxY;
+
+      updateDataBounds();
+
+      _adjustedDataBounds = _adjustedDataBounds.copyWith(
+        minX: _dataBounds.minX + adjustmentMinX,
+        maxX: _dataBounds.maxX + adjustmentMaxX,
+        minY: _dataBounds.minY + adjustmentMinY,
+        maxY: _dataBounds.maxY + adjustmentMaxY,
+      );
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   void resetAdjustedDataBounds() {
     _adjustedDataBounds = _dataBounds.copyWith();
   }
@@ -74,10 +95,13 @@ class _InteractiveLineChartState extends State<InteractiveLineChart> {
   }
 
   void _onPointerSignal(PointerSignalEvent event) {
-    final double scaleChange;
     switch (event) {
       case final PointerScaleEvent scaleEvent:
-        scaleChange = scaleEvent.scale;
+        final scaleChange = scaleEvent.scale;
+        updateDataRangeForScale(
+          focalPixel: event.localPosition,
+          scaleChange: scaleChange,
+        );
       case final PointerScrollEvent scrollEvent:
         final localDelta = PointerEvent.transformDeltaViaPositions(
           untransformedEndPosition:
@@ -86,15 +110,8 @@ class _InteractiveLineChartState extends State<InteractiveLineChart> {
           transform: scrollEvent.transform,
         );
         translateDataRangeFromScroll(localDelta: localDelta);
-        return;
       default:
-        return;
     }
-
-    updateDataRangeForScale(
-      focalPixel: event.localPosition,
-      scaleChange: scaleChange,
-    );
   }
 
   void _onBuiltInTouch(FlTouchEvent event, LineTouchResponse? touchResponse) {
@@ -105,7 +122,6 @@ class _InteractiveLineChartState extends State<InteractiveLineChart> {
     switch (event) {
       case FlDoubleTapEvent():
         resetDataBoundsAndSetState();
-        return;
 
       case FlScaleStartEvent():
         _scaleStart = _dataBounds.height / _adjustedDataBounds.height;
@@ -121,7 +137,6 @@ class _InteractiveLineChartState extends State<InteractiveLineChart> {
             focalPixel: event.details.localFocalPoint,
             scaleChange: scaleChange,
           );
-          return;
         } else {
           assert(
             _referenceFocalPoint != null,

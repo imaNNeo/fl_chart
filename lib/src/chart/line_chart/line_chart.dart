@@ -65,7 +65,8 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             onPointerSignal: widget.onPointerSignal,
             child: LineChartLeaf(
               data: _withTouchedIndicators(
-                  _lineChartDataTween!.evaluate(animation)),
+                _lineChartDataTween!.evaluate(animation),
+              ),
               targetData: _withTouchedIndicators(showingData),
               key: widget.chartRendererKey,
             ),
