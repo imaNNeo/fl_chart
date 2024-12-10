@@ -48,8 +48,23 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   /// Recognizes longPress gestures, such as onLongPressStart, onLongPressMoveUpdate and onLongPressEnd
   late LongPressGestureRecognizer _longPressGestureRecognizer;
 
+  /// Recognizes scale gestures, such as onScaleStart, onScaleUpdate and onScaleEnd
+  late ScaleGestureRecognizer _scaleGestureRecognizer;
+
   /// Initializes our recognizers and implement their callbacks.
   void initGestureRecognizers() {
+    _scaleGestureRecognizer = ScaleGestureRecognizer();
+    _scaleGestureRecognizer
+      ..onStart = (scaleStartDetails) {
+        _notifyTouchEvent(FlScaleStartEvent(scaleStartDetails));
+      }
+      ..onUpdate = (scaleUpdateDetails) {
+        _notifyTouchEvent(FlScaleUpdateEvent(scaleUpdateDetails));
+      }
+      ..onEnd = (scaleEndDetails) {
+        _notifyTouchEvent(FlScaleEndEvent(scaleEndDetails));
+      };
+
     _panGestureRecognizer = PanGestureRecognizer();
     _panGestureRecognizer
       ..onDown = (dragDownDetails) {
@@ -124,7 +139,8 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (event is PointerDownEvent) {
       _longPressGestureRecognizer.addPointer(event);
       _tapGestureRecognizer.addPointer(event);
-      _panGestureRecognizer.addPointer(event);
+      // _panGestureRecognizer.addPointer(event);
+      _scaleGestureRecognizer.addPointer(event);
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
     }
