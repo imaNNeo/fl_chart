@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class ScatterChartSample1 extends StatefulWidget {
@@ -23,37 +23,37 @@ class ScatterChartSample1State extends State<ScatterChartSample1> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          showFlutter = !showFlutter;
-        });
-      },
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: ScatterChart(
-          ScatterChartData(
-            scatterSpots: showFlutter ? flutterLogoData() : randomData(),
-            minX: 0,
-            maxX: maxX,
-            minY: 0,
-            maxY: maxY,
-            borderData: FlBorderData(
-              show: false,
-            ),
-            gridData: const FlGridData(
-              show: false,
-            ),
-            titlesData: const FlTitlesData(
-              show: false,
-            ),
-            scatterTouchData: ScatterTouchData(
-              enabled: false,
-            ),
+    return AspectRatio(
+      aspectRatio: 1,
+      child: InteractiveScatterChart(
+        ScatterChartData(
+          scatterSpots: showFlutter ? flutterLogoData() : randomData(),
+          minX: 0,
+          maxX: maxX,
+          minY: 0,
+          maxY: maxY,
+          borderData: FlBorderData(
+            show: false,
           ),
-          duration: const Duration(milliseconds: 600),
-          curve: Curves.fastOutSlowIn,
+          gridData: const FlGridData(
+            show: false,
+          ),
+          titlesData: const FlTitlesData(
+            show: false,
+          ),
+          scatterTouchData: ScatterTouchData(
+            enabled: false,
+            touchCallback: (FlTouchEvent event, BaseTouchResponse? response) {
+              if (event is FlTapDownEvent) {
+                setState(() {
+                  showFlutter = !showFlutter;
+                });
+              }
+            },
+          ),
         ),
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.fastOutSlowIn,
       ),
     );
   }

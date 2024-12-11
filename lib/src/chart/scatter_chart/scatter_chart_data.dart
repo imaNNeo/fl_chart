@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
@@ -163,7 +164,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
   /// Copies current [ScatterChartData] to a new [ScatterChartData],
   /// and replaces provided values.
   @override
-  ScatterChartData copyWithBounds(ChartBounds bounds) => copyWith(
+  ScatterChartData copyWithBounds(AxisChartBounds bounds) => copyWith(
         minX: bounds.minX,
         maxX: bounds.maxX,
         minY: bounds.minY,

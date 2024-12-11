@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
@@ -160,7 +161,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
   /// Copies current [LineChartData] to a new [LineChartData],
   /// and replaces provided values.
   @override
-  LineChartData copyWithBounds(ChartBounds bounds) => copyWith(
+  LineChartData copyWithBounds(AxisChartBounds bounds) => copyWith(
         minX: bounds.minX,
         maxX: bounds.maxX,
         minY: bounds.minY,

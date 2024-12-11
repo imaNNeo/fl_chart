@@ -1,9 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_interactive_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 /// Renders a line chart as a widget, using provided [LineChartData].
@@ -30,8 +30,8 @@ class LineChart extends ImplicitlyAnimatedWidget {
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
 
-  final void Function(Size)? onSizeChanged;
-  final void Function(PointerSignalEvent event)? onPointerSignal;
+  final OnSizeChanged? onSizeChanged;
+  final OnPointerSignal? onPointerSignal;
 
   /// Creates a [_LineChartState]
   @override
