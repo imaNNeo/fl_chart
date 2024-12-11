@@ -80,6 +80,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         touchData,
         extraLinesData,
       ];
+
+  AxisChartData copyWithBounds(ChartBounds bounds);
 }
 
 /// Represents a side of the chart

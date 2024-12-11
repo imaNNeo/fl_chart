@@ -160,6 +160,16 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
       );
 
+  /// Copies current [ScatterChartData] to a new [ScatterChartData],
+  /// and replaces provided values.
+  @override
+  ScatterChartData copyWithBounds(ChartBounds bounds) => copyWith(
+        minX: bounds.minX,
+        maxX: bounds.maxX,
+        minY: bounds.minY,
+        maxY: bounds.maxY,
+      );
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -321,6 +331,12 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
         touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       );
+
+  @override
+  ScatterTouchData copyWithTouchCallback(
+    BaseTouchCallback<ScatterTouchResponse> touchCallback,
+  ) =>
+      copyWith(touchCallback: touchCallback);
 
   /// Used for equality check, see [EquatableMixin].
   @override

@@ -115,6 +115,8 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
         mouseCursorResolver,
         longPressDuration,
       ];
+
+  FlTouchData copyWithTouchCallback(BaseTouchCallback<R> touchCallback);
 }
 
 /// Holds data to clipping chart around its borders.

@@ -157,6 +157,16 @@ class LineChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
       );
 
+  /// Copies current [LineChartData] to a new [LineChartData],
+  /// and replaces provided values.
+  @override
+  LineChartData copyWithBounds(ChartBounds bounds) => copyWith(
+        minX: bounds.minX,
+        maxX: bounds.maxX,
+        minY: bounds.minY,
+        maxY: bounds.maxY,
+      );
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -930,6 +940,12 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       );
+
+  @override
+  LineTouchData copyWithTouchCallback(
+    BaseTouchCallback<LineTouchResponse> touchCallback,
+  ) =>
+      copyWith(touchCallback: touchCallback);
 
   /// Used for equality check, see [EquatableMixin].
   @override

@@ -327,6 +327,17 @@ class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
           longPressDuration,
         );
 
+  @override
+  PieTouchData copyWithTouchCallback(
+    BaseTouchCallback<PieTouchResponse> touchCallback,
+  ) =>
+      PieTouchData(
+        enabled: enabled,
+        touchCallback: touchCallback,
+        mouseCursorResolver: mouseCursorResolver,
+        longPressDuration: longPressDuration,
+      );
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
