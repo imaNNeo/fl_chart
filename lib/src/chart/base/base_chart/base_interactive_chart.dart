@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
-import 'package:fl_chart/src/chart/line_chart/interactive_line_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -28,8 +28,8 @@ abstract class BaseInteractiveChart<D extends AxisChartData>
 
 abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
     extends State<T> {
-  late ChartBounds _dataBounds;
-  late ChartBounds _adjustedDataBounds;
+  late AxisChartBounds _dataBounds;
+  late AxisChartBounds _adjustedDataBounds;
 
   Size _chartSize = Size.zero;
 
@@ -43,7 +43,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
     super.initState();
   }
 
-  ChartBounds calculateMaxAxisValues(covariant AxisChartData data);
+  AxisChartBounds calculateMaxAxisValues(covariant AxisChartData data);
 
   void updateDataBounds() {
     var newData = widget.data;
@@ -56,7 +56,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
       final axisBounds = calculateMaxAxisValues(newData);
 
       newData = newData.copyWithBounds(
-        ChartBounds(
+        AxisChartBounds(
           minX: newData.minX.isNaN ? axisBounds.minX : newData.minX,
           maxX: newData.maxX.isNaN ? axisBounds.maxX : newData.maxX,
           minY: newData.minY.isNaN ? axisBounds.minY : newData.minY,
@@ -65,7 +65,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
       );
     }
 
-    _dataBounds = ChartBounds(
+    _dataBounds = AxisChartBounds(
       minX: newData.minX,
       maxX: newData.maxX,
       minY: newData.minY,
@@ -208,7 +208,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
     }
 
     setState(() {
-      _adjustedDataBounds = ChartBounds(
+      _adjustedDataBounds = AxisChartBounds(
         minX: newMinX,
         maxX: newMaxX,
         minY: newMinY,
@@ -299,7 +299,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
     }
 
     setState(() {
-      _adjustedDataBounds = ChartBounds(
+      _adjustedDataBounds = AxisChartBounds(
         minX: newMinX,
         maxX: newMaxX,
         minY: newMinY,
@@ -331,7 +331,10 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
   FlClipData get _clipData =>
       _isTransformed ? const FlClipData.all() : widget.data.clipData;
 
-  void _touchCallback(FlTouchEvent event, BaseTouchResponse? touchResponse) {
+  void _touchCallback(
+    FlTouchEvent event,
+    BaseTouchResponse? touchResponse,
+  ) {
     _onBuiltInTouch(event, touchResponse);
     widget.data.touchData.touchCallback?.call(
       event,
@@ -346,7 +349,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
   Widget buildInteractiveChart({
     required FlClipData clipData,
     required BaseTouchCallback touchCallback,
-    required ChartBounds chartBounds,
+    required AxisChartBounds chartBounds,
     required OnPointerSignal onPointerSignal,
     required OnSizeChanged onSizeChanged,
   });

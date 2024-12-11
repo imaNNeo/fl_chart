@@ -1,13 +1,13 @@
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_interactive_chart.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
+import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_helper.dart';
+import 'package:flutter/widgets.dart';
 
-class InteractiveLineChart extends BaseInteractiveChart<LineChartData> {
-  const InteractiveLineChart(
+class InteractiveScatterChart extends BaseInteractiveChart<ScatterChartData> {
+  const InteractiveScatterChart(
     super.data, {
     this.chartRendererKey,
     this.duration = const Duration(milliseconds: 150),
@@ -28,18 +28,16 @@ class InteractiveLineChart extends BaseInteractiveChart<LineChartData> {
   final Duration duration;
 
   @override
-  BaseInteractiveChartState<InteractiveLineChart> createState() =>
-      _InteractiveLineChartState();
+  BaseInteractiveChartState<InteractiveScatterChart> createState() =>
+      _InteractiveScatterChartState();
 }
 
-class _InteractiveLineChartState
-    extends BaseInteractiveChartState<InteractiveLineChart> {
-  final _lineChartHelper = LineChartHelper();
-
+class _InteractiveScatterChartState
+    extends BaseInteractiveChartState<InteractiveScatterChart> {
   @override
-  AxisChartBounds calculateMaxAxisValues(LineChartData data) {
-    final (minX, maxX, minY, maxY) = _lineChartHelper.calculateMaxAxisValues(
-      data.lineBarsData,
+  AxisChartBounds calculateMaxAxisValues(ScatterChartData data) {
+    final (minX, maxX, minY, maxY) = ScatterChartHelper.calculateMaxAxisValues(
+      data.scatterSpots,
     );
 
     return AxisChartBounds(
@@ -58,14 +56,14 @@ class _InteractiveLineChartState
     required OnPointerSignal onPointerSignal,
     required OnSizeChanged onSizeChanged,
   }) {
-    return LineChart(
+    return ScatterChart(
       widget.data.copyWith(
         minX: chartBounds.minX,
         maxX: chartBounds.maxX,
         minY: chartBounds.minY,
         maxY: chartBounds.maxY,
         clipData: clipData,
-        lineTouchData: widget.data.lineTouchData.copyWith(
+        scatterTouchData: widget.data.scatterTouchData.copyWith(
           touchCallback: touchCallback,
         ),
       ),
