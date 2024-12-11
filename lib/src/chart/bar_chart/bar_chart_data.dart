@@ -111,6 +111,14 @@ class BarChartData extends AxisChartData with EquatableMixin {
         extraLinesData: extraLinesData ?? this.extraLinesData,
       );
 
+  /// Copies current [BarChartData] to a new [BarChartData],
+  /// and replaces provided values.
+  @override
+  BarChartData copyWithBounds(ChartBounds bounds) => copyWith(
+        minY: bounds.minY,
+        maxY: bounds.maxY,
+      );
+
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
   @override
   BarChartData lerp(BaseChartData a, BaseChartData b, double t) {
@@ -649,6 +657,12 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
             allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       );
+
+  @override
+  BarTouchData copyWithTouchCallback(
+    BaseTouchCallback<BarTouchResponse> touchCallback,
+  ) =>
+      copyWith(touchCallback: touchCallback);
 
   /// Used for equality check, see [EquatableMixin].
   @override
