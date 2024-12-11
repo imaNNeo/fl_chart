@@ -44,7 +44,7 @@ class ScatterChartSample1State extends State<ScatterChartSample1> {
           scatterTouchData: ScatterTouchData(
             enabled: false,
             touchCallback: (FlTouchEvent event, BaseTouchResponse? response) {
-              if (event is FlTapDownEvent) {
+              if (event is FlTapEvent) {
                 setState(() {
                   showFlutter = !showFlutter;
                 });
