@@ -96,6 +96,9 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       }
       ..onTapUp = (tapUpDetails) {
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
+      }
+      ..onTap = () {
+        _notifyTouchEvent(const FlTapEvent());
       };
 
     _doubleTapGestureRecognizer = DoubleTapGestureRecognizer();
