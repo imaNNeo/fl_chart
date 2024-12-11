@@ -28,7 +28,8 @@ class InteractiveLineChart extends BaseInteractiveChart<LineChartData> {
   final Duration duration;
 
   @override
-  State<InteractiveLineChart> createState() => _InteractiveLineChartState();
+  BaseInteractiveChartState<InteractiveLineChart> createState() =>
+      _InteractiveLineChartState();
 }
 
 class _InteractiveLineChartState
