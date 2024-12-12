@@ -28,12 +28,12 @@ class InteractiveLineChart extends BaseInteractiveChart<LineChartData> {
   final Duration duration;
 
   @override
-  BaseInteractiveChartState<InteractiveLineChart> createState() =>
-      _InteractiveLineChartState();
+  BaseInteractiveChartState<InteractiveLineChart, LineTouchResponse>
+      createState() => _InteractiveLineChartState();
 }
 
 class _InteractiveLineChartState
-    extends BaseInteractiveChartState<InteractiveLineChart> {
+    extends BaseInteractiveChartState<InteractiveLineChart, LineTouchResponse> {
   final _lineChartHelper = LineChartHelper();
 
   @override
@@ -53,7 +53,7 @@ class _InteractiveLineChartState
   @override
   Widget buildInteractiveChart({
     required FlClipData clipData,
-    required BaseTouchCallback touchCallback,
+    required BaseTouchCallback<LineTouchResponse> touchCallback,
     required AxisChartBounds chartBounds,
     required OnPointerSignal onPointerSignal,
     required OnSizeChanged onSizeChanged,

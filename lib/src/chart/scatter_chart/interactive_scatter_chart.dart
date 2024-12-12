@@ -28,12 +28,12 @@ class InteractiveScatterChart extends BaseInteractiveChart<ScatterChartData> {
   final Duration duration;
 
   @override
-  BaseInteractiveChartState<InteractiveScatterChart> createState() =>
-      _InteractiveScatterChartState();
+  BaseInteractiveChartState<InteractiveScatterChart, ScatterTouchResponse>
+      createState() => _InteractiveScatterChartState();
 }
 
-class _InteractiveScatterChartState
-    extends BaseInteractiveChartState<InteractiveScatterChart> {
+class _InteractiveScatterChartState extends BaseInteractiveChartState<
+    InteractiveScatterChart, ScatterTouchResponse> {
   @override
   AxisChartBounds calculateMaxAxisValues(ScatterChartData data) {
     final (minX, maxX, minY, maxY) = ScatterChartHelper.calculateMaxAxisValues(
@@ -51,7 +51,7 @@ class _InteractiveScatterChartState
   @override
   Widget buildInteractiveChart({
     required FlClipData clipData,
-    required BaseTouchCallback touchCallback,
+    required BaseTouchCallback<ScatterTouchResponse> touchCallback,
     required AxisChartBounds chartBounds,
     required OnPointerSignal onPointerSignal,
     required OnSizeChanged onSizeChanged,
