@@ -1,13 +1,13 @@
+import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
+import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_interactive_chart.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
-class InteractiveLineChart extends BaseInteractiveChart<LineChartData> {
-  const InteractiveLineChart(
+class InteractiveBarChart extends BaseInteractiveChart<BarChartData> {
+  const InteractiveBarChart(
     super.data, {
     this.chartRendererKey,
     this.duration = const Duration(milliseconds: 150),
@@ -28,23 +28,22 @@ class InteractiveLineChart extends BaseInteractiveChart<LineChartData> {
   final Duration duration;
 
   @override
-  BaseInteractiveChartState<InteractiveLineChart, LineTouchResponse>
-      createState() => _InteractiveLineChartState();
+  BaseInteractiveChartState<InteractiveBarChart, BarTouchResponse>
+      createState() => _InteractiveBarChartState();
 }
 
-class _InteractiveLineChartState
-    extends BaseInteractiveChartState<InteractiveLineChart, LineTouchResponse> {
-  final _lineChartHelper = LineChartHelper();
-
+class _InteractiveBarChartState
+    extends BaseInteractiveChartState<InteractiveBarChart, BarTouchResponse> {
+  final _barChartHelper = BarChartHelper();
   @override
-  AxisChartBounds calculateMaxAxisValues(LineChartData data) {
-    final (minX, maxX, minY, maxY) = _lineChartHelper.calculateMaxAxisValues(
-      data.lineBarsData,
+  AxisChartBounds calculateMaxAxisValues(BarChartData data) {
+    final (minY, maxY) = _barChartHelper.calculateMaxAxisValues(
+      data.barGroups,
     );
 
     return AxisChartBounds(
-      minX: minX,
-      maxX: maxX,
+      minX: data.minX,
+      maxX: data.maxX,
       minY: minY,
       maxY: maxY,
     );
@@ -53,24 +52,22 @@ class _InteractiveLineChartState
   @override
   Widget buildInteractiveChart({
     required FlClipData clipData,
-    required BaseTouchCallback<LineTouchResponse> touchCallback,
+    required BaseTouchCallback<BarTouchResponse> touchCallback,
     required AxisChartBounds chartBounds,
     required OnPointerSignal onPointerSignal,
     required OnSizeChanged onSizeChanged,
   }) {
-    return LineChart(
+    return BarChart(
       widget.data.copyWith(
-        minX: chartBounds.minX,
-        maxX: chartBounds.maxX,
         minY: chartBounds.minY,
         maxY: chartBounds.maxY,
-        clipData: clipData,
-        lineTouchData: widget.data.lineTouchData.copyWith(
+        barTouchData: widget.data.barTouchData.copyWith(
           touchCallback: (event, touchResponse) {
             touchCallback(event, touchResponse);
-            widget.data.lineTouchData.touchCallback?.call(event, touchResponse);
+            widget.data.barTouchData.touchCallback?.call(event, touchResponse);
           },
         ),
+        clipData: clipData,
       ),
       chartRendererKey: widget.chartRendererKey,
       curve: widget.curve,
