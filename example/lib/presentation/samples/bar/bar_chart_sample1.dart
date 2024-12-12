@@ -70,7 +70,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: BarChart(
+                    child: InteractiveBarChart(
                       isPlaying ? randomData() : mainBarData(),
                       duration: animDuration,
                     ),

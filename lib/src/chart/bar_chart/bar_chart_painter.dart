@@ -57,6 +57,20 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       return;
     }
 
+    if (data.clipData.any) {
+      canvasWrapper.saveLayer(
+        Rect.fromLTWH(
+          0,
+          -40,
+          canvasWrapper.size.width + 40,
+          canvasWrapper.size.height + 40,
+        ),
+        Paint(),
+      );
+
+      clipToBorder(canvasWrapper, holder);
+    }
+
     final groupsX = data.calculateGroupsX(canvasWrapper.size.width);
     _groupBarsPosition = calculateGroupAndBarsPosition(
       canvasWrapper.size,
@@ -74,6 +88,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     drawBars(canvasWrapper, _groupBarsPosition!, holder);
+
+    if (data.clipData.any) {
+      canvasWrapper.restore();
+    }
 
     if (data.extraLinesData.extraLinesOnTop) {
       super.drawHorizontalLines(
@@ -142,6 +160,41 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       groupBarsPosition.add(GroupBarsPosition(groupX, barsX));
     }
     return groupBarsPosition;
+  }
+
+  @visibleForTesting
+  void clipToBorder(
+    CanvasWrapper canvasWrapper,
+    PaintHolder<BarChartData> holder,
+  ) {
+    final data = holder.data;
+    final viewSize = canvasWrapper.size;
+    final clip = data.clipData;
+    final border = data.borderData.show ? data.borderData.border : null;
+
+    var left = 0.0;
+    var top = 0.0;
+    var right = viewSize.width;
+    var bottom = viewSize.height;
+
+    if (clip.left) {
+      final borderWidth = border?.left.width ?? 0;
+      left = borderWidth / 2;
+    }
+    if (clip.top) {
+      final borderWidth = border?.top.width ?? 0;
+      top = borderWidth / 2;
+    }
+    if (clip.right) {
+      final borderWidth = border?.right.width ?? 0;
+      right = viewSize.width - (borderWidth / 2);
+    }
+    if (clip.bottom) {
+      final borderWidth = border?.bottom.width ?? 0;
+      bottom = viewSize.height - (borderWidth / 2);
+    }
+
+    canvasWrapper.clipRect(Rect.fromLTRB(left, top, right, bottom));
   }
 
   @visibleForTesting

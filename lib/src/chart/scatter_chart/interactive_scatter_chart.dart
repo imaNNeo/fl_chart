@@ -64,7 +64,11 @@ class _InteractiveScatterChartState extends BaseInteractiveChartState<
         maxY: chartBounds.maxY,
         clipData: clipData,
         scatterTouchData: widget.data.scatterTouchData.copyWith(
-          touchCallback: touchCallback,
+          touchCallback: (event, touchResponse) {
+            touchCallback(event, touchResponse);
+            widget.data.scatterTouchData.touchCallback
+                ?.call(event, touchResponse);
+          },
         ),
       ),
       chartRendererKey: widget.chartRendererKey,

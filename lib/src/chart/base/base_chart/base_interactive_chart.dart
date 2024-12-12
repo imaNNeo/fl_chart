@@ -331,17 +331,6 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart,
   FlClipData get _clipData =>
       _isTransformed ? const FlClipData.all() : widget.data.clipData;
 
-  void _touchCallback(
-    FlTouchEvent event,
-    R? touchResponse,
-  ) {
-    _onBuiltInTouch(event, touchResponse);
-    widget.data.touchData.touchCallback?.call(
-      event,
-      touchResponse,
-    );
-  }
-
   void _onSizeChanged(Size size) {
     _chartSize = size;
   }
@@ -360,7 +349,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart,
   Widget build(BuildContext context) {
     return buildInteractiveChart(
       clipData: _clipData,
-      touchCallback: _touchCallback,
+      touchCallback: _onBuiltInTouch,
       chartBounds: _adjustedDataBounds,
       onPointerSignal: _onPointerSignal,
       onSizeChanged: _onSizeChanged,
