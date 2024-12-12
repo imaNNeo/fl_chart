@@ -26,8 +26,8 @@ abstract class BaseInteractiveChart<D extends AxisChartData>
   final D data;
 }
 
-abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
-    extends State<T> {
+abstract class BaseInteractiveChartState<T extends BaseInteractiveChart,
+    R extends BaseTouchResponse> extends State<T> {
   late AxisChartBounds _dataBounds;
   late AxisChartBounds _adjustedDataBounds;
 
@@ -333,7 +333,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
 
   void _touchCallback(
     FlTouchEvent event,
-    BaseTouchResponse? touchResponse,
+    R? touchResponse,
   ) {
     _onBuiltInTouch(event, touchResponse);
     widget.data.touchData.touchCallback?.call(
@@ -348,7 +348,7 @@ abstract class BaseInteractiveChartState<T extends BaseInteractiveChart>
 
   Widget buildInteractiveChart({
     required FlClipData clipData,
-    required BaseTouchCallback touchCallback,
+    required BaseTouchCallback<R> touchCallback,
     required AxisChartBounds chartBounds,
     required OnPointerSignal onPointerSignal,
     required OnSizeChanged onSizeChanged,
