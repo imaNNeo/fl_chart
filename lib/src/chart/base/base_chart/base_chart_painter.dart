@@ -19,7 +19,12 @@ class BaseChartPainter<D extends BaseChartData> {
 /// Holds data for painting on canvas
 class PaintHolder<Data extends BaseChartData> {
   /// Holds data for painting on canvas
-  const PaintHolder(this.data, this.targetData, this.textScaler);
+  const PaintHolder(
+    this.data,
+    this.targetData,
+    this.textScaler, [
+    this.boundingBox,
+  ]);
 
   /// [data] is what we need to show frame by frame (it might be changed by an animator)
   final Data data;
@@ -29,4 +34,13 @@ class PaintHolder<Data extends BaseChartData> {
 
   /// system [TextScaler] used for scaling texts for better readability
   final TextScaler textScaler;
+
+  /// The virtual bounding box of the chart.
+  ///
+  /// This is used as a virtual canvas when scaling or panning the chart.
+  /// The chart will be drawn in this virtual canvas, and then clipped to the
+  /// actual canvas.
+  ///
+  /// Null when not scaling or panning.
+  final Rect? boundingBox;
 }

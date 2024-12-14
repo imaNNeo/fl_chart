@@ -62,12 +62,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     PaintHolder<LineChartData> holder,
   ) {
     final data = holder.data;
+    if (holder.boundingBox != null) {
+      canvasWrapper
+        ..saveLayer(
+          Rect.fromLTWH(
+            0,
+            -40,
+            canvasWrapper.size.width + 40,
+            canvasWrapper.size.height + 40,
+          ),
+          Paint(),
+        )
+        ..clipRect(Offset.zero & canvasWrapper.size);
+    }
     super.paint(context, canvasWrapper, holder);
     if (data.lineBarsData.isEmpty) {
       return;
     }
 
-    if (data.clipData.any) {
+    if (data.clipData.any && holder.boundingBox == null) {
       canvasWrapper.saveLayer(
         Rect.fromLTWH(
           0,
@@ -134,7 +147,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     drawTouchedSpotsIndicator(canvasWrapper, lineIndexDrawingInfo, holder);
 
-    if (data.clipData.any) {
+    if (data.clipData.any || holder.boundingBox != null) {
       canvasWrapper.restore();
     }
 
@@ -207,7 +220,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     LineChartBarData barData,
     PaintHolder<LineChartData> holder,
   ) {
-    final viewSize = canvasWrapper.size;
+    final viewSize = getChartUsableSize(holder, canvasWrapper.size);
+
     final barList = barData.spots.splitByNullSpots();
 
     // paint each sublist that was built above
@@ -1226,6 +1240,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     PaintHolder<LineChartData> holder,
   ) {
     final data = holder.data;
+    final viewSize = getChartUsableSize(holder, size);
+
+    // Adjust touch position if using boundingBox
+    var adjustedPosition = localPosition;
+    if (holder.boundingBox != null) {
+      // Convert local position to boundingBox coordinates
+      adjustedPosition = Offset(
+        localPosition.dx + holder.boundingBox!.left,
+        localPosition.dy + holder.boundingBox!.top,
+      );
+
+      // Check if the touch is outside the canvas bounds
+      if (!holder.boundingBox!.contains(adjustedPosition)) {
+        return null;
+      }
+    }
 
     /// it holds list of nearest touched spots of each line
     /// and we use it to draw touch stuff on them
@@ -1236,8 +1266,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final barData = data.lineBarsData[i];
 
       // find the nearest spot on touch area in this bar line
-      final foundTouchedSpot =
-          getNearestTouchedSpot(size, localPosition, barData, i, holder);
+      final foundTouchedSpot = getNearestTouchedSpot(
+        viewSize,
+        adjustedPosition,
+        barData,
+        i,
+        holder,
+      );
+
       if (foundTouchedSpot != null) {
         touchedSpots.add(foundTouchedSpot);
       }
@@ -1297,6 +1333,38 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     } else {
       return null;
     }
+  }
+
+  Size getChartUsableSize(PaintHolder<LineChartData> holder, Size viewSize) {
+    return holder.boundingBox?.size ?? viewSize;
+  }
+
+  @override
+  double getPixelX(
+    double spotX,
+    Size viewSize,
+    PaintHolder<LineChartData> holder,
+  ) {
+    final usableSize = getChartUsableSize(holder, viewSize);
+    final calculated = super.getPixelX(spotX, usableSize, holder);
+
+    // Adjust the position relative to the canvas if boundingBox is provided
+    final adjustment = holder.boundingBox?.left ?? 0;
+    return calculated + adjustment;
+  }
+
+  @override
+  double getPixelY(
+    double spotY,
+    Size viewSize,
+    PaintHolder<LineChartData> holder,
+  ) {
+    final usableSize = getChartUsableSize(holder, viewSize);
+    final calculated = super.getPixelY(spotY, usableSize, holder);
+
+    // Adjust the position relative to the canvas if boundingBox is provided
+    final adjustment = holder.boundingBox?.top ?? 0;
+    return calculated + adjustment;
   }
 }
 
