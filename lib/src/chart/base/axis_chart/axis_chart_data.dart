@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -81,8 +80,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         touchData,
         extraLinesData,
       ];
-
-  AxisChartData copyWithBounds(AxisChartBounds bounds);
 }
 
 /// Represents a side of the chart

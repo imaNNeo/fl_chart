@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
@@ -156,16 +155,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
         baselineY: baselineY ?? this.baselineY,
         clipData: clipData ?? this.clipData,
         backgroundColor: backgroundColor ?? this.backgroundColor,
-      );
-
-  /// Copies current [LineChartData] to a new [LineChartData],
-  /// and replaces provided values.
-  @override
-  LineChartData copyWithBounds(AxisChartBounds bounds) => copyWith(
-        minX: bounds.minX,
-        maxX: bounds.maxX,
-        minY: bounds.minY,
-        maxY: bounds.maxY,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -941,12 +930,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       );
-
-  @override
-  LineTouchData copyWithTouchCallback(
-    BaseTouchCallback<LineTouchResponse> touchCallback,
-  ) =>
-      copyWith(touchCallback: touchCallback);
 
   /// Used for equality check, see [EquatableMixin].
   @override

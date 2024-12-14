@@ -79,7 +79,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
                 aspectRatio: 1.5,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),
-                  child: InteractiveLineChart(
+                  child: LineChart(
                     LineChartData(
                       minY: -1,
                       maxY: 1,

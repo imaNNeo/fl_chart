@@ -45,29 +45,11 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   /// Recognizes tap gestures, such as onTapDown, onTapCancel and onTapUp
   late TapGestureRecognizer _tapGestureRecognizer;
 
-  /// Recognizes double tap gestures, such as onDoubleTap
-  late DoubleTapGestureRecognizer _doubleTapGestureRecognizer;
-
   /// Recognizes longPress gestures, such as onLongPressStart, onLongPressMoveUpdate and onLongPressEnd
   late LongPressGestureRecognizer _longPressGestureRecognizer;
 
-  /// Recognizes scale gestures, such as onScaleStart, onScaleUpdate and onScaleEnd
-  late ScaleGestureRecognizer _scaleGestureRecognizer;
-
   /// Initializes our recognizers and implement their callbacks.
   void initGestureRecognizers() {
-    _scaleGestureRecognizer = ScaleGestureRecognizer();
-    _scaleGestureRecognizer
-      ..onStart = (scaleStartDetails) {
-        _notifyTouchEvent(FlScaleStartEvent(scaleStartDetails));
-      }
-      ..onUpdate = (scaleUpdateDetails) {
-        _notifyTouchEvent(FlScaleUpdateEvent(scaleUpdateDetails));
-      }
-      ..onEnd = (scaleEndDetails) {
-        _notifyTouchEvent(FlScaleEndEvent(scaleEndDetails));
-      };
-
     _panGestureRecognizer = PanGestureRecognizer();
     _panGestureRecognizer
       ..onDown = (dragDownDetails) {
@@ -96,15 +78,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       }
       ..onTapUp = (tapUpDetails) {
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
-      }
-      ..onTap = () {
-        _notifyTouchEvent(const FlTapEvent());
       };
-
-    _doubleTapGestureRecognizer = DoubleTapGestureRecognizer();
-    _doubleTapGestureRecognizer.onDoubleTap = () {
-      _notifyTouchEvent(const FlDoubleTapEvent());
-    };
 
     _longPressGestureRecognizer =
         LongPressGestureRecognizer(duration: _longPressDuration);
@@ -150,9 +124,7 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (event is PointerDownEvent) {
       _longPressGestureRecognizer.addPointer(event);
       _tapGestureRecognizer.addPointer(event);
-      _doubleTapGestureRecognizer.addPointer(event);
-      // _panGestureRecognizer.addPointer(event);
-      _scaleGestureRecognizer.addPointer(event);
+      _panGestureRecognizer.addPointer(event);
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
     }

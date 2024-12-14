@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -44,7 +43,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     double? minY,
     super.baselineY,
     FlGridData? gridData,
-    super.clipData,
     super.borderData,
     RangeAnnotations? rangeAnnotations,
     super.backgroundColor,
@@ -90,7 +88,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     RangeAnnotations? rangeAnnotations,
     BarTouchData? barTouchData,
     FlGridData? gridData,
-    FlClipData? clipData,
     FlBorderData? borderData,
     double? maxY,
     double? minY,
@@ -106,21 +103,12 @@ class BarChartData extends AxisChartData with EquatableMixin {
         rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
         barTouchData: barTouchData ?? this.barTouchData,
         gridData: gridData ?? this.gridData,
-        clipData: clipData ?? this.clipData,
         borderData: borderData ?? this.borderData,
         maxY: maxY ?? this.maxY,
         minY: minY ?? this.minY,
         baselineY: baselineY ?? this.baselineY,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         extraLinesData: extraLinesData ?? this.extraLinesData,
-      );
-
-  /// Copies current [BarChartData] to a new [BarChartData],
-  /// and replaces provided values.
-  @override
-  BarChartData copyWithBounds(AxisChartBounds bounds) => copyWith(
-        minY: bounds.minY,
-        maxY: bounds.maxY,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -136,7 +124,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
             RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         barTouchData: b.barTouchData,
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
-        clipData: b.clipData,
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
         minY: lerpDouble(a.minY, b.minY, t),
@@ -162,7 +149,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         minY,
         baselineY,
         gridData,
-        clipData,
         borderData,
         rangeAnnotations,
         backgroundColor,
@@ -663,12 +649,6 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
             allowTouchBarBackDraw ?? this.allowTouchBarBackDraw,
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       );
-
-  @override
-  BarTouchData copyWithTouchCallback(
-    BaseTouchCallback<BarTouchResponse> touchCallback,
-  ) =>
-      copyWith(touchCallback: touchCallback);
 
   /// Used for equality check, see [EquatableMixin].
   @override

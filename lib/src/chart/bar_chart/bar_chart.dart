@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_interactive_chart.dart';
 import 'package:flutter/cupertino.dart';
 
 /// Renders a bar chart as a widget, using provided [BarChartData].
@@ -15,8 +14,6 @@ class BarChart extends ImplicitlyAnimatedWidget {
   const BarChart(
     this.data, {
     this.chartRendererKey,
-    this.onSizeChanged,
-    this.onPointerSignal,
     super.key,
     @Deprecated('Please use [duration] instead')
     Duration? swapAnimationDuration,
@@ -34,9 +31,6 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
-
-  final OnSizeChanged? onSizeChanged;
-  final OnPointerSignal? onPointerSignal;
 
   /// Creates a [_BarChartState]
   @override
@@ -62,20 +56,10 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
-      chart: LayoutBuilder(
-        builder: (context, constraints) {
-          widget.onSizeChanged?.call(constraints.biggest);
-          return Listener(
-            onPointerSignal: widget.onPointerSignal,
-            child: BarChartLeaf(
-              data: _withTouchedIndicators(
-                _barChartDataTween!.evaluate(animation),
-              ),
-              targetData: _withTouchedIndicators(showingData),
-              key: widget.chartRendererKey,
-            ),
-          );
-        },
+      chart: BarChartLeaf(
+        data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
+        targetData: _withTouchedIndicators(showingData),
+        key: widget.chartRendererKey,
       ),
     );
   }
