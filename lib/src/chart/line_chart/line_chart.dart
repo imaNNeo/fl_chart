@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
+import 'package:fl_chart/src/chart/base/max_custom_interactive_viewer.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,15 +48,81 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final _lineChartHelper = LineChartHelper();
 
+  final _transformationController = CustomTransformationController();
+
+  final _childKey = GlobalKey();
+
+  Rect? _boundingBox;
+
+  @override
+  void initState() {
+    super.initState();
+    _transformationController.addListener(() {
+      final scale = _transformationController.value.getMaxScaleOnAxis();
+      if (scale == 1.0) {
+        setState(() {
+          _boundingBox = null;
+        });
+        return;
+      }
+      final inverseMatrix = Matrix4.inverted(_transformationController.value);
+
+      final quad = CustomInteractiveViewer.transformViewport(
+        inverseMatrix,
+        _boundaryRect,
+      );
+
+      final boundingRect = CustomInteractiveViewer.axisAlignedBoundingBox(
+        quad,
+      );
+
+      setState(() {
+        _boundingBox = boundingRect;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _transformationController.dispose();
+    super.dispose();
+  }
+
+  // The Rect representing the chart.
+  Rect get _boundaryRect {
+    assert(_childKey.currentContext != null);
+    final childRenderBox =
+        _childKey.currentContext!.findRenderObject()! as RenderBox;
+    return Offset.zero & childRenderBox.size;
+  }
+
   @override
   Widget build(BuildContext context) {
     final showingData = _getData();
 
     return AxisChartScaffoldWidget(
-      chart: LineChartLeaf(
-        data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
-        targetData: _withTouchedIndicators(showingData),
-        key: widget.chartRendererKey,
+      chart: LayoutBuilder(
+        builder: (context, constraints) {
+          return CustomInteractiveViewer(
+            transformationController: _transformationController,
+            clipBehavior: Clip.none,
+            child: KeyedSubtree(
+              key: _childKey,
+              child: SizedBox(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: LineChartLeaf(
+                  data: _withTouchedIndicators(
+                    _lineChartDataTween!.evaluate(animation),
+                  ),
+                  targetData: _withTouchedIndicators(showingData),
+                  key: widget.chartRendererKey,
+                  boundingBox: _boundingBox,
+                ),
+              ),
+            ),
+          );
+        },
       ),
       data: showingData,
     );

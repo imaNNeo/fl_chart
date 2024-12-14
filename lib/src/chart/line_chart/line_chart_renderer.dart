@@ -14,10 +14,12 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
+    this.boundingBox,
   });
 
   final LineChartData data;
   final LineChartData targetData;
+  final Rect? boundingBox;
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
@@ -25,6 +27,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
+        boundingBox,
       );
 
   @override
@@ -33,7 +36,8 @@ class LineChartLeaf extends LeafRenderObjectWidget {
       ..data = data
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
-      ..buildContext = context;
+      ..buildContext = context
+      ..boundingBox = boundingBox;
   }
 }
 // coverage:ignore-end
@@ -45,9 +49,11 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     LineChartData data,
     LineChartData targetData,
     TextScaler textScaler,
+    Rect? boundingBox,
   )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
+        _boundingBox = boundingBox,
         super(
           targetData.lineTouchData,
           context,
@@ -78,6 +84,14 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     markNeedsPaint();
   }
 
+  Rect? get boundingBox => _boundingBox;
+  Rect? _boundingBox;
+  set boundingBox(Rect? value) {
+    if (_boundingBox == value) return;
+    _boundingBox = value;
+    markNeedsPaint();
+  }
+
   // We couldn't mock [size] property of this class, that's why we have this
   @visibleForTesting
   Size? mockTestSize;
@@ -86,7 +100,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   LineChartPainter painter = LineChartPainter();
 
   PaintHolder<LineChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler);
+      PaintHolder(data, targetData, textScaler, boundingBox);
 
   @override
   void paint(PaintingContext context, Offset offset) {
@@ -103,8 +117,9 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
 
   @override
   LineTouchResponse getResponseAtLocation(Offset localPosition) {
+    final positionAdjustment = boundingBox?.topLeft ?? Offset.zero;
     final touchedSpots = painter.handleTouch(
-      localPosition,
+      localPosition - positionAdjustment,
       mockTestSize ?? size,
       paintHolder,
     );
