@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_interactive_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +15,6 @@ class LineChart extends ImplicitlyAnimatedWidget {
   const LineChart(
     this.data, {
     this.chartRendererKey,
-    this.onSizeChanged,
-    this.onPointerSignal,
     super.key,
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
@@ -29,9 +26,6 @@ class LineChart extends ImplicitlyAnimatedWidget {
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
-
-  final OnSizeChanged? onSizeChanged;
-  final OnPointerSignal? onPointerSignal;
 
   /// Creates a [_LineChartState]
   @override
@@ -58,20 +52,10 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final showingData = _getData();
 
     return AxisChartScaffoldWidget(
-      chart: LayoutBuilder(
-        builder: (context, constraints) {
-          widget.onSizeChanged?.call(constraints.biggest);
-          return Listener(
-            onPointerSignal: widget.onPointerSignal,
-            child: LineChartLeaf(
-              data: _withTouchedIndicators(
-                _lineChartDataTween!.evaluate(animation),
-              ),
-              targetData: _withTouchedIndicators(showingData),
-              key: widget.chartRendererKey,
-            ),
-          );
-        },
+      chart: LineChartLeaf(
+        data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
+        targetData: _withTouchedIndicators(showingData),
+        key: widget.chartRendererKey,
       ),
       data: showingData,
     );

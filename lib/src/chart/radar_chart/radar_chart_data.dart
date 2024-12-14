@@ -404,18 +404,6 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
   /// we find the nearest spots on touched position based on this threshold
   final double touchSpotThreshold;
 
-  @override
-  RadarTouchData copyWithTouchCallback(
-    BaseTouchCallback<RadarTouchResponse> touchCallback,
-  ) =>
-      RadarTouchData(
-        enabled: enabled,
-        touchCallback: touchCallback,
-        mouseCursorResolver: mouseCursorResolver,
-        longPressDuration: longPressDuration,
-        touchSpotThreshold: touchSpotThreshold,
-      );
-
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [

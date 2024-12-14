@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_bounds.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
@@ -159,16 +158,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         clipData: clipData ?? this.clipData,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
-      );
-
-  /// Copies current [ScatterChartData] to a new [ScatterChartData],
-  /// and replaces provided values.
-  @override
-  ScatterChartData copyWithBounds(AxisChartBounds bounds) => copyWith(
-        minX: bounds.minX,
-        maxX: bounds.maxX,
-        minY: bounds.minY,
-        maxY: bounds.maxY,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -332,12 +321,6 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
         touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       );
-
-  @override
-  ScatterTouchData copyWithTouchCallback(
-    BaseTouchCallback<ScatterTouchResponse> touchCallback,
-  ) =>
-      copyWith(touchCallback: touchCallback);
 
   /// Used for equality check, see [EquatableMixin].
   @override

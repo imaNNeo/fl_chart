@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
-import 'package:fl_chart/src/chart/base/base_chart/base_interactive_chart.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,8 +13,6 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   const ScatterChart(
     this.data, {
     this.chartRendererKey,
-    this.onSizeChanged,
-    this.onPointerSignal,
     super.key,
     @Deprecated('Please use [duration] instead')
     Duration? swapAnimationDuration,
@@ -33,9 +30,6 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// We pass this key to our renderers which are responsible to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
-
-  final OnSizeChanged? onSizeChanged;
-  final OnPointerSignal? onPointerSignal;
 
   /// Creates a [_ScatterChartState]
   @override
@@ -59,20 +53,11 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
-      chart: Listener(
-        onPointerSignal: widget.onPointerSignal,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            widget.onSizeChanged?.call(constraints.biggest);
-            return ScatterChartLeaf(
-              data: _withTouchedIndicators(
-                _scatterChartDataTween!.evaluate(animation),
-              ),
-              targetData: _withTouchedIndicators(showingData),
-              key: widget.chartRendererKey,
-            );
-          },
-        ),
+      chart: ScatterChartLeaf(
+        data:
+            _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
+        targetData: _withTouchedIndicators(showingData),
+        key: widget.chartRendererKey,
       ),
     );
   }
