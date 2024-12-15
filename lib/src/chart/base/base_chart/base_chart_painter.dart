@@ -43,4 +43,15 @@ class PaintHolder<Data extends BaseChartData> {
   ///
   /// Null when not scaling or panning.
   final Rect? boundingBox;
+
+  /// Returns the size of the chart that is actually being painted.
+  ///
+  /// When scaling the chart, the chart is painted on a larger area to simulate
+  /// the zoom effect. This function returns the size of the area that is
+  /// actually being painted.
+  ///
+  /// When not scaled it returns the actual size of the chart.
+  Size getChartUsableSize(Size viewSize) {
+    return boundingBox?.size ?? viewSize;
+  }
 }

@@ -461,24 +461,51 @@ abstract class AxisChartPainter<D extends AxisChartData>
   /// With this function we can convert our [FlSpot] x
   /// to the view base axis x .
   /// the view 0, 0 is on the top/left, but the spots is bottom/left
-  double getPixelX(double spotX, Size viewSize, PaintHolder<D> holder) {
-    final data = holder.data;
+  double getPixelX(
+    double spotX,
+    Size viewSize,
+    PaintHolder<D> holder,
+  ) {
+    final usableSize = holder.getChartUsableSize(viewSize);
+
+    final calculated = _getPixelX(spotX, holder.data, usableSize);
+
+    // Adjust the position relative to the canvas if boundingBox is provided
+    final adjustment = holder.boundingBox?.left ?? 0;
+    return calculated + adjustment;
+  }
+
+  double _getPixelX(double spotX, D data, Size usableSize) {
     final deltaX = data.maxX - data.minX;
     if (deltaX == 0.0) {
       return 0;
     }
-    return ((spotX - data.minX) / deltaX) * viewSize.width;
+    return ((spotX - data.minX) / deltaX) * usableSize.width;
   }
 
   /// With this function we can convert our [FlSpot] y
   /// to the view base axis y.
-  double getPixelY(double spotY, Size viewSize, PaintHolder<D> holder) {
-    final data = holder.data;
+  double getPixelY(
+    double spotY,
+    Size viewSize,
+    PaintHolder<D> holder,
+  ) {
+    final usableSize = holder.getChartUsableSize(viewSize);
+
+    final calculated = _getPixelY(spotY, holder.data, usableSize);
+
+    // Adjust the position relative to the canvas if boundingBox is provided
+    final adjustment = holder.boundingBox?.top ?? 0;
+    return calculated + adjustment;
+  }
+
+  double _getPixelY(double spotY, D data, Size usableSize) {
     final deltaY = data.maxY - data.minY;
     if (deltaY == 0.0) {
-      return viewSize.height;
+      return usableSize.height;
     }
-    return viewSize.height - (((spotY - data.minY) / deltaY) * viewSize.height);
+    return usableSize.height -
+        (((spotY - data.minY) / deltaY) * usableSize.height);
   }
 
   /// With this function we can get horizontal
