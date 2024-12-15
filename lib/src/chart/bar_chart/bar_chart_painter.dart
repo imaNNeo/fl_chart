@@ -49,6 +49,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<BarChartData> holder,
   ) {
+    if (holder.boundingBox != null) {
+      final canvasRect = Offset.zero & canvasWrapper.size;
+      canvasWrapper
+        ..saveLayer(
+          canvasRect,
+          Paint(),
+        )
+        ..clipRect(canvasRect);
+    }
+
     super.paint(context, canvasWrapper, holder);
     final data = holder.data;
     final targetData = holder.targetData;
@@ -57,10 +67,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       return;
     }
 
-    final groupsX = data.calculateGroupsX(canvasWrapper.size.width);
+    final usableSize = holder.getChartUsableSize(canvasWrapper.size);
+
+    final groupsX = data.calculateGroupsX(usableSize.width);
+    final adjustment = holder.boundingBox?.left ?? 0;
+    final groupsXAdjusted = groupsX.map((e) => e + adjustment).toList();
+
     _groupBarsPosition = calculateGroupAndBarsPosition(
-      canvasWrapper.size,
-      groupsX,
+      usableSize,
+      groupsXAdjusted,
       data.barGroups,
     );
 
@@ -69,7 +84,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         context,
         canvasWrapper,
         holder,
-        canvasWrapper.size,
+        usableSize,
       );
     }
 
@@ -80,8 +95,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         context,
         canvasWrapper,
         holder,
-        canvasWrapper.size,
+        usableSize,
       );
+    }
+
+    if (holder.boundingBox != null) {
+      canvasWrapper.restore();
     }
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
@@ -383,16 +402,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final textWidth = drawingTextPainter.width;
     final textHeight = drawingTextPainter.height + textsBelowMargin;
 
+    final barX = groupPositions[barGroupIndex].barsX[barRodIndex];
+
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
     final barToYPixel = Offset(
-      groupPositions[barGroupIndex].barsX[barRodIndex],
+      barX,
       getPixelY(showOnRodData.toY, viewSize, holder),
     );
 
     final barFromYPixel = Offset(
-      groupPositions[barGroupIndex].barsX[barRodIndex],
+      barX,
       getPixelY(showOnRodData.fromY, viewSize, holder),
     );
 
@@ -501,6 +522,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         ..strokeWidth = tooltipData.tooltipBorder.width;
     }
 
+    final tooltipOriginPoint = Offset(
+      barX,
+      drawTooltipOnTop ? barTopY : barBottomY,
+    );
+
+    if (!canvasWrapper.size.contains(tooltipOriginPoint)) {
+      return;
+    }
+
     canvasWrapper.drawRotated(
       size: rect.size,
       rotationOffset: rectRotationOffset,
@@ -584,13 +614,20 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// Returns null if finds nothing!
   BarTouchedSpot? handleTouch(
     Offset localPosition,
-    Size viewSize,
+    Size size,
     PaintHolder<BarChartData> holder,
   ) {
     final data = holder.data;
     final targetData = holder.targetData;
     final touchedPoint = localPosition;
     if (targetData.barGroups.isEmpty) {
+      return null;
+    }
+
+    final viewSize = holder.getChartUsableSize(size);
+
+    // Check if the touch is outside the canvas bounds
+    if (!size.contains(localPosition)) {
       return null;
     }
 

@@ -5,20 +5,6 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum ScaleAxis {
-  /// Scales the horizontal axis.
-  horizontal,
-
-  /// Scales the vertical axis.
-  vertical,
-
-  /// Scales both the horizontal and vertical axes.
-  free,
-
-  /// Does not scale the axes.
-  none,
-}
-
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [LineChart] should be look like,
