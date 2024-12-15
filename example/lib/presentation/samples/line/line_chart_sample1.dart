@@ -10,7 +10,6 @@ class _LineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      scaleAxis: ScaleAxis.free,
       maxScale: 5,
       isShowingMainData ? sampleData1 : sampleData2,
       duration: const Duration(milliseconds: 250),
