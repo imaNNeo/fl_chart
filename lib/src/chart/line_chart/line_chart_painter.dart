@@ -65,12 +65,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (holder.boundingBox != null) {
       canvasWrapper
         ..saveLayer(
-          Rect.fromLTWH(
-            0,
-            -40,
-            canvasWrapper.size.width + 40,
-            canvasWrapper.size.height + 40,
-          ),
+          Offset.zero & canvasWrapper.size,
           Paint(),
         )
         ..clipRect(Offset.zero & canvasWrapper.size);
@@ -1003,6 +998,32 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     const textsBelowMargin = 4;
 
+    // Get the dot height if available
+    double? dotHeight;
+    for (final info in showingTooltipSpots.showingSpots) {
+      // Find the corresponding indicator data for this spot
+      final lineData = holder.data.lineBarsData[info.barIndex];
+      final indicators = holder.data.lineTouchData
+          .getTouchedSpotIndicator(lineData, [info.spotIndex]);
+
+      if (indicators.isNotEmpty && indicators[0] != null) {
+        final indicatorData = indicators[0]!;
+        if (indicatorData.touchedSpotDotData.show) {
+          final xPercentInLine = (getPixelX(info.x, viewSize, holder) /
+                  getBarLineXLength(lineData, viewSize, holder)) *
+              100;
+          final dotPainter = indicatorData.touchedSpotDotData
+              .getDotPainter(info, xPercentInLine, lineData, info.spotIndex);
+          final currentDotHeight = dotPainter.getSize(info).height;
+
+          // Keep the largest dot height
+          if (dotHeight == null || currentDotHeight > dotHeight) {
+            dotHeight = currentDotHeight;
+          }
+        }
+      }
+    }
+
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
 
@@ -1060,6 +1081,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       getPixelX(showOnSpot.x, viewSize, holder),
       getPixelY(showOnSpot.y, viewSize, holder),
     );
+
+    // Create an extended boundary that includes the center of the dot
+    dotHeight ??= 0;
+    final extendedBoundary = (Offset.zero & viewSize).inflate(dotHeight / 2);
+
+    if (!extendedBoundary.contains(mostTopOffset)) {
+      return;
+    }
 
     final tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
@@ -1242,19 +1271,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final data = holder.data;
     final viewSize = getChartUsableSize(holder, size);
 
-    // Adjust touch position if using boundingBox
-    var adjustedPosition = localPosition;
-    if (holder.boundingBox != null) {
-      // Convert local position to boundingBox coordinates
-      adjustedPosition = Offset(
-        localPosition.dx + holder.boundingBox!.left,
-        localPosition.dy + holder.boundingBox!.top,
-      );
-
-      // Check if the touch is outside the canvas bounds
-      if (!holder.boundingBox!.contains(adjustedPosition)) {
-        return null;
-      }
+    // Check if the touch is outside the canvas bounds
+    if (!size.contains(localPosition)) {
+      return null;
     }
 
     /// it holds list of nearest touched spots of each line
@@ -1268,7 +1287,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       // find the nearest spot on touch area in this bar line
       final foundTouchedSpot = getNearestTouchedSpot(
         viewSize,
-        adjustedPosition,
+        localPosition,
         barData,
         i,
         holder,
