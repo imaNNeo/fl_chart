@@ -36,8 +36,21 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<ScatterChartData> holder,
   ) {
+    if (holder.boundingBox != null) {
+      canvasWrapper
+        ..saveLayer(
+          Offset.zero & canvasWrapper.size,
+          Paint(),
+        )
+        ..clipRect(Offset.zero & canvasWrapper.size);
+    }
     super.paint(context, canvasWrapper, holder);
     drawSpots(context, canvasWrapper, holder);
+
+    if (holder.boundingBox != null) {
+      canvasWrapper.restore();
+    }
+
     drawTouchTooltips(context, canvasWrapper, holder);
   }
 
@@ -230,19 +243,27 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final width = drawingTextPainter.width;
     final height = drawingTextPainter.height;
 
-    /// if we have multiple bar lines,
-    /// there are more than one FlCandidate on touch area,
-    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final mostTopOffset = Offset(
+    final tooltipOriginPoint = Offset(
       getPixelX(showOnSpot.x, viewSize, holder),
       getPixelY(showOnSpot.y, viewSize, holder),
     );
+
+    // Get the dot size to create an extended boundary
+    final dotSize = showOnSpot.dotPainter.getSize(showOnSpot);
+    final dotRadius = dotSize.width / 2;
+    final viewRect = Offset.zero & viewSize;
+    final extendedBoundary = viewRect.inflate(dotRadius);
+
+    // Check if any part of the dot is within the extended boundary
+    if (!extendedBoundary.contains(tooltipOriginPoint)) {
+      return;
+    }
 
     final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
     final tooltipLeftPosition = getTooltipLeft(
-      mostTopOffset.dx,
+      tooltipOriginPoint.dx,
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
@@ -251,7 +272,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     /// draw the background rect with rounded radius
     var rect = Rect.fromLTWH(
       tooltipLeftPosition,
-      mostTopOffset.dy -
+      tooltipOriginPoint.dy -
           tooltipHeight -
           (showOnSpot.size.height / 2) -
           tooltipItem.bottomMargin,

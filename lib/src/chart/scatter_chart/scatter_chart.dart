@@ -19,6 +19,9 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
     Duration duration = const Duration(milliseconds: 150),
     @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
     Curve curve = Curves.linear,
+    this.scaleAxis = ScaleAxis.none,
+    this.maxScale = 2.5,
+    this.trackpadScrollCausesScale = false,
   }) : super(
           duration: swapAnimationDuration ?? duration,
           curve: swapAnimationCurve ?? curve,
@@ -30,6 +33,19 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// We pass this key to our renderers which are responsible to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
+
+  /// Determines what axis should be scaled.
+  final ScaleAxis scaleAxis;
+
+  /// The maximum scale of the chart.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final double maxScale;
+
+  /// Whether trackpad scroll causes scale.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final bool trackpadScrollCausesScale;
 
   /// Creates a [_ScatterChartState]
   @override
@@ -53,11 +69,16 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
+      scaleAxis: widget.scaleAxis,
+      maxScale: widget.maxScale,
+      trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
       chartBuilder: (context, chartRect) => ScatterChartLeaf(
         data:
             _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
+        boundingBox: chartRect,
+        canBeScaled: widget.scaleAxis != ScaleAxis.none,
       ),
     );
   }
