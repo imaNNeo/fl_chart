@@ -23,7 +23,7 @@ class BarChart extends ImplicitlyAnimatedWidget {
     Duration duration = const Duration(milliseconds: 150),
     @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
     Curve curve = Curves.linear,
-    this.scaleAxis = ScaleAxis.vertical,
+    this.scaleAxis = ScaleAxis.none,
     this.maxScale = 2.5,
     this.trackpadScrollCausesScale = false,
   })  : assert(
