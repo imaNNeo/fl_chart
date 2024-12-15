@@ -14,12 +14,14 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
+    required this.canBeScaled,
     this.boundingBox,
   });
 
   final LineChartData data;
   final LineChartData targetData;
   final Rect? boundingBox;
+  final bool canBeScaled;
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
@@ -28,6 +30,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         targetData,
         MediaQuery.of(context).textScaler,
         boundingBox,
+        canBeScaled: canBeScaled,
       );
 
   @override
@@ -37,7 +40,8 @@ class LineChartLeaf extends LeafRenderObjectWidget {
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
       ..buildContext = context
-      ..boundingBox = boundingBox;
+      ..boundingBox = boundingBox
+      ..canBeScaled = canBeScaled;
   }
 }
 // coverage:ignore-end
@@ -49,14 +53,16 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     LineChartData data,
     LineChartData targetData,
     TextScaler textScaler,
-    Rect? boundingBox,
-  )   : _data = data,
+    Rect? boundingBox, {
+    required bool canBeScaled,
+  })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
         _boundingBox = boundingBox,
         super(
           targetData.lineTouchData,
           context,
+          canBeScaled: canBeScaled,
         );
 
   LineChartData get data => _data;

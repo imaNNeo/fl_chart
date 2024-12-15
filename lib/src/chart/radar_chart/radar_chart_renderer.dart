@@ -47,7 +47,7 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
   )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        super(targetData.radarTouchData, context);
+        super(targetData.radarTouchData, context, canBeScaled: false);
 
   RadarChartData get data => _data;
   RadarChartData _data;
