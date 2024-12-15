@@ -170,6 +170,9 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
         return AxisSideTitleMetaData(axisValue, axisLocation);
       }).toList();
     }
+
+    axisPositions = getPositionsWithinChartRange(axisPositions, side);
+
     return axisPositions.map(
       (metaData) {
         return AxisSideTitleWidgetHolder(
@@ -194,6 +197,30 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
         );
       },
     ).toList();
+  }
+
+  List<AxisSideTitleMetaData> getPositionsWithinChartRange(
+    List<AxisSideTitleMetaData> axisPositions,
+    AxisSide side,
+  ) {
+    final chartSize = Size(
+      widget.parentSize.width - thisSidePaddingTotal,
+      widget.parentSize.height - thisSidePaddingTotal,
+    );
+    final chartRect = Offset.zero & chartSize;
+
+    return axisPositions.where((metaData) {
+      final location = metaData.axisPixelLocation;
+      switch (side) {
+        case AxisSide.left:
+        case AxisSide.right:
+          return chartRect.contains(Offset(0, location));
+
+        case AxisSide.top:
+        case AxisSide.bottom:
+          return chartRect.contains(Offset(location, 0));
+      }
+    }).toList();
   }
 
   @override
