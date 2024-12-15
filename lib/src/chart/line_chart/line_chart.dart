@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
-import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
@@ -72,105 +71,23 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final _lineChartHelper = LineChartHelper();
 
-  final _transformationController = CustomTransformationController();
-
-  final _chartKey = GlobalKey();
-
-  Rect? _chartRect;
-
-  bool get _canScaleHorizontally =>
-      widget.scaleAxis == ScaleAxis.horizontal ||
-      widget.scaleAxis == ScaleAxis.free;
-
-  bool get _canScaleVertically =>
-      widget.scaleAxis == ScaleAxis.vertical ||
-      widget.scaleAxis == ScaleAxis.free;
-
-  @override
-  void initState() {
-    super.initState();
-    _transformationController.addListener(_updateChartRect);
-  }
-
-  @override
-  void dispose() {
-    _transformationController.dispose();
-    super.dispose();
-  }
-
-  void _updateChartRect() {
-    final scale = _transformationController.value.getMaxScaleOnAxis();
-    if (scale == 1.0) {
-      setState(() {
-        _chartRect = null;
-      });
-      return;
-    }
-    final inverseMatrix = Matrix4.inverted(_transformationController.value);
-
-    final quad = CustomInteractiveViewer.transformViewport(
-      inverseMatrix,
-      _chartBoundaryRect,
-    );
-
-    final boundingRect = CustomInteractiveViewer.axisAlignedBoundingBox(quad);
-
-    final adjustedRect = Rect.fromLTWH(
-      _canScaleHorizontally ? boundingRect.left : _chartBoundaryRect.left,
-      _canScaleVertically ? boundingRect.top : _chartBoundaryRect.top,
-      _canScaleHorizontally ? boundingRect.width : _chartBoundaryRect.width,
-      _canScaleVertically ? boundingRect.height : _chartBoundaryRect.height,
-    );
-
-    setState(() {
-      _chartRect = adjustedRect;
-    });
-  }
-
-  // The Rect representing the chart.
-  Rect get _chartBoundaryRect {
-    assert(_chartKey.currentContext != null);
-    final childRenderBox =
-        _chartKey.currentContext!.findRenderObject()! as RenderBox;
-    return Offset.zero & childRenderBox.size;
-  }
-
   @override
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    final chart = KeyedSubtree(
-      key: _chartKey,
-      child: LineChartLeaf(
+    return AxisChartScaffoldWidget(
+      scaleAxis: widget.scaleAxis,
+      maxScale: widget.maxScale,
+      chartBuilder: (context, chartRect) => LineChartLeaf(
         data: _withTouchedIndicators(
           _lineChartDataTween!.evaluate(animation),
         ),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
-        boundingBox: _chartRect,
+        boundingBox: chartRect,
         canBeScaled: widget.scaleAxis != ScaleAxis.none,
       ),
-    );
-
-    return AxisChartScaffoldWidget(
-      chart: widget.scaleAxis == ScaleAxis.none
-          ? chart
-          : LayoutBuilder(
-              builder: (context, constraints) {
-                return CustomInteractiveViewer(
-                  transformationController: _transformationController,
-                  clipBehavior: Clip.none,
-                  maxScale: widget.maxScale,
-                  child: SizedBox(
-                    width: constraints.maxWidth,
-                    height: constraints.maxHeight,
-                    child: chart,
-                  ),
-                );
-              },
-            ),
       data: showingData,
-      boundingBox: _chartRect,
     );
   }
 

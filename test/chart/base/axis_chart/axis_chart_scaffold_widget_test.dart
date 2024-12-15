@@ -167,7 +167,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(
+                  chartBuilder: (context, chartRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -200,7 +200,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(
+                  chartBuilder: (context, chartRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -258,7 +258,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(
+                  chartBuilder: (context, chartRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -297,7 +297,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(
+                  chartBuilder: (context, chartRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -335,7 +335,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chart: LayoutBuilder(
+                  chartBuilder: (context, chartRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(

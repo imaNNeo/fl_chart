@@ -15,7 +15,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     required this.data,
     required this.targetData,
     required this.canBeScaled,
-    this.boundingBox,
+    required this.boundingBox,
   });
 
   final LineChartData data;
