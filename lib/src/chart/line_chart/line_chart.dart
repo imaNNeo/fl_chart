@@ -6,6 +6,20 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+enum ScaleAxis {
+  /// Scales the horizontal axis.
+  horizontal,
+
+  /// Scales the vertical axis.
+  vertical,
+
+  /// Scales both the horizontal and vertical axes.
+  free,
+
+  /// Does not scale the axes.
+  none,
+}
+
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
   /// [data] determines how the [LineChart] should be look like,
@@ -19,6 +33,8 @@ class LineChart extends ImplicitlyAnimatedWidget {
     super.key,
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
+    this.scaleAxis = ScaleAxis.none,
+    this.maxScale = 2.5,
   });
 
   /// Determines how the [LineChart] should be look like.
@@ -27,6 +43,14 @@ class LineChart extends ImplicitlyAnimatedWidget {
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
+
+  /// Determines what axis should be scaled.
+  final ScaleAxis scaleAxis;
+
+  /// The maximum scale of the chart.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final double maxScale;
 
   /// Creates a [_LineChartState]
   @override
@@ -53,6 +77,14 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   final _chartKey = GlobalKey();
 
   Rect? _chartRect;
+
+  bool get _canScaleHorizontally =>
+      widget.scaleAxis == ScaleAxis.horizontal ||
+      widget.scaleAxis == ScaleAxis.free;
+
+  bool get _canScaleVertically =>
+      widget.scaleAxis == ScaleAxis.vertical ||
+      widget.scaleAxis == ScaleAxis.free;
 
   @override
   void initState() {
@@ -83,8 +115,15 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
     final boundingRect = CustomInteractiveViewer.axisAlignedBoundingBox(quad);
 
+    final adjustedRect = Rect.fromLTWH(
+      _canScaleHorizontally ? boundingRect.left : _chartBoundaryRect.left,
+      _canScaleVertically ? boundingRect.top : _chartBoundaryRect.top,
+      _canScaleHorizontally ? boundingRect.width : _chartBoundaryRect.width,
+      _canScaleVertically ? boundingRect.height : _chartBoundaryRect.height,
+    );
+
     setState(() {
-      _chartRect = boundingRect;
+      _chartRect = adjustedRect;
     });
   }
 
@@ -100,30 +139,35 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   Widget build(BuildContext context) {
     final showingData = _getData();
 
-    return AxisChartScaffoldWidget(
-      chart: LayoutBuilder(
-        builder: (context, constraints) {
-          return CustomInteractiveViewer(
-            transformationController: _transformationController,
-            clipBehavior: Clip.none,
-            child: KeyedSubtree(
-              key: _chartKey,
-              child: SizedBox(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight,
-                child: LineChartLeaf(
-                  data: _withTouchedIndicators(
-                    _lineChartDataTween!.evaluate(animation),
-                  ),
-                  targetData: _withTouchedIndicators(showingData),
-                  key: widget.chartRendererKey,
-                  boundingBox: _chartRect,
-                ),
-              ),
-            ),
-          );
-        },
+    final chart = KeyedSubtree(
+      key: _chartKey,
+      child: LineChartLeaf(
+        data: _withTouchedIndicators(
+          _lineChartDataTween!.evaluate(animation),
+        ),
+        targetData: _withTouchedIndicators(showingData),
+        key: widget.chartRendererKey,
+        boundingBox: _chartRect,
       ),
+    );
+
+    return AxisChartScaffoldWidget(
+      chart: widget.scaleAxis == ScaleAxis.none
+          ? chart
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                return CustomInteractiveViewer(
+                  transformationController: _transformationController,
+                  clipBehavior: Clip.none,
+                  maxScale: widget.maxScale,
+                  child: SizedBox(
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                    child: chart,
+                  ),
+                );
+              },
+            ),
       data: showingData,
       boundingBox: _chartRect,
     );
