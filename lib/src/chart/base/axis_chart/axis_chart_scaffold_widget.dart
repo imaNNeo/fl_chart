@@ -32,6 +32,7 @@ class AxisChartScaffoldWidget extends StatefulWidget {
     required this.data,
     this.scaleAxis = ScaleAxis.none,
     this.maxScale = 2.5,
+    this.trackpadScrollCausesScale = false,
   });
 
   final ChartBuilder chartBuilder;
@@ -44,6 +45,11 @@ class AxisChartScaffoldWidget extends StatefulWidget {
   ///
   /// Ignored when [scaleAxis] is [ScaleAxis.none].
   final double maxScale;
+
+  /// Whether trackpad scroll causes scale.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final bool trackpadScrollCausesScale;
 
   @override
   State<AxisChartScaffoldWidget> createState() =>
@@ -170,6 +176,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
                   return CustomInteractiveViewer(
                     transformationController: _transformationController,
                     clipBehavior: Clip.none,
+                    trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
                     maxScale: widget.maxScale,
                     child: SizedBox(
                       width: constraints.maxWidth,

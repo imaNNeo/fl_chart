@@ -34,6 +34,7 @@ class LineChart extends ImplicitlyAnimatedWidget {
     super.curve = Curves.linear,
     this.scaleAxis = ScaleAxis.none,
     this.maxScale = 2.5,
+    this.trackpadScrollCausesScale = false,
   });
 
   /// Determines how the [LineChart] should be look like.
@@ -50,6 +51,11 @@ class LineChart extends ImplicitlyAnimatedWidget {
   ///
   /// Ignored when [scaleAxis] is [ScaleAxis.none].
   final double maxScale;
+
+  /// Whether trackpad scroll causes scale.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final bool trackpadScrollCausesScale;
 
   /// Creates a [_LineChartState]
   @override
@@ -78,6 +84,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     return AxisChartScaffoldWidget(
       scaleAxis: widget.scaleAxis,
       maxScale: widget.maxScale,
+      trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
       chartBuilder: (context, chartRect) => LineChartLeaf(
         data: _withTouchedIndicators(
           _lineChartDataTween!.evaluate(animation),
