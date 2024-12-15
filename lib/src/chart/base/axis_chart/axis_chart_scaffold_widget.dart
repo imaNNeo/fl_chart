@@ -24,9 +24,12 @@ class AxisChartScaffoldWidget extends StatelessWidget {
     super.key,
     required this.chart,
     required this.data,
+    this.boundingBox,
   });
+
   final Widget chart;
   final AxisChartData data;
+  final Rect? boundingBox;
 
   bool get showLeftTitles {
     if (!data.titlesData.show) {
@@ -84,6 +87,7 @@ class AxisChartScaffoldWidget extends StatelessWidget {
           side: AxisSide.left,
           axisChartData: data,
           parentSize: constraints.biggest,
+          boundingBox: boundingBox,
         ),
       );
     }
@@ -95,6 +99,7 @@ class AxisChartScaffoldWidget extends StatelessWidget {
           side: AxisSide.top,
           axisChartData: data,
           parentSize: constraints.biggest,
+          boundingBox: boundingBox,
         ),
       );
     }
@@ -106,6 +111,7 @@ class AxisChartScaffoldWidget extends StatelessWidget {
           side: AxisSide.right,
           axisChartData: data,
           parentSize: constraints.biggest,
+          boundingBox: boundingBox,
         ),
       );
     }
@@ -117,6 +123,7 @@ class AxisChartScaffoldWidget extends StatelessWidget {
           side: AxisSide.bottom,
           axisChartData: data,
           parentSize: constraints.biggest,
+          boundingBox: boundingBox,
         ),
       );
     }
