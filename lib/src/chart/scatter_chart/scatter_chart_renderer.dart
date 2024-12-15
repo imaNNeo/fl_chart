@@ -13,10 +13,14 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
+    required this.boundingBox,
+    required this.canBeScaled,
   });
 
   final ScatterChartData data;
   final ScatterChartData targetData;
+  final Rect? boundingBox;
+  final bool canBeScaled;
 
   @override
   RenderScatterChart createRenderObject(BuildContext context) =>
@@ -25,6 +29,8 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
+        boundingBox,
+        canBeScaled: canBeScaled,
       );
 
   @override
@@ -36,7 +42,9 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
       ..data = data
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
-      ..buildContext = context;
+      ..buildContext = context
+      ..boundingBox = boundingBox
+      ..canBeScaled = canBeScaled;
   }
 }
 // coverage:ignore-end
@@ -48,10 +56,13 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     ScatterChartData data,
     ScatterChartData targetData,
     TextScaler textScaler,
-  )   : _data = data,
+    Rect? boundingBox, {
+    required bool canBeScaled,
+  })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        super(targetData.scatterTouchData, context, canBeScaled: false);
+        _boundingBox = boundingBox,
+        super(targetData.scatterTouchData, context, canBeScaled: canBeScaled);
 
   ScatterChartData get data => _data;
   ScatterChartData _data;
@@ -81,6 +92,15 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     markNeedsPaint();
   }
 
+  Rect? get boundingBox => _boundingBox;
+  Rect? _boundingBox;
+
+  set boundingBox(Rect? value) {
+    if (_boundingBox == value) return;
+    _boundingBox = value;
+    markNeedsPaint();
+  }
+
   // We couldn't mock [size] property of this class, that's why we have this
   @visibleForTesting
   Size? mockTestSize;
@@ -89,7 +109,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
   ScatterChartPainter painter = ScatterChartPainter();
 
   PaintHolder<ScatterChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler);
+      PaintHolder(data, targetData, textScaler, boundingBox);
 
   @override
   void paint(PaintingContext context, Offset offset) {
