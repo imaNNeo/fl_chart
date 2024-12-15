@@ -1398,7 +1398,7 @@ class FlDotCirclePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the circle
   @override
-  Size getSize(FlSpot spot) => Size(radius * 2, radius * 2);
+  Size getSize(FlSpot spot) => Size.fromRadius(radius + strokeWidth);
 
   @override
   Color get mainColor => color;
@@ -1499,7 +1499,7 @@ class FlDotSquarePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the square
   @override
-  Size getSize(FlSpot spot) => Size(size, size);
+  Size getSize(FlSpot spot) => Size.square(size + strokeWidth);
 
   @override
   Color get mainColor => color;

@@ -217,6 +217,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
     CanvasWrapper canvasWrapper,
     PaintHolder<D> holder,
   ) {
+    if (holder.boundingBox != null) {
+      canvasWrapper.restore();
+    }
+
     super.paint(context, canvasWrapper, holder);
     final data = holder.data;
     final viewSize = canvasWrapper.size;
@@ -227,6 +231,15 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     if (data.extraLinesData.verticalLines.isNotEmpty) {
       drawVerticalLines(context, canvasWrapper, holder, viewSize);
+    }
+
+    if (holder.boundingBox != null) {
+      canvasWrapper
+        ..saveLayer(
+          Offset.zero & canvasWrapper.size,
+          Paint(),
+        )
+        ..clipRect(Offset.zero & canvasWrapper.size);
     }
   }
 
