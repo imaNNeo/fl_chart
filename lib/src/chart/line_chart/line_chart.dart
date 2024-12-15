@@ -50,36 +50,14 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   final _transformationController = CustomTransformationController();
 
-  final _childKey = GlobalKey();
+  final _chartKey = GlobalKey();
 
-  Rect? _boundingBox;
+  Rect? _chartRect;
 
   @override
   void initState() {
     super.initState();
-    _transformationController.addListener(() {
-      final scale = _transformationController.value.getMaxScaleOnAxis();
-      if (scale == 1.0) {
-        setState(() {
-          _boundingBox = null;
-        });
-        return;
-      }
-      final inverseMatrix = Matrix4.inverted(_transformationController.value);
-
-      final quad = CustomInteractiveViewer.transformViewport(
-        inverseMatrix,
-        _boundaryRect,
-      );
-
-      final boundingRect = CustomInteractiveViewer.axisAlignedBoundingBox(
-        quad,
-      );
-
-      setState(() {
-        _boundingBox = boundingRect;
-      });
-    });
+    _transformationController.addListener(_updateChartRect);
   }
 
   @override
@@ -88,11 +66,33 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     super.dispose();
   }
 
+  void _updateChartRect() {
+    final scale = _transformationController.value.getMaxScaleOnAxis();
+    if (scale == 1.0) {
+      setState(() {
+        _chartRect = null;
+      });
+      return;
+    }
+    final inverseMatrix = Matrix4.inverted(_transformationController.value);
+
+    final quad = CustomInteractiveViewer.transformViewport(
+      inverseMatrix,
+      _chartBoundaryRect,
+    );
+
+    final boundingRect = CustomInteractiveViewer.axisAlignedBoundingBox(quad);
+
+    setState(() {
+      _chartRect = boundingRect;
+    });
+  }
+
   // The Rect representing the chart.
-  Rect get _boundaryRect {
-    assert(_childKey.currentContext != null);
+  Rect get _chartBoundaryRect {
+    assert(_chartKey.currentContext != null);
     final childRenderBox =
-        _childKey.currentContext!.findRenderObject()! as RenderBox;
+        _chartKey.currentContext!.findRenderObject()! as RenderBox;
     return Offset.zero & childRenderBox.size;
   }
 
@@ -107,7 +107,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
             transformationController: _transformationController,
             clipBehavior: Clip.none,
             child: KeyedSubtree(
-              key: _childKey,
+              key: _chartKey,
               child: SizedBox(
                 width: constraints.maxWidth,
                 height: constraints.maxHeight,
@@ -117,7 +117,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
                   ),
                   targetData: _withTouchedIndicators(showingData),
                   key: widget.chartRendererKey,
-                  boundingBox: _boundingBox,
+                  boundingBox: _chartRect,
                 ),
               ),
             ),
@@ -125,6 +125,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         },
       ),
       data: showingData,
+      boundingBox: _chartRect,
     );
   }
 
