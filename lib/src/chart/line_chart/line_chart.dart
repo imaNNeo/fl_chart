@@ -148,6 +148,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
         boundingBox: _chartRect,
+        canBeScaled: widget.scaleAxis != ScaleAxis.none,
       ),
     );
 

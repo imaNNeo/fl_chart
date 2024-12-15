@@ -49,6 +49,7 @@ void main() {
       targetData,
       textScaler,
       null, // TODO(Peetee06): Update tests
+      canBeScaled: false, // TODO(Peetee06): Update tests
     );
 
     final mockPainter = MockLineChartPainter();

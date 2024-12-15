@@ -43,7 +43,7 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        super(targetData.barTouchData, context);
+        super(targetData.barTouchData, context, canBeScaled: false);
 
   BarChartData get data => _data;
   BarChartData _data;

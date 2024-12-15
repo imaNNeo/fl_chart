@@ -11,10 +11,22 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     implements MouseTrackerAnnotation {
   /// We use [FlTouchData] to retrieve [FlTouchData.touchCallback] and [FlTouchData.mouseCursorResolver]
   /// to invoke them when touch happens.
-  RenderBaseChart(FlTouchData<R>? touchData, BuildContext context)
-      : _buildContext = context {
+  RenderBaseChart(
+    FlTouchData<R>? touchData,
+    BuildContext context, {
+    required bool canBeScaled,
+  })  : _canBeScaled = canBeScaled,
+        _buildContext = context {
     updateBaseTouchData(touchData);
     initGestureRecognizers();
+  }
+
+  bool get canBeScaled => _canBeScaled;
+  bool _canBeScaled;
+  set canBeScaled(bool value) {
+    if (_canBeScaled == value) return;
+    _canBeScaled = value;
+    markNeedsPaint();
   }
 
   // We use buildContext to retrieve Theme data
@@ -124,7 +136,9 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
     if (event is PointerDownEvent) {
       _longPressGestureRecognizer.addPointer(event);
       _tapGestureRecognizer.addPointer(event);
-      _panGestureRecognizer.addPointer(event);
+      if (!canBeScaled) {
+        _panGestureRecognizer.addPointer(event);
+      }
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
     }
