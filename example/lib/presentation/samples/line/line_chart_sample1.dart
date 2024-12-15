@@ -1,5 +1,5 @@
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class _LineChart extends StatelessWidget {
@@ -10,6 +10,8 @@ class _LineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LineChart(
+      scaleAxis: ScaleAxis.free,
+      maxScale: 5,
       isShowingMainData ? sampleData1 : sampleData2,
       duration: const Duration(milliseconds: 250),
     );
