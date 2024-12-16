@@ -48,8 +48,8 @@ void main() {
       data,
       targetData,
       textScaler,
-      null, // TODO(Peetee06): Update tests
-      canBeScaled: false, // TODO(Peetee06): Update tests
+      null,
+      canBeScaled: false,
     );
 
     final mockPainter = MockLineChartPainter();
@@ -124,6 +124,43 @@ void main() {
       expect(renderLineChart.data, targetData);
       expect(renderLineChart.targetData, data);
       expect(renderLineChart.textScaler, const TextScaler.linear(22));
+    });
+
+    test('passes bounding box to paint holder', () {
+      final rect1 = Offset.zero & const Size(100, 100);
+      final renderLineChart = RenderLineChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderLineChart.boundingBox, isNull);
+      expect(renderLineChart.paintHolder.boundingBox, isNull);
+
+      renderLineChart.boundingBox = rect1;
+
+      expect(renderLineChart.boundingBox, rect1);
+      expect(renderLineChart.paintHolder.boundingBox, rect1);
+    });
+
+    test('uses canBeScaled', () {
+      final renderLineChart = RenderLineChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderLineChart.canBeScaled, false);
+
+      renderLineChart.canBeScaled = true;
+
+      expect(renderLineChart.canBeScaled, true);
     });
   });
 }
