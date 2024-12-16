@@ -1086,7 +1086,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     dotHeight ??= 0;
     final extendedBoundary = (Offset.zero & viewSize).inflate(dotHeight / 2);
 
-    if (!extendedBoundary.contains(mostTopOffset)) {
+    final isZoomed = holder.boundingBox != null;
+    if (isZoomed && !extendedBoundary.contains(mostTopOffset)) {
       return;
     }
 
@@ -1271,8 +1272,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final data = holder.data;
     final viewSize = holder.getChartUsableSize(size);
 
-    // Check if the touch is outside the canvas bounds
-    if (!size.contains(localPosition)) {
+    final isZoomed = holder.boundingBox != null;
+    if (isZoomed && !size.contains(localPosition)) {
       return null;
     }
 
