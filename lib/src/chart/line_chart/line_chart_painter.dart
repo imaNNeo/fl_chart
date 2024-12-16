@@ -999,30 +999,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     const textsBelowMargin = 4;
 
     // Get the dot height if available
-    double? dotHeight;
-    for (final info in showingTooltipSpots.showingSpots) {
-      // Find the corresponding indicator data for this spot
-      final lineData = holder.data.lineBarsData[info.barIndex];
-      final indicators = holder.data.lineTouchData
-          .getTouchedSpotIndicator(lineData, [info.spotIndex]);
-
-      if (indicators.isNotEmpty && indicators[0] != null) {
-        final indicatorData = indicators[0]!;
-        if (indicatorData.touchedSpotDotData.show) {
-          final xPercentInLine = (getPixelX(info.x, viewSize, holder) /
-                  getBarLineXLength(lineData, viewSize, holder)) *
-              100;
-          final dotPainter = indicatorData.touchedSpotDotData
-              .getDotPainter(info, xPercentInLine, lineData, info.spotIndex);
-          final currentDotHeight = dotPainter.getSize(info).height;
-
-          // Keep the largest dot height
-          if (dotHeight == null || currentDotHeight > dotHeight) {
-            dotHeight = currentDotHeight;
-          }
-        }
-      }
-    }
+    final dotHeight = _getDotHeight(
+      viewSize: viewSize,
+      holder: holder,
+      showingTooltipSpots: showingTooltipSpots.showingSpots,
+    );
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
@@ -1083,7 +1064,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     );
 
     // Create an extended boundary that includes the center of the dot
-    dotHeight ??= 0;
     final extendedBoundary = (Offset.zero & viewSize).inflate(dotHeight / 2);
 
     final isZoomed = holder.boundingBox != null;
@@ -1353,6 +1333,39 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     } else {
       return null;
     }
+  }
+
+  // Get the height of the dot for the given showingTooltipSpots
+  double _getDotHeight({
+    required Size viewSize,
+    required PaintHolder<LineChartData> holder,
+    required List<LineBarSpot> showingTooltipSpots,
+  }) {
+    double? dotHeight;
+    for (final info in showingTooltipSpots) {
+      // Find the corresponding indicator data for this spot
+      final lineData = holder.data.lineBarsData.elementAtOrNull(info.barIndex);
+      if (lineData == null) continue;
+
+      final indicators = holder.data.lineTouchData
+          .getTouchedSpotIndicator(lineData, [info.spotIndex]);
+
+      final indicatorData = indicators.elementAtOrNull(0);
+      if (indicatorData != null && indicatorData.touchedSpotDotData.show) {
+        final xPercentInLine = (getPixelX(info.x, viewSize, holder) /
+                getBarLineXLength(lineData, viewSize, holder)) *
+            100;
+        final dotPainter = indicatorData.touchedSpotDotData
+            .getDotPainter(info, xPercentInLine, lineData, info.spotIndex);
+        final currentDotHeight = dotPainter.getSize(info).height;
+
+        // Keep the largest dot height
+        if (dotHeight == null || currentDotHeight > dotHeight) {
+          dotHeight = currentDotHeight;
+        }
+      }
+    }
+    return dotHeight ?? 0;
   }
 }
 
