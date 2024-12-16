@@ -4,6 +4,11 @@ import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:flutter/material.dart';
 
+/// A builder to build a chart.
+///
+/// The [chartRect] is the virtual bounding box to be used when laying out the
+/// chart's content. It is transformed based on users' interactions like
+/// scaling and panning.
 typedef ChartBuilder = Widget Function(
   BuildContext context,
   Rect? chartRect,
@@ -36,7 +41,10 @@ class AxisChartScaffoldWidget extends StatefulWidget {
     this.trackpadScrollCausesScale = false,
   });
 
+  /// The builder to build the chart.
   final ChartBuilder chartBuilder;
+
+  /// The data to build the chart.
   final AxisChartData data;
 
   /// Determines what axis should be scaled.
@@ -121,6 +129,8 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   }
 
   // The Rect representing the chart.
+  //
+  // This represents the actual size and offset of the chart.
   Rect get _chartBoundaryRect {
     assert(_chartKey.currentContext != null);
     final childRenderBox =
@@ -169,6 +179,23 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
       key: _chartKey,
       child: widget.chartBuilder(context, _chartRect),
     );
+
+    final interactiveChart = LayoutBuilder(
+      builder: (context, constraints) {
+        return CustomInteractiveViewer(
+          transformationController: _transformationController,
+          clipBehavior: Clip.none,
+          trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
+          maxScale: widget.maxScale,
+          child: SizedBox(
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
+            child: chart,
+          ),
+        );
+      },
+    );
+
     final widgets = <Widget>[
       Container(
         margin: widget.data.titlesData.allSidesPadding,
@@ -177,23 +204,10 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
               ? widget.data.borderData.border
               : null,
         ),
-        child: widget.scaleAxis == ScaleAxis.none
-            ? chart
-            : LayoutBuilder(
-                builder: (context, constraints) {
-                  return CustomInteractiveViewer(
-                    transformationController: _transformationController,
-                    clipBehavior: Clip.none,
-                    trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
-                    maxScale: widget.maxScale,
-                    child: SizedBox(
-                      width: constraints.maxWidth,
-                      height: constraints.maxHeight,
-                      child: chart,
-                    ),
-                  );
-                },
-              ),
+        child: switch (widget.scaleAxis) {
+          ScaleAxis.none => chart,
+          ScaleAxis() => interactiveChart,
+        },
       ),
     ];
 
