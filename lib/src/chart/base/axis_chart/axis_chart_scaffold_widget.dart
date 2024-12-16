@@ -83,6 +83,13 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
     super.dispose();
   }
 
+  // Applies the inverse transformation to the chart to get the zoomed
+  // bounding box.
+  //
+  // The transformation matrix is inverted because the bounding box needs to
+  // grow beyond the chart's boundaries when the chart is scaled in order
+  // for its content to be laid out on the larger area. This leads to the
+  // scaling effect.
   void _updateChartRect() {
     final scale = _transformationController.value.getMaxScaleOnAxis();
     if (scale == 1.0) {
