@@ -9,5 +9,12 @@ enum ScaleAxis {
   free,
 
   /// Does not scale the axes.
-  none,
+  none;
+
+  /// Axes that allow scaling.
+  static const scalingEnabledAxis = [
+    free,
+    horizontal,
+    vertical,
+  ];
 }
