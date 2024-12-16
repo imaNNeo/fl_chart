@@ -9,7 +9,7 @@ typedef ChartBuilder = Widget Function(
   Rect? chartRect,
 );
 
-/// A scaffold to show an axis-based chart
+/// A scaffold to show a scalable axis-based chart
 ///
 /// It contains some placeholders to represent an axis-based chart.
 ///
@@ -24,7 +24,8 @@ typedef ChartBuilder = Widget Function(
 ///
 /// `left`, `top`, `right`, `bottom` are some place holders to show titles
 /// provided by [AxisChartData.titlesData] around the chart
-/// `chart` is a centered place holder to show a raw chart.
+/// `chart` is a centered place holder to show a raw chart. The chart is
+/// built using [chartBuilder].
 class AxisChartScaffoldWidget extends StatefulWidget {
   const AxisChartScaffoldWidget({
     super.key,
