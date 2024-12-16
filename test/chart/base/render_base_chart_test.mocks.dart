@@ -10,14 +10,14 @@ import 'package:flutter/rendering.dart' as _i10;
 import 'package:flutter/src/gestures/drag_details.dart' as _i9;
 import 'package:flutter/src/gestures/events.dart' as _i11;
 import 'package:flutter/src/gestures/long_press.dart' as _i14;
-import 'package:flutter/src/gestures/monodrag.dart' as _i6;
-import 'package:flutter/src/gestures/recognizer.dart' as _i8;
+import 'package:flutter/src/gestures/monodrag.dart' as _i7;
+import 'package:flutter/src/gestures/recognizer.dart' as _i5;
 import 'package:flutter/src/gestures/tap.dart' as _i13;
 import 'package:flutter/src/gestures/velocity_tracker.dart' as _i4;
 import 'package:flutter/src/widgets/framework.dart' as _i2;
-import 'package:flutter/src/widgets/notification_listener.dart' as _i5;
+import 'package:flutter/src/widgets/notification_listener.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -82,6 +82,16 @@ class _FakeDiagnosticsNode_2 extends _i1.SmartFake
 class _FakeVelocityTracker_3 extends _i1.SmartFake
     implements _i4.VelocityTracker {
   _FakeVelocityTracker_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeOffsetPair_4 extends _i1.SmartFake implements _i5.OffsetPair {
+  _FakeOffsetPair_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -160,7 +170,7 @@ class MockBuildContext extends _i1.Mock implements _i2.BuildContext {
       );
 
   @override
-  void dispatchNotification(_i5.Notification? notification) =>
+  void dispatchNotification(_i6.Notification? notification) =>
       super.noSuchMethod(
         Invocation.method(
           #dispatchNotification,
@@ -244,7 +254,7 @@ class MockBuildContext extends _i1.Mock implements _i2.BuildContext {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPanGestureRecognizer extends _i1.Mock
-    implements _i6.PanGestureRecognizer {
+    implements _i7.PanGestureRecognizer {
   MockPanGestureRecognizer() {
     _i1.throwOnMissingStub(this);
   }
@@ -252,20 +262,20 @@ class MockPanGestureRecognizer extends _i1.Mock
   @override
   String get debugDescription => (super.noSuchMethod(
         Invocation.getter(#debugDescription),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#debugDescription),
         ),
       ) as String);
 
   @override
-  _i8.DragStartBehavior get dragStartBehavior => (super.noSuchMethod(
+  _i5.DragStartBehavior get dragStartBehavior => (super.noSuchMethod(
         Invocation.getter(#dragStartBehavior),
-        returnValue: _i8.DragStartBehavior.down,
-      ) as _i8.DragStartBehavior);
+        returnValue: _i5.DragStartBehavior.down,
+      ) as _i5.DragStartBehavior);
 
   @override
-  set dragStartBehavior(_i8.DragStartBehavior? _dragStartBehavior) =>
+  set dragStartBehavior(_i5.DragStartBehavior? _dragStartBehavior) =>
       super.noSuchMethod(
         Invocation.setter(
           #dragStartBehavior,
@@ -275,14 +285,14 @@ class MockPanGestureRecognizer extends _i1.Mock
       );
 
   @override
-  _i8.MultitouchDragStrategy get multitouchDragStrategy => (super.noSuchMethod(
+  _i5.MultitouchDragStrategy get multitouchDragStrategy => (super.noSuchMethod(
         Invocation.getter(#multitouchDragStrategy),
-        returnValue: _i8.MultitouchDragStrategy.latestPointer,
-      ) as _i8.MultitouchDragStrategy);
+        returnValue: _i5.MultitouchDragStrategy.latestPointer,
+      ) as _i5.MultitouchDragStrategy);
 
   @override
   set multitouchDragStrategy(
-          _i8.MultitouchDragStrategy? _multitouchDragStrategy) =>
+          _i5.MultitouchDragStrategy? _multitouchDragStrategy) =>
       super.noSuchMethod(
         Invocation.setter(
           #multitouchDragStrategy,
@@ -319,7 +329,7 @@ class MockPanGestureRecognizer extends _i1.Mock
       );
 
   @override
-  set onEnd(_i6.GestureDragEndCallback? _onEnd) => super.noSuchMethod(
+  set onEnd(_i7.GestureDragEndCallback? _onEnd) => super.noSuchMethod(
         Invocation.setter(
           #onEnd,
           _onEnd,
@@ -328,7 +338,7 @@ class MockPanGestureRecognizer extends _i1.Mock
       );
 
   @override
-  set onCancel(_i6.GestureDragCancelCallback? _onCancel) => super.noSuchMethod(
+  set onCancel(_i7.GestureDragCancelCallback? _onCancel) => super.noSuchMethod(
         Invocation.setter(
           #onCancel,
           _onCancel,
@@ -380,18 +390,18 @@ class MockPanGestureRecognizer extends _i1.Mock
       );
 
   @override
-  _i6.GestureVelocityTrackerBuilder get velocityTrackerBuilder =>
+  _i7.GestureVelocityTrackerBuilder get velocityTrackerBuilder =>
       (super.noSuchMethod(
         Invocation.getter(#velocityTrackerBuilder),
         returnValue: (_i10.PointerEvent event) => _FakeVelocityTracker_3(
           this,
           Invocation.getter(#velocityTrackerBuilder),
         ),
-      ) as _i6.GestureVelocityTrackerBuilder);
+      ) as _i7.GestureVelocityTrackerBuilder);
 
   @override
   set velocityTrackerBuilder(
-          _i6.GestureVelocityTrackerBuilder? _velocityTrackerBuilder) =>
+          _i7.GestureVelocityTrackerBuilder? _velocityTrackerBuilder) =>
       super.noSuchMethod(
         Invocation.setter(
           #velocityTrackerBuilder,
@@ -401,7 +411,22 @@ class MockPanGestureRecognizer extends _i1.Mock
       );
 
   @override
-  set team(_i8.GestureArenaTeam? value) => super.noSuchMethod(
+  _i5.OffsetPair get lastPosition => (super.noSuchMethod(
+        Invocation.getter(#lastPosition),
+        returnValue: _FakeOffsetPair_4(
+          this,
+          Invocation.getter(#lastPosition),
+        ),
+      ) as _i5.OffsetPair);
+
+  @override
+  double get globalDistanceMoved => (super.noSuchMethod(
+        Invocation.getter(#globalDistanceMoved),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  set team(_i5.GestureArenaTeam? value) => super.noSuchMethod(
         Invocation.setter(
           #team,
           value,
@@ -430,10 +455,10 @@ class MockPanGestureRecognizer extends _i1.Mock
       );
 
   @override
-  _i8.AllowedButtonsFilter get allowedButtonsFilter => (super.noSuchMethod(
+  _i5.AllowedButtonsFilter get allowedButtonsFilter => (super.noSuchMethod(
         Invocation.getter(#allowedButtonsFilter),
         returnValue: (int buttons) => false,
-      ) as _i8.AllowedButtonsFilter);
+      ) as _i5.AllowedButtonsFilter);
 
   @override
   bool isFlingGesture(
@@ -446,6 +471,35 @@ class MockPanGestureRecognizer extends _i1.Mock
           [
             estimate,
             kind,
+          ],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i9.DragEndDetails? considerFling(
+    _i4.VelocityEstimate? estimate,
+    _i12.PointerDeviceKind? kind,
+  ) =>
+      (super.noSuchMethod(Invocation.method(
+        #considerFling,
+        [
+          estimate,
+          kind,
+        ],
+      )) as _i9.DragEndDetails?);
+
+  @override
+  bool hasSufficientGlobalDistanceToAccept(
+    _i12.PointerDeviceKind? pointerDeviceKind,
+    double? deviceTouchSlop,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #hasSufficientGlobalDistanceToAccept,
+          [
+            pointerDeviceKind,
+            deviceTouchSlop,
           ],
         ),
         returnValue: false,
@@ -545,7 +599,7 @@ class MockPanGestureRecognizer extends _i1.Mock
       );
 
   @override
-  void resolve(_i8.GestureDisposition? disposition) => super.noSuchMethod(
+  void resolve(_i5.GestureDisposition? disposition) => super.noSuchMethod(
         Invocation.method(
           #resolve,
           [disposition],
@@ -556,7 +610,7 @@ class MockPanGestureRecognizer extends _i1.Mock
   @override
   void resolvePointer(
     int? pointer,
-    _i8.GestureDisposition? disposition,
+    _i5.GestureDisposition? disposition,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -655,7 +709,7 @@ class MockPanGestureRecognizer extends _i1.Mock
   @override
   T? invokeCallback<T>(
     String? name,
-    _i8.RecognizerCallback<T>? callback, {
+    _i5.RecognizerCallback<T>? callback, {
     String Function()? debugReport,
   }) =>
       (super.noSuchMethod(Invocation.method(
@@ -685,7 +739,7 @@ class MockPanGestureRecognizer extends _i1.Mock
             #minLevel: minLevel,
           },
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringShallow,
@@ -703,6 +757,7 @@ class MockPanGestureRecognizer extends _i1.Mock
     String? prefixLineOne = r'',
     String? prefixOtherLines,
     _i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.debug,
+    int? wrapWidth = 65,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -712,9 +767,10 @@ class MockPanGestureRecognizer extends _i1.Mock
             #prefixLineOne: prefixLineOne,
             #prefixOtherLines: prefixOtherLines,
             #minLevel: minLevel,
+            #wrapWidth: wrapWidth,
           },
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringDeep,
@@ -723,6 +779,7 @@ class MockPanGestureRecognizer extends _i1.Mock
               #prefixLineOne: prefixLineOne,
               #prefixOtherLines: prefixOtherLines,
               #minLevel: minLevel,
+              #wrapWidth: wrapWidth,
             },
           ),
         ),
@@ -734,7 +791,7 @@ class MockPanGestureRecognizer extends _i1.Mock
           #toStringShort,
           [],
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringShort,
@@ -901,20 +958,20 @@ class MockTapGestureRecognizer extends _i1.Mock
   @override
   String get debugDescription => (super.noSuchMethod(
         Invocation.getter(#debugDescription),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#debugDescription),
         ),
       ) as String);
 
   @override
-  _i8.GestureRecognizerState get state => (super.noSuchMethod(
+  _i5.GestureRecognizerState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i8.GestureRecognizerState.ready,
-      ) as _i8.GestureRecognizerState);
+        returnValue: _i5.GestureRecognizerState.ready,
+      ) as _i5.GestureRecognizerState);
 
   @override
-  set team(_i8.GestureArenaTeam? value) => super.noSuchMethod(
+  set team(_i5.GestureArenaTeam? value) => super.noSuchMethod(
         Invocation.setter(
           #team,
           value,
@@ -943,10 +1000,10 @@ class MockTapGestureRecognizer extends _i1.Mock
       );
 
   @override
-  _i8.AllowedButtonsFilter get allowedButtonsFilter => (super.noSuchMethod(
+  _i5.AllowedButtonsFilter get allowedButtonsFilter => (super.noSuchMethod(
         Invocation.getter(#allowedButtonsFilter),
         returnValue: (int buttons) => false,
-      ) as _i8.AllowedButtonsFilter);
+      ) as _i5.AllowedButtonsFilter);
 
   @override
   bool isPointerAllowed(_i10.PointerDownEvent? event) => (super.noSuchMethod(
@@ -1039,7 +1096,7 @@ class MockTapGestureRecognizer extends _i1.Mock
       );
 
   @override
-  void resolve(_i8.GestureDisposition? disposition) => super.noSuchMethod(
+  void resolve(_i5.GestureDisposition? disposition) => super.noSuchMethod(
         Invocation.method(
           #resolve,
           [disposition],
@@ -1134,7 +1191,7 @@ class MockTapGestureRecognizer extends _i1.Mock
   @override
   void resolvePointer(
     int? pointer,
-    _i8.GestureDisposition? disposition,
+    _i5.GestureDisposition? disposition,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1227,7 +1284,7 @@ class MockTapGestureRecognizer extends _i1.Mock
   @override
   T? invokeCallback<T>(
     String? name,
-    _i8.RecognizerCallback<T>? callback, {
+    _i5.RecognizerCallback<T>? callback, {
     String Function()? debugReport,
   }) =>
       (super.noSuchMethod(Invocation.method(
@@ -1257,7 +1314,7 @@ class MockTapGestureRecognizer extends _i1.Mock
             #minLevel: minLevel,
           },
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringShallow,
@@ -1275,6 +1332,7 @@ class MockTapGestureRecognizer extends _i1.Mock
     String? prefixLineOne = r'',
     String? prefixOtherLines,
     _i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.debug,
+    int? wrapWidth = 65,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1284,9 +1342,10 @@ class MockTapGestureRecognizer extends _i1.Mock
             #prefixLineOne: prefixLineOne,
             #prefixOtherLines: prefixOtherLines,
             #minLevel: minLevel,
+            #wrapWidth: wrapWidth,
           },
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringDeep,
@@ -1295,6 +1354,7 @@ class MockTapGestureRecognizer extends _i1.Mock
               #prefixLineOne: prefixLineOne,
               #prefixOtherLines: prefixOtherLines,
               #minLevel: minLevel,
+              #wrapWidth: wrapWidth,
             },
           ),
         ),
@@ -1306,7 +1366,7 @@ class MockTapGestureRecognizer extends _i1.Mock
           #toStringShort,
           [],
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringShort,
@@ -1592,20 +1652,20 @@ class MockLongPressGestureRecognizer extends _i1.Mock
   @override
   String get debugDescription => (super.noSuchMethod(
         Invocation.getter(#debugDescription),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#debugDescription),
         ),
       ) as String);
 
   @override
-  _i8.GestureRecognizerState get state => (super.noSuchMethod(
+  _i5.GestureRecognizerState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i8.GestureRecognizerState.ready,
-      ) as _i8.GestureRecognizerState);
+        returnValue: _i5.GestureRecognizerState.ready,
+      ) as _i5.GestureRecognizerState);
 
   @override
-  set team(_i8.GestureArenaTeam? value) => super.noSuchMethod(
+  set team(_i5.GestureArenaTeam? value) => super.noSuchMethod(
         Invocation.setter(
           #team,
           value,
@@ -1634,10 +1694,10 @@ class MockLongPressGestureRecognizer extends _i1.Mock
       );
 
   @override
-  _i8.AllowedButtonsFilter get allowedButtonsFilter => (super.noSuchMethod(
+  _i5.AllowedButtonsFilter get allowedButtonsFilter => (super.noSuchMethod(
         Invocation.getter(#allowedButtonsFilter),
         returnValue: (int buttons) => false,
-      ) as _i8.AllowedButtonsFilter);
+      ) as _i5.AllowedButtonsFilter);
 
   @override
   bool isPointerAllowed(_i10.PointerDownEvent? event) => (super.noSuchMethod(
@@ -1667,7 +1727,7 @@ class MockLongPressGestureRecognizer extends _i1.Mock
       );
 
   @override
-  void resolve(_i8.GestureDisposition? disposition) => super.noSuchMethod(
+  void resolve(_i5.GestureDisposition? disposition) => super.noSuchMethod(
         Invocation.method(
           #resolve,
           [disposition],
@@ -1762,7 +1822,7 @@ class MockLongPressGestureRecognizer extends _i1.Mock
   @override
   void resolvePointer(
     int? pointer,
-    _i8.GestureDisposition? disposition,
+    _i5.GestureDisposition? disposition,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1871,7 +1931,7 @@ class MockLongPressGestureRecognizer extends _i1.Mock
   @override
   T? invokeCallback<T>(
     String? name,
-    _i8.RecognizerCallback<T>? callback, {
+    _i5.RecognizerCallback<T>? callback, {
     String Function()? debugReport,
   }) =>
       (super.noSuchMethod(Invocation.method(
@@ -1901,7 +1961,7 @@ class MockLongPressGestureRecognizer extends _i1.Mock
             #minLevel: minLevel,
           },
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringShallow,
@@ -1919,6 +1979,7 @@ class MockLongPressGestureRecognizer extends _i1.Mock
     String? prefixLineOne = r'',
     String? prefixOtherLines,
     _i3.DiagnosticLevel? minLevel = _i3.DiagnosticLevel.debug,
+    int? wrapWidth = 65,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1928,9 +1989,10 @@ class MockLongPressGestureRecognizer extends _i1.Mock
             #prefixLineOne: prefixLineOne,
             #prefixOtherLines: prefixOtherLines,
             #minLevel: minLevel,
+            #wrapWidth: wrapWidth,
           },
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringDeep,
@@ -1939,6 +2001,7 @@ class MockLongPressGestureRecognizer extends _i1.Mock
               #prefixLineOne: prefixLineOne,
               #prefixOtherLines: prefixOtherLines,
               #minLevel: minLevel,
+              #wrapWidth: wrapWidth,
             },
           ),
         ),
@@ -1950,7 +2013,7 @@ class MockLongPressGestureRecognizer extends _i1.Mock
           #toStringShort,
           [],
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #toStringShort,
