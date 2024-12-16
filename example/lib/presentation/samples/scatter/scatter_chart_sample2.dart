@@ -88,7 +88,7 @@ class _ScatterChartSample2State extends State {
                     size,
                     selectedSpots.contains(index)
                         ? _availableColors[index % _availableColors.length]
-                        : AppColors.contentColorWhite.withOpacity(0.5),
+                        : AppColors.contentColorWhite.withValues(alpha: 0.5),
                   ),
                 );
               }).toList(),

@@ -208,10 +208,11 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
 
       return RadarDataSet(
         fillColor: isSelected
-            ? rawDataSet.color.withOpacity(0.2)
-            : rawDataSet.color.withOpacity(0.05),
-        borderColor:
-            isSelected ? rawDataSet.color : rawDataSet.color.withOpacity(0.25),
+            ? rawDataSet.color.withValues(alpha: 0.2)
+            : rawDataSet.color.withValues(alpha: 0.05),
+        borderColor: isSelected
+            ? rawDataSet.color
+            : rawDataSet.color.withValues(alpha: 0.25),
         entryRadius: isSelected ? 3 : 2,
         dataEntries:
             rawDataSet.values.map((e) => RadarEntry(value: e)).toList(),

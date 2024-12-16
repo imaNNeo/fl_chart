@@ -7,7 +7,7 @@ void main() {
     test('test 1', () {
       final border = Border(
         left: BorderSide(
-          color: Colors.red.withOpacity(0.00001),
+          color: Colors.red.withValues(alpha: 0.00001),
           width: 10,
         ),
       );
@@ -21,7 +21,7 @@ void main() {
 
     test('test 3', () {
       final border = Border.all(
-        color: Colors.red.withOpacity(0),
+        color: Colors.red.withValues(alpha: 0),
         width: 10,
       );
       expect(border.isVisible(), false);

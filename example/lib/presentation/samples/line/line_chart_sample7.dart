@@ -1,5 +1,5 @@
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample7 extends StatelessWidget {
@@ -11,7 +11,7 @@ class LineChartSample7 extends StatelessWidget {
   })  : line1Color = line1Color ?? AppColors.contentColorGreen,
         line2Color = line2Color ?? AppColors.contentColorRed,
         betweenColor =
-            betweenColor ?? AppColors.contentColorRed.withOpacity(0.5);
+            betweenColor ?? AppColors.contentColorRed.withValues(alpha: 0.5);
 
   final Color line1Color;
   final Color line2Color;

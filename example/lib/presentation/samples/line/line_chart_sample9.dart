@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -130,12 +130,12 @@ class LineChartSample9 extends StatelessWidget {
                     return value.toInt() == 0;
                   },
                   getDrawingHorizontalLine: (_) => FlLine(
-                    color: AppColors.contentColorBlue.withOpacity(1),
+                    color: AppColors.contentColorBlue.withValues(alpha: 1),
                     dashArray: [8, 2],
                     strokeWidth: 0.8,
                   ),
                   getDrawingVerticalLine: (_) => FlLine(
-                    color: AppColors.contentColorYellow.withOpacity(1),
+                    color: AppColors.contentColorYellow.withValues(alpha: 1),
                     dashArray: [8, 2],
                     strokeWidth: 0.8,
                   ),

@@ -409,7 +409,10 @@ void main() {
         ),
         true,
       );
-      expect(results[0]['paint_color'] as Color, const Color(0x00000000));
+      expect(
+        results[0]['paint_color'] as Color,
+        isSameColorAs(const Color(0x00000000)),
+      );
 
       expect(
         HelperMethods.equalsRRects(
@@ -424,7 +427,10 @@ void main() {
         ),
         true,
       );
-      expect(results[1]['paint_color'] as Color, const Color(0x11111111));
+      expect(
+        results[1]['paint_color'] as Color,
+        isSameColorAs(const Color(0x11111111)),
+      );
 
       expect(
         HelperMethods.equalsRRects(
@@ -439,7 +445,10 @@ void main() {
         ),
         true,
       );
-      expect(results[2]['paint_color'] as Color, const Color(0x22222222));
+      expect(
+        results[2]['paint_color'] as Color,
+        isSameColorAs(const Color(0x22222222)),
+      );
 
       expect(
         HelperMethods.equalsRRects(
@@ -674,7 +683,10 @@ void main() {
         ),
         true,
       );
-      expect(results[0]['paint_color'] as Color, const Color(0x00000000));
+      expect(
+        results[0]['paint_color'] as Color,
+        isSameColorAs(const Color(0x00000000)),
+      );
 
       expect(
         HelperMethods.equalsRRects(
@@ -689,7 +701,10 @@ void main() {
         ),
         true,
       );
-      expect(results[1]['paint_color'] as Color, const Color(0x11111111));
+      expect(
+        results[1]['paint_color'] as Color,
+        isSameColorAs(const Color(0x11111111)),
+      );
 
       expect(
         HelperMethods.equalsRRects(
@@ -704,7 +719,10 @@ void main() {
         ),
         true,
       );
-      expect(results[2]['paint_color'] as Color, const Color(0x22222222));
+      expect(
+        results[2]['paint_color'] as Color,
+        isSameColorAs(const Color(0x22222222)),
+      );
 
       expect(
         HelperMethods.equalsRRects(
@@ -798,10 +816,22 @@ void main() {
 
       barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
       expect(results.length, 5);
-      expect(results[1]['paint_color'], const Color(0x11111111));
-      expect(results[2]['paint_color'], const Color(0x22222222));
-      expect(results[3]['paint_color'], const Color(0x33333333));
-      expect(results[4]['paint_color'], const Color(0x44444444));
+      expect(
+        results[1]['paint_color'],
+        isSameColorAs(const Color(0x11111111)),
+      );
+      expect(
+        results[2]['paint_color'],
+        isSameColorAs(const Color(0x22222222)),
+      );
+      expect(
+        results[3]['paint_color'],
+        isSameColorAs(const Color(0x33333333)),
+      );
+      expect(
+        results[4]['paint_color'],
+        isSameColorAs(const Color(0x44444444)),
+      );
     });
 
     test('test 4', () {
@@ -1176,7 +1206,7 @@ void main() {
       expect(rrect.top, -106);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
-      expect(bgTooltipPaint.color, const Color(0xf33f33f3));
+      expect(bgTooltipPaint.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
       final rRectBorder = result1.captured[2] as RRect;
@@ -1187,7 +1217,7 @@ void main() {
       expect(rRectBorder.height, 90);
       expect(rRectBorder.left, -22.5);
       expect(rRectBorder.top, -106);
-      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(paintBorder.strokeWidth, 2);
       expect(paintBorder.style, PaintingStyle.stroke);
 
@@ -1376,7 +1406,7 @@ void main() {
       expect(rrect.top, 116);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
-      expect(bgTooltipPaint.color, const Color(0xf33f33f3));
+      expect(bgTooltipPaint.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
       final rRectBorder = result1.captured[2] as RRect;
@@ -1387,7 +1417,7 @@ void main() {
       expect(rRectBorder.height, 90);
       expect(rRectBorder.left, -80);
       expect(rRectBorder.top, 116);
-      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(paintBorder.strokeWidth, 2);
       expect(paintBorder.style, PaintingStyle.stroke);
 
@@ -1551,7 +1581,7 @@ void main() {
       expect(rrect.top, -6934.0);
 
       final bgTooltipPaint = result1.captured[1] as Paint;
-      expect(bgTooltipPaint.color, const Color(0xf33f33f3));
+      expect(bgTooltipPaint.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
       final rRectBorder = result1.captured[2] as RRect;
@@ -1562,7 +1592,7 @@ void main() {
       expect(rRectBorder.height, 7034.0);
       expect(rRectBorder.left, -2436);
       expect(rRectBorder.top, -6934.0);
-      expect(paintBorder.color, const Color(0xf33f33f3));
+      expect(paintBorder.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(paintBorder.strokeWidth, 2);
       expect(paintBorder.style, PaintingStyle.stroke);
 
@@ -1710,7 +1740,10 @@ void main() {
           bottomRight: const Radius.circular(12),
         ),
       );
-      expect(results[0]['paint.color'], const Color(0x11111111));
+      expect(
+        results[0]['paint.color'],
+        isSameColorAs(const Color(0x11111111)),
+      );
       expect(results[0]['paint.strokeWidth'], 1.0);
 
       expect(
@@ -1722,7 +1755,10 @@ void main() {
           70,
         ),
       );
-      expect(results[1]['paint.color'], const Color(0x22222221));
+      expect(
+        results[1]['paint.color'],
+        isSameColorAs(const Color(0x22222221)),
+      );
       expect(results[1]['paint.strokeWidth'], 2.0);
 
       expect(
@@ -1734,7 +1770,10 @@ void main() {
           20,
         ),
       );
-      expect(results[2]['paint.color'], const Color(0x33333331));
+      expect(
+        results[2]['paint.color'],
+        isSameColorAs(const Color(0x33333331)),
+      );
       expect(results[2]['paint.strokeWidth'], 3.0);
     });
   });
@@ -2203,9 +2242,9 @@ void main() {
           any,
           argThat(
             const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
+              (p0) => p0.color,
               'colors match',
-              equals(Colors.red),
+              isSameColorAs(Colors.red),
             ),
           ),
           holder.data.extraLinesData.verticalLines[0].dashArray,
@@ -2300,9 +2339,9 @@ void main() {
           any,
           argThat(
             const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
+              (p0) => p0.color,
               'colors match',
-              equals(Colors.red.value),
+              isSameColorAs(Colors.red),
             ),
           ),
           holder.data.extraLinesData.horizontalLines[0].dashArray,
@@ -2396,9 +2435,9 @@ void main() {
           any,
           captureThat(
             const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
+              (p0) => p0.color,
               'colors match',
-              equals(Colors.cyanAccent.value),
+              isSameColorAs(Colors.cyanAccent),
             ),
           ),
           [100, 20],
@@ -2407,7 +2446,7 @@ void main() {
         results.add({
           'from': inv.positionalArguments[0] as Offset,
           'to': inv.positionalArguments[1] as Offset,
-          'paint_color': (inv.positionalArguments[2] as Paint).color.value,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
           'paint_stroke_width':
               (inv.positionalArguments[2] as Paint).strokeWidth,
         });
@@ -2421,7 +2460,7 @@ void main() {
 
       expect(results.length, 1);
 
-      expect(results[0]['paint_color'], Colors.cyanAccent.value);
+      expect(results[0]['paint_color'], isSameColorAs(Colors.cyanAccent));
       expect(results[0]['paint_stroke_width'], 90);
 
       Utils.changeInstance(utilsMainInstance);
@@ -2480,9 +2519,9 @@ void main() {
           any,
           argThat(
             const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
+              (p0) => p0.color,
               'colors match',
-              equals(Colors.cyanAccent.value),
+              isSameColorAs(Colors.cyanAccent),
             ),
           ),
           holder.data.extraLinesData.horizontalLines[0].dashArray,

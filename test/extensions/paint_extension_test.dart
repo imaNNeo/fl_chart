@@ -23,7 +23,7 @@ void main() {
       ..strokeWidth = 0.0
       ..transparentIfWidthIsZero();
     expect(paint.strokeWidth, 0.0);
-    expect(MockData.color0.withOpacity(0), paint.color);
+    expect(MockData.color0.withValues(alpha: 0), paint.color);
   });
 
   test('test setColorOrGradient', () {
