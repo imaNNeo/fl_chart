@@ -212,8 +212,9 @@ void main() {
             ),
           );
 
-          final barChartLeaf =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeaf = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
           expect(barChartLeaf.canBeScaled, true);
         },
       );
@@ -231,8 +232,9 @@ void main() {
         ),
       );
 
-      final barChartLeaf =
-          tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+      final barChartLeaf = tester.widget<BarChartLeaf>(
+        find.byType(BarChartLeaf),
+      );
       expect(barChartLeaf.canBeScaled, false);
     });
 
@@ -242,7 +244,7 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(alignment: BarChartAlignment.center),
+              BarChartData(),
             ),
           ),
         );
