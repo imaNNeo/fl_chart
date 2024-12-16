@@ -143,8 +143,8 @@ class CustomInteractiveViewer extends StatefulWidget {
     return l1 + l1L2 * fraction;
   }
 
-  // Returns the axis aligned bounding box for the given Quad, which might not
-  // be axis aligned.
+  /// Returns the axis aligned bounding box for the given Quad, which might not
+  /// be axis aligned.
   static Rect axisAlignedBoundingBox(Quad quad) {
     var xMin = quad.point0.x;
     var xMax = quad.point0.x;
@@ -287,10 +287,10 @@ class CustomInteractiveViewer extends StatefulWidget {
     return closestOverall;
   }
 
-// Transform the four corners of the viewport by the inverse of the given
-// matrix. This gives the viewport after the child has been transformed by the
-// given matrix. The viewport transforms as the inverse of the child (i.e.
-// moving the child left is equivalent to moving the viewport right).
+  /// Transform the four corners of the viewport by the inverse of the given
+  /// matrix. This gives the viewport after the child has been transformed by the
+  /// given matrix. The viewport transforms as the inverse of the child (i.e.
+  /// moving the child left is equivalent to moving the viewport right).
   static Quad transformViewport(Matrix4 matrix, Rect viewport) {
     final inverseMatrix = matrix.clone()..invert();
     return Quad.points(
