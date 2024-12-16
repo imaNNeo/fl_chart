@@ -104,10 +104,14 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
     };
   }
 
-  Size get viewSize => widget.boundingBox != null
-      ? widget.boundingBox!.size +
-          Offset(thisSidePaddingTotal, thisSidePaddingTotal)
-      : widget.parentSize;
+  Size get viewSize {
+    if (widget.boundingBox == null) {
+      return widget.parentSize;
+    }
+
+    return widget.boundingBox!.size +
+        Offset(thisSidePaddingTotal, thisSidePaddingTotal);
+  }
 
   double get axisOffset {
     final boundingBox = widget.boundingBox;
