@@ -102,5 +102,42 @@ void main() {
       expect(renderScatterChart.targetData, data);
       expect(renderScatterChart.textScaler, const TextScaler.linear(22));
     });
+
+    test('passes bounding box to paint holder', () {
+      final rect1 = Offset.zero & const Size(100, 100);
+      final renderScatterChart = RenderScatterChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderScatterChart.boundingBox, isNull);
+      expect(renderScatterChart.paintHolder.boundingBox, isNull);
+
+      renderScatterChart.boundingBox = rect1;
+
+      expect(renderScatterChart.boundingBox, rect1);
+      expect(renderScatterChart.paintHolder.boundingBox, rect1);
+    });
+
+    test('uses canBeScaled', () {
+      final renderScatterChart = RenderScatterChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderScatterChart.canBeScaled, false);
+
+      renderScatterChart.canBeScaled = true;
+
+      expect(renderScatterChart.canBeScaled, true);
+    });
   });
 }

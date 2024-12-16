@@ -52,18 +52,21 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
   late bool _validForMouseTracker;
 
   /// Recognizes pan gestures, such as onDown, onStart, onUpdate, onCancel, ...
-  late PanGestureRecognizer _panGestureRecognizer;
+  @visibleForTesting
+  late PanGestureRecognizer panGestureRecognizer;
 
   /// Recognizes tap gestures, such as onTapDown, onTapCancel and onTapUp
-  late TapGestureRecognizer _tapGestureRecognizer;
+  @visibleForTesting
+  late TapGestureRecognizer tapGestureRecognizer;
 
   /// Recognizes longPress gestures, such as onLongPressStart, onLongPressMoveUpdate and onLongPressEnd
-  late LongPressGestureRecognizer _longPressGestureRecognizer;
+  @visibleForTesting
+  late LongPressGestureRecognizer longPressGestureRecognizer;
 
   /// Initializes our recognizers and implement their callbacks.
   void initGestureRecognizers() {
-    _panGestureRecognizer = PanGestureRecognizer();
-    _panGestureRecognizer
+    panGestureRecognizer = PanGestureRecognizer();
+    panGestureRecognizer
       ..onDown = (dragDownDetails) {
         _notifyTouchEvent(FlPanDownEvent(dragDownDetails));
       }
@@ -80,8 +83,8 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
         _notifyTouchEvent(FlPanEndEvent(dragEndDetails));
       };
 
-    _tapGestureRecognizer = TapGestureRecognizer();
-    _tapGestureRecognizer
+    tapGestureRecognizer = TapGestureRecognizer();
+    tapGestureRecognizer
       ..onTapDown = (tapDownDetails) {
         _notifyTouchEvent(FlTapDownEvent(tapDownDetails));
       }
@@ -92,9 +95,9 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
       };
 
-    _longPressGestureRecognizer =
+    longPressGestureRecognizer =
         LongPressGestureRecognizer(duration: _longPressDuration);
-    _longPressGestureRecognizer
+    longPressGestureRecognizer
       ..onLongPressStart = (longPressStartDetails) {
         _notifyTouchEvent(FlLongPressStart(longPressStartDetails));
       }
@@ -134,10 +137,10 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       return;
     }
     if (event is PointerDownEvent) {
-      _longPressGestureRecognizer.addPointer(event);
-      _tapGestureRecognizer.addPointer(event);
+      longPressGestureRecognizer.addPointer(event);
+      tapGestureRecognizer.addPointer(event);
       if (!canBeScaled) {
-        _panGestureRecognizer.addPointer(event);
+        panGestureRecognizer.addPointer(event);
       }
     } else if (event is PointerHoverEvent) {
       _notifyTouchEvent(FlPointerHoverEvent(event));
