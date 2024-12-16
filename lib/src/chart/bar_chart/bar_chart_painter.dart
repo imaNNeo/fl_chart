@@ -527,7 +527,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       drawTooltipOnTop ? barTopY : barBottomY,
     );
 
-    if (!canvasWrapper.size.contains(tooltipOriginPoint)) {
+    final isZoomed = holder.boundingBox != null;
+    if (isZoomed && !canvasWrapper.size.contains(tooltipOriginPoint)) {
       return;
     }
 
@@ -627,7 +628,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final viewSize = holder.getChartUsableSize(size);
 
     // Check if the touch is outside the canvas bounds
-    if (!size.contains(localPosition)) {
+    final isZoomed = holder.boundingBox != null;
+    if (isZoomed && !size.contains(localPosition)) {
       return null;
     }
 
