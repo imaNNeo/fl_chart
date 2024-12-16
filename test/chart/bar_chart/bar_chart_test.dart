@@ -182,12 +182,7 @@ void main() {
       expect(axisChartScaffoldWidget1.trackpadScrollCausesScale, true);
     });
 
-    final scalingEnabledAxis = [
-      ScaleAxis.free,
-      ScaleAxis.horizontal,
-      ScaleAxis.vertical,
-    ];
-    for (final scaleAxis in scalingEnabledAxis) {
+    for (final scaleAxis in ScaleAxis.scalingEnabledAxis) {
       testWidgets('passes canBeScaled true for $scaleAxis',
           (WidgetTester tester) async {
         await tester.pumpWidget(
@@ -724,12 +719,7 @@ void main() {
         },
       );
 
-      final scalingAxis = [
-        ScaleAxis.free,
-        ScaleAxis.horizontal,
-        ScaleAxis.vertical,
-      ];
-      for (final scaleAxis in scalingAxis) {
+      for (final scaleAxis in ScaleAxis.scalingEnabledAxis) {
         testWidgets(
           'does not scale when trackpadScrollCausesScale is false '
           'for $scaleAxis',
