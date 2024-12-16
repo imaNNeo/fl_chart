@@ -1,10 +1,16 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
+import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const viewSize = Size(400, 400);
+
+  const dummyChartKey = Key('chart');
+  const dummyChart = SizedBox(key: dummyChartKey);
 
   final lineChartDataBase = LineChartData(
     minX: 0,
@@ -356,4 +362,725 @@ void main() {
       expect(find.byType(Icon), findsOneWidget);
     },
   );
+
+  group('AxisChartScaffoldWidget', () {
+    for (final scaleAxis in ScaleAxis.scalingEnabledAxis) {
+      testWidgets(
+        'wraps chart in interactive viewer when scaling is $scaleAxis',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      data: lineChartDataWithAllTitles,
+                      scaleAxis: scaleAxis,
+                      chartBuilder: (context, chartRect) => dummyChart,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final interactiveViewer = find.ancestor(
+            of: find.byKey(dummyChartKey),
+            matching: find.byType(CustomInteractiveViewer),
+          );
+          expect(interactiveViewer, findsOneWidget);
+        },
+      );
+    }
+
+    testWidgets(
+      'does not wrap chart in interactive viewer when scaling is disabled',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: viewSize.width,
+                  height: viewSize.height,
+                  child: AxisChartScaffoldWidget(
+                    data: lineChartDataWithAllTitles,
+                    // ignore: avoid_redundant_argument_values
+                    scaleAxis: ScaleAxis.none,
+                    chartBuilder: (context, chartRect) => dummyChart,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        final interactiveViewer = find.ancestor(
+          of: find.byKey(dummyChartKey),
+          matching: find.byType(CustomInteractiveViewer),
+        );
+        expect(interactiveViewer, findsNothing);
+      },
+    );
+
+    testWidgets('passes interaction parameters to interactive viewer',
+        (WidgetTester tester) async {
+      Future<void> pumpTestWidget(AxisChartScaffoldWidget widget) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: viewSize.width,
+                  height: viewSize.height,
+                  child: widget,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      await pumpTestWidget(
+        AxisChartScaffoldWidget(
+          data: lineChartDataWithAllTitles,
+          scaleAxis: ScaleAxis.free,
+          chartBuilder: (context, chartRect) => dummyChart,
+        ),
+      );
+
+      final interactiveViewer1 = tester.widget<CustomInteractiveViewer>(
+        find.byType(CustomInteractiveViewer),
+      );
+
+      expect(interactiveViewer1.trackpadScrollCausesScale, false);
+      expect(interactiveViewer1.maxScale, 2.5);
+      expect(interactiveViewer1.clipBehavior, Clip.none);
+
+      await pumpTestWidget(
+        AxisChartScaffoldWidget(
+          data: lineChartDataWithAllTitles,
+          scaleAxis: ScaleAxis.free,
+          trackpadScrollCausesScale: true,
+          maxScale: 10,
+          chartBuilder: (context, chartRect) => dummyChart,
+        ),
+      );
+
+      final interactiveViewer2 = tester.widget<CustomInteractiveViewer>(
+        find.byType(CustomInteractiveViewer),
+      );
+      expect(interactiveViewer2.trackpadScrollCausesScale, true);
+      expect(interactiveViewer2.maxScale, 10);
+      expect(interactiveViewer2.clipBehavior, Clip.none);
+    });
+    group('scaling and panning', () {
+      group('touch gesture', () {
+        testWidgets('does not scale with ScaleAxis.none',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return dummyChart;
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final chartCenterOffset = tester.getCenter(find.byKey(dummyChartKey));
+          final scaleStart1 = chartCenterOffset;
+          final scaleStart2 = chartCenterOffset;
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await tester.pump();
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await tester.pump();
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
+
+          expect(chartRect, isNull);
+        });
+
+        testWidgets('scales freely with ScaleAxis.free',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.free,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return dummyChart;
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byKey(dummyChartKey),
+          );
+          final chartCenterOffset = tester.getCenter(find.byKey(dummyChartKey));
+          final scaleStart1 = chartCenterOffset + const Offset(10, 10);
+          final scaleStart2 = chartCenterOffset - const Offset(10, 10);
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await tester.pump();
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await tester.pump();
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
+
+          expect(chartRect!.size, greaterThan(renderBox.size));
+          expect(chartRect!.left, isNegative);
+          expect(chartRect!.top, isNegative);
+        });
+
+        testWidgets('scales horizontally with ScaleAxis.horizontal',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.horizontal,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return dummyChart;
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byKey(dummyChartKey),
+          );
+          final chartCenterOffset = tester.getCenter(find.byKey(dummyChartKey));
+          final scaleStart1 = chartCenterOffset + const Offset(10, 10);
+          final scaleStart2 = chartCenterOffset - const Offset(10, 10);
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await tester.pump();
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await tester.pump();
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
+
+          expect(chartRect!.size.height, renderBox.size.height);
+          expect(chartRect!.size.width, greaterThan(renderBox.size.width));
+          expect(chartRect!.left, isNegative);
+          expect(chartRect!.top, 0);
+        });
+
+        testWidgets('scales vertically with ScaleAxis.vertical',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.vertical,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return dummyChart;
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byKey(dummyChartKey),
+          );
+          final chartCenterOffset = tester.getCenter(find.byKey(dummyChartKey));
+          final scaleStart1 = chartCenterOffset + const Offset(10, 10);
+          final scaleStart2 = chartCenterOffset - const Offset(10, 10);
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await tester.pump();
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await tester.pump();
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
+
+          expect(chartRect!.size.height, greaterThan(renderBox.size.height));
+          expect(chartRect!.size.width, renderBox.size.width);
+          expect(chartRect!.left, 0);
+          expect(chartRect!.top, isNegative);
+        });
+      });
+
+      group('trackpad scroll', () {
+        testWidgets(
+          'does not scale with ScaleAxis.none when trackpadScrollCausesScale is true',
+          (WidgetTester tester) async {
+            Rect? chartRect;
+            await tester.pumpWidget(
+              MaterialApp(
+                home: Scaffold(
+                  body: Center(
+                    child: SizedBox(
+                      width: viewSize.width,
+                      height: viewSize.height,
+                      child: AxisChartScaffoldWidget(
+                        trackpadScrollCausesScale: true,
+                        chartBuilder: (context, rect) {
+                          chartRect = rect;
+                          return dummyChart;
+                        },
+                        data: lineChartDataWithNoTitles,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+
+            final pointer = TestPointer(1, PointerDeviceKind.trackpad);
+            final chartCenterOffset =
+                tester.getCenter(find.byKey(dummyChartKey));
+            const scrollAmount = Offset(0, -100);
+
+            await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
+            await tester.pump();
+            await tester.sendEventToBinding(pointer.scroll(scrollAmount));
+            await tester.pump();
+
+            expect(chartRect, isNull);
+          },
+        );
+
+        for (final scaleAxis in ScaleAxis.scalingEnabledAxis) {
+          testWidgets(
+            'does not scale when trackpadScrollCausesScale is false '
+            'for $scaleAxis',
+            (WidgetTester tester) async {
+              Rect? chartRect;
+              await tester.pumpWidget(
+                MaterialApp(
+                  home: Scaffold(
+                    body: Center(
+                      child: SizedBox(
+                        width: viewSize.width,
+                        height: viewSize.height,
+                        child: AxisChartScaffoldWidget(
+                          scaleAxis: scaleAxis,
+                          chartBuilder: (context, rect) {
+                            chartRect = rect;
+                            return dummyChart;
+                          },
+                          data: lineChartDataWithNoTitles,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+
+              final pointer = TestPointer(1, PointerDeviceKind.trackpad);
+              final chartCenterOffset = tester.getCenter(
+                find.byKey(dummyChartKey),
+              );
+              const scrollAmount = Offset(0, -100);
+
+              await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
+              await tester.pump();
+              await tester.sendEventToBinding(pointer.scroll(scrollAmount));
+              await tester.pump();
+
+              expect(chartRect, isNull);
+            },
+          );
+        }
+
+        testWidgets('scales horizontally with ScaleAxis.horizontal',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.horizontal,
+                      trackpadScrollCausesScale: true,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return dummyChart;
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byKey(dummyChartKey),
+          );
+          final pointer = TestPointer(1, PointerDeviceKind.trackpad);
+          final chartCenterOffset = tester.getCenter(find.byKey(dummyChartKey));
+          const scrollAmount = Offset(0, -100);
+
+          await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
+          await tester.pump();
+          await tester.sendEventToBinding(pointer.scroll(scrollAmount));
+          await tester.pump();
+
+          expect(chartRect!.size.height, renderBox.size.height);
+          expect(chartRect!.size.width, greaterThan(renderBox.size.width));
+          expect(chartRect!.left, isNegative);
+          expect(chartRect!.top, 0);
+        });
+
+        testWidgets('scales vertically with ScaleAxis.vertical',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.vertical,
+                      trackpadScrollCausesScale: true,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return dummyChart;
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byKey(dummyChartKey),
+          );
+          final pointer = TestPointer(1, PointerDeviceKind.trackpad);
+          final chartCenterOffset = tester.getCenter(find.byKey(dummyChartKey));
+          const scrollAmount = Offset(0, -100);
+
+          await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
+          await tester.pump();
+          await tester.sendEventToBinding(pointer.scroll(scrollAmount));
+          await tester.pump();
+
+          expect(chartRect!.size.height, greaterThan(renderBox.size.height));
+          expect(chartRect!.size.width, renderBox.size.width);
+          expect(chartRect!.left, 0);
+          expect(chartRect!.top, isNegative);
+        });
+
+        testWidgets('scales freely with ScaleAxis.free',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.free,
+                      trackpadScrollCausesScale: true,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return dummyChart;
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byKey(dummyChartKey),
+          );
+          final pointer = TestPointer(1, PointerDeviceKind.trackpad);
+          final chartCenterOffset = tester.getCenter(find.byKey(dummyChartKey));
+          const scrollAmount = Offset(0, -100);
+
+          await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
+          await tester.pump();
+          await tester.sendEventToBinding(pointer.scroll(scrollAmount));
+          await tester.pump();
+
+          expect(chartRect!.size, greaterThan(renderBox.size));
+          expect(chartRect!.left, isNegative);
+          expect(chartRect!.top, isNegative);
+        });
+      });
+
+      group('pans', () {
+        testWidgets('only horizontally with ScaleAxis.horizontal',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.horizontal,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return const ColoredBox(
+                          color: Colors.red,
+                        );
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final chartCenterOffset = tester.getCenter(find.byType(ColoredBox));
+          final scaleStart1 = chartCenterOffset + const Offset(10, 10);
+          final scaleStart2 = chartCenterOffset - const Offset(10, 10);
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
+
+          final chartRectBeforePan = chartRect;
+          expect(chartRectBeforePan!.top, 0);
+
+          const panOffset = Offset(100, 100);
+          await tester.dragFrom(chartCenterOffset, panOffset);
+          await tester.pumpAndSettle();
+
+          expect(chartRect!.size, chartRectBeforePan.size);
+          expect(chartRect!.left, greaterThan(chartRectBeforePan.left));
+          expect(chartRect!.top, 0);
+        });
+
+        testWidgets('only vertically with ScaleAxis.vertical',
+            (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.vertical,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return const ColoredBox(
+                          color: Colors.red,
+                        );
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final chartCenterOffset = tester.getCenter(find.byType(ColoredBox));
+          final scaleStart1 = chartCenterOffset + const Offset(10, 10);
+          final scaleStart2 = chartCenterOffset - const Offset(10, 10);
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
+
+          final chartRectBeforePan = chartRect;
+          expect(chartRectBeforePan!.left, 0);
+
+          const panOffset = Offset(100, 100);
+          await tester.dragFrom(chartCenterOffset, panOffset);
+          await tester.pumpAndSettle();
+
+          expect(chartRect!.left, 0);
+          expect(chartRect!.top, greaterThan(chartRectBeforePan.top));
+        });
+
+        testWidgets('freely with ScaleAxis.free', (WidgetTester tester) async {
+          Rect? chartRect;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: SizedBox(
+                    width: viewSize.width,
+                    height: viewSize.height,
+                    child: AxisChartScaffoldWidget(
+                      scaleAxis: ScaleAxis.free,
+                      chartBuilder: (context, rect) {
+                        chartRect = rect;
+                        return const ColoredBox(
+                          color: Colors.red,
+                        );
+                      },
+                      data: lineChartDataWithNoTitles,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final chartCenterOffset = tester.getCenter(find.byType(ColoredBox));
+          final scaleStart1 = chartCenterOffset + const Offset(10, 10);
+          final scaleStart2 = chartCenterOffset - const Offset(10, 10);
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
+
+          final chartRectBeforePan = chartRect;
+          expect(chartRectBeforePan!.left, isNegative);
+          expect(chartRectBeforePan.top, isNegative);
+
+          const panOffset = Offset(100, 100);
+          await tester.dragFrom(chartCenterOffset, panOffset);
+          await tester.pumpAndSettle();
+
+          expect(chartRect!.left, greaterThan(chartRectBeforePan.left));
+          expect(chartRect!.top, greaterThan(chartRectBeforePan.top));
+        });
+      });
+    });
+
+    testWidgets('passes chart rect to SideTitlesWidgets',
+        (WidgetTester tester) async {
+      Rect? chartRect;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: viewSize.width,
+                height: viewSize.height,
+                child: AxisChartScaffoldWidget(
+                  scaleAxis: ScaleAxis.free,
+                  chartBuilder: (context, rect) {
+                    chartRect = rect;
+                    return const ColoredBox(
+                      color: Colors.red,
+                    );
+                  },
+                  data: lineChartDataWithAllTitles,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final chartCenterOffset = tester.getCenter(find.byType(ColoredBox));
+      final scaleStart1 = chartCenterOffset + const Offset(10, 10);
+      final scaleStart2 = chartCenterOffset - const Offset(10, 10);
+      final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+      final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+
+      final gesture1 = await tester.startGesture(scaleStart1);
+      final gesture2 = await tester.startGesture(scaleStart2);
+      await gesture1.moveTo(scaleEnd1);
+      await gesture2.moveTo(scaleEnd2);
+      await gesture1.up();
+      await gesture2.up();
+      await tester.pumpAndSettle();
+
+      final sideTitlesWidgets = tester.allWidgets.whereType<SideTitlesWidget>();
+      expect(sideTitlesWidgets.length, 4);
+      for (final sideTitlesWidget in sideTitlesWidgets) {
+        expect(sideTitlesWidget.boundingBox, chartRect);
+      }
+    });
+  });
 }
