@@ -120,8 +120,9 @@ void main() {
           ),
         );
 
-        final lineChartCenterOffset =
-            tester.getCenter(find.byType(LineChartLeaf));
+        final lineChartCenterOffset = tester.getCenter(
+          find.byType(LineChartLeaf),
+        );
         final scaleStart1 = lineChartCenterOffset;
         final scaleStart2 = lineChartCenterOffset;
         final scaleEnd1 = lineChartCenterOffset + const Offset(100, 100);
@@ -155,8 +156,9 @@ void main() {
           ),
         );
 
-        final lineChartCenterOffset =
-            tester.getCenter(find.byType(LineChartLeaf));
+        final lineChartCenterOffset = tester.getCenter(
+          find.byType(LineChartLeaf),
+        );
         final scaleStart1 = lineChartCenterOffset;
         final scaleStart2 = lineChartCenterOffset;
         final scaleEnd1 = lineChartCenterOffset + const Offset(100, 100);
@@ -434,8 +436,9 @@ void main() {
             ),
           );
 
-          final chartCenterOffset =
-              tester.getCenter(find.byType(LineChartLeaf));
+          final chartCenterOffset = tester.getCenter(
+            find.byType(LineChartLeaf),
+          );
           final scaleStart1 = chartCenterOffset;
           final scaleStart2 = chartCenterOffset;
           final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
