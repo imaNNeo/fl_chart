@@ -139,7 +139,7 @@ void main() {
       }
     });
 
-    testWidgets('defaults to ScaleAxis.none', (WidgetTester tester) async {
+    testWidgets('has correct default values', (WidgetTester tester) async {
       await tester.pumpWidget(
         createTestWidget(
           chart: BarChart(
@@ -150,19 +150,7 @@ void main() {
 
       final barChart = tester.widget<BarChart>(find.byType(BarChart));
       expect(barChart.scaleAxis, ScaleAxis.none);
-    });
-
-    testWidgets('defaults to trackpadScrollCausesScale false',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        createTestWidget(
-          chart: BarChart(
-            BarChartData(),
-          ),
-        ),
-      );
-
-      final barChart = tester.widget<BarChart>(find.byType(BarChart));
+      expect(barChart.maxScale, 2.5);
       expect(barChart.trackpadScrollCausesScale, false);
     });
 
