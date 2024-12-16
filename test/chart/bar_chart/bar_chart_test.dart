@@ -24,80 +24,72 @@ void main() {
         BarChartAlignment.end,
       ];
       for (final alignment in verticallyScalableAlignments) {
-        testWidgets(
-          'ScaleAxis.horizontal with $alignment',
-          (WidgetTester tester) async {
-            expect(
-              () => tester.pumpWidget(
-                createTestWidget(
-                  chart: BarChart(
-                    BarChartData(
-                      alignment: alignment,
-                    ),
-                    scaleAxis: ScaleAxis.horizontal,
+        testWidgets('ScaleAxis.horizontal with $alignment',
+            (WidgetTester tester) async {
+          expect(
+            () => tester.pumpWidget(
+              createTestWidget(
+                chart: BarChart(
+                  BarChartData(
+                    alignment: alignment,
                   ),
+                  scaleAxis: ScaleAxis.horizontal,
                 ),
               ),
-              throwsAssertionError,
-            );
-          },
-        );
+            ),
+            throwsAssertionError,
+          );
+        });
       }
 
       for (final alignment in verticallyScalableAlignments) {
-        testWidgets(
-          'ScaleAxis.free with $alignment',
-          (WidgetTester tester) async {
-            expect(
-              () => tester.pumpWidget(
-                createTestWidget(
-                  chart: BarChart(
-                    BarChartData(
-                      alignment: alignment,
-                    ),
-                    scaleAxis: ScaleAxis.free,
+        testWidgets('ScaleAxis.free with $alignment',
+            (WidgetTester tester) async {
+          expect(
+            () => tester.pumpWidget(
+              createTestWidget(
+                chart: BarChart(
+                  BarChartData(
+                    alignment: alignment,
                   ),
+                  scaleAxis: ScaleAxis.free,
                 ),
               ),
-              throwsAssertionError,
-            );
-          },
-        );
+            ),
+            throwsAssertionError,
+          );
+        });
       }
     });
 
     group('allows passing', () {
       for (final alignment in BarChartAlignment.values) {
-        testWidgets(
-          'ScaleAxis.none with $alignment',
-          (WidgetTester tester) async {
-            await tester.pumpWidget(
-              createTestWidget(
-                chart: BarChart(
-                  BarChartData(alignment: alignment),
-                  // ignore: avoid_redundant_argument_values
-                  scaleAxis: ScaleAxis.none,
-                ),
+        testWidgets('ScaleAxis.none with $alignment',
+            (WidgetTester tester) async {
+          await tester.pumpWidget(
+            createTestWidget(
+              chart: BarChart(
+                BarChartData(alignment: alignment),
+                // ignore: avoid_redundant_argument_values
+                scaleAxis: ScaleAxis.none,
               ),
-            );
-          },
-        );
+            ),
+          );
+        });
       }
 
       for (final alignment in BarChartAlignment.values) {
-        testWidgets(
-          'ScaleAxis.vertical with $alignment',
-          (WidgetTester tester) async {
-            await tester.pumpWidget(
-              createTestWidget(
-                chart: BarChart(
-                  BarChartData(alignment: alignment),
-                  scaleAxis: ScaleAxis.vertical,
-                ),
+        testWidgets('ScaleAxis.vertical with $alignment',
+            (WidgetTester tester) async {
+          await tester.pumpWidget(
+            createTestWidget(
+              chart: BarChart(
+                BarChartData(alignment: alignment),
+                scaleAxis: ScaleAxis.vertical,
               ),
-            );
-          },
-        );
+            ),
+          );
+        });
       }
 
       final scalableAlignments = [
@@ -107,35 +99,31 @@ void main() {
       ];
 
       for (final alignment in scalableAlignments) {
-        testWidgets(
-          'ScaleAxis.free with $alignment',
-          (WidgetTester tester) async {
-            await tester.pumpWidget(
-              createTestWidget(
-                chart: BarChart(
-                  BarChartData(alignment: alignment),
-                  scaleAxis: ScaleAxis.free,
-                ),
+        testWidgets('ScaleAxis.free with $alignment',
+            (WidgetTester tester) async {
+          await tester.pumpWidget(
+            createTestWidget(
+              chart: BarChart(
+                BarChartData(alignment: alignment),
+                scaleAxis: ScaleAxis.free,
               ),
-            );
-          },
-        );
+            ),
+          );
+        });
       }
 
       for (final alignment in scalableAlignments) {
-        testWidgets(
-          'ScaleAxis.horizontal with $alignment',
-          (WidgetTester tester) async {
-            await tester.pumpWidget(
-              createTestWidget(
-                chart: BarChart(
-                  BarChartData(alignment: alignment),
-                  scaleAxis: ScaleAxis.horizontal,
-                ),
+        testWidgets('ScaleAxis.horizontal with $alignment',
+            (WidgetTester tester) async {
+          await tester.pumpWidget(
+            createTestWidget(
+              chart: BarChart(
+                BarChartData(alignment: alignment),
+                scaleAxis: ScaleAxis.horizontal,
               ),
-            );
-          },
-        );
+            ),
+          );
+        });
       }
     });
 
@@ -200,24 +188,22 @@ void main() {
       ScaleAxis.vertical,
     ];
     for (final scaleAxis in scalingEnabledAxis) {
-      testWidgets(
-        'passes canBeScaled true for $scaleAxis',
-        (WidgetTester tester) async {
-          await tester.pumpWidget(
-            createTestWidget(
-              chart: BarChart(
-                BarChartData(),
-                scaleAxis: scaleAxis,
-              ),
+      testWidgets('passes canBeScaled true for $scaleAxis',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(
+          createTestWidget(
+            chart: BarChart(
+              BarChartData(),
+              scaleAxis: scaleAxis,
             ),
-          );
+          ),
+        );
 
-          final barChartLeaf = tester.widget<BarChartLeaf>(
-            find.byType(BarChartLeaf),
-          );
-          expect(barChartLeaf.canBeScaled, true);
-        },
-      );
+        final barChartLeaf = tester.widget<BarChartLeaf>(
+          find.byType(BarChartLeaf),
+        );
+        expect(barChartLeaf.canBeScaled, true);
+      });
     }
 
     testWidgets('passes canBeScaled false for ScaleAxis.none',
@@ -266,8 +252,9 @@ void main() {
         await gesture2.up();
         await tester.pumpAndSettle();
 
-        final barChartLeaf =
-            tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+        final barChartLeaf = tester.widget<BarChartLeaf>(
+          find.byType(BarChartLeaf),
+        );
 
         expect(barChartLeaf.boundingBox, isNull);
       });
@@ -300,8 +287,9 @@ void main() {
         await gesture2.up();
         await tester.pumpAndSettle();
 
-        final barChartLeaf =
-            tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+        final barChartLeaf = tester.widget<BarChartLeaf>(
+          find.byType(BarChartLeaf),
+        );
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(BarChartLeaf),
         );
@@ -339,8 +327,9 @@ void main() {
         await gesture2.up();
         await tester.pumpAndSettle();
 
-        final barChartLeaf =
-            tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+        final barChartLeaf = tester.widget<BarChartLeaf>(
+          find.byType(BarChartLeaf),
+        );
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(BarChartLeaf),
         );
@@ -379,8 +368,9 @@ void main() {
         await gesture2.up();
         await tester.pumpAndSettle();
 
-        final barChartLeaf =
-            tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+        final barChartLeaf = tester.widget<BarChartLeaf>(
+          find.byType(BarChartLeaf),
+        );
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(BarChartLeaf),
         );
@@ -418,8 +408,9 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final barChartLeafBeforePan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafBeforePan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
           final boundingBoxBeforePan = barChartLeafBeforePan.boundingBox!;
           expect(boundingBoxBeforePan.top, 0);
 
@@ -465,8 +456,9 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final barChartLeafBeforePan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafBeforePan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
           final boundingBoxBeforePan = barChartLeafBeforePan.boundingBox!;
           expect(boundingBoxBeforePan.left, 0);
 
@@ -486,58 +478,55 @@ void main() {
           );
         });
 
-        testWidgets(
-          'freely with ScaleAxis.free',
-          (WidgetTester tester) async {
-            await tester.pumpWidget(
-              createTestWidget(
-                chart: BarChart(
-                  BarChartData(),
-                  scaleAxis: ScaleAxis.free,
-                ),
+        testWidgets('freely with ScaleAxis.free', (WidgetTester tester) async {
+          await tester.pumpWidget(
+            createTestWidget(
+              chart: BarChart(
+                BarChartData(),
+                scaleAxis: ScaleAxis.free,
               ),
-            );
+            ),
+          );
 
-            final chartCenterOffset =
-                tester.getCenter(find.byType(BarChartLeaf));
-            final scaleStart1 = chartCenterOffset;
-            final scaleStart2 = chartCenterOffset;
-            final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
-            final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
+          final chartCenterOffset = tester.getCenter(find.byType(BarChartLeaf));
+          final scaleStart1 = chartCenterOffset;
+          final scaleStart2 = chartCenterOffset;
+          final scaleEnd1 = chartCenterOffset + const Offset(100, 100);
+          final scaleEnd2 = chartCenterOffset - const Offset(100, 100);
 
-            final gesture1 = await tester.startGesture(scaleStart1);
-            final gesture2 = await tester.startGesture(scaleStart2);
-            await gesture1.moveTo(scaleEnd1);
-            await gesture2.moveTo(scaleEnd2);
-            await gesture1.up();
-            await gesture2.up();
-            await tester.pumpAndSettle();
+          final gesture1 = await tester.startGesture(scaleStart1);
+          final gesture2 = await tester.startGesture(scaleStart2);
+          await gesture1.moveTo(scaleEnd1);
+          await gesture2.moveTo(scaleEnd2);
+          await gesture1.up();
+          await gesture2.up();
+          await tester.pumpAndSettle();
 
-            final barChartLeafBeforePan =
-                tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
-            final boundingBoxBeforePan = barChartLeafBeforePan.boundingBox!;
-            expect(boundingBoxBeforePan.top, isNegative);
-            expect(boundingBoxBeforePan.left, isNegative);
+          final barChartLeafBeforePan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
+          final boundingBoxBeforePan = barChartLeafBeforePan.boundingBox!;
+          expect(boundingBoxBeforePan.top, isNegative);
+          expect(boundingBoxBeforePan.left, isNegative);
 
-            const panOffset = Offset(100, 100);
-            await tester.dragFrom(chartCenterOffset, panOffset);
-            await tester.pumpAndSettle();
+          const panOffset = Offset(100, 100);
+          await tester.dragFrom(chartCenterOffset, panOffset);
+          await tester.pumpAndSettle();
 
-            final barChartLeafAfterPan = tester.widget<BarChartLeaf>(
-              find.byType(BarChartLeaf),
-            );
-            final boundingBoxAfterPan = barChartLeafAfterPan.boundingBox!;
+          final barChartLeafAfterPan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
+          final boundingBoxAfterPan = barChartLeafAfterPan.boundingBox!;
 
-            expect(
-              boundingBoxAfterPan.left,
-              greaterThan(boundingBoxBeforePan.left),
-            );
-            expect(
-              boundingBoxAfterPan.top,
-              greaterThan(boundingBoxBeforePan.top),
-            );
-          },
-        );
+          expect(
+            boundingBoxAfterPan.left,
+            greaterThan(boundingBoxBeforePan.left),
+          );
+          expect(
+            boundingBoxAfterPan.top,
+            greaterThan(boundingBoxBeforePan.top),
+          );
+        });
       });
     });
 
@@ -570,8 +559,9 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final barChartLeafBeforePan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafBeforePan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
 
           final boundingBoxBeforePan = barChartLeafBeforePan.boundingBox!;
           expect(boundingBoxBeforePan.top, 0);
@@ -583,8 +573,9 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(leftAndUp));
           await tester.pump();
 
-          final barChartLeafAfterPan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafAfterPan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
           final boundingBoxAfterPan = barChartLeafAfterPan.boundingBox!;
 
           expect(
@@ -621,8 +612,9 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final barChartLeafBeforePan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafBeforePan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
 
           final boundingBoxBeforePan = barChartLeafBeforePan.boundingBox!;
           expect(boundingBoxBeforePan.left, 0);
@@ -634,8 +626,9 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(leftAndUp));
           await tester.pump();
 
-          final barChartLeafAfterPan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafAfterPan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
           final boundingBoxAfterPan = barChartLeafAfterPan.boundingBox!;
 
           expect(boundingBoxAfterPan.left, 0);
@@ -671,8 +664,9 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final barChartLeafBeforePan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafBeforePan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
 
           final boundingBoxBeforePan = barChartLeafBeforePan.boundingBox!;
 
@@ -683,8 +677,9 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(leftAndUp));
           await tester.pump();
 
-          final barChartLeafAfterPan =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+          final barChartLeafAfterPan = tester.widget<BarChartLeaf>(
+            find.byType(BarChartLeaf),
+          );
           final boundingBoxAfterPan = barChartLeafAfterPan.boundingBox!;
 
           expect(
@@ -729,12 +724,12 @@ void main() {
         },
       );
 
-      final scaleableAxis = [
+      final scalingAxis = [
         ScaleAxis.free,
         ScaleAxis.horizontal,
         ScaleAxis.vertical,
       ];
-      for (final scaleAxis in scaleableAxis) {
+      for (final scaleAxis in scalingAxis) {
         testWidgets(
           'does not scale when trackpadScrollCausesScale is false '
           'for $scaleAxis',
@@ -751,8 +746,9 @@ void main() {
             );
 
             final pointer = TestPointer(1, PointerDeviceKind.trackpad);
-            final chartCenterOffset =
-                tester.getCenter(find.byType(BarChartLeaf));
+            final chartCenterOffset = tester.getCenter(
+              find.byType(BarChartLeaf),
+            );
             const scrollAmount = Offset(0, -100);
 
             await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
@@ -789,8 +785,9 @@ void main() {
         await tester.sendEventToBinding(pointer.scroll(scrollAmount));
         await tester.pump();
 
-        final barChartLeaf =
-            tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+        final barChartLeaf = tester.widget<BarChartLeaf>(
+          find.byType(BarChartLeaf),
+        );
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(BarChartLeaf),
         );
@@ -802,76 +799,73 @@ void main() {
         expect(boundingBox.top, 0);
       });
 
-      testWidgets(
-        'scales vertically with ScaleAxis.vertical',
-        (WidgetTester tester) async {
-          await tester.pumpWidget(
-            createTestWidget(
-              chart: BarChart(
-                BarChartData(),
-                scaleAxis: ScaleAxis.vertical,
-                trackpadScrollCausesScale: true,
-              ),
+      testWidgets('scales vertically with ScaleAxis.vertical',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(
+          createTestWidget(
+            chart: BarChart(
+              BarChartData(),
+              scaleAxis: ScaleAxis.vertical,
+              trackpadScrollCausesScale: true,
             ),
-          );
+          ),
+        );
 
-          final pointer = TestPointer(1, PointerDeviceKind.trackpad);
-          final chartCenterOffset = tester.getCenter(find.byType(BarChartLeaf));
-          const scrollAmount = Offset(0, -100);
+        final pointer = TestPointer(1, PointerDeviceKind.trackpad);
+        final chartCenterOffset = tester.getCenter(find.byType(BarChartLeaf));
+        const scrollAmount = Offset(0, -100);
 
-          await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
-          await tester.pump();
-          await tester.sendEventToBinding(pointer.scroll(scrollAmount));
-          await tester.pump();
+        await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
+        await tester.pump();
+        await tester.sendEventToBinding(pointer.scroll(scrollAmount));
+        await tester.pump();
 
-          final barChartLeaf =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
-          final renderBox = tester.renderObject<RenderBox>(
-            find.byType(BarChartLeaf),
-          );
-          final boundingBox = barChartLeaf.boundingBox!;
+        final barChartLeaf = tester.widget<BarChartLeaf>(
+          find.byType(BarChartLeaf),
+        );
+        final renderBox = tester.renderObject<RenderBox>(
+          find.byType(BarChartLeaf),
+        );
+        final boundingBox = barChartLeaf.boundingBox!;
 
-          expect(boundingBox.size.height, greaterThan(renderBox.size.height));
-          expect(boundingBox.size.width, renderBox.size.width);
-          expect(boundingBox.left, 0);
-          expect(boundingBox.top, isNegative);
-        },
-      );
+        expect(boundingBox.size.height, greaterThan(renderBox.size.height));
+        expect(boundingBox.size.width, renderBox.size.width);
+        expect(boundingBox.left, 0);
+        expect(boundingBox.top, isNegative);
+      });
 
-      testWidgets(
-        'scales freely with ScaleAxis.free',
-        (WidgetTester tester) async {
-          await tester.pumpWidget(
-            createTestWidget(
-              chart: BarChart(
-                BarChartData(),
-                scaleAxis: ScaleAxis.free,
-                trackpadScrollCausesScale: true,
-              ),
+      testWidgets('scales freely with ScaleAxis.free',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(
+          createTestWidget(
+            chart: BarChart(
+              BarChartData(),
+              scaleAxis: ScaleAxis.free,
+              trackpadScrollCausesScale: true,
             ),
-          );
+          ),
+        );
 
-          final pointer = TestPointer(1, PointerDeviceKind.trackpad);
-          final chartCenterOffset = tester.getCenter(find.byType(BarChartLeaf));
-          const scrollAmount = Offset(0, -100);
+        final pointer = TestPointer(1, PointerDeviceKind.trackpad);
+        final chartCenterOffset = tester.getCenter(find.byType(BarChartLeaf));
+        const scrollAmount = Offset(0, -100);
 
-          await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
-          await tester.pump();
-          await tester.sendEventToBinding(pointer.scroll(scrollAmount));
-          await tester.pump();
+        await tester.sendEventToBinding(pointer.hover(chartCenterOffset));
+        await tester.pump();
+        await tester.sendEventToBinding(pointer.scroll(scrollAmount));
+        await tester.pump();
 
-          final barChartLeaf =
-              tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
-          final renderBox = tester.renderObject<RenderBox>(
-            find.byType(BarChartLeaf),
-          );
-          final boundingBox = barChartLeaf.boundingBox!;
+        final barChartLeaf =
+            tester.widget<BarChartLeaf>(find.byType(BarChartLeaf));
+        final renderBox = tester.renderObject<RenderBox>(
+          find.byType(BarChartLeaf),
+        );
+        final boundingBox = barChartLeaf.boundingBox!;
 
-          expect(boundingBox.size, greaterThan(renderBox.size));
-          expect(boundingBox.left, isNegative);
-          expect(boundingBox.top, isNegative);
-        },
-      );
+        expect(boundingBox.size, greaterThan(renderBox.size));
+        expect(boundingBox.left, isNegative);
+        expect(boundingBox.top, isNegative);
+      });
     });
   });
 }
