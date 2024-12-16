@@ -173,7 +173,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
       }).toList();
     }
 
-    axisPositions = getPositionsWithinChartRange(axisPositions, side);
+    axisPositions = _getPositionsWithinChartRange(axisPositions, side);
 
     return axisPositions.map(
       (metaData) {
@@ -201,7 +201,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
     ).toList();
   }
 
-  List<AxisSideTitleMetaData> getPositionsWithinChartRange(
+  List<AxisSideTitleMetaData> _getPositionsWithinChartRange(
     List<AxisSideTitleMetaData> axisPositions,
     AxisSide side,
   ) {
