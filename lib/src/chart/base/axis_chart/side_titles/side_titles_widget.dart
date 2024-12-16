@@ -120,10 +120,8 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
     }
 
     return switch (widget.side) {
-      AxisSide.left => boundingBox.top,
-      AxisSide.top => boundingBox.left,
-      AxisSide.right => boundingBox.top,
-      AxisSide.bottom => boundingBox.left,
+      AxisSide.left || AxisSide.right => boundingBox.top,
+      AxisSide.top || AxisSide.bottom => boundingBox.left,
     };
   }
 
