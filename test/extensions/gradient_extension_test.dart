@@ -105,4 +105,7 @@ class _TestGradient extends Gradient {
 
   @override
   Gradient scale(double t) => throw UnimplementedError();
+
+  @override
+  Gradient withOpacity(double opacity) => throw UnimplementedError();
 }

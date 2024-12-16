@@ -527,7 +527,7 @@ class BarAreaData with EquatableMixin {
     this.applyCutOffY = false,
   }) : color = color ??
             ((color == null && gradient == null)
-                ? Colors.blueGrey.withOpacity(0.5)
+                ? Colors.blueGrey.withValues(alpha: 0.5)
                 : null);
 
   final bool show;
@@ -584,7 +584,7 @@ class BetweenBarsData with EquatableMixin {
     this.gradient,
   }) : color = color ??
             ((color == null && gradient == null)
-                ? Colors.blueGrey.withOpacity(0.5)
+                ? Colors.blueGrey.withValues(alpha: 0.5)
                 : null);
 
   /// The index of the lineBarsData from where the area has to be rendered
