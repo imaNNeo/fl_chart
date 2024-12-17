@@ -67,6 +67,9 @@ class _LineChartSample12State extends State<LineChartSample12> {
               right: 18.0,
             ),
             child: LineChart(
+              scaleAxis: ScaleAxis.horizontal,
+              minScale: 1.0,
+              maxScale: 25.0,
               LineChartData(
                 lineBarsData: [
                   LineChartBarData(
@@ -99,7 +102,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
                   ),
                 ],
                 lineTouchData: LineTouchData(
-                  touchSpotThreshold: 1,
+                  touchSpotThreshold: 5,
                   getTouchLineStart: (_, __) => -double.infinity,
                   getTouchLineEnd: (_, __) => double.infinity,
                   getTouchedSpotIndicator:
