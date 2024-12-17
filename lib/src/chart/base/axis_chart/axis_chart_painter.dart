@@ -25,12 +25,15 @@ abstract class AxisChartPainter<D extends AxisChartData>
     _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
     _imagePaint = Paint();
+
+    _clipPaint = Paint();
   }
 
   late Paint _gridPaint;
   late Paint _backgroundPaint;
   late Paint _extraLinesPaint;
   late Paint _imagePaint;
+  late Paint _clipPaint;
 
   /// [_rangeAnnotationPaint] draws range annotations;
   late Paint _rangeAnnotationPaint;
@@ -237,7 +240,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
       canvasWrapper
         ..saveLayer(
           Offset.zero & canvasWrapper.size,
-          Paint(),
+          _clipPaint,
         )
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
