@@ -16,10 +16,12 @@ class LineChartSample12 extends StatefulWidget {
 
 class _LineChartSample12State extends State<LineChartSample12> {
   List<(DateTime, double)>? _bitcoinPriceHistory;
+  late TransformationController _transformationController;
 
   @override
   void initState() {
     _reloadData();
+    _transformationController = TransformationController();
     super.initState();
   }
 
@@ -39,28 +41,49 @@ class _LineChartSample12State extends State<LineChartSample12> {
 
   @override
   Widget build(BuildContext context) {
+    const leftReservedSize = 52.0;
     return Column(
       children: [
-        const SizedBox(height: 14),
-        const Text(
-          'Bitcoin Price History',
-          style: TextStyle(
-            color: AppColors.contentColorYellow,
-            fontWeight: FontWeight.bold,
-            fontSize: 18
-          ),
+        Row(
+          children: [
+            const SizedBox(width: leftReservedSize),
+            const Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 14),
+                  Text(
+                    'Bitcoin Price History',
+                    style: TextStyle(
+                      color: AppColors.contentColorYellow,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    '2023/12/19 - 2024/12/17',
+                    style: TextStyle(
+                      color: AppColors.contentColorGreen,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 14),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: _TransformationButtons(
+                  controller: _transformationController,
+                ),
+              ),
+            ),
+          ],
         ),
-        const Text(
-          '2023/12/19 - 2024/12/17',
-          style: TextStyle(
-            color: AppColors.contentColorGreen,
-            fontWeight: FontWeight.bold,
-            fontSize: 14
-          ),
-        ),
-        const SizedBox(height: 14),
         AspectRatio(
-          aspectRatio: 1.5,
+          aspectRatio: 1.4,
           child: Padding(
             padding: const EdgeInsets.only(
               top: 0.0,
@@ -70,6 +93,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
               scaleAxis: ScaleAxis.horizontal,
               minScale: 1.0,
               maxScale: 25.0,
+              transformationController: _transformationController,
               LineChartData(
                 lineBarsData: [
                   LineChartBarData(
@@ -181,7 +205,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
                     drawBelowEverything: true,
                     sideTitles: SideTitles(
                       showTitles: true,
-                      reservedSize: 52,
+                      reservedSize: leftReservedSize,
                       maxIncluded: false,
                       minIncluded: false,
                     ),
@@ -217,6 +241,119 @@ class _LineChartSample12State extends State<LineChartSample12> {
           ),
         ),
       ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _transformationController.dispose();
+    super.dispose();
+  }
+}
+
+class _TransformationButtons extends StatelessWidget {
+  const _TransformationButtons({
+    required this.controller,
+  });
+
+  final TransformationController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Tooltip(
+          message: 'Zoom in',
+          child: IconButton(
+            icon: const Icon(
+              Icons.add,
+              size: 16,
+            ),
+            onPressed: _transformationZoomIn,
+          ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Tooltip(
+              message: 'Move left',
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  size: 16,
+                ),
+                onPressed: _transformationMoveLeft,
+              ),
+            ),
+            Tooltip(
+              message: 'Reset zoom',
+              child: IconButton(
+                icon: const Icon(
+                  Icons.refresh,
+                  size: 16,
+                ),
+                onPressed: _transformationReset,
+              ),
+            ),
+            Tooltip(
+              message: 'Move right',
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                ),
+                onPressed: _transformationMoveRight,
+              ),
+            ),
+          ],
+        ),
+        Tooltip(
+          message: 'Zoom out',
+          child: IconButton(
+            icon: const Icon(
+              Icons.minimize,
+              size: 16,
+            ),
+            onPressed: _transformationZoomOut,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _transformationReset() {
+    controller.value = Matrix4.identity();
+  }
+
+  void _transformationZoomIn() {
+    controller.value *= Matrix4.diagonal3Values(
+      1.1,
+      1.1,
+      1,
+    );
+  }
+
+  void _transformationMoveLeft() {
+    controller.value *= Matrix4.translationValues(
+      20,
+      0,
+      0,
+    );
+  }
+
+  void _transformationMoveRight() {
+    controller.value *= Matrix4.translationValues(
+      -20,
+      0,
+      0,
+    );
+  }
+
+  void _transformationZoomOut() {
+    controller.value *= Matrix4.diagonal3Values(
+      0.9,
+      0.9,
+      1,
     );
   }
 }
