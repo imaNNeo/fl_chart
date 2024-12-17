@@ -36,16 +36,25 @@ class AxisChartScaffoldWidget extends StatefulWidget {
     super.key,
     required this.chartBuilder,
     required this.data,
+    this.transformationController,
     this.scaleAxis = ScaleAxis.none,
     this.maxScale = 2.5,
+    this.minScale = 1,
     this.trackpadScrollCausesScale = false,
-  });
+  })  : assert(minScale >= 1, 'minScale must be greater than or equal to 1'),
+        assert(
+          maxScale >= minScale,
+          'maxScale must be greater than or equal to minScale',
+        );
 
   /// The builder to build the chart.
   final ChartBuilder chartBuilder;
 
   /// The data to build the chart.
   final AxisChartData data;
+
+  /// The transformation controller to control the transformation of the chart.
+  final TransformationController? transformationController;
 
   /// Determines what axis should be scaled.
   final ScaleAxis scaleAxis;
@@ -54,6 +63,11 @@ class AxisChartScaffoldWidget extends StatefulWidget {
   ///
   /// Ignored when [scaleAxis] is [ScaleAxis.none].
   final double maxScale;
+
+  /// The minimum scale of the chart.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final double minScale;
 
   /// Whether trackpad scroll causes scale.
   ///
@@ -66,7 +80,7 @@ class AxisChartScaffoldWidget extends StatefulWidget {
 }
 
 class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
-  final _transformationController = CustomTransformationController();
+  late TransformationController _transformationController;
 
   final _chartKey = GlobalKey();
 
@@ -83,13 +97,51 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   @override
   void initState() {
     super.initState();
+    _transformationController =
+        widget.transformationController ?? TransformationController();
     _transformationController.addListener(_updateChartRect);
+    updateRectPostFrame();
   }
 
   @override
   void dispose() {
     _transformationController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(AxisChartScaffoldWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    switch ((
+      oldWidget.transformationController,
+      widget.transformationController
+    )) {
+      case (null, null):
+      case (TransformationController(), null):
+        _transformationController.dispose();
+        _transformationController = TransformationController();
+        _transformationController.addListener(_updateChartRect);
+      case (null, TransformationController()):
+        _transformationController.dispose();
+        _transformationController = widget.transformationController!;
+        _transformationController.addListener(_updateChartRect);
+      case (TransformationController(), TransformationController()):
+        if (oldWidget.transformationController !=
+            widget.transformationController) {
+          _transformationController.dispose();
+          _transformationController = widget.transformationController!;
+          _transformationController.addListener(_updateChartRect);
+        }
+    }
+
+    updateRectPostFrame();
+  }
+
+  void updateRectPostFrame() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateChartRect();
+    });
   }
 
   // Applies the inverse transformation to the chart to get the zoomed
@@ -187,6 +239,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
           clipBehavior: Clip.none,
           trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
           maxScale: widget.maxScale,
+          minScale: widget.minScale,
           child: SizedBox(
             width: constraints.maxWidth,
             height: constraints.maxHeight,
