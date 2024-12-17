@@ -428,6 +428,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
         (tooltipData.direction == TooltipDirection.auto &&
             showOnRodData.isUpward());
+
+    final tooltipOriginPoint = Offset(
+      barX,
+      drawTooltipOnTop ? barTopY : barBottomY,
+    );
+
+    final isZoomed = holder.boundingBox != null;
+    if (isZoomed && !canvasWrapper.size.contains(tooltipOriginPoint)) {
+      return;
+    }
+
     final tooltipTop = drawTooltipOnTop
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
         : barBottomY + tooltipData.tooltipMargin;
@@ -523,16 +534,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       _borderTouchTooltipPaint
         ..color = tooltipData.tooltipBorder.color
         ..strokeWidth = tooltipData.tooltipBorder.width;
-    }
-
-    final tooltipOriginPoint = Offset(
-      barX,
-      drawTooltipOnTop ? barTopY : barBottomY,
-    );
-
-    final isZoomed = holder.boundingBox != null;
-    if (isZoomed && !canvasWrapper.size.contains(tooltipOriginPoint)) {
-      return;
     }
 
     canvasWrapper.drawRotated(
@@ -632,7 +633,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     // Check if the touch is outside the canvas bounds
     final isZoomed = holder.boundingBox != null;
-    if (isZoomed && !size.contains(localPosition)) {
+    if (isZoomed && !size.contains(touchedPoint)) {
       return null;
     }
 
