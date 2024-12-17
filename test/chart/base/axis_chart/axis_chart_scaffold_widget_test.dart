@@ -459,6 +459,14 @@ void main() {
       expect(interactiveViewer1.maxScale, 2.5);
       expect(interactiveViewer1.minScale, 1);
       expect(interactiveViewer1.clipBehavior, Clip.none);
+      expect(
+        interactiveViewer1.transformationController,
+        isA<TransformationController>().having(
+          (controller) => controller.value,
+          'value',
+          Matrix4.identity(),
+        ),
+      );
 
       final transformationController = TransformationController();
       await pumpTestWidget(
