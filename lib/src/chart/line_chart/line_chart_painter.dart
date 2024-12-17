@@ -69,7 +69,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       canvasWrapper
         ..saveLayer(
           Offset.zero & canvasWrapper.size,
-          Paint(),
+          _clipPaint,
         )
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
