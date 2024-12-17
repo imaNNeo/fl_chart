@@ -226,6 +226,111 @@ void main() {
       }
       expect(exception != null, true);
     });
+
+    test('test 3 minY == maxY', () {
+      const viewSize = Size(400, 400);
+
+      final bar1 = LineChartBarData(
+        spots: const [
+          FlSpot(0, 4),
+          FlSpot(1, 3),
+          FlSpot(2, 2),
+          FlSpot(3, 1),
+          FlSpot(4, 0),
+        ],
+        showingIndicators: [
+          0,
+          2,
+          3,
+        ],
+      );
+      final bar2 = LineChartBarData(
+        spots: const [
+          FlSpot(0, 5),
+          FlSpot(1, 3),
+          FlSpot(2, 2),
+          FlSpot(3, 5),
+          FlSpot(4, 0),
+        ],
+      );
+
+      final lineChartBarsData = <LineChartBarData>[bar1, bar2];
+      final (minX, maxX, minY, maxY) = LineChartHelper().calculateMaxAxisValues(
+        lineChartBarsData,
+      );
+
+      final data = LineChartData(
+        minX: minX,
+        maxX: maxX,
+        minY: minY,
+        maxY: minY,
+        lineBarsData: lineChartBarsData,
+        clipData: const FlClipData.all(),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(y: 1),
+          ],
+          verticalLines: [
+            VerticalLine(x: 4),
+          ],
+        ),
+        betweenBarsData: [
+          BetweenBarsData(fromIndex: 0, toIndex: 1),
+        ],
+        showingTooltipIndicators: [
+          ShowingTooltipIndicators([
+            LineBarSpot(bar1, 0, bar1.spots.first),
+            LineBarSpot(bar2, 1, bar2.spots.first),
+          ]),
+        ],
+        lineTouchData: LineTouchData(
+          getTouchedSpotIndicator:
+              (LineChartBarData barData, List<int> spotIndexes) {
+            return spotIndexes.asMap().entries.map((entry) {
+              final i = entry.key;
+              if (i == 0) {
+                return null;
+              }
+              return const TouchedSpotIndicatorData(
+                FlLine(color: MockData.color0),
+                FlDotData(),
+              );
+            }).toList();
+          },
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      lineChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
+      verify(mockCanvasWrapper.drawPath(any, any)).called(3);
+    });
   });
 
   group('clipToBorder()', () {
