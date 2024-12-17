@@ -45,6 +45,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..style = PaintingStyle.stroke
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
+
+    _clipPaint = Paint();
   }
   late Paint _barPaint;
   late Paint _barAreaPaint;
@@ -53,6 +55,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   late Paint _touchLinePaint;
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
+  late Paint _clipPaint;
 
   /// Paints [LineChartData] into the provided canvas.
   @override
@@ -83,7 +86,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           canvasWrapper.size.width + 40,
           canvasWrapper.size.height + 40,
         ),
-        Paint(),
+        _clipPaint,
       );
 
       clipToBorder(canvasWrapper, holder);
@@ -731,7 +734,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (barData.belowBarData.applyCutOffY) {
       canvasWrapper.saveLayer(
         Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-        Paint(),
+        _clipPaint,
       );
     }
 
@@ -825,7 +828,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     if (barData.aboveBarData.applyCutOffY) {
       canvasWrapper.saveLayer(
         Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-        Paint(),
+        _clipPaint,
       );
     }
 
@@ -904,7 +907,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     canvasWrapper
       ..saveLayer(
         Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-        Paint(),
+        _clipPaint,
       )
       ..drawPath(barPath, _barAreaPaint)
       ..restore(); // clear the above area that get out of the bar line
