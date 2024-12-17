@@ -18,13 +18,18 @@ class LineChart extends ImplicitlyAnimatedWidget {
     super.key,
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
+    this.transformationController,
     this.scaleAxis = ScaleAxis.none,
     this.maxScale = 2.5,
+    this.minScale = 1,
     this.trackpadScrollCausesScale = false,
   });
 
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;
+
+  /// The transformation controller to control the transformation of the chart.
+  final TransformationController? transformationController;
 
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
@@ -37,6 +42,11 @@ class LineChart extends ImplicitlyAnimatedWidget {
   ///
   /// Ignored when [scaleAxis] is [ScaleAxis.none].
   final double maxScale;
+
+  /// The minimum scale of the chart.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final double minScale;
 
   /// Whether trackpad scroll causes scale.
   ///
@@ -68,8 +78,10 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final showingData = _getData();
 
     return AxisChartScaffoldWidget(
+      transformationController: widget.transformationController,
       scaleAxis: widget.scaleAxis,
       maxScale: widget.maxScale,
+      minScale: widget.minScale,
       trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
       chartBuilder: (context, chartRect) => LineChartLeaf(
         data: _withTouchedIndicators(
