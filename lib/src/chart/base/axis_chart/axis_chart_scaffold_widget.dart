@@ -118,13 +118,14 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
       widget.transformationController
     )) {
       case (null, null):
-      case (TransformationController(), null):
-        _transformationController.dispose();
-        _transformationController = TransformationController();
-        _transformationController.addListener(_updateChartRect);
+        break;
       case (null, TransformationController()):
         _transformationController.dispose();
         _transformationController = widget.transformationController!;
+        _transformationController.addListener(_updateChartRect);
+      case (TransformationController(), null):
+        _transformationController.dispose();
+        _transformationController = TransformationController();
         _transformationController.addListener(_updateChartRect);
       case (TransformationController(), TransformationController()):
         if (oldWidget.transformationController !=

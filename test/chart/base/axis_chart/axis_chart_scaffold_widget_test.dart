@@ -1192,7 +1192,7 @@ void main() {
 
       testWidgets(
         'oldWidget.controller is null and widget.controller is null: '
-        'disposes old controller and sets up new controller with listeners',
+        'keeps old controller',
         (WidgetTester tester) async {
           final actualChartRects = <Object?>[isNotScaled, isNotScaled];
           await tester.pumpWidget(createTestWidget());
@@ -1207,40 +1207,11 @@ void main() {
           await tester.pumpWidget(createTestWidget());
           expect(chartRects, actualChartRects..add(isScaled));
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isNotScaled));
+          expect(chartRects, actualChartRects..add(isScaled));
 
           final transformationController2 = getTransformationController(tester);
-          expect(transformationController2, isNot(transformationController));
-          transformationController2!.value = Matrix4.identity()..scale(2.0);
-          await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
-        },
-      );
-
-      testWidgets(
-        'oldWidget.controller is not null and widget.controller is null: '
-        'disposes old controller and sets up new controller with listeners',
-        (WidgetTester tester) async {
-          final actualChartRects = <Object?>[isNotScaled, isNotScaled];
-          final transformationController = TransformationController();
-          await tester.pumpWidget(
-            createTestWidget(controller: transformationController),
-          );
-          await tester.pump();
-          expect(chartRects, actualChartRects);
-
-          transformationController.value = Matrix4.identity()..scale(2.0);
-          await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
-
-          await tester.pumpWidget(createTestWidget());
-          expect(chartRects, actualChartRects..add(isScaled));
-          await tester.pump();
-          expect(chartRects, actualChartRects..add(isNotScaled));
-
-          final transformationController2 = getTransformationController(tester);
-          expect(transformationController2, isNot(transformationController));
-          transformationController2!.value = Matrix4.identity()..scale(2.0);
+          expect(transformationController2, transformationController);
+          transformationController2!.value = Matrix4.identity()..scale(3.0);
           await tester.pump();
           expect(chartRects, actualChartRects..add(isScaled));
         },
@@ -1271,6 +1242,35 @@ void main() {
 
           expect(transformationController2, isNot(transformationController));
           transformationController2.value = Matrix4.identity()..scale(2.0);
+          await tester.pump();
+          expect(chartRects, actualChartRects..add(isScaled));
+        },
+      );
+
+      testWidgets(
+        'oldWidget.controller is not null and widget.controller is null: '
+        'disposes old controller and sets up new controller with listeners',
+        (WidgetTester tester) async {
+          final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+          final transformationController = TransformationController();
+          await tester.pumpWidget(
+            createTestWidget(controller: transformationController),
+          );
+          await tester.pump();
+          expect(chartRects, actualChartRects);
+
+          transformationController.value = Matrix4.identity()..scale(2.0);
+          await tester.pump();
+          expect(chartRects, actualChartRects..add(isScaled));
+
+          await tester.pumpWidget(createTestWidget());
+          expect(chartRects, actualChartRects..add(isScaled));
+          await tester.pump();
+          expect(chartRects, actualChartRects..add(isNotScaled));
+
+          final transformationController2 = getTransformationController(tester);
+          expect(transformationController2, isNot(transformationController));
+          transformationController2!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
           expect(chartRects, actualChartRects..add(isScaled));
         },
