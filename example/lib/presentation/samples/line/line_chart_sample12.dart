@@ -1,0 +1,219 @@
+import 'dart:convert';
+
+import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/presentation_utils.dart';
+import 'package:fl_chart_app/presentation/resources/app_colors.dart';
+import 'package:fl_chart_app/util/extensions/color_extensions.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class LineChartSample12 extends StatefulWidget {
+  const LineChartSample12({super.key});
+
+  @override
+  State<LineChartSample12> createState() => _LineChartSample12State();
+}
+
+class _LineChartSample12State extends State<LineChartSample12> {
+  List<(DateTime, double)>? _bitcoinPriceHistory;
+
+  @override
+  void initState() {
+    _reloadData();
+    super.initState();
+  }
+
+  void _reloadData() async {
+    final dataStr = await rootBundle.loadString(
+      'assets/data/btc_last_year_price.json',
+    );
+    final json = jsonDecode(dataStr) as Map<String, dynamic>;
+    setState(() {
+      _bitcoinPriceHistory = (json['prices'] as List).map((item) {
+        final timestamp = item[0] as int;
+        final price = item[1] as double;
+        return (DateTime.fromMillisecondsSinceEpoch(timestamp), price);
+      }).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 14),
+        const Text(
+          'Bitcoin Price History',
+          style: TextStyle(
+            color: AppColors.contentColorYellow,
+            fontWeight: FontWeight.bold,
+            fontSize: 18
+          ),
+        ),
+        const Text(
+          '2023/12/19 - 2024/12/17',
+          style: TextStyle(
+            color: AppColors.contentColorGreen,
+            fontWeight: FontWeight.bold,
+            fontSize: 14
+          ),
+        ),
+        const SizedBox(height: 14),
+        AspectRatio(
+          aspectRatio: 1.5,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 0.0,
+              right: 18.0,
+            ),
+            child: LineChart(
+              LineChartData(
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: _bitcoinPriceHistory?.asMap().entries.map((e) {
+                          final index = e.key;
+                          final item = e.value;
+                          final value = item.$2;
+                          return FlSpot(index.toDouble(), value);
+                        }).toList() ??
+                        [],
+                    dotData: const FlDotData(show: false),
+                    color: AppColors.contentColorYellow,
+                    barWidth: 1,
+                    shadow: const Shadow(
+                      color: AppColors.contentColorYellow,
+                      blurRadius: 2,
+                    ),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.contentColorYellow.withValues(alpha: 0.2),
+                          AppColors.contentColorYellow.withValues(alpha: 0.0),
+                        ],
+                        stops: const [0.5, 1.0],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
+                ],
+                lineTouchData: LineTouchData(
+                  touchSpotThreshold: 1,
+                  getTouchLineStart: (_, __) => -double.infinity,
+                  getTouchLineEnd: (_, __) => double.infinity,
+                  getTouchedSpotIndicator:
+                      (LineChartBarData barData, List<int> spotIndexes) {
+                    return spotIndexes.map((spotIndex) {
+                      return TouchedSpotIndicatorData(
+                        const FlLine(
+                          color: AppColors.contentColorRed,
+                          strokeWidth: 1.5,
+                          dashArray: [8, 2],
+                        ),
+                        FlDotData(
+                          show: true,
+                          getDotPainter: (spot, percent, barData, index) {
+                            return FlDotCirclePainter(
+                              radius: 6,
+                              color: AppColors.contentColorYellow,
+                              strokeWidth: 0,
+                              strokeColor: AppColors.contentColorYellow,
+                            );
+                          },
+                        ),
+                      );
+                    }).toList();
+                  },
+                  touchTooltipData: LineTouchTooltipData(
+                    getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+                      return touchedBarSpots.map((barSpot) {
+                        final price = barSpot.y;
+                        final date =
+                            _bitcoinPriceHistory![barSpot.x.toInt()].$1;
+                        return LineTooltipItem(
+                          '',
+                          const TextStyle(
+                            color: AppColors.contentColorBlack,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: '${date.year}/${date.month}/${date.day}',
+                              style: TextStyle(
+                                color: AppColors.contentColorGreen.darken(20),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '\n${AppUtils.getFormattedCurrency(
+                                context,
+                                price,
+                                noDecimals: true,
+                              )}',
+                              style: const TextStyle(
+                                color: AppColors.contentColorYellow,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList();
+                    },
+                    getTooltipColor: (LineBarSpot barSpot) =>
+                        AppColors.contentColorBlack,
+                  ),
+                ),
+                titlesData: FlTitlesData(
+                  show: true,
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  leftTitles: const AxisTitles(
+                    drawBelowEverything: true,
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 52,
+                      maxIncluded: false,
+                      minIncluded: false,
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 38,
+                      maxIncluded: false,
+                      getTitlesWidget: (double value, TitleMeta meta) {
+                        final date = _bitcoinPriceHistory![value.toInt()].$1;
+                        return SideTitleWidget(
+                          axisSide: meta.axisSide,
+                          child: Transform.rotate(
+                            angle: -45 * 3.14 / 180,
+                            child: Text(
+                              '${date.month}/${date.day}',
+                              style: const TextStyle(
+                                color: AppColors.contentColorGreen,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              duration: Duration.zero,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
