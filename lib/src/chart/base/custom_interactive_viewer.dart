@@ -1,3 +1,11 @@
+// coverage:ignore-file
+// This file is copied from Flutter's InteractiveViewer widget.
+// The only change is that the child is not wrapped in a `Transform` so
+// we can react to the transformation ourselves.
+//
+// This should be removed once the official InteractiveViewer allows to disable
+// the Transform widget.
+
 // Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
