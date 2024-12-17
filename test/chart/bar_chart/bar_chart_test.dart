@@ -139,7 +139,9 @@ void main() {
       final barChart = tester.widget<BarChart>(find.byType(BarChart));
       expect(barChart.scaleAxis, ScaleAxis.none);
       expect(barChart.maxScale, 2.5);
+      expect(barChart.minScale, 1);
       expect(barChart.trackpadScrollCausesScale, false);
+      expect(barChart.transformationController, isNull);
     });
 
     testWidgets('passes interaction parameters to AxisChartScaffoldWidget',
@@ -157,11 +159,14 @@ void main() {
       );
 
       expect(axisChartScaffoldWidget.maxScale, 2.5);
+      expect(axisChartScaffoldWidget.minScale, 1);
       expect(axisChartScaffoldWidget.scaleAxis, ScaleAxis.none);
       expect(axisChartScaffoldWidget.trackpadScrollCausesScale, false);
+      expect(axisChartScaffoldWidget.transformationController, isNull);
 
       await tester.pumpAndSettle();
 
+      final transformationController = TransformationController();
       await tester.pumpWidget(
         createTestWidget(
           chart: BarChart(
@@ -169,6 +174,8 @@ void main() {
             scaleAxis: ScaleAxis.free,
             trackpadScrollCausesScale: true,
             maxScale: 10,
+            minScale: 1.5,
+            transformationController: transformationController,
           ),
         ),
       );
@@ -178,8 +185,13 @@ void main() {
       );
 
       expect(axisChartScaffoldWidget1.maxScale, 10);
+      expect(axisChartScaffoldWidget1.minScale, 1.5);
       expect(axisChartScaffoldWidget1.scaleAxis, ScaleAxis.free);
       expect(axisChartScaffoldWidget1.trackpadScrollCausesScale, true);
+      expect(
+        axisChartScaffoldWidget1.transformationController,
+        transformationController,
+      );
     });
 
     for (final scaleAxis in ScaleAxis.scalingEnabledAxis) {

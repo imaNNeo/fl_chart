@@ -23,8 +23,10 @@ class BarChart extends ImplicitlyAnimatedWidget {
     Duration duration = const Duration(milliseconds: 150),
     @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
     Curve curve = Curves.linear,
+    this.transformationController,
     this.scaleAxis = ScaleAxis.none,
     this.maxScale = 2.5,
+    this.minScale = 1,
     this.trackpadScrollCausesScale = false,
   })  : assert(
           switch (data.alignment) {
@@ -45,6 +47,9 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// Determines how the [BarChart] should be look like.
   final BarChartData data;
 
+  /// The transformation controller to control the transformation of the chart.
+  final TransformationController? transformationController;
+
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
@@ -56,6 +61,11 @@ class BarChart extends ImplicitlyAnimatedWidget {
   ///
   /// Ignored when [scaleAxis] is [ScaleAxis.none].
   final double maxScale;
+
+  /// The minimum scale of the chart.
+  ///
+  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  final double minScale;
 
   /// Whether trackpad scroll causes scale.
   ///
@@ -86,8 +96,10 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
+      transformationController: widget.transformationController,
       scaleAxis: widget.scaleAxis,
       maxScale: widget.maxScale,
+      minScale: widget.minScale,
       trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
       chartBuilder: (context, chartRect) => BarChartLeaf(
         data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
