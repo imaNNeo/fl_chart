@@ -24,10 +24,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       ..style = PaintingStyle.stroke
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
+
+    _clipPaint = Paint();
   }
 
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
+  late Paint _clipPaint;
 
   /// Paints [ScatterChartData] into the provided canvas.
   @override
@@ -73,7 +76,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           canvasWrapper.size.width,
           canvasWrapper.size.height,
         ),
-        Paint(),
+        _clipPaint,
       );
 
       var left = 0.0;
