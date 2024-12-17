@@ -34,11 +34,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..style = PaintingStyle.stroke
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
+
+    _clipPaint = Paint();
   }
   late Paint _barPaint;
   late Paint _barStrokePaint;
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
+  late Paint _clipPaint;
 
   List<GroupBarsPosition>? _groupBarsPosition;
 
@@ -54,7 +57,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       canvasWrapper
         ..saveLayer(
           canvasRect,
-          Paint(),
+          _clipPaint,
         )
         ..clipRect(canvasRect);
     }
