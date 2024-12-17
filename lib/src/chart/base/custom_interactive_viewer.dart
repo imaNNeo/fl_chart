@@ -20,7 +20,7 @@ class CustomInteractiveViewer extends StatefulWidget {
   CustomInteractiveViewer({
     super.key,
     this.clipBehavior = Clip.hardEdge,
-    this.panAxis = CustomPanAxis.free,
+    this.panAxis = PanAxis.free,
     this.boundaryMargin = EdgeInsets.zero,
     this.constrained = true,
     this.maxScale = 2.5,
@@ -55,7 +55,7 @@ class CustomInteractiveViewer extends StatefulWidget {
   CustomInteractiveViewer.builder({
     super.key,
     this.clipBehavior = Clip.hardEdge,
-    this.panAxis = CustomPanAxis.free,
+    this.panAxis = PanAxis.free,
     this.boundaryMargin = EdgeInsets.zero,
     this.maxScale = 2.5,
     this.minScale = 0.8,
@@ -90,7 +90,7 @@ class CustomInteractiveViewer extends StatefulWidget {
   final Alignment? alignment;
   final Clip clipBehavior;
 
-  final CustomPanAxis panAxis;
+  final PanAxis panAxis;
 
   final EdgeInsets boundaryMargin;
 
@@ -120,7 +120,7 @@ class CustomInteractiveViewer extends StatefulWidget {
 
   final GestureScaleUpdateCallback? onInteractionUpdate;
 
-  final CustomTransformationController? transformationController;
+  final TransformationController? transformationController;
 
   static const double _kDrag = 0.0000135;
 
@@ -332,7 +332,7 @@ class CustomInteractiveViewer extends StatefulWidget {
 
 class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
     with TickerProviderStateMixin {
-  CustomTransformationController? _transformationController;
+  TransformationController? _transformationController;
 
   final GlobalKey _childKey = GlobalKey();
   final GlobalKey _parentKey = GlobalKey();
@@ -398,10 +398,10 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
 
     if (_currentAxis != null) {
       alignedTranslation = switch (widget.panAxis) {
-        CustomPanAxis.horizontal => _alignAxis(translation, Axis.horizontal),
-        CustomPanAxis.vertical => _alignAxis(translation, Axis.vertical),
-        CustomPanAxis.aligned => _alignAxis(translation, _currentAxis!),
-        CustomPanAxis.free => translation,
+        PanAxis.horizontal => _alignAxis(translation, Axis.horizontal),
+        PanAxis.vertical => _alignAxis(translation, Axis.vertical),
+        PanAxis.aligned => _alignAxis(translation, _currentAxis!),
+        PanAxis.free => translation,
       };
     } else {
       alignedTranslation = translation;
@@ -923,7 +923,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
     super.initState();
 
     _transformationController =
-        widget.transformationController ?? CustomTransformationController();
+        widget.transformationController ?? TransformationController();
     _transformationController!.addListener(_onTransformationControllerChange);
     _controller = AnimationController(
       vsync: this,
@@ -949,7 +949,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
       if (widget.transformationController == null) {
         _transformationController!
             .removeListener(_onTransformationControllerChange);
-        _transformationController = CustomTransformationController();
+        _transformationController = TransformationController();
         _transformationController!
             .addListener(_onTransformationControllerChange);
       } else if (widget.transformationController !=
@@ -1073,69 +1073,6 @@ class _CustomInteractiveViewerBuilt extends StatelessWidget {
   }
 }
 
-/// A thin wrapper on [ValueNotifier] whose value is a [Matrix4] representing a
-/// transformation.
-///
-/// The [value] defaults to the identity matrix, which corresponds to no
-/// transformation.
-///
-/// See also:
-///
-///  * [CustomInteractiveViewer.transformationController] for detailed documentation
-///    on how to use TransformationController with [CustomInteractiveViewer].
-class CustomTransformationController extends ValueNotifier<Matrix4> {
-  /// Create an instance of [CustomTransformationController].
-  ///
-  /// The [value] defaults to the identity matrix, which corresponds to no
-  /// transformation.
-  CustomTransformationController([Matrix4? value])
-      : super(value ?? Matrix4.identity());
-
-  /// Return the scene point at the given viewport point.
-  ///
-  /// A viewport point is relative to the parent while a scene point is relative
-  /// to the child, regardless of transformation. Calling toScene with a
-  /// viewport point essentially returns the scene coordinate that lies
-  /// underneath the viewport point given the transform.
-  ///
-  /// The viewport transforms as the inverse of the child (i.e. moving the child
-  /// left is equivalent to moving the viewport right).
-  ///
-  /// This method is often useful when determining where an event on the parent
-  /// occurs on the child. This example shows how to determine where a tap on
-  /// the parent occurred on the child.
-  ///
-  /// ```dart
-  /// @override
-  /// Widget build(BuildContext context) {
-  ///   return GestureDetector(
-  ///     onTapUp: (TapUpDetails details) {
-  ///       _childWasTappedAt = _transformationController.toScene(
-  ///         details.localPosition,
-  ///       );
-  ///     },
-  ///     child: CustomInteractiveViewer(
-  ///       transformationController: _transformationController,
-  ///       child: child,
-  ///     ),
-  ///   );
-  /// }
-  /// ```
-  Offset toScene(Offset viewportPoint) {
-    // On viewportPoint, perform the inverse transformation of the scene to get
-    // where the point would be in the scene before the transformation.
-    final inverseMatrix = Matrix4.inverted(value);
-    final untransformed = inverseMatrix.transform3(
-      Vector3(
-        viewportPoint.dx,
-        viewportPoint.dy,
-        0,
-      ),
-    );
-    return Offset(untransformed.x, untransformed.y);
-  }
-}
-
 // A classification of relevant user gestures. Each contiguous user gesture is
 // represented by exactly one _GestureType.
 enum _GestureType {
@@ -1231,21 +1168,4 @@ Axis? _getPanAxis(Offset point1, Offset point2) {
   final x = point2.dx - point1.dx;
   final y = point2.dy - point1.dy;
   return x.abs() > y.abs() ? Axis.horizontal : Axis.vertical;
-}
-
-/// This enum is used to specify the behavior of the [CustomInteractiveViewer] when
-/// the user drags the viewport.
-enum CustomPanAxis {
-  /// The user can only pan the viewport along the horizontal axis.
-  horizontal,
-
-  /// The user can only pan the viewport along the vertical axis.
-  vertical,
-
-  /// The user can pan the viewport along the horizontal and vertical axes
-  /// but not diagonally.
-  aligned,
-
-  /// The user can pan the viewport freely in any direction.
-  free,
 }
