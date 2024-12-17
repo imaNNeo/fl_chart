@@ -86,6 +86,483 @@ void main() {
     });
   });
 
+  group('scaling related', () {
+    final utilsMainInstance = Utils();
+    late MockUtils mockUtils;
+
+    setUp(() {
+      mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+    });
+
+    tearDown(() {
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('clips to canvas size if bounding box is provided', () {
+      const viewSize = Size(400, 400);
+      final boundingBox = (Offset.zero & viewSize).inflate(100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+            ),
+            BarChartRodData(
+              toY: 8,
+              width: 11,
+              color: const Color(0x11111111),
+              borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+            ),
+            BarChartRodData(
+              toY: 8,
+              width: 12,
+              color: const Color(0x22222222),
+              borderRadius: const BorderRadius.all(Radius.circular(0.3)),
+            ),
+          ],
+          barsSpace: 5,
+          showingTooltipIndicators: [
+            1,
+            2,
+          ],
+        ),
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 10,
+              borderRadius: const BorderRadius.all(Radius.circular(0.4)),
+            ),
+            BarChartRodData(toY: 8, width: 10),
+          ],
+          barsSpace: 5,
+        ),
+        BarChartGroupData(
+          x: 2,
+          barRods: [
+            BarChartRodData(toY: 10, width: 10),
+            BarChartRodData(toY: 8, width: 10),
+            BarChartRodData(toY: 8, width: 10),
+            BarChartRodData(toY: 8, width: 10),
+          ],
+          barsSpace: 5,
+        ),
+      ];
+
+      final tooltipData = BarTouchTooltipData(
+        tooltipRoundedRadius: 8,
+        getTooltipColor: (group) => const Color(0xf33f33f3),
+        maxContentWidth: 80,
+        rotateAngle: 12,
+        tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
+        getTooltipItem: (
+          group,
+          groupIndex,
+          rod,
+          rodIndex,
+        ) {
+          return BarTooltipItem(
+            'helllo1',
+            textStyle1,
+            textAlign: TextAlign.right,
+            textDirection: TextDirection.rtl,
+            children: [
+              const TextSpan(text: 'helllo2'),
+              const TextSpan(text: 'helllo3'),
+            ],
+          );
+        },
+      );
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        groupsSpace: 10,
+        barGroups: barGroups,
+        barTouchData: BarTouchData(
+          touchTooltipData: tooltipData,
+        ),
+        alignment: BarChartAlignment.center,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+        boundingBox,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final canvasRect = Offset.zero & viewSize;
+      verifyInOrder([
+        mockCanvasWrapper.saveLayer(canvasRect, any),
+        mockCanvasWrapper.clipRect(canvasRect),
+        mockCanvasWrapper.drawRRect(any, any),
+        mockCanvasWrapper.restore(),
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ]);
+    });
+
+    test('only draws points within canvas when bounding box is provided', () {
+      const viewSize = Size(200, 200);
+      const zoomedSize = Size(300, 300);
+      final boundingBox = const Offset(0, -150) & zoomedSize;
+      const maxToY = 10.0; // Y coordinate -150 - outside of canvas
+      const minToY = 5.0; // Y coordinate 150 - inside of canvas
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: maxToY,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+            ),
+            BarChartRodData(
+              toY: minToY,
+              width: 11,
+              color: const Color(0x11111111),
+              borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+            ),
+          ],
+          barsSpace: 5,
+          showingTooltipIndicators: [
+            0,
+            1,
+          ],
+        ),
+      ];
+
+      final tooltipData = BarTouchTooltipData(
+        tooltipRoundedRadius: 8,
+        getTooltipColor: (group) => const Color(0xf33f33f3),
+        maxContentWidth: 80,
+        rotateAngle: 12,
+        tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
+        getTooltipItem: (
+          group,
+          groupIndex,
+          rod,
+          rodIndex,
+        ) {
+          return BarTooltipItem(
+            'helllo1',
+            textStyle1,
+            textAlign: TextAlign.right,
+            textDirection: TextDirection.rtl,
+            children: [
+              const TextSpan(text: 'helllo2'),
+              const TextSpan(text: 'helllo3'),
+            ],
+          );
+        },
+      );
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        groupsSpace: 10,
+        barGroups: barGroups,
+        barTouchData: BarTouchData(
+          touchTooltipData: tooltipData,
+        ),
+        alignment: BarChartAlignment.center,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+        boundingBox,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).called(1);
+    });
+
+    test('does not clip if bounding box is null', () {
+      {
+        const viewSize = Size(400, 400);
+
+        final barGroups = [
+          BarChartGroupData(
+            x: 0,
+            barRods: [
+              BarChartRodData(
+                toY: 10,
+                width: 10,
+                color: const Color(0x00000000),
+                borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+              ),
+              BarChartRodData(
+                toY: 8,
+                width: 11,
+                color: const Color(0x11111111),
+                borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+              ),
+              BarChartRodData(
+                toY: 8,
+                width: 12,
+                color: const Color(0x22222222),
+                borderRadius: const BorderRadius.all(Radius.circular(0.3)),
+              ),
+            ],
+            barsSpace: 5,
+            showingTooltipIndicators: [
+              1,
+              2,
+            ],
+          ),
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                toY: 10,
+                width: 10,
+                borderRadius: const BorderRadius.all(Radius.circular(0.4)),
+              ),
+              BarChartRodData(toY: 8, width: 10),
+            ],
+            barsSpace: 5,
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(toY: 10, width: 10),
+              BarChartRodData(toY: 8, width: 10),
+              BarChartRodData(toY: 8, width: 10),
+              BarChartRodData(toY: 8, width: 10),
+            ],
+            barsSpace: 5,
+          ),
+        ];
+
+        final tooltipData = BarTouchTooltipData(
+          tooltipRoundedRadius: 8,
+          getTooltipColor: (group) => const Color(0xf33f33f3),
+          maxContentWidth: 80,
+          rotateAngle: 12,
+          tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
+          getTooltipItem: (
+            group,
+            groupIndex,
+            rod,
+            rodIndex,
+          ) {
+            return BarTooltipItem(
+              'helllo1',
+              textStyle1,
+              textAlign: TextAlign.right,
+              textDirection: TextDirection.rtl,
+              children: [
+                const TextSpan(text: 'helllo2'),
+                const TextSpan(text: 'helllo3'),
+              ],
+            );
+          },
+        );
+
+        final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+        final data = BarChartData(
+          groupsSpace: 10,
+          barGroups: barGroups,
+          barTouchData: BarTouchData(
+            touchTooltipData: tooltipData,
+          ),
+          alignment: BarChartAlignment.center,
+          minY: minY,
+          maxY: maxY,
+        );
+
+        final barChartPainter = BarChartPainter();
+        final holder = PaintHolder<BarChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+        );
+
+        final mockBuildContext = MockBuildContext();
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenReturn(viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+        barChartPainter.paint(
+          mockBuildContext,
+          mockCanvasWrapper,
+          holder,
+        );
+
+        final canvasRect = Offset.zero & viewSize;
+        verifyNever(mockCanvasWrapper.saveLayer(canvasRect, any));
+        verifyNever(mockCanvasWrapper.clipRect(canvasRect));
+        verifyNever(mockCanvasWrapper.restore());
+      }
+    });
+
+    test('draws all points if bounding box is null', () {
+      const viewSize = Size(200, 200);
+      const maxToY = 10.0; // Y coordinate -150 - outside of canvas
+      const minToY = 5.0; // Y coordinate 150 - inside of canvas
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: maxToY,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+            ),
+            BarChartRodData(
+              toY: minToY,
+              width: 11,
+              color: const Color(0x11111111),
+              borderRadius: const BorderRadius.all(Radius.circular(0.2)),
+            ),
+          ],
+          barsSpace: 5,
+          showingTooltipIndicators: [
+            0,
+            1,
+          ],
+        ),
+      ];
+
+      final tooltipData = BarTouchTooltipData(
+        tooltipRoundedRadius: 8,
+        getTooltipColor: (group) => const Color(0xf33f33f3),
+        maxContentWidth: 80,
+        rotateAngle: 12,
+        tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
+        getTooltipItem: (
+          group,
+          groupIndex,
+          rod,
+          rodIndex,
+        ) {
+          return BarTooltipItem(
+            'helllo1',
+            textStyle1,
+            textAlign: TextAlign.right,
+            textDirection: TextDirection.rtl,
+            children: [
+              const TextSpan(text: 'helllo2'),
+              const TextSpan(text: 'helllo3'),
+            ],
+          );
+        },
+      );
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        groupsSpace: 10,
+        barGroups: barGroups,
+        barTouchData: BarTouchData(
+          touchTooltipData: tooltipData,
+        ),
+        alignment: BarChartAlignment.center,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder = PaintHolder<BarChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      barChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).called(2);
+    });
+  });
+
   group('calculateGroupsX()', () {
     test('test 1', () {
       const viewSize = Size(200, 100);
@@ -2060,6 +2537,135 @@ void main() {
       expect(result22!.touchedBarGroupIndex, 1);
       expect(result22.touchedRodDataIndex, 0);
     });
+
+    test(
+      'returns null when bounding box is provided and touch is outside '
+      'of canvas',
+      () {
+        const viewSize = Size(50, 50);
+
+        final barGroups = [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                toY: 5,
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: true,
+                  fromY: -5,
+                  toY: 5,
+                ),
+              ),
+            ],
+          ),
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                toY: -6,
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: true,
+                  fromY: 5,
+                  toY: -6,
+                ),
+              ),
+            ],
+          ),
+        ];
+
+        final data = BarChartData(
+          barGroups: barGroups,
+          titlesData: const FlTitlesData(show: false),
+          alignment: BarChartAlignment.start,
+          groupsSpace: 10,
+          minY: -10,
+          maxY: 15,
+          barTouchData: BarTouchData(
+            enabled: true,
+            handleBuiltInTouches: true,
+            allowTouchBarBackDraw: true,
+            touchExtraThreshold: const EdgeInsets.all(1),
+          ),
+        );
+
+        final painter = BarChartPainter();
+        final holder = PaintHolder<BarChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+          Offset.zero & const Size(50, 50),
+        );
+
+        final result1 =
+            painter.handleTouch(const Offset(4, 60), viewSize, holder);
+        expect(result1, null);
+      },
+    );
+
+    test(
+      'returns result when bounding box is provided and touch is inside '
+      'of canvas',
+      () {
+        const viewSize = Size(50, 50);
+
+        final barGroups = [
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                toY: 5,
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: true,
+                  fromY: -5,
+                  toY: 5,
+                ),
+              ),
+            ],
+          ),
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                toY: -6,
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: true,
+                  fromY: 5,
+                  toY: -6,
+                ),
+              ),
+            ],
+          ),
+        ];
+
+        final data = BarChartData(
+          barGroups: barGroups,
+          titlesData: const FlTitlesData(show: false),
+          alignment: BarChartAlignment.start,
+          groupsSpace: 10,
+          minY: -10,
+          maxY: 15,
+          barTouchData: BarTouchData(
+            enabled: true,
+            handleBuiltInTouches: true,
+            allowTouchBarBackDraw: true,
+            touchExtraThreshold: const EdgeInsets.all(1),
+          ),
+        );
+
+        final painter = BarChartPainter();
+        final holder = PaintHolder<BarChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+          Offset.zero & const Size(50, 50),
+        );
+
+        final result1 =
+            painter.handleTouch(const Offset(4, 30), viewSize, holder);
+        expect(result1!.touchedBarGroupIndex, 0);
+        expect(result1.touchedRodDataIndex, 0);
+      },
+    );
   });
 
   group('drawExtraLines()', () {
