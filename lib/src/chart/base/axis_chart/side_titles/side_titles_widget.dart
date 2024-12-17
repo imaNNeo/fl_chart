@@ -209,9 +209,8 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
       widget.parentSize.width - thisSidePaddingTotal,
       widget.parentSize.height - thisSidePaddingTotal,
     );
-    // Add 1 pixel to the chart size to avoid clipping the last title.
-    final chartSizeWithEdge = chartSize + const Offset(1, 1);
-    final chartRect = Offset.zero & chartSizeWithEdge;
+    // Add 1 pixel to the chart's edges to avoid clipping the last title.
+    final chartRect = (Offset.zero & chartSize).inflate(1);
 
     return axisPositions.where((metaData) {
       final location = metaData.axisPixelLocation;
