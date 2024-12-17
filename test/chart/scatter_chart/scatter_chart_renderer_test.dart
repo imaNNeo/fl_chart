@@ -28,8 +28,8 @@ void main() {
       data,
       targetData,
       textScaler,
-      null, // TODO(Peetee06): Add tests
-      canBeScaled: false, // TODO(Peetee06): Add tests
+      null,
+      canBeScaled: false,
     );
 
     final mockPainter = MockScatterChartPainter();
