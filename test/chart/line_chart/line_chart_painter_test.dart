@@ -2388,6 +2388,74 @@ void main() {
       expect(offset3, const Offset(20, -22));
       expect(offset4, const Offset(80, 38));
     });
+
+    test(
+        'should restore canvas before drawing extra lines and clip after '
+        'when bounding box is provided', () {
+      const viewSize = Size(100, 100);
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 0,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+            VerticalLine(
+              x: 10,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+        Offset.zero & viewSize,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final viewRect = Offset.zero & viewSize;
+      verifyInOrder([
+        mockCanvasWrapper.restore(),
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color,
+              'colors match',
+              isSameColorAs(Colors.cyanAccent),
+            ),
+          ),
+          holder.data.extraLinesData.verticalLines[0].dashArray,
+        ),
+        mockCanvasWrapper.saveLayer(
+          viewRect,
+          any,
+        ),
+        mockCanvasWrapper.clipRect(viewRect),
+      ]);
+    });
   });
 
   group('drawTouchTooltip()', () {
