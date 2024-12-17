@@ -43,7 +43,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       canvasWrapper
         ..saveLayer(
           Offset.zero & canvasWrapper.size,
-          Paint(),
+          _clipPaint,
         )
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
