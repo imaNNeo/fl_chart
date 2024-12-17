@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  const Rect? isNotScaled = null;
+  final isScaled = isA<Rect>();
+
   const viewSize = Size(400, 400);
 
   const dummyChartKey = Key('chart');
@@ -1162,9 +1165,6 @@ void main() {
 
       final chartRects = <Rect?>[];
 
-      const Rect? isNotScaled = null;
-      final isScaled = isA<Rect>();
-
       tearDown(chartRects.clear);
 
       Widget createTestWidget({
@@ -1352,5 +1352,36 @@ void main() {
         },
       );
     });
+
+    testWidgets(
+      'sets chartRect to null, when scaling is updated to 1.0',
+      (WidgetTester tester) async {
+        final transformationController = TransformationController();
+        final chartRects = <Rect?>[];
+        final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+        await tester.pumpWidget(
+          MaterialApp(
+            home: AxisChartScaffoldWidget(
+              data: lineChartDataWithNoTitles,
+              transformationController: transformationController,
+              chartBuilder: (context, rect) {
+                chartRects.add(rect);
+                return dummyChart;
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+        expect(chartRects, actualChartRects);
+
+        transformationController.value = Matrix4.identity()..scale(2.0);
+        await tester.pump();
+        expect(chartRects, actualChartRects..add(isScaled));
+
+        transformationController.value = Matrix4.identity()..scale(1.0);
+        await tester.pump();
+        expect(chartRects, actualChartRects..add(isNotScaled));
+      },
+    );
   });
 }
