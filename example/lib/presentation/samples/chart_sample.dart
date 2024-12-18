@@ -13,30 +13,41 @@ abstract class ChartSample {
 
 class LineChartSample extends ChartSample {
   LineChartSample(super.number, super.builder);
+
   @override
   ChartType get type => ChartType.line;
 }
 
 class BarChartSample extends ChartSample {
-  BarChartSample(super.number, super.builder);
+
+  final bool horizontal;
+
+  BarChartSample(super.number, this.horizontal, super.builder);
+
   @override
   ChartType get type => ChartType.bar;
+
+  @override
+  String get name => '${horizontal?'Horizontal':'Vertical'} ${type.displayName} Sample $number';
 }
 
 class PieChartSample extends ChartSample {
   PieChartSample(super.number, super.builder);
+
   @override
   ChartType get type => ChartType.pie;
 }
 
 class ScatterChartSample extends ChartSample {
   ScatterChartSample(super.number, super.builder);
+
   @override
   ChartType get type => ChartType.scatter;
 }
 
 class RadarChartSample extends ChartSample {
   RadarChartSample(super.number, super.builder);
+
   @override
   ChartType get type => ChartType.radar;
 }
