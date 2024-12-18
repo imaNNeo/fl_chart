@@ -2896,6 +2896,86 @@ void main() {
       expect((textPainter.text as TextSpan?)!.style, textStyle1);
       expect(drawOffset, const Offset(22, 52));
     });
+
+    test('does not draw tooltip if it is outside of the chart virtual rect',
+        () {
+      const viewSize = Size(100, 100);
+      final chartVirtualRect = const Offset(-100, -100) & const Size(200, 200);
+
+      final barData = LineChartBarData(
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(2, 2),
+          FlSpot(3, 3),
+          FlSpot(4, 4),
+          FlSpot.nullSpot,
+          FlSpot(5, 5),
+        ],
+      );
+
+      final tooltipData = LineTouchTooltipData(
+        getTooltipColor: (touchedSpot) => const Color(0x11111111),
+        tooltipRoundedRadius: 12,
+        rotateAngle: 43,
+        maxContentWidth: 100,
+        tooltipMargin: 12,
+        tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+        tooltipPadding: const EdgeInsets.all(12),
+        fitInsideVertically: true,
+        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          return touchedSpots
+              .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
+              .toList();
+        },
+        tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+      );
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchTooltipData: tooltipData,
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+        chartVirtualRect,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+
+      lineChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        tooltipData,
+        barData.spots.first,
+        ShowingTooltipIndicators([
+          LineBarSpot(
+            barData,
+            0,
+            barData.spots.first,
+          ),
+        ]),
+        holder,
+      );
+
+      verifyNever(mockCanvasWrapper.drawRRect(any, any));
+    });
   });
 
   group('getBarLineXLength()', () {
