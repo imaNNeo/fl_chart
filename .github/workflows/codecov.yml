@@ -15,9 +15,10 @@ jobs:
         run: flutter pub get
       - name: Generate coverage file
         run: flutter test --coverage
-      - name: Upload coverage file
-        run: |
-            curl -Os https://uploader.codecov.io/latest/linux/codecov
-            chmod +x codecov
-            ./codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          files: ./coverage/lcov.info
+          flags: flutter
 
