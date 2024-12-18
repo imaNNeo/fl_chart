@@ -19,7 +19,7 @@ class LineChart extends ImplicitlyAnimatedWidget {
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
     this.transformationController,
-    this.scaleAxis = ScaleAxis.none,
+    this.scaleAxis = FlScaleAxis.none,
     this.maxScale = 2.5,
     this.minScale = 1,
     this.trackpadScrollCausesScale = false,
@@ -36,21 +36,21 @@ class LineChart extends ImplicitlyAnimatedWidget {
   final Key? chartRendererKey;
 
   /// Determines what axis should be scaled.
-  final ScaleAxis scaleAxis;
+  final FlScaleAxis scaleAxis;
 
   /// The maximum scale of the chart.
   ///
-  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
   final double maxScale;
 
   /// The minimum scale of the chart.
   ///
-  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
   final double minScale;
 
   /// Whether trackpad scroll causes scale.
   ///
-  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
   final bool trackpadScrollCausesScale;
 
   /// Creates a [_LineChartState]
@@ -90,7 +90,7 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
         chartVirtualRect: chartVirtualRect,
-        canBeScaled: widget.scaleAxis != ScaleAxis.none,
+        canBeScaled: widget.scaleAxis != FlScaleAxis.none,
       ),
       data: showingData,
     );

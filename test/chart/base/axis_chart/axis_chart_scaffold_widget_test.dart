@@ -367,7 +367,7 @@ void main() {
   );
 
   group('AxisChartScaffoldWidget', () {
-    for (final scaleAxis in ScaleAxis.scalingEnabledAxis) {
+    for (final scaleAxis in FlScaleAxis.scalingEnabledAxis) {
       testWidgets(
         'wraps chart in interactive viewer when scaling is $scaleAxis',
         (WidgetTester tester) async {
@@ -411,7 +411,7 @@ void main() {
                   child: AxisChartScaffoldWidget(
                     data: lineChartDataWithAllTitles,
                     // ignore: avoid_redundant_argument_values
-                    scaleAxis: ScaleAxis.none,
+                    scaleAxis: FlScaleAxis.none,
                     chartBuilder: (context, chartVirtualRect) => dummyChart,
                   ),
                 ),
@@ -449,7 +449,7 @@ void main() {
       await pumpTestWidget(
         AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: ScaleAxis.free,
+          scaleAxis: FlScaleAxis.free,
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
       );
@@ -475,7 +475,7 @@ void main() {
       await pumpTestWidget(
         AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: ScaleAxis.free,
+          scaleAxis: FlScaleAxis.free,
           trackpadScrollCausesScale: true,
           maxScale: 10,
           minScale: 1.5,
@@ -502,7 +502,7 @@ void main() {
       expect(
         () => AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: ScaleAxis.free,
+          scaleAxis: FlScaleAxis.free,
           minScale: 0.5,
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
@@ -515,7 +515,7 @@ void main() {
       expect(
         () => AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: ScaleAxis.free,
+          scaleAxis: FlScaleAxis.free,
           maxScale: 0.5,
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
@@ -525,7 +525,7 @@ void main() {
 
     group('scaling and panning', () {
       group('touch gesture', () {
-        testWidgets('does not scale with ScaleAxis.none',
+        testWidgets('does not scale with FlScaleAxis.none',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -567,7 +567,7 @@ void main() {
           expect(chartVirtualRect, isNull);
         });
 
-        testWidgets('scales freely with ScaleAxis.free',
+        testWidgets('scales freely with FlScaleAxis.free',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -578,7 +578,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.free,
+                      scaleAxis: FlScaleAxis.free,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -615,7 +615,7 @@ void main() {
           expect(chartVirtualRect!.top, isNegative);
         });
 
-        testWidgets('scales horizontally with ScaleAxis.horizontal',
+        testWidgets('scales horizontally with FlScaleAxis.horizontal',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -626,7 +626,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.horizontal,
+                      scaleAxis: FlScaleAxis.horizontal,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -667,7 +667,7 @@ void main() {
           expect(chartVirtualRect!.top, 0);
         });
 
-        testWidgets('scales vertically with ScaleAxis.vertical',
+        testWidgets('scales vertically with FlScaleAxis.vertical',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -678,7 +678,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.vertical,
+                      scaleAxis: FlScaleAxis.vertical,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -722,7 +722,7 @@ void main() {
 
       group('trackpad scroll', () {
         testWidgets(
-          'does not scale with ScaleAxis.none when trackpadScrollCausesScale is true',
+          'does not scale with FlScaleAxis.none when trackpadScrollCausesScale is true',
           (WidgetTester tester) async {
             Rect? chartVirtualRect;
             await tester.pumpWidget(
@@ -760,7 +760,7 @@ void main() {
           },
         );
 
-        for (final scaleAxis in ScaleAxis.scalingEnabledAxis) {
+        for (final scaleAxis in FlScaleAxis.scalingEnabledAxis) {
           testWidgets(
             'does not scale when trackpadScrollCausesScale is false '
             'for $scaleAxis',
@@ -803,7 +803,7 @@ void main() {
           );
         }
 
-        testWidgets('scales horizontally with ScaleAxis.horizontal',
+        testWidgets('scales horizontally with FlScaleAxis.horizontal',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -814,7 +814,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.horizontal,
+                      scaleAxis: FlScaleAxis.horizontal,
                       trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
@@ -849,7 +849,7 @@ void main() {
           expect(chartVirtualRect!.top, 0);
         });
 
-        testWidgets('scales vertically with ScaleAxis.vertical',
+        testWidgets('scales vertically with FlScaleAxis.vertical',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -860,7 +860,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.vertical,
+                      scaleAxis: FlScaleAxis.vertical,
                       trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
@@ -895,7 +895,7 @@ void main() {
           expect(chartVirtualRect!.top, isNegative);
         });
 
-        testWidgets('scales freely with ScaleAxis.free',
+        testWidgets('scales freely with FlScaleAxis.free',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -906,7 +906,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.free,
+                      scaleAxis: FlScaleAxis.free,
                       trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
@@ -939,7 +939,7 @@ void main() {
       });
 
       group('pans', () {
-        testWidgets('only horizontally with ScaleAxis.horizontal',
+        testWidgets('only horizontally with FlScaleAxis.horizontal',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -950,7 +950,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.horizontal,
+                      scaleAxis: FlScaleAxis.horizontal,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
@@ -994,7 +994,7 @@ void main() {
           expect(chartVirtualRect!.top, 0);
         });
 
-        testWidgets('only vertically with ScaleAxis.vertical',
+        testWidgets('only vertically with FlScaleAxis.vertical',
             (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
@@ -1005,7 +1005,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.vertical,
+                      scaleAxis: FlScaleAxis.vertical,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
@@ -1048,7 +1048,8 @@ void main() {
           );
         });
 
-        testWidgets('freely with ScaleAxis.free', (WidgetTester tester) async {
+        testWidgets('freely with FlScaleAxis.free',
+            (WidgetTester tester) async {
           Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
@@ -1058,7 +1059,7 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: ScaleAxis.free,
+                      scaleAxis: FlScaleAxis.free,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
@@ -1118,7 +1119,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  scaleAxis: ScaleAxis.free,
+                  scaleAxis: FlScaleAxis.free,
                   chartBuilder: (context, rect) {
                     chartVirtualRect = rect;
                     return const ColoredBox(
@@ -1200,7 +1201,7 @@ void main() {
               child: AxisChartScaffoldWidget(
                 key: chartScaffoldKey,
                 data: lineChartDataWithNoTitles,
-                scaleAxis: ScaleAxis.free,
+                scaleAxis: FlScaleAxis.free,
                 transformationController: controller,
                 chartBuilder: (context, rect) {
                   chartVirtualRects.add(rect);

@@ -1,4 +1,4 @@
-enum ScaleAxis {
+enum FlScaleAxis {
   /// Scales the horizontal axis.
   horizontal,
 

@@ -37,7 +37,7 @@ class AxisChartScaffoldWidget extends StatefulWidget {
     required this.chartBuilder,
     required this.data,
     this.transformationController,
-    this.scaleAxis = ScaleAxis.none,
+    this.scaleAxis = FlScaleAxis.none,
     this.maxScale = 2.5,
     this.minScale = 1,
     this.trackpadScrollCausesScale = false,
@@ -57,21 +57,21 @@ class AxisChartScaffoldWidget extends StatefulWidget {
   final TransformationController? transformationController;
 
   /// Determines what axis should be scaled.
-  final ScaleAxis scaleAxis;
+  final FlScaleAxis scaleAxis;
 
   /// The maximum scale of the chart.
   ///
-  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
   final double maxScale;
 
   /// The minimum scale of the chart.
   ///
-  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
   final double minScale;
 
   /// Whether trackpad scroll causes scale.
   ///
-  /// Ignored when [scaleAxis] is [ScaleAxis.none].
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
   final bool trackpadScrollCausesScale;
 
   @override
@@ -87,12 +87,12 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   Rect? _chartVirtualRect;
 
   bool get _canScaleHorizontally =>
-      widget.scaleAxis == ScaleAxis.horizontal ||
-      widget.scaleAxis == ScaleAxis.free;
+      widget.scaleAxis == FlScaleAxis.horizontal ||
+      widget.scaleAxis == FlScaleAxis.free;
 
   bool get _canScaleVertically =>
-      widget.scaleAxis == ScaleAxis.vertical ||
-      widget.scaleAxis == ScaleAxis.free;
+      widget.scaleAxis == FlScaleAxis.vertical ||
+      widget.scaleAxis == FlScaleAxis.free;
 
   @override
   void initState() {
@@ -264,8 +264,8 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
               : null,
         ),
         child: switch (widget.scaleAxis) {
-          ScaleAxis.none => chart,
-          ScaleAxis() => interactiveChart,
+          FlScaleAxis.none => chart,
+          FlScaleAxis() => interactiveChart,
         },
       ),
     ];
