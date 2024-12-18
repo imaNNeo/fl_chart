@@ -23,7 +23,7 @@ class PaintHolder<Data extends BaseChartData> {
     this.data,
     this.targetData,
     this.textScaler, [
-    this.boundingBox,
+    this.chartVirtualRect,
   ]);
 
   /// [data] is what we need to show frame by frame (it might be changed by an animator)
@@ -35,14 +35,17 @@ class PaintHolder<Data extends BaseChartData> {
   /// system [TextScaler] used for scaling texts for better readability
   final TextScaler textScaler;
 
-  /// The virtual bounding box of the chart.
+  /// The virtual rect representing the chart when it is scaled or panned.
   ///
-  /// This is used as a virtual canvas when scaling or panning the chart.
   /// The chart will be drawn in this virtual canvas, and then clipped to the
   /// actual canvas.
   ///
+  /// When the chart is scaled, the virtual canvas will be larger than the
+  /// actual canvas. This will lead to the content being laid out on the larger
+  /// area. Thus resulting in the scaling effect.
+  ///
   /// Null when not scaling or panning.
-  final Rect? boundingBox;
+  final Rect? chartVirtualRect;
 
   /// Returns the size of the chart that is actually being painted.
   ///
@@ -52,6 +55,6 @@ class PaintHolder<Data extends BaseChartData> {
   ///
   /// When not scaled it returns the actual size of the chart.
   Size getChartUsableSize(Size viewSize) {
-    return boundingBox?.size ?? viewSize;
+    return chartVirtualRect?.size ?? viewSize;
   }
 }

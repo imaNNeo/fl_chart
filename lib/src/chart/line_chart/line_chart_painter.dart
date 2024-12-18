@@ -65,7 +65,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     PaintHolder<LineChartData> holder,
   ) {
     final data = holder.data;
-    if (holder.boundingBox != null) {
+    if (holder.chartVirtualRect != null) {
       canvasWrapper
         ..saveLayer(
           Offset.zero & canvasWrapper.size,
@@ -78,7 +78,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       return;
     }
 
-    if (data.clipData.any && holder.boundingBox == null) {
+    if (data.clipData.any && holder.chartVirtualRect == null) {
       canvasWrapper.saveLayer(
         Rect.fromLTWH(
           0,
@@ -145,7 +145,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     drawTouchedSpotsIndicator(canvasWrapper, lineIndexDrawingInfo, holder);
 
-    if (data.clipData.any || holder.boundingBox != null) {
+    if (data.clipData.any || holder.chartVirtualRect != null) {
       canvasWrapper.restore();
     }
 
@@ -1069,7 +1069,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     // Create an extended boundary that includes the center of the dot
     final extendedBoundary = (Offset.zero & viewSize).inflate(dotHeight / 2);
 
-    final isZoomed = holder.boundingBox != null;
+    final isZoomed = holder.chartVirtualRect != null;
     if (isZoomed && !extendedBoundary.contains(mostTopOffset)) {
       return;
     }
@@ -1255,7 +1255,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final data = holder.data;
     final viewSize = holder.getChartUsableSize(size);
 
-    final isZoomed = holder.boundingBox != null;
+    final isZoomed = holder.chartVirtualRect != null;
     if (isZoomed && !size.contains(localPosition)) {
       return null;
     }

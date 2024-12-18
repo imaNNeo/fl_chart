@@ -126,7 +126,7 @@ void main() {
       expect(renderLineChart.textScaler, const TextScaler.linear(22));
     });
 
-    test('passes bounding box to paint holder', () {
+    test('passes chart virtual rect to paint holder', () {
       final rect1 = Offset.zero & const Size(100, 100);
       final renderLineChart = RenderLineChart(
         mockBuildContext,
@@ -137,13 +137,13 @@ void main() {
         canBeScaled: false,
       );
 
-      expect(renderLineChart.boundingBox, isNull);
-      expect(renderLineChart.paintHolder.boundingBox, isNull);
+      expect(renderLineChart.chartVirtualRect, isNull);
+      expect(renderLineChart.paintHolder.chartVirtualRect, isNull);
 
-      renderLineChart.boundingBox = rect1;
+      renderLineChart.chartVirtualRect = rect1;
 
-      expect(renderLineChart.boundingBox, rect1);
-      expect(renderLineChart.paintHolder.boundingBox, rect1);
+      expect(renderLineChart.chartVirtualRect, rect1);
+      expect(renderLineChart.paintHolder.chartVirtualRect, rect1);
     });
 
     test('uses canBeScaled', () {

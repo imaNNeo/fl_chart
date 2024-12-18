@@ -39,7 +39,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<ScatterChartData> holder,
   ) {
-    if (holder.boundingBox != null) {
+    if (holder.chartVirtualRect != null) {
       canvasWrapper
         ..saveLayer(
           Offset.zero & canvasWrapper.size,
@@ -50,7 +50,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     super.paint(context, canvasWrapper, holder);
     drawSpots(context, canvasWrapper, holder);
 
-    if (holder.boundingBox != null) {
+    if (holder.chartVirtualRect != null) {
       canvasWrapper.restore();
     }
 

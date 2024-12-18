@@ -84,12 +84,12 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
       maxScale: widget.maxScale,
       minScale: widget.minScale,
       trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
-      chartBuilder: (context, chartRect) => ScatterChartLeaf(
+      chartBuilder: (context, chartVirtualRect) => ScatterChartLeaf(
         data:
             _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
-        boundingBox: chartRect,
+        chartVirtualRect: chartVirtualRect,
         canBeScaled: widget.scaleAxis != ScaleAxis.none,
       ),
     );

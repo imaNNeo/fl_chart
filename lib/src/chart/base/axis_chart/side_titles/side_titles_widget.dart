@@ -14,13 +14,13 @@ class SideTitlesWidget extends StatefulWidget {
     required this.side,
     required this.axisChartData,
     required this.parentSize,
-    this.boundingBox,
+    this.chartVirtualRect,
   });
 
   final AxisSide side;
   final AxisChartData axisChartData;
   final Size parentSize;
-  final Rect? boundingBox;
+  final Rect? chartVirtualRect;
 
   @override
   State<SideTitlesWidget> createState() => _SideTitlesWidgetState();
@@ -105,23 +105,23 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
   }
 
   Size get viewSize {
-    if (widget.boundingBox == null) {
+    if (widget.chartVirtualRect == null) {
       return widget.parentSize;
     }
 
-    return widget.boundingBox!.size +
+    return widget.chartVirtualRect!.size +
         Offset(thisSidePaddingTotal, thisSidePaddingTotal);
   }
 
   double get axisOffset {
-    final boundingBox = widget.boundingBox;
-    if (boundingBox == null) {
+    final chartVirtualRect = widget.chartVirtualRect;
+    if (chartVirtualRect == null) {
       return 0;
     }
 
     return switch (widget.side) {
-      AxisSide.left || AxisSide.right => boundingBox.top,
-      AxisSide.top || AxisSide.bottom => boundingBox.left,
+      AxisSide.left || AxisSide.right => chartVirtualRect.top,
+      AxisSide.top || AxisSide.bottom => chartVirtualRect.left,
     };
   }
 

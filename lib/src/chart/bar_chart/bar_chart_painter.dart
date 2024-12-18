@@ -52,7 +52,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<BarChartData> holder,
   ) {
-    if (holder.boundingBox != null) {
+    if (holder.chartVirtualRect != null) {
       final canvasRect = Offset.zero & canvasWrapper.size;
       canvasWrapper
         ..saveLayer(
@@ -73,7 +73,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final usableSize = holder.getChartUsableSize(canvasWrapper.size);
 
     final groupsX = data.calculateGroupsX(usableSize.width);
-    final adjustment = holder.boundingBox?.left ?? 0;
+    final adjustment = holder.chartVirtualRect?.left ?? 0;
     final groupsXAdjusted = groupsX.map((e) => e + adjustment).toList();
 
     _groupBarsPosition = calculateGroupAndBarsPosition(
@@ -102,7 +102,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       );
     }
 
-    if (holder.boundingBox != null) {
+    if (holder.chartVirtualRect != null) {
       canvasWrapper.restore();
     }
 
@@ -434,7 +434,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       drawTooltipOnTop ? barTopY : barBottomY,
     );
 
-    final isZoomed = holder.boundingBox != null;
+    final isZoomed = holder.chartVirtualRect != null;
     if (isZoomed && !canvasWrapper.size.contains(tooltipOriginPoint)) {
       return;
     }
@@ -632,7 +632,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final viewSize = holder.getChartUsableSize(size);
 
     // Check if the touch is outside the canvas bounds
-    final isZoomed = holder.boundingBox != null;
+    final isZoomed = holder.chartVirtualRect != null;
     if (isZoomed && !size.contains(touchedPoint)) {
       return null;
     }

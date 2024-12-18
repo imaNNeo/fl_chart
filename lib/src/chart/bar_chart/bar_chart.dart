@@ -101,11 +101,11 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
       maxScale: widget.maxScale,
       minScale: widget.minScale,
       trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
-      chartBuilder: (context, chartRect) => BarChartLeaf(
+      chartBuilder: (context, chartVirtualRect) => BarChartLeaf(
         data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
-        boundingBox: chartRect,
+        chartVirtualRect: chartVirtualRect,
         canBeScaled: widget.scaleAxis != ScaleAxis.none,
       ),
     );

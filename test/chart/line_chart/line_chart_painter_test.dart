@@ -2496,7 +2496,7 @@ void main() {
 
     test(
         'should restore canvas before drawing extra lines and clip after '
-        'when bounding box is provided', () {
+        'when chart virtual rect is provided', () {
       const viewSize = Size(100, 100);
       final data = LineChartData(
         minY: 0,

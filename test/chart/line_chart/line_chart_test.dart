@@ -153,7 +153,7 @@ void main() {
           find.byType(LineChartLeaf),
         );
 
-        expect(lineChartLeaf.boundingBox, isNull);
+        expect(lineChartLeaf.chartVirtualRect, isNull);
       });
 
       testWidgets('scales freely with ScaleAxis.free',
@@ -191,11 +191,11 @@ void main() {
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(LineChartLeaf),
         );
-        final boundingBox = lineChartLeaf.boundingBox!;
+        final chartVirtualRect = lineChartLeaf.chartVirtualRect!;
 
-        expect(boundingBox.size, greaterThan(renderBox.size));
-        expect(boundingBox.left, isNegative);
-        expect(boundingBox.top, isNegative);
+        expect(chartVirtualRect.size, greaterThan(renderBox.size));
+        expect(chartVirtualRect.left, isNegative);
+        expect(chartVirtualRect.top, isNegative);
       });
 
       testWidgets('scales horizontally with ScaleAxis.horizontal',
@@ -231,12 +231,12 @@ void main() {
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(LineChartLeaf),
         );
-        final boundingBox = lineChartLeaf.boundingBox!;
+        final chartVirtualRect = lineChartLeaf.chartVirtualRect!;
 
-        expect(boundingBox.size.height, renderBox.size.height);
-        expect(boundingBox.size.width, greaterThan(renderBox.size.width));
-        expect(boundingBox.left, isNegative);
-        expect(boundingBox.top, 0);
+        expect(chartVirtualRect.size.height, renderBox.size.height);
+        expect(chartVirtualRect.size.width, greaterThan(renderBox.size.width));
+        expect(chartVirtualRect.left, isNegative);
+        expect(chartVirtualRect.top, 0);
       });
 
       testWidgets('scales vertically with ScaleAxis.vertical',
@@ -272,12 +272,15 @@ void main() {
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(LineChartLeaf),
         );
-        final boundingBox = lineChartLeaf.boundingBox!;
+        final chartVirtualRect = lineChartLeaf.chartVirtualRect!;
 
-        expect(boundingBox.size.height, greaterThan(renderBox.size.height));
-        expect(boundingBox.size.width, renderBox.size.width);
-        expect(boundingBox.left, 0);
-        expect(boundingBox.top, isNegative);
+        expect(
+          chartVirtualRect.size.height,
+          greaterThan(renderBox.size.height),
+        );
+        expect(chartVirtualRect.size.width, renderBox.size.width);
+        expect(chartVirtualRect.left, 0);
+        expect(chartVirtualRect.top, isNegative);
       });
 
       group('pans', () {
@@ -311,8 +314,9 @@ void main() {
           final lineChartLeafBeforePan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxBeforePan = lineChartLeafBeforePan.boundingBox!;
-          expect(boundingBoxBeforePan.top, 0);
+          final chartVirtualRectBeforePan =
+              lineChartLeafBeforePan.chartVirtualRect!;
+          expect(chartVirtualRectBeforePan.top, 0);
 
           const panOffset = Offset(100, 100);
           await tester.dragFrom(chartCenterOffset, panOffset);
@@ -321,14 +325,15 @@ void main() {
           final lineChartLeafAfterPan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxAfterPan = lineChartLeafAfterPan.boundingBox!;
+          final chartVirtualRectAfterPan =
+              lineChartLeafAfterPan.chartVirtualRect!;
 
-          expect(boundingBoxBeforePan.size, boundingBoxAfterPan.size);
+          expect(chartVirtualRectBeforePan.size, chartVirtualRectAfterPan.size);
           expect(
-            boundingBoxAfterPan.left,
-            greaterThan(boundingBoxBeforePan.left),
+            chartVirtualRectAfterPan.left,
+            greaterThan(chartVirtualRectBeforePan.left),
           );
-          expect(boundingBoxAfterPan.top, 0);
+          expect(chartVirtualRectAfterPan.top, 0);
         });
 
         testWidgets('only vertically with ScaleAxis.vertical',
@@ -361,8 +366,9 @@ void main() {
           final lineChartLeafBeforePan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxBeforePan = lineChartLeafBeforePan.boundingBox!;
-          expect(boundingBoxBeforePan.left, 0);
+          final chartVirtualRectBeforePan =
+              lineChartLeafBeforePan.chartVirtualRect!;
+          expect(chartVirtualRectBeforePan.left, 0);
 
           const panOffset = Offset(100, 100);
           await tester.dragFrom(chartCenterOffset, panOffset);
@@ -371,12 +377,13 @@ void main() {
           final lineChartLeafAfterPan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxAfterPan = lineChartLeafAfterPan.boundingBox!;
+          final chartVirtualRectAfterPan =
+              lineChartLeafAfterPan.chartVirtualRect!;
 
-          expect(boundingBoxAfterPan.left, 0);
+          expect(chartVirtualRectAfterPan.left, 0);
           expect(
-            boundingBoxAfterPan.top,
-            greaterThan(boundingBoxBeforePan.top),
+            chartVirtualRectAfterPan.top,
+            greaterThan(chartVirtualRectBeforePan.top),
           );
         });
 
@@ -409,9 +416,10 @@ void main() {
           final lineChartLeafBeforePan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxBeforePan = lineChartLeafBeforePan.boundingBox!;
-          expect(boundingBoxBeforePan.left, isNegative);
-          expect(boundingBoxBeforePan.top, isNegative);
+          final chartVirtualRectBeforePan =
+              lineChartLeafBeforePan.chartVirtualRect!;
+          expect(chartVirtualRectBeforePan.left, isNegative);
+          expect(chartVirtualRectBeforePan.top, isNegative);
 
           const panOffset = Offset(100, 100);
           await tester.dragFrom(chartCenterOffset, panOffset);
@@ -420,15 +428,16 @@ void main() {
           final lineChartLeafAfterPan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxAfterPan = lineChartLeafAfterPan.boundingBox!;
+          final chartVirtualRectAfterPan =
+              lineChartLeafAfterPan.chartVirtualRect!;
 
           expect(
-            boundingBoxAfterPan.left,
-            greaterThan(boundingBoxBeforePan.left),
+            chartVirtualRectAfterPan.left,
+            greaterThan(chartVirtualRectBeforePan.left),
           );
           expect(
-            boundingBoxAfterPan.top,
-            greaterThan(boundingBoxBeforePan.top),
+            chartVirtualRectAfterPan.top,
+            greaterThan(chartVirtualRectBeforePan.top),
           );
         });
       });
@@ -469,8 +478,9 @@ void main() {
             find.byType(LineChartLeaf),
           );
 
-          final boundingBoxBeforePan = lineChartLeafBeforePan.boundingBox!;
-          expect(boundingBoxBeforePan.top, 0);
+          final chartVirtualRectBeforePan =
+              lineChartLeafBeforePan.chartVirtualRect!;
+          expect(chartVirtualRectBeforePan.top, 0);
 
           final pointer = TestPointer(1, PointerDeviceKind.trackpad);
           const leftAndUp = Offset(-100, -100);
@@ -482,13 +492,14 @@ void main() {
           final lineChartLeafAfterPan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxAfterPan = lineChartLeafAfterPan.boundingBox!;
+          final chartVirtualRectAfterPan =
+              lineChartLeafAfterPan.chartVirtualRect!;
 
           expect(
-            boundingBoxAfterPan.left,
-            greaterThan(boundingBoxBeforePan.left),
+            chartVirtualRectAfterPan.left,
+            greaterThan(chartVirtualRectBeforePan.left),
           );
-          expect(boundingBoxAfterPan.top, 0);
+          expect(chartVirtualRectAfterPan.top, 0);
         });
 
         testWidgets('vertically with ScaleAxis.vertical',
@@ -524,8 +535,9 @@ void main() {
             find.byType(LineChartLeaf),
           );
 
-          final boundingBoxBeforePan = lineChartLeafBeforePan.boundingBox!;
-          expect(boundingBoxBeforePan.left, 0);
+          final chartVirtualRectBeforePan =
+              lineChartLeafBeforePan.chartVirtualRect!;
+          expect(chartVirtualRectBeforePan.left, 0);
 
           final pointer = TestPointer(1, PointerDeviceKind.trackpad);
           const leftAndUp = Offset(-100, -100);
@@ -537,12 +549,13 @@ void main() {
           final lineChartLeafAfterPan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxAfterPan = lineChartLeafAfterPan.boundingBox!;
+          final chartVirtualRectAfterPan =
+              lineChartLeafAfterPan.chartVirtualRect!;
 
-          expect(boundingBoxAfterPan.left, 0);
+          expect(chartVirtualRectAfterPan.left, 0);
           expect(
-            boundingBoxAfterPan.top,
-            greaterThan(boundingBoxBeforePan.top),
+            chartVirtualRectAfterPan.top,
+            greaterThan(chartVirtualRectBeforePan.top),
           );
         });
 
@@ -578,7 +591,8 @@ void main() {
             find.byType(LineChartLeaf),
           );
 
-          final boundingBoxBeforePan = lineChartLeafBeforePan.boundingBox!;
+          final chartVirtualRectBeforePan =
+              lineChartLeafBeforePan.chartVirtualRect!;
 
           final pointer = TestPointer(1, PointerDeviceKind.trackpad);
           const leftAndUp = Offset(-100, -100);
@@ -590,15 +604,16 @@ void main() {
           final lineChartLeafAfterPan = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          final boundingBoxAfterPan = lineChartLeafAfterPan.boundingBox!;
+          final chartVirtualRectAfterPan =
+              lineChartLeafAfterPan.chartVirtualRect!;
 
           expect(
-            boundingBoxAfterPan.left,
-            greaterThan(boundingBoxBeforePan.left),
+            chartVirtualRectAfterPan.left,
+            greaterThan(chartVirtualRectBeforePan.left),
           );
           expect(
-            boundingBoxAfterPan.top,
-            greaterThan(boundingBoxBeforePan.top),
+            chartVirtualRectAfterPan.top,
+            greaterThan(chartVirtualRectBeforePan.top),
           );
         });
       });
@@ -632,7 +647,7 @@ void main() {
           final lineChartLeaf = tester.widget<LineChartLeaf>(
             find.byType(LineChartLeaf),
           );
-          expect(lineChartLeaf.boundingBox, null);
+          expect(lineChartLeaf.chartVirtualRect, null);
         },
       );
 
@@ -666,7 +681,7 @@ void main() {
             final lineChartLeaf = tester.widget<LineChartLeaf>(
               find.byType(LineChartLeaf),
             );
-            expect(lineChartLeaf.boundingBox, null);
+            expect(lineChartLeaf.chartVirtualRect, null);
           },
         );
       }
@@ -698,12 +713,12 @@ void main() {
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(LineChartLeaf),
         );
-        final boundingBox = lineChartLeaf.boundingBox!;
+        final chartVirtualRect = lineChartLeaf.chartVirtualRect!;
 
-        expect(boundingBox.size.height, renderBox.size.height);
-        expect(boundingBox.size.width, greaterThan(renderBox.size.width));
-        expect(boundingBox.left, isNegative);
-        expect(boundingBox.top, 0);
+        expect(chartVirtualRect.size.height, renderBox.size.height);
+        expect(chartVirtualRect.size.width, greaterThan(renderBox.size.width));
+        expect(chartVirtualRect.left, isNegative);
+        expect(chartVirtualRect.top, 0);
       });
 
       testWidgets('scales vertically with ScaleAxis.vertical',
@@ -733,12 +748,15 @@ void main() {
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(LineChartLeaf),
         );
-        final boundingBox = lineChartLeaf.boundingBox!;
+        final chartVirtualRect = lineChartLeaf.chartVirtualRect!;
 
-        expect(boundingBox.size.height, greaterThan(renderBox.size.height));
-        expect(boundingBox.size.width, renderBox.size.width);
-        expect(boundingBox.left, 0);
-        expect(boundingBox.top, isNegative);
+        expect(
+          chartVirtualRect.size.height,
+          greaterThan(renderBox.size.height),
+        );
+        expect(chartVirtualRect.size.width, renderBox.size.width);
+        expect(chartVirtualRect.left, 0);
+        expect(chartVirtualRect.top, isNegative);
       });
 
       testWidgets('scales freely with ScaleAxis.free',
@@ -767,11 +785,11 @@ void main() {
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(LineChartLeaf),
         );
-        final boundingBox = lineChartLeaf.boundingBox!;
+        final chartVirtualRect = lineChartLeaf.chartVirtualRect!;
 
-        expect(boundingBox.size, greaterThan(renderBox.size));
-        expect(boundingBox.left, isNegative);
-        expect(boundingBox.top, isNegative);
+        expect(chartVirtualRect.size, greaterThan(renderBox.size));
+        expect(chartVirtualRect.left, isNegative);
+        expect(chartVirtualRect.top, isNegative);
       });
     });
   });

@@ -176,7 +176,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chartBuilder: (context, chartRect) => LayoutBuilder(
+                  chartBuilder: (context, chartVirtualRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -209,7 +209,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chartBuilder: (context, chartRect) => LayoutBuilder(
+                  chartBuilder: (context, chartVirtualRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -267,7 +267,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chartBuilder: (context, chartRect) => LayoutBuilder(
+                  chartBuilder: (context, chartVirtualRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -306,7 +306,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chartBuilder: (context, chartRect) => LayoutBuilder(
+                  chartBuilder: (context, chartVirtualRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -344,7 +344,7 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  chartBuilder: (context, chartRect) => LayoutBuilder(
+                  chartBuilder: (context, chartVirtualRect) => LayoutBuilder(
                     builder: (context, constraints) {
                       chartDrawingSize = constraints.biggest;
                       return const ColoredBox(
@@ -381,7 +381,7 @@ void main() {
                     child: AxisChartScaffoldWidget(
                       data: lineChartDataWithAllTitles,
                       scaleAxis: scaleAxis,
-                      chartBuilder: (context, chartRect) => dummyChart,
+                      chartBuilder: (context, chartVirtualRect) => dummyChart,
                     ),
                   ),
                 ),
@@ -412,7 +412,7 @@ void main() {
                     data: lineChartDataWithAllTitles,
                     // ignore: avoid_redundant_argument_values
                     scaleAxis: ScaleAxis.none,
-                    chartBuilder: (context, chartRect) => dummyChart,
+                    chartBuilder: (context, chartVirtualRect) => dummyChart,
                   ),
                 ),
               ),
@@ -450,7 +450,7 @@ void main() {
         AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
           scaleAxis: ScaleAxis.free,
-          chartBuilder: (context, chartRect) => dummyChart,
+          chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
       );
 
@@ -480,7 +480,7 @@ void main() {
           maxScale: 10,
           minScale: 1.5,
           transformationController: transformationController,
-          chartBuilder: (context, chartRect) => dummyChart,
+          chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
       );
 
@@ -504,7 +504,7 @@ void main() {
           data: lineChartDataWithAllTitles,
           scaleAxis: ScaleAxis.free,
           minScale: 0.5,
-          chartBuilder: (context, chartRect) => dummyChart,
+          chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
         throwsAssertionError,
       );
@@ -517,7 +517,7 @@ void main() {
           data: lineChartDataWithAllTitles,
           scaleAxis: ScaleAxis.free,
           maxScale: 0.5,
-          chartBuilder: (context, chartRect) => dummyChart,
+          chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
         throwsAssertionError,
       );
@@ -527,7 +527,7 @@ void main() {
       group('touch gesture', () {
         testWidgets('does not scale with ScaleAxis.none',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -537,7 +537,7 @@ void main() {
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return dummyChart;
                       },
                       data: lineChartDataWithNoTitles,
@@ -564,12 +564,12 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          expect(chartRect, isNull);
+          expect(chartVirtualRect, isNull);
         });
 
         testWidgets('scales freely with ScaleAxis.free',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -580,7 +580,7 @@ void main() {
                     child: AxisChartScaffoldWidget(
                       scaleAxis: ScaleAxis.free,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return dummyChart;
                       },
                       data: lineChartDataWithNoTitles,
@@ -610,14 +610,14 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          expect(chartRect!.size, greaterThan(renderBox.size));
-          expect(chartRect!.left, isNegative);
-          expect(chartRect!.top, isNegative);
+          expect(chartVirtualRect!.size, greaterThan(renderBox.size));
+          expect(chartVirtualRect!.left, isNegative);
+          expect(chartVirtualRect!.top, isNegative);
         });
 
         testWidgets('scales horizontally with ScaleAxis.horizontal',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -628,7 +628,7 @@ void main() {
                     child: AxisChartScaffoldWidget(
                       scaleAxis: ScaleAxis.horizontal,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return dummyChart;
                       },
                       data: lineChartDataWithNoTitles,
@@ -658,15 +658,18 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          expect(chartRect!.size.height, renderBox.size.height);
-          expect(chartRect!.size.width, greaterThan(renderBox.size.width));
-          expect(chartRect!.left, isNegative);
-          expect(chartRect!.top, 0);
+          expect(chartVirtualRect!.size.height, renderBox.size.height);
+          expect(
+            chartVirtualRect!.size.width,
+            greaterThan(renderBox.size.width),
+          );
+          expect(chartVirtualRect!.left, isNegative);
+          expect(chartVirtualRect!.top, 0);
         });
 
         testWidgets('scales vertically with ScaleAxis.vertical',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -677,7 +680,7 @@ void main() {
                     child: AxisChartScaffoldWidget(
                       scaleAxis: ScaleAxis.vertical,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return dummyChart;
                       },
                       data: lineChartDataWithNoTitles,
@@ -707,10 +710,13 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          expect(chartRect!.size.height, greaterThan(renderBox.size.height));
-          expect(chartRect!.size.width, renderBox.size.width);
-          expect(chartRect!.left, 0);
-          expect(chartRect!.top, isNegative);
+          expect(
+            chartVirtualRect!.size.height,
+            greaterThan(renderBox.size.height),
+          );
+          expect(chartVirtualRect!.size.width, renderBox.size.width);
+          expect(chartVirtualRect!.left, 0);
+          expect(chartVirtualRect!.top, isNegative);
         });
       });
 
@@ -718,7 +724,7 @@ void main() {
         testWidgets(
           'does not scale with ScaleAxis.none when trackpadScrollCausesScale is true',
           (WidgetTester tester) async {
-            Rect? chartRect;
+            Rect? chartVirtualRect;
             await tester.pumpWidget(
               MaterialApp(
                 home: Scaffold(
@@ -729,7 +735,7 @@ void main() {
                       child: AxisChartScaffoldWidget(
                         trackpadScrollCausesScale: true,
                         chartBuilder: (context, rect) {
-                          chartRect = rect;
+                          chartVirtualRect = rect;
                           return dummyChart;
                         },
                         data: lineChartDataWithNoTitles,
@@ -750,7 +756,7 @@ void main() {
             await tester.sendEventToBinding(pointer.scroll(scrollAmount));
             await tester.pump();
 
-            expect(chartRect, isNull);
+            expect(chartVirtualRect, isNull);
           },
         );
 
@@ -759,7 +765,7 @@ void main() {
             'does not scale when trackpadScrollCausesScale is false '
             'for $scaleAxis',
             (WidgetTester tester) async {
-              Rect? chartRect;
+              Rect? chartVirtualRect;
               await tester.pumpWidget(
                 MaterialApp(
                   home: Scaffold(
@@ -770,7 +776,7 @@ void main() {
                         child: AxisChartScaffoldWidget(
                           scaleAxis: scaleAxis,
                           chartBuilder: (context, rect) {
-                            chartRect = rect;
+                            chartVirtualRect = rect;
                             return dummyChart;
                           },
                           data: lineChartDataWithNoTitles,
@@ -792,14 +798,14 @@ void main() {
               await tester.sendEventToBinding(pointer.scroll(scrollAmount));
               await tester.pump();
 
-              expect(chartRect, isNull);
+              expect(chartVirtualRect, isNull);
             },
           );
         }
 
         testWidgets('scales horizontally with ScaleAxis.horizontal',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -811,7 +817,7 @@ void main() {
                       scaleAxis: ScaleAxis.horizontal,
                       trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return dummyChart;
                       },
                       data: lineChartDataWithNoTitles,
@@ -834,15 +840,18 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(scrollAmount));
           await tester.pump();
 
-          expect(chartRect!.size.height, renderBox.size.height);
-          expect(chartRect!.size.width, greaterThan(renderBox.size.width));
-          expect(chartRect!.left, isNegative);
-          expect(chartRect!.top, 0);
+          expect(chartVirtualRect!.size.height, renderBox.size.height);
+          expect(
+            chartVirtualRect!.size.width,
+            greaterThan(renderBox.size.width),
+          );
+          expect(chartVirtualRect!.left, isNegative);
+          expect(chartVirtualRect!.top, 0);
         });
 
         testWidgets('scales vertically with ScaleAxis.vertical',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -854,7 +863,7 @@ void main() {
                       scaleAxis: ScaleAxis.vertical,
                       trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return dummyChart;
                       },
                       data: lineChartDataWithNoTitles,
@@ -877,15 +886,18 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(scrollAmount));
           await tester.pump();
 
-          expect(chartRect!.size.height, greaterThan(renderBox.size.height));
-          expect(chartRect!.size.width, renderBox.size.width);
-          expect(chartRect!.left, 0);
-          expect(chartRect!.top, isNegative);
+          expect(
+            chartVirtualRect!.size.height,
+            greaterThan(renderBox.size.height),
+          );
+          expect(chartVirtualRect!.size.width, renderBox.size.width);
+          expect(chartVirtualRect!.left, 0);
+          expect(chartVirtualRect!.top, isNegative);
         });
 
         testWidgets('scales freely with ScaleAxis.free',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -897,7 +909,7 @@ void main() {
                       scaleAxis: ScaleAxis.free,
                       trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return dummyChart;
                       },
                       data: lineChartDataWithNoTitles,
@@ -920,16 +932,16 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(scrollAmount));
           await tester.pump();
 
-          expect(chartRect!.size, greaterThan(renderBox.size));
-          expect(chartRect!.left, isNegative);
-          expect(chartRect!.top, isNegative);
+          expect(chartVirtualRect!.size, greaterThan(renderBox.size));
+          expect(chartVirtualRect!.left, isNegative);
+          expect(chartVirtualRect!.top, isNegative);
         });
       });
 
       group('pans', () {
         testWidgets('only horizontally with ScaleAxis.horizontal',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -940,7 +952,7 @@ void main() {
                     child: AxisChartScaffoldWidget(
                       scaleAxis: ScaleAxis.horizontal,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return const ColoredBox(
                           color: Colors.red,
                         );
@@ -967,21 +979,24 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final chartRectBeforePan = chartRect;
-          expect(chartRectBeforePan!.top, 0);
+          final chartVirtualRectBeforePan = chartVirtualRect;
+          expect(chartVirtualRectBeforePan!.top, 0);
 
           const panOffset = Offset(100, 100);
           await tester.dragFrom(chartCenterOffset, panOffset);
           await tester.pumpAndSettle();
 
-          expect(chartRect!.size, chartRectBeforePan.size);
-          expect(chartRect!.left, greaterThan(chartRectBeforePan.left));
-          expect(chartRect!.top, 0);
+          expect(chartVirtualRect!.size, chartVirtualRectBeforePan.size);
+          expect(
+            chartVirtualRect!.left,
+            greaterThan(chartVirtualRectBeforePan.left),
+          );
+          expect(chartVirtualRect!.top, 0);
         });
 
         testWidgets('only vertically with ScaleAxis.vertical',
             (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -992,7 +1007,7 @@ void main() {
                     child: AxisChartScaffoldWidget(
                       scaleAxis: ScaleAxis.vertical,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return const ColoredBox(
                           color: Colors.red,
                         );
@@ -1019,19 +1034,22 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final chartRectBeforePan = chartRect;
-          expect(chartRectBeforePan!.left, 0);
+          final chartVirtualRectBeforePan = chartVirtualRect;
+          expect(chartVirtualRectBeforePan!.left, 0);
 
           const panOffset = Offset(100, 100);
           await tester.dragFrom(chartCenterOffset, panOffset);
           await tester.pumpAndSettle();
 
-          expect(chartRect!.left, 0);
-          expect(chartRect!.top, greaterThan(chartRectBeforePan.top));
+          expect(chartVirtualRect!.left, 0);
+          expect(
+            chartVirtualRect!.top,
+            greaterThan(chartVirtualRectBeforePan.top),
+          );
         });
 
         testWidgets('freely with ScaleAxis.free', (WidgetTester tester) async {
-          Rect? chartRect;
+          Rect? chartVirtualRect;
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -1042,7 +1060,7 @@ void main() {
                     child: AxisChartScaffoldWidget(
                       scaleAxis: ScaleAxis.free,
                       chartBuilder: (context, rect) {
-                        chartRect = rect;
+                        chartVirtualRect = rect;
                         return const ColoredBox(
                           color: Colors.red,
                         );
@@ -1069,23 +1087,29 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final chartRectBeforePan = chartRect;
-          expect(chartRectBeforePan!.left, isNegative);
-          expect(chartRectBeforePan.top, isNegative);
+          final chartVirtualRectBeforePan = chartVirtualRect;
+          expect(chartVirtualRectBeforePan!.left, isNegative);
+          expect(chartVirtualRectBeforePan.top, isNegative);
 
           const panOffset = Offset(100, 100);
           await tester.dragFrom(chartCenterOffset, panOffset);
           await tester.pumpAndSettle();
 
-          expect(chartRect!.left, greaterThan(chartRectBeforePan.left));
-          expect(chartRect!.top, greaterThan(chartRectBeforePan.top));
+          expect(
+            chartVirtualRect!.left,
+            greaterThan(chartVirtualRectBeforePan.left),
+          );
+          expect(
+            chartVirtualRect!.top,
+            greaterThan(chartVirtualRectBeforePan.top),
+          );
         });
       });
     });
 
     testWidgets('passes chart rect to SideTitlesWidgets',
         (WidgetTester tester) async {
-      Rect? chartRect;
+      Rect? chartVirtualRect;
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -1096,7 +1120,7 @@ void main() {
                 child: AxisChartScaffoldWidget(
                   scaleAxis: ScaleAxis.free,
                   chartBuilder: (context, rect) {
-                    chartRect = rect;
+                    chartVirtualRect = rect;
                     return const ColoredBox(
                       color: Colors.red,
                     );
@@ -1126,7 +1150,7 @@ void main() {
       final sideTitlesWidgets = tester.allWidgets.whereType<SideTitlesWidget>();
       expect(sideTitlesWidgets.length, 4);
       for (final sideTitlesWidget in sideTitlesWidgets) {
-        expect(sideTitlesWidget.boundingBox, chartRect);
+        expect(sideTitlesWidget.chartVirtualRect, chartVirtualRect);
       }
     });
 
@@ -1136,7 +1160,7 @@ void main() {
         final controller = TransformationController(
           Matrix4.identity()..scale(3.0),
         );
-        Rect? chartRect;
+        Rect? chartVirtualRect;
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -1145,7 +1169,7 @@ void main() {
                   data: lineChartDataWithNoTitles,
                   transformationController: controller,
                   chartBuilder: (context, rect) {
-                    chartRect = rect;
+                    chartVirtualRect = rect;
                     return dummyChart;
                   },
                 ),
@@ -1154,18 +1178,18 @@ void main() {
           ),
         );
 
-        expect(chartRect, isNull);
+        expect(chartVirtualRect, isNull);
         await tester.pump();
-        expect(chartRect, isNotNull);
+        expect(chartVirtualRect, isNotNull);
       },
     );
 
     group('didUpdateWidget', () {
       const chartScaffoldKey = Key('chartScaffold');
 
-      final chartRects = <Rect?>[];
+      final chartVirtualRects = <Rect?>[];
 
-      tearDown(chartRects.clear);
+      tearDown(chartVirtualRects.clear);
 
       Widget createTestWidget({
         TransformationController? controller,
@@ -1179,7 +1203,7 @@ void main() {
                 scaleAxis: ScaleAxis.free,
                 transformationController: controller,
                 chartBuilder: (context, rect) {
-                  chartRects.add(rect);
+                  chartVirtualRects.add(rect);
                   return dummyChart;
                 },
               ),
@@ -1202,26 +1226,26 @@ void main() {
         'oldWidget.controller is null and widget.controller is null: '
         'keeps old controller',
         (WidgetTester tester) async {
-          final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           await tester.pumpWidget(createTestWidget());
           await tester.pump();
-          expect(chartRects, actualChartRects);
+          expect(chartVirtualRects, actualchartVirtualRects);
 
           final transformationController = getTransformationController(tester);
           transformationController!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(createTestWidget());
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, transformationController);
           transformationController2!.value = Matrix4.identity()..scale(3.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
         },
       );
 
@@ -1229,24 +1253,24 @@ void main() {
         'oldWidget.controller is null and widget.controller is not null: '
         'disposes old controller and sets up widget.controller with listeners',
         (WidgetTester tester) async {
-          final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           await tester.pumpWidget(createTestWidget());
           await tester.pump();
-          expect(chartRects, actualChartRects);
+          expect(chartVirtualRects, actualchartVirtualRects);
 
           final transformationController = getTransformationController(tester);
           transformationController!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
           final transformationController2 = TransformationController();
 
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
           );
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isNotScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
           expect(
@@ -1255,7 +1279,7 @@ void main() {
           );
           transformationController2.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
         },
       );
 
@@ -1264,22 +1288,22 @@ void main() {
         'removes listeners from old controller and sets up new controller '
         'with listeners',
         (WidgetTester tester) async {
-          final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
           await tester.pump();
-          expect(chartRects, actualChartRects);
+          expect(chartVirtualRects, actualchartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(createTestWidget());
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isNotScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, isNot(transformationController));
@@ -1288,7 +1312,7 @@ void main() {
           transformationController.addListener(() {}); // throws if disposed
           transformationController2!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
         },
       );
 
@@ -1298,26 +1322,26 @@ void main() {
         'removes listeners from old controller and sets up '
         'widget.controller with listeners',
         (WidgetTester tester) async {
-          final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
           await tester.pump();
-          expect(chartRects, actualChartRects);
+          expect(chartVirtualRects, actualchartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
           final transformationController2 = TransformationController();
 
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
           );
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isNotScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
           // ignore: invalid_use_of_protected_member
@@ -1325,7 +1349,7 @@ void main() {
           transformationController.addListener(() {}); // throws if disposed
           transformationController2.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
         },
       );
 
@@ -1333,7 +1357,7 @@ void main() {
         'oldWidget.controller is not null and widget.controller is not null, '
         'controllers are the same: keeps old controller',
         (WidgetTester tester) async {
-          final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(
@@ -1341,58 +1365,58 @@ void main() {
             ),
           );
           await tester.pump();
-          expect(chartRects, actualChartRects);
+          expect(chartVirtualRects, actualchartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(
             createTestWidget(
               controller: transformationController,
             ),
           );
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, transformationController);
           transformationController.value = Matrix4.identity()..scale(3.0);
           await tester.pump();
-          expect(chartRects, actualChartRects..add(isScaled));
+          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
         },
       );
     });
 
     testWidgets(
-      'sets chartRect to null, when scaling is updated to 1.0',
+      'sets chartVirtualRect to null, when scaling is updated to 1.0',
       (WidgetTester tester) async {
         final transformationController = TransformationController();
-        final chartRects = <Rect?>[];
-        final actualChartRects = <Object?>[isNotScaled, isNotScaled];
+        final chartVirtualRects = <Rect?>[];
+        final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
         await tester.pumpWidget(
           MaterialApp(
             home: AxisChartScaffoldWidget(
               data: lineChartDataWithNoTitles,
               transformationController: transformationController,
               chartBuilder: (context, rect) {
-                chartRects.add(rect);
+                chartVirtualRects.add(rect);
                 return dummyChart;
               },
             ),
           ),
         );
         await tester.pump();
-        expect(chartRects, actualChartRects);
+        expect(chartVirtualRects, actualchartVirtualRects);
 
         transformationController.value = Matrix4.identity()..scale(2.0);
         await tester.pump();
-        expect(chartRects, actualChartRects..add(isScaled));
+        expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
 
         transformationController.value = Matrix4.identity()..scale(1.0);
         await tester.pump();
-        expect(chartRects, actualChartRects..add(isNotScaled));
+        expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
       },
     );
 

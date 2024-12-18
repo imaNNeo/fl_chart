@@ -115,9 +115,9 @@ void main() {
       Utils.changeInstance(utilsMainInstance);
     });
 
-    test('clips to canvas size if bounding box is provided', () {
+    test('clips to canvas size if chart virtual rect is provided', () {
       const viewSize = Size(400, 400);
-      final boundingBox = (Offset.zero & viewSize).inflate(100);
+      final chartVirtualRect = (Offset.zero & viewSize).inflate(100);
 
       final barGroups = [
         BarChartGroupData(
@@ -215,7 +215,7 @@ void main() {
         data,
         data,
         TextScaler.noScaling,
-        boundingBox,
+        chartVirtualRect,
       );
 
       final mockBuildContext = MockBuildContext();
@@ -245,10 +245,11 @@ void main() {
       ]);
     });
 
-    test('only draws points within canvas when bounding box is provided', () {
+    test('only draws points within canvas when chart virtual rect is provided',
+        () {
       const viewSize = Size(200, 200);
       const zoomedSize = Size(300, 300);
-      final boundingBox = const Offset(0, -150) & zoomedSize;
+      final chartVirtualRect = const Offset(0, -150) & zoomedSize;
       const maxToY = 10.0; // Y coordinate -150 - outside of canvas
       const minToY = 5.0; // Y coordinate 150 - inside of canvas
 
@@ -320,7 +321,7 @@ void main() {
         data,
         data,
         TextScaler.noScaling,
-        boundingBox,
+        chartVirtualRect,
       );
 
       final mockBuildContext = MockBuildContext();
@@ -345,7 +346,7 @@ void main() {
       ).called(1);
     });
 
-    test('does not clip if bounding box is null', () {
+    test('does not clip if chart virtual rect is null', () {
       {
         const viewSize = Size(400, 400);
 
@@ -465,7 +466,7 @@ void main() {
       }
     });
 
-    test('draws all points if bounding box is null', () {
+    test('draws all points if chart virtual rect is null', () {
       const viewSize = Size(200, 200);
       const maxToY = 10.0; // Y coordinate -150 - outside of canvas
       const minToY = 5.0; // Y coordinate 150 - inside of canvas
@@ -2539,7 +2540,7 @@ void main() {
     });
 
     test(
-      'returns null when bounding box is provided and touch is outside '
+      'returns null when chart virtual rect is provided and touch is outside '
       'of canvas',
       () {
         const viewSize = Size(50, 50);
@@ -2603,7 +2604,7 @@ void main() {
     );
 
     test(
-      'returns result when bounding box is provided and touch is inside '
+      'returns result when chart virtual rect is provided and touch is inside '
       'of canvas',
       () {
         const viewSize = Size(50, 50);

@@ -15,12 +15,12 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     required this.data,
     required this.targetData,
     required this.canBeScaled,
-    required this.boundingBox,
+    required this.chartVirtualRect,
   });
 
   final LineChartData data;
   final LineChartData targetData;
-  final Rect? boundingBox;
+  final Rect? chartVirtualRect;
   final bool canBeScaled;
 
   @override
@@ -29,7 +29,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
-        boundingBox,
+        chartVirtualRect,
         canBeScaled: canBeScaled,
       );
 
@@ -40,7 +40,7 @@ class LineChartLeaf extends LeafRenderObjectWidget {
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
       ..buildContext = context
-      ..boundingBox = boundingBox
+      ..chartVirtualRect = chartVirtualRect
       ..canBeScaled = canBeScaled;
   }
 }
@@ -53,12 +53,12 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     LineChartData data,
     LineChartData targetData,
     TextScaler textScaler,
-    Rect? boundingBox, {
+    Rect? chartVirtualRect, {
     required bool canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        _boundingBox = boundingBox,
+        _chartVirtualRect = chartVirtualRect,
         super(
           targetData.lineTouchData,
           context,
@@ -90,11 +90,11 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     markNeedsPaint();
   }
 
-  Rect? get boundingBox => _boundingBox;
-  Rect? _boundingBox;
-  set boundingBox(Rect? value) {
-    if (_boundingBox == value) return;
-    _boundingBox = value;
+  Rect? get chartVirtualRect => _chartVirtualRect;
+  Rect? _chartVirtualRect;
+  set chartVirtualRect(Rect? value) {
+    if (_chartVirtualRect == value) return;
+    _chartVirtualRect = value;
     markNeedsPaint();
   }
 
@@ -106,7 +106,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   LineChartPainter painter = LineChartPainter();
 
   PaintHolder<LineChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler, boundingBox);
+      PaintHolder(data, targetData, textScaler, chartVirtualRect);
 
   @override
   void paint(PaintingContext context, Offset offset) {

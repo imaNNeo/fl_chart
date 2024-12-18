@@ -13,13 +13,13 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
-    required this.boundingBox,
+    required this.chartVirtualRect,
     required this.canBeScaled,
   });
 
   final ScatterChartData data;
   final ScatterChartData targetData;
-  final Rect? boundingBox;
+  final Rect? chartVirtualRect;
   final bool canBeScaled;
 
   @override
@@ -29,7 +29,7 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
-        boundingBox,
+        chartVirtualRect,
         canBeScaled: canBeScaled,
       );
 
@@ -43,7 +43,7 @@ class ScatterChartLeaf extends LeafRenderObjectWidget {
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
       ..buildContext = context
-      ..boundingBox = boundingBox
+      ..chartVirtualRect = chartVirtualRect
       ..canBeScaled = canBeScaled;
   }
 }
@@ -56,12 +56,12 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     ScatterChartData data,
     ScatterChartData targetData,
     TextScaler textScaler,
-    Rect? boundingBox, {
+    Rect? chartVirtualRect, {
     required bool canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        _boundingBox = boundingBox,
+        _chartVirtualRect = chartVirtualRect,
         super(targetData.scatterTouchData, context, canBeScaled: canBeScaled);
 
   ScatterChartData get data => _data;
@@ -92,12 +92,12 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
     markNeedsPaint();
   }
 
-  Rect? get boundingBox => _boundingBox;
-  Rect? _boundingBox;
+  Rect? get chartVirtualRect => _chartVirtualRect;
+  Rect? _chartVirtualRect;
 
-  set boundingBox(Rect? value) {
-    if (_boundingBox == value) return;
-    _boundingBox = value;
+  set chartVirtualRect(Rect? value) {
+    if (_chartVirtualRect == value) return;
+    _chartVirtualRect = value;
     markNeedsPaint();
   }
 
@@ -109,7 +109,7 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
   ScatterChartPainter painter = ScatterChartPainter();
 
   PaintHolder<ScatterChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler, boundingBox);
+      PaintHolder(data, targetData, textScaler, chartVirtualRect);
 
   @override
   void paint(PaintingContext context, Offset offset) {

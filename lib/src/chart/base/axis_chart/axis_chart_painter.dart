@@ -220,7 +220,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     CanvasWrapper canvasWrapper,
     PaintHolder<D> holder,
   ) {
-    if (holder.boundingBox != null) {
+    if (holder.chartVirtualRect != null) {
       canvasWrapper.restore();
     }
 
@@ -236,7 +236,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
       drawVerticalLines(context, canvasWrapper, holder, viewSize);
     }
 
-    if (holder.boundingBox != null) {
+    if (holder.chartVirtualRect != null) {
       canvasWrapper
         ..saveLayer(
           Offset.zero & canvasWrapper.size,
@@ -473,8 +473,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     final calculated = _getPixelX(spotX, holder.data, usableSize);
 
-    // Adjust the position relative to the canvas if boundingBox is provided
-    final adjustment = holder.boundingBox?.left ?? 0;
+    // Adjust the position relative to the canvas if chartVirtualRect
+    // is provided
+    final adjustment = holder.chartVirtualRect?.left ?? 0;
     return calculated + adjustment;
   }
 
@@ -497,8 +498,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     final calculated = _getPixelY(spotY, holder.data, usableSize);
 
-    // Adjust the position relative to the canvas if boundingBox is provided
-    final adjustment = holder.boundingBox?.top ?? 0;
+    // Adjust the position relative to the canvas if chartVirtualRect
+    // is provided
+    final adjustment = holder.chartVirtualRect?.top ?? 0;
     return calculated + adjustment;
   }
 

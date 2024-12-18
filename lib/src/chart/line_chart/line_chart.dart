@@ -83,13 +83,13 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
       maxScale: widget.maxScale,
       minScale: widget.minScale,
       trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
-      chartBuilder: (context, chartRect) => LineChartLeaf(
+      chartBuilder: (context, chartVirtualRect) => LineChartLeaf(
         data: _withTouchedIndicators(
           _lineChartDataTween!.evaluate(animation),
         ),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
-        boundingBox: chartRect,
+        chartVirtualRect: chartVirtualRect,
         canBeScaled: widget.scaleAxis != ScaleAxis.none,
       ),
       data: showingData,
