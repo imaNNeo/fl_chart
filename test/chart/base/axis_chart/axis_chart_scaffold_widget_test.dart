@@ -1249,6 +1249,10 @@ void main() {
           expect(chartRects, actualChartRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
+          expect(
+            () => transformationController.addListener(() {}),
+            throwsA(isA<FlutterError>()),
+          );
           transformationController2.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
           expect(chartRects, actualChartRects..add(isScaled));
@@ -1257,7 +1261,8 @@ void main() {
 
       testWidgets(
         'oldWidget.controller is not null and widget.controller is null: '
-        'disposes old controller and sets up new controller with listeners',
+        'removes listeners from old controller and sets up new controller '
+        'with listeners',
         (WidgetTester tester) async {
           final actualChartRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
@@ -1278,6 +1283,9 @@ void main() {
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, isNot(transformationController));
+          // ignore: invalid_use_of_protected_member
+          expect(transformationController.hasListeners, false);
+          transformationController.addListener(() {}); // throws if disposed
           transformationController2!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
           expect(chartRects, actualChartRects..add(isScaled));
@@ -1287,7 +1295,8 @@ void main() {
       testWidgets(
         'oldWidget.controller is not null and widget.controller is not null, '
         'controllers are different: '
-        'disposes old controller and sets up widget.controller with listeners',
+        'removes listeners from old controller and sets up '
+        'widget.controller with listeners',
         (WidgetTester tester) async {
           final actualChartRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
@@ -1311,6 +1320,9 @@ void main() {
           expect(chartRects, actualChartRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
+          // ignore: invalid_use_of_protected_member
+          expect(transformationController.hasListeners, false);
+          transformationController.addListener(() {}); // throws if disposed
           transformationController2.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
           expect(chartRects, actualChartRects..add(isScaled));
@@ -1383,5 +1395,25 @@ void main() {
         expect(chartRects, actualChartRects..add(isNotScaled));
       },
     );
+
+    testWidgets('does not dispose external controller',
+        (WidgetTester tester) async {
+      final controller = TransformationController();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AxisChartScaffoldWidget(
+            data: lineChartDataWithNoTitles,
+            transformationController: controller,
+            chartBuilder: (context, rect) {
+              return dummyChart;
+            },
+          ),
+        ),
+      );
+      await tester.pumpWidget(Container());
+      // ignore: invalid_use_of_protected_member
+      expect(controller.hasListeners, false);
+      controller.addListener(() {}); // throws if disposed
+    });
   });
 }

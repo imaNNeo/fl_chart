@@ -105,7 +105,10 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
 
   @override
   void dispose() {
-    _transformationController.dispose();
+    _transformationController.removeListener(_updateChartRect);
+    if (widget.transformationController == null) {
+      _transformationController.dispose();
+    }
     super.dispose();
   }
 
@@ -124,13 +127,13 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         _transformationController = widget.transformationController!;
         _transformationController.addListener(_updateChartRect);
       case (TransformationController(), null):
-        _transformationController.dispose();
+        _transformationController.removeListener(_updateChartRect);
         _transformationController = TransformationController();
         _transformationController.addListener(_updateChartRect);
       case (TransformationController(), TransformationController()):
         if (oldWidget.transformationController !=
             widget.transformationController) {
-          _transformationController.dispose();
+          _transformationController.removeListener(_updateChartRect);
           _transformationController = widget.transformationController!;
           _transformationController.addListener(_updateChartRect);
         }
