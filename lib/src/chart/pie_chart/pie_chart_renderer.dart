@@ -36,6 +36,13 @@ class PieChartLeaf extends MultiChildRenderObjectWidget {
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
       ..buildContext = context;
+    data.pieTouchData.externalTouchCallback?.call(
+      data.pieTouchData.externalTouchPosition != null
+          ? renderObject.getResponseAtLocation(
+              data.pieTouchData.externalTouchPosition!,
+            )
+          : null,
+    );
   }
 }
 // coverage:ignore-end
