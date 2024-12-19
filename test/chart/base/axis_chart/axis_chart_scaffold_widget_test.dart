@@ -1185,6 +1185,38 @@ void main() {
       },
     );
 
+    testWidgets('post frame callback checks if widget is mounted',
+        (WidgetTester tester) async {
+      // This test only works correctly when the chart is a LineChart
+      // with scaleAxis set to none. Should throw assertion on "setState"
+      // if callback does not check if widget is mounted.
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: ListView.builder(
+              itemCount: 20,
+              itemBuilder: (context, index) => SizedBox(
+                height: 300,
+                child: LineChart(
+                  lineChartDataWithNoTitles,
+                  // ignore: avoid_redundant_argument_values
+                  scaleAxis: FlScaleAxis.none,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.drag(
+        find.byType(ListView),
+        const Offset(0, -1000),
+      );
+
+      await tester.pump();
+    });
+
     group('didUpdateWidget', () {
       const chartScaffoldKey = Key('chartScaffold');
 

@@ -144,6 +144,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
 
   void updateRectPostFrame() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       _updateChartVirtualRect();
     });
   }
