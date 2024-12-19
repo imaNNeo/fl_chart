@@ -2989,6 +2989,9 @@ void main() {
       'takes dotHeight into account when deciding if tooltip should be drawn',
       () {
         const viewSize = Size(100, 100);
+        const dotRadius = 4.0;
+        const smallerDotRadius = 3.0;
+        const dotStrokeWidth = 1.0;
 
         final barData = LineChartBarData(
           spots: const [
@@ -2999,19 +3002,6 @@ void main() {
             FlSpot.nullSpot,
             FlSpot(5, 5),
           ],
-          dotData: FlDotData(
-            getDotPainter: (
-              spot,
-              dotSize,
-              barData,
-              index,
-            ) =>
-                FlDotCirclePainter(
-              color: Colors.red,
-              radius: dotSize,
-              strokeWidth: 1,
-            ),
-          ),
         );
 
         final tooltipData = LineTouchTooltipData(
@@ -3039,6 +3029,27 @@ void main() {
           lineBarsData: [barData],
           lineTouchData: LineTouchData(
             touchTooltipData: tooltipData,
+            getTouchedSpotIndicator: (barData, spotIndexes) => [
+              TouchedSpotIndicatorData(
+                const FlLine(color: Colors.red, strokeWidth: 1),
+                FlDotData(
+                  getDotPainter: (
+                    FlSpot spot,
+                    double xPercentage,
+                    LineChartBarData bar,
+                    int index, {
+                    double? size,
+                  }) =>
+                      FlDotCirclePainter(
+                    color: Colors.red,
+                    // smaller first dot ensures we're actually iterating over
+                    // the painters to get the largest dot height
+                    radius: index == 0 ? smallerDotRadius : dotRadius,
+                    strokeWidth: dotStrokeWidth,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
         final mockCanvasWrapper = MockCanvasWrapper();
@@ -3054,13 +3065,26 @@ void main() {
             .thenAnswer((realInvocation) => Offset.zero);
         final lineChartPainter = LineChartPainter();
 
-        const dotHeight = 14.4;
+        const dotHeight = (dotRadius + dotStrokeWidth) * 2;
         const dotXOffset = 20.0;
         const scaledSize = Size(200, 100);
 
         const dotVisibleXOffset = dotXOffset + (dotHeight / 2);
         final chartVirtualRect =
             const Offset(-dotVisibleXOffset, 0) & scaledSize;
+
+        final indicators = ShowingTooltipIndicators([
+          LineBarSpot(
+            barData,
+            0,
+            barData.spots.first,
+          ),
+          LineBarSpot(
+            barData,
+            0,
+            barData.spots[1],
+          ),
+        ]);
 
         final holder = PaintHolder<LineChartData>(
           data,
@@ -3074,13 +3098,7 @@ void main() {
           mockCanvasWrapper,
           tooltipData,
           barData.spots.first,
-          ShowingTooltipIndicators([
-            LineBarSpot(
-              barData,
-              0,
-              barData.spots.first,
-            ),
-          ]),
+          indicators,
           holder,
         );
 
@@ -3092,7 +3110,7 @@ void main() {
             angle: anyNamed('angle'),
             drawCallback: anyNamed('drawCallback'),
           ),
-        ).called(2);
+        ).called(3);
 
         const dotHiddenXOffset = dotXOffset + (dotHeight / 2) + 0.1;
         final chartVirtualRect2 =
@@ -3109,9 +3127,7 @@ void main() {
           mockCanvasWrapper,
           tooltipData,
           barData.spots.first,
-          ShowingTooltipIndicators([
-            LineBarSpot(barData, 0, barData.spots.first),
-          ]),
+          indicators,
           holder2,
         );
 
