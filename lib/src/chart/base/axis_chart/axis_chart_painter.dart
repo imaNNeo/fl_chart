@@ -318,9 +318,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
-          );
-          // ignore: cascade_invocations
-          tp.layout();
+          )..layout();
 
           switch (label.direction) {
             case LabelDirection.horizontal:
@@ -426,9 +424,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
-          );
-          // ignore: cascade_invocations
-          tp.layout();
+          )..layout();
 
           switch (label.direction) {
             case LabelDirection.horizontal:

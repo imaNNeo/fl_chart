@@ -256,7 +256,7 @@ class LineChartBarData with EquatableMixin {
     try {
       firstValidSpot =
           spots.firstWhere((element) => element != FlSpot.nullSpot);
-    } catch (e) {
+    } catch (_) {
       // There is no valid spot
     }
     if (firstValidSpot != null) {
@@ -557,7 +557,6 @@ class BarAreaData with EquatableMixin {
         show: b.show,
         spotsLine: BarAreaSpotsLine.lerp(a.spotsLine, b.spotsLine, t),
         color: Color.lerp(a.color, b.color, t),
-        // ignore: invalid_use_of_protected_member
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t)!,
         applyCutOffY: b.applyCutOffY,
@@ -1209,7 +1208,7 @@ class LineTooltipItem with EquatableMixin {
   /// Direction of showing text.
   final TextDirection textDirection;
 
-  /// List<TextSpan> add further style and format to the text of the tooltip
+  /// Add further style and format to the text of the tooltip
   final List<TextSpan>? children;
 
   /// Used for equality check, see [EquatableMixin].

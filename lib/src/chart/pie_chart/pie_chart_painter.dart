@@ -238,7 +238,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           sectionPath,
           startLineSeparatorPath,
         );
-      } catch (e) {
+      } catch (_) {
         /// It's a flutter engine issue with [Path.combine] in web-html renderer
         /// https://github.com/imaNNeo/fl_chart/issues/955
       }
@@ -251,7 +251,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           sectionPath,
           endLineSeparatorPath,
         );
-      } catch (e) {
+      } catch (_) {
         /// It's a flutter engine issue with [Path.combine] in web-html renderer
         /// https://github.com/imaNNeo/fl_chart/issues/955
       }

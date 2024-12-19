@@ -15,7 +15,7 @@ class LineChartHelper {
     try {
       lineBarData =
           lineBarsData.firstWhere((element) => element.spots.isNotEmpty);
-    } catch (e) {
+    } catch (_) {
       // There is no lineBarData with at least one spot
       return (0, 0, 0, 0);
     }
@@ -24,7 +24,7 @@ class LineChartHelper {
     try {
       firstValidSpot =
           lineBarData.spots.firstWhere((element) => element != FlSpot.nullSpot);
-    } catch (e) {
+    } catch (_) {
       // There is no valid spot
       return (0, 0, 0, 0);
     }
