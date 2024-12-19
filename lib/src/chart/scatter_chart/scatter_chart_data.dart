@@ -49,6 +49,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     FlClipData? clipData,
     super.backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
+    super.scaleData,
   })  : scatterSpots = scatterSpots ?? const [],
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
@@ -116,6 +117,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           b.scatterLabelSettings,
           t,
         ),
+        scaleData: FlScaleData.lerp(a.scaleData, b.scaleData, t),
       );
     } else {
       throw Exception('Illegal State');
@@ -140,6 +142,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     FlClipData? clipData,
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
+    FlScaleData? scaleData,
   }) =>
       ScatterChartData(
         scatterSpots: scatterSpots ?? this.scatterSpots,
@@ -158,6 +161,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         clipData: clipData ?? this.clipData,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
+        scaleData: scaleData ?? this.scaleData,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -181,6 +185,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         backgroundColor,
         borderData,
         touchData,
+        scaleData,
       ];
 }
 

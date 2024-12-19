@@ -1,8 +1,6 @@
-import 'package:fl_chart/src/chart/bar_chart/bar_chart.dart';
-import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,51 +15,6 @@ void main() {
   }
 
   group('BarChart', () {
-    group('throws AssertionError for', () {
-      final verticallyScalableAlignments = [
-        BarChartAlignment.start,
-        BarChartAlignment.center,
-        BarChartAlignment.end,
-      ];
-      for (final alignment in verticallyScalableAlignments) {
-        testWidgets('FlScaleAxis.horizontal with $alignment',
-            (WidgetTester tester) async {
-          expect(
-            () => tester.pumpWidget(
-              createTestWidget(
-                chart: BarChart(
-                  BarChartData(
-                    alignment: alignment,
-                  ),
-                  scaleAxis: FlScaleAxis.horizontal,
-                ),
-              ),
-            ),
-            throwsAssertionError,
-          );
-        });
-      }
-
-      for (final alignment in verticallyScalableAlignments) {
-        testWidgets('FlScaleAxis.free with $alignment',
-            (WidgetTester tester) async {
-          expect(
-            () => tester.pumpWidget(
-              createTestWidget(
-                chart: BarChart(
-                  BarChartData(
-                    alignment: alignment,
-                  ),
-                  scaleAxis: FlScaleAxis.free,
-                ),
-              ),
-            ),
-            throwsAssertionError,
-          );
-        });
-      }
-    });
-
     group('allows passing', () {
       for (final alignment in BarChartAlignment.values) {
         testWidgets('FlScaleAxis.none with $alignment',
@@ -69,9 +22,13 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(alignment: alignment),
-                // ignore: avoid_redundant_argument_values
-                scaleAxis: FlScaleAxis.none,
+                BarChartData(
+                  alignment: alignment,
+                  scaleData: const FlScaleData(
+                    // ignore: avoid_redundant_argument_values
+                    scaleAxis: FlScaleAxis.none,
+                  ),
+                ),
               ),
             ),
           );
@@ -84,8 +41,12 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(alignment: alignment),
-                scaleAxis: FlScaleAxis.vertical,
+                BarChartData(
+                  alignment: alignment,
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.vertical,
+                  ),
+                ),
               ),
             ),
           );
@@ -104,8 +65,12 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(alignment: alignment),
-                scaleAxis: FlScaleAxis.free,
+                BarChartData(
+                  alignment: alignment,
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.free,
+                  ),
+                ),
               ),
             ),
           );
@@ -118,8 +83,12 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(alignment: alignment),
-                scaleAxis: FlScaleAxis.horizontal,
+                BarChartData(
+                  alignment: alignment,
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.horizontal,
+                  ),
+                ),
               ),
             ),
           );
@@ -137,11 +106,12 @@ void main() {
       );
 
       final barChart = tester.widget<BarChart>(find.byType(BarChart));
-      expect(barChart.scaleAxis, FlScaleAxis.none);
-      expect(barChart.maxScale, 2.5);
-      expect(barChart.minScale, 1);
-      expect(barChart.trackpadScrollCausesScale, false);
-      expect(barChart.transformationController, isNull);
+      final scaleData = barChart.data.scaleData;
+      expect(scaleData.scaleAxis, FlScaleAxis.none);
+      expect(scaleData.maxScale, 2.5);
+      expect(scaleData.minScale, 1);
+      expect(scaleData.trackpadScrollCausesScale, false);
+      expect(scaleData.transformationController, isNull);
     });
 
     testWidgets('passes interaction parameters to AxisChartScaffoldWidget',
@@ -158,11 +128,12 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget.maxScale, 2.5);
-      expect(axisChartScaffoldWidget.minScale, 1);
-      expect(axisChartScaffoldWidget.scaleAxis, FlScaleAxis.none);
-      expect(axisChartScaffoldWidget.trackpadScrollCausesScale, false);
-      expect(axisChartScaffoldWidget.transformationController, isNull);
+      final scaleData = axisChartScaffoldWidget.data.scaleData;
+      expect(scaleData.maxScale, 2.5);
+      expect(scaleData.minScale, 1);
+      expect(scaleData.scaleAxis, FlScaleAxis.none);
+      expect(scaleData.trackpadScrollCausesScale, false);
+      expect(scaleData.transformationController, isNull);
 
       await tester.pumpAndSettle();
 
@@ -170,12 +141,15 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           chart: BarChart(
-            BarChartData(),
-            scaleAxis: FlScaleAxis.free,
-            trackpadScrollCausesScale: true,
-            maxScale: 10,
-            minScale: 1.5,
-            transformationController: transformationController,
+            BarChartData().copyWith(
+              scaleData: FlScaleData(
+                scaleAxis: FlScaleAxis.free,
+                trackpadScrollCausesScale: true,
+                maxScale: 10,
+                minScale: 1.5,
+                transformationController: transformationController,
+              ),
+            ),
           ),
         ),
       );
@@ -184,12 +158,13 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget1.maxScale, 10);
-      expect(axisChartScaffoldWidget1.minScale, 1.5);
-      expect(axisChartScaffoldWidget1.scaleAxis, FlScaleAxis.free);
-      expect(axisChartScaffoldWidget1.trackpadScrollCausesScale, true);
+      final scaleData1 = axisChartScaffoldWidget1.data.scaleData;
+      expect(scaleData1.maxScale, 10);
+      expect(scaleData1.minScale, 1.5);
+      expect(scaleData1.scaleAxis, FlScaleAxis.free);
+      expect(scaleData1.trackpadScrollCausesScale, true);
       expect(
-        axisChartScaffoldWidget1.transformationController,
+        scaleData1.transformationController,
         transformationController,
       );
     });
@@ -200,8 +175,11 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(),
-              scaleAxis: scaleAxis,
+              BarChartData().copyWith(
+                scaleData: FlScaleData(
+                  scaleAxis: scaleAxis,
+                ),
+              ),
             ),
           ),
         );
@@ -218,9 +196,12 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           chart: BarChart(
-            BarChartData(),
-            // ignore: avoid_redundant_argument_values
-            scaleAxis: FlScaleAxis.none,
+            BarChartData().copyWith(
+              scaleData: const FlScaleData(
+                // ignore: avoid_redundant_argument_values
+                scaleAxis: FlScaleAxis.none,
+              ),
+            ),
           ),
         ),
       );
@@ -271,8 +252,12 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(alignment: BarChartAlignment.spaceEvenly),
-              scaleAxis: FlScaleAxis.free,
+              BarChartData(
+                alignment: BarChartAlignment.spaceEvenly,
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.free,
+                ),
+              ),
             ),
           ),
         );
@@ -312,8 +297,11 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
+              BarChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.horizontal,
+                ),
+              ),
             ),
           ),
         );
@@ -353,8 +341,11 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(),
-              scaleAxis: FlScaleAxis.vertical,
+              BarChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.vertical,
+                ),
+              ),
             ),
           ),
         );
@@ -398,8 +389,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                BarChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.horizontal,
+                  ),
+                ),
               ),
             ),
           );
@@ -448,8 +442,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                BarChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.vertical,
+                  ),
+                ),
               ),
             ),
           );
@@ -497,8 +494,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(),
-                scaleAxis: FlScaleAxis.free,
+                BarChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.free,
+                  ),
+                ),
               ),
             ),
           );
@@ -554,8 +554,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                BarChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.horizontal,
+                  ),
+                ),
               ),
             ),
           );
@@ -609,8 +612,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                BarChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.vertical,
+                  ),
+                ),
               ),
             ),
           );
@@ -664,8 +670,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(),
-                scaleAxis: FlScaleAxis.free,
+                BarChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.free,
+                  ),
+                ),
               ),
             ),
           );
@@ -724,10 +733,13 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: BarChart(
-                BarChartData(),
-                // ignore: avoid_redundant_argument_values
-                scaleAxis: FlScaleAxis.none,
-                trackpadScrollCausesScale: true,
+                BarChartData(
+                  scaleData: const FlScaleData(
+                    // ignore: avoid_redundant_argument_values
+                    scaleAxis: FlScaleAxis.none,
+                    trackpadScrollCausesScale: true,
+                  ),
+                ),
               ),
             ),
           );
@@ -756,10 +768,13 @@ void main() {
             await tester.pumpWidget(
               createTestWidget(
                 chart: BarChart(
-                  BarChartData(),
-                  scaleAxis: scaleAxis,
-                  // ignore: avoid_redundant_argument_values
-                  trackpadScrollCausesScale: false,
+                  BarChartData(
+                    scaleData: FlScaleData(
+                      scaleAxis: scaleAxis,
+                      // ignore: avoid_redundant_argument_values
+                      trackpadScrollCausesScale: false,
+                    ),
+                  ),
                 ),
               ),
             );
@@ -788,9 +803,12 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
-              trackpadScrollCausesScale: true,
+              BarChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.horizontal,
+                  trackpadScrollCausesScale: true,
+                ),
+              ),
             ),
           ),
         );
@@ -823,9 +841,12 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(),
-              scaleAxis: FlScaleAxis.vertical,
-              trackpadScrollCausesScale: true,
+              BarChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.vertical,
+                  trackpadScrollCausesScale: true,
+                ),
+              ),
             ),
           ),
         );
@@ -861,9 +882,12 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: BarChart(
-              BarChartData(),
-              scaleAxis: FlScaleAxis.free,
-              trackpadScrollCausesScale: true,
+              BarChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.free,
+                  trackpadScrollCausesScale: true,
+                ),
+              ),
             ),
           ),
         );

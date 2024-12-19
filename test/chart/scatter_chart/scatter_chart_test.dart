@@ -1,7 +1,5 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
-import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart.dart';
-import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_data.dart';
 import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_renderer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +27,12 @@ void main() {
       final scatterChart = tester.widget<ScatterChart>(
         find.byType(ScatterChart),
       );
-      expect(scatterChart.scaleAxis, FlScaleAxis.none);
-      expect(scatterChart.maxScale, 2.5);
-      expect(scatterChart.minScale, 1);
-      expect(scatterChart.trackpadScrollCausesScale, false);
-      expect(scatterChart.transformationController, isNull);
+      final scaleData = scatterChart.data.scaleData;
+      expect(scaleData.scaleAxis, FlScaleAxis.none);
+      expect(scaleData.maxScale, 2.5);
+      expect(scaleData.minScale, 1);
+      expect(scaleData.trackpadScrollCausesScale, false);
+      expect(scaleData.transformationController, isNull);
     });
 
     testWidgets('passes interaction parameters to AxisChartScaffoldWidget',
@@ -50,11 +49,12 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget.maxScale, 2.5);
-      expect(axisChartScaffoldWidget.minScale, 1);
-      expect(axisChartScaffoldWidget.scaleAxis, FlScaleAxis.none);
-      expect(axisChartScaffoldWidget.trackpadScrollCausesScale, false);
-      expect(axisChartScaffoldWidget.transformationController, isNull);
+      final scaleData = axisChartScaffoldWidget.data.scaleData;
+      expect(scaleData.maxScale, 2.5);
+      expect(scaleData.minScale, 1);
+      expect(scaleData.scaleAxis, FlScaleAxis.none);
+      expect(scaleData.trackpadScrollCausesScale, false);
+      expect(scaleData.transformationController, isNull);
 
       await tester.pumpAndSettle();
 
@@ -62,12 +62,15 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           chart: ScatterChart(
-            ScatterChartData(),
-            scaleAxis: FlScaleAxis.free,
-            trackpadScrollCausesScale: true,
-            maxScale: 10,
-            minScale: 1.5,
-            transformationController: transformationController,
+            ScatterChartData(
+              scaleData:  FlScaleData(
+                scaleAxis: FlScaleAxis.free,
+                trackpadScrollCausesScale: true,
+                maxScale: 10,
+                minScale: 1.5,
+                transformationController: transformationController,
+              ),
+            ),
           ),
         ),
       );
@@ -76,12 +79,13 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget1.maxScale, 10);
-      expect(axisChartScaffoldWidget1.minScale, 1.5);
-      expect(axisChartScaffoldWidget1.scaleAxis, FlScaleAxis.free);
-      expect(axisChartScaffoldWidget1.trackpadScrollCausesScale, true);
+      final scaleData1 = axisChartScaffoldWidget1.data.scaleData;
+      expect(scaleData1.maxScale, 10);
+      expect(scaleData1.minScale, 1.5);
+      expect(scaleData1.scaleAxis, FlScaleAxis.free);
+      expect(scaleData1.trackpadScrollCausesScale, true);
       expect(
-        axisChartScaffoldWidget1.transformationController,
+        scaleData1.transformationController,
         transformationController,
       );
     });
@@ -92,8 +96,11 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: ScatterChart(
-              ScatterChartData(),
-              scaleAxis: scaleAxis,
+              ScatterChartData(
+                scaleData: FlScaleData(
+                  scaleAxis: scaleAxis,
+                ),
+              ),
             ),
           ),
         );
@@ -110,9 +117,12 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           chart: ScatterChart(
-            ScatterChartData(),
-            // ignore: avoid_redundant_argument_values
-            scaleAxis: FlScaleAxis.none,
+            ScatterChartData(
+              scaleData: const FlScaleData(
+                // ignore: avoid_redundant_argument_values
+                scaleAxis: FlScaleAxis.none,
+              ),
+            ),
           ),
         ),
       );
@@ -163,8 +173,11 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: ScatterChart(
-              ScatterChartData(),
-              scaleAxis: FlScaleAxis.free,
+              ScatterChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.free,
+                ),
+              ),
             ),
           ),
         );
@@ -204,8 +217,11 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: ScatterChart(
-              ScatterChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
+              ScatterChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.horizontal,
+                ),
+              ),
             ),
           ),
         );
@@ -246,8 +262,11 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: ScatterChart(
-              ScatterChartData(),
-              scaleAxis: FlScaleAxis.vertical,
+              ScatterChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.vertical,
+                ),
+              ),
             ),
           ),
         );
@@ -292,8 +311,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: ScatterChart(
-                ScatterChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                ScatterChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.horizontal,
+                  ),
+                ),
               ),
             ),
           );
@@ -343,8 +365,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: ScatterChart(
-                ScatterChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                ScatterChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.vertical,
+                  ),
+                ),
               ),
             ),
           );
@@ -393,8 +418,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: ScatterChart(
-                ScatterChartData(),
-                scaleAxis: FlScaleAxis.free,
+                ScatterChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.free,
+                  ),
+                ),
               ),
             ),
           );
@@ -451,8 +479,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: ScatterChart(
-                ScatterChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                ScatterChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.horizontal,
+                  ),
+                ),
               ),
             ),
           );
@@ -507,8 +538,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: ScatterChart(
-                ScatterChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                ScatterChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.vertical,
+                  ),
+                ),
               ),
             ),
           );
@@ -563,8 +597,11 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: ScatterChart(
-                ScatterChartData(),
-                scaleAxis: FlScaleAxis.free,
+                ScatterChartData(
+                  scaleData: const FlScaleData(
+                    scaleAxis: FlScaleAxis.free,
+                  ),
+                ),
               ),
             ),
           );
@@ -624,10 +661,13 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(
               chart: ScatterChart(
-                ScatterChartData(),
-                // ignore: avoid_redundant_argument_values
-                scaleAxis: FlScaleAxis.none,
-                trackpadScrollCausesScale: true,
+                ScatterChartData(
+                  scaleData: const FlScaleData(
+                    // ignore: avoid_redundant_argument_values
+                    scaleAxis: FlScaleAxis.none,
+                    trackpadScrollCausesScale: true,
+                  ),
+                ),
               ),
             ),
           );
@@ -657,10 +697,13 @@ void main() {
             await tester.pumpWidget(
               createTestWidget(
                 chart: ScatterChart(
-                  ScatterChartData(),
-                  scaleAxis: scaleAxis,
-                  // ignore: avoid_redundant_argument_values
-                  trackpadScrollCausesScale: false,
+                  ScatterChartData(
+                    scaleData: FlScaleData(
+                      scaleAxis: scaleAxis,
+                      // ignore: avoid_redundant_argument_values
+                      trackpadScrollCausesScale: false,
+                    ),
+                  ),
                 ),
               ),
             );
@@ -689,9 +732,12 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: ScatterChart(
-              ScatterChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
-              trackpadScrollCausesScale: true,
+              ScatterChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.horizontal,
+                  trackpadScrollCausesScale: true,
+                ),
+              ),
             ),
           ),
         );
@@ -725,9 +771,12 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: ScatterChart(
-              ScatterChartData(),
-              scaleAxis: FlScaleAxis.vertical,
-              trackpadScrollCausesScale: true,
+              ScatterChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.vertical,
+                  trackpadScrollCausesScale: true,
+                ),
+              ),
             ),
           ),
         );
@@ -764,9 +813,12 @@ void main() {
         await tester.pumpWidget(
           createTestWidget(
             chart: ScatterChart(
-              ScatterChartData(),
-              scaleAxis: FlScaleAxis.free,
-              trackpadScrollCausesScale: true,
+              ScatterChartData(
+                scaleData: const FlScaleData(
+                  scaleAxis: FlScaleAxis.free,
+                  trackpadScrollCausesScale: true,
+                ),
+              ),
             ),
           ),
         );

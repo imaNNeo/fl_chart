@@ -379,8 +379,11 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      data: lineChartDataWithAllTitles,
-                      scaleAxis: scaleAxis,
+                      data: lineChartDataWithAllTitles.copyWith(
+                        scaleData: FlScaleData(
+                          scaleAxis: scaleAxis,
+                        ),
+                      ),
                       chartBuilder: (context, chartVirtualRect) => dummyChart,
                     ),
                   ),
@@ -409,9 +412,12 @@ void main() {
                   width: viewSize.width,
                   height: viewSize.height,
                   child: AxisChartScaffoldWidget(
-                    data: lineChartDataWithAllTitles,
-                    // ignore: avoid_redundant_argument_values
-                    scaleAxis: FlScaleAxis.none,
+                    data: lineChartDataWithAllTitles.copyWith(
+                      scaleData: const FlScaleData(
+                        // ignore: avoid_redundant_argument_values
+                        scaleAxis: FlScaleAxis.none,
+                      ),
+                    ),
                     chartBuilder: (context, chartVirtualRect) => dummyChart,
                   ),
                 ),
@@ -448,8 +454,12 @@ void main() {
 
       await pumpTestWidget(
         AxisChartScaffoldWidget(
-          data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
+          data: lineChartDataWithAllTitles.copyWith(
+            scaleData: const FlScaleData(
+              // ignore: avoid_redundant_argument_values
+              scaleAxis: FlScaleAxis.free,
+            ),
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
       );
@@ -474,12 +484,16 @@ void main() {
       final transformationController = TransformationController();
       await pumpTestWidget(
         AxisChartScaffoldWidget(
-          data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
-          trackpadScrollCausesScale: true,
-          maxScale: 10,
-          minScale: 1.5,
-          transformationController: transformationController,
+          data: lineChartDataWithAllTitles.copyWith(
+            scaleData: FlScaleData(
+              // ignore: avoid_redundant_argument_values
+              scaleAxis: FlScaleAxis.free,
+              trackpadScrollCausesScale: true,
+              maxScale: 10,
+              minScale: 1.5,
+              transformationController: transformationController,
+            ),
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
       );
@@ -501,9 +515,13 @@ void main() {
         (WidgetTester tester) async {
       expect(
         () => AxisChartScaffoldWidget(
-          data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
-          minScale: 0.5,
+          data: lineChartDataWithAllTitles.copyWith(
+            scaleData: FlScaleData(
+              // ignore: avoid_redundant_argument_values
+              scaleAxis: FlScaleAxis.free,
+              minScale: 0.5,
+            ),
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
         throwsAssertionError,
@@ -514,9 +532,13 @@ void main() {
         (WidgetTester tester) async {
       expect(
         () => AxisChartScaffoldWidget(
-          data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
-          maxScale: 0.5,
+          data: lineChartDataWithAllTitles.copyWith(
+            scaleData: FlScaleData(
+              // ignore: avoid_redundant_argument_values
+              scaleAxis: FlScaleAxis.free,
+              maxScale: 0.5,
+            ),
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
         throwsAssertionError,
@@ -578,12 +600,16 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.free,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          // ignore: avoid_redundant_argument_values
+                          scaleAxis: FlScaleAxis.free,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -626,12 +652,15 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.horizontal,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.horizontal,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -678,12 +707,15 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.vertical,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.vertical,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -733,12 +765,15 @@ void main() {
                       width: viewSize.width,
                       height: viewSize.height,
                       child: AxisChartScaffoldWidget(
-                        trackpadScrollCausesScale: true,
                         chartBuilder: (context, rect) {
                           chartVirtualRect = rect;
                           return dummyChart;
                         },
-                        data: lineChartDataWithNoTitles,
+                        data: lineChartDataWithNoTitles.copyWith(
+                          scaleData: const FlScaleData(
+                            trackpadScrollCausesScale: true,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -774,12 +809,15 @@ void main() {
                         width: viewSize.width,
                         height: viewSize.height,
                         child: AxisChartScaffoldWidget(
-                          scaleAxis: scaleAxis,
                           chartBuilder: (context, rect) {
                             chartVirtualRect = rect;
                             return dummyChart;
                           },
-                          data: lineChartDataWithNoTitles,
+                          data: lineChartDataWithNoTitles.copyWith(
+                            scaleData: FlScaleData(
+                              scaleAxis: scaleAxis,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -814,13 +852,17 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.horizontal,
-                      trackpadScrollCausesScale: true,
+
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.horizontal,
+                          trackpadScrollCausesScale: true,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -860,13 +902,16 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.vertical,
-                      trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.vertical,
+                          trackpadScrollCausesScale: true,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -906,13 +951,16 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.free,
-                      trackpadScrollCausesScale: true,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.free,
+                          trackpadScrollCausesScale: true,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -950,14 +998,17 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.horizontal,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
                           color: Colors.red,
                         );
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.horizontal,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -1005,14 +1056,17 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.vertical,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
                           color: Colors.red,
                         );
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.vertical,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -1059,14 +1113,17 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.free,
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
                           color: Colors.red,
                         );
                       },
-                      data: lineChartDataWithNoTitles,
+                      data: lineChartDataWithNoTitles.copyWith(
+                        scaleData: const FlScaleData(
+                          scaleAxis: FlScaleAxis.free,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -1119,14 +1176,17 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  scaleAxis: FlScaleAxis.free,
                   chartBuilder: (context, rect) {
                     chartVirtualRect = rect;
                     return const ColoredBox(
                       color: Colors.red,
                     );
                   },
-                  data: lineChartDataWithAllTitles,
+                  data: lineChartDataWithAllTitles.copyWith(
+                    scaleData: const FlScaleData(
+                      scaleAxis: FlScaleAxis.free,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -1167,8 +1227,11 @@ void main() {
             home: Scaffold(
               body: Center(
                 child: AxisChartScaffoldWidget(
-                  data: lineChartDataWithNoTitles,
-                  transformationController: controller,
+                  data: lineChartDataWithNoTitles.copyWith(
+                    scaleData: FlScaleData(
+                      transformationController: controller,
+                    ),
+                  ),
                   chartBuilder: (context, rect) {
                     chartVirtualRect = rect;
                     return dummyChart;
@@ -1200,9 +1263,12 @@ void main() {
             body: Center(
               child: AxisChartScaffoldWidget(
                 key: chartScaffoldKey,
-                data: lineChartDataWithNoTitles,
-                scaleAxis: FlScaleAxis.free,
-                transformationController: controller,
+                data: lineChartDataWithNoTitles.copyWith(
+                  scaleData: FlScaleData(
+                    scaleAxis: FlScaleAxis.free,
+                    transformationController: controller,
+                  ),
+                ),
                 chartBuilder: (context, rect) {
                   chartVirtualRects.add(rect);
                   return dummyChart;
@@ -1399,8 +1465,11 @@ void main() {
         await tester.pumpWidget(
           MaterialApp(
             home: AxisChartScaffoldWidget(
-              data: lineChartDataWithNoTitles,
-              transformationController: transformationController,
+              data: lineChartDataWithNoTitles.copyWith(
+                scaleData: FlScaleData(
+                  transformationController: transformationController,
+                ),
+              ),
               chartBuilder: (context, rect) {
                 chartVirtualRects.add(rect);
                 return dummyChart;
@@ -1427,8 +1496,11 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: AxisChartScaffoldWidget(
-            data: lineChartDataWithNoTitles,
-            transformationController: controller,
+            data: lineChartDataWithNoTitles.copyWith(
+              scaleData: FlScaleData(
+                transformationController: controller,
+              ),
+            ),
             chartBuilder: (context, rect) {
               return dummyChart;
             },

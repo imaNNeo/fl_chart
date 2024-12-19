@@ -14,7 +14,7 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// new values with animation, and duration is [duration].
   /// also you can change the [curve]
   /// which default is [Curves.linear].
-  BarChart(
+  const BarChart(
     this.data, {
     this.chartRendererKey,
     super.key,
@@ -23,24 +23,7 @@ class BarChart extends ImplicitlyAnimatedWidget {
     Duration duration = const Duration(milliseconds: 150),
     @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
     Curve curve = Curves.linear,
-    this.transformationController,
-    this.scaleAxis = FlScaleAxis.none,
-    this.maxScale = 2.5,
-    this.minScale = 1,
-    this.trackpadScrollCausesScale = false,
-  })  : assert(
-          switch (data.alignment) {
-            BarChartAlignment.center ||
-            BarChartAlignment.end ||
-            BarChartAlignment.start =>
-              scaleAxis != FlScaleAxis.horizontal &&
-                  scaleAxis != FlScaleAxis.free,
-            _ => true,
-          },
-          'Can not scale horizontally when BarChartAlignment is center, '
-          'end or start',
-        ),
-        super(
+  }) : super(
           duration: swapAnimationDuration ?? duration,
           curve: swapAnimationCurve ?? curve,
         );
@@ -48,30 +31,9 @@ class BarChart extends ImplicitlyAnimatedWidget {
   /// Determines how the [BarChart] should be look like.
   final BarChartData data;
 
-  /// The transformation controller to control the transformation of the chart.
-  final TransformationController? transformationController;
-
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
-
-  /// Determines what axis should be scaled.
-  final FlScaleAxis scaleAxis;
-
-  /// The maximum scale of the chart.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final double maxScale;
-
-  /// The minimum scale of the chart.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final double minScale;
-
-  /// Whether trackpad scroll causes scale.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final bool trackpadScrollCausesScale;
 
   /// Creates a [_BarChartState]
   @override
@@ -92,22 +54,34 @@ class _BarChartState extends AnimatedWidgetBaseState<BarChart> {
   final _barChartHelper = BarChartHelper();
 
   @override
+  void initState() {
+    assert(
+      switch (widget.data.alignment) {
+        BarChartAlignment.center ||
+        BarChartAlignment.end ||
+        BarChartAlignment.start =>
+          widget.data.scaleData.scaleAxis != FlScaleAxis.horizontal &&
+              widget.data.scaleData.scaleAxis != FlScaleAxis.free,
+        _ => true,
+      },
+      'Can not scale horizontally when BarChartAlignment is center, '
+      'end or start',
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final showingData = _getData();
 
     return AxisChartScaffoldWidget(
       data: showingData,
-      transformationController: widget.transformationController,
-      scaleAxis: widget.scaleAxis,
-      maxScale: widget.maxScale,
-      minScale: widget.minScale,
-      trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
       chartBuilder: (context, chartVirtualRect) => BarChartLeaf(
         data: _withTouchedIndicators(_barChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
         chartVirtualRect: chartVirtualRect,
-        canBeScaled: widget.scaleAxis != FlScaleAxis.none,
+        canBeScaled: widget.data.scaleData.scaleAxis != FlScaleAxis.none,
       ),
     );
   }

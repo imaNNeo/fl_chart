@@ -19,11 +19,6 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
     Duration duration = const Duration(milliseconds: 150),
     @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
     Curve curve = Curves.linear,
-    this.transformationController,
-    this.scaleAxis = FlScaleAxis.none,
-    this.maxScale = 2.5,
-    this.minScale = 1,
-    this.trackpadScrollCausesScale = false,
   }) : super(
           duration: swapAnimationDuration ?? duration,
           curve: swapAnimationCurve ?? curve,
@@ -32,30 +27,9 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
   /// Determines how the [ScatterChart] should be look like.
   final ScatterChartData data;
 
-  /// The transformation controller to control the transformation of the chart.
-  final TransformationController? transformationController;
-
   /// We pass this key to our renderers which are responsible to
   /// render the chart itself (without anything around the chart).
   final Key? chartRendererKey;
-
-  /// Determines what axis should be scaled.
-  final FlScaleAxis scaleAxis;
-
-  /// The maximum scale of the chart.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final double maxScale;
-
-  /// The minimum scale of the chart.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final double minScale;
-
-  /// Whether trackpad scroll causes scale.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final bool trackpadScrollCausesScale;
 
   /// Creates a [_ScatterChartState]
   @override
@@ -79,18 +53,13 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
-      transformationController: widget.transformationController,
-      scaleAxis: widget.scaleAxis,
-      maxScale: widget.maxScale,
-      minScale: widget.minScale,
-      trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
       chartBuilder: (context, chartVirtualRect) => ScatterChartLeaf(
         data:
             _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
         chartVirtualRect: chartVirtualRect,
-        canBeScaled: widget.scaleAxis != FlScaleAxis.none,
+        canBeScaled: widget.data.scaleData.scaleAxis != FlScaleAxis.none,
       ),
     );
   }
