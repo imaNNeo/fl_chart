@@ -44,43 +44,32 @@ class _LineChartSample12State extends State<LineChartSample12> {
     const leftReservedSize = 52.0;
     return Column(
       children: [
-        Row(
-          children: [
-            const SizedBox(width: leftReservedSize),
-            const Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 14),
-                  Text(
-                    'Bitcoin Price History',
-                    style: TextStyle(
-                      color: AppColors.contentColorYellow,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    '2023/12/19 - 2024/12/17',
-                    style: TextStyle(
-                      color: AppColors.contentColorGreen,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: 14),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: _TransformationButtons(
-                  controller: _transformationController,
-                ),
-              ),
-            ),
-          ],
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth;
+            return width >= 380
+                ? Row(
+                    children: [
+                      const SizedBox(width: leftReservedSize),
+                      const _ChartTitle(),
+                      const Spacer(),
+                      Center(
+                        child: _TransformationButtons(
+                          controller: _transformationController,
+                        ),
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      const _ChartTitle(),
+                      const SizedBox(height: 16),
+                      _TransformationButtons(
+                        controller: _transformationController,
+                      ),
+                    ],
+                  );
+          },
         ),
         AspectRatio(
           aspectRatio: 1.4,
@@ -248,6 +237,37 @@ class _LineChartSample12State extends State<LineChartSample12> {
   void dispose() {
     _transformationController.dispose();
     super.dispose();
+  }
+}
+
+class _ChartTitle extends StatelessWidget {
+  const _ChartTitle();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 14),
+        Text(
+          'Bitcoin Price History',
+          style: TextStyle(
+            color: AppColors.contentColorYellow,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        Text(
+          '2023/12/19 - 2024/12/17',
+          style: TextStyle(
+            color: AppColors.contentColorGreen,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+        ),
+        SizedBox(height: 14),
+      ],
+    );
   }
 }
 
