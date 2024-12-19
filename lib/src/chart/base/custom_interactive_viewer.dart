@@ -375,7 +375,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
       "CustomInteractiveViewer's child must have nonzero dimensions.",
     );
     // Boundaries that are partially infinite are not allowed because Matrix4's
-    // rotation and translation methods don't handle infinites well.
+    // rotation and translation methods don't handle infinite well.
     assert(
       boundaryRect.isFinite ||
           (boundaryRect.left.isInfinite &&

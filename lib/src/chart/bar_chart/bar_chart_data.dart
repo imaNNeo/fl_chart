@@ -400,8 +400,7 @@ class BarChartRodData with EquatableMixin {
   /// Lerps a [BarChartRodData] based on [t] value, check [Tween.lerp].
   static BarChartRodData lerp(BarChartRodData a, BarChartRodData b, double t) =>
       BarChartRodData(
-        // ignore: invalid_use_of_protected_member
-        gradient: a.gradient?.lerpTo(b.gradient, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
         color: Color.lerp(a.color, b.color, t),
         width: lerpDouble(a.width, b.width, t),
         borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
@@ -555,8 +554,7 @@ class BackgroundBarChartRodData with EquatableMixin {
         fromY: lerpDouble(a.fromY, b.fromY, t),
         toY: lerpDouble(a.toY, b.toY, t),
         color: Color.lerp(a.color, b.color, t),
-        // ignore: invalid_use_of_protected_member
-        gradient: a.gradient?.lerpTo(b.gradient, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
         show: b.show,
       );
 
@@ -831,7 +829,7 @@ class BarTooltipItem with EquatableMixin {
   /// Direction of showing text.
   final TextDirection textDirection;
 
-  /// List<TextSpan> add further style and format to the text of the tooltip
+  /// Add further style and format to the text of the tooltip
   final List<TextSpan>? children;
 
   /// Used for equality check, see [EquatableMixin].

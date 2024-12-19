@@ -16,7 +16,7 @@ class BarChartHelper {
     final BarChartGroupData barGroup;
     try {
       barGroup = barGroups.firstWhere((element) => element.barRods.isNotEmpty);
-    } catch (e) {
+    } catch (_) {
       // There is no barChartGroupData with at least one barRod
       return (0, 0);
     }

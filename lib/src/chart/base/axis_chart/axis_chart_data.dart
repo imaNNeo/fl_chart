@@ -991,7 +991,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
   /// Draws a text label over the line.
   final HorizontalLineLabel label;
 
-  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
   final StrokeCap strokeCap;
 
@@ -1062,7 +1062,7 @@ class VerticalLine extends FlLine with EquatableMixin {
   /// Draws a text label over the line.
   final VerticalLineLabel label;
 
-  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
   final StrokeCap strokeCap;
 

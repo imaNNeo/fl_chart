@@ -214,14 +214,14 @@ void main() {
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      Exception? exception;
+      Object? exception;
       try {
         lineChartPainter.paint(
           mockBuildContext,
           mockCanvasWrapper,
           holder,
         );
-      } on Exception catch (e) {
+      } catch (e) {
         exception = e;
       }
       expect(exception != null, true);
