@@ -1,5 +1,6 @@
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
@@ -27,11 +28,7 @@ void main() {
       );
 
       final lineChart = tester.widget<LineChart>(find.byType(LineChart));
-      expect(lineChart.scaleAxis, FlScaleAxis.none);
-      expect(lineChart.trackpadScrollCausesScale, false);
-      expect(lineChart.maxScale, 2.5);
-      expect(lineChart.minScale, 1);
-      expect(lineChart.transformationController, isNull);
+      expect(lineChart.transformationConfig, const FlTransformationConfig());
     });
 
     testWidgets('passes interaction parameters to AxisChartScaffoldWidget',
@@ -48,23 +45,25 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget.maxScale, 2.5);
-      expect(axisChartScaffoldWidget.minScale, 1);
-      expect(axisChartScaffoldWidget.scaleAxis, FlScaleAxis.none);
-      expect(axisChartScaffoldWidget.trackpadScrollCausesScale, false);
+      expect(
+        axisChartScaffoldWidget.transformationConfig,
+        const FlTransformationConfig(),
+      );
 
       await tester.pumpAndSettle();
 
-      final transformationController = TransformationController();
+      final transformationConfig = FlTransformationConfig(
+        scaleAxis: FlScaleAxis.free,
+        trackpadScrollCausesScale: true,
+        maxScale: 10,
+        minScale: 1.5,
+        transformationController: TransformationController(),
+      );
       await tester.pumpWidget(
         createTestWidget(
           chart: LineChart(
             LineChartData(),
-            scaleAxis: FlScaleAxis.free,
-            trackpadScrollCausesScale: true,
-            maxScale: 10,
-            minScale: 1.5,
-            transformationController: transformationController,
+            transformationConfig: transformationConfig,
           ),
         ),
       );
@@ -73,13 +72,9 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget1.maxScale, 10);
-      expect(axisChartScaffoldWidget1.minScale, 1.5);
-      expect(axisChartScaffoldWidget1.scaleAxis, FlScaleAxis.free);
-      expect(axisChartScaffoldWidget1.trackpadScrollCausesScale, true);
       expect(
-        axisChartScaffoldWidget1.transformationController,
-        transformationController,
+        axisChartScaffoldWidget1.transformationConfig,
+        transformationConfig,
       );
     });
 
@@ -90,7 +85,9 @@ void main() {
           createTestWidget(
             chart: LineChart(
               LineChartData(),
-              scaleAxis: scaleAxis,
+              transformationConfig: FlTransformationConfig(
+                scaleAxis: scaleAxis,
+              ),
             ),
           ),
         );
@@ -109,7 +106,10 @@ void main() {
           chart: LineChart(
             LineChartData(),
             // ignore: avoid_redundant_argument_values
-            scaleAxis: FlScaleAxis.none,
+            transformationConfig: const FlTransformationConfig(
+              // ignore: avoid_redundant_argument_values
+              scaleAxis: FlScaleAxis.none,
+            ),
           ),
         ),
       );
@@ -162,7 +162,9 @@ void main() {
           createTestWidget(
             chart: LineChart(
               LineChartData(),
-              scaleAxis: FlScaleAxis.free,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.free,
+              ),
             ),
           ),
         );
@@ -204,7 +206,9 @@ void main() {
           createTestWidget(
             chart: LineChart(
               LineChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.horizontal,
+              ),
             ),
           ),
         );
@@ -245,7 +249,9 @@ void main() {
           createTestWidget(
             chart: LineChart(
               LineChartData(),
-              scaleAxis: FlScaleAxis.vertical,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.vertical,
+              ),
             ),
           ),
         );
@@ -290,7 +296,9 @@ void main() {
             createTestWidget(
               chart: LineChart(
                 LineChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.horizontal,
+                ),
               ),
             ),
           );
@@ -342,7 +350,9 @@ void main() {
             createTestWidget(
               chart: LineChart(
                 LineChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.vertical,
+                ),
               ),
             ),
           );
@@ -393,7 +403,9 @@ void main() {
             createTestWidget(
               chart: LineChart(
                 LineChartData(),
-                scaleAxis: FlScaleAxis.free,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.free,
+                ),
               ),
             ),
           );
@@ -452,7 +464,9 @@ void main() {
             createTestWidget(
               chart: LineChart(
                 LineChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.horizontal,
+                ),
               ),
             ),
           );
@@ -509,7 +523,9 @@ void main() {
             createTestWidget(
               chart: LineChart(
                 LineChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.vertical,
+                ),
               ),
             ),
           );
@@ -566,7 +582,9 @@ void main() {
             createTestWidget(
               chart: LineChart(
                 LineChartData(),
-                scaleAxis: FlScaleAxis.free,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.free,
+                ),
               ),
             ),
           );
@@ -628,9 +646,11 @@ void main() {
             createTestWidget(
               chart: LineChart(
                 LineChartData(),
-                // ignore: avoid_redundant_argument_values
-                scaleAxis: FlScaleAxis.none,
-                trackpadScrollCausesScale: true,
+                transformationConfig: const FlTransformationConfig(
+                  // ignore: avoid_redundant_argument_values
+                  scaleAxis: FlScaleAxis.none,
+                  trackpadScrollCausesScale: true,
+                ),
               ),
             ),
           );
@@ -662,9 +682,11 @@ void main() {
               createTestWidget(
                 chart: LineChart(
                   LineChartData(),
-                  scaleAxis: scaleAxis,
-                  // ignore: avoid_redundant_argument_values
-                  trackpadScrollCausesScale: false,
+                  transformationConfig: FlTransformationConfig(
+                    scaleAxis: scaleAxis,
+                    // ignore: avoid_redundant_argument_values
+                    trackpadScrollCausesScale: false,
+                  ),
                 ),
               ),
             );
@@ -694,8 +716,10 @@ void main() {
           createTestWidget(
             chart: LineChart(
               LineChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
-              trackpadScrollCausesScale: true,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.horizontal,
+                trackpadScrollCausesScale: true,
+              ),
             ),
           ),
         );
@@ -729,8 +753,10 @@ void main() {
           createTestWidget(
             chart: LineChart(
               LineChartData(),
-              scaleAxis: FlScaleAxis.vertical,
-              trackpadScrollCausesScale: true,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.vertical,
+                trackpadScrollCausesScale: true,
+              ),
             ),
           ),
         );
@@ -767,8 +793,10 @@ void main() {
           createTestWidget(
             chart: LineChart(
               LineChartData(),
-              scaleAxis: FlScaleAxis.free,
-              trackpadScrollCausesScale: true,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.free,
+                trackpadScrollCausesScale: true,
+              ),
             ),
           ),
         );

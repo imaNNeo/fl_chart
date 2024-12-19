@@ -79,10 +79,12 @@ class _LineChartSample12State extends State<LineChartSample12> {
               right: 18.0,
             ),
             child: LineChart(
-              scaleAxis: FlScaleAxis.horizontal,
-              minScale: 1.0,
-              maxScale: 25.0,
-              transformationController: _transformationController,
+              transformationConfig: FlTransformationConfig(
+                scaleAxis: FlScaleAxis.horizontal,
+                minScale: 1.0,
+                maxScale: 25.0,
+                transformationController: _transformationController,
+              ),
               LineChartData(
                 lineBarsData: [
                   LineChartBarData(

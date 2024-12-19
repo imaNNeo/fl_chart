@@ -3,6 +3,7 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_data.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_renderer.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,7 +34,9 @@ void main() {
                   BarChartData(
                     alignment: alignment,
                   ),
-                  scaleAxis: FlScaleAxis.horizontal,
+                  transformationConfig: const FlTransformationConfig(
+                    scaleAxis: FlScaleAxis.horizontal,
+                  ),
                 ),
               ),
             ),
@@ -52,7 +55,9 @@ void main() {
                   BarChartData(
                     alignment: alignment,
                   ),
-                  scaleAxis: FlScaleAxis.free,
+                  transformationConfig: const FlTransformationConfig(
+                    scaleAxis: FlScaleAxis.free,
+                  ),
                 ),
               ),
             ),
@@ -71,7 +76,10 @@ void main() {
               chart: BarChart(
                 BarChartData(alignment: alignment),
                 // ignore: avoid_redundant_argument_values
-                scaleAxis: FlScaleAxis.none,
+                transformationConfig: const FlTransformationConfig(
+                  // ignore: avoid_redundant_argument_values
+                  scaleAxis: FlScaleAxis.none,
+                ),
               ),
             ),
           );
@@ -85,7 +93,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(alignment: alignment),
-                scaleAxis: FlScaleAxis.vertical,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.vertical,
+                ),
               ),
             ),
           );
@@ -105,7 +115,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(alignment: alignment),
-                scaleAxis: FlScaleAxis.free,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.free,
+                ),
               ),
             ),
           );
@@ -119,7 +131,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(alignment: alignment),
-                scaleAxis: FlScaleAxis.horizontal,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.horizontal,
+                ),
               ),
             ),
           );
@@ -137,11 +151,7 @@ void main() {
       );
 
       final barChart = tester.widget<BarChart>(find.byType(BarChart));
-      expect(barChart.scaleAxis, FlScaleAxis.none);
-      expect(barChart.maxScale, 2.5);
-      expect(barChart.minScale, 1);
-      expect(barChart.trackpadScrollCausesScale, false);
-      expect(barChart.transformationController, isNull);
+      expect(barChart.transformationConfig, const FlTransformationConfig());
     });
 
     testWidgets('passes interaction parameters to AxisChartScaffoldWidget',
@@ -158,24 +168,25 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget.maxScale, 2.5);
-      expect(axisChartScaffoldWidget.minScale, 1);
-      expect(axisChartScaffoldWidget.scaleAxis, FlScaleAxis.none);
-      expect(axisChartScaffoldWidget.trackpadScrollCausesScale, false);
-      expect(axisChartScaffoldWidget.transformationController, isNull);
+      expect(
+        axisChartScaffoldWidget.transformationConfig,
+        const FlTransformationConfig(),
+      );
 
       await tester.pumpAndSettle();
 
-      final transformationController = TransformationController();
+      final transformationConfig = FlTransformationConfig(
+        scaleAxis: FlScaleAxis.free,
+        trackpadScrollCausesScale: true,
+        maxScale: 10,
+        minScale: 1.5,
+        transformationController: TransformationController(),
+      );
       await tester.pumpWidget(
         createTestWidget(
           chart: BarChart(
             BarChartData(),
-            scaleAxis: FlScaleAxis.free,
-            trackpadScrollCausesScale: true,
-            maxScale: 10,
-            minScale: 1.5,
-            transformationController: transformationController,
+            transformationConfig: transformationConfig,
           ),
         ),
       );
@@ -184,13 +195,9 @@ void main() {
         find.byType(AxisChartScaffoldWidget),
       );
 
-      expect(axisChartScaffoldWidget1.maxScale, 10);
-      expect(axisChartScaffoldWidget1.minScale, 1.5);
-      expect(axisChartScaffoldWidget1.scaleAxis, FlScaleAxis.free);
-      expect(axisChartScaffoldWidget1.trackpadScrollCausesScale, true);
       expect(
-        axisChartScaffoldWidget1.transformationController,
-        transformationController,
+        axisChartScaffoldWidget1.transformationConfig,
+        transformationConfig,
       );
     });
 
@@ -201,7 +208,9 @@ void main() {
           createTestWidget(
             chart: BarChart(
               BarChartData(),
-              scaleAxis: scaleAxis,
+              transformationConfig: FlTransformationConfig(
+                scaleAxis: scaleAxis,
+              ),
             ),
           ),
         );
@@ -220,7 +229,10 @@ void main() {
           chart: BarChart(
             BarChartData(),
             // ignore: avoid_redundant_argument_values
-            scaleAxis: FlScaleAxis.none,
+            transformationConfig: const FlTransformationConfig(
+              // ignore: avoid_redundant_argument_values
+              scaleAxis: FlScaleAxis.none,
+            ),
           ),
         ),
       );
@@ -272,7 +284,9 @@ void main() {
           createTestWidget(
             chart: BarChart(
               BarChartData(alignment: BarChartAlignment.spaceEvenly),
-              scaleAxis: FlScaleAxis.free,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.free,
+              ),
             ),
           ),
         );
@@ -313,7 +327,9 @@ void main() {
           createTestWidget(
             chart: BarChart(
               BarChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.horizontal,
+              ),
             ),
           ),
         );
@@ -354,7 +370,9 @@ void main() {
           createTestWidget(
             chart: BarChart(
               BarChartData(),
-              scaleAxis: FlScaleAxis.vertical,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.vertical,
+              ),
             ),
           ),
         );
@@ -399,7 +417,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.horizontal,
+                ),
               ),
             ),
           );
@@ -449,7 +469,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.vertical,
+                ),
               ),
             ),
           );
@@ -498,7 +520,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(),
-                scaleAxis: FlScaleAxis.free,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.free,
+                ),
               ),
             ),
           );
@@ -555,7 +579,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(),
-                scaleAxis: FlScaleAxis.horizontal,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.horizontal,
+                ),
               ),
             ),
           );
@@ -610,7 +636,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(),
-                scaleAxis: FlScaleAxis.vertical,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.vertical,
+                ),
               ),
             ),
           );
@@ -665,7 +693,9 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(),
-                scaleAxis: FlScaleAxis.free,
+                transformationConfig: const FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.free,
+                ),
               ),
             ),
           );
@@ -725,9 +755,11 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(),
-                // ignore: avoid_redundant_argument_values
-                scaleAxis: FlScaleAxis.none,
-                trackpadScrollCausesScale: true,
+                transformationConfig: const FlTransformationConfig(
+                  // ignore: avoid_redundant_argument_values
+                  scaleAxis: FlScaleAxis.none,
+                  trackpadScrollCausesScale: true,
+                ),
               ),
             ),
           );
@@ -757,9 +789,11 @@ void main() {
               createTestWidget(
                 chart: BarChart(
                   BarChartData(),
-                  scaleAxis: scaleAxis,
-                  // ignore: avoid_redundant_argument_values
-                  trackpadScrollCausesScale: false,
+                  transformationConfig: FlTransformationConfig(
+                    scaleAxis: scaleAxis,
+                    // ignore: avoid_redundant_argument_values
+                    trackpadScrollCausesScale: false,
+                  ),
                 ),
               ),
             );
@@ -789,8 +823,10 @@ void main() {
           createTestWidget(
             chart: BarChart(
               BarChartData(),
-              scaleAxis: FlScaleAxis.horizontal,
-              trackpadScrollCausesScale: true,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.horizontal,
+                trackpadScrollCausesScale: true,
+              ),
             ),
           ),
         );
@@ -824,8 +860,10 @@ void main() {
           createTestWidget(
             chart: BarChart(
               BarChartData(),
-              scaleAxis: FlScaleAxis.vertical,
-              trackpadScrollCausesScale: true,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.vertical,
+                trackpadScrollCausesScale: true,
+              ),
             ),
           ),
         );
@@ -862,8 +900,10 @@ void main() {
           createTestWidget(
             chart: BarChart(
               BarChartData(),
-              scaleAxis: FlScaleAxis.free,
-              trackpadScrollCausesScale: true,
+              transformationConfig: const FlTransformationConfig(
+                scaleAxis: FlScaleAxis.free,
+                trackpadScrollCausesScale: true,
+              ),
             ),
           ),
         );

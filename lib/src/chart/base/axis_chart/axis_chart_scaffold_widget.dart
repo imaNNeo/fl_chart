@@ -1,5 +1,7 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:flutter/material.dart';
@@ -36,16 +38,8 @@ class AxisChartScaffoldWidget extends StatefulWidget {
     super.key,
     required this.chartBuilder,
     required this.data,
-    this.transformationController,
-    this.scaleAxis = FlScaleAxis.none,
-    this.maxScale = 2.5,
-    this.minScale = 1,
-    this.trackpadScrollCausesScale = false,
-  })  : assert(minScale >= 1, 'minScale must be greater than or equal to 1'),
-        assert(
-          maxScale >= minScale,
-          'maxScale must be greater than or equal to minScale',
-        );
+    this.transformationConfig = const FlTransformationConfig(),
+  });
 
   /// The builder to build the chart.
   final ChartBuilder chartBuilder;
@@ -53,26 +47,12 @@ class AxisChartScaffoldWidget extends StatefulWidget {
   /// The data to build the chart.
   final AxisChartData data;
 
-  /// The transformation controller to control the transformation of the chart.
-  final TransformationController? transformationController;
-
-  /// Determines what axis should be scaled.
-  final FlScaleAxis scaleAxis;
-
-  /// The maximum scale of the chart.
+  /// {@template fl_chart.AxisChartScaffoldWidget.transformationConfig}
+  /// The transformation configuration of the chart.
   ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final double maxScale;
-
-  /// The minimum scale of the chart.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final double minScale;
-
-  /// Whether trackpad scroll causes scale.
-  ///
-  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
-  final bool trackpadScrollCausesScale;
+  /// Used to configure scaling and panning of the chart.
+  /// {@endtemplate}
+  final FlTransformationConfig transformationConfig;
 
   @override
   State<AxisChartScaffoldWidget> createState() =>
@@ -86,19 +66,23 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
 
   Rect? _chartVirtualRect;
 
+  FlTransformationConfig get _transformationConfig =>
+      widget.transformationConfig;
+
   bool get _canScaleHorizontally =>
-      widget.scaleAxis == FlScaleAxis.horizontal ||
-      widget.scaleAxis == FlScaleAxis.free;
+      _transformationConfig.scaleAxis == FlScaleAxis.horizontal ||
+      _transformationConfig.scaleAxis == FlScaleAxis.free;
 
   bool get _canScaleVertically =>
-      widget.scaleAxis == FlScaleAxis.vertical ||
-      widget.scaleAxis == FlScaleAxis.free;
+      _transformationConfig.scaleAxis == FlScaleAxis.vertical ||
+      _transformationConfig.scaleAxis == FlScaleAxis.free;
 
   @override
   void initState() {
     super.initState();
     _transformationController =
-        widget.transformationController ?? TransformationController();
+        _transformationConfig.transformationController ??
+            TransformationController();
     _transformationController.addListener(_updateChartVirtualRect);
     updateRectPostFrame();
   }
@@ -106,7 +90,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   @override
   void dispose() {
     _transformationController.removeListener(_updateChartVirtualRect);
-    if (widget.transformationController == null) {
+    if (_transformationConfig.transformationController == null) {
       _transformationController.dispose();
     }
     super.dispose();
@@ -117,24 +101,26 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
     super.didUpdateWidget(oldWidget);
 
     switch ((
-      oldWidget.transformationController,
-      widget.transformationController
+      oldWidget.transformationConfig.transformationController,
+      widget.transformationConfig.transformationController
     )) {
       case (null, null):
         break;
       case (null, TransformationController()):
         _transformationController.dispose();
-        _transformationController = widget.transformationController!;
+        _transformationController =
+            widget.transformationConfig.transformationController!;
         _transformationController.addListener(_updateChartVirtualRect);
       case (TransformationController(), null):
         _transformationController.removeListener(_updateChartVirtualRect);
         _transformationController = TransformationController();
         _transformationController.addListener(_updateChartVirtualRect);
       case (TransformationController(), TransformationController()):
-        if (oldWidget.transformationController !=
-            widget.transformationController) {
+        if (oldWidget.transformationConfig.transformationController !=
+            widget.transformationConfig.transformationController) {
           _transformationController.removeListener(_updateChartVirtualRect);
-          _transformationController = widget.transformationController!;
+          _transformationController =
+              widget.transformationConfig.transformationController!;
           _transformationController.addListener(_updateChartVirtualRect);
         }
     }
@@ -244,9 +230,10 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         return CustomInteractiveViewer(
           transformationController: _transformationController,
           clipBehavior: Clip.none,
-          trackpadScrollCausesScale: widget.trackpadScrollCausesScale,
-          maxScale: widget.maxScale,
-          minScale: widget.minScale,
+          trackpadScrollCausesScale:
+              _transformationConfig.trackpadScrollCausesScale,
+          maxScale: _transformationConfig.maxScale,
+          minScale: _transformationConfig.minScale,
           child: SizedBox(
             width: constraints.maxWidth,
             height: constraints.maxHeight,
@@ -264,7 +251,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
               ? widget.data.borderData.border
               : null,
         ),
-        child: switch (widget.scaleAxis) {
+        child: switch (_transformationConfig.scaleAxis) {
           FlScaleAxis.none => chart,
           FlScaleAxis() => interactiveChart,
         },

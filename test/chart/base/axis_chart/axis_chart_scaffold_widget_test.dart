@@ -380,7 +380,9 @@ void main() {
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
                       data: lineChartDataWithAllTitles,
-                      scaleAxis: scaleAxis,
+                      transformationConfig: FlTransformationConfig(
+                        scaleAxis: scaleAxis,
+                      ),
                       chartBuilder: (context, chartVirtualRect) => dummyChart,
                     ),
                   ),
@@ -411,7 +413,10 @@ void main() {
                   child: AxisChartScaffoldWidget(
                     data: lineChartDataWithAllTitles,
                     // ignore: avoid_redundant_argument_values
-                    scaleAxis: FlScaleAxis.none,
+                    transformationConfig: const FlTransformationConfig(
+                      // ignore: avoid_redundant_argument_values
+                      scaleAxis: FlScaleAxis.none,
+                    ),
                     chartBuilder: (context, chartVirtualRect) => dummyChart,
                   ),
                 ),
@@ -449,7 +454,9 @@ void main() {
       await pumpTestWidget(
         AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
+          transformationConfig: const FlTransformationConfig(
+            scaleAxis: FlScaleAxis.free,
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
       );
@@ -475,11 +482,13 @@ void main() {
       await pumpTestWidget(
         AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
-          trackpadScrollCausesScale: true,
-          maxScale: 10,
-          minScale: 1.5,
-          transformationController: transformationController,
+          transformationConfig: FlTransformationConfig(
+            scaleAxis: FlScaleAxis.free,
+            trackpadScrollCausesScale: true,
+            maxScale: 10,
+            minScale: 1.5,
+            transformationController: transformationController,
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
       );
@@ -502,8 +511,10 @@ void main() {
       expect(
         () => AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
-          minScale: 0.5,
+          transformationConfig: FlTransformationConfig(
+            scaleAxis: FlScaleAxis.free,
+            minScale: 0.5,
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
         throwsAssertionError,
@@ -515,8 +526,10 @@ void main() {
       expect(
         () => AxisChartScaffoldWidget(
           data: lineChartDataWithAllTitles,
-          scaleAxis: FlScaleAxis.free,
-          maxScale: 0.5,
+          transformationConfig: FlTransformationConfig(
+            scaleAxis: FlScaleAxis.free,
+            maxScale: 0.5,
+          ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
         ),
         throwsAssertionError,
@@ -578,7 +591,9 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.free,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.free,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -626,7 +641,9 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.horizontal,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.horizontal,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -678,7 +695,9 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.vertical,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.vertical,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -733,7 +752,9 @@ void main() {
                       width: viewSize.width,
                       height: viewSize.height,
                       child: AxisChartScaffoldWidget(
-                        trackpadScrollCausesScale: true,
+                        transformationConfig: const FlTransformationConfig(
+                          trackpadScrollCausesScale: true,
+                        ),
                         chartBuilder: (context, rect) {
                           chartVirtualRect = rect;
                           return dummyChart;
@@ -774,7 +795,9 @@ void main() {
                         width: viewSize.width,
                         height: viewSize.height,
                         child: AxisChartScaffoldWidget(
-                          scaleAxis: scaleAxis,
+                          transformationConfig: FlTransformationConfig(
+                            scaleAxis: scaleAxis,
+                          ),
                           chartBuilder: (context, rect) {
                             chartVirtualRect = rect;
                             return dummyChart;
@@ -814,8 +837,10 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.horizontal,
-                      trackpadScrollCausesScale: true,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.horizontal,
+                        trackpadScrollCausesScale: true,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -860,8 +885,10 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.vertical,
-                      trackpadScrollCausesScale: true,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.vertical,
+                        trackpadScrollCausesScale: true,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -906,8 +933,10 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.free,
-                      trackpadScrollCausesScale: true,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.free,
+                        trackpadScrollCausesScale: true,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return dummyChart;
@@ -950,7 +979,9 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.horizontal,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.horizontal,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
@@ -1005,7 +1036,9 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.vertical,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.vertical,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
@@ -1059,7 +1092,9 @@ void main() {
                     width: viewSize.width,
                     height: viewSize.height,
                     child: AxisChartScaffoldWidget(
-                      scaleAxis: FlScaleAxis.free,
+                      transformationConfig: const FlTransformationConfig(
+                        scaleAxis: FlScaleAxis.free,
+                      ),
                       chartBuilder: (context, rect) {
                         chartVirtualRect = rect;
                         return const ColoredBox(
@@ -1119,7 +1154,9 @@ void main() {
                 width: viewSize.width,
                 height: viewSize.height,
                 child: AxisChartScaffoldWidget(
-                  scaleAxis: FlScaleAxis.free,
+                  transformationConfig: const FlTransformationConfig(
+                    scaleAxis: FlScaleAxis.free,
+                  ),
                   chartBuilder: (context, rect) {
                     chartVirtualRect = rect;
                     return const ColoredBox(
@@ -1168,7 +1205,9 @@ void main() {
               body: Center(
                 child: AxisChartScaffoldWidget(
                   data: lineChartDataWithNoTitles,
-                  transformationController: controller,
+                  transformationConfig: FlTransformationConfig(
+                    transformationController: controller,
+                  ),
                   chartBuilder: (context, rect) {
                     chartVirtualRect = rect;
                     return dummyChart;
@@ -1201,7 +1240,10 @@ void main() {
                 child: LineChart(
                   lineChartDataWithNoTitles,
                   // ignore: avoid_redundant_argument_values
-                  scaleAxis: FlScaleAxis.none,
+                  transformationConfig: const FlTransformationConfig(
+                    // ignore: avoid_redundant_argument_values
+                    scaleAxis: FlScaleAxis.none,
+                  ),
                 ),
               ),
             ),
@@ -1233,8 +1275,10 @@ void main() {
               child: AxisChartScaffoldWidget(
                 key: chartScaffoldKey,
                 data: lineChartDataWithNoTitles,
-                scaleAxis: FlScaleAxis.free,
-                transformationController: controller,
+                transformationConfig: FlTransformationConfig(
+                  scaleAxis: FlScaleAxis.free,
+                  transformationController: controller,
+                ),
                 chartBuilder: (context, rect) {
                   chartVirtualRects.add(rect);
                   return dummyChart;
@@ -1432,7 +1476,9 @@ void main() {
           MaterialApp(
             home: AxisChartScaffoldWidget(
               data: lineChartDataWithNoTitles,
-              transformationController: transformationController,
+              transformationConfig: FlTransformationConfig(
+                transformationController: transformationController,
+              ),
               chartBuilder: (context, rect) {
                 chartVirtualRects.add(rect);
                 return dummyChart;
@@ -1460,7 +1506,9 @@ void main() {
         MaterialApp(
           home: AxisChartScaffoldWidget(
             data: lineChartDataWithNoTitles,
-            transformationController: controller,
+            transformationConfig: FlTransformationConfig(
+              transformationController: controller,
+            ),
             chartBuilder: (context, rect) {
               return dummyChart;
             },
