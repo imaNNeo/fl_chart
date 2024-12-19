@@ -28,6 +28,8 @@ void main() {
       data,
       targetData,
       textScaler,
+      null,
+      canBeScaled: false,
     );
 
     final mockPainter = MockScatterChartPainter();
@@ -99,6 +101,43 @@ void main() {
       expect(renderScatterChart.data, targetData);
       expect(renderScatterChart.targetData, data);
       expect(renderScatterChart.textScaler, const TextScaler.linear(22));
+    });
+
+    test('passes chart virtual rect to paint holder', () {
+      final rect1 = Offset.zero & const Size(100, 100);
+      final renderScatterChart = RenderScatterChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderScatterChart.chartVirtualRect, isNull);
+      expect(renderScatterChart.paintHolder.chartVirtualRect, isNull);
+
+      renderScatterChart.chartVirtualRect = rect1;
+
+      expect(renderScatterChart.chartVirtualRect, rect1);
+      expect(renderScatterChart.paintHolder.chartVirtualRect, rect1);
+    });
+
+    test('uses canBeScaled', () {
+      final renderScatterChart = RenderScatterChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderScatterChart.canBeScaled, false);
+
+      renderScatterChart.canBeScaled = true;
+
+      expect(renderScatterChart.canBeScaled, true);
     });
   });
 }
