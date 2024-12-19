@@ -1,4 +1,4 @@
-## newVersion
+## 0.70.0
 * **FEATURE** (by @Peetee06) Implemented a 5 years-old feature request about scroll and zoom support in our axis-based charts. Special thanks to @Peetee06 who made it happen, #71
 * **IMPROVEMENT** (by @Peetee06) Added functionality to control the transformation of axis-based charts using `FlTransformationConfig` class. You can now enable scaling and panning for `LineChart`, `BarChart` and `ScatterChart` using this class
 * **IMPROVEMENT** (by @Peetee06) Added some new unit tests in `bar_chart_data_extensions_test.dart`, `gradient_extension_test.dart` and fixed a typo in `bar_chart_data.dart`
