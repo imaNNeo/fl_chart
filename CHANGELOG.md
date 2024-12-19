@@ -1,9 +1,13 @@
 ## newVersion
-* **IMPROVEMENT** (by @Peetee06) Added functionality to control the transformation of axis-based charts using `FlTransformationConfig` class. You can now enable scaling and panning for `LineChart`, `BarChart` and `ScatterChart` using this class.
+* **FEATURE** (by @Peetee06) Implemented a 5 years-old feature request about scroll and zoom support in our axis-based charts. Special thanks to @Peetee06 who made it happen, #71
+* **IMPROVEMENT** (by @Peetee06) Added functionality to control the transformation of axis-based charts using `FlTransformationConfig` class. You can now enable scaling and panning for `LineChart`, `BarChart` and `ScatterChart` using this class
 * **IMPROVEMENT** (by @Peetee06) Added some new unit tests in `bar_chart_data_extensions_test.dart`, `gradient_extension_test.dart` and fixed a typo in `bar_chart_data.dart`
 * **BREAKING** (by @Peetee06) Fixed the equatable functionality in our BarChart. We hope it will not affect anything in our chart, but because the behaviour is changed, we marked it as a breaking change. (read more [here](https://github.com/imaNNeo/fl_chart/pull/1789#discussion_r1858371718))
-* **BREAKING** (by @Peetee06) `BarChart` is not const anymore due to adding an assert to check if transformations are allowed depending on the `BarChartData.alignment` property.
-* **IMPROVEMENT** (by AliAkberAakash) Minor typo fix in our line chart documentation, #1795
+* **BREAKING** (by @Peetee06) `BarChart` is not const anymore due to adding an assert to check if transformations are allowed depending on the `BarChartData.alignment` property (read more [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/migration_guides/0.70.0/MIGRATION_00_70_00.md))
+* **IMPROVEMENT** (by @Peetee06) Upgrade to the new Flutter version ([3.27.0](https://medium.com/flutter/whats-new-in-flutter-3-27-28341129570c)), #1804
+* **IMPROVEMENT** (by @AliAkberAakash) Minor typo fix in our line chart documentation, #1795
+* **IMPROVEMENT** (by @imaNNeo) Fixed the code coverage API rate-limit issue
+* **Improvement** (by @imaNNeo) Published the example app in Google Play and App Store. Other stores (such as [snap store](https://snapcraft.io/store) and [Microsoft Store](https://apps.microsoft.com/home)) will come next. You can download the Android version here in [Google Play](https://play.google.com/store/apps/details?id=dev.flchart.app) and the iOS version here in [App Store](https://apps.apple.com/us/app/fl-chart/id6476523019)
 
 ## 0.69.2
 * **IMPROVEMENT** (by @imaNNeo) Fix the analyzer warnings (to have maximum score in the [pub.dev](https://pub.dev/packages/fl_chart/score))
