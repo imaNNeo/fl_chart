@@ -105,11 +105,12 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
   }
 
   Size get viewSize {
-    if (widget.chartVirtualRect == null) {
+    final chartVirtualRect = widget.chartVirtualRect;
+    if (chartVirtualRect == null) {
       return widget.parentSize;
     }
 
-    return widget.chartVirtualRect!.size +
+    return chartVirtualRect.size +
         Offset(thisSidePaddingTotal, thisSidePaddingTotal);
   }
 
