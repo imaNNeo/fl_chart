@@ -19,6 +19,7 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
     Duration duration = const Duration(milliseconds: 150),
     @Deprecated('Please use [curve] instead') Curve? swapAnimationCurve,
     Curve curve = Curves.linear,
+    this.transformationConfig = const FlTransformationConfig(),
   }) : super(
           duration: swapAnimationDuration ?? duration,
           curve: swapAnimationCurve ?? curve,
@@ -26,6 +27,9 @@ class ScatterChart extends ImplicitlyAnimatedWidget {
 
   /// Determines how the [ScatterChart] should be look like.
   final ScatterChartData data;
+
+  /// {@macro fl_chart.AxisChartScaffoldWidget.transformationConfig}
+  final FlTransformationConfig transformationConfig;
 
   /// We pass this key to our renderers which are responsible to
   /// render the chart itself (without anything around the chart).
@@ -53,11 +57,14 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
-      chart: ScatterChartLeaf(
+      transformationConfig: widget.transformationConfig,
+      chartBuilder: (context, chartVirtualRect) => ScatterChartLeaf(
         data:
             _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
+        chartVirtualRect: chartVirtualRect,
+        canBeScaled: widget.transformationConfig.scaleAxis != FlScaleAxis.none,
       ),
     );
   }

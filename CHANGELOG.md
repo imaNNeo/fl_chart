@@ -1,6 +1,8 @@
 ## newVersion
+* **IMPROVEMENT** (by @Peetee06) Added functionality to control the transformation of axis-based charts using `FlTransformationConfig` class. You can now enable scaling and panning for `LineChart`, `BarChart` and `ScatterChart` using this class.
 * **IMPROVEMENT** (by @Peetee06) Added some new unit tests in `bar_chart_data_extensions_test.dart`, `gradient_extension_test.dart` and fixed a typo in `bar_chart_data.dart`
 * **BREAKING** (by @Peetee06) Fixed the equatable functionality in our BarChart. We hope it will not affect anything in our chart, but because the behaviour is changed, we marked it as a breaking change. (read more [here](https://github.com/imaNNeo/fl_chart/pull/1789#discussion_r1858371718))
+* **BREAKING** (by @Peetee06) `BarChart` is not const anymore due to adding an assert to check if transformations are allowed depending on the `BarChartData.alignment` property.
 * **IMPROVEMENT** (by AliAkberAakash) Minor typo fix in our line chart documentation, #1795
 
 ## 0.69.2

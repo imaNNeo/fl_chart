@@ -48,6 +48,8 @@ void main() {
       data,
       targetData,
       textScaler,
+      null,
+      canBeScaled: false,
     );
 
     final mockPainter = MockLineChartPainter();
@@ -122,6 +124,43 @@ void main() {
       expect(renderLineChart.data, targetData);
       expect(renderLineChart.targetData, data);
       expect(renderLineChart.textScaler, const TextScaler.linear(22));
+    });
+
+    test('passes chart virtual rect to paint holder', () {
+      final rect1 = Offset.zero & const Size(100, 100);
+      final renderLineChart = RenderLineChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderLineChart.chartVirtualRect, isNull);
+      expect(renderLineChart.paintHolder.chartVirtualRect, isNull);
+
+      renderLineChart.chartVirtualRect = rect1;
+
+      expect(renderLineChart.chartVirtualRect, rect1);
+      expect(renderLineChart.paintHolder.chartVirtualRect, rect1);
+    });
+
+    test('uses canBeScaled', () {
+      final renderLineChart = RenderLineChart(
+        mockBuildContext,
+        data,
+        targetData,
+        textScaler,
+        null,
+        canBeScaled: false,
+      );
+
+      expect(renderLineChart.canBeScaled, false);
+
+      renderLineChart.canBeScaled = true;
+
+      expect(renderLineChart.canBeScaled, true);
     });
   });
 }

@@ -1,5 +1,9 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
+import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
+import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,10 +22,14 @@ class LineChart extends ImplicitlyAnimatedWidget {
     super.key,
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
+    this.transformationConfig = const FlTransformationConfig(),
   });
 
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;
+
+  /// {@macro fl_chart.AxisChartScaffoldWidget.transformationConfig}
+  final FlTransformationConfig transformationConfig;
 
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
@@ -52,10 +60,15 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     final showingData = _getData();
 
     return AxisChartScaffoldWidget(
-      chart: LineChartLeaf(
-        data: _withTouchedIndicators(_lineChartDataTween!.evaluate(animation)),
+      transformationConfig: widget.transformationConfig,
+      chartBuilder: (context, chartVirtualRect) => LineChartLeaf(
+        data: _withTouchedIndicators(
+          _lineChartDataTween!.evaluate(animation),
+        ),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
+        chartVirtualRect: chartVirtualRect,
+        canBeScaled: widget.transformationConfig.scaleAxis != FlScaleAxis.none,
       ),
       data: showingData,
     );
