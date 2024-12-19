@@ -27,12 +27,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     _sectionStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;
+
+    _clipPaint = Paint();
   }
 
   late Paint _sectionPaint;
   late Paint _sectionSaveLayerPaint;
   late Paint _sectionStrokePaint;
   late Paint _centerSpacePaint;
+  late Paint _clipPaint;
 
   /// Paints [PieChartData] into the provided canvas.
   @override
@@ -330,7 +333,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       canvasWrapper
         ..saveLayer(
           Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-          Paint(),
+          _clipPaint,
         )
         ..clipPath(sectionPath);
 

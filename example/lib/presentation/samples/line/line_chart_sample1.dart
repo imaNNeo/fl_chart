@@ -16,6 +16,7 @@ class _LineChart extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
+        scaleData: const FlScaleData(maxScale: 5),
         lineTouchData: lineTouchData1,
         gridData: gridData,
         titlesData: titlesData1,
@@ -28,6 +29,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartData get sampleData2 => LineChartData(
+        scaleData: const FlScaleData(maxScale: 5),
         lineTouchData: lineTouchData2,
         gridData: gridData,
         titlesData: titlesData2,

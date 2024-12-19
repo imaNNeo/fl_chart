@@ -29,13 +29,15 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     super.borderData,
     required super.touchData,
     ExtraLinesData? extraLinesData,
+    FlScaleData? scaleData,
   })  : gridData = gridData ?? const FlGridData(),
         rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
         baselineY = baselineY ?? 0,
         clipData = clipData ?? const FlClipData.none(),
         backgroundColor = backgroundColor ?? Colors.transparent,
-        extraLinesData = extraLinesData ?? const ExtraLinesData();
+        extraLinesData = extraLinesData ?? const ExtraLinesData(),
+        scaleData = scaleData ?? const FlScaleData();
   final FlGridData gridData;
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
@@ -62,6 +64,9 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Extra horizontal or vertical lines to draw on the chart.
   final ExtraLinesData extraLinesData;
 
+  /// Contains the information about the scale/scroll feature
+  final FlScaleData scaleData;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -79,6 +84,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         borderData,
         touchData,
         extraLinesData,
+        scaleData,
       ];
 }
 
@@ -1398,7 +1404,7 @@ class FlDotCirclePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the circle
   @override
-  Size getSize(FlSpot spot) => Size(radius * 2, radius * 2);
+  Size getSize(FlSpot spot) => Size.fromRadius(radius + strokeWidth);
 
   @override
   Color get mainColor => color;
@@ -1499,7 +1505,7 @@ class FlDotSquarePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the square
   @override
-  Size getSize(FlSpot spot) => Size(size, size);
+  Size getSize(FlSpot spot) => Size.square(size + strokeWidth);
 
   @override
   Color get mainColor => color;
@@ -1606,4 +1612,48 @@ class FlDotCrossPainter extends FlDotPainter {
         size,
         width,
       ];
+}
+
+class FlScaleData {
+  const FlScaleData({
+    this.transformationController,
+    this.scaleAxis = FlScaleAxis.none,
+    this.maxScale = 2.5,
+    this.minScale = 1,
+    this.trackpadScrollCausesScale = false,
+  })  : assert(minScale >= 1, 'minScale must be greater than or equal to 1'),
+        assert(
+          maxScale >= minScale,
+          'maxScale must be greater than or equal to minScale',
+        );
+
+  /// Determines what axis should be scaled.
+  final FlScaleAxis scaleAxis;
+
+  /// The maximum scale of the chart.
+  ///
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
+  final double maxScale;
+
+  /// The minimum scale of the chart.
+  ///
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
+  final double minScale;
+
+  /// Whether trackpad scroll causes scale.
+  ///
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
+  final bool trackpadScrollCausesScale;
+
+  /// The transformation controller to control the transformation of the chart.
+  final TransformationController? transformationController;
+
+  static FlScaleData lerp(FlScaleData a, FlScaleData b, double t) =>
+      FlScaleData(
+        transformationController: b.transformationController,
+        scaleAxis: b.scaleAxis,
+        maxScale: lerpDouble(a.maxScale, b.maxScale, t)!,
+        minScale: lerpDouble(a.minScale, b.minScale, t)!,
+        trackpadScrollCausesScale: b.trackpadScrollCausesScale,
+      );
 }

@@ -54,7 +54,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
   )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        super(targetData.pieTouchData, context);
+        super(targetData.pieTouchData, context, canBeScaled: false);
 
   PieChartData get data => _data;
   PieChartData _data;

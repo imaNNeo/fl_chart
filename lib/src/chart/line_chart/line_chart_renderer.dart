@@ -14,10 +14,14 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
+    required this.canBeScaled,
+    required this.chartVirtualRect,
   });
 
   final LineChartData data;
   final LineChartData targetData;
+  final Rect? chartVirtualRect;
+  final bool canBeScaled;
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
@@ -25,6 +29,8 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
+        chartVirtualRect,
+        canBeScaled: canBeScaled,
       );
 
   @override
@@ -33,7 +39,9 @@ class LineChartLeaf extends LeafRenderObjectWidget {
       ..data = data
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
-      ..buildContext = context;
+      ..buildContext = context
+      ..chartVirtualRect = chartVirtualRect
+      ..canBeScaled = canBeScaled;
   }
 }
 // coverage:ignore-end
@@ -45,12 +53,16 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     LineChartData data,
     LineChartData targetData,
     TextScaler textScaler,
-  )   : _data = data,
+    Rect? chartVirtualRect, {
+    required bool canBeScaled,
+  })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
+        _chartVirtualRect = chartVirtualRect,
         super(
           targetData.lineTouchData,
           context,
+          canBeScaled: canBeScaled,
         );
 
   LineChartData get data => _data;
@@ -78,6 +90,14 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     markNeedsPaint();
   }
 
+  Rect? get chartVirtualRect => _chartVirtualRect;
+  Rect? _chartVirtualRect;
+  set chartVirtualRect(Rect? value) {
+    if (_chartVirtualRect == value) return;
+    _chartVirtualRect = value;
+    markNeedsPaint();
+  }
+
   // We couldn't mock [size] property of this class, that's why we have this
   @visibleForTesting
   Size? mockTestSize;
@@ -86,7 +106,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   LineChartPainter painter = LineChartPainter();
 
   PaintHolder<LineChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler);
+      PaintHolder(data, targetData, textScaler, chartVirtualRect);
 
   @override
   void paint(PaintingContext context, Offset offset) {

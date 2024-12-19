@@ -1355,14 +1355,14 @@ class MockBarChartPainter extends _i1.Mock implements _i10.BarChartPainter {
   @override
   _i13.BarTouchedSpot? handleTouch(
     _i2.Offset? localPosition,
-    _i2.Size? viewSize,
+    _i2.Size? size,
     _i12.PaintHolder<_i13.BarChartData>? holder,
   ) =>
       (super.noSuchMethod(Invocation.method(
         #handleTouch,
         [
           localPosition,
-          viewSize,
+          size,
           holder,
         ],
       )) as _i13.BarTouchedSpot?);

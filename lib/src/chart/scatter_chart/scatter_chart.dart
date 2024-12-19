@@ -53,11 +53,13 @@ class _ScatterChartState extends AnimatedWidgetBaseState<ScatterChart> {
 
     return AxisChartScaffoldWidget(
       data: showingData,
-      chart: ScatterChartLeaf(
+      chartBuilder: (context, chartVirtualRect) => ScatterChartLeaf(
         data:
             _withTouchedIndicators(_scatterChartDataTween!.evaluate(animation)),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
+        chartVirtualRect: chartVirtualRect,
+        canBeScaled: widget.data.scaleData.scaleAxis != FlScaleAxis.none,
       ),
     );
   }
