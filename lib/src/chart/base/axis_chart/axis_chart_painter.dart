@@ -471,12 +471,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
   ) {
     final usableSize = holder.getChartUsableSize(viewSize);
 
-    final calculated = _getPixelX(spotX, holder.data, usableSize);
+    final pixelXUnadjusted = _getPixelX(spotX, holder.data, usableSize);
 
     // Adjust the position relative to the canvas if chartVirtualRect
     // is provided
     final adjustment = holder.chartVirtualRect?.left ?? 0;
-    return calculated + adjustment;
+    return pixelXUnadjusted + adjustment;
   }
 
   double _getPixelX(double spotX, D data, Size usableSize) {
@@ -496,12 +496,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
   ) {
     final usableSize = holder.getChartUsableSize(viewSize);
 
-    final calculated = _getPixelY(spotY, holder.data, usableSize);
+    final pixelYUnadjusted = _getPixelY(spotY, holder.data, usableSize);
 
     // Adjust the position relative to the canvas if chartVirtualRect
     // is provided
     final adjustment = holder.chartVirtualRect?.top ?? 0;
-    return calculated + adjustment;
+    return pixelYUnadjusted + adjustment;
   }
 
   double _getPixelY(double spotY, D data, Size usableSize) {
