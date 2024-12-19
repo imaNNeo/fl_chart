@@ -19,3 +19,5 @@ click and learn more about them.
 - [Handle Touches](handle_touches.md)
 
 - [Handle Animations](handle_animations.md)
+
+- [Handle Transformations](handle_transformations.md)
