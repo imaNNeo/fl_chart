@@ -115,5 +115,6 @@ See [Matrix4](https://pub.dev/documentation/vector_math/latest/vector_math_64/Ma
 3. Consider your chart's alignment when choosing a `scaleAxis`
 4. Provide visual feedback for transformation limits
 5. Consider adding reset functionality for better user experience
+6. If you have touch indicators, consider allowing users to disable panning when zoomed in. This way the touch indicators will be shown when users hold and drag to explore the chart's data, instead of panning the chart.
 
 Remember that transformations are purely visual and don't affect the underlying data. They're particularly useful for exploring detailed data sets or allowing users to focus on specific regions of interest in your charts.

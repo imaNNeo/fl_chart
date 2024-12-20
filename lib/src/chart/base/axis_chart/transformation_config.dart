@@ -7,6 +7,8 @@ class FlTransformationConfig {
     this.scaleAxis = FlScaleAxis.none,
     this.minScale = 1,
     this.maxScale = 2.5,
+    this.panEnabled = true,
+    this.scaleEnabled = true,
     this.trackpadScrollCausesScale = false,
     this.transformationController,
   })  : assert(minScale >= 1, 'minScale must be greater than or equal to 1'),
@@ -27,6 +29,16 @@ class FlTransformationConfig {
   ///
   /// Ignored when [scaleAxis] is [FlScaleAxis.none].
   final double maxScale;
+
+  /// If false, the user will be prevented from panning.
+  ///
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
+  final bool panEnabled;
+
+  /// If false, the user will be prevented from scaling.
+  ///
+  /// Ignored when [scaleAxis] is [FlScaleAxis.none].
+  final bool scaleEnabled;
 
   /// Whether trackpad scroll causes scale.
   ///

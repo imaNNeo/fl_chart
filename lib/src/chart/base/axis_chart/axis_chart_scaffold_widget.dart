@@ -234,6 +234,8 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
               _transformationConfig.trackpadScrollCausesScale,
           maxScale: _transformationConfig.maxScale,
           minScale: _transformationConfig.minScale,
+          panEnabled: _transformationConfig.panEnabled,
+          scaleEnabled: _transformationConfig.scaleEnabled,
           child: SizedBox(
             width: constraints.maxWidth,
             height: constraints.maxHeight,

@@ -469,6 +469,8 @@ void main() {
       expect(interactiveViewer1.maxScale, 2.5);
       expect(interactiveViewer1.minScale, 1);
       expect(interactiveViewer1.clipBehavior, Clip.none);
+      expect(interactiveViewer1.panEnabled, true);
+      expect(interactiveViewer1.scaleEnabled, true);
       expect(
         interactiveViewer1.transformationController,
         isA<TransformationController>().having(
@@ -487,6 +489,8 @@ void main() {
             trackpadScrollCausesScale: true,
             maxScale: 10,
             minScale: 1.5,
+            panEnabled: false,
+            scaleEnabled: false,
             transformationController: transformationController,
           ),
           chartBuilder: (context, chartVirtualRect) => dummyChart,
@@ -500,6 +504,8 @@ void main() {
       expect(interactiveViewer2.maxScale, 10);
       expect(interactiveViewer2.minScale, 1.5);
       expect(interactiveViewer2.clipBehavior, Clip.none);
+      expect(interactiveViewer2.panEnabled, false);
+      expect(interactiveViewer2.scaleEnabled, false);
       expect(
         interactiveViewer2.transformationController,
         transformationController,
