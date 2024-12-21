@@ -761,6 +761,7 @@ class BarTouchTooltipData with EquatableMixin {
         super();
 
   /// Sets a rounded radius for the tooltip.
+  @Deprecated('use tooltipBorderRadius instead')
   final double tooltipRoundedRadius;
 
   /// Sets a border radius for the tooltip.
