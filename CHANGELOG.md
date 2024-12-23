@@ -1,5 +1,6 @@
 ## newVersion
 * **FEATURE** (by @Peetee06) Add `panEnabled` and `scaleEnabled` properties in the TransformationController, #1818
+* **FEATURE** (by @mitulagr2) Add `renderPriority` feature in our [ScatterSpot](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#scatterspot), #1545
 
 ## 0.70.0
 * **FEATURE** (by @Peetee06) Implemented a 5 years-old feature request about scroll and zoom support in our axis-based charts. Special thanks to @Peetee06 who made it happen, #71
