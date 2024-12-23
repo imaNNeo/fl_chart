@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample7 extends StatefulWidget {
@@ -61,7 +61,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
               show: true,
               border: Border.symmetric(
                 horizontal: BorderSide(
-                  color: AppColors.borderColor.withOpacity(0.2),
+                  color: AppColors.borderColor.withValues(alpha: 0.2),
                 ),
               ),
             ),
@@ -103,7 +103,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
               show: true,
               drawVerticalLine: false,
               getDrawingHorizontalLine: (value) => FlLine(
-                color: AppColors.borderColor.withOpacity(0.2),
+                color: AppColors.borderColor.withValues(alpha: 0.2),
                 strokeWidth: 1,
               ),
             ),

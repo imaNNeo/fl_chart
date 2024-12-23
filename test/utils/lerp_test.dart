@@ -5,6 +5,7 @@ import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../chart/data_pool.dart';
+import '../matchers.dart';
 
 void main() {
   const tolerance = 0.001;
@@ -29,32 +30,47 @@ void main() {
       MockData.color3,
       MockData.color5,
     ];
-    expect(lerpColorList(list1, list2, 0), const [
-      MockData.color1,
-      MockData.color1,
-      MockData.color2,
-      MockData.color5,
+    expect(lerpColorList(list1, list2, 0), [
+      isSameColorAs(MockData.color1),
+      isSameColorAs(MockData.color1),
+      isSameColorAs(MockData.color2),
+      isSameColorAs(MockData.color5),
     ]);
     expect(lerpColorList(list1, list2, 1), list2);
-    expect(lerpColorList(list1, list2, 0.5), const [
-      MockData.color1,
-      Color(0x19191919),
-      Color(0x2a2a2a2a),
-      MockData.color5,
+    expect(lerpColorList(list1, list2, 0.5), [
+      isSameColorAs(MockData.color1),
+      isSameColorAs(const Color(0x19191919)),
+      isSameColorAs(const Color(0x2a2a2a2a)),
+      isSameColorAs(MockData.color5),
     ]);
   });
 
   test('test lerpColor', () {
-    expect(lerpColor(MockData.color1, MockData.color1, 0.5), MockData.color1);
-    expect(lerpColor(MockData.color1, MockData.color1, 0), MockData.color1);
-    expect(lerpColor(MockData.color1, MockData.color1, 1), MockData.color1);
+    expect(
+      lerpColor(MockData.color1, MockData.color1, 0.5),
+      isSameColorAs(MockData.color1),
+    );
+    expect(
+      lerpColor(MockData.color1, MockData.color1, 0),
+      isSameColorAs(MockData.color1),
+    );
+    expect(
+      lerpColor(MockData.color1, MockData.color1, 1),
+      isSameColorAs(MockData.color1),
+    );
 
-    expect(lerpColor(MockData.color1, MockData.color2, 0), MockData.color1);
+    expect(
+      lerpColor(MockData.color1, MockData.color2, 0),
+      isSameColorAs(MockData.color1),
+    );
     expect(
       lerpColor(MockData.color1, MockData.color2, 0.3),
-      const Color(0x16161616),
+      isSameColorAs(const Color(0x16161616)),
     );
-    expect(lerpColor(MockData.color1, MockData.color2, 1), MockData.color2);
+    expect(
+      lerpColor(MockData.color1, MockData.color2, 1),
+      isSameColorAs(MockData.color2),
+    );
   });
 
   test('test lerpDoubleAllowInfinity', () {
@@ -188,10 +204,14 @@ void main() {
       MockData.horizontalLine4,
     ]);
     expect(lerpHorizontalLineList(list1, list2, 0.5), [
-      HorizontalLine(y: 0.5, color: const Color(0x08080808)),
-      MockData.horizontalLine1,
-      HorizontalLine(y: 1.5, color: const Color(0x19191919)),
-      MockData.horizontalLine4,
+      matchesHorizontalLine(
+        HorizontalLine(y: 0.5, color: const Color(0x08080808)),
+      ),
+      matchesHorizontalLine(MockData.horizontalLine1),
+      matchesHorizontalLine(
+        HorizontalLine(y: 1.5, color: const Color(0x19191919)),
+      ),
+      matchesHorizontalLine(MockData.horizontalLine4),
     ]);
     expect(lerpHorizontalLineList(list1, list2, 1), list2);
   });
@@ -215,10 +235,14 @@ void main() {
       MockData.verticalLine4,
     ]);
     expect(lerpVerticalLineList(list1, list2, 0.5), [
-      VerticalLine(x: 0.5, color: const Color(0x08080808)),
-      MockData.verticalLine1,
-      VerticalLine(x: 1.5, color: const Color(0x19191919)),
-      MockData.verticalLine4,
+      matchesVerticalLine(
+        VerticalLine(x: 0.5, color: const Color(0x08080808)),
+      ),
+      matchesVerticalLine(MockData.verticalLine1),
+      matchesVerticalLine(
+        VerticalLine(x: 1.5, color: const Color(0x19191919)),
+      ),
+      matchesVerticalLine(MockData.verticalLine4),
     ]);
     expect(lerpVerticalLineList(list1, list2, 1), list2);
   });
@@ -242,18 +266,22 @@ void main() {
       MockData.horizontalRangeAnnotation4,
     ]);
     expect(lerpHorizontalRangeAnnotationList(list1, list2, 0.5), [
-      HorizontalRangeAnnotation(
-        y1: 0.5,
-        y2: 1.5,
-        color: const Color(0x08080808),
+      matchesHorizontalRangeAnnotation(
+        HorizontalRangeAnnotation(
+          y1: 0.5,
+          y2: 1.5,
+          color: const Color(0x08080808),
+        ),
       ),
-      MockData.horizontalRangeAnnotation1,
-      HorizontalRangeAnnotation(
-        y1: 1.5,
-        y2: 2.5,
-        color: const Color(0x19191919),
+      matchesHorizontalRangeAnnotation(MockData.horizontalRangeAnnotation1),
+      matchesHorizontalRangeAnnotation(
+        HorizontalRangeAnnotation(
+          y1: 1.5,
+          y2: 2.5,
+          color: const Color(0x19191919),
+        ),
       ),
-      MockData.horizontalRangeAnnotation4,
+      matchesHorizontalRangeAnnotation(MockData.horizontalRangeAnnotation4),
     ]);
     expect(lerpHorizontalRangeAnnotationList(list1, list2, 1), list2);
   });
@@ -277,10 +305,22 @@ void main() {
       MockData.verticalRangeAnnotation4,
     ]);
     expect(lerpVerticalRangeAnnotationList(list1, list2, 0.5), [
-      VerticalRangeAnnotation(x1: 0.5, x2: 1.5, color: const Color(0x08080808)),
-      MockData.verticalRangeAnnotation1,
-      VerticalRangeAnnotation(x1: 1.5, x2: 2.5, color: const Color(0x19191919)),
-      MockData.verticalRangeAnnotation4,
+      matchesVerticalRangeAnnotation(
+        VerticalRangeAnnotation(
+          x1: 0.5,
+          x2: 1.5,
+          color: const Color(0x08080808),
+        ),
+      ),
+      matchesVerticalRangeAnnotation(MockData.verticalRangeAnnotation1),
+      matchesVerticalRangeAnnotation(
+        VerticalRangeAnnotation(
+          x1: 1.5,
+          x2: 2.5,
+          color: const Color(0x19191919),
+        ),
+      ),
+      matchesVerticalRangeAnnotation(MockData.verticalRangeAnnotation4),
     ]);
     expect(lerpVerticalRangeAnnotationList(list1, list2, 1), list2);
   });
@@ -304,10 +344,22 @@ void main() {
       MockData.verticalRangeAnnotation4,
     ]);
     expect(lerpVerticalRangeAnnotationList(list1, list2, 0.5), [
-      VerticalRangeAnnotation(x1: 0.5, x2: 1.5, color: const Color(0x08080808)),
-      MockData.verticalRangeAnnotation1,
-      VerticalRangeAnnotation(x1: 1.5, x2: 2.5, color: const Color(0x19191919)),
-      MockData.verticalRangeAnnotation4,
+      matchesVerticalRangeAnnotation(
+        VerticalRangeAnnotation(
+          x1: 0.5,
+          x2: 1.5,
+          color: const Color(0x08080808),
+        ),
+      ),
+      matchesVerticalRangeAnnotation(MockData.verticalRangeAnnotation1),
+      matchesVerticalRangeAnnotation(
+        VerticalRangeAnnotation(
+          x1: 1.5,
+          x2: 2.5,
+          color: const Color(0x19191919),
+        ),
+      ),
+      matchesVerticalRangeAnnotation(MockData.verticalRangeAnnotation4),
     ]);
     expect(lerpVerticalRangeAnnotationList(list1, list2, 1), list2);
   });
@@ -358,18 +410,22 @@ void main() {
       MockData.scatterSpot4,
     ]);
     expect(lerpScatterSpotList(list1, list2, 0.5), [
-      ScatterSpot(
-        0.5,
-        0.5,
-        dotPainter: FlDotCirclePainter(color: const Color(0x08080808)),
+      matchesScatterSpotWithCirclePainter(
+        ScatterSpot(
+          0.5,
+          0.5,
+          dotPainter: FlDotCirclePainter(color: const Color(0x08080808)),
+        ),
       ),
-      MockData.scatterSpot1,
-      ScatterSpot(
-        1.5,
-        1.5,
-        dotPainter: FlDotCirclePainter(color: const Color(0x19191919)),
+      matchesScatterSpotWithCirclePainter(MockData.scatterSpot1),
+      matchesScatterSpotWithCirclePainter(
+        ScatterSpot(
+          1.5,
+          1.5,
+          dotPainter: FlDotCirclePainter(color: const Color(0x19191919)),
+        ),
       ),
-      MockData.scatterSpot4,
+      matchesScatterSpotWithCirclePainter(MockData.scatterSpot4),
     ]);
     expect(lerpScatterSpotList(list1, list2, 1), list2);
   });
@@ -381,11 +437,162 @@ void main() {
       MockData.color2,
       MockData.color3,
     ];
-    expect(lerpGradient(colors, [], 0), const Color(0x00000000));
-    expect(lerpGradient(colors, [], 0.2), const Color(0x00000000));
-    expect(lerpGradient(colors, [], 0.4), const Color(0x0a0a0a0a));
-    expect(lerpGradient(colors, [], 0.6), const Color(0x17171717));
-    expect(lerpGradient(colors, [], 0.8), const Color(0x25252525));
-    expect(lerpGradient(colors, [], 1), const Color(0x33333333));
+    expect(
+      lerpGradient(colors, [], 0),
+      isSameColorAs(const Color(0x00000000)),
+    );
+    expect(
+      lerpGradient(colors, [], 0.2),
+      isSameColorAs(const Color(0x00000000)),
+    );
+    expect(
+      lerpGradient(colors, [], 0.4),
+      isSameColorAs(const Color(0x0a0a0a0a)),
+    );
+    expect(
+      lerpGradient(colors, [], 0.6),
+      isSameColorAs(const Color(0x17171717)),
+    );
+    expect(
+      lerpGradient(colors, [], 0.8),
+      isSameColorAs(const Color(0x25252525)),
+    );
+    expect(
+      lerpGradient(colors, [], 1),
+      isSameColorAs(const Color(0x33333333)),
+    );
+  });
+
+  test('lerpLineChartBarDataList uses `LineChartBarData.lerp`', () {
+    final list1 = [
+      MockData.lineChartBarData1,
+      MockData.lineChartBarData1,
+      MockData.lineChartBarData1,
+    ];
+    final list2 = [
+      MockData.lineChartBarData2,
+      MockData.lineChartBarData2,
+      MockData.lineChartBarData2,
+      MockData.lineChartBarData2,
+    ];
+
+    expect(
+      lerpLineChartBarDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: LineChartBarData.lerp),
+    );
+  });
+
+  test('lerpBetweenBarsDataList uses `BetweenBarsData.lerp`', () {
+    final list1 = [
+      betweenBarsData1,
+      betweenBarsData1,
+      betweenBarsData1,
+    ];
+    final list2 = [
+      betweenBarsData2,
+      betweenBarsData2,
+      betweenBarsData2,
+      betweenBarsData2,
+    ];
+
+    expect(
+      lerpBetweenBarsDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BetweenBarsData.lerp),
+    );
+  });
+
+  test('lerpBarChartGroupDataList uses `BarChartGroupData.lerp`', () {
+    final list1 = [
+      barChartGroupData1,
+      barChartGroupData1,
+      barChartGroupData1,
+    ];
+    final list2 = [
+      barChartGroupData2,
+      barChartGroupData2,
+      barChartGroupData2,
+      barChartGroupData2,
+    ];
+
+    expect(
+      lerpBarChartGroupDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BarChartGroupData.lerp),
+    );
+  });
+
+  test('lerpBarChartRodDataList uses `BarChartRodData.lerp`', () {
+    final list1 = [
+      barChartRodData1,
+      barChartRodData1,
+      barChartRodData1,
+    ];
+    final list2 = [
+      barChartRodData2,
+      barChartRodData2,
+      barChartRodData2,
+      barChartRodData2,
+    ];
+
+    expect(
+      lerpBarChartRodDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BarChartRodData.lerp),
+    );
+  });
+
+  test('lerpPieChartSectionDataList uses `PieChartSectionData.lerp`', () {
+    final list1 = [
+      MockData.pieChartSectionData1,
+      MockData.pieChartSectionData1,
+      MockData.pieChartSectionData1,
+    ];
+    final list2 = [
+      MockData.pieChartSectionData2,
+      MockData.pieChartSectionData2,
+      MockData.pieChartSectionData2,
+      MockData.pieChartSectionData2,
+    ];
+
+    expect(
+      lerpPieChartSectionDataList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: PieChartSectionData.lerp),
+    );
+  });
+
+  test('lerpBarChartRodStackList uses `BarChartRodStackItem.lerp`', () {
+    final list1 = [
+      barChartRodStackItem1,
+      barChartRodStackItem1,
+      barChartRodStackItem1,
+    ];
+    final list2 = [
+      barChartRodStackItem2,
+      barChartRodStackItem2,
+      barChartRodStackItem2,
+      barChartRodStackItem2,
+    ];
+
+    expect(
+      lerpBarChartRodStackList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: BarChartRodStackItem.lerp),
+    );
+  });
+
+  test('lerpRadarDataSetList uses `RadarDataSet.lerp`', () {
+    final list1 = [
+      MockData.radarDataSet1,
+      MockData.radarDataSet1,
+      MockData.radarDataSet1,
+    ];
+    final list2 = [
+      MockData.radarDataSet2,
+      MockData.radarDataSet2,
+      MockData.radarDataSet2,
+      MockData.radarDataSet2,
+    ];
+
+    expect(
+      lerpRadarDataSetList(list1, list2, 1),
+      lerpList(list1, list2, 1, lerp: RadarDataSet.lerp),
+    );
   });
 }

@@ -34,11 +34,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..style = PaintingStyle.stroke
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
+
+    _clipPaint = Paint();
   }
   late Paint _barPaint;
   late Paint _barStrokePaint;
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
+  late Paint _clipPaint;
 
   List<GroupBarsPosition>? _groupBarsPosition;
 
@@ -49,6 +52,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<BarChartData> holder,
   ) {
+    if (holder.chartVirtualRect != null) {
+      final canvasRect = Offset.zero & canvasWrapper.size;
+      canvasWrapper
+        ..saveLayer(
+          canvasRect,
+          _clipPaint,
+        )
+        ..clipRect(canvasRect);
+    }
+
     super.paint(context, canvasWrapper, holder);
     final data = holder.data;
     final targetData = holder.targetData;
@@ -57,10 +70,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       return;
     }
 
-    final groupsX = data.calculateGroupsX(canvasWrapper.size.width);
+    final usableSize = holder.getChartUsableSize(canvasWrapper.size);
+
+    final groupsX = data.calculateGroupsX(usableSize.width);
+    final adjustment = holder.chartVirtualRect?.left ?? 0;
+    final groupsXAdjusted = groupsX.map((e) => e + adjustment).toList();
+
     _groupBarsPosition = calculateGroupAndBarsPosition(
-      canvasWrapper.size,
-      groupsX,
+      usableSize,
+      groupsXAdjusted,
       data.barGroups,
     );
 
@@ -69,7 +87,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         context,
         canvasWrapper,
         holder,
-        canvasWrapper.size,
+        usableSize,
       );
     }
 
@@ -80,8 +98,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         context,
         canvasWrapper,
         holder,
-        canvasWrapper.size,
+        usableSize,
       );
+    }
+
+    if (holder.chartVirtualRect != null) {
+      canvasWrapper.restore();
     }
 
     for (var i = 0; i < targetData.barGroups.length; i++) {
@@ -311,7 +333,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           }
 
           // draw border stroke
-          if (borderSide.width > 0 && borderSide.color.opacity > 0) {
+          if (borderSide.width > 0 && borderSide.color.a > 0) {
             _barStrokePaint
               ..color = borderSide.color
               ..strokeWidth = borderSide.width;
@@ -383,16 +405,18 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final textWidth = drawingTextPainter.width;
     final textHeight = drawingTextPainter.height + textsBelowMargin;
 
+    final barX = groupPositions[barGroupIndex].barsX[barRodIndex];
+
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
     final barToYPixel = Offset(
-      groupPositions[barGroupIndex].barsX[barRodIndex],
+      barX,
       getPixelY(showOnRodData.toY, viewSize, holder),
     );
 
     final barFromYPixel = Offset(
-      groupPositions[barGroupIndex].barsX[barRodIndex],
+      barX,
       getPixelY(showOnRodData.fromY, viewSize, holder),
     );
 
@@ -404,6 +428,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
         (tooltipData.direction == TooltipDirection.auto &&
             showOnRodData.isUpward());
+
+    final tooltipOriginPoint = Offset(
+      barX,
+      drawTooltipOnTop ? barTopY : barBottomY,
+    );
+
+    final isZoomed = holder.chartVirtualRect != null;
+    if (isZoomed && !canvasWrapper.size.contains(tooltipOriginPoint)) {
+      return;
+    }
+
     final tooltipTop = drawTooltipOnTop
         ? barTopY - tooltipHeight - tooltipData.tooltipMargin
         : barBottomY + tooltipData.tooltipMargin;
@@ -526,8 +561,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     Size drawSize,
     PaintHolder<BarChartData> holder,
   ) {
-    if (stackItem.borderSide.width == 0 ||
-        stackItem.borderSide.color.opacity == 0) return;
+    if (stackItem.borderSide.width == 0 || stackItem.borderSide.color.a == 0) {
+      return;
+    }
     RRect strokeBarRect;
     if (index == 0) {
       strokeBarRect = RRect.fromLTRBAndCorners(
@@ -583,13 +619,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   /// Returns null if finds nothing!
   BarTouchedSpot? handleTouch(
     Offset localPosition,
-    Size viewSize,
+    Size size,
     PaintHolder<BarChartData> holder,
   ) {
     final data = holder.data;
     final targetData = holder.targetData;
     final touchedPoint = localPosition;
     if (targetData.barGroups.isEmpty) {
+      return null;
+    }
+
+    final viewSize = holder.getChartUsableSize(size);
+
+    // Check if the touch is outside the canvas bounds
+    final isZoomed = holder.chartVirtualRect != null;
+    if (isZoomed && !size.contains(touchedPoint)) {
       return null;
     }
 

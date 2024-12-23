@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class ScatterChartSample1 extends StatefulWidget {
   ScatterChartSample1({super.key});
 
-  final blue1 = AppColors.contentColorBlue.withOpacity(0.5);
+  final blue1 = AppColors.contentColorBlue.withValues(alpha: 0.5);
   final blue2 = AppColors.contentColorBlue;
 
   @override
@@ -51,8 +51,8 @@ class ScatterChartSample1State extends State<ScatterChartSample1> {
               enabled: false,
             ),
           ),
-          swapAnimationDuration: const Duration(milliseconds: 600),
-          swapAnimationCurve: Curves.fastOutSlowIn,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.fastOutSlowIn,
         ),
       ),
     );

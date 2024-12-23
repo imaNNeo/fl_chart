@@ -73,7 +73,7 @@ void main() {
                 PieChartSectionData(value: 22, color: Colors.green),
               ],
             ),
-        false,
+        true,
       );
 
       expect(
@@ -83,7 +83,7 @@ void main() {
                 PieChartSectionData(value: 12, color: Colors.red),
                 PieChartSectionData(
                   value: 22,
-                  color: Colors.green.withOpacity(0.99),
+                  color: Colors.green.withValues(alpha: 0.99),
                 ),
               ],
             ),

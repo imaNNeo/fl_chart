@@ -9,10 +9,18 @@ import 'package:flutter/cupertino.dart';
 
 /// Low level BarChart Widget.
 class BarChartLeaf extends LeafRenderObjectWidget {
-  const BarChartLeaf({super.key, required this.data, required this.targetData});
+  const BarChartLeaf({
+    super.key,
+    required this.data,
+    required this.targetData,
+    required this.canBeScaled,
+    required this.chartVirtualRect,
+  });
 
   final BarChartData data;
   final BarChartData targetData;
+  final Rect? chartVirtualRect;
+  final bool canBeScaled;
 
   @override
   RenderBarChart createRenderObject(BuildContext context) => RenderBarChart(
@@ -20,6 +28,8 @@ class BarChartLeaf extends LeafRenderObjectWidget {
         data,
         targetData,
         MediaQuery.of(context).textScaler,
+        chartVirtualRect,
+        canBeScaled: canBeScaled,
       );
 
   @override
@@ -28,7 +38,9 @@ class BarChartLeaf extends LeafRenderObjectWidget {
       ..data = data
       ..targetData = targetData
       ..textScaler = MediaQuery.of(context).textScaler
-      ..buildContext = context;
+      ..buildContext = context
+      ..chartVirtualRect = chartVirtualRect
+      ..canBeScaled = canBeScaled;
   }
 }
 // coverage:ignore-end
@@ -40,10 +52,13 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     BarChartData data,
     BarChartData targetData,
     TextScaler textScaler,
-  )   : _data = data,
+    Rect? chartVirtualRect, {
+    required bool canBeScaled,
+  })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        super(targetData.barTouchData, context);
+        _chartVirtualRect = chartVirtualRect,
+        super(targetData.barTouchData, context, canBeScaled: canBeScaled);
 
   BarChartData get data => _data;
   BarChartData _data;
@@ -73,6 +88,15 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     markNeedsPaint();
   }
 
+  Rect? get chartVirtualRect => _chartVirtualRect;
+  Rect? _chartVirtualRect;
+
+  set chartVirtualRect(Rect? value) {
+    if (_chartVirtualRect == value) return;
+    _chartVirtualRect = value;
+    markNeedsPaint();
+  }
+
   // We couldn't mock [size] property of this class, that's why we have this
   @visibleForTesting
   Size? mockTestSize;
@@ -81,7 +105,7 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   BarChartPainter painter = BarChartPainter();
 
   PaintHolder<BarChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler);
+      PaintHolder(data, targetData, textScaler, chartVirtualRect);
 
   @override
   void paint(PaintingContext context, Offset offset) {

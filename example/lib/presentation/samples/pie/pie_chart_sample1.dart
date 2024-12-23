@@ -1,6 +1,6 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/presentation/widgets/indicator.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class PieChartSample1 extends StatefulWidget {
@@ -123,7 +123,7 @@ class PieChartSample1State extends State {
                   ? const BorderSide(
                       color: AppColors.contentColorWhite, width: 6)
                   : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
+                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
             );
           case 1:
             return PieChartSectionData(
@@ -136,7 +136,7 @@ class PieChartSample1State extends State {
                   ? const BorderSide(
                       color: AppColors.contentColorWhite, width: 6)
                   : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
+                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
             );
           case 2:
             return PieChartSectionData(
@@ -149,7 +149,7 @@ class PieChartSample1State extends State {
                   ? const BorderSide(
                       color: AppColors.contentColorWhite, width: 6)
                   : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
+                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
             );
           case 3:
             return PieChartSectionData(
@@ -162,7 +162,7 @@ class PieChartSample1State extends State {
                   ? const BorderSide(
                       color: AppColors.contentColorWhite, width: 6)
                   : BorderSide(
-                      color: AppColors.contentColorWhite.withOpacity(0)),
+                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
             );
           default:
             throw Error();

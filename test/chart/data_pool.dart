@@ -308,6 +308,9 @@ class MockData {
   static final scatterTouchedSpot = ScatterTouchedSpot(scatterSpot1, 0);
 
   static final pieChartSectionData1 = PieChartSectionData(value: 12);
+
+  static final pieChartSectionData2 = PieChartSectionData(value: 22);
+
   static final pieTouchedSection1 = PieTouchedSection(
     pieChartSectionData1,
     0,
@@ -636,7 +639,7 @@ final FlBorderData borderData1Clone = FlBorderData(
 );
 final FlBorderData borderData2 = FlBorderData(
   show: true,
-  border: Border.all(color: Colors.green.withOpacity(0.5)),
+  border: Border.all(color: Colors.green.withValues(alpha: 0.5)),
 );
 
 bool checkToShowSpotLine(FlSpot spot) => true;
@@ -795,7 +798,7 @@ const Shadow shadow3 = Shadow(
   blurRadius: 14,
 );
 final Shadow shadow4 = Shadow(
-  color: Colors.red.withOpacity(0.5),
+  color: Colors.red.withValues(alpha: 0.5),
   blurRadius: 12,
 );
 
@@ -971,7 +974,7 @@ final LineChartBarData lineChartBarData6 = LineChartBarData(
 final LineChartBarData lineChartBarData7 = LineChartBarData(
   dashArray: [0, 1],
   gradient: LinearGradient(
-    colors: [Colors.red, Colors.green.withOpacity(0.4)],
+    colors: [Colors.red, Colors.green.withValues(alpha: 0.4)],
     stops: const [0, 1],
     begin: Alignment.center,
     end: Alignment.bottomRight,
@@ -2004,7 +2007,7 @@ final LineChartData lineChartData9 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
-  backgroundColor: Colors.red.withOpacity(0.2),
+  backgroundColor: Colors.red.withValues(alpha: 0.2),
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,

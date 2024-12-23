@@ -1,6 +1,6 @@
 import 'dart:math' as math;
-import 'dart:ui';
 import 'dart:ui' as ui show Gradient;
+import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -214,17 +214,122 @@ void main() {
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      Exception? exception;
+      Object? exception;
       try {
         lineChartPainter.paint(
           mockBuildContext,
           mockCanvasWrapper,
           holder,
         );
-      } on Exception catch (e) {
+      } catch (e) {
         exception = e;
       }
       expect(exception != null, true);
+    });
+
+    test('test 3 minY == maxY', () {
+      const viewSize = Size(400, 400);
+
+      final bar1 = LineChartBarData(
+        spots: const [
+          FlSpot(0, 4),
+          FlSpot(1, 3),
+          FlSpot(2, 2),
+          FlSpot(3, 1),
+          FlSpot(4, 0),
+        ],
+        showingIndicators: [
+          0,
+          2,
+          3,
+        ],
+      );
+      final bar2 = LineChartBarData(
+        spots: const [
+          FlSpot(0, 5),
+          FlSpot(1, 3),
+          FlSpot(2, 2),
+          FlSpot(3, 5),
+          FlSpot(4, 0),
+        ],
+      );
+
+      final lineChartBarsData = <LineChartBarData>[bar1, bar2];
+      final (minX, maxX, minY, maxY) = LineChartHelper().calculateMaxAxisValues(
+        lineChartBarsData,
+      );
+
+      final data = LineChartData(
+        minX: minX,
+        maxX: maxX,
+        minY: minY,
+        maxY: minY,
+        lineBarsData: lineChartBarsData,
+        clipData: const FlClipData.all(),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(y: 1),
+          ],
+          verticalLines: [
+            VerticalLine(x: 4),
+          ],
+        ),
+        betweenBarsData: [
+          BetweenBarsData(fromIndex: 0, toIndex: 1),
+        ],
+        showingTooltipIndicators: [
+          ShowingTooltipIndicators([
+            LineBarSpot(bar1, 0, bar1.spots.first),
+            LineBarSpot(bar2, 1, bar2.spots.first),
+          ]),
+        ],
+        lineTouchData: LineTouchData(
+          getTouchedSpotIndicator:
+              (LineChartBarData barData, List<int> spotIndexes) {
+            return spotIndexes.asMap().entries.map((entry) {
+              final i = entry.key;
+              if (i == 0) {
+                return null;
+              }
+              return const TouchedSpotIndicatorData(
+                FlLine(color: MockData.color0),
+                FlDotData(),
+              );
+            }).toList();
+          },
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      lineChartPainter.paint(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(mockCanvasWrapper.clipRect(any)).called(1);
+      verify(mockCanvasWrapper.drawDot(any, any, any)).called(12);
+      verify(mockCanvasWrapper.drawPath(any, any)).called(3);
     });
   });
 
@@ -448,8 +553,8 @@ void main() {
       final paint = verificationResult.captured.single as Paint;
       verificationResult.called(1);
       expect(
-        paint.color.value,
-        barData.gradient?.colors.first.value ?? barData.color?.value,
+        paint.color,
+        isSameColorAs(barData.gradient?.colors.first ?? barData.color!),
       );
     });
   });
@@ -1448,7 +1553,7 @@ void main() {
       expect(results.length, 2);
 
       for (final item in results) {
-        expect((item['paint_color'] as Color).alpha, 0);
+        expect((item['paint_color'] as Color).a, 0);
         expect(item['paint_stroke_width'], 18);
       }
     });
@@ -1630,7 +1735,7 @@ void main() {
       expect(results.length, 2);
 
       for (final item in results) {
-        expect((item['paint_color'] as Color).alpha, 0);
+        expect((item['paint_color'] as Color).a, 0);
         expect(item['paint_stroke_width'], 18);
       }
     });
@@ -1785,7 +1890,7 @@ void main() {
       expect(path.getBounds(), barPath.shift(const Offset(10, 15)).getBounds());
 
       final paint = result.captured[1] as Paint;
-      expect(paint.color, const Color(0x0100FF00));
+      expect(paint.color, isSameColorAs(const Color(0x0100FF00)));
       expect(paint.shader, null);
       expect(paint.strokeWidth, 80);
       expect(
@@ -1903,7 +2008,7 @@ void main() {
       expect(drewPath, barPath);
 
       final paint = result.captured[1] as Paint;
-      expect(paint.color, const Color(0xF0F0F0F0));
+      expect(paint.color, isSameColorAs(const Color(0xF0F0F0F0)));
       expect(paint.shader, null);
       expect(paint.maskFilter, null);
       expect(paint.strokeWidth, 80);
@@ -2093,22 +2198,34 @@ void main() {
 
       expect(results.length, 4);
 
-      expect(results[0]['paint_color'], const Color(0x11111111));
+      expect(
+        results[0]['paint_color'],
+        isSameColorAs(const Color(0x11111111)),
+      );
       expect(results[0]['paint_stroke_width'], 11);
       expect(results[0]['from'], const Offset(0, 90));
       expect(results[0]['to'], const Offset(100, 90));
 
-      expect(results[1]['paint_color'], const Color(0x22222222));
+      expect(
+        results[1]['paint_color'],
+        isSameColorAs(const Color(0x22222222)),
+      );
       expect(results[1]['paint_stroke_width'], 22);
       expect(results[1]['from'], const Offset(0, 80));
       expect(results[1]['to'], const Offset(100, 80));
 
-      expect(results[2]['paint_color'], const Color(0x33333333));
+      expect(
+        results[2]['paint_color'],
+        isSameColorAs(const Color(0x33333333)),
+      );
       expect(results[2]['paint_stroke_width'], 33);
       expect(results[2]['from'], const Offset(40, 0));
       expect(results[2]['to'], const Offset(40, 100));
 
-      expect(results[3]['paint_color'], const Color(0x44444444));
+      expect(
+        results[3]['paint_color'],
+        isSameColorAs(const Color(0x44444444)),
+      );
       expect(results[3]['paint_stroke_width'], 44);
       expect(results[3]['from'], const Offset(50, 0));
       expect(results[3]['to'], const Offset(50, 100));
@@ -2160,9 +2277,9 @@ void main() {
           any,
           argThat(
             const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
+              (p0) => p0.color,
               'colors match',
-              equals(Colors.cyanAccent.value),
+              isSameColorAs(Colors.cyanAccent),
             ),
           ),
           holder.data.extraLinesData.horizontalLines[0].dashArray,
@@ -2215,9 +2332,9 @@ void main() {
           any,
           argThat(
             const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
+              (p0) => p0.color,
               'colors match',
-              equals(Colors.cyanAccent.value),
+              isSameColorAs(Colors.cyanAccent),
             ),
           ),
           holder.data.extraLinesData.verticalLines[0].dashArray,
@@ -2282,9 +2399,9 @@ void main() {
           any,
           argThat(
             const TypeMatcher<Paint>().having(
-              (p0) => p0.color.value,
+              (p0) => p0.color,
               'colors match',
-              equals(Colors.cyanAccent.value),
+              isSameColorAs(Colors.cyanAccent),
             ),
           ),
           holder.data.extraLinesData.verticalLines[0].dashArray,
@@ -2375,6 +2492,74 @@ void main() {
       expect(offset2, const Offset(36, 80));
       expect(offset3, const Offset(20, -22));
       expect(offset4, const Offset(80, 38));
+    });
+
+    test(
+        'should restore canvas before drawing extra lines and clip after '
+        'when chart virtual rect is provided', () {
+      const viewSize = Size(100, 100);
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 0,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+            VerticalLine(
+              x: 10,
+              color: Colors.cyanAccent,
+              dashArray: [12, 22],
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+        Offset.zero & viewSize,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final viewRect = Offset.zero & viewSize;
+      verifyInOrder([
+        mockCanvasWrapper.restore(),
+        mockCanvasWrapper.drawDashedLine(
+          any,
+          any,
+          argThat(
+            const TypeMatcher<Paint>().having(
+              (p0) => p0.color,
+              'colors match',
+              isSameColorAs(Colors.cyanAccent),
+            ),
+          ),
+          holder.data.extraLinesData.verticalLines[0].dashArray,
+        ),
+        mockCanvasWrapper.saveLayer(
+          viewRect,
+          any,
+        ),
+        mockCanvasWrapper.clipRect(viewRect),
+      ]);
     });
   });
 
@@ -2471,14 +2656,14 @@ void main() {
         rRect,
         RRect.fromLTRBR(0, 40, 38, 78, const Radius.circular(12)),
       );
-      expect(paint.color, const Color(0x11111111));
+      expect(paint.color, isSameColorAs(const Color(0x11111111)));
       final rRectBorder = result1.captured[2] as RRect;
       final paintBorder = result1.captured[3] as Paint;
       expect(
         rRectBorder,
         RRect.fromLTRBR(0, 40, 38, 78, const Radius.circular(12)),
       );
-      expect(paintBorder.color, const Color(0x11111111));
+      expect(paintBorder.color, isSameColorAs(const Color(0x11111111)));
       expect(paintBorder.strokeWidth, 2);
 
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
@@ -2582,14 +2767,14 @@ void main() {
         rRect,
         RRect.fromLTRBR(-28, 40, 10, 78, const Radius.circular(12)),
       );
-      expect(paint.color, const Color(0x11111111));
+      expect(paint.color, isSameColorAs(const Color(0x11111111)));
       final rRectBorder = result1.captured[2] as RRect;
       final paintBorder = result1.captured[3] as Paint;
       expect(
         rRectBorder,
         RRect.fromLTRBR(-28, 40, 10, 78, const Radius.circular(12)),
       );
-      expect(paintBorder.color, const Color(0x11111111));
+      expect(paintBorder.color, isSameColorAs(const Color(0x11111111)));
       expect(paintBorder.strokeWidth, 2);
 
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
@@ -2693,14 +2878,14 @@ void main() {
         rRect,
         RRect.fromLTRBR(10, 40, 48, 78, const Radius.circular(12)),
       );
-      expect(paint.color, const Color(0x11111111));
+      expect(paint.color, isSameColorAs(const Color(0x11111111)));
       final rRectBorder = result1.captured[2] as RRect;
       final paintBorder = result1.captured[3] as Paint;
       expect(
         rRectBorder,
         RRect.fromLTRBR(10, 40, 48, 78, const Radius.circular(12)),
       );
-      expect(paintBorder.color, const Color(0x11111111));
+      expect(paintBorder.color, isSameColorAs(const Color(0x11111111)));
       expect(paintBorder.strokeWidth, 2);
 
       final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
@@ -2711,6 +2896,252 @@ void main() {
       expect((textPainter.text as TextSpan?)!.style, textStyle1);
       expect(drawOffset, const Offset(22, 52));
     });
+
+    test('does not draw tooltip if it is outside of the chart virtual rect',
+        () {
+      const viewSize = Size(100, 100);
+      final chartVirtualRect = Offset.zero & const Size(200, 200);
+
+      final barData = LineChartBarData(
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(2, 2),
+          FlSpot(3, 3),
+          FlSpot(4, 4),
+          FlSpot.nullSpot,
+          FlSpot(5, 5),
+        ],
+      );
+
+      final tooltipData = LineTouchTooltipData(
+        getTooltipColor: (touchedSpot) => const Color(0x11111111),
+        tooltipRoundedRadius: 12,
+        rotateAngle: 43,
+        maxContentWidth: 100,
+        tooltipMargin: 12,
+        tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+        tooltipPadding: const EdgeInsets.all(12),
+        fitInsideVertically: true,
+        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          return touchedSpots
+              .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
+              .toList();
+        },
+        tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+      );
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchTooltipData: tooltipData,
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+        chartVirtualRect,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+
+      lineChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        tooltipData,
+        barData.spots.first,
+        ShowingTooltipIndicators([
+          LineBarSpot(
+            barData,
+            0,
+            barData.spots.first,
+          ),
+        ]),
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      );
+    });
+
+    test(
+      'takes dotHeight into account when deciding if tooltip should be drawn',
+      () {
+        const viewSize = Size(100, 100);
+        const dotRadius = 4.0;
+        const smallerDotRadius = 3.0;
+        const dotStrokeWidth = 1.0;
+
+        final barData = LineChartBarData(
+          spots: const [
+            FlSpot(1, 1),
+            FlSpot(2, 2),
+            FlSpot(3, 3),
+            FlSpot(4, 4),
+            FlSpot.nullSpot,
+            FlSpot(5, 5),
+          ],
+        );
+
+        final tooltipData = LineTouchTooltipData(
+          getTooltipColor: (touchedSpot) => const Color(0x11111111),
+          tooltipRoundedRadius: 12,
+          rotateAngle: 43,
+          maxContentWidth: 100,
+          tooltipMargin: 12,
+          tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+          tooltipPadding: const EdgeInsets.all(12),
+          fitInsideVertically: true,
+          getTooltipItems: (List<LineBarSpot> touchedSpots) {
+            return touchedSpots
+                .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
+                .toList();
+          },
+          tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+        );
+        final data = LineChartData(
+          minY: 0,
+          maxY: 10,
+          minX: 0,
+          maxX: 10,
+          titlesData: const FlTitlesData(show: false),
+          lineBarsData: [barData],
+          lineTouchData: LineTouchData(
+            touchTooltipData: tooltipData,
+            getTouchedSpotIndicator: (barData, spotIndexes) => [
+              TouchedSpotIndicatorData(
+                const FlLine(color: Colors.red, strokeWidth: 1),
+                FlDotData(
+                  getDotPainter: (
+                    FlSpot spot,
+                    double xPercentage,
+                    LineChartBarData bar,
+                    int index, {
+                    double? size,
+                  }) =>
+                      FlDotCirclePainter(
+                    color: Colors.red,
+                    // smaller first dot ensures we're actually iterating over
+                    // the painters to get the largest dot height
+                    radius: index == 0 ? smallerDotRadius : dotRadius,
+                    strokeWidth: dotStrokeWidth,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+        final mockBuildContext = MockBuildContext();
+        final mockUtils = MockUtils();
+        Utils.changeInstance(mockUtils);
+        when(mockUtils.getThemeAwareTextStyle(any, any))
+            .thenAnswer((realInvocation) => textStyle1);
+        when(mockUtils.calculateRotationOffset(any, any))
+            .thenAnswer((realInvocation) => Offset.zero);
+        final lineChartPainter = LineChartPainter();
+
+        const dotHeight = (dotRadius + dotStrokeWidth) * 2;
+        const dotXOffset = 20.0;
+        const scaledSize = Size(200, 100);
+
+        const dotVisibleXOffset = dotXOffset + (dotHeight / 2);
+        final chartVirtualRect =
+            const Offset(-dotVisibleXOffset, 0) & scaledSize;
+
+        final indicators = ShowingTooltipIndicators([
+          LineBarSpot(
+            barData,
+            0,
+            barData.spots.first,
+          ),
+          LineBarSpot(
+            barData,
+            0,
+            barData.spots[1],
+          ),
+        ]);
+
+        final holder = PaintHolder<LineChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+          chartVirtualRect,
+        );
+
+        lineChartPainter.drawTouchTooltip(
+          mockBuildContext,
+          mockCanvasWrapper,
+          tooltipData,
+          barData.spots.first,
+          indicators,
+          holder,
+        );
+
+        verify(
+          mockCanvasWrapper.drawRotated(
+            size: anyNamed('size'),
+            rotationOffset: anyNamed('rotationOffset'),
+            drawOffset: anyNamed('drawOffset'),
+            angle: anyNamed('angle'),
+            drawCallback: anyNamed('drawCallback'),
+          ),
+        ).called(3);
+
+        const dotHiddenXOffset = dotXOffset + (dotHeight / 2) + 0.1;
+        final chartVirtualRect2 =
+            const Offset(-dotHiddenXOffset, 0) & scaledSize;
+        final holder2 = PaintHolder<LineChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+          chartVirtualRect2,
+        );
+
+        lineChartPainter.drawTouchTooltip(
+          mockBuildContext,
+          mockCanvasWrapper,
+          tooltipData,
+          barData.spots.first,
+          indicators,
+          holder2,
+        );
+
+        verifyNever(
+          mockCanvasWrapper.drawRotated(
+            size: anyNamed('size'),
+            rotationOffset: anyNamed('rotationOffset'),
+            drawOffset: anyNamed('drawOffset'),
+            angle: anyNamed('angle'),
+            drawCallback: anyNamed('drawCallback'),
+          ),
+        );
+      },
+    );
   });
 
   group('getBarLineXLength()', () {
@@ -3351,13 +3782,13 @@ void main() {
 
       expect(results[0]['from'], const Offset(0, 60));
       expect(results[0]['to'], const Offset(20, 60));
-      expect(results[0]['paint_color'], MockData.color1);
+      expect(results[0]['paint_color'], isSameColorAs(MockData.color1));
       expect(results[0]['paint_stroke_width'], 11);
       expect(results[0]['dash_array'], [1, 1]);
 
       expect(results[1]['from'], const Offset(0, 40));
       expect(results[1]['to'], const Offset(20, 40));
-      expect(results[1]['paint_color'], MockData.color2);
+      expect(results[1]['paint_color'], isSameColorAs(MockData.color2));
       expect(results[1]['paint_stroke_width'], 22);
       expect(results[1]['dash_array'], [2, 2]);
     });
@@ -3431,13 +3862,13 @@ void main() {
 
       expect(results[0]['from'], const Offset(40, 0));
       expect(results[0]['to'], const Offset(40, 20));
-      expect(results[0]['paint_color'], MockData.color1);
+      expect(results[0]['paint_color'], isSameColorAs(MockData.color1));
       expect(results[0]['paint_stroke_width'], 11);
       expect(results[0]['dash_array'], [1, 1]);
 
       expect(results[1]['from'], const Offset(60, 0));
       expect(results[1]['to'], const Offset(60, 20));
-      expect(results[1]['paint_color'], MockData.color2);
+      expect(results[1]['paint_color'], isSameColorAs(MockData.color2));
       expect(results[1]['paint_stroke_width'], 22);
       expect(results[1]['dash_array'], [2, 2]);
     });
@@ -3481,7 +3912,7 @@ void main() {
         minX: 0,
         maxX: 10,
         titlesData: const FlTitlesData(show: false),
-        backgroundColor: MockData.color1.withOpacity(0),
+        backgroundColor: MockData.color1.withValues(alpha: 0),
       );
 
       final lineChartPainter = LineChartPainter();
@@ -3522,7 +3953,10 @@ void main() {
         ),
       );
       expect(result.callCount, 1);
-      expect((result.captured.single as Paint).color, MockData.color1);
+      expect(
+        (result.captured.single as Paint).color,
+        isSameColorAs(MockData.color1),
+      );
     });
   });
 
@@ -3586,10 +4020,10 @@ void main() {
       expect(results.length, 2);
 
       expect(results[0]['rect'], const Rect.fromLTRB(0, 0, 20, 60));
-      expect(results[0]['paint_color'], MockData.color1);
+      expect(results[0]['paint_color'], isSameColorAs(MockData.color1));
 
       expect(results[1]['rect'], const Rect.fromLTRB(0, -40, 20, -20));
-      expect(results[1]['paint_color'], MockData.color2);
+      expect(results[1]['paint_color'], isSameColorAs(MockData.color2));
     });
 
     test('test 3 - vertical', () {
@@ -3629,10 +4063,10 @@ void main() {
       expect(results.length, 2);
 
       expect(results[0]['rect'], const Rect.fromLTRB(2, 0, 4, 100));
-      expect(results[0]['paint_color'], MockData.color1);
+      expect(results[0]['paint_color'], isSameColorAs(MockData.color1));
 
       expect(results[1]['rect'], const Rect.fromLTRB(8, 0, 10, 100));
-      expect(results[1]['paint_color'], MockData.color2);
+      expect(results[1]['paint_color'], isSameColorAs(MockData.color2));
     });
 
     test('test 4 - both', () {

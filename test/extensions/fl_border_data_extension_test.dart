@@ -25,7 +25,7 @@ void main() {
           ),
           top: BorderSide(
             width: 10,
-            color: Colors.red.withOpacity(0.5),
+            color: Colors.red.withValues(alpha: 0.5),
           ),
           bottom: const BorderSide(
             width: 4,

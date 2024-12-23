@@ -86,6 +86,17 @@ We suggest you to check samples source code.
 |:------------:|:------------:|:-------------:|
 |	[![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_1_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#sample-1-source-code)   |	[![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_sample_2_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#sample-2-source-code) | [![](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/bar_chart/bar_chart_sample_1_anim.gif)](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#sample-1-source-code) |
 
+### Try it out
+You can try the FL Chart sample app on the platforms that are available below:
+
+[![Get it on Google Play](https://img.shields.io/badge/Get%20it%20on-Google%20Play-green?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=dev.flchart.app)
+[![Download on the App Store](https://img.shields.io/badge/Download-on%20the%20App%20Store-blue?style=for-the-badge&logo=app-store&logoColor=white)](https://apps.apple.com/us/app/fl-chart/id6476523019)
+[![Try it on Web](https://img.shields.io/badge/Try%20it%20on-Web-yellow?style=for-the-badge&logo=google-chrome&logoColor=white)](https://app.flchart.dev)
+
+[//]: # ([![Download for macOS]&#40;https://img.shields.io/badge/Download-for%20macOS-darkblue?style=for-the-badge&logo=apple&logoColor=white&#41;]&#40;https://apps.apple.com/app/your-macos-app-id&#41;)
+[//]: # ([![Download for Linux]&#40;https://img.shields.io/badge/Download-for%20Linux-orange?style=for-the-badge&logo=linux&logoColor=white&#41;]&#40;https://your-linux-distribution-link.com&#41;)
+[//]: # ([![Download for Windows]&#40;https://img.shields.io/badge/Download-for%20Windows-blue?style=for-the-badge&logo=windows&logoColor=white&#41;]&#40;https://your-windows-app-link.com&#41;)
+
 
 ### Donation
 Your donation **motivates** me to work more on the **fl_chart** and resolve more issues.

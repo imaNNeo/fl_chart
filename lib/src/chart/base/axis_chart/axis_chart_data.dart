@@ -40,18 +40,18 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
 
-  double minX;
-  double maxX;
-  double baselineX;
-  double minY;
-  double maxY;
-  double baselineY;
+  final double minX;
+  final double maxX;
+  final double baselineX;
+  final double minY;
+  final double maxY;
+  final double baselineY;
 
   /// clip the chart to the border (prevent draw outside the border)
-  FlClipData clipData;
+  final FlClipData clipData;
 
   /// A background color which is drawn behind the chart.
-  Color backgroundColor;
+  final Color backgroundColor;
 
   /// Difference of [maxY] and [minY]
   double get verticalDiff => maxY - minY;
@@ -991,15 +991,15 @@ class HorizontalLine extends FlLine with EquatableMixin {
   final double y;
 
   /// Use it for any kind of image, to draw it in left side of the chart.
-  Image? image;
+  final Image? image;
 
   /// Use it for vector images, to draw it in left side of the chart.
-  SizedPicture? sizedPicture;
+  final SizedPicture? sizedPicture;
 
   /// Draws a text label over the line.
   final HorizontalLineLabel label;
 
-  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
   final StrokeCap strokeCap;
 
@@ -1062,15 +1062,15 @@ class VerticalLine extends FlLine with EquatableMixin {
   final double x;
 
   /// Use it for any kind of image, to draw it in bottom side of the chart.
-  Image? image;
+  final Image? image;
 
   /// Use it for vector images, to draw it in bottom side of the chart.
-  SizedPicture? sizedPicture;
+  final SizedPicture? sizedPicture;
 
   /// Draws a text label over the line.
   final VerticalLineLabel label;
 
-  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
   final StrokeCap strokeCap;
 
@@ -1265,13 +1265,13 @@ class SizedPicture with EquatableMixin {
   SizedPicture(this.picture, this.width, this.height);
 
   /// Is the showing image.
-  Picture picture;
+  final Picture picture;
 
   /// width of our [picture].
-  int width;
+  final int width;
 
   /// height of our [picture].
-  int height;
+  final int height;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1371,21 +1371,21 @@ class FlDotCirclePainter extends FlDotPainter {
   }) : radius = radius ?? 4.0;
 
   /// The fill color to use for the circle
-  Color color;
+  final Color color;
 
   /// Customizes the radius of the circle
-  double radius;
+  final double radius;
 
   /// The stroke color to use for the circle
-  Color strokeColor;
+  final Color strokeColor;
 
   /// The stroke width to use for the circle
-  double strokeWidth;
+  final double strokeWidth;
 
   /// Implementation of the parent class to draw the circle
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    if (strokeWidth != 0.0 && strokeColor.opacity != 0.0) {
+    if (strokeWidth != 0.0 && strokeColor.a != 0.0) {
       canvas.drawCircle(
         offsetInCanvas,
         radius + (strokeWidth / 2),
@@ -1406,7 +1406,7 @@ class FlDotCirclePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the circle
   @override
-  Size getSize(FlSpot spot) => Size(radius * 2, radius * 2);
+  Size getSize(FlSpot spot) => Size.fromRadius(radius + strokeWidth);
 
   @override
   Color get mainColor => color;
@@ -1468,21 +1468,21 @@ class FlDotSquarePainter extends FlDotPainter {
   });
 
   /// The fill color to use for the square
-  Color color;
+  final Color color;
 
   /// Customizes the size of the square
-  double size;
+  final double size;
 
   /// The stroke color to use for the square
-  Color strokeColor;
+  final Color strokeColor;
 
   /// The stroke width to use for the square
-  double strokeWidth;
+  final double strokeWidth;
 
   /// Implementation of the parent class to draw the square
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    if (strokeWidth != 0.0 && strokeColor.opacity != 0.0) {
+    if (strokeWidth != 0.0 && strokeColor.a != 0.0) {
       canvas.drawRect(
         Rect.fromCircle(
           center: offsetInCanvas,
@@ -1507,7 +1507,7 @@ class FlDotSquarePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the square
   @override
-  Size getSize(FlSpot spot) => Size(size, size);
+  Size getSize(FlSpot spot) => Size.square(size + strokeWidth);
 
   @override
   Color get mainColor => color;
@@ -1554,13 +1554,13 @@ class FlDotCrossPainter extends FlDotPainter {
   });
 
   /// The fill color to use for the X mark
-  Color color;
+  final Color color;
 
   /// Determines size (width and height) of shape.
-  double size;
+  final double size;
 
   /// Determines thickness of X mark.
-  double width;
+  final double width;
 
   /// Implementation of the parent class to draw the cross
   @override
