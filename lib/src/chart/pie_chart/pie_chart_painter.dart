@@ -312,6 +312,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     Path sectionPath,
     CanvasWrapper canvasWrapper,
   ) {
+    // _sectionPaint
+    //   ..setColorOrGradient(
+    //     section.color,
+    //     section.gradient,
+    //     sectionPath.getBounds(),
+    //   )
+    //   ..style = PaintingStyle.fill;
+    // canvasWrapper.drawPath(sectionPath, _sectionPaint);
+
+    // Set up the paint for the section
     _sectionPaint
       ..setColorOrGradient(
         section.color,
@@ -319,7 +329,29 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionPath.getBounds(),
       )
       ..style = PaintingStyle.fill;
-    canvasWrapper.drawPath(sectionPath, _sectionPaint);
+
+    // Apply border radius if specified
+    if (section.borderRadius != BorderRadius.zero) {
+      Rect bounds = sectionPath.getBounds();
+      Path roundedPath = Path()
+        ..addRRect(
+          RRect.fromRectAndCorners(
+            bounds,
+            topLeft: section.borderRadius.topLeft,
+            topRight: section.borderRadius.topRight,
+            bottomLeft: section.borderRadius.bottomLeft,
+            bottomRight: section.borderRadius.bottomRight,
+          ),
+        );
+
+      // Clip the original path to the rounded rectangle
+      Path clippedPath =
+          Path.combine(PathOperation.intersect, sectionPath, roundedPath);
+      canvasWrapper.drawPath(clippedPath, _sectionPaint);
+    } else {
+      // If no border radius, draw as normal
+      canvasWrapper.drawPath(sectionPath, _sectionPaint);
+    }
   }
 
   @visibleForTesting

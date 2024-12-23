@@ -31,11 +31,13 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    BorderRadius? borderRadius,
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
+        borderRadius = borderRadius ?? BorderRadius.zero,
         pieTouchData = pieTouchData ?? PieTouchData(),
         titleSunbeamLayout = titleSunbeamLayout ?? false,
         super(
@@ -67,6 +69,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// Whether to rotate the titles on each section of the chart
   final bool titleSunbeamLayout;
 
+  /// Border radius of the pie chart.
+  final BorderRadius borderRadius;
+
   /// We hold this value to determine weight of each [PieChartSectionData.value].
   double get sumValue => sections
       .map((data) => data.value)
@@ -83,6 +88,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    BorderRadius? borderRadius,
   }) =>
       PieChartData(
         sections: sections ?? this.sections,
@@ -93,6 +99,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData: pieTouchData ?? this.pieTouchData,
         borderData: borderData ?? this.borderData,
         titleSunbeamLayout: titleSunbeamLayout ?? this.titleSunbeamLayout,
+        borderRadius: borderRadius ?? this.borderRadius,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -113,6 +120,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
             lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
         sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
         titleSunbeamLayout: b.titleSunbeamLayout,
+        borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       );
     } else {
       throw Exception('Illegal State');
@@ -130,6 +138,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         startDegreeOffset,
         borderData,
         titleSunbeamLayout,
+        borderRadius,
       ];
 }
 
@@ -166,6 +175,7 @@ class PieChartSectionData with EquatableMixin {
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    BorderRadius? borderRadius,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
@@ -173,7 +183,8 @@ class PieChartSectionData with EquatableMixin {
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
-        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5,
+        borderRadius = borderRadius ?? BorderRadius.zero;
 
   /// It determines how much space it should occupy around the circle.
   ///
@@ -224,6 +235,9 @@ class PieChartSectionData with EquatableMixin {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
+  /// Border radius of the section.
+  final BorderRadius borderRadius;
+
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -238,6 +252,7 @@ class PieChartSectionData with EquatableMixin {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    BorderRadius? borderRadius,
   }) =>
       PieChartSectionData(
         value: value ?? this.value,
@@ -253,6 +268,7 @@ class PieChartSectionData with EquatableMixin {
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
         badgePositionPercentageOffset:
             badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
+        borderRadius: borderRadius ?? this.borderRadius,
       );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
@@ -281,6 +297,7 @@ class PieChartSectionData with EquatableMixin {
           b.badgePositionPercentageOffset,
           t,
         ),
+        borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -297,6 +314,7 @@ class PieChartSectionData with EquatableMixin {
         badgeWidget,
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
+        borderRadius,
       ];
 }
 

@@ -17,13 +17,17 @@ abstract class BaseChartData with EquatableMixin {
   BaseChartData({
     FlBorderData? borderData,
     required this.touchData,
-  }) : borderData = borderData ?? FlBorderData();
+    BorderRadius? borderRadius,
+  }) : borderData = borderData ?? FlBorderData(), borderRadius = borderRadius ?? BorderRadius.zero;
 
   /// Holds data to drawing border around the chart.
   final FlBorderData borderData;
 
   /// Holds data needed to touch behavior and responses.
   final FlTouchData touchData;
+
+  /// Border radius of the chart.
+  final BorderRadius borderRadius;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
@@ -32,6 +36,7 @@ abstract class BaseChartData with EquatableMixin {
   List<Object?> get props => [
         borderData,
         touchData,
+        borderRadius,
       ];
 }
 
