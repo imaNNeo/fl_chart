@@ -755,7 +755,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// Controls showing tooltip on top or bottom, default is auto.
   final TooltipDirection direction;
 
-  /// Controls the rotation of the tooltip.
+  /// Controls the rotation of the tooltip (in degrees)
   final double rotateAngle;
 
   /// The tooltip border color.
