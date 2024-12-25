@@ -87,7 +87,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
                   getTitlesWidget: (value, meta) {
                     final index = value.toInt();
                     return SideTitleWidget(
-                      axisSide: meta.axisSide,
+                      meta: meta,
                       child: _IconWidget(
                         color: widget.dataList[index].color,
                         isSelected: touchedGroupIndex == index,

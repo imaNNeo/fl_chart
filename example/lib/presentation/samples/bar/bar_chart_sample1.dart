@@ -287,7 +287,7 @@ class BarChartSample1State extends State<BarChartSample1> {
         break;
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 16,
       child: text,
     );

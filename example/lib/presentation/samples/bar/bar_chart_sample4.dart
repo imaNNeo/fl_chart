@@ -39,7 +39,7 @@ class BarChartSample4State extends State<BarChartSample4> {
         break;
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(text, style: style),
     );
   }
@@ -52,7 +52,7 @@ class BarChartSample4State extends State<BarChartSample4> {
       fontSize: 10,
     );
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(
         meta.formattedValue,
         style: style,

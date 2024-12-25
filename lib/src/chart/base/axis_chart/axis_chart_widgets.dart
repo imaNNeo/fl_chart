@@ -16,7 +16,7 @@ class SideTitleWidget extends StatefulWidget {
   const SideTitleWidget({
     super.key,
     required this.child,
-    required this.axisSide,
+    required this.meta,
     this.space = 8.0,
     this.angle = 0.0,
     this.fitInside = const SideTitleFitInsideData(
@@ -27,7 +27,7 @@ class SideTitleWidget extends StatefulWidget {
     ),
   });
 
-  final AxisSide axisSide;
+  final TitleMeta meta;
   final double space;
   final Widget child;
   final double angle;
@@ -53,14 +53,14 @@ class SideTitleWidget extends StatefulWidget {
 }
 
 class _SideTitleWidgetState extends State<SideTitleWidget> {
-  Alignment _getAlignment() => switch (widget.axisSide) {
+  Alignment _getAlignment() => switch (widget.meta.axisSide) {
         AxisSide.left => Alignment.centerRight,
         AxisSide.top => Alignment.bottomCenter,
         AxisSide.right => Alignment.centerLeft,
         AxisSide.bottom => Alignment.topCenter,
       };
 
-  EdgeInsets _getMargin() => switch (widget.axisSide) {
+  EdgeInsets _getMargin() => switch (widget.meta.axisSide) {
         AxisSide.left => EdgeInsets.only(right: widget.space),
         AxisSide.top => EdgeInsets.only(bottom: widget.space),
         AxisSide.right => EdgeInsets.only(left: widget.space),
@@ -82,7 +82,7 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
     if (context == null) return;
 
     // Set size based on its axis side
-    final size = switch (widget.axisSide) {
+    final size = switch (widget.meta.axisSide) {
       AxisSide.left || AxisSide.right => context.size?.height ?? 0,
       AxisSide.top || AxisSide.bottom => context.size?.width ?? 0,
     };
@@ -111,7 +111,7 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
       offset: !widget.fitInside.enabled
           ? Offset.zero
           : AxisChartHelper().calcFitInsideOffset(
-              axisSide: widget.axisSide,
+              axisSide: widget.meta.axisSide,
               childSize: _childSize,
               parentAxisSize: widget.fitInside.parentAxisSize,
               axisPosition: widget.fitInside.axisPosition,
@@ -123,7 +123,10 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
           key: widgetKey,
           margin: _getMargin(),
           alignment: _getAlignment(),
-          child: widget.child,
+          child: RotatedBox(
+            quarterTurns: -widget.meta.rotationQuarterTurns,
+            child: widget.child,
+          ),
         ),
       ),
     );

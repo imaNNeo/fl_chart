@@ -65,7 +65,7 @@ class LineChartSample7 extends StatelessWidget {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 4,
       child: Text(text, style: style),
     );
@@ -75,7 +75,7 @@ class LineChartSample7 extends StatelessWidget {
     const style = TextStyle(fontSize: 10);
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(
         '\$ ${value + 0.5}',
         style: style,

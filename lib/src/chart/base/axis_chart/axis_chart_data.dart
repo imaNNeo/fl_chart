@@ -132,7 +132,7 @@ typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 /// formats the axis number to a shorter string using [formatNumber].
 Widget defaultGetTitle(double value, TitleMeta meta) {
   return SideTitleWidget(
-    axisSide: meta.axisSide,
+    meta: meta,
     child: Text(
       meta.formattedValue,
     ),
