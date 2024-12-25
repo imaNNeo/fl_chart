@@ -78,7 +78,7 @@ class _BarChart extends StatelessWidget {
         break;
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 4,
       child: Text(text, style: style),
     );

@@ -151,7 +151,7 @@ class _LineChart extends StatelessWidget {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 10,
       child: text,
     );

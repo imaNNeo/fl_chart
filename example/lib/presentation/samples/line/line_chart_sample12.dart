@@ -241,7 +241,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
                       getTitlesWidget: (double value, TitleMeta meta) {
                         final date = _bitcoinPriceHistory![value.toInt()].$1;
                         return SideTitleWidget(
-                          axisSide: meta.axisSide,
+                          meta: meta,
                           child: Transform.rotate(
                             angle: -45 * 3.14 / 180,
                             child: Text(

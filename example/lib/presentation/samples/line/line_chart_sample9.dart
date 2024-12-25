@@ -22,7 +22,7 @@ class LineChartSample9 extends StatelessWidget {
       fontSize: min(18, 18 * chartWidth / 300),
     );
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 16,
       child: Text(meta.formattedValue, style: style),
     );
@@ -35,7 +35,7 @@ class LineChartSample9 extends StatelessWidget {
       fontSize: min(18, 18 * chartWidth / 300),
     );
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 16,
       child: Text(meta.formattedValue, style: style),
     );
