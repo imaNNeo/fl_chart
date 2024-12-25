@@ -170,6 +170,11 @@ class SideTitles with EquatableMixin {
 
   /// You can override it to pass your custom widget to show in each axis value
   /// We recommend you to use [SideTitleWidget].
+  ///
+  /// If you decide to implement your custom widget
+  /// (instead of [SideTitleWidget]), you have to take care of the alignment,
+  /// space to the chart and also the rotation (if you are rotating the chart,
+  /// for example for Horizontal Bar Chart)
   final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum space that your titles need,
