@@ -67,17 +67,11 @@ class _BarChartSample7State extends State<BarChartSample7> {
             ),
             titlesData: FlTitlesData(
               show: true,
-              leftTitles: AxisTitles(
+              leftTitles: const AxisTitles(
                 drawBelowEverything: true,
                 sideTitles: SideTitles(
                   showTitles: true,
                   reservedSize: 30,
-                  getTitlesWidget: (value, meta) {
-                    return Text(
-                      value.toInt().toString(),
-                      textAlign: TextAlign.left,
-                    );
-                  },
                 ),
               ),
               bottomTitles: AxisTitles(
