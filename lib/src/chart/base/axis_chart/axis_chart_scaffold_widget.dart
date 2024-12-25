@@ -316,7 +316,12 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Stack(children: stackWidgets(constraints));
+        return RotatedBox(
+          quarterTurns: widget.data.rotationQuarterTurns,
+          child: Stack(
+            children: stackWidgets(constraints),
+          ),
+        );
       },
     );
   }
