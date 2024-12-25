@@ -58,6 +58,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     super.baselineY,
     super.clipData = const FlClipData.none(),
     super.backgroundColor,
+    super.rotationQuarterTurns,
   }) : super(
           touchData: lineTouchData,
           minX: minX ?? double.nan,
@@ -109,6 +110,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
             lerpBetweenBarsDataList(a.betweenBarsData, b.betweenBarsData, t)!,
         lineTouchData: b.lineTouchData,
         showingTooltipIndicators: b.showingTooltipIndicators,
+        rotationQuarterTurns: b.rotationQuarterTurns,
       );
     } else {
       throw Exception('Illegal State');
@@ -135,6 +137,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
+    int? rotationQuarterTurns,
   }) =>
       LineChartData(
         lineBarsData: lineBarsData ?? this.lineBarsData,
@@ -155,6 +158,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         baselineY: baselineY ?? this.baselineY,
         clipData: clipData ?? this.clipData,
         backgroundColor: backgroundColor ?? this.backgroundColor,
+        rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -177,6 +181,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         baselineY,
         clipData,
         backgroundColor,
+        rotationQuarterTurns,
       ];
 }
 

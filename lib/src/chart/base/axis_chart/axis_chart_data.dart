@@ -29,6 +29,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     super.borderData,
     required super.touchData,
     ExtraLinesData? extraLinesData,
+    this.rotationQuarterTurns = 0,
   })  : gridData = gridData ?? const FlGridData(),
         rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
@@ -62,6 +63,9 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Extra horizontal or vertical lines to draw on the chart.
   final ExtraLinesData extraLinesData;
 
+  /// Rotates the chart by 90 degrees clockwise in each turn
+  final int rotationQuarterTurns;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -79,11 +83,22 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         borderData,
         touchData,
         extraLinesData,
+        rotationQuarterTurns,
       ];
 }
 
 /// Represents a side of the chart
-enum AxisSide { left, top, right, bottom }
+enum AxisSide {
+  left,
+  top,
+  right,
+  bottom;
+
+  AxisSide rotateByQuarterTurns(int quarterTurns) {
+    const values = AxisSide.values;
+    return values[(values.indexOf(this) + quarterTurns) % values.length];
+  }
+}
 
 /// Contains meta information about the drawing title.
 class TitleMeta {
@@ -96,6 +111,7 @@ class TitleMeta {
     required this.sideTitles,
     required this.formattedValue,
     required this.axisSide,
+    required this.rotationQuarterTurns,
   });
 
   /// min axis value
@@ -122,6 +138,11 @@ class TitleMeta {
 
   /// Determines the axis side of titles (left, top, right, bottom)
   final AxisSide axisSide;
+
+  /// Chart is rotated by 90 degrees clockwise in each turn
+  ///
+  /// default is zero, which means chart is normal and upward
+  final int rotationQuarterTurns;
 }
 
 /// It gives you the axis value and gets a String value based on it.

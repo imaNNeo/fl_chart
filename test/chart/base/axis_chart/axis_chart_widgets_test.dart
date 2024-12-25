@@ -12,6 +12,7 @@ void main() {
     sideTitles: const SideTitles(),
     formattedValue: '12',
     axisSide: axisSide,
+    rotationQuarterTurns: 0,
   );
 
 
