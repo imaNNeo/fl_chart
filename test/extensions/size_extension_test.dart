@@ -12,5 +12,13 @@ void main() {
     expect(const Size(100, 200).rotateByQuarterTurns(4), const Size(100, 200));
     expect(const Size(100, 200).rotateByQuarterTurns(5), const Size(200, 100));
     expect(const Size(100, 200).rotateByQuarterTurns(6), const Size(100, 200));
+    expect(
+      () => const Size(100, 200).rotateByQuarterTurns(-1),
+      throwsArgumentError,
+    );
+    expect(
+      () => const Size(100, 200).rotateByQuarterTurns(-3),
+      throwsArgumentError,
+    );
   });
 }
