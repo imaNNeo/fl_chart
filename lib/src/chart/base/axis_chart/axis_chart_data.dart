@@ -112,7 +112,10 @@ class TitleMeta {
     required this.formattedValue,
     required this.axisSide,
     required this.rotationQuarterTurns,
-  });
+  }) : assert(
+          rotationQuarterTurns >= 0,
+          "TitleMeta.rotationQuarterTurns couldn't be negative",
+        );
 
   /// min axis value
   final double min;
