@@ -412,8 +412,10 @@ void main() {
                   height: viewSize.height,
                   child: AxisChartScaffoldWidget(
                     data: lineChartDataWithAllTitles,
+                    // This is for test
                     // ignore: avoid_redundant_argument_values
                     transformationConfig: const FlTransformationConfig(
+                      // This is for test
                       // ignore: avoid_redundant_argument_values
                       scaleAxis: FlScaleAxis.none,
                     ),
@@ -1245,8 +1247,10 @@ void main() {
                 height: 300,
                 child: LineChart(
                   lineChartDataWithNoTitles,
+                  // This is for test
                   // ignore: avoid_redundant_argument_values
                   transformationConfig: const FlTransformationConfig(
+                    // This is for test
                     // ignore: avoid_redundant_argument_values
                     scaleAxis: FlScaleAxis.none,
                   ),
@@ -1309,26 +1313,26 @@ void main() {
         'oldWidget.controller is null and widget.controller is null: '
         'keeps old controller',
         (WidgetTester tester) async {
-          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           await tester.pumpWidget(createTestWidget());
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects);
+          expect(chartVirtualRects, actualChartVirtualRects);
 
           final transformationController = getTransformationController(tester);
           transformationController!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(createTestWidget());
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, transformationController);
           transformationController2!.value = Matrix4.identity()..scale(3.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
       );
 
@@ -1336,24 +1340,24 @@ void main() {
         'oldWidget.controller is null and widget.controller is not null: '
         'disposes old controller and sets up widget.controller with listeners',
         (WidgetTester tester) async {
-          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           await tester.pumpWidget(createTestWidget());
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects);
+          expect(chartVirtualRects, actualChartVirtualRects);
 
           final transformationController = getTransformationController(tester);
           transformationController!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = TransformationController();
 
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
           );
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
           expect(
@@ -1362,7 +1366,7 @@ void main() {
           );
           transformationController2.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
       );
 
@@ -1371,31 +1375,32 @@ void main() {
         'removes listeners from old controller and sets up new controller '
         'with listeners',
         (WidgetTester tester) async {
-          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects);
+          expect(chartVirtualRects, actualChartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(createTestWidget());
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, isNot(transformationController));
+          // This is for test
           // ignore: invalid_use_of_protected_member
           expect(transformationController.hasListeners, false);
           transformationController.addListener(() {}); // throws if disposed
           transformationController2!.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
       );
 
@@ -1405,34 +1410,35 @@ void main() {
         'removes listeners from old controller and sets up '
         'widget.controller with listeners',
         (WidgetTester tester) async {
-          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects);
+          expect(chartVirtualRects, actualChartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = TransformationController();
 
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
           );
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
+          // This is for test
           // ignore: invalid_use_of_protected_member
           expect(transformationController.hasListeners, false);
           transformationController.addListener(() {}); // throws if disposed
           transformationController2.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
       );
 
@@ -1440,7 +1446,7 @@ void main() {
         'oldWidget.controller is not null and widget.controller is not null, '
         'controllers are the same: keeps old controller',
         (WidgetTester tester) async {
-          final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(
@@ -1448,26 +1454,26 @@ void main() {
             ),
           );
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects);
+          expect(chartVirtualRects, actualChartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(
             createTestWidget(
               controller: transformationController,
             ),
           );
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, transformationController);
           transformationController.value = Matrix4.identity()..scale(3.0);
           await tester.pump();
-          expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
       );
     });
@@ -1477,7 +1483,7 @@ void main() {
       (WidgetTester tester) async {
         final transformationController = TransformationController();
         final chartVirtualRects = <Rect?>[];
-        final actualchartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+        final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
         await tester.pumpWidget(
           MaterialApp(
             home: AxisChartScaffoldWidget(
@@ -1493,15 +1499,15 @@ void main() {
           ),
         );
         await tester.pump();
-        expect(chartVirtualRects, actualchartVirtualRects);
+        expect(chartVirtualRects, actualChartVirtualRects);
 
         transformationController.value = Matrix4.identity()..scale(2.0);
         await tester.pump();
-        expect(chartVirtualRects, actualchartVirtualRects..add(isScaled));
+        expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
         transformationController.value = Matrix4.identity()..scale(1.0);
         await tester.pump();
-        expect(chartVirtualRects, actualchartVirtualRects..add(isNotScaled));
+        expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
       },
     );
 
@@ -1522,6 +1528,7 @@ void main() {
         ),
       );
       await tester.pumpWidget(Container());
+      // This is for test
       // ignore: invalid_use_of_protected_member
       expect(controller.hasListeners, false);
       controller.addListener(() {}); // throws if disposed
