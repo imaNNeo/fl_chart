@@ -2226,6 +2226,26 @@ final LineChartData lineChartData20 = LineChartData(
   minX: 11,
   minY: 302,
 );
+final LineChartData lineChartData21 = LineChartData(
+  borderData: borderData1,
+  rotationQuarterTurns: 1,
+  lineTouchData: lineTouchData1,
+  showingTooltipIndicators: [
+    showingTooltipIndicator1,
+    showingTooltipIndicator2,
+  ],
+  backgroundColor: Colors.red,
+  maxY: 23,
+  rangeAnnotations: rangeAnnotations1,
+  gridData: flGridData1,
+  titlesData: MockData.flTitlesData1,
+  lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
+  betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
+  extraLinesData: extraLinesData1,
+  maxX: 23,
+  minX: 11,
+  minY: 302,
+);
 
 final PieChartData pieChartData1 = PieChartData(
   borderData: FlBorderData(show: false, border: Border.all()),

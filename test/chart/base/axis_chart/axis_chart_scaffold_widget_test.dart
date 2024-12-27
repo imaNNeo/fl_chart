@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
 import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
+import 'package:fl_chart/src/extensions/size_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -363,6 +364,48 @@ void main() {
       expect(chartDrawingSize, const Size(390, 400));
       expect(find.byType(Text), findsNothing);
       expect(find.byType(Icon), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'LineChart with rotationQuarterTurns',
+    (WidgetTester tester) async {
+      for (var rotationTurns = 0; rotationTurns <= 8; rotationTurns++) {
+        Size? chartDrawingSize;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 400,
+                  height: 200,
+                  child: AxisChartScaffoldWidget(
+                    chartBuilder: (context, chartVirtualRect) => LayoutBuilder(
+                      builder: (context, constraints) {
+                        chartDrawingSize = constraints.biggest;
+                        return const ColoredBox(
+                          color: Colors.red,
+                        );
+                      },
+                    ),
+                    data: lineChartDataWithNoTitles.copyWith(
+                      rotationQuarterTurns: rotationTurns,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        expect(
+          chartDrawingSize,
+          const Size(400, 200).rotateByQuarterTurns(rotationTurns),
+        );
+        final types = find.byType(RotatedBox);
+        final rotatedBox = tester.widget<RotatedBox>(types);
+        expect(rotatedBox.quarterTurns, rotationTurns);
+        expect(types, findsOne);
+      }
     },
   );
 
