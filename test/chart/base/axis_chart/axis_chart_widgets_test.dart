@@ -4,17 +4,16 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TitleMeta getTitleMeta(AxisSide axisSide) => TitleMeta(
-    min: 0,
-    max: 10,
-    parentAxisSize: 100,
-    axisPosition: 10,
-    appliedInterval: 10,
-    sideTitles: const SideTitles(),
-    formattedValue: '12',
-    axisSide: axisSide,
-    rotationQuarterTurns: 0,
-  );
-
+        min: 0,
+        max: 10,
+        parentAxisSize: 100,
+        axisPosition: 10,
+        appliedInterval: 10,
+        sideTitles: const SideTitles(),
+        formattedValue: '12',
+        axisSide: axisSide,
+        rotationQuarterTurns: 0,
+      );
 
   group(
     'SideTitle without FitInside enabled',

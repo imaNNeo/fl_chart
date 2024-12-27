@@ -110,8 +110,10 @@ void main() {
         createTestWidget(
           chart: ScatterChart(
             ScatterChartData(),
+            // This is for test
             // ignore: avoid_redundant_argument_values
             transformationConfig: const FlTransformationConfig(
+              // This is for test
               // ignore: avoid_redundant_argument_values
               scaleAxis: FlScaleAxis.none,
             ),
@@ -646,6 +648,7 @@ void main() {
               chart: ScatterChart(
                 ScatterChartData(),
                 transformationConfig: const FlTransformationConfig(
+                  // This is for test
                   // ignore: avoid_redundant_argument_values
                   scaleAxis: FlScaleAxis.none,
                   trackpadScrollCausesScale: true,
@@ -682,6 +685,7 @@ void main() {
                   ScatterChartData(),
                   transformationConfig: FlTransformationConfig(
                     scaleAxis: scaleAxis,
+                    // This is for test
                     // ignore: avoid_redundant_argument_values
                     trackpadScrollCausesScale: false,
                   ),
