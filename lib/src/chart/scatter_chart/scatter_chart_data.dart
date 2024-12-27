@@ -250,7 +250,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         lerpDouble(a.x, b.x, t)!,
         lerpDouble(a.y, b.y, t)!,
         show: b.show,
-        renderPriority: a.renderPriority + (t * (b.renderPriority - a.renderPriority)).round(),
+        renderPriority: a.renderPriority +
+            (t * (b.renderPriority - a.renderPriority)).round(),
         dotPainter: a.dotPainter.lerp(a.dotPainter, b.dotPainter, t),
       );
 
