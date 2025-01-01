@@ -36,11 +36,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
           capStyle == null || centerSpaceRadius != null,
           'centerSpaceRadius must not be null if capStyle is provided',
         ),
-        // assert(
-        //   capStyle == null ||
-        //       (sections?.map((e) => e.radius).toSet().length ?? 0) <= 1,
-        //   'All sections must have the same radius if capStyle is provided',
-        // ),
         sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
