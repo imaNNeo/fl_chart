@@ -12,7 +12,6 @@ class PieChartSample2 extends StatefulWidget {
 
 class PieChart2State extends State {
   int touchedIndex = -1;
-  CapStyle capStyle = CapStyle.none;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class PieChart2State extends State {
                       });
                     },
                   ),
-                  capStyle: capStyle,
+                  capStyle: CapStyle.none,
                   borderData: FlBorderData(
                     show: false,
                   ),
