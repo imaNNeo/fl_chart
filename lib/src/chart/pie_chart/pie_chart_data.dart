@@ -31,13 +31,24 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
-  })  : sections = sections ?? const [],
+    CapStyle? capStyle,
+  })  : assert(
+          capStyle == null || centerSpaceRadius != null,
+          'centerSpaceRadius must not be null if capStyle is provided',
+        ),
+        // assert(
+        //   capStyle == null ||
+        //       (sections?.map((e) => e.radius).toSet().length ?? 0) <= 1,
+        //   'All sections must have the same radius if capStyle is provided',
+        // ),
+        sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
         titleSunbeamLayout = titleSunbeamLayout ?? false,
+        capStyle = capStyle ?? CapStyle.none,
         super(
           borderData: borderData ?? FlBorderData(show: false),
           touchData: pieTouchData ?? PieTouchData(),
@@ -67,6 +78,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// Whether to rotate the titles on each section of the chart
   final bool titleSunbeamLayout;
 
+  /// Cap style of pie charts
+  final CapStyle capStyle;
+
   /// We hold this value to determine weight of each [PieChartSectionData.value].
   double get sumValue => sections
       .map((data) => data.value)
@@ -83,6 +97,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    CapStyle? capStyle,
   }) =>
       PieChartData(
         sections: sections ?? this.sections,
@@ -93,6 +108,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData: pieTouchData ?? this.pieTouchData,
         borderData: borderData ?? this.borderData,
         titleSunbeamLayout: titleSunbeamLayout ?? this.titleSunbeamLayout,
+        capStyle: capStyle ?? this.capStyle,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -107,6 +123,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
           b.centerSpaceRadius,
           t,
         ),
+        capStyle: capStyle,
         pieTouchData: b.pieTouchData,
         sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
         startDegreeOffset:
@@ -130,6 +147,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         startDegreeOffset,
         borderData,
         titleSunbeamLayout,
+        capStyle,
       ];
 }
 
@@ -400,4 +418,10 @@ class PieChartDataTween extends Tween<PieChartData> {
   /// Lerps a [PieChartData] based on [t] value, check [Tween.lerp].
   @override
   PieChartData lerp(double t) => begin!.lerp(begin!, end!, t);
+}
+
+enum CapStyle {
+  none,
+  startCapped,
+  endCapped,
 }
