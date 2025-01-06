@@ -19,7 +19,7 @@ class BarChartSample1 extends StatefulWidget {
       ];
 
   final Color barBackgroundColor =
-      AppColors.contentColorWhite.darken().withOpacity(0.3);
+      AppColors.contentColorWhite.darken().withValues(alpha: 0.3);
   final Color barColor = AppColors.contentColorWhite;
   final Color touchedBarColor = AppColors.contentColorGreen;
 
@@ -72,7 +72,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: BarChart(
                       isPlaying ? randomData() : mainBarData(),
-                      swapAnimationDuration: animDuration,
+                      duration: animDuration,
                     ),
                   ),
                 ),
@@ -287,7 +287,7 @@ class BarChartSample1State extends State<BarChartSample1> {
         break;
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 16,
       child: text,
     );

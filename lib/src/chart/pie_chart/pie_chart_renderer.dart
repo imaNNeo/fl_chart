@@ -54,7 +54,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
   )   : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
-        super(targetData.pieTouchData, context);
+        super(targetData.pieTouchData, context, canBeScaled: false);
 
   PieChartData get data => _data;
   PieChartData _data;
@@ -129,9 +129,8 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
-    return defaultHitTestChildren(result, position: position);
-  }
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) =>
+      defaultHitTestChildren(result, position: position);
 
   @override
   void paint(PaintingContext context, Offset offset) {
@@ -144,7 +143,20 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
       paintHolder,
     );
     canvas.restore();
-    defaultPaint(context, offset);
+    badgeWidgetPaint(context, offset);
+  }
+
+  void badgeWidgetPaint(PaintingContext context, Offset offset) {
+    RenderObject? child = firstChild;
+    var counter = 0;
+    while (child != null) {
+      final childParentData = child.parentData! as MultiChildLayoutParentData;
+      if (data.sections[counter].value > 0) {
+        context.paintChild(child, childParentData.offset + offset);
+      }
+      child = childParentData.nextSibling;
+      counter++;
+    }
   }
 
   @override

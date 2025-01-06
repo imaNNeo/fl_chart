@@ -1,6 +1,6 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/app_utils.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample5 extends StatefulWidget {
@@ -59,7 +59,7 @@ class BarChartSample5State extends State<BarChartSample5> {
         break;
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(text, style: style),
     );
   }
@@ -93,7 +93,7 @@ class BarChartSample5State extends State<BarChartSample5> {
         return Container();
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(text, style: style),
     );
   }
@@ -108,7 +108,7 @@ class BarChartSample5State extends State<BarChartSample5> {
     }
     return SideTitleWidget(
       angle: AppUtils().degreeToRadian(value < 0 ? -45 : 45),
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 4,
       child: Text(
         text,
@@ -128,7 +128,7 @@ class BarChartSample5State extends State<BarChartSample5> {
     }
     return SideTitleWidget(
       angle: AppUtils().degreeToRadian(90),
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 0,
       child: Text(
         text,
@@ -221,29 +221,29 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               0,
               -value1,
-              AppColors.contentColorGreen
-                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              AppColors.contentColorGreen.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
               const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -value1,
               -(value1 + value2),
-              AppColors.contentColorYellow
-                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              AppColors.contentColorYellow.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
               const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -(value1 + value2),
               -(value1 + value2 + value3),
-              AppColors.contentColorPink
-                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              AppColors.contentColorPink.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
               const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -(value1 + value2 + value3),
               -(value1 + value2 + value3 + value4),
-              AppColors.contentColorBlue
-                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
+              AppColors.contentColorBlue.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
               const BorderSide(color: Colors.transparent),
             ),
           ],
@@ -328,12 +328,12 @@ class BarChartSample5State extends State<BarChartSample5> {
               getDrawingHorizontalLine: (value) {
                 if (value == 0) {
                   return FlLine(
-                    color: AppColors.borderColor.withOpacity(0.1),
+                    color: AppColors.borderColor.withValues(alpha: 0.1),
                     strokeWidth: 3,
                   );
                 }
                 return FlLine(
-                  color: AppColors.borderColor.withOpacity(0.05),
+                  color: AppColors.borderColor.withValues(alpha: 0.05),
                   strokeWidth: 0.8,
                 );
               },

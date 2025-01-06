@@ -24,10 +24,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       ..style = PaintingStyle.stroke
       ..color = Colors.transparent
       ..strokeWidth = 1.0;
+
+    _clipPaint = Paint();
   }
 
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
+  late Paint _clipPaint;
 
   /// Paints [ScatterChartData] into the provided canvas.
   @override
@@ -36,8 +39,21 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<ScatterChartData> holder,
   ) {
+    if (holder.chartVirtualRect != null) {
+      canvasWrapper
+        ..saveLayer(
+          Offset.zero & canvasWrapper.size,
+          _clipPaint,
+        )
+        ..clipRect(Offset.zero & canvasWrapper.size);
+    }
     super.paint(context, canvasWrapper, holder);
     drawSpots(context, canvasWrapper, holder);
+
+    if (holder.chartVirtualRect != null) {
+      canvasWrapper.restore();
+    }
+
     drawTouchTooltips(context, canvasWrapper, holder);
   }
 
@@ -60,7 +76,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           canvasWrapper.size.width,
           canvasWrapper.size.height,
         ),
-        Paint(),
+        _clipPaint,
       );
 
       var left = 0.0;
@@ -230,19 +246,27 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final width = drawingTextPainter.width;
     final height = drawingTextPainter.height;
 
-    /// if we have multiple bar lines,
-    /// there are more than one FlCandidate on touch area,
-    /// we should get the most top FlSpot Offset to draw the tooltip on top of it
-    final mostTopOffset = Offset(
+    final tooltipOriginPoint = Offset(
       getPixelX(showOnSpot.x, viewSize, holder),
       getPixelY(showOnSpot.y, viewSize, holder),
     );
+
+    // Get the dot size to create an extended boundary
+    final dotSize = showOnSpot.dotPainter.getSize(showOnSpot);
+    final dotRadius = dotSize.width / 2;
+    final viewRect = Offset.zero & viewSize;
+    final extendedBoundary = viewRect.inflate(dotRadius);
+
+    // Check if any part of the dot is within the extended boundary
+    if (!extendedBoundary.contains(tooltipOriginPoint)) {
+      return;
+    }
 
     final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
     final tooltipLeftPosition = getTooltipLeft(
-      mostTopOffset.dx,
+      tooltipOriginPoint.dx,
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
@@ -251,7 +275,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     /// draw the background rect with rounded radius
     var rect = Rect.fromLTWH(
       tooltipLeftPosition,
-      mostTopOffset.dy -
+      tooltipOriginPoint.dy -
           tooltipHeight -
           (showOnSpot.size.height / 2) -
           tooltipItem.bottomMargin,
@@ -336,11 +360,12 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
         ..strokeWidth = tooltipData.tooltipBorder.width;
     }
 
+    final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
     canvasWrapper.drawRotated(
       size: rect.size,
       rotationOffset: rectRotationOffset,
       drawOffset: rectDrawOffset,
-      angle: rotateAngle,
+      angle: reverseQuarterTurnsAngle + rotateAngle,
       drawCallback: () {
         canvasWrapper
           ..drawRRect(roundedRect, _bgTouchTooltipPaint)
@@ -364,7 +389,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   ) {
     final data = holder.data;
 
-    for (var i = 0; i < data.scatterSpots.length; i++) {
+    for (var i = data.scatterSpots.length - 1; i >= 0; i--) {
+      // Reverse the loop to check the topmost spot first
       final spot = data.scatterSpots[i];
 
       final spotPixelX = getPixelX(spot.x, viewSize, holder);

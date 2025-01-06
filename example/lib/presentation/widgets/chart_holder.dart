@@ -7,9 +7,9 @@ class ChartHolder extends StatelessWidget {
   final ChartSample chartSample;
 
   const ChartHolder({
-    Key? key,
+    super.key,
     required this.chartSample,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

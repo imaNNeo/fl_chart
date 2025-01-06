@@ -110,7 +110,7 @@ class LineChartSample6 extends StatelessWidget {
       color: AppColors.mainTextColor2,
     );
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(value.toInt().toString(), style: style),
     );
   }

@@ -1,4 +1,4 @@
-<a href="https://youtu.be/F3wTxTdAFaU"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_video_thumbnail.png" width=540></a>
+<a href="https://www.youtube.com/watch?v=F3wTxTdAFaU&list=PL1-_rCwRcnbNpvodmbt43O81wMUdBv8-a"><img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/line_chart/line_chart_video_thumbnail.png" width=540></a>
 
 ### How to use
 ```dart
@@ -26,14 +26,16 @@ When you change the chart's state, it animates to the new state internally (usin
 |showingTooltipIndicators| show the tooltip based on provided list of [LineBarSpot](#LineBarSpot), The point is that you need to disable touches to show these tooltips manually| [] |
 |gridData| check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
-|minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
-|maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
+|minX| gets minimum x of x axis, if null, value will read from the input lineBars (But it is more performant if you provide them)|null|
+|maxX| gets maximum x of x axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
 |baselineX| defines the baseline of x-axis | 0|
-|minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
-|maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
+|minY| gets minimum y of y axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
+|maxY| gets maximum y of y axis, if null, value will read from the input lineBars (But it is more performant if you provide them)| null|
 |baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |
+|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
+
 
 
 ### LineChartBarData
@@ -135,7 +137,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |text|text string of each row in the tooltip bubble|null|
 |textStyle|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the showing text row|null|
-|textAlign|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) of the showing text row|TextAlign.center|
+|textAlign|[TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign-class.html) of the showing text row|TextAlign.center|
 |textDirection|[TextDirection](https://api.flutter.dev/flutter/dart-ui/TextDirection-class.html) of the showing text row|TextDirection.ltr|
 |children|[List<TextSpan>](https://api.flutter.dev/flutter/painting/InlineSpan-class.html) pass additional InlineSpan children for a more advance tooltip|null|
 

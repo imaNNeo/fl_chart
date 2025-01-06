@@ -17,3 +17,4 @@ linter:
     public_member_api_docs: false
     use_if_null_to_convert_nulls_to_bools: false
     use_setters_to_change_properties: false
+    avoid_catches_without_on_clauses: false

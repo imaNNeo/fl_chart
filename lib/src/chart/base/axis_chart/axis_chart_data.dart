@@ -29,6 +29,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     super.borderData,
     required super.touchData,
     ExtraLinesData? extraLinesData,
+    this.rotationQuarterTurns = 0,
   })  : gridData = gridData ?? const FlGridData(),
         rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
@@ -40,18 +41,18 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   final FlTitlesData titlesData;
   final RangeAnnotations rangeAnnotations;
 
-  double minX;
-  double maxX;
-  double baselineX;
-  double minY;
-  double maxY;
-  double baselineY;
+  final double minX;
+  final double maxX;
+  final double baselineX;
+  final double minY;
+  final double maxY;
+  final double baselineY;
 
   /// clip the chart to the border (prevent draw outside the border)
-  FlClipData clipData;
+  final FlClipData clipData;
 
   /// A background color which is drawn behind the chart.
-  Color backgroundColor;
+  final Color backgroundColor;
 
   /// Difference of [maxY] and [minY]
   double get verticalDiff => maxY - minY;
@@ -61,6 +62,9 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
 
   /// Extra horizontal or vertical lines to draw on the chart.
   final ExtraLinesData extraLinesData;
+
+  /// Rotates the chart by 90 degrees clockwise in each turn
+  final int rotationQuarterTurns;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -79,11 +83,22 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         borderData,
         touchData,
         extraLinesData,
+        rotationQuarterTurns,
       ];
 }
 
 /// Represents a side of the chart
-enum AxisSide { left, top, right, bottom }
+enum AxisSide {
+  left,
+  top,
+  right,
+  bottom;
+
+  AxisSide rotateByQuarterTurns(int quarterTurns) {
+    const values = AxisSide.values;
+    return values[(values.indexOf(this) + quarterTurns) % values.length];
+  }
+}
 
 /// Contains meta information about the drawing title.
 class TitleMeta {
@@ -96,7 +111,11 @@ class TitleMeta {
     required this.sideTitles,
     required this.formattedValue,
     required this.axisSide,
-  });
+    required this.rotationQuarterTurns,
+  }) : assert(
+          rotationQuarterTurns >= 0,
+          "TitleMeta.rotationQuarterTurns couldn't be negative",
+        );
 
   /// min axis value
   final double min;
@@ -122,6 +141,11 @@ class TitleMeta {
 
   /// Determines the axis side of titles (left, top, right, bottom)
   final AxisSide axisSide;
+
+  /// Chart is rotated by 90 degrees clockwise in each turn
+  ///
+  /// default is zero, which means chart is normal and upward
+  final int rotationQuarterTurns;
 }
 
 /// It gives you the axis value and gets a String value based on it.
@@ -132,7 +156,7 @@ typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 /// formats the axis number to a shorter string using [formatNumber].
 Widget defaultGetTitle(double value, TitleMeta meta) {
   return SideTitleWidget(
-    axisSide: meta.axisSide,
+    meta: meta,
     child: Text(
       meta.formattedValue,
     ),
@@ -161,6 +185,8 @@ class SideTitles with EquatableMixin {
     this.getTitlesWidget = defaultGetTitle,
     this.reservedSize = 22,
     this.interval,
+    this.minIncluded = true,
+    this.maxIncluded = true,
   }) : assert(interval != 0, "SideTitles.interval couldn't be zero");
 
   /// Determines showing or hiding this side titles
@@ -168,6 +194,11 @@ class SideTitles with EquatableMixin {
 
   /// You can override it to pass your custom widget to show in each axis value
   /// We recommend you to use [SideTitleWidget].
+  ///
+  /// If you decide to implement your custom widget
+  /// (instead of [SideTitleWidget]), you have to take care of the alignment,
+  /// space to the chart and also the rotation (if you are rotating the chart,
+  /// for example for Horizontal Bar Chart)
   final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum space that your titles need,
@@ -178,15 +209,23 @@ class SideTitles with EquatableMixin {
   /// we try to find a suitable value to set as [interval] under the hood.
   final double? interval;
 
+  /// If true (default), a title for the minimum data value is included
+  /// independent of the sampling interval
+  final bool minIncluded;
+
+  /// If true (default), a title for the maximum data value is included
+  /// independent of the sampling interval
+  final bool maxIncluded;
+
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
-  static SideTitles lerp(SideTitles a, SideTitles b, double t) {
-    return SideTitles(
-      showTitles: b.showTitles,
-      getTitlesWidget: b.getTitlesWidget,
-      reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t)!,
-      interval: lerpDouble(a.interval, b.interval, t),
-    );
-  }
+  static SideTitles lerp(SideTitles a, SideTitles b, double t) => SideTitles(
+        showTitles: b.showTitles,
+        getTitlesWidget: b.getTitlesWidget,
+        reservedSize: lerpDouble(a.reservedSize, b.reservedSize, t)!,
+        interval: lerpDouble(a.interval, b.interval, t),
+        minIncluded: b.minIncluded,
+        maxIncluded: b.maxIncluded,
+      );
 
   /// Copies current [SideTitles] to a new [SideTitles],
   /// and replaces provided values.
@@ -195,14 +234,17 @@ class SideTitles with EquatableMixin {
     GetTitleWidgetFunction? getTitlesWidget,
     double? reservedSize,
     double? interval,
-  }) {
-    return SideTitles(
-      showTitles: showTitles ?? this.showTitles,
-      getTitlesWidget: getTitlesWidget ?? this.getTitlesWidget,
-      reservedSize: reservedSize ?? this.reservedSize,
-      interval: interval ?? this.interval,
-    );
-  }
+    bool? minIncluded,
+    bool? maxIncluded,
+  }) =>
+      SideTitles(
+        showTitles: showTitles ?? this.showTitles,
+        getTitlesWidget: getTitlesWidget ?? this.getTitlesWidget,
+        reservedSize: reservedSize ?? this.reservedSize,
+        interval: interval ?? this.interval,
+        minIncluded: minIncluded ?? this.minIncluded,
+        maxIncluded: maxIncluded ?? this.maxIncluded,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -211,6 +253,8 @@ class SideTitles with EquatableMixin {
         getTitlesWidget,
         reservedSize,
         interval,
+        minIncluded,
+        maxIncluded,
       ];
 }
 
@@ -324,14 +368,12 @@ class AxisTitles with EquatableMixin {
       sideTitles.showTitles && sideTitles.reservedSize != 0;
 
   /// Lerps a [AxisTitles] based on [t] value, check [Tween.lerp].
-  static AxisTitles lerp(AxisTitles a, AxisTitles b, double t) {
-    return AxisTitles(
-      axisNameWidget: b.axisNameWidget,
-      axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t)!,
-      sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
-      drawBelowEverything: b.drawBelowEverything,
-    );
-  }
+  static AxisTitles lerp(AxisTitles a, AxisTitles b, double t) => AxisTitles(
+        axisNameWidget: b.axisNameWidget,
+        axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t)!,
+        sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
+        drawBelowEverything: b.drawBelowEverything,
+      );
 
   /// Copies current [SideTitles] to a new [SideTitles],
   /// and replaces provided values.
@@ -340,14 +382,13 @@ class AxisTitles with EquatableMixin {
     double? axisNameSize,
     SideTitles? sideTitles,
     bool? drawBelowEverything,
-  }) {
-    return AxisTitles(
-      axisNameWidget: axisNameWidget ?? this.axisNameWidget,
-      axisNameSize: axisNameSize ?? this.axisNameSize,
-      sideTitles: sideTitles ?? this.sideTitles,
-      drawBelowEverything: drawBelowEverything ?? this.drawBelowEverything,
-    );
-  }
+  }) =>
+      AxisTitles(
+        axisNameWidget: axisNameWidget ?? this.axisNameWidget,
+        axisNameSize: axisNameSize ?? this.axisNameSize,
+        sideTitles: sideTitles ?? this.sideTitles,
+        drawBelowEverything: drawBelowEverything ?? this.drawBelowEverything,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -399,15 +440,14 @@ class FlTitlesData with EquatableMixin {
   final AxisTitles bottomTitles;
 
   /// Lerps a [FlTitlesData] based on [t] value, check [Tween.lerp].
-  static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) {
-    return FlTitlesData(
-      show: b.show,
-      leftTitles: AxisTitles.lerp(a.leftTitles, b.leftTitles, t),
-      rightTitles: AxisTitles.lerp(a.rightTitles, b.rightTitles, t),
-      bottomTitles: AxisTitles.lerp(a.bottomTitles, b.bottomTitles, t),
-      topTitles: AxisTitles.lerp(a.topTitles, b.topTitles, t),
-    );
-  }
+  static FlTitlesData lerp(FlTitlesData a, FlTitlesData b, double t) =>
+      FlTitlesData(
+        show: b.show,
+        leftTitles: AxisTitles.lerp(a.leftTitles, b.leftTitles, t),
+        rightTitles: AxisTitles.lerp(a.rightTitles, b.rightTitles, t),
+        bottomTitles: AxisTitles.lerp(a.bottomTitles, b.bottomTitles, t),
+        topTitles: AxisTitles.lerp(a.topTitles, b.topTitles, t),
+      );
 
   /// Copies current [FlTitlesData] to a new [FlTitlesData],
   /// and replaces provided values.
@@ -417,15 +457,14 @@ class FlTitlesData with EquatableMixin {
     AxisTitles? topTitles,
     AxisTitles? rightTitles,
     AxisTitles? bottomTitles,
-  }) {
-    return FlTitlesData(
-      show: show ?? this.show,
-      leftTitles: leftTitles ?? this.leftTitles,
-      topTitles: topTitles ?? this.topTitles,
-      rightTitles: rightTitles ?? this.rightTitles,
-      bottomTitles: bottomTitles ?? this.bottomTitles,
-    );
-  }
+  }) =>
+      FlTitlesData(
+        show: show ?? this.show,
+        leftTitles: leftTitles ?? this.leftTitles,
+        topTitles: topTitles ?? this.topTitles,
+        rightTitles: rightTitles ?? this.rightTitles,
+        bottomTitles: bottomTitles ?? this.bottomTitles,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -447,6 +486,7 @@ class FlSpot {
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
   const FlSpot(this.x, this.y);
+
   final double x;
   final double y;
 
@@ -455,12 +495,11 @@ class FlSpot {
   FlSpot copyWith({
     double? x,
     double? y,
-  }) {
-    return FlSpot(
-      x ?? this.x,
-      y ?? this.y,
-    );
-  }
+  }) =>
+      FlSpot(
+        x ?? this.x,
+        y ?? this.y,
+      );
 
   ///Prints x and y coordinates of FlSpot list
   @override
@@ -585,20 +624,18 @@ class FlGridData with EquatableMixin {
   final CheckToShowGrid checkToShowVerticalLine;
 
   /// Lerps a [FlGridData] based on [t] value, check [Tween.lerp].
-  static FlGridData lerp(FlGridData a, FlGridData b, double t) {
-    return FlGridData(
-      show: b.show,
-      drawHorizontalLine: b.drawHorizontalLine,
-      horizontalInterval:
-          lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
-      getDrawingHorizontalLine: b.getDrawingHorizontalLine,
-      checkToShowHorizontalLine: b.checkToShowHorizontalLine,
-      drawVerticalLine: b.drawVerticalLine,
-      verticalInterval: lerpDouble(a.verticalInterval, b.verticalInterval, t),
-      getDrawingVerticalLine: b.getDrawingVerticalLine,
-      checkToShowVerticalLine: b.checkToShowVerticalLine,
-    );
-  }
+  static FlGridData lerp(FlGridData a, FlGridData b, double t) => FlGridData(
+        show: b.show,
+        drawHorizontalLine: b.drawHorizontalLine,
+        horizontalInterval:
+            lerpDouble(a.horizontalInterval, b.horizontalInterval, t),
+        getDrawingHorizontalLine: b.getDrawingHorizontalLine,
+        checkToShowHorizontalLine: b.checkToShowHorizontalLine,
+        drawVerticalLine: b.drawVerticalLine,
+        verticalInterval: lerpDouble(a.verticalInterval, b.verticalInterval, t),
+        getDrawingVerticalLine: b.getDrawingVerticalLine,
+        checkToShowVerticalLine: b.checkToShowVerticalLine,
+      );
 
   /// Copies current [FlGridData] to a new [FlGridData],
   /// and replaces provided values.
@@ -612,23 +649,22 @@ class FlGridData with EquatableMixin {
     double? verticalInterval,
     GetDrawingGridLine? getDrawingVerticalLine,
     CheckToShowGrid? checkToShowVerticalLine,
-  }) {
-    return FlGridData(
-      show: show ?? this.show,
-      drawHorizontalLine: drawHorizontalLine ?? this.drawHorizontalLine,
-      horizontalInterval: horizontalInterval ?? this.horizontalInterval,
-      getDrawingHorizontalLine:
-          getDrawingHorizontalLine ?? this.getDrawingHorizontalLine,
-      checkToShowHorizontalLine:
-          checkToShowHorizontalLine ?? this.checkToShowHorizontalLine,
-      drawVerticalLine: drawVerticalLine ?? this.drawVerticalLine,
-      verticalInterval: verticalInterval ?? this.verticalInterval,
-      getDrawingVerticalLine:
-          getDrawingVerticalLine ?? this.getDrawingVerticalLine,
-      checkToShowVerticalLine:
-          checkToShowVerticalLine ?? this.checkToShowVerticalLine,
-    );
-  }
+  }) =>
+      FlGridData(
+        show: show ?? this.show,
+        drawHorizontalLine: drawHorizontalLine ?? this.drawHorizontalLine,
+        horizontalInterval: horizontalInterval ?? this.horizontalInterval,
+        getDrawingHorizontalLine:
+            getDrawingHorizontalLine ?? this.getDrawingHorizontalLine,
+        checkToShowHorizontalLine:
+            checkToShowHorizontalLine ?? this.checkToShowHorizontalLine,
+        drawVerticalLine: drawVerticalLine ?? this.drawVerticalLine,
+        verticalInterval: verticalInterval ?? this.verticalInterval,
+        getDrawingVerticalLine:
+            getDrawingVerticalLine ?? this.getDrawingVerticalLine,
+        checkToShowVerticalLine:
+            checkToShowVerticalLine ?? this.checkToShowVerticalLine,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -649,9 +685,7 @@ class FlGridData with EquatableMixin {
 typedef CheckToShowGrid = bool Function(double value);
 
 /// Shows all lines.
-bool showAllGrids(double value) {
-  return true;
-}
+bool showAllGrids(double value) => true;
 
 /// Determines the appearance of specified line.
 ///
@@ -660,13 +694,11 @@ bool showAllGrids(double value) {
 typedef GetDrawingGridLine = FlLine Function(double value);
 
 /// Returns a grey line for all values.
-FlLine defaultGridLine(double value) {
-  return const FlLine(
-    color: Colors.blueGrey,
-    strokeWidth: 0.4,
-    dashArray: [8, 4],
-  );
-}
+FlLine defaultGridLine(double value) => const FlLine(
+      color: Colors.blueGrey,
+      strokeWidth: 0.4,
+      dashArray: [8, 4],
+    );
 
 /// Defines style of a line.
 class FlLine with EquatableMixin {
@@ -701,14 +733,12 @@ class FlLine with EquatableMixin {
   final List<int>? dashArray;
 
   /// Lerps a [FlLine] based on [t] value, check [Tween.lerp].
-  static FlLine lerp(FlLine a, FlLine b, double t) {
-    return FlLine(
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
-    );
-  }
+  static FlLine lerp(FlLine a, FlLine b, double t) => FlLine(
+        color: Color.lerp(a.color, b.color, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+        dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+      );
 
   /// Copies current [FlLine] to a new [FlLine],
   /// and replaces provided values.
@@ -717,14 +747,13 @@ class FlLine with EquatableMixin {
     Gradient? gradient,
     double? strokeWidth,
     List<int>? dashArray,
-  }) {
-    return FlLine(
-      color: color ?? this.color,
-      gradient: gradient ?? this.gradient,
-      strokeWidth: strokeWidth ?? this.strokeWidth,
-      dashArray: dashArray ?? this.dashArray,
-    );
-  }
+  }) =>
+      FlLine(
+        color: color ?? this.color,
+        gradient: gradient ?? this.gradient,
+        strokeWidth: strokeWidth ?? this.strokeWidth,
+        dashArray: dashArray ?? this.dashArray,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -781,34 +810,32 @@ class RangeAnnotations with EquatableMixin {
     RangeAnnotations a,
     RangeAnnotations b,
     double t,
-  ) {
-    return RangeAnnotations(
-      horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
-        a.horizontalRangeAnnotations,
-        b.horizontalRangeAnnotations,
-        t,
-      )!,
-      verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
-        a.verticalRangeAnnotations,
-        b.verticalRangeAnnotations,
-        t,
-      )!,
-    );
-  }
+  ) =>
+      RangeAnnotations(
+        horizontalRangeAnnotations: lerpHorizontalRangeAnnotationList(
+          a.horizontalRangeAnnotations,
+          b.horizontalRangeAnnotations,
+          t,
+        )!,
+        verticalRangeAnnotations: lerpVerticalRangeAnnotationList(
+          a.verticalRangeAnnotations,
+          b.verticalRangeAnnotations,
+          t,
+        )!,
+      );
 
   /// Copies current [RangeAnnotations] to a new [RangeAnnotations],
   /// and replaces provided values.
   RangeAnnotations copyWith({
     List<HorizontalRangeAnnotation>? horizontalRangeAnnotations,
     List<VerticalRangeAnnotation>? verticalRangeAnnotations,
-  }) {
-    return RangeAnnotations(
-      horizontalRangeAnnotations:
-          horizontalRangeAnnotations ?? this.horizontalRangeAnnotations,
-      verticalRangeAnnotations:
-          verticalRangeAnnotations ?? this.verticalRangeAnnotations,
-    );
-  }
+  }) =>
+      RangeAnnotations(
+        horizontalRangeAnnotations:
+            horizontalRangeAnnotations ?? this.horizontalRangeAnnotations,
+        verticalRangeAnnotations:
+            verticalRangeAnnotations ?? this.verticalRangeAnnotations,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -853,14 +880,13 @@ class HorizontalRangeAnnotation with EquatableMixin {
     HorizontalRangeAnnotation a,
     HorizontalRangeAnnotation b,
     double t,
-  ) {
-    return HorizontalRangeAnnotation(
-      y1: lerpDouble(a.y1, b.y1, t)!,
-      y2: lerpDouble(a.y2, b.y2, t)!,
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
-    );
-  }
+  ) =>
+      HorizontalRangeAnnotation(
+        y1: lerpDouble(a.y1, b.y1, t)!,
+        y2: lerpDouble(a.y2, b.y2, t)!,
+        color: Color.lerp(a.color, b.color, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      );
 
   /// Copies current [HorizontalRangeAnnotation] to a new [HorizontalRangeAnnotation],
   /// and replaces provided values.
@@ -869,14 +895,13 @@ class HorizontalRangeAnnotation with EquatableMixin {
     double? y2,
     Color? color,
     Gradient? gradient,
-  }) {
-    return HorizontalRangeAnnotation(
-      y1: y1 ?? this.y1,
-      y2: y2 ?? this.y2,
-      color: color ?? this.color,
-      gradient: gradient ?? this.gradient,
-    );
-  }
+  }) =>
+      HorizontalRangeAnnotation(
+        y1: y1 ?? this.y1,
+        y2: y2 ?? this.y2,
+        color: color ?? this.color,
+        gradient: gradient ?? this.gradient,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -923,14 +948,13 @@ class VerticalRangeAnnotation with EquatableMixin {
     VerticalRangeAnnotation a,
     VerticalRangeAnnotation b,
     double t,
-  ) {
-    return VerticalRangeAnnotation(
-      x1: lerpDouble(a.x1, b.x1, t)!,
-      x2: lerpDouble(a.x2, b.x2, t)!,
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
-    );
-  }
+  ) =>
+      VerticalRangeAnnotation(
+        x1: lerpDouble(a.x1, b.x1, t)!,
+        x2: lerpDouble(a.x2, b.x2, t)!,
+        color: Color.lerp(a.color, b.color, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      );
 
   /// Copies current [VerticalRangeAnnotation] to a new [VerticalRangeAnnotation],
   /// and replaces provided values.
@@ -939,14 +963,13 @@ class VerticalRangeAnnotation with EquatableMixin {
     double? x2,
     Color? color,
     Gradient? gradient,
-  }) {
-    return VerticalRangeAnnotation(
-      x1: x1 ?? this.x1,
-      x2: x2 ?? this.x2,
-      color: color ?? this.color,
-      gradient: gradient ?? this.gradient,
-    );
-  }
+  }) =>
+      VerticalRangeAnnotation(
+        x1: x1 ?? this.x1,
+        x2: x2 ?? this.x2,
+        color: color ?? this.color,
+        gradient: gradient ?? this.gradient,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -989,32 +1012,31 @@ class HorizontalLine extends FlLine with EquatableMixin {
   final double y;
 
   /// Use it for any kind of image, to draw it in left side of the chart.
-  Image? image;
+  final Image? image;
 
   /// Use it for vector images, to draw it in left side of the chart.
-  SizedPicture? sizedPicture;
+  final SizedPicture? sizedPicture;
 
   /// Draws a text label over the line.
   final HorizontalLineLabel label;
 
-  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
   final StrokeCap strokeCap;
 
   /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
-  static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) {
-    return HorizontalLine(
-      y: lerpDouble(a.y, b.y, t)!,
-      label: HorizontalLineLabel.lerp(a.label, b.label, t),
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
-      image: b.image,
-      sizedPicture: b.sizedPicture,
-      strokeCap: b.strokeCap,
-    );
-  }
+  static HorizontalLine lerp(HorizontalLine a, HorizontalLine b, double t) =>
+      HorizontalLine(
+        y: lerpDouble(a.y, b.y, t)!,
+        label: HorizontalLineLabel.lerp(a.label, b.label, t),
+        color: Color.lerp(a.color, b.color, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+        dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        image: b.image,
+        sizedPicture: b.sizedPicture,
+        strokeCap: b.strokeCap,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1061,32 +1083,31 @@ class VerticalLine extends FlLine with EquatableMixin {
   final double x;
 
   /// Use it for any kind of image, to draw it in bottom side of the chart.
-  Image? image;
+  final Image? image;
 
   /// Use it for vector images, to draw it in bottom side of the chart.
-  SizedPicture? sizedPicture;
+  final SizedPicture? sizedPicture;
 
   /// Draws a text label over the line.
   final VerticalLineLabel label;
 
-  /// if not drawing dash line, then this is the Strokecap for the line.
+  /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
   final StrokeCap strokeCap;
 
   /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
-  static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) {
-    return VerticalLine(
-      x: lerpDouble(a.x, b.x, t)!,
-      label: VerticalLineLabel.lerp(a.label, b.label, t),
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-      dashArray: lerpIntList(a.dashArray, b.dashArray, t),
-      image: b.image,
-      sizedPicture: b.sizedPicture,
-      strokeCap: b.strokeCap,
-    );
-  }
+  static VerticalLine lerp(VerticalLine a, VerticalLine b, double t) =>
+      VerticalLine(
+        x: lerpDouble(a.x, b.x, t)!,
+        label: VerticalLineLabel.lerp(a.label, b.label, t),
+        color: Color.lerp(a.color, b.color, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+        dashArray: lerpIntList(a.dashArray, b.dashArray, t),
+        image: b.image,
+        sizedPicture: b.sizedPicture,
+        strokeCap: b.strokeCap,
+      );
 
   /// Copies current [VerticalLine] to a new [VerticalLine]
   /// and replaces provided values.
@@ -1099,18 +1120,17 @@ class VerticalLine extends FlLine with EquatableMixin {
     Image? image,
     SizedPicture? sizedPicture,
     StrokeCap? strokeCap,
-  }) {
-    return VerticalLine(
-      x: x ?? this.x,
-      label: label ?? this.label,
-      color: color ?? this.color,
-      strokeWidth: strokeWidth ?? this.strokeWidth,
-      dashArray: dashArray ?? this.dashArray,
-      image: image ?? this.image,
-      sizedPicture: sizedPicture ?? this.sizedPicture,
-      strokeCap: strokeCap ?? this.strokeCap,
-    );
-  }
+  }) =>
+      VerticalLine(
+        x: x ?? this.x,
+        label: label ?? this.label,
+        color: color ?? this.color,
+        strokeWidth: strokeWidth ?? this.strokeWidth,
+        dashArray: dashArray ?? this.dashArray,
+        image: image ?? this.image,
+        sizedPicture: sizedPicture ?? this.sizedPicture,
+        strokeCap: strokeCap ?? this.strokeCap,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1156,17 +1176,19 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
     HorizontalLineLabel a,
     HorizontalLineLabel b,
     double t,
-  ) {
-    return HorizontalLineLabel(
-      padding:
-          EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t)!,
-      style: TextStyle.lerp(a.style, b.style, t),
-      alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
-      labelResolver: b.labelResolver,
-      show: b.show,
-      direction: b.direction,
-    );
-  }
+  ) =>
+      HorizontalLineLabel(
+        padding: EdgeInsets.lerp(
+          a.padding as EdgeInsets,
+          b.padding as EdgeInsets,
+          t,
+        )!,
+        style: TextStyle.lerp(a.style, b.style, t),
+        alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
+        labelResolver: b.labelResolver,
+        show: b.show,
+        direction: b.direction,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1214,17 +1236,19 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
     VerticalLineLabel a,
     VerticalLineLabel b,
     double t,
-  ) {
-    return VerticalLineLabel(
-      padding:
-          EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t)!,
-      style: TextStyle.lerp(a.style, b.style, t),
-      alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
-      labelResolver: b.labelResolver,
-      show: b.show,
-      direction: b.direction,
-    );
-  }
+  ) =>
+      VerticalLineLabel(
+        padding: EdgeInsets.lerp(
+          a.padding as EdgeInsets,
+          b.padding as EdgeInsets,
+          t,
+        )!,
+        style: TextStyle.lerp(a.style, b.style, t),
+        alignment: Alignment.lerp(a.alignment, b.alignment, t)!,
+        labelResolver: b.labelResolver,
+        show: b.show,
+        direction: b.direction,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1241,7 +1265,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
 /// Holds data for showing a vector image inside the chart.
 ///
 /// for example:
-/// ```
+/// ```dart
 /// Future<SizedPicture> loadSvg() async {
 ///    const String rawSvg = 'your svg string';
 ///    final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
@@ -1253,7 +1277,7 @@ class SizedPicture with EquatableMixin {
   /// [picture] is the showing image,
   /// it can retrieve from a svg icon,
   /// for example:
-  /// ```
+  /// ```dart
   ///    const String rawSvg = 'your svg string';
   ///    final DrawableRoot svgRoot = await svg.fromSvgString(rawSvg, rawSvg);
   ///    final picture = svgRoot.toPicture()
@@ -1262,13 +1286,13 @@ class SizedPicture with EquatableMixin {
   SizedPicture(this.picture, this.width, this.height);
 
   /// Is the showing image.
-  Picture picture;
+  final Picture picture;
 
   /// width of our [picture].
-  int width;
+  final int width;
 
   /// height of our [picture].
-  int height;
+  final int height;
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1299,14 +1323,14 @@ class ExtraLinesData with EquatableMixin {
   final bool extraLinesOnTop;
 
   /// Lerps a [ExtraLinesData] based on [t] value, check [Tween.lerp].
-  static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) {
-    return ExtraLinesData(
-      extraLinesOnTop: b.extraLinesOnTop,
-      horizontalLines:
-          lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t)!,
-      verticalLines: lerpVerticalLineList(a.verticalLines, b.verticalLines, t)!,
-    );
-  }
+  static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) =>
+      ExtraLinesData(
+        extraLinesOnTop: b.extraLinesOnTop,
+        horizontalLines:
+            lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t)!,
+        verticalLines:
+            lerpVerticalLineList(a.verticalLines, b.verticalLines, t)!,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1368,21 +1392,21 @@ class FlDotCirclePainter extends FlDotPainter {
   }) : radius = radius ?? 4.0;
 
   /// The fill color to use for the circle
-  Color color;
+  final Color color;
 
   /// Customizes the radius of the circle
-  double radius;
+  final double radius;
 
   /// The stroke color to use for the circle
-  Color strokeColor;
+  final Color strokeColor;
 
   /// The stroke width to use for the circle
-  double strokeWidth;
+  final double strokeWidth;
 
   /// Implementation of the parent class to draw the circle
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    if (strokeWidth != 0.0 && strokeColor.opacity != 0.0) {
+    if (strokeWidth != 0.0 && strokeColor.a != 0.0) {
       canvas.drawCircle(
         offsetInCanvas,
         radius + (strokeWidth / 2),
@@ -1403,9 +1427,7 @@ class FlDotCirclePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the circle
   @override
-  Size getSize(FlSpot spot) {
-    return Size(radius * 2, radius * 2);
-  }
+  Size getSize(FlSpot spot) => Size.fromRadius(radius + strokeWidth);
 
   @override
   Color get mainColor => color;
@@ -1414,14 +1436,13 @@ class FlDotCirclePainter extends FlDotPainter {
     FlDotCirclePainter a,
     FlDotCirclePainter b,
     double t,
-  ) {
-    return FlDotCirclePainter(
-      color: Color.lerp(a.color, b.color, t)!,
-      radius: lerpDouble(a.radius, b.radius, t),
-      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-    );
-  }
+  ) =>
+      FlDotCirclePainter(
+        color: Color.lerp(a.color, b.color, t)!,
+        radius: lerpDouble(a.radius, b.radius, t),
+        strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+      );
 
   @override
   FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
@@ -1468,21 +1489,21 @@ class FlDotSquarePainter extends FlDotPainter {
   });
 
   /// The fill color to use for the square
-  Color color;
+  final Color color;
 
   /// Customizes the size of the square
-  double size;
+  final double size;
 
   /// The stroke color to use for the square
-  Color strokeColor;
+  final Color strokeColor;
 
   /// The stroke width to use for the square
-  double strokeWidth;
+  final double strokeWidth;
 
   /// Implementation of the parent class to draw the square
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    if (strokeWidth != 0.0 && strokeColor.opacity != 0.0) {
+    if (strokeWidth != 0.0 && strokeColor.a != 0.0) {
       canvas.drawRect(
         Rect.fromCircle(
           center: offsetInCanvas,
@@ -1507,9 +1528,7 @@ class FlDotSquarePainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the square
   @override
-  Size getSize(FlSpot spot) {
-    return Size(size, size);
-  }
+  Size getSize(FlSpot spot) => Size.square(size + strokeWidth);
 
   @override
   Color get mainColor => color;
@@ -1527,14 +1546,13 @@ class FlDotSquarePainter extends FlDotPainter {
     FlDotSquarePainter a,
     FlDotSquarePainter b,
     double t,
-  ) {
-    return FlDotSquarePainter(
-      color: Color.lerp(a.color, b.color, t)!,
-      size: lerpDouble(a.size, b.size, t)!,
-      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
-      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-    );
-  }
+  ) =>
+      FlDotSquarePainter(
+        color: Color.lerp(a.color, b.color, t)!,
+        size: lerpDouble(a.size, b.size, t)!,
+        strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+      );
 
   @override
   FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
@@ -1557,13 +1575,13 @@ class FlDotCrossPainter extends FlDotPainter {
   });
 
   /// The fill color to use for the X mark
-  Color color;
+  final Color color;
 
   /// Determines size (width and height) of shape.
-  double size;
+  final double size;
 
   /// Determines thickness of X mark.
-  double width;
+  final double width;
 
   /// Implementation of the parent class to draw the cross
   @override
@@ -1586,9 +1604,7 @@ class FlDotCrossPainter extends FlDotPainter {
 
   /// Implementation of the parent class to get the size of the circle
   @override
-  Size getSize(FlSpot spot) {
-    return Size(size, size);
-  }
+  Size getSize(FlSpot spot) => Size(size, size);
 
   @override
   Color get mainColor => color;
@@ -1597,13 +1613,12 @@ class FlDotCrossPainter extends FlDotPainter {
     FlDotCrossPainter a,
     FlDotCrossPainter b,
     double t,
-  ) {
-    return FlDotCrossPainter(
-      color: Color.lerp(a.color, b.color, t)!,
-      size: lerpDouble(a.size, b.size, t)!,
-      width: lerpDouble(a.width, b.width, t)!,
-    );
-  }
+  ) =>
+      FlDotCrossPainter(
+        color: Color.lerp(a.color, b.color, t)!,
+        size: lerpDouble(a.size, b.size, t)!,
+        width: lerpDouble(a.width, b.width, t)!,
+      );
 
   @override
   FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {

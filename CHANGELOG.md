@@ -1,3 +1,37 @@
+## newVersion
+* **FEATURE** (by @Peetee06) Add `panEnabled` and `scaleEnabled` properties in the TransformationController, #1818
+* **FEATURE** (by @mitulagr2) Add `renderPriority` feature in our [ScatterSpot](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#scatterspot), #1545
+* **FEATURE** (by @imaNNeo) Add `rotationQuarterTurns` property in our Axis-Based charts (such as [LineChart](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md), [BarChart](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md) and [ScatterChart](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md)). It allows you to rotate the chart 90 degrees (clockwise) in each turn. For example you can have Horizontal Bar Charts by setting `rotationQuarterTurns` to 1 (which rotates the chart 90 degrees clockwise). It works exactly like [RotatesBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget, #113
+* **FEATURE** (by @soraef) Add `isMinValueAtCenter` property in the [RadarChart](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md) to allow the user to set the minimum value at the center of the chart, #1351, #1442
+
+## 0.70.0
+* **FEATURE** (by @Peetee06) Implemented a 5 years-old feature request about scroll and zoom support in our axis-based charts. Special thanks to @Peetee06 who made it happen, #71
+* **IMPROVEMENT** (by @Peetee06) Added functionality to control the transformation of axis-based charts using `FlTransformationConfig` class. You can now enable scaling and panning for `LineChart`, `BarChart` and `ScatterChart` using this class
+* **IMPROVEMENT** (by @Peetee06) Added some new unit tests in `bar_chart_data_extensions_test.dart`, `gradient_extension_test.dart` and fixed a typo in `bar_chart_data.dart`
+* **BREAKING** (by @Peetee06) Fixed the equatable functionality in our BarChart. We hope it will not affect anything in our chart, but because the behaviour is changed, we marked it as a breaking change. (read more [here](https://github.com/imaNNeo/fl_chart/pull/1789#discussion_r1858371718))
+* **BREAKING** (by @Peetee06) `BarChart` is not const anymore due to adding an assert to check if transformations are allowed depending on the `BarChartData.alignment` property (read more [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/migration_guides/0.70.0/MIGRATION_00_70_00.md))
+* **IMPROVEMENT** (by @Peetee06) Upgrade to the new Flutter version ([3.27.0](https://medium.com/flutter/whats-new-in-flutter-3-27-28341129570c)), #1804
+* **IMPROVEMENT** (by @AliAkberAakash) Minor typo fix in our line chart documentation, #1795
+* **IMPROVEMENT** (by @imaNNeo) Fixed the code coverage API rate-limit issue
+* **Improvement** (by @imaNNeo) Published the example app in Google Play and App Store. Other stores (such as [snap store](https://snapcraft.io/store) and [Microsoft Store](https://apps.microsoft.com/home)) will come next. You can download the Android version here in [Google Play](https://play.google.com/store/apps/details?id=dev.flchart.app) and the iOS version here in [App Store](https://apps.apple.com/us/app/fl-chart/id6476523019)
+
+## 0.69.2
+* **IMPROVEMENT** (by @imaNNeo) Fix the analyzer warnings (to have maximum score in the [pub.dev](https://pub.dev/packages/fl_chart/score))
+
+## 0.69.1
+* **IMPROVEMENT** (by @moshe5745) Update the docs related to line chart's `duration` and `curve` properties, #1618
+* **IMPROVEMENT** (by @imaNNeo) Deprecate `swapAnimationDuration` and `swapAnimationCurve` properties to use `curve` and `duration` instead to keep the consistency over the project, #1618
+* **BUGFIX** (by @aimawari) Fixed lots of issues related to the zero value in the PieChartSectionData, #697, #817 and #1632
+
+## 0.69.0
+* **BUGFIX** (by @imaNNeo) Fix a memory leak issue in the axis-based charts, there was a logic to calculate and cache the minX, maxX, minY and maxY properties to reduce the computation cost. But it caused some memory issues, as we don't have a quick solution for this, we disabled the caching logic for now, later we can move the calculation logic to the render objects to keep and update them only when the data is changed, #1106, #1693
+* **BUGFIX**  (by @imaNNeo) Fix showing grid lines even when there is no line to show in the LineChart, #1691
+* **IMPROVEMENT** (by @sczesla) Allow users to control minIncluded and maxIncluded using SideTitles, #906
+* **IMPROVEMENT** (by @elizabethzhenliu) Reverse the touch order in ScatterChart, so now the top spots are touched first, #1675
+* **IMPROVEMENT** (by @ksw2000) Remove redundant math import, #1683
+* **IMPROVEMENT** (by @Neer-Pathak) Fix linux example build issue, #1668
+* **IMPROVEMENT** (by @TobiasRump) Update the bar chart documentation, #1662
+
 ## 0.68.0
 * **Improvement** (by @imaNNeo) Update LineChartSample6 to implement a way to show a tooltip on a single spot, #1620
 * **Feature** (by @herna) Add `titleSunbeamLayout` inside the [BarChartData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#barchartdata) to allow the user to customize the layout of the title sunbeam

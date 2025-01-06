@@ -1,5 +1,5 @@
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample7 extends StatelessWidget {
@@ -11,7 +11,7 @@ class LineChartSample7 extends StatelessWidget {
   })  : line1Color = line1Color ?? AppColors.contentColorGreen,
         line2Color = line2Color ?? AppColors.contentColorRed,
         betweenColor =
-            betweenColor ?? AppColors.contentColorRed.withOpacity(0.5);
+            betweenColor ?? AppColors.contentColorRed.withValues(alpha: 0.5);
 
   final Color line1Color;
   final Color line2Color;
@@ -65,7 +65,7 @@ class LineChartSample7 extends StatelessWidget {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 4,
       child: Text(text, style: style),
     );
@@ -75,7 +75,7 @@ class LineChartSample7 extends StatelessWidget {
     const style = TextStyle(fontSize: 10);
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(
         '\$ ${value + 0.5}',
         style: style,

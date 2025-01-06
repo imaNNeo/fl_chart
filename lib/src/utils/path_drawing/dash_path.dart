@@ -3,7 +3,7 @@ import 'dart:ui';
 /// Came from [flutter_path_drawing](https://github.com/dnfield/flutter_path_drawing) library.
 /// Creates a new path that is drawn from the segments of `source`.
 ///
-/// Dash intervals are controled by the `dashArray` - see [CircularIntervalList]
+/// Dash intervals are controlled by the `dashArray` - see [CircularIntervalList]
 /// for examples.
 ///
 /// `dashOffset` specifies an initial starting point for the dashing.
@@ -14,8 +14,6 @@ Path dashPath(
   required CircularIntervalList<double> dashArray,
   DashOffset? dashOffset,
 }) {
-  assert(dashArray != null); // ignore: unnecessary_null_comparison
-
   dashOffset = dashOffset ?? const DashOffset.absolute(0);
   // TODO(imaNNeo): Is there some way to determine how much of a path would be visible today?
 
@@ -60,11 +58,8 @@ class DashOffset {
   final double _rawVal;
   final _DashOffsetType _dashOffsetType;
 
-  double _calculate(double length) {
-    return _dashOffsetType == _DashOffsetType.absolute
-        ? _rawVal
-        : length * _rawVal;
-  }
+  double _calculate(double length) =>
+      _dashOffsetType == _DashOffsetType.absolute ? _rawVal : length * _rawVal;
 }
 
 /// A circular array of dash offsets and lengths.

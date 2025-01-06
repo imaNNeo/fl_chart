@@ -203,6 +203,21 @@ void main() {
       expect(lineChartData1 == lineChartData18, false);
       expect(lineChartData1 == lineChartData19, false);
       expect(lineChartData1 == lineChartData20, false);
+      expect(lineChartData1 == lineChartData21, false);
+      expect(
+        lineChartData21 ==
+            lineChartData21.copyWith(
+              rotationQuarterTurns: 2,
+            ),
+        false,
+      );
+      expect(
+        lineChartData21 ==
+            lineChartData21.copyWith(
+              rotationQuarterTurns: 1,
+            ),
+        true,
+      );
     });
   });
 }

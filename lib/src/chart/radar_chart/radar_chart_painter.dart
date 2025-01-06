@@ -69,13 +69,16 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   }
 
   @visibleForTesting
-  double getDefaultChartCenterValue() {
-    return 0;
-  }
+  double getDefaultChartCenterValue() => 0;
 
   double getChartCenterValue(RadarChartData data) {
     final dataSetMaxValue = data.maxEntry.value;
     final dataSetMinValue = data.minEntry.value;
+
+    if (data.isMinValueAtCenter) {
+      return dataSetMinValue;
+    }
+
     final tickSpace = getSpaceBetweenTicks(data);
     final centerValue = dataSetMinValue - tickSpace;
 
@@ -100,6 +103,10 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
   @visibleForTesting
   double getFirstTickValue(RadarChartData data) {
     final defaultCenterValue = getDefaultChartCenterValue();
+    if (data.isMinValueAtCenter) {
+      return defaultCenterValue;
+    }
+
     final dataSetMaxValue = data.maxEntry.value;
     final dataSetMinValue = data.minEntry.value;
 
@@ -111,9 +118,14 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   @visibleForTesting
   double getSpaceBetweenTicks(RadarChartData data) {
-    final defaultCenterValue = getDefaultChartCenterValue();
     final dataSetMaxValue = data.maxEntry.value;
     final dataSetMinValue = data.minEntry.value;
+
+    if (data.isMinValueAtCenter) {
+      return (dataSetMaxValue - dataSetMinValue) / (data.tickCount);
+    }
+
+    final defaultCenterValue = getDefaultChartCenterValue();
     final tickSpace = (dataSetMaxValue - dataSetMinValue) / data.tickCount;
     final defaultTickSpace =
         (dataSetMaxValue - defaultCenterValue) / (data.tickCount + 1);
@@ -171,7 +183,9 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       tickValue += tickSpace;
     }
 
-    final tickDistance = radius / (ticks.length);
+    final tickDistance = data.isMinValueAtCenter
+        ? radius / (ticks.length - 1)
+        : radius / ticks.length;
 
     _tickPaint
       ..color = data.tickBorderData.color
@@ -180,7 +194,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     /// draw radar ticks
     ticks.sublist(0, ticks.length - 1).asMap().forEach(
       (index, tick) {
-        final tickRadius = tickDistance * (index + 1);
+        final tickRadius =
+            tickDistance * (index + (data.isMinValueAtCenter ? 0 : 1));
         if (data.radarShape == RadarShape.circle) {
           canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
         } else {

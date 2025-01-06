@@ -1,5 +1,5 @@
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample5 extends StatefulWidget {
@@ -71,7 +71,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(text, style: style),
     );
   }
@@ -91,9 +91,9 @@ class _LineChartSample5State extends State<LineChartSample5> {
           show: true,
           gradient: LinearGradient(
             colors: [
-              widget.gradientColor1.withOpacity(0.4),
-              widget.gradientColor2.withOpacity(0.4),
-              widget.gradientColor3.withOpacity(0.4),
+              widget.gradientColor1.withValues(alpha: 0.4),
+              widget.gradientColor2.withValues(alpha: 0.4),
+              widget.gradientColor3.withValues(alpha: 0.4),
             ],
           ),
         ),

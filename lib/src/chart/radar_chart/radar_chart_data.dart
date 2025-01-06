@@ -70,6 +70,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
+    this.isMinValueAtCenter = false,
     super.borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
@@ -154,6 +155,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// Handles touch behaviors and responses.
   final RadarTouchData radarTouchData;
 
+  /// If [isMinValueAtCenter] is true, the minimum value of the [RadarChart] will be at the center of the chart.
+  final bool isMinValueAtCenter;
+
   /// [titleCount] we use this value to determine number of [RadarChart] grid or lines.
   int get titleCount => dataSets[0].dataEntries.length;
 
@@ -199,6 +203,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
+    bool? isMinValueAtCenter,
     FlBorderData? borderData,
   }) =>
       RadarChartData(
@@ -215,6 +220,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData: tickBorderData ?? this.tickBorderData,
         gridBorderData: gridBorderData ?? this.gridBorderData,
         radarTouchData: radarTouchData ?? this.radarTouchData,
+        isMinValueAtCenter: isMinValueAtCenter ?? this.isMinValueAtCenter,
         borderData: borderData ?? this.borderData,
       );
 
@@ -241,6 +247,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarShape: b.radarShape,
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        isMinValueAtCenter: b.isMinValueAtCenter,
         radarTouchData: b.radarTouchData,
       );
     } else {
@@ -265,6 +272,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData,
         gridBorderData,
         radarTouchData,
+        isMinValueAtCenter,
       ];
 }
 
@@ -289,7 +297,7 @@ class RadarDataSet with EquatableMixin {
           'Radar needs at least 3 RadarEntry',
         ),
         dataEntries = dataEntries ?? const [],
-        fillColor = fillColor ?? Colors.cyan.withOpacity(0.2),
+        fillColor = fillColor ?? Colors.cyan.withValues(alpha: 0.2),
         borderColor = borderColor ?? Colors.cyan,
         borderWidth = borderWidth ?? 2.0,
         entryRadius = entryRadius ?? 5.0;
@@ -330,15 +338,14 @@ class RadarDataSet with EquatableMixin {
       );
 
   /// Lerps a [RadarDataSet] based on [t] value, check [Tween.lerp].
-  static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
-    return RadarDataSet(
-      dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
-      fillColor: Color.lerp(a.fillColor, b.fillColor, t),
-      borderColor: Color.lerp(a.borderColor, b.borderColor, t),
-      borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
-      entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
-    );
-  }
+  static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) =>
+      RadarDataSet(
+        dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
+        fillColor: Color.lerp(a.fillColor, b.fillColor, t),
+        borderColor: Color.lerp(a.borderColor, b.borderColor, t),
+        borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
+        entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -364,9 +371,8 @@ class RadarEntry with EquatableMixin {
       RadarEntry(value: value ?? this.value);
 
   /// Lerps a [RadarDataSet] based on [t] value, check [Tween.lerp].
-  static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) {
-    return RadarEntry(value: lerpDouble(a.value, b.value, t)!);
-  }
+  static RadarEntry lerp(RadarEntry a, RadarEntry b, double t) =>
+      RadarEntry(value: lerpDouble(a.value, b.value, t)!);
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -433,11 +439,10 @@ class RadarTouchResponse extends BaseTouchResponse {
   /// and replaces provided values.
   RadarTouchResponse copyWith({
     RadarTouchedSpot? touchedSpot,
-  }) {
-    return RadarTouchResponse(
-      touchedSpot ?? this.touchedSpot,
-    );
-  }
+  }) =>
+      RadarTouchResponse(
+        touchedSpot ?? this.touchedSpot,
+      );
 }
 
 /// It gives you information about the touched spot.

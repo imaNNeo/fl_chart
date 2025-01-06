@@ -20,10 +20,10 @@ abstract class BaseChartData with EquatableMixin {
   }) : borderData = borderData ?? FlBorderData();
 
   /// Holds data to drawing border around the chart.
-  FlBorderData borderData;
+  final FlBorderData borderData;
 
   /// Holds data needed to touch behavior and responses.
-  FlTouchData touchData;
+  final FlTouchData touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
 
@@ -45,30 +45,28 @@ class FlBorderData with EquatableMixin {
   })  : show = show ?? true,
         border = border ?? Border.all();
   final bool show;
-  Border border;
+  final Border border;
 
   /// returns false if all borders have 0 width or 0 opacity
   bool isVisible() => show && border.isVisible();
 
   /// Lerps a [FlBorderData] based on [t] value, check [Tween.lerp].
-  static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) {
-    return FlBorderData(
-      show: b.show,
-      border: Border.lerp(a.border, b.border, t),
-    );
-  }
+  static FlBorderData lerp(FlBorderData a, FlBorderData b, double t) =>
+      FlBorderData(
+        show: b.show,
+        border: Border.lerp(a.border, b.border, t),
+      );
 
   /// Copies current [FlBorderData] to a new [FlBorderData],
   /// and replaces provided values.
   FlBorderData copyWith({
     bool? show,
     Border? border,
-  }) {
-    return FlBorderData(
-      show: show ?? this.show,
-      border: border ?? this.border,
-    );
-  }
+  }) =>
+      FlBorderData(
+        show: show ?? this.show,
+        border: border ?? this.border,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -160,14 +158,13 @@ class FlClipData with EquatableMixin {
     bool? bottom,
     bool? left,
     bool? right,
-  }) {
-    return FlClipData(
-      top: top ?? this.top,
-      bottom: bottom ?? this.bottom,
-      left: left ?? this.left,
-      right: right ?? this.right,
-    );
-  }
+  }) =>
+      FlClipData(
+        top: top ?? this.top,
+        bottom: bottom ?? this.bottom,
+        left: left ?? this.left,
+        right: right ?? this.right,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override

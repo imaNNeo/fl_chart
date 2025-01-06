@@ -1,15 +1,15 @@
 import 'dart:math';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/extensions/color_extensions.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartSample8 extends StatefulWidget {
   BarChartSample8({super.key});
 
   final Color barBackgroundColor =
-      AppColors.contentColorWhite.darken().withOpacity(0.3);
+      AppColors.contentColorWhite.darken().withValues(alpha: 0.3);
   final Color barColor = AppColors.contentColorWhite;
 
   @override
@@ -91,7 +91,7 @@ class BarChartSample1State extends State<BarChartSample8> {
     );
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 16,
       child: text,
     );

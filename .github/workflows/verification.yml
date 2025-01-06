@@ -6,11 +6,14 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Clone repository
+        uses: actions/checkout@v4
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          channel: stable
+      - name: Print Flutter version
+        run: flutter --version
       - name: Get packages
         run: flutter pub get
       - name: Check formatting
@@ -18,4 +21,4 @@ jobs:
       - name: Analyze the source code
         run: make analyze
       - name: Run tests
-        run: make test
+        run: make runTests

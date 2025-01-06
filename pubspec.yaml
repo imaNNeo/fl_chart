@@ -1,6 +1,6 @@
 name: fl_chart
 description: A highly customizable Flutter chart library that supports Line Chart, Bar Chart, Pie Chart, Scatter Chart, and Radar Chart.
-version: 0.68.0
+version: 0.70.0
 homepage: https://flchart.dev/
 repository: https://github.com/imaNNeo/fl_chart
 issue_tracker: https://github.com/imaNNeo/fl_chart/issues
@@ -8,41 +8,41 @@ documentation: https://github.com/imaNNeo/fl_chart
 
 environment:
   sdk: ^3.2.0
-  flutter: '>=3.16.0'
+  flutter: ">=3.16.0"
 
 funding:
   - https://github.com/sponsors/imaNNeo
   - https://www.buymeacoffee.com/fl_chart
 
 dependencies:
-  equatable: ^2.0.5
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
+  vector_math: ^2.1.4
 
 dev_dependencies:
-  build_runner: ^2.4.6
+  build_runner: ^2.4.14
   flutter_test:
     sdk: flutter
-  mockito: ^5.4.2
-  vector_math: ^2.1.4 #Added to use in some generated codes of mockito
-  very_good_analysis: ^5.1.0
+  mockito: ^5.4.5
+  very_good_analysis: ^7.0.0
 
 screenshots:
-  - description: 'FL Chart Logo'
+  - description: "FL Chart Logo"
     path: pub_screenshots/logo_1024.png
-  - description: 'LineChartSample1 and LineChartSample2'
+  - description: "LineChartSample1 and LineChartSample2"
     path: pub_screenshots/line_chart.jpg
-  - description: 'LineChartSample10'
+  - description: "LineChartSample10"
     path: pub_screenshots/line_chart_sample_10.gif
-  - description: 'BarChartSample1 and BarChartSample2'
+  - description: "BarChartSample1 and BarChartSample2"
     path: pub_screenshots/bar_chart.jpg
-  - description: 'BarChartSample7'
+  - description: "BarChartSample7"
     path: pub_screenshots/bar_chart_sample_7.gif
-  - description: 'PieChartSample1, PieChartSample2 and PieChartSample3'
+  - description: "PieChartSample1, PieChartSample2 and PieChartSample3"
     path: pub_screenshots/pie_chart.jpg
-  - description: 'ScatterChartSample2'
+  - description: "ScatterChartSample2"
     path: pub_screenshots/scatter_chart_sample_2.gif
-  - description: 'RadarChartSample1'
+  - description: "RadarChartSample1"
     path: pub_screenshots/radar_chart_sample_1.jpg
 
 topics:
@@ -51,4 +51,3 @@ topics:
   - visualization
   - graph
   - diagram
-

@@ -8,12 +8,12 @@ We handle all animations Implicitly, This is power of the [ImplicitlyAnimatedWid
 
 
 ##### Properties
-You can change the [Duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [Curve](https://api.flutter.dev/flutter/animation/Curves-class.html) of animation using `swapAnimationDuration` and `swapAnimationCurve` properties respectively.
+You can change the [Duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [Curve](https://api.flutter.dev/flutter/animation/Curves-class.html) of animation using `duration` and `curve` properties respectively.
 
 ```dart
 LineChart(
-  swapAnimationDuration: Duration(milliseconds: 150),
-  swapAnimationCurve: Curves.linear,
+  duration: Duration(milliseconds: 150),
+  curve: Curves.linear,
   LineChartData(
     isShowingMainData ? sampleData1() : sampleData2(),
   ),
@@ -22,10 +22,10 @@ LineChart(
 
 ##### How to disable
 
-If you want to disable the animations, you can set `Duration.zero` as `swapAnimationDuration`.
+If you want to disable the animations, you can set `Duration.zero` as `duration`.
 ```dart 
 LineChart(
-  swapAnimationDuration: Duration.zero,
+  duration: Duration.zero,
   LineChartData(
     // Your chart data here
   ),

@@ -1,5 +1,5 @@
-import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
 class LineChartSample4 extends StatelessWidget {
@@ -9,11 +9,11 @@ class LineChartSample4 extends StatelessWidget {
     Color? belowLineColor,
     Color? aboveLineColor,
   })  : mainLineColor =
-            mainLineColor ?? AppColors.contentColorYellow.withOpacity(1),
+            mainLineColor ?? AppColors.contentColorYellow.withValues(alpha: 1),
         belowLineColor =
-            belowLineColor ?? AppColors.contentColorPink.withOpacity(1),
-        aboveLineColor =
-            aboveLineColor ?? AppColors.contentColorPurple.withOpacity(0.7);
+            belowLineColor ?? AppColors.contentColorPink.withValues(alpha: 1),
+        aboveLineColor = aboveLineColor ??
+            AppColors.contentColorPurple.withValues(alpha: 0.7);
 
   final Color mainLineColor;
   final Color belowLineColor;
@@ -63,7 +63,7 @@ class LineChartSample4 extends StatelessWidget {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 4,
       child: Text(
         text,
@@ -82,7 +82,7 @@ class LineChartSample4 extends StatelessWidget {
       fontSize: 12,
     );
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text('\$ ${value + 0.5}', style: style),
     );
   }

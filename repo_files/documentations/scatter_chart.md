@@ -8,13 +8,13 @@ ScatterChart(
   ScatterChartData(
     // read about it in the ScatterChartData section
   ),
-  swapAnimationDuration: Duration(milliseconds: 150), // Optional
-  swapAnimationCurve: Curves.linear, // Optional
+  duration: Duration(milliseconds: 150), // Optional
+  curve: Curves.linear, // Optional
 );
 ```
 
 ### Implicit Animations
-When you change the chart's state, it animates to the new state internally (using [implicit animations](https://flutter.dev/docs/development/ui/animations/implicit-animations)). You can control the animation [duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [curve](https://api.flutter.dev/flutter/animation/Curves-class.html) using optional `swapAnimationDuration` and `swapAnimationCurve` properties, respectively.
+When you change the chart's state, it animates to the new state internally (using [implicit animations](https://flutter.dev/docs/development/ui/animations/implicit-animations)). You can control the animation [duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [curve](https://api.flutter.dev/flutter/animation/Curves-class.html) using optional `duration` and `curve` properties, respectively.
 
 ### ScatterChartData
 |PropName		|Description	|default value|
@@ -24,7 +24,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |scatterTouchData| [ScatterTouchData](#scattertouchdata-read-about-touch-handling) holds the touch interactivity details| ScatterTouchData()|
 |showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
-
+|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
 
 
 ### ScatterSpot
@@ -33,6 +33,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |show| determines to show or hide the spot|true|
 |radius| radius of the showing spot| [8]
 |color| colors of the spot|// a color based on the values|
+|renderPriority| sort by this to manage overlap|0|
 
 
 ### ScatterTouchData ([read about touch handling](handle_touches.md))
