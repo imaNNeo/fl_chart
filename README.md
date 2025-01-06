@@ -18,16 +18,16 @@ Your financial support acts as fuel for fl_chart's development. [Support here](h
 		<tr>
 				<td>
 					<a href="https://github.com/sponsors/imaNNeo">
+						<img src="https://github.com/imaNNeo/fl_chart_landing/blob/main/static/img/sponsors/intero-the-sniffers.png?raw=true">
+					</a>
+				</td>
+				<td>
+					<a href="https://github.com/sponsors/imaNNeo">
 						<picture>
 							<source media="(prefers-color-scheme: dark)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_sponsor_dark.png">
 							<source media="(prefers-color-scheme: light)" srcset="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_sponsor_light.png">
 							<img alt="Become a sponsor" >
 						</picture>
-					</a>
-				</td>
-				<td>
-					<a href="https://github.com/sponsors/imaNNeo">
-						<img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/sponsors/become_a_hero_empty.png">
 					</a>
 				</td>
 				<td>
