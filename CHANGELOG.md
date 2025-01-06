@@ -1,4 +1,4 @@
-## newVersion
+## 0.70.1
 * **FEATURE** (by @Peetee06) Add `panEnabled` and `scaleEnabled` properties in the TransformationController, #1818
 * **FEATURE** (by @mitulagr2) Add `renderPriority` feature in our [ScatterSpot](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#scatterspot), #1545
 * **FEATURE** (by @imaNNeo) Add `rotationQuarterTurns` property in our Axis-Based charts (such as [LineChart](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md), [BarChart](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md) and [ScatterChart](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md)). It allows you to rotate the chart 90 degrees (clockwise) in each turn. For example you can have Horizontal Bar Charts by setting `rotationQuarterTurns` to 1 (which rotates the chart 90 degrees clockwise). It works exactly like [RotatesBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget, #113
