@@ -31,7 +31,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |minY| gets minimum y of y axis, if null, value will be read from the input barGroups (But it is more performant if you provide them) | null|
 |baselineY| defines the baseline of y-axis | 0|
 |extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeo/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|ExtraLinesData()|
-
+|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget. You can have horizontal BarChart by changing this value to |0|
 
 ### BarChartGroupData
 |PropName		|Description	|default value|
