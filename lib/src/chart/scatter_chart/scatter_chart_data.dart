@@ -50,6 +50,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
     super.rotationQuarterTurns,
+    super.errorIndicatorData,
   })  : scatterSpots = scatterSpots ?? const [],
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
@@ -118,6 +119,11 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           t,
         ),
         rotationQuarterTurns: b.rotationQuarterTurns,
+        errorIndicatorData: FlErrorIndicatorData.lerp(
+          a.errorIndicatorData,
+          b.errorIndicatorData,
+          t,
+        ),
       );
     } else {
       throw Exception('Illegal State');
@@ -143,6 +149,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
     int? rotationQuarterTurns,
+    FlErrorIndicatorData? errorIndicatorData,
   }) =>
       ScatterChartData(
         scatterSpots: scatterSpots ?? this.scatterSpots,
@@ -162,6 +169,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
+        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -186,6 +194,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         borderData,
         touchData,
         rotationQuarterTurns,
+        errorIndicatorData,
       ];
 }
 
@@ -200,6 +209,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     bool? show,
     int? renderPriority,
     FlDotPainter? dotPainter,
+    super.xError,
+    super.yError,
   })  : show = show ?? true,
         renderPriority = renderPriority ?? 0,
         dotPainter = dotPainter ??
@@ -235,6 +246,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     bool? show,
     int? renderPriority,
     FlDotPainter? dotPainter,
+    FlErrorRange? xError,
+    FlErrorRange? yError,
   }) =>
       ScatterSpot(
         x ?? this.x,
@@ -242,6 +255,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         show: show ?? this.show,
         renderPriority: renderPriority ?? this.renderPriority,
         dotPainter: dotPainter ?? this.dotPainter,
+        xError: xError ?? this.xError,
+        yError: yError ?? this.yError,
       );
 
   /// Lerps a [ScatterSpot] based on [t] value, check [Tween.lerp].
@@ -253,6 +268,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         renderPriority: a.renderPriority +
             (t * (b.renderPriority - a.renderPriority)).round(),
         dotPainter: a.dotPainter.lerp(a.dotPainter, b.dotPainter, t),
+        xError: FlErrorRange.lerp(a.xError, b.xError, t),
+        yError: FlErrorRange.lerp(a.yError, b.yError, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -263,6 +280,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         show,
         renderPriority,
         dotPainter,
+        xError,
+        yError,
       ];
 }
 

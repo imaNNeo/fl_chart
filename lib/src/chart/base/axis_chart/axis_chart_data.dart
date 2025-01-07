@@ -30,6 +30,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     required super.touchData,
     ExtraLinesData? extraLinesData,
     this.rotationQuarterTurns = 0,
+    this.errorIndicatorData = const FlErrorIndicatorData(),
   })  : gridData = gridData ?? const FlGridData(),
         rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
@@ -66,6 +67,8 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Rotates the chart by 90 degrees clockwise in each turn
   final int rotationQuarterTurns;
 
+  final FlErrorIndicatorData errorIndicatorData;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -84,6 +87,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         touchData,
         extraLinesData,
         rotationQuarterTurns,
+        errorIndicatorData,
       ];
 }
 
@@ -485,25 +489,36 @@ class FlSpot {
   ///
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
-  const FlSpot(this.x, this.y);
+  const FlSpot(
+    this.x,
+    this.y, {
+    this.xError,
+    this.yError,
+  });
 
   final double x;
   final double y;
+  final FlErrorRange? xError;
+  final FlErrorRange? yError;
 
   /// Copies current [FlSpot] to a new [FlSpot],
   /// and replaces provided values.
   FlSpot copyWith({
     double? x,
     double? y,
+    FlErrorRange? xError,
+    FlErrorRange? yError,
   }) =>
       FlSpot(
         x ?? this.x,
         y ?? this.y,
+        xError: xError ?? this.xError,
+        yError: yError ?? this.yError,
       );
 
   ///Prints x and y coordinates of FlSpot list
   @override
-  String toString() => '($x, $y)';
+  String toString() => '($x, $y, $xError, $yError)';
 
   /// Used for splitting lines, or maybe other concepts.
   static const FlSpot nullSpot = FlSpot(double.nan, double.nan);
@@ -530,6 +545,8 @@ class FlSpot {
     return FlSpot(
       lerpDouble(a.x, b.x, t)!,
       lerpDouble(a.y, b.y, t)!,
+      xError: FlErrorRange.lerp(a.xError, b.xError, t),
+      yError: FlErrorRange.lerp(a.yError, b.yError, t),
     );
   }
 
@@ -545,12 +562,46 @@ class FlSpot {
       return true;
     }
 
-    return other.x == x && other.y == y;
+    return other.x == x &&
+        other.y == y &&
+        other.xError == xError &&
+        other.yError == yError;
   }
 
   /// Override hashCode
   @override
-  int get hashCode => x.hashCode ^ y.hashCode;
+  int get hashCode =>
+      x.hashCode ^ y.hashCode ^ xError.hashCode ^ yError.hashCode;
+}
+
+class FlErrorRange with EquatableMixin {
+  const FlErrorRange({
+    required this.lowerBy,
+    required this.upperBy,
+  })  : assert(lowerBy >= 0, 'lowerBy must be non-negative'),
+        assert(upperBy >= 0, 'upperBy must be non-negative');
+
+  const FlErrorRange.symmetric(double value)
+      : lowerBy = value,
+        upperBy = value,
+        assert(value >= 0, 'value must be non-negative');
+
+  final double lowerBy;
+  final double upperBy;
+
+  static FlErrorRange? lerp(FlErrorRange? a, FlErrorRange? b, double t) {
+    if (a != null && b != null) {
+      return FlErrorRange(
+        lowerBy: lerpDouble(a.lowerBy, b.lowerBy, t)!,
+        upperBy: lerpDouble(a.upperBy, b.upperBy, t)!,
+      );
+    }
+
+    return b;
+  }
+
+  @override
+  List<Object?> get props => [lowerBy, upperBy];
 }
 
 /// Responsible to hold grid data,
@@ -1634,5 +1685,89 @@ class FlDotCrossPainter extends FlDotPainter {
         color,
         size,
         width,
+      ];
+}
+
+class FlErrorIndicatorData with EquatableMixin {
+  const FlErrorIndicatorData({
+    this.show = false,
+    this.errorPainter = const FlSimpleErrorPainter(),
+  });
+
+  final bool show;
+  final FlSpotErrorRangePainter errorPainter;
+
+  static FlErrorIndicatorData lerp(
+    FlErrorIndicatorData a,
+    FlErrorIndicatorData b,
+    double t,
+  ) =>
+      FlErrorIndicatorData(
+        show: b.show,
+        errorPainter: b.errorPainter.lerp(a.errorPainter, b.errorPainter, t),
+      );
+
+  @override
+  List<Object?> get props => [
+        show,
+        errorPainter,
+      ];
+}
+
+abstract class FlSpotErrorRangePainter with EquatableMixin {
+  const FlSpotErrorRangePainter();
+
+  void draw(
+    Canvas canvas,
+    Offset offsetInCanvas,
+    FlSpot origin,
+  );
+
+  Size getSize(FlSpot spot);
+
+  Color get mainColor;
+
+  FlSpotErrorRangePainter lerp(
+      FlSpotErrorRangePainter a, FlSpotErrorRangePainter b, double t);
+}
+
+class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
+  const FlSimpleErrorPainter();
+
+  @override
+  void draw(Canvas canvas, Offset offsetInCanvas, FlSpot origin) {
+    print('Drawing error indicator at $offsetInCanvas');
+    final lineFrom = Offset(offsetInCanvas.dx, offsetInCanvas.dy - 10);
+    final lineTo = Offset(offsetInCanvas.dx, offsetInCanvas.dy + 10);
+    canvas.drawLine(
+      lineFrom,
+      lineTo,
+      Paint()
+        ..color = Colors.red
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
+  }
+
+  @override
+  Size getSize(FlSpot spot) {
+    return const Size(10, 10);
+  }
+
+  @override
+  FlSpotErrorRangePainter lerp(
+    FlSpotErrorRangePainter a,
+    FlSpotErrorRangePainter b,
+    double t,
+  ) {
+    return this;
+  }
+
+  @override
+  Color get mainColor => Colors.black;
+
+  @override
+  List<Object?> get props => [
+        mainColor,
       ];
 }
