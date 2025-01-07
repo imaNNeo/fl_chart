@@ -1018,7 +1018,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     for (var i = 0; i < showingTooltipSpots.showingSpots.length; i++) {
-      final tooltipItem = tooltipItems[i];
+      var tooltipItem = tooltipItems[i];
+      if (holder.data.rotationQuarterTurns % 4 == 2) {
+        tooltipItem = tooltipItems[tooltipItems.length - 1 - i];
+      }
       if (tooltipItem == null) {
         continue;
       }
@@ -1175,12 +1178,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         ..color = tooltipData.tooltipBorder.color
         ..strokeWidth = tooltipData.tooltipBorder.width;
     }
-
+    final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
     canvasWrapper.drawRotated(
       size: rect.size,
       rotationOffset: rectRotationOffset,
       drawOffset: rectDrawOffset,
-      angle: rotateAngle,
+      angle: reverseQuarterTurnsAngle + rotateAngle,
       drawCallback: () {
         canvasWrapper
           ..drawRRect(roundedRect, _bgTouchTooltipPaint)
@@ -1209,11 +1212,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         yOffset,
       );
 
+      final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
       canvasWrapper.drawRotated(
         size: rect.size,
         rotationOffset: rectRotationOffset,
         drawOffset: rectDrawOffset,
-        angle: rotateAngle,
+        angle: reverseQuarterTurnsAngle + rotateAngle,
         drawCallback: () {
           canvasWrapper.drawText(tp, drawOffset);
         },

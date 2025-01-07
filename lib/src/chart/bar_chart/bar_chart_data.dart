@@ -47,6 +47,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
     RangeAnnotations? rangeAnnotations,
     super.backgroundColor,
     ExtraLinesData? extraLinesData,
+    super.rotationQuarterTurns,
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
@@ -94,6 +95,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
     double? baselineY,
     Color? backgroundColor,
     ExtraLinesData? extraLinesData,
+    int? rotationQuarterTurns,
   }) =>
       BarChartData(
         barGroups: barGroups ?? this.barGroups,
@@ -109,6 +111,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         baselineY: baselineY ?? this.baselineY,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         extraLinesData: extraLinesData ?? this.extraLinesData,
+        rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -131,6 +134,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         extraLinesData:
             ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
+        rotationQuarterTurns: b.rotationQuarterTurns,
       );
     } else {
       throw Exception('Illegal State');
@@ -153,6 +157,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         rangeAnnotations,
         backgroundColor,
         extraLinesData,
+        rotationQuarterTurns,
       ];
 }
 
@@ -750,7 +755,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// Controls showing tooltip on top or bottom, default is auto.
   final TooltipDirection direction;
 
-  /// Controls the rotation of the tooltip.
+  /// Controls the rotation of the tooltip (in degrees)
   final double rotateAngle;
 
   /// The tooltip border color.

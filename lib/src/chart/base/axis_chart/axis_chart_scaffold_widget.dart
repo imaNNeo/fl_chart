@@ -234,6 +234,8 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
               _transformationConfig.trackpadScrollCausesScale,
           maxScale: _transformationConfig.maxScale,
           minScale: _transformationConfig.minScale,
+          panEnabled: _transformationConfig.panEnabled,
+          scaleEnabled: _transformationConfig.scaleEnabled,
           child: SizedBox(
             width: constraints.maxWidth,
             height: constraints.maxHeight,
@@ -314,7 +316,12 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Stack(children: stackWidgets(constraints));
+        return RotatedBox(
+          quarterTurns: widget.data.rotationQuarterTurns,
+          child: Stack(
+            children: stackWidgets(constraints),
+          ),
+        );
       },
     );
   }

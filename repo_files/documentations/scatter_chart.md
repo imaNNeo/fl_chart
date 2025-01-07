@@ -24,7 +24,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |scatterTouchData| [ScatterTouchData](#scattertouchdata-read-about-touch-handling) holds the touch interactivity details| ScatterTouchData()|
 |showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
-
+|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
 
 
 ### ScatterSpot
@@ -33,6 +33,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |show| determines to show or hide the spot|true|
 |radius| radius of the showing spot| [8]
 |color| colors of the spot|// a color based on the values|
+|renderPriority| sort by this to manage overlap|0|
 
 
 ### ScatterTouchData ([read about touch handling](handle_touches.md))

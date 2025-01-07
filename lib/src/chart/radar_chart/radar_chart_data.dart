@@ -70,6 +70,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
+    this.isMinValueAtCenter = false,
     super.borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
@@ -154,6 +155,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// Handles touch behaviors and responses.
   final RadarTouchData radarTouchData;
 
+  /// If [isMinValueAtCenter] is true, the minimum value of the [RadarChart] will be at the center of the chart.
+  final bool isMinValueAtCenter;
+
   /// [titleCount] we use this value to determine number of [RadarChart] grid or lines.
   int get titleCount => dataSets[0].dataEntries.length;
 
@@ -199,6 +203,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? tickBorderData,
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
+    bool? isMinValueAtCenter,
     FlBorderData? borderData,
   }) =>
       RadarChartData(
@@ -215,6 +220,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData: tickBorderData ?? this.tickBorderData,
         gridBorderData: gridBorderData ?? this.gridBorderData,
         radarTouchData: radarTouchData ?? this.radarTouchData,
+        isMinValueAtCenter: isMinValueAtCenter ?? this.isMinValueAtCenter,
         borderData: borderData ?? this.borderData,
       );
 
@@ -241,6 +247,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarShape: b.radarShape,
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
+        isMinValueAtCenter: b.isMinValueAtCenter,
         radarTouchData: b.radarTouchData,
       );
     } else {
@@ -265,6 +272,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData,
         gridBorderData,
         radarTouchData,
+        isMinValueAtCenter,
       ];
 }
 

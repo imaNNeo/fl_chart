@@ -92,7 +92,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 6,
       fitInside: fitInsideLeftTitle
           ? SideTitleFitInsideData.fromTitleMeta(meta)
@@ -113,7 +113,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
     }
     return SideTitleWidget(
       space: 4,
-      axisSide: meta.axisSide,
+      meta: meta,
       fitInside: fitInsideBottomTitle
           ? SideTitleFitInsideData.fromTitleMeta(meta, distanceFromEdge: 0)
           : SideTitleFitInsideData.disable(),

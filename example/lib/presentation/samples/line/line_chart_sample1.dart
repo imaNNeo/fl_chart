@@ -119,7 +119,14 @@ class _LineChart extends StatelessWidget {
         return Container();
     }
 
-    return Text(text, style: style, textAlign: TextAlign.center);
+    return SideTitleWidget(
+      meta: meta,
+      child: Text(
+        text,
+        style: style,
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 
   SideTitles leftTitles() => SideTitles(
@@ -151,7 +158,7 @@ class _LineChart extends StatelessWidget {
     }
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 10,
       child: text,
     );

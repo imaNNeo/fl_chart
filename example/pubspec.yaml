@@ -1,7 +1,7 @@
 name: fl_chart_app
 description: FL Chart App is an application to demonstrate samples of the fl_chart (A Flutter package to draw charts).
 publish_to: 'none'
-version: 1.1.0+10100
+version: 1.1.2+10102
 
 environment:
   sdk: ^3.0.0

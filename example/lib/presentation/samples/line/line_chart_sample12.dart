@@ -17,6 +17,8 @@ class LineChartSample12 extends StatefulWidget {
 class _LineChartSample12State extends State<LineChartSample12> {
   List<(DateTime, double)>? _bitcoinPriceHistory;
   late TransformationController _transformationController;
+  bool _isPanEnabled = true;
+  bool _isScaleEnabled = true;
 
   @override
   void initState() {
@@ -43,6 +45,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
   Widget build(BuildContext context) {
     const leftReservedSize = 52.0;
     return Column(
+      spacing: 16,
       children: [
         LayoutBuilder(
           builder: (context, constraints) {
@@ -71,6 +74,33 @@ class _LineChartSample12State extends State<LineChartSample12> {
                   );
           },
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            spacing: 16,
+            children: [
+              const Text('Pan'),
+              Switch(
+                value: _isPanEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    _isPanEnabled = value;
+                  });
+                },
+              ),
+              const Text('Scale'),
+              Switch(
+                value: _isScaleEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    _isScaleEnabled = value;
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
         AspectRatio(
           aspectRatio: 1.4,
           child: Padding(
@@ -83,6 +113,8 @@ class _LineChartSample12State extends State<LineChartSample12> {
                 scaleAxis: FlScaleAxis.horizontal,
                 minScale: 1.0,
                 maxScale: 25.0,
+                panEnabled: _isPanEnabled,
+                scaleEnabled: _isScaleEnabled,
                 transformationController: _transformationController,
               ),
               LineChartData(
@@ -209,7 +241,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
                       getTitlesWidget: (double value, TitleMeta meta) {
                         final date = _bitcoinPriceHistory![value.toInt()].$1;
                         return SideTitleWidget(
-                          axisSide: meta.axisSide,
+                          meta: meta,
                           child: Transform.rotate(
                             angle: -45 * 3.14 / 180,
                             child: Text(

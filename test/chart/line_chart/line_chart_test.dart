@@ -105,8 +105,10 @@ void main() {
         createTestWidget(
           chart: LineChart(
             LineChartData(),
+            // This is for test
             // ignore: avoid_redundant_argument_values
             transformationConfig: const FlTransformationConfig(
+              // This is for test
               // ignore: avoid_redundant_argument_values
               scaleAxis: FlScaleAxis.none,
             ),
@@ -647,6 +649,7 @@ void main() {
               chart: LineChart(
                 LineChartData(),
                 transformationConfig: const FlTransformationConfig(
+                  // This is for test
                   // ignore: avoid_redundant_argument_values
                   scaleAxis: FlScaleAxis.none,
                   trackpadScrollCausesScale: true,
@@ -684,6 +687,7 @@ void main() {
                   LineChartData(),
                   transformationConfig: FlTransformationConfig(
                     scaleAxis: scaleAxis,
+                    // This is for test
                     // ignore: avoid_redundant_argument_values
                     trackpadScrollCausesScale: false,
                   ),

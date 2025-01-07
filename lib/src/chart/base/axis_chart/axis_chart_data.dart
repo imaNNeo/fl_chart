@@ -29,6 +29,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     super.borderData,
     required super.touchData,
     ExtraLinesData? extraLinesData,
+    this.rotationQuarterTurns = 0,
   })  : gridData = gridData ?? const FlGridData(),
         rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
@@ -62,6 +63,9 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Extra horizontal or vertical lines to draw on the chart.
   final ExtraLinesData extraLinesData;
 
+  /// Rotates the chart by 90 degrees clockwise in each turn
+  final int rotationQuarterTurns;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -79,11 +83,22 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         borderData,
         touchData,
         extraLinesData,
+        rotationQuarterTurns,
       ];
 }
 
 /// Represents a side of the chart
-enum AxisSide { left, top, right, bottom }
+enum AxisSide {
+  left,
+  top,
+  right,
+  bottom;
+
+  AxisSide rotateByQuarterTurns(int quarterTurns) {
+    const values = AxisSide.values;
+    return values[(values.indexOf(this) + quarterTurns) % values.length];
+  }
+}
 
 /// Contains meta information about the drawing title.
 class TitleMeta {
@@ -96,7 +111,11 @@ class TitleMeta {
     required this.sideTitles,
     required this.formattedValue,
     required this.axisSide,
-  });
+    required this.rotationQuarterTurns,
+  }) : assert(
+          rotationQuarterTurns >= 0,
+          "TitleMeta.rotationQuarterTurns couldn't be negative",
+        );
 
   /// min axis value
   final double min;
@@ -122,6 +141,11 @@ class TitleMeta {
 
   /// Determines the axis side of titles (left, top, right, bottom)
   final AxisSide axisSide;
+
+  /// Chart is rotated by 90 degrees clockwise in each turn
+  ///
+  /// default is zero, which means chart is normal and upward
+  final int rotationQuarterTurns;
 }
 
 /// It gives you the axis value and gets a String value based on it.
@@ -132,7 +156,7 @@ typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 /// formats the axis number to a shorter string using [formatNumber].
 Widget defaultGetTitle(double value, TitleMeta meta) {
   return SideTitleWidget(
-    axisSide: meta.axisSide,
+    meta: meta,
     child: Text(
       meta.formattedValue,
     ),
@@ -171,6 +195,11 @@ class SideTitles with EquatableMixin {
 
   /// You can override it to pass your custom widget to show in each axis value
   /// We recommend you to use [SideTitleWidget].
+  ///
+  /// If you decide to implement your custom widget
+  /// (instead of [SideTitleWidget]), you have to take care of the alignment,
+  /// space to the chart and also the rotation (if you are rotating the chart,
+  /// for example for Horizontal Bar Chart)
   final GetTitleWidgetFunction getTitlesWidget;
 
   /// It determines the maximum space that your titles need,

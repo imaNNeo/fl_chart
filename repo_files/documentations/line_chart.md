@@ -34,6 +34,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |
+|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
+
 
 
 ### LineChartBarData

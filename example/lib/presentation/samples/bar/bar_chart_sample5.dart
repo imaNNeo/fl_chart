@@ -59,7 +59,7 @@ class BarChartSample5State extends State<BarChartSample5> {
         break;
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(text, style: style),
     );
   }
@@ -93,7 +93,7 @@ class BarChartSample5State extends State<BarChartSample5> {
         return Container();
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(text, style: style),
     );
   }
@@ -108,7 +108,7 @@ class BarChartSample5State extends State<BarChartSample5> {
     }
     return SideTitleWidget(
       angle: AppUtils().degreeToRadian(value < 0 ? -45 : 45),
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 4,
       child: Text(
         text,
@@ -128,7 +128,7 @@ class BarChartSample5State extends State<BarChartSample5> {
     }
     return SideTitleWidget(
       angle: AppUtils().degreeToRadian(90),
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 0,
       child: Text(
         text,

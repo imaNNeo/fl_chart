@@ -190,7 +190,7 @@ class BarChartSample2State extends State<BarChartSample2> {
       return Container();
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 0,
       child: Text(text, style: style),
     );
@@ -209,7 +209,7 @@ class BarChartSample2State extends State<BarChartSample2> {
     );
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 16, //margin top
       child: text,
     );

@@ -536,11 +536,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         ..strokeWidth = tooltipData.tooltipBorder.width;
     }
 
+    final reverseQuarterTurnsAngle = -holder.data.rotationQuarterTurns * 90;
     canvasWrapper.drawRotated(
       size: rect.size,
       rotationOffset: rectRotationOffset,
       drawOffset: rectDrawOffset,
-      angle: rotateAngle,
+      angle: reverseQuarterTurnsAngle + rotateAngle,
       drawCallback: () {
         canvasWrapper
           ..drawRRect(roundedRect, _bgTouchTooltipPaint)

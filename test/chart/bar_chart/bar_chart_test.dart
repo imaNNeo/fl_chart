@@ -75,8 +75,10 @@ void main() {
             createTestWidget(
               chart: BarChart(
                 BarChartData(alignment: alignment),
+                // This is for test
                 // ignore: avoid_redundant_argument_values
                 transformationConfig: const FlTransformationConfig(
+                  // This is for test
                   // ignore: avoid_redundant_argument_values
                   scaleAxis: FlScaleAxis.none,
                 ),
@@ -228,8 +230,10 @@ void main() {
         createTestWidget(
           chart: BarChart(
             BarChartData(),
+            // This is for test
             // ignore: avoid_redundant_argument_values
             transformationConfig: const FlTransformationConfig(
+              // This is for test
               // ignore: avoid_redundant_argument_values
               scaleAxis: FlScaleAxis.none,
             ),
@@ -756,6 +760,7 @@ void main() {
               chart: BarChart(
                 BarChartData(),
                 transformationConfig: const FlTransformationConfig(
+                  // This is for test
                   // ignore: avoid_redundant_argument_values
                   scaleAxis: FlScaleAxis.none,
                   trackpadScrollCausesScale: true,
@@ -791,6 +796,7 @@ void main() {
                   BarChartData(),
                   transformationConfig: FlTransformationConfig(
                     scaleAxis: scaleAxis,
+                    // This is for test
                     // ignore: avoid_redundant_argument_values
                     trackpadScrollCausesScale: false,
                   ),

@@ -2897,6 +2897,136 @@ void main() {
       expect(drawOffset, const Offset(22, 52));
     });
 
+    test('test 4 - rotated chart with rotationQuarterTurns 2', () {
+      const viewSize = Size(100, 100);
+
+      final barData1 = LineChartBarData(
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(2, 2),
+          FlSpot(3, 3),
+          FlSpot(4, 4),
+          FlSpot.nullSpot,
+          FlSpot(5, 5),
+        ],
+      );
+      final barData2 = LineChartBarData(
+        spots: const [
+          FlSpot(1, 6),
+          FlSpot(2, 7),
+          FlSpot(3, 8),
+          FlSpot(4, 9),
+          FlSpot.nullSpot,
+          FlSpot(5, 10),
+        ],
+      );
+
+      final tooltipData = LineTouchTooltipData(
+        getTooltipColor: (touchedSpot) => const Color(0x11111111),
+        tooltipRoundedRadius: 12,
+        rotateAngle: 43,
+        maxContentWidth: 100,
+        tooltipMargin: 12,
+        tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+        tooltipPadding: const EdgeInsets.all(12),
+        fitInsideVertically: true,
+        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          return touchedSpots
+              .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
+              .toList();
+        },
+        tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+      );
+      final data = LineChartData(
+        rotationQuarterTurns: 2,
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        lineTouchData: LineTouchData(
+          touchTooltipData: tooltipData,
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((realInvocation) {
+        final callback = realInvocation
+            .namedArguments[const Symbol('drawCallback')] as DrawCallback;
+        callback();
+      });
+      lineChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        tooltipData,
+        barData2.spots.first,
+        ShowingTooltipIndicators([
+          LineBarSpot(
+            barData1,
+            0,
+            barData1.spots.first,
+          ),
+          LineBarSpot(
+            barData2,
+            1,
+            barData2.spots.first,
+          ),
+        ]),
+        holder,
+      );
+
+      final result1 =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
+      final rRect = result1.captured[0] as RRect;
+      final paint = result1.captured[1] as Paint;
+      expect(
+        rRect,
+        RRect.fromLTRBR(10, 0, 48, 56, const Radius.circular(12)),
+      );
+      expect(paint.color, isSameColorAs(const Color(0x11111111)));
+      final rRectBorder = result1.captured[2] as RRect;
+      final paintBorder = result1.captured[3] as Paint;
+      expect(
+        rRectBorder,
+        RRect.fromLTRBR(10, 0, 48, 56, const Radius.circular(12)),
+      );
+      expect(paintBorder.color, isSameColorAs(const Color(0x11111111)));
+      expect(paintBorder.strokeWidth, 2);
+
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, captureAny))
+        ..called(2);
+      final textPainter1 = result2.captured[0] as TextPainter;
+      final drawOffset1 = result2.captured[1] as Offset;
+      final textPainter2 = result2.captured[2] as TextPainter;
+      expect((textPainter1.text as TextSpan?)!.text, '1');
+      expect((textPainter1.text as TextSpan?)!.style, textStyle1);
+      expect((textPainter2.text as TextSpan?)!.text, '0');
+      expect((textPainter2.text as TextSpan?)!.style, textStyle1);
+      expect(drawOffset1, const Offset(22, 12));
+    });
+
     test('does not draw tooltip if it is outside of the chart virtual rect',
         () {
       const viewSize = Size(100, 100);

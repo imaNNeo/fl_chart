@@ -5,6 +5,7 @@ import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/edge_insets_extension.dart';
 import 'package:fl_chart/src/extensions/fl_border_data_extension.dart';
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
+import 'package:fl_chart/src/extensions/size_extension.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -105,13 +106,18 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
   }
 
   Size get viewSize {
+    late Size size;
     final chartVirtualRect = widget.chartVirtualRect;
     if (chartVirtualRect == null) {
-      return widget.parentSize;
+      size = widget.parentSize;
+    } else {
+      size = chartVirtualRect.size +
+          Offset(thisSidePaddingTotal, thisSidePaddingTotal);
     }
 
-    return chartVirtualRect.size +
-        Offset(thisSidePaddingTotal, thisSidePaddingTotal);
+    return size.rotateByQuarterTurns(
+      widget.axisChartData.rotationQuarterTurns,
+    );
   }
 
   double get axisOffset {
@@ -196,6 +202,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
               axisSide: side,
               parentAxisSize: axisViewSize,
               axisPosition: metaData.axisPixelLocation,
+              rotationQuarterTurns: widget.axisChartData.rotationQuarterTurns,
             ),
           ),
         );
@@ -210,7 +217,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
     final chartSize = Size(
       widget.parentSize.width - thisSidePaddingTotal,
       widget.parentSize.height - thisSidePaddingTotal,
-    );
+    ).rotateByQuarterTurns(widget.axisChartData.rotationQuarterTurns);
     // Add 1 pixel to the chart's edges to avoid clipping the last title.
     final chartRect = (Offset.zero & chartSize).inflate(1);
 

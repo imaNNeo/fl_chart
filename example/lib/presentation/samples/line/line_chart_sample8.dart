@@ -77,7 +77,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
       color: AppColors.mainTextColor1,
     );
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(meta.formattedValue, style: style),
     );
   }
@@ -106,7 +106,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
         throw StateError('Invalid');
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Icon(
         icon,
         color: color,
