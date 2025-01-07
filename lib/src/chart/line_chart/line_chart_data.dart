@@ -59,6 +59,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     super.clipData = const FlClipData.none(),
     super.backgroundColor,
     super.rotationQuarterTurns,
+    super.errorIndicatorData,
   }) : super(
           touchData: lineTouchData,
           minX: minX ?? double.nan,
@@ -111,6 +112,11 @@ class LineChartData extends AxisChartData with EquatableMixin {
         lineTouchData: b.lineTouchData,
         showingTooltipIndicators: b.showingTooltipIndicators,
         rotationQuarterTurns: b.rotationQuarterTurns,
+        errorIndicatorData: FlErrorIndicatorData.lerp(
+          a.errorIndicatorData,
+          b.errorIndicatorData,
+          t,
+        ),
       );
     } else {
       throw Exception('Illegal State');
@@ -138,6 +144,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlClipData? clipData,
     Color? backgroundColor,
     int? rotationQuarterTurns,
+    FlErrorIndicatorData? errorIndicatorData,
   }) =>
       LineChartData(
         lineBarsData: lineBarsData ?? this.lineBarsData,
@@ -159,6 +166,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         clipData: clipData ?? this.clipData,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
+        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -182,6 +190,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
         clipData,
         backgroundColor,
         rotationQuarterTurns,
+        errorIndicatorData,
       ];
 }
 
