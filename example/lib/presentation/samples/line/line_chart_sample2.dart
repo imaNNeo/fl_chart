@@ -162,16 +162,47 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxX: 11,
       minY: 0,
       maxY: 6,
+      errorIndicatorData: const FlErrorIndicatorData(
+        show: true,
+      ),
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+            FlSpot(
+              0,
+              3,
+              yError: FlErrorRange.symmetric(5),
+            ),
+            FlSpot(
+              2.6,
+              2,
+              yError: FlErrorRange.symmetric(5),
+            ),
+            FlSpot(
+              4.9,
+              5,
+              yError: FlErrorRange.symmetric(5),
+            ),
+            FlSpot(
+              6.8,
+              3.1,
+              yError: FlErrorRange.symmetric(5),
+            ),
+            FlSpot(
+              8,
+              4,
+              yError: FlErrorRange.symmetric(5),
+            ),
+            FlSpot(
+              9.5,
+              3,
+              yError: FlErrorRange.symmetric(5),
+            ),
+            FlSpot(
+              11,
+              4,
+              yError: FlErrorRange.symmetric(5),
+            ),
           ],
           isCurved: true,
           gradient: LinearGradient(

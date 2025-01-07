@@ -149,6 +149,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       canvasWrapper.restore();
     }
 
+    // Draw error indicators
+    for (var i = 0; i < data.lineBarsData.length; i++) {
+      final barData = data.lineBarsData[i];
+
+      if (!barData.show) {
+        continue;
+      }
+
+      drawErrorIndicatorData(
+        canvasWrapper,
+        barData,
+        data.errorIndicatorData,
+        holder,
+      );
+    }
+
     // Draw touch tooltip on most top spot
     for (var i = 0; i < data.showingTooltipIndicators.length; i++) {
       var tooltipSpots = data.showingTooltipIndicators[i];
@@ -353,6 +369,30 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
             barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
 
         canvasWrapper.drawDot(painter, spot, Offset(x, y));
+      }
+    }
+  }
+
+  @visibleForTesting
+  void drawErrorIndicatorData(
+    CanvasWrapper canvasWrapper,
+    LineChartBarData barData,
+    FlErrorIndicatorData errorIndicatorData,
+    PaintHolder<LineChartData> holder,
+  ) {
+    if (!errorIndicatorData.show) {
+      return;
+    }
+
+    final viewSize = canvasWrapper.size;
+
+    for (var i = 0; i < barData.spots.length; i++) {
+      final spot = barData.spots[i];
+      if (spot.isNotNull()) {
+        final x = getPixelX(spot.x, viewSize, holder);
+        final y = getPixelY(spot.y, viewSize, holder);
+        final painter = errorIndicatorData.errorPainter;
+        canvasWrapper.drawErrorIndicator(painter, spot, Offset(x, y));
       }
     }
   }
