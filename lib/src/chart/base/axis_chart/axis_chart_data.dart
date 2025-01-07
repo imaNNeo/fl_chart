@@ -185,6 +185,7 @@ class SideTitles with EquatableMixin {
     this.getTitlesWidget = defaultGetTitle,
     this.reservedSize = 22,
     this.interval,
+    this.startMin = false,
     this.minIncluded = true,
     this.maxIncluded = true,
   }) : assert(interval != 0, "SideTitles.interval couldn't be zero");
@@ -208,6 +209,9 @@ class SideTitles with EquatableMixin {
   /// Texts are showing with provided [interval]. If you don't provide anything,
   /// we try to find a suitable value to set as [interval] under the hood.
   final double? interval;
+
+  /// If [startMin] is true, then the interval will start from the min value.
+  final bool startMin;
 
   /// If true (default), a title for the minimum data value is included
   /// independent of the sampling interval
@@ -587,6 +591,7 @@ class FlGridData with EquatableMixin {
     this.verticalInterval,
     this.getDrawingVerticalLine = defaultGridLine,
     this.checkToShowVerticalLine = showAllGrids,
+    this.startMin = false,
   })  : assert(
           horizontalInterval != 0,
           "FlGridData.horizontalInterval couldn't be zero",
@@ -622,6 +627,9 @@ class FlGridData with EquatableMixin {
 
   /// Gives you a x value, and gets a boolean that determines showing or hiding specified line.
   final CheckToShowGrid checkToShowVerticalLine;
+
+  /// If true then the horizontal interval will start from the min value.
+  final bool startMin;
 
   /// Lerps a [FlGridData] based on [t] value, check [Tween.lerp].
   static FlGridData lerp(FlGridData a, FlGridData b, double t) => FlGridData(

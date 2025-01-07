@@ -165,6 +165,7 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
         maxIncluded: sideTitles.maxIncluded,
         baseLine: axisBaseLine,
         interval: interval,
+        startMin: sideTitles.startMin,
       );
       axisPositions = axisValues.map((axisValue) {
         final axisDiff = axisMax - axisMin;
