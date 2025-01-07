@@ -64,7 +64,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   RadarChartData({
     @required List<RadarDataSet>? dataSets,
     Color? radarBackgroundColor,
+    Color? radarShadowColor,
     BorderSide? radarBorderData,
+    double? elevation,
     RadarShape? radarShape,
     this.getTitle,
     this.titleTextStyle,
@@ -89,7 +91,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         ),
         dataSets = dataSets ?? const [],
         radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
+        radarShadowColor = radarShadowColor ?? Colors.transparent,
         radarBorderData = radarBorderData ?? const BorderSide(width: 2),
+        elevation = elevation ?? 0,
         radarShape = radarShape ?? RadarShape.circle,
         radarTouchData = radarTouchData ?? RadarTouchData(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
@@ -104,8 +108,14 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// [radarBackgroundColor] draw the background color of the [RadarChart]
   final Color radarBackgroundColor;
 
+  /// [radarShadowColor] draw the elevation shadow color of the [RadarChart]
+  final Color radarShadowColor;
+
   /// [radarBorderData] is used to draw [RadarChart] border
   final BorderSide radarBorderData;
+
+  /// [elevation] is used to draw [RadarChart] elevation
+  final double elevation;
 
   /// [radarShape] is used to draw [RadarChart] border and background
   final RadarShape radarShape;
@@ -195,7 +205,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   RadarChartData copyWith({
     List<RadarDataSet>? dataSets,
     Color? radarBackgroundColor,
+    Color? radarShadowColor,
     BorderSide? radarBorderData,
+    double? elevation,
     RadarShape? radarShape,
     GetTitleByIndexFunction? getTitle,
     TextStyle? titleTextStyle,
@@ -211,7 +223,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
       RadarChartData(
         dataSets: dataSets ?? this.dataSets,
         radarBackgroundColor: radarBackgroundColor ?? this.radarBackgroundColor,
+        radarShadowColor: radarShadowColor ?? this.radarShadowColor,
         radarBorderData: radarBorderData ?? this.radarBorderData,
+        elevation: elevation ?? this.elevation,
         radarShape: radarShape ?? this.radarShape,
         getTitle: getTitle ?? this.getTitle,
         titleTextStyle: titleTextStyle ?? this.titleTextStyle,
@@ -234,6 +248,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         dataSets: lerpRadarDataSetList(a.dataSets, b.dataSets, t),
         radarBackgroundColor:
             Color.lerp(a.radarBackgroundColor, b.radarBackgroundColor, t),
+        radarShadowColor: Color.lerp(a.radarShadowColor, b.radarShadowColor, t),
         getTitle: b.getTitle,
         titleTextStyle: TextStyle.lerp(a.titleTextStyle, b.titleTextStyle, t),
         titlePositionPercentageOffset: lerpDouble(
@@ -246,6 +261,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         gridBorderData: BorderSide.lerp(a.gridBorderData, b.gridBorderData, t),
         radarBorderData:
             BorderSide.lerp(a.radarBorderData, b.radarBorderData, t),
+        elevation: lerpDouble(a.elevation, b.elevation, t),
         radarShape: b.radarShape,
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
@@ -263,7 +279,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         borderData,
         dataSets,
         radarBackgroundColor,
+        radarShadowColor,
         radarBorderData,
+        elevation,
         radarShape,
         getTitle,
         titleTextStyle,
@@ -290,6 +308,7 @@ class RadarDataSet with EquatableMixin {
   RadarDataSet({
     List<RadarEntry>? dataEntries,
     Color? fillColor,
+    Gradient? gradient,
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
@@ -298,7 +317,8 @@ class RadarDataSet with EquatableMixin {
           'Radar needs at least 3 RadarEntry',
         ),
         dataEntries = dataEntries ?? const [],
-        fillColor = fillColor ?? Colors.cyan.withValues(alpha: 0.2),
+        fillColor = fillColor ?? Colors.cyan.withOpacity(0.2),
+        gradient = gradient,
         borderColor = borderColor ?? Colors.cyan,
         borderWidth = borderWidth ?? 2.0,
         entryRadius = entryRadius ?? 5.0;
@@ -308,6 +328,9 @@ class RadarDataSet with EquatableMixin {
 
   /// defines the color that fills the [RadarDataSet].
   final Color fillColor;
+
+  // defines the gradient color that fills the [RadarDataSet].
+  final Gradient? gradient;
 
   /// defines the border color of the [RadarDataSet].
   /// if [borderColor] is not defined it will replaced with [fillColor].
@@ -326,6 +349,7 @@ class RadarDataSet with EquatableMixin {
   RadarDataSet copyWith({
     List<RadarEntry>? dataEntries,
     Color? fillColor,
+    Gradient? gradient,
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
@@ -333,26 +357,30 @@ class RadarDataSet with EquatableMixin {
       RadarDataSet(
         dataEntries: dataEntries ?? this.dataEntries,
         fillColor: fillColor ?? this.fillColor,
+        gradient: gradient,
         borderColor: borderColor ?? this.borderColor,
         borderWidth: borderWidth ?? this.borderWidth,
         entryRadius: entryRadius ?? this.entryRadius,
       );
 
   /// Lerps a [RadarDataSet] based on [t] value, check [Tween.lerp].
-  static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) =>
-      RadarDataSet(
-        dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
-        fillColor: Color.lerp(a.fillColor, b.fillColor, t),
-        borderColor: Color.lerp(a.borderColor, b.borderColor, t),
-        borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
-        entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
-      );
+  static RadarDataSet lerp(RadarDataSet a, RadarDataSet b, double t) {
+    return RadarDataSet(
+      dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
+      fillColor: Color.lerp(a.fillColor, b.fillColor, t),
+      gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      borderColor: Color.lerp(a.borderColor, b.borderColor, t),
+      borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
+      entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
+    );
+  }
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         dataEntries,
         fillColor,
+        gradient,
         borderColor,
         borderWidth,
         entryRadius,
