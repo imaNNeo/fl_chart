@@ -391,8 +391,38 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       if (spot.isNotNull()) {
         final x = getPixelX(spot.x, viewSize, holder);
         final y = getPixelY(spot.y, viewSize, holder);
+        if (spot.xError == null && spot.yError == null) {
+          continue;
+        }
+
+        var left = 0.0;
+        var right = 0.0;
+        if (spot.xError != null) {
+          left = getPixelX(spot.x - spot.xError!.lowerBy, viewSize, holder) - x;
+          right =
+              getPixelX(spot.x + spot.xError!.upperBy, viewSize, holder) - x;
+        }
+
+        var top = 0.0;
+        var bottom = 0.0;
+        if (spot.yError != null) {
+          top = getPixelY(spot.y + spot.yError!.lowerBy, viewSize, holder) - y;
+          bottom =
+              getPixelY(spot.y - spot.yError!.upperBy, viewSize, holder) - y;
+        }
+        final relativeErrorPixelsRect = Rect.fromLTRB(
+          left,
+          top,
+          right,
+          bottom,
+        );
         final painter = errorIndicatorData.errorPainter;
-        canvasWrapper.drawErrorIndicator(painter, spot, Offset(x, y));
+        canvasWrapper.drawErrorIndicator(
+          painter,
+          spot,
+          Offset(x, y),
+          relativeErrorPixelsRect,
+        );
       }
     }
   }
