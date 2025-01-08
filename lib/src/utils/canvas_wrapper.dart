@@ -123,8 +123,9 @@ class CanvasWrapper {
     FlSpotErrorRangePainter painter,
     FlSpot origin,
     Offset offset,
+    Rect errorRelativeRect,
   ) {
-    painter.draw(canvas, offset, origin);
+    painter.draw(canvas, offset, origin, errorRelativeRect);
   }
 
   /// Handles performing multiple draw actions rotated.

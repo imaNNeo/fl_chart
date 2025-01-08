@@ -1721,6 +1721,7 @@ abstract class FlSpotErrorRangePainter with EquatableMixin {
     Canvas canvas,
     Offset offsetInCanvas,
     FlSpot origin,
+    Rect errorRelativeRect,
   );
 
   Size getSize(FlSpot spot);
@@ -1735,18 +1736,80 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
   const FlSimpleErrorPainter();
 
   @override
-  void draw(Canvas canvas, Offset offsetInCanvas, FlSpot origin) {
-    print('Drawing error indicator at $offsetInCanvas');
-    final lineFrom = Offset(offsetInCanvas.dx, offsetInCanvas.dy - 10);
-    final lineTo = Offset(offsetInCanvas.dx, offsetInCanvas.dy + 10);
+  void draw(
+    Canvas canvas,
+    Offset offsetInCanvas,
+    FlSpot origin,
+    Rect errorRelativeRect,
+  ) {
+    final rect = errorRelativeRect.shift(offsetInCanvas);
+
+    final hasVerticalError = errorRelativeRect.width != 0;
+    if (hasVerticalError) {
+      _drawDirectErrorLine(canvas, rect.topCenter, rect.bottomCenter);
+    }
+
+    final hasHorizontalError = errorRelativeRect.height != 0;
+    if (hasHorizontalError) {
+      _drawDirectErrorLine(canvas, rect.centerLeft, rect.centerRight);
+    }
+  }
+
+  void _drawDirectErrorLine(Canvas canvas, Offset from, Offset to) {
     canvas.drawLine(
-      lineFrom,
-      lineTo,
+      from,
+      to,
       Paint()
-        ..color = Colors.red
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2,
+        ..color = Colors.white
+        ..strokeWidth = 1
+        ..style = PaintingStyle.stroke,
     );
+
+    // Draw edge lines
+    const edgeLength = 8.0;
+    if (from.dx == to.dx) {
+      // Line is vertical
+      canvas
+        // draw top edge
+        ..drawLine(
+          Offset(from.dx - (edgeLength / 2), from.dy),
+          Offset(from.dx + (edgeLength / 2), from.dy),
+          Paint()
+            ..color = Colors.white
+            ..strokeWidth = 1
+            ..style = PaintingStyle.stroke,
+        )
+        // draw bottom edge
+        ..drawLine(
+          Offset(to.dx - (edgeLength / 2), to.dy),
+          Offset(to.dx + (edgeLength / 2), to.dy),
+          Paint()
+            ..color = Colors.white
+            ..strokeWidth = 1
+            ..style = PaintingStyle.stroke,
+        );
+    } else {
+      // // Line is horizontal
+      canvas
+        // draw left edge
+        ..drawLine(
+          Offset(from.dx, from.dy - (edgeLength / 2)),
+          Offset(from.dx, from.dy + (edgeLength / 2)),
+          Paint()
+            ..color = Colors.white
+            ..strokeWidth = 1
+            ..style = PaintingStyle.stroke,
+        )
+        // draw right edge
+        ..drawLine(
+          Offset(to.dx, to.dy - (edgeLength / 2)),
+          Offset(to.dx, to.dy + (edgeLength / 2)),
+          Paint()
+            ..color = Colors.white
+            ..strokeWidth = 1
+            ..style = PaintingStyle.stroke,
+        );
+    }
   }
 
   @override
