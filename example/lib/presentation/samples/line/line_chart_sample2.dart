@@ -171,44 +171,58 @@ class _LineChartSample2State extends State<LineChartSample2> {
             FlSpot(
               0,
               3,
-              yError: FlErrorRange.symmetric(1.0),
-              xError: FlErrorRange.symmetric(1.0),
+              yError: FlErrorRange(
+                upperBy: 0.5,
+                lowerBy: 0.5,
+              ),
             ),
             FlSpot(
               2.6,
               2,
-              yError: FlErrorRange.symmetric(1.0),
-              xError: FlErrorRange.symmetric(1.0),
+              yError: FlErrorRange(
+                upperBy: 0.5,
+                lowerBy: 0.5,
+              ),
             ),
             FlSpot(
               4.9,
               5,
-              yError: FlErrorRange.symmetric(1.0),
-              xError: FlErrorRange.symmetric(1.0),
+              yError: FlErrorRange(
+                upperBy: 0.5,
+                lowerBy: 0.5,
+              ),
             ),
             FlSpot(
               6.8,
               3.1,
-              yError: FlErrorRange.symmetric(1.0),
-              xError: FlErrorRange.symmetric(1.0),
+              yError: FlErrorRange(
+                upperBy: 0.5,
+                lowerBy: 0.5,
+              ),
             ),
             FlSpot(
               8,
               4,
-              yError: FlErrorRange.symmetric(1.0),
-              xError: FlErrorRange.symmetric(1.0),
+              yError: FlErrorRange(
+                upperBy: 0.5,
+                lowerBy: 0.5,
+              ),
             ),
             FlSpot(
               9.5,
               3,
-              yError: FlErrorRange.symmetric(1.0),
-              xError: FlErrorRange.symmetric(1.0),
+              yError: FlErrorRange(
+                upperBy: 0.5,
+                lowerBy: 0.5,
+              ),
             ),
             FlSpot(
               11,
               4,
-              yError: FlErrorRange.symmetric(1.0),
-              xError: FlErrorRange.symmetric(1.0),
+              yError: FlErrorRange(
+                upperBy: 0.5,
+                lowerBy: 0.5,
+              ),
             ),
           ],
           isCurved: true,
