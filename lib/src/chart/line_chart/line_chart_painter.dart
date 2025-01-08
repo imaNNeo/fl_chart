@@ -416,7 +416,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           right,
           bottom,
         );
-        final painter = errorIndicatorData.errorPainter;
+
+        final painter = errorIndicatorData.errorPainter(
+          spot,
+          barData,
+          i,
+        );
         canvasWrapper.drawErrorIndicator(
           painter,
           spot,

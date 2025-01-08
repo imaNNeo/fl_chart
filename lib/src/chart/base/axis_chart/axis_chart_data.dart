@@ -1691,11 +1691,11 @@ class FlDotCrossPainter extends FlDotPainter {
 class FlErrorIndicatorData with EquatableMixin {
   const FlErrorIndicatorData({
     this.show = false,
-    this.errorPainter = const FlSimpleErrorPainter(),
+    this.errorPainter = _defaultGetSpotRangeErrorPainter,
   });
 
   final bool show;
-  final FlSpotErrorRangePainter errorPainter;
+  final GetSpotRangeErrorPainter errorPainter;
 
   static FlErrorIndicatorData lerp(
     FlErrorIndicatorData a,
@@ -1704,7 +1704,7 @@ class FlErrorIndicatorData with EquatableMixin {
   ) =>
       FlErrorIndicatorData(
         show: b.show,
-        errorPainter: b.errorPainter.lerp(a.errorPainter, b.errorPainter, t),
+        errorPainter: b.errorPainter,
       );
 
   @override
@@ -1713,6 +1713,19 @@ class FlErrorIndicatorData with EquatableMixin {
         errorPainter,
       ];
 }
+
+typedef GetSpotRangeErrorPainter = FlSpotErrorRangePainter Function(
+  FlSpot spot,
+  LineChartBarData bar,
+  int spotIndex,
+);
+
+FlSpotErrorRangePainter _defaultGetSpotRangeErrorPainter(
+  FlSpot spot,
+  LineChartBarData bar,
+  int spotIndex,
+) =>
+    FlSimpleErrorPainter();
 
 abstract class FlSpotErrorRangePainter with EquatableMixin {
   const FlSpotErrorRangePainter();
@@ -1733,7 +1746,20 @@ abstract class FlSpotErrorRangePainter with EquatableMixin {
 }
 
 class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
-  const FlSimpleErrorPainter();
+  FlSimpleErrorPainter({
+    this.lineColor = Colors.white,
+    this.lineWidth = 1.0,
+  }) {
+    _linePaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = lineWidth
+      ..style = PaintingStyle.stroke;
+  }
+
+  final Color lineColor;
+  final double lineWidth;
+
+  late final Paint _linePaint;
 
   @override
   void draw(
@@ -1743,15 +1769,22 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     Rect errorRelativeRect,
   ) {
     final rect = errorRelativeRect.shift(offsetInCanvas);
-
-    final hasVerticalError = errorRelativeRect.width != 0;
+    final hasVerticalError = errorRelativeRect.height != 0;
     if (hasVerticalError) {
-      _drawDirectErrorLine(canvas, rect.topCenter, rect.bottomCenter);
+      _drawDirectErrorLine(
+        canvas,
+        Offset(offsetInCanvas.dx, rect.top),
+        Offset(offsetInCanvas.dx, rect.bottom),
+      );
     }
 
-    final hasHorizontalError = errorRelativeRect.height != 0;
+    final hasHorizontalError = errorRelativeRect.width != 0;
     if (hasHorizontalError) {
-      _drawDirectErrorLine(canvas, rect.centerLeft, rect.centerRight);
+      _drawDirectErrorLine(
+        canvas,
+        Offset(rect.left, offsetInCanvas.dy),
+        Offset(rect.right, offsetInCanvas.dy),
+      );
     }
   }
 
@@ -1759,10 +1792,7 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     canvas.drawLine(
       from,
       to,
-      Paint()
-        ..color = Colors.white
-        ..strokeWidth = 1
-        ..style = PaintingStyle.stroke,
+      _linePaint,
     );
 
     // Draw edge lines
@@ -1774,19 +1804,13 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
         ..drawLine(
           Offset(from.dx - (edgeLength / 2), from.dy),
           Offset(from.dx + (edgeLength / 2), from.dy),
-          Paint()
-            ..color = Colors.white
-            ..strokeWidth = 1
-            ..style = PaintingStyle.stroke,
+          _linePaint,
         )
         // draw bottom edge
         ..drawLine(
           Offset(to.dx - (edgeLength / 2), to.dy),
           Offset(to.dx + (edgeLength / 2), to.dy),
-          Paint()
-            ..color = Colors.white
-            ..strokeWidth = 1
-            ..style = PaintingStyle.stroke,
+          _linePaint,
         );
     } else {
       // // Line is horizontal
@@ -1795,19 +1819,13 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
         ..drawLine(
           Offset(from.dx, from.dy - (edgeLength / 2)),
           Offset(from.dx, from.dy + (edgeLength / 2)),
-          Paint()
-            ..color = Colors.white
-            ..strokeWidth = 1
-            ..style = PaintingStyle.stroke,
+          _linePaint,
         )
         // draw right edge
         ..drawLine(
           Offset(to.dx, to.dy - (edgeLength / 2)),
           Offset(to.dx, to.dy + (edgeLength / 2)),
-          Paint()
-            ..color = Colors.white
-            ..strokeWidth = 1
-            ..style = PaintingStyle.stroke,
+          _linePaint,
         );
     }
   }
