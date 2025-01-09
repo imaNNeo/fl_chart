@@ -30,7 +30,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     required super.touchData,
     ExtraLinesData? extraLinesData,
     this.rotationQuarterTurns = 0,
-    this.errorIndicatorData = const FlErrorIndicatorData(),
   })  : gridData = gridData ?? const FlGridData(),
         rangeAnnotations = rangeAnnotations ?? const RangeAnnotations(),
         baselineX = baselineX ?? 0,
@@ -67,8 +66,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   /// Rotates the chart by 90 degrees clockwise in each turn
   final int rotationQuarterTurns;
 
-  final FlErrorIndicatorData errorIndicatorData;
-
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -87,7 +84,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         touchData,
         extraLinesData,
         rotationQuarterTurns,
-        errorIndicatorData,
       ];
 }
 
@@ -1691,11 +1687,11 @@ class FlDotCrossPainter extends FlDotPainter {
 class FlErrorIndicatorData with EquatableMixin {
   const FlErrorIndicatorData({
     this.show = false,
-    this.errorPainter = _defaultGetSpotRangeErrorPainter,
+    this.painter = _defaultGetSpotRangeErrorPainter,
   });
 
   final bool show;
-  final GetSpotRangeErrorPainter errorPainter;
+  final GetSpotRangeErrorPainter painter;
 
   static FlErrorIndicatorData lerp(
     FlErrorIndicatorData a,
@@ -1704,13 +1700,13 @@ class FlErrorIndicatorData with EquatableMixin {
   ) =>
       FlErrorIndicatorData(
         show: b.show,
-        errorPainter: b.errorPainter,
+        painter: b.painter,
       );
 
   @override
   List<Object?> get props => [
         show,
-        errorPainter,
+        painter,
       ];
 }
 
@@ -1751,7 +1747,7 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     this.lineWidth = 1.0,
   }) {
     _linePaint = Paint()
-      ..color = Colors.white
+      ..color = lineColor
       ..strokeWidth = lineWidth
       ..style = PaintingStyle.stroke;
   }

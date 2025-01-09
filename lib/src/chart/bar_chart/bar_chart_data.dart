@@ -48,7 +48,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     ExtraLinesData? extraLinesData,
     super.rotationQuarterTurns,
-    super.errorIndicatorData,
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
@@ -97,7 +96,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ExtraLinesData? extraLinesData,
     int? rotationQuarterTurns,
-    FlErrorIndicatorData? errorIndicatorData,
   }) =>
       BarChartData(
         barGroups: barGroups ?? this.barGroups,
@@ -114,7 +112,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         extraLinesData: extraLinesData ?? this.extraLinesData,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
-        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -138,11 +135,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         extraLinesData:
             ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         rotationQuarterTurns: b.rotationQuarterTurns,
-        errorIndicatorData: FlErrorIndicatorData.lerp(
-          a.errorIndicatorData,
-          b.errorIndicatorData,
-          t,
-        ),
       );
     } else {
       throw Exception('Illegal State');
@@ -166,7 +158,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         backgroundColor,
         extraLinesData,
         rotationQuarterTurns,
-        errorIndicatorData,
       ];
 }
 

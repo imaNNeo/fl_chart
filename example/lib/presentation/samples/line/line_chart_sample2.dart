@@ -162,9 +162,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxX: 11,
       minY: 0,
       maxY: 6,
-      errorIndicatorData: const FlErrorIndicatorData(
-        show: true,
-      ),
       lineBarsData: [
         LineChartBarData(
           spots: const [
@@ -233,6 +230,18 @@ class _LineChartSample2State extends State<LineChartSample2> {
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
+          ),
+          errorIndicatorData: FlErrorIndicatorData(
+            show: true,
+            painter: (
+              FlSpot spot,
+              LineChartBarData bar,
+              int spotIndex,
+            ) => FlSimpleErrorPainter(
+              lineColor:
+                  spotIndex % 2 == 0 ? Colors.greenAccent : Colors.blue,
+              lineWidth: 1,
+            ),
           ),
           belowBarData: BarAreaData(
             show: true,
