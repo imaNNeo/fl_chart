@@ -50,7 +50,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
     super.rotationQuarterTurns,
-    super.errorIndicatorData,
   })  : scatterSpots = scatterSpots ?? const [],
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
@@ -119,11 +118,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           t,
         ),
         rotationQuarterTurns: b.rotationQuarterTurns,
-        errorIndicatorData: FlErrorIndicatorData.lerp(
-          a.errorIndicatorData,
-          b.errorIndicatorData,
-          t,
-        ),
       );
     } else {
       throw Exception('Illegal State');
@@ -149,7 +143,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
     int? rotationQuarterTurns,
-    FlErrorIndicatorData? errorIndicatorData,
   }) =>
       ScatterChartData(
         scatterSpots: scatterSpots ?? this.scatterSpots,
@@ -169,7 +162,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
-        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -194,7 +186,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         borderData,
         touchData,
         rotationQuarterTurns,
-        errorIndicatorData,
       ];
 }
 
