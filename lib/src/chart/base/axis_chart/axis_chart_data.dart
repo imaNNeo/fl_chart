@@ -1686,7 +1686,7 @@ class FlDotCrossPainter extends FlDotPainter {
 
 class FlErrorIndicatorData with EquatableMixin {
   const FlErrorIndicatorData({
-    this.show = false,
+    this.show = true,
     this.painter = _defaultGetSpotRangeErrorPainter,
   });
 
@@ -1737,7 +1737,7 @@ abstract class FlSpotErrorRangePainter with EquatableMixin {
 class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
   FlSimpleErrorPainter({
     this.lineColor = Colors.white,
-    this.lineWidth = 2.0,
+    this.lineWidth = 1.0,
     this.capLength = 8.0,
   }) {
     _linePaint = Paint()
