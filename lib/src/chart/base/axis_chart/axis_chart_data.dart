@@ -1739,16 +1739,22 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     this.lineColor = Colors.white,
     this.lineWidth = 1.0,
     this.capLength = 8.0,
+    this.crossAlignment = 0,
   }) {
     _linePaint = Paint()
       ..color = lineColor
       ..strokeWidth = lineWidth
       ..style = PaintingStyle.stroke;
+    assert(
+      crossAlignment >= -1 && crossAlignment <= 1,
+      'crossAlignment must be between -1 (start) and 1 (end)',
+    );
   }
 
   final Color lineColor;
   final double lineWidth;
   final double capLength;
+  final double crossAlignment;
 
   late final Paint _linePaint;
 
@@ -1780,41 +1786,53 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
   }
 
   void _drawDirectErrorLine(Canvas canvas, Offset from, Offset to) {
+    final isLineVertical = from.dx == to.dx;
+    final mainLineOffset = crossAlignment * capLength;
+
+    if (isLineVertical) {
+      from = Offset(from.dx + mainLineOffset, from.dy);
+      to = Offset(to.dx + mainLineOffset, to.dy);
+    } else {
+      from = Offset(from.dx, from.dy + mainLineOffset);
+      to = Offset(to.dx, to.dy + mainLineOffset);
+    }
+
     canvas.drawLine(
       from,
       to,
       _linePaint,
     );
 
+    final t = (crossAlignment + 1) / 2;
+    final end = capLength - lerpDouble(0, capLength, t)!;
+    final start = capLength - end;
     // Draw edge lines
-    if (from.dx == to.dx) {
-      // Line is vertical
+    if (isLineVertical) {
       canvas
         // draw top cap
         ..drawLine(
-          Offset(from.dx - (capLength / 2), from.dy),
-          Offset(from.dx + (capLength / 2), from.dy),
+          Offset(from.dx - start, from.dy),
+          Offset(from.dx + end, from.dy),
           _linePaint,
         )
         // draw bottom cap
         ..drawLine(
-          Offset(to.dx - (capLength / 2), to.dy),
-          Offset(to.dx + (capLength / 2), to.dy),
+          Offset(to.dx - start, to.dy),
+          Offset(to.dx + end, to.dy),
           _linePaint,
         );
     } else {
-      // // Line is horizontal
       canvas
         // draw left cap
         ..drawLine(
-          Offset(from.dx, from.dy - (capLength / 2)),
-          Offset(from.dx, from.dy + (capLength / 2)),
+          Offset(from.dx, from.dy - start),
+          Offset(from.dx, from.dy + end),
           _linePaint,
         )
         // draw right cap
         ..drawLine(
-          Offset(to.dx, to.dy - (capLength / 2)),
-          Offset(to.dx, to.dy + (capLength / 2)),
+          Offset(to.dx, to.dy - start),
+          Offset(to.dx, to.dy + end),
           _linePaint,
         );
     }
