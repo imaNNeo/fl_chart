@@ -1732,19 +1732,13 @@ abstract class FlSpotErrorRangePainter with EquatableMixin {
     FlSpot origin,
     Rect errorRelativeRect,
   );
-
-  Size getSize(FlSpot spot);
-
-  Color get mainColor;
-
-  FlSpotErrorRangePainter lerp(
-      FlSpotErrorRangePainter a, FlSpotErrorRangePainter b, double t);
 }
 
 class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
   FlSimpleErrorPainter({
     this.lineColor = Colors.white,
-    this.lineWidth = 1.0,
+    this.lineWidth = 2.0,
+    this.capLength = 8.0,
   }) {
     _linePaint = Paint()
       ..color = lineColor
@@ -1754,6 +1748,7 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
 
   final Color lineColor;
   final double lineWidth;
+  final double capLength;
 
   late final Paint _linePaint;
 
@@ -1792,59 +1787,43 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     );
 
     // Draw edge lines
-    const edgeLength = 8.0;
     if (from.dx == to.dx) {
       // Line is vertical
       canvas
-        // draw top edge
+        // draw top cap
         ..drawLine(
-          Offset(from.dx - (edgeLength / 2), from.dy),
-          Offset(from.dx + (edgeLength / 2), from.dy),
+          Offset(from.dx - (capLength / 2), from.dy),
+          Offset(from.dx + (capLength / 2), from.dy),
           _linePaint,
         )
-        // draw bottom edge
+        // draw bottom cap
         ..drawLine(
-          Offset(to.dx - (edgeLength / 2), to.dy),
-          Offset(to.dx + (edgeLength / 2), to.dy),
+          Offset(to.dx - (capLength / 2), to.dy),
+          Offset(to.dx + (capLength / 2), to.dy),
           _linePaint,
         );
     } else {
       // // Line is horizontal
       canvas
-        // draw left edge
+        // draw left cap
         ..drawLine(
-          Offset(from.dx, from.dy - (edgeLength / 2)),
-          Offset(from.dx, from.dy + (edgeLength / 2)),
+          Offset(from.dx, from.dy - (capLength / 2)),
+          Offset(from.dx, from.dy + (capLength / 2)),
           _linePaint,
         )
-        // draw right edge
+        // draw right cap
         ..drawLine(
-          Offset(to.dx, to.dy - (edgeLength / 2)),
-          Offset(to.dx, to.dy + (edgeLength / 2)),
+          Offset(to.dx, to.dy - (capLength / 2)),
+          Offset(to.dx, to.dy + (capLength / 2)),
           _linePaint,
         );
     }
   }
 
   @override
-  Size getSize(FlSpot spot) {
-    return const Size(10, 10);
-  }
-
-  @override
-  FlSpotErrorRangePainter lerp(
-    FlSpotErrorRangePainter a,
-    FlSpotErrorRangePainter b,
-    double t,
-  ) {
-    return this;
-  }
-
-  @override
-  Color get mainColor => Colors.black;
-
-  @override
   List<Object?> get props => [
-        mainColor,
+        lineColor,
+        lineWidth,
+        capLength,
       ];
 }
