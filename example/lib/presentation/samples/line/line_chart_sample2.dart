@@ -232,7 +232,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
             show: false,
           ),
           errorIndicatorData: FlErrorIndicatorData(
-            show: true,
             painter: (
               FlSpot spot,
               LineChartBarData bar,
