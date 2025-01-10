@@ -6,7 +6,6 @@ import 'package:fl_chart_app/util/csv_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class LineChartSample13 extends StatefulWidget {
   const LineChartSample13({super.key});
 
@@ -48,14 +47,14 @@ class _LineChartSample13State extends State<LineChartSample13> {
 
   void _loadWeatherData() async {
     final data =
-    await rootBundle.loadString('assets/data/amsterdam_2024_weather.csv');
+        await rootBundle.loadString('assets/data/amsterdam_2024_weather.csv');
     final rows = CsvParser.parse(data);
     if (!mounted) {
       return;
     }
     setState(() {
       final allWeatherData =
-      rows.skip(1).map((row) => _WeatherData.fromCsv(row)).toList();
+          rows.skip(1).map((row) => _WeatherData.fromCsv(row)).toList();
       monthlyWeatherData = List.generate(12, (index) {
         final month = index + 1;
         return allWeatherData
@@ -89,15 +88,17 @@ class _LineChartSample13State extends State<LineChartSample13> {
             ),
             Tooltip(
               message: 'Source: visualcrossing.com',
-              child: IconButton(onPressed: () {
-                AppUtils().tryToLaunchUrl(
-                  'https://www.visualcrossing.com/weather-history/Amsterdam,Netherlands/metric/2024-01-01/2024-12-31',
-                );
-              }, icon: const Icon(
-                Icons.info_outline_rounded,
-                color: AppColors.contentColorOrange,
-                size: 18,
-              )),
+              child: IconButton(
+                  onPressed: () {
+                    AppUtils().tryToLaunchUrl(
+                      'https://www.visualcrossing.com/weather-history/Amsterdam,Netherlands/metric/2024-01-01/2024-12-31',
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.info_outline_rounded,
+                    color: AppColors.contentColorOrange,
+                    size: 18,
+                  )),
             )
           ],
         ),
@@ -199,19 +200,18 @@ class _LineChartSample13State extends State<LineChartSample13> {
                         leftTitles: AxisTitles(
                           drawBelowEverything: true,
                           sideTitles: SideTitles(
-                            showTitles: true,
-                            maxIncluded: false,
-                            minIncluded: false,
-                            reservedSize: 40,
-                            getTitlesWidget: (double value, TitleMeta meta) {
-                              return SideTitleWidget(
-                                meta: meta,
-                                child: Text(
-                                  '${meta.formattedValue}°',
-                                ),
-                              );
-                            }
-                          ),
+                              showTitles: true,
+                              maxIncluded: false,
+                              minIncluded: false,
+                              reservedSize: 40,
+                              getTitlesWidget: (double value, TitleMeta meta) {
+                                return SideTitleWidget(
+                                  meta: meta,
+                                  child: Text(
+                                    '${meta.formattedValue}°',
+                                  ),
+                                );
+                              }),
                         ),
                         bottomTitles: AxisTitles(
                           axisNameWidget: Container(
@@ -277,13 +277,16 @@ class _LineChartSample13State extends State<LineChartSample13> {
     });
   }
 
-  FlSpotErrorRangePainter _errorPainter(FlSpot spot,
-      LineChartBarData bar,
-      int spotIndex,) =>
+  FlSpotErrorRangePainter _errorPainter(
+    FlSpot spot,
+    LineChartBarData bar,
+    int spotIndex,
+  ) =>
       FlSimpleErrorPainter(
         lineWidth: 1.0,
         lineColor:
-        _interactedSpotIndex == spotIndex ? Colors.white : Colors.white38,
+            _interactedSpotIndex == spotIndex ? Colors.white : Colors.white38,
+        showErrorTexts: _interactedSpotIndex == spotIndex,
       );
 
   FlLine _horizontalGridLines(double value) {
@@ -416,8 +419,7 @@ class _WeatherData with EquatableMixin {
   // parse from csv row
   // name,datetime,tempmax,tempmin,temp,feelslikemax,feelslikemin,feelslike,dew,humidity,precip,precipprob,precipcover,preciptype,snow,snowdepth,windgust,windspeed,winddir,sealevelpressure,cloudcover,visibility,solarradiation,solarenergy,uvindex,severerisk,sunrise,sunset,moonphase,conditions,description,icon,stations
   // "Amsterdam,Netherlands",2024-01-01,9.1,6.4,8,5.3,2.5,4.1,5.1,82.4,14.26,100,37.5,rain,0,0,53.9,40.2,225.9,1000.1,88.7,20.5,20.6,1.8,2,,2024-01-01T08:50:34,2024-01-01T16:37:06,0.68,"Rain, Partially cloudy",Partly cloudy throughout the day with a chance of rain throughout the day.,rain,"06260099999,D3248,06348099999,06249099999,C0449,06240099999,06269099999,06257099999,06344099999"
-  factory _WeatherData.fromCsv(List<String> row) =>
-      _WeatherData(
+  factory _WeatherData.fromCsv(List<String> row) => _WeatherData(
         name: row[0],
         datetime: DateTime.parse(row[1]),
         tempmax: double.parse(row[2]),
@@ -454,8 +456,7 @@ class _WeatherData with EquatableMixin {
       );
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         name,
         datetime,
         tempmax,
