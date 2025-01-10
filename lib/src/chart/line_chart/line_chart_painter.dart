@@ -160,7 +160,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       drawErrorIndicatorData(
         canvasWrapper,
         barData,
-        barData.errorIndicatorData,
         holder,
       );
     }
@@ -377,9 +376,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   void drawErrorIndicatorData(
     CanvasWrapper canvasWrapper,
     LineChartBarData barData,
-    FlErrorIndicatorData errorIndicatorData,
     PaintHolder<LineChartData> holder,
   ) {
+    final errorIndicatorData = barData.errorIndicatorData;
     if (!errorIndicatorData.show) {
       return;
     }
