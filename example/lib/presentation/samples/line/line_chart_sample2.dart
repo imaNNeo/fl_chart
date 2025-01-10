@@ -165,62 +165,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(
-              0,
-              3,
-              yError: FlErrorRange(
-                upperBy: 0.5,
-                lowerBy: 0.5,
-              ),
-            ),
-            FlSpot(
-              2.6,
-              2,
-              yError: FlErrorRange(
-                upperBy: 0.5,
-                lowerBy: 0.5,
-              ),
-            ),
-            FlSpot(
-              4.9,
-              5,
-              yError: FlErrorRange(
-                upperBy: 0.5,
-                lowerBy: 0.5,
-              ),
-            ),
-            FlSpot(
-              6.8,
-              3.1,
-              yError: FlErrorRange(
-                upperBy: 0.5,
-                lowerBy: 0.5,
-              ),
-            ),
-            FlSpot(
-              8,
-              4,
-              yError: FlErrorRange(
-                upperBy: 0.5,
-                lowerBy: 0.5,
-              ),
-            ),
-            FlSpot(
-              9.5,
-              3,
-              yError: FlErrorRange(
-                upperBy: 0.5,
-                lowerBy: 0.5,
-              ),
-            ),
-            FlSpot(
-              11,
-              4,
-              yError: FlErrorRange(
-                upperBy: 0.5,
-                lowerBy: 0.5,
-              ),
-            ),
+            FlSpot(0, 3),
+            FlSpot(2.6, 2),
+            FlSpot(4.9, 5),
+            FlSpot(6.8, 3.1),
+            FlSpot(8, 4),
+            FlSpot(9.5, 3),
+            FlSpot(11, 4),
           ],
           isCurved: true,
           gradient: LinearGradient(
@@ -230,17 +181,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
-          ),
-          errorIndicatorData: FlErrorIndicatorData(
-            painter: (
-              FlSpot spot,
-              LineChartBarData bar,
-              int spotIndex,
-            ) => FlSimpleErrorPainter(
-              lineColor:
-                  spotIndex % 2 == 0 ? Colors.greenAccent : Colors.blue,
-              lineWidth: 1,
-            ),
           ),
           belowBarData: BarAreaData(
             show: true,
