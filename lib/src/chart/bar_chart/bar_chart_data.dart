@@ -48,6 +48,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     ExtraLinesData? extraLinesData,
     super.rotationQuarterTurns,
+    this.errorIndicatorData = const FlErrorIndicatorData(),
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
@@ -79,6 +80,10 @@ class BarChartData extends AxisChartData with EquatableMixin {
   /// Handles touch behaviors and responses.
   final BarTouchData barTouchData;
 
+  /// Holds data for showing error indicators on the spots in this line.
+  final FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>
+      errorIndicatorData;
+
   /// Copies current [BarChartData] to a new [BarChartData],
   /// and replaces provided values.
   BarChartData copyWith({
@@ -96,6 +101,8 @@ class BarChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ExtraLinesData? extraLinesData,
     int? rotationQuarterTurns,
+    FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>?
+        errorIndicatorData,
   }) =>
       BarChartData(
         barGroups: barGroups ?? this.barGroups,
@@ -112,6 +119,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         extraLinesData: extraLinesData ?? this.extraLinesData,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
+        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -135,6 +143,11 @@ class BarChartData extends AxisChartData with EquatableMixin {
         extraLinesData:
             ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         rotationQuarterTurns: b.rotationQuarterTurns,
+        errorIndicatorData: FlErrorIndicatorData.lerp(
+          a.errorIndicatorData,
+          b.errorIndicatorData,
+          t,
+        ),
       );
     } else {
       throw Exception('Illegal State');
@@ -158,6 +171,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         backgroundColor,
         extraLinesData,
         rotationQuarterTurns,
+        errorIndicatorData,
       ];
 }
 
@@ -318,6 +332,7 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData({
     double? fromY,
     required this.toY,
+    this.toYErrorRange,
     Color? color,
     this.gradient,
     double? width,
@@ -340,6 +355,8 @@ class BarChartRodData with EquatableMixin {
 
   /// [BarChart] renders rods vertically from [fromY] to [toY].
   final double toY;
+
+  final FlErrorRange? toYErrorRange;
 
   /// If provided, this [BarChartRodData] draws with this [color]
   /// Otherwise we use  [gradient] to draw the background.
@@ -380,6 +397,7 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData copyWith({
     double? fromY,
     double? toY,
+    FlErrorRange? toYErrorRange,
     Color? color,
     Gradient? gradient,
     double? width,
@@ -392,6 +410,7 @@ class BarChartRodData with EquatableMixin {
       BarChartRodData(
         fromY: fromY ?? this.fromY,
         toY: toY ?? this.toY,
+        toYErrorRange: toYErrorRange ?? this.toYErrorRange,
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
         width: width ?? this.width,
@@ -413,6 +432,7 @@ class BarChartRodData with EquatableMixin {
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
         fromY: lerpDouble(a.fromY, b.fromY, t),
         toY: lerpDouble(a.toY, b.toY, t)!,
+        toYErrorRange: FlErrorRange.lerp(a.toYErrorRange, b.toYErrorRange, t),
         backDrawRodData: BackgroundBarChartRodData.lerp(
           a.backDrawRodData,
           b.backDrawRodData,
@@ -427,6 +447,7 @@ class BarChartRodData with EquatableMixin {
   List<Object?> get props => [
         fromY,
         toY,
+        toYErrorRange,
         width,
         borderRadius,
         borderDashArray,
@@ -926,6 +947,29 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
         touchedStackItemIndex,
         spot,
         offset,
+      ];
+}
+
+class BarChartSpotErrorRangeCallbackInput
+    extends FlSpotErrorRangeCallbackInput {
+  BarChartSpotErrorRangeCallbackInput({
+    required this.group,
+    required this.groupIndex,
+    required this.rod,
+    required this.barRodIndex,
+  });
+
+  final BarChartGroupData group;
+  final int groupIndex;
+  final BarChartRodData rod;
+  final int barRodIndex;
+
+  @override
+  List<Object?> get props => [
+        group,
+        groupIndex,
+        rod,
+        barRodIndex,
       ];
 }
 

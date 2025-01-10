@@ -37,6 +37,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     _clipPaint = Paint();
   }
+
   late Paint _barPaint;
   late Paint _barStrokePaint;
   late Paint _bgTouchTooltipPaint;
@@ -92,6 +93,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     drawBars(canvasWrapper, _groupBarsPosition!, holder);
+
+    drawErrorIndicatorData(canvasWrapper, _groupBarsPosition!, holder);
 
     if (data.extraLinesData.extraLinesOnTop) {
       super.drawHorizontalLines(
@@ -348,6 +351,75 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
           }
         }
+      }
+    }
+  }
+
+  @visibleForTesting
+  void drawErrorIndicatorData(
+    CanvasWrapper canvasWrapper,
+    List<GroupBarsPosition> groupBarsPosition,
+    PaintHolder<BarChartData> holder,
+  ) {
+    final data = holder.data;
+    final errorIndicatorData = data.errorIndicatorData;
+    if (!errorIndicatorData.show) {
+      return;
+    }
+
+    final viewSize = canvasWrapper.size;
+    for (var i = 0; i < data.barGroups.length; i++) {
+      final barGroup = data.barGroups[i];
+      for (var j = 0; j < barGroup.barRods.length; j++) {
+        final barRod = barGroup.barRods[j];
+
+        if (barRod.toYErrorRange == null) {
+          continue;
+        }
+
+        final x = groupBarsPosition[i].barsX[j];
+
+        final y = getPixelY(barRod.toY, viewSize, holder);
+        final top = getPixelY(
+              barRod.toY + barRod.toYErrorRange!.upperBy,
+              viewSize,
+              holder,
+            ) -
+            y;
+
+        final bottom = getPixelY(
+              barRod.toY - barRod.toYErrorRange!.lowerBy,
+              viewSize,
+              holder,
+            ) -
+            y;
+
+        final relativeErrorPixelsRect = Rect.fromLTRB(
+          0,
+          top,
+          0,
+          bottom,
+        );
+
+        final painter = errorIndicatorData.painter(
+          BarChartSpotErrorRangeCallbackInput(
+            group: barGroup,
+            groupIndex: i,
+            rod: barRod,
+            barRodIndex: j,
+          ),
+        );
+        canvasWrapper.drawErrorIndicator(
+          painter,
+          FlSpot(
+            barGroup.x.toDouble(),
+            barRod.toY,
+            yError: barRod.toYErrorRange,
+          ),
+          Offset(x, y),
+          relativeErrorPixelsRect,
+          holder.data,
+        );
       }
     }
   }
@@ -764,6 +836,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 @visibleForTesting
 class GroupBarsPosition {
   GroupBarsPosition(this.groupX, this.barsX);
+
   final double groupX;
   final List<double> barsX;
 }
