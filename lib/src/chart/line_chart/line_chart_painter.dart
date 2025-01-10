@@ -427,6 +427,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           spot,
           Offset(x, y),
           relativeErrorPixelsRect,
+          holder.data,
         );
       }
     }
