@@ -124,8 +124,9 @@ class CanvasWrapper {
     FlSpot origin,
     Offset offset,
     Rect errorRelativeRect,
+    AxisChartData axisData,
   ) {
-    painter.draw(canvas, offset, origin, errorRelativeRect);
+    painter.draw(canvas, offset, origin, errorRelativeRect, axisData);
   }
 
   /// Handles performing multiple draw actions rotated.

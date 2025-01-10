@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
 
 /// This is the base class for axis base charts data
@@ -1731,6 +1732,7 @@ abstract class FlSpotErrorRangePainter with EquatableMixin {
     Offset offsetInCanvas,
     FlSpot origin,
     Rect errorRelativeRect,
+    AxisChartData axisChartData,
   );
 }
 
@@ -1773,6 +1775,7 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     Offset offsetInCanvas,
     FlSpot origin,
     Rect errorRelativeRect,
+    AxisChartData axisChartData,
   ) {
     final rect = errorRelativeRect.shift(offsetInCanvas);
     final hasVerticalError = errorRelativeRect.height != 0;
@@ -1790,7 +1793,11 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
           rect: rect,
           isHorizontal: false,
           isLower: true,
-          text: (origin.y - origin.yError!.lowerBy).toString(),
+          text: Utils().formatNumber(
+            axisChartData.minY,
+            axisChartData.maxY,
+            origin.y - origin.yError!.lowerBy,
+          ),
           textStyle: errorTextStyle,
         );
 
@@ -1800,7 +1807,11 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
           rect: rect,
           isHorizontal: false,
           isLower: false,
-          text: (origin.y + origin.yError!.upperBy).toString(),
+          text: Utils().formatNumber(
+            axisChartData.minY,
+            axisChartData.maxY,
+            origin.y + origin.yError!.upperBy,
+          ),
           textStyle: errorTextStyle,
         );
       }
@@ -1821,7 +1832,11 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
           rect: rect,
           isHorizontal: true,
           isLower: true,
-          text: (origin.x - origin.xError!.lowerBy).toString(),
+          text: Utils().formatNumber(
+            axisChartData.minX,
+            axisChartData.maxX,
+            origin.x - origin.xError!.lowerBy,
+          ),
           textStyle: errorTextStyle,
         );
 
@@ -1831,7 +1846,11 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
           rect: rect,
           isHorizontal: true,
           isLower: false,
-          text: (origin.x + origin.xError!.upperBy).toString(),
+          text: Utils().formatNumber(
+            axisChartData.minX,
+            axisChartData.maxX,
+            origin.x + origin.xError!.upperBy,
+          ),
           textStyle: errorTextStyle,
         );
       }
