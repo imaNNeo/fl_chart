@@ -1685,21 +1685,27 @@ class FlDotCrossPainter extends FlDotPainter {
       ];
 }
 
-class FlErrorIndicatorData with EquatableMixin {
+class FlErrorIndicatorData<T extends FlSpotErrorRangeCallbackInput>
+    with EquatableMixin {
   const FlErrorIndicatorData({
     this.show = true,
     this.painter = _defaultGetSpotRangeErrorPainter,
   });
 
+  /// Determines showing the error indicator or not
   final bool show;
-  final GetSpotRangeErrorPainter painter;
 
-  static FlErrorIndicatorData lerp(
-    FlErrorIndicatorData a,
-    FlErrorIndicatorData b,
+  /// A callback that allows you to return a [FlSpotErrorRangePainter]
+  /// per each data point (for example [FlSpot] in line chart)
+  final GetSpotRangeErrorPainter<T> painter;
+
+  /// Lerps a [FlErrorIndicatorData] based on [t] value.
+  static FlErrorIndicatorData<T> lerp<T extends FlSpotErrorRangeCallbackInput>(
+    FlErrorIndicatorData<T> a,
+    FlErrorIndicatorData<T> b,
     double t,
   ) =>
-      FlErrorIndicatorData(
+      FlErrorIndicatorData<T>(
         show: b.show,
         painter: b.painter,
       );
@@ -1711,16 +1717,15 @@ class FlErrorIndicatorData with EquatableMixin {
       ];
 }
 
-typedef GetSpotRangeErrorPainter = FlSpotErrorRangePainter Function(
-  FlSpot spot,
-  LineChartBarData bar,
-  int spotIndex,
+/// A callback that allows you to return a [FlSpotErrorRangePainter] based on
+/// the provided specific data point (for example [FlSpot] in line chart)
+typedef GetSpotRangeErrorPainter<T extends FlSpotErrorRangeCallbackInput>
+    = FlSpotErrorRangePainter Function(
+  T input,
 );
 
 FlSpotErrorRangePainter _defaultGetSpotRangeErrorPainter(
-  FlSpot spot,
-  LineChartBarData bar,
-  int spotIndex,
+  FlSpotErrorRangeCallbackInput input,
 ) =>
     FlSimpleErrorPainter();
 
@@ -1959,3 +1964,5 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
         errorTextDirection,
       ];
 }
+
+abstract class FlSpotErrorRangeCallbackInput with EquatableMixin {}
