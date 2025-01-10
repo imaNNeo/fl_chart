@@ -200,18 +200,19 @@ class _LineChartSample13State extends State<LineChartSample13> {
                         leftTitles: AxisTitles(
                           drawBelowEverything: true,
                           sideTitles: SideTitles(
-                              showTitles: true,
-                              maxIncluded: false,
-                              minIncluded: false,
-                              reservedSize: 40,
-                              getTitlesWidget: (double value, TitleMeta meta) {
-                                return SideTitleWidget(
-                                  meta: meta,
-                                  child: Text(
-                                    '${meta.formattedValue}°',
-                                  ),
-                                );
-                              }),
+                            showTitles: true,
+                            maxIncluded: false,
+                            minIncluded: false,
+                            reservedSize: 40,
+                            getTitlesWidget: (double value, TitleMeta meta) {
+                              return SideTitleWidget(
+                                meta: meta,
+                                child: Text(
+                                  '${meta.formattedValue}°',
+                                ),
+                              );
+                            },
+                          ),
                         ),
                         bottomTitles: AxisTitles(
                           axisNameWidget: Container(
@@ -278,15 +279,14 @@ class _LineChartSample13State extends State<LineChartSample13> {
   }
 
   FlSpotErrorRangePainter _errorPainter(
-    FlSpot spot,
-    LineChartBarData bar,
-    int spotIndex,
+    LineChartSpotErrorRangeCallbackInput input,
   ) =>
       FlSimpleErrorPainter(
         lineWidth: 1.0,
-        lineColor:
-            _interactedSpotIndex == spotIndex ? Colors.white : Colors.white38,
-        showErrorTexts: _interactedSpotIndex == spotIndex,
+        lineColor: _interactedSpotIndex == input.spotIndex
+            ? Colors.white
+            : Colors.white38,
+        showErrorTexts: _interactedSpotIndex == input.spotIndex,
       );
 
   FlLine _horizontalGridLines(double value) {

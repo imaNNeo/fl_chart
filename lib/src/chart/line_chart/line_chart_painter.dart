@@ -48,6 +48,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _clipPaint = Paint();
   }
+
   late Paint _barPaint;
   late Paint _barAreaPaint;
   late Paint _barAreaLinesPaint;
@@ -417,9 +418,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         );
 
         final painter = errorIndicatorData.painter(
-          spot,
-          barData,
-          i,
+          LineChartSpotErrorRangeCallbackInput(
+            spot: spot,
+            bar: barData,
+            spotIndex: i,
+          ),
         );
         canvasWrapper.drawErrorIndicator(
           painter,
