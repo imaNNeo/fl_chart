@@ -684,8 +684,11 @@ class BarTouchTooltipData with EquatableMixin {
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
-  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color,
-  /// and you can set corner radius using [tooltipRoundedRadius].
+  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
+  /// You can set the corner radius using [tooltipRoundedRadius], 
+  /// or if you need a custom border, you can use [tooltipBorderRadius].
+  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set, 
+  /// the value from [tooltipBorderRadius] will be used.
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
@@ -696,6 +699,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   BarTouchTooltipData({
     double? tooltipRoundedRadius,
+    BorderRadius? tooltipBorderRadius,
     EdgeInsets? tooltipPadding,
     double? tooltipMargin,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
@@ -709,6 +713,8 @@ class BarTouchTooltipData with EquatableMixin {
     double? rotateAngle,
     BorderSide? tooltipBorder,
   })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+        tooltipBorderRadius = tooltipBorderRadius ??
+            BorderRadius.circular(tooltipRoundedRadius ?? 4),
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipMargin = tooltipMargin ?? 16,
@@ -726,7 +732,11 @@ class BarTouchTooltipData with EquatableMixin {
         super();
 
   /// Sets a rounded radius for the tooltip.
+  @Deprecated('use tooltipBorderRadius instead')
   final double tooltipRoundedRadius;
+
+  /// Sets a border radius for the tooltip.
+  final BorderRadius tooltipBorderRadius;
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
@@ -768,6 +778,7 @@ class BarTouchTooltipData with EquatableMixin {
   @override
   List<Object?> get props => [
         tooltipRoundedRadius,
+        tooltipBorderRadius,
         tooltipPadding,
         tooltipMargin,
         tooltipHorizontalAlignment,
