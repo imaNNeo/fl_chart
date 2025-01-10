@@ -1740,6 +1740,12 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     this.lineWidth = 1.0,
     this.capLength = 8.0,
     this.crossAlignment = 0,
+    this.showErrorTexts = false,
+    this.errorTextStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 12,
+    ),
+    this.errorTextDirection = TextDirection.ltr,
   }) {
     _linePaint = Paint()
       ..color = lineColor
@@ -1755,6 +1761,9 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
   final double lineWidth;
   final double capLength;
   final double crossAlignment;
+  final bool showErrorTexts;
+  final TextStyle errorTextStyle;
+  final TextDirection errorTextDirection;
 
   late final Paint _linePaint;
 
@@ -1773,6 +1782,28 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
         Offset(offsetInCanvas.dx, rect.top),
         Offset(offsetInCanvas.dx, rect.bottom),
       );
+
+      if (showErrorTexts) {
+        // lower
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: false,
+          isLower: true,
+          text: (origin.y - origin.yError!.lowerBy).toString(),
+          textStyle: errorTextStyle,
+        );
+
+        // upper
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: false,
+          isLower: false,
+          text: (origin.y + origin.yError!.upperBy).toString(),
+          textStyle: errorTextStyle,
+        );
+      }
     }
 
     final hasHorizontalError = errorRelativeRect.width != 0;
@@ -1782,6 +1813,28 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
         Offset(rect.left, offsetInCanvas.dy),
         Offset(rect.right, offsetInCanvas.dy),
       );
+
+      if (showErrorTexts) {
+        // lower
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: true,
+          isLower: true,
+          text: (origin.x - origin.xError!.lowerBy).toString(),
+          textStyle: errorTextStyle,
+        );
+
+        // upper
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: true,
+          isLower: false,
+          text: (origin.x + origin.xError!.upperBy).toString(),
+          textStyle: errorTextStyle,
+        );
+      }
     }
   }
 
@@ -1838,10 +1891,52 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
     }
   }
 
+  void _drawErrorText({
+    required Canvas canvas,
+    required Rect rect,
+    required bool isHorizontal,
+    required bool isLower,
+    required String text,
+    required TextStyle textStyle,
+  }) {
+    final lowerText = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: textStyle,
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    const spacing = 4.0;
+    final textX = isHorizontal
+        ? isLower
+            ? rect.left - lowerText.width - spacing
+            : rect.right + spacing
+        : rect.center.dx - lowerText.width / 2;
+
+    final textY = isHorizontal
+        ? rect.center.dy - lowerText.height / 2
+        : isLower
+            ? rect.bottom + spacing
+            : rect.top - lowerText.width - spacing;
+
+    lowerText.paint(
+      canvas,
+      Offset(
+        textX,
+        textY,
+      ),
+    );
+  }
+
   @override
   List<Object?> get props => [
         lineColor,
         lineWidth,
         capLength,
+        crossAlignment,
+        showErrorTexts,
+        errorTextStyle,
+        errorTextDirection,
       ];
 }
