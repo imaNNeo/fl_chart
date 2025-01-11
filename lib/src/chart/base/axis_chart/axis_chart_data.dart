@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
+import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
 
 /// This is the base class for axis base charts data
@@ -485,25 +486,36 @@ class FlSpot {
   ///
   /// [y] determines cartesian (axis based) vertically position
   /// 0 means most bottom point of the chart
-  const FlSpot(this.x, this.y);
+  const FlSpot(
+    this.x,
+    this.y, {
+    this.xError,
+    this.yError,
+  });
 
   final double x;
   final double y;
+  final FlErrorRange? xError;
+  final FlErrorRange? yError;
 
   /// Copies current [FlSpot] to a new [FlSpot],
   /// and replaces provided values.
   FlSpot copyWith({
     double? x,
     double? y,
+    FlErrorRange? xError,
+    FlErrorRange? yError,
   }) =>
       FlSpot(
         x ?? this.x,
         y ?? this.y,
+        xError: xError ?? this.xError,
+        yError: yError ?? this.yError,
       );
 
   ///Prints x and y coordinates of FlSpot list
   @override
-  String toString() => '($x, $y)';
+  String toString() => '($x, $y, $xError, $yError)';
 
   /// Used for splitting lines, or maybe other concepts.
   static const FlSpot nullSpot = FlSpot(double.nan, double.nan);
@@ -530,6 +542,8 @@ class FlSpot {
     return FlSpot(
       lerpDouble(a.x, b.x, t)!,
       lerpDouble(a.y, b.y, t)!,
+      xError: FlErrorRange.lerp(a.xError, b.xError, t),
+      yError: FlErrorRange.lerp(a.yError, b.yError, t),
     );
   }
 
@@ -545,12 +559,46 @@ class FlSpot {
       return true;
     }
 
-    return other.x == x && other.y == y;
+    return other.x == x &&
+        other.y == y &&
+        other.xError == xError &&
+        other.yError == yError;
   }
 
   /// Override hashCode
   @override
-  int get hashCode => x.hashCode ^ y.hashCode;
+  int get hashCode =>
+      x.hashCode ^ y.hashCode ^ xError.hashCode ^ yError.hashCode;
+}
+
+class FlErrorRange with EquatableMixin {
+  const FlErrorRange({
+    required this.lowerBy,
+    required this.upperBy,
+  })  : assert(lowerBy >= 0, 'lowerBy must be non-negative'),
+        assert(upperBy >= 0, 'upperBy must be non-negative');
+
+  const FlErrorRange.symmetric(double value)
+      : lowerBy = value,
+        upperBy = value,
+        assert(value >= 0, 'value must be non-negative');
+
+  final double lowerBy;
+  final double upperBy;
+
+  static FlErrorRange? lerp(FlErrorRange? a, FlErrorRange? b, double t) {
+    if (a != null && b != null) {
+      return FlErrorRange(
+        lowerBy: lerpDouble(a.lowerBy, b.lowerBy, t)!,
+        upperBy: lerpDouble(a.upperBy, b.upperBy, t)!,
+      );
+    }
+
+    return b;
+  }
+
+  @override
+  List<Object?> get props => [lowerBy, upperBy];
 }
 
 /// Responsible to hold grid data,
@@ -1636,3 +1684,285 @@ class FlDotCrossPainter extends FlDotPainter {
         width,
       ];
 }
+
+class FlErrorIndicatorData<T extends FlSpotErrorRangeCallbackInput>
+    with EquatableMixin {
+  const FlErrorIndicatorData({
+    this.show = true,
+    this.painter = _defaultGetSpotRangeErrorPainter,
+  });
+
+  /// Determines showing the error indicator or not
+  final bool show;
+
+  /// A callback that allows you to return a [FlSpotErrorRangePainter]
+  /// per each data point (for example [FlSpot] in line chart)
+  final GetSpotRangeErrorPainter<T> painter;
+
+  /// Lerps a [FlErrorIndicatorData] based on [t] value.
+  static FlErrorIndicatorData<T> lerp<T extends FlSpotErrorRangeCallbackInput>(
+    FlErrorIndicatorData<T> a,
+    FlErrorIndicatorData<T> b,
+    double t,
+  ) =>
+      FlErrorIndicatorData<T>(
+        show: b.show,
+        painter: b.painter,
+      );
+
+  @override
+  List<Object?> get props => [
+        show,
+        painter,
+      ];
+}
+
+/// A callback that allows you to return a [FlSpotErrorRangePainter] based on
+/// the provided specific data point (for example [FlSpot] in line chart)
+typedef GetSpotRangeErrorPainter<T extends FlSpotErrorRangeCallbackInput>
+    = FlSpotErrorRangePainter Function(
+  T input,
+);
+
+FlSpotErrorRangePainter _defaultGetSpotRangeErrorPainter(
+  FlSpotErrorRangeCallbackInput input,
+) =>
+    FlSimpleErrorPainter();
+
+abstract class FlSpotErrorRangePainter with EquatableMixin {
+  const FlSpotErrorRangePainter();
+
+  void draw(
+    Canvas canvas,
+    Offset offsetInCanvas,
+    FlSpot origin,
+    Rect errorRelativeRect,
+    AxisChartData axisChartData,
+  );
+}
+
+class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
+  FlSimpleErrorPainter({
+    this.lineColor = Colors.white,
+    this.lineWidth = 1.0,
+    this.capLength = 8.0,
+    this.crossAlignment = 0,
+    this.showErrorTexts = false,
+    this.errorTextStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 12,
+    ),
+    this.errorTextDirection = TextDirection.ltr,
+  }) {
+    _linePaint = Paint()
+      ..color = lineColor
+      ..strokeWidth = lineWidth
+      ..style = PaintingStyle.stroke;
+    assert(
+      crossAlignment >= -1 && crossAlignment <= 1,
+      'crossAlignment must be between -1 (start) and 1 (end)',
+    );
+  }
+
+  final Color lineColor;
+  final double lineWidth;
+  final double capLength;
+  final double crossAlignment;
+  final bool showErrorTexts;
+  final TextStyle errorTextStyle;
+  final TextDirection errorTextDirection;
+
+  late final Paint _linePaint;
+
+  @override
+  void draw(
+    Canvas canvas,
+    Offset offsetInCanvas,
+    FlSpot origin,
+    Rect errorRelativeRect,
+    AxisChartData axisChartData,
+  ) {
+    final rect = errorRelativeRect.shift(offsetInCanvas);
+    final hasVerticalError = errorRelativeRect.height != 0;
+    if (hasVerticalError) {
+      _drawDirectErrorLine(
+        canvas,
+        Offset(offsetInCanvas.dx, rect.top),
+        Offset(offsetInCanvas.dx, rect.bottom),
+      );
+
+      if (showErrorTexts) {
+        // lower
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: false,
+          isLower: true,
+          text: Utils().formatNumber(
+            axisChartData.minY,
+            axisChartData.maxY,
+            origin.y - origin.yError!.lowerBy,
+          ),
+          textStyle: errorTextStyle,
+        );
+
+        // upper
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: false,
+          isLower: false,
+          text: Utils().formatNumber(
+            axisChartData.minY,
+            axisChartData.maxY,
+            origin.y + origin.yError!.upperBy,
+          ),
+          textStyle: errorTextStyle,
+        );
+      }
+    }
+
+    final hasHorizontalError = errorRelativeRect.width != 0;
+    if (hasHorizontalError) {
+      _drawDirectErrorLine(
+        canvas,
+        Offset(rect.left, offsetInCanvas.dy),
+        Offset(rect.right, offsetInCanvas.dy),
+      );
+
+      if (showErrorTexts) {
+        // lower
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: true,
+          isLower: true,
+          text: Utils().formatNumber(
+            axisChartData.minX,
+            axisChartData.maxX,
+            origin.x - origin.xError!.lowerBy,
+          ),
+          textStyle: errorTextStyle,
+        );
+
+        // upper
+        _drawErrorText(
+          canvas: canvas,
+          rect: rect,
+          isHorizontal: true,
+          isLower: false,
+          text: Utils().formatNumber(
+            axisChartData.minX,
+            axisChartData.maxX,
+            origin.x + origin.xError!.upperBy,
+          ),
+          textStyle: errorTextStyle,
+        );
+      }
+    }
+  }
+
+  void _drawDirectErrorLine(Canvas canvas, Offset from, Offset to) {
+    final isLineVertical = from.dx == to.dx;
+    final mainLineOffset = crossAlignment * capLength;
+
+    if (isLineVertical) {
+      from = Offset(from.dx + mainLineOffset, from.dy);
+      to = Offset(to.dx + mainLineOffset, to.dy);
+    } else {
+      from = Offset(from.dx, from.dy + mainLineOffset);
+      to = Offset(to.dx, to.dy + mainLineOffset);
+    }
+
+    canvas.drawLine(
+      from,
+      to,
+      _linePaint,
+    );
+
+    final t = (crossAlignment + 1) / 2;
+    final end = capLength - lerpDouble(0, capLength, t)!;
+    final start = capLength - end;
+    // Draw edge lines
+    if (isLineVertical) {
+      canvas
+        // draw top cap
+        ..drawLine(
+          Offset(from.dx - start, from.dy),
+          Offset(from.dx + end, from.dy),
+          _linePaint,
+        )
+        // draw bottom cap
+        ..drawLine(
+          Offset(to.dx - start, to.dy),
+          Offset(to.dx + end, to.dy),
+          _linePaint,
+        );
+    } else {
+      canvas
+        // draw left cap
+        ..drawLine(
+          Offset(from.dx, from.dy - start),
+          Offset(from.dx, from.dy + end),
+          _linePaint,
+        )
+        // draw right cap
+        ..drawLine(
+          Offset(to.dx, to.dy - start),
+          Offset(to.dx, to.dy + end),
+          _linePaint,
+        );
+    }
+  }
+
+  void _drawErrorText({
+    required Canvas canvas,
+    required Rect rect,
+    required bool isHorizontal,
+    required bool isLower,
+    required String text,
+    required TextStyle textStyle,
+  }) {
+    final lowerText = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: textStyle,
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    const spacing = 4.0;
+    final textX = isHorizontal
+        ? isLower
+            ? rect.left - lowerText.width - spacing
+            : rect.right + spacing
+        : rect.center.dx - lowerText.width / 2;
+
+    final textY = isHorizontal
+        ? rect.center.dy - lowerText.height / 2
+        : isLower
+            ? rect.bottom + spacing
+            : rect.top - lowerText.width - spacing;
+
+    lowerText.paint(
+      canvas,
+      Offset(
+        textX,
+        textY,
+      ),
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        lineColor,
+        lineWidth,
+        capLength,
+        crossAlignment,
+        showErrorTexts,
+        errorTextStyle,
+        errorTextDirection,
+      ];
+}
+
+abstract class FlSpotErrorRangeCallbackInput with EquatableMixin {}

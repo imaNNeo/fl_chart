@@ -243,6 +243,8 @@ class LineChartBarData with EquatableMixin {
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     this.dotData = const FlDotData(),
+    this.errorIndicatorData =
+        const FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(),
     this.showingIndicators = const [],
     this.dashArray,
     this.shadow = const Shadow(color: Colors.transparent),
@@ -355,6 +357,10 @@ class LineChartBarData with EquatableMixin {
   /// Responsible to showing [spots] on the line as a circular point.
   final FlDotData dotData;
 
+  /// Holds data for showing error indicators on the spots in this line.
+  final FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>
+      errorIndicatorData;
+
   /// Show indicators based on provided indexes
   final List<int> showingIndicators;
 
@@ -392,6 +398,11 @@ class LineChartBarData with EquatableMixin {
           t,
         )!,
         dotData: FlDotData.lerp(a.dotData, b.dotData, t),
+        errorIndicatorData: FlErrorIndicatorData.lerp(
+          a.errorIndicatorData,
+          b.errorIndicatorData,
+          t,
+        ),
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
@@ -420,6 +431,8 @@ class LineChartBarData with EquatableMixin {
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
+    FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>?
+        errorIndicatorData,
     List<int>? dashArray,
     List<int>? showingIndicators,
     Shadow? shadow,
@@ -444,6 +457,7 @@ class LineChartBarData with EquatableMixin {
         aboveBarData: aboveBarData ?? this.aboveBarData,
         dashArray: dashArray ?? this.dashArray,
         dotData: dotData ?? this.dotData,
+        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
         showingIndicators: showingIndicators ?? this.showingIndicators,
         shadow: shadow ?? this.shadow,
         isStepLineChart: isStepLineChart ?? this.isStepLineChart,
@@ -467,6 +481,7 @@ class LineChartBarData with EquatableMixin {
         belowBarData,
         aboveBarData,
         dotData,
+        errorIndicatorData,
         showingIndicators,
         dashArray,
         shadow,
@@ -1291,6 +1306,26 @@ class LineTouchResponse extends BaseTouchResponse {
       LineTouchResponse(
         lineBarSpots ?? this.lineBarSpots,
       );
+}
+
+class LineChartSpotErrorRangeCallbackInput
+    extends FlSpotErrorRangeCallbackInput {
+  LineChartSpotErrorRangeCallbackInput({
+    required this.spot,
+    required this.bar,
+    required this.spotIndex,
+  });
+
+  final FlSpot spot;
+  final LineChartBarData bar;
+  final int spotIndex;
+
+  @override
+  List<Object?> get props => [
+        spot,
+        bar,
+        spotIndex,
+      ];
 }
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)

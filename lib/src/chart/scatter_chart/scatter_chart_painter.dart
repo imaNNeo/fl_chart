@@ -118,6 +118,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       );
     }
 
+    drawScatterErrorBars(canvasWrapper, holder);
+
     if (data.scatterLabelSettings.showLabel) {
       for (var i = 0; i < data.scatterSpots.length; i++) {
         final scatterSpot = data.scatterSpots[i];
@@ -188,6 +190,65 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
 
     if (data.clipData.any) {
       canvasWrapper.restore();
+    }
+  }
+
+  @visibleForTesting
+  void drawScatterErrorBars(
+    CanvasWrapper canvasWrapper,
+    PaintHolder<ScatterChartData> holder,
+  ) {
+    final data = holder.data;
+    final viewSize = canvasWrapper.size;
+
+    final errorIndicatorData = data.errorIndicatorData;
+    if (!errorIndicatorData.show) {
+      return;
+    }
+    for (var i = 0; i < data.scatterSpots.length; i++) {
+      final spot = data.scatterSpots[i];
+      if (!spot.show || spot.isNull()) {
+        continue;
+      }
+      final x = getPixelX(spot.x, viewSize, holder);
+      final y = getPixelY(spot.y, viewSize, holder);
+      if (spot.xError == null && spot.yError == null) {
+        continue;
+      }
+
+      var left = 0.0;
+      var right = 0.0;
+      if (spot.xError != null) {
+        left = getPixelX(spot.x - spot.xError!.lowerBy, viewSize, holder) - x;
+        right = getPixelX(spot.x + spot.xError!.upperBy, viewSize, holder) - x;
+      }
+
+      var top = 0.0;
+      var bottom = 0.0;
+      if (spot.yError != null) {
+        top = getPixelY(spot.y + spot.yError!.lowerBy, viewSize, holder) - y;
+        bottom = getPixelY(spot.y - spot.yError!.upperBy, viewSize, holder) - y;
+      }
+      final relativeErrorPixelsRect = Rect.fromLTRB(
+        left,
+        top,
+        right,
+        bottom,
+      );
+
+      final painter = errorIndicatorData.painter(
+        ScatterChartSpotErrorRangeCallbackInput(
+          spot: spot,
+          spotIndex: i,
+        ),
+      );
+      canvasWrapper.drawErrorIndicator(
+        painter,
+        spot,
+        Offset(x, y),
+        relativeErrorPixelsRect,
+        holder.data,
+      );
     }
   }
 
