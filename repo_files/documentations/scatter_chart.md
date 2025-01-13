@@ -25,7 +25,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |scatterTouchData| [ScatterTouchData](#scattertouchdata-read-about-touch-handling) holds the touch interactivity details| ScatterTouchData()|
 |showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
 |rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
-
+|errorIndicatorData|Holds data for representing an error indicator (you see the error indicators if you provide the `xError` or `yError` in the [ScatterSpot](#ScatterSpot))|[ErrorIndicatorData()](base_chart.md#FlErrorIndicatorData)|
 
 ### ScatterSpot
 |PropName		|Description	|default value|
@@ -34,6 +34,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |radius| radius of the showing spot| [8]
 |color| colors of the spot|// a color based on the values|
 |renderPriority| sort by this to manage overlap|0|
+|xError| Determines the error range of the data point using (FlErrorRange)[base_chart.md#FlErrorRange] (which ontains `lowerBy` and `upperValue`) for the x-axis|null|
+|yError| Determines the error range of the data point using (FlErrorRange)[base_chart.md#FlErrorRange] (which ontains `upperBy` and `upperValue`) for the y-axis|null|
 
 
 ### ScatterTouchData ([read about touch handling](handle_touches.md))

@@ -32,6 +32,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |baselineY| defines the baseline of y-axis | 0|
 |extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeo/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|ExtraLinesData()|
 |rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget. You can have horizontal BarChart by changing this value to |0|
+|errorIndicatorData|Holds data for representing an error indicator (you see the error indicators if you provide the `toYErrorRange` in the [BarChartRodData](#BarChartRodData))|[ErrorIndicatorData()](base_chart.md#FlErrorIndicatorData)|
 
 ### BarChartGroupData
 |PropName		|Description	|default value|
@@ -59,7 +60,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |borderSide|Determines the border stroke around of the bar, see [BorderSide](https://api.flutter.dev/flutter/painting/BorderSide-class.html). When `null`, it defaults to draw no stroke. |null|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
 |rodStackItem|if you want to have stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
-
+|toYErrorRange|If you want to show an error range on the rod, provide [FlErrorRange](base_chart.md#FlErrorRange)|null|
 
 ### BackgroundBarChartRodData
 |PropName|Description|default value|
