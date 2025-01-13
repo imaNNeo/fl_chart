@@ -154,7 +154,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
     int? rotationQuarterTurns,
-    FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>? errorIndicatorData,
+    FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>?
+        errorIndicatorData,
   }) =>
       ScatterChartData(
         scatterSpots: scatterSpots ?? this.scatterSpots,
