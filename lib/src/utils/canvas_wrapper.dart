@@ -119,6 +119,7 @@ class CanvasWrapper {
     painter.draw(canvas, spot, offset);
   }
 
+  /// Paints a error indicator using the [painter]
   void drawErrorIndicator(
     FlSpotErrorRangePainter painter,
     FlSpot origin,

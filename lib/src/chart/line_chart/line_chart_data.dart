@@ -1308,6 +1308,12 @@ class LineTouchResponse extends BaseTouchResponse {
       );
 }
 
+/// It is the input of the [GetSpotRangeErrorPainter] callback in
+/// the [LineChartData.errorIndicatorData]
+///
+/// So it contains the information about the spot, and the bar that the spot
+/// is in. The callback should return a [FlSpotErrorRangePainter] that will draw
+/// the error bars
 class LineChartSpotErrorRangeCallbackInput
     extends FlSpotErrorRangeCallbackInput {
   LineChartSpotErrorRangeCallbackInput({

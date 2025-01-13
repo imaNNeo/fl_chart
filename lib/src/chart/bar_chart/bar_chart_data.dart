@@ -80,7 +80,8 @@ class BarChartData extends AxisChartData with EquatableMixin {
   /// Handles touch behaviors and responses.
   final BarTouchData barTouchData;
 
-  /// Holds data for showing error indicators on the spots in this line.
+  /// Holds data for showing error (threshold) indicators on the spots in
+  /// the different [BarChartGroupData.barRods]
   final FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>
       errorIndicatorData;
 
@@ -356,6 +357,13 @@ class BarChartRodData with EquatableMixin {
   /// [BarChart] renders rods vertically from [fromY] to [toY].
   final double toY;
 
+  /// If the data has error range/threshold, it will be rendered
+  /// with this error range. So you can provide the
+  /// [FlErrorRange.lowerBy] and [FlErrorRange.upperBy] that is relative to
+  /// the [toY] property.
+  ///
+  /// If you want to customize the visual representation of the error range,
+  /// you can use [BarChartData.errorIndicatorData] to customize the error range
   final FlErrorRange? toYErrorRange;
 
   /// If provided, this [BarChartRodData] draws with this [color]
@@ -950,6 +958,16 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
       ];
 }
 
+/// It is the input of the [GetSpotRangeErrorPainter] callback in
+/// the [BarChartData.errorIndicatorData]
+///
+/// As you see, we have some properties that are related to each individual
+/// rod (the object we show the error range on top of it).
+/// For example,
+/// [group] is the group that the rod belongs to,
+/// [groupIndex] is the index of the group,
+/// [rod] is the rod that the error range belongs to,
+/// [barRodIndex] is the index of the rod in the group.
 class BarChartSpotErrorRangeCallbackInput
     extends FlSpotErrorRangeCallbackInput {
   BarChartSpotErrorRangeCallbackInput({
@@ -959,9 +977,16 @@ class BarChartSpotErrorRangeCallbackInput
     required this.barRodIndex,
   });
 
+  // The group that the rod belongs to
   final BarChartGroupData group;
+
+  // The index of the group that the rod belongs to
   final int groupIndex;
+
+  // The rod that the error range belongs to
   final BarChartRodData rod;
+
+  // The index of the rod in the group
   final int barRodIndex;
 
   @override
