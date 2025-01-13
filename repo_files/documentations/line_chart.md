@@ -60,6 +60,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |shadow|It drops a shadow behind your bar, see [Shadow](https://api.flutter.dev/flutter/dart-ui/Shadow-class.html).|Shadow()|
 |isStepLineChart|If sets true, it draws the chart in Step Line Chart style, using `lineChartStepData`.|false|
 |lineChartStepData|Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.|[LineChartStepData](#LineChartStepData)()|
+|errorIndicatorData|Holds data for representing an error indicator (you see the error indicators if you provide the `xError` or `yError` in the [FlSpot](base_chart.md#FlSpot)).|[ErrorIndicatorData()](base_chart.md#FlErrorIndicatorData)|
 
 ### LineChartStepData
 |PropName|Description|default value|
