@@ -91,7 +91,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
 
   final ScatterLabelSettings scatterLabelSettings;
 
-  /// Holds data for showing error indicators on the spots in this line.
+  /// Holds data for showing error indicators on the [scatterSpots]
   final FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>
       errorIndicatorData;
 
@@ -761,6 +761,12 @@ class ScatterLabelSettings with EquatableMixin {
       ];
 }
 
+/// It is the input of the [GetSpotRangeErrorPainter] callback in
+/// the [ScatterChartData.errorIndicatorData]
+///
+/// It contains the [spot] and [spotIndex] that the error range
+/// should be drawn for.
+/// It works based on the [ScatterSpot.xError] and [ScatterSpot.yError] values.
 class ScatterChartSpotErrorRangeCallbackInput
     extends FlSpotErrorRangeCallbackInput {
   ScatterChartSpotErrorRangeCallbackInput({
