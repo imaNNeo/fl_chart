@@ -38,7 +38,7 @@ class PieChart2State extends State {
                       });
                     },
                   ),
-                  capStyle: CapStyle.none,
+                  pieCapStyle: PieCapStyle.none,
                   borderData: FlBorderData(
                     show: false,
                   ),

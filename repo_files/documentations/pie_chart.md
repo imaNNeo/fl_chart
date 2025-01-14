@@ -28,7 +28,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |pieTouchData| [PieTouchData](#pietouchdata-read-about-touch-handling) holds the touch interactivity details| PieTouchData()|
 |borderData| shows a border around the chart, check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |titleSunbeamLayout| whether to rotate the titles on each section of the chart|false|
-|capStyle| whether add cap at the end of pie charts. Only available on pie charts with non-null & non-zero centerSpaceRadius|CapStyle.none|
+|pieCapStyle| whether add cap at the end of pie charts. Only available on pie charts with non-null & non-zero centerSpaceRadius|PieCapStyle.none|
 
 
 ### PieChartSectionData

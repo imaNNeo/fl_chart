@@ -172,7 +172,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionDegree,
         center,
         centerRadius,
-        data.capStyle,
+        data.pieCapStyle,
       );
 
       drawSection(section, sectionPath, canvasWrapper);
@@ -190,7 +190,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     double sectionDegree,
     Offset center,
     double centerRadius,
-    CapStyle capStyle,
+    PieCapStyle pieCapStyle,
   ) {
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
@@ -227,8 +227,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final endLine = Line(endLineFrom, endLineTo);
 
     var sectionPath = Path();
-    switch (capStyle) {
-      case CapStyle.startCapped:
+    switch (pieCapStyle) {
+      case PieCapStyle.startCapped:
         sectionPath
           ..moveTo(startLine.from.dx, startLine.from.dy)
           ..arcToPoint(
@@ -244,7 +244,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
           ..moveTo(startLine.from.dx, startLine.from.dy)
           ..close();
-      case CapStyle.endCapped:
+      case PieCapStyle.endCapped:
         sectionPath
           ..moveTo(startLine.from.dx, startLine.from.dy)
           ..arcToPoint(
@@ -260,7 +260,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
           ..moveTo(startLine.from.dx, startLine.from.dy)
           ..close();
-      case CapStyle.none:
+      case PieCapStyle.none:
         sectionPath
           ..moveTo(startLine.from.dx, startLine.from.dy)
           ..lineTo(startLine.to.dx, startLine.to.dy)
@@ -529,7 +529,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionAngle,
         center,
         centerRadius,
-        data.capStyle,
+        data.pieCapStyle,
       );
 
       if (sectionPath.contains(localPosition)) {
