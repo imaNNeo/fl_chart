@@ -785,6 +785,156 @@ void main() {
     });
   });
 
+  group('drawErrorIndicatorData()', () {
+    test('test - not showing error indicators', () {
+      const viewSize = Size(400, 400);
+
+      final barData = LineChartBarData(
+        spots: [
+          const FlSpot(
+            1,
+            1,
+            xError: FlErrorRange(lowerBy: 1, upperBy: 1),
+          ),
+        ],
+        errorIndicatorData: const FlErrorIndicatorData(
+          show: false,
+        ),
+      );
+
+      final data = LineChartData(
+        lineBarsData: [
+          barData,
+        ],
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawErrorIndicatorData(
+        mockCanvasWrapper,
+        barData,
+        holder,
+      );
+
+      verifyNever(
+        mockCanvasWrapper.drawErrorIndicator(any, any, any, any, any),
+      );
+    });
+
+    test('test 2 - showing error indicators with single call', () {
+      const viewSize = Size(400, 400);
+
+      final barData = LineChartBarData(
+        spots: [
+          const FlSpot(
+            1,
+            1,
+            xError: FlErrorRange(lowerBy: 1, upperBy: 1),
+          ),
+        ],
+      );
+
+      final data = LineChartData(
+        lineBarsData: [
+          barData,
+        ],
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawErrorIndicatorData(
+        mockCanvasWrapper,
+        barData,
+        holder,
+      );
+
+      verify(
+        mockCanvasWrapper.drawErrorIndicator(any, any, any, any, any),
+      ).called(1);
+    });
+
+    test('test 3 - different values for different spots', () {
+      const viewSize = Size(400, 400);
+
+      final colors = [
+        Colors.red,
+        Colors.green,
+        Colors.blue,
+        Colors.yellow,
+        Colors.purple,
+      ];
+      final spots = [
+        const FlSpot(1, 1, xError: FlErrorRange.symmetric(1)),
+        const FlSpot(2, 2, xError: FlErrorRange.symmetric(2)),
+        const FlSpot(3, 3, xError: FlErrorRange.symmetric(3)),
+        const FlSpot(4, 2, xError: FlErrorRange.symmetric(2)),
+        const FlSpot(5, 1, xError: FlErrorRange.symmetric(1)),
+      ];
+      final barData = LineChartBarData(
+        spots: spots,
+        errorIndicatorData: FlErrorIndicatorData(
+          painter: (input) => FlSimpleErrorPainter(
+            lineColor: colors[input.spotIndex],
+            lineWidth: input.spotIndex.toDouble(),
+            capLength: 10,
+            crossAlignment: input.spotIndex / spots.length,
+            showErrorTexts: true,
+            errorTextDirection: TextDirection.rtl,
+            errorTextStyle: TextStyle(
+              color: colors[input.spotIndex],
+              fontSize: input.spot.y,
+            ),
+          ),
+        ),
+      );
+
+      final data = LineChartData(
+        lineBarsData: [
+          barData,
+        ],
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawErrorIndicatorData(
+        mockCanvasWrapper,
+        barData,
+        holder,
+      );
+
+      final result = verify(
+        mockCanvasWrapper.drawErrorIndicator(captureAny, any, any, any, any),
+      )..called(5);
+      for (var i = 0; i < result.captured.length; i++) {
+        final captured = result.captured[i] as FlSimpleErrorPainter;
+        expect(captured.lineColor, colors[i]);
+        expect(captured.lineWidth, i.toDouble());
+        expect(captured.capLength, 10);
+        expect(captured.crossAlignment, i / spots.length);
+        expect(captured.showErrorTexts, true);
+        expect(captured.errorTextDirection, TextDirection.rtl);
+        expect(captured.errorTextStyle.color, colors[i]);
+        expect(captured.errorTextStyle.fontSize, spots[i].y);
+      }
+      verifyNever(mockCanvasWrapper.drawText(any, any, any));
+    });
+  });
+
   group('drawTouchedSpotsIndicator()', () {
     List<LineIndexDrawingInfo> getDrawingInfo(LineChartData data) {
       final lineIndexDrawingInfo = <LineIndexDrawingInfo>[];
