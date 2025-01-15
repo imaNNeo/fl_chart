@@ -831,6 +831,9 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
   isStrokeCapRound: true,
   preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
+  errorIndicatorData: const FlErrorIndicatorData(
+    show: false,
+  ),
 );
 final LineChartBarData lineChartBarData1Clone = LineChartBarData(
   dashArray: [0, 1],
@@ -853,6 +856,9 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
   isStrokeCapRound: true,
   preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
+  errorIndicatorData: const FlErrorIndicatorData(
+    show: false,
+  ),
 );
 
 final LineChartBarData lineChartBarData2 = LineChartBarData(
