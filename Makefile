@@ -1,14 +1,20 @@
+ifeq ($(OS),Windows_NT)
+  FIND_CMD=dir /S /B lib\*.dart test\*.dart | findstr /V .mocks.dart
+else
+  FIND_CMD=find lib test -name '*.dart' -not -name '*.mocks.dart'
+endif
+
 analyze:
 	flutter analyze
 
 checkFormat:
-	dart format -o none --set-exit-if-changed .
+	dart format -o none --set-exit-if-changed $$( $(FIND_CMD) )
 
 checkstyle:
 	make analyze && make checkFormat
 
 format:
-	dart format .
+	dart format $$( $(FIND_CMD) )
 
 runTests:
 	flutter test
