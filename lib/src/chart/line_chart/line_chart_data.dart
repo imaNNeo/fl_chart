@@ -1035,8 +1035,11 @@ class LineTouchTooltipData with EquatableMixin {
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
-  /// Tooltip shows on top of spots, with [getTooltipColor] as a background color,
-  /// and you can set corner radius using [tooltipRoundedRadius].
+  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
+  /// You can set the corner radius using [tooltipRoundedRadius],
+  /// or if you need a custom border, you can use [tooltipBorderRadius].
+  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set,
+  /// the value from [tooltipBorderRadius] will be used.
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
@@ -1046,7 +1049,8 @@ class LineTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   const LineTouchTooltipData({
-    this.tooltipRoundedRadius = 4,
+    double? tooltipRoundedRadius = 4,
+    BorderRadius? tooltipBorderRadius,
     this.tooltipPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipMargin = 16,
@@ -1060,10 +1064,18 @@ class LineTouchTooltipData with EquatableMixin {
     this.showOnTopOfTheChartBoxArea = false,
     this.rotateAngle = 0.0,
     this.tooltipBorder = BorderSide.none,
-  });
+  })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+        _tooltipBorderRadius = tooltipBorderRadius;
 
   /// Sets a rounded radius for the tooltip.
+  @Deprecated('use tooltipBorderRadius instead')
   final double tooltipRoundedRadius;
+
+  /// Sets a border radius for the tooltip.
+  final BorderRadius? _tooltipBorderRadius;
+
+  BorderRadius get tooltipBorderRadius =>
+      _tooltipBorderRadius ?? BorderRadius.circular(tooltipRoundedRadius);
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
@@ -1105,6 +1117,7 @@ class LineTouchTooltipData with EquatableMixin {
   @override
   List<Object?> get props => [
         tooltipRoundedRadius,
+        _tooltipBorderRadius,
         tooltipPadding,
         tooltipMargin,
         tooltipHorizontalAlignment,
