@@ -2730,7 +2730,10 @@ void main() {
 
       final tooltipData = LineTouchTooltipData(
         getTooltipColor: (touchedSpot) => const Color(0x11111111),
-        tooltipRoundedRadius: 12,
+        tooltipBorderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(8),
+        ),
         rotateAngle: 43,
         maxContentWidth: 100,
         tooltipMargin: 12,
@@ -2804,14 +2807,28 @@ void main() {
       final paint = result1.captured[1] as Paint;
       expect(
         rRect,
-        RRect.fromLTRBR(0, 40, 38, 78, const Radius.circular(12)),
+        RRect.fromLTRBAndCorners(
+          0,
+          40,
+          38,
+          78,
+          topLeft: const Radius.circular(10),
+          topRight: const Radius.circular(8),
+        ),
       );
       expect(paint.color, isSameColorAs(const Color(0x11111111)));
       final rRectBorder = result1.captured[2] as RRect;
       final paintBorder = result1.captured[3] as Paint;
       expect(
         rRectBorder,
-        RRect.fromLTRBR(0, 40, 38, 78, const Radius.circular(12)),
+        RRect.fromLTRBAndCorners(
+          0,
+          40,
+          38,
+          78,
+          topLeft: const Radius.circular(10),
+          topRight: const Radius.circular(8),
+        ),
       );
       expect(paintBorder.color, isSameColorAs(const Color(0x11111111)));
       expect(paintBorder.strokeWidth, 2);
