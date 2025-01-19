@@ -1071,9 +1071,9 @@ class LineTouchTooltipData with EquatableMixin {
   @Deprecated('use tooltipBorderRadius instead')
   final double tooltipRoundedRadius;
 
-  /// Sets a border radius for the tooltip.
   final BorderRadius? _tooltipBorderRadius;
 
+  /// Sets a rounded radius for the tooltip.
   BorderRadius get tooltipBorderRadius =>
       _tooltipBorderRadius ?? BorderRadius.circular(tooltipRoundedRadius);
 
