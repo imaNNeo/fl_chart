@@ -289,6 +289,8 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
           touchCallback,
           mouseCursorResolver,
           longPressDuration,
+          null,
+          null,
         );
 
   /// show a tooltip on touched spots

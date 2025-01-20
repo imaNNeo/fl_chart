@@ -611,6 +611,8 @@ class BarTouchData extends FlTouchData<BarTouchResponse> with EquatableMixin {
           touchCallback,
           mouseCursorResolver,
           longPressDuration,
+          null,
+          null,
         );
 
   /// Configs of how touch tooltip popup.
