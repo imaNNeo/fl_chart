@@ -407,6 +407,8 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
           touchCallback,
           mouseCursorResolver,
           longPressDuration,
+          null,
+          null,
         );
 
   /// we find the nearest spots on touched position based on this threshold
