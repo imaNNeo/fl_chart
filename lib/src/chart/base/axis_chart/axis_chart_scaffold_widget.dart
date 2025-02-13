@@ -64,8 +64,6 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
 
   final _chartKey = GlobalKey();
 
-  Rect? _chartVirtualRect;
-
   FlTransformationConfig get _transformationConfig =>
       widget.transformationConfig;
 
@@ -83,13 +81,12 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
     _transformationController =
         _transformationConfig.transformationController ??
             TransformationController();
-    _transformationController.addListener(_updateChartVirtualRect);
-    updateRectPostFrame();
+    _transformationController.addListener(_transformationControllerListener);
   }
 
   @override
   void dispose() {
-    _transformationController.removeListener(_updateChartVirtualRect);
+    _transformationController.removeListener(_transformationControllerListener);
     if (_transformationConfig.transformationController == null) {
       _transformationController.dispose();
     }
@@ -110,29 +107,29 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         _transformationController.dispose();
         _transformationController =
             widget.transformationConfig.transformationController!;
-        _transformationController.addListener(_updateChartVirtualRect);
+        _transformationController
+            .addListener(_transformationControllerListener);
       case (TransformationController(), null):
-        _transformationController.removeListener(_updateChartVirtualRect);
+        _transformationController
+            .removeListener(_transformationControllerListener);
         _transformationController = TransformationController();
-        _transformationController.addListener(_updateChartVirtualRect);
+        _transformationController
+            .addListener(_transformationControllerListener);
       case (TransformationController(), TransformationController()):
         if (oldWidget.transformationConfig.transformationController !=
             widget.transformationConfig.transformationController) {
-          _transformationController.removeListener(_updateChartVirtualRect);
+          _transformationController
+              .removeListener(_transformationControllerListener);
           _transformationController =
               widget.transformationConfig.transformationController!;
-          _transformationController.addListener(_updateChartVirtualRect);
+          _transformationController
+              .addListener(_transformationControllerListener);
         }
     }
-
-    updateRectPostFrame();
   }
 
-  void updateRectPostFrame() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      _updateChartVirtualRect();
-    });
+  void _transformationControllerListener() {
+    setState(() {});
   }
 
   // Applies the inverse transformation to the chart to get the zoomed
@@ -142,45 +139,28 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   // grow beyond the chart's boundaries when the chart is scaled in order
   // for its content to be laid out on the larger area. This leads to the
   // scaling effect.
-  void _updateChartVirtualRect() {
+  Rect? _calculateAdjustedRect(Rect rect) {
     final scale = _transformationController.value.getMaxScaleOnAxis();
     if (scale == 1.0) {
-      setState(() {
-        _chartVirtualRect = null;
-      });
-      return;
+      return null;
     }
     final inverseMatrix = Matrix4.inverted(_transformationController.value);
 
     final chartVirtualQuad = CustomInteractiveViewer.transformViewport(
       inverseMatrix,
-      _chartBoundaryRect,
+      rect,
     );
 
     final chartVirtualRect = CustomInteractiveViewer.axisAlignedBoundingBox(
       chartVirtualQuad,
     );
 
-    final adjustedRect = Rect.fromLTWH(
-      _canScaleHorizontally ? chartVirtualRect.left : _chartBoundaryRect.left,
-      _canScaleVertically ? chartVirtualRect.top : _chartBoundaryRect.top,
-      _canScaleHorizontally ? chartVirtualRect.width : _chartBoundaryRect.width,
-      _canScaleVertically ? chartVirtualRect.height : _chartBoundaryRect.height,
+    return Rect.fromLTWH(
+      _canScaleHorizontally ? chartVirtualRect.left : rect.left,
+      _canScaleVertically ? chartVirtualRect.top : rect.top,
+      _canScaleHorizontally ? chartVirtualRect.width : rect.width,
+      _canScaleVertically ? chartVirtualRect.height : rect.height,
     );
-
-    setState(() {
-      _chartVirtualRect = adjustedRect;
-    });
-  }
-
-  // The Rect representing the chart.
-  //
-  // This represents the actual size and offset of the chart.
-  Rect get _chartBoundaryRect {
-    assert(_chartKey.currentContext != null);
-    final childRenderBox =
-        _chartKey.currentContext!.findRenderObject()! as RenderBox;
-    return Offset.zero & childRenderBox.size;
   }
 
   bool get showLeftTitles {
@@ -219,15 +199,39 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
     return showAxisTitles || showSideTitles;
   }
 
-  List<Widget> stackWidgets(BoxConstraints constraints) {
-    final chart = KeyedSubtree(
-      key: _chartKey,
-      child: widget.chartBuilder(context, _chartVirtualRect),
+  List<Widget> _stackWidgets(BoxConstraints constraints) {
+    final margin = widget.data.titlesData.allSidesPadding;
+    final borderData = widget.data.borderData.isVisible()
+        ? widget.data.borderData.border
+        : null;
+
+    final borderWidth =
+        borderData == null ? 0 : borderData.dimensions.horizontal;
+    final borderHeight =
+        borderData == null ? 0 : borderData.dimensions.vertical;
+
+    final rect = Rect.fromLTRB(
+      0,
+      0,
+      constraints.maxWidth - margin.horizontal - borderWidth,
+      constraints.maxHeight - margin.vertical - borderHeight,
     );
 
-    final interactiveChart = LayoutBuilder(
-      builder: (context, constraints) {
-        return CustomInteractiveViewer(
+    final adjustedRect = _calculateAdjustedRect(rect);
+
+    final virtualRect = switch (_transformationConfig.scaleAxis) {
+      FlScaleAxis.none => null,
+      FlScaleAxis() => adjustedRect,
+    };
+
+    final chart = KeyedSubtree(
+      key: _chartKey,
+      child: widget.chartBuilder(context, virtualRect),
+    );
+
+    final child = switch (_transformationConfig.scaleAxis) {
+      FlScaleAxis.none => chart,
+      FlScaleAxis() => CustomInteractiveViewer(
           transformationController: _transformationController,
           clipBehavior: Clip.none,
           trackpadScrollCausesScale:
@@ -237,26 +241,18 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
           panEnabled: _transformationConfig.panEnabled,
           scaleEnabled: _transformationConfig.scaleEnabled,
           child: SizedBox(
-            width: constraints.maxWidth,
-            height: constraints.maxHeight,
+            width: rect.width,
+            height: rect.height,
             child: chart,
           ),
-        );
-      },
-    );
+        ),
+    };
 
     final widgets = <Widget>[
       Container(
-        margin: widget.data.titlesData.allSidesPadding,
-        decoration: BoxDecoration(
-          border: widget.data.borderData.isVisible()
-              ? widget.data.borderData.border
-              : null,
-        ),
-        child: switch (_transformationConfig.scaleAxis) {
-          FlScaleAxis.none => chart,
-          FlScaleAxis() => interactiveChart,
-        },
+        margin: margin,
+        decoration: BoxDecoration(border: borderData),
+        child: child,
       ),
     ];
 
@@ -269,7 +265,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
           side: AxisSide.left,
           axisChartData: widget.data,
           parentSize: constraints.biggest,
-          chartVirtualRect: _chartVirtualRect,
+          chartVirtualRect: adjustedRect,
         ),
       );
     }
@@ -281,7 +277,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
           side: AxisSide.top,
           axisChartData: widget.data,
           parentSize: constraints.biggest,
-          chartVirtualRect: _chartVirtualRect,
+          chartVirtualRect: adjustedRect,
         ),
       );
     }
@@ -293,7 +289,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
           side: AxisSide.right,
           axisChartData: widget.data,
           parentSize: constraints.biggest,
-          chartVirtualRect: _chartVirtualRect,
+          chartVirtualRect: adjustedRect,
         ),
       );
     }
@@ -305,7 +301,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
           side: AxisSide.bottom,
           axisChartData: widget.data,
           parentSize: constraints.biggest,
-          chartVirtualRect: _chartVirtualRect,
+          chartVirtualRect: adjustedRect,
         ),
       );
     }
@@ -319,7 +315,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         return RotatedBox(
           quarterTurns: widget.data.rotationQuarterTurns,
           child: Stack(
-            children: stackWidgets(constraints),
+            children: _stackWidgets(constraints),
           ),
         );
       },

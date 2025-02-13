@@ -1244,7 +1244,7 @@ void main() {
     });
 
     testWidgets(
-      'updates chart rect after the first frame when controller scale != 1.0',
+      'Initializes zoomed chart rect when controller scale != 1.0',
       (WidgetTester tester) async {
         final controller = TransformationController(
           Matrix4.identity()..scale(3.0),
@@ -1258,6 +1258,7 @@ void main() {
                   data: lineChartDataWithNoTitles,
                   transformationConfig: FlTransformationConfig(
                     transformationController: controller,
+                    scaleAxis: FlScaleAxis.free,
                   ),
                   chartBuilder: (context, rect) {
                     chartVirtualRect = rect;
@@ -1269,48 +1270,9 @@ void main() {
           ),
         );
 
-        expect(chartVirtualRect, isNull);
-        await tester.pump();
         expect(chartVirtualRect, isNotNull);
       },
     );
-
-    testWidgets('post frame callback checks if widget is mounted',
-        (WidgetTester tester) async {
-      // This test only works correctly when the chart is a LineChart
-      // with scaleAxis set to none. Should throw assertion on "setState"
-      // if callback does not check if widget is mounted.
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ListView.builder(
-              itemCount: 20,
-              itemBuilder: (context, index) => SizedBox(
-                height: 300,
-                child: LineChart(
-                  lineChartDataWithNoTitles,
-                  // This is for test
-                  // ignore: avoid_redundant_argument_values
-                  transformationConfig: const FlTransformationConfig(
-                    // This is for test
-                    // ignore: avoid_redundant_argument_values
-                    scaleAxis: FlScaleAxis.none,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      await tester.drag(
-        find.byType(ListView),
-        const Offset(0, -1000),
-      );
-
-      await tester.pump();
-    });
 
     group('didUpdateWidget', () {
       const chartScaffoldKey = Key('chartScaffold');
@@ -1356,9 +1318,8 @@ void main() {
         'oldWidget.controller is null and widget.controller is null: '
         'keeps old controller',
         (WidgetTester tester) async {
-          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled];
           await tester.pumpWidget(createTestWidget());
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects);
 
           final transformationController = getTransformationController(tester);
@@ -1367,8 +1328,6 @@ void main() {
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(createTestWidget());
-          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = getTransformationController(tester);
@@ -1383,9 +1342,8 @@ void main() {
         'oldWidget.controller is null and widget.controller is not null: '
         'disposes old controller and sets up widget.controller with listeners',
         (WidgetTester tester) async {
-          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled];
           await tester.pumpWidget(createTestWidget());
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects);
 
           final transformationController = getTransformationController(tester);
@@ -1398,8 +1356,6 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
           );
-          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
@@ -1418,12 +1374,11 @@ void main() {
         'removes listeners from old controller and sets up new controller '
         'with listeners',
         (WidgetTester tester) async {
-          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
@@ -1431,8 +1386,6 @@ void main() {
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           await tester.pumpWidget(createTestWidget());
-          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
 
           final transformationController2 = getTransformationController(tester);
@@ -1453,12 +1406,11 @@ void main() {
         'removes listeners from old controller and sets up '
         'widget.controller with listeners',
         (WidgetTester tester) async {
-          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(controller: transformationController),
           );
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
@@ -1470,8 +1422,6 @@ void main() {
           await tester.pumpWidget(
             createTestWidget(controller: transformationController2),
           );
-          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
 
           expect(transformationController2, isNot(transformationController));
@@ -1489,14 +1439,13 @@ void main() {
         'oldWidget.controller is not null and widget.controller is not null, '
         'controllers are the same: keeps old controller',
         (WidgetTester tester) async {
-          final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+          final actualChartVirtualRects = <Object?>[isNotScaled];
           final transformationController = TransformationController();
           await tester.pumpWidget(
             createTestWidget(
               controller: transformationController,
             ),
           );
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects);
 
           transformationController.value = Matrix4.identity()..scale(2.0);
@@ -1508,8 +1457,6 @@ void main() {
               controller: transformationController,
             ),
           );
-          expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
-          await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
           final transformationController2 = getTransformationController(tester);
@@ -1526,13 +1473,14 @@ void main() {
       (WidgetTester tester) async {
         final transformationController = TransformationController();
         final chartVirtualRects = <Rect?>[];
-        final actualChartVirtualRects = <Object?>[isNotScaled, isNotScaled];
+        final actualChartVirtualRects = <Object?>[isNotScaled];
         await tester.pumpWidget(
           MaterialApp(
             home: AxisChartScaffoldWidget(
               data: lineChartDataWithNoTitles,
               transformationConfig: FlTransformationConfig(
                 transformationController: transformationController,
+                scaleAxis: FlScaleAxis.free,
               ),
               chartBuilder: (context, rect) {
                 chartVirtualRects.add(rect);
@@ -1541,7 +1489,6 @@ void main() {
             ),
           ),
         );
-        await tester.pump();
         expect(chartVirtualRects, actualChartVirtualRects);
 
         transformationController.value = Matrix4.identity()..scale(2.0);
