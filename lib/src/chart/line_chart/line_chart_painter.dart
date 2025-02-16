@@ -47,6 +47,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..strokeWidth = 1.0;
 
     _clipPaint = Paint();
+
+    _shadowTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.black;
   }
 
   late Paint _barPaint;
