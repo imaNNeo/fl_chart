@@ -1254,7 +1254,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..color = tooltipData.shadow.color
       ..maskFilter = MaskFilter.blur(
         BlurStyle.normal,
-        Utils().convertRadiusToSigma(tooltipData.shadow.blurRadius),
+        tooltipData.shadow.blurSigma,
       );
 
     final rotateAngle = tooltipData.rotateAngle;
