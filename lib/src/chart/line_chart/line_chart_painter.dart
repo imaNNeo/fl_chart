@@ -1238,7 +1238,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
     );
     final shadowRoundedRect = RRect.fromRectAndRadius(
-      rect.shift(tooltipData.shadowOffset),
+      rect.shift(tooltipData.shadow.offset),
       radius,
     );
 
@@ -1251,10 +1251,10 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(topSpot);
     _shadowTouchTooltipPaint
-      ..color = tooltipData.shadowColor
+      ..color = tooltipData.shadow.color
       ..maskFilter = MaskFilter.blur(
         BlurStyle.normal,
-        tooltipData.shadowBlur,
+        Utils().convertRadiusToSigma(tooltipData.shadow.blurRadius),
       );
 
     final rotateAngle = tooltipData.rotateAngle;
