@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
@@ -190,6 +192,22 @@ abstract class AxisChartPainter<D extends AxisChartData>
         );
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
+
+        // Draw annotation text
+        final offset = Offset(
+          getPixelX(annotation.x1, viewSize, holder) +
+              annotation.horizontalPadding,
+          annotation.verticalPadding,
+        );
+        drawAnnotationText(
+          canvasWrapper,
+          offset: offset,
+          text: annotation.text,
+          style: annotation.style,
+          verticalPadding: annotation.verticalPadding,
+          horizontalPadding: annotation.horizontalPadding,
+          rotation: annotation.rotation,
+        );
       }
     }
 
@@ -211,8 +229,55 @@ abstract class AxisChartPainter<D extends AxisChartData>
         );
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
+
+        // Draw annotation text
+        final offset = Offset(
+          getPixelX(annotation.y1, viewSize, holder) +
+              annotation.horizontalPadding,
+          annotation.verticalPadding,
+        );
+        drawAnnotationText(
+          canvasWrapper,
+          offset: offset,
+          text: annotation.text,
+          style: annotation.style,
+          verticalPadding: annotation.verticalPadding,
+          horizontalPadding: annotation.horizontalPadding,
+          rotation: annotation.rotation,
+        );
       }
     }
+  }
+
+  void drawAnnotationText(
+    CanvasWrapper canvasWrapper, {
+    String? text,
+    required Offset offset,
+    TextStyle? style,
+    double verticalPadding = 0,
+    double horizontalPadding = 0,
+    double rotation = 0,
+  }) {
+    if (text == null) {
+      return;
+    }
+    // Draw annotation text
+    final textSpan = TextSpan(
+      text: text,
+      style: style,
+    );
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final radians = rotation * (pi / 180.0);
+    canvasWrapper
+      ..save()
+      ..translate(offset.dx, offset.dy)
+      ..rotate(radians)
+      ..drawText(textPainter, Offset.zero)
+      ..restore();
   }
 
   void drawExtraLines(
