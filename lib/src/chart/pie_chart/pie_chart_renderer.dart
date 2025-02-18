@@ -12,22 +12,19 @@ import 'package:flutter/services.dart';
 
 /// Low level PieChart Widget.
 class PieChartLeaf extends MultiChildRenderObjectWidget {
-  PieChartLeaf({
-    super.key,
-    required this.data,
-    required this.targetData,
-  }) : super(children: targetData.sections.toWidgets());
+  PieChartLeaf({super.key, required this.data, required this.targetData})
+    : super(children: targetData.sections.toWidgets());
 
   final PieChartData data;
   final PieChartData targetData;
 
   @override
   RenderPieChart createRenderObject(BuildContext context) => RenderPieChart(
-        context,
-        data,
-        targetData,
-        MediaQuery.of(context).textScaler,
-      );
+    context,
+    data,
+    targetData,
+    MediaQuery.of(context).textScaler,
+  );
 
   @override
   void updateRenderObject(BuildContext context, RenderPieChart renderObject) {
@@ -51,10 +48,10 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
     PieChartData data,
     PieChartData targetData,
     TextScaler textScaler,
-  )   : _data = data,
-        _targetData = targetData,
-        _textScaler = textScaler,
-        super(targetData.pieTouchData, context, canBeScaled: false);
+  ) : _data = data,
+      _targetData = targetData,
+      _textScaler = textScaler,
+      super(targetData.pieTouchData, context, canBeScaled: false);
 
   PieChartData get data => _data;
   PieChartData _data;
@@ -134,9 +131,10 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final canvas = context.canvas
-      ..save()
-      ..translate(offset.dx, offset.dy);
+    final canvas =
+        context.canvas
+          ..save()
+          ..translate(offset.dx, offset.dy);
     painter.paint(
       buildContext,
       CanvasWrapper(canvas, mockTestSize ?? size),
@@ -149,7 +147,7 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
   void badgeWidgetPaint(PaintingContext context, Offset offset) {
     RenderObject? child = firstChild;
     var counter = 0;
-    while (child != null) {
+    while (child != null && counter < data.sections.length) {
       final childParentData = child.parentData! as MultiChildLayoutParentData;
       if (data.sections[counter].value > 0) {
         context.paintChild(child, childParentData.offset + offset);
