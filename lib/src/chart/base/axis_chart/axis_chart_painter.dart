@@ -232,7 +232,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         // Draw annotation text
         final offset = Offset(
-          getPixelX(annotation.y1, viewSize, holder) +
+          getPixelY(annotation.y1, viewSize, holder) +
               annotation.horizontalPadding,
           annotation.verticalPadding,
         );
@@ -243,7 +243,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
           style: annotation.style,
           verticalPadding: annotation.verticalPadding,
           horizontalPadding: annotation.horizontalPadding,
-          rotation: annotation.rotation,
+          rotation: annotation.rotation,    
         );
       }
     }
