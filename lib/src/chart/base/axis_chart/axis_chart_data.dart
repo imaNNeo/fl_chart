@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // coverage:ignore-file
 import 'dart:ui';
 
@@ -914,6 +915,11 @@ class HorizontalRangeAnnotation with EquatableMixin {
     required this.y1,
     required this.y2,
     Color? color,
+    this.text,
+    this.style = const TextStyle(color: Colors.white),
+    this.rotation = 0,
+    this.horizontalPadding = 0,
+    this.verticalPadding = 0,
     this.gradient,
   }) : color = color ??
             ((color == null && gradient == null) ? Colors.white : null);
@@ -936,6 +942,21 @@ class HorizontalRangeAnnotation with EquatableMixin {
   /// If none is provided, it draws with a white color.
   final Gradient? gradient;
 
+  /// Text for annotation
+  final String? text;
+
+  /// Text style for annotation
+  final TextStyle style;
+
+  /// Text rotation in degrees
+  final double rotation;
+
+  /// Text text padding
+  final double horizontalPadding;
+
+  /// Vertical text padding
+  final double verticalPadding;
+
   /// Lerps a [HorizontalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static HorizontalRangeAnnotation lerp(
     HorizontalRangeAnnotation a,
@@ -956,13 +977,24 @@ class HorizontalRangeAnnotation with EquatableMixin {
     double? y2,
     Color? color,
     Gradient? gradient,
-  }) =>
-      HorizontalRangeAnnotation(
-        y1: y1 ?? this.y1,
-        y2: y2 ?? this.y2,
-        color: color ?? this.color,
-        gradient: gradient ?? this.gradient,
-      );
+    String? text,
+    TextStyle? style,
+    double? rotation,
+    double? horizontalPadding,
+    double? verticalPadding,
+  }) {
+    return HorizontalRangeAnnotation(
+      y1: y1 ?? this.y1,
+      y2: y2 ?? this.y2,
+      color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
+      text: text ?? this.text,
+      style: style ?? this.style,
+      rotation: rotation ?? this.rotation,
+      horizontalPadding: horizontalPadding ?? this.horizontalPadding,
+      verticalPadding: verticalPadding ?? this.verticalPadding,
+    );
+  }
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -971,6 +1003,11 @@ class HorizontalRangeAnnotation with EquatableMixin {
         y2,
         color,
         gradient,
+        text,
+        style,
+        rotation,
+        verticalPadding,
+        horizontalPadding,
       ];
 }
 
@@ -981,6 +1018,11 @@ class VerticalRangeAnnotation with EquatableMixin {
   VerticalRangeAnnotation({
     required this.x1,
     required this.x2,
+    this.text,
+    this.style = const TextStyle(color: Colors.white),
+    this.rotation = 0,
+    this.horizontalPadding = 0,
+    this.verticalPadding = 0,
     Color? color,
     this.gradient,
   }) : color = color ??
@@ -1004,6 +1046,21 @@ class VerticalRangeAnnotation with EquatableMixin {
   /// If none is provided, it draws with a white color.
   final Gradient? gradient;
 
+  /// Text for annotation
+  final String? text;
+
+  /// Text style for annotation
+  final TextStyle style;
+
+  /// Text rotation in degrees
+  final double rotation;
+
+  /// Text text padding
+  final double horizontalPadding;
+
+  /// Vertical text padding
+  final double verticalPadding;
+
   /// Lerps a [VerticalRangeAnnotation] based on [t] value, check [Tween.lerp].
   static VerticalRangeAnnotation lerp(
     VerticalRangeAnnotation a,
@@ -1024,13 +1081,24 @@ class VerticalRangeAnnotation with EquatableMixin {
     double? x2,
     Color? color,
     Gradient? gradient,
-  }) =>
-      VerticalRangeAnnotation(
-        x1: x1 ?? this.x1,
-        x2: x2 ?? this.x2,
-        color: color ?? this.color,
-        gradient: gradient ?? this.gradient,
-      );
+    String? text,
+    TextStyle? style,
+    double? rotation,
+    double? horizontalPadding,
+    double? verticalPadding,
+  }) {
+    return VerticalRangeAnnotation(
+      x1: x1 ?? this.x1,
+      x2: x2 ?? this.x2,
+      color: color ?? this.color,
+      gradient: gradient ?? this.gradient,
+      text: text ?? this.text,
+      style: style ?? this.style,
+      rotation: rotation ?? this.rotation,
+      horizontalPadding: horizontalPadding ?? this.horizontalPadding,
+      verticalPadding: verticalPadding ?? this.verticalPadding,
+    );
+  }
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1039,6 +1107,11 @@ class VerticalRangeAnnotation with EquatableMixin {
         x2,
         color,
         gradient,
+        text,
+        style,
+        rotation,
+        verticalPadding,
+        horizontalPadding,
       ];
 }
 
