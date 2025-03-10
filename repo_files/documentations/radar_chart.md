@@ -74,6 +74,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |text|the text of the title|required|
+|children| A list of [InlineSpan](https://api.flutter.dev/flutter/painting/InlineSpan-class.html) that you can provide to have different texts with different styels. Just like how [TextSpan](https://api.flutter.dev/flutter/painting/TextSpan-class.html) works|null|
 |angle|the angle used to rotate the title (in degree)|0|
 |positionPercentageOffset|this field is the place of showing title. The higher the value of this field, the more titles move away from the chart. this field should be between 0 and 1|null|
 
