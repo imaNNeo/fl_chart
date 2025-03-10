@@ -53,7 +53,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |tooltipBorder|border of the tooltip bubble|BorderSide.none|
-|tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
+|tooltipBorderRadius|background corner radius of the tooltip bubble|BorderRadius.circular(4)|
 |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
 |tooltipHorizontalAlignment|horizontal alginment of tooltip relative to the spot|FLHorizontalAlignment.center|
 |tooltipHorizontalOffset|horizontal offset of tooltip|0|
