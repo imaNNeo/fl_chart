@@ -62,10 +62,10 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     dataSetsPosition = calculateDataSetsPosition(canvasWrapper.size, holder);
 
+    drawGrids(canvasWrapper, holder);
     drawTicks(context, canvasWrapper, holder);
     drawTitles(context, canvasWrapper, holder);
     drawDataSets(canvasWrapper, holder);
-    drawGrids(canvasWrapper, holder);
   }
 
   @visibleForTesting
