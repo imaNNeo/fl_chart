@@ -350,6 +350,7 @@ class RadarDataSet with EquatableMixin {
       RadarDataSet(
         dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
         fillColor: Color.lerp(a.fillColor, b.fillColor, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
         borderColor: Color.lerp(a.borderColor, b.borderColor, t),
         borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
         entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
