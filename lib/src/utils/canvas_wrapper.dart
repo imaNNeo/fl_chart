@@ -16,6 +16,7 @@ class CanvasWrapper {
     this.canvas,
     this.size,
   );
+
   final Canvas canvas;
   final Size size;
 
@@ -116,6 +117,17 @@ class CanvasWrapper {
   /// with the [offset]
   void drawDot(FlDotPainter painter, FlSpot spot, Offset offset) {
     painter.draw(canvas, spot, offset);
+  }
+
+  /// Paints a error indicator using the [painter]
+  void drawErrorIndicator(
+    FlSpotErrorRangePainter painter,
+    FlSpot origin,
+    Offset offset,
+    Rect errorRelativeRect,
+    AxisChartData axisData,
+  ) {
+    painter.draw(canvas, offset, origin, errorRelativeRect, axisData);
   }
 
   /// Handles performing multiple draw actions rotated.

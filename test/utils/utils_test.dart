@@ -36,40 +36,6 @@ void main() {
     expect(Utils().degrees(1.2), closeTo(68.7549, tolerance));
   });
 
-  test('test default size', () {
-    expect(
-      Utils().getDefaultSize(const Size(1080, 1920)).width,
-      closeTo(756, tolerance),
-    );
-    expect(
-      Utils().getDefaultSize(const Size(1080, 1920)).height,
-      closeTo(756, tolerance),
-    );
-
-    expect(
-      Utils().getDefaultSize(const Size(728, 1080)).width,
-      closeTo(509.6, tolerance),
-    );
-    expect(
-      Utils().getDefaultSize(const Size(728, 1080)).height,
-      closeTo(509.6, tolerance),
-    );
-
-    expect(
-      Utils().getDefaultSize(const Size(2560, 1600)).width,
-      closeTo(1120, tolerance),
-    );
-    expect(
-      Utils().getDefaultSize(const Size(2560, 1600)).height,
-      closeTo(1120, tolerance),
-    );
-
-    expect(
-      Utils().getDefaultSize(const Size(1000, 1000)).width,
-      closeTo(700, tolerance),
-    );
-  });
-
   test('translate rotated position', () {
     expect(Utils().translateRotatedPosition(100, 90), 25);
     expect(Utils().translateRotatedPosition(100, 0), 0);

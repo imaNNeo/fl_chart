@@ -50,6 +50,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
     super.rotationQuarterTurns,
+    this.errorIndicatorData =
+        const FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>(),
   })  : scatterSpots = scatterSpots ?? const [],
         scatterTouchData = scatterTouchData ?? ScatterTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
@@ -89,6 +91,10 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
 
   final ScatterLabelSettings scatterLabelSettings;
 
+  /// Holds data for showing error indicators on the [scatterSpots]
+  final FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>
+      errorIndicatorData;
+
   /// Lerps a [ScatterChartData] based on [t] value, check [Tween.lerp].
   @override
   ScatterChartData lerp(BaseChartData a, BaseChartData b, double t) {
@@ -118,6 +124,11 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
           t,
         ),
         rotationQuarterTurns: b.rotationQuarterTurns,
+        errorIndicatorData: FlErrorIndicatorData.lerp(
+          a.errorIndicatorData,
+          b.errorIndicatorData,
+          t,
+        ),
       );
     } else {
       throw Exception('Illegal State');
@@ -143,6 +154,8 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ScatterLabelSettings? scatterLabelSettings,
     int? rotationQuarterTurns,
+    FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>?
+        errorIndicatorData,
   }) =>
       ScatterChartData(
         scatterSpots: scatterSpots ?? this.scatterSpots,
@@ -162,6 +175,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
+        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -186,6 +200,7 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         borderData,
         touchData,
         rotationQuarterTurns,
+        errorIndicatorData,
       ];
 }
 
@@ -200,6 +215,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     bool? show,
     int? renderPriority,
     FlDotPainter? dotPainter,
+    super.xError,
+    super.yError,
   })  : show = show ?? true,
         renderPriority = renderPriority ?? 0,
         dotPainter = dotPainter ??
@@ -235,6 +252,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
     bool? show,
     int? renderPriority,
     FlDotPainter? dotPainter,
+    FlErrorRange? xError,
+    FlErrorRange? yError,
   }) =>
       ScatterSpot(
         x ?? this.x,
@@ -242,6 +261,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         show: show ?? this.show,
         renderPriority: renderPriority ?? this.renderPriority,
         dotPainter: dotPainter ?? this.dotPainter,
+        xError: xError ?? this.xError,
+        yError: yError ?? this.yError,
       );
 
   /// Lerps a [ScatterSpot] based on [t] value, check [Tween.lerp].
@@ -253,6 +274,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         renderPriority: a.renderPriority +
             (t * (b.renderPriority - a.renderPriority)).round(),
         dotPainter: a.dotPainter.lerp(a.dotPainter, b.dotPainter, t),
+        xError: FlErrorRange.lerp(a.xError, b.xError, t),
+        yError: FlErrorRange.lerp(a.yError, b.yError, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -263,6 +286,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         show,
         renderPriority,
         dotPainter,
+        xError,
+        yError,
       ];
 }
 
@@ -408,8 +433,11 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// if [ScatterTouchData.handleBuiltInTouches] is true,
   /// [ScatterChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [ScatterChartData.showingTooltipIndicators].
-  /// Tooltip shows on top of spots, with [getTooltipColor] as a background color,
-  /// and you can set corner radius using [tooltipRoundedRadius].
+  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
+  /// You can set the corner radius using [tooltipRoundedRadius],
+  /// or if you need a custom border, you can use [tooltipBorderRadius].
+  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set,
+  /// the value from [tooltipBorderRadius] will be used.
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding].
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
   /// and pass your custom data to show in the tooltip.
@@ -419,6 +447,7 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   ScatterTouchTooltipData({
     double? tooltipRoundedRadius,
+    BorderRadius? tooltipBorderRadius,
     EdgeInsets? tooltipPadding,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
@@ -430,6 +459,8 @@ class ScatterTouchTooltipData with EquatableMixin {
     BorderSide? tooltipBorder,
     GetScatterTooltipColor? getTooltipColor,
   })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+        tooltipBorderRadius = tooltipBorderRadius ??
+            BorderRadius.circular(tooltipRoundedRadius ?? 4),
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipHorizontalAlignment =
@@ -445,7 +476,11 @@ class ScatterTouchTooltipData with EquatableMixin {
         super();
 
   /// Sets a rounded radius for the tooltip.
+  @Deprecated('use tooltipBorderRadius instead')
   final double tooltipRoundedRadius;
+
+  /// Sets a border radius for the tooltip.
+  final BorderRadius tooltipBorderRadius;
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
@@ -734,5 +769,28 @@ class ScatterLabelSettings with EquatableMixin {
         getLabelTextStyleFunction,
         getLabelFunction,
         textDirection,
+      ];
+}
+
+/// It is the input of the [GetSpotRangeErrorPainter] callback in
+/// the [ScatterChartData.errorIndicatorData]
+///
+/// It contains the [spot] and [spotIndex] that the error range
+/// should be drawn for.
+/// It works based on the [ScatterSpot.xError] and [ScatterSpot.yError] values.
+class ScatterChartSpotErrorRangeCallbackInput
+    extends FlSpotErrorRangeCallbackInput {
+  ScatterChartSpotErrorRangeCallbackInput({
+    required this.spot,
+    required this.spotIndex,
+  });
+
+  final ScatterSpot spot;
+  final int spotIndex;
+
+  @override
+  List<Object?> get props => [
+        spot,
+        spotIndex,
       ];
 }

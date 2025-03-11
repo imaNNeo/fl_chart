@@ -60,6 +60,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |shadow|It drops a shadow behind your bar, see [Shadow](https://api.flutter.dev/flutter/dart-ui/Shadow-class.html).|Shadow()|
 |isStepLineChart|If sets true, it draws the chart in Step Line Chart style, using `lineChartStepData`.|false|
 |lineChartStepData|Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.|[LineChartStepData](#LineChartStepData)()|
+|errorIndicatorData|Holds data for representing an error indicator (you see the error indicators if you provide the `xError` or `yError` in the [FlSpot](base_chart.md#FlSpot)).|[ErrorIndicatorData()](base_chart.md#FlErrorIndicatorData)|
 
 ### LineChartStepData
 |PropName|Description|default value|
@@ -120,7 +121,7 @@ When you change the chart's state, it animates to the new state internally (usin
  |PropName|Description|default value|
  |:-------|:----------|:------------|
  |tooltipBorder|border of the tooltip bubble|BorderSide.none|
- |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
+ |tooltipBorderRadius|background corner radius of the tooltip bubble|BorderRadius.circular(4)|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
  |tooltipMargin|margin between the tooltip and the touched spot|16|
  |tooltipHorizontalAlignment|horizontal alginment of tooltip relative to the spot|FLHorizontalAlignment.center|

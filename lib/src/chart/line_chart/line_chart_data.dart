@@ -243,6 +243,8 @@ class LineChartBarData with EquatableMixin {
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     this.dotData = const FlDotData(),
+    this.errorIndicatorData =
+        const FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(),
     this.showingIndicators = const [],
     this.dashArray,
     this.shadow = const Shadow(color: Colors.transparent),
@@ -355,6 +357,10 @@ class LineChartBarData with EquatableMixin {
   /// Responsible to showing [spots] on the line as a circular point.
   final FlDotData dotData;
 
+  /// Holds data for showing error indicators on the spots in this line.
+  final FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>
+      errorIndicatorData;
+
   /// Show indicators based on provided indexes
   final List<int> showingIndicators;
 
@@ -392,6 +398,11 @@ class LineChartBarData with EquatableMixin {
           t,
         )!,
         dotData: FlDotData.lerp(a.dotData, b.dotData, t),
+        errorIndicatorData: FlErrorIndicatorData.lerp(
+          a.errorIndicatorData,
+          b.errorIndicatorData,
+          t,
+        ),
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
@@ -420,6 +431,8 @@ class LineChartBarData with EquatableMixin {
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
+    FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>?
+        errorIndicatorData,
     List<int>? dashArray,
     List<int>? showingIndicators,
     Shadow? shadow,
@@ -444,6 +457,7 @@ class LineChartBarData with EquatableMixin {
         aboveBarData: aboveBarData ?? this.aboveBarData,
         dashArray: dashArray ?? this.dashArray,
         dotData: dotData ?? this.dotData,
+        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
         showingIndicators: showingIndicators ?? this.showingIndicators,
         shadow: shadow ?? this.shadow,
         isStepLineChart: isStepLineChart ?? this.isStepLineChart,
@@ -467,6 +481,7 @@ class LineChartBarData with EquatableMixin {
         belowBarData,
         aboveBarData,
         dotData,
+        errorIndicatorData,
         showingIndicators,
         dashArray,
         shadow,
@@ -1020,8 +1035,11 @@ class LineTouchTooltipData with EquatableMixin {
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
-  /// Tooltip shows on top of spots, with [getTooltipColor] as a background color,
-  /// and you can set corner radius using [tooltipRoundedRadius].
+  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
+  /// You can set the corner radius using [tooltipRoundedRadius],
+  /// or if you need a custom border, you can use [tooltipBorderRadius].
+  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set,
+  /// the value from [tooltipBorderRadius] will be used.
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
@@ -1031,7 +1049,8 @@ class LineTouchTooltipData with EquatableMixin {
   /// you can set [fitInsideHorizontally] true to force it to shift inside the chart horizontally,
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   const LineTouchTooltipData({
-    this.tooltipRoundedRadius = 4,
+    double? tooltipRoundedRadius = 4,
+    BorderRadius? tooltipBorderRadius,
     this.tooltipPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.tooltipMargin = 16,
@@ -1045,10 +1064,18 @@ class LineTouchTooltipData with EquatableMixin {
     this.showOnTopOfTheChartBoxArea = false,
     this.rotateAngle = 0.0,
     this.tooltipBorder = BorderSide.none,
-  });
+  })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+        _tooltipBorderRadius = tooltipBorderRadius;
 
   /// Sets a rounded radius for the tooltip.
+  @Deprecated('use tooltipBorderRadius instead')
   final double tooltipRoundedRadius;
+
+  final BorderRadius? _tooltipBorderRadius;
+
+  /// Sets a rounded radius for the tooltip.
+  BorderRadius get tooltipBorderRadius =>
+      _tooltipBorderRadius ?? BorderRadius.circular(tooltipRoundedRadius);
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
@@ -1090,6 +1117,7 @@ class LineTouchTooltipData with EquatableMixin {
   @override
   List<Object?> get props => [
         tooltipRoundedRadius,
+        _tooltipBorderRadius,
         tooltipPadding,
         tooltipMargin,
         tooltipHorizontalAlignment,
@@ -1291,6 +1319,32 @@ class LineTouchResponse extends BaseTouchResponse {
       LineTouchResponse(
         lineBarSpots ?? this.lineBarSpots,
       );
+}
+
+/// It is the input of the [GetSpotRangeErrorPainter] callback in
+/// the [LineChartData.errorIndicatorData]
+///
+/// So it contains the information about the spot, and the bar that the spot
+/// is in. The callback should return a [FlSpotErrorRangePainter] that will draw
+/// the error bars
+class LineChartSpotErrorRangeCallbackInput
+    extends FlSpotErrorRangeCallbackInput {
+  LineChartSpotErrorRangeCallbackInput({
+    required this.spot,
+    required this.bar,
+    required this.spotIndex,
+  });
+
+  final FlSpot spot;
+  final LineChartBarData bar;
+  final int spotIndex;
+
+  @override
+  List<Object?> get props => [
+        spot,
+        bar,
+        spotIndex,
+      ];
 }
 
 /// It lerps a [LineChartData] to another [LineChartData] (handles animation for updating values)

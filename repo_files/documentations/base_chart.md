@@ -63,7 +63,8 @@
 |:-------|:----------|:------------|
 |x|represents x on the coordinate system (x starts from left)|null|
 |y|represents y on the coordinate system (y starts from bottom)|null|
-
+|xError| Determines the error range of the data point using (FlErrorRange)[#FlErrorRange] (which ontains `lowerBy` and `upperValue`) for the x-axis|null|
+|yError| Determines the error range of the data point using (FlErrorRange)[#FlErrorRange] (which ontains `upperBy` and `upperValue`) for the y-axis|null|
 
 
 ### FlLine
@@ -186,3 +187,16 @@ Base class for all supported touch/pointer events.
 
 ### FLHorizontalAlignment
 enum values {`center`, `left`, `right`}
+
+
+### FlErrorIndicatorData
+|PropName| Description                                                 | default value          |
+|:-------|:------------------------------------------------------------|:-----------------------|
+|show| Determines showing or not showing error indicator/threshold | true                   |
+|painter| A callback that allows you to provide a custom painter for the error indicator| FlSimpleErrorPainter() |
+
+### FlErrorRange
+|PropName| Description                                                                    | default value          |
+|:-------|:-------------------------------------------------------------------------------|:-----------------------|
+|lowerBy| Lower value of the error range. It is subtracted from the spot value and shoul be positive| null|
+|upperBy| Upper value of the error range. It is added to the spot value and shoul be positive| null|

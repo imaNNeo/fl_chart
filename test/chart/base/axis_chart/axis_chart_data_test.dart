@@ -1,8 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import '../../data_pool.dart';
+import 'axis_chart_data_test.mocks.dart';
 
+@GenerateMocks([Canvas])
 void main() {
   group('AxisChartData data equality check', () {
     test('AxisTitle equality test', () {
@@ -280,6 +284,104 @@ void main() {
             ),
         false,
       );
+    });
+
+    test('FlSpotErrorRangePainter equality', () {
+      final FlSpotErrorRangePainter painter1 = FlSimpleErrorPainter();
+      final painter2 = FlSimpleErrorPainter();
+      final painter3 = FlSimpleErrorPainter(
+        lineWidth: 1.1,
+      );
+      expect(painter1 == painter2, true);
+      expect(painter1 != painter3, true);
+    });
+
+    test('FlSpotErrorRangePainter render functionality (without texts)', () {
+      final painter = FlSimpleErrorPainter(
+        lineWidth: 5.3,
+        lineColor: Colors.green,
+        capLength: 10,
+      );
+      final mockCanvas = MockCanvas();
+      const offsetInCanvas = Offset(24, 34);
+      const origin = FlSpot(4, 1);
+
+      painter.draw(
+        mockCanvas,
+        offsetInCanvas,
+        origin,
+        const Rect.fromLTWH(0, 4, 0, 6),
+        LineChartData(),
+      );
+      verify(
+        mockCanvas.drawLine(
+          captureAny,
+          captureAny,
+          captureAny,
+        ),
+      ).called(3);
+
+      painter.draw(
+        mockCanvas,
+        offsetInCanvas,
+        origin,
+        const Rect.fromLTWH(4, 4, 6, 6),
+        LineChartData(),
+      );
+      final result = verify(
+        mockCanvas.drawLine(
+          captureAny,
+          captureAny,
+          any,
+        ),
+      )..called(6);
+      expect(result.captured[0], const Offset(24, 38));
+      expect(result.captured[1], const Offset(24, 44));
+      expect(result.captured[2], const Offset(19, 38));
+      expect(result.captured[3], const Offset(29, 38));
+      expect(result.captured[4], const Offset(19, 44));
+      expect(result.captured[5], const Offset(29, 44));
+      expect(result.captured[6], const Offset(28, 34));
+      expect(result.captured[7], const Offset(34, 34));
+      expect(result.captured[8], const Offset(28, 29));
+      expect(result.captured[9], const Offset(28, 39));
+
+      verifyNever(mockCanvas.drawParagraph(any, any));
+    });
+
+    test('FlSpotErrorRangePainter render functionality (with texts)', () {
+      final painter = FlSimpleErrorPainter(
+        showErrorTexts: true,
+        errorTextDirection: TextDirection.rtl,
+        errorTextStyle: const TextStyle(
+          color: Colors.red,
+          fontSize: 12,
+        ),
+      );
+      final mockCanvas = MockCanvas();
+
+      painter.draw(
+        mockCanvas,
+        const Offset(24, 34),
+        const FlSpot(
+          4,
+          1,
+          xError: FlErrorRange.symmetric(1),
+          yError: FlErrorRange.symmetric(1),
+        ),
+        const Rect.fromLTWH(4, 4, 6, 6),
+        LineChartData(),
+      );
+      verify(
+        mockCanvas.drawLine(
+          captureAny,
+          captureAny,
+          any,
+        ),
+      ).called(6);
+      verify(
+        mockCanvas.drawParagraph(captureAny, captureAny),
+      ).called(4);
     });
   });
 }

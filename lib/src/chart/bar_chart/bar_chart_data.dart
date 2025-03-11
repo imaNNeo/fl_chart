@@ -48,6 +48,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     ExtraLinesData? extraLinesData,
     super.rotationQuarterTurns,
+    this.errorIndicatorData = const FlErrorIndicatorData(),
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
@@ -79,6 +80,11 @@ class BarChartData extends AxisChartData with EquatableMixin {
   /// Handles touch behaviors and responses.
   final BarTouchData barTouchData;
 
+  /// Holds data for showing error (threshold) indicators on the spots in
+  /// the different [BarChartGroupData.barRods]
+  final FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>
+      errorIndicatorData;
+
   /// Copies current [BarChartData] to a new [BarChartData],
   /// and replaces provided values.
   BarChartData copyWith({
@@ -96,6 +102,8 @@ class BarChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     ExtraLinesData? extraLinesData,
     int? rotationQuarterTurns,
+    FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>?
+        errorIndicatorData,
   }) =>
       BarChartData(
         barGroups: barGroups ?? this.barGroups,
@@ -112,6 +120,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         extraLinesData: extraLinesData ?? this.extraLinesData,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
+        errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -135,6 +144,11 @@ class BarChartData extends AxisChartData with EquatableMixin {
         extraLinesData:
             ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         rotationQuarterTurns: b.rotationQuarterTurns,
+        errorIndicatorData: FlErrorIndicatorData.lerp(
+          a.errorIndicatorData,
+          b.errorIndicatorData,
+          t,
+        ),
       );
     } else {
       throw Exception('Illegal State');
@@ -158,6 +172,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         backgroundColor,
         extraLinesData,
         rotationQuarterTurns,
+        errorIndicatorData,
       ];
 }
 
@@ -318,6 +333,7 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData({
     double? fromY,
     required this.toY,
+    this.toYErrorRange,
     Color? color,
     this.gradient,
     double? width,
@@ -340,6 +356,15 @@ class BarChartRodData with EquatableMixin {
 
   /// [BarChart] renders rods vertically from [fromY] to [toY].
   final double toY;
+
+  /// If the data has error range/threshold, it will be rendered
+  /// with this error range. So you can provide the
+  /// [FlErrorRange.lowerBy] and [FlErrorRange.upperBy] that is relative to
+  /// the [toY] property.
+  ///
+  /// If you want to customize the visual representation of the error range,
+  /// you can use [BarChartData.errorIndicatorData] to customize the error range
+  final FlErrorRange? toYErrorRange;
 
   /// If provided, this [BarChartRodData] draws with this [color]
   /// Otherwise we use  [gradient] to draw the background.
@@ -380,6 +405,7 @@ class BarChartRodData with EquatableMixin {
   BarChartRodData copyWith({
     double? fromY,
     double? toY,
+    FlErrorRange? toYErrorRange,
     Color? color,
     Gradient? gradient,
     double? width,
@@ -392,6 +418,7 @@ class BarChartRodData with EquatableMixin {
       BarChartRodData(
         fromY: fromY ?? this.fromY,
         toY: toY ?? this.toY,
+        toYErrorRange: toYErrorRange ?? this.toYErrorRange,
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
         width: width ?? this.width,
@@ -413,6 +440,7 @@ class BarChartRodData with EquatableMixin {
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
         fromY: lerpDouble(a.fromY, b.fromY, t),
         toY: lerpDouble(a.toY, b.toY, t)!,
+        toYErrorRange: FlErrorRange.lerp(a.toYErrorRange, b.toYErrorRange, t),
         backDrawRodData: BackgroundBarChartRodData.lerp(
           a.backDrawRodData,
           b.backDrawRodData,
@@ -427,6 +455,7 @@ class BarChartRodData with EquatableMixin {
   List<Object?> get props => [
         fromY,
         toY,
+        toYErrorRange,
         width,
         borderRadius,
         borderDashArray,
@@ -684,8 +713,11 @@ class BarTouchTooltipData with EquatableMixin {
   /// if [BarTouchData.handleBuiltInTouches] is true,
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
-  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color,
-  /// and you can set corner radius using [tooltipRoundedRadius].
+  /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
+  /// You can set the corner radius using [tooltipRoundedRadius], 
+  /// or if you need a custom border, you can use [tooltipBorderRadius].
+  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set, 
+  /// the value from [tooltipBorderRadius] will be used.
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
@@ -696,6 +728,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// also you can set [fitInsideVertically] true to force it to shift inside the chart vertically.
   BarTouchTooltipData({
     double? tooltipRoundedRadius,
+    BorderRadius? tooltipBorderRadius,
     EdgeInsets? tooltipPadding,
     double? tooltipMargin,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
@@ -709,6 +742,8 @@ class BarTouchTooltipData with EquatableMixin {
     double? rotateAngle,
     BorderSide? tooltipBorder,
   })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+        tooltipBorderRadius = tooltipBorderRadius ??
+            BorderRadius.circular(tooltipRoundedRadius ?? 4),
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         tooltipMargin = tooltipMargin ?? 16,
@@ -726,7 +761,11 @@ class BarTouchTooltipData with EquatableMixin {
         super();
 
   /// Sets a rounded radius for the tooltip.
+  @Deprecated('use tooltipBorderRadius instead')
   final double tooltipRoundedRadius;
+
+  /// Sets a border radius for the tooltip.
+  final BorderRadius tooltipBorderRadius;
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
@@ -768,6 +807,7 @@ class BarTouchTooltipData with EquatableMixin {
   @override
   List<Object?> get props => [
         tooltipRoundedRadius,
+        tooltipBorderRadius,
         tooltipPadding,
         tooltipMargin,
         tooltipHorizontalAlignment,
@@ -926,6 +966,46 @@ class BarTouchedSpot extends TouchedSpot with EquatableMixin {
         touchedStackItemIndex,
         spot,
         offset,
+      ];
+}
+
+/// It is the input of the [GetSpotRangeErrorPainter] callback in
+/// the [BarChartData.errorIndicatorData]
+///
+/// As you see, we have some properties that are related to each individual
+/// rod (the object we show the error range on top of it).
+/// For example,
+/// [group] is the group that the rod belongs to,
+/// [groupIndex] is the index of the group,
+/// [rod] is the rod that the error range belongs to,
+/// [barRodIndex] is the index of the rod in the group.
+class BarChartSpotErrorRangeCallbackInput
+    extends FlSpotErrorRangeCallbackInput {
+  BarChartSpotErrorRangeCallbackInput({
+    required this.group,
+    required this.groupIndex,
+    required this.rod,
+    required this.barRodIndex,
+  });
+
+  // The group that the rod belongs to
+  final BarChartGroupData group;
+
+  // The index of the group that the rod belongs to
+  final int groupIndex;
+
+  // The rod that the error range belongs to
+  final BarChartRodData rod;
+
+  // The index of the rod in the group
+  final int barRodIndex;
+
+  @override
+  List<Object?> get props => [
+        group,
+        groupIndex,
+        rod,
+        barRodIndex,
       ];
 }
 
