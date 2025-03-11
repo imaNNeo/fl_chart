@@ -293,6 +293,7 @@ class RadarDataSet with EquatableMixin {
   RadarDataSet({
     List<RadarEntry>? dataEntries,
     Color? fillColor,
+    Gradient? gradient,
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
@@ -301,7 +302,8 @@ class RadarDataSet with EquatableMixin {
           'Radar needs at least 3 RadarEntry',
         ),
         dataEntries = dataEntries ?? const [],
-        fillColor = fillColor ?? Colors.cyan.withValues(alpha: 0.2),
+        fillColor = fillColor ?? Colors.cyan.withOpacity(0.2),
+        gradient = gradient,
         borderColor = borderColor ?? Colors.cyan,
         borderWidth = borderWidth ?? 2.0,
         entryRadius = entryRadius ?? 5.0;
@@ -311,6 +313,9 @@ class RadarDataSet with EquatableMixin {
 
   /// defines the color that fills the [RadarDataSet].
   final Color fillColor;
+
+  // defines the gradient color that fills the [RadarDataSet].
+  final Gradient? gradient;
 
   /// defines the border color of the [RadarDataSet].
   /// if [borderColor] is not defined it will replaced with [fillColor].
@@ -329,6 +334,7 @@ class RadarDataSet with EquatableMixin {
   RadarDataSet copyWith({
     List<RadarEntry>? dataEntries,
     Color? fillColor,
+    Gradient? gradient,
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
@@ -336,6 +342,7 @@ class RadarDataSet with EquatableMixin {
       RadarDataSet(
         dataEntries: dataEntries ?? this.dataEntries,
         fillColor: fillColor ?? this.fillColor,
+        gradient: gradient,
         borderColor: borderColor ?? this.borderColor,
         borderWidth: borderWidth ?? this.borderWidth,
         entryRadius: entryRadius ?? this.entryRadius,
@@ -346,6 +353,7 @@ class RadarDataSet with EquatableMixin {
       RadarDataSet(
         dataEntries: lerpRadarEntryList(a.dataEntries, b.dataEntries, t),
         fillColor: Color.lerp(a.fillColor, b.fillColor, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
         borderColor: Color.lerp(a.borderColor, b.borderColor, t),
         borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t),
         entryRadius: lerpDouble(a.entryRadius, b.entryRadius, t),
@@ -356,6 +364,7 @@ class RadarDataSet with EquatableMixin {
   List<Object?> get props => [
         dataEntries,
         fillColor,
+        gradient,
         borderColor,
         borderWidth,
         entryRadius,
