@@ -64,9 +64,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   RadarChartData({
     @required List<RadarDataSet>? dataSets,
     Color? radarBackgroundColor,
-    Color? radarShadowColor,
     BorderSide? radarBorderData,
-    double? elevation,
     RadarShape? radarShape,
     this.getTitle,
     this.titleTextStyle,
@@ -91,9 +89,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         ),
         dataSets = dataSets ?? const [],
         radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
-        radarShadowColor = radarShadowColor ?? Colors.transparent,
         radarBorderData = radarBorderData ?? const BorderSide(width: 2),
-        elevation = elevation ?? 0,
         radarShape = radarShape ?? RadarShape.circle,
         radarTouchData = radarTouchData ?? RadarTouchData(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
@@ -108,14 +104,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// [radarBackgroundColor] draw the background color of the [RadarChart]
   final Color radarBackgroundColor;
 
-  /// [radarShadowColor] draw the elevation shadow color of the [RadarChart]
-  final Color radarShadowColor;
-
   /// [radarBorderData] is used to draw [RadarChart] border
   final BorderSide radarBorderData;
-
-  /// [elevation] is used to draw [RadarChart] elevation
-  final double elevation;
 
   /// [radarShape] is used to draw [RadarChart] border and background
   final RadarShape radarShape;
@@ -205,9 +195,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   RadarChartData copyWith({
     List<RadarDataSet>? dataSets,
     Color? radarBackgroundColor,
-    Color? radarShadowColor,
     BorderSide? radarBorderData,
-    double? elevation,
     RadarShape? radarShape,
     GetTitleByIndexFunction? getTitle,
     TextStyle? titleTextStyle,
@@ -223,9 +211,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
       RadarChartData(
         dataSets: dataSets ?? this.dataSets,
         radarBackgroundColor: radarBackgroundColor ?? this.radarBackgroundColor,
-        radarShadowColor: radarShadowColor ?? this.radarShadowColor,
         radarBorderData: radarBorderData ?? this.radarBorderData,
-        elevation: elevation ?? this.elevation,
         radarShape: radarShape ?? this.radarShape,
         getTitle: getTitle ?? this.getTitle,
         titleTextStyle: titleTextStyle ?? this.titleTextStyle,
@@ -248,7 +234,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         dataSets: lerpRadarDataSetList(a.dataSets, b.dataSets, t),
         radarBackgroundColor:
             Color.lerp(a.radarBackgroundColor, b.radarBackgroundColor, t),
-        radarShadowColor: Color.lerp(a.radarShadowColor, b.radarShadowColor, t),
         getTitle: b.getTitle,
         titleTextStyle: TextStyle.lerp(a.titleTextStyle, b.titleTextStyle, t),
         titlePositionPercentageOffset: lerpDouble(
@@ -261,7 +246,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         gridBorderData: BorderSide.lerp(a.gridBorderData, b.gridBorderData, t),
         radarBorderData:
             BorderSide.lerp(a.radarBorderData, b.radarBorderData, t),
-        elevation: lerpDouble(a.elevation, b.elevation, t),
         radarShape: b.radarShape,
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
@@ -279,9 +263,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         borderData,
         dataSets,
         radarBackgroundColor,
-        radarShadowColor,
         radarBorderData,
-        elevation,
         radarShape,
         getTitle,
         titleTextStyle,
