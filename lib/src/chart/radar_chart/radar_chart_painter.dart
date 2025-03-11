@@ -166,12 +166,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       final path =
           _generatePolygonPath(centerX, centerY, radius, data.titleCount);
 
-      /// draw radar shadow
-      if (data.elevation > 0) {
-        canvasWrapper.canvas
-            .drawShadow(path, data.radarShadowColor, data.elevation, true);
-      }
-
       /// draw radar background
       canvasWrapper
         ..drawPath(path, _backgroundPaint)
