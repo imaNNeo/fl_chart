@@ -1,3 +1,4 @@
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
@@ -8,6 +9,15 @@ import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+class CustomFlTouchEvent extends FlTouchEvent {
+  CustomFlTouchEvent({required this.x, required this.y});
+  final double x;
+  final double y;
+
+  @override
+  Offset? get localPosition => Offset(x, y);
+}
 
 /// Renders a line chart as a widget, using provided [LineChartData].
 class LineChart extends ImplicitlyAnimatedWidget {
@@ -23,10 +33,17 @@ class LineChart extends ImplicitlyAnimatedWidget {
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
     this.transformationConfig = const FlTransformationConfig(),
+    this.showTooltipWhenNotTouched = true,
+    this.initialSpotX,
+    this.initialSpotY,
   });
 
   /// Determines how the [LineChart] should be look like.
   final LineChartData data;
+
+  final bool showTooltipWhenNotTouched;
+  final double? initialSpotX;
+  final double? initialSpotY;
 
   /// {@macro fl_chart.AxisChartScaffoldWidget.transformationConfig}
   final FlTransformationConfig transformationConfig;
@@ -54,6 +71,32 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
   final Map<int, List<int>> _showingTouchedIndicators = {};
 
   final _lineChartHelper = LineChartHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.showTooltipWhenNotTouched) {
+        final index = widget.data.lineBarsData[0].spots.indexOf(
+          FlSpot(widget.initialSpotX!, widget.initialSpotY!),
+        );
+
+        _handleBuiltInTouch(
+          CustomFlTouchEvent(x: widget.initialSpotX!, y: widget.initialSpotY!),
+          LineTouchResponse(
+            [
+              TouchLineBarSpot(
+                widget.data.lineBarsData[0],
+                index,
+                widget.data.lineBarsData[0].spots[index],
+                widget.data.lineBarsData[0].spots[index].x,
+              ),
+            ],
+          ),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,15 +173,19 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
     if (!mounted) {
       return;
     }
+
     _providedTouchCallback?.call(event, touchResponse);
 
     if (!event.isInterestedForInteractions ||
         touchResponse?.lineBarSpots == null ||
         touchResponse!.lineBarSpots!.isEmpty) {
-      setState(() {
-        _showingTouchedTooltips.clear();
-        _showingTouchedIndicators.clear();
-      });
+      if (!widget.showTooltipWhenNotTouched) {
+        setState(() {
+          _showingTouchedTooltips.clear();
+          _showingTouchedIndicators.clear();
+        });
+      }
+
       return;
     }
 
