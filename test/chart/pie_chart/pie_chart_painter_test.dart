@@ -614,17 +614,40 @@ void main() {
 
   group('drawSection()', () {
     test('test 1', () {
-      const viewSize = Size(200, 200);
-      final data = PieChartData(
-        centerSpaceColor: MockData.color1,
-        sectionsSpace: 10,
-        sections: [
-          PieChartSectionData(color: MockData.color1, value: 1),
-          PieChartSectionData(color: MockData.color2, value: 2),
-          PieChartSectionData(color: MockData.color3, value: 3),
-          PieChartSectionData(color: MockData.color4, value: 4),
-        ],
-      );
+       const viewSize = Size(200, 200);
+    final data = PieChartData(
+      centerSpaceColor: MockData.color1,
+      sectionsSpace: 10,
+      sections: [
+        PieChartSectionData(
+          color: MockData.color1,
+          value: 1,
+          borderSide: MockData.borderSide1,
+          borderRadius: BorderRadius.circular(10.0), // Adding border radius
+        ),
+        PieChartSectionData(
+          color: MockData.color2,
+          value: 2,
+          borderSide: MockData.borderSide2,
+          borderRadius: BorderRadius.circular(20.0), // Different border radius
+        ),
+        PieChartSectionData(
+          color: MockData.color3,
+          value: 3,
+          borderSide: MockData.borderSide3,
+          borderRadius: BorderRadius.zero, // No border radius
+        ),
+        PieChartSectionData(
+          color: MockData.color4,
+          value: 4,
+          borderSide: MockData.borderSide4,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            bottomRight: Radius.circular(30.0),
+          ), // Asymmetric border radius
+        ),
+      ],
+    );
       final barChartPainter = PieChartPainter();
 
       final mockCanvasWrapper = MockCanvasWrapper();
