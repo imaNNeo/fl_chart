@@ -31,4 +31,17 @@ class Line {
     final diffOffset = to - from;
     return diffOffset * (1.0 / magnitude());
   }
+
+  /// Returns a new [Line] that is shortened by [value] from both ends.
+  Line subtract(double value) {
+    if (value == 0) {
+      return Line(from, to);
+    }
+
+    final normalized = normalize();
+    return Line(
+      from + (normalized * value),
+      to - (normalized * value),
+    );
+  }
 }

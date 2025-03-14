@@ -159,6 +159,7 @@ class PieChartSectionData with EquatableMixin {
     Color? color,
     this.gradient,
     double? radius,
+    this.borderRadius = 0,
     bool? showTitle,
     this.titleStyle,
     String? title,
@@ -166,7 +167,8 @@ class PieChartSectionData with EquatableMixin {
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
-  })  : value = value ?? 10,
+  })  : assert(borderRadius >= 0, 'borderRadius cannot be negative.'),
+        value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
@@ -191,6 +193,9 @@ class PieChartSectionData with EquatableMixin {
 
   /// Defines the radius of section.
   final double radius;
+
+  /// Defines the border radius of section.
+  final double borderRadius;
 
   /// Defines show or hide the title of section.
   final bool showTitle;
