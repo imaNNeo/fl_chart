@@ -245,14 +245,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         borderRadius,
       );
 
-      final innerArc = PieChartArcMeta.compute(
-        centerRadiusRect,
-        endRadians,
-        -sweepRadians,
-        borderRadius,
-      );
+      // Compute inner arc only if `centerRadius` is greater than 0.
+      final innerArc = centerRadius > 0
+          ? PieChartArcMeta.compute(
+              centerRadiusRect,
+              endRadians,
+              -sweepRadians,
+              borderRadius,
+            )
+          : null;
 
-      // FIXME: `centerRadius == 0` throws an exception.
       sectionPath = Path()
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..lineTo(startLine.to.dx, startLine.to.dy)
@@ -264,16 +266,25 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           false,
         )
         ..arcToPoint(endLine.to, radius: radius)
-        ..lineTo(endLine.from.dx, endLine.from.dy)
-        ..arcToPoint(innerArc.from, radius: radius)
-        ..arcTo(
-          centerRadiusRect,
-          innerArc.startRadians,
-          innerArc.sweepRadians,
-          false,
-        )
-        ..arcToPoint(startLine.from, radius: radius)
-        ..close();
+        ..lineTo(endLine.from.dx, endLine.from.dy);
+
+      // Handles the case when `centerRadius == 0`.
+      if (innerArc == null) {
+        sectionPath
+          ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+          ..close();
+      } else {
+        sectionPath
+          ..arcToPoint(innerArc.from, radius: radius)
+          ..arcTo(
+            centerRadiusRect,
+            innerArc.startRadians,
+            innerArc.sweepRadians,
+            false,
+          )
+          ..arcToPoint(startLine.from, radius: radius)
+          ..close();
+      }
     }
 
     // FIXME: `sectionSpace` breaks rounding of the corners.
