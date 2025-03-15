@@ -234,7 +234,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
         ..close();
     } else {
-      // FIXME: During animations, `borderRadius` is not respected.
       final radius = Radius.circular(borderRadius);
       final startLine = Line(startLineFrom, startLineTo).subtract(borderRadius);
       final endLine = Line(endLineFrom, endLineTo).subtract(borderRadius);
