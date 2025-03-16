@@ -31,20 +31,19 @@ class PieChartArcMeta {
     this.startRadians,
     this.sweepRadians,
     this.endRadians,
+    this.radius,
   );
 
   factory PieChartArcMeta.compute(
-    Rect sectionRadiusRect,
+    Rect radiusRect,
     double startRadians,
     double sweepRadians,
     double indent,
   ) {
-    // FIXME: It sometimes looks weird??
-
-    // `sectionRadiusRect` is based on `Rect.fromCircle` (i.e. is a square).
-    final size = sectionRadiusRect.width;
-    final center = sectionRadiusRect.center;
-    final r = size / 2;
+    // `radiusRect` is based on `Rect.fromCircle` (i.e. is a square).
+    final diameter = radiusRect.width;
+    final center = radiusRect.center;
+    final r = diameter / 2;
     final endRadians = startRadians + sweepRadians;
 
     // Calculate effective radius at start and end angles.
@@ -54,15 +53,17 @@ class PieChartArcMeta {
               math.pow(r * math.cos(startRadians), 2),
         );
 
+    // Calculate effective padding value.
+    final effIndent = math.min(indent, r / 2);
+
     // Calculate angle adjustments.
-    final startAngleAdjustment = indent / effRadius;
-    final endAngleAdjustment = indent / effRadius;
+    final angleAdjustment = effIndent / effRadius;
 
     // Calculate effective angles with padding.
-    final effectiveStartRadians = startRadians +
-        (sweepRadians > 0 ? startAngleAdjustment : -startAngleAdjustment);
-    final effectiveEndRadians = endRadians -
-        (sweepRadians > 0 ? endAngleAdjustment : -endAngleAdjustment);
+    final effectiveStartRadians =
+        startRadians + (sweepRadians > 0 ? angleAdjustment : -angleAdjustment);
+    final effectiveEndRadians =
+        endRadians - (sweepRadians > 0 ? angleAdjustment : -angleAdjustment);
     final effectiveSweepRadians = effectiveEndRadians - effectiveStartRadians;
 
     // Coordinates of the start point.
@@ -79,6 +80,7 @@ class PieChartArcMeta {
       effectiveStartRadians,
       effectiveSweepRadians,
       effectiveEndRadians,
+      Radius.circular(effIndent),
     );
   }
 
@@ -87,4 +89,5 @@ class PieChartArcMeta {
   final double startRadians;
   final double sweepRadians;
   final double endRadians;
+  final Radius radius;
 }

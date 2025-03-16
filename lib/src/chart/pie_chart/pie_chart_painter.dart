@@ -255,17 +255,20 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
             )
           : null;
 
+      // FIXME: Smaller sections tend to overlap - remove rounded borders
+      // and draw a circle straight to the target point.
+
       sectionPath = Path()
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..lineTo(startLine.to.dx, startLine.to.dy)
-        ..arcToPoint(outerArc.from, radius: radius)
+        ..arcToPoint(outerArc.from, radius: outerArc.radius)
         ..arcTo(
           sectionRadiusRect,
           outerArc.startRadians,
           outerArc.sweepRadians,
           false,
         )
-        ..arcToPoint(endLine.to, radius: radius)
+        ..arcToPoint(endLine.to, radius: outerArc.radius)
         ..lineTo(endLine.from.dx, endLine.from.dy);
 
       // Handles the case when `centerRadius == 0`.
@@ -274,6 +277,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
           ..close();
       } else {
+        // FIXME: To make inner arc look good, we have to find the smallest
+        // innerArc.radius in all sections and set it as the radius for all sections.
+        //
+        // Q: Does it also apply to `outerArc`?
         sectionPath
           ..arcToPoint(innerArc.from, radius: radius)
           ..arcTo(
