@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
+import 'package:fl_chart/src/chart/pie_chart/pie_chart_helper.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -204,28 +205,153 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final sweepRadians = Utils().radians(sectionDegree);
     final endRadians = startRadians + sweepRadians;
 
-    final startLineDirection =
-        Offset(math.cos(startRadians), math.sin(startRadians));
+    final startLineDirection = Offset(
+      math.cos(startRadians),
+      math.sin(startRadians),
+    );
 
     final startLineFrom = center + startLineDirection * centerRadius;
     final startLineTo = startLineFrom + startLineDirection * section.radius;
-    final startLine = Line(startLineFrom, startLineTo);
 
     final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
 
     final endLineFrom = center + endLineDirection * centerRadius;
     final endLineTo = endLineFrom + endLineDirection * section.radius;
-    final endLine = Line(endLineFrom, endLineTo);
 
-    var sectionPath = Path()
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..lineTo(startLine.to.dx, startLine.to.dy)
-      ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
-      ..lineTo(endLine.from.dx, endLine.from.dy)
-      ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..close();
+    Path sectionPath;
+    final borderRadius = section.borderRadius;
 
+    // Avoids excessive calculations when `borderRadius` is set to 0.
+    if (borderRadius == 0) {
+      final startLine = Line(startLineFrom, startLineTo);
+      final endLine = Line(endLineFrom, endLineTo);
+
+      sectionPath = Path()
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..lineTo(startLine.to.dx, startLine.to.dy)
+        ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+        ..lineTo(endLine.from.dx, endLine.from.dy)
+        ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+        ..close();
+    } else {
+      final radius = Radius.circular(borderRadius);
+      final startLine = Line(startLineFrom, startLineTo).subtract(borderRadius);
+      final endLine = Line(endLineFrom, endLineTo).subtract(borderRadius);
+
+      // Start drawing the section path.
+      sectionPath = Path()
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..lineTo(startLine.to.dx, startLine.to.dy);
+
+      final outerArc = PieChartArcMeta.compute(
+        sectionRadiusRect,
+        startRadians,
+        sweepRadians,
+        borderRadius,
+      );
+
+      // Draw the outer arc.
+      if (outerArc.hasArcCorners) {
+        sectionPath
+          ..arcToPoint(outerArc.from, radius: outerArc.radius)
+          ..arcTo(
+            sectionRadiusRect,
+            outerArc.startRadians,
+            outerArc.sweepRadians,
+            false,
+          )
+          ..arcToPoint(endLine.to, radius: outerArc.radius);
+      }
+      // Custom logic for a case when `borderRadius` is greater than the
+      // section's width.
+      else {
+        final controlStart =
+            Line(startLineFrom, startLineTo).subtract(-borderRadius * 0.5);
+        final controlEnd =
+            Line(endLineFrom, endLineTo).subtract(-borderRadius * 0.5);
+
+        final controlPoint1 = Offset(
+          controlStart.to.dx,
+          controlStart.to.dy,
+        );
+
+        final controlPoint2 = Offset(
+          controlStart.to.dx + (controlEnd.to.dx - controlStart.to.dx),
+          controlStart.to.dy + (controlEnd.to.dy - controlStart.to.dy),
+        );
+
+        sectionPath.cubicTo(
+          controlPoint1.dx,
+          controlPoint1.dy,
+          controlPoint2.dx,
+          controlPoint2.dy,
+          endLine.to.dx,
+          endLine.to.dy,
+        );
+      }
+
+      // Draw the second line of a section.
+      sectionPath.lineTo(endLine.from.dx, endLine.from.dy);
+
+      // Compute inner arc only if `centerRadius` is greater than 0.
+      final innerArc = centerRadius > 0
+          ? PieChartArcMeta.compute(
+              centerRadiusRect,
+              endRadians,
+              -sweepRadians,
+              borderRadius,
+            )
+          : null;
+
+      // Handles a case when `centerRadius == 0` (there is no inner arc).
+      if (innerArc == null) {
+        sectionPath
+          ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+          ..close();
+      }
+      // Regular rounded corners for the inner arc.
+      else if (innerArc.hasArcCorners) {
+        sectionPath
+          ..arcToPoint(innerArc.from, radius: radius)
+          ..arcTo(
+            centerRadiusRect,
+            innerArc.startRadians,
+            innerArc.sweepRadians,
+            false,
+          )
+          ..arcToPoint(startLine.from, radius: radius)
+          ..close();
+      }
+      // Custom logic for a case when `borderRadius` is greater than the
+      // section's width.
+      else {
+        final controlStart =
+            Line(endLineFrom, endLineTo).subtract(-borderRadius * 0.5);
+        final controlEnd =
+            Line(startLineFrom, startLineTo).subtract(-borderRadius * 0.5);
+
+        final controlPoint1 = Offset(
+          controlEnd.from.dx + (controlStart.from.dx - controlEnd.from.dx),
+          controlEnd.from.dy + (controlStart.from.dy - controlEnd.from.dy),
+        );
+
+        final controlPoint2 = Offset(
+          controlEnd.from.dx,
+          controlEnd.from.dy,
+        );
+
+        sectionPath.cubicTo(
+          controlPoint1.dx,
+          controlPoint1.dy,
+          controlPoint2.dx,
+          controlPoint2.dy,
+          startLine.from.dx,
+          startLine.from.dy,
+        );
+      }
+    }
+
+    // FIXME: `sectionSpace` breaks rounding of the corners.
     /// Subtract section space from the sectionPath
     if (sectionSpace != 0) {
       final startLineSeparatorPath = createRectPathAroundLine(
