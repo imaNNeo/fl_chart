@@ -238,6 +238,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final startLine = Line(startLineFrom, startLineTo).subtract(borderRadius);
       final endLine = Line(endLineFrom, endLineTo).subtract(borderRadius);
 
+      // Start drawing the section path.
+      sectionPath = Path()
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..lineTo(startLine.to.dx, startLine.to.dy);
+
       final outerArc = PieChartArcMeta.compute(
         sectionRadiusRect,
         startRadians,
@@ -245,20 +250,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         borderRadius,
       );
 
-      // Compute inner arc only if `centerRadius` is greater than 0.
-      final innerArc = centerRadius > 0
-          ? PieChartArcMeta.compute(
-              centerRadiusRect,
-              endRadians,
-              -sweepRadians,
-              borderRadius,
-            )
-          : null;
-
-      sectionPath = Path()
-        ..moveTo(startLine.from.dx, startLine.from.dy)
-        ..lineTo(startLine.to.dx, startLine.to.dy);
-
+      // Draw the outer arc.
       if (outerArc.hasArcCorners) {
         sectionPath
           ..arcToPoint(outerArc.from, radius: outerArc.radius)
@@ -298,15 +290,26 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         );
       }
 
+      // Draw the second line of a section.
       sectionPath.lineTo(endLine.from.dx, endLine.from.dy);
 
-      // Handles a case when `centerRadius == 0`.
+      // Compute inner arc only if `centerRadius` is greater than 0.
+      final innerArc = centerRadius > 0
+          ? PieChartArcMeta.compute(
+              centerRadiusRect,
+              endRadians,
+              -sweepRadians,
+              borderRadius,
+            )
+          : null;
+
+      // Handles a case when `centerRadius == 0` (there is no inner arc).
       if (innerArc == null) {
         sectionPath
           ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
           ..close();
       }
-      // Standard rounded corners.
+      // Regular rounded corners for the inner arc.
       else if (innerArc.hasArcCorners) {
         sectionPath
           ..arcToPoint(innerArc.from, radius: radius)
