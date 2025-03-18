@@ -305,8 +305,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionPath
           ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
           ..close();
-        // FIXME: Handle inner arc.
-      } else if (innerArc.hasArcCorners || true) {
+      } else if (innerArc.hasArcCorners) {
         sectionPath
           ..arcToPoint(innerArc.from, radius: radius)
           ..arcTo(
@@ -317,6 +316,33 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           )
           ..arcToPoint(startLine.from, radius: radius)
           ..close();
+      }
+      // Custom logic for a case when `borderRadius` is greater than the
+      // section's width.
+      else {
+        final controlStart =
+            Line(endLineFrom, endLineTo).subtract(-borderRadius * 0.5);
+        final controlEnd =
+            Line(startLineFrom, startLineTo).subtract(-borderRadius * 0.5);
+
+        final controlPoint1 = Offset(
+          controlEnd.from.dx + (controlStart.from.dx - controlEnd.from.dx),
+          controlEnd.from.dy + (controlStart.from.dy - controlEnd.from.dy),
+        );
+
+        final controlPoint2 = Offset(
+          controlEnd.from.dx,
+          controlEnd.from.dy,
+        );
+
+        sectionPath.cubicTo(
+          controlPoint1.dx,
+          controlPoint1.dy,
+          controlPoint2.dx,
+          controlPoint2.dy,
+          startLine.from.dx,
+          startLine.from.dy,
+        );
       }
     }
 
