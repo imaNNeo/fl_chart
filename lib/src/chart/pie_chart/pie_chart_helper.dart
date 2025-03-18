@@ -47,40 +47,47 @@ class PieChartArcMeta {
     final endRadians = startRadians + sweepRadians;
 
     // Calculate effective radius at start and end angles.
-    final effRadius = (r * r) /
+    final effectiveRadius = (r * r) /
         math.sqrt(
           math.pow(r * math.sin(startRadians), 2) +
               math.pow(r * math.cos(startRadians), 2),
         );
 
-    // Calculate effective padding value.
-    final effIndent = math.min(indent, r / 2);
-
     // Calculate angle adjustments.
-    final angleAdjustment = effIndent / effRadius;
+    final angleAdjustment = sweepRadians > 0
+        ? (indent / effectiveRadius)
+        : -(indent / effectiveRadius);
 
     // Calculate effective angles with padding.
-    final effectiveStartRadians =
-        startRadians + (sweepRadians > 0 ? angleAdjustment : -angleAdjustment);
-    final effectiveEndRadians =
-        endRadians - (sweepRadians > 0 ? angleAdjustment : -angleAdjustment);
+    final effectiveStartRadians = startRadians + angleAdjustment;
+    final effectiveEndRadians = endRadians - angleAdjustment;
     final effectiveSweepRadians = effectiveEndRadians - effectiveStartRadians;
 
     // Coordinates of the start point.
-    final startX = center.dx + r * math.cos(effectiveStartRadians);
-    final startY = center.dy + r * math.sin(effectiveStartRadians);
+    final start = Offset(
+      center.dx + r * math.cos(effectiveStartRadians),
+      center.dy + r * math.sin(effectiveStartRadians),
+    );
 
     // Coordinates of the end point.
-    final endX = center.dx + r * math.cos(effectiveEndRadians);
-    final endY = center.dy + r * math.sin(effectiveEndRadians);
+    final end = Offset(
+      center.dx + r * math.cos(effectiveEndRadians),
+      center.dy + r * math.sin(effectiveEndRadians),
+    );
+
+    // If `effectiveSweepRadians` has a different sign than `sweepRadians` we
+    // have to draw a circle instead of an arc (there is no enough space to draw
+    // an arc as it exceeds the bounds).
+    final hasArcCorners =
+        sweepRadians.isNegative == effectiveSweepRadians.isNegative;
 
     return PieChartArcMeta(
-      Offset(startX, startY),
-      Offset(endX, endY),
+      start,
+      end,
       effectiveStartRadians,
-      effectiveSweepRadians,
+      hasArcCorners ? effectiveSweepRadians : 0.0,
       effectiveEndRadians,
-      Radius.circular(effIndent),
+      Radius.circular(indent),
     );
   }
 
@@ -90,4 +97,7 @@ class PieChartArcMeta {
   final double sweepRadians;
   final double endRadians;
   final Radius radius;
+
+  /// Whether the section is big enough to draw corners with an arc.
+  bool get hasArcCorners => sweepRadians != 0;
 }

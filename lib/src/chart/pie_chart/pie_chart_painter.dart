@@ -255,32 +255,58 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
             )
           : null;
 
-      // FIXME: Smaller sections tend to overlap - remove rounded borders
-      // and draw a circle straight to the target point.
-
       sectionPath = Path()
         ..moveTo(startLine.from.dx, startLine.from.dy)
-        ..lineTo(startLine.to.dx, startLine.to.dy)
-        ..arcToPoint(outerArc.from, radius: outerArc.radius)
-        ..arcTo(
-          sectionRadiusRect,
-          outerArc.startRadians,
-          outerArc.sweepRadians,
-          false,
-        )
-        ..arcToPoint(endLine.to, radius: outerArc.radius)
-        ..lineTo(endLine.from.dx, endLine.from.dy);
+        ..lineTo(startLine.to.dx, startLine.to.dy);
 
-      // Handles the case when `centerRadius == 0`.
+      if (outerArc.hasArcCorners) {
+        sectionPath
+          ..arcToPoint(outerArc.from, radius: outerArc.radius)
+          ..arcTo(
+            sectionRadiusRect,
+            outerArc.startRadians,
+            outerArc.sweepRadians,
+            false,
+          )
+          ..arcToPoint(endLine.to, radius: outerArc.radius);
+      }
+      // Custom logic for a case when `borderRadius` is greater than the
+      // section's width.
+      else {
+        final controlStart =
+            Line(startLineFrom, startLineTo).subtract(-borderRadius * 0.5);
+        final controlEnd =
+            Line(endLineFrom, endLineTo).subtract(-borderRadius * 0.5);
+
+        final controlPoint1 = Offset(
+          controlStart.to.dx,
+          controlStart.to.dy,
+        );
+
+        final controlPoint2 = Offset(
+          controlStart.to.dx + (controlEnd.to.dx - controlStart.to.dx),
+          controlStart.to.dy + (controlEnd.to.dy - controlStart.to.dy),
+        );
+
+        sectionPath.cubicTo(
+          controlPoint1.dx,
+          controlPoint1.dy,
+          controlPoint2.dx,
+          controlPoint2.dy,
+          endLine.to.dx,
+          endLine.to.dy,
+        );
+      }
+
+      sectionPath.lineTo(endLine.from.dx, endLine.from.dy);
+
+      // Handles a case when `centerRadius == 0`.
       if (innerArc == null) {
         sectionPath
           ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
           ..close();
-      } else {
-        // FIXME: To make inner arc look good, we have to find the smallest
-        // innerArc.radius in all sections and set it as the radius for all sections.
-        //
-        // Q: Does it also apply to `outerArc`?
+        // FIXME: Handle inner arc.
+      } else if (innerArc.hasArcCorners || true) {
         sectionPath
           ..arcToPoint(innerArc.from, radius: radius)
           ..arcTo(
