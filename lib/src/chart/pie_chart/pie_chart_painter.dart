@@ -305,7 +305,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionPath
           ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
           ..close();
-      } else if (innerArc.hasArcCorners) {
+      }
+      // Standard rounded corners.
+      else if (innerArc.hasArcCorners) {
         sectionPath
           ..arcToPoint(innerArc.from, radius: radius)
           ..arcTo(
