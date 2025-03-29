@@ -193,9 +193,20 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     double centerRadius, [
     CanvasWrapper? canvasWrapper,
   ]) {
+    final utils = Utils();
+
+    // Create proxy variables that can be modified to create space
+    // between sections when `sectionSpace != 0`.
+    var outerStartAngle = tempAngle;
+    var outerSweepAngle = sectionDegree;
+
+    var innerStartAngle = tempAngle;
+    var innerSweepAngle = sectionDegree;
+
+    final sectionRadius = centerRadius + section.radius;
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
-      radius: centerRadius + section.radius,
+      radius: sectionRadius,
     );
 
     final centerRadiusRect = Rect.fromCircle(
@@ -203,22 +214,59 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       radius: centerRadius,
     );
 
-    final startRadians = Utils().radians(tempAngle);
-    final sweepRadians = Utils().radians(sectionDegree);
-    final endRadians = startRadians + sweepRadians;
+    if (sectionSpace != 0) {
+      // Calculate outer space angle
+      final outerSpaceAngleDegrees =
+          utils.degrees(sectionSpace / sectionRadius);
 
-    final startLineDirection = Offset(
-      math.cos(startRadians),
-      math.sin(startRadians),
+      // Adjust angles to create gaps for outer arc
+      outerStartAngle += outerSpaceAngleDegrees / 2;
+      outerSweepAngle -= outerSpaceAngleDegrees;
+
+      // Calculate inner space angle if centerRadius > 0
+      if (centerRadius > 0) {
+        final innerSpaceAngleDegrees =
+            utils.degrees(sectionSpace / centerRadius);
+
+        // Adjust angles for inner arc
+        innerStartAngle += innerSpaceAngleDegrees / 2;
+        innerSweepAngle -= innerSpaceAngleDegrees;
+      } else {
+        // If no inner radius, use the same angles
+        innerStartAngle = outerStartAngle;
+        innerSweepAngle = outerSweepAngle;
+      }
+    }
+
+    final outerStartRadians = utils.radians(outerStartAngle);
+    final outerSweepRadians = utils.radians(outerSweepAngle);
+    final outerEndRadians = outerStartRadians + outerSweepRadians;
+
+    // Calculate inner arc angles
+    final innerStartRadians = utils.radians(innerStartAngle);
+    final innerSweepRadians = utils.radians(innerSweepAngle);
+    final innerEndRadians = innerStartRadians + innerSweepRadians;
+
+    final outerStartLineDirection = Offset(
+      math.cos(outerStartRadians),
+      math.sin(outerStartRadians),
     );
 
-    final startLineFrom = center + startLineDirection * centerRadius;
-    final startLineTo = startLineFrom + startLineDirection * section.radius;
+    final innerStartLineDirection = Offset(
+      math.cos(innerStartRadians),
+      math.sin(innerStartRadians),
+    );
 
-    final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
+    final startLineFrom = center + innerStartLineDirection * centerRadius;
+    final startLineTo = center + outerStartLineDirection * sectionRadius;
 
-    final endLineFrom = center + endLineDirection * centerRadius;
-    final endLineTo = endLineFrom + endLineDirection * section.radius;
+    final outerEndLineDirection =
+        Offset(math.cos(outerEndRadians), math.sin(outerEndRadians));
+    final innerEndLineDirection =
+        Offset(math.cos(innerEndRadians), math.sin(innerEndRadians));
+
+    final endLineFrom = center + innerEndLineDirection * centerRadius;
+    final endLineTo = center + outerEndLineDirection * sectionRadius;
 
     Path sectionPath;
     final borderRadius = section.borderRadius;
@@ -231,9 +279,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       sectionPath = Path()
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..lineTo(startLine.to.dx, startLine.to.dy)
-        ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+        ..arcTo(sectionRadiusRect, outerStartRadians, outerSweepRadians, false)
         ..lineTo(endLine.from.dx, endLine.from.dy)
-        ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+        ..arcTo(centerRadiusRect, innerEndRadians, -innerSweepRadians, false)
         ..close();
     } else {
       final radius = Radius.circular(borderRadius);
@@ -247,8 +295,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       final outerArc = PieChartArcMeta.compute(
         radiusRect: sectionRadiusRect,
-        startRadians: startRadians,
-        sweepRadians: sweepRadians,
+        startRadians: outerStartRadians,
+        sweepRadians: outerSweepRadians,
         borderRadius: borderRadius,
       );
 
@@ -299,8 +347,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final innerArc = centerRadius > 0
           ? PieChartArcMeta.compute(
               radiusRect: centerRadiusRect,
-              startRadians: endRadians,
-              sweepRadians: -sweepRadians,
+              startRadians: innerEndRadians,
+              sweepRadians: -innerSweepRadians,
               borderRadius: borderRadius,
             )
           : null;
@@ -308,7 +356,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       // Handles a case when `centerRadius == 0` (there is no inner arc).
       if (innerArc == null) {
         sectionPath
-          ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+          ..arcTo(centerRadiusRect, innerEndRadians, -innerSweepRadians, false)
           ..close();
       }
       // Regular rounded corners for the inner arc.
@@ -350,38 +398,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           startLine.from.dx,
           startLine.from.dy,
         );
-      }
-    }
-
-    // FIXME: `sectionSpace` breaks rounding of the corners.
-    /// Subtract section space from the sectionPath
-    if (sectionSpace != 0) {
-      final startLineSeparatorPath = createRectPathAroundLine(
-        Line(startLineFrom, startLineTo),
-        sectionSpace,
-      );
-      try {
-        sectionPath = Path.combine(
-          PathOperation.difference,
-          sectionPath,
-          startLineSeparatorPath,
-        );
-      } catch (_) {
-        /// It's a flutter engine issue with [Path.combine] in web-html renderer
-        /// https://github.com/imaNNeo/fl_chart/issues/955
-      }
-
-      final endLineSeparatorPath =
-          createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
-      try {
-        sectionPath = Path.combine(
-          PathOperation.difference,
-          sectionPath,
-          endLineSeparatorPath,
-        );
-      } catch (_) {
-        /// It's a flutter engine issue with [Path.combine] in web-html renderer
-        /// https://github.com/imaNNeo/fl_chart/issues/955
       }
     }
 
