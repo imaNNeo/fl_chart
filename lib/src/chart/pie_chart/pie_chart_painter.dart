@@ -173,6 +173,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionDegree,
         center,
         centerRadius,
+        canvasWrapper,
       );
 
       drawSection(section, sectionPath, canvasWrapper);
@@ -189,8 +190,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     double tempAngle,
     double sectionDegree,
     Offset center,
-    double centerRadius,
-  ) {
+    double centerRadius, [
+    CanvasWrapper? canvasWrapper,
+  ]) {
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
       radius: centerRadius + section.radius,
@@ -244,10 +246,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         ..lineTo(startLine.to.dx, startLine.to.dy);
 
       final outerArc = PieChartArcMeta.compute(
-        sectionRadiusRect,
-        startRadians,
-        sweepRadians,
-        borderRadius,
+        radiusRect: sectionRadiusRect,
+        startRadians: startRadians,
+        sweepRadians: sweepRadians,
+        borderRadius: borderRadius,
       );
 
       // Draw the outer arc.
@@ -296,10 +298,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       // Compute inner arc only if `centerRadius` is greater than 0.
       final innerArc = centerRadius > 0
           ? PieChartArcMeta.compute(
-              centerRadiusRect,
-              endRadians,
-              -sweepRadians,
-              borderRadius,
+              radiusRect: centerRadiusRect,
+              startRadians: endRadians,
+              sweepRadians: -sweepRadians,
+              borderRadius: borderRadius,
             )
           : null;
 

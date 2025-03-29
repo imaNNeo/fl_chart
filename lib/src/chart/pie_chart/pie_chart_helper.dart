@@ -25,6 +25,7 @@ extension PieChartSectionDataListExtension on List<PieChartSectionData> {
 /// Information that describes the arc of pie chart section.
 /// Used for drawing rounded corners of sections.
 class PieChartArcMeta {
+  /// Creates a new instance of [PieChartArcMeta].
   const PieChartArcMeta(
     this.from,
     this.to,
@@ -34,16 +35,30 @@ class PieChartArcMeta {
     this.radius,
   );
 
-  factory PieChartArcMeta.compute(
-    Rect radiusRect,
-    double startRadians,
-    double sweepRadians,
-    double indent,
-  ) {
-    // `radiusRect` is based on `Rect.fromCircle` (i.e. is a square).
+  /// Computes the arc metadata.
+  ///
+  /// - [radiusRect] is based on `Rect.fromCircle` (i.e. must be a square).
+  /// - [startRadians] is the starting angle of the section.
+  /// - [sweepRadians] is the sweep angle of the section.
+  /// - [borderRadius] is the space reserved for an arc.
+  /// - [space] is the space between sections.
+  factory PieChartArcMeta.compute({
+    required Rect radiusRect,
+    required double startRadians,
+    required double sweepRadians,
+    required double borderRadius,
+  }) {
+    assert(
+      // It must be rounded since the precision of `double` may result in
+      // false positives (e.g. width = 240.0 && height = 240.00000000000003).
+      radiusRect.width.round() == radiusRect.height.round(),
+      '`radiusRect` should be a square.',
+    );
+
     final diameter = radiusRect.width;
     final center = radiusRect.center;
     final r = diameter / 2;
+
     final endRadians = startRadians + sweepRadians;
 
     // Calculate effective radius at start and end angles.
@@ -55,8 +70,8 @@ class PieChartArcMeta {
 
     // Calculate angle adjustments.
     final angleAdjustment = sweepRadians > 0
-        ? (indent / effectiveRadius)
-        : -(indent / effectiveRadius);
+        ? (borderRadius / effectiveRadius)
+        : -(borderRadius / effectiveRadius);
 
     // Calculate effective angles with padding.
     final effectiveStartRadians = startRadians + angleAdjustment;
@@ -87,7 +102,7 @@ class PieChartArcMeta {
       effectiveStartRadians,
       hasArcCorners ? effectiveSweepRadians : 0.0,
       effectiveEndRadians,
-      Radius.circular(indent),
+      Radius.circular(borderRadius),
     );
   }
 
