@@ -159,6 +159,7 @@ class PieChartSectionData with EquatableMixin {
     Color? color,
     this.gradient,
     double? radius,
+    this.borderRadius = 0,
     bool? showTitle,
     this.titleStyle,
     String? title,
@@ -166,7 +167,8 @@ class PieChartSectionData with EquatableMixin {
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
-  })  : value = value ?? 10,
+  })  : assert(borderRadius >= 0, 'borderRadius cannot be negative.'),
+        value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,
@@ -191,6 +193,9 @@ class PieChartSectionData with EquatableMixin {
 
   /// Defines the radius of section.
   final double radius;
+
+  /// Defines the border radius of section.
+  final double borderRadius;
 
   /// Defines show or hide the title of section.
   final bool showTitle;
@@ -231,6 +236,7 @@ class PieChartSectionData with EquatableMixin {
     Color? color,
     Gradient? gradient,
     double? radius,
+    double? borderRadius,
     bool? showTitle,
     TextStyle? titleStyle,
     String? title,
@@ -244,6 +250,7 @@ class PieChartSectionData with EquatableMixin {
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
         radius: radius ?? this.radius,
+        borderRadius: borderRadius ?? this.borderRadius,
         showTitle: showTitle ?? this.showTitle,
         titleStyle: titleStyle ?? this.titleStyle,
         title: title ?? this.title,
@@ -266,6 +273,7 @@ class PieChartSectionData with EquatableMixin {
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         radius: lerpDouble(a.radius, b.radius, t),
+        borderRadius: lerpDouble(a.borderRadius, b.borderRadius, t) ?? 0,
         showTitle: b.showTitle,
         titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
         title: b.title,
