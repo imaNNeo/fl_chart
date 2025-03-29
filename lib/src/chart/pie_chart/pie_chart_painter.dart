@@ -271,8 +271,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       sectionCenter = center + offsetDirection * (sectionSpace / 2);
     }
 
-    final startLineFrom =
-        sectionCenter + innerStartLineDirection * centerRadius;
+    var startLineFrom = sectionCenter + innerStartLineDirection * centerRadius;
     final startLineTo = center + outerStartLineDirection * sectionRadius;
 
     final outerEndLineDirection =
@@ -280,11 +279,25 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final innerEndLineDirection =
         Offset(math.cos(innerEndRadians), math.sin(innerEndRadians));
 
-    final endLineFrom = sectionCenter + innerEndLineDirection * centerRadius;
+    var endLineFrom = sectionCenter + innerEndLineDirection * centerRadius;
     final endLineTo = center + outerEndLineDirection * sectionRadius;
 
     Path sectionPath;
     final borderRadius = section.borderRadius;
+
+    // Calculate intersection point of start and end lines
+    final intersectionPoint = _findIntersection(
+      startLineFrom,
+      startLineTo,
+      endLineFrom,
+      endLineTo,
+    );
+
+    // If there's a valid intersection point, adjust the starting points.
+    if (intersectionPoint != null && section.title == 'x') {
+      startLineFrom = intersectionPoint;
+      endLineFrom = intersectionPoint;
+    }
 
     // Avoids excessive calculations when `borderRadius` is set to 0.
     if (borderRadius == 0) {
@@ -295,9 +308,18 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..lineTo(startLine.to.dx, startLine.to.dy)
         ..arcTo(sectionRadiusRect, outerStartRadians, outerSweepRadians, false)
-        ..lineTo(endLine.from.dx, endLine.from.dy)
-        ..arcTo(centerRadiusRect, innerEndRadians, -innerSweepRadians, false)
-        ..close();
+        ..lineTo(endLine.from.dx, endLine.from.dy);
+
+      if (intersectionPoint == null) {
+        sectionPath.arcTo(
+          centerRadiusRect,
+          innerEndRadians,
+          -innerSweepRadians,
+          false,
+        );
+      }
+
+      sectionPath.close();
     } else {
       final radius = Radius.circular(borderRadius);
       final startLine = Line(startLineFrom, startLineTo).subtract(borderRadius);
@@ -705,5 +727,56 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
 
     return badgeWidgetsOffsets;
+  }
+
+  /// Helper function to find intersection of two line segments
+  Offset? _findIntersection(Offset a, Offset b, Offset c, Offset d) {
+    // Line AB represented as a1x + b1y = c1
+    final a1 = b.dy - a.dy;
+    final b1 = a.dx - b.dx;
+    final c1 = a1 * a.dx + b1 * a.dy;
+
+    // Line CD represented as a2x + b2y = c2
+    final a2 = d.dy - c.dy;
+    final b2 = c.dx - d.dx;
+    final c2 = a2 * c.dx + b2 * c.dy;
+
+    final determinant = a1 * b2 - a2 * b1;
+
+    // If determinant is zero, lines are parallel or coincident
+    if (determinant == 0) {
+      return null;
+    }
+
+    // Calculate intersection point
+    final x = (b2 * c1 - b1 * c2) / determinant;
+    final y = (a1 * c2 - a2 * c1) / determinant;
+    final point = Offset(x, y);
+
+    // Check if intersection point is on both line segments
+    if (_isPointOnLineSegment(a, b, point) &&
+        _isPointOnLineSegment(c, d, point)) {
+      return point;
+    }
+
+    return null;
+  }
+
+  /// Helper function to check if a point is on a line segment
+  bool _isPointOnLineSegment(Offset a, Offset b, Offset p) {
+    // Check if point is within the bounding box of the line segment
+    if (p.dx < math.min(a.dx, b.dx) ||
+        p.dx > math.max(a.dx, b.dx) ||
+        p.dy < math.min(a.dy, b.dy) ||
+        p.dy > math.max(a.dy, b.dy)) {
+      return false;
+    }
+
+    // Check if point is on the line
+    final crossProduct =
+        (p.dy - a.dy) * (b.dx - a.dx) - (p.dx - a.dx) * (b.dy - a.dy);
+
+    // Allow for floating point precision errors
+    return crossProduct.abs() < 1e-10;
   }
 }
