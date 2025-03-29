@@ -257,7 +257,22 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       math.sin(innerStartRadians),
     );
 
-    final startLineFrom = center + innerStartLineDirection * centerRadius;
+    // Adjust section center to add empty space from center.
+    var sectionCenter = center;
+    if (centerRadius == 0 && sectionSpace != 0) {
+      // Calculate the midpoint angle of the section
+      final midAngleRadians = outerStartRadians + (outerSweepRadians / 2);
+      // Calculate offset direction from center
+      final offsetDirection = Offset(
+        math.cos(midAngleRadians),
+        math.sin(midAngleRadians),
+      );
+      // Adjust the center by half the section space
+      sectionCenter = center + offsetDirection * (sectionSpace / 2);
+    }
+
+    final startLineFrom =
+        sectionCenter + innerStartLineDirection * centerRadius;
     final startLineTo = center + outerStartLineDirection * sectionRadius;
 
     final outerEndLineDirection =
@@ -265,7 +280,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final innerEndLineDirection =
         Offset(math.cos(innerEndRadians), math.sin(innerEndRadians));
 
-    final endLineFrom = center + innerEndLineDirection * centerRadius;
+    final endLineFrom = sectionCenter + innerEndLineDirection * centerRadius;
     final endLineTo = center + outerEndLineDirection * sectionRadius;
 
     Path sectionPath;
