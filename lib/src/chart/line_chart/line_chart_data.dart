@@ -811,7 +811,12 @@ typedef CheckToShowDot = bool Function(FlSpot spot, LineChartBarData barData);
 /// Shows all dots on spots.
 bool showAllDots(FlSpot spot, LineChartBarData barData) => true;
 
-enum LabelDirection { horizontal, vertical }
+enum LabelDirection {
+  horizontal,
+  vertical,
+  horizontalMirrored,
+  verticalMirrored
+}
 
 /// Shows a text label
 abstract class FlLineLabel with EquatableMixin {

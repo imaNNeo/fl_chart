@@ -102,10 +102,14 @@ class CanvasWrapper {
   /// Paints a vertical text on the [Canvas]
   ///
   /// Gets a [TextPainter] and call its [TextPainter.paint] using our canvas
-  void drawVerticalText(TextPainter tp, Offset offset) {
+  void drawVerticalText(
+    TextPainter tp,
+    Offset offset, [
+    double rotateAngle = 90,
+  ]) {
     save();
     translate(offset.dx, offset.dy);
-    rotate(Utils().radians(90));
+    rotate(Utils().radians(rotateAngle));
     translate(-offset.dx, -offset.dy);
     tp.paint(canvas, offset);
     restore();
