@@ -350,7 +350,6 @@ abstract class AxisChartPainter<D extends AxisChartData>
                 ),
               );
             case LabelDirection.verticalMirrored:
-              debugPrint('$from $to ${tp.height} ${tp.width} $padding');
               canvasWrapper.drawVerticalText(
                 tp,
                 label.alignment.withinRect(
