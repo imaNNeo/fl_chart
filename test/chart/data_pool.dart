@@ -2441,6 +2441,8 @@ final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
   1,
   2,
   Colors.green,
+  '',
+  TextStyle(),
 );
 final BarChartRodStackItem barChartRodStackItem1Clone =
     barChartRodStackItem1.copyWith();
@@ -2449,6 +2451,8 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
   2,
   3,
   Colors.green,
+  '',
+  const TextStyle(),
 );
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 =
