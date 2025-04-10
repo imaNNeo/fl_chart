@@ -167,6 +167,7 @@ class BarChartSample5State extends State<BarChartSample5> {
                 ),
           rodStackItems: [
             BarChartRodStackItem(
+
               0,
               value1,
               AppColors.contentColorGreen,
