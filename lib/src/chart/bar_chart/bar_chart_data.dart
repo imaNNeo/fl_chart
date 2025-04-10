@@ -487,9 +487,15 @@ class BarChartRodStackItem with EquatableMixin {
   BarChartRodStackItem(
     this.fromY,
     this.toY,
-    this.color, [
+    this.color,
+    this.label,
+    this.labelStyle, // New property
+    [
     this.borderSide = Utils.defaultBorderSide,
-  ]);
+  ]
+  );
+  final String? label;
+  final TextStyle? labelStyle;
 
   /// Renders a Stacked Chart section from [fromY]
   final double fromY;
@@ -509,12 +515,16 @@ class BarChartRodStackItem with EquatableMixin {
     double? fromY,
     double? toY,
     Color? color,
+    String? label,
+    TextStyle? labelStyle,
     BorderSide? borderSide,
   }) =>
       BarChartRodStackItem(
         fromY ?? this.fromY,
         toY ?? this.toY,
         color ?? this.color,
+        label ?? this.label,
+        labelStyle ?? this.labelStyle,
         borderSide ?? this.borderSide,
       );
 
@@ -528,6 +538,8 @@ class BarChartRodStackItem with EquatableMixin {
         lerpDouble(a.fromY, b.fromY, t)!,
         lerpDouble(a.toY, b.toY, t)!,
         Color.lerp(a.color, b.color, t)!,
+        a.label,
+        a.labelStyle,
         BorderSide.lerp(a.borderSide, b.borderSide, t),
       );
 
