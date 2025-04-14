@@ -31,6 +31,9 @@ class _LineChartSample12State extends State<LineChartSample12> {
     final dataStr = await rootBundle.loadString(
       'assets/data/btc_last_year_price.json',
     );
+    if (!mounted) {
+      return;
+    }
     final json = jsonDecode(dataStr) as Map<String, dynamic>;
     setState(() {
       _bitcoinPriceHistory = (json['prices'] as List).map((item) {
