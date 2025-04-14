@@ -28,7 +28,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
     FlClipData? clipData,
     Color? backgroundColor,
     super.borderData,
-    required super.touchData,
     ExtraLinesData? extraLinesData,
     this.rotationQuarterTurns = 0,
   })  : gridData = gridData ?? const FlGridData(),
@@ -82,7 +81,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         clipData,
         backgroundColor,
         borderData,
-        touchData,
         extraLinesData,
         rotationQuarterTurns,
       ];
@@ -500,6 +498,7 @@ class FlSpot {
 
   /// Copies current [FlSpot] to a new [FlSpot],
   /// and replaces provided values.
+  // Prevent polymorphism
   FlSpot copyWith({
     double? x,
     double? y,

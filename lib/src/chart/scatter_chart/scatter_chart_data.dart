@@ -58,7 +58,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         scatterLabelSettings = scatterLabelSettings ?? ScatterLabelSettings(),
         super(
           gridData: gridData ?? const FlGridData(),
-          touchData: scatterTouchData ?? ScatterTouchData(),
           titlesData: titlesData ?? const FlTitlesData(),
           clipData: clipData ?? const FlClipData.none(),
           minX: minX ??
@@ -198,7 +197,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         clipData,
         backgroundColor,
         borderData,
-        touchData,
         rotationQuarterTurns,
         errorIndicatorData,
       ];

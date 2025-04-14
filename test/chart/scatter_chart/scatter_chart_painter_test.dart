@@ -436,7 +436,7 @@ void main() {
       scatterChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
-        (data.touchData as ScatterTouchData).touchTooltipData,
+        data.scatterTouchData.touchTooltipData,
         spot1,
         holder,
       );
@@ -543,7 +543,7 @@ void main() {
       scatterChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
-        (data.touchData as ScatterTouchData).touchTooltipData,
+        data.scatterTouchData.touchTooltipData,
         spot1,
         holder,
       );
@@ -650,7 +650,7 @@ void main() {
       scatterChartPainter.drawTouchTooltip(
         mockBuildContext,
         mockCanvasWrapper,
-        (data.touchData as ScatterTouchData).touchTooltipData,
+        data.scatterTouchData.touchTooltipData,
         spot1,
         holder,
       );
