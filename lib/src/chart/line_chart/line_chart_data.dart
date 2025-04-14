@@ -60,7 +60,6 @@ class LineChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     super.rotationQuarterTurns,
   }) : super(
-          touchData: lineTouchData,
           minX: minX ?? double.nan,
           maxX: maxX ?? double.nan,
           minY: minY ?? double.nan,

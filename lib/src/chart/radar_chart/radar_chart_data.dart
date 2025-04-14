@@ -96,9 +96,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickCount = tickCount ?? 1,
         tickBorderData = tickBorderData ?? const BorderSide(width: 2),
         gridBorderData = gridBorderData ?? const BorderSide(width: 2),
-        super(
-          touchData: radarTouchData ?? RadarTouchData(),
-        );
+        super();
 
   /// [RadarChart] draw [dataSets] that each of them showing a list of [RadarEntry]
   final List<RadarDataSet> dataSets;
@@ -263,7 +261,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   @override
   List<Object?> get props => [
         borderData,
-        touchData,
         dataSets,
         radarBackgroundColor,
         radarBorderData,
