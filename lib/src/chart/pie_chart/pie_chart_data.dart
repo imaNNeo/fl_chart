@@ -40,7 +40,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
         titleSunbeamLayout = titleSunbeamLayout ?? false,
         super(
           borderData: borderData ?? FlBorderData(show: false),
-          touchData: pieTouchData ?? PieTouchData(),
         );
 
   /// Defines showing sections of the [PieChart].
