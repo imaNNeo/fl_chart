@@ -355,12 +355,12 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     dataSetsPosition!.asMap().forEach((index, dataSetOffset) {
       final graph = data.dataSets[index];
-      // if gradient exists
-      if (graph.gradient != null) {
+      // if fillGradient exists
+      if (graph.fillGradient != null) {
         // Create the shader
         final rect = Rect.fromCircle(center: centerOffset, radius: radius);
         _graphPaint
-          ..shader = graph.gradient!.createShader(rect)
+          ..shader = graph.fillGradient!.createShader(rect)
           ..style = PaintingStyle.fill;
       } else {
         // else solid fill color
