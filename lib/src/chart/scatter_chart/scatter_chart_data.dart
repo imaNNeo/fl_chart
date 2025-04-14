@@ -514,6 +514,7 @@ class ScatterTouchTooltipData with EquatableMixin {
   @override
   List<Object?> get props => [
         tooltipRoundedRadius,
+        tooltipBorderRadius,
         tooltipPadding,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,
