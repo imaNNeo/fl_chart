@@ -1883,7 +1883,7 @@ void main() {
       expect(rrect.tlRadius, const Radius.circular(10));
       expect(rrect.trRadius, const Radius.circular(8));
       expect(rrect.blRadius, Radius.zero);
-      expect(rrect.brRadius,  Radius.zero);
+      expect(rrect.brRadius, Radius.zero);
       expect(rrect.width, 112);
       expect(rrect.height, 90);
       expect(rrect.left, -80);
@@ -1899,7 +1899,7 @@ void main() {
       expect(rRectBorder.tlRadius, const Radius.circular(10));
       expect(rRectBorder.trRadius, const Radius.circular(8));
       expect(rRectBorder.blRadius, Radius.zero);
-      expect(rRectBorder.brRadius,  Radius.zero);
+      expect(rRectBorder.brRadius, Radius.zero);
       expect(rRectBorder.width, 112);
       expect(rRectBorder.height, 90);
       expect(rRectBorder.left, -80);
