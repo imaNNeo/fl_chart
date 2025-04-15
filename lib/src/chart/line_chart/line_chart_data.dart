@@ -1063,7 +1063,10 @@ class LineTouchTooltipData with EquatableMixin {
     this.showOnTopOfTheChartBoxArea = false,
     this.rotateAngle = 0.0,
     this.tooltipBorder = BorderSide.none,
-  })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+  })  :
+        // TODO(imaNNeo): We should remove this property in the next major version
+        // ignore: deprecated_member_use_from_same_package
+        tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         _tooltipBorderRadius = tooltipBorderRadius;
 
   /// Sets a rounded radius for the tooltip.
@@ -1074,6 +1077,8 @@ class LineTouchTooltipData with EquatableMixin {
 
   /// Sets a rounded radius for the tooltip.
   BorderRadius get tooltipBorderRadius =>
+      // TODO(imaNNeo): We should remove this property in the next major version
+      // ignore: deprecated_member_use_from_same_package
       _tooltipBorderRadius ?? BorderRadius.circular(tooltipRoundedRadius);
 
   /// Applies a padding for showing contents inside the tooltip.
@@ -1115,6 +1120,8 @@ class LineTouchTooltipData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
+        // TODO(imaNNeo): We should remove this property in the next major version
+        // ignore: deprecated_member_use_from_same_package
         tooltipRoundedRadius,
         _tooltipBorderRadius,
         tooltipPadding,

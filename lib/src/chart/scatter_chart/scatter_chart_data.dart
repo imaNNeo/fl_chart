@@ -456,7 +456,10 @@ class ScatterTouchTooltipData with EquatableMixin {
     double? rotateAngle,
     BorderSide? tooltipBorder,
     GetScatterTooltipColor? getTooltipColor,
-  })  : tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
+  })  :
+        // TODO(imaNNeo): We should remove this property in the next major version
+        // ignore: deprecated_member_use_from_same_package
+        tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipBorderRadius = tooltipBorderRadius ??
             BorderRadius.circular(tooltipRoundedRadius ?? 4),
         tooltipPadding = tooltipPadding ??
@@ -513,6 +516,8 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
+        // TODO(imaNNeo): We should remove this property in the next major version
+        // ignore: deprecated_member_use_from_same_package
         tooltipRoundedRadius,
         tooltipBorderRadius,
         tooltipPadding,
@@ -543,6 +548,8 @@ class ScatterTouchTooltipData with EquatableMixin {
     GetScatterTooltipColor? getTooltipColor,
   }) =>
       ScatterTouchTooltipData(
+        // TODO(imaNNeo): We should remove this property in the next major version
+        // ignore: deprecated_member_use_from_same_package
         tooltipRoundedRadius: tooltipRoundedRadius ?? this.tooltipRoundedRadius,
         tooltipPadding: tooltipPadding ?? this.tooltipPadding,
         tooltipHorizontalAlignment:
