@@ -791,6 +791,10 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
 
   final CandlestickStyleProvider candlestickStyleProvider;
 
+  final _linePainter = Paint();
+  final _bodyPainter = Paint();
+  final _bodyStrokePainter = Paint();
+
   @override
   void draw(
     CanvasWrapper canvas,
@@ -813,7 +817,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
         ..drawLine(
           Offset(xOffsetInCanvas, lowOYOffsetInCanvas),
           Offset(xOffsetInCanvas, bodyLowCanvas),
-          Paint()
+          _linePainter
             ..color = style.lineColor
             ..strokeWidth = style.lineWidth,
         )
@@ -821,7 +825,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
         ..drawLine(
           Offset(xOffsetInCanvas, highYOffsetInCanvas),
           Offset(xOffsetInCanvas, bodyHighCanvas),
-          Paint()
+          _linePainter
             ..color = style.lineColor
             ..strokeWidth = style.lineWidth,
         );
@@ -840,7 +844,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
           bodyRect,
           Radius.circular(style.bodyRadius),
         ),
-        Paint()
+        _bodyPainter
           ..color = style.bodyFillColor
           ..style = PaintingStyle.fill,
       );
@@ -851,7 +855,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
           bodyRect,
           Radius.circular(style.bodyRadius),
         ),
-        Paint()
+        _bodyStrokePainter
           ..color = style.bodyStrokeColor
           ..strokeWidth = style.bodyStrokeWidth
           ..style = PaintingStyle.stroke,
