@@ -1,4 +1,4 @@
-## newVersion
+## 0.71.0
 * **IMPROVEMENT** (by @MattiaPispisa) Add a new property called `BorderRadius tooltipBorderRadius` instead of (deprecated) `double tooltipRoundedRadius` in `BarTouchTooltipData`, `LineTouchTooltipData` and `ScatterTouchTooltipData` #1715
 * **FEATURE** (by @frybitsinc) Add `children` property in our [RadarChartTitle](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md#radarcharttitle), #1840
 * **BUGFIX** (by @morvagergely) Fix the initial zoom issue in our scrollable LineChart, #1863
