@@ -747,13 +747,16 @@ abstract class FlCandlestickPainter with EquatableMixin {
   /// Used to implement touch behaviour of this dot, for example,
   /// it behaves like a square of [getSize]
   /// Check [DefaultCandlestickPainter.hitTest] for an example of an implementation
-  bool hitTest(
+  (bool, double) hitTest(
     CandlestickSpot spot,
     double touchedX,
     double spotX,
     double extraTouchThreshold,
-  ) =>
-      (touchedX - spotX).abs() <= extraTouchThreshold;
+  ) {
+    final distance = (touchedX - spotX).abs();
+    final hit = distance <= extraTouchThreshold;
+    return (hit, distance);
+  }
 }
 
 /// [CandlestickChart]'s touch callback.
