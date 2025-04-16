@@ -6,6 +6,8 @@ export 'src/chart/base/axis_chart/scale_axis.dart';
 export 'src/chart/base/axis_chart/transformation_config.dart';
 export 'src/chart/base/base_chart/base_chart_data.dart';
 export 'src/chart/base/base_chart/fl_touch_event.dart';
+export 'src/chart/candlestick_chart/candlestick_chart.dart';
+export 'src/chart/candlestick_chart/candlestick_chart_data.dart';
 export 'src/chart/line_chart/line_chart.dart';
 export 'src/chart/line_chart/line_chart_data.dart';
 export 'src/chart/pie_chart/pie_chart.dart';
