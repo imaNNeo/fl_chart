@@ -30,12 +30,12 @@ class CandlestickChartHelper {
         minX = spot.x;
       }
 
-      if (spot.y > maxY) {
-        maxY = spot.y;
+      if (spot.high > maxY) {
+        maxY = spot.high;
       }
 
-      if (spot.y < minY) {
-        minY = spot.y;
+      if (spot.low < minY) {
+        minY = spot.low;
       }
     }
     return (minX, maxX, minY, maxY);
