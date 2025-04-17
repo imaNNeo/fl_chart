@@ -128,6 +128,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             x1: 8,
             x2: 9,
             color: AppColors.contentColorBlue.withValues(alpha: 0.2),
+            text: "This is a text",
           ),
         ],
         horizontalRangeAnnotations: [
@@ -135,6 +136,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             y1: 2,
             y2: 3,
             color: AppColors.contentColorGreen.withValues(alpha: 0.3),
+            text: "This is a text",
           ),
         ],
       ),

@@ -916,8 +916,8 @@ class HorizontalRangeAnnotation with EquatableMixin {
     required this.y2,
     Color? color,
     this.text,
-    this.style = const TextStyle(color: Colors.white),
-    this.rotation = 0,
+    this.style = const TextStyle(color: Colors.white, fontSize: 15),
+    this.rotation,
     this.horizontalPadding = 0,
     this.verticalPadding = 0,
     this.gradient,
@@ -949,7 +949,7 @@ class HorizontalRangeAnnotation with EquatableMixin {
   final TextStyle style;
 
   /// Text rotation in degrees
-  final double rotation;
+  final double? rotation;
 
   /// Text text padding
   final double horizontalPadding;
@@ -1020,7 +1020,7 @@ class VerticalRangeAnnotation with EquatableMixin {
     required this.x2,
     this.text,
     this.style = const TextStyle(color: Colors.white),
-    this.rotation = 0,
+    this.rotation,
     this.horizontalPadding = 0,
     this.verticalPadding = 0,
     Color? color,
@@ -1053,7 +1053,7 @@ class VerticalRangeAnnotation with EquatableMixin {
   final TextStyle style;
 
   /// Text rotation in degrees
-  final double rotation;
+  final double? rotation;
 
   /// Text text padding
   final double horizontalPadding;

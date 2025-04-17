@@ -193,20 +193,14 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
 
-        // Draw annotation text
-        final offset = Offset(
-          getPixelX(annotation.x1, viewSize, holder) +
-              annotation.horizontalPadding,
-          annotation.verticalPadding,
-        );
         drawAnnotationText(
           canvasWrapper,
-          offset: offset,
+          offset: rect.centerLeft,
           text: annotation.text,
           style: annotation.style,
           verticalPadding: annotation.verticalPadding,
           horizontalPadding: annotation.horizontalPadding,
-          rotation: annotation.rotation,
+          rotation: annotation.rotation ?? -90,
         );
       }
     }
@@ -230,20 +224,14 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
 
-        // Draw annotation text
-        final offset = Offset(
-          getPixelY(annotation.y1, viewSize, holder) +
-              annotation.horizontalPadding,
-          annotation.verticalPadding,
-        );
         drawAnnotationText(
           canvasWrapper,
-          offset: offset,
+          offset: rect.centerLeft,
           text: annotation.text,
           style: annotation.style,
           verticalPadding: annotation.verticalPadding,
           horizontalPadding: annotation.horizontalPadding,
-          rotation: annotation.rotation,    
+          rotation: annotation.rotation ?? 0,
         );
       }
     }
@@ -264,7 +252,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     // Draw annotation text
     final textSpan = TextSpan(
       text: text,
-      style: style,
+      style: style ?? const TextStyle(fontSize: 17),
     );
     final textPainter = TextPainter(
       text: textSpan,
