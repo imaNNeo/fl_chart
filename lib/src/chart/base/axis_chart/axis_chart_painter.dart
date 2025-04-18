@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_coordinate_mapper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/material.dart';
 /// [dataList] is the currently showing data (it may produced by an animation using lerp function),
 /// [targetData] is the target data, that animation is going to show (if animating)
 abstract class AxisChartPainter<D extends AxisChartData>
-    extends BaseChartPainter<D> {
+    extends BaseChartPainter<D> with AxisChartCoordinateMapper<D> {
   AxisChartPainter() {
     _gridPaint = Paint()..style = PaintingStyle.stroke;
 
@@ -77,7 +78,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         if (!data.gridData.checkToShowVerticalLine(axisValue)) {
           continue;
         }
-        final bothX = getPixelX(axisValue, viewSize, holder);
+        final bothX = getPixelX(axisValue);
         final x1 = bothX;
         const y1 = 0.0;
         final x2 = bothX;
@@ -124,7 +125,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         }
         final flLine = data.gridData.getDrawingHorizontalLine(axisValue);
 
-        final bothY = getPixelY(axisValue, viewSize, holder);
+        final bothY = getPixelY(axisValue);
         const x1 = 0.0;
         final y1 = bothY;
         final x2 = viewSize.width;
@@ -175,9 +176,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     if (data.rangeAnnotations.verticalRangeAnnotations.isNotEmpty) {
       for (final annotation in data.rangeAnnotations.verticalRangeAnnotations) {
-        final from = Offset(getPixelX(annotation.x1, viewSize, holder), 0);
+        final from = Offset(getPixelX(annotation.x1), 0);
         final to = Offset(
-          getPixelX(annotation.x2, viewSize, holder),
+          getPixelX(annotation.x2),
           viewSize.height,
         );
 
@@ -196,10 +197,10 @@ abstract class AxisChartPainter<D extends AxisChartData>
     if (data.rangeAnnotations.horizontalRangeAnnotations.isNotEmpty) {
       for (final annotation
           in data.rangeAnnotations.horizontalRangeAnnotations) {
-        final from = Offset(0, getPixelY(annotation.y1, viewSize, holder));
+        final from = Offset(0, getPixelY(annotation.y1));
         final to = Offset(
           viewSize.width,
-          getPixelY(annotation.y2, viewSize, holder),
+          getPixelY(annotation.y2),
         );
 
         final rect = Rect.fromPoints(from, to);
@@ -253,8 +254,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     Size viewSize,
   ) {
     for (final line in holder.data.extraLinesData.horizontalLines) {
-      final from = Offset(0, getPixelY(line.y, viewSize, holder));
-      final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
+      final from = Offset(0, getPixelY(line.y));
+      final to = Offset(viewSize.width, getPixelY(line.y));
 
       final isLineOutsideOfChart = from.dy < 0 ||
           to.dy < 0 ||
@@ -358,8 +359,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     Size viewSize,
   ) {
     for (final line in holder.data.extraLinesData.verticalLines) {
-      final from = Offset(getPixelX(line.x, viewSize, holder), 0);
-      final to = Offset(getPixelX(line.x, viewSize, holder), viewSize.height);
+      final from = Offset(getPixelX(line.x), 0);
+      final to = Offset(getPixelX(line.x), viewSize.height);
 
       final isLineOutsideOfChart = from.dx < 0 ||
           to.dx < 0 ||
@@ -455,58 +456,6 @@ abstract class AxisChartPainter<D extends AxisChartData>
         }
       }
     }
-  }
-
-  /// With this function we can convert our [FlSpot] x
-  /// to the view base axis x .
-  /// the view 0, 0 is on the top/left, but the spots is bottom/left
-  double getPixelX(
-    double spotX,
-    Size viewSize,
-    PaintHolder<D> holder,
-  ) {
-    final usableSize = holder.getChartUsableSize(viewSize);
-
-    final pixelXUnadjusted = _getPixelX(spotX, holder.data, usableSize);
-
-    // Adjust the position relative to the canvas if chartVirtualRect
-    // is provided
-    final adjustment = holder.chartVirtualRect?.left ?? 0;
-    return pixelXUnadjusted + adjustment;
-  }
-
-  double _getPixelX(double spotX, D data, Size usableSize) {
-    final deltaX = data.maxX - data.minX;
-    if (deltaX == 0.0) {
-      return 0;
-    }
-    return ((spotX - data.minX) / deltaX) * usableSize.width;
-  }
-
-  /// With this function we can convert our [FlSpot] y
-  /// to the view base axis y.
-  double getPixelY(
-    double spotY,
-    Size viewSize,
-    PaintHolder<D> holder,
-  ) {
-    final usableSize = holder.getChartUsableSize(viewSize);
-
-    final pixelYUnadjusted = _getPixelY(spotY, holder.data, usableSize);
-
-    // Adjust the position relative to the canvas if chartVirtualRect
-    // is provided
-    final adjustment = holder.chartVirtualRect?.top ?? 0;
-    return pixelYUnadjusted + adjustment;
-  }
-
-  double _getPixelY(double spotY, D data, Size usableSize) {
-    final deltaY = data.maxY - data.minY;
-    if (deltaY == 0.0) {
-      return usableSize.height;
-    }
-    return usableSize.height -
-        (((spotY - data.minY) / deltaY) * usableSize.height);
   }
 
   /// With this function we can get horizontal

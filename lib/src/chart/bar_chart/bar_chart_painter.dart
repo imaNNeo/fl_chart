@@ -204,11 +204,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             // positive
             final bottom = getPixelY(
               max(data.minY, barRod.backDrawRodData.fromY),
-              viewSize,
-              holder,
             );
             final top = min(
-              getPixelY(barRod.backDrawRodData.toY, viewSize, holder),
+              getPixelY(barRod.backDrawRodData.toY),
               bottom - cornerHeight,
             );
 
@@ -226,11 +224,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             // negative
             final top = getPixelY(
               min(data.maxY, barRod.backDrawRodData.fromY),
-              viewSize,
-              holder,
             );
             final bottom = max(
-              getPixelY(barRod.backDrawRodData.toY, viewSize, holder),
+              getPixelY(barRod.backDrawRodData.toY),
               top + cornerHeight,
             );
 
@@ -259,10 +255,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         if (barRod.toY != barRod.fromY) {
           if (barRod.toY > barRod.fromY) {
             // positive
-            final bottom =
-                getPixelY(max(data.minY, barRod.fromY), viewSize, holder);
+            final bottom = getPixelY(max(data.minY, barRod.fromY));
             final top = min(
-              getPixelY(barRod.toY, viewSize, holder),
+              getPixelY(barRod.toY),
               bottom - cornerHeight,
             );
 
@@ -278,10 +273,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             );
           } else {
             // negative
-            final top =
-                getPixelY(min(data.maxY, barRod.fromY), viewSize, holder);
+            final top = getPixelY(min(data.maxY, barRod.fromY));
             final bottom = max(
-              getPixelY(barRod.toY, viewSize, holder),
+              getPixelY(barRod.toY),
               top + cornerHeight,
             );
 
@@ -307,8 +301,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           if (barRod.rodStackItems.isNotEmpty) {
             for (var i = 0; i < barRod.rodStackItems.length; i++) {
               final stackItem = barRod.rodStackItems[i];
-              final stackFromY = getPixelY(stackItem.fromY, viewSize, holder);
-              final stackToY = getPixelY(stackItem.toY, viewSize, holder);
+              final stackFromY = getPixelY(stackItem.fromY);
+              final stackToY = getPixelY(stackItem.toY);
 
               final isNegative = stackItem.toY < stackItem.fromY;
               _barPaint.color = stackItem.color;
@@ -367,7 +361,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       return;
     }
 
-    final viewSize = canvasWrapper.size;
     for (var i = 0; i < data.barGroups.length; i++) {
       final barGroup = data.barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
@@ -379,20 +372,11 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
         final x = groupBarsPosition[i].barsX[j];
 
-        final y = getPixelY(barRod.toY, viewSize, holder);
-        final top = getPixelY(
-              barRod.toY + barRod.toYErrorRange!.upperBy,
-              viewSize,
-              holder,
-            ) -
-            y;
+        final y = getPixelY(barRod.toY);
+        final top = getPixelY(barRod.toY + barRod.toYErrorRange!.upperBy) - y;
 
-        final bottom = getPixelY(
-              barRod.toY - barRod.toYErrorRange!.lowerBy,
-              viewSize,
-              holder,
-            ) -
-            y;
+        final bottom =
+            getPixelY(barRod.toY - barRod.toYErrorRange!.lowerBy) - y;
 
         final relativeErrorPixelsRect = Rect.fromLTRB(
           0,
@@ -484,12 +468,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
     final barToYPixel = Offset(
       barX,
-      getPixelY(showOnRodData.toY, viewSize, holder),
+      getPixelY(showOnRodData.toY),
     );
 
     final barFromYPixel = Offset(
       barX,
-      getPixelY(showOnRodData.fromY, viewSize, holder),
+      getPixelY(showOnRodData.fromY),
     );
 
     final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
@@ -640,9 +624,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     if (index == 0) {
       strokeBarRect = RRect.fromLTRBAndCorners(
         barRRect.left,
-        getPixelY(stackItem.toY, drawSize, holder),
+        getPixelY(stackItem.toY),
         barRRect.right,
-        getPixelY(stackItem.fromY, drawSize, holder),
+        getPixelY(stackItem.fromY),
         bottomLeft:
             stackItem.fromY < stackItem.toY ? barRRect.blRadius : Radius.zero,
         bottomRight:
@@ -655,9 +639,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     } else if (index == rodStacksSize - 1) {
       strokeBarRect = RRect.fromLTRBAndCorners(
         barRRect.left,
-        max(getPixelY(stackItem.toY, drawSize, holder), barRRect.top),
+        max(getPixelY(stackItem.toY), barRRect.top),
         barRRect.right,
-        getPixelY(stackItem.fromY, drawSize, holder),
+        getPixelY(stackItem.fromY),
         bottomLeft:
             stackItem.fromY < stackItem.toY ? Radius.zero : barRRect.blRadius,
         bottomRight:
@@ -670,9 +654,9 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     } else {
       strokeBarRect = RRect.fromLTRBR(
         barRRect.left,
-        getPixelY(stackItem.toY, drawSize, holder),
+        getPixelY(stackItem.toY),
         barRRect.right,
-        getPixelY(stackItem.fromY, drawSize, holder),
+        getPixelY(stackItem.fromY),
         Radius.zero,
       );
     }
@@ -728,35 +712,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
         final isUpward = targetData.barGroups[i].barRods[j].isUpward();
         if (isUpward) {
-          barTopY = getPixelY(
-            targetData.barGroups[i].barRods[j].toY,
-            viewSize,
-            holder,
-          );
+          barTopY = getPixelY(targetData.barGroups[i].barRods[j].toY);
           barBotY = getPixelY(
             targetData.barGroups[i].barRods[j].fromY +
                 targetData.barGroups[i].barRods[j].backDrawRodData.fromY,
-            viewSize,
-            holder,
           );
         } else {
           barTopY = getPixelY(
             targetData.barGroups[i].barRods[j].fromY +
                 targetData.barGroups[i].barRods[j].backDrawRodData.fromY,
-            viewSize,
-            holder,
           );
-          barBotY = getPixelY(
-            targetData.barGroups[i].barRods[j].toY,
-            viewSize,
-            holder,
-          );
+          barBotY = getPixelY(targetData.barGroups[i].barRods[j].toY);
         }
 
         final backDrawBarY = getPixelY(
           targetData.barGroups[i].barRods[j].backDrawRodData.toY,
-          viewSize,
-          holder,
         );
         final touchExtraThreshold = targetData.barTouchData.touchExtraThreshold;
 
@@ -796,8 +766,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           final nearestBarRod = nearestGroup.barRods[j];
           final nearestSpot =
               FlSpot(nearestGroup.x.toDouble(), nearestBarRod.toY);
-          final nearestSpotPos =
-              Offset(barX, getPixelY(nearestSpot.y, viewSize, holder));
+          final nearestSpotPos = Offset(barX, getPixelY(nearestSpot.y));
 
           var touchedStackIndex = -1;
           BarChartRodStackItem? touchedStack;
@@ -805,8 +774,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               stackIndex < nearestBarRod.rodStackItems.length;
               stackIndex++) {
             final stackItem = nearestBarRod.rodStackItems[stackIndex];
-            final fromPixel = getPixelY(stackItem.fromY, viewSize, holder);
-            final toPixel = getPixelY(stackItem.toY, viewSize, holder);
+            final fromPixel = getPixelY(stackItem.fromY);
+            final toPixel = getPixelY(stackItem.toY);
             if (touchedPoint.dy <= fromPixel && touchedPoint.dy >= toPixel) {
               touchedStackIndex = stackIndex;
               touchedStack = stackItem;
