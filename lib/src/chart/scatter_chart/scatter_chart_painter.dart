@@ -108,8 +108,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       if (!scatterSpot.show) {
         continue;
       }
-      final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
-      final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
+      final pixelX = getPixelX(scatterSpot.x);
+      final pixelY = getPixelY(scatterSpot.y);
 
       canvasWrapper.drawDot(
         scatterSpot.dotPainter,
@@ -150,8 +150,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           textScaler: holder.textScaler,
         )..layout(maxWidth: viewSize.width);
 
-        final pixelX = getPixelX(scatterSpot.x, viewSize, holder);
-        final pixelY = getPixelY(scatterSpot.y, viewSize, holder);
+        final pixelX = getPixelX(scatterSpot.x);
+        final pixelY = getPixelY(scatterSpot.y);
 
         double newPixelY;
 
@@ -199,8 +199,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     PaintHolder<ScatterChartData> holder,
   ) {
     final data = holder.data;
-    final viewSize = canvasWrapper.size;
-
     final errorIndicatorData = data.errorIndicatorData;
     if (!errorIndicatorData.show) {
       return;
@@ -210,8 +208,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       if (!spot.show || spot.isNull()) {
         continue;
       }
-      final x = getPixelX(spot.x, viewSize, holder);
-      final y = getPixelY(spot.y, viewSize, holder);
+      final x = getPixelX(spot.x);
+      final y = getPixelY(spot.y);
       if (spot.xError == null && spot.yError == null) {
         continue;
       }
@@ -219,15 +217,15 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       var left = 0.0;
       var right = 0.0;
       if (spot.xError != null) {
-        left = getPixelX(spot.x - spot.xError!.lowerBy, viewSize, holder) - x;
-        right = getPixelX(spot.x + spot.xError!.upperBy, viewSize, holder) - x;
+        left = getPixelX(spot.x - spot.xError!.lowerBy) - x;
+        right = getPixelX(spot.x + spot.xError!.upperBy) - x;
       }
 
       var top = 0.0;
       var bottom = 0.0;
       if (spot.yError != null) {
-        top = getPixelY(spot.y + spot.yError!.lowerBy, viewSize, holder) - y;
-        bottom = getPixelY(spot.y - spot.yError!.upperBy, viewSize, holder) - y;
+        top = getPixelY(spot.y + spot.yError!.lowerBy) - y;
+        bottom = getPixelY(spot.y - spot.yError!.upperBy) - y;
       }
       final relativeErrorPixelsRect = Rect.fromLTRB(
         left,
@@ -308,8 +306,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final height = drawingTextPainter.height;
 
     final tooltipOriginPoint = Offset(
-      getPixelX(showOnSpot.x, viewSize, holder),
-      getPixelY(showOnSpot.y, viewSize, holder),
+      getPixelX(showOnSpot.x),
+      getPixelY(showOnSpot.y),
     );
 
     // Get the dot size to create an extended boundary
@@ -453,8 +451,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       // Reverse the loop to check the topmost spot first
       final spot = data.scatterSpots[i];
 
-      final spotPixelX = getPixelX(spot.x, viewSize, holder);
-      final spotPixelY = getPixelY(spot.y, viewSize, holder);
+      final spotPixelX = getPixelX(spot.x);
+      final spotPixelY = getPixelY(spot.y);
       final center = Offset(spotPixelX, spotPixelY);
 
       final touched = spot.dotPainter.hitTest(
