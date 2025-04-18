@@ -2059,3 +2059,81 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
 /// has its own input type, for example in [LineChart]
 /// it is [LineChartSpotErrorRangeCallbackInput] (which contains the [FlSpot])
 abstract class FlSpotErrorRangeCallbackInput with EquatableMixin {}
+
+/// The class to hold the information about showing a specific point
+/// in the axis-based charts
+///
+/// You can provide the point by [x] and [y] values.
+class AxisPointIndicator with EquatableMixin {
+  const AxisPointIndicator({
+    required this.x,
+    required this.y,
+    required this.horizontalLine,
+    required this.verticalLine,
+  });
+
+  final double x;
+  final double y;
+  final HorizontalLine? horizontalLine;
+  final VerticalLine? verticalLine;
+
+  /// Lerps a [AxisPointIndicator] based on [t] value, check [Tween.lerp].
+  static AxisPointIndicator lerp(
+    AxisPointIndicator a,
+    AxisPointIndicator b,
+    double t,
+  ) =>
+      AxisPointIndicator(
+        x: lerpDouble(a.x, b.x, t)!,
+        y: lerpDouble(a.y, b.y, t)!,
+        horizontalLine: a.horizontalLine != null && b.horizontalLine != null
+            ? HorizontalLine.lerp(
+                a.horizontalLine!,
+                b.horizontalLine!,
+                t,
+              )
+            : b.horizontalLine,
+        verticalLine: a.verticalLine != null && b.verticalLine != null
+            ? VerticalLine.lerp(
+                a.verticalLine!,
+                b.verticalLine!,
+                t,
+              )
+            : b.verticalLine,
+      );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        x,
+        y,
+        horizontalLine,
+        verticalLine,
+      ];
+}
+
+abstract class AxisPointIndicatorPainter {
+  const AxisPointIndicatorPainter();
+
+  /// Draws the point indicator
+  void draw(
+    Canvas canvas,
+    AxisChartCoordinateMapper coordinateMapper,
+    AxisPointIndicator axisPointIndicator,
+    Offset offsetInCanvas,
+    AxisChartData axisChartData,
+  );
+}
+
+class AxisLinesIndicatorPainter extends AxisPointIndicatorPainter {
+  @override
+  void draw(
+    Canvas canvas,
+    AxisPointIndicator axisPointIndicator,
+    AxisChartCoordinateMapper coordinateMapper,
+    Offset offsetInCanvas,
+    AxisChartData axisChartData,
+  ) {
+    // TODO: implement draw
+  }
+}
