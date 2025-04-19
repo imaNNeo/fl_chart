@@ -41,6 +41,7 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
     super.paint(context, canvasWrapper, holder);
+    drawAxisSpotIndicator(context, canvasWrapper, holder);
     drawCandlesticks(context, canvasWrapper, holder);
 
     if (holder.chartVirtualRect != null) {
@@ -296,6 +297,28 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
           ..drawRRect(roundedRect, _borderTouchTooltipPaint)
           ..drawText(drawingTextPainter, drawOffset);
       },
+    );
+  }
+
+  @visibleForTesting
+  void drawAxisSpotIndicator(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<CandlestickChartData> holder,
+  ) {
+    final pointIndicator = holder.data.touchedPointIndicator;
+    if (pointIndicator == null) {
+      return;
+    }
+
+    final canvas = canvasWrapper.canvas;
+    final viewSize = canvasWrapper.size;
+    pointIndicator.painter.draw(
+      canvas,
+      pointIndicator,
+      (x) => getPixelX(x, viewSize, holder),
+      (y) => getPixelY(y, viewSize, holder),
+      holder.data,
     );
   }
 
