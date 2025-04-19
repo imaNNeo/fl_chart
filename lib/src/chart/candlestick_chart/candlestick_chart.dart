@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_scaffold_widget.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_renderer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Renders a pie chart as a widget, using provided [CandlestickChartData].
 class CandlestickChart extends ImplicitlyAnimatedWidget {
@@ -78,8 +78,27 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
       return candlestickChartData;
     }
 
+    final spot = touchedSpots.isNotEmpty
+        ? candlestickChartData.candlestickSpots[touchedSpots.first]
+        : null;
     return candlestickChartData.copyWith(
       showingTooltipIndicators: touchedSpots,
+      touchedPointIndicator: spot != null
+          ? AxisSpotIndicator(
+              x: spot.x,
+              y: spot.midPoint,
+              painter: AxisLinesIndicatorPainter(
+                horizontalLine: const FlLine(
+                  color: Colors.white24,
+                  strokeWidth: 1,
+                ),
+                verticalLine: const FlLine(
+                  color: Colors.white24,
+                  strokeWidth: 1,
+                ),
+              ),
+            )
+          : null,
     );
   }
 
