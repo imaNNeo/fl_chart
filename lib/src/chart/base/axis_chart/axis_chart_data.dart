@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -2059,3 +2060,176 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
 /// has its own input type, for example in [LineChart]
 /// it is [LineChartSpotErrorRangeCallbackInput] (which contains the [FlSpot])
 abstract class FlSpotErrorRangeCallbackInput with EquatableMixin {}
+
+typedef ValueInCanvasProvider = double Function(double axisValue);
+
+/// The class to hold the information about showing a specific point
+/// in the axis-based charts
+///
+/// You can provide the point by [x] and [y] values.
+/// There's a [painter] property that manages the drawing of the point.
+/// We have a default implementation of the painter which is
+/// [AxisLinesIndicatorPainter], it draws a horizontal and a vertical line
+/// that goes through the point.
+///
+/// You can also create your own custom painter by extending the
+/// [AxisSpotIndicatorPainter] class.
+class AxisSpotIndicator with EquatableMixin {
+  const AxisSpotIndicator({
+    required this.x,
+    required this.y,
+    required this.painter,
+  });
+
+  final double x;
+  final double y;
+  final AxisSpotIndicatorPainter painter;
+
+  /// Lerps a [AxisSpotIndicator] based on [t] value, check [Tween.lerp].
+  static AxisSpotIndicator lerp(
+    AxisSpotIndicator a,
+    AxisSpotIndicator b,
+    double t,
+  ) =>
+      AxisSpotIndicator(
+        x: lerpDouble(a.x, b.x, t)!,
+        y: lerpDouble(a.y, b.y, t)!,
+        painter: a.painter.lerp(b.painter, t),
+      );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        x,
+        y,
+        painter,
+      ];
+}
+
+/// The abstract class that is used to draw the point indicator
+///
+/// You can create your own custom painter by extending this class
+/// and implementing the [draw] method.
+///
+/// You can also use the default implementation which is
+/// [AxisLinesIndicatorPainter], it draws a horizontal and a vertical line
+/// that goes through the point.
+abstract class AxisSpotIndicatorPainter {
+  const AxisSpotIndicatorPainter();
+
+  /// Draws the point indicator
+  void draw(
+    Canvas canvas,
+    AxisSpotIndicator axisPointIndicator,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
+    AxisChartData axisChartData,
+  );
+
+  /// Lerps a [AxisSpotIndicatorPainter] based on [t] value, check [Tween.lerp].
+  AxisSpotIndicatorPainter lerp(
+    AxisSpotIndicatorPainter b,
+    double t,
+  );
+}
+
+/// The default implementation of the [AxisSpotIndicatorPainter]
+///
+/// It draws a horizontal and a vertical line that goes through the point
+class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
+  AxisLinesIndicatorPainter({
+    this.horizontalLine = const FlLine(),
+    this.verticalLine = const FlLine(),
+  });
+
+  /// The horizontal line that goes through the point, you can set it to null
+  /// to prevent drawing it
+  final FlLine? horizontalLine;
+
+  /// The vertical line that goes through the point, you can set it to null
+  /// to prevent drawing it
+  final FlLine? verticalLine;
+
+  /// The paint object that is used to draw the lines
+  final linePaint = Paint();
+
+  @override
+  void draw(
+    Canvas canvas,
+    AxisSpotIndicator axisPointIndicator,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
+    AxisChartData axisChartData,
+  ) {
+    final left = Offset(
+      xInCanvasProvider(axisChartData.minX),
+      yInCanvasProvider(axisPointIndicator.y),
+    );
+    final right = Offset(
+      xInCanvasProvider(axisChartData.maxX),
+      yInCanvasProvider(axisPointIndicator.y),
+    );
+    final top = Offset(
+      xInCanvasProvider(axisPointIndicator.x),
+      yInCanvasProvider(axisChartData.maxY),
+    );
+    final bottom = Offset(
+      xInCanvasProvider(axisPointIndicator.x),
+      yInCanvasProvider(axisChartData.minY),
+    );
+
+    if (horizontalLine != null) {
+      linePaint
+        ..setColorOrGradientForLine(
+          horizontalLine!.color,
+          horizontalLine!.gradient,
+          from: left,
+          to: right,
+        )
+        ..strokeWidth = horizontalLine!.strokeWidth
+        ..transparentIfWidthIsZero();
+
+      canvas.drawLine(left, right, linePaint);
+    }
+
+    if (verticalLine != null) {
+      linePaint
+        ..setColorOrGradientForLine(
+          verticalLine!.color,
+          verticalLine!.gradient,
+          from: top,
+          to: bottom,
+        )
+        ..strokeWidth = verticalLine!.strokeWidth
+        ..transparentIfWidthIsZero();
+
+      canvas.drawLine(top, bottom, linePaint);
+    }
+  }
+
+  /// Lerps a [AxisLinesIndicatorPainter] based on [t] value, check [Tween.lerp].
+  AxisLinesIndicatorPainter _lerp(
+    AxisLinesIndicatorPainter b,
+    double t,
+  ) =>
+      AxisLinesIndicatorPainter(
+        horizontalLine: (horizontalLine == null || b.horizontalLine == null)
+            ? b.horizontalLine
+            : FlLine.lerp(horizontalLine!, b.horizontalLine!, t),
+        verticalLine: (verticalLine == null || b.verticalLine == null)
+            ? b.verticalLine
+            : FlLine.lerp(verticalLine!, b.verticalLine!, t),
+      );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  AxisSpotIndicatorPainter lerp(
+    AxisSpotIndicatorPainter b,
+    double t,
+  ) {
+    if (b is! AxisLinesIndicatorPainter) {
+      return b;
+    }
+    return _lerp(b, t);
+  }
+}
