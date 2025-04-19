@@ -50,6 +50,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
     FlClipData? clipData,
     super.backgroundColor,
     super.rotationQuarterTurns,
+    this.touchedPointIndicator,
   })  : candlestickSpots = candlestickSpots ?? const [],
         candlestickPainter = candlestickPainter ?? DefaultCandlestickPainter(),
         candlestickTouchData = candlestickTouchData ?? CandlestickTouchData(),
@@ -97,6 +98,17 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
   /// to show the tooltip manually, see [CandlestickTouchData.handleBuiltInTouches].
   final List<int> showingTooltipIndicators;
 
+  /// Shows an indicator on the touched / hovered point
+  ///
+  /// We manage to set it by default
+  /// when [candlestickTouchData.handleBuiltInTouches] is true,
+  /// so nothing happens if you change this property as long as
+  /// the handleBuiltInTouches property is true.
+  ///
+  /// But you can set [candlestickTouchData.handleBuiltInTouches] to false
+  /// if you want to have customized [touchedPointIndicator]
+  final AxisSpotIndicator? touchedPointIndicator;
+
   /// Lerps a [CandlestickChartData] based on [t] value, check [Tween.lerp].
   @override
   CandlestickChartData lerp(BaseChartData a, BaseChartData b, double t) {
@@ -132,6 +144,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         clipData: b.clipData,
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         rotationQuarterTurns: b.rotationQuarterTurns,
+        touchedPointIndicator: b.touchedPointIndicator,
       );
     } else {
       throw Exception('Illegal State');
@@ -158,6 +171,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
     FlClipData? clipData,
     Color? backgroundColor,
     int? rotationQuarterTurns,
+    AxisSpotIndicator? touchedPointIndicator,
   }) =>
       CandlestickChartData(
         candlestickSpots: candlestickSpots ?? this.candlestickSpots,
@@ -178,6 +192,8 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         clipData: clipData ?? this.clipData,
         backgroundColor: backgroundColor ?? this.backgroundColor,
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
+        touchedPointIndicator:
+            touchedPointIndicator ?? this.touchedPointIndicator,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -200,6 +216,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         backgroundColor,
         borderData,
         rotationQuarterTurns,
+        touchedPointIndicator,
       ];
 }
 
@@ -244,6 +261,9 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
   ///
   /// It is the same as bullish and bearish definitions in the stock market.
   bool get isUp => close > open;
+
+  /// Returns the middle point of the candlestick
+  double get midPoint => (open + close) / 2;
 
   @override
   CandlestickSpot copyWith({
