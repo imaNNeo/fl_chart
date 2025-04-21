@@ -465,10 +465,7 @@ class CandlestickTouchTooltipData with EquatableMixin {
   /// [CandlestickChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [CandlestickChartData.showingTooltipIndicators].
   /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
-  /// You can set the corner radius using [tooltipRoundedRadius],
-  /// or if you need a custom border, you can use [tooltipBorderRadius].
-  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set,
-  /// the value from [tooltipBorderRadius] will be used.
+  /// You can set the corner radius using [tooltipBorderRadius].
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding].
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
   /// and pass your custom data to show in the tooltip.
