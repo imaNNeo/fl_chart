@@ -743,13 +743,10 @@ abstract class FlCandlestickPainter with EquatableMixin {
   /// This method should be overridden to draw the candlestick shape
   void draw(
     CanvasWrapper canvas,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
     CandlestickSpot spot,
     int spotIndex,
-    double xOffsetInCanvas,
-    double openYOffsetInCanvas,
-    double highYOffsetInCanvas,
-    double lowOYOffsetInCanvas,
-    double closeYOffsetInCanvas,
   );
 
   /// Used to show default UIs, for example [defaultCandlestickTooltipItem]
@@ -818,18 +815,22 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
   final _bodyPainter = Paint();
   final _bodyStrokePainter = Paint();
 
+
   @override
   void draw(
     CanvasWrapper canvas,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
     CandlestickSpot spot,
     int spotIndex,
-    double xOffsetInCanvas,
-    double openYOffsetInCanvas,
-    double highYOffsetInCanvas,
-    double lowOYOffsetInCanvas,
-    double closeYOffsetInCanvas,
   ) {
     final style = candlestickStyleProvider(spot, spotIndex);
+
+    final xOffsetInCanvas = xInCanvasProvider(spot.x);
+    final openYOffsetInCanvas = yInCanvasProvider(spot.open);
+    final highYOffsetInCanvas = yInCanvasProvider(spot.high);
+    final lowOYOffsetInCanvas = yInCanvasProvider(spot.low);
+    final closeYOffsetInCanvas = yInCanvasProvider(spot.close);
 
     final bodyHighCanvas = min(openYOffsetInCanvas, closeYOffsetInCanvas);
     final bodyLowCanvas = max(openYOffsetInCanvas, closeYOffsetInCanvas);
