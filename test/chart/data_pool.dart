@@ -3281,3 +3281,157 @@ final DefaultTextStyle defaultTextStyle1 = DefaultTextStyle(
   style: const TextStyle(),
   child: Container(),
 );
+
+final candlestickTouchData1 = CandlestickTouchData(
+  enabled: false,
+);
+
+final candlestickSpot1 = CandlestickSpot(
+  x: 0,
+  open: 10,
+  high: 100,
+  low: 0,
+  close: 20,
+);
+
+final candlestickSpot1Clone = candlestickSpot1.copyWith();
+
+final candlestickSpot2 = CandlestickSpot(
+  x: 10,
+  open: 20,
+  high: 110,
+  low: 10,
+  close: 30,
+);
+
+final candlestickSpot3 = CandlestickSpot(
+  x: 20,
+  open: 30,
+  high: 120,
+  low: 20,
+  close: 40,
+);
+
+final candlestickSpot4 = CandlestickSpot(
+  x: 30,
+  open: 40,
+  high: 130,
+  low: 30,
+  close: 50,
+);
+
+final candleStickChartData1 = CandlestickChartData(
+  candlestickSpots: [
+    candlestickSpot1,
+    candlestickSpot2,
+    candlestickSpot3,
+    candlestickSpot4,
+  ],
+  candlestickPainter: DefaultCandlestickPainter(),
+  titlesData: MockData.flTitlesData1,
+  candlestickTouchData: candlestickTouchData1,
+  showingTooltipIndicators: [0, 1, 2],
+  gridData: flGridData1,
+  borderData: borderData1,
+  minX: 0,
+  maxX: 1000,
+  minY: 0,
+  maxY: 1000,
+  baselineX: 0,
+  baselineY: 0,
+  backgroundColor: Colors.white,
+  rangeAnnotations: rangeAnnotations1,
+  clipData: const FlClipData.none(),
+);
+
+final candleStickChartData1Clone = candleStickChartData1.copyWith();
+
+final candleStickChartData2 = CandlestickChartData(
+  candlestickSpots: [
+    candlestickSpot1,
+    candlestickSpot2,
+    candlestickSpot3,
+    candlestickSpot4,
+  ],
+  candlestickPainter: DefaultCandlestickPainter(),
+  titlesData: MockData.flTitlesData2,
+  candlestickTouchData: candlestickTouchData1,
+  showingTooltipIndicators: [1, 2, 3],
+  gridData: flGridData1,
+  borderData: borderData1,
+  minX: 0,
+  maxX: 1000,
+  minY: 0,
+  maxY: 1000,
+  baselineX: 0,
+  baselineY: 0,
+  backgroundColor: Colors.white,
+  rangeAnnotations: rangeAnnotations1,
+  clipData: const FlClipData.all(),
+  rotationQuarterTurns: 1,
+);
+
+Color candlestickChartGetTooltipRedColor(CandlestickSpot spots) => Colors.red;
+
+Color candlestickChartGetTooltipGreenColor(CandlestickSpot spots) =>
+    Colors.green;
+
+CandlestickTooltipItem? candlestickChartGetTooltipItems(
+  FlCandlestickPainter painter,
+  CandlestickSpot touchedSpot,
+  int spotIndex,
+) {
+  return CandlestickTooltipItem(
+    'check',
+    textStyle: const TextStyle(color: Colors.blue),
+    bottomMargin: 23,
+  );
+}
+
+final CandlestickTouchTooltipData candlestickTouchTooltipData1 =
+    CandlestickTouchTooltipData(
+  tooltipBorderRadius: const BorderRadius.all(Radius.circular(23)),
+  tooltipPadding: const EdgeInsets.all(11),
+  getTooltipColor: candlestickChartGetTooltipGreenColor,
+  maxContentWidth: 33,
+  fitInsideVertically: true,
+  fitInsideHorizontally: false,
+  getTooltipItems: candlestickChartGetTooltipItems,
+  tooltipBorder: const BorderSide(color: Colors.red),
+);
+final CandlestickTouchTooltipData candlestickTouchTooltipData1Clone =
+    CandlestickTouchTooltipData(
+  tooltipBorderRadius: const BorderRadius.all(Radius.circular(23)),
+  tooltipPadding: const EdgeInsets.all(11),
+  getTooltipColor: candlestickChartGetTooltipGreenColor,
+  maxContentWidth: 33,
+  fitInsideVertically: true,
+  fitInsideHorizontally: false,
+  getTooltipItems: candlestickChartGetTooltipItems,
+  tooltipBorder: const BorderSide(color: Colors.red),
+);
+final CandlestickTouchTooltipData candlestickTouchTooltipData2 =
+    CandlestickTouchTooltipData(
+  tooltipBorderRadius: const BorderRadius.all(Radius.circular(23)),
+  tooltipPadding: const EdgeInsets.all(11),
+  getTooltipColor: candlestickChartGetTooltipGreenColor,
+  maxContentWidth: 33,
+  fitInsideVertically: true,
+  fitInsideHorizontally: false,
+  getTooltipItems: candlestickChartGetTooltipItems,
+  tooltipBorder: const BorderSide(color: Colors.blue),
+  tooltipHorizontalAlignment: FLHorizontalAlignment.left,
+);
+final CandlestickTouchTooltipData candlestickTouchTooltipData3 =
+    CandlestickTouchTooltipData(
+  tooltipBorderRadius: const BorderRadius.all(Radius.circular(23)),
+  tooltipPadding: const EdgeInsets.all(11),
+  getTooltipColor: candlestickChartGetTooltipGreenColor,
+  maxContentWidth: 33,
+  fitInsideVertically: true,
+  fitInsideHorizontally: false,
+  getTooltipItems: candlestickChartGetTooltipItems,
+  tooltipBorder: const BorderSide(color: Colors.red, width: 2),
+  tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+  tooltipHorizontalOffset: 10,
+);
