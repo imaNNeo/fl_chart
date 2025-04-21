@@ -195,11 +195,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         drawAnnotationText(
           canvasWrapper,
-          offset: rect.centerLeft -
+          offset: rect.topCenter +
               Offset(annotation.horizontalPadding, annotation.verticalPadding),
           text: annotation.text,
           style: annotation.style,
-          rotation: annotation.rotation ?? -90,
+          rotation: annotation.rotation ?? 90,
         );
       }
     }
@@ -225,7 +225,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
         drawAnnotationText(
           canvasWrapper,
-          offset: rect.centerLeft -
+          offset: rect.centerLeft +
               Offset(annotation.horizontalPadding, annotation.verticalPadding),
           text: annotation.text,
           style: annotation.style,

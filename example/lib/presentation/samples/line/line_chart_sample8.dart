@@ -129,7 +129,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
               x2: 9,
               color: AppColors.contentColorBlue.withValues(alpha: 0.2),
               text: "This is a text",
-              verticalPadding: -10,
+              verticalPadding: 10,
               style: const TextStyle(
                 color: Colors.amber,
                 fontSize: 18,
@@ -141,7 +141,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             y2: 3,
             color: AppColors.contentColorGreen.withValues(alpha: 0.3),
             text: "This is a text",
-            horizontalPadding: -30,
+            horizontalPadding: 30,
           ),
         ],
       ),
