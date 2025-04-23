@@ -3446,7 +3446,4 @@ final CandlestickTouchTooltipData candlestickTouchTooltipData3 =
   tooltipHorizontalOffset: 10,
 );
 
-final candlestickTouchedSpot1 = CandlestickTouchedSpot(
-  candlestickSpot1,
-  0
-);
+final candlestickTouchedSpot1 = CandlestickTouchedSpot(candlestickSpot1, 0);

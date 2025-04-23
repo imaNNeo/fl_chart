@@ -88,7 +88,8 @@ void main() {
       expect(
         candleStickChartData1 ==
             candleStickChartData1Clone.copyWith(
-                clipData: const FlClipData.all()),
+              clipData: const FlClipData.all(),
+            ),
         false,
       );
       expect(
@@ -357,12 +358,18 @@ void main() {
     });
 
     test('CandlestickTouchTooltipData equality test', () {
-      expect(candlestickTouchTooltipData1 == candlestickTouchTooltipData1Clone,
-          true);
       expect(
-          candlestickTouchTooltipData1 == candlestickTouchTooltipData2, false);
+        candlestickTouchTooltipData1 == candlestickTouchTooltipData1Clone,
+        true,
+      );
       expect(
-          candlestickTouchTooltipData1 == candlestickTouchTooltipData3, false);
+        candlestickTouchTooltipData1 == candlestickTouchTooltipData2,
+        false,
+      );
+      expect(
+        candlestickTouchTooltipData1 == candlestickTouchTooltipData3,
+        false,
+      );
     });
 
     test('CandlestickTooltipItem equality test', () {

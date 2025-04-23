@@ -915,7 +915,7 @@ void main() {
       );
 
       final passedDrawCallback =
-      verificationResult.captured.first as DrawCallback;
+          verificationResult.captured.first as DrawCallback;
       passedDrawCallback();
 
       verificationResult.called(1);
