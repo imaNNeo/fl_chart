@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -2109,7 +2110,7 @@ class AxisSpotIndicator with EquatableMixin {
 /// The abstract class that is used to draw the point indicator
 ///
 /// You can create your own custom painter by extending this class
-/// and implementing the [draw] method.
+/// and implementing the [paint] method.
 ///
 /// You can also use the default implementation which is
 /// [AxisLinesIndicatorPainter], it draws a horizontal and a vertical line
@@ -2118,8 +2119,8 @@ abstract class AxisSpotIndicatorPainter {
   const AxisSpotIndicatorPainter();
 
   /// Draws the point indicator
-  void draw(
-    Canvas canvas,
+  void paint(
+    CanvasWrapper canvas,
     AxisSpotIndicator axisPointIndicator,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
@@ -2154,8 +2155,8 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
   final linePaint = Paint();
 
   @override
-  void draw(
-    Canvas canvas,
+  void paint(
+    CanvasWrapper canvas,
     AxisSpotIndicator axisPointIndicator,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
