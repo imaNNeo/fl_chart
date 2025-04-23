@@ -812,7 +812,6 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
   final _bodyPainter = Paint();
   final _bodyStrokePainter = Paint();
 
-
   @override
   void paint(
     CanvasWrapper canvas,
