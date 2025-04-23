@@ -738,7 +738,7 @@ abstract class FlCandlestickPainter with EquatableMixin {
   const FlCandlestickPainter();
 
   /// This method should be overridden to draw the candlestick shape
-  void draw(
+  void paint(
     CanvasWrapper canvas,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
@@ -814,7 +814,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
 
 
   @override
-  void draw(
+  void paint(
     CanvasWrapper canvas,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
