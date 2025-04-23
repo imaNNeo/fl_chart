@@ -25,6 +25,7 @@ void main() {
           candlestickSpot2,
           candlestickSpot3,
         ],
+        clipData: const FlClipData.all(),
       );
 
       final candlestickPainter = CandlestickChartPainter();
@@ -50,6 +51,7 @@ void main() {
         holder,
       );
 
+      verify(mockCanvasWrapper.clipRect(any)).called(1);
       verify(mockCanvasWrapper.drawLine(any, any, any)).called(6);
       Utils.changeInstance(utilsMainInstance);
     });
@@ -826,6 +828,111 @@ void main() {
       expect(rRect.tlRadiusY, 22);
 
       expect(rRect.left, 0);
+
+      expect(bgPaint.color, const Color(0xFFFFFF00));
+      expect(
+        textPainter.text,
+        const TextSpan(
+          style: textStyle1,
+          text: 'faketext',
+          children: [
+            textSpan1,
+            textSpan2,
+          ],
+        ),
+      );
+    });
+
+    test('test 4', () {
+      const viewSize = Size(100, 100);
+
+      final data = CandlestickChartData(
+        candlestickSpots: [
+          candlestickSpot1,
+          candlestickSpot2,
+          candlestickSpot3,
+          candlestickSpot4,
+        ],
+        showingTooltipIndicators: [0, 1, 2, 3],
+        titlesData: const FlTitlesData(show: false),
+        candlestickTouchData: CandlestickTouchData(
+          touchTooltipData: CandlestickTouchTooltipData(
+            rotateAngle: 18,
+            getTooltipColor: (touchedSpot) => const Color(0xFFFFFF00),
+            tooltipBorderRadius: BorderRadius.circular(22),
+            fitInsideHorizontally: true,
+            fitInsideVertically: true,
+            tooltipPadding: const EdgeInsets.all(12),
+            tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+            tooltipBorder: const BorderSide(
+              color: Color(0xFF00FF00),
+              width: 2,
+            ),
+            getTooltipItems: (_, __, ___) => CandlestickTooltipItem(
+              'faketext',
+              textStyle: textStyle2,
+              textAlign: TextAlign.right,
+              textDirection: TextDirection.ltr,
+              children: [
+                textSpan1,
+                textSpan2,
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final candlestickChartPainter = CandlestickChartPainter();
+      final holder = PaintHolder<CandlestickChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      final mockBuildContext = MockBuildContext();
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      candlestickChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        data.candlestickTouchData.touchTooltipData,
+        candlestickSpot1,
+        0,
+        holder,
+      );
+
+      final verificationResult = verify(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: 18,
+          drawCallback: captureAnyNamed('drawCallback'),
+        ),
+      );
+
+      final passedDrawCallback =
+      verificationResult.captured.first as DrawCallback;
+      passedDrawCallback();
+
+      verificationResult.called(1);
+
+      final captured2 = verifyInOrder([
+        mockCanvasWrapper.drawRRect(captureAny, captureAny),
+        mockCanvasWrapper.drawText(captureAny, any),
+      ]).captured;
+
+      final rRect = captured2[0][0] as RRect;
+      final bgPaint = captured2[0][1] as Paint;
+      final textPainter = captured2[1][0] as TextPainter;
+
+      expect(rRect.blRadiusX, 22);
+      expect(rRect.tlRadiusY, 22);
+
+      expect(rRect.left, -44);
 
       expect(bgPaint.color, const Color(0xFFFFFF00));
       expect(
