@@ -3304,6 +3304,8 @@ final candlestickSpot2 = CandlestickSpot(
   close: 30,
 );
 
+final candlestickSpot2Clone = candlestickSpot2.copyWith();
+
 final candlestickSpot3 = CandlestickSpot(
   x: 20,
   open: 30,
