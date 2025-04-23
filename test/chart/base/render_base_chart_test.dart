@@ -165,7 +165,7 @@ class TestRenderBaseChart extends RenderBaseChart<LineTouchResponse> {
   final LongPressGestureRecognizer longPressGestureRecognizerOverride;
 
   @override
-  void initGestureRecognizers() {
+  void initGestureRecognizers({bool ignorePanGesture = false}) {
     super.initGestureRecognizers();
     panGestureRecognizer = panGestureRecognizerOverride;
     tapGestureRecognizer = tapGestureRecognizerOverride;
