@@ -23,8 +23,8 @@ class CandlestickChartLeaf extends LeafRenderObjectWidget {
   final bool canBeScaled;
 
   @override
-  RenderCandleChart createRenderObject(BuildContext context) =>
-      RenderCandleChart(
+  RenderCandlestickChart createRenderObject(BuildContext context) =>
+      RenderCandlestickChart(
         context,
         data,
         targetData,
@@ -36,7 +36,7 @@ class CandlestickChartLeaf extends LeafRenderObjectWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    RenderCandleChart renderObject,
+    RenderCandlestickChart renderObject,
   ) {
     renderObject
       ..data = data
@@ -50,8 +50,8 @@ class CandlestickChartLeaf extends LeafRenderObjectWidget {
 // coverage:ignore-end
 
 /// Renders our ScatterChart, also handles hitTest.
-class RenderCandleChart extends RenderBaseChart<CandlestickTouchResponse> {
-  RenderCandleChart(
+class RenderCandlestickChart extends RenderBaseChart<CandlestickTouchResponse> {
+  RenderCandlestickChart(
     BuildContext context,
     CandlestickChartData data,
     CandlestickChartData targetData,
