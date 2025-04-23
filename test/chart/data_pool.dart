@@ -3298,10 +3298,10 @@ final candlestickSpot1Clone = candlestickSpot1.copyWith();
 
 final candlestickSpot2 = CandlestickSpot(
   x: 10,
-  open: 20,
+  open: 30,
   high: 110,
   low: 10,
-  close: 30,
+  close: 20,
 );
 
 final candlestickSpot2Clone = candlestickSpot2.copyWith();
