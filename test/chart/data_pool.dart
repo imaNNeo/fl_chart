@@ -3437,3 +3437,8 @@ final CandlestickTouchTooltipData candlestickTouchTooltipData3 =
   tooltipHorizontalAlignment: FLHorizontalAlignment.right,
   tooltipHorizontalOffset: 10,
 );
+
+final candlestickTouchedSpot1 = CandlestickTouchedSpot(
+  candlestickSpot1,
+  0
+);
