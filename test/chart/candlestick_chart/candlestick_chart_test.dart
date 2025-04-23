@@ -325,7 +325,8 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafBeforePan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafBeforePan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectBeforePan =
@@ -336,7 +337,8 @@ void main() {
           await tester.dragFrom(chartCenterOffset, panOffset);
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafAfterPan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafAfterPan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectAfterPan =
@@ -378,7 +380,8 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafBeforePan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafBeforePan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectBeforePan =
@@ -389,7 +392,8 @@ void main() {
           await tester.dragFrom(chartCenterOffset, panOffset);
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafAfterPan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafAfterPan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectAfterPan =
@@ -430,7 +434,8 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafBeforePan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafBeforePan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectBeforePan =
@@ -442,7 +447,8 @@ void main() {
           await tester.dragFrom(chartCenterOffset, panOffset);
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafAfterPan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafAfterPan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectAfterPan =
@@ -492,7 +498,8 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafBeforePan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafBeforePan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
 
@@ -507,7 +514,8 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(leftAndUp));
           await tester.pump();
 
-          final candlestickChartLeafAfterPan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafAfterPan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectAfterPan =
@@ -550,7 +558,8 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafBeforePan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafBeforePan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
 
@@ -565,7 +574,8 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(leftAndUp));
           await tester.pump();
 
-          final candlestickChartLeafAfterPan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafAfterPan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectAfterPan =
@@ -608,7 +618,8 @@ void main() {
           await gesture2.up();
           await tester.pumpAndSettle();
 
-          final candlestickChartLeafBeforePan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafBeforePan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
 
@@ -622,7 +633,8 @@ void main() {
           await tester.sendEventToBinding(pointer.scroll(leftAndUp));
           await tester.pump();
 
-          final candlestickChartLeafAfterPan = tester.widget<CandlestickChartLeaf>(
+          final candlestickChartLeafAfterPan =
+              tester.widget<CandlestickChartLeaf>(
             find.byType(CandlestickChartLeaf),
           );
           final chartVirtualRectAfterPan =
@@ -815,8 +827,8 @@ void main() {
         await tester.sendEventToBinding(pointer.scroll(scrollAmount));
         await tester.pump();
 
-        final candlestickChartLeaf =
-            tester.widget<CandlestickChartLeaf>(find.byType(CandlestickChartLeaf));
+        final candlestickChartLeaf = tester
+            .widget<CandlestickChartLeaf>(find.byType(CandlestickChartLeaf));
         final renderBox = tester.renderObject<RenderBox>(
           find.byType(CandlestickChartLeaf),
         );

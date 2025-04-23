@@ -65,7 +65,7 @@ void main() {
         candlestickSpot5,
       ];
       final (minX, maxX, minY, maxY) =
-      CandlestickChartHelper.calculateMaxAxisValues(candlestickSpots);
+          CandlestickChartHelper.calculateMaxAxisValues(candlestickSpots);
       expect(minX, -50);
       expect(maxX, 30);
       expect(minY, -30);
