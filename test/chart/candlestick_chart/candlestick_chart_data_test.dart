@@ -41,10 +41,34 @@ void main() {
         candleStickChartData1 ==
             candleStickChartData1Clone.copyWith(
               candlestickSpots: [
-                CandlestickSpot(x: 0, open: 10, high: 100, low: 0, close: 20),
-                CandlestickSpot(x: 10, open: 20, high: 110, low: 10, close: 30),
-                CandlestickSpot(x: 20, open: 30, high: 120, low: 20, close: 40),
-                CandlestickSpot(x: 30, open: 40, high: 130, low: 30, close: 50),
+                CandlestickSpot(
+                  x: 0,
+                  open: 10,
+                  high: 100,
+                  low: 0,
+                  close: 20,
+                ),
+                CandlestickSpot(
+                  x: 10,
+                  open: 30,
+                  high: 110,
+                  low: 10,
+                  close: 20,
+                ),
+                CandlestickSpot(
+                  x: 20,
+                  open: 30,
+                  high: 120,
+                  low: 20,
+                  close: 40,
+                ),
+                CandlestickSpot(
+                  x: 30,
+                  open: 40,
+                  high: 130,
+                  low: 30,
+                  close: 50,
+                ),
               ],
             ),
         true,
@@ -63,7 +87,8 @@ void main() {
       );
       expect(
         candleStickChartData1 ==
-            candleStickChartData1Clone.copyWith(clipData: const FlClipData.all()),
+            candleStickChartData1Clone.copyWith(
+                clipData: const FlClipData.all()),
         false,
       );
       expect(
@@ -332,9 +357,12 @@ void main() {
     });
 
     test('CandlestickTouchTooltipData equality test', () {
-      expect(candlestickTouchTooltipData1 == candlestickTouchTooltipData1Clone, true);
-      expect(candlestickTouchTooltipData1 == candlestickTouchTooltipData2, false);
-      expect(candlestickTouchTooltipData1 == candlestickTouchTooltipData3, false);
+      expect(candlestickTouchTooltipData1 == candlestickTouchTooltipData1Clone,
+          true);
+      expect(
+          candlestickTouchTooltipData1 == candlestickTouchTooltipData2, false);
+      expect(
+          candlestickTouchTooltipData1 == candlestickTouchTooltipData3, false);
     });
 
     test('CandlestickTooltipItem equality test', () {

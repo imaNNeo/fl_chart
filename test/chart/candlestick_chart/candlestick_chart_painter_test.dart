@@ -841,4 +841,118 @@ void main() {
       );
     });
   });
+
+  group('handleTouch()', () {
+    test('test 1', () {
+      const viewSize = Size(100, 100);
+      final spots = [
+        candlestickSpot1,
+        candlestickSpot2,
+        candlestickSpot3,
+        candlestickSpot4,
+      ];
+
+      final data = CandlestickChartData(
+        minY: 0,
+        maxY: 150,
+        minX: 0,
+        maxX: 30,
+        titlesData: const FlTitlesData(show: false),
+        candlestickSpots: spots,
+        candlestickTouchData: CandlestickTouchData(
+          touchSpotThreshold: 5,
+        ),
+      );
+
+      final candlestickChartPainter = CandlestickChartPainter();
+      final holder = PaintHolder<CandlestickChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      expect(
+        candlestickChartPainter
+            .handleTouch(
+              const Offset(0, 1),
+              viewSize,
+              holder,
+            )!
+            .spot,
+        spots[0],
+      );
+
+      expect(
+        candlestickChartPainter
+            .handleTouch(
+              const Offset(0, 100),
+              viewSize,
+              holder,
+            )!
+            .spot,
+        spots[0],
+      );
+
+      expect(
+        candlestickChartPainter
+            .handleTouch(
+              const Offset(5, 100),
+              viewSize,
+              holder,
+            )!
+            .spot,
+        spots[0],
+      );
+
+      expect(
+        candlestickChartPainter.handleTouch(
+          const Offset(6, 100),
+          viewSize,
+          holder,
+        ),
+        null,
+      );
+
+      expect(
+        candlestickChartPainter
+            .handleTouch(
+              const Offset((1 / 3) * 100, 100),
+              viewSize,
+              holder,
+            )!
+            .spot,
+        spots[1],
+      );
+
+      expect(
+        candlestickChartPainter
+            .handleTouch(
+              const Offset((1 / 3) * 100, 0),
+              viewSize,
+              holder,
+            )!
+            .spot,
+        spots[1],
+      );
+
+      expect(
+        candlestickChartPainter
+            .handleTouch(
+              const Offset((2 / 3) * 100, 0),
+              viewSize,
+              holder,
+            )!
+            .spot,
+        spots[2],
+      );
+
+      expect(
+        candlestickChartPainter.handleTouch(
+          const Offset(((2 / 3) * 100) + 6, 0),
+          viewSize,
+          holder,
+        ),
+        null,
+      );
+    });
+  });
 }
