@@ -1,6 +1,7 @@
 import 'package:dartx/dartx.dart';
 import 'package:fl_chart_app/presentation/menu/app_menu.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
+import 'package:fl_chart_app/presentation/widgets/download_native_app_button.dart';
 import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:fl_chart_app/util/app_utils.dart';
@@ -71,7 +72,18 @@ class HomePage extends StatelessWidget {
               );
 
         return Scaffold(
-          body: body,
+          body: Stack(
+            children: [
+              body,
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 24.0),
+                  child: DownloadNativeAppButton(),
+                ),
+              ),
+            ],
+          ),
           drawer: needsDrawer
               ? Drawer(
                   child: appMenuWidget,
