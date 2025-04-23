@@ -56,6 +56,22 @@ void main() {
       expect(maxY, 0);
     });
 
+    test('Test validity 4', () {
+      final candlestickSpots = [
+        candlestickSpot1,
+        candlestickSpot2,
+        candlestickSpot3,
+        candlestickSpot4,
+        candlestickSpot5,
+      ];
+      final (minX, maxX, minY, maxY) =
+      CandlestickChartHelper.calculateMaxAxisValues(candlestickSpots);
+      expect(minX, -50);
+      expect(maxX, 30);
+      expect(minY, -30);
+      expect(maxY, 130);
+    });
+
     test('Test equality', () {
       final candlestickSpots = [
         candlestickSpot1,

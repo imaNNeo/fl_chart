@@ -3324,6 +3324,14 @@ final candlestickSpot4 = CandlestickSpot(
   close: 50,
 );
 
+final candlestickSpot5 = CandlestickSpot(
+  x: -50,
+  open: -40,
+  high: -130,
+  low: -30,
+  close: -50,
+);
+
 final candleStickChartData1 = CandlestickChartData(
   candlestickSpots: [
     candlestickSpot1,
