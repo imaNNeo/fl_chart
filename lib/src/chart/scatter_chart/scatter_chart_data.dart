@@ -380,22 +380,32 @@ typedef ScatterTouchCallback = void Function(ScatterTouchResponse);
 ///
 /// You can override [ScatterTouchData.touchCallback] to handle touch events,
 /// it gives you a [ScatterTouchResponse] and you can do whatever you want.
-class ScatterTouchResponse extends BaseTouchResponse {
+class ScatterTouchResponse extends AxisBaseTouchResponse {
   /// If touch happens, [ScatterChart] processes it internally and
   /// passes out a [ScatterTouchResponse], it gives you information about the touched spot.
   ///
   /// [touchedSpot] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
-  ScatterTouchResponse(this.touchedSpot) : super();
+  ScatterTouchResponse({
+    required super.touchLocation,
+    required super.touchChartCoordinate,
+    required this.touchedSpot,
+  });
+
   final ScatterTouchedSpot? touchedSpot;
 
   /// Copies current [ScatterTouchResponse] to a new [ScatterTouchResponse],
   /// and replaces provided values.
   ScatterTouchResponse copyWith({
+    Offset? touchLocation,
+    Offset? touchChartCoordinate,
     ScatterTouchedSpot? touchedSpot,
-  }) {
-    return ScatterTouchResponse(touchedSpot ?? this.touchedSpot);
-  }
+  }) =>
+      ScatterTouchResponse(
+        touchLocation: touchLocation ?? this.touchLocation,
+        touchChartCoordinate: touchChartCoordinate ?? this.touchChartCoordinate,
+        touchedSpot: touchedSpot ?? this.touchedSpot,
+      );
 }
 
 /// Holds the touched spot data
