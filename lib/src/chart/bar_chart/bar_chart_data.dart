@@ -909,10 +909,14 @@ Color defaultBarTooltipColor(BarChartGroupData group) =>
 ///
 /// You can override [BarTouchData.touchCallback] to handle touch events,
 /// it gives you a [BarTouchResponse] and you can do whatever you want.
-class BarTouchResponse extends BaseTouchResponse {
+class BarTouchResponse extends AxisBaseTouchResponse {
   /// If touch happens, [BarChart] processes it internally and passes out a BarTouchedSpot
   /// that contains a [spot], it gives you information about the touched spot.
-  BarTouchResponse(this.spot) : super();
+  BarTouchResponse({
+    required super.touchLocation,
+    required super.touchChartCoordinate,
+    required this.spot,
+  });
 
   /// Gives information about the touched spot
   final BarTouchedSpot? spot;
@@ -920,10 +924,14 @@ class BarTouchResponse extends BaseTouchResponse {
   /// Copies current [BarTouchResponse] to a new [BarTouchResponse],
   /// and replaces provided values.
   BarTouchResponse copyWith({
+    Offset? touchLocation,
+    Offset? touchChartCoordinate,
     BarTouchedSpot? spot,
   }) =>
       BarTouchResponse(
-        spot ?? this.spot,
+        touchLocation: touchLocation ?? this.touchLocation,
+        touchChartCoordinate: touchChartCoordinate ?? this.touchChartCoordinate,
+        spot: spot ?? this.spot,
       );
 }
 

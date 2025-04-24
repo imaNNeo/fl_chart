@@ -120,6 +120,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BarTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|touchLocation|the location of the touch event in the device pixels coordinates|required|
+|touchChartCoordinate|the location of the touch event in the chart coordinates|required|
 |spot|a [BarTouchedSpot](#BarTouchedSpot) class to hold data about touched spot| null |
 
 ### BarTouchedSpot

@@ -88,6 +88,8 @@ When you change the chart's state, it animates to the new state internally (usin
 ###### you can listen to touch behaviors callback and retrieve this object when any touch action happened.
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|touchLocation|the location of the touch event in the device pixels coordinates|required|
+|touchChartCoordinate|the location of the touch event in the chart coordinates|required|
 |touchedSpot|Instance of [CandlestickTouchedSpot](#CandlestickTouchedSpot) which holds data about the touched spot|null|
 
 ### CandlestickTouchedSpot

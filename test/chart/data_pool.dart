@@ -331,8 +331,11 @@ class MockData {
     2,
   );
 
-  static final lineTouchResponse1 =
-      LineTouchResponse([lineBarSpot1, lineBarSpot2]);
+  static final lineTouchResponse1 = LineTouchResponse(
+    touchLocation: Offset.zero,
+    touchChartCoordinate: Offset.zero,
+    lineBarSpots: [lineBarSpot1, lineBarSpot2],
+  );
 
   static final barChartRodData1 = BarChartRodData(toY: 11);
   static final barChartRodData2 = BarChartRodData(toY: 22);
@@ -1067,39 +1070,51 @@ final TouchLineBarSpot lineBarSpot3 = TouchLineBarSpot(
   2,
 );
 
-final LineTouchResponse lineTouchResponse1 = LineTouchResponse(
-  [
+final lineTouchResponse1 = LineTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  lineBarSpots: [
     lineBarSpot1,
     lineBarSpot2,
   ],
 );
-final LineTouchResponse lineTouchResponse1Clone = LineTouchResponse(
-  [
+final lineTouchResponse1Clone = LineTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  lineBarSpots: [
     lineBarSpot1Clone,
     lineBarSpot2,
   ],
 );
 
-final LineTouchResponse lineTouchResponse2 = LineTouchResponse(
-  [
+final lineTouchResponse2 = LineTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  lineBarSpots: [
     lineBarSpot2,
     lineBarSpot1,
   ],
 );
 
-const LineTouchResponse lineTouchResponse3 = LineTouchResponse(
-  [],
+final lineTouchResponse3 = LineTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  lineBarSpots: [],
 );
 
-final LineTouchResponse lineTouchResponse4 = LineTouchResponse(
-  [
+final lineTouchResponse4 = LineTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  lineBarSpots: [
     lineBarSpot1,
     lineBarSpot2,
   ],
 );
 
-final LineTouchResponse lineTouchResponse5 = LineTouchResponse(
-  [
+final lineTouchResponse5 = LineTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  lineBarSpots: [
     lineBarSpot1,
     lineBarSpot2,
   ],
@@ -2752,14 +2767,20 @@ final BarTouchedSpot barTouchedSpot7 = BarTouchedSpot(
   const Offset(1, 10),
 );
 
-final BarTouchResponse barTouchResponse1 = BarTouchResponse(
-  barTouchedSpot1,
+final barTouchResponse1 = BarTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  spot: barTouchedSpot1,
 );
-final BarTouchResponse barTouchResponse1Clone = BarTouchResponse(
-  barTouchedSpot1Clone,
+final barTouchResponse1Clone = BarTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  spot: barTouchedSpot1Clone,
 );
-final BarTouchResponse barTouchResponse2 = BarTouchResponse(
-  barTouchedSpot2,
+final barTouchResponse2 = BarTouchResponse(
+  touchLocation: Offset.zero,
+  touchChartCoordinate: Offset.zero,
+  spot: barTouchedSpot2,
 );
 
 final BarTooltipItem barTooltipItem1 = BarTooltipItem(
