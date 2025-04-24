@@ -126,11 +126,19 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
 
   @override
   ScatterTouchResponse getResponseAtLocation(Offset localPosition) {
-    final touchedSpot = painter.handleTouch(
-      localPosition,
-      mockTestSize ?? size,
-      paintHolder,
+    final chartSize = mockTestSize ?? size;
+    return ScatterTouchResponse(
+      touchLocation: localPosition,
+      touchChartCoordinate: painter.getChartCoordinateFromPixel(
+        localPosition,
+        chartSize,
+        paintHolder,
+      ),
+      touchedSpot: painter.handleTouch(
+        localPosition,
+        chartSize,
+        paintHolder,
+      ),
     );
-    return ScatterTouchResponse(touchedSpot);
   }
 }

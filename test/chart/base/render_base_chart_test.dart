@@ -174,7 +174,11 @@ class TestRenderBaseChart extends RenderBaseChart<LineTouchResponse> {
 
   @override
   LineTouchResponse getResponseAtLocation(Offset localPosition) {
-    return const LineTouchResponse([]);
+    return LineTouchResponse(
+      touchLocation: Offset.zero,
+      touchChartCoordinate: Offset.zero,
+      lineBarSpots: [],
+    );
   }
 }
 

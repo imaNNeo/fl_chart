@@ -81,9 +81,12 @@ void main() {
         });
         return MockData.scatterTouchedSpot;
       });
+      when(mockPainter.getChartCoordinateFromPixel(any, any, any))
+          .thenAnswer((_) => const Offset(10, 10));
       final touchResponse =
           renderScatterChart.getResponseAtLocation(MockData.offset1);
       expect(touchResponse.touchedSpot, MockData.scatterTouchedSpot);
+      expect(touchResponse.touchChartCoordinate, const Offset(10, 10));
       expect(results[0]['local_position'] as Offset, MockData.offset1);
       expect(results[0]['size'] as Size, mockSize);
       final paintHolder = results[0]['paint_holder'] as PaintHolder;

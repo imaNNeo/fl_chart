@@ -413,22 +413,32 @@ typedef CandlestickTouchCallback = void Function(CandlestickTouchResponse);
 ///
 /// You can override [CandlestickTouchData.touchCallback] to handle touch events,
 /// it gives you a [CandlestickTouchResponse] and you can do whatever you want.
-class CandlestickTouchResponse extends BaseTouchResponse {
+class CandlestickTouchResponse extends AxisBaseTouchResponse {
   /// If touch happens, [CandlestickChart] processes it internally and
   /// passes out a [CandlestickTouchResponse], it gives you information about the touched spot.
   ///
   /// [touchedSpot] tells you
   /// in which spot (of [CandlestickChartData.candleSpots]) touch happened.
-  CandlestickTouchResponse(this.touchedSpot) : super();
+  CandlestickTouchResponse({
+    required super.touchLocation,
+    required super.touchChartCoordinate,
+    required this.touchedSpot,
+  });
+
   final CandlestickTouchedSpot? touchedSpot;
 
   /// Copies current [CandlestickTouchResponse] to a new [CandlestickTouchResponse],
   /// and replaces provided values.
   CandlestickTouchResponse copyWith({
+    Offset? touchLocation,
+    Offset? touchChartCoordinate,
     CandlestickTouchedSpot? touchedSpot,
-  }) {
-    return CandlestickTouchResponse(touchedSpot ?? this.touchedSpot);
-  }
+  }) =>
+      CandlestickTouchResponse(
+        touchLocation: touchLocation ?? this.touchLocation,
+        touchChartCoordinate: touchChartCoordinate ?? this.touchChartCoordinate,
+        touchedSpot: touchedSpot ?? this.touchedSpot,
+      );
 }
 
 /// Holds the touched spot data

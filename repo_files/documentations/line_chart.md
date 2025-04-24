@@ -169,6 +169,8 @@ When you change the chart's state, it animates to the new state internally (usin
 ### LineTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|touchLocation|the location of the touch event in the device pixels coordinates|required|
+|touchChartCoordinate|the location of the touch event in the chart coordinates|required|
 |lineBarSpots|a list of [TouchLineBarSpot](#TouchLineBarSpot)|null|
 
 ### ShowingTooltipIndicators

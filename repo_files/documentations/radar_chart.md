@@ -60,6 +60,7 @@ When you change the chart's state, it animates to the new state internally (usin
 ### RadarTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|touchLocation|the location of the touch event in the device pixels coordinates|required|
 |touchedSpot|the [RadarTouchedSpot](#RadarTouchedSpot) that user touched| null |
 
 ### RadarTouchedSpot

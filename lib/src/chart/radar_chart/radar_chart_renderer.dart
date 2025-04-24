@@ -102,11 +102,13 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
 
   @override
   RadarTouchResponse getResponseAtLocation(Offset localPosition) {
-    final touchedSpot = painter.handleTouch(
-      localPosition,
-      mockTestSize ?? size,
-      paintHolder,
+    return RadarTouchResponse(
+      touchLocation: localPosition,
+      touchedSpot: painter.handleTouch(
+        localPosition,
+        mockTestSize ?? size,
+        paintHolder,
+      ),
     );
-    return RadarTouchResponse(touchedSpot);
   }
 }

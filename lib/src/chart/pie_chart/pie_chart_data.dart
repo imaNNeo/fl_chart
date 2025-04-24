@@ -376,7 +376,10 @@ class PieTouchedSection with EquatableMixin {
 /// it gives you a [PieTouchResponse] and you can do whatever you want.
 class PieTouchResponse extends BaseTouchResponse {
   /// If touch happens, [PieChart] processes it internally and passes out a [PieTouchResponse]
-  PieTouchResponse(this.touchedSection) : super();
+  PieTouchResponse({
+    required super.touchLocation,
+    required this.touchedSection,
+  });
 
   /// Contains information about touched section, like index, angle, radius, ...
   final PieTouchedSection? touchedSection;
@@ -384,10 +387,12 @@ class PieTouchResponse extends BaseTouchResponse {
   /// Copies current [PieTouchResponse] to a new [PieTouchResponse],
   /// and replaces provided values.
   PieTouchResponse copyWith({
+    Offset? touchLocation,
     PieTouchedSection? touchedSection,
   }) =>
       PieTouchResponse(
-        touchedSection ?? this.touchedSection,
+        touchLocation: touchLocation ?? this.touchLocation,
+        touchedSection: touchedSection ?? this.touchedSection,
       );
 }
 

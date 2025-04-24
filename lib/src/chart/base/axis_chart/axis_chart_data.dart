@@ -88,6 +88,17 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
       ];
 }
 
+/// This class holds the touch response details of the axis-based charts
+abstract class AxisBaseTouchResponse extends BaseTouchResponse {
+  AxisBaseTouchResponse({
+    required super.touchLocation,
+    required this.touchChartCoordinate,
+  });
+
+  /// The axis coordinate of the touch in chart's coordinate system.
+  final Offset touchChartCoordinate;
+}
+
 /// Represents a side of the chart
 enum AxisSide {
   left,
