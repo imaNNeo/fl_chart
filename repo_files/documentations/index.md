@@ -12,6 +12,8 @@ click and learn more about them.
 
 - [RadarChart](radar_chart.md)
 
+- [CandlestickChart](candlestick_chart.md)
+
 -----------
 
 - [Migration Guides](migration_guides/INDEX.md)

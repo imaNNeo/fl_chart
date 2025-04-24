@@ -200,3 +200,10 @@ enum values {`center`, `left`, `right`}
 |:-------|:-------------------------------------------------------------------------------|:-----------------------|
 |lowerBy| Lower value of the error range. It is subtracted from the spot value and shoul be positive| null|
 |upperBy| Upper value of the error range. It is added to the spot value and shoul be positive| null|
+
+### AxisSpotIndicator
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|x|x value of the touched spot|required|
+|y|y value of the touched spot|required|
+|AxisSpotIndicatorPainter|a painter that is used to draw the touched spot indicator. You can use this to customize the appearance of the touched spot indicator (Or you can implement your own painter).|AxisLinesIndicatorPainter()|
