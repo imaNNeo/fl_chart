@@ -206,11 +206,6 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
                           ),
                         ),
                       ),
-                      // candlestickTouchData: CandlestickTouchData(
-                      //   enabled: true,
-                      //   handleBuiltInTouches: false,
-                      //   touchCallback: _touchCallback,
-                      // ),
                     ),
                   ),
                 ),

@@ -191,6 +191,14 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
     final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
 
+    double tooltipTopPosition;
+    if (tooltipData.showOnTopOfTheChartBoxArea) {
+      tooltipTopPosition = 0 - tooltipHeight - tooltipItem.bottomMargin;
+    } else {
+      tooltipTopPosition =
+          tooltipOriginPoint.dy - tooltipHeight - tooltipItem.bottomMargin;
+    }
+
     final tooltipLeftPosition = getTooltipLeft(
       tooltipOriginPoint.dx,
       tooltipWidth,
@@ -201,7 +209,7 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
     /// draw the background rect with rounded radius
     var rect = Rect.fromLTWH(
       tooltipLeftPosition,
-      tooltipOriginPoint.dy - tooltipHeight - tooltipItem.bottomMargin,
+      tooltipTopPosition,
       tooltipWidth,
       tooltipHeight,
     );
