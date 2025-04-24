@@ -1312,11 +1312,15 @@ class ShowingTooltipIndicators with EquatableMixin {
 ///
 /// You can override [LineTouchData.touchCallback] to handle touch events,
 /// it gives you a [LineTouchResponse] and you can do whatever you want.
-class LineTouchResponse extends BaseTouchResponse {
+class LineTouchResponse extends AxisBaseTouchResponse {
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
   /// They are sorted based on their distance to the touch event
-  const LineTouchResponse(this.lineBarSpots);
+  LineTouchResponse({
+    required super.touchLocation,
+    required super.touchChartCoordinate,
+    this.lineBarSpots,
+  });
 
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
@@ -1325,10 +1329,14 @@ class LineTouchResponse extends BaseTouchResponse {
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
+    Offset? touchLocation,
+    Offset? touchChartCoordinate,
     List<TouchLineBarSpot>? lineBarSpots,
   }) =>
       LineTouchResponse(
-        lineBarSpots ?? this.lineBarSpots,
+        touchLocation: touchLocation ?? this.touchLocation,
+        touchChartCoordinate: touchChartCoordinate ?? this.touchChartCoordinate,
+        lineBarSpots: lineBarSpots ?? this.lineBarSpots,
       );
 }
 

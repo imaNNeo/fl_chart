@@ -1387,6 +1387,53 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           as double);
 
   @override
+  double getXForPixel(
+    double? pixelX,
+    _i2.Size? viewSize,
+    _i11.PaintHolder<_i7.LineChartData>? holder,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getXForPixel, [pixelX, viewSize, holder]),
+            returnValue: 0.0,
+          )
+          as double);
+
+  @override
+  double getYForPixel(
+    double? pixelY,
+    _i2.Size? viewSize,
+    _i11.PaintHolder<_i7.LineChartData>? holder,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getYForPixel, [pixelY, viewSize, holder]),
+            returnValue: 0.0,
+          )
+          as double);
+
+  @override
+  _i2.Offset getChartCoordinateFromPixel(
+    _i2.Offset? pixelOffset,
+    _i2.Size? viewSize,
+    _i11.PaintHolder<_i7.LineChartData>? holder,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getChartCoordinateFromPixel, [
+              pixelOffset,
+              viewSize,
+              holder,
+            ]),
+            returnValue: _FakeOffset_6(
+              this,
+              Invocation.method(#getChartCoordinateFromPixel, [
+                pixelOffset,
+                viewSize,
+                holder,
+              ]),
+            ),
+          )
+          as _i2.Offset);
+
+  @override
   double getTooltipLeft(
     double? dx,
     double? tooltipWidth,

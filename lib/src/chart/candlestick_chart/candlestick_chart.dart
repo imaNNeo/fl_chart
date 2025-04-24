@@ -49,7 +49,10 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
   /// but we need to keep the provided callback to notify it too.
   BaseTouchCallback<CandlestickTouchResponse>? _providedTouchCallback;
 
-  List<int> touchedSpots = [];
+  ({
+    Offset axisCoordinate,
+    int spotIndex,
+  })? touchedSpots;
 
   @override
   Widget build(BuildContext context) {
@@ -78,24 +81,34 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
       return candlestickChartData;
     }
 
-    final spot = touchedSpots.isNotEmpty
-        ? candlestickChartData.candlestickSpots[touchedSpots.first]
+    final spot = touchedSpots != null && touchedSpots!.spotIndex != -1
+        ? candlestickChartData.candlestickSpots[touchedSpots!.spotIndex]
         : null;
+    final touchInsideChart = touchedSpots != null &&
+        touchedSpots!.axisCoordinate.dx >= candlestickChartData.minX &&
+        touchedSpots!.axisCoordinate.dy >= candlestickChartData.minY &&
+        touchedSpots!.axisCoordinate.dx <= candlestickChartData.maxX &&
+        touchedSpots!.axisCoordinate.dy <= candlestickChartData.maxY;
     return candlestickChartData.copyWith(
-      showingTooltipIndicators: touchedSpots,
-      touchedPointIndicator: spot != null
+      showingTooltipIndicators:
+          touchedSpots != null ? [touchedSpots!.spotIndex] : [],
+      touchedPointIndicator: touchedSpots != null
           ? AxisSpotIndicator(
-              x: spot.x,
-              y: spot.midPoint,
+              x: spot?.x ?? 0,
+              y: touchedSpots!.axisCoordinate.dy,
               painter: AxisLinesIndicatorPainter(
-                horizontalLine: const FlLine(
-                  color: Colors.white24,
-                  strokeWidth: 1,
-                ),
-                verticalLine: const FlLine(
-                  color: Colors.white24,
-                  strokeWidth: 1,
-                ),
+                horizontalLine: touchInsideChart
+                    ? const FlLine(
+                        color: Colors.white24,
+                        strokeWidth: 1,
+                      )
+                    : null,
+                verticalLine: spot == null
+                    ? null
+                    : const FlLine(
+                        color: Colors.white24,
+                        strokeWidth: 1,
+                      ),
               ),
             )
           : null,
@@ -130,12 +143,18 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
         touchResponse == null ||
         touchResponse.touchedSpot == null) {
       setState(() {
-        touchedSpots = [];
+        touchedSpots = (
+          axisCoordinate: touchResponse?.touchChartCoordinate ?? Offset.zero,
+          spotIndex: -1,
+        );
       });
       return;
     }
     setState(() {
-      touchedSpots = [touchResponse.touchedSpot!.spotIndex];
+      touchedSpots = (
+        axisCoordinate: touchResponse.touchChartCoordinate,
+        spotIndex: touchResponse.touchedSpot!.spotIndex,
+      );
     });
   }
 

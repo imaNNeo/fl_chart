@@ -83,9 +83,14 @@ void main() {
         });
         return candlestickTouchedSpot1;
       });
+
+      when(mockPainter.getChartCoordinateFromPixel(any, any, any))
+          .thenAnswer((_) => const Offset(10, 10));
+
       final touchResponse =
           renderCandlestickChart.getResponseAtLocation(MockData.offset1);
       expect(touchResponse.touchedSpot, candlestickTouchedSpot1);
+      expect(touchResponse.touchChartCoordinate, const Offset(10, 10));
       expect(results[0]['local_position'] as Offset, MockData.offset1);
       expect(results[0]['size'] as Size, mockSize);
       final paintHolder = results[0]['paint_holder'] as PaintHolder;
