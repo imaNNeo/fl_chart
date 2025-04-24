@@ -337,6 +337,9 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
     for (var i = data.candlestickSpots.length - 1; i >= 0; i--) {
       // Reverse the loop to check the topmost spot first
       final spot = data.candlestickSpots[i];
+      if (!spot.show) {
+        continue;
+      }
 
       final spotPixelX = getPixelX(spot.x, viewSize, holder);
 
