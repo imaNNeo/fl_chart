@@ -482,6 +482,7 @@ class CandlestickTouchTooltipData with EquatableMixin {
     GetCandlestickTooltipItems? getTooltipItems,
     bool? fitInsideHorizontally,
     bool? fitInsideVertically,
+    bool? showOnTopOfTheChartBoxArea,
     double? rotateAngle,
     BorderSide? tooltipBorder,
     GetCandlestickTooltipColor? getTooltipColor,
@@ -495,6 +496,7 @@ class CandlestickTouchTooltipData with EquatableMixin {
         getTooltipItems = getTooltipItems ?? defaultCandlestickTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
         fitInsideVertically = fitInsideVertically ?? false,
+        showOnTopOfTheChartBoxArea = showOnTopOfTheChartBoxArea ?? false,
         rotateAngle = rotateAngle ?? 0.0,
         tooltipBorder = tooltipBorder ?? BorderSide.none,
         getTooltipColor = getTooltipColor ?? defaultCandlestickTooltipColor,
@@ -524,6 +526,9 @@ class CandlestickTouchTooltipData with EquatableMixin {
   /// Forces the tooltip to shift vertically inside the chart, if overflow happens.
   final bool fitInsideVertically;
 
+  /// Forces the tooltip container to top of the line, default 'false'
+  final bool showOnTopOfTheChartBoxArea;
+
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
@@ -544,6 +549,7 @@ class CandlestickTouchTooltipData with EquatableMixin {
         getTooltipItems,
         fitInsideHorizontally,
         fitInsideVertically,
+        showOnTopOfTheChartBoxArea,
         rotateAngle,
         tooltipBorder,
         getTooltipColor,
