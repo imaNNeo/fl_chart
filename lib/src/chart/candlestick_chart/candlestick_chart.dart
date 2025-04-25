@@ -98,13 +98,17 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
                   ? null
                   : VerticalLine(
                       x: spot.x,
-                      color: Colors.white24,
+                      color: Theme.of(context).colorScheme.outline.withValues(
+                            alpha: 0.5,
+                          ),
                       strokeWidth: 1,
                     ),
               horizontalLine: touchInsideChart
                   ? HorizontalLine(
                       y: touchedSpots!.axisCoordinate.dy,
-                      color: Colors.white24,
+                      color: Theme.of(context).colorScheme.outline.withValues(
+                            alpha: 0.5,
+                          ),
                       strokeWidth: 1,
                     )
                   : null,
