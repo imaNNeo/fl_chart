@@ -67,18 +67,17 @@ void main() {
         minY: 0,
         maxY: 100,
         touchedPointIndicator: AxisSpotIndicator(
-          x: 50,
-          y: 50,
-          painter: AxisLinesIndicatorPainter(
-            horizontalLine: const FlLine(
-              color: MockData.color1,
-              strokeWidth: 4,
-            ),
-            verticalLine: const FlLine(
-              color: MockData.color2,
-              strokeWidth: 8,
-            ),
+          verticalLine: VerticalLine(
+            x: 50,
+            color: MockData.color2,
+            strokeWidth: 8,
           ),
+          horizontalLine: HorizontalLine(
+            y: 50,
+            color: MockData.color1,
+            strokeWidth: 4,
+          ),
+          painter: AxisLinesIndicatorPainter(),
         ),
       );
 
@@ -142,16 +141,14 @@ void main() {
         maxX: 100,
         minY: 0,
         maxY: 100,
-        touchedPointIndicator: AxisSpotIndicator(
-          x: 50,
-          y: 50,
-          painter: AxisLinesIndicatorPainter(
-            horizontalLine: const FlLine(
+          touchedPointIndicator: AxisSpotIndicator(
+            verticalLine: null,
+            horizontalLine: HorizontalLine(
+              y: 50,
               color: MockData.color1,
               strokeWidth: 4,
             ),
-            verticalLine: null,
-          ),
+            painter: AxisLinesIndicatorPainter(),
         ),
       );
 

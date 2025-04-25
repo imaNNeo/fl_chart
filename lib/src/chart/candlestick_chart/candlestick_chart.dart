@@ -94,22 +94,21 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
           touchedSpots != null ? [touchedSpots!.spotIndex] : [],
       touchedPointIndicator: touchedSpots != null
           ? AxisSpotIndicator(
-              x: spot?.x ?? 0,
-              y: touchedSpots!.axisCoordinate.dy,
-              painter: AxisLinesIndicatorPainter(
-                horizontalLine: touchInsideChart
-                    ? const FlLine(
-                        color: Colors.white24,
-                        strokeWidth: 1,
-                      )
-                    : null,
-                verticalLine: spot == null
-                    ? null
-                    : const FlLine(
-                        color: Colors.white24,
-                        strokeWidth: 1,
-                      ),
-              ),
+              verticalLine: spot == null
+                  ? null
+                  : VerticalLine(
+                      x: spot.x,
+                      color: Colors.white24,
+                      strokeWidth: 1,
+                    ),
+              horizontalLine: touchInsideChart
+                  ? HorizontalLine(
+                      y: touchedSpots!.axisCoordinate.dy,
+                      color: Colors.white24,
+                      strokeWidth: 1,
+                    )
+                  : null,
+              painter: AxisLinesIndicatorPainter(),
             )
           : null,
     );
