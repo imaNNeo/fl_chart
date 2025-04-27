@@ -2153,6 +2153,7 @@ abstract class AxisSpotIndicatorPainter {
 
   /// Draws the point indicator
   void paint(
+    BuildContext context,
     CanvasWrapper canvas,
     AxisSpotIndicator axisPointIndicator,
     ValueInCanvasProvider xInCanvasProvider,
@@ -2174,10 +2175,207 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
   AxisLinesIndicatorPainter();
 
   /// The paint object that is used to draw the lines
-  final linePaint = Paint();
+  final _linePaint = Paint();
+
+  /// The paint object that is used to draw the images
+  final _imagePaint = Paint();
+
+  void _drawHorizontalLine(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    HorizontalLine line,
+    Offset from,
+    Offset to,
+  ) {
+    _linePaint
+      ..setColorOrGradientForLine(
+        line.color,
+        line.gradient,
+        from: from,
+        to: to,
+      )
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = line.strokeWidth
+      ..transparentIfWidthIsZero()
+      ..strokeCap = line.strokeCap;
+
+    canvasWrapper.drawDashedLine(
+      from,
+      to,
+      _linePaint,
+      line.dashArray,
+    );
+
+    if (line.sizedPicture != null) {
+      final centerX = line.sizedPicture!.width / 2;
+      final centerY = line.sizedPicture!.height / 2;
+      final xPosition = centerX;
+      final yPosition = to.dy - centerY;
+
+      canvasWrapper
+        ..save()
+        ..translate(xPosition, yPosition)
+        ..drawPicture(line.sizedPicture!.picture)
+        ..restore();
+    }
+
+    if (line.image != null) {
+      final centerX = line.image!.width / 2;
+      final centerY = line.image!.height / 2;
+      final centeredImageOffset = Offset(centerX, to.dy - centerY);
+      canvasWrapper.drawImage(
+        line.image!,
+        centeredImageOffset,
+        _imagePaint,
+      );
+    }
+
+    if (line.label.show) {
+      final label = line.label;
+      final style =
+          TextStyle(fontSize: 11, color: line.color).merge(label.style);
+      final padding = label.padding as EdgeInsets;
+
+      final span = TextSpan(
+        text: label.labelResolver(line),
+        style: Utils().getThemeAwareTextStyle(context, style),
+      );
+
+      final tp = TextPainter(
+        text: span,
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+      switch (label.direction) {
+        case LabelDirection.horizontal:
+          canvasWrapper.drawText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx + padding.left,
+                from.dy - padding.bottom - tp.height,
+                to.dx - padding.right - tp.width,
+                to.dy + padding.top,
+              ),
+            ),
+          );
+        case LabelDirection.vertical:
+          canvasWrapper.drawVerticalText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx + padding.left + tp.height,
+                from.dy - padding.bottom - tp.width,
+                to.dx - padding.right,
+                to.dy + padding.top,
+              ),
+            ),
+          );
+      }
+    }
+  }
+
+  void _drawVerticalLine(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    VerticalLine line,
+    Offset from,
+    Offset to,
+  ) {
+    final viewSize = canvasWrapper.size;
+
+    _linePaint
+      ..setColorOrGradientForLine(
+        line.color,
+        line.gradient,
+        from: from,
+        to: to,
+      )
+      ..strokeWidth = line.strokeWidth
+      ..style = PaintingStyle.stroke
+      ..transparentIfWidthIsZero()
+      ..strokeCap = line.strokeCap;
+
+    canvasWrapper.drawDashedLine(
+      from,
+      to,
+      _linePaint,
+      line.dashArray,
+    );
+
+    if (line.sizedPicture != null) {
+      final centerX = line.sizedPicture!.width / 2;
+      final centerY = line.sizedPicture!.height / 2;
+      final xPosition = to.dx - centerX;
+      final yPosition = viewSize.height - centerY;
+
+      canvasWrapper
+        ..save()
+        ..translate(xPosition, yPosition)
+        ..drawPicture(line.sizedPicture!.picture)
+        ..restore();
+    }
+
+    if (line.image != null) {
+      final centerX = line.image!.width / 2;
+      final centerY = line.image!.height + 2;
+      final centeredImageOffset =
+          Offset(to.dx - centerX, viewSize.height - centerY);
+      canvasWrapper.drawImage(
+        line.image!,
+        centeredImageOffset,
+        _imagePaint,
+      );
+    }
+
+    if (line.label.show) {
+      final label = line.label;
+      final style =
+          TextStyle(fontSize: 11, color: line.color).merge(label.style);
+      final padding = label.padding as EdgeInsets;
+
+      final span = TextSpan(
+        text: label.labelResolver(line),
+        style: Utils().getThemeAwareTextStyle(context, style),
+      );
+
+      final tp = TextPainter(
+        text: span,
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+      switch (label.direction) {
+        case LabelDirection.horizontal:
+          canvasWrapper.drawText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx - padding.right - tp.width,
+                from.dy + padding.top,
+                to.dx + padding.left,
+                to.dy - padding.bottom - tp.height,
+              ),
+            ),
+          );
+        case LabelDirection.vertical:
+          canvasWrapper.drawVerticalText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx - padding.right,
+                from.dy + padding.top,
+                to.dx + padding.left + tp.height,
+                to.dy - padding.bottom - tp.width,
+              ),
+            ),
+          );
+      }
+    }
+  }
 
   @override
   void paint(
+    BuildContext context,
     CanvasWrapper canvas,
     AxisSpotIndicator axisPointIndicator,
     ValueInCanvasProvider xInCanvasProvider,
@@ -2194,18 +2392,13 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
         xInCanvasProvider(axisChartData.maxX),
         yInCanvasProvider(horizontalLine.y),
       );
-
-      linePaint
-        ..setColorOrGradientForLine(
-          horizontalLine.color,
-          horizontalLine.gradient,
-          from: left,
-          to: right,
-        )
-        ..strokeWidth = horizontalLine.strokeWidth
-        ..transparentIfWidthIsZero();
-
-      canvas.drawLine(left, right, linePaint);
+      _drawHorizontalLine(
+        context,
+        canvas,
+        horizontalLine,
+        left,
+        right,
+      );
     }
 
     final verticalLine = axisPointIndicator.verticalLine;
@@ -2218,17 +2411,14 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
         xInCanvasProvider(verticalLine.x),
         yInCanvasProvider(axisChartData.minY),
       );
-      linePaint
-        ..setColorOrGradientForLine(
-          verticalLine.color,
-          verticalLine.gradient,
-          from: top,
-          to: bottom,
-        )
-        ..strokeWidth = verticalLine.strokeWidth
-        ..transparentIfWidthIsZero();
 
-      canvas.drawLine(top, bottom, linePaint);
+      _drawVerticalLine(
+        context,
+        canvas,
+        verticalLine,
+        top,
+        bottom,
+      );
     }
   }
 

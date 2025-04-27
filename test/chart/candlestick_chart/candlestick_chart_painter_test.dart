@@ -4,6 +4,7 @@ import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_painter.d
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -71,6 +72,7 @@ void main() {
             x: 50,
             color: MockData.color2,
             strokeWidth: 8,
+            dashArray: [0, 1, 0],
           ),
           horizontalLine: HorizontalLine(
             y: 50,
@@ -98,14 +100,16 @@ void main() {
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      final drawCalls = <(Offset, Offset, Color, double)>[];
-      when(mockCanvasWrapper.drawLine(any, any, any)).thenAnswer((invocation) {
+      final drawCalls = <(Offset, Offset, Color, double, List<double>?)>[];
+      when(mockCanvasWrapper.drawDashedLine(any, any, any, any))
+          .thenAnswer((invocation) {
         drawCalls.add(
           (
             invocation.positionalArguments[0] as Offset,
             invocation.positionalArguments[1] as Offset,
             (invocation.positionalArguments[2] as Paint).color,
             (invocation.positionalArguments[2] as Paint).strokeWidth,
+            invocation.positionalArguments[3] as List<double>?,
           ),
         );
       });
@@ -123,12 +127,14 @@ void main() {
       expect(drawCalls[0].$2, const Offset(400, 200));
       expect(drawCalls[0].$3.toARGB32(), MockData.color1.toARGB32());
       expect(drawCalls[0].$4, 4);
+      expect(listEquals(drawCalls[0].$5, [0, 1, 0]), true);
 
       /// Vertical line
       expect(drawCalls[1].$1, const Offset(200, 0));
       expect(drawCalls[1].$2, const Offset(200, 400));
       expect(drawCalls[1].$3.toARGB32(), MockData.color2.toARGB32());
       expect(drawCalls[1].$4, 8);
+      expect(drawCalls[1].$5, null);
 
       Utils.changeInstance(utilsMainInstance);
     });
@@ -141,14 +147,15 @@ void main() {
         maxX: 100,
         minY: 0,
         maxY: 100,
-          touchedPointIndicator: AxisSpotIndicator(
-            verticalLine: null,
-            horizontalLine: HorizontalLine(
-              y: 50,
-              color: MockData.color1,
-              strokeWidth: 4,
-            ),
-            painter: AxisLinesIndicatorPainter(),
+        gridData: const FlGridData(show: false),
+        touchedPointIndicator: AxisSpotIndicator(
+          verticalLine: null,
+          horizontalLine: HorizontalLine(
+            y: 50,
+            color: MockData.color1,
+            strokeWidth: 4,
+          ),
+          painter: AxisLinesIndicatorPainter(),
         ),
       );
 
@@ -170,7 +177,8 @@ void main() {
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       final drawCalls = <(Offset, Offset, Color, double)>[];
-      when(mockCanvasWrapper.drawLine(any, any, any)).thenAnswer((invocation) {
+      when(mockCanvasWrapper.drawDashedLine(any, any, any, any))
+          .thenAnswer((invocation) {
         drawCalls.add(
           (
             invocation.positionalArguments[0] as Offset,

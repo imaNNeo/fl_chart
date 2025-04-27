@@ -318,6 +318,7 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
 
     final viewSize = canvasWrapper.size;
     pointIndicator.painter.paint(
+      context,
       canvasWrapper,
       pointIndicator,
       (x) => getPixelX(x, viewSize, holder),
