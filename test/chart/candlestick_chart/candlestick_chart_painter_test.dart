@@ -67,19 +67,23 @@ void main() {
         maxX: 100,
         minY: 0,
         maxY: 100,
+        gridData: const FlGridData(show: false),
         touchedPointIndicator: AxisSpotIndicator(
-          verticalLine: VerticalLine(
-            x: 50,
-            color: MockData.color2,
-            strokeWidth: 8,
-            dashArray: [0, 1, 0],
+          x: 50,
+          y: 50,
+          painter: AxisLinesIndicatorPainter(
+            verticalLineProvider: (x) => VerticalLine(
+              x: x,
+              color: MockData.color2,
+              strokeWidth: 8,
+            ),
+            horizontalLineProvider: (y) => HorizontalLine(
+              y: y,
+              color: MockData.color1,
+              strokeWidth: 4,
+              dashArray: [0, 1, 0],
+            ),
           ),
-          horizontalLine: HorizontalLine(
-            y: 50,
-            color: MockData.color1,
-            strokeWidth: 4,
-          ),
-          painter: AxisLinesIndicatorPainter(),
         ),
       );
 
@@ -100,7 +104,7 @@ void main() {
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      final drawCalls = <(Offset, Offset, Color, double, List<double>?)>[];
+      final drawCalls = <(Offset, Offset, Color, double, List<int>?)>[];
       when(mockCanvasWrapper.drawDashedLine(any, any, any, any))
           .thenAnswer((invocation) {
         drawCalls.add(
@@ -109,7 +113,7 @@ void main() {
             invocation.positionalArguments[1] as Offset,
             (invocation.positionalArguments[2] as Paint).color,
             (invocation.positionalArguments[2] as Paint).strokeWidth,
-            invocation.positionalArguments[3] as List<double>?,
+            invocation.positionalArguments[3] as List<int>?,
           ),
         );
       });
@@ -149,13 +153,15 @@ void main() {
         maxY: 100,
         gridData: const FlGridData(show: false),
         touchedPointIndicator: AxisSpotIndicator(
-          verticalLine: null,
-          horizontalLine: HorizontalLine(
-            y: 50,
-            color: MockData.color1,
-            strokeWidth: 4,
+          y: 50,
+          painter: AxisLinesIndicatorPainter(
+            verticalLineProvider: null,
+            horizontalLineProvider: (y) => HorizontalLine(
+              y: y,
+              color: MockData.color1,
+              strokeWidth: 4,
+            ),
           ),
-          painter: AxisLinesIndicatorPainter(),
         ),
       );
 
