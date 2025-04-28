@@ -73,7 +73,7 @@ class BarChartSample4State extends State<BarChartSample4> {
             return BarChart(
               BarChartData(
                 alignment: BarChartAlignment.center,
-                barTouchData: BarTouchData(
+                barTouchData: const BarTouchData(
                   enabled: false,
                 ),
                 titlesData: FlTitlesData(

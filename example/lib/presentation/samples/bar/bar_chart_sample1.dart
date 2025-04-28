@@ -295,7 +295,7 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   BarChartData randomData() {
     return BarChartData(
-      barTouchData: BarTouchData(
+      barTouchData: const BarTouchData(
         enabled: false,
       ),
       titlesData: FlTitlesData(
