@@ -105,7 +105,7 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
         continue;
       }
       holder.data.candlestickPainter.paint(
-        canvasWrapper,
+        canvasWrapper.canvas,
         (x) => getPixelX(x, viewSize, holder),
         (y) => getPixelY(y, viewSize, holder),
         candlestickSpot,
