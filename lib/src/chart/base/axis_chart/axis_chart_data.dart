@@ -2143,7 +2143,8 @@ abstract class AxisSpotIndicatorPainter {
   /// Draws the point indicator
   void paint(
     BuildContext context,
-    CanvasWrapper canvas,
+    Canvas canvas,
+    Size viewSize,
     AxisSpotIndicator axisPointIndicator,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
@@ -2372,12 +2373,14 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
   @override
   void paint(
     BuildContext context,
-    CanvasWrapper canvas,
+    Canvas canvas,
+    Size viewSize,
     AxisSpotIndicator axisPointIndicator,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
     AxisChartData axisChartData,
   ) {
+    final canvasWrapper = CanvasWrapper(canvas, viewSize);
     final horizontalLine =
         axisPointIndicator.y == null || horizontalLineProvider == null
             ? null
@@ -2393,7 +2396,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
       );
       _drawHorizontalLine(
         context,
-        canvas,
+        canvasWrapper,
         horizontalLine,
         left,
         right,
@@ -2416,7 +2419,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
 
       _drawVerticalLine(
         context,
-        canvas,
+        canvasWrapper,
         verticalLine,
         top,
         bottom,
