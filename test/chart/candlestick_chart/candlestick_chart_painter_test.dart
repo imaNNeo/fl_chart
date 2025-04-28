@@ -4,7 +4,6 @@ import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_painter.d
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -100,44 +99,42 @@ void main() {
       when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 1.0);
       final mockBuildContext = MockBuildContext();
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      final drawCalls = <(Offset, Offset, Color, double, List<int>?)>[];
-      when(mockCanvasWrapper.drawDashedLine(any, any, any, any))
-          .thenAnswer((invocation) {
+      final mockCanvas = MockCanvas();
+      final canvasWrapper = CanvasWrapper(mockCanvas, viewSize);
+      final drawCalls = <(Path, Color, double)>[];
+      when(mockCanvas.drawPath(any, any)).thenAnswer((invocation) {
         drawCalls.add(
           (
-            invocation.positionalArguments[0] as Offset,
-            invocation.positionalArguments[1] as Offset,
-            (invocation.positionalArguments[2] as Paint).color,
-            (invocation.positionalArguments[2] as Paint).strokeWidth,
-            invocation.positionalArguments[3] as List<int>?,
+            invocation.positionalArguments[0] as Path,
+            (invocation.positionalArguments[1] as Paint).color,
+            (invocation.positionalArguments[1] as Paint).strokeWidth,
           ),
         );
       });
 
       candlestickPainter.paint(
         mockBuildContext,
-        mockCanvasWrapper,
+        canvasWrapper,
         holder,
       );
 
       expect(drawCalls.length, 2);
 
       // Horizontal line
-      expect(drawCalls[0].$1, const Offset(0, 200));
-      expect(drawCalls[0].$2, const Offset(400, 200));
-      expect(drawCalls[0].$3.toARGB32(), MockData.color1.toARGB32());
-      expect(drawCalls[0].$4, 4);
-      expect(listEquals(drawCalls[0].$5, [0, 1, 0]), true);
+      expect(drawCalls[0].$1.getBounds().left, 0);
+      expect(drawCalls[0].$1.getBounds().right, 400);
+      expect(drawCalls[0].$1.getBounds().top, 200);
+      expect(drawCalls[0].$1.getBounds().bottom, 200);
+      expect(drawCalls[0].$2.toARGB32(), MockData.color1.toARGB32());
+      expect(drawCalls[0].$3, 4);
 
       /// Vertical line
-      expect(drawCalls[1].$1, const Offset(200, 0));
-      expect(drawCalls[1].$2, const Offset(200, 400));
-      expect(drawCalls[1].$3.toARGB32(), MockData.color2.toARGB32());
-      expect(drawCalls[1].$4, 8);
-      expect(drawCalls[1].$5, null);
+      expect(drawCalls[1].$1.getBounds().left, 200);
+      expect(drawCalls[1].$1.getBounds().right, 200);
+      expect(drawCalls[1].$1.getBounds().top, 0);
+      expect(drawCalls[1].$1.getBounds().bottom, 400);
+      expect(drawCalls[1].$2.toARGB32(), MockData.color2.toARGB32());
+      expect(drawCalls[1].$3, 8);
 
       Utils.changeInstance(utilsMainInstance);
     });
@@ -178,35 +175,34 @@ void main() {
       when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 1.0);
       final mockBuildContext = MockBuildContext();
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      final drawCalls = <(Offset, Offset, Color, double)>[];
-      when(mockCanvasWrapper.drawDashedLine(any, any, any, any))
-          .thenAnswer((invocation) {
+      final mockCanvas = MockCanvas();
+      final canvasWrapper = CanvasWrapper(mockCanvas, viewSize);
+      final drawCalls = <(Path, Color, double)>[];
+      when(mockCanvas.drawPath(any, any)).thenAnswer((invocation) {
         drawCalls.add(
           (
-            invocation.positionalArguments[0] as Offset,
-            invocation.positionalArguments[1] as Offset,
-            (invocation.positionalArguments[2] as Paint).color,
-            (invocation.positionalArguments[2] as Paint).strokeWidth,
+            invocation.positionalArguments[0] as Path,
+            (invocation.positionalArguments[1] as Paint).color,
+            (invocation.positionalArguments[1] as Paint).strokeWidth,
           ),
         );
       });
 
       candlestickPainter.paint(
         mockBuildContext,
-        mockCanvasWrapper,
+        canvasWrapper,
         holder,
       );
 
       expect(drawCalls.length, 1);
 
       // Horizontal line
-      expect(drawCalls[0].$1, const Offset(0, 200));
-      expect(drawCalls[0].$2, const Offset(400, 200));
-      expect(drawCalls[0].$3.toARGB32(), MockData.color1.toARGB32());
-      expect(drawCalls[0].$4, 4);
+      expect(drawCalls[0].$1.getBounds().left, 0);
+      expect(drawCalls[0].$1.getBounds().right, 400);
+      expect(drawCalls[0].$1.getBounds().top, 200);
+      expect(drawCalls[0].$1.getBounds().bottom, 200);
+      expect(drawCalls[0].$2.toARGB32(), MockData.color1.toARGB32());
+      expect(drawCalls[0].$3, 4);
 
       Utils.changeInstance(utilsMainInstance);
     });
