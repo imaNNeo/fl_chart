@@ -2874,7 +2874,7 @@ void main() {
 
       final tooltipData = LineTouchTooltipData(
         getTooltipColor: (touchedSpot) => const Color(0x11111111),
-        tooltipRoundedRadius: 12,
+        tooltipBorderRadius: BorderRadius.circular(12),
         rotateAngle: 43,
         maxContentWidth: 100,
         tooltipMargin: 12,
@@ -2985,7 +2985,7 @@ void main() {
 
       final tooltipData = LineTouchTooltipData(
         getTooltipColor: (touchedSpot) => const Color(0x11111111),
-        tooltipRoundedRadius: 12,
+        tooltipBorderRadius: BorderRadius.circular(12),
         rotateAngle: 43,
         maxContentWidth: 100,
         tooltipMargin: 12,
@@ -3106,7 +3106,7 @@ void main() {
 
       final tooltipData = LineTouchTooltipData(
         getTooltipColor: (touchedSpot) => const Color(0x11111111),
-        tooltipRoundedRadius: 12,
+        tooltipBorderRadius: BorderRadius.circular(12),
         rotateAngle: 43,
         maxContentWidth: 100,
         tooltipMargin: 12,
@@ -3228,7 +3228,7 @@ void main() {
 
       final tooltipData = LineTouchTooltipData(
         getTooltipColor: (touchedSpot) => const Color(0x11111111),
-        tooltipRoundedRadius: 12,
+        tooltipBorderRadius: BorderRadius.circular(12),
         rotateAngle: 43,
         maxContentWidth: 100,
         tooltipMargin: 12,
@@ -3319,7 +3319,7 @@ void main() {
 
         final tooltipData = LineTouchTooltipData(
           getTooltipColor: (touchedSpot) => const Color(0x11111111),
-          tooltipRoundedRadius: 12,
+          tooltipBorderRadius: BorderRadius.circular(12),
           rotateAngle: 43,
           maxContentWidth: 100,
           tooltipMargin: 12,
