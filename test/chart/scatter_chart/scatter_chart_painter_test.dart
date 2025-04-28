@@ -505,7 +505,7 @@ void main() {
           touchTooltipData: ScatterTouchTooltipData(
             rotateAngle: 18,
             getTooltipColor: (touchedSpot) => const Color(0xFFFFFF00),
-            tooltipRoundedRadius: 22,
+            tooltipBorderRadius: BorderRadius.circular(22),
             fitInsideHorizontally: false,
             fitInsideVertically: true,
             tooltipPadding: const EdgeInsets.all(12),
@@ -612,7 +612,7 @@ void main() {
           touchTooltipData: ScatterTouchTooltipData(
             rotateAngle: 18,
             getTooltipColor: (touchedSpot) => const Color(0xFFFFFF00),
-            tooltipRoundedRadius: 22,
+            tooltipBorderRadius: BorderRadius.circular(22),
             fitInsideHorizontally: false,
             fitInsideVertically: true,
             tooltipPadding: const EdgeInsets.all(12),

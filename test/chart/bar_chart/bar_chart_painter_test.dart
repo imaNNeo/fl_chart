@@ -173,7 +173,7 @@ void main() {
       ];
 
       final tooltipData = BarTouchTooltipData(
-        tooltipRoundedRadius: 8,
+        tooltipBorderRadius: BorderRadius.circular(8),
         getTooltipColor: (group) => const Color(0xf33f33f3),
         maxContentWidth: 80,
         rotateAngle: 12,
@@ -279,7 +279,7 @@ void main() {
       ];
 
       final tooltipData = BarTouchTooltipData(
-        tooltipRoundedRadius: 8,
+        tooltipBorderRadius: BorderRadius.circular(8),
         getTooltipColor: (group) => const Color(0xf33f33f3),
         maxContentWidth: 80,
         rotateAngle: 12,
@@ -404,7 +404,7 @@ void main() {
         ];
 
         final tooltipData = BarTouchTooltipData(
-          tooltipRoundedRadius: 8,
+          tooltipBorderRadius: BorderRadius.circular(8),
           getTooltipColor: (group) => const Color(0xf33f33f3),
           maxContentWidth: 80,
           rotateAngle: 12,
@@ -497,7 +497,7 @@ void main() {
       ];
 
       final tooltipData = BarTouchTooltipData(
-        tooltipRoundedRadius: 8,
+        tooltipBorderRadius: BorderRadius.circular(8),
         getTooltipColor: (group) => const Color(0xf33f33f3),
         maxContentWidth: 80,
         rotateAngle: 12,
@@ -1592,7 +1592,7 @@ void main() {
       ];
 
       final tooltipData = BarTouchTooltipData(
-        tooltipRoundedRadius: 8,
+        tooltipBorderRadius: BorderRadius.circular(8),
         getTooltipColor: (group) => const Color(0xf33f33f3),
         maxContentWidth: 80,
         rotateAngle: 12,
@@ -1969,7 +1969,7 @@ void main() {
       ];
 
       final tooltipData = BarTouchTooltipData(
-        tooltipRoundedRadius: 8,
+        tooltipBorderRadius: BorderRadius.circular(8),
         getTooltipColor: (group) => const Color(0xf33f33f3),
         maxContentWidth: 8000,
         rotateAngle: 12,
@@ -2136,7 +2136,7 @@ void main() {
       final data = BarChartData(
         groupsSpace: 10,
         barGroups: barGroups,
-        barTouchData: BarTouchData(),
+        barTouchData: const BarTouchData(),
         minY: minY,
         maxY: maxY,
       );
@@ -2325,9 +2325,9 @@ void main() {
         titlesData: const FlTitlesData(show: false),
         alignment: BarChartAlignment.center,
         groupsSpace: 10,
-        barTouchData: BarTouchData(
+        barTouchData: const BarTouchData(
           handleBuiltInTouches: true,
-          touchExtraThreshold: const EdgeInsets.all(1),
+          touchExtraThreshold: EdgeInsets.all(1),
         ),
         minY: minY,
         maxY: maxY,
@@ -2428,9 +2428,9 @@ void main() {
         titlesData: const FlTitlesData(show: false),
         alignment: BarChartAlignment.center,
         groupsSpace: 10,
-        barTouchData: BarTouchData(
+        barTouchData: const BarTouchData(
           handleBuiltInTouches: true,
-          touchExtraThreshold: const EdgeInsets.all(1),
+          touchExtraThreshold: EdgeInsets.all(1),
         ),
         minY: minY,
         maxY: maxY,
@@ -2514,11 +2514,11 @@ void main() {
         groupsSpace: 10,
         minY: -10,
         maxY: 15,
-        barTouchData: BarTouchData(
+        barTouchData: const BarTouchData(
           enabled: true,
           handleBuiltInTouches: true,
           allowTouchBarBackDraw: true,
-          touchExtraThreshold: const EdgeInsets.all(1),
+          touchExtraThreshold: EdgeInsets.all(1),
         ),
       );
 
@@ -2590,11 +2590,11 @@ void main() {
           groupsSpace: 10,
           minY: -10,
           maxY: 15,
-          barTouchData: BarTouchData(
+          barTouchData: const BarTouchData(
             enabled: true,
             handleBuiltInTouches: true,
             allowTouchBarBackDraw: true,
-            touchExtraThreshold: const EdgeInsets.all(1),
+            touchExtraThreshold: EdgeInsets.all(1),
           ),
         );
 
@@ -2654,11 +2654,11 @@ void main() {
           groupsSpace: 10,
           minY: -10,
           maxY: 15,
-          barTouchData: BarTouchData(
+          barTouchData: const BarTouchData(
             enabled: true,
             handleBuiltInTouches: true,
             allowTouchBarBackDraw: true,
-            touchExtraThreshold: const EdgeInsets.all(1),
+            touchExtraThreshold: EdgeInsets.all(1),
           ),
         );
 
