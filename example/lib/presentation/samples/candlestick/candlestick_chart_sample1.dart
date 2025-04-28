@@ -206,6 +206,40 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
                           ),
                         ),
                       ),
+                      touchedPointIndicator: AxisSpotIndicator(
+                        painter: AxisLinesIndicatorPainter(
+                          verticalLineProvider: (x) {
+                            final data =
+                                _btcMonthlyData![_currentMonthIndex][x.toInt()];
+
+                            return VerticalLine(
+                              x: x,
+                              color: (data.isUp
+                                      ? AppColors.contentColorGreen
+                                      : AppColors.contentColorRed)
+                                  .withValues(alpha: 0.5),
+                              strokeWidth: 1,
+                            );
+                          },
+                          horizontalLineProvider: (y) => HorizontalLine(
+                            y: y,
+                            label: HorizontalLineLabel(
+                                show: true,
+                                style: const TextStyle(
+                                  color: AppColors.contentColorYellow,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                labelResolver: (hLine) =>
+                                    hLine.y.toInt().toString(),
+                                alignment: Alignment.topLeft),
+                            color: AppColors.contentColorYellow.withValues(
+                              alpha: 0.8,
+                            ),
+                            strokeWidth: 1,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -298,6 +332,8 @@ class _BtcCandlestickData with EquatableMixin {
   final double close;
   final double volume;
   final double marketCap;
+
+  bool get isUp => open < close;
 
   @override
   List<Object?> get props => [
