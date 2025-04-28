@@ -43,17 +43,16 @@ void main() {
       when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 1.0);
       final mockBuildContext = MockBuildContext();
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockCanvas = MockCanvas();
+      final canvasWrapper = CanvasWrapper(mockCanvas, viewSize);
       candlestickPainter.paint(
         mockBuildContext,
-        mockCanvasWrapper,
+        canvasWrapper,
         holder,
       );
 
-      verify(mockCanvasWrapper.clipRect(any)).called(1);
-      verify(mockCanvasWrapper.drawLine(any, any, any)).called(6);
+      verify(mockCanvas.clipRect(any)).called(1);
+      verify(mockCanvas.drawLine(any, any, any)).called(6);
       Utils.changeInstance(utilsMainInstance);
     });
   });
@@ -304,11 +303,10 @@ void main() {
       when(mockUtils.getBestInitialIntervalValue(any, any, any))
           .thenAnswer((realInvocation) => 1.0);
       final mockBuildContext = MockBuildContext();
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final mockCanvas = MockCanvas();
+      final canvasWrapper = CanvasWrapper(mockCanvas, viewSize);
       final lineDrawCalls = <(Offset, Offset, Color, double)>[];
-      when(mockCanvasWrapper.drawLine(any, any, any)).thenAnswer((invocation) {
+      when(mockCanvas.drawLine(any, any, any)).thenAnswer((invocation) {
         lineDrawCalls.add(
           (
             invocation.positionalArguments[0] as Offset,
@@ -320,7 +318,7 @@ void main() {
       });
 
       final rrectDrawCalls = <(RRect, Color, double)>[];
-      when(mockCanvasWrapper.drawRRect(any, any)).thenAnswer((invocation) {
+      when(mockCanvas.drawRRect(any, any)).thenAnswer((invocation) {
         rrectDrawCalls.add(
           (
             invocation.positionalArguments[0] as RRect,
@@ -332,7 +330,7 @@ void main() {
 
       candlestickPainter.paint(
         mockBuildContext,
-        mockCanvasWrapper,
+        canvasWrapper,
         holder,
       );
 

@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
-import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
@@ -755,7 +754,7 @@ abstract class FlCandlestickPainter with EquatableMixin {
 
   /// This method should be overridden to draw the candlestick shape
   void paint(
-    CanvasWrapper canvas,
+    Canvas canvas,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
     CandlestickSpot spot,
@@ -830,7 +829,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
 
   @override
   void paint(
-    CanvasWrapper canvas,
+    Canvas canvas,
     ValueInCanvasProvider xInCanvasProvider,
     ValueInCanvasProvider yInCanvasProvider,
     CandlestickSpot spot,
