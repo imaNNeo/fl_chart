@@ -89,30 +89,35 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
         touchedSpots!.axisCoordinate.dy >= candlestickChartData.minY &&
         touchedSpots!.axisCoordinate.dx <= candlestickChartData.maxX &&
         touchedSpots!.axisCoordinate.dy <= candlestickChartData.maxY;
+
+    final providedPainter = candlestickChartData.touchedPointIndicator?.painter;
+    final providedX = candlestickChartData.touchedPointIndicator?.x;
+    final providedY = candlestickChartData.touchedPointIndicator?.y;
     return candlestickChartData.copyWith(
       showingTooltipIndicators:
           touchedSpots != null ? [touchedSpots!.spotIndex] : [],
       touchedPointIndicator: touchedSpots != null
           ? AxisSpotIndicator(
-              verticalLine: spot == null
-                  ? null
-                  : VerticalLine(
-                      x: spot.x,
+              x: providedX ?? spot?.x,
+              y: providedY ??
+                  (touchInsideChart ? touchedSpots!.axisCoordinate.dy : null),
+              painter: providedPainter ??
+                  AxisLinesIndicatorPainter(
+                    horizontalLineProvider: (y) => HorizontalLine(
+                      y: y,
                       color: Theme.of(context).colorScheme.outline.withValues(
                             alpha: 0.5,
                           ),
                       strokeWidth: 1,
                     ),
-              horizontalLine: touchInsideChart
-                  ? HorizontalLine(
-                      y: touchedSpots!.axisCoordinate.dy,
+                    verticalLineProvider: (x) => VerticalLine(
+                      x: x,
                       color: Theme.of(context).colorScheme.outline.withValues(
                             alpha: 0.5,
                           ),
                       strokeWidth: 1,
-                    )
-                  : null,
-              painter: AxisLinesIndicatorPainter(),
+                    ),
+                  ),
             )
           : null,
     );

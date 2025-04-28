@@ -2084,28 +2084,29 @@ typedef ValueInCanvasProvider = double Function(double axisValue);
 /// The class to hold the information about showing a specific point
 /// in the axis-based charts
 ///
-/// You can provide the point by [verticalLine] and [horizontalLine] values.
+/// You can use the [x] and [y] properties to set the point, Otherwise it
+/// uses the touch point (if `handleBuiltinTouches` is true)
+///
 /// There's a [painter] property that manages the drawing of the point.
 /// We have a default implementation of the painter which is
 /// [AxisLinesIndicatorPainter], it draws a horizontal and a vertical line
 /// that goes through the point.
 ///
-/// You can also create your own custom painter by extending the
-/// [AxisSpotIndicatorPainter] class.
+/// You can override the [painter] by implementing your own
+/// [AxisSpotIndicatorPainter] implementation.
+///
+/// For more information, look at our default implementation:
+/// [AxisLinesIndicatorPainter].
 class AxisSpotIndicator with EquatableMixin {
   const AxisSpotIndicator({
-    required this.verticalLine,
-    required this.horizontalLine,
+    this.x,
+    this.y,
     required this.painter,
   });
 
-  final VerticalLine? verticalLine;
-  final HorizontalLine? horizontalLine;
+  final double? x;
+  final double? y;
   final AxisSpotIndicatorPainter painter;
-
-  double? get x => verticalLine?.x;
-
-  double? get y => horizontalLine?.y;
 
   /// Lerps a [AxisSpotIndicator] based on [t] value, check [Tween.lerp].
   static AxisSpotIndicator lerp(
@@ -2114,28 +2115,16 @@ class AxisSpotIndicator with EquatableMixin {
     double t,
   ) =>
       AxisSpotIndicator(
-        verticalLine: a.verticalLine == null || b.verticalLine == null
-            ? b.verticalLine
-            : VerticalLine.lerp(
-                a.verticalLine!,
-                b.verticalLine!,
-                t,
-              ),
-        horizontalLine: a.horizontalLine == null || b.horizontalLine == null
-            ? b.horizontalLine
-            : HorizontalLine.lerp(
-                a.horizontalLine!,
-                b.horizontalLine!,
-                t,
-              ),
+        x: lerpDouble(a.x, b.x, t),
+        y: lerpDouble(a.y, b.y, t),
         painter: a.painter.lerp(b.painter, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        verticalLine,
-        horizontalLine,
+        x,
+        y,
         painter,
       ];
 }
@@ -2172,7 +2161,14 @@ abstract class AxisSpotIndicatorPainter {
 ///
 /// It draws a horizontal and a vertical line that goes through the point
 class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
-  AxisLinesIndicatorPainter();
+  AxisLinesIndicatorPainter({
+    required this.verticalLineProvider,
+    required this.horizontalLineProvider,
+  });
+
+  final VerticalLine? Function(double x)? verticalLineProvider;
+
+  final HorizontalLine? Function(double y)? horizontalLineProvider;
 
   /// The paint object that is used to draw the lines
   final _linePaint = Paint();
@@ -2382,7 +2378,10 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
     ValueInCanvasProvider yInCanvasProvider,
     AxisChartData axisChartData,
   ) {
-    final horizontalLine = axisPointIndicator.horizontalLine;
+    final horizontalLine =
+        axisPointIndicator.y == null || horizontalLineProvider == null
+            ? null
+            : horizontalLineProvider!(axisPointIndicator.y!);
     if (horizontalLine != null) {
       final left = Offset(
         xInCanvasProvider(axisChartData.minX),
@@ -2401,7 +2400,10 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
       );
     }
 
-    final verticalLine = axisPointIndicator.verticalLine;
+    final verticalLine =
+        axisPointIndicator.x == null || verticalLineProvider == null
+            ? null
+            : verticalLineProvider!(axisPointIndicator.x!);
     if (verticalLine != null) {
       final top = Offset(
         xInCanvasProvider(verticalLine.x),
@@ -2427,7 +2429,10 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
     AxisLinesIndicatorPainter b,
     double t,
   ) =>
-      AxisLinesIndicatorPainter();
+      AxisLinesIndicatorPainter(
+        horizontalLineProvider: b.horizontalLineProvider,
+        verticalLineProvider: b.verticalLineProvider,
+      );
 
   /// Used for equality check, see [EquatableMixin].
   @override
