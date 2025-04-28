@@ -151,10 +151,14 @@ class _CandlestickChartState extends AnimatedWidgetBaseState<CandlestickChart> {
         touchResponse == null ||
         touchResponse.touchedSpot == null) {
       setState(() {
-        touchedSpots = (
-          axisCoordinate: touchResponse?.touchChartCoordinate ?? Offset.zero,
-          spotIndex: -1,
-        );
+        if (desiredTouch) {
+          touchedSpots = (
+            axisCoordinate: touchResponse?.touchChartCoordinate ?? Offset.zero,
+            spotIndex: -1,
+          );
+        } else {
+          touchedSpots = null;
+        }
       });
       return;
     }
