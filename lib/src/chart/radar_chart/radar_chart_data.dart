@@ -290,7 +290,7 @@ class RadarDataSet with EquatableMixin {
   RadarDataSet({
     List<RadarEntry>? dataEntries,
     Color? fillColor,
-    Gradient? fillGradient,
+    this.fillGradient,
     Color? borderColor,
     double? borderWidth,
     double? entryRadius,
@@ -299,8 +299,7 @@ class RadarDataSet with EquatableMixin {
           'Radar needs at least 3 RadarEntry',
         ),
         dataEntries = dataEntries ?? const [],
-        fillColor = fillColor ?? Colors.cyan.withValues(alpha: 0.2),
-        fillGradient = fillGradient,
+        fillColor = fillColor ?? Colors.cyan,
         borderColor = borderColor ?? Colors.cyan,
         borderWidth = borderWidth ?? 2.0,
         entryRadius = entryRadius ?? 5.0;
