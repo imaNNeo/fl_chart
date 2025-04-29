@@ -100,6 +100,11 @@ class _FakeDiagnosticsNode_7 extends _i1.SmartFake
   }) => super.toString();
 }
 
+class _FakeOffset_8 extends _i1.SmartFake implements _i2.Offset {
+  _FakeOffset_8(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [Canvas].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -984,6 +989,53 @@ class MockScatterChartPainter extends _i1.Mock
             returnValue: 0.0,
           )
           as double);
+
+  @override
+  double getXForPixel(
+    double? pixelX,
+    _i2.Size? viewSize,
+    _i12.PaintHolder<_i13.ScatterChartData>? holder,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getXForPixel, [pixelX, viewSize, holder]),
+            returnValue: 0.0,
+          )
+          as double);
+
+  @override
+  double getYForPixel(
+    double? pixelY,
+    _i2.Size? viewSize,
+    _i12.PaintHolder<_i13.ScatterChartData>? holder,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getYForPixel, [pixelY, viewSize, holder]),
+            returnValue: 0.0,
+          )
+          as double);
+
+  @override
+  _i2.Offset getChartCoordinateFromPixel(
+    _i2.Offset? pixelOffset,
+    _i2.Size? viewSize,
+    _i12.PaintHolder<_i13.ScatterChartData>? holder,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getChartCoordinateFromPixel, [
+              pixelOffset,
+              viewSize,
+              holder,
+            ]),
+            returnValue: _FakeOffset_8(
+              this,
+              Invocation.method(#getChartCoordinateFromPixel, [
+                pixelOffset,
+                viewSize,
+                holder,
+              ]),
+            ),
+          )
+          as _i2.Offset);
 
   @override
   double getTooltipLeft(

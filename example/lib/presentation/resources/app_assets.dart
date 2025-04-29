@@ -13,6 +13,8 @@ class AppAssets {
         return 'assets/icons/ic_scatter_chart.svg';
       case ChartType.radar:
         return 'assets/icons/ic_radar_chart.svg';
+      case ChartType.candlestick:
+        return 'assets/icons/ic_candle_chart.svg';
     }
   }
 

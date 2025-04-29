@@ -439,7 +439,10 @@ class RadarTouchData extends FlTouchData<RadarTouchResponse>
 class RadarTouchResponse extends BaseTouchResponse {
   /// If touch happens, [RadarChart] processes it internally and passes out a [RadarTouchResponse]
   /// that contains a [touchedSpot], it gives you information about the touched spot.
-  RadarTouchResponse(this.touchedSpot) : super();
+  RadarTouchResponse({
+    required super.touchLocation,
+    required this.touchedSpot,
+  });
 
   /// touch happened on this spot. this spot has useful information about spot or entry
   final RadarTouchedSpot? touchedSpot;
@@ -447,10 +450,12 @@ class RadarTouchResponse extends BaseTouchResponse {
   /// Copies current [RadarTouchResponse] to a new [RadarTouchResponse],
   /// and replaces provided values.
   RadarTouchResponse copyWith({
+    Offset? touchLocation,
     RadarTouchedSpot? touchedSpot,
   }) =>
       RadarTouchResponse(
-        touchedSpot ?? this.touchedSpot,
+        touchLocation: touchLocation ?? this.touchLocation,
+        touchedSpot: touchedSpot ?? this.touchedSpot,
       );
 }
 

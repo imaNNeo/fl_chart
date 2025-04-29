@@ -509,6 +509,49 @@ abstract class AxisChartPainter<D extends AxisChartData>
         (((spotY - data.minY) / deltaY) * usableSize.height);
   }
 
+  /// Converts pixel X position to axis X coordinates
+  double getXForPixel(
+    double pixelX,
+    Size viewSize,
+    PaintHolder<D> holder,
+  ) {
+    final usableSize = holder.getChartUsableSize(viewSize);
+    final adjustment = holder.chartVirtualRect?.left ?? 0;
+    final unadjustedPixelX = pixelX - adjustment;
+
+    final deltaX = holder.data.maxX - holder.data.minX;
+    if (deltaX == 0.0) return holder.data.minX;
+
+    return (unadjustedPixelX / usableSize.width) * deltaX + holder.data.minX;
+  }
+
+  /// Converts pixel Y position to axis Y coordinates
+  double getYForPixel(
+    double pixelY,
+    Size viewSize,
+    PaintHolder<D> holder,
+  ) {
+    final usableSize = holder.getChartUsableSize(viewSize);
+    final adjustment = holder.chartVirtualRect?.top ?? 0;
+    final unadjustedPixelY = pixelY - adjustment;
+
+    final deltaY = holder.data.maxY - holder.data.minY;
+    if (deltaY == 0.0) return holder.data.minY;
+
+    return holder.data.maxY - (unadjustedPixelY / usableSize.height) * deltaY;
+  }
+
+  /// Converts pixel coordinates to chart coordinates
+  Offset getChartCoordinateFromPixel(
+    Offset pixelOffset,
+    Size viewSize,
+    PaintHolder<D> holder,
+  ) =>
+      Offset(
+        getXForPixel(pixelOffset.dx, viewSize, holder),
+        getYForPixel(pixelOffset.dy, viewSize, holder),
+      );
+
   /// With this function we can get horizontal
   /// position for the tooltip.
   double getTooltipLeft(

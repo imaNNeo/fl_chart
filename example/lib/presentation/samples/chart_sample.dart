@@ -40,3 +40,9 @@ class RadarChartSample extends ChartSample {
   @override
   ChartType get type => ChartType.radar;
 }
+
+class CandlestickChartSample extends ChartSample {
+  CandlestickChartSample(super.number, super.builder);
+  @override
+  ChartType get type => ChartType.candlestick;
+}
