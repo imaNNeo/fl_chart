@@ -76,6 +76,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     RadarTouchData? radarTouchData,
     this.isMinValueAtCenter = false,
     super.borderData,
+    this.max,
+    this.min,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
           tickCount == null || tickCount >= 1,
@@ -160,12 +162,19 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// If [isMinValueAtCenter] is true, the minimum value of the [RadarChart] will be at the center of the chart.
   final bool isMinValueAtCenter;
 
+  /// [max] and [min] are used to define the maximum and minimum values of the [RadarChart]
+  final RadarEntry? max;
+
+  /// [max] and [min] are used to define the maximum and minimum values of the [RadarChart]
+  final RadarEntry? min;
+
   /// [titleCount] we use this value to determine number of [RadarChart] grid or lines.
   int get titleCount => dataSets[0].dataEntries.length;
 
   /// defines the maximum [RadarEntry] value in all [dataSets]
   /// we use this value to calculate the maximum value of ticks.
   RadarEntry get maxEntry {
+    if (max != null) return max!;
     var maximum = dataSets.first.dataEntries.first;
 
     for (final dataSet in dataSets) {
@@ -179,6 +188,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// defines the minimum [RadarEntry] value in all [dataSets]
   /// we use this value to calculate the minimum value of ticks.
   RadarEntry get minEntry {
+    if (min != null) return min!;
     var minimum = dataSets.first.dataEntries.first;
 
     for (final dataSet in dataSets) {
@@ -224,6 +234,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarTouchData: radarTouchData ?? this.radarTouchData,
         isMinValueAtCenter: isMinValueAtCenter ?? this.isMinValueAtCenter,
         borderData: borderData ?? this.borderData,
+        max: max ?? max,
+        min: min ?? min,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -251,6 +263,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         isMinValueAtCenter: b.isMinValueAtCenter,
         radarTouchData: b.radarTouchData,
+        max: RadarEntry.lerp(a.maxEntry, b.maxEntry, t),
+        min: RadarEntry.lerp(a.minEntry, b.minEntry, t),
       );
     } else {
       throw Exception('Illegal State');
