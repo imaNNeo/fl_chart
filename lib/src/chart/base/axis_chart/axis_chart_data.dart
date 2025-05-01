@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
+import 'package:fl_chart/src/extensions/paint_extension.dart';
+import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -84,6 +86,17 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
         extraLinesData,
         rotationQuarterTurns,
       ];
+}
+
+/// This class holds the touch response details of the axis-based charts
+abstract class AxisBaseTouchResponse extends BaseTouchResponse {
+  AxisBaseTouchResponse({
+    required super.touchLocation,
+    required this.touchChartCoordinate,
+  });
+
+  /// The axis coordinate of the touch in chart's coordinate system.
+  final Offset touchChartCoordinate;
 }
 
 /// Represents a side of the chart
@@ -1386,10 +1399,16 @@ class ExtraLinesData with EquatableMixin {
   static ExtraLinesData lerp(ExtraLinesData a, ExtraLinesData b, double t) =>
       ExtraLinesData(
         extraLinesOnTop: b.extraLinesOnTop,
-        horizontalLines:
-            lerpHorizontalLineList(a.horizontalLines, b.horizontalLines, t)!,
-        verticalLines:
-            lerpVerticalLineList(a.verticalLines, b.verticalLines, t)!,
+        horizontalLines: lerpHorizontalLineList(
+          a.horizontalLines,
+          b.horizontalLines,
+          t,
+        )!,
+        verticalLines: lerpVerticalLineList(
+          a.verticalLines,
+          b.verticalLines,
+          t,
+        )!,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -2059,3 +2078,374 @@ class FlSimpleErrorPainter extends FlSpotErrorRangePainter with EquatableMixin {
 /// has its own input type, for example in [LineChart]
 /// it is [LineChartSpotErrorRangeCallbackInput] (which contains the [FlSpot])
 abstract class FlSpotErrorRangeCallbackInput with EquatableMixin {}
+
+typedef ValueInCanvasProvider = double Function(double axisValue);
+
+/// The class to hold the information about showing a specific point
+/// in the axis-based charts
+///
+/// You can use the [x] and [y] properties to set the point, Otherwise it
+/// uses the touch point (if `handleBuiltinTouches` is true)
+///
+/// There's a [painter] property that manages the drawing of the point.
+/// We have a default implementation of the painter which is
+/// [AxisLinesIndicatorPainter], it draws a horizontal and a vertical line
+/// that goes through the point.
+///
+/// You can override the [painter] by implementing your own
+/// [AxisSpotIndicatorPainter] implementation.
+///
+/// For more information, look at our default implementation:
+/// [AxisLinesIndicatorPainter].
+class AxisSpotIndicator with EquatableMixin {
+  const AxisSpotIndicator({
+    this.x,
+    this.y,
+    required this.painter,
+  });
+
+  final double? x;
+  final double? y;
+  final AxisSpotIndicatorPainter painter;
+
+  /// Lerps a [AxisSpotIndicator] based on [t] value, check [Tween.lerp].
+  static AxisSpotIndicator lerp(
+    AxisSpotIndicator a,
+    AxisSpotIndicator b,
+    double t,
+  ) =>
+      AxisSpotIndicator(
+        x: lerpDouble(a.x, b.x, t),
+        y: lerpDouble(a.y, b.y, t),
+        painter: a.painter.lerp(b.painter, t),
+      );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        x,
+        y,
+        painter,
+      ];
+}
+
+/// The abstract class that is used to draw the point indicator
+///
+/// You can create your own custom painter by extending this class
+/// and implementing the [paint] method.
+///
+/// You can also use the default implementation which is
+/// [AxisLinesIndicatorPainter], it draws a horizontal and a vertical line
+/// that goes through the point.
+abstract class AxisSpotIndicatorPainter {
+  const AxisSpotIndicatorPainter();
+
+  /// Draws the point indicator
+  void paint(
+    BuildContext context,
+    Canvas canvas,
+    Size viewSize,
+    AxisSpotIndicator axisPointIndicator,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
+    AxisChartData axisChartData,
+  );
+
+  /// Lerps a [AxisSpotIndicatorPainter] based on [t] value, check [Tween.lerp].
+  AxisSpotIndicatorPainter lerp(
+    AxisSpotIndicatorPainter b,
+    double t,
+  );
+}
+
+/// The default implementation of the [AxisSpotIndicatorPainter]
+///
+/// It draws a horizontal and a vertical line that goes through the point
+class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
+  AxisLinesIndicatorPainter({
+    required this.verticalLineProvider,
+    required this.horizontalLineProvider,
+  });
+
+  final VerticalLine? Function(double x)? verticalLineProvider;
+
+  final HorizontalLine? Function(double y)? horizontalLineProvider;
+
+  /// The paint object that is used to draw the lines
+  final _linePaint = Paint();
+
+  /// The paint object that is used to draw the images
+  final _imagePaint = Paint();
+
+  void _drawHorizontalLine(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    HorizontalLine line,
+    Offset from,
+    Offset to,
+  ) {
+    _linePaint
+      ..setColorOrGradientForLine(
+        line.color,
+        line.gradient,
+        from: from,
+        to: to,
+      )
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = line.strokeWidth
+      ..transparentIfWidthIsZero()
+      ..strokeCap = line.strokeCap;
+
+    canvasWrapper.drawDashedLine(
+      from,
+      to,
+      _linePaint,
+      line.dashArray,
+    );
+
+    if (line.sizedPicture != null) {
+      final centerX = line.sizedPicture!.width / 2;
+      final centerY = line.sizedPicture!.height / 2;
+      final xPosition = centerX;
+      final yPosition = to.dy - centerY;
+
+      canvasWrapper
+        ..save()
+        ..translate(xPosition, yPosition)
+        ..drawPicture(line.sizedPicture!.picture)
+        ..restore();
+    }
+
+    if (line.image != null) {
+      final centerX = line.image!.width / 2;
+      final centerY = line.image!.height / 2;
+      final centeredImageOffset = Offset(centerX, to.dy - centerY);
+      canvasWrapper.drawImage(
+        line.image!,
+        centeredImageOffset,
+        _imagePaint,
+      );
+    }
+
+    if (line.label.show) {
+      final label = line.label;
+      final style =
+          TextStyle(fontSize: 11, color: line.color).merge(label.style);
+      final padding = label.padding as EdgeInsets;
+
+      final span = TextSpan(
+        text: label.labelResolver(line),
+        style: Utils().getThemeAwareTextStyle(context, style),
+      );
+
+      final tp = TextPainter(
+        text: span,
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+      switch (label.direction) {
+        case LabelDirection.horizontal:
+          canvasWrapper.drawText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx + padding.left,
+                from.dy - padding.bottom - tp.height,
+                to.dx - padding.right - tp.width,
+                to.dy + padding.top,
+              ),
+            ),
+          );
+        case LabelDirection.vertical:
+          canvasWrapper.drawVerticalText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx + padding.left + tp.height,
+                from.dy - padding.bottom - tp.width,
+                to.dx - padding.right,
+                to.dy + padding.top,
+              ),
+            ),
+          );
+      }
+    }
+  }
+
+  void _drawVerticalLine(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    VerticalLine line,
+    Offset from,
+    Offset to,
+  ) {
+    final viewSize = canvasWrapper.size;
+
+    _linePaint
+      ..setColorOrGradientForLine(
+        line.color,
+        line.gradient,
+        from: from,
+        to: to,
+      )
+      ..strokeWidth = line.strokeWidth
+      ..style = PaintingStyle.stroke
+      ..transparentIfWidthIsZero()
+      ..strokeCap = line.strokeCap;
+
+    canvasWrapper.drawDashedLine(
+      from,
+      to,
+      _linePaint,
+      line.dashArray,
+    );
+
+    if (line.sizedPicture != null) {
+      final centerX = line.sizedPicture!.width / 2;
+      final centerY = line.sizedPicture!.height / 2;
+      final xPosition = to.dx - centerX;
+      final yPosition = viewSize.height - centerY;
+
+      canvasWrapper
+        ..save()
+        ..translate(xPosition, yPosition)
+        ..drawPicture(line.sizedPicture!.picture)
+        ..restore();
+    }
+
+    if (line.image != null) {
+      final centerX = line.image!.width / 2;
+      final centerY = line.image!.height + 2;
+      final centeredImageOffset =
+          Offset(to.dx - centerX, viewSize.height - centerY);
+      canvasWrapper.drawImage(
+        line.image!,
+        centeredImageOffset,
+        _imagePaint,
+      );
+    }
+
+    if (line.label.show) {
+      final label = line.label;
+      final style =
+          TextStyle(fontSize: 11, color: line.color).merge(label.style);
+      final padding = label.padding as EdgeInsets;
+
+      final span = TextSpan(
+        text: label.labelResolver(line),
+        style: Utils().getThemeAwareTextStyle(context, style),
+      );
+
+      final tp = TextPainter(
+        text: span,
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+      switch (label.direction) {
+        case LabelDirection.horizontal:
+          canvasWrapper.drawText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx - padding.right - tp.width,
+                from.dy + padding.top,
+                to.dx + padding.left,
+                to.dy - padding.bottom - tp.height,
+              ),
+            ),
+          );
+        case LabelDirection.vertical:
+          canvasWrapper.drawVerticalText(
+            tp,
+            label.alignment.withinRect(
+              Rect.fromLTRB(
+                from.dx - padding.right,
+                from.dy + padding.top,
+                to.dx + padding.left + tp.height,
+                to.dy - padding.bottom - tp.width,
+              ),
+            ),
+          );
+      }
+    }
+  }
+
+  @override
+  void paint(
+    BuildContext context,
+    Canvas canvas,
+    Size viewSize,
+    AxisSpotIndicator axisPointIndicator,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
+    AxisChartData axisChartData,
+  ) {
+    final canvasWrapper = CanvasWrapper(canvas, viewSize);
+    final horizontalLine =
+        axisPointIndicator.y == null || horizontalLineProvider == null
+            ? null
+            : horizontalLineProvider!(axisPointIndicator.y!);
+    if (horizontalLine != null) {
+      final left = Offset(
+        xInCanvasProvider(axisChartData.minX),
+        yInCanvasProvider(horizontalLine.y),
+      );
+      final right = Offset(
+        xInCanvasProvider(axisChartData.maxX),
+        yInCanvasProvider(horizontalLine.y),
+      );
+      _drawHorizontalLine(
+        context,
+        canvasWrapper,
+        horizontalLine,
+        left,
+        right,
+      );
+    }
+
+    final verticalLine =
+        axisPointIndicator.x == null || verticalLineProvider == null
+            ? null
+            : verticalLineProvider!(axisPointIndicator.x!);
+    if (verticalLine != null) {
+      final top = Offset(
+        xInCanvasProvider(verticalLine.x),
+        yInCanvasProvider(axisChartData.maxY),
+      );
+      final bottom = Offset(
+        xInCanvasProvider(verticalLine.x),
+        yInCanvasProvider(axisChartData.minY),
+      );
+
+      _drawVerticalLine(
+        context,
+        canvasWrapper,
+        verticalLine,
+        top,
+        bottom,
+      );
+    }
+  }
+
+  /// Lerps a [AxisLinesIndicatorPainter] based on [t] value, check [Tween.lerp].
+  AxisLinesIndicatorPainter _lerp(
+    AxisLinesIndicatorPainter b,
+    double t,
+  ) =>
+      AxisLinesIndicatorPainter(
+        horizontalLineProvider: b.horizontalLineProvider,
+        verticalLineProvider: b.verticalLineProvider,
+      );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  AxisSpotIndicatorPainter lerp(
+    AxisSpotIndicatorPainter b,
+    double t,
+  ) {
+    if (b is! AxisLinesIndicatorPainter) {
+      return b;
+    }
+    return _lerp(b, t);
+  }
+}

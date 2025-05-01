@@ -143,6 +143,14 @@ List<ScatterSpot>? lerpScatterSpotList(
 ) =>
     lerpList(a, b, t, lerp: ScatterSpot.lerp);
 
+/// Lerps [CandlestickSpot] list based on [t] value, check [Tween.lerp].
+List<CandlestickSpot>? lerpCandleSpotList(
+  List<CandlestickSpot>? a,
+  List<CandlestickSpot>? b,
+  double t,
+) =>
+    lerpList(a, b, t, lerp: CandlestickSpot.lerp);
+
 /// Lerps [BarChartRodStackItem] list based on [t] value, check [Tween.lerp].
 List<BarChartRodStackItem>? lerpBarChartRodStackList(
   List<BarChartRodStackItem>? a,

@@ -57,6 +57,7 @@ When you change the chart's state, it animates to the new state internally (usin
 ### PieTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
+|touchLocation|the location of the touch event in the device pixels coordinates|required|
 |touchedSection|Instance of [PieTouchedSection](#PieTouchedSection) which holds data about the touched section|null|
 
 ### PieTouchedSection
