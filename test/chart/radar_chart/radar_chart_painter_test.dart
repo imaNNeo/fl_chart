@@ -898,6 +898,193 @@ void main() {
     });
   });
 
+  group('drawVerticeLabels()', () {
+    test('test without vertice labels', () {
+      const viewSize = Size(400, 300);
+
+      final data = RadarChartData(
+        dataSets: [
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 1),
+              const RadarEntry(value: 2),
+              const RadarEntry(value: 3),
+            ],
+          ),
+        ],
+        titleTextStyle: MockData.textStyle4,
+        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
+        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
+        gridBorderData: const BorderSide(color: MockData.color3, width: 3),
+        radarBackgroundColor: MockData.color2,
+      );
+
+      final radarChartPainter = RadarChartPainter();
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[1] as TextStyle,
+      );
+      Utils.changeInstance(mockUtils);
+
+      final mockContext = MockBuildContext();
+
+      radarChartPainter.drawVerticeLabels(
+        mockContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verifyNever(mockCanvasWrapper.drawText(any, any));
+    });
+
+    test('test with vertice labels', () {
+      const viewSize = Size(400, 300);
+
+      final data = RadarChartData(
+        dataSets: [
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 1),
+              const RadarEntry(value: 2),
+              const RadarEntry(value: 3),
+            ],
+          ),
+        ],
+        getVerticeLabel: (index) {
+          return RadarChartVerticeLabel(text: 'Label $index');
+        },
+        verticeLabelTextStyle: MockData.textStyle4,
+        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
+        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
+        gridBorderData: const BorderSide(color: MockData.color3, width: 3),
+        radarBackgroundColor: MockData.color2,
+      );
+
+      final radarChartPainter = RadarChartPainter();
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[1] as TextStyle,
+      );
+      Utils.changeInstance(mockUtils);
+
+      final mockContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawText(captureAny, captureAny, captureAny))
+          .thenAnswer((inv) {
+        results.add({
+          'text':
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan?)!
+                  .text,
+          'style':
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan?)!
+                  .style,
+        });
+      });
+
+      radarChartPainter.drawVerticeLabels(
+        mockContext,
+        mockCanvasWrapper,
+        holder,
+      );
+      expect(results.length, 3);
+
+      expect(results[0]['text'] as String, 'Label 0');
+      expect(results[0]['style'] as TextStyle, MockData.textStyle4);
+
+      expect(results[1]['text'] as String, 'Label 1');
+      expect(results[1]['style'] as TextStyle, MockData.textStyle4);
+
+      expect(results[2]['text'] as String, 'Label 2');
+      expect(results[2]['style'] as TextStyle, MockData.textStyle4);
+    });
+
+    test('test with custom position percentage offset', () {
+      const viewSize = Size(400, 300);
+
+      final data = RadarChartData(
+        dataSets: [
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 1),
+              const RadarEntry(value: 2),
+              const RadarEntry(value: 3),
+            ],
+          ),
+        ],
+        getVerticeLabel: (index) {
+          return RadarChartVerticeLabel(
+            text: 'Label $index',
+            positionPercentageOffset: 0.5,
+          );
+        },
+        verticeLabelTextStyle: MockData.textStyle4,
+        verticeLabelPositionPercentageOffset: 0.2,
+        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
+        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
+        gridBorderData: const BorderSide(color: MockData.color3, width: 3),
+        radarBackgroundColor: MockData.color2,
+      );
+
+      final radarChartPainter = RadarChartPainter();
+      final holder =
+          PaintHolder<RadarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[1] as TextStyle,
+      );
+      Utils.changeInstance(mockUtils);
+
+      final mockContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(mockCanvasWrapper.drawText(captureAny, captureAny, captureAny))
+          .thenAnswer((inv) {
+        results.add({
+          'text':
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan?)!
+                  .text,
+          'style':
+              ((inv.positionalArguments[0] as TextPainter).text as TextSpan?)!
+                  .style,
+          'offset': inv.positionalArguments[1] as Offset,
+        });
+      });
+
+      radarChartPainter.drawVerticeLabels(
+        mockContext,
+        mockCanvasWrapper,
+        holder,
+      );
+      expect(results.length, 3);
+
+      for (var i = 0; i < results.length; i++) {
+        expect(results[i]['text'] as String, 'Label $i');
+        expect(results[i]['style'] as TextStyle, MockData.textStyle4);
+        expect(results[i]['offset'], isNotNull);
+      }
+    });
+  });
+
   group('handleTouch()', () {
     test('test 1', () {
       const viewSize = Size(400, 300);
