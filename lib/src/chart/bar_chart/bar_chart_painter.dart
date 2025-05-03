@@ -109,8 +109,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       canvasWrapper.restore();
     }
 
-    for (var i = 0; i < targetData.barGroups.length; i++) {
-      final barGroup = targetData.barGroups[i];
+    for (var i = 0; i < data.barGroups.length; i++) {
+      final barGroup = data.barGroups[i];
       for (var j = 0; j < barGroup.barRods.length; j++) {
         if (!barGroup.showingTooltipIndicators.contains(j)) {
           continue;
