@@ -488,13 +488,11 @@ class BarChartRodStackItem with EquatableMixin {
   BarChartRodStackItem(
     this.fromY,
     this.toY,
-    this.color,
+    this.color, {
     this.label,
-    this.labelStyle, // New property
-    [
+    this.labelStyle,
     this.borderSide = Utils.defaultBorderSide,
-  ]
-  );
+  });
   final String? label;
   final TextStyle? labelStyle;
 
@@ -524,9 +522,9 @@ class BarChartRodStackItem with EquatableMixin {
         fromY ?? this.fromY,
         toY ?? this.toY,
         color ?? this.color,
-        label ?? this.label,
-        labelStyle ?? this.labelStyle,
-        borderSide ?? this.borderSide,
+        label: label ?? this.label,
+        labelStyle: labelStyle ?? this.labelStyle,
+        borderSide: borderSide ?? this.borderSide,
       );
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
@@ -539,14 +537,14 @@ class BarChartRodStackItem with EquatableMixin {
         lerpDouble(a.fromY, b.fromY, t)!,
         lerpDouble(a.toY, b.toY, t)!,
         Color.lerp(a.color, b.color, t)!,
-        a.label,
-        a.labelStyle,
-        BorderSide.lerp(a.borderSide, b.borderSide, t),
+        label: a.label,
+        labelStyle: a.labelStyle,
+        borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [fromY, toY, color, borderSide];
+  List<Object?> get props => [fromY, toY, color, label, labelStyle, borderSide];
 }
 
 /// Holds values to draw a rod in rear of the main rod.
