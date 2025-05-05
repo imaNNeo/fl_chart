@@ -2592,6 +2592,14 @@ void main() {
                 direction: LabelDirection.vertical,
               ),
             ),
+            VerticalLine(
+              x: 9,
+              label: VerticalLineLabel(
+                show: true,
+                labelResolver: verticalLabelResolver,
+                direction: LabelDirection.verticalMirrored,
+              ),
+            ),
           ],
           horizontalLines: [
             HorizontalLine(
@@ -2607,6 +2615,14 @@ void main() {
                 show: true,
                 labelResolver: horizontalLabelResolver,
                 direction: LabelDirection.vertical,
+              ),
+            ),
+            HorizontalLine(
+              y: 9,
+              label: HorizontalLineLabel(
+                show: true,
+                labelResolver: horizontalLabelResolver,
+                direction: LabelDirection.verticalMirrored,
               ),
             ),
           ],
