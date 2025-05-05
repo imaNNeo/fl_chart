@@ -3,6 +3,7 @@
 <img width="400" alt="Image" src="https://github.com/user-attachments/assets/f71b9e4f-3aa8-4688-a5c1-ffd8ff12fba1" />
 * **BREAKING** (by @imaNNeo) Remove the deprecated `tooltipRoundedRadius` property -> you should use `tooltipBorderRadius` instead.
 * **BUGFIX** (by @imaNNeo) Fix the BarChartData mismatch issue when changing the data, #1911
+* **FEATURE** (by @frybitsinc) Add fillGradient property in [RadarDataSet](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md#radardataset)
 
 ## 0.71.0
 * **IMPROVEMENT** (by @MattiaPispisa) Add a new property called `BorderRadius tooltipBorderRadius` instead of (deprecated) `double tooltipRoundedRadius` in `BarTouchTooltipData`, `LineTouchTooltipData` and `ScatterTouchTooltipData` #1715
