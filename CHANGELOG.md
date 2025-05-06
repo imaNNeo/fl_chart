@@ -4,6 +4,7 @@
 * **BREAKING** (by @imaNNeo) Remove the deprecated `tooltipRoundedRadius` property -> you should use `tooltipBorderRadius` instead.
 * **BUGFIX** (by @imaNNeo) Fix the BarChartData mismatch issue when changing the data, #1911
 * **FEATURE** (by @frybitsinc) Add fillGradient property in [RadarDataSet](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md#radardataset)
+* **BREAKING** (by @imaNNeo) Upgrade the min flutter version to `3.27.4`. So please make sure that your project is not using an old flutter version.
 
 ## 0.71.0
 * **IMPROVEMENT** (by @MattiaPispisa) Add a new property called `BorderRadius tooltipBorderRadius` instead of (deprecated) `double tooltipRoundedRadius` in `BarTouchTooltipData`, `LineTouchTooltipData` and `ScatterTouchTooltipData` #1715
