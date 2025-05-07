@@ -85,14 +85,11 @@ class HomePage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 24.0),
                         child: DownloadNativeAppButton(
-                          onClose: () {
-                            context
-                                .read<AppCubit>()
-                                .hideDownloadNativeAppButton();
-                          },
-                          onDownload: () {
-                            AppUtils().tryToLaunchUrl(Urls.flChartUrl);
-                          },
+                          onClose: () => context
+                              .read<AppCubit>()
+                              .hideDownloadNativeAppButton(),
+                          onDownload: () =>
+                              AppUtils().tryToLaunchUrl(Urls.downloadUrl),
                         ),
                       ),
                     ),
