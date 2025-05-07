@@ -1,4 +1,5 @@
 import 'package:dartx/dartx.dart';
+import 'package:fl_chart_app/cubits/app/app_cubit.dart';
 import 'package:fl_chart_app/presentation/menu/app_menu.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/presentation/widgets/download_native_app_button.dart';
@@ -6,6 +7,7 @@ import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 import 'package:fl_chart_app/util/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'chart_samples_page.dart';
@@ -71,31 +73,45 @@ class HomePage extends StatelessWidget {
                 ],
               );
 
-        return Scaffold(
-          body: Stack(
-            children: [
-              body,
-              const Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 24.0),
-                  child: DownloadNativeAppButton(),
-                ),
+        return BlocBuilder<AppCubit, AppState>(
+          builder: (context, state) {
+            return Scaffold(
+              body: Stack(
+                children: [
+                  body,
+                  if (state.showDownloadNativeAppButton)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 24.0),
+                        child: DownloadNativeAppButton(
+                          onClose: () {
+                            context
+                                .read<AppCubit>()
+                                .hideDownloadNativeAppButton();
+                          },
+                          onDownload: () {
+                            AppUtils().tryToLaunchUrl(Urls.flChartUrl);
+                          },
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            ],
-          ),
-          drawer: needsDrawer
-              ? Drawer(
-                  child: appMenuWidget,
-                )
-              : null,
-          appBar: needsDrawer
-              ? AppBar(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  title: Text(showingChartType.displayName),
-                )
-              : null,
+              drawer: needsDrawer
+                  ? Drawer(
+                      child: appMenuWidget,
+                    )
+                  : null,
+              appBar: needsDrawer
+                  ? AppBar(
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      title: Text(showingChartType.displayName),
+                    )
+                  : null,
+            );
+          },
         );
       },
     );

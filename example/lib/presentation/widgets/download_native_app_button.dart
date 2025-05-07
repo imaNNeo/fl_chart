@@ -2,7 +2,14 @@ import 'package:fl_chart_app/presentation/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class DownloadNativeAppButton extends StatelessWidget {
-  const DownloadNativeAppButton({super.key});
+  const DownloadNativeAppButton({
+    super.key,
+    required this.onClose,
+    required this.onDownload,
+  });
+
+  final VoidCallback onClose;
+  final VoidCallback onDownload;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +22,7 @@ class DownloadNativeAppButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(999),
-          onTap: () {},
+          onTap: onDownload,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 4,
@@ -40,7 +47,7 @@ class DownloadNativeAppButton extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: onClose,
                   icon: const Icon(
                     size: 16,
                     Icons.close,
