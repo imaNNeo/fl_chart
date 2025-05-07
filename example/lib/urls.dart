@@ -6,6 +6,8 @@ class Urls {
 
   static String get aboutUrl => '$flChartUrl/about';
 
+  static String get downloadUrl => '$flChartUrl/download';
+
   static String getChartSourceCodeUrl(ChartType chartType, int sampleNumber) {
     final chartDir = chartType.name.toLowerCase();
     return 'https://github.com/imaNNeo/fl_chart/blob/main/example/lib/presentation/samples/$chartDir/${chartDir}_chart_sample$sampleNumber.dart';
