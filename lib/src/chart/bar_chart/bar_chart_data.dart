@@ -536,8 +536,8 @@ class BarChartRodStackItem with EquatableMixin {
         lerpDouble(a.fromY, b.fromY, t)!,
         lerpDouble(a.toY, b.toY, t)!,
         Color.lerp(a.color, b.color, t)!,
-        label: a.label,
-        labelStyle: a.labelStyle,
+        label: b.label,
+        labelStyle: b.labelStyle,
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       );
 
