@@ -184,6 +184,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
       ];
 }
 
+enum LineChartGradientArea { rectAroundTheLine, wholeChart }
+
 /// Holds data for drawing each individual line in the [LineChart]
 class LineChartBarData with EquatableMixin {
   /// [BarChart] draws some lines and overlaps them in the chart's view,
@@ -232,6 +234,7 @@ class LineChartBarData with EquatableMixin {
     this.show = true,
     Color? color,
     this.gradient,
+    this.gradientArea,
     this.barWidth = 2.0,
     this.isCurved = false,
     this.curveSmoothness = 0.35,
@@ -324,6 +327,11 @@ class LineChartBarData with EquatableMixin {
   /// It throws an exception if you provide both [color] and [gradient]
   final Gradient? gradient;
 
+  /// Only effective if [gradient] is provided.
+  ///
+  /// If null, the gradient area will be around the line by default.
+  final LineChartGradientArea? gradientArea;
+
   /// Determines thickness of drawing line.
   final double barWidth;
 
@@ -405,6 +413,7 @@ class LineChartBarData with EquatableMixin {
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
+        gradientArea: b.gradientArea,
         spots: lerpFlSpotList(a.spots, b.spots, t)!,
         showingIndicators: b.showingIndicators,
         shadow: Shadow.lerp(a.shadow, b.shadow, t)!,
@@ -420,6 +429,7 @@ class LineChartBarData with EquatableMixin {
     bool? show,
     Color? color,
     Gradient? gradient,
+    LineChartGradientArea? gradientArea,
     double? barWidth,
     bool? isCurved,
     double? curveSmoothness,
@@ -443,6 +453,7 @@ class LineChartBarData with EquatableMixin {
         show: show ?? this.show,
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
+        gradientArea: gradientArea ?? this.gradientArea,
         barWidth: barWidth ?? this.barWidth,
         isCurved: isCurved ?? this.isCurved,
         curveSmoothness: curveSmoothness ?? this.curveSmoothness,
@@ -470,6 +481,7 @@ class LineChartBarData with EquatableMixin {
         show,
         color,
         gradient,
+        gradientArea,
         barWidth,
         isCurved,
         curveSmoothness,

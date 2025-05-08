@@ -1056,7 +1056,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..setColorOrGradient(
         barData.color,
         barData.gradient,
-        rectAroundTheLine,
+        barData.gradientArea == LineChartGradientArea.wholeChart
+            ? Offset.zero & viewSize
+            : rectAroundTheLine,
       )
       ..maskFilter = null
       ..strokeWidth = barData.barWidth
