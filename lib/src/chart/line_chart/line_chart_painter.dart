@@ -518,6 +518,35 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         indicatorLine.dashArray,
       );
 
+      // Optionally draw horizontal line
+      if (indicatorData.showHorizontalLine) {
+        // Draw horizontal line from the left edge of the chart to right edge
+        // at the y position of the touched spot
+        final horizontalLine = indicatorData.indicatorHorizontalLine;
+        const left = 0.0;
+        final right = viewSize.width;
+
+        final horizontalStart = Offset(left, touchedSpot.dy);
+        final horizontalEnd = Offset(right, touchedSpot.dy);
+
+        _touchLinePaint
+          ..setColorOrGradientForLine(
+            horizontalLine.color,
+            horizontalLine.gradient,
+            from: horizontalStart,
+            to: horizontalEnd,
+          )
+          ..strokeWidth = horizontalLine.strokeWidth
+          ..transparentIfWidthIsZero();
+
+        canvasWrapper.drawDashedLine(
+          horizontalStart,
+          horizontalEnd,
+          _touchLinePaint,
+          horizontalLine.dashArray,
+        );
+      }
+
       /// Draw the indicator dot
       if (showingDots) {
         canvasWrapper.drawDot(dotPainter, spot, touchedSpot);

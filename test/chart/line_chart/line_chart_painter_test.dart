@@ -1139,6 +1139,98 @@ void main() {
 
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(2);
     });
+
+    test('draws horizontal indicator line when showHorizontalLine is true', () {
+      const viewSize = Size(400, 400);
+
+      const spot1 = FlSpot(1, 1);
+      const spot2 = FlSpot(2, 2);
+      const spot3 = FlSpot(3, 3);
+
+      final barData = LineChartBarData(
+        spots: const [spot1, spot2, spot3],
+        showingIndicators: [0, 1],
+      );
+
+      final data = LineChartData(
+        lineBarsData: [barData],
+        lineTouchData: LineTouchData(
+          getTouchedSpotIndicator: (barData, spotIndexes) {
+            return spotIndexes.map((index) {
+              return const TouchedSpotIndicatorData(
+                FlLine(color: Colors.green), // vertical
+                FlDotData(show: false),
+                indicatorHorizontalLine:
+                    FlLine(color: Colors.amber, strokeWidth: 4),
+                showHorizontalLine: true,
+              );
+            }).toList();
+          },
+        ),
+      );
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final painter = LineChartPainter();
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final lineDrawingResults = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawDashedLine(
+          captureAny,
+          captureAny,
+          captureAny,
+          any,
+        ),
+      ).thenAnswer((invocation) {
+        final paint = invocation.positionalArguments[2] as Paint;
+        lineDrawingResults.add({
+          'from': invocation.positionalArguments[0] as Offset,
+          'to': invocation.positionalArguments[1] as Offset,
+          'color': paint.color,
+          'strokeWidth': paint.strokeWidth,
+        });
+      });
+
+      final indicator1 =
+          data.lineTouchData.getTouchedSpotIndicator(barData, [0])[0];
+      final indicator2 =
+          data.lineTouchData.getTouchedSpotIndicator(barData, [1])[0];
+
+      expect(indicator1, isNotNull);
+      expect(indicator2, isNotNull);
+
+      painter.drawTouchedSpotsIndicator(
+        mockCanvasWrapper,
+        [
+          LineIndexDrawingInfo(barData, 0, spot1, 0, indicator1!),
+          LineIndexDrawingInfo(barData, 0, spot2, 1, indicator2!),
+        ],
+        holder,
+      ); // Expect 4 lines: 2 vertical + 2 horizontal
+      expect(lineDrawingResults.length, 4);
+
+      final horizontalLines =
+          lineDrawingResults.where((line) => line['strokeWidth'] == 4).toList();
+      expect(horizontalLines.length, 2);
+
+      for (final line in horizontalLines) {
+        expect(line['strokeWidth'], 4);
+        expect(
+          (line['color'] as Color).toARGB32(),
+          equals(Colors.amber.toARGB32()),
+        );
+        final from = line['from'] as Offset;
+        final to = line['to'] as Offset;
+
+        // Line spans full width of the chart
+        expect(from.dx, equals(0.0));
+        expect(to.dx, equals(viewSize.width));
+      }
+    });
   });
 
   group('generateBarPath()', () {
