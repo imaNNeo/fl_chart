@@ -558,7 +558,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final shiftAmount = 0 - rect.top;
         rect = Rect.fromLTRB(
           rect.left,
-          rect.top + shiftAmount,
+          0, //rect.top + shiftAmount,
           rect.right,
           rect.bottom + shiftAmount,
         );
@@ -576,7 +576,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     }
 
     final roundedRect = RRect.fromRectAndCorners(
-      rect,
+      Rect.fromLTRB(rect.left, 0, rect.right, rect.height),
       topLeft: tooltipData.tooltipBorderRadius.topLeft,
       topRight: tooltipData.tooltipBorderRadius.topRight,
       bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
@@ -589,16 +589,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
         Offset(0, Utils().calculateRotationOffset(rect.size, rotateAngle).dy);
-    final rectDrawOffset = Offset(roundedRect.left, roundedRect.top);
+    final rectDrawOffset = Offset(roundedRect.left, 0);
 
     final textRotationOffset =
         Utils().calculateRotationOffset(tp.size, rotateAngle);
 
     /// draw the texts one by one in below of each other
-    final top = tooltipData.tooltipPadding.top;
+    // final top = tooltipData.tooltipPadding.top;
     final drawOffset = Offset(
-      rect.center.dx - (tp.width / 2),
-      rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
+      rect.center.dx - (tp.width / 2), 0,
+      // rect.topCenter.dy + top - textRotationOffset.dy + rectRotationOffset.dy,
     );
 
     if (tooltipData.tooltipBorder != BorderSide.none) {
