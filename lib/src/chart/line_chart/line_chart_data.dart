@@ -329,6 +329,7 @@ class LineChartBarData with EquatableMixin {
 
   /// Only effective if [gradient] is provided.
   ///
+  /// It will be used to determine the area of the gradient.
   /// If null, the gradient area will be around the line by default.
   final LineChartGradientArea? gradientArea;
 
