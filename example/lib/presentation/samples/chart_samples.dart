@@ -27,6 +27,7 @@ import 'pie/pie_chart_sample1.dart';
 import 'pie/pie_chart_sample2.dart';
 import 'pie/pie_chart_sample3.dart';
 import 'radar/radar_chart_sample1.dart';
+import 'radar/radar_chart_sample2.dart';
 import 'scatter/scatter_chart_sample1.dart';
 import 'scatter/scatter_chart_sample2.dart';
 
@@ -68,6 +69,7 @@ class ChartSamples {
     ],
     ChartType.radar: [
       RadarChartSample(1, (context) => RadarChartSample1()),
+      RadarChartSample(2, (context) => const RadarChartSample2()),
     ],
     ChartType.candlestick: [
       CandlestickChartSample(1, (context) => const CandlestickChartSample1()),
