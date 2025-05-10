@@ -1033,7 +1033,6 @@ void main() {
           );
         },
         verticeLabelTextStyle: MockData.textStyle4,
-        verticeLabelPositionPercentageOffset: 0.2,
         radarBorderData: const BorderSide(color: MockData.color6, width: 33),
         tickBorderData: const BorderSide(color: MockData.color5, width: 55),
         gridBorderData: const BorderSide(color: MockData.color3, width: 3),

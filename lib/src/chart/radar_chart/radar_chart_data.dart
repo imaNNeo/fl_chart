@@ -91,7 +91,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     this.titleTextStyle,
     this.verticeLabelTextStyle,
     double? titlePositionPercentageOffset,
-    double? verticeLabelPositionPercentageOffset,
     int? tickCount,
     this.ticksTextStyle,
     BorderSide? tickBorderData,
@@ -110,20 +109,12 @@ class RadarChartData extends BaseChartData with EquatableMixin {
                   titlePositionPercentageOffset <= 1,
           'titlePositionPercentageOffset must be something between 0 and 1 ',
         ),
-        assert(
-          verticeLabelPositionPercentageOffset == null ||
-              verticeLabelPositionPercentageOffset >= 0 &&
-                  verticeLabelPositionPercentageOffset <= 1,
-          'verticeLabelPositionPercentageOffset must be something between 0 and 1 ',
-        ),
         dataSets = dataSets ?? const [],
         radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
         radarBorderData = radarBorderData ?? const BorderSide(width: 2),
         radarShape = radarShape ?? RadarShape.circle,
         radarTouchData = radarTouchData ?? RadarTouchData(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.2,
-        verticeLabelPositionPercentageOffset =
-            verticeLabelPositionPercentageOffset ?? 0.2,
         tickCount = tickCount ?? 1,
         tickBorderData = tickBorderData ?? const BorderSide(width: 2),
         gridBorderData = gridBorderData ?? const BorderSide(width: 2),
@@ -177,13 +168,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// if it is 1 the title will be drawn near the outside of section,
   /// the default value is 0.2.
   final double titlePositionPercentageOffset;
-
-  /// the [verticeLabelPositionPercentageOffset] is the place of showing labels on the [RadarChart] vertices
-  /// The higher the value of this field, the more labels move away from the chart vertices.
-  /// this field should be between 0 and 1,
-  /// if it is 0 the label will be drawn near the chart vertices,
-  /// if it is 1 the label will be drawn near the outside of chart vertices,
-  final double verticeLabelPositionPercentageOffset;
 
   /// Defines the number of ticks that should be paint in [RadarChart]
   /// the default & minimum value of this field is 1.
@@ -245,7 +229,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     GetVerticeLabelByIndexFunction? getVerticeLabel,
     TextStyle? titleTextStyle,
     double? titlePositionPercentageOffset,
-    double? verticeLabelPositionPercentageOffset,
     int? tickCount,
     TextStyle? ticksTextStyle,
     BorderSide? tickBorderData,
@@ -264,9 +247,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         titleTextStyle: titleTextStyle ?? this.titleTextStyle,
         titlePositionPercentageOffset:
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
-        verticeLabelPositionPercentageOffset:
-            verticeLabelPositionPercentageOffset ??
-                this.verticeLabelPositionPercentageOffset,
         tickCount: tickCount ?? this.tickCount,
         ticksTextStyle: ticksTextStyle ?? this.ticksTextStyle,
         tickBorderData: tickBorderData ?? this.tickBorderData,
@@ -290,11 +270,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,
           b.titlePositionPercentageOffset,
-          t,
-        ),
-        verticeLabelPositionPercentageOffset: lerpDouble(
-          a.verticeLabelPositionPercentageOffset,
-          b.verticeLabelPositionPercentageOffset,
           t,
         ),
         tickCount: lerpInt(a.tickCount, b.tickCount, t),
@@ -326,7 +301,6 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         titleTextStyle,
         verticeLabelTextStyle,
         titlePositionPercentageOffset,
-        verticeLabelPositionPercentageOffset,
         tickCount,
         ticksTextStyle,
         tickBorderData,
