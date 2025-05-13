@@ -1256,10 +1256,10 @@ void main() {
               toY: 10,
               color: const Color(0x00000000),
               rodStackItems: [
-                BarChartRodStackItem(-5, -10, const Color(0x11111111)),
-                BarChartRodStackItem(0, -5, const Color(0x22222222)),
-                BarChartRodStackItem(0, 5, const Color(0x33333333)),
-                BarChartRodStackItem(5, 10, const Color(0x44444444)),
+                BarChartRodStackItem(-5, -10, [const Color(0x11111111)]),
+                BarChartRodStackItem(0, -5, [const Color(0x22222222)]),
+                BarChartRodStackItem(0, 5, [const Color(0x33333333)]),
+                BarChartRodStackItem(5, 10,[ const Color(0x44444444)]),
               ],
             ),
           ],
@@ -2102,19 +2102,19 @@ void main() {
         BarChartRodStackItem(
           0,
           3,
-          const Color(0x11111110),
+          [const Color(0x11111110)],
           const BorderSide(color: Color(0x11111111)),
         ),
         BarChartRodStackItem(
           3,
           8,
-          const Color(0x22222220),
+          [const Color(0x22222220)],
           const BorderSide(color: Color(0x22222221), width: 2),
         ),
         BarChartRodStackItem(
           8,
           10,
-          const Color(0x33333330),
+          [const Color(0x33333330)],
           const BorderSide(color: Color(0x33333331), width: 3),
         ),
       ];
@@ -2402,7 +2402,7 @@ void main() {
               color: const Color(0x00000000),
               borderRadius: const BorderRadius.all(Radius.circular(0.1)),
               rodStackItems: [
-                BarChartRodStackItem(0, 5, const Color(0xFF0F0F0F)),
+                BarChartRodStackItem(0, 5, [const Color(0xFF0F0F0F)]),
               ],
             ),
           ],

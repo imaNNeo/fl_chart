@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:math';
 
+import 'dart:ui' as ui;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -311,7 +312,25 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               final stackToY = getPixelY(stackItem.toY, viewSize, holder);
 
               final isNegative = stackItem.toY < stackItem.fromY;
-              _barPaint.color = stackItem.color;
+              if (stackItem.colors.length == 1) {
+                _barPaint.color = stackItem.colors[0];
+                _barPaint.shader = null;
+              } else {
+                final topY = min(stackItem.fromY, stackItem.toY);
+                final bottomY = max(stackItem.fromY, stackItem.toY);
+
+                final stackTop = getPixelY(topY, viewSize, holder);
+                final stackBottom = getPixelY(bottomY, viewSize, holder);
+
+                final centerX = (left + right) / 2;
+
+                _barPaint.shader = ui.Gradient.linear(
+                  Offset(centerX, stackTop),
+                  Offset(centerX, stackBottom),
+                  stackItem.colors,
+                  stackItem.colorStops,
+                );
+              }
               final rect = isNegative
                   ? Rect.fromLTRB(left, stackFromY, right, stackToY)
                   : Rect.fromLTRB(left, stackToY, right, stackFromY);

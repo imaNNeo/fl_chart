@@ -169,7 +169,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               0,
               value1,
-              AppColors.contentColorGreen,
+              [AppColors.contentColorGreen],
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -178,7 +178,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               value1,
               value1 + value2,
-              AppColors.contentColorYellow,
+              [AppColors.contentColorYellow],
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -187,7 +187,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               value1 + value2,
               value1 + value2 + value3,
-              AppColors.contentColorPink,
+              [AppColors.contentColorPink],
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -196,7 +196,7 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               value1 + value2 + value3,
               value1 + value2 + value3 + value4,
-              AppColors.contentColorBlue,
+              [AppColors.contentColorBlue],
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -221,29 +221,29 @@ class BarChartSample5State extends State<BarChartSample5> {
             BarChartRodStackItem(
               0,
               -value1,
-              AppColors.contentColorGreen.withValues(
-                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
+              [AppColors.contentColorGreen.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity)],
               const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -value1,
               -(value1 + value2),
-              AppColors.contentColorYellow.withValues(
-                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
+              [AppColors.contentColorYellow.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity)],
               const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -(value1 + value2),
               -(value1 + value2 + value3),
-              AppColors.contentColorPink.withValues(
-                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
+              [AppColors.contentColorPink.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity)],
               const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -(value1 + value2 + value3),
               -(value1 + value2 + value3 + value4),
-              AppColors.contentColorBlue.withValues(
-                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
+              [AppColors.contentColorBlue.withValues(
+                  alpha: isTouched ? shadowOpacity * 2 : shadowOpacity)],
               const BorderSide(color: Colors.transparent),
             ),
           ],

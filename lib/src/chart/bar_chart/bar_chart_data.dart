@@ -478,18 +478,19 @@ class BarChartRodStackItem with EquatableMixin {
   ///   y: 9,
   ///   color: Colors.grey,
   ///   rodStackItems: [
-  ///     BarChartRodStackItem(0, 3, Colors.red),
-  ///     BarChartRodStackItem(3, 6, Colors.green),
-  ///     BarChartRodStackItem(6, 9, Colors.blue),
+  ///     BarChartRodStackItem(0, 3, [Colors.red]),
+  ///     BarChartRodStackItem(3, 6, [Colors.green]),
+  ///     BarChartRodStackItem(6, 9, [Colors.blue]),
   ///   ]
   /// )
   /// ```
   BarChartRodStackItem(
     this.fromY,
     this.toY,
-    this.color, [
+    this.colors, [
     this.borderSide = Utils.defaultBorderSide,
-  ]);
+    this.colorStops,
+  ]) : assert(colors.isNotEmpty);
 
   /// Renders a Stacked Chart section from [fromY]
   final double fromY;
@@ -497,8 +498,13 @@ class BarChartRodStackItem with EquatableMixin {
   /// Renders a Stacked Chart section to [toY]
   final double toY;
 
-  /// Renders a Stacked Chart section with [color]
-  final Color color;
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw stacked bar.
+  final List<Color> colors;
+
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
+  final List<double>? colorStops;
 
   /// Renders border stroke for a Stacked Chart section
   final BorderSide borderSide;
@@ -508,15 +514,18 @@ class BarChartRodStackItem with EquatableMixin {
   BarChartRodStackItem copyWith({
     double? fromY,
     double? toY,
-    Color? color,
+    List<Color>? colors,
+    List<double>? colorStops,
     BorderSide? borderSide,
-  }) =>
-      BarChartRodStackItem(
-        fromY ?? this.fromY,
-        toY ?? this.toY,
-        color ?? this.color,
-        borderSide ?? this.borderSide,
-      );
+  }) {
+    return BarChartRodStackItem(
+      fromY ?? this.fromY,
+      toY ?? this.toY,
+      colors ?? this.colors,
+      borderSide ?? this.borderSide,
+      colorStops ?? this.colorStops,
+    );
+  }
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
   static BarChartRodStackItem lerp(
@@ -527,13 +536,14 @@ class BarChartRodStackItem with EquatableMixin {
       BarChartRodStackItem(
         lerpDouble(a.fromY, b.fromY, t)!,
         lerpDouble(a.toY, b.toY, t)!,
-        Color.lerp(a.color, b.color, t)!,
+        lerpColorList(a.colors, b.colors, t)!,
         BorderSide.lerp(a.borderSide, b.borderSide, t),
+        lerpDoubleList(a.colorStops, b.colorStops, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [fromY, toY, color, borderSide];
+  List<Object?> get props => [fromY, toY, colors, colorStops, borderSide];
 }
 
 /// Holds values to draw a rod in rear of the main rod.
