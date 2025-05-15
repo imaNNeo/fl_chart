@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 // coverage:ignore-start
 
 /// Low level GaugeChart Widget.
-class GaugeChartLeaf extends MultiChildRenderObjectWidget {
+class GaugeChartLeaf extends LeafRenderObjectWidget {
   const GaugeChartLeaf({
     super.key,
     required this.data,
