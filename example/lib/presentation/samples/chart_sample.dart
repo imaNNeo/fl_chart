@@ -46,3 +46,9 @@ class CandlestickChartSample extends ChartSample {
   @override
   ChartType get type => ChartType.candlestick;
 }
+
+class GaugeChartSample extends ChartSample {
+  GaugeChartSample(super.number, super.builder);
+  @override
+  ChartType get type => ChartType.gauge;
+}

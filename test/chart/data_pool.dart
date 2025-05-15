@@ -3461,3 +3461,63 @@ final CandlestickTouchTooltipData candlestickTouchTooltipData3 =
 );
 
 final candlestickTouchedSpot1 = CandlestickTouchedSpot(candlestickSpot1, 0);
+
+final GaugeTouchData gaugeTouchData1Clone = gaugeTouchData1;
+
+final GaugeTouchedSpot gaugeTouchedSpot1 = GaugeTouchedSpot(
+  const FlSpot(0, 1),
+  const Offset(0, 1),
+);
+
+final gaugeTouchedSpotClone1 = gaugeTouchedSpot1;
+
+final GaugeTouchedSpot gaugeTouchedSpot2 = GaugeTouchedSpot(
+  const FlSpot(1, 0),
+  const Offset(0, 1),
+);
+
+final GaugeTouchedSpot gaugeTouchedSpot3 = GaugeTouchedSpot(
+  const FlSpot(0, 1),
+  const Offset(1, 0),
+);
+
+final GaugeTouchData gaugeTouchData1 = GaugeTouchData(
+  enabled: true,
+  touchCallback: (_, __) {},
+);
+
+final GaugeTouchData gaugeTouchData2 = GaugeTouchData(
+  enabled: false,
+  touchCallback: (_, __) {},
+  mouseCursorResolver: (_, __) => MouseCursor.defer,
+);
+
+const GaugeColor gaugeColor1 = SimpleGaugeColor(color: Colors.black);
+
+final GaugeColor gaugeColor2 = VariableGaugeColor(
+  limits: [0.1, 0.5],
+  colors: [Colors.red, Colors.red, Colors.red],
+);
+
+const GaugeTicks gaugeTicks1 = GaugeTicks(
+  color: Colors.blue,
+  count: 4,
+  margin: 7,
+  position: GaugeTickPosition.center,
+  radius: 4,
+  showChangingColorTicks: false,
+);
+
+final GaugeChartData gaugeChartData1 = GaugeChartData(
+  startAngle: 25,
+  endAngle: 90,
+  strokeWidth: 45,
+  value: 0.2,
+  valueColor: gaugeColor1,
+  backgroundColor: Colors.amber,
+  strokeCap: StrokeCap.round,
+  ticks: gaugeTicks1,
+  touchData: gaugeTouchData1,
+);
+
+final GaugeChartData gaugeChartData1Clone = gaugeChartData1.copyWith();
