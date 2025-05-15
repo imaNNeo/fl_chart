@@ -1,5 +1,6 @@
 import 'package:fl_chart_app/urls.dart';
 import 'package:fl_chart_app/util/app_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:equatable/equatable.dart';
@@ -17,6 +18,7 @@ class AppCubit extends Cubit<AppState> {
       currentPackageInfo: packageInfo,
       availableVersionToUpdate: '',
       usingFlChartVersion: BuildConstants.usingFlChartVersion,
+      showDownloadNativeAppButton: kIsWeb || kIsWasm,
     ));
   }
 
@@ -24,6 +26,12 @@ class AppCubit extends Cubit<AppState> {
     AppUtils().tryToLaunchUrl(
       Urls.getVersionReleaseUrl(state.usingFlChartVersion),
     );
+  }
+
+  void hideDownloadNativeAppButton() {
+    emit(state.copyWith(
+      showDownloadNativeAppButton: false,
+    ));
   }
 }
 

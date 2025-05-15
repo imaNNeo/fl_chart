@@ -38,6 +38,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |dataEntries|Each RadarDataSet contains list of [RadarEntries ](#RadarEntry) that is shown in RadarChart.|[]|
 |fillColor|fills the DataSet with the specified color.|Colors.black12|
+|fillGradient|fills the DataSet with the specified gradient colors.| null |
 |borderColor|Paint the DataSet border with the specified color.|Colors.blueAccent|
 |borderWidth|defines the width of [RadarDataSet](#RadarDataSet) border.|2.0|
 |entryRadius|defines the radius of each [RadarEntries ](#RadarEntry).|5.0|

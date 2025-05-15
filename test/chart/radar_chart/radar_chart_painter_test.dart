@@ -565,6 +565,17 @@ void main() {
             borderColor: MockData.color1,
             borderWidth: 1,
           ),
+          RadarDataSet(
+            dataEntries: [
+              const RadarEntry(value: 2),
+              const RadarEntry(value: 3),
+              const RadarEntry(value: 1),
+            ],
+            fillColor: MockData.color1,
+            fillGradient: MockData.gradient1,
+            borderColor: MockData.color1,
+            borderWidth: 1,
+          ),
         ],
         getTitle: (index, angle) {
           return RadarChartTitle(text: '$index$index', angle: angle);
@@ -606,13 +617,14 @@ void main() {
         drawPathResults.add({
           'path': inv.positionalArguments[0] as Path,
           'paint_color': (inv.positionalArguments[1] as Paint).color,
+          'paint_shader': (inv.positionalArguments[1] as Paint).shader,
           'paint_stroke': (inv.positionalArguments[1] as Paint).strokeWidth,
           'paint_style': (inv.positionalArguments[1] as Paint).style,
         });
       });
 
       radarChartPainter.drawDataSets(mockCanvasWrapper, holder);
-      expect(drawCircleResults.length, 9);
+      expect(drawCircleResults.length, 12);
 
       expect(
         drawCircleResults[0]['offset'] as Offset,
@@ -668,7 +680,7 @@ void main() {
       );
       expect(drawCircleResults[8]['radius'] as double, 5);
 
-      expect(drawPathResults.length, 6);
+      expect(drawPathResults.length, 8);
 
       expect(
         drawPathResults[0]['paint_color'],
@@ -708,6 +720,14 @@ void main() {
       );
       expect(drawPathResults[5]['paint_stroke'], 1);
       expect(drawPathResults[5]['paint_style'], PaintingStyle.stroke);
+
+      expect(drawPathResults[6]['paint_shader'], isNotNull);
+      expect(drawPathResults[6]['paint_shader'], isA<Shader>());
+      expect(drawPathResults[6]['paint_style'], PaintingStyle.fill);
+
+      expect(drawPathResults[7]['paint_color'], isSameColorAs(MockData.color1));
+      expect(drawPathResults[7]['paint_stroke'], 1);
+      expect(drawPathResults[7]['paint_style'], PaintingStyle.stroke);
     });
   });
 
