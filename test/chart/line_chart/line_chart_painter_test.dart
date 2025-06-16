@@ -2807,7 +2807,14 @@ void main() {
       final paintShadow = result1.captured[1] as Paint;
       expect(
         rRectShadow,
-        RRect.fromLTRBR(0, 40, 38, 78, const Radius.circular(12)),
+        RRect.fromLTRBAndCorners(
+          0,
+          40,
+          38,
+          78,
+          topLeft: const Radius.circular(10),
+          topRight: const Radius.circular(8),
+        ),
       );
       expect(paintShadow.color, isSameColorAs(const Color(0x00000000)));
       expect(
