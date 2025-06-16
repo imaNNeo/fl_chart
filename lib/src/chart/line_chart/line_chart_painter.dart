@@ -1237,9 +1237,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
       bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
     );
-    final shadowRoundedRect = RRect.fromRectAndRadius(
+    final shadowRoundedRect = RRect.fromRectAndCorners(
       rect.shift(tooltipData.shadow.offset),
-      radius,
+      topLeft: tooltipData.tooltipBorderRadius.topLeft,
+      topRight: tooltipData.tooltipBorderRadius.topRight,
+      bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
+      bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
     );
 
     var topSpot = showingTooltipSpots.showingSpots[0];
