@@ -36,6 +36,8 @@ abstract class FlTouchEvent {
         this is! FlTapUpEvent &&
         this is! FlTapCancelEvent;
   }
+
+  String get eventType => 'UnknownEvent';
 }
 
 /// When a pointer has contacted the screen and might begin to move
@@ -51,6 +53,9 @@ class FlPanDownEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlPanDownEvent';
 }
 
 /// When a pointer has contacted the screen and has begun to move.
@@ -68,6 +73,9 @@ class FlPanStartEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlPanStartEvent';
 }
 
 /// When a pointer that is in contact with the screen and moving
@@ -85,12 +93,18 @@ class FlPanUpdateEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlPanUpdateEvent';
 }
 
 /// When the pointer that previously triggered a [FlPanStartEvent] did not complete.
 /// Inspired from [GestureDragCancelCallback]
 class FlPanCancelEvent extends FlTouchEvent {
   const FlPanCancelEvent();
+
+  @override
+  String get eventType => 'FlPanCancelEvent';
 }
 
 /// When a pointer that was previously in contact with the screen
@@ -104,6 +118,9 @@ class FlPanEndEvent extends FlTouchEvent {
 
   /// Contains information of happened touch gesture
   final DragEndDetails details;
+
+  @override
+  String get eventType => 'FlPanEndEvent';
 }
 
 /// When a pointer that might cause a tap has contacted the
@@ -121,12 +138,18 @@ class FlTapDownEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlTapDownEvent';
 }
 
 /// When the pointer that previously triggered a [FlTapDownEvent] will not end up causing a tap.
 /// Inspired from [GestureTapCancelCallback]
 class FlTapCancelEvent extends FlTouchEvent {
   const FlTapCancelEvent();
+
+  @override
+  String get eventType => 'FlTapCancelEvent';
 }
 
 /// When a pointer that will trigger a tap has stopped contacting
@@ -144,6 +167,9 @@ class FlTapUpEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlTapUpEvent';
 }
 
 /// Called When a pointer has remained in contact with the screen at the
@@ -161,6 +187,9 @@ class FlLongPressStart extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlLongPressStart';
 }
 
 /// When a pointer is moving after being held in contact at the same
@@ -179,6 +208,9 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlLongPressMoveUpdate';
 }
 
 /// When a pointer stops contacting the screen after a long press
@@ -197,6 +229,9 @@ class FlLongPressEnd extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => details.localPosition;
+
+  @override
+  String get eventType => 'FlLongPressEnd';
 }
 
 /// The pointer has moved with respect to the device while the pointer is or is
@@ -214,6 +249,9 @@ class FlPointerEnterEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => event.localPosition;
+
+  @override
+  String get eventType => 'FlPointerEnterEvent';
 }
 
 /// The pointer has moved with respect to the device while the pointer is not
@@ -231,6 +269,9 @@ class FlPointerHoverEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => event.localPosition;
+
+  @override
+  String get eventType => 'FlPointerHoverEvent';
 }
 
 /// The pointer has moved with respect to the device while the pointer is or is
@@ -246,4 +287,7 @@ class FlPointerExitEvent extends FlTouchEvent {
   /// Represents the position of happened touch/pointer event
   @override
   Offset get localPosition => event.localPosition;
+
+  @override
+  String get eventType => 'FlPointerExitEvent';
 }
