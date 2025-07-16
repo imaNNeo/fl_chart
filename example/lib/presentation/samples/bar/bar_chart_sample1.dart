@@ -6,6 +6,13 @@ import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+enum BarPattern {
+  stripes,
+  squarePois,
+  circlePois,
+  none,
+}
+
 class BarChartSample1 extends StatefulWidget {
   BarChartSample1({super.key});
 
@@ -33,6 +40,7 @@ class BarChartSample1State extends State<BarChartSample1> {
   int touchedIndex = -1;
 
   bool isPlaying = false;
+  BarPattern pattern = BarPattern.none;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +87,32 @@ class BarChartSample1State extends State<BarChartSample1> {
                 const SizedBox(
                   height: 12,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Bar pattern',
+                      style: TextStyle(
+                        color: AppColors.contentColorGreen.darken(),
+                        fontSize: 16,
+                      ),
+                    ),
+                    DropdownButton<BarPattern>(
+                      value: pattern,
+                      items: BarPattern.values
+                          .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e.name),
+                              ))
+                          .toList(),
+                      onChanged: (BarPattern? value) {
+                        setState(() {
+                          pattern = value ?? BarPattern.none;
+                        });
+                      },
+                    )
+                  ],
+                ),
               ],
             ),
           ),
@@ -107,6 +141,23 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
+  CustomPainter? _getPainter() {
+    return switch (pattern) {
+      BarPattern.stripes => StripesPatternPainter(
+          width: 2,
+          gap: 12,
+          angle: -45,
+        ),
+      BarPattern.squarePois => SquarePoisPatternPainter(
+          squaresPerRow: 3,
+        ),
+      BarPattern.circlePois => CirclePoisPatternPainter(
+          gap: 2.0,
+        ),
+      BarPattern.none => null,
+    };
+  }
+
   BarChartGroupData makeGroupData(
     int x,
     double y, {
@@ -123,6 +174,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           toY: isTouched ? y + 1 : y,
           color: isTouched ? widget.touchedBarColor : barColor,
           width: width,
+          patternPainter: _getPainter(),
           borderSide: isTouched
               ? BorderSide(color: widget.touchedBarColor.darken(80))
               : const BorderSide(color: Colors.white, width: 0),

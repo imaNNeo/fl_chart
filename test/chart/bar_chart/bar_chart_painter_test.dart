@@ -86,6 +86,86 @@ void main() {
     });
   });
 
+  group('paint() with pattern painter', () {
+    test('test 1', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final barGroups = <BarChartGroupData>[
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(
+              fromY: 1,
+              toY: 10,
+              patternPainter: StripesPatternPainter(),
+            ),
+            BarChartRodData(
+              fromY: 2,
+              toY: 10,
+              patternPainter: StripesPatternPainter(),
+            ),
+          ],
+          showingTooltipIndicators: [
+            1,
+            2,
+          ],
+        ),
+        BarChartGroupData(
+          x: 2,
+          barRods: [
+            BarChartRodData(fromY: 3, toY: 10),
+            BarChartRodData(fromY: 4, toY: 10),
+          ],
+        ),
+      ];
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      expect(
+        () => barChartPainter.paint(
+          mockBuildContext,
+          mockCanvasWrapper,
+          holder,
+        ),
+        returnsNormally,
+      );
+      Utils.changeInstance(utilsMainInstance);
+    });
+  });
+
   group('scaling related', () {
     final utilsMainInstance = Utils();
     late MockUtils mockUtils;
