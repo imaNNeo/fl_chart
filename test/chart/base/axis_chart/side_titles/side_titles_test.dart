@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -78,4 +79,57 @@ void main() {
       }
     },
   );
+
+  testWidgets('LineChart with only left titles overlayed on chart area',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: SizedBox(
+              width: viewSize.width,
+              height: viewSize.height,
+              child: LineChart(
+                LineChartData(
+                  titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                      overlayOnChart: true,
+                      axisNameWidget: const Text('Left Titles'),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (double value, TitleMeta meta) {
+                          return Text('L-${value.toInt()}');
+                        },
+                        interval: 1,
+                      ),
+                    ),
+                  ),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: data,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final keyedSubTreeWidget = find.byType(LineChartLeaf);
+
+    expect(keyedSubTreeWidget, findsOneWidget);
+
+    final containerFinder =
+        find.ancestor(of: keyedSubTreeWidget, matching: find.byType(Container));
+
+    expect(containerFinder, findsOneWidget);
+
+    final container = tester.widget(containerFinder) as Container;
+
+    final margin = container.margin! as EdgeInsets;
+
+    expect(margin.left, 0.0);
+  });
 }
