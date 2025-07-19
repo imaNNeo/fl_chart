@@ -355,6 +355,7 @@ class AxisTitles with EquatableMixin {
     this.axisNameSize = 16,
     this.sideTitles = const SideTitles(),
     this.drawBelowEverything = true,
+    this.overlayOnChart = false,
   });
 
   /// Determines the size of [axisName]
@@ -371,6 +372,9 @@ class AxisTitles with EquatableMixin {
   ///
   /// In the future, we will convert tooltips to a widget, that would solve this problem.
   final bool drawBelowEverything;
+
+  /// If true, it draws the axis titles on top of the chart, instead of off to the side
+  final bool overlayOnChart;
 
   /// If there is something to show as axisTitles, it returns true
   bool get showAxisTitles => axisNameWidget != null && axisNameSize != 0;

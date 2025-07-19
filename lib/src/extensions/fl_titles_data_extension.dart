@@ -4,9 +4,17 @@ import 'package:flutter/widgets.dart';
 
 extension FlTitlesDataExtension on FlTitlesData {
   EdgeInsets get allSidesPadding => EdgeInsets.only(
-        left: show ? leftTitles.totalReservedSize : 0.0,
-        top: show ? topTitles.totalReservedSize : 0.0,
-        right: show ? rightTitles.totalReservedSize : 0.0,
-        bottom: show ? bottomTitles.totalReservedSize : 0.0,
+        left: show && !leftTitles.overlayOnChart
+            ? leftTitles.totalReservedSize
+            : 0.0,
+        top: show && !topTitles.overlayOnChart
+            ? topTitles.totalReservedSize
+            : 0.0,
+        right: show && !rightTitles.overlayOnChart
+            ? rightTitles.totalReservedSize
+            : 0.0,
+        bottom: show && !bottomTitles.overlayOnChart
+            ? bottomTitles.totalReservedSize
+            : 0.0,
       );
 }
