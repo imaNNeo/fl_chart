@@ -1553,6 +1553,87 @@ class FlDotCirclePainter extends FlDotPainter {
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
+/// a gradient circled shape
+class FlDotGradientCirclePainter extends FlDotPainter {
+  /// The gradient of the circle is determined determined by [Gradient],
+  /// [radius] determines the radius of the circle.
+  /// You can have a stroke line around the circle,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of of the stroke with [strokeColor].
+  const FlDotGradientCirclePainter({
+    required this.radius,
+    required this.gradient,
+    this.strokeWidth = 0,
+    this.strokeColor = Colors.white,
+  });
+
+  /// The fill Gradient to use for the circle
+  final Gradient gradient;
+
+  /// Customizes the radius of the circle
+  final double radius;
+
+  /// The stroke color to use for the circle
+  final Color strokeColor;
+
+  /// The stroke width to use for the circle
+  final double strokeWidth;
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    // Stroke
+    if (strokeWidth > 0) {
+      final strokePaint = Paint()
+        ..color = strokeColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth;
+      canvas.drawCircle(offsetInCanvas, radius + strokeWidth / 2, strokePaint);
+    }
+
+    // Gradient fill
+    final rect = Rect.fromCircle(center: offsetInCanvas, radius: radius);
+    final paint = Paint()
+      ..shader = gradient.createShader(rect)
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(offsetInCanvas, radius, paint);
+  }
+
+  @override
+  Size getSize(FlSpot spot) => Size.fromRadius(radius + strokeWidth);
+
+  @override
+  Color get mainColor => Colors.transparent;
+
+  @override
+  bool hitTest(
+    FlSpot spot,
+    Offset touched,
+    Offset center,
+    double extraThreshold,
+  ) {
+    return (touched - center).distance < radius + extraThreshold;
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotGradientCirclePainter || b is! FlDotGradientCirclePainter) {
+      return b;
+    }
+
+    return FlDotGradientCirclePainter(
+      radius: lerpDouble(a.radius, b.radius, t)!,
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+      gradient: Gradient.lerp(a.gradient, b.gradient, t)!,
+    );
+  }
+
+  @override
+  List<Object?> get props => [radius, strokeWidth, gradient, strokeColor];
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
 /// a squared shape
 class FlDotSquarePainter extends FlDotPainter {
   /// The color of the square is determined determined by [color],
@@ -1640,6 +1721,96 @@ class FlDotSquarePainter extends FlDotPainter {
     }
     return _lerp(a, b, t);
   }
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// a gradient circled shape
+class FlDotGradientSquarePainter extends FlDotPainter {
+  /// The gradient of the square is determined by [Gradient],
+  /// [size] determines the size of the square.
+  /// You can have a stroke line around the square,
+  /// by setting the thickness with [strokeWidth],
+  /// and you can change the color of the stroke with [strokeColor].
+  const FlDotGradientSquarePainter({
+    required this.size,
+    required this.gradient,
+    this.strokeWidth = 0,
+    this.strokeColor = Colors.white,
+  });
+
+  /// The fill Gradient to use for the square
+  final Gradient gradient;
+
+  /// Customizes the size of the square
+  final double size;
+
+  /// The stroke color to use for the square
+  final Color strokeColor;
+
+  /// The stroke width to use for the square
+  final double strokeWidth;
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    // Stroke
+    if (strokeWidth > 0) {
+      final strokePaint = Paint()
+        ..color = strokeColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth;
+      final rect = Rect.fromCenter(
+        center: offsetInCanvas,
+        width: size + strokeWidth,
+        height: size + strokeWidth,
+      );
+      canvas.drawRect(rect, strokePaint);
+    }
+
+    // Gradient fill
+    final rect = Rect.fromCenter(
+      center: offsetInCanvas,
+      width: size,
+      height: size,
+    );
+    final paint = Paint()
+      ..shader = gradient.createShader(rect)
+      ..style = PaintingStyle.fill;
+
+    canvas.drawRect(rect, paint);
+  }
+
+  @override
+  Size getSize(FlSpot spot) => Size(size + strokeWidth, size + strokeWidth);
+
+  @override
+  Color get mainColor => Colors.transparent;
+
+  @override
+  bool hitTest(
+    FlSpot spot,
+    Offset touched,
+    Offset center,
+    double extraThreshold,
+  ) {
+    return (touched - center).distance < size + extraThreshold;
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotGradientSquarePainter || b is! FlDotGradientSquarePainter) {
+      return b;
+    }
+
+    return FlDotGradientSquarePainter(
+      size: lerpDouble(a.size, b.size, t)!,
+      strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+      strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t)!,
+      gradient: Gradient.lerp(a.gradient, b.gradient, t)!,
+    );
+  }
+
+  @override
+  List<Object?> get props => [size, strokeWidth, gradient, strokeColor];
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
