@@ -45,12 +45,12 @@ void main() {
       );
       expect(
         barChartRodStackItem1 ==
-            barChartRodStackItem1Clone.copyWith(color: Colors.red),
+            barChartRodStackItem1Clone.copyWith(colors: [Colors.red]),
         false,
       );
       expect(
         barChartRodStackItem1 ==
-            barChartRodStackItem1Clone.copyWith(color: Colors.green),
+            barChartRodStackItem1Clone.copyWith(colors: [Colors.green]),
         true,
       );
       expect(barChartRodStackItem1 == barChartRodStackItem2, false);
