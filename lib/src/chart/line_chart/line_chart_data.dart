@@ -184,7 +184,14 @@ class LineChartData extends AxisChartData with EquatableMixin {
       ];
 }
 
-enum LineChartGradientArea { rectAroundTheLine, wholeChart }
+enum LineChartGradientArea {
+  /// The gradient area will be around the line only, meaning
+  /// the gradient will exactly wrap around the curve.
+  rectAroundTheLine,
+
+  /// The entire chart area will be used as the gradient area for the curve.
+  wholeChart;
+}
 
 /// Holds data for drawing each individual line in the [LineChart]
 class LineChartBarData with EquatableMixin {
@@ -234,7 +241,7 @@ class LineChartBarData with EquatableMixin {
     this.show = true,
     Color? color,
     this.gradient,
-    this.gradientArea,
+    this.gradientArea = LineChartGradientArea.rectAroundTheLine,
     this.barWidth = 2.0,
     this.isCurved = false,
     this.curveSmoothness = 0.35,
@@ -330,8 +337,7 @@ class LineChartBarData with EquatableMixin {
   /// Only effective if [gradient] is provided.
   ///
   /// It will be used to determine the area of the gradient.
-  /// If null, the gradient area will be around the line by default.
-  final LineChartGradientArea? gradientArea;
+  final LineChartGradientArea gradientArea;
 
   /// Determines thickness of drawing line.
   final double barWidth;
