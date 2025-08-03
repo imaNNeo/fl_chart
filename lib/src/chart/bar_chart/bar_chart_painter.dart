@@ -36,6 +36,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..strokeWidth = 1.0;
 
     _clipPaint = Paint();
+
+    _shadowTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.black;
   }
 
   late Paint _barPaint;
@@ -43,6 +47,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
   late Paint _clipPaint;
+  late Paint _shadowTouchTooltipPaint;
 
   List<GroupBarsPosition>? _groupBarsPosition;
 
@@ -582,9 +587,23 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
       bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
     );
+    final shadowRoundedRect = RRect.fromRectAndCorners(
+      rect.shift(tooltipData.shadow.offset),
+      topLeft: tooltipData.tooltipBorderRadius.topLeft,
+      topRight: tooltipData.tooltipBorderRadius.topRight,
+      bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
+      bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
+    );
 
     /// set tooltip's background color for each rod
     _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnBarGroup);
+
+    _shadowTouchTooltipPaint
+      ..color = tooltipData.shadow.color
+      ..maskFilter = MaskFilter.blur(
+        BlurStyle.normal,
+        tooltipData.shadow.blurRadius,
+      );
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
@@ -615,6 +634,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       angle: reverseQuarterTurnsAngle + rotateAngle,
       drawCallback: () {
         canvasWrapper
+          ..drawRRect(shadowRoundedRect, _shadowTouchTooltipPaint)
           ..drawRRect(roundedRect, _bgTouchTooltipPaint)
           ..drawRRect(roundedRect, _borderTouchTooltipPaint)
           ..drawText(tp, drawOffset);
