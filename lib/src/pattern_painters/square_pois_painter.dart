@@ -1,28 +1,45 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+/// {@template square_pois_pattern_painter}
 /// A [CustomPainter] that fills the area with a square polka dot pattern.
 ///
 /// The pattern consists of evenly spaced squares arranged in rows and columns.
-/// You can configure the color, number of squares per row, minimum spacing, and maximum square size.
+/// You can configure the color of the squares, the number of squares per row, the horizontal and vertical gaps between squares, and the margin around the pattern.
 ///
-/// Example usage:
+/// The pattern is rendered using a custom [SquarePoisShader], which allows for efficient and flexible drawing.
+///
+/// ### Constructor parameters:
+/// - [poisShader]: The shader responsible for rendering the square polka dot pattern.
+/// - [color]: The color of the squares (default: black).
+/// - [squaresPerRow]: Number of squares per row (default: 3).
+/// - [gap]: Horizontal gap between squares (default: 2.0).
+/// - [verticalGap]: Vertical gap between squares (default: 2.0).
+/// - [margin]: Margin around the pattern (default: 2.0).
+///
+/// ### Example usage:
 /// ```dart
 /// CustomPaint(
 ///   painter: SquarePoisPatternPainter(
+///     poisShader: myShader,
 ///     color: Colors.green,
 ///     squaresPerRow: 4,
 ///     gap: 2.0,
-///     maxSquareSize: 6.0,
+///     verticalGap: 2.0,
+///     margin: 2.0,
 ///   ),
 /// )
 /// ```
-class SquarePoisPatternPainter extends CustomPainter {
+/// {@endtemplate}
+class SquarePoisPatternPainter extends FlShaderPainter {
   SquarePoisPatternPainter({
+    required this.poisShader,
     this.color = Colors.black,
     this.squaresPerRow = 3,
     this.gap = 2.0,
-    this.maxSquareSize = 4.0,
-  });
+    this.verticalGap = 2.0,
+    this.margin = 2.0,
+  }) : super(flShader: poisShader);
 
   /// The color of the squares.
   final Color color;
@@ -30,66 +47,34 @@ class SquarePoisPatternPainter extends CustomPainter {
   /// Number of squares per row.
   final int squaresPerRow;
 
-  /// The gap between squares, in logical pixels.
+  /// The gap between dots on X axis;
   final double gap;
 
-  /// Maximum size for each square's side, in logical pixels.
-  final double maxSquareSize;
+  /// The gap between dots on Y axis;
+  final double verticalGap;
+
+  /// The margin around the pattern from the borders.
+  final double margin;
+
+  /// The shader used to render the polka dot pattern.
+  final SquarePoisShader poisShader;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
+    poisShader.shader.setFloat(0, size.width);
+    poisShader.shader.setFloat(1, size.height);
+    poisShader.shader.setFloat(2, color.r);
+    poisShader.shader.setFloat(3, color.g);
+    poisShader.shader.setFloat(4, color.b);
+    poisShader.shader.setFloat(5, squaresPerRow.toDouble());
+    poisShader.shader.setFloat(6, gap);
+    poisShader.shader.setFloat(7, verticalGap);
+    poisShader.shader.setFloat(8, margin);
 
-    if (squaresPerRow <= 0) return;
-
-    const horizontalPadding = 2.0; // horizontal padding
-    const verticalPadding = 1.0; // vertical padding
-
-    final totalWidth = size.width;
-    final totalHeight = size.height;
-
-    // Calculate the maximum square side to respect horizontal padding and gap
-    double maxSizeByWidth;
-    if (squaresPerRow == 1) {
-      maxSizeByWidth = totalWidth - 2 * horizontalPadding;
-    } else {
-      maxSizeByWidth =
-          (totalWidth - 2 * horizontalPadding - gap * (squaresPerRow - 1)) /
-              squaresPerRow;
-    }
-
-    var squareSize = maxSizeByWidth;
-    squareSize = squareSize < maxSquareSize ? squareSize : maxSquareSize;
-    if (squareSize <= 0) return;
-
-    // Calculate the maximum number of vertical rows that fit
-    final availableHeight = totalHeight - 2 * verticalPadding;
-    final n = ((availableHeight + gap) / (squareSize + gap)).floor();
-    if (n <= 0) return;
-
-    // Calculate the offset to center the squares vertically
-    final occupied = n * squareSize + (n - 1) * gap;
-    final offsetY = verticalPadding + (availableHeight - occupied) / 2;
-
-    final spacing = squaresPerRow > 1
-        ? (totalWidth - 2 * horizontalPadding - squareSize) /
-            (squaresPerRow - 1)
-        : 0;
-
-    for (var i = 0; i < n; i++) {
-      final top = offsetY + i * (squareSize + gap);
-      for (var j = 0; j < squaresPerRow; j++) {
-        final left = squaresPerRow == 1
-            ? (totalWidth - squareSize) / 2
-            : horizontalPadding + j * spacing;
-        canvas.drawRect(
-          Rect.fromLTWH(left, top, squareSize, squareSize),
-          paint,
-        );
-      }
-    }
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Paint()..shader = poisShader.shader,
+    );
   }
 
   @override

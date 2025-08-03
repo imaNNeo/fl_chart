@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/util/extensions/color_extensions.dart';
@@ -144,15 +145,20 @@ class BarChartSample1State extends State<BarChartSample1> {
   CustomPainter? _getPainter() {
     return switch (pattern) {
       BarPattern.stripes => StripesPatternPainter(
+          stripesShader: FlShaderManager().stripesShader,
           width: 2,
-          gap: 12,
-          angle: -45,
+          gap: 8,
+          angle: 45,
         ),
       BarPattern.squarePois => SquarePoisPatternPainter(
+          poisShader: FlShaderManager().squarePoisShader,
           squaresPerRow: 3,
         ),
       BarPattern.circlePois => CirclePoisPatternPainter(
-          gap: 2.0,
+          poisShader: FlShaderManager().circlePoisShader,
+          dotsPerRow: 2,
+          color: Colors.black,
+          gap: 4.0,
         ),
       BarPattern.none => null,
     };

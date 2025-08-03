@@ -51,3 +51,9 @@ topics:
   - visualization
   - graph
   - diagram
+
+flutter:
+  shaders:
+    - shaders/striped_pattern.frag
+    - shaders/circle_pois_pattern.frag
+    - shaders/square_pois_pattern.frag

@@ -1,28 +1,45 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+/// {@template circle_pois_pattern_painter}
 /// A [CustomPainter] that fills the area with a polka dot pattern.
 ///
 /// The pattern consists of evenly spaced circles (dots) arranged in rows and columns.
-/// You can configure the color, number of dots per row, gap, and maximum dot radius.
+/// You can configure the dot color, number of dots per row, horizontal and vertical gaps, and margin.
 ///
-/// Example usage:
+/// The pattern is rendered using a custom [CirclePoisShader], which allows for efficient and flexible drawing.
+///
+/// ### Constructor parameters:
+/// - [poisShader]: The shader responsible for rendering the polka dot pattern.
+/// - [color]: The color of the dots (default: black).
+/// - [dotsPerRow]: Number of dots per row (default: 2).
+/// - [gap]: Horizontal gap between dots (default: 2.0).
+/// - [verticalGap]: Vertical gap between dots (default: 2.0).
+/// - [margin]: Margin around the pattern (default: 2.0).
+///
+/// ### Example usage:
 /// ```dart
 /// CustomPaint(
 ///   painter: CirclePoisPatternPainter(
+///     poisShader: myShader,
 ///     color: Colors.red,
 ///     dotsPerRow: 4,
-///     minSpacing: 2.0,
-///     maxDotRadius: 5.0,
+///     gap: 4.0,
+///     verticalGap: 4.0,
+///     margin: 2.0,
 ///   ),
 /// )
 /// ```
-class CirclePoisPatternPainter extends CustomPainter {
+/// {@endtemplate}
+class CirclePoisPatternPainter extends FlShaderPainter {
   CirclePoisPatternPainter({
+    required this.poisShader,
     this.color = Colors.black,
     this.dotsPerRow = 2,
-    this.gap = 1.0,
-    this.maxDotRadius = 3.0,
-  });
+    this.gap = 2.0,
+    this.verticalGap = 2.0,
+    this.margin = 2.0,
+  }) : super(flShader: poisShader);
 
   /// The color of the dots.
   final Color color;
@@ -30,70 +47,34 @@ class CirclePoisPatternPainter extends CustomPainter {
   /// Number of dots per row.
   final int dotsPerRow;
 
-  /// The gap between dots, in logical pixels.
+  /// The gap between dots on X axis.
   final double gap;
 
-  /// Maximum radius for each dot, in logical pixels.
-  final double maxDotRadius;
+  /// The gap between dots on Y axis.
+  final double verticalGap;
+
+  /// The margin around the pattern from the borders.
+  final double margin;
+
+  /// The shader used to render the polka dot pattern.
+  final CirclePoisShader poisShader;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
+    poisShader.shader.setFloat(0, size.width);
+    poisShader.shader.setFloat(1, size.height);
+    poisShader.shader.setFloat(2, color.r);
+    poisShader.shader.setFloat(3, color.g);
+    poisShader.shader.setFloat(4, color.b);
+    poisShader.shader.setFloat(5, dotsPerRow.toDouble());
+    poisShader.shader.setFloat(6, gap);
+    poisShader.shader.setFloat(7, verticalGap);
+    poisShader.shader.setFloat(8, margin);
 
-    if (dotsPerRow <= 0) return;
-
-    const horizontalPadding = 2.0; // horizontal padding
-    const interDotPadding = 5.0; // padding between dots
-    const verticalPadding = 1.0; // vertical padding
-
-    final totalWidth = size.width;
-    final totalHeight = size.height;
-
-    // Calculate the maximum radius to respect horizontal and vertical padding
-    double maxRadiusByWidth;
-    if (dotsPerRow == 1) {
-      maxRadiusByWidth = (totalWidth - 2 * horizontalPadding) / 2;
-    } else {
-      maxRadiusByWidth = (totalWidth -
-              2 * horizontalPadding -
-              interDotPadding * (dotsPerRow - 1)) /
-          (2 * dotsPerRow);
-    }
-
-    var dotRadius = maxRadiusByWidth;
-    dotRadius = dotRadius < maxDotRadius ? dotRadius : maxDotRadius;
-    if (dotRadius <= 0) return;
-
-    // Calculate the maximum number of vertical dots that fit
-    final availableHeight = totalHeight - 2 * verticalPadding;
-    final n = ((availableHeight + interDotPadding) /
-            (2 * dotRadius + interDotPadding))
-        .floor();
-    if (n <= 0) return;
-
-    // Calculate the offset to center the dots vertically
-    final occupied = n * 2 * dotRadius + (n - 1) * interDotPadding;
-    final offsetY =
-        verticalPadding + (availableHeight - occupied) / 2 + dotRadius;
-
-    final spacing =
-        (totalWidth - 2 * horizontalPadding - 2 * dotRadius) / (dotsPerRow - 1);
-
-    for (var i = 0; i < n; i++) {
-      final dy = offsetY + i * (2 * dotRadius + interDotPadding);
-      for (var j = 0; j < dotsPerRow; j++) {
-        final dx = dotsPerRow == 1
-            ? totalWidth / 2
-            : horizontalPadding + dotRadius + j * spacing;
-        canvas.drawCircle(
-          Offset(dx, dy),
-          dotRadius,
-          paint,
-        );
-      }
-    }
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Paint()..shader = poisShader.shader,
+    );
   }
 
   @override
