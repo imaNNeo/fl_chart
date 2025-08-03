@@ -12,12 +12,21 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../helper_methods.dart';
+import '../../shaders/fake_shaders.dart';
 import '../data_pool.dart';
 import 'bar_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
   const tolerance = 0.01;
+
+  late FakeStripesShader stripesShader;
+
+  setUpAll(() async {
+    stripesShader = FakeStripesShader();
+    await stripesShader.init();
+  });
+
   group('paint()', () {
     test('test 1', () {
       final utilsMainInstance = Utils();
@@ -97,12 +106,16 @@ void main() {
             BarChartRodData(
               fromY: 1,
               toY: 10,
-              patternPainter: StripesPatternPainter(),
+              patternPainter: StripesPatternPainter(
+                stripesShader: stripesShader,
+              ),
             ),
             BarChartRodData(
               fromY: 2,
               toY: 10,
-              patternPainter: StripesPatternPainter(),
+              patternPainter: StripesPatternPainter(
+                stripesShader: stripesShader,
+              ),
             ),
           ],
           showingTooltipIndicators: [

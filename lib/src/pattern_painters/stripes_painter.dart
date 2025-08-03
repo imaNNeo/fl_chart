@@ -34,8 +34,8 @@ class StripesPatternPainter extends FlShaderPainter {
   StripesPatternPainter({
     required this.stripesShader,
     this.color = Colors.black,
-    this.width = 20,
-    this.gap = 10,
+    this.width = 2,
+    this.gap = 4,
     this.angle = 45,
   }) : super(flShader: stripesShader);
 

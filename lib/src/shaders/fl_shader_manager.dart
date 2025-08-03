@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 
 /// {@template fl_shader_manager}
 /// A singleton class that manages and initializes all built-in [FlShader] instances used in FL Chart.
@@ -22,14 +23,29 @@ class FlShaderManager {
 
   static final FlShaderManager _instance = FlShaderManager._();
 
-  final StripesShader _stripesShader = StripesShader();
-  final CirclePoisShader _circlePoisShader = CirclePoisShader();
-  final SquarePoisShader _squarePoisShader = SquarePoisShader();
+  StripesShader _stripesShader = StripesShader();
+  CirclePoisShader _circlePoisShader = CirclePoisShader();
+  SquarePoisShader _squarePoisShader = SquarePoisShader();
 
   Future<void> init() async {
     await _stripesShader.init();
     await _circlePoisShader.init();
     await _squarePoisShader.init();
+  }
+
+  @visibleForTesting
+  set stripesShader(StripesShader shader) {
+    _stripesShader = shader;
+  }
+
+  @visibleForTesting
+  set circlePoisShader(CirclePoisShader shader) {
+    _circlePoisShader = shader;
+  }
+
+  @visibleForTesting
+  set squarePoisShader(SquarePoisShader shader) {
+    _squarePoisShader = shader;
   }
 
   StripesShader get stripesShader => _stripesShader.isInitialized
