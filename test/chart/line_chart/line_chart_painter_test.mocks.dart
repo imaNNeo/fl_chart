@@ -105,6 +105,18 @@ class _FakePath_9 extends _i1.SmartFake implements _i2.Path {
     : super(parent, parentInvocation);
 }
 
+class _FakeAlignmentGeometry_10 extends _i1.SmartFake
+    implements _i3.AlignmentGeometry {
+  _FakeAlignmentGeometry_10(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeLinearGradient_11 extends _i1.SmartFake
+    implements _i3.LinearGradient {
+  _FakeLinearGradient_11(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [Canvas].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1447,4 +1459,130 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             returnValue: 0.0,
           )
           as double);
+}
+
+/// A class which mocks [LinearGradient].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLinearGradient extends _i1.Mock implements _i3.LinearGradient {
+  @override
+  _i3.AlignmentGeometry get begin =>
+      (super.noSuchMethod(
+            Invocation.getter(#begin),
+            returnValue: _FakeAlignmentGeometry_10(
+              this,
+              Invocation.getter(#begin),
+            ),
+            returnValueForMissingStub: _FakeAlignmentGeometry_10(
+              this,
+              Invocation.getter(#begin),
+            ),
+          )
+          as _i3.AlignmentGeometry);
+
+  @override
+  _i3.AlignmentGeometry get end =>
+      (super.noSuchMethod(
+            Invocation.getter(#end),
+            returnValue: _FakeAlignmentGeometry_10(
+              this,
+              Invocation.getter(#end),
+            ),
+            returnValueForMissingStub: _FakeAlignmentGeometry_10(
+              this,
+              Invocation.getter(#end),
+            ),
+          )
+          as _i3.AlignmentGeometry);
+
+  @override
+  _i2.TileMode get tileMode =>
+      (super.noSuchMethod(
+            Invocation.getter(#tileMode),
+            returnValue: _i2.TileMode.clamp,
+            returnValueForMissingStub: _i2.TileMode.clamp,
+          )
+          as _i2.TileMode);
+
+  @override
+  List<_i2.Color> get colors =>
+      (super.noSuchMethod(
+            Invocation.getter(#colors),
+            returnValue: <_i2.Color>[],
+            returnValueForMissingStub: <_i2.Color>[],
+          )
+          as List<_i2.Color>);
+
+  @override
+  _i2.Shader createShader(_i2.Rect? rect, {_i2.TextDirection? textDirection}) =>
+      (super.noSuchMethod(
+            Invocation.method(
+              #createShader,
+              [rect],
+              {#textDirection: textDirection},
+            ),
+            returnValue: _i9.dummyValue<_i2.Shader>(
+              this,
+              Invocation.method(
+                #createShader,
+                [rect],
+                {#textDirection: textDirection},
+              ),
+            ),
+            returnValueForMissingStub: _i9.dummyValue<_i2.Shader>(
+              this,
+              Invocation.method(
+                #createShader,
+                [rect],
+                {#textDirection: textDirection},
+              ),
+            ),
+          )
+          as _i2.Shader);
+
+  @override
+  _i3.LinearGradient scale(double? factor) =>
+      (super.noSuchMethod(
+            Invocation.method(#scale, [factor]),
+            returnValue: _FakeLinearGradient_11(
+              this,
+              Invocation.method(#scale, [factor]),
+            ),
+            returnValueForMissingStub: _FakeLinearGradient_11(
+              this,
+              Invocation.method(#scale, [factor]),
+            ),
+          )
+          as _i3.LinearGradient);
+
+  @override
+  _i3.Gradient? lerpFrom(_i3.Gradient? a, double? t) =>
+      (super.noSuchMethod(
+            Invocation.method(#lerpFrom, [a, t]),
+            returnValueForMissingStub: null,
+          )
+          as _i3.Gradient?);
+
+  @override
+  _i3.Gradient? lerpTo(_i3.Gradient? b, double? t) =>
+      (super.noSuchMethod(
+            Invocation.method(#lerpTo, [b, t]),
+            returnValueForMissingStub: null,
+          )
+          as _i3.Gradient?);
+
+  @override
+  _i3.LinearGradient withOpacity(double? opacity) =>
+      (super.noSuchMethod(
+            Invocation.method(#withOpacity, [opacity]),
+            returnValue: _FakeLinearGradient_11(
+              this,
+              Invocation.method(#withOpacity, [opacity]),
+            ),
+            returnValueForMissingStub: _FakeLinearGradient_11(
+              this,
+              Invocation.method(#withOpacity, [opacity]),
+            ),
+          )
+          as _i3.LinearGradient);
 }

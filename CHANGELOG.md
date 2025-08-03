@@ -1,3 +1,6 @@
+## 1.1.0
+* **FEATURE** (by @huanghui1998hhh) Add `gradientArea` property to `LineChartBarData` to allow you to control the scope of gradient effects, #1925
+
 ## 1.0.0
 <img width="600" alt="Image" src="https://github.com/user-attachments/assets/3d8b58f4-4ce7-489f-ba45-27ece063f57c" />
 
