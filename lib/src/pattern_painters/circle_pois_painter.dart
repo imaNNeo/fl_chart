@@ -61,15 +61,16 @@ class CirclePoisPatternPainter extends FlShaderPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    poisShader.shader.setFloat(0, size.width);
-    poisShader.shader.setFloat(1, size.height);
-    poisShader.shader.setFloat(2, color.r);
-    poisShader.shader.setFloat(3, color.g);
-    poisShader.shader.setFloat(4, color.b);
-    poisShader.shader.setFloat(5, dotsPerRow.toDouble());
-    poisShader.shader.setFloat(6, gap);
-    poisShader.shader.setFloat(7, verticalGap);
-    poisShader.shader.setFloat(8, margin);
+    poisShader
+      ..setFloat(0, size.width)
+      ..setFloat(1, size.height)
+      ..setFloat(2, color.r)
+      ..setFloat(3, color.g)
+      ..setFloat(4, color.b)
+      ..setFloat(5, dotsPerRow.toDouble())
+      ..setFloat(6, gap)
+      ..setFloat(7, verticalGap)
+      ..setFloat(8, margin);
 
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),

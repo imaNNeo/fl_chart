@@ -56,15 +56,15 @@ class StripesPatternPainter extends FlShaderPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    stripesShader.shader
-      ..setFloat(0, size.width) // u_resolution.x
-      ..setFloat(1, size.height) // u_resolution.y
-      ..setFloat(2, width) // u_lineWidth
-      ..setFloat(3, gap) // u_lineDistance
-      ..setFloat(4, angle) // u_angle
-      ..setFloat(5, color.r) // u_lineColor.r (esempio)
-      ..setFloat(6, color.g) // u_lineColor.g (esempio)
-      ..setFloat(7, color.b); // u_lineColor.b (esempio)
+    stripesShader
+      ..setFloat(0, size.width)
+      ..setFloat(1, size.height)
+      ..setFloat(2, width)
+      ..setFloat(3, gap)
+      ..setFloat(4, angle)
+      ..setFloat(5, color.r)
+      ..setFloat(6, color.g)
+      ..setFloat(7, color.b);
 
     final paint = Paint()..shader = stripesShader.shader;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);

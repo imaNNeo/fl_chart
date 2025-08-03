@@ -24,7 +24,7 @@ abstract class FlShader {
   final String path;
 
   /// The [FragmentShader] instance created from the shader asset.
-  late FragmentShader shader;
+  late FragmentShader _shader;
 
   /// Indicates whether the shader has been initialized
   bool isInitialized = false;
@@ -35,8 +35,21 @@ abstract class FlShader {
   /// to ensure that the shader is properly loaded and ready for use.
   Future<void> init() async {
     final program = await FragmentProgram.fromAsset(path);
-    shader = program.fragmentShader();
+    _shader = program.fragmentShader();
 
     isInitialized = true;
+  }
+
+  /// Gets the fragment shader.
+  FragmentShader get shader =>
+      isInitialized ? _shader : throw StateError('Shader not initialized');
+
+  /// Sets a float value in the shader.
+  void setFloat(int index, double value) {
+    if (!isInitialized) {
+      throw StateError('Shader not initialized');
+    }
+
+    _shader.setFloat(index, value);
   }
 }

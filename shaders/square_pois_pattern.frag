@@ -49,6 +49,6 @@ void main() {
     if (in_square) {
         sk_FragColor = vec4(u_color, 1.0);
     } else {
-        discard;
+        sk_FragColor = vec4(u_color, 0.0);
     }
 }
