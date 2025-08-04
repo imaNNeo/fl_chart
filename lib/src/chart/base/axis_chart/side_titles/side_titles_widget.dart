@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_flex.dart';
@@ -214,8 +216,8 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
     AxisSide side,
   ) {
     final chartSize = Size(
-      widget.parentSize.width - thisSidePaddingTotal,
-      widget.parentSize.height - thisSidePaddingTotal,
+      max(widget.parentSize.width - thisSidePaddingTotal, 0),
+      max(widget.parentSize.height - thisSidePaddingTotal, 0),
     ).rotateByQuarterTurns(widget.axisChartData.rotationQuarterTurns);
     // Add 1 pixel to the chart's edges to avoid clipping the last title.
     final chartRect = (Offset.zero & chartSize).inflate(1);
