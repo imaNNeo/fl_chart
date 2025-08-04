@@ -139,6 +139,7 @@ void main() {
         chart.handleEvent(pointerHoverEvent, hitTestEntry);
 
         expect(testEvent, isA<FlPointerHoverEvent>());
+        expect(testEvent.eventType, equals('FlPointerHoverEvent'));
         expect(testResponse, isA<LineTouchResponse>());
       });
     });
