@@ -112,6 +112,9 @@ enum AxisSide {
   }
 }
 
+/// Represents where the [SideTitles] are drawn in relation to the chart.
+enum SideTitleAlignment { outside, border, inside }
+
 /// Contains meta information about the drawing title.
 class TitleMeta {
   TitleMeta({
@@ -355,7 +358,7 @@ class AxisTitles with EquatableMixin {
     this.axisNameSize = 16,
     this.sideTitles = const SideTitles(),
     this.drawBelowEverything = true,
-    this.overlayOnChart = false,
+    this.sideTitleAlignment = SideTitleAlignment.outside,
   });
 
   /// Determines the size of [axisName]
@@ -373,8 +376,8 @@ class AxisTitles with EquatableMixin {
   /// In the future, we will convert tooltips to a widget, that would solve this problem.
   final bool drawBelowEverything;
 
-  /// If true, it draws the axis titles on top of the chart, instead of off to the side
-  final bool overlayOnChart;
+  /// Where the [SideTitles] are drawn in relation to the chart.
+  final SideTitleAlignment sideTitleAlignment;
 
   /// If there is something to show as axisTitles, it returns true
   bool get showAxisTitles => axisNameWidget != null && axisNameSize != 0;
@@ -413,6 +416,7 @@ class AxisTitles with EquatableMixin {
         axisNameSize,
         sideTitles,
         drawBelowEverything,
+        sideTitleAlignment,
       ];
 }
 
