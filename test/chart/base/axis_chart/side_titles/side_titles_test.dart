@@ -93,7 +93,7 @@ void main() {
                 LineChartData(
                   titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
-                      overlayOnChart: true,
+                      sideTitleAlignment: SideTitleAlignment.inside,
                       axisNameWidget: const Text('Left Titles'),
                       sideTitles: SideTitles(
                         showTitles: true,
