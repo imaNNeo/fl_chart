@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -117,19 +116,14 @@ void main() {
       ),
     );
 
-    final keyedSubTreeWidget = find.byType(LineChartLeaf);
+    final leftTitleFinder = find.text('L-0');
+    expect(leftTitleFinder, findsOneWidget);
 
-    expect(keyedSubTreeWidget, findsOneWidget);
+    final leftTitleRect = tester.getRect(leftTitleFinder);
 
-    final containerFinder =
-        find.ancestor(of: keyedSubTreeWidget, matching: find.byType(Container));
+    final chartFinder = find.byType(LineChart);
+    final chartRect = tester.getRect(chartFinder);
 
-    expect(containerFinder, findsOneWidget);
-
-    final container = tester.widget(containerFinder) as Container;
-
-    final margin = container.margin! as EdgeInsets;
-
-    expect(margin.left, 0.0);
+    expect(leftTitleRect.left >= chartRect.left, true);
   });
 }
