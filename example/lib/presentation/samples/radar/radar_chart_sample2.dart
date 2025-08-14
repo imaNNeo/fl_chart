@@ -56,9 +56,9 @@ class _RadarChartSample2State extends State<RadarChartSample2> {
             );
           },
           getVerticeLabel: (index) {
-            return RadarChartVerticeLabel(
+            return RadarChartVertexLabel(
               text: widget.scores[index].value.toInt().toString(),
-              positionPercentageOffset: 0,
+              offset: 0,
             );
           },
           titlePositionPercentageOffset: 0.5,

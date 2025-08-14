@@ -369,7 +369,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     for (var index = 0; index < vertexPositions.length; index++) {
       final verticeLabel = data.getVerticeLabel!(index);
-      final threshold = 1.0 + (verticeLabel.positionPercentageOffset ?? 0.2);
+      final threshold = 1.0 + (verticeLabel.offset ?? 0.2);
       final span = TextSpan(
         text: verticeLabel.text,
         style: style,

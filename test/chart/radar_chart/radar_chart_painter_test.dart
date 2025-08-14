@@ -958,7 +958,7 @@ void main() {
           ),
         ],
         getVerticeLabel: (index) {
-          return RadarChartVerticeLabel(text: 'Label $index');
+          return RadarChartVertexLabel(text: 'Label $index');
         },
         verticeLabelTextStyle: MockData.textStyle4,
         radarBorderData: const BorderSide(color: MockData.color6, width: 33),
@@ -1027,9 +1027,9 @@ void main() {
           ),
         ],
         getVerticeLabel: (index) {
-          return RadarChartVerticeLabel(
+          return RadarChartVertexLabel(
             text: 'Label $index',
-            positionPercentageOffset: 0.5,
+            offset: 0.5,
           );
         },
         verticeLabelTextStyle: MockData.textStyle4,

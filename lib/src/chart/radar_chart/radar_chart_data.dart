@@ -12,7 +12,7 @@ typedef GetTitleByIndexFunction = RadarChartTitle Function(
   double angle,
 );
 
-typedef GetVerticeLabelByIndexFunction = RadarChartVerticeLabel Function(
+typedef GetVerticeLabelByIndexFunction = RadarChartVertexLabel Function(
   int index,
 );
 
@@ -46,19 +46,19 @@ class RadarChartTitle {
 }
 
 /// Defines a label for [RadarChart] vertices
-class RadarChartVerticeLabel {
-  const RadarChartVerticeLabel({
+class RadarChartVertexLabel {
+  const RadarChartVertexLabel({
     required this.text,
-    this.positionPercentageOffset,
+    this.offset,
   });
 
   /// [text] is used to draw labels on the vertices of [RadarChart]
   final String text;
 
-  /// [positionPercentageOffset] is the place of showing label on the [RadarChart] vertices
+  /// [offset] is the place of showing label on the [RadarChart] vertices
   /// The higher the value of this field, the more labels move away from the chart vertices.
   /// This value should be between 0 and 1
-  final double? positionPercentageOffset;
+  final double? offset;
 }
 
 /// [RadarChart] needs this class to render itself.
@@ -228,6 +228,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     GetTitleByIndexFunction? getTitle,
     GetVerticeLabelByIndexFunction? getVerticeLabel,
     TextStyle? titleTextStyle,
+    TextStyle? verticeLabelTextStyle,
     double? titlePositionPercentageOffset,
     int? tickCount,
     TextStyle? ticksTextStyle,
@@ -245,6 +246,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         getTitle: getTitle ?? this.getTitle,
         getVerticeLabel: getVerticeLabel ?? this.getVerticeLabel,
         titleTextStyle: titleTextStyle ?? this.titleTextStyle,
+        verticeLabelTextStyle:
+            verticeLabelTextStyle ?? this.verticeLabelTextStyle,
         titlePositionPercentageOffset:
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
         tickCount: tickCount ?? this.tickCount,
@@ -267,6 +270,8 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         getTitle: b.getTitle,
         getVerticeLabel: b.getVerticeLabel,
         titleTextStyle: TextStyle.lerp(a.titleTextStyle, b.titleTextStyle, t),
+        verticeLabelTextStyle:
+            TextStyle.lerp(a.verticeLabelTextStyle, b.verticeLabelTextStyle, t),
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,
           b.titlePositionPercentageOffset,
