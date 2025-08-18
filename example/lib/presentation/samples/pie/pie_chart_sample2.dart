@@ -19,9 +19,6 @@ class PieChart2State extends State {
       aspectRatio: 1.3,
       child: Row(
         children: <Widget>[
-          const SizedBox(
-            height: 18,
-          ),
           Expanded(
             child: AspectRatio(
               aspectRatio: 1,
@@ -41,6 +38,7 @@ class PieChart2State extends State {
                       });
                     },
                   ),
+                  pieCapStyle: PieCapStyle.none,
                   borderData: FlBorderData(
                     show: false,
                   ),

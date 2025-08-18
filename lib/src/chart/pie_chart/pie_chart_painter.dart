@@ -172,6 +172,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionDegree,
         center,
         centerRadius,
+        data.pieCapStyle,
       );
 
       drawSection(section, sectionPath, canvasWrapper);
@@ -189,6 +190,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     double sectionDegree,
     Offset center,
     double centerRadius,
+    PieCapStyle pieCapStyle,
   ) {
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
@@ -204,32 +206,74 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final sweepRadians = Utils().radians(sectionDegree);
     final endRadians = startRadians + sweepRadians;
 
-    final startLineDirection =
-        Offset(math.cos(startRadians), math.sin(startRadians));
+    final startLineDirection = Offset(
+      math.cos(startRadians),
+      math.sin(startRadians),
+    );
 
     final startLineFrom = center + startLineDirection * centerRadius;
     final startLineTo = startLineFrom + startLineDirection * section.radius;
+    // sectionRadiusRect.shortestSide; //extra center is added here
     final startLine = Line(startLineFrom, startLineTo);
 
-    final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
+    final endLineDirection = Offset(
+      math.cos(endRadians),
+      math.sin(endRadians),
+    );
 
     final endLineFrom = center + endLineDirection * centerRadius;
-    final endLineTo = endLineFrom + endLineDirection * section.radius;
+    final endLineTo =
+        endLineFrom + endLineDirection * section.radius; // extra center
     final endLine = Line(endLineFrom, endLineTo);
 
-    var sectionPath = Path()
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..lineTo(startLine.to.dx, startLine.to.dy)
-      ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
-      ..lineTo(endLine.from.dx, endLine.from.dy)
-      ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..close();
+    var sectionPath = Path();
+    switch (pieCapStyle) {
+      case PieCapStyle.startCapped:
+        sectionPath
+          ..moveTo(startLine.from.dx, startLine.from.dy)
+          ..arcToPoint(
+            startLine.to,
+            radius: Radius.circular(section.radius / 2),
+          )
+          ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+          ..arcToPoint(
+            endLine.from,
+            radius: Radius.circular(section.radius / 2),
+            clockwise: false,
+          )
+          ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+          ..moveTo(startLine.from.dx, startLine.from.dy)
+          ..close();
+      case PieCapStyle.endCapped:
+        sectionPath
+          ..moveTo(startLine.from.dx, startLine.from.dy)
+          ..arcToPoint(
+            startLine.to,
+            radius: Radius.circular(section.radius / 2),
+            clockwise: false,
+          )
+          ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+          ..arcToPoint(
+            endLine.from,
+            radius: Radius.circular(section.radius / 2),
+          )
+          ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+          ..moveTo(startLine.from.dx, startLine.from.dy)
+          ..close();
+      case PieCapStyle.none:
+        sectionPath
+          ..moveTo(startLine.from.dx, startLine.from.dy)
+          ..lineTo(startLine.to.dx, startLine.to.dy)
+          ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+          ..lineTo(endLine.from.dx, endLine.from.dy)
+          ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+          ..moveTo(startLine.from.dx, startLine.from.dy)
+          ..close();
+    }
 
-    /// Subtract section space from the sectionPath
     if (sectionSpace != 0) {
       final startLineSeparatorPath = createRectPathAroundLine(
-        Line(startLineFrom, startLineTo),
+        startLine,
         sectionSpace,
       );
       try {
@@ -238,25 +282,24 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           sectionPath,
           startLineSeparatorPath,
         );
-      } catch (_) {
-        /// It's a flutter engine issue with [Path.combine] in web-html renderer
-        /// https://github.com/imaNNeo/fl_chart/issues/955
-      }
-
-      final endLineSeparatorPath =
-          createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
-      try {
-        sectionPath = Path.combine(
-          PathOperation.difference,
-          sectionPath,
-          endLineSeparatorPath,
-        );
-      } catch (_) {
+      } catch (e) {
         /// It's a flutter engine issue with [Path.combine] in web-html renderer
         /// https://github.com/imaNNeo/fl_chart/issues/955
       }
     }
 
+    final endLineSeparatorPath =
+        createRectPathAroundLine(endLine, sectionSpace);
+    try {
+      sectionPath = Path.combine(
+        PathOperation.difference,
+        sectionPath,
+        endLineSeparatorPath,
+      );
+    } catch (e) {
+      /// It's a flutter engine issue with [Path.combine] in web-html renderer
+      /// https://github.com/imaNNeo/fl_chart/issues/955
+    }
     return sectionPath;
   }
 
@@ -486,6 +529,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionAngle,
         center,
         centerRadius,
+        data.pieCapStyle,
       );
 
       if (sectionPath.contains(localPosition)) {
