@@ -1247,7 +1247,7 @@ void main() {
       'Initializes zoomed chart rect when controller scale != 1.0',
       (WidgetTester tester) async {
         final controller = TransformationController(
-          Matrix4.identity()..scale(3.0),
+          Matrix4.identity()..scaleByDouble(3, 3, 3, 1),
         );
         Rect? chartVirtualRect;
         await tester.pumpWidget(
@@ -1323,7 +1323,8 @@ void main() {
           expect(chartVirtualRects, actualChartVirtualRects);
 
           final transformationController = getTransformationController(tester);
-          transformationController!.value = Matrix4.identity()..scale(2.0);
+          transformationController!.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
@@ -1332,7 +1333,8 @@ void main() {
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, transformationController);
-          transformationController2!.value = Matrix4.identity()..scale(3.0);
+          transformationController2!.value = Matrix4.identity()
+            ..scaleByDouble(3, 3, 3, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
@@ -1347,7 +1349,8 @@ void main() {
           expect(chartVirtualRects, actualChartVirtualRects);
 
           final transformationController = getTransformationController(tester);
-          transformationController!.value = Matrix4.identity()..scale(2.0);
+          transformationController!.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
@@ -1363,7 +1366,8 @@ void main() {
             () => transformationController.addListener(() {}),
             throwsA(isA<FlutterError>()),
           );
-          transformationController2.value = Matrix4.identity()..scale(2.0);
+          transformationController2.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
@@ -1381,7 +1385,8 @@ void main() {
           );
           expect(chartVirtualRects, actualChartVirtualRects);
 
-          transformationController.value = Matrix4.identity()..scale(2.0);
+          transformationController.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
@@ -1394,7 +1399,8 @@ void main() {
           // ignore: invalid_use_of_protected_member
           expect(transformationController.hasListeners, false);
           transformationController.addListener(() {}); // throws if disposed
-          transformationController2!.value = Matrix4.identity()..scale(2.0);
+          transformationController2!.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
@@ -1413,7 +1419,8 @@ void main() {
           );
           expect(chartVirtualRects, actualChartVirtualRects);
 
-          transformationController.value = Matrix4.identity()..scale(2.0);
+          transformationController.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
@@ -1429,7 +1436,8 @@ void main() {
           // ignore: invalid_use_of_protected_member
           expect(transformationController.hasListeners, false);
           transformationController.addListener(() {}); // throws if disposed
-          transformationController2.value = Matrix4.identity()..scale(2.0);
+          transformationController2.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
@@ -1448,7 +1456,8 @@ void main() {
           );
           expect(chartVirtualRects, actualChartVirtualRects);
 
-          transformationController.value = Matrix4.identity()..scale(2.0);
+          transformationController.value = Matrix4.identity()
+            ..scaleByDouble(2, 2, 2, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
@@ -1461,7 +1470,8 @@ void main() {
 
           final transformationController2 = getTransformationController(tester);
           expect(transformationController2, transformationController);
-          transformationController.value = Matrix4.identity()..scale(3.0);
+          transformationController.value = Matrix4.identity()
+            ..scaleByDouble(3, 3, 3, 1);
           await tester.pump();
           expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
         },
@@ -1491,11 +1501,13 @@ void main() {
         );
         expect(chartVirtualRects, actualChartVirtualRects);
 
-        transformationController.value = Matrix4.identity()..scale(2.0);
+        transformationController.value = Matrix4.identity()
+          ..scaleByDouble(2, 2, 2, 1);
         await tester.pump();
         expect(chartVirtualRects, actualChartVirtualRects..add(isScaled));
 
-        transformationController.value = Matrix4.identity()..scale(1.0);
+        transformationController.value = Matrix4.identity()
+          ..scaleByDouble(1, 1, 1, 1);
         await tester.pump();
         expect(chartVirtualRects, actualChartVirtualRects..add(isNotScaled));
       },
