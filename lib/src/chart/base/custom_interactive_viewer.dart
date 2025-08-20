@@ -416,9 +416,11 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
     }
 
     final nextMatrix = matrix.clone()
-      ..translate(
+      ..translateByDouble(
         alignedTranslation.dx,
         alignedTranslation.dy,
+        0,
+        1,
       );
 
     // Transform the viewport to determine where its four corners will be after
@@ -528,7 +530,8 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
       widget.maxScale,
     );
     final clampedScale = clampedTotalScale / currentScale;
-    return matrix.clone()..scale(clampedScale);
+    return matrix.clone()
+      ..scaleByDouble(clampedScale, clampedScale, clampedScale, 1);
   }
 
   // Returns true iff the given _GestureType is enabled.
@@ -749,7 +752,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
     }
   }
 
-  // Handle mousewheel and web trackpad scroll events.
+  // Handle mouse wheel and web trackpad scroll events.
   void _receivedPointerSignal(PointerSignalEvent event) {
     final double scaleChange;
     if (event is PointerScrollEvent) {
@@ -1108,9 +1111,9 @@ Offset _getMatrixTranslation(Matrix4 matrix) {
 // the given amount.
 Quad _getAxisAlignedBoundingBoxWithRotation(Rect rect, double rotation) {
   final rotationMatrix = Matrix4.identity()
-    ..translate(rect.size.width / 2, rect.size.height / 2)
+    ..translateByDouble(rect.size.width / 2, rect.size.height / 2, 0, 1)
     ..rotateZ(rotation)
-    ..translate(-rect.size.width / 2, -rect.size.height / 2);
+    ..translateByDouble(-rect.size.width / 2, -rect.size.height / 2, 0, 1);
   final boundariesRotated = Quad.points(
     rotationMatrix.transform3(Vector3(rect.left, rect.top, 0)),
     rotationMatrix.transform3(Vector3(rect.right, rect.top, 0)),
