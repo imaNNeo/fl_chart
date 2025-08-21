@@ -1,10 +1,17 @@
 ## newVersion
+* **FEATURE** (by @huanghui1998hhh) Add `gradientArea` property to `LineChartBarData` to allow you to control the scope of gradient effects, #1925
+
+## 1.0.0
+<img width="600" alt="Image" src="https://github.com/user-attachments/assets/3d8b58f4-4ce7-489f-ba45-27ece063f57c" />
+
 * **FEATURE** (by @imaNNeo) Implement a new chart type called CandlestickChart. You can take a look at the documentation [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/candlestick_chart.md). And I just implemented a basic example to show the Bitcoin price in 2024, you can take a look at it in our sample app [here](https://app.flchart.dev/#/candlestick). #433, #1143
 <img width="400" alt="Image" src="https://github.com/user-attachments/assets/f71b9e4f-3aa8-4688-a5c1-ffd8ff12fba1" />
+
 * **BREAKING** (by @imaNNeo) Remove the deprecated `tooltipRoundedRadius` property -> you should use `tooltipBorderRadius` instead.
 * **BUGFIX** (by @imaNNeo) Fix the BarChartData mismatch issue when changing the data, #1911
 * **FEATURE** (by @frybitsinc) Add fillGradient property in [RadarDataSet](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md#radardataset)
 * **BREAKING** (by @imaNNeo) Upgrade the min flutter version to `3.27.4`. So please make sure that your project is not using an old flutter version, #1846
+* **IMPORTANT** (by @imaNNeo) You can read more about this release and the history of fl_chart here in my [blog post](https://flutter4fun.com/fl-chart-1-0-0)
 
 ## 0.71.0
 * **IMPROVEMENT** (by @MattiaPispisa) Add a new property called `BorderRadius tooltipBorderRadius` instead of (deprecated) `double tooltipRoundedRadius` in `BarTouchTooltipData`, `LineTouchTooltipData` and `ScatterTouchTooltipData` #1715
