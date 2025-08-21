@@ -182,6 +182,7 @@ class BarChartData extends AxisChartData with EquatableMixin {
         extraLinesData,
         rotationQuarterTurns,
         errorIndicatorData,
+        shrinkWrapOnWidthOverflow,
       ];
 }
 
