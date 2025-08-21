@@ -23,6 +23,7 @@
 |axisNameWidget| It shows the name of axis (you can pass a Widget)| `null`|
 |sideTitles| It accepts a [SideTitles](#SideTitles) which is responsible to show your axis side titles| `SideTitles()`|
 |drawBehindEverything| If titles are showing on top of your tooltip, you can draw them behind everything.| `true`|
+|sideTitleAlignment| It accepts a [SideTitleAlignment](#SideTitleAlignment) which is responsible for positioning the axis labels inside, outside, or on the border of the chart| `SideTitleAlignment.outside`
 
 ### SideTitles
 |PropName		|Description	|default value|
@@ -33,7 +34,6 @@
 |interval| Texts are showing with provided `interval`. If you don't provide anything, we try to find a suitable value to set as `interval` under the hood. | null |
 |minIncluded| Determines whether to include title for minimum data value | true |
 |maxIncluded| Determines whether to include title for maximum data value | true |
-
 
 ### SideTitleFitInsideData
 |PropName		|Description	|default value|
@@ -207,3 +207,10 @@ enum values {`center`, `left`, `right`}
 |x|x value of the touched spot|required|
 |y|y value of the touched spot|required|
 |AxisSpotIndicatorPainter|a painter that is used to draw the touched spot indicator. You can use this to customize the appearance of the touched spot indicator (Or you can implement your own painter).|AxisLinesIndicatorPainter()|
+
+### SideTitleAlignment
+|Option		|Description	|   Is Default
+|:---------------|:---------------|:-------|
+|`SideTitleAlignment.outside`| Places the axis labels outside the chart area| Yes|
+|`SideTitleAlignment.border`| Places the axis labels along the border of the chart area| No|
+|`SideTitleAlignment.inside`| Places the axis labels inside the border of the chart area| No|
