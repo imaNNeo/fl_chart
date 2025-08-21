@@ -338,7 +338,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                 )..layout();
 
                 // Calculate rotation
-                final rotation = holder.data.rotationQuarterTurns * (pi / 2);
+                final rotation = -holder.data.rotationQuarterTurns * (pi / 2);
                 final centerX = x;
                 final centerY = (stackFromY + stackToY) / 2;
 
