@@ -2451,7 +2451,7 @@ final scatterTouchTooltipData3 = ScatterTouchTooltipData(
 final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
   1,
   2,
-  Colors.green,
+  [Colors.green],
 );
 final BarChartRodStackItem barChartRodStackItem1Clone =
     barChartRodStackItem1.copyWith();
@@ -2459,7 +2459,7 @@ final BarChartRodStackItem barChartRodStackItem1Clone =
 final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
   2,
   3,
-  Colors.green,
+  [Colors.green],
 );
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 =
