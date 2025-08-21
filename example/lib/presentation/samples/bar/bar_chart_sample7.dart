@@ -230,7 +230,7 @@ class _IconWidgetState extends AnimatedWidgetBaseState<_IconWidget> {
     final rotation = math.pi * 4 * _rotationTween!.evaluate(animation);
     final scale = 1 + _rotationTween!.evaluate(animation) * 0.5;
     return Transform(
-      transform: Matrix4.rotationZ(rotation).scaled(scale, scale),
+      transform: Matrix4.rotationZ(rotation).scaledByDouble(scale, scale, scale, 1.0),
       origin: const Offset(14, 14),
       child: Icon(
         widget.isSelected ? Icons.face_retouching_natural : Icons.face,
