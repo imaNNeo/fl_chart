@@ -392,6 +392,7 @@ class AxisTitles with EquatableMixin {
         axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t)!,
         sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
         drawBelowEverything: b.drawBelowEverything,
+        sideTitleAlignment: b.sideTitleAlignment,
       );
 
   /// Copies current [SideTitles] to a new [SideTitles],
@@ -401,12 +402,14 @@ class AxisTitles with EquatableMixin {
     double? axisNameSize,
     SideTitles? sideTitles,
     bool? drawBelowEverything,
+    SideTitleAlignment? sideTitleAlignment,
   }) =>
       AxisTitles(
         axisNameWidget: axisNameWidget ?? this.axisNameWidget,
         axisNameSize: axisNameSize ?? this.axisNameSize,
         sideTitles: sideTitles ?? this.sideTitles,
         drawBelowEverything: drawBelowEverything ?? this.drawBelowEverything,
+        sideTitleAlignment: sideTitleAlignment ?? this.sideTitleAlignment,
       );
 
   /// Used for equality check, see [EquatableMixin].
