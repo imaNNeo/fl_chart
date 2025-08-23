@@ -1544,6 +1544,251 @@ void main() {
     });
   });
 
+  group('drawBars() - label tests', () {
+    late MockUtils mockUtils;
+    final utilsMainInstance = Utils();
+
+    setUp(() {
+      mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+    });
+
+    tearDown(() {
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('should render simple stack item labels', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              color: Colors.transparent,
+              rodStackItems: [
+                BarChartRodStackItem(
+                  0,
+                  5,
+                  Colors.red,
+                  label: 'Label 1',
+                  labelStyle: const TextStyle(fontSize: 15),
+                ),
+                BarChartRodStackItem(
+                  5,
+                  10,
+                  Colors.blue,
+                  label: 'Label 2',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+      when(mockCanvasWrapper.drawRRect(any, any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+        return;
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+
+      expect(paragraphs.length, 2, reason: 'Should have drawn 2 labels');
+    });
+
+    test('should render long stack item labels', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              color: Colors.transparent,
+              rodStackItems: [
+                BarChartRodStackItem(
+                  0,
+                  5,
+                  Colors.red,
+                  label: 'This is a very long label that might not fit',
+                  labelStyle: const TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+      when(mockCanvasWrapper.drawRRect(any, any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+        return;
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+
+      expect(paragraphs.length, 1, reason: 'Should have drawn 1 long label');
+    });
+
+    test('should render labels with special characters and emojis', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              color: Colors.transparent,
+              rodStackItems: [
+                BarChartRodStackItem(
+                  0,
+                  10,
+                  Colors.purple,
+                  label: 'Label with emojis 🎯 & symbols!',
+                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+      when(mockCanvasWrapper.drawRRect(any, any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+        return;
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+
+      expect(
+        paragraphs.length,
+        1,
+        reason: 'Should have drawn 1 label with special characters',
+      );
+    });
+  });
   group('drawTouchTooltip()', () {
     test('test 1', () {
       final mockUtils = MockUtils();

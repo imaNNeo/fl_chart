@@ -54,6 +54,8 @@ void main() {
         true,
       );
       expect(barChartRodStackItem1 == barChartRodStackItem2, false);
+      expect(barChartRodStackItem1 == barChartRodStackItem3, false);
+      expect(barChartRodStackItem2 == barChartRodStackItem4, false);
     });
 
     test('BackgroundBarChartRodData equality test', () {
