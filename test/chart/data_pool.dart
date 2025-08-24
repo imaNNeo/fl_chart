@@ -2452,6 +2452,12 @@ final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
   1,
   2,
   Colors.green,
+  label: 'Test Label',
+  labelStyle: const TextStyle(
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  ),
 );
 final BarChartRodStackItem barChartRodStackItem1Clone =
     barChartRodStackItem1.copyWith();
@@ -2460,6 +2466,22 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
   2,
   3,
   Colors.green,
+);
+
+final BarChartRodStackItem barChartRodStackItem3 = BarChartRodStackItem(
+  3,
+  4,
+  Colors.green,
+  label: 'This is a very long label that might not fit',
+  labelStyle: const TextStyle(fontSize: 12),
+);
+
+final BarChartRodStackItem barChartRodStackItem4 = BarChartRodStackItem(
+  8,
+  10,
+  Colors.purple,
+  label: 'Label with emojis 🎯 & symbols!',
+  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
 );
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 =
@@ -2495,6 +2517,8 @@ final BarChartRodData barChartRodData1 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem3,
+    barChartRodStackItem4,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2503,6 +2527,8 @@ final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
   rodStackItems: [
     barChartRodStackItem1Clone,
     barChartRodStackItem2,
+    barChartRodStackItem3,
+    barChartRodStackItem4,
   ],
 );
 
@@ -2514,6 +2540,8 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem3,
+    barChartRodStackItem4,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2535,6 +2563,8 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem2,
     barChartRodStackItem1,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2546,6 +2576,8 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2564,6 +2596,8 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData2,
 );
@@ -2575,6 +2609,8 @@ final BarChartRodData barChartRodData8 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );

@@ -487,9 +487,13 @@ class BarChartRodStackItem with EquatableMixin {
   BarChartRodStackItem(
     this.fromY,
     this.toY,
-    this.color, [
+    this.color, {
+    this.label,
+    this.labelStyle,
     this.borderSide = Utils.defaultBorderSide,
-  ]);
+  });
+  final String? label;
+  final TextStyle? labelStyle;
 
   /// Renders a Stacked Chart section from [fromY]
   final double fromY;
@@ -509,13 +513,17 @@ class BarChartRodStackItem with EquatableMixin {
     double? fromY,
     double? toY,
     Color? color,
+    String? label,
+    TextStyle? labelStyle,
     BorderSide? borderSide,
   }) =>
       BarChartRodStackItem(
         fromY ?? this.fromY,
         toY ?? this.toY,
         color ?? this.color,
-        borderSide ?? this.borderSide,
+        label: label ?? this.label,
+        labelStyle: labelStyle ?? this.labelStyle,
+        borderSide: borderSide ?? this.borderSide,
       );
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
@@ -528,12 +536,14 @@ class BarChartRodStackItem with EquatableMixin {
         lerpDouble(a.fromY, b.fromY, t)!,
         lerpDouble(a.toY, b.toY, t)!,
         Color.lerp(a.color, b.color, t)!,
-        BorderSide.lerp(a.borderSide, b.borderSide, t),
+        label: b.label,
+        labelStyle: b.labelStyle,
+        borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [fromY, toY, color, borderSide];
+  List<Object?> get props => [fromY, toY, color, label, labelStyle, borderSide];
 }
 
 /// Holds values to draw a rod in rear of the main rod.
@@ -713,7 +723,10 @@ class BarTouchTooltipData with EquatableMixin {
   /// [BarChart] shows a tooltip popup on top of rods automatically when touch happens,
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
   /// Tooltip shows on top of rods, with [getTooltipColor] as a background color.
-  /// You can set the corner radius using [tooltipBorderRadius],
+  /// You can set the corner radius using [tooltipRoundedRadius],
+  /// or if you need a custom border, you can use [tooltipBorderRadius].
+  /// Note that if both [tooltipRoundedRadius] and [tooltipBorderRadius] are set,
+  /// the value from [tooltipBorderRadius] will be used.
   /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
   /// or If you want to have a bottom margin, set [tooltipMargin].
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
