@@ -175,6 +175,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
                             );
                           },
                         ),
+                        showHorizontalLine: true,
                       );
                     }).toList();
                   },
