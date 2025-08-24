@@ -199,3 +199,16 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
   }
   return colors.last;
 }
+
+/// Lerps between two [CustomPainter] instances based on [t].
+CustomPainter? lerpPatternPainter(
+  CustomPainter? a,
+  CustomPainter? b,
+  double t,
+) {
+  if (a != null && b == null) return a;
+  if (a == null && b != null) return b;
+  if (a == null && b == null) return null;
+
+  return t < 0.5 ? a : b;
+}
