@@ -1,4 +1,5 @@
 ## newVersion
+* **FEATURE** (by @alettsy) Add `sideTitleAlignment` property in our `AxisTitles` to allow you to control the alignment of side titles (for example show them inside the chart), #1946
 * **FEATURE** (by @huanghui1998hhh) Add `gradientArea` property to `LineChartBarData` to allow you to control the scope of gradient effects, #1925
 * **FEATURE** (by @alikhavarii13) Add `label` and `labelStyle` properties in our `BarChartRodStackItem` to allow you to show labels on each stack item, #598
 * **BREAKING** ⚠️ (by @alikhavarii13) `borderSide` now is a [named parameter](https://dart.dev/language/functions#named-parameters) (instead of a [optional positional parameter](https://dart.dev/language/functions#optional-positional-parameters) in `BarChartRodStackItem` constructor. As it is a very minor breaking change, we decided to include it in this minor release (instead of doing a major release based on the [semantic versioning](https://semver.org/). Sorry about that!
