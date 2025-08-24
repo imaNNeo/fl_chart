@@ -1,5 +1,25 @@
 ## newVersion
 * **FEATURE** (by @huanghui1998hhh) Add `gradientArea` property to `LineChartBarData` to allow you to control the scope of gradient effects, #1925
+* **FEATURE** (by @alikhavarii13) Add `label` and `labelStyle` properties in our `BarChartRodStackItem` to allow you to show labels on each stack item, #598
+* **BREAKING** ⚠️ (by @alikhavarii13) `borderSide` now is a [named parameter](https://dart.dev/language/functions#named-parameters) (instead of a [optional positional parameter](https://dart.dev/language/functions#optional-positional-parameters) in `BarChartRodStackItem` constructor. As it is a very minor breaking change, we decided to include it in this minor release (instead of doing a major release based on the [semantic versioning](https://semver.org/). Sorry about that!
+So you just need to change this:
+```dart
+BarChartRodStackItem(
+  0,
+  10,
+  Colors.green,
+  BorderSide(color: Colors.white),
+),
+```
+to this:
+```dart
+BarChartRodStackItem(
+  0,
+  10,
+  Colors.green,
+  borderSide: BorderSide(color: Colors.white),
+),
+```
 
 ## 1.0.0
 <img width="600" alt="Image" src="https://github.com/user-attachments/assets/3d8b58f4-4ce7-489f-ba45-27ece063f57c" />
