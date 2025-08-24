@@ -112,6 +112,9 @@ enum AxisSide {
   }
 }
 
+/// Represents where the [SideTitles] are drawn in relation to the chart.
+enum SideTitleAlignment { outside, border, inside }
+
 /// Contains meta information about the drawing title.
 class TitleMeta {
   TitleMeta({
@@ -355,6 +358,7 @@ class AxisTitles with EquatableMixin {
     this.axisNameSize = 16,
     this.sideTitles = const SideTitles(),
     this.drawBelowEverything = true,
+    this.sideTitleAlignment = SideTitleAlignment.outside,
   });
 
   /// Determines the size of [axisName]
@@ -372,6 +376,9 @@ class AxisTitles with EquatableMixin {
   /// In the future, we will convert tooltips to a widget, that would solve this problem.
   final bool drawBelowEverything;
 
+  /// Where the [SideTitles] are drawn in relation to the chart.
+  final SideTitleAlignment sideTitleAlignment;
+
   /// If there is something to show as axisTitles, it returns true
   bool get showAxisTitles => axisNameWidget != null && axisNameSize != 0;
 
@@ -385,6 +392,7 @@ class AxisTitles with EquatableMixin {
         axisNameSize: lerpDouble(a.axisNameSize, b.axisNameSize, t)!,
         sideTitles: SideTitles.lerp(a.sideTitles, b.sideTitles, t),
         drawBelowEverything: b.drawBelowEverything,
+        sideTitleAlignment: b.sideTitleAlignment,
       );
 
   /// Copies current [SideTitles] to a new [SideTitles],
@@ -394,12 +402,14 @@ class AxisTitles with EquatableMixin {
     double? axisNameSize,
     SideTitles? sideTitles,
     bool? drawBelowEverything,
+    SideTitleAlignment? sideTitleAlignment,
   }) =>
       AxisTitles(
         axisNameWidget: axisNameWidget ?? this.axisNameWidget,
         axisNameSize: axisNameSize ?? this.axisNameSize,
         sideTitles: sideTitles ?? this.sideTitles,
         drawBelowEverything: drawBelowEverything ?? this.drawBelowEverything,
+        sideTitleAlignment: sideTitleAlignment ?? this.sideTitleAlignment,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -409,6 +419,7 @@ class AxisTitles with EquatableMixin {
         axisNameSize,
         sideTitles,
         drawBelowEverything,
+        sideTitleAlignment,
       ];
 }
 
