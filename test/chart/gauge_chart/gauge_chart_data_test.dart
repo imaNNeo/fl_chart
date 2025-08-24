@@ -4,6 +4,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../data_pool.dart';
 
+// A dummy BaseChartData subtype used to trigger the negative branch
+// in GaugeChartData.lerp when non-gauge BaseChartData instances are provided.
+class _DummyData extends BaseChartData {
+  _DummyData();
+
+  @override
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) => this;
+}
+
 void main() {
   group('GaugeChart Data equality check', () {
     test('GaugeChartData equality test', () {
@@ -366,6 +375,42 @@ void main() {
         ColoredTick(0.6, MockData.color4.withValues(alpha: 0.2)),
         ColoredTick(0.8, MockData.color3.withValues(alpha: 0.2)),
       ]);
+    });
+
+    test('GaugeChartData.lerp throws on illegal state', () {
+      final gauge = GaugeChartData(
+        value: 0.5,
+        strokeWidth: 4,
+        startAngle: 0,
+        endAngle: 180,
+        valueColor: const SimpleGaugeColor(color: MockData.color0),
+      );
+
+      expect(
+        () => gauge.lerp(_DummyData(), _DummyData(), 0.3),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('GaugeTouchResponse.copyWith', () {
+      final initialSpot =
+          GaugeTouchedSpot(const FlSpot(1, 2), const Offset(3, 4));
+      final response = GaugeTouchResponse(
+        touchLocation: const Offset(10, 20),
+        touchedSpot: initialSpot,
+      );
+
+      final same = response.copyWith();
+      expect(same.touchLocation, response.touchLocation);
+      expect(same.touchedSpot, response.touchedSpot);
+
+      final newSpot = GaugeTouchedSpot(const FlSpot(5, 6), const Offset(7, 8));
+      final updated = response.copyWith(
+        touchLocation: const Offset(30, 40),
+        touchedSpot: newSpot,
+      );
+      expect(updated.touchLocation, const Offset(30, 40));
+      expect(updated.touchedSpot, newSpot);
     });
   });
 }

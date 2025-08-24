@@ -265,6 +265,67 @@ void main() {
       Utils.changeInstance(utilsMainInstance);
     });
 
+    test('ticks with inner position', () {
+      const viewSize = Size(400, 400);
+      const gaugeTicks = GaugeTicks(
+        count: 5,
+        color: MockData.color0,
+        radius: 4,
+        showChangingColorTicks: false,
+        position: GaugeTickPosition.inner,
+        margin: 5,
+      );
+      final data = GaugeChartData(
+        startAngle: 0,
+        endAngle: 90,
+        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        strokeWidth: 2,
+        value: 0.5,
+        ticks: gaugeTicks,
+      );
+      final gaugePainter = GaugeChartPainter();
+      final holder =
+          PaintHolder<GaugeChartData>(data, data, TextScaler.noScaling);
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.radians(any)).thenAnswer(
+        (realInvocation) => realInvocation.positionalArguments[0] as double,
+      );
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final drawCircleResults = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny),
+      ).thenAnswer((inv) {
+        drawCircleResults.add({
+          'offset': inv.positionalArguments[0] as Offset,
+          'radius': inv.positionalArguments[1] as double,
+          'paint_color': (inv.positionalArguments[2] as Paint).color,
+        });
+      });
+
+      gaugePainter.drawTicks(mockCanvasWrapper, holder);
+
+      expect(drawCircleResults.length, 5);
+
+      // positionRadius = gaugeRadius - strokeWidth - tick.radius - tick.margin
+      final positionRadius =
+          200 - data.strokeWidth - gaugeTicks.radius - gaugeTicks.margin;
+      final angle = Utils().radians(90 / 4);
+      for (var i = 0; i < drawCircleResults.length; i++) {
+        final tickX = 200 + cos(angle * i) * positionRadius;
+        final tickY = 200 + sin(angle * i) * positionRadius;
+
+        expect(drawCircleResults[i]['offset'], Offset(tickX, tickY));
+        expect(drawCircleResults[i]['radius'], gaugeTicks.radius);
+        expect(drawCircleResults[i]['paint_color'], gaugeTicks.color);
+      }
+
+      Utils.changeInstance(utilsMainInstance);
+    });
+
     test('ticks with changing color ticks', () {
       const viewSize = Size(400, 400);
       const gaugeTicks = GaugeTicks(
