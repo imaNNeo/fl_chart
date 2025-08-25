@@ -75,5 +75,14 @@ void main() {
         throwsAssertionError,
       );
     });
+
+    test('Test shrinkWrapOnWidthOverflow calcualtes spacing correctly', () {
+      expect(
+        MockData.barChartData1
+            .copyWith(shrinkWrapOnWidthOverflow: true)
+            .calculateGroupsX(100),
+        [9.0, 50.0, 91.0],
+      );
+    });
   });
 }
