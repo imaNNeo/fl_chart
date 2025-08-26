@@ -1,3 +1,5 @@
+import 'dart:ui' as ui show Gradient;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_helper.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
@@ -1277,7 +1279,10 @@ void main() {
                 BarChartRodStackItem(
                   5,
                   10,
-                  const Color(0x44444444),
+                  null,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFFF0000), Color(0xFF00FF00)],
+                  ),
                   label: '5',
                 ),
               ],
@@ -1286,7 +1291,13 @@ void main() {
         ),
       ];
 
-      final data = BarChartData(barGroups: barGroups);
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        minY: minY,
+        maxY: maxY,
+      );
 
       final barChartPainter = BarChartPainter();
       final holder =
@@ -1309,6 +1320,7 @@ void main() {
         final paint = inv.positionalArguments[1] as Paint;
         results.add({
           'paint_color': paint.color,
+          'gradient': paint.shader is ui.Gradient,
         });
       });
 
@@ -1327,8 +1339,16 @@ void main() {
         isSameColorAs(const Color(0x33333333)),
       );
       expect(
+        results[3]['gradient'],
+        false,
+      );
+      expect(
         results[4]['paint_color'],
-        isSameColorAs(const Color(0x44444444)),
+        isSameColorAs(const Color(0xFF000000)),
+      );
+      expect(
+        results[4]['gradient'],
+        true,
       );
     });
 
@@ -3416,6 +3436,12 @@ void main() {
           holder.data.extraLinesData.horizontalLines[0].dashArray,
         ),
       ).called(2);
+    });
+  });
+
+  group('BarChartRodStackItem()', () {
+    test('throws an exception if color and gradient is null', () {
+      expect(() => BarChartRodStackItem(0, 10, null), throwsAssertionError);
     });
   });
 }

@@ -77,6 +77,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |fromY|draw stack item from this value|null|
 |toY|draw stack item to this value|null|
 |color|color of the stack item|null|
+|gradient|gradient of the stack item|null|
 |label|optional text label for the stack item|null|
 |labelStyle|optional TextStyle for the label|null|
 |borderSide|draw border stroke for each stack item|null|
