@@ -41,6 +41,38 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   bool isPlaying = false;
   BarPattern pattern = BarPattern.none;
+  final stripesPainter = StripesPatternPainter(
+    stripesShader: StripesShader(),
+    width: 2,
+    gap: 8,
+    angle: 45,
+  );
+  final squarePoisPainter = SquarePoisPatternPainter(
+    poisShader: SquarePoisShader(),
+    color: AppColors.contentColorBlack,
+    squaresPerRow: 4,
+    gap: 2.0,
+    verticalGap: 2.0,
+    margin: 2.0,
+  );
+  final circlePoisPainter = CirclePoisPatternPainter(
+    poisShader: CirclePoisShader(),
+    color: AppColors.contentColorBlack,
+    gap: 2.0,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+
+    initializeShaders();
+  }
+
+  Future<void> initializeShaders() async {
+    await stripesPainter.initialize();
+    await squarePoisPainter.initialize();
+    await circlePoisPainter.initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,24 +173,11 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
-  CustomPainter? _getPainter() {
+  FlSurfacePainter? _getPainter() {
     return switch (pattern) {
-      BarPattern.stripes => StripesPatternPainter(
-          stripesShader: FlShaderManager().stripesShader,
-          width: 2,
-          gap: 8,
-          angle: 45,
-        ),
-      BarPattern.squarePois => SquarePoisPatternPainter(
-          poisShader: FlShaderManager().squarePoisShader,
-          squaresPerRow: 3,
-        ),
-      BarPattern.circlePois => CirclePoisPatternPainter(
-          poisShader: FlShaderManager().circlePoisShader,
-          dotsPerRow: 2,
-          color: Colors.black,
-          gap: 4.0,
-        ),
+      BarPattern.stripes => stripesPainter,
+      BarPattern.squarePois => squarePoisPainter,
+      BarPattern.circlePois => circlePoisPainter,
       BarPattern.none => null,
     };
   }
@@ -179,7 +198,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           toY: isTouched ? y + 1 : y,
           color: isTouched ? widget.touchedBarColor : barColor,
           width: width,
-          patternPainter: _getPainter(),
+          surfacePainter: _getPainter(),
           borderSide: isTouched
               ? BorderSide(color: widget.touchedBarColor.darken(80))
               : const BorderSide(color: Colors.white, width: 0),

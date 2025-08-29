@@ -21,7 +21,6 @@ export 'src/pattern_painters/square_pois_painter.dart';
 export 'src/pattern_painters/stripes_painter.dart';
 export 'src/shaders/circle_pois_shader.dart';
 export 'src/shaders/fl_shader.dart';
-export 'src/shaders/fl_shader_manager.dart';
-export 'src/shaders/fl_shader_painter.dart';
+export 'src/shaders/fl_surface_painter.dart';
 export 'src/shaders/square_pois_shader.dart';
 export 'src/shaders/stripes_shader.dart';

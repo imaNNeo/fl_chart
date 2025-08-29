@@ -34,7 +34,7 @@ void main() {
     });
 
     test('setFloat throws before init', () {
-      expect(() => testShader.setFloat(0, 1.0), throwsA(isA<StateError>()));
+      expect(() => testShader.setFloat(0, 1), throwsA(isA<StateError>()));
     });
 
     test('setFloat calls underlying shader after init', () async {

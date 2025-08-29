@@ -1,4 +1,4 @@
-import 'package:fl_chart/src/shaders/fl_shader_painter.dart';
+import 'package:fl_chart/src/shaders/fl_surface_painter.dart';
 import 'package:fl_chart/src/shaders/stripes_shader.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +30,7 @@ import 'package:flutter/material.dart';
 /// )
 /// ```
 /// {@endtemplate}
-class StripesPatternPainter extends FlShaderPainter {
+class StripesPatternPainter extends FlSurfacePainter {
   StripesPatternPainter({
     required this.stripesShader,
     this.color = Colors.black,

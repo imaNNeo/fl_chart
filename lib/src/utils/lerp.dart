@@ -201,9 +201,9 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
 }
 
 /// Lerps between two [CustomPainter] instances based on [t].
-CustomPainter? lerpPatternPainter(
-  CustomPainter? a,
-  CustomPainter? b,
+FlSurfacePainter? lerpSurfacePainter(
+  FlSurfacePainter? a,
+  FlSurfacePainter? b,
   double t,
 ) {
   if (a != null && b == null) return a;

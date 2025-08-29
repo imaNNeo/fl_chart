@@ -31,7 +31,7 @@ import 'package:flutter/material.dart';
 /// )
 /// ```
 /// {@endtemplate}
-class CirclePoisPatternPainter extends FlShaderPainter {
+class CirclePoisPatternPainter extends FlSurfacePainter {
   CirclePoisPatternPainter({
     required this.poisShader,
     this.color = Colors.black,

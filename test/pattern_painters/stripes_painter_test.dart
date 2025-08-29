@@ -8,6 +8,17 @@ import '../shaders/fake_shaders.dart';
 void main() {
   late FakeStripesShader stripesShader;
 
+  group('Initialization', () {
+    test('should initialize shader', () async {
+      final painter = StripesPatternPainter(
+        stripesShader: stripesShader,
+      );
+      await painter.initialize();
+
+      expect(painter.isInitialized, isTrue);
+    });
+  });
+
   setUpAll(() async {
     stripesShader = FakeStripesShader();
     await stripesShader.init();
@@ -126,7 +137,7 @@ void main() {
         angle: 90,
         stripesShader: stripesShader,
       );
-      final lerped = lerpPatternPainter(a, b, 0.4)!;
+      final lerped = lerpSurfacePainter(a, b, 0.4)!;
 
       expect(lerped, isNotNull);
       expect(lerped, isA<StripesPatternPainter>());

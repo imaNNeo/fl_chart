@@ -14,7 +14,7 @@ out vec4 sk_FragColor;
 void main() {
     float W = u_resolution.x;
     float H = u_resolution.y;
-    int N = int(u_num_squares);   // Numero colonne
+    int N = int(u_num_squares);
     vec2 currentPos = FlutterFragCoord();
 
     float size = (W - float(N - 1) * gap - 2.0 * margin) / float(N);

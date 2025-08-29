@@ -2,7 +2,6 @@
 
 precision mediump float;
 
-// INGRESSI
 uniform vec2 u_resolution;
 uniform vec3 u_color;
 uniform float u_num_circles;
@@ -15,7 +14,7 @@ out vec4 sk_FragColor;
 void main() {
     float W = u_resolution.x;
     float H = u_resolution.y;
-    int N = int(u_num_circles);   // Numero colonne
+    int N = int(u_num_circles);
     vec2 currentPos = FlutterFragCoord();
 
     float diameter = (W - float(N - 1) * gap - 2.0 * margin) / float(N);

@@ -353,7 +353,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           }
 
           // draw pattern painter overlay (on top of everything)
-          if (barRod.patternPainter != null) {
+          if (barRod.surfacePainter != null &&
+              (barRod.surfacePainter?.isInitialized ?? false)) {
             final barRect = barRRect.getRect();
             final recorder = PictureRecorder();
             final customCanvas = Canvas(
@@ -368,7 +369,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                   bottomRight: barRRect.brRadius,
                 ),
               );
-            barRod.patternPainter!
+            barRod.surfacePainter!
                 .paint(customCanvas, Size(barRect.width, barRect.height));
             final picture = recorder.endRecording();
             canvasWrapper.canvas.save();
