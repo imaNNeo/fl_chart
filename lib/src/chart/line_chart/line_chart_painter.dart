@@ -603,10 +603,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize, holder),
       );
 
+      /// Determine which axes to prevent overshooting on
+      final preventCurveOverShootingY =
+          barData.preventCurveOverShooting || barData.preventCurveOverShootingY;
+      final preventCurveOverShootingX =
+          barData.preventCurveOverShooting || barData.preventCurveOverShootingX;
+
       var controlPoint1 = previous + temp;
 
       /// Prevent controlPoint1 overshooting in the x-axis
-      if (barData.preventCurveOverShooting && controlPoint1.dx > current.dx) {
+      if (preventCurveOverShootingX && controlPoint1.dx > current.dx) {
         controlPoint1 = Offset(current.dx, controlPoint1.dy);
       }
 
@@ -616,13 +622,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final smoothness = barData.isCurved ? barData.curveSmoothness : 0.0;
       temp = ((next - previous) / 2) * smoothness;
 
-      if (barData.preventCurveOverShooting) {
+      if (preventCurveOverShootingY) {
         if ((next - current).dy <= barData.preventCurveOvershootingThreshold ||
             (current - previous).dy <=
                 barData.preventCurveOvershootingThreshold) {
           temp = Offset(temp.dx, 0);
         }
+      }
 
+      if (preventCurveOverShootingX) {
         if ((next - current).dx <= barData.preventCurveOvershootingThreshold ||
             (current - previous).dx <=
                 barData.preventCurveOvershootingThreshold) {
@@ -633,7 +641,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       var controlPoint2 = current - temp;
 
       /// Prevent controlPoint2 overshooting in the x-axis
-      if (barData.preventCurveOverShooting && controlPoint2.dx < previous.dx) {
+      if (preventCurveOverShootingX && controlPoint2.dx < previous.dx) {
         controlPoint2 = Offset(previous.dx, controlPoint2.dy);
       }
 

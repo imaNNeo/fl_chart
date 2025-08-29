@@ -246,6 +246,8 @@ class LineChartBarData with EquatableMixin {
     this.isCurved = false,
     this.curveSmoothness = 0.35,
     this.preventCurveOverShooting = false,
+    this.preventCurveOverShootingX = false,
+    this.preventCurveOverShootingY = false,
     this.preventCurveOvershootingThreshold = 10.0,
     this.isStrokeCapRound = false,
     this.isStrokeJoinRound = false,
@@ -262,7 +264,13 @@ class LineChartBarData with EquatableMixin {
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         belowBarData = belowBarData ?? BarAreaData(),
-        aboveBarData = aboveBarData ?? BarAreaData() {
+        aboveBarData = aboveBarData ?? BarAreaData(),
+        assert(
+          !(preventCurveOverShooting &&
+              (preventCurveOverShootingX || preventCurveOverShootingY)),
+          'preventCurveOverShooting cannot be used together with preventCurveOverShootingX or preventCurveOverShootingY. '
+          'Use either preventCurveOverShooting for both axes, or the specific axis variants.',
+        ) {
     FlSpot? mostLeft;
     FlSpot? mostTop;
     FlSpot? mostRight;
@@ -353,6 +361,16 @@ class LineChartBarData with EquatableMixin {
   /// check this [issue](https://github.com/imaNNeo/fl_chart/issues/25)
   final bool preventCurveOverShooting;
 
+  /// Prevent overshooting when draw curve line on the X-axis only.
+  /// When true, prevents control points from extending beyond data points horizontally,
+  /// while allowing natural Y-axis curve smoothing.
+  final bool preventCurveOverShootingX;
+
+  /// Prevent overshooting when draw curve line on the Y-axis only.
+  /// When true, prevents control points from extending beyond data points vertically,
+  /// while allowing natural X-axis curve smoothing.
+  final bool preventCurveOverShootingY;
+
   /// Applies threshold for [preventCurveOverShooting] algorithm.
   final double preventCurveOvershootingThreshold;
 
@@ -411,6 +429,8 @@ class LineChartBarData with EquatableMixin {
           b.preventCurveOvershootingThreshold,
           t,
         )!,
+        preventCurveOverShootingX: b.preventCurveOverShootingX,
+        preventCurveOverShootingY: b.preventCurveOverShootingY,
         dotData: FlDotData.lerp(a.dotData, b.dotData, t),
         errorIndicatorData: FlErrorIndicatorData.lerp(
           a.errorIndicatorData,
@@ -442,6 +462,8 @@ class LineChartBarData with EquatableMixin {
     double? curveSmoothness,
     bool? preventCurveOverShooting,
     double? preventCurveOvershootingThreshold,
+    bool? preventCurveOverShootingX,
+    bool? preventCurveOverShootingY,
     bool? isStrokeCapRound,
     bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
@@ -468,6 +490,10 @@ class LineChartBarData with EquatableMixin {
             preventCurveOverShooting ?? this.preventCurveOverShooting,
         preventCurveOvershootingThreshold: preventCurveOvershootingThreshold ??
             this.preventCurveOvershootingThreshold,
+        preventCurveOverShootingX:
+            preventCurveOverShootingX ?? this.preventCurveOverShootingX,
+        preventCurveOverShootingY:
+            preventCurveOverShootingY ?? this.preventCurveOverShootingY,
         isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
         isStrokeJoinRound: isStrokeJoinRound ?? this.isStrokeJoinRound,
         belowBarData: belowBarData ?? this.belowBarData,
@@ -494,6 +520,8 @@ class LineChartBarData with EquatableMixin {
         curveSmoothness,
         preventCurveOverShooting,
         preventCurveOvershootingThreshold,
+        preventCurveOverShootingX,
+        preventCurveOverShootingY,
         isStrokeCapRound,
         isStrokeJoinRound,
         belowBarData,
