@@ -617,7 +617,7 @@ void main() {
       expect(callWithAlignment(BarChartAlignment.end), [80.0, 122.5, 172.5]);
       expect(
         callWithAlignment(BarChartAlignment.spaceEvenly),
-        [40, 92.5, 152.5],
+        [20.0, 92.5, 172.5],
       );
       expect(
         callWithAlignment(BarChartAlignment.spaceAround),
