@@ -49,7 +49,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
     ExtraLinesData? extraLinesData,
     super.rotationQuarterTurns,
     this.errorIndicatorData = const FlErrorIndicatorData(),
-    this.shrinkWrapOnWidthOverflow = false,
   })  : barGroups = barGroups ?? const [],
         groupsSpace = groupsSpace ?? 16,
         alignment = alignment ?? BarChartAlignment.spaceEvenly,
@@ -74,10 +73,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
   /// Apply space between the [barGroups].
   final double groupsSpace;
 
-  /// If width of chart would overflow the container, then space evenly without
-  /// adding space at the start and end of the chart.
-  final bool shrinkWrapOnWidthOverflow;
-
   /// Arrange the [barGroups], see [BarChartAlignment].
   final BarChartAlignment alignment;
 
@@ -94,7 +89,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
   BarChartData copyWith({
     List<BarChartGroupData>? barGroups,
     double? groupsSpace,
-    bool? shrinkWrapOnWidthOverflow,
     BarChartAlignment? alignment,
     FlTitlesData? titlesData,
     RangeAnnotations? rangeAnnotations,
@@ -113,8 +107,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
       BarChartData(
         barGroups: barGroups ?? this.barGroups,
         groupsSpace: groupsSpace ?? this.groupsSpace,
-        shrinkWrapOnWidthOverflow:
-            shrinkWrapOnWidthOverflow ?? this.shrinkWrapOnWidthOverflow,
         alignment: alignment ?? this.alignment,
         titlesData: titlesData ?? this.titlesData,
         rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
@@ -137,8 +129,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
       return BarChartData(
         barGroups: lerpBarChartGroupDataList(a.barGroups, b.barGroups, t),
         groupsSpace: lerpDouble(a.groupsSpace, b.groupsSpace, t),
-        shrinkWrapOnWidthOverflow:
-            t < 0.5 ? a.shrinkWrapOnWidthOverflow : b.shrinkWrapOnWidthOverflow,
         alignment: b.alignment,
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
         rangeAnnotations:
@@ -182,7 +172,6 @@ class BarChartData extends AxisChartData with EquatableMixin {
         extraLinesData,
         rotationQuarterTurns,
         errorIndicatorData,
-        shrinkWrapOnWidthOverflow,
       ];
 }
 

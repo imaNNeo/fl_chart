@@ -15,17 +15,11 @@ extension BarChartDataExtension on BarChartData {
         return;
       }
 
-      var eachSpace = 0.0;
-
-      if (shrinkWrapOnWidthOverflow) {
-        eachSpace = spaceAvailable / (barGroups.length - 1);
-      } else {
-        eachSpace = spaceAvailable / (barGroups.length + 1);
-      }
+      final eachSpace = spaceAvailable / (barGroups.length - 1);
 
       var tempX = 0.0;
       barGroups.asMap().forEach((i, group) {
-        if (!shrinkWrapOnWidthOverflow || i != 0) {
+        if (i != 0) {
           tempX += eachSpace;
         }
 
