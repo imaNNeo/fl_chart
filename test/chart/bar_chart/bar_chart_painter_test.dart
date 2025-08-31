@@ -14,12 +14,21 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../helper_methods.dart';
+import '../../shaders/fake_shaders.dart';
 import '../data_pool.dart';
 import 'bar_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
   const tolerance = 0.01;
+
+  late FakeStripesShader stripesShader;
+
+  setUpAll(() async {
+    stripesShader = FakeStripesShader();
+    await stripesShader.init();
+  });
+
   group('paint()', () {
     test('test 1', () {
       final utilsMainInstance = Utils();
@@ -83,6 +92,90 @@ void main() {
         mockBuildContext,
         mockCanvasWrapper,
         holder,
+      );
+      Utils.changeInstance(utilsMainInstance);
+    });
+  });
+
+  group('paint() with pattern painter', () {
+    test('test 1', () {
+      final utilsMainInstance = Utils();
+      const viewSize = Size(400, 400);
+      final barGroups = <BarChartGroupData>[
+        BarChartGroupData(
+          x: 1,
+          barRods: [
+            BarChartRodData(
+              fromY: 1,
+              toY: 10,
+              surfacePainter: StripesPatternPainter(
+                stripesShader: stripesShader,
+              ),
+            ),
+            BarChartRodData(
+              fromY: 2,
+              toY: 10,
+              surfacePainter: StripesPatternPainter(
+                stripesShader: stripesShader,
+              ),
+            ),
+          ],
+          showingTooltipIndicators: [
+            1,
+            2,
+          ],
+        ),
+        BarChartGroupData(
+          x: 2,
+          barRods: [
+            BarChartRodData(fromY: 3, toY: 10),
+            BarChartRodData(fromY: 4, toY: 10),
+          ],
+        ),
+      ];
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      expect(
+        () => barChartPainter.paint(
+          mockBuildContext,
+          mockCanvasWrapper,
+          holder,
+        ),
+        returnsNormally,
       );
       Utils.changeInstance(utilsMainInstance);
     });
