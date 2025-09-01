@@ -1,6 +1,6 @@
 ![FL Chart Logo](https://github.com/imaNNeo/fl_chart/raw/main/repo_files/images/landing_logo.png)
 
-[![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dartlang.org/packages/fl_chart)
+[![pub package](https://img.shields.io/pub/v/fl_chart.svg)](https://pub.dev/packages/fl_chart)
 [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
 <a href="https://github.com/Solido/awesome-flutter#charts"><img src="https://img.shields.io/badge/awesome-flutter-blue.svg?longCache=true" alt="Awesome Flutter"></a>
 <a href="https://pub.dev/packages/fl_chart"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/imaNNeo/fl_chart"></a>
