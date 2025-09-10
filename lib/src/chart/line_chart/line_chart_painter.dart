@@ -94,7 +94,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     for (final betweenBarsData in data.betweenBarsData) {
-      drawBetweenBarsArea(canvasWrapper, data, betweenBarsData, holder);
+      drawBetweenBarsArea(
+          canvasWrapper, data, betweenBarsData, holder as LineChartPaintHolder);
     }
 
     if (!data.extraLinesData.extraLinesOnTop) {
@@ -111,8 +112,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         continue;
       }
 
-      drawBarLine(canvasWrapper, barData, holder);
-      drawDots(canvasWrapper, barData, holder);
+      drawBarLine(canvasWrapper, barData, holder as LineChartPaintHolder);
+      drawDots(canvasWrapper, barData, holder as LineChartPaintHolder);
 
       if (data.extraLinesData.extraLinesOnTop) {
         super.drawExtraLines(context, canvasWrapper, holder);
@@ -231,10 +232,19 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   @visibleForTesting
   void drawBarLine(
     CanvasWrapper canvasWrapper,
-    LineChartBarData barData,
-    PaintHolder<LineChartData> holder,
+    LineChartBarData interpolatedBarData,
+    LineChartPaintHolder holder,
   ) {
     final viewSize = holder.getChartUsableSize(canvasWrapper.size);
+
+    final implicitAnimation =
+        holder.appearAnimationType == LineChartEntryAnimation.original;
+
+    // TODO (michalhazdra): optimize out the indexOf call
+    final barData = implicitAnimation
+        ? interpolatedBarData
+        : holder.targetData.lineBarsData[
+            holder.data.lineBarsData.indexOf(interpolatedBarData)];
 
     final barList = barData.spots.splitByNullSpots();
 
@@ -290,7 +300,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     LineChartData data,
     BetweenBarsData betweenBarsData,
-    PaintHolder<LineChartData> holder,
+    LineChartPaintHolder holder,
   ) {
     final viewSize = canvasWrapper.size;
     final fromBarData = data.lineBarsData[betweenBarsData.fromIndex];
@@ -349,15 +359,38 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   @visibleForTesting
   void drawDots(
     CanvasWrapper canvasWrapper,
-    LineChartBarData barData,
-    PaintHolder<LineChartData> holder,
+    LineChartBarData interpolatedBarData,
+    LineChartPaintHolder holder,
   ) {
-    if (!barData.dotData.show || barData.spots.isEmpty) {
+    if (!interpolatedBarData.dotData.show ||
+        interpolatedBarData.spots.isEmpty) {
       return;
     }
     final viewSize = canvasWrapper.size;
 
+    final implicitAnimation =
+        holder.appearAnimationType == LineChartEntryAnimation.original;
+
+    // TODO (michalhazdra): optimize out the indexOf call
+    final barData = implicitAnimation
+        ? interpolatedBarData
+        : holder.targetData.lineBarsData[
+            holder.data.lineBarsData.indexOf(interpolatedBarData)];
+
     final barXDelta = getBarLineXLength(barData, viewSize, holder);
+
+    var doClip = false;
+    var clipLeft = 0.0;
+
+    if (holder.appearAnimationType ==
+        LineChartEntryAnimation.leftToRightSlideAll) {
+      doClip = true;
+      final progress = holder.animationProgress;
+
+      final leftMostX = getPixelX(barData.mostLeftSpot.x, viewSize, holder);
+      final rightMostX = getPixelX(barData.mostRightSpot.x, viewSize, holder);
+      clipLeft = leftMostX + (rightMostX - leftMostX) * progress;
+    }
 
     for (var i = 0; i < barData.spots.length; i++) {
       final spot = barData.spots[i];
@@ -367,8 +400,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         final xPercentInLine = (x / barXDelta) * 100;
         final painter =
             barData.dotData.getDotPainter(spot, xPercentInLine, barData, i);
-
-        canvasWrapper.drawDot(painter, spot, Offset(x, y));
+        if (doClip) {
+          canvasWrapper
+            ..save()
+            ..clipRect(
+              Rect.fromLTRB(
+                0,
+                0,
+                clipLeft,
+                viewSize.height,
+              ),
+            )
+            ..drawDot(painter, spot, Offset(x, y))
+            ..restore();
+        } else {
+          canvasWrapper.drawDot(painter, spot, Offset(x, y));
+        }
       }
     }
   }
@@ -786,7 +833,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     Path belowBarPath,
     Path filledAboveBarPath,
-    PaintHolder<LineChartData> holder,
+    LineChartPaintHolder holder,
     LineChartBarData barData,
   ) {
     if (!barData.belowBarData.show) {
@@ -809,6 +856,21 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       belowBarLargestRect,
     );
 
+    final implicitAnimation =
+        holder.appearAnimationType == LineChartEntryAnimation.original;
+
+    var doClip = false;
+    var clipLeft = 0.0;
+
+    if (!implicitAnimation) {
+      doClip = true;
+      final progress = holder.animationProgress;
+
+      final leftMostX = getPixelX(barData.mostLeftSpot.x, viewSize, holder);
+      final rightMostX = getPixelX(barData.mostRightSpot.x, viewSize, holder);
+      clipLeft = leftMostX + (rightMostX - leftMostX) * progress;
+    }
+
     if (barData.belowBarData.applyCutOffY) {
       canvasWrapper.saveLayer(
         Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
@@ -816,7 +878,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       );
     }
 
-    canvasWrapper.drawPath(belowBarPath, _barAreaPaint);
+    if (doClip) {
+      canvasWrapper
+        ..save()
+        ..clipRect(
+          Rect.fromLTRB(
+            0,
+            0,
+            clipLeft,
+            viewSize.height,
+          ),
+        )
+        ..drawPath(belowBarPath, _barAreaPaint)
+        ..restore();
+    } else {
+      canvasWrapper.drawPath(belowBarPath, _barAreaPaint);
+    }
 
     // clear the above area that get out of the bar line
     if (barData.belowBarData.applyCutOffY) {
@@ -880,7 +957,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     Path aboveBarPath,
     Path filledBelowBarPath,
-    PaintHolder<LineChartData> holder,
+    LineChartPaintHolder holder,
     LineChartBarData barData,
   ) {
     if (!barData.aboveBarData.show) {
@@ -903,14 +980,43 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       aboveBarLargestRect,
     );
 
+    final implicitAnimation =
+        holder.appearAnimationType == LineChartEntryAnimation.original;
+
+    var doClip = false;
+    var clipLeft = 0.0;
+
+    if (!implicitAnimation) {
+      doClip = true;
+      final progress = holder.animationProgress;
+
+      final leftMostX = getPixelX(barData.mostLeftSpot.x, viewSize, holder);
+      final rightMostX = getPixelX(barData.mostRightSpot.x, viewSize, holder);
+      clipLeft = leftMostX + (rightMostX - leftMostX) * progress;
+    }
+
     if (barData.aboveBarData.applyCutOffY) {
       canvasWrapper.saveLayer(
         Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
         _clipPaint,
       );
     }
-
-    canvasWrapper.drawPath(aboveBarPath, _barAreaPaint);
+    if (doClip) {
+      canvasWrapper
+        ..save()
+        ..clipRect(
+          Rect.fromLTRB(
+            0,
+            0,
+            clipLeft,
+            viewSize.height,
+          ),
+        )
+        ..drawPath(aboveBarPath, _barAreaPaint)
+        ..restore();
+    } else {
+      canvasWrapper.drawPath(aboveBarPath, _barAreaPaint);
+    }
 
     // clear the above area that get out of the bar line
     if (barData.aboveBarData.applyCutOffY) {
@@ -1034,7 +1140,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     Path barPath,
     LineChartBarData barData,
-    PaintHolder<LineChartData> holder,
+    LineChartPaintHolder holder,
   ) {
     if (!barData.show) {
       return;
@@ -1052,6 +1158,22 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       getPixelX(barData.mostRightSpot.x, viewSize, holder),
       getPixelY(barData.mostBottomSpot.y, viewSize, holder),
     );
+
+    final implicitAnimation =
+        holder.appearAnimationType == LineChartEntryAnimation.original;
+
+    var doClip = false;
+    var clipLeft = 0.0;
+
+    if (!implicitAnimation) {
+      doClip = true;
+      final progress = holder.animationProgress;
+
+      final leftMostX = getPixelX(barData.mostLeftSpot.x, viewSize, holder);
+      final rightMostX = getPixelX(barData.mostRightSpot.x, viewSize, holder);
+      clipLeft = leftMostX + (rightMostX - leftMostX) * progress;
+    }
+
     _barPaint
       ..setColorOrGradient(
         barData.color,
@@ -1065,7 +1187,23 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       ..transparentIfWidthIsZero();
 
     barPath = barPath.toDashedPath(barData.dashArray);
-    canvasWrapper.drawPath(barPath, _barPaint);
+
+    if (doClip) {
+      canvasWrapper
+        ..save()
+        ..clipRect(
+          Rect.fromLTRB(
+            0,
+            0,
+            clipLeft,
+            viewSize.height,
+          ),
+        )
+        ..drawPath(barPath, _barPaint)
+        ..restore();
+    } else {
+      canvasWrapper.drawPath(barPath, _barPaint);
+    }
   }
 
   @visibleForTesting

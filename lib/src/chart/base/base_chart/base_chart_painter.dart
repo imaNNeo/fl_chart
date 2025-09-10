@@ -1,5 +1,7 @@
 // coverage:ignore-file
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_entry_animation.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,24 @@ class BaseChartPainter<D extends BaseChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<D> holder,
   ) {}
+}
+
+class LineChartPaintHolder extends PaintHolder<LineChartData> {
+  /// Holds data for painting on canvas
+  const LineChartPaintHolder(
+    super.data,
+    super.targetData,
+    super.textScaler, [
+    super.chartVirtualRect,
+    this.appearAnimationType = LineChartEntryAnimation.original,
+    this.animationProgress = 1.0,
+  ]);
+
+  /// Defines the type of entrance animation for line charts
+  final LineChartEntryAnimation appearAnimationType;
+
+  /// Animation progress from 0.0 to 1.0
+  final double animationProgress;
 }
 
 /// Holds data for painting on canvas
