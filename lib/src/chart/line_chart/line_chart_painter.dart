@@ -65,8 +65,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     PaintHolder<LineChartData> holder,
   ) {
-    final data = holder.data;
-    if (holder.chartVirtualRect != null) {
+    final typedHolder = holder as LineChartPaintHolder;
+    final data = typedHolder.data;
+    if (typedHolder.chartVirtualRect != null) {
       canvasWrapper
         ..saveLayer(
           Offset.zero & canvasWrapper.size,
@@ -74,12 +75,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         )
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
-    super.paint(context, canvasWrapper, holder);
+    super.paint(context, canvasWrapper, typedHolder);
     if (data.lineBarsData.isEmpty) {
       return;
     }
 
-    if (data.clipData.any && holder.chartVirtualRect == null) {
+    if (data.clipData.any && typedHolder.chartVirtualRect == null) {
       canvasWrapper.saveLayer(
         Rect.fromLTWH(
           0,
@@ -90,16 +91,20 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         _clipPaint,
       );
 
-      clipToBorder(canvasWrapper, holder);
+      clipToBorder(canvasWrapper, typedHolder);
     }
 
     for (final betweenBarsData in data.betweenBarsData) {
       drawBetweenBarsArea(
-          canvasWrapper, data, betweenBarsData, holder as LineChartPaintHolder);
+        canvasWrapper,
+        data,
+        betweenBarsData,
+        typedHolder,
+      );
     }
 
     if (!data.extraLinesData.extraLinesOnTop) {
-      super.drawExtraLines(context, canvasWrapper, holder);
+      super.drawExtraLines(context, canvasWrapper, typedHolder);
     }
 
     final lineIndexDrawingInfo = <LineIndexDrawingInfo>[];
@@ -112,11 +117,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         continue;
       }
 
-      drawBarLine(canvasWrapper, barData, holder as LineChartPaintHolder);
-      drawDots(canvasWrapper, barData, holder as LineChartPaintHolder);
+      drawBarLine(canvasWrapper, barData, typedHolder, i);
+      drawDots(canvasWrapper, barData, typedHolder, i);
 
       if (data.extraLinesData.extraLinesOnTop) {
-        super.drawExtraLines(context, canvasWrapper, holder);
+        super.drawExtraLines(context, canvasWrapper, typedHolder);
       }
 
       final indicatorsData = data.lineTouchData
@@ -145,9 +150,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
     }
 
-    drawTouchedSpotsIndicator(canvasWrapper, lineIndexDrawingInfo, holder);
+    drawTouchedSpotsIndicator(canvasWrapper, lineIndexDrawingInfo, typedHolder);
 
-    if (data.clipData.any || holder.chartVirtualRect != null) {
+    if (data.clipData.any || typedHolder.chartVirtualRect != null) {
       canvasWrapper.restore();
     }
 
@@ -162,7 +167,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       drawErrorIndicatorData(
         canvasWrapper,
         barData,
-        holder,
+        typedHolder,
       );
     }
 
@@ -189,7 +194,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         data.lineTouchData.touchTooltipData,
         topSpot,
         tooltipSpots,
-        holder,
+        typedHolder,
       );
     }
   }
@@ -234,17 +239,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     LineChartBarData interpolatedBarData,
     LineChartPaintHolder holder,
+    int barIndex,
   ) {
     final viewSize = holder.getChartUsableSize(canvasWrapper.size);
 
     final implicitAnimation =
         holder.appearAnimationType == LineChartEntryAnimation.original;
 
-    // TODO (michalhazdra): optimize out the indexOf call
     final barData = implicitAnimation
         ? interpolatedBarData
-        : holder.targetData.lineBarsData[
-            holder.data.lineBarsData.indexOf(interpolatedBarData)];
+        : holder.targetData.lineBarsData[barIndex];
 
     final barList = barData.spots.splitByNullSpots();
 
@@ -361,6 +365,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     CanvasWrapper canvasWrapper,
     LineChartBarData interpolatedBarData,
     LineChartPaintHolder holder,
+    int barIndex,
   ) {
     if (!interpolatedBarData.dotData.show ||
         interpolatedBarData.spots.isEmpty) {
@@ -371,11 +376,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final implicitAnimation =
         holder.appearAnimationType == LineChartEntryAnimation.original;
 
-    // TODO (michalhazdra): optimize out the indexOf call
     final barData = implicitAnimation
         ? interpolatedBarData
-        : holder.targetData.lineBarsData[
-            holder.data.lineBarsData.indexOf(interpolatedBarData)];
+        : holder.targetData.lineBarsData[barIndex];
 
     final barXDelta = getBarLineXLength(barData, viewSize, holder);
 

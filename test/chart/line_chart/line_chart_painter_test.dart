@@ -95,8 +95,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -302,8 +301,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
 
       final mockUtils = MockUtils();
       Utils.changeInstance(mockUtils);
@@ -474,8 +472,7 @@ void main() {
       final data = LineChartData(lineBarsData: [barData]);
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -484,6 +481,7 @@ void main() {
         mockCanvasWrapper,
         barData,
         holder,
+        0,
       );
 
       verify(mockCanvasWrapper.drawPath(any, any)).called(1);
@@ -505,8 +503,7 @@ void main() {
       final data = LineChartData(lineBarsData: [barData]);
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -515,6 +512,7 @@ void main() {
         mockCanvasWrapper,
         barData,
         holder,
+        0,
       );
 
       verify(mockCanvasWrapper.drawPath(any, any)).called(2);
@@ -537,8 +535,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -547,6 +544,7 @@ void main() {
         mockCanvasWrapper,
         barData,
         holder,
+        0,
       );
 
       final verificationResult =
@@ -599,8 +597,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -637,8 +634,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -647,6 +643,7 @@ void main() {
         mockCanvasWrapper,
         barData,
         holder,
+        0,
       );
 
       verifyNever(mockCanvasWrapper.drawDot(any, any, any));
@@ -667,8 +664,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -677,6 +673,7 @@ void main() {
         mockCanvasWrapper,
         barData,
         holder,
+        0,
       );
 
       verifyNever(mockCanvasWrapper.drawDot(any, any, any));
@@ -703,8 +700,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -713,6 +709,7 @@ void main() {
         mockCanvasWrapper,
         barData,
         holder,
+        0,
       );
 
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(5);
@@ -744,8 +741,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -754,6 +750,7 @@ void main() {
         mockCanvasWrapper,
         barData,
         holder,
+        0,
       );
 
       verifyInOrder([
@@ -1559,8 +1556,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -1634,8 +1630,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -1741,8 +1736,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -1816,8 +1810,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -2086,8 +2079,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -2137,8 +2129,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
@@ -2194,8 +2185,7 @@ void main() {
       );
 
       final lineChartPainter = LineChartPainter();
-      final holder =
-          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final holder = LineChartPaintHolder(data, data, TextScaler.noScaling);
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());

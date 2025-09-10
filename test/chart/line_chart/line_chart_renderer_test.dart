@@ -49,6 +49,8 @@ void main() {
       targetData,
       textScaler,
       null,
+      LineChartEntryAnimation.original,
+      1,
       canBeScaled: false,
     );
 
@@ -137,6 +139,8 @@ void main() {
         targetData,
         textScaler,
         null,
+        LineChartEntryAnimation.original,
+        1,
         canBeScaled: false,
       );
 
@@ -156,6 +160,8 @@ void main() {
         targetData,
         textScaler,
         null,
+        LineChartEntryAnimation.original,
+        1,
         canBeScaled: false,
       );
 
