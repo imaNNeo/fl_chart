@@ -77,7 +77,11 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         canBeScaled: widget.transformationConfig.scaleAxis != FlScaleAxis.none,
         animationProgress: animation.value,
       ),
-      data: showingData,
+      data: _withTouchedIndicators(
+        _lineChartDataTween!.evaluate(animation),
+      ),
+      targetData: _withTouchedIndicators(showingData),
+      animationType: widget.animationType,
     );
   }
 

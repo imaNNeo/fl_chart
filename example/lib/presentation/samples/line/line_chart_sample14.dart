@@ -112,29 +112,6 @@ class _LineChartSample14State extends State<LineChartSample14> {
     );
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 15,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '10K';
-        break;
-      case 3:
-        text = '30K';
-        break;
-      case 5:
-        text = '50K';
-        break;
-      default:
-        return Container();
-    }
-
-    return Text(text, style: style, textAlign: TextAlign.left);
-  }
-
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
@@ -154,6 +131,25 @@ class _LineChartSample14State extends State<LineChartSample14> {
             strokeWidth: 1,
           );
         },
+      ),
+      extraLinesData: ExtraLinesData(
+        horizontalLines: [
+          HorizontalLine(
+            y: 3,
+            color: AppColors.contentColorRed,
+            strokeWidth: 2,
+            dashArray: [5, 5],
+            label: HorizontalLineLabel(
+              show: true,
+              alignment: Alignment.topRight,
+              style: const TextStyle(
+                color: AppColors.contentColorRed,
+                fontWeight: FontWeight.bold,
+              ),
+              labelResolver: (line) => 'Target',
+            ),
+          ),
+        ],
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -175,7 +171,7 @@ class _LineChartSample14State extends State<LineChartSample14> {
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
+            getTitlesWidget: (value, meta) => Text(value.toString()),
             reservedSize: 42,
           ),
         ),
@@ -185,9 +181,9 @@ class _LineChartSample14State extends State<LineChartSample14> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: useSecondDataSet ? 18 : 11,
       minY: 0,
-      maxY: 6,
+      maxY: useSecondDataSet ? 12 : 6,
       lineBarsData: [
         LineChartBarData(
           spots: useSecondDataSet
@@ -196,9 +192,9 @@ class _LineChartSample14State extends State<LineChartSample14> {
                   FlSpot(1.5, 4),
                   FlSpot(3.2, 2.5),
                   FlSpot(5.1, 5.5),
-                  FlSpot(7.3, 1.8),
-                  FlSpot(9.2, 4.2),
-                  FlSpot(11, 2.8),
+                  FlSpot(7.3, 4.8),
+                  FlSpot(9.2, 9.2),
+                  FlSpot(18, 11.8),
                 ]
               : const [
                   FlSpot(0, 3),

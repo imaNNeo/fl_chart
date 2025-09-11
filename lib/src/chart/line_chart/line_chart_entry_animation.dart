@@ -1,5 +1,9 @@
 enum LineChartEntryAnimation {
   original,
   leftToRightSlideAll,
-  leftToRightSlideWithoutPoints,
+  leftToRightSlideWithoutPoints;
+
+  bool get isSlideAnimation =>
+      this == LineChartEntryAnimation.leftToRightSlideAll ||
+      this == LineChartEntryAnimation.leftToRightSlideWithoutPoints;
 }
