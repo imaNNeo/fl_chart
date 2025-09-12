@@ -4,6 +4,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_data.dart';
 import 'package:fl_chart/src/chart/base/base_chart/fl_touch_event.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_data.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_entry_animation.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_renderer.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +23,7 @@ class LineChart extends ImplicitlyAnimatedWidget {
     super.key,
     super.duration = const Duration(milliseconds: 150),
     super.curve = Curves.linear,
+    this.animationType = LineChartEntryAnimation.original,
     this.transformationConfig = const FlTransformationConfig(),
   });
 
@@ -30,6 +32,9 @@ class LineChart extends ImplicitlyAnimatedWidget {
 
   /// {@macro fl_chart.AxisChartScaffoldWidget.transformationConfig}
   final FlTransformationConfig transformationConfig;
+
+  /// Defines the type of entrance animation for line charts
+  final LineChartEntryAnimation animationType;
 
   /// We pass this key to our renderers which are supposed to
   /// render the chart itself (without anything around the chart).
@@ -67,10 +72,16 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
         ),
         targetData: _withTouchedIndicators(showingData),
         key: widget.chartRendererKey,
+        appearAnimationType: widget.animationType,
         chartVirtualRect: chartVirtualRect,
         canBeScaled: widget.transformationConfig.scaleAxis != FlScaleAxis.none,
+        animationProgress: animation.value,
       ),
-      data: showingData,
+      data: _withTouchedIndicators(
+        _lineChartDataTween!.evaluate(animation),
+      ),
+      targetData: _withTouchedIndicators(showingData),
+      animationType: widget.animationType,
     );
   }
 
@@ -161,11 +172,25 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
+    final targetData = _getData();
+
+    LineChartData? beginData;
+    if (widget.animationType != LineChartEntryAnimation.original &&
+        _lineChartDataTween == null) {
+      beginData = targetData.copyWith(
+        lineBarsData: targetData.lineBarsData
+            .map((barData) => barData.copyWith(spots: []))
+            .toList(),
+      );
+    }
+
     _lineChartDataTween = visitor(
       _lineChartDataTween,
-      _getData(),
-      (dynamic value) =>
-          LineChartDataTween(begin: value as LineChartData, end: widget.data),
+      targetData,
+      (dynamic value) => LineChartDataTween(
+        begin: beginData ?? (value as LineChartData),
+        end: targetData,
+      ),
     ) as LineChartDataTween?;
   }
 }

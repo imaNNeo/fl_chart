@@ -3,6 +3,7 @@ import 'package:fl_chart/src/chart/base/axis_chart/scale_axis.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_widget.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/transformation_config.dart';
 import 'package:fl_chart/src/chart/base/custom_interactive_viewer.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_entry_animation.dart';
 import 'package:fl_chart/src/extensions/fl_titles_data_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,8 @@ class AxisChartScaffoldWidget extends StatefulWidget {
     super.key,
     required this.chartBuilder,
     required this.data,
+    this.targetData,
+    this.animationType,
     this.transformationConfig = const FlTransformationConfig(),
   });
 
@@ -46,6 +49,12 @@ class AxisChartScaffoldWidget extends StatefulWidget {
 
   /// The data to build the chart.
   final AxisChartData data;
+
+  /// The target data for static axis positioning.
+  final AxisChartData? targetData;
+
+  /// The animation type to determine axis behavior.
+  final LineChartEntryAnimation? animationType;
 
   /// {@template fl_chart.AxisChartScaffoldWidget.transformationConfig}
   /// The transformation configuration of the chart.
@@ -61,6 +70,11 @@ class AxisChartScaffoldWidget extends StatefulWidget {
 
 class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   late TransformationController _transformationController;
+
+  /// Get the appropriate data for axis calculations
+  AxisChartData get _axisData => widget.animationType?.isSlideAnimation == true
+      ? (widget.targetData ?? widget.data)
+      : widget.data;
 
   final _chartKey = GlobalKey();
 
@@ -164,43 +178,48 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   }
 
   bool get showLeftTitles {
-    if (!widget.data.titlesData.show) {
+    final titlesData = _axisData.titlesData;
+    if (!titlesData.show) {
       return false;
     }
-    final showAxisTitles = widget.data.titlesData.leftTitles.showAxisTitles;
-    final showSideTitles = widget.data.titlesData.leftTitles.showSideTitles;
+    final showAxisTitles = titlesData.leftTitles.showAxisTitles;
+    final showSideTitles = titlesData.leftTitles.showSideTitles;
     return showAxisTitles || showSideTitles;
   }
 
   bool get showRightTitles {
-    if (!widget.data.titlesData.show) {
+    final titlesData = _axisData.titlesData;
+    if (!titlesData.show) {
       return false;
     }
-    final showAxisTitles = widget.data.titlesData.rightTitles.showAxisTitles;
-    final showSideTitles = widget.data.titlesData.rightTitles.showSideTitles;
+    final showAxisTitles = titlesData.rightTitles.showAxisTitles;
+    final showSideTitles = titlesData.rightTitles.showSideTitles;
     return showAxisTitles || showSideTitles;
   }
 
   bool get showTopTitles {
-    if (!widget.data.titlesData.show) {
+    final titlesData = _axisData.titlesData;
+    if (!titlesData.show) {
       return false;
     }
-    final showAxisTitles = widget.data.titlesData.topTitles.showAxisTitles;
-    final showSideTitles = widget.data.titlesData.topTitles.showSideTitles;
+    final showAxisTitles = titlesData.topTitles.showAxisTitles;
+    final showSideTitles = titlesData.topTitles.showSideTitles;
     return showAxisTitles || showSideTitles;
   }
 
   bool get showBottomTitles {
-    if (!widget.data.titlesData.show) {
+    final titlesData = _axisData.titlesData;
+    if (!titlesData.show) {
       return false;
     }
-    final showAxisTitles = widget.data.titlesData.bottomTitles.showAxisTitles;
-    final showSideTitles = widget.data.titlesData.bottomTitles.showSideTitles;
+    final showAxisTitles = titlesData.bottomTitles.showAxisTitles;
+    final showSideTitles = titlesData.bottomTitles.showSideTitles;
     return showAxisTitles || showSideTitles;
   }
 
   List<Widget> _stackWidgets(BoxConstraints constraints) {
-    final margin = widget.data.titlesData.allSidesPadding;
+    final titlesData = _axisData.titlesData;
+    final margin = titlesData.allSidesPadding;
     final borderData = widget.data.borderData.isVisible()
         ? widget.data.borderData.border
         : null;
@@ -263,7 +282,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         insertIndex(widget.data.titlesData.leftTitles.drawBelowEverything),
         SideTitlesWidget(
           side: AxisSide.left,
-          axisChartData: widget.data,
+          axisChartData: _axisData,
           parentSize: constraints.biggest,
           chartVirtualRect: adjustedRect,
         ),
@@ -275,7 +294,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         insertIndex(widget.data.titlesData.topTitles.drawBelowEverything),
         SideTitlesWidget(
           side: AxisSide.top,
-          axisChartData: widget.data,
+          axisChartData: _axisData,
           parentSize: constraints.biggest,
           chartVirtualRect: adjustedRect,
         ),
@@ -287,7 +306,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         insertIndex(widget.data.titlesData.rightTitles.drawBelowEverything),
         SideTitlesWidget(
           side: AxisSide.right,
-          axisChartData: widget.data,
+          axisChartData: _axisData,
           parentSize: constraints.biggest,
           chartVirtualRect: adjustedRect,
         ),
@@ -299,7 +318,7 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         insertIndex(widget.data.titlesData.bottomTitles.drawBelowEverything),
         SideTitlesWidget(
           side: AxisSide.bottom,
-          axisChartData: widget.data,
+          axisChartData: _axisData,
           parentSize: constraints.biggest,
           chartVirtualRect: adjustedRect,
         ),

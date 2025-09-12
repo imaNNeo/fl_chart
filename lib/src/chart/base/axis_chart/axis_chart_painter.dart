@@ -53,7 +53,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
   @visibleForTesting
   void drawGrid(CanvasWrapper canvasWrapper, PaintHolder<D> holder) {
-    final data = holder.data;
+    final data = getDataFromHolder(holder);
+
     if (!data.gridData.show) {
       return;
     }
@@ -252,7 +253,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     PaintHolder<D> holder,
     Size viewSize,
   ) {
-    for (final line in holder.data.extraLinesData.horizontalLines) {
+    final data = getDataFromHolder(holder);
+    for (final line in data.extraLinesData.horizontalLines) {
       final from = Offset(0, getPixelY(line.y, viewSize, holder));
       final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
 
@@ -357,7 +359,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     PaintHolder<D> holder,
     Size viewSize,
   ) {
-    for (final line in holder.data.extraLinesData.verticalLines) {
+    final data = getDataFromHolder(holder);
+    for (final line in data.extraLinesData.verticalLines) {
       final from = Offset(getPixelX(line.x, viewSize, holder), 0);
       final to = Offset(getPixelX(line.x, viewSize, holder), viewSize.height);
 
@@ -467,7 +470,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
   ) {
     final usableSize = holder.getChartUsableSize(viewSize);
 
-    final pixelXUnadjusted = _getPixelX(spotX, holder.data, usableSize);
+    final data = getDataFromHolder(holder);
+
+    final pixelXUnadjusted = _getPixelX(spotX, data, usableSize);
 
     // Adjust the position relative to the canvas if chartVirtualRect
     // is provided
@@ -492,7 +497,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
   ) {
     final usableSize = holder.getChartUsableSize(viewSize);
 
-    final pixelYUnadjusted = _getPixelY(spotY, holder.data, usableSize);
+    final data = getDataFromHolder(holder);
+
+    final pixelYUnadjusted = _getPixelY(spotY, data, usableSize);
 
     // Adjust the position relative to the canvas if chartVirtualRect
     // is provided
@@ -519,10 +526,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final adjustment = holder.chartVirtualRect?.left ?? 0;
     final unadjustedPixelX = pixelX - adjustment;
 
-    final deltaX = holder.data.maxX - holder.data.minX;
-    if (deltaX == 0.0) return holder.data.minX;
+    final axisData = getDataFromHolder(holder);
 
-    return (unadjustedPixelX / usableSize.width) * deltaX + holder.data.minX;
+    final deltaX = axisData.maxX - axisData.minX;
+    if (deltaX == 0.0) return axisData.minX;
+
+    return (unadjustedPixelX / usableSize.width) * deltaX + axisData.minX;
   }
 
   /// Converts pixel Y position to axis Y coordinates
@@ -535,10 +544,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
     final adjustment = holder.chartVirtualRect?.top ?? 0;
     final unadjustedPixelY = pixelY - adjustment;
 
-    final deltaY = holder.data.maxY - holder.data.minY;
-    if (deltaY == 0.0) return holder.data.minY;
+    final axisData = getDataFromHolder(holder);
 
-    return holder.data.maxY - (unadjustedPixelY / usableSize.height) * deltaY;
+    final deltaY = axisData.maxY - axisData.minY;
+    if (deltaY == 0.0) return axisData.minY;
+
+    return axisData.maxY - (unadjustedPixelY / usableSize.height) * deltaY;
   }
 
   /// Converts pixel coordinates to chart coordinates
@@ -567,4 +578,19 @@ abstract class AxisChartPainter<D extends AxisChartData>
         FLHorizontalAlignment.left =>
           dx - tooltipWidth + tooltipHorizontalOffset,
       };
+
+  D getDataFromHolder(
+    PaintHolder<D> holder,
+  ) {
+    if (holder is LineChartPaintHolder) {
+      final animation = (holder as LineChartPaintHolder).appearAnimationType;
+      if (animation.isSlideAnimation) {
+        return holder.targetData;
+      } else {
+        return holder.data;
+      }
+    } else {
+      return holder.data;
+    }
+  }
 }

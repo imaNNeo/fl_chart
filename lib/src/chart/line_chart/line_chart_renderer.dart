@@ -14,14 +14,18 @@ class LineChartLeaf extends LeafRenderObjectWidget {
     super.key,
     required this.data,
     required this.targetData,
+    required this.appearAnimationType,
     required this.canBeScaled,
     required this.chartVirtualRect,
+    this.animationProgress = 1.0,
   });
 
   final LineChartData data;
   final LineChartData targetData;
+  final LineChartEntryAnimation appearAnimationType;
   final Rect? chartVirtualRect;
   final bool canBeScaled;
+  final double animationProgress;
 
   @override
   RenderLineChart createRenderObject(BuildContext context) => RenderLineChart(
@@ -30,6 +34,8 @@ class LineChartLeaf extends LeafRenderObjectWidget {
         targetData,
         MediaQuery.of(context).textScaler,
         chartVirtualRect,
+        appearAnimationType,
+        animationProgress,
         canBeScaled: canBeScaled,
       );
 
@@ -41,7 +47,9 @@ class LineChartLeaf extends LeafRenderObjectWidget {
       ..textScaler = MediaQuery.of(context).textScaler
       ..buildContext = context
       ..chartVirtualRect = chartVirtualRect
-      ..canBeScaled = canBeScaled;
+      ..canBeScaled = canBeScaled
+      ..appearAnimationType = appearAnimationType
+      ..animationProgress = animationProgress;
   }
 }
 // coverage:ignore-end
@@ -53,12 +61,16 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     LineChartData data,
     LineChartData targetData,
     TextScaler textScaler,
-    Rect? chartVirtualRect, {
+    Rect? chartVirtualRect,
+    LineChartEntryAnimation appearAnimationType,
+    double animationProgress, {
     required bool canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
         _chartVirtualRect = chartVirtualRect,
+        _appearAnimationType = appearAnimationType,
+        _animationProgress = animationProgress,
         super(
           targetData.lineTouchData,
           context,
@@ -98,6 +110,22 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     markNeedsPaint();
   }
 
+  LineChartEntryAnimation get appearAnimationType => _appearAnimationType;
+  LineChartEntryAnimation _appearAnimationType;
+  set appearAnimationType(LineChartEntryAnimation value) {
+    if (_appearAnimationType == value) return;
+    _appearAnimationType = value;
+    markNeedsPaint();
+  }
+
+  double get animationProgress => _animationProgress;
+  double _animationProgress;
+  set animationProgress(double value) {
+    if (_animationProgress == value) return;
+    _animationProgress = value;
+    markNeedsPaint();
+  }
+
   // We couldn't mock [size] property of this class, that's why we have this
   @visibleForTesting
   Size? mockTestSize;
@@ -105,8 +133,14 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   @visibleForTesting
   LineChartPainter painter = LineChartPainter();
 
-  PaintHolder<LineChartData> get paintHolder =>
-      PaintHolder(data, targetData, textScaler, chartVirtualRect);
+  PaintHolder<LineChartData> get paintHolder => LineChartPaintHolder(
+        data,
+        targetData,
+        textScaler,
+        chartVirtualRect,
+        appearAnimationType,
+        animationProgress,
+      );
 
   @override
   void paint(PaintingContext context, Offset offset) {
