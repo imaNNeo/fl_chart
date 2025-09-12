@@ -9,6 +9,20 @@ import 'package:fl_chart/src/extensions/color_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart';
 
+enum TradeSignalType {
+  /// Buy signal
+  buy,
+
+  /// Sell signal
+  sell,
+
+  /// Trade signal (both buy and sell)
+  trade,
+
+  /// No signal
+  none,
+}
+
 /// [CandlestickChart] needs this class to render itself.
 ///
 /// It holds data needed to draw a candlestick chart,
@@ -238,7 +252,9 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
     required this.low,
     required this.close,
     bool? show,
+    TradeSignalType? tradeSignalType,
   })  : show = show ?? true,
+        tradeSignalType = tradeSignalType ?? TradeSignalType.none,
         super(x, high);
 
   /// The open value of a specific candlestick.
@@ -255,6 +271,9 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
 
   /// Determines show or hide the spot.
   final bool show;
+
+  /// The trade signal type for this candlestick.
+  final TradeSignalType tradeSignalType;
 
   /// Checks if the candlestick is up (close > open).
   ///
@@ -275,6 +294,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
     double? low,
     double? close,
     bool? show,
+    TradeSignalType? tradeSignalType,
   }) {
     if (y != null) {
       throw Exception(
@@ -295,6 +315,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
       low: low ?? this.low,
       close: close ?? this.close,
       show: show ?? this.show,
+      tradeSignalType: tradeSignalType ?? this.tradeSignalType,
     );
   }
 
@@ -307,6 +328,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
         low: lerpDouble(a.low, b.low, t)!,
         close: lerpDouble(a.close, b.close, t)!,
         show: b.show,
+        tradeSignalType: b.tradeSignalType,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -318,6 +340,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
         low,
         close,
         show,
+        tradeSignalType,
       ];
 }
 
@@ -896,6 +919,102 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
           ..style = PaintingStyle.stroke,
       );
     }
+    // Draw trade signal balloon if present
+    if (spot.tradeSignalType != TradeSignalType.none) {
+      _paintSignalBalloon(
+        canvas,
+        spot.tradeSignalType,
+        xOffsetInCanvas,
+        highYOffsetInCanvas,
+        style,
+      );
+    }
+  }
+
+  /// Paint a signal balloon above the candlestick
+  void _paintSignalBalloon(
+    Canvas canvas,
+    TradeSignalType signalType,
+    double xOffset,
+    double highYOffset,
+    CandlestickStyle style,
+  ) {
+    // Balloon dimensions
+    const balloonRadius = 8.0;
+    const tailHeight = 4.0;
+    const totalBalloonHeight = balloonRadius * 2 + tailHeight;
+
+    // Position balloon above the high point
+    final balloonCenterX = xOffset;
+    final balloonCenterY = highYOffset - totalBalloonHeight - 2.0;
+
+    // Determine colors and text based on signal type
+    var balloonColor = style.lineColor;
+    String balloonText;
+
+    switch (signalType) {
+      case TradeSignalType.buy:
+        balloonText = 'B';
+      case TradeSignalType.sell:
+        balloonText = 'S';
+      case TradeSignalType.trade:
+        balloonColor = const Color(0xFF2196F3); // Blue color
+        balloonText = 'T';
+      case TradeSignalType.none:
+        return; // Should not happen, but just in case
+    }
+
+    // Create circular part of balloon
+    final balloonCircle = Path()
+      ..addOval(
+        Rect.fromCircle(
+          center: Offset(balloonCenterX, balloonCenterY),
+          radius: balloonRadius,
+        ),
+      );
+
+    // Create tail (triangle pointing down to candlestick)
+    final tailTopY = balloonCenterY + balloonRadius - 2;
+    final tailTipX = balloonCenterX;
+    final tailTipY = balloonCenterY + balloonRadius + tailHeight;
+    final tailLeftX = balloonCenterX - 3.0;
+    final tailRightX = balloonCenterX + 3.0;
+
+    final balloonTail = Path()
+      ..moveTo(tailLeftX, tailTopY)
+      ..lineTo(tailTipX, tailTipY)
+      ..lineTo(tailRightX, tailTopY)
+      ..close();
+
+    // Paint both circle and tail with same color
+    final balloonPaint = Paint()
+      ..color = balloonColor
+      ..style = PaintingStyle.fill;
+
+    canvas
+      ..drawPath(balloonCircle, balloonPaint)
+      ..drawPath(balloonTail, balloonPaint);
+
+    // Paint text inside the balloon
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: balloonText,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    // Center the text in the balloon circle
+    final textPosition = Offset(
+      balloonCenterX - textPainter.width / 2,
+      balloonCenterY - textPainter.height / 2,
+    );
+
+    textPainter.paint(canvas, textPosition);
   }
 
   @override

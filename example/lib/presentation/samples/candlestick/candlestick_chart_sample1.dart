@@ -151,12 +151,24 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
                           .map((entry) {
                         final index = entry.key;
                         final data = entry.value;
+
+                        // Add different signal types for testing
+                        TradeSignalType signalType = TradeSignalType.none;
+                        if (index % 8 == 0 + (_currentMonthIndex % 8)) {
+                          signalType = TradeSignalType.buy;
+                        } else if (index % 8 == 3 + (_currentMonthIndex % 8)) {
+                          signalType = TradeSignalType.sell;
+                        } else if (index % 8 == 6 + (_currentMonthIndex % 8)) {
+                          signalType = TradeSignalType.trade;
+                        }
+
                         return CandlestickSpot(
                           x: index.toDouble(),
                           open: data.open,
                           high: data.high,
                           low: data.low,
                           close: data.close,
+                          tradeSignalType: signalType,
                         );
                       }).toList(),
                       minX: 0,

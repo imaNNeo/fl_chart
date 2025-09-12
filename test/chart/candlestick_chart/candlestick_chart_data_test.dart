@@ -295,6 +295,101 @@ void main() {
             ),
         true,
       );
+      
+      // Test trade signal type equality
+      expect(
+        candlestickSpot3 ==
+            candlestickSpot3.copyWith(
+              tradeSignalType: TradeSignalType.buy,
+            ),
+        false,
+      );
+      expect(
+        candlestickSpot3 ==
+            candlestickSpot3.copyWith(
+              tradeSignalType: TradeSignalType.none,
+            ),
+        true,
+      );
+    });
+
+    test('CandlestickSpot tradeSignalType tests', () {
+      // Test default signal type
+      final defaultSpot = CandlestickSpot(
+        x: 0,
+        open: 10,
+        high: 15,
+        low: 8,
+        close: 12,
+      );
+      expect(defaultSpot.tradeSignalType, TradeSignalType.none);
+
+      // Test explicit signal types
+      final buySpot = CandlestickSpot(
+        x: 1,
+        open: 10,
+        high: 15,
+        low: 8,
+        close: 12,
+        tradeSignalType: TradeSignalType.buy,
+      );
+      expect(buySpot.tradeSignalType, TradeSignalType.buy);
+
+      final sellSpot = CandlestickSpot(
+        x: 2,
+        open: 10,
+        high: 15,
+        low: 8,
+        close: 12,
+        tradeSignalType: TradeSignalType.sell,
+      );
+      expect(sellSpot.tradeSignalType, TradeSignalType.sell);
+
+      final tradeSpot = CandlestickSpot(
+        x: 3,
+        open: 10,
+        high: 15,
+        low: 8,
+        close: 12,
+        tradeSignalType: TradeSignalType.trade,
+      );
+      expect(tradeSpot.tradeSignalType, TradeSignalType.trade);
+
+      // Test copyWith preserves signal type
+      final copiedSpot = buySpot.copyWith(x: 5);
+      expect(copiedSpot.tradeSignalType, TradeSignalType.buy);
+      expect(copiedSpot.x, 5);
+
+      // Test copyWith changes signal type
+      final modifiedSpot = buySpot.copyWith(tradeSignalType: TradeSignalType.sell);
+      expect(modifiedSpot.tradeSignalType, TradeSignalType.sell);
+      expect(modifiedSpot.x, 1); // Other values preserved
+    });
+
+    test('CandlestickSpot lerp with tradeSignalType', () {
+      final spotA = CandlestickSpot(
+        x: 1,
+        open: 10,
+        high: 15,
+        low: 8,
+        close: 12,
+        tradeSignalType: TradeSignalType.buy,
+      );
+
+      final spotB = CandlestickSpot(
+        x: 2,
+        open: 20,
+        high: 25,
+        low: 18,
+        close: 22,
+        tradeSignalType: TradeSignalType.sell,
+      );
+
+      // Test lerp uses spotB's signal type (as per implementation)
+      final lerpedSpot = CandlestickSpot.lerp(spotA, spotB, 0.5);
+      expect(lerpedSpot.tradeSignalType, TradeSignalType.sell);
+      expect(lerpedSpot.x, 1.5);
+      expect(lerpedSpot.open, 15.0);
     });
 
     test('CandlestickTouchData equality test', () {
