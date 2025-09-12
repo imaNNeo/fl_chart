@@ -90,25 +90,10 @@ class _LineChartSample14State extends State<LineChartSample14> {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('FEB', style: style);
-        break;
-      case 5:
-        text = const Text('MAY', style: style);
-        break;
-      case 8:
-        text = const Text('AUG', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
 
     return SideTitleWidget(
       meta: meta,
-      child: text,
+      child: Text(value.toInt().toString(), style: style),
     );
   }
 

@@ -253,7 +253,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     PaintHolder<D> holder,
     Size viewSize,
   ) {
-    for (final line in holder.data.extraLinesData.horizontalLines) {
+    final data = getDataFromHolder(holder);
+    for (final line in data.extraLinesData.horizontalLines) {
       final from = Offset(0, getPixelY(line.y, viewSize, holder));
       final to = Offset(viewSize.width, getPixelY(line.y, viewSize, holder));
 
@@ -358,7 +359,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
     PaintHolder<D> holder,
     Size viewSize,
   ) {
-    for (final line in holder.data.extraLinesData.verticalLines) {
+    final data = getDataFromHolder(holder);
+    for (final line in data.extraLinesData.verticalLines) {
       final from = Offset(getPixelX(line.x, viewSize, holder), 0);
       final to = Offset(getPixelX(line.x, viewSize, holder), viewSize.height);
 
