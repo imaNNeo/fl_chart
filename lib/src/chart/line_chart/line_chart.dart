@@ -172,11 +172,25 @@ class _LineChartState extends AnimatedWidgetBaseState<LineChart> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
+    final targetData = _getData();
+
+    LineChartData? beginData;
+    if (widget.animationType != LineChartEntryAnimation.original &&
+        _lineChartDataTween == null) {
+      beginData = targetData.copyWith(
+        lineBarsData: targetData.lineBarsData
+            .map((barData) => barData.copyWith(spots: []))
+            .toList(),
+      );
+    }
+
     _lineChartDataTween = visitor(
       _lineChartDataTween,
-      _getData(),
-      (dynamic value) =>
-          LineChartDataTween(begin: value as LineChartData, end: widget.data),
+      targetData,
+      (dynamic value) => LineChartDataTween(
+        begin: beginData ?? (value as LineChartData),
+        end: targetData,
+      ),
     ) as LineChartDataTween?;
   }
 }
