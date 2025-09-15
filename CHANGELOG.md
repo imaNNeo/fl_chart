@@ -1,3 +1,6 @@
+## new version
+* **IMPROVEMENT** (by @imaNNeo) Remove the `vector_math` dependency, it seems we're not using it anymore. #1985
+
 ## 1.1.0
 * **FEATURE** (by @kamilJ96) Add `gradient` property inside our `BarChartRodStackItem` to be able to render gradient (along with the possibility to render a solid color), #919
 * **FEATURE** (by @alettsy) Add `sideTitleAlignment` property in our `AxisTitles` to allow you to control the alignment of side titles (for example show them inside the chart), #1946
