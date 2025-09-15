@@ -18,7 +18,7 @@ dependencies:
   equatable: ^2.0.7
   flutter:
     sdk: flutter
-  vector_math: ^2.1.4
+  vector_math: ^2.2.0
 
 dev_dependencies:
   build_runner: ^2.4.15
