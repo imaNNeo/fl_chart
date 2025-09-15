@@ -21,7 +21,7 @@ dependencies:
   vector_math: ^2.2.0
 
 dev_dependencies:
-  build_runner: ^2.4.15
+  build_runner: ^2.8.0
   flutter_test:
     sdk: flutter
   mockito: ^5.4.6
