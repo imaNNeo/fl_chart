@@ -1,3 +1,9 @@
+## newVersion
+* **IMPROVEMENT** (by @imaNNeo) Upgrade `vector_math` dependency to `2.2.0`, #1985
+* **IMPROVEMENT** (by @imaNNeo) Upgrade `build_runner` (dev) dependency to `2.8.0`
+* **IMPROVEMENT** (by @imaNNeo) Upgrade `mockito` (dev) dependency to `5.5.1`
+* **IMPROVEMENT** (by @imaNNeo) Upgrade `very_good_analysis` (dev) dependency to `9.0.0`
+
 ## 1.1.0
 * **FEATURE** (by @kamilJ96) Add `gradient` property inside our `BarChartRodStackItem` to be able to render gradient (along with the possibility to render a solid color), #919
 * **FEATURE** (by @alettsy) Add `sideTitleAlignment` property in our `AxisTitles` to allow you to control the alignment of side titles (for example show them inside the chart), #1946
