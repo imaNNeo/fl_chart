@@ -62,7 +62,7 @@ class AxisChartScaffoldWidget extends StatefulWidget {
 class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
   late TransformationController _transformationController;
 
-  final _chartKey = GlobalKey();
+  final GlobalKey _chartKey = GlobalKey();
 
   FlTransformationConfig get _transformationConfig =>
       widget.transformationConfig;
