@@ -25,7 +25,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.5.1
-  very_good_analysis: ^7.0.0
+  very_good_analysis: ^9.0.0
 
 screenshots:
   - description: "FL Chart Logo"
