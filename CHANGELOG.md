@@ -1,4 +1,4 @@
-## newVersion
+## 1.1.1
 * **IMPROVEMENT** (by @imaNNeo) Upgrade `vector_math` dependency to `2.2.0`, #1985
 * **IMPROVEMENT** (by @imaNNeo) Upgrade `build_runner` (dev) dependency to `2.8.0`
 * **IMPROVEMENT** (by @imaNNeo) Upgrade `mockito` (dev) dependency to `5.5.1`
