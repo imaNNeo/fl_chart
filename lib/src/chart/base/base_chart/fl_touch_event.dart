@@ -113,10 +113,13 @@ class FlPanEndEvent extends FlTouchEvent {
 /// [details].
 /// Inspired from [GestureTapDownCallback]
 class FlTapDownEvent extends FlTouchEvent {
-  const FlTapDownEvent(this.details);
+  const FlTapDownEvent(this.details, {this.secondary = false});
 
   /// Contains information of happened touch gesture
   final TapDownDetails details;
+
+  /// If this is considered to be a secondary button
+  final bool secondary;
 
   /// Represents the position of happened touch/pointer event
   @override
@@ -126,7 +129,10 @@ class FlTapDownEvent extends FlTouchEvent {
 /// When the pointer that previously triggered a [FlTapDownEvent] will not end up causing a tap.
 /// Inspired from [GestureTapCancelCallback]
 class FlTapCancelEvent extends FlTouchEvent {
-  const FlTapCancelEvent();
+  const FlTapCancelEvent({this.secondary = false});
+
+  /// If this is considered to be a secondary button
+  final bool secondary;
 }
 
 /// When a pointer that will trigger a tap has stopped contacting
@@ -136,10 +142,13 @@ class FlTapCancelEvent extends FlTouchEvent {
 /// in the [details].
 /// Inspired from [GestureTapUpCallback]
 class FlTapUpEvent extends FlTouchEvent {
-  const FlTapUpEvent(this.details);
+  const FlTapUpEvent(this.details, {this.secondary = false});
 
   /// Contains information of happened touch gesture
   final TapUpDetails details;
+
+  /// If this is considered to be a secondary button
+  final bool secondary;
 
   /// Represents the position of happened touch/pointer event
   @override
@@ -153,10 +162,13 @@ class FlTapUpEvent extends FlTouchEvent {
 ///
 /// Inspired from [GestureLongPressStartCallback]
 class FlLongPressStart extends FlTouchEvent {
-  const FlLongPressStart(this.details);
+  const FlLongPressStart(this.details, {this.secondary = false});
 
   /// Contains information of happened touch gesture
   final LongPressStartDetails details;
+
+  /// If this is considered to be a secondary button
+  final bool secondary;
 
   /// Represents the position of happened touch/pointer event
   @override
@@ -171,10 +183,13 @@ class FlLongPressStart extends FlTouchEvent {
 ///
 /// Inspired from [GestureLongPressMoveUpdateCallback]
 class FlLongPressMoveUpdate extends FlTouchEvent {
-  const FlLongPressMoveUpdate(this.details);
+  const FlLongPressMoveUpdate(this.details, {this.secondary = false});
 
   /// Contains information of happened touch gesture
   final LongPressMoveUpdateDetails details;
+
+  /// If this is considered to be a secondary button
+  final bool secondary;
 
   /// Represents the position of happened touch/pointer event
   @override
@@ -189,10 +204,13 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
 ///
 /// Inspired from [GestureLongPressEndCallback]
 class FlLongPressEnd extends FlTouchEvent {
-  const FlLongPressEnd(this.details);
+  const FlLongPressEnd(this.details, {this.secondary = false});
 
   /// Contains information of happened touch gesture
   final LongPressEndDetails details;
+
+  /// If this is considered to be a secondary button
+  final bool secondary;
 
   /// Represents the position of happened touch/pointer event
   @override
