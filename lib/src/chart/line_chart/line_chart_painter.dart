@@ -603,7 +603,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize, holder),
       );
 
-      final controlPoint1 = previous + temp;
+      var controlPoint1 = previous + temp;
+
+      /// Prevent controlPoint1 overshooting in the x-axis
+      if (barData.preventCurveOverShooting && controlPoint1.dx > current.dx) {
+        controlPoint1 = Offset(current.dx, controlPoint1.dy);
+      }
 
       /// if the isCurved is false, we set 0 for smoothness,
       /// it means we should not have any smoothness then we face with
@@ -625,7 +630,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         }
       }
 
-      final controlPoint2 = current - temp;
+      var controlPoint2 = current - temp;
+
+      /// Prevent controlPoint2 overshooting in the x-axis
+      if (barData.preventCurveOverShooting && controlPoint2.dx < previous.dx) {
+        controlPoint2 = Offset(previous.dx, controlPoint2.dy);
+      }
 
       path.cubicTo(
         controlPoint1.dx,
