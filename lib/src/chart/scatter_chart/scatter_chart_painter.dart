@@ -26,11 +26,16 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       ..strokeWidth = 1.0;
 
     _clipPaint = Paint();
+
+    _shadowTouchTooltipPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.black;
   }
 
   late Paint _bgTouchTooltipPaint;
   late Paint _borderTouchTooltipPaint;
   late Paint _clipPaint;
+  late Paint _shadowTouchTooltipPaint;
 
   /// Paints [ScatterChartData] into the provided canvas.
   @override
@@ -396,7 +401,22 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
     );
 
+    final shadowRoundedRect = RRect.fromRectAndCorners(
+      rect.shift(tooltipData.shadow.offset),
+      topLeft: tooltipData.tooltipBorderRadius.topLeft,
+      topRight: tooltipData.tooltipBorderRadius.topRight,
+      bottomLeft: tooltipData.tooltipBorderRadius.bottomLeft,
+      bottomRight: tooltipData.tooltipBorderRadius.bottomRight,
+    );
+
     _bgTouchTooltipPaint.color = tooltipData.getTooltipColor(showOnSpot);
+
+    _shadowTouchTooltipPaint
+      ..color = tooltipData.shadow.color
+      ..maskFilter = MaskFilter.blur(
+        BlurStyle.normal,
+        tooltipData.shadow.blurRadius,
+      );
 
     final rotateAngle = tooltipData.rotateAngle;
     final rectRotationOffset =
@@ -428,6 +448,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       angle: reverseQuarterTurnsAngle + rotateAngle,
       drawCallback: () {
         canvasWrapper
+          ..drawRRect(shadowRoundedRect, _shadowTouchTooltipPaint)
           ..drawRRect(roundedRect, _bgTouchTooltipPaint)
           ..drawRRect(roundedRect, _borderTouchTooltipPaint)
           ..drawText(drawingTextPainter, drawOffset);
