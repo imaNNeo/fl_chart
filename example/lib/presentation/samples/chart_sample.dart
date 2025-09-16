@@ -46,3 +46,9 @@ class CandlestickChartSample extends ChartSample {
   @override
   ChartType get type => ChartType.candlestick;
 }
+
+class StackedPieChartSample extends ChartSample {
+  StackedPieChartSample(super.number, super.builder);
+  @override
+  ChartType get type => ChartType.pie;
+}

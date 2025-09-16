@@ -135,6 +135,20 @@ List<PieChartSectionData>? lerpPieChartSectionDataList(
 ) =>
     lerpList(a, b, t, lerp: PieChartSectionData.lerp);
 
+List<StackedPieChartSectionData>? lerpStackedPieChartSectionDataList(
+  List<StackedPieChartSectionData>? a,
+  List<StackedPieChartSectionData>? b,
+  double t,
+) =>
+    lerpList(a, b, t, lerp: StackedPieChartSectionData.lerp);
+
+List<StackedPieChartSegmentData>? lerpStackedPieChartSegmentDataList(
+  List<StackedPieChartSegmentData>? a,
+  List<StackedPieChartSegmentData>? b,
+  double t,
+) =>
+    lerpList(a, b, t, lerp: StackedPieChartSegmentData.lerp);
+
 /// Lerps [ScatterSpot] list based on [t] value, check [Tween.lerp].
 List<ScatterSpot>? lerpScatterSpotList(
   List<ScatterSpot>? a,
