@@ -6,6 +6,13 @@ import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+enum BarPattern {
+  stripes,
+  squarePois,
+  circlePois,
+  none,
+}
+
 class BarChartSample1 extends StatefulWidget {
   BarChartSample1({super.key});
 
@@ -33,6 +40,39 @@ class BarChartSample1State extends State<BarChartSample1> {
   int touchedIndex = -1;
 
   bool isPlaying = false;
+  BarPattern pattern = BarPattern.none;
+  final stripesPainter = StripesPatternPainter(
+    stripesShader: StripesShader(),
+    width: 2,
+    gap: 8,
+    angle: 45,
+  );
+  final squarePoisPainter = SquarePoisPatternPainter(
+    poisShader: SquarePoisShader(),
+    color: AppColors.contentColorBlack,
+    squaresPerRow: 4,
+    gap: 2.0,
+    verticalGap: 2.0,
+    margin: 2.0,
+  );
+  final circlePoisPainter = CirclePoisPatternPainter(
+    poisShader: CirclePoisShader(),
+    color: AppColors.contentColorBlack,
+    gap: 2.0,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+
+    initializeShaders();
+  }
+
+  Future<void> initializeShaders() async {
+    await stripesPainter.initialize();
+    await squarePoisPainter.initialize();
+    await circlePoisPainter.initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +119,32 @@ class BarChartSample1State extends State<BarChartSample1> {
                 const SizedBox(
                   height: 12,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Bar pattern',
+                      style: TextStyle(
+                        color: AppColors.contentColorGreen.darken(),
+                        fontSize: 16,
+                      ),
+                    ),
+                    DropdownButton<BarPattern>(
+                      value: pattern,
+                      items: BarPattern.values
+                          .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e.name),
+                              ))
+                          .toList(),
+                      onChanged: (BarPattern? value) {
+                        setState(() {
+                          pattern = value ?? BarPattern.none;
+                        });
+                      },
+                    )
+                  ],
+                ),
               ],
             ),
           ),
@@ -107,6 +173,15 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
+  FlSurfacePainter? _getPainter() {
+    return switch (pattern) {
+      BarPattern.stripes => stripesPainter,
+      BarPattern.squarePois => squarePoisPainter,
+      BarPattern.circlePois => circlePoisPainter,
+      BarPattern.none => null,
+    };
+  }
+
   BarChartGroupData makeGroupData(
     int x,
     double y, {
@@ -123,6 +198,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           toY: isTouched ? y + 1 : y,
           color: isTouched ? widget.touchedBarColor : barColor,
           width: width,
+          surfacePainter: _getPainter(),
           borderSide: isTouched
               ? BorderSide(color: widget.touchedBarColor.darken(80))
               : const BorderSide(color: Colors.white, width: 0),

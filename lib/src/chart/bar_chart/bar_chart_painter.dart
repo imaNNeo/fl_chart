@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
@@ -390,6 +391,32 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               ),
               _barStrokePaint,
             );
+          }
+
+          // draw pattern painter overlay (on top of everything)
+          if (barRod.surfacePainter != null &&
+              (barRod.surfacePainter?.isInitialized ?? false)) {
+            final barRect = barRRect.getRect();
+            final recorder = PictureRecorder();
+            final customCanvas = Canvas(
+              recorder,
+              Rect.fromLTWH(0, 0, barRect.width, barRect.height),
+            )..clipRRect(
+                RRect.fromRectAndCorners(
+                  Rect.fromLTWH(0, 0, barRect.width, barRect.height),
+                  topLeft: barRRect.tlRadius,
+                  topRight: barRRect.trRadius,
+                  bottomLeft: barRRect.blRadius,
+                  bottomRight: barRRect.brRadius,
+                ),
+              );
+            barRod.surfacePainter!
+                .paint(customCanvas, Size(barRect.width, barRect.height));
+            final picture = recorder.endRecording();
+            canvasWrapper.canvas.save();
+            canvasWrapper.canvas.translate(barRect.left, barRect.top);
+            canvasWrapper.canvas.drawPicture(picture);
+            canvasWrapper.canvas.restore();
           }
         }
       }
