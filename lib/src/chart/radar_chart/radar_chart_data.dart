@@ -12,6 +12,10 @@ typedef GetTitleByIndexFunction = RadarChartTitle Function(
   double angle,
 );
 
+typedef GetVerticeLabelByIndexFunction = RadarChartVertexLabel Function(
+  int index,
+);
+
 enum RadarShape {
   circle,
   polygon,
@@ -41,6 +45,22 @@ class RadarChartTitle {
   final double? positionPercentageOffset;
 }
 
+/// Defines a label for [RadarChart] vertices
+class RadarChartVertexLabel {
+  const RadarChartVertexLabel({
+    required this.text,
+    this.offset,
+  });
+
+  /// [text] is used to draw labels on the vertices of [RadarChart]
+  final String text;
+
+  /// [offset] is the place of showing label on the [RadarChart] vertices
+  /// The higher the value of this field, the more labels move away from the chart vertices.
+  /// This value should be between 0 and 1
+  final double? offset;
+}
+
 /// [RadarChart] needs this class to render itself.
 ///
 /// It holds data needed to draw a radar chart,
@@ -67,7 +87,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? radarBorderData,
     RadarShape? radarShape,
     this.getTitle,
+    this.getVerticeLabel,
     this.titleTextStyle,
+    this.verticeLabelTextStyle,
     double? titlePositionPercentageOffset,
     int? tickCount,
     this.ticksTextStyle,
@@ -130,8 +152,14 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// ```
   final GetTitleByIndexFunction? getTitle;
 
+  /// [getVerticeLabel] is used to draw labels on the vertices of the [RadarChart]
+  final GetVerticeLabelByIndexFunction? getVerticeLabel;
+
   /// Defines style of showing [RadarChart] titles.
   final TextStyle? titleTextStyle;
+
+  /// Defines style of showing [RadarChart] vertice labels.
+  final TextStyle? verticeLabelTextStyle;
 
   /// the [titlePositionPercentageOffset] is the place of showing title on the [RadarChart]
   /// The higher the value of this field, the more titles move away from the chart.
@@ -198,7 +226,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? radarBorderData,
     RadarShape? radarShape,
     GetTitleByIndexFunction? getTitle,
+    GetVerticeLabelByIndexFunction? getVerticeLabel,
     TextStyle? titleTextStyle,
+    TextStyle? verticeLabelTextStyle,
     double? titlePositionPercentageOffset,
     int? tickCount,
     TextStyle? ticksTextStyle,
@@ -214,7 +244,10 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBorderData: radarBorderData ?? this.radarBorderData,
         radarShape: radarShape ?? this.radarShape,
         getTitle: getTitle ?? this.getTitle,
+        getVerticeLabel: getVerticeLabel ?? this.getVerticeLabel,
         titleTextStyle: titleTextStyle ?? this.titleTextStyle,
+        verticeLabelTextStyle:
+            verticeLabelTextStyle ?? this.verticeLabelTextStyle,
         titlePositionPercentageOffset:
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
         tickCount: tickCount ?? this.tickCount,
@@ -235,7 +268,10 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBackgroundColor:
             Color.lerp(a.radarBackgroundColor, b.radarBackgroundColor, t),
         getTitle: b.getTitle,
+        getVerticeLabel: b.getVerticeLabel,
         titleTextStyle: TextStyle.lerp(a.titleTextStyle, b.titleTextStyle, t),
+        verticeLabelTextStyle:
+            TextStyle.lerp(a.verticeLabelTextStyle, b.verticeLabelTextStyle, t),
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,
           b.titlePositionPercentageOffset,
@@ -266,7 +302,9 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarBorderData,
         radarShape,
         getTitle,
+        getVerticeLabel,
         titleTextStyle,
+        verticeLabelTextStyle,
         titlePositionPercentageOffset,
         tickCount,
         ticksTextStyle,
