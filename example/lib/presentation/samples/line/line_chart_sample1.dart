@@ -185,7 +185,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        curve: const LineChartCubicTensionCurve(),
         color: AppColors.contentColorGreen,
         barWidth: 8,
         isStrokeCapRound: true,
@@ -203,7 +203,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
+        curve: const LineChartCubicTensionCurve(),
         color: AppColors.contentColorPink,
         barWidth: 8,
         isStrokeCapRound: true,
@@ -223,7 +223,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
-        isCurved: true,
+        curve: const LineChartCubicTensionCurve(),
         color: AppColors.contentColorCyan,
         barWidth: 8,
         isStrokeCapRound: true,
@@ -239,8 +239,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData2_1 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
+        curve: LineChartCurve.noCurve,
         color: AppColors.contentColorGreen.withValues(alpha: 0.5),
         barWidth: 4,
         isStrokeCapRound: true,
@@ -258,7 +257,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData2_2 => LineChartBarData(
-        isCurved: true,
+        curve: const LineChartCubicTensionCurve(),
         color: AppColors.contentColorPink.withValues(alpha: 0.5),
         barWidth: 4,
         isStrokeCapRound: true,
@@ -278,8 +277,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData2_3 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
+        curve: LineChartCurve.noCurve,
         color: AppColors.contentColorCyan.withValues(alpha: 0.5),
         barWidth: 2,
         isStrokeCapRound: true,

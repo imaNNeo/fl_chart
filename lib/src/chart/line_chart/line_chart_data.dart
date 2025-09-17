@@ -198,8 +198,8 @@ class LineChartBarData with EquatableMixin {
   /// [BarChart] draws some lines and overlaps them in the chart's view,
   /// You can have multiple lines by splitting them,
   /// put a [FlSpot.nullSpot] between each section.
-  /// each line passes through [spots], with hard edges by default,
-  /// [isCurved] makes it curve for drawing, and [curveSmoothness] determines the curve smoothness.
+  /// each line passes through [spots], with hard edges by default.
+  /// Use [curve] to control how segments are drawn (straight or smoothed).
   ///
   /// [show] determines the drawing, if set to false, it draws nothing.
   ///
@@ -243,10 +243,17 @@ class LineChartBarData with EquatableMixin {
     this.gradient,
     this.gradientArea = LineChartGradientArea.rectAroundTheLine,
     this.barWidth = 2.0,
-    this.isCurved = false,
-    this.curveSmoothness = 0.35,
-    this.preventCurveOverShooting = false,
-    this.preventCurveOvershootingThreshold = 10.0,
+    LineChartCurve? curve,
+    @Deprecated('Use curve instead') bool isCurved = false,
+    @Deprecated(
+        'Use LineChartCubicTensionCurve.smoothness instead, or try other curve types')
+    double curveSmoothness = 0.35,
+    @Deprecated(
+        'Use LineChartCubicTensionCurve.preventCurveOverShooting instead, or try other curve types')
+    bool preventCurveOverShooting = false,
+    @Deprecated(
+        'Use LineChartCubicTensionCurve.preventCurveOvershootingThreshold instead, or try other curve types')
+    double preventCurveOvershootingThreshold = 10.0,
     this.isStrokeCapRound = false,
     this.isStrokeJoinRound = false,
     BarAreaData? belowBarData,
@@ -262,7 +269,10 @@ class LineChartBarData with EquatableMixin {
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         belowBarData = belowBarData ?? BarAreaData(),
-        aboveBarData = aboveBarData ?? BarAreaData() {
+        aboveBarData = aboveBarData ?? BarAreaData(),
+        curve = curve ??
+            _resovleCurve(isCurved, curveSmoothness, preventCurveOverShooting,
+                preventCurveOvershootingThreshold) {
     FlSpot? mostLeft;
     FlSpot? mostTop;
     FlSpot? mostRight;
@@ -303,6 +313,20 @@ class LineChartBarData with EquatableMixin {
     }
   }
 
+  static LineChartCurve _resovleCurve(
+          bool isCurved,
+          double curveSmoothness,
+          bool preventCurveOverShooting,
+          double preventCurveOvershootingThreshold) =>
+      isCurved
+          ? LineChartCubicTensionCurve(
+              smoothness: curveSmoothness,
+              preventCurveOverShooting: preventCurveOverShooting,
+              preventCurveOvershootingThreshold:
+                  preventCurveOvershootingThreshold,
+            )
+          : LineChartCurve.noCurve;
+
   /// This line goes through this spots.
   ///
   /// You can have multiple lines by splitting them,
@@ -342,19 +366,11 @@ class LineChartBarData with EquatableMixin {
   /// Determines thickness of drawing line.
   final double barWidth;
 
-  /// If it's true, [LineChart] draws the line with curved edges,
-  /// otherwise it draws line with hard edges.
-  final bool isCurved;
-
-  /// If [isCurved] is true, it determines smoothness of the curved edges.
-  final double curveSmoothness;
-
-  /// Prevent overshooting when draw curve line with high value changes.
-  /// check this [issue](https://github.com/imaNNeo/fl_chart/issues/25)
-  final bool preventCurveOverShooting;
-
-  /// Applies threshold for [preventCurveOverShooting] algorithm.
-  final double preventCurveOvershootingThreshold;
+  /// Curve strategy for drawing segments between spots.
+  /// Use a built-in curve (e.g. [LineChartCurve.noCurve],
+  /// [LineChartCubicTensionCurve], [LineChartCubicMonotoneCurve])
+  /// or provide your own implementation of [LineChartCurve].
+  final LineChartCurve curve;
 
   /// Determines the style of line's cap.
   final bool isStrokeCapRound;
@@ -401,16 +417,9 @@ class LineChartBarData with EquatableMixin {
         barWidth: lerpDouble(a.barWidth, b.barWidth, t)!,
         belowBarData: BarAreaData.lerp(a.belowBarData, b.belowBarData, t),
         aboveBarData: BarAreaData.lerp(a.aboveBarData, b.aboveBarData, t),
-        curveSmoothness: b.curveSmoothness,
-        isCurved: b.isCurved,
         isStrokeCapRound: b.isStrokeCapRound,
         isStrokeJoinRound: b.isStrokeJoinRound,
-        preventCurveOverShooting: b.preventCurveOverShooting,
-        preventCurveOvershootingThreshold: lerpDouble(
-          a.preventCurveOvershootingThreshold,
-          b.preventCurveOvershootingThreshold,
-          t,
-        )!,
+        curve: lerpCurve(a.curve, b.curve, t),
         dotData: FlDotData.lerp(a.dotData, b.dotData, t),
         errorIndicatorData: FlErrorIndicatorData.lerp(
           a.errorIndicatorData,
@@ -438,9 +447,16 @@ class LineChartBarData with EquatableMixin {
     Gradient? gradient,
     LineChartGradientArea? gradientArea,
     double? barWidth,
-    bool? isCurved,
+    LineChartCurve? curve,
+    @Deprecated('Use curve instead') bool? isCurved,
+    @Deprecated(
+        'Use LineChartCubicTensionCurve.smoothness instead, or try other curve types')
     double? curveSmoothness,
+    @Deprecated(
+        'Use LineChartCubicTensionCurve.preventCurveOverShooting instead, or try other curve types')
     bool? preventCurveOverShooting,
+    @Deprecated(
+        'Use LineChartCubicTensionCurve.preventCurveOvershootingThreshold instead, or try other curve types')
     double? preventCurveOvershootingThreshold,
     bool? isStrokeCapRound,
     bool? isStrokeJoinRound,
@@ -462,12 +478,10 @@ class LineChartBarData with EquatableMixin {
         gradient: gradient ?? this.gradient,
         gradientArea: gradientArea ?? this.gradientArea,
         barWidth: barWidth ?? this.barWidth,
-        isCurved: isCurved ?? this.isCurved,
-        curveSmoothness: curveSmoothness ?? this.curveSmoothness,
-        preventCurveOverShooting:
-            preventCurveOverShooting ?? this.preventCurveOverShooting,
-        preventCurveOvershootingThreshold: preventCurveOvershootingThreshold ??
-            this.preventCurveOvershootingThreshold,
+        curve: curve ??
+            _resolveCopyWithCurve(isCurved, curveSmoothness,
+                preventCurveOverShooting, preventCurveOvershootingThreshold) ??
+            this.curve,
         isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
         isStrokeJoinRound: isStrokeJoinRound ?? this.isStrokeJoinRound,
         belowBarData: belowBarData ?? this.belowBarData,
@@ -481,6 +495,31 @@ class LineChartBarData with EquatableMixin {
         lineChartStepData: lineChartStepData ?? this.lineChartStepData,
       );
 
+  LineChartCurve? _resolveCopyWithCurve(
+      bool? isCurved,
+      double? curveSmoothness,
+      bool? preventCurveOverShooting,
+      double? preventCurveOvershootingThreshold) {
+    if (isCurved == null) {
+      return switch (curve) {
+        final LineChartCubicTensionCurve cubicCurve => cubicCurve.copyWith(
+            smoothness: curveSmoothness,
+            preventCurveOverShooting: preventCurveOverShooting,
+            preventCurveOvershootingThreshold:
+                preventCurveOvershootingThreshold,
+          ),
+        final LineChartNoCurve noCurve => noCurve,
+        _ => null,
+      };
+    }
+
+    if (isCurved) {
+      return const LineChartCubicTensionCurve();
+    } else {
+      return const LineChartNoCurve();
+    }
+  }
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -490,10 +529,7 @@ class LineChartBarData with EquatableMixin {
         gradient,
         gradientArea,
         barWidth,
-        isCurved,
-        curveSmoothness,
-        preventCurveOverShooting,
-        preventCurveOvershootingThreshold,
+        curve,
         isStrokeCapRound,
         isStrokeJoinRound,
         belowBarData,

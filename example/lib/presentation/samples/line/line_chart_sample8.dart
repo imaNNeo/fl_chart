@@ -277,7 +277,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             FlSpot(11, 2.5),
           ],
           dashArray: [10, 6],
-          isCurved: true,
+          curve: const LineChartCubicTensionCurve(),
           color: AppColors.contentColorRed,
           barWidth: 4,
           isStrokeCapRound: true,
