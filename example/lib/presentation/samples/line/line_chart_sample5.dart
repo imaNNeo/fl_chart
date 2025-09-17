@@ -82,7 +82,7 @@ class _LineChartSample5State extends State<LineChartSample5> {
       LineChartBarData(
         showingIndicators: showingTooltipOnSpots,
         spots: allSpots,
-        isCurved: true,
+        curve: const LineChartCubicTensionCurve(),
         barWidth: 4,
         shadow: const Shadow(
           blurRadius: 8,

@@ -173,7 +173,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             FlSpot(9.5, 3),
             FlSpot(11, 4),
           ],
-          isCurved: true,
+          curve: const LineChartCubicTensionCurve(),
           gradient: LinearGradient(
             colors: gradientColors,
           ),
@@ -260,7 +260,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             FlSpot(9.5, 3.44),
             FlSpot(11, 3.44),
           ],
-          isCurved: true,
+          curve: const LineChartCubicTensionCurve(),
           gradient: LinearGradient(
             colors: [
               ColorTween(begin: gradientColors[0], end: gradientColors[1])

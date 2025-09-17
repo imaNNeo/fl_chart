@@ -172,7 +172,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                               ),
                             );
                           }).toList(),
-                          isCurved: false,
+                          curve: LineChartCurve.noCurve,
                           dotData: const FlDotData(show: false),
                           color: AppColors.contentColorBlue,
                           barWidth: 1,
