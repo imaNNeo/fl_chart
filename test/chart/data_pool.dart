@@ -3380,6 +3380,33 @@ final candlestickSpot5 = CandlestickSpot(
   close: -50,
 );
 
+final candlestickSpotWithBuySignal = CandlestickSpot(
+  x: 100,
+  open: 50,
+  high: 60,
+  low: 45,
+  close: 55,
+  tradeSignalType: TradeSignalType.buy,
+);
+
+final candlestickSpotWithSellSignal = CandlestickSpot(
+  x: 101,
+  open: 55,
+  high: 58,
+  low: 48,
+  close: 50,
+  tradeSignalType: TradeSignalType.sell,
+);
+
+final candlestickSpotWithTradeSignal = CandlestickSpot(
+  x: 102,
+  open: 50,
+  high: 65,
+  low: 47,
+  close: 60,
+  tradeSignalType: TradeSignalType.trade,
+);
+
 final candleStickChartData1 = CandlestickChartData(
   candlestickSpots: [
     candlestickSpot1,
