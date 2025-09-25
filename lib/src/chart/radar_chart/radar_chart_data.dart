@@ -76,6 +76,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     RadarTouchData? radarTouchData,
     this.isMinValueAtCenter = false,
     this.maxValue,
+    this.showMaxTick = false,
     super.borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
@@ -171,6 +172,11 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// for future data growth. If null, the maximum value will be calculated from the data.
   final double? maxValue;
 
+  /// Whether to show the maximum tick value on the radar chart.
+  /// If true, displays the tick at the maximum value position.
+  /// If false (default), hides the maximum tick to avoid overlap with chart border.
+  final bool showMaxTick;
+
   /// [titleCount] we use this value to determine number of [RadarChart] grid or lines.
   int get titleCount => dataSets[0].dataEntries.length;
 
@@ -224,6 +230,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     RadarTouchData? radarTouchData,
     bool? isMinValueAtCenter,
     double? maxValue,
+    bool? showMaxTick,
     FlBorderData? borderData,
   }) =>
       RadarChartData(
@@ -242,6 +249,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarTouchData: radarTouchData ?? this.radarTouchData,
         isMinValueAtCenter: isMinValueAtCenter ?? this.isMinValueAtCenter,
         maxValue: maxValue ?? this.maxValue,
+        showMaxTick: showMaxTick ?? this.showMaxTick,
         borderData: borderData ?? this.borderData,
       );
 
@@ -270,6 +278,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         isMinValueAtCenter: b.isMinValueAtCenter,
         maxValue: lerpDouble(a.maxValue, b.maxValue, t),
+        showMaxTick: b.showMaxTick,
         radarTouchData: b.radarTouchData,
       );
     } else {
@@ -295,6 +304,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         radarTouchData,
         isMinValueAtCenter,
         maxValue,
+        showMaxTick,
       ];
 }
 

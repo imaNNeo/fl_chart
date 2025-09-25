@@ -192,7 +192,11 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       ..strokeWidth = data.tickBorderData.width;
 
     /// draw radar ticks
-    ticks.sublist(0, ticks.length - 1).asMap().forEach(
+    final ticksToShow = data.showMaxTick
+        ? ticks                               // Show all ticks including max
+        : ticks.sublist(0, ticks.length - 1); // Hide max tick (current behavior)
+
+    ticksToShow.asMap().forEach(
       (index, tick) {
         final tickRadius =
             tickDistance * (index + (data.isMinValueAtCenter ? 0 : 1));

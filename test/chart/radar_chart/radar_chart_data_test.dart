@@ -158,6 +158,16 @@ void main() {
         radarChartData1 == radarChartData1Clone.copyWith(maxValue: 200.0),
         false,
       );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(showMaxTick: false),
+        true,
+      );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(showMaxTick: true),
+        false,
+      );
     });
 
     test('RadarDataSet equality test', () {
@@ -327,6 +337,33 @@ void main() {
         ),
         throwsAssertionError,
       );
+    });
+  });
+
+  group('RadarChart showMaxTick functionality', () {
+    test('showMaxTick defaults to false and preserves original behavior', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1],
+      );
+      expect(data.showMaxTick, equals(false));
+    });
+
+    test('showMaxTick can be set to true to enable max tick display', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1],
+        showMaxTick: true,
+      );
+      expect(data.showMaxTick, equals(true));
+    });
+
+    test('showMaxTick works correctly with custom maxValue', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1],
+        maxValue: 200.0,
+        showMaxTick: true,
+      );
+      expect(data.showMaxTick, equals(true));
+      expect(data.maxEntry.value, equals(200.0));
     });
   });
 }
