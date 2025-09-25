@@ -314,16 +314,28 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               final rect = isNegative
                   ? Rect.fromLTRB(left, stackFromY, right, stackToY)
                   : Rect.fromLTRB(left, stackToY, right, stackFromY);
-              _barPaint.setColorOrGradient(
-                stackItem.color,
-                stackItem.gradient,
-                rect,
-              );
-              canvasWrapper
-                ..save()
-                ..clipRect(rect)
-                ..drawRRect(barRRect, _barPaint)
-                ..restore();
+
+              if (stackItem.isHatched && stackItem.hatchPattern != null) {
+                // Draw hatched pattern
+                drawHatchedStackItem(
+                  canvasWrapper,
+                  stackItem,
+                  rect,
+                  barRRect,
+                );
+              } else {
+                // Draw solid color or gradient (existing behavior)
+                _barPaint.setColorOrGradient(
+                  stackItem.color,
+                  stackItem.gradient,
+                  rect,
+                );
+                canvasWrapper
+                  ..save()
+                  ..clipRect(rect)
+                  ..drawRRect(barRRect, _barPaint)
+                  ..restore();
+              }
               if (stackItem.label != null) {
                 final textStyle = stackItem.labelStyle ??
                     const TextStyle(
@@ -721,6 +733,85 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..color = stackItem.borderSide.color
       ..strokeWidth = min(stackItem.borderSide.width, barThickSize / 2);
     canvasWrapper.drawRRect(strokeBarRect, _barStrokePaint);
+  }
+
+  @visibleForTesting
+  void drawHatchedStackItem(
+    CanvasWrapper canvasWrapper,
+    BarChartRodStackItem stackItem,
+    Rect rect,
+    RRect barRRect,
+  ) {
+    final hatchPattern = stackItem.hatchPattern!;
+
+    // Draw background if specified
+    if (hatchPattern.backgroundColor != null) {
+      final backgroundPaint = Paint()
+        ..color = hatchPattern.backgroundColor!
+        ..style = PaintingStyle.fill;
+
+      canvasWrapper
+        ..save()
+        ..clipRect(rect)
+        ..drawRRect(barRRect, backgroundPaint)
+        ..restore();
+    }
+
+    // Draw hatch lines
+    final hatchPaint = Paint()
+      ..color = hatchPattern.hatchColor
+      ..strokeWidth = hatchPattern.strokeWidth
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    canvasWrapper.save();
+    canvasWrapper.clipRect(rect);
+
+    // Convert angle to radians
+    final angleRadians = hatchPattern.angle * (pi / 180.0);
+
+    // Calculate direction vectors for the hatch lines
+    final cosAngle = cos(angleRadians);
+    final sinAngle = sin(angleRadians);
+
+    // Calculate perpendicular direction for spacing
+    final perpCos = cos(angleRadians + pi / 2);
+    final perpSin = sin(angleRadians + pi / 2);
+
+    // Calculate the diagonal length to ensure lines cover the entire area
+    final width = rect.width;
+    final height = rect.height;
+    final diagonal = sqrt(width * width + height * height);
+
+    // Calculate how many lines we need
+    final maxDimension = max(width, height);
+    final numLines = hatchPattern.spacing <= 0.0 
+        ? 0 
+        : (maxDimension * 2 / hatchPattern.spacing).ceil();
+
+    // Calculate starting point (center the pattern)
+    final centerX = rect.left + width / 2;
+    final centerY = rect.top + height / 2;
+
+    for (int i = -numLines; i <= numLines; i++) {
+      // Calculate the offset along perpendicular direction
+      final perpOffset = i * hatchPattern.spacing;
+
+      // Calculate start and end points of the line
+      final startX = centerX + perpOffset * perpCos - diagonal * cosAngle;
+      final startY = centerY + perpOffset * perpSin - diagonal * sinAngle;
+      final endX = centerX + perpOffset * perpCos + diagonal * cosAngle;
+      final endY = centerY + perpOffset * perpSin + diagonal * sinAngle;
+
+      // Draw the line
+      canvasWrapper.drawLine(
+        Offset(startX, startY),
+        Offset(endX, endY),
+        hatchPaint,
+      );
+    }
+
+    canvasWrapper.restore();
   }
 
   /// Makes a [BarTouchedSpot] based on the provided [localPosition]
