@@ -12,16 +12,14 @@ class _StackedPieChartSample1State extends State<StackedPieChartSample1> {
   @override
   Widget build(BuildContext context) {
     return const AspectRatio(
-      aspectRatio: 1.3,
+      aspectRatio: 1.0,
       child: Column(
         children: <Widget>[
           SizedBox(height: 28),
           Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: StackedPieDemo(),
-            ),
+            child: StackedPieDemo(),
           ),
+          SizedBox(height: 28),
         ],
       ),
     );

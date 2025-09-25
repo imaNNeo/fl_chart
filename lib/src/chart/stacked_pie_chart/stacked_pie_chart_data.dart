@@ -32,7 +32,7 @@ class StackedPieChartData extends BaseChartData with EquatableMixin {
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
   })  : sections = sections ?? const [],
-        centerSpaceRadius = centerSpaceRadius ?? double.infinity,
+        centerSpaceRadius = centerSpaceRadius ?? 16,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
