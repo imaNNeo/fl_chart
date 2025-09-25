@@ -75,6 +75,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
     this.isMinValueAtCenter = false,
+    this.maxValue,
     super.borderData,
   })  : assert(dataSets != null && dataSets.hasEqualDataEntriesLength),
         assert(
@@ -86,6 +87,10 @@ class RadarChartData extends BaseChartData with EquatableMixin {
               titlePositionPercentageOffset >= 0 &&
                   titlePositionPercentageOffset <= 1,
           'titlePositionPercentageOffset must be something between 0 and 1 ',
+        ),
+        assert(
+          maxValue == null || maxValue.isFinite,
+          'maxValue must be a finite number',
         ),
         dataSets = dataSets ?? const [],
         radarBackgroundColor = radarBackgroundColor ?? Colors.transparent,
@@ -160,12 +165,24 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   /// If [isMinValueAtCenter] is true, the minimum value of the [RadarChart] will be at the center of the chart.
   final bool isMinValueAtCenter;
 
+  /// Custom maximum value for the [RadarChart]. If provided, this value will be used
+  /// instead of the automatically calculated maximum from the data.
+  /// This is useful for standardizing display across multiple charts or reserving space
+  /// for future data growth. If null, the maximum value will be calculated from the data.
+  final double? maxValue;
+
   /// [titleCount] we use this value to determine number of [RadarChart] grid or lines.
   int get titleCount => dataSets[0].dataEntries.length;
 
   /// defines the maximum [RadarEntry] value in all [dataSets]
   /// we use this value to calculate the maximum value of ticks.
   RadarEntry get maxEntry {
+    // If custom maxValue is provided, use it
+    if (maxValue != null) {
+      return RadarEntry(value: maxValue!);
+    }
+
+    // Otherwise, calculate from data
     var maximum = dataSets.first.dataEntries.first;
 
     for (final dataSet in dataSets) {
@@ -206,6 +223,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
     BorderSide? gridBorderData,
     RadarTouchData? radarTouchData,
     bool? isMinValueAtCenter,
+    double? maxValue,
     FlBorderData? borderData,
   }) =>
       RadarChartData(
@@ -223,6 +241,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         gridBorderData: gridBorderData ?? this.gridBorderData,
         radarTouchData: radarTouchData ?? this.radarTouchData,
         isMinValueAtCenter: isMinValueAtCenter ?? this.isMinValueAtCenter,
+        maxValue: maxValue ?? this.maxValue,
         borderData: borderData ?? this.borderData,
       );
 
@@ -250,6 +269,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         tickBorderData: BorderSide.lerp(a.tickBorderData, b.tickBorderData, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         isMinValueAtCenter: b.isMinValueAtCenter,
+        maxValue: lerpDouble(a.maxValue, b.maxValue, t),
         radarTouchData: b.radarTouchData,
       );
     } else {
@@ -274,6 +294,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
         gridBorderData,
         radarTouchData,
         isMinValueAtCenter,
+        maxValue,
       ];
 }
 

@@ -143,6 +143,21 @@ void main() {
             ),
         false,
       );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(maxValue: null),
+        true,
+      );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(maxValue: 100.0),
+        false,
+      );
+
+      expect(
+        radarChartData1 == radarChartData1Clone.copyWith(maxValue: 200.0),
+        false,
+      );
     });
 
     test('RadarDataSet equality test', () {
@@ -268,6 +283,50 @@ void main() {
       expect(radarTouchedSpot1 == radarTouchedSpot5, false);
       expect(radarTouchedSpot1 == radarTouchedSpot6, false);
       expect(radarTouchedSpot1 == radarTouchedSpot7, false);
+    });
+  });
+
+  group('RadarChart maxValue functionality', () {
+    test('maxEntry returns data max when maxValue is null', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1],
+      );
+      expect(data.maxEntry.value, equals(4.0));
+    });
+
+    test('maxEntry returns data max from multiple datasets when maxValue is null', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1, radarDataSet2],
+      );
+      expect(data.maxEntry.value, equals(10.0));
+    });
+
+    test('maxEntry returns custom maxValue when provided', () {
+      final data = RadarChartData(
+        dataSets: [radarDataSet1],
+        maxValue: 150.0,
+      );
+      expect(data.maxEntry.value, equals(150.0));
+    });
+
+    test('maxValue validation throws on NaN', () {
+      expect(
+        () => RadarChartData(
+          dataSets: [radarDataSet1],
+          maxValue: double.nan,
+        ),
+        throwsAssertionError,
+      );
+    });
+
+    test('maxValue validation throws on infinity', () {
+      expect(
+        () => RadarChartData(
+          dataSets: [radarDataSet1],
+          maxValue: double.infinity,
+        ),
+        throwsAssertionError,
+      );
     });
   });
 }
