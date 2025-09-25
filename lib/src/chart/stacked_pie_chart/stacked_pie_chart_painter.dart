@@ -530,7 +530,7 @@ class StackedPieChartPainter extends BaseChartPainter<StackedPieChartData> {
 
       if (sectionPath.contains(localPosition)) {
         foundSectionData = section;
-        foundSectionDataPosition = i;
+        foundSectionDataPosition = i + 1;
         break;
       }
 
