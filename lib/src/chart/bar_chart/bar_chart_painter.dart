@@ -765,7 +765,16 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       ..strokeCap = StrokeCap.round;
 
     canvasWrapper.save();
-    canvasWrapper.clipRect(rect);
+    // Create a rounded rectangle for just this stack item's area
+    // by intersecting the stack item rect with the bar's border radius
+    final stackItemRRect = RRect.fromRectAndCorners(
+      rect,
+      topLeft: rect.top <= barRRect.top + barRRect.tlRadius.y ? barRRect.tlRadius : Radius.zero,
+      topRight: rect.top <= barRRect.top + barRRect.trRadius.y ? barRRect.trRadius : Radius.zero,  
+      bottomLeft: rect.bottom >= barRRect.bottom - barRRect.blRadius.y ? barRRect.blRadius : Radius.zero,
+      bottomRight: rect.bottom >= barRRect.bottom - barRRect.brRadius.y ? barRRect.brRadius : Radius.zero,
+    );
+    canvasWrapper.clipPath(Path()..addRRect(stackItemRRect));
 
     // Convert angle to radians
     final angleRadians = hatchPattern.angle * (pi / 180.0);
