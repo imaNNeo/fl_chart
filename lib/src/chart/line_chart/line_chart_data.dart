@@ -1267,6 +1267,9 @@ class LineTooltipItem with EquatableMixin {
 /// details of showing indicator when touch happened on [LineChart]
 /// [indicatorBelowLine] we draw a vertical line below of the touched spot
 /// [touchedSpotDotData] we draw a larger dot on the touched spot to bold it
+/// [showHorizontalLine] if true, a horizontal line is drawn at the Y-position of the touched spot.
+/// [indicatorHorizontalLine] defines the style of the horizontal line at the touched spot.
+///   If null, [indicatorBelowLine] is used as the fallback.
 class TouchedSpotIndicatorData with EquatableMixin {
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a thicker line and larger spot as indicator automatically when touch happens,
@@ -1275,8 +1278,10 @@ class TouchedSpotIndicatorData with EquatableMixin {
   /// [touchedSpotDotData] determines dot's style.
   const TouchedSpotIndicatorData(
     this.indicatorBelowLine,
-    this.touchedSpotDotData,
-  );
+    this.touchedSpotDotData, {
+    this.showHorizontalLine = false,
+    FlLine? indicatorHorizontalLine,
+  }) : indicatorHorizontalLine = indicatorHorizontalLine ?? indicatorBelowLine;
 
   /// Determines line's style.
   final FlLine indicatorBelowLine;
@@ -1284,11 +1289,19 @@ class TouchedSpotIndicatorData with EquatableMixin {
   /// Determines dot's style.
   final FlDotData touchedSpotDotData;
 
+  /// Whether the horizontal line should be drawn or not.
+  final bool showHorizontalLine;
+
+  /// Horizontal line shown at the Y-position of the touched spot.
+  final FlLine indicatorHorizontalLine;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
         indicatorBelowLine,
         touchedSpotDotData,
+        showHorizontalLine,
+        indicatorHorizontalLine,
       ];
 }
 

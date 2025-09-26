@@ -11,7 +11,7 @@ LineChart(
 );
 ```
 
-### Implicit Animations 
+### Implicit Animations
 When you change the chart's state, it animates to the new state internally (using [implicit animations](https://flutter.dev/docs/development/ui/animations/implicit-animations)). You can control the animation [duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [curve](https://api.flutter.dev/flutter/animation/Curves-class.html) using optional `swapAnimationDuration` and `swapAnimationCurve` properties, respectively.
 
 ### LineChartData
@@ -132,7 +132,7 @@ When you change the chart's state, it animates to the new state internally (usin
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
  |showOnTopOfTheChartBoxArea| forces the tooltip container to top of the line| false|
- |getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [LineBarSpot](#LineBarSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
+ |getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [LineBarSpot](#LineBarSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)|
 
 ### LineTooltipItem
 |PropName|Description|default value|
@@ -148,6 +148,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |indicatorBelowLine|a [FlLine](base_chart.md#FlLine) to show the below line indicator on the touched spot|null|
 |touchedSpotDotData|a [FlDotData](#FlDotData) to show a dot indicator on the touched spot|null|
+| showHorizontalLine     | Whether to draw a horizontal line at the Y position of the touched spot     | false                               |
+| indicatorHorizontalLine| A [FlLine](base_chart.md#FlLine) to style the horizontal line (defaults to `indicatorBelowLine` if null) | null                                |
 
 
 ### LineBarSpot
