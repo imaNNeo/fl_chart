@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
@@ -190,6 +192,15 @@ abstract class AxisChartPainter<D extends AxisChartData>
         );
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
+
+        drawAnnotationText(
+          canvasWrapper,
+          offset: rect.topCenter +
+              Offset(annotation.horizontalPadding, annotation.verticalPadding),
+          text: annotation.text,
+          style: annotation.style,
+          rotation: annotation.rotation ?? 90,
+        );
       }
     }
 
@@ -211,8 +222,46 @@ abstract class AxisChartPainter<D extends AxisChartData>
         );
 
         canvasWrapper.drawRect(rect, _rangeAnnotationPaint);
+
+        drawAnnotationText(
+          canvasWrapper,
+          offset: rect.centerLeft +
+              Offset(annotation.horizontalPadding, annotation.verticalPadding),
+          text: annotation.text,
+          style: annotation.style,
+          rotation: annotation.rotation ?? 0,
+        );
       }
     }
+  }
+
+  void drawAnnotationText(
+    CanvasWrapper canvasWrapper, {
+    String? text,
+    required Offset offset,
+    TextStyle? style,
+    double rotation = 0,
+  }) {
+    if (text == null) {
+      return;
+    }
+    // Draw annotation text
+    final textSpan = TextSpan(
+      text: text,
+      style: style ?? const TextStyle(fontSize: 17),
+    );
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final radians = rotation * (pi / 180.0);
+    canvasWrapper
+      ..save()
+      ..translate(offset.dx, offset.dy)
+      ..rotate(radians)
+      ..drawText(textPainter, Offset.zero)
+      ..restore();
   }
 
   void drawExtraLines(

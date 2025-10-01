@@ -125,16 +125,23 @@ class _LineChartSample8State extends State<LineChartSample8> {
             color: AppColors.contentColorBlue.withValues(alpha: 0.2),
           ),
           VerticalRangeAnnotation(
-            x1: 8,
-            x2: 9,
-            color: AppColors.contentColorBlue.withValues(alpha: 0.2),
-          ),
+              x1: 8,
+              x2: 9,
+              color: AppColors.contentColorBlue.withValues(alpha: 0.2),
+              text: "This is a text",
+              verticalPadding: 10,
+              style: const TextStyle(
+                color: Colors.amber,
+                fontSize: 18,
+              )),
         ],
         horizontalRangeAnnotations: [
           HorizontalRangeAnnotation(
             y1: 2,
             y2: 3,
             color: AppColors.contentColorGreen.withValues(alpha: 0.3),
+            text: "This is a text",
+            horizontalPadding: 30,
           ),
         ],
       ),
