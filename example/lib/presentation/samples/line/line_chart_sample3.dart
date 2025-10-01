@@ -73,23 +73,13 @@ class _LineChartSample3State extends State<LineChartSample3> {
       color: AppColors.mainTextColor1.withValues(alpha: 0.5),
       fontSize: 10,
     );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = '';
-        break;
-      case 1:
-        text = '1k calories';
-        break;
-      case 2:
-        text = '2k calories';
-        break;
-      case 3:
-        text = '3k calories';
-        break;
-      default:
-        return Container();
-    }
+    String text = switch (value.toInt()) {
+      0 => '',
+      1 => '1k calories',
+      2 => '2k calories',
+      3 => '3k calories',
+      _ => '',
+    };
 
     return SideTitleWidget(
       meta: meta,
@@ -214,17 +204,11 @@ class _LineChartSample3State extends State<LineChartSample3> {
                           return null;
                         }
 
-                        TextAlign textAlign;
-                        switch (flSpot.x.toInt()) {
-                          case 1:
-                            textAlign = TextAlign.left;
-                            break;
-                          case 5:
-                            textAlign = TextAlign.right;
-                            break;
-                          default:
-                            textAlign = TextAlign.center;
-                        }
+                        TextAlign textAlign = switch (flSpot.x.toInt()) {
+                          1 => TextAlign.left,
+                          5 => TextAlign.right,
+                          _ => TextAlign.center,
+                        };
 
                         return LineTooltipItem(
                           '${widget.weekDays[flSpot.x.toInt()]} \n',

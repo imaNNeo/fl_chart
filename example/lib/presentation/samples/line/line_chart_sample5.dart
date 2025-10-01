@@ -43,33 +43,19 @@ class _LineChartSample5State extends State<LineChartSample5> {
       fontFamily: 'Digital',
       fontSize: 18 * chartWidth / 500,
     );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = '00:00';
-        break;
-      case 1:
-        text = '04:00';
-        break;
-      case 2:
-        text = '08:00';
-        break;
-      case 3:
-        text = '12:00';
-        break;
-      case 4:
-        text = '16:00';
-        break;
-      case 5:
-        text = '20:00';
-        break;
-      case 6:
-        text = '23:59';
-        break;
-      default:
-        return Container();
+    String text = switch (value.toInt()) {
+      0 => '00:00',
+      1 => '04:00',
+      2 => '08:00',
+      3 => '12:00',
+      4 => '16:00',
+      5 => '20:00',
+      6 => '23:59',
+      _ => '',
+    };
+    if (text.isEmpty) {
+      return const SizedBox.shrink();
     }
-
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),
