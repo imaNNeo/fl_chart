@@ -72,7 +72,7 @@ class _Chart extends StatelessWidget {
 
   const _Chart(this.baselineX, this.baselineY) : super();
 
-  Widget getHorizontalTitles(value, TitleMeta meta) {
+  Widget getHorizontalTitles(double value, TitleMeta meta) {
     TextStyle style;
     if ((value - baselineX).abs() <= 0.1) {
       style = const TextStyle(
@@ -92,7 +92,7 @@ class _Chart extends StatelessWidget {
     );
   }
 
-  Widget getVerticalTitles(value, TitleMeta meta) {
+  Widget getVerticalTitles(double value, TitleMeta meta) {
     TextStyle style;
     if ((value - baselineY).abs() <= 0.1) {
       style = const TextStyle(
