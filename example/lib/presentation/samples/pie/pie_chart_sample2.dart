@@ -103,9 +103,8 @@ class PieChart2State extends State {
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
+      return switch (i) {
+        0 => PieChartSectionData(
             color: AppColors.contentColorBlue,
             value: 40,
             title: '40%',
@@ -116,9 +115,8 @@ class PieChart2State extends State {
               color: AppColors.mainTextColor1,
               shadows: shadows,
             ),
-          );
-        case 1:
-          return PieChartSectionData(
+          ),
+        1 => PieChartSectionData(
             color: AppColors.contentColorYellow,
             value: 30,
             title: '30%',
@@ -129,9 +127,8 @@ class PieChart2State extends State {
               color: AppColors.mainTextColor1,
               shadows: shadows,
             ),
-          );
-        case 2:
-          return PieChartSectionData(
+          ),
+        2 => PieChartSectionData(
             color: AppColors.contentColorPurple,
             value: 15,
             title: '15%',
@@ -142,9 +139,8 @@ class PieChart2State extends State {
               color: AppColors.mainTextColor1,
               shadows: shadows,
             ),
-          );
-        case 3:
-          return PieChartSectionData(
+          ),
+        3 => PieChartSectionData(
             color: AppColors.contentColorGreen,
             value: 15,
             title: '15%',
@@ -155,10 +151,9 @@ class PieChart2State extends State {
               color: AppColors.mainTextColor1,
               shadows: shadows,
             ),
-          );
-        default:
-          throw Error();
-      }
+          ),
+        _ => throw StateError('Invalid'),
+      };
     });
   }
 }

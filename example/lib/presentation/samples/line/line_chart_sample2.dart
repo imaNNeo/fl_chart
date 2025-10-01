@@ -64,25 +64,15 @@ class _LineChartSample2State extends State<LineChartSample2> {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
-
+    String text = switch (value.toInt()) {
+      2 => 'MAR',
+      5 => 'JUN',
+      8 => 'SEP',
+      _ => '',
+    };
     return SideTitleWidget(
       meta: meta,
-      child: text,
+      child: Text(text, style: style),
     );
   }
 
@@ -91,20 +81,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
       fontWeight: FontWeight.bold,
       fontSize: 15,
     );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '10K';
-        break;
-      case 3:
-        text = '30k';
-        break;
-      case 5:
-        text = '50k';
-        break;
-      default:
-        return Container();
-    }
+    String text = switch (value.toInt()) {
+      1 => '10K',
+      3 => '30k',
+      5 => '50k',
+      _ => '',
+    };
 
     return Text(text, style: style, textAlign: TextAlign.left);
   }
