@@ -20,6 +20,7 @@ void main() {
 
     final targetData = CandlestickChartData(
       candlestickSpots: [candlestickSpot3],
+      candlestickTouchData: CandlestickTouchData(enabled: false),
     );
 
     const textScaler = TextScaler.linear(4);
@@ -51,6 +52,7 @@ void main() {
       expect(renderCandlestickChart.paintHolder.data == data, true);
       expect(renderCandlestickChart.paintHolder.targetData == targetData, true);
       expect(renderCandlestickChart.paintHolder.textScaler == textScaler, true);
+      expect(renderCandlestickChart.hitTestSelf(Offset.zero), false);
     });
 
     test('test 2 check paint function', () {
