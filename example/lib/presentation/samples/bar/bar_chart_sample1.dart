@@ -161,6 +161,7 @@ class BarChartSample1State extends State<BarChartSample1> {
   BarChartData mainBarData() {
     return BarChartData(
       barTouchData: BarTouchData(
+        enabled: true,
         touchTooltipData: BarTouchTooltipData(
           getTooltipColor: (_) => Colors.blueGrey,
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
