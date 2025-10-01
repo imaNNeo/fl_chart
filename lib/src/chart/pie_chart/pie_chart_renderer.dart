@@ -160,6 +160,14 @@ class RenderPieChart extends RenderBaseChart<PieTouchResponse>
   }
 
   @override
+  bool hitTestSelf(Offset position) {
+    if (!targetData.pieTouchData.enabled) {
+      return false;
+    }
+    return super.hitTestSelf(position);
+  }
+
+  @override
   PieTouchResponse getResponseAtLocation(Offset localPosition) {
     return PieTouchResponse(
       touchLocation: localPosition,

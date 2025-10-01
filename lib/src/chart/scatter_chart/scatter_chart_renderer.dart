@@ -125,6 +125,14 @@ class RenderScatterChart extends RenderBaseChart<ScatterTouchResponse> {
   }
 
   @override
+  bool hitTestSelf(Offset position) {
+    if (!targetData.scatterTouchData.enabled) {
+      return false;
+    }
+    return super.hitTestSelf(position);
+  }
+
+  @override
   ScatterTouchResponse getResponseAtLocation(Offset localPosition) {
     final chartSize = mockTestSize ?? size;
     return ScatterTouchResponse(

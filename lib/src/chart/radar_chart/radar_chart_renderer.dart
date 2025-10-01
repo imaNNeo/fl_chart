@@ -101,6 +101,14 @@ class RenderRadarChart extends RenderBaseChart<RadarTouchResponse> {
   }
 
   @override
+  bool hitTestSelf(Offset position) {
+    if (!targetData.radarTouchData.enabled) {
+      return false;
+    }
+    return super.hitTestSelf(position);
+  }
+
+  @override
   RadarTouchResponse getResponseAtLocation(Offset localPosition) {
     return RadarTouchResponse(
       touchLocation: localPosition,
