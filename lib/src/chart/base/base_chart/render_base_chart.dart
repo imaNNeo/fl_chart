@@ -93,6 +93,15 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
       }
       ..onTapUp = (tapUpDetails) {
         _notifyTouchEvent(FlTapUpEvent(tapUpDetails));
+      }
+      ..onSecondaryTapDown = (tapDownDetails) {
+        _notifyTouchEvent(FlTapDownEvent(tapDownDetails, secondary: true));
+      }
+      ..onSecondaryTapCancel = () {
+        _notifyTouchEvent(const FlTapCancelEvent(secondary: true));
+      }
+      ..onSecondaryTapUp = (tapUpDetails) {
+        _notifyTouchEvent(FlTapUpEvent(tapUpDetails, secondary: true));
       };
 
     longPressGestureRecognizer =
@@ -106,8 +115,21 @@ abstract class RenderBaseChart<R extends BaseTouchResponse> extends RenderBox
           FlLongPressMoveUpdate(longPressMoveUpdateDetails),
         );
       }
-      ..onLongPressEnd = (longPressEndDetails) =>
-          _notifyTouchEvent(FlLongPressEnd(longPressEndDetails));
+      ..onLongPressEnd = (longPressEndDetails) {
+        _notifyTouchEvent(FlLongPressEnd(longPressEndDetails));
+      }
+      ..onSecondaryLongPressStart = (longPressStartDetails) {
+        _notifyTouchEvent(
+            FlLongPressStart(longPressStartDetails, secondary: true));
+      }
+      ..onSecondaryLongPressMoveUpdate = (longPressMoveUpdateDetails) {
+        _notifyTouchEvent(
+          FlLongPressMoveUpdate(longPressMoveUpdateDetails, secondary: true),
+        );
+      }
+      ..onSecondaryLongPressEnd = (longPressEndDetails) {
+        _notifyTouchEvent(FlLongPressEnd(longPressEndDetails, secondary: true));
+      };
   }
 
   @override
