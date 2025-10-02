@@ -1960,20 +1960,35 @@ void main() {
       );
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-            ..called(2);
-      final rrect = result1.captured[0] as RRect;
+            ..called(3);
+
+      final rRectShadow = result1.captured[0] as RRect;
+      final shadowPaint = result1.captured[1] as Paint;
+      expect(rRectShadow.blRadius, const Radius.circular(8));
+      expect(rRectShadow.width, 112);
+      expect(rRectShadow.height, 90);
+      expect(rRectShadow.left, -22.5);
+      expect(rRectShadow.top, -106);
+      expect(shadowPaint.color, isSameColorAs(const Color(0x00000000)));
+      expect(shadowPaint.style, PaintingStyle.fill);
+      expect(
+        shadowPaint.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+
+      final rrect = result1.captured[2] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 112);
       expect(rrect.height, 90);
       expect(rrect.left, -22.5);
       expect(rrect.top, -106);
 
-      final bgTooltipPaint = result1.captured[1] as Paint;
+      final bgTooltipPaint = result1.captured[3] as Paint;
       expect(bgTooltipPaint.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
-      final rRectBorder = result1.captured[2] as RRect;
-      final paintBorder = result1.captured[3] as Paint;
+      final rRectBorder = result1.captured[4] as RRect;
+      final paintBorder = result1.captured[5] as Paint;
 
       expect(rRectBorder.blRadius, const Radius.circular(8));
       expect(rRectBorder.width, 112);
@@ -2102,6 +2117,7 @@ void main() {
             ],
           );
         },
+        shadow: const Shadow(),
       );
 
       final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
@@ -2163,8 +2179,26 @@ void main() {
       );
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-            ..called(2);
-      final rrect = result1.captured[0] as RRect;
+            ..called(3);
+
+      final rRectShadow = result1.captured[0] as RRect;
+      final shadowPaint = result1.captured[1] as Paint;
+      expect(rRectShadow.tlRadius, const Radius.circular(10));
+      expect(rRectShadow.trRadius, const Radius.circular(8));
+      expect(rRectShadow.blRadius, Radius.zero);
+      expect(rRectShadow.brRadius, Radius.zero);
+      expect(rRectShadow.width, 112);
+      expect(rRectShadow.height, 90);
+      expect(rRectShadow.left, -80);
+      expect(rRectShadow.top, 116);
+      expect(shadowPaint.color, isSameColorAs(const Color(0xFF000000)));
+      expect(shadowPaint.style, PaintingStyle.fill);
+      expect(
+        shadowPaint.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+
+      final rrect = result1.captured[2] as RRect;
       expect(rrect.tlRadius, const Radius.circular(10));
       expect(rrect.trRadius, const Radius.circular(8));
       expect(rrect.blRadius, Radius.zero);
@@ -2174,12 +2208,12 @@ void main() {
       expect(rrect.left, -80);
       expect(rrect.top, 116);
 
-      final bgTooltipPaint = result1.captured[1] as Paint;
+      final bgTooltipPaint = result1.captured[3] as Paint;
       expect(bgTooltipPaint.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
-      final rRectBorder = result1.captured[2] as RRect;
-      final paintBorder = result1.captured[3] as Paint;
+      final rRectBorder = result1.captured[4] as RRect;
+      final paintBorder = result1.captured[5] as Paint;
 
       expect(rRectBorder.tlRadius, const Radius.circular(10));
       expect(rRectBorder.trRadius, const Radius.circular(8));
@@ -2283,6 +2317,10 @@ void main() {
             ),
           );
         },
+        shadow: Shadow(
+          color: Colors.black.withValues(alpha: 0.25),
+          offset: const Offset(0, 3),
+        ),
       );
 
       final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
@@ -2344,20 +2382,35 @@ void main() {
       );
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-            ..called(2);
-      final rrect = result1.captured[0] as RRect;
+            ..called(3);
+
+      final rRectShadow = result1.captured[0] as RRect;
+      final shadowPaint = result1.captured[1] as Paint;
+      expect(rRectShadow.blRadius, const Radius.circular(8));
+      expect(rRectShadow.width, 2636);
+      expect(rRectShadow.height, 7034.0);
+      expect(rRectShadow.left, -2436);
+      expect(rRectShadow.top, -6934.0 + 3);
+      expect(shadowPaint.color, isSameColorAs(const Color(0x40000000)));
+      expect(shadowPaint.style, PaintingStyle.fill);
+      expect(
+        shadowPaint.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+
+      final rrect = result1.captured[2] as RRect;
       expect(rrect.blRadius, const Radius.circular(8));
       expect(rrect.width, 2636);
       expect(rrect.height, 7034.0);
       expect(rrect.left, -2436);
       expect(rrect.top, -6934.0);
 
-      final bgTooltipPaint = result1.captured[1] as Paint;
+      final bgTooltipPaint = result1.captured[3] as Paint;
       expect(bgTooltipPaint.color, isSameColorAs(const Color(0xf33f33f3)));
       expect(bgTooltipPaint.style, PaintingStyle.fill);
 
-      final rRectBorder = result1.captured[2] as RRect;
-      final paintBorder = result1.captured[3] as Paint;
+      final rRectBorder = result1.captured[4] as RRect;
+      final paintBorder = result1.captured[5] as Paint;
 
       expect(rRectBorder.blRadius, const Radius.circular(8));
       expect(rRectBorder.width, 2636);
