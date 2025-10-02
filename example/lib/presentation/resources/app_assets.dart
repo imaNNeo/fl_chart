@@ -15,6 +15,9 @@ class AppAssets {
         return 'assets/icons/ic_radar_chart.svg';
       case ChartType.candlestick:
         return 'assets/icons/ic_candle_chart.svg';
+      case ChartType.stackedPie:
+        // TODO: Add new icon
+        return 'assets/icons/ic_pie_chart.svg';
     }
   }
 

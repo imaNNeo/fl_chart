@@ -16,3 +16,5 @@ export 'src/chart/radar_chart/radar_chart.dart';
 export 'src/chart/radar_chart/radar_chart_data.dart';
 export 'src/chart/scatter_chart/scatter_chart.dart';
 export 'src/chart/scatter_chart/scatter_chart_data.dart';
+export 'src/chart/stacked_pie_chart/stacked_pie_chart.dart';
+export 'src/chart/stacked_pie_chart/stacked_pie_chart_data.dart';
