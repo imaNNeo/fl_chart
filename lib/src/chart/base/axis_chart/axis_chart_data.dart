@@ -183,7 +183,7 @@ class SideTitles with EquatableMixin {
   /// It draws some title on an axis, per axis values,
   /// [showTitles] determines showing or hiding this side,
   ///
-  /// Texts are depend on the axis value, you can override [getTitles],
+  /// Texts are depend on the axis value, you can override [_getTitles],
   /// it gives you an axis value (double value) and a [TitleMeta] which contains
   /// additional information about the axis.
   /// Then you should return a [Widget] to show.

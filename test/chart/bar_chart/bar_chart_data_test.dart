@@ -145,5 +145,198 @@ void main() {
       expect(barChartData1 == barChartData14, false);
       expect(barChartData1 == barChartData15, false);
     });
+
+    test('HatchPattern equality test', () {
+      const pattern1 = HatchPattern(hatchColor: Colors.red);
+      const pattern1Clone = HatchPattern(hatchColor: Colors.red);
+      const pattern2 = HatchPattern(
+        hatchColor: Colors.blue,
+        spacing: 8.0,
+        angle: -60.0,
+      );
+      const pattern3 = HatchPattern(
+        hatchColor: Colors.red,
+        backgroundColor: Colors.white,
+      );
+
+      expect(pattern1 == pattern1Clone, true);
+      expect(pattern1 == pattern2, false);
+      expect(pattern1 == pattern3, false);
+      expect(pattern2 == pattern3, false);
+    });
+
+    test('HatchPattern default values test', () {
+      const pattern = HatchPattern(hatchColor: Colors.red);
+      
+      expect(pattern.spacing, 6.0);
+      expect(pattern.angle, -45.0);
+      expect(pattern.strokeWidth, 1.0);
+      expect(pattern.hatchColor, Colors.red);
+      expect(pattern.backgroundColor, null);
+    });
+
+    test('HatchPattern copyWith test', () {
+      const original = HatchPattern(
+        hatchColor: Colors.red,
+        spacing: 8.0,
+        angle: -30.0,
+        strokeWidth: 2.0,
+        backgroundColor: Colors.white,
+      );
+
+      final copied = original.copyWith(
+        hatchColor: Colors.blue,
+        spacing: 4.0,
+      );
+
+      expect(copied.hatchColor, Colors.blue);
+      expect(copied.spacing, 4.0);
+      expect(copied.angle, -30.0); // unchanged
+      expect(copied.strokeWidth, 2.0); // unchanged
+      expect(copied.backgroundColor, Colors.white); // unchanged
+    });
+
+    test('HatchPattern lerp test', () {
+      const patternA = HatchPattern(
+        hatchColor: Colors.red,
+        spacing: 4.0,
+        angle: -30.0,
+        strokeWidth: 1.0,
+      );
+      const patternB = HatchPattern(
+        hatchColor: Colors.blue,
+        spacing: 8.0,
+        angle: -60.0,
+        strokeWidth: 3.0,
+      );
+
+      final lerped = HatchPattern.lerp(patternA, patternB, 0.5);
+      
+      expect(lerped.spacing, 6.0);
+      expect(lerped.angle, -45.0);
+      expect(lerped.strokeWidth, 2.0);
+      // Color lerping is handled by Flutter's Color.lerp
+      expect(lerped.hatchColor, Color.lerp(Colors.red, Colors.blue, 0.5));
+    });
+
+    test('BarChartRodStackItem with hatching equality test', () {
+      const hatchPattern = HatchPattern(hatchColor: Colors.red);
+      
+      final stackItem1 = BarChartRodStackItem(
+        0,
+        5,
+        null,
+        isHatched: true,
+        hatchPattern: hatchPattern,
+      );
+      
+      final stackItem1Clone = BarChartRodStackItem(
+        0,
+        5,
+        null,
+        isHatched: true,
+        hatchPattern: hatchPattern,
+      );
+      
+      final stackItem2 = BarChartRodStackItem(
+        0,
+        5,
+        Colors.blue,
+        isHatched: false,
+      );
+
+      expect(stackItem1 == stackItem1Clone, true);
+      expect(stackItem1 == stackItem2, false);
+    });
+
+    test('BarChartRodStackItem hatching copyWith test', () {
+      const hatchPattern1 = HatchPattern(hatchColor: Colors.red);
+      const hatchPattern2 = HatchPattern(hatchColor: Colors.blue);
+      
+      final original = BarChartRodStackItem(
+        0,
+        5,
+        null,
+        isHatched: true,
+        hatchPattern: hatchPattern1,
+      );
+
+      final copied = original.copyWith(
+        color: Colors.green,
+        isHatched: false,
+        hatchPattern: hatchPattern2,
+      );
+
+      expect(copied.isHatched, false);
+      expect(copied.hatchPattern, hatchPattern2);
+      expect(copied.fromY, 0); // unchanged
+      expect(copied.toY, 5); // unchanged
+    });
+
+    test('BarChartRodStackItem hatching lerp test', () {
+      const hatchPattern1 = HatchPattern(
+        hatchColor: Colors.red,
+        spacing: 4.0,
+      );
+      const hatchPattern2 = HatchPattern(
+        hatchColor: Colors.blue,
+        spacing: 8.0,
+      );
+      
+      final stackItemA = BarChartRodStackItem(
+        0,
+        5,
+        null,
+        isHatched: true,
+        hatchPattern: hatchPattern1,
+      );
+      
+      final stackItemB = BarChartRodStackItem(
+        2,
+        7,
+        null,
+        isHatched: true,
+        hatchPattern: hatchPattern2,
+      );
+
+      final lerped = BarChartRodStackItem.lerp(stackItemA, stackItemB, 0.5);
+
+      expect(lerped.fromY, 1.0);
+      expect(lerped.toY, 6.0);
+      expect(lerped.isHatched, true);
+      expect(lerped.hatchPattern?.spacing, 6.0);
+      expect(lerped.hatchPattern?.hatchColor, Color.lerp(Colors.red, Colors.blue, 0.5));
+    });
+
+    test('HatchPattern validation test', () {
+      // Valid pattern should not throw
+      expect(
+        () => const HatchPattern(hatchColor: Colors.red, spacing: 1.0),
+        returnsNormally,
+      );
+
+      // Invalid spacing should throw assertion error
+      expect(
+        () => HatchPattern(hatchColor: Colors.red, spacing: 0.0),
+        throwsA(isA<AssertionError>()),
+      );
+
+      expect(
+        () => HatchPattern(hatchColor: Colors.red, spacing: -1.0),
+        throwsA(isA<AssertionError>()),
+      );
+
+      // Invalid stroke width should throw assertion error
+      expect(
+        () => HatchPattern(hatchColor: Colors.red, strokeWidth: -1.0),
+        throwsA(isA<AssertionError>()),
+      );
+
+      // Zero stroke width should be allowed (invisible lines)
+      expect(
+        () => const HatchPattern(hatchColor: Colors.red, strokeWidth: 0.0),
+        returnsNormally,
+      );
+    });
   });
 }

@@ -493,9 +493,11 @@ class BarChartRodStackItem with EquatableMixin {
     this.label,
     this.labelStyle,
     this.borderSide = Utils.defaultBorderSide,
+    this.isHatched = false,
+    this.hatchPattern,
   }) : assert(
-          color != null || gradient != null,
-          'You must provide either a color or gradient',
+          color != null || gradient != null || (isHatched && hatchPattern != null),
+          'You must provide either a color, gradient, or hatch pattern',
         );
   final String? label;
   final TextStyle? labelStyle;
@@ -515,6 +517,12 @@ class BarChartRodStackItem with EquatableMixin {
   /// Renders border stroke for a Stacked Chart section
   final BorderSide borderSide;
 
+  /// Whether this stack item should use hatching instead of solid color/gradient
+  final bool isHatched;
+
+  /// Hatching pattern configuration (required if isHatched is true)
+  final HatchPattern? hatchPattern;
+
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
   BarChartRodStackItem copyWith({
@@ -525,6 +533,8 @@ class BarChartRodStackItem with EquatableMixin {
     String? label,
     TextStyle? labelStyle,
     BorderSide? borderSide,
+    bool? isHatched,
+    HatchPattern? hatchPattern,
   }) =>
       BarChartRodStackItem(
         fromY ?? this.fromY,
@@ -534,6 +544,8 @@ class BarChartRodStackItem with EquatableMixin {
         label: label ?? this.label,
         labelStyle: labelStyle ?? this.labelStyle,
         borderSide: borderSide ?? this.borderSide,
+        isHatched: isHatched ?? this.isHatched,
+        hatchPattern: hatchPattern ?? this.hatchPattern,
       );
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
@@ -550,12 +562,79 @@ class BarChartRodStackItem with EquatableMixin {
         label: b.label,
         labelStyle: b.labelStyle,
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
+        isHatched: b.isHatched,
+        hatchPattern: b.hatchPattern != null && a.hatchPattern != null
+            ? HatchPattern.lerp(a.hatchPattern!, b.hatchPattern!, t)
+            : b.hatchPattern,
       );
 
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props =>
-      [fromY, toY, color, gradient, label, labelStyle, borderSide];
+      [fromY, toY, color, gradient, label, labelStyle, borderSide, isHatched, hatchPattern];
+}
+
+/// Configuration for hatching pattern in bar chart stack items
+class HatchPattern with EquatableMixin {
+  /// Creates a hatch pattern configuration
+  /// 
+  /// [spacing] - Distance between parallel hatch lines in logical pixels (default: 6.0)
+  /// [angle] - Angle of hatch lines in degrees (default: -45.0 for diagonal)
+  /// [strokeWidth] - Thickness of each hatch line (default: 1.0)
+  /// [hatchColor] - Color of the hatch lines
+  /// [backgroundColor] - Optional background color behind hatching
+  const HatchPattern({
+    this.spacing = 6.0,
+    this.angle = -45.0,
+    this.strokeWidth = 1.0,
+    required this.hatchColor,
+    this.backgroundColor,
+  }) : assert(spacing > 0.0, 'Spacing must be greater than 0'),
+       assert(strokeWidth >= 0.0, 'Stroke width must be non-negative');
+
+  /// Distance between parallel hatch lines in logical pixels
+  final double spacing;
+
+  /// Angle of hatch lines in degrees
+  final double angle;
+
+  /// Thickness of each hatch line
+  final double strokeWidth;
+
+  /// Color of the hatch lines
+  final Color hatchColor;
+
+  /// Optional background color behind hatching
+  final Color? backgroundColor;
+
+  /// Creates a copy with modified properties
+  HatchPattern copyWith({
+    double? spacing,
+    double? angle,
+    double? strokeWidth,
+    Color? hatchColor,
+    Color? backgroundColor,
+  }) =>
+      HatchPattern(
+        spacing: spacing ?? this.spacing,
+        angle: angle ?? this.angle,
+        strokeWidth: strokeWidth ?? this.strokeWidth,
+        hatchColor: hatchColor ?? this.hatchColor,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+      );
+
+  /// Lerps between two HatchPattern instances
+  static HatchPattern lerp(HatchPattern a, HatchPattern b, double t) =>
+      HatchPattern(
+        spacing: lerpDouble(a.spacing, b.spacing, t)!,
+        angle: lerpDouble(a.angle, b.angle, t)!,
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
+        hatchColor: Color.lerp(a.hatchColor, b.hatchColor, t)!,
+        backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+      );
+
+  @override
+  List<Object?> get props => [spacing, angle, strokeWidth, hatchColor, backgroundColor];
 }
 
 /// Holds values to draw a rod in rear of the main rod.
