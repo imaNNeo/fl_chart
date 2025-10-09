@@ -41,8 +41,17 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
         ..clipRect(Offset.zero & canvasWrapper.size);
     }
     super.paint(context, canvasWrapper, holder);
+
+    if (!holder.data.extraLinesData.extraLinesOnTop) {
+      super.drawExtraLines(context, canvasWrapper, holder);
+    }
+
     drawAxisSpotIndicator(context, canvasWrapper, holder);
     drawCandlesticks(context, canvasWrapper, holder);
+
+    if (holder.data.extraLinesData.extraLinesOnTop) {
+      super.drawExtraLines(context, canvasWrapper, holder);
+    }
 
     if (holder.chartVirtualRect != null) {
       canvasWrapper.restore();

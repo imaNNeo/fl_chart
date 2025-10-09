@@ -30,11 +30,16 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
   /// on top of each [CandlestickChartData.candleSpots] using [showingTooltipIndicators],
   /// just put spot indices you want to show it on top of them.
   ///
+  /// [CandlestickChart] draws some horizontal or vertical lines on above or below of everything,
+  /// they are useful in some scenarios, for example you can show average line, you can fill
+  /// [extraLinesData] property to have your extra lines.
+  ///
   /// [clipData] forces the [CandlestickChart] to draw lines inside the chart bounding box.
   CandlestickChartData({
     List<CandlestickSpot>? candlestickSpots,
     FlCandlestickPainter? candlestickPainter,
     FlTitlesData? titlesData,
+    ExtraLinesData? extraLinesData,
     CandlestickTouchData? candlestickTouchData,
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
@@ -57,6 +62,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         super(
           gridData: gridData ?? const FlGridData(),
           titlesData: titlesData ?? const FlTitlesData(),
+          extraLinesData: extraLinesData ?? const ExtraLinesData(),
           clipData: clipData ?? const FlClipData.none(),
           minX: minX ??
               CandlestickChartHelper.calculateMaxAxisValues(
@@ -121,6 +127,8 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
           t,
         ),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        extraLinesData:
+            ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         candlestickTouchData: b.candlestickTouchData,
         showingTooltipIndicators: lerpIntList(
           a.showingTooltipIndicators,
@@ -156,6 +164,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
     List<CandlestickSpot>? candlestickSpots,
     FlCandlestickPainter? candlestickPainter,
     FlTitlesData? titlesData,
+    ExtraLinesData? extraLinesData,
     CandlestickTouchData? candlestickTouchData,
     List<int>? showingTooltipIndicators,
     FlGridData? gridData,
@@ -176,6 +185,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         candlestickSpots: candlestickSpots ?? this.candlestickSpots,
         candlestickPainter: candlestickPainter ?? this.candlestickPainter,
         titlesData: titlesData ?? this.titlesData,
+        extraLinesData: extraLinesData ?? this.extraLinesData,
         candlestickTouchData: candlestickTouchData ?? this.candlestickTouchData,
         showingTooltipIndicators:
             showingTooltipIndicators ?? this.showingTooltipIndicators,
@@ -204,6 +214,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         showingTooltipIndicators,
         gridData,
         titlesData,
+        extraLinesData,
         minX,
         maxX,
         baselineX,
