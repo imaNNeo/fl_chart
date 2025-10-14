@@ -341,6 +341,7 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
+    this.surfacePainter,
   })  : fromY = fromY ?? 0,
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
@@ -349,6 +350,10 @@ class BarChartRodData with EquatableMixin {
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
         rodStackItems = rodStackItems ?? const [];
+
+  /// If provided, this [BarChartRodData] will be drawn using this CustomPainter.
+  /// If null, the default rendering is used.
+  final FlSurfacePainter? surfacePainter;
 
   /// [BarChart] renders rods vertically from [fromY].
   final double fromY;
@@ -413,6 +418,7 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
+    FlSurfacePainter? surfacePainter,
   }) =>
       BarChartRodData(
         fromY: fromY ?? this.fromY,
@@ -426,6 +432,7 @@ class BarChartRodData with EquatableMixin {
         borderSide: borderSide ?? this.borderSide,
         backDrawRodData: backDrawRodData ?? this.backDrawRodData,
         rodStackItems: rodStackItems ?? this.rodStackItems,
+        surfacePainter: surfacePainter ?? this.surfacePainter,
       );
 
   /// Lerps a [BarChartRodData] based on [t] value, check [Tween.lerp].
@@ -447,6 +454,8 @@ class BarChartRodData with EquatableMixin {
         ),
         rodStackItems:
             lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
+        surfacePainter:
+            lerpSurfacePainter(a.surfacePainter, b.surfacePainter, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -463,6 +472,7 @@ class BarChartRodData with EquatableMixin {
         rodStackItems,
         color,
         gradient,
+        surfacePainter,
       ];
 }
 
