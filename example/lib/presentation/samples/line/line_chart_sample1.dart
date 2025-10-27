@@ -223,7 +223,7 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
-        curve: const LineChartCubicTensionCurve(),
+        curve: const LineChartCubicMonotoneCurve(),
         color: AppColors.contentColorCyan,
         barWidth: 8,
         isStrokeCapRound: true,
