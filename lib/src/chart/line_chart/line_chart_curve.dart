@@ -4,8 +4,12 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 
 LineChartCurve lerpCurve(LineChartCurve a, LineChartCurve b, double t) {
-  a = a._withNoCurveResolved;
-  b = b._withNoCurveResolved;
+  // Align curve types
+  (a, b) = switch ((a, b)) {
+    (final LineChartNoCurve _, _) => (b.noCurveCase, b),
+    (_, final LineChartNoCurve _) => (a, a.noCurveCase),
+    (_, _) => (a, b),
+  };
 
   if (a.runtimeType == b.runtimeType) {
     return a.lerp(b, t) as LineChartCurve;
@@ -60,9 +64,6 @@ abstract class LineChartCurve<T extends LineChartCurve<T>> with EquatableMixin {
   void appendToPath(Path path, Offset previous, Offset current, Offset? next);
 
   T lerp(covariant T other, double t);
-
-  LineChartCurve get _withNoCurveResolved =>
-      this is LineChartNoCurve ? noCurveCase : this;
 }
 
 class LineChartNoCurve extends LineChartCurve<LineChartNoCurve> {
