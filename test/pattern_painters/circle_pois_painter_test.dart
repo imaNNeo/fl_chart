@@ -15,7 +15,7 @@ void main() {
   group('CirclePoisPatternPainter', () {
     test('should have correct default values', () {
       final painter = CirclePoisPatternPainter(
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
       expect(painter.color, Colors.black);
       expect(painter.dotsPerRow, 2);
@@ -28,12 +28,12 @@ void main() {
       final a = CirclePoisPatternPainter(
         color: Colors.red,
         dotsPerRow: 3,
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
       final b = CirclePoisPatternPainter(
         color: Colors.red,
         dotsPerRow: 3,
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
 
       expect(a.color, b.color);
@@ -41,12 +41,12 @@ void main() {
       expect(a.gap, b.gap);
       expect(a.verticalGap, b.verticalGap);
       expect(a.margin, b.margin);
-      expect(a.poisShader, b.poisShader);
+      expect(a.flShader, b.flShader);
     });
 
     test('should not repaint if nothing changes', () {
       final painter = CirclePoisPatternPainter(
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
       expect(painter.shouldRepaint(painter), false);
     });
@@ -59,7 +59,7 @@ void main() {
               painter: CirclePoisPatternPainter(
                 color: Colors.purple,
                 dotsPerRow: 4,
-                poisShader: poisShader,
+                mockShader: poisShader,
               ),
               child: const SizedBox(width: 100, height: 100),
             ),
@@ -77,7 +77,7 @@ void main() {
               painter: CirclePoisPatternPainter(
                 color: Colors.purple,
                 dotsPerRow: 1,
-                poisShader: poisShader,
+                mockShader: poisShader,
               ),
               child: const SizedBox(width: 100, height: 100),
             ),
@@ -96,10 +96,10 @@ void main() {
       final painter = CirclePoisPatternPainter(
         color: Colors.purple,
         dotsPerRow: 4,
-        poisShader: notInitializedShader,
+        mockShader: notInitializedShader,
       );
-      expect(() => painter.poisShader.shader, throwsStateError);
-      expect(() => painter.poisShader.setFloat(0, 1), throwsStateError);
+      expect(() => painter.flShader.shader, throwsStateError);
+      expect(() => painter.flShader.setFloat(0, 1), throwsStateError);
     });
   });
 }

@@ -42,13 +42,11 @@ class BarChartSample1State extends State<BarChartSample1> {
   bool isPlaying = false;
   BarPattern pattern = BarPattern.none;
   final stripesPainter = StripesPatternPainter(
-    stripesShader: StripesShader(),
     width: 2,
     gap: 8,
     angle: 45,
   );
   final squarePoisPainter = SquarePoisPatternPainter(
-    poisShader: SquarePoisShader(),
     color: AppColors.contentColorBlack,
     squaresPerRow: 4,
     gap: 2.0,
@@ -56,7 +54,6 @@ class BarChartSample1State extends State<BarChartSample1> {
     margin: 2.0,
   );
   final circlePoisPainter = CirclePoisPatternPainter(
-    poisShader: CirclePoisShader(),
     color: AppColors.contentColorBlack,
     gap: 2.0,
   );
@@ -173,13 +170,13 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
-  FlSurfacePainter? _getPainter() {
+  FlSurfacePainter<FlShader>? _getPainter() {
     return switch (pattern) {
       BarPattern.stripes => stripesPainter,
       BarPattern.squarePois => squarePoisPainter,
       BarPattern.circlePois => circlePoisPainter,
       BarPattern.none => null,
-    };
+    } as FlSurfacePainter<FlShader>?;
   }
 
   BarChartGroupData makeGroupData(

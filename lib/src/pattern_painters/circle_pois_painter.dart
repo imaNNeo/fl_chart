@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 /// The pattern is rendered using a custom [CirclePoisShader], which allows for efficient and flexible drawing.
 ///
 /// ### Constructor parameters:
-/// - [poisShader]: The shader responsible for rendering the polka dot pattern.
 /// - [color]: The color of the dots (default: black).
 /// - [dotsPerRow]: Number of dots per row (default: 2).
 /// - [gap]: Horizontal gap between dots (default: 2.0).
@@ -31,15 +30,15 @@ import 'package:flutter/material.dart';
 /// )
 /// ```
 /// {@endtemplate}
-class CirclePoisPatternPainter extends FlSurfacePainter {
+class CirclePoisPatternPainter extends FlSurfacePainter<CirclePoisShader> {
   CirclePoisPatternPainter({
-    required this.poisShader,
+    @visibleForTesting CirclePoisShader? mockShader,
     this.color = Colors.black,
     this.dotsPerRow = 2,
     this.gap = 2.0,
     this.verticalGap = 2.0,
     this.margin = 2.0,
-  }) : super(flShader: poisShader);
+  }) : super(flShader: mockShader ?? CirclePoisShader());
 
   /// The color of the dots.
   final Color color;
@@ -56,12 +55,9 @@ class CirclePoisPatternPainter extends FlSurfacePainter {
   /// The margin around the pattern from the borders.
   final double margin;
 
-  /// The shader used to render the polka dot pattern.
-  final CirclePoisShader poisShader;
-
   @override
   void paint(Canvas canvas, Size size) {
-    poisShader
+    flShader
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
       ..setFloat(2, color.r)
@@ -74,7 +70,7 @@ class CirclePoisPatternPainter extends FlSurfacePainter {
 
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint()..shader = poisShader.shader,
+      Paint()..shader = flShader.shader,
     );
   }
 

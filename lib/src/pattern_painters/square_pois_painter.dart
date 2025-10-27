@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 /// The pattern is rendered using a custom [SquarePoisShader], which allows for efficient and flexible drawing.
 ///
 /// ### Constructor parameters:
-/// - [poisShader]: The shader responsible for rendering the square polka dot pattern.
 /// - [color]: The color of the squares (default: black).
 /// - [squaresPerRow]: Number of squares per row (default: 3).
 /// - [gap]: Horizontal gap between squares (default: 2.0).
@@ -31,15 +30,15 @@ import 'package:flutter/material.dart';
 /// )
 /// ```
 /// {@endtemplate}
-class SquarePoisPatternPainter extends FlSurfacePainter {
+class SquarePoisPatternPainter extends FlSurfacePainter<SquarePoisShader> {
   SquarePoisPatternPainter({
-    required this.poisShader,
+    @visibleForTesting SquarePoisShader? mockShader,
     this.color = Colors.black,
     this.squaresPerRow = 3,
     this.gap = 2.0,
     this.verticalGap = 2.0,
     this.margin = 2.0,
-  }) : super(flShader: poisShader);
+  }) : super(flShader: mockShader ?? SquarePoisShader());
 
   /// The color of the squares.
   final Color color;
@@ -56,12 +55,9 @@ class SquarePoisPatternPainter extends FlSurfacePainter {
   /// The margin around the pattern from the borders.
   final double margin;
 
-  /// The shader used to render the polka dot pattern.
-  final SquarePoisShader poisShader;
-
   @override
   void paint(Canvas canvas, Size size) {
-    poisShader
+    flShader
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
       ..setFloat(2, color.r)
@@ -74,7 +70,7 @@ class SquarePoisPatternPainter extends FlSurfacePainter {
 
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint()..shader = poisShader.shader,
+      Paint()..shader = flShader.shader,
     );
   }
 

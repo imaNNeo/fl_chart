@@ -107,14 +107,14 @@ void main() {
               fromY: 1,
               toY: 10,
               surfacePainter: StripesPatternPainter(
-                stripesShader: stripesShader,
+                mockShader: stripesShader,
               ),
             ),
             BarChartRodData(
               fromY: 2,
               toY: 10,
               surfacePainter: StripesPatternPainter(
-                stripesShader: stripesShader,
+                mockShader: stripesShader,
               ),
             ),
           ],

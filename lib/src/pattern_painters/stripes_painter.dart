@@ -1,5 +1,4 @@
-import 'package:fl_chart/src/shaders/fl_surface_painter.dart';
-import 'package:fl_chart/src/shaders/stripes_shader.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 /// {@template stripes_pattern_painter}
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 /// The pattern is rendered using a custom [StripesShader], which enables efficient and flexible drawing of the stripes.
 ///
 /// ### Constructor parameters:
-/// - [stripesShader]: The shader responsible for rendering the stripe pattern.
 /// - [color]: The color of the stripes (default: black).
 /// - [width]: The width of each stripe (default: 20).
 /// - [gap]: The gap between each stripe, in logical pixels (default: 10).
@@ -30,14 +28,14 @@ import 'package:flutter/material.dart';
 /// )
 /// ```
 /// {@endtemplate}
-class StripesPatternPainter extends FlSurfacePainter {
+class StripesPatternPainter extends FlSurfacePainter<StripesShader> {
   StripesPatternPainter({
-    required this.stripesShader,
+    @visibleForTesting StripesShader? mockShader,
     this.color = Colors.black,
     this.width = 2,
     this.gap = 4,
     this.angle = 45,
-  }) : super(flShader: stripesShader);
+  }) : super(flShader: mockShader ?? StripesShader());
 
   /// The color of the stripes.
   final Color color;
@@ -51,12 +49,9 @@ class StripesPatternPainter extends FlSurfacePainter {
   /// Angle in degrees, positive values rotate clockwise from the x-axis.
   final double angle;
 
-  /// The shader used to render the stripes pattern.
-  final StripesShader stripesShader;
-
   @override
   void paint(Canvas canvas, Size size) {
-    stripesShader
+    flShader
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
       ..setFloat(2, width)
@@ -66,7 +61,7 @@ class StripesPatternPainter extends FlSurfacePainter {
       ..setFloat(6, color.g)
       ..setFloat(7, color.b);
 
-    final paint = Paint()..shader = stripesShader.shader;
+    final paint = Paint()..shader = flShader.shader;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
   }
 

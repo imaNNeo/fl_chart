@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 ///
 /// The [flShader] property holds the shader instance to be used for painting.
 /// {@endtemplate}
-abstract class FlSurfacePainter extends CustomPainter {
+abstract class FlSurfacePainter<S extends FlShader> extends CustomPainter {
   FlSurfacePainter({required this.flShader});
 
   /// {@macro fl_shader}
-  final FlShader flShader;
+  final S flShader;
 
   /// Initializes the painter by setting up the shader.
   Future<void> initialize() async {

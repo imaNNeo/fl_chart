@@ -356,25 +356,21 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           if (barRod.surfacePainter != null &&
               (barRod.surfacePainter?.isInitialized ?? false)) {
             final barRect = barRRect.getRect();
-            final recorder = PictureRecorder();
-            final customCanvas = Canvas(
-              recorder,
-              Rect.fromLTWH(0, 0, barRect.width, barRect.height),
-            )..clipRRect(
-                RRect.fromRectAndCorners(
-                  Rect.fromLTWH(0, 0, barRect.width, barRect.height),
-                  topLeft: barRRect.tlRadius,
-                  topRight: barRRect.trRadius,
-                  bottomLeft: barRRect.blRadius,
-                  bottomRight: barRRect.brRadius,
-                ),
-              );
-            barRod.surfacePainter!
-                .paint(customCanvas, Size(barRect.width, barRect.height));
-            final picture = recorder.endRecording();
             canvasWrapper.canvas.save();
             canvasWrapper.canvas.translate(barRect.left, barRect.top);
-            canvasWrapper.canvas.drawPicture(picture);
+            canvasWrapper.canvas.clipRRect(
+              RRect.fromRectAndCorners(
+                Rect.fromLTWH(0, 0, barRect.width, barRect.height),
+                topLeft: barRRect.tlRadius,
+                topRight: barRRect.trRadius,
+                bottomLeft: barRRect.blRadius,
+                bottomRight: barRRect.brRadius,
+              ),
+            );
+            barRod.surfacePainter!.paint(
+              canvasWrapper.canvas,
+              Size(barRect.width, barRect.height),
+            );
             canvasWrapper.canvas.restore();
           }
         }

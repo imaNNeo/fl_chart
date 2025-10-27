@@ -15,7 +15,7 @@ void main() {
   group('SquarePoisPatternPainter', () {
     test('should have correct default values', () {
       final painter = SquarePoisPatternPainter(
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
       expect(painter.color, Colors.black);
       expect(painter.squaresPerRow, 3);
@@ -29,13 +29,13 @@ void main() {
         color: Colors.red,
         squaresPerRow: 2,
         gap: 3,
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
       final b = SquarePoisPatternPainter(
         color: Colors.red,
         squaresPerRow: 2,
         gap: 3,
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
 
       expect(a.color, b.color);
@@ -47,7 +47,7 @@ void main() {
 
     test('should not repaint if nothing changes', () {
       final painter = SquarePoisPatternPainter(
-        poisShader: poisShader,
+        mockShader: poisShader,
       );
       expect(painter.shouldRepaint(painter), false);
     });
@@ -60,7 +60,7 @@ void main() {
               painter: SquarePoisPatternPainter(
                 color: Colors.orange,
                 squaresPerRow: 4,
-                poisShader: poisShader,
+                mockShader: poisShader,
               ),
               child: const SizedBox(width: 100, height: 100),
             ),
@@ -79,7 +79,7 @@ void main() {
               painter: SquarePoisPatternPainter(
                 color: Colors.orange,
                 squaresPerRow: 1,
-                poisShader: poisShader,
+                mockShader: poisShader,
               ),
               child: const SizedBox(width: 100, height: 100),
             ),
@@ -97,10 +97,10 @@ void main() {
         () {
       final painter = SquarePoisPatternPainter(
         color: Colors.purple,
-        poisShader: notInitializedShader,
+        mockShader: notInitializedShader,
       );
-      expect(() => painter.poisShader.shader, throwsStateError);
-      expect(() => painter.poisShader.setFloat(0, 1), throwsStateError);
+      expect(() => painter.flShader.shader, throwsStateError);
+      expect(() => painter.flShader.setFloat(0, 1), throwsStateError);
     });
   });
 }

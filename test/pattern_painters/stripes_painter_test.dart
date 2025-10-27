@@ -11,7 +11,7 @@ void main() {
   group('Initialization', () {
     test('should initialize shader', () async {
       final painter = StripesPatternPainter(
-        stripesShader: stripesShader,
+        mockShader: stripesShader,
       );
       await painter.initialize();
 
@@ -27,7 +27,7 @@ void main() {
   group('StripesPatternPainter', () {
     test('should have correct default values', () {
       final painter = StripesPatternPainter(
-        stripesShader: stripesShader,
+        mockShader: stripesShader,
       );
       expect(painter.color, Colors.black);
       expect(painter.width, 2);
@@ -41,14 +41,14 @@ void main() {
         width: 3,
         gap: 5,
         angle: 30,
-        stripesShader: stripesShader,
+        mockShader: stripesShader,
       );
       final b = StripesPatternPainter(
         color: Colors.red,
         width: 3,
         gap: 5,
         angle: 30,
-        stripesShader: stripesShader,
+        mockShader: stripesShader,
       );
 
       expect(a.angle, equals(b.angle));
@@ -59,7 +59,7 @@ void main() {
 
     test('should not repaint if nothing changes', () {
       final painter = StripesPatternPainter(
-        stripesShader: stripesShader,
+        mockShader: stripesShader,
       );
       expect(painter.shouldRepaint(painter), false);
     });
@@ -75,7 +75,7 @@ void main() {
                 width: 4,
                 gap: 12,
                 angle: 90,
-                stripesShader: stripesShader,
+                mockShader: stripesShader,
               ),
               child: const SizedBox(width: 100, height: 100),
             ),
@@ -95,7 +95,7 @@ void main() {
                 width: 4,
                 gap: 12,
                 angle: 180,
-                stripesShader: stripesShader,
+                mockShader: stripesShader,
               ),
               child: const SizedBox(width: 100, height: 100),
             ),
@@ -114,7 +114,7 @@ void main() {
                 color: Colors.green,
                 width: 4,
                 gap: 12,
-                stripesShader: stripesShader,
+                mockShader: stripesShader,
               ),
               child: const SizedBox(width: 100, height: 100),
             ),
@@ -128,14 +128,14 @@ void main() {
         color: Colors.red,
         gap: 8,
         angle: 0,
-        stripesShader: stripesShader,
+        mockShader: stripesShader,
       );
       final b = StripesPatternPainter(
         color: Colors.blue,
         width: 4,
         gap: 16,
         angle: 90,
-        stripesShader: stripesShader,
+        mockShader: stripesShader,
       );
       final lerped = lerpSurfacePainter(a, b, 0.4)!;
 
@@ -158,10 +158,10 @@ void main() {
         () {
       final painter = StripesPatternPainter(
         color: Colors.purple,
-        stripesShader: notInitializedShader,
+        mockShader: notInitializedShader,
       );
-      expect(() => painter.stripesShader.shader, throwsStateError);
-      expect(() => painter.stripesShader.setFloat(0, 1), throwsStateError);
+      expect(() => painter.flShader.shader, throwsStateError);
+      expect(() => painter.flShader.setFloat(0, 1), throwsStateError);
     });
   });
 }
