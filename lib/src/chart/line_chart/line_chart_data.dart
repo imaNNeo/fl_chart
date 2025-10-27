@@ -246,13 +246,16 @@ class LineChartBarData with EquatableMixin {
     LineChartCurve? curve,
     @Deprecated('Use curve instead') bool isCurved = false,
     @Deprecated(
-        'Use LineChartCubicTensionCurve.smoothness instead, or try other curve types')
+      'Use LineChartCubicTensionCurve.smoothness instead, or try other curve types',
+    )
     double curveSmoothness = 0.35,
     @Deprecated(
-        'Use LineChartCubicTensionCurve.preventCurveOverShooting instead, or try other curve types')
+      'Use LineChartCubicTensionCurve.preventCurveOverShooting instead, or try other curve types',
+    )
     bool preventCurveOverShooting = false,
     @Deprecated(
-        'Use LineChartCubicTensionCurve.preventCurveOvershootingThreshold instead, or try other curve types')
+      'Use LineChartCubicTensionCurve.preventCurveOvershootingThreshold instead, or try other curve types',
+    )
     double preventCurveOvershootingThreshold = 10.0,
     this.isStrokeCapRound = false,
     this.isStrokeJoinRound = false,
@@ -271,8 +274,12 @@ class LineChartBarData with EquatableMixin {
         belowBarData = belowBarData ?? BarAreaData(),
         aboveBarData = aboveBarData ?? BarAreaData(),
         curve = curve ??
-            _resovleCurve(isCurved, curveSmoothness, preventCurveOverShooting,
-                preventCurveOvershootingThreshold) {
+            _resovleCurve(
+              isCurved,
+              curveSmoothness,
+              preventCurveOverShooting,
+              preventCurveOvershootingThreshold,
+            ) {
     FlSpot? mostLeft;
     FlSpot? mostTop;
     FlSpot? mostRight;
@@ -314,10 +321,11 @@ class LineChartBarData with EquatableMixin {
   }
 
   static LineChartCurve _resovleCurve(
-          bool isCurved,
-          double curveSmoothness,
-          bool preventCurveOverShooting,
-          double preventCurveOvershootingThreshold) =>
+    bool isCurved,
+    double curveSmoothness,
+    bool preventCurveOverShooting,
+    double preventCurveOvershootingThreshold,
+  ) =>
       isCurved
           ? LineChartCubicTensionCurve(
               smoothness: curveSmoothness,
@@ -450,13 +458,16 @@ class LineChartBarData with EquatableMixin {
     LineChartCurve? curve,
     @Deprecated('Use curve instead') bool? isCurved,
     @Deprecated(
-        'Use LineChartCubicTensionCurve.smoothness instead, or try other curve types')
+      'Use LineChartCubicTensionCurve.smoothness instead, or try other curve types',
+    )
     double? curveSmoothness,
     @Deprecated(
-        'Use LineChartCubicTensionCurve.preventCurveOverShooting instead, or try other curve types')
+      'Use LineChartCubicTensionCurve.preventCurveOverShooting instead, or try other curve types',
+    )
     bool? preventCurveOverShooting,
     @Deprecated(
-        'Use LineChartCubicTensionCurve.preventCurveOvershootingThreshold instead, or try other curve types')
+      'Use LineChartCubicTensionCurve.preventCurveOvershootingThreshold instead, or try other curve types',
+    )
     double? preventCurveOvershootingThreshold,
     bool? isStrokeCapRound,
     bool? isStrokeJoinRound,
@@ -479,8 +490,12 @@ class LineChartBarData with EquatableMixin {
         gradientArea: gradientArea ?? this.gradientArea,
         barWidth: barWidth ?? this.barWidth,
         curve: curve ??
-            _resolveCopyWithCurve(isCurved, curveSmoothness,
-                preventCurveOverShooting, preventCurveOvershootingThreshold) ??
+            _resolveCopyWithCurve(
+              isCurved,
+              curveSmoothness,
+              preventCurveOverShooting,
+              preventCurveOvershootingThreshold,
+            ) ??
             this.curve,
         isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
         isStrokeJoinRound: isStrokeJoinRound ?? this.isStrokeJoinRound,
@@ -496,10 +511,11 @@ class LineChartBarData with EquatableMixin {
       );
 
   LineChartCurve? _resolveCopyWithCurve(
-      bool? isCurved,
-      double? curveSmoothness,
-      bool? preventCurveOverShooting,
-      double? preventCurveOvershootingThreshold) {
+    bool? isCurved,
+    double? curveSmoothness,
+    bool? preventCurveOverShooting,
+    double? preventCurveOvershootingThreshold,
+  ) {
     if (isCurved == null) {
       return switch (curve) {
         final LineChartCubicTensionCurve cubicCurve => cubicCurve.copyWith(

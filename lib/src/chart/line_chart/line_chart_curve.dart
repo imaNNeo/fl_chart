@@ -327,7 +327,9 @@ class LineChartCubicMonotoneCurve
 
   @override
   LineChartCubicMonotoneCurve lerp(
-          covariant LineChartCubicMonotoneCurve other, double t) =>
+    covariant LineChartCubicMonotoneCurve other,
+    double t,
+  ) =>
       LineChartCubicMonotoneCurve(
         smooth: lerpDouble(smooth, other.smooth, t)!,
         monotone: other.monotone,

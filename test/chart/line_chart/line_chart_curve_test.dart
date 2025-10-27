@@ -4,8 +4,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_curve.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void expectLikeStraightLine(LineChartCurve curve,
-    {Offset point0 = Offset.zero, Offset point1 = const Offset(10, 10)}) {
+void expectLikeStraightLine(
+  LineChartCurve curve, {
+  Offset point0 = Offset.zero,
+  Offset point1 = const Offset(10, 10),
+}) {
   final path = Path()..moveTo(point0.dx, point0.dy);
   curve.appendToPath(path, point0, point1, null);
 
