@@ -306,10 +306,10 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           // draw rod stack
           if (barRod.rodStackItems.isNotEmpty) {
             // Calculate scale factor to ensure minimum height for corner radius
-            final totalHeightPixels = (
-              getPixelY(barRod.fromY, viewSize, holder) -
-              getPixelY(barRod.toY, viewSize, holder)
-            ).abs();
+            final totalHeightPixels =
+                (getPixelY(barRod.fromY, viewSize, holder) -
+                        getPixelY(barRod.toY, viewSize, holder))
+                    .abs();
 
             final scaleFactor = totalHeightPixels < cornerHeight
                 ? cornerHeight / totalHeightPixels
@@ -324,7 +324,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               // Apply scale factor only when needed
               if (scaleFactor > 1.0) {
                 final basePixelY = getPixelY(barRod.fromY, viewSize, holder);
-                stackFromY = basePixelY - (basePixelY - stackFromY) * scaleFactor;
+                stackFromY =
+                    basePixelY - (basePixelY - stackFromY) * scaleFactor;
                 stackToY = basePixelY - (basePixelY - stackToY) * scaleFactor;
               }
 

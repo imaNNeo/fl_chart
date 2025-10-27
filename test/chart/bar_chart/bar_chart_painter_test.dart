@@ -1630,8 +1630,11 @@ void main() {
       barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
 
       // Verify that clipRect was called for each stack item
-      expect(clipRectResults.length, 2,
-          reason: 'Should have clipped for 2 stack items');
+      expect(
+        clipRectResults.length,
+        2,
+        reason: 'Should have clipped for 2 stack items',
+      );
 
       // Verify that the clip rectangles have been scaled properly
       // The total bar height in pixels would be very small (2% of 200 = 4px)
@@ -1645,17 +1648,28 @@ void main() {
       // print('rect2: $rect2, height: ${rect2.height}');
 
       // Stack items should not overlap and should be adjacent
-      expect(rect2.bottom, closeTo(rect1.top, tolerance),
-          reason: 'Stack items should be adjacent without gaps (rect2.bottom should equal rect1.top)');
+      expect(
+        rect2.bottom,
+        closeTo(rect1.top, tolerance),
+        reason:
+            'Stack items should be adjacent without gaps (rect2.bottom should equal rect1.top)',
+      );
 
       // The combined height should equal the scaled total height (cornerHeight)
       final totalScaledHeight = rect1.height + rect2.height;
-      expect(totalScaledHeight, closeTo(8.0, tolerance),
-          reason: 'Total scaled height should equal corner height (8px)');
+      expect(
+        totalScaledHeight,
+        closeTo(8.0, tolerance),
+        reason: 'Total scaled height should equal corner height (8px)',
+      );
 
       // Heights should be proportional to data values (1:1 ratio)
-      expect(rect1.height, closeTo(rect2.height, tolerance),
-          reason: 'Stack items with equal data heights (1) should have equal pixel heights');
+      expect(
+        rect1.height,
+        closeTo(rect2.height, tolerance),
+        reason:
+            'Stack items with equal data heights (1) should have equal pixel heights',
+      );
     });
   });
 
