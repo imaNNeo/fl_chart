@@ -32,6 +32,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |gridBorderData|Style of the grid borders|BorderSide(color: Colors.black, width: 2)|
 |radarTouchData|[RadarTouchData](#radartouchdata-read-about-touch-handling) handles the touch behaviors and responses.|RadarTouchData()|
 |isMinValueAtCenter|If true, the minimum value of the [RadarChart] will be at the center of the chart.|false|
+|maxValue|Defines a custom maximum value for the [RadarChart]. If provided, this value will be used instead of the automatically calculated maximum from the data.|null|
+|checkToShowTick|Determines which ticks should be displayed on the [RadarChart]. By default, shows all ticks except the last one.|showTickWithoutLast|
 
 ### RadarDataSet
 |PropName		|Description	|default value|
