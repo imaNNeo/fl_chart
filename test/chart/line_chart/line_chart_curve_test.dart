@@ -4,20 +4,26 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_curve.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void expectLikeStraightLine(
-  LineChartCurve curve, {
-  Offset point0 = Offset.zero,
-  Offset point1 = const Offset(10, 10),
-}) {
-  final path = Path()..moveTo(point0.dx, point0.dy);
-  curve.appendToPath(path, point0, point1, null);
-
-  final metrics = path.computeMetrics().toList();
-  expect(metrics.length, 1);
-  expect(metrics.single.length, closeTo(point1.distanceTo(point0), 0.001));
-}
+const samplePoints1 = [
+  Offset(10, 10),
+  Offset(20, 20),
+  Offset(30, 40),
+  Offset(40, 10),
+];
 
 void main() {
+  test('static constructor', () {
+    expect(LineChartCurve.noCurve, equals(const LineChartNoCurve()));
+    expect(
+      LineChartCurve.cubicTension(),
+      equals(const LineChartCubicTensionCurve()),
+    );
+    expect(
+      LineChartCurve.cubicMonotone(),
+      equals(const LineChartCubicMonotoneCurve()),
+    );
+  });
+
   group('LineChartNoCurve', () {
     test('equality check', () {
       const a = LineChartNoCurve();
@@ -51,25 +57,58 @@ void main() {
       expect(a.hashCode, equals(b.hashCode));
     });
 
-    test('no curve case', () {
-      const curve = LineChartCubicTensionCurve();
+    test('lerp no curve', () {
+      const curve = LineChartCubicTensionCurve(smoothness: 0.8);
 
       expect(
-        curve.noCurveCase,
-        equals(
-          LineChartCubicTensionCurve(
-            smoothness: 0,
-            preventCurveOverShooting: curve.preventCurveOverShooting,
-            preventCurveOvershootingThreshold:
-                curve.preventCurveOvershootingThreshold,
-          ),
-        ),
+        lerpCurve(curve, const LineChartNoCurve(), 0.5),
+        equals(const LineChartCubicTensionCurve(smoothness: 0.4)),
       );
     });
 
     test('CubicTensionCurve with smoothness = 0 behaves like straight line',
         () {
       expectLikeStraightLine(const LineChartCubicTensionCurve(smoothness: 0));
+    });
+
+    test(
+        'prevents overshoot when dy difference is below threshold in y direction',
+        () {
+      const curve = LineChartCubicTensionCurve(
+        preventCurveOverShooting: true,
+      );
+
+      // Create points where dy difference is below threshold (5 < 10)
+      final points = [
+        Offset.zero,
+        const Offset(20, 5), // dy = 5
+        const Offset(40, 8), // dy = 3
+      ];
+
+      final path = _buildPathWithCurve(points, curve);
+
+      final metrics = path.computeMetrics().toList();
+      expect(metrics.length, 1);
+    });
+
+    test(
+        'prevents overshoot when dx difference is below threshold in x direction',
+        () {
+      const curve = LineChartCubicTensionCurve(
+        preventCurveOverShooting: true,
+      );
+
+      // Create points where dx difference is below threshold (5 < 10)
+      final points = [
+        Offset.zero,
+        const Offset(5, 20), // dx = 5
+        const Offset(8, 40), // dx = 3
+      ];
+
+      final path = _buildPathWithCurve(points, curve);
+
+      final metrics = path.computeMetrics().toList();
+      expect(metrics.length, 1);
     });
   });
 
@@ -82,122 +121,98 @@ void main() {
       expect(a.hashCode, equals(b.hashCode));
     });
 
-    test('no curve case', () {
-      const curve = LineChartCubicMonotoneCurve();
+    test('lerp no curve', () {
+      const curve = LineChartCubicMonotoneCurve(smooth: 0.8);
 
       expect(
-        curve.noCurveCase,
-        equals(
-          LineChartCubicMonotoneCurve(
-            smooth: 0,
-            monotone: curve.monotone,
-            tinyThresholdSquared: curve.tinyThresholdSquared,
-          ),
+        lerpCurve(const LineChartNoCurve(), curve, 0.5),
+        equals(const LineChartCubicMonotoneCurve(smooth: 0.4)),
+      );
+    });
+
+    test('draw straight line if just two points', () {
+      expectLikeStraightLine(
+        const LineChartCubicMonotoneCurve(tinyThresholdSquared: 0),
+        points: [Offset.zero, const Offset(10, 10)],
+      );
+    });
+
+    test('draw straight line if smooth = 0', () {
+      expectLikeStraightLine(
+        const LineChartCubicMonotoneCurve(
+          smooth: 0,
+          tinyThresholdSquared: double.infinity,
         ),
       );
     });
 
-    group('smooth parameter behavior', () {
-      test('smooth = 0 produces straight line', () {
+    group('tinyThreshold parameter behavior', () {
+      test('draw straight line if distance < tinyThreshold', () {
         expectLikeStraightLine(
-          const LineChartCubicMonotoneCurve(smooth: 0),
+          const LineChartCubicMonotoneCurve(
+            tinyThresholdSquared: double.infinity,
+          ),
         );
       });
 
-      test('smooth = 0.3 produces curved line shorter than smooth = 0.7', () {
-        final points = [
-          Offset.zero,
-          const Offset(10, 10),
-          const Offset(20, 5),
-          const Offset(30, 15),
-        ];
-
-        final path1 = _buildPathWithCurve(
-          points,
-          const LineChartCubicMonotoneCurve(smooth: 0.3),
-        );
-        final path2 = _buildPathWithCurve(
-          points,
-          const LineChartCubicMonotoneCurve(smooth: 0.7),
-        );
-
-        final metrics1 = path1.computeMetrics().toList();
-        final metrics2 = path2.computeMetrics().toList();
-
-        expect(metrics1.length, 1);
-        expect(metrics2.length, 1);
-
-        // Higher smooth value should produce longer curved path
-        expect(
-          metrics2.single.length,
-          greaterThan(metrics1.single.length),
-        );
-      });
-
-      test('smooth = 1.0 produces maximum smoothness', () {
-        final points = [
-          Offset.zero,
-          const Offset(10, 10),
-          const Offset(20, 5),
-        ];
-
+      test('draw curved line if distance > tinyThreshold', () {
         final path = _buildPathWithCurve(
-          points,
-          const LineChartCubicMonotoneCurve(smooth: 1),
+          samplePoints1,
+          const LineChartCubicMonotoneCurve(tinyThresholdSquared: 0),
         );
 
         final metrics = path.computeMetrics().toList();
-        expect(metrics.length, 1);
-        // Curved path should be longer than straight line
+
         expect(
           metrics.single.length,
-          greaterThan(
-            points[0].distanceTo(points[1]) + points[1].distanceTo(points[2]),
-          ),
+          greaterThan(samplePoints1.straightDistance),
         );
       });
     });
 
-    group('state management (_flag)', () {
-      test('flag resets after last point', () {
-        final points = [
-          Offset.zero,
-          const Offset(10, 10),
-          const Offset(20, 5),
-        ];
+    group('smooth parameter behavior', () {
+      test('the effect of smooth increases monotonically', () {
+        var smoothCount = 1;
+        var lastCurveLength = samplePoints1.straightDistance;
 
-        // First path
-        final path1 = _buildPathWithCurve(
-          points,
-          const LineChartCubicMonotoneCurve(),
-        );
+        while (smoothCount < 11) {
+          final smooth = 0.1 * smoothCount;
 
-        // Second path should not be affected by first path's flag
-        final path2 = _buildPathWithCurve(
-          points,
-          const LineChartCubicMonotoneCurve(),
-        );
-
-        final metrics1 = path1.computeMetrics().toList();
-        final metrics2 = path2.computeMetrics().toList();
-
-        // Both paths should have identical length
-        expect(
-          metrics1.single.length,
-          closeTo(metrics2.single.length, 0.001),
-        );
+          final path = _buildPathWithCurve(
+            samplePoints1,
+            LineChartCubicMonotoneCurve(
+              smooth: smooth,
+              tinyThresholdSquared: 0,
+            ),
+          );
+          final curveLength = path.computeMetrics().single.length;
+          expect(curveLength, greaterThanOrEqualTo(lastCurveLength));
+          lastCurveLength = curveLength;
+          smoothCount++;
+        }
       });
     });
   });
 }
 
+void expectLikeStraightLine(
+  LineChartCurve curve, {
+  List<Offset> points = samplePoints1,
+}) {
+  final path = _buildPathWithCurve(points, curve);
+
+  final metrics = path.computeMetrics().toList();
+  expect(metrics.single.length, closeTo(points.straightDistance, 0.001));
+}
+
 /// Helper function to build a complete path with the given curve
 Path _buildPathWithCurve(List<Offset> points, LineChartCurve curve) {
+  final path = Path();
   if (points.isEmpty) {
-    return Path();
+    return path;
   }
 
-  final path = Path()..moveTo(points[0].dx, points[0].dy);
+  path.moveTo(points[0].dx, points[0].dy);
 
   for (var i = 1; i < points.length; i++) {
     final previous = points[i - 1];
@@ -212,4 +227,14 @@ Path _buildPathWithCurve(List<Offset> points, LineChartCurve curve) {
 
 extension on Offset {
   double distanceTo(Offset other) => (this - other).distance;
+}
+
+extension on List<Offset> {
+  double get straightDistance {
+    double distance = 0;
+    for (var i = 1; i < length; i++) {
+      distance += this[i].distanceTo(this[i - 1]);
+    }
+    return distance;
+  }
 }
