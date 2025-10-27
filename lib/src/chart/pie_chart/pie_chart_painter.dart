@@ -346,7 +346,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final path = Path();
 
     if (cornerRadius <= 1) {
-      // Si el radio es muy pequeño, usar path normal
+      // if corner radius is too small, return standard section path
       final innerStart = center +
           Offset(math.cos(startRadians), math.sin(startRadians)) * centerRadius;
       final outerStart = center +
@@ -382,17 +382,17 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final innerAngleOffset =
           centerRadius > 0 ? clampedInnerRadius / centerRadius : 0.0;
 
-      // Ángulos ajustados para esquinas exteriores
+      // Tight angles for outside corners
       final outerStartAngle = startRadians + outerAngleOffset;
       final outerEndAngle = endRadians - outerAngleOffset;
       final outerSweepAngle = sweepRadians - (2 * outerAngleOffset);
 
-      // Ángulos ajustados para esquinas interiores
+      // Tight angles for inside corners
       final innerStartAngle = startRadians + innerAngleOffset;
       final innerEndAngle = endRadians - innerAngleOffset;
       final innerSweepAngle = sweepRadians - (2 * innerAngleOffset);
 
-      // Puntos de las esquinas exteriores
+      // Points of the outer corners
       final outerStartPoint = center +
           Offset(math.cos(startRadians), math.sin(startRadians)) * outerRadius;
       final outerEndPoint = center +
@@ -404,7 +404,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           Offset(math.cos(outerEndAngle), math.sin(outerEndAngle)) *
               outerRadius;
 
-      // Puntos de las esquinas interiores
+      // Points of the inner corners
       final innerStartPoint = center +
           Offset(math.cos(startRadians), math.sin(startRadians)) * centerRadius;
       final innerEndPoint = center +
@@ -432,9 +432,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           Offset(math.cos(endRadians), math.sin(endRadians)) *
               (centerRadius + clampedInnerRadius);
 
-      // Construir el path
+      // Build the rounded path step by step
       if (centerRadius > 0) {
-        // Empezar desde la esquina interior redondeada
+        // Start from the inner rounded corner
         path.moveTo(innerStartRounded.dx, innerStartRounded.dy);
 
         // Inner starting rounded corner (quadratic join). If the inner
@@ -451,7 +451,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           path.lineTo(innerStartPoint.dx, innerStartPoint.dy);
         }
 
-        // Línea recta hacia el borde exterior
+        // Straight line to the outer edge
         path.lineTo(startOuterControl.dx, startOuterControl.dy);
 
         // Outer starting rounded corner (quadratic join).
@@ -466,7 +466,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           path.lineTo(outerStartPoint.dx, outerStartPoint.dy);
         }
       } else {
-        // Si no hay centerRadius, empezar desde el centro
+        // If there is no centerRadius, start from the center
         path
           ..moveTo(center.dx, center.dy)
           ..lineTo(startOuterControl.dx, startOuterControl.dy);
@@ -503,7 +503,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       if (centerRadius > 0) {
-        // Línea hacia la esquina interior
+        // Straight line to the inner edge
         path.lineTo(endInnerControl.dx, endInnerControl.dy);
 
         // Inner ending rounded corner (quadratic join).
@@ -518,12 +518,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           path.lineTo(innerEndPoint.dx, innerEndPoint.dy);
         }
 
-        // Arco interior
+        // Draw the inner arc between the two rounded inner corner points.
         if (innerSweepAngle > 0) {
           path.arcTo(centerRadiusRect, innerEndAngle, -innerSweepAngle, false);
         }
       } else {
-        // Si no hay centerRadius, cerrar hacia el centro
+        // If there is no centerRadius, close towards the center
         path.lineTo(center.dx, center.dy);
       }
 
