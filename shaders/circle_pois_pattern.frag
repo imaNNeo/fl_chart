@@ -50,6 +50,6 @@ void main() {
     if (in_circle) {
         sk_FragColor = vec4(u_color, 1.0);
     } else {
-        sk_FragColor = vec4(u_color, 0.0);
+        sk_FragColor = vec4(u_color * 0.0, 0.0);
     }
 }

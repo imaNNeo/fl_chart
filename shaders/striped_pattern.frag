@@ -24,11 +24,12 @@ void main() {
 
     float f = fract((rotated.y + center.y) / u_lineDistance);
 
-    float thickness = u_lineWidth / u_lineDistance; // puoi regolare
+    float thickness = u_lineWidth / u_lineDistance;
     float isLine = step(f, thickness);
 
-    vec3 color = u_lineColor;
+    
     float alpha = isLine;
+    vec3 color = u_lineColor * alpha;
 
     sk_FragColor = vec4(color, alpha);
 }
