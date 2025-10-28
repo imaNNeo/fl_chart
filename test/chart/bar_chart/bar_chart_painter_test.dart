@@ -2196,19 +2196,19 @@ void main() {
           0,
           3,
           const Color(0x11111110),
-          const BorderSide(color: Color(0x11111111)),
+          borderSide: const BorderSide(color: Color(0x11111111)),
         ),
         BarChartRodStackItem(
           3,
           8,
           const Color(0x22222220),
-          const BorderSide(color: Color(0x22222221), width: 2),
+          borderSide: const BorderSide(color: Color(0x22222221), width: 2),
         ),
         BarChartRodStackItem(
           8,
           10,
           const Color(0x33333330),
-          const BorderSide(color: Color(0x33333331), width: 3),
+          borderSide: const BorderSide(color: Color(0x33333331), width: 3),
         ),
       ];
 

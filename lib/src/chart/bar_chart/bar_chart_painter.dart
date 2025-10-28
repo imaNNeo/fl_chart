@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
@@ -322,6 +321,17 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
                 ..drawRRect(barRRect, _barPaint)
                 ..restore();
 
+              // draw pattern painter overlay (on top of everything)
+              if (stackItem.surfacePainter != null &&
+                  (stackItem.surfacePainter?.isInitialized ?? false)) {
+                _drawSurfacePaint(
+                  canvasWrapper,
+                  rect,
+                  barRRect,
+                  stackItem.surfacePainter!,
+                );
+              }
+
               // draw border stroke for each stack item
               drawStackItemBorderStroke(
                 canvasWrapper,
@@ -356,26 +366,41 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
           if (barRod.surfacePainter != null &&
               (barRod.surfacePainter?.isInitialized ?? false)) {
             final barRect = barRRect.getRect();
-            canvasWrapper.canvas.save();
-            canvasWrapper.canvas.translate(barRect.left, barRect.top);
-            canvasWrapper.canvas.clipRRect(
-              RRect.fromRectAndCorners(
-                Rect.fromLTWH(0, 0, barRect.width, barRect.height),
-                topLeft: barRRect.tlRadius,
-                topRight: barRRect.trRadius,
-                bottomLeft: barRRect.blRadius,
-                bottomRight: barRRect.brRadius,
-              ),
+
+            _drawSurfacePaint(
+              canvasWrapper,
+              barRect,
+              barRRect,
+              barRod.surfacePainter!,
             );
-            barRod.surfacePainter!.paint(
-              canvasWrapper.canvas,
-              Size(barRect.width, barRect.height),
-            );
-            canvasWrapper.canvas.restore();
           }
         }
       }
     }
+  }
+
+  void _drawSurfacePaint(
+    CanvasWrapper canvasWrapper,
+    Rect rect,
+    RRect barRRect,
+    FlSurfacePainter<FlShader> surfacePainter,
+  ) {
+    canvasWrapper.canvas.save();
+    canvasWrapper.canvas.translate(rect.left, rect.top);
+    canvasWrapper.canvas.clipRRect(
+      RRect.fromRectAndCorners(
+        Rect.fromLTWH(0, 0, rect.width, rect.height),
+        topLeft: barRRect.tlRadius,
+        topRight: barRRect.trRadius,
+        bottomLeft: barRRect.blRadius,
+        bottomRight: barRRect.brRadius,
+      ),
+    );
+    surfacePainter.paint(
+      canvasWrapper.canvas,
+      Size(rect.width, rect.height),
+    );
+    canvasWrapper.canvas.restore();
   }
 
   @visibleForTesting
@@ -699,6 +724,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         Radius.zero,
       );
     }
+
     _barStrokePaint
       ..color = stackItem.borderSide.color
       ..strokeWidth = min(stackItem.borderSide.width, barThickSize / 2);

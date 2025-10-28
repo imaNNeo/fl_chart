@@ -497,9 +497,10 @@ class BarChartRodStackItem with EquatableMixin {
   BarChartRodStackItem(
     this.fromY,
     this.toY,
-    this.color, [
+    this.color, {
     this.borderSide = Utils.defaultBorderSide,
-  ]);
+    this.surfacePainter,
+  });
 
   /// Renders a Stacked Chart section from [fromY]
   final double fromY;
@@ -513,6 +514,10 @@ class BarChartRodStackItem with EquatableMixin {
   /// Renders border stroke for a Stacked Chart section
   final BorderSide borderSide;
 
+  /// If provided, this [BarChartRodStackItem] will be drawn using this CustomPainter.
+  /// If null, the default rendering is used.
+  final FlSurfacePainter? surfacePainter;
+
   /// Copies current [BarChartRodStackItem] to a new [BarChartRodStackItem],
   /// and replaces provided values.
   BarChartRodStackItem copyWith({
@@ -520,12 +525,14 @@ class BarChartRodStackItem with EquatableMixin {
     double? toY,
     Color? color,
     BorderSide? borderSide,
+    FlSurfacePainter? surfacePainter,
   }) =>
       BarChartRodStackItem(
         fromY ?? this.fromY,
         toY ?? this.toY,
         color ?? this.color,
-        borderSide ?? this.borderSide,
+        borderSide: borderSide ?? this.borderSide,
+        surfacePainter: surfacePainter ?? this.surfacePainter,
       );
 
   /// Lerps a [BarChartRodStackItem] based on [t] value, check [Tween.lerp].
@@ -538,12 +545,20 @@ class BarChartRodStackItem with EquatableMixin {
         lerpDouble(a.fromY, b.fromY, t)!,
         lerpDouble(a.toY, b.toY, t)!,
         Color.lerp(a.color, b.color, t)!,
-        BorderSide.lerp(a.borderSide, b.borderSide, t),
+        borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
+        surfacePainter:
+            lerpSurfacePainter(a.surfacePainter, b.surfacePainter, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [fromY, toY, color, borderSide];
+  List<Object?> get props => [
+        fromY,
+        toY,
+        color,
+        borderSide,
+        surfacePainter,
+      ];
 }
 
 /// Holds values to draw a rod in rear of the main rod.

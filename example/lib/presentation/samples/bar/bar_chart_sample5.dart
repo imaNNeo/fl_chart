@@ -24,9 +24,36 @@ class BarChartSample5State extends State<BarChartSample5> {
   };
   int touchedIndex = -1;
 
+  final stripesPainter = StripesPatternPainter(
+    width: 2,
+    gap: 6,
+    angle: 45,
+    color: Colors.white,
+  );
+  final squarePoisPainter = SquarePoisPatternPainter(
+    color: Colors.blueGrey,
+    squaresPerRow: 3,
+    gap: 2.0,
+    verticalGap: 2.0,
+    margin: 2.0,
+  );
+  final circlePoisPainter = CirclePoisPatternPainter(
+    dotsPerRow: 3,
+    color: Colors.black,
+    gap: 2.0,
+  );
+
   @override
   void initState() {
     super.initState();
+
+    initializeShaders();
+  }
+
+  Future<void> initializeShaders() async {
+    await stripesPainter.initialize();
+    await squarePoisPainter.initialize();
+    await circlePoisPainter.initialize();
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
@@ -170,7 +197,7 @@ class BarChartSample5State extends State<BarChartSample5> {
               0,
               value1,
               AppColors.contentColorGreen,
-              BorderSide(
+              borderSide: BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
               ),
@@ -179,28 +206,31 @@ class BarChartSample5State extends State<BarChartSample5> {
               value1,
               value1 + value2,
               AppColors.contentColorYellow,
-              BorderSide(
+              borderSide: BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
               ),
+              surfacePainter: squarePoisPainter,
             ),
             BarChartRodStackItem(
               value1 + value2,
               value1 + value2 + value3,
               AppColors.contentColorPink,
-              BorderSide(
+              borderSide: BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
               ),
+              surfacePainter: circlePoisPainter,
             ),
             BarChartRodStackItem(
               value1 + value2 + value3,
               value1 + value2 + value3 + value4,
               AppColors.contentColorBlue,
-              BorderSide(
+              borderSide: BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
               ),
+              surfacePainter: stripesPainter,
             ),
           ],
         ),
@@ -223,28 +253,28 @@ class BarChartSample5State extends State<BarChartSample5> {
               -value1,
               AppColors.contentColorGreen.withValues(
                   alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
-              const BorderSide(color: Colors.transparent),
+              borderSide: const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -value1,
               -(value1 + value2),
               AppColors.contentColorYellow.withValues(
                   alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
-              const BorderSide(color: Colors.transparent),
+              borderSide: const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -(value1 + value2),
               -(value1 + value2 + value3),
               AppColors.contentColorPink.withValues(
                   alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
-              const BorderSide(color: Colors.transparent),
+              borderSide: const BorderSide(color: Colors.transparent),
             ),
             BarChartRodStackItem(
               -(value1 + value2 + value3),
               -(value1 + value2 + value3 + value4),
               AppColors.contentColorBlue.withValues(
                   alpha: isTouched ? shadowOpacity * 2 : shadowOpacity),
-              const BorderSide(color: Colors.transparent),
+              borderSide: const BorderSide(color: Colors.transparent),
             ),
           ],
         ),
