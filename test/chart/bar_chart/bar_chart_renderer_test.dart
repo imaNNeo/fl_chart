@@ -38,6 +38,7 @@ void main() {
         topTitles: AxisTitles(),
         bottomTitles: AxisTitles(),
       ),
+      barTouchData: const BarTouchData(enabled: false),
     );
 
     const textScaler = TextScaler.linear(4);
@@ -69,6 +70,7 @@ void main() {
       expect(renderBarChart.paintHolder.data == data, true);
       expect(renderBarChart.paintHolder.targetData == targetData, true);
       expect(renderBarChart.paintHolder.textScaler == textScaler, true);
+      expect(renderBarChart.hitTestSelf(Offset.zero), false);
     });
 
     test('test 2 check paint function', () {

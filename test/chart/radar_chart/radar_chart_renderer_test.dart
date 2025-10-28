@@ -22,6 +22,7 @@ void main() {
     final targetData = RadarChartData(
       dataSets: [MockData.radarDataSet2],
       tickCount: 1,
+      radarTouchData: RadarTouchData(enabled: false),
     );
 
     const textScaler = TextScaler.linear(4);
@@ -51,6 +52,7 @@ void main() {
       expect(renderRadarChart.paintHolder.data == data, true);
       expect(renderRadarChart.paintHolder.targetData == targetData, true);
       expect(renderRadarChart.paintHolder.textScaler == textScaler, true);
+      expect(renderRadarChart.hitTestSelf(Offset.zero), false);
     });
 
     test('test 2 check paint function', () {

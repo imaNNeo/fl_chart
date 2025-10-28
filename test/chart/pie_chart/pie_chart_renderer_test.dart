@@ -16,7 +16,10 @@ void main() {
   group('PieChartRenderer', () {
     final data = PieChartData();
 
-    final targetData = PieChartData(centerSpaceRadius: 12);
+    final targetData = PieChartData(
+      centerSpaceRadius: 12,
+      pieTouchData: PieTouchData(enabled: false),
+    );
 
     const textScaler = TextScaler.linear(4);
 
@@ -45,6 +48,7 @@ void main() {
       expect(renderBarChart.paintHolder.data == data, true);
       expect(renderBarChart.paintHolder.targetData == targetData, true);
       expect(renderBarChart.paintHolder.textScaler == textScaler, true);
+      expect(renderBarChart.hitTestSelf(Offset.zero), false);
     });
 
     test('test 2 check paint function', () {

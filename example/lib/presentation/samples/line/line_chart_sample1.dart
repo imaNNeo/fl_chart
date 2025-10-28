@@ -98,27 +98,14 @@ class _LineChart extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '1m';
-        break;
-      case 2:
-        text = '2m';
-        break;
-      case 3:
-        text = '3m';
-        break;
-      case 4:
-        text = '5m';
-        break;
-      case 5:
-        text = '6m';
-        break;
-      default:
-        return Container();
-    }
-
+    String text = switch (value.toInt()) {
+      1 => '1m',
+      2 => '2m',
+      3 => '3m',
+      4 => '5m',
+      5 => '6m',
+      _ => '',
+    };
     return SideTitleWidget(
       meta: meta,
       child: Text(
@@ -141,26 +128,17 @@ class _LineChart extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('SEPT', style: style);
-        break;
-      case 7:
-        text = const Text('OCT', style: style);
-        break;
-      case 12:
-        text = const Text('DEC', style: style);
-        break;
-      default:
-        text = const Text('');
-        break;
-    }
+    String text = switch (value.toInt()) {
+      2 => 'SEPT',
+      7 => 'OCT',
+      12 => 'DEC',
+      _ => '',
+    };
 
     return SideTitleWidget(
       meta: meta,
       space: 10,
-      child: text,
+      child: Text(text, style: style),
     );
   }
 

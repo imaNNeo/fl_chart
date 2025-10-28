@@ -31,33 +31,16 @@ class BarChartSample5State extends State<BarChartSample5> {
 
   Widget bottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(color: Colors.white, fontSize: 10);
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Mon';
-        break;
-      case 1:
-        text = 'Tue';
-        break;
-      case 2:
-        text = 'Wed';
-        break;
-      case 3:
-        text = 'Thu';
-        break;
-      case 4:
-        text = 'Fri';
-        break;
-      case 5:
-        text = 'Sat';
-        break;
-      case 6:
-        text = 'Sun';
-        break;
-      default:
-        text = '';
-        break;
-    }
+    String text = switch (value.toInt()) {
+      0 => 'Mon',
+      1 => 'Tue',
+      2 => 'Wed',
+      3 => 'Thu',
+      4 => 'Fri',
+      5 => 'Sat',
+      6 => 'Sun',
+      _ => '',
+    };
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),
@@ -66,32 +49,16 @@ class BarChartSample5State extends State<BarChartSample5> {
 
   Widget topTitles(double value, TitleMeta meta) {
     const style = TextStyle(color: Colors.white, fontSize: 10);
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Mon';
-        break;
-      case 1:
-        text = 'Tue';
-        break;
-      case 2:
-        text = 'Wed';
-        break;
-      case 3:
-        text = 'Thu';
-        break;
-      case 4:
-        text = 'Fri';
-        break;
-      case 5:
-        text = 'Sat';
-        break;
-      case 6:
-        text = 'Sun';
-        break;
-      default:
-        return Container();
-    }
+    String text = switch (value.toInt()) {
+      0 => 'Mon',
+      1 => 'Tue',
+      2 => 'Wed',
+      3 => 'Thu',
+      4 => 'Fri',
+      5 => 'Sat',
+      6 => 'Sun',
+      _ => '',
+    };
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),
