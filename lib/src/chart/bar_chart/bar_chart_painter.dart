@@ -311,15 +311,56 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
               final stackToY = getPixelY(stackItem.toY, viewSize, holder);
 
               final isNegative = stackItem.toY < stackItem.fromY;
-              _barPaint.color = stackItem.color;
               final rect = isNegative
                   ? Rect.fromLTRB(left, stackFromY, right, stackToY)
                   : Rect.fromLTRB(left, stackToY, right, stackFromY);
+              _barPaint.setColorOrGradient(
+                stackItem.color,
+                stackItem.gradient,
+                rect,
+              );
               canvasWrapper
                 ..save()
                 ..clipRect(rect)
                 ..drawRRect(barRRect, _barPaint)
                 ..restore();
+              if (stackItem.label != null) {
+                final textStyle = stackItem.labelStyle ??
+                    const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    );
+
+                final labelText = stackItem.label!;
+                final textSpan = TextSpan(text: labelText, style: textStyle);
+                final textPainter = TextPainter(
+                  text: textSpan,
+                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.ltr,
+                  textScaler: holder.textScaler,
+                )..layout();
+
+                // Calculate rotation
+                final rotation = -holder.data.rotationQuarterTurns * (pi / 2);
+                final centerX = x;
+                final centerY = (stackFromY + stackToY) / 2;
+
+                // Check if text fits vertically
+                final segmentHeight = (stackFromY - stackToY).abs();
+                if (textPainter.height < segmentHeight) {
+                  canvasWrapper
+                    ..save()
+                    ..translate(centerX, centerY)
+                    ..rotate(rotation)
+                    ..translate(
+                      -textPainter.width / 2,
+                      -textPainter.height / 2,
+                    );
+                  textPainter.paint(canvasWrapper.canvas, Offset.zero);
+                  canvasWrapper.restore();
+                }
+              }
 
               // draw border stroke for each stack item
               drawStackItemBorderStroke(

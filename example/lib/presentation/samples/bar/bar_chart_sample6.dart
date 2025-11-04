@@ -45,47 +45,21 @@ class BarChartSample6 extends StatelessWidget {
 
   Widget bottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'JAN';
-        break;
-      case 1:
-        text = 'FEB';
-        break;
-      case 2:
-        text = 'MAR';
-        break;
-      case 3:
-        text = 'APR';
-        break;
-      case 4:
-        text = 'MAY';
-        break;
-      case 5:
-        text = 'JUN';
-        break;
-      case 6:
-        text = 'JUL';
-        break;
-      case 7:
-        text = 'AUG';
-        break;
-      case 8:
-        text = 'SEP';
-        break;
-      case 9:
-        text = 'OCT';
-        break;
-      case 10:
-        text = 'NOV';
-        break;
-      case 11:
-        text = 'DEC';
-        break;
-      default:
-        text = '';
-    }
+    String text = switch (value.toInt()) {
+      0 => 'JAN',
+      1 => 'FEB',
+      2 => 'MAR',
+      3 => 'APR',
+      4 => 'MAY',
+      5 => 'JUN',
+      6 => 'JUL',
+      7 => 'AUG',
+      8 => 'SEP',
+      9 => 'OCT',
+      10 => 'NOV',
+      11 => 'DEC',
+      _ => '',
+    };
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),

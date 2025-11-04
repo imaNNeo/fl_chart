@@ -129,6 +129,14 @@ class RenderCandlestickChart extends RenderBaseChart<CandlestickTouchResponse> {
   }
 
   @override
+  bool hitTestSelf(Offset position) {
+    if (!targetData.candlestickTouchData.enabled) {
+      return false;
+    }
+    return super.hitTestSelf(position);
+  }
+
+  @override
   CandlestickTouchResponse getResponseAtLocation(Offset localPosition) {
     final chartSize = mockTestSize ?? size;
     return CandlestickTouchResponse(

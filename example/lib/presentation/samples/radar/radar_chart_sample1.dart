@@ -164,22 +164,18 @@ class _RadarChartSample1State extends State<RadarChartSample1> {
                 getTitle: (index, angle) {
                   final usedAngle =
                       relativeAngleMode ? angle + angleValue : angleValue;
-                  switch (index) {
-                    case 0:
-                      return RadarChartTitle(
+                  return switch (index) {
+                    0 => RadarChartTitle(
                         text: 'Mobile or Tablet',
                         angle: usedAngle,
-                      );
-                    case 2:
-                      return RadarChartTitle(
+                      ),
+                    2 => RadarChartTitle(
                         text: 'Desktop',
                         angle: usedAngle,
-                      );
-                    case 1:
-                      return RadarChartTitle(text: 'TV', angle: usedAngle);
-                    default:
-                      return const RadarChartTitle(text: '');
-                  }
+                      ),
+                    1 => RadarChartTitle(text: 'TV', angle: usedAngle),
+                    _ => const RadarChartTitle(text: '', angle: 0),
+                  };
                 },
                 tickCount: 1,
                 ticksTextStyle:

@@ -22,47 +22,21 @@ class LineChartSample7 extends StatelessWidget {
       fontSize: 10,
       fontWeight: FontWeight.bold,
     );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Jan';
-        break;
-      case 1:
-        text = 'Feb';
-        break;
-      case 2:
-        text = 'Mar';
-        break;
-      case 3:
-        text = 'Apr';
-        break;
-      case 4:
-        text = 'May';
-        break;
-      case 5:
-        text = 'Jun';
-        break;
-      case 6:
-        text = 'Jul';
-        break;
-      case 7:
-        text = 'Aug';
-        break;
-      case 8:
-        text = 'Sep';
-        break;
-      case 9:
-        text = 'Oct';
-        break;
-      case 10:
-        text = 'Nov';
-        break;
-      case 11:
-        text = 'Dec';
-        break;
-      default:
-        return Container();
-    }
+    String text = switch (value.toInt()) {
+      0 => 'Jan',
+      1 => 'Feb',
+      2 => 'Mar',
+      3 => 'Apr',
+      4 => 'May',
+      5 => 'Jun',
+      6 => 'Jul',
+      7 => 'Aug',
+      8 => 'Sep',
+      9 => 'Oct',
+      10 => 'Nov',
+      11 => 'Dec',
+      _ => '',
+    };
 
     return SideTitleWidget(
       meta: meta,

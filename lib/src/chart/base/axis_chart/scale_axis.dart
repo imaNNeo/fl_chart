@@ -12,7 +12,7 @@ enum FlScaleAxis {
   none;
 
   /// Axes that allow scaling.
-  static const scalingEnabledAxis = [
+  static const scalingEnabledAxis = <FlScaleAxis>[
     free,
     horizontal,
     vertical,
