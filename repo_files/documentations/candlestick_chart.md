@@ -21,6 +21,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |candlestickSpots| Holds the data for the candlestick chart, which is a list of [CandlestickSpot](#CandlestickSpot) objects. Each [CandlestickSpot](#CandlestickSpot) represents a single data point in the chart.|[]|
 |candlestickPainter| It is a painter that is used to draw each individual candlestick. You can use this to customize the appearance of the candlesticks (Or you can implement your own painter).|DefaultCandlestickPainter()|
+|candleMarkerPainter| A painter that is used to draw markers/signals on the candlesticks. You can use this to display trading signals (buy/sell) or custom markers. Check [CandleMarkerPainter](#CandleMarkerPainter) for more information.|null|
 |titlesData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |candlestickTouchData| [CandlestickTouchData](#CandlestickTouchData) holds the touch interactivity details| CandlestickTouchData()|
 |showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
@@ -97,6 +98,21 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |spot|touched [CandlestickSpot](#CandlestickSpot)|null|
 |spotIndex|index of touched [CandlestickSpot](#CandlestickSpot)|null|
+
+### CandleMarkerPainter
+An abstract base class for creating custom marker painters on candlesticks. Implement this to display trading signals or custom markers.
+
+### BuyAndSellSignalPainter
+A built-in implementation that displays buy (green), sell (red), and trade (blue) signals as bubbles on candlesticks.
+
+#### Parameters
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|buySignalCondition|Callback to determine when to show buy signals|required|
+|sellSignalCondition|Callback to determine when to show sell signals|required|
+|tradeSignalCondition|Callback to determine when to show trade signals|required|
+|balloonPainter|Custom painter for signal bubbles|default painter|
+|balloonTextBuilder|Custom text builder for bubble labels|default text builder|
 
 ### some samples
 ----

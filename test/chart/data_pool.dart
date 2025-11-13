@@ -3498,3 +3498,34 @@ final CandlestickTouchTooltipData candlestickTouchTooltipData3 =
 );
 
 final candlestickTouchedSpot1 = CandlestickTouchedSpot(candlestickSpot1, 0);
+
+// BuyAndSellSignalPainter test data
+final buyAndSellSignalPainter1 = BuyAndSellSignalPainter(
+  buySignalCondition: (spot, index) => spot.isUp,
+  sellSignalCondition: (spot, index) => !spot.isUp,
+  tradeSignalCondition: (spot, index) => false,
+);
+
+final buyAndSellSignalPainter1Clone = BuyAndSellSignalPainter(
+  buySignalCondition: (spot, index) => spot.isUp,
+  sellSignalCondition: (spot, index) => !spot.isUp,
+  tradeSignalCondition: (spot, index) => false,
+);
+
+final buyAndSellSignalPainter2 = BuyAndSellSignalPainter(
+  buySignalCondition: (spot, index) => spot.isUp && spot.high > 100,
+  sellSignalCondition: (spot, index) => !spot.isUp,
+  tradeSignalCondition: (spot, index) => false,
+);
+
+final buyAndSellSignalPainter3 = BuyAndSellSignalPainter(
+  buySignalCondition: (spot, index) => spot.isUp,
+  sellSignalCondition: (spot, index) => !spot.isUp && spot.low < 50,
+  tradeSignalCondition: (spot, index) => false,
+);
+
+final buyAndSellSignalPainter4 = BuyAndSellSignalPainter(
+  buySignalCondition: (spot, index) => spot.isUp,
+  sellSignalCondition: (spot, index) => !spot.isUp,
+  tradeSignalCondition: (spot, index) => true,
+);
