@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:flutter/material.dart';
 
 /// A callback for when a drag operation starts on a spot.
@@ -160,14 +161,14 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
   int? _draggedBarIndex;
   int? _draggedSpotIndex;
   FlSpot? _draggedSpotInitial;
+  FlSpot? _lastDraggedSpot; // Track last position for accurate onPanEnd
   DateTime? _lastUpdateTime;
 
   @override
   Widget build(BuildContext context) {
     // Ensure touch is disabled on the LineChart itself
     final data = widget.data.copyWith(
-      lineTouchData: widget.data.lineTouchData?.copyWith(enabled: false) ??
-          LineTouchData(enabled: false),
+      lineTouchData: const LineTouchData(enabled: false),
     );
 
     return GestureDetector(
@@ -188,35 +189,25 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
       },
       onPanEnd: (details) {
         if (_isDragging) {
-          // Send final update to ensure exact final position
+          // Send final update with last known position to ensure accuracy
           if (_draggedBarIndex != null &&
               _draggedSpotIndex != null &&
-              _draggedSpotInitial != null) {
-            var finalSpot = screenToChartCoordinates(details.localPosition);
-            if (finalSpot != null) {
-              // Apply constraints
-              if (widget.constrainDrag != null) {
-                finalSpot = widget.constrainDrag!(
-                  _draggedBarIndex!,
-                  _draggedSpotIndex!,
-                  _draggedSpotInitial!,
-                  finalSpot,
-                );
-              }
-              // Send final update (bypass throttle)
-              widget.onDragUpdate?.call(
-                _draggedBarIndex!,
-                _draggedSpotIndex!,
-                _draggedSpotInitial!,
-                finalSpot,
-              );
-            }
+              _draggedSpotInitial != null &&
+              _lastDraggedSpot != null) {
+            // Send final update (bypass throttle) with the last tracked position
+            widget.onDragUpdate?.call(
+              _draggedBarIndex!,
+              _draggedSpotIndex!,
+              _draggedSpotInitial!,
+              _lastDraggedSpot!,
+            );
           }
 
           _isDragging = false;
           _draggedBarIndex = null;
           _draggedSpotIndex = null;
           _draggedSpotInitial = null;
+          _lastDraggedSpot = null;
           _lastUpdateTime = null;
           widget.onDragEnd?.call();
         }
@@ -227,6 +218,7 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
           _draggedBarIndex = null;
           _draggedSpotIndex = null;
           _draggedSpotInitial = null;
+          _lastDraggedSpot = null;
           _lastUpdateTime = null;
           widget.onDragEnd?.call();
         }
@@ -259,7 +251,7 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
       _draggedBarIndex = result.barIndex;
       _draggedSpotIndex = result.spotIndex;
       _draggedSpotInitial = result.spot;
-      
+
       // CRITICAL: Call onDragStart immediately in onPanDown to claim gesture
       // before scrolling can win the gesture arena
       widget.onDragStart?.call(
@@ -290,9 +282,7 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
   }
 
   void _handlePanUpdate(Offset position) {
-    if (_draggedBarIndex == null ||
-        _draggedSpotIndex == null ||
-        _draggedSpotInitial == null) {
+    if (_draggedBarIndex == null || _draggedSpotIndex == null || _draggedSpotInitial == null) {
       return;
     }
 
@@ -309,10 +299,12 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
       );
     }
 
+    // Always track the last position (even if throttled)
+    _lastDraggedSpot = newSpot;
+
     // Throttle updates
     final now = DateTime.now();
-    if (_lastUpdateTime == null ||
-        now.difference(_lastUpdateTime!) >= widget.dragThrottle) {
+    if (_lastUpdateTime == null || now.difference(_lastUpdateTime!) >= widget.dragThrottle) {
       _lastUpdateTime = now;
 
       widget.onDragUpdate?.call(
@@ -325,43 +317,39 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
   }
 
   ({int barIndex, int spotIndex, FlSpot spot})? _findNearestSpot(
-      Offset position) {
-    final chartSpot = screenToChartCoordinates(position);
-    if (chartSpot == null) return null;
+    Offset position,
+  ) {
+    final renderBox = _chartKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return null;
+
+    final size = renderBox.size;
 
     int? nearestBarIndex;
-    int? nearestSpotIndex;
-    FlSpot? nearestSpot;
-    double minDistance = double.infinity;
+    var nearestSpotIndex = 0;
+    var nearestSpot = FlSpot.zero;
+    var minDistance = double.infinity;
 
-    for (int barIndex = 0;
-        barIndex < widget.data.lineBarsData.length;
-        barIndex++) {
+    for (var barIndex = 0; barIndex < widget.data.lineBarsData.length; barIndex++) {
       final bar = widget.data.lineBarsData[barIndex];
 
-      for (int spotIndex = 0; spotIndex < bar.spots.length; spotIndex++) {
+      for (var spotIndex = 0; spotIndex < bar.spots.length; spotIndex++) {
         // Check if this spot can be dragged
-        if (widget.canDragSpot != null &&
-            !widget.canDragSpot!(barIndex, spotIndex)) {
+        if (widget.canDragSpot != null && !widget.canDragSpot!(barIndex, spotIndex)) {
           continue; // Skip non-draggable spots
         }
 
         final spot = bar.spots[spotIndex];
 
-        // Calculate 2D distance in data space
-        final xDistance = (spot.x - chartSpot.x).abs();
-        final yDistance = (spot.y - chartSpot.y).abs();
+        // Convert spot data coordinates to screen pixel coordinates using LineChartHelper
+        final spotScreen = LineChartHelper.dataToScreen(spot, size, widget.data);
 
-        // Account for different ranges in x and y
-        final xRange = (widget.data.maxX ?? 1) - (widget.data.minX ?? 0);
-        final yRange = (widget.data.maxY ?? 1) - (widget.data.minY ?? 0);
+        // Calculate pixel distance (Euclidean distance in screen space)
+        final dx = position.dx - spotScreen.dx;
+        final dy = position.dy - spotScreen.dy;
+        final pixelDistance = sqrt(dx * dx + dy * dy);
 
-        final normalizedDistance = sqrt(
-          pow(xDistance / xRange, 2) + pow(yDistance / yRange, 2),
-        );
-
-        if (normalizedDistance < minDistance) {
-          minDistance = normalizedDistance;
+        if (pixelDistance < minDistance) {
+          minDistance = pixelDistance;
           nearestBarIndex = barIndex;
           nearestSpotIndex = spotIndex;
           nearestSpot = spot;
@@ -369,17 +357,12 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
       }
     }
 
-    final tolerance = widget.dragTolerance / 100; // Convert to normalized space
+    // dragTolerance is now in pixels (default 3.5 means 3.5 pixels)
+    // Multiply by a reasonable factor for easier tapping
+    final tolerancePixels = widget.dragTolerance * 10; // 35 pixels by default
 
-    if (minDistance <= tolerance &&
-        nearestBarIndex != null &&
-        nearestSpotIndex != null &&
-        nearestSpot != null) {
-      return (
-        barIndex: nearestBarIndex,
-        spotIndex: nearestSpotIndex,
-        spot: nearestSpot
-      );
+    if (minDistance <= tolerancePixels && nearestBarIndex != null) {
+      return (barIndex: nearestBarIndex, spotIndex: nearestSpotIndex, spot: nearestSpot);
     }
 
     return null;
@@ -387,66 +370,15 @@ class _DraggableLineChartState extends State<DraggableLineChart> {
 
   /// Converts screen pixel coordinates to chart data coordinates.
   ///
-  /// Returns null if the conversion fails or if the position is outside
-  /// the chart area.
-  ///
-  /// This method accounts for axis labels and padding by estimating the
-  /// chart's drawable area within the widget bounds.
+  /// Uses LineChartHelper for pixel-perfect coordinate conversion that matches
+  /// fl_chart's internal rendering logic.
   FlSpot? screenToChartCoordinates(Offset screenPosition) {
-    try {
-      final renderBox =
-          _chartKey.currentContext?.findRenderObject() as RenderBox?;
-      if (renderBox == null) return null;
+    final renderBox = _chartKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return null;
 
-      final size = renderBox.size;
+    final size = renderBox.size;
 
-      // Estimate padding based on whether titles are shown
-      final leftTitles = widget.data.titlesData?.leftTitles;
-      final rightTitles = widget.data.titlesData?.rightTitles;
-      final topTitles = widget.data.titlesData?.topTitles;
-      final bottomTitles = widget.data.titlesData?.bottomTitles;
-
-      final leftPadding = (leftTitles?.sideTitles.showTitles ?? false)
-          ? (leftTitles?.sideTitles.reservedSize ?? 50)
-          : 10.0;
-      final rightPadding = (rightTitles?.sideTitles.showTitles ?? false)
-          ? (rightTitles?.sideTitles.reservedSize ?? 10)
-          : 10.0;
-      final topPadding = (topTitles?.sideTitles.showTitles ?? false)
-          ? (topTitles?.sideTitles.reservedSize ?? 10)
-          : 10.0;
-      final bottomPadding = (bottomTitles?.sideTitles.showTitles ?? false)
-          ? (bottomTitles?.sideTitles.reservedSize ?? 40)
-          : 10.0;
-
-      final chartWidth = size.width - leftPadding - rightPadding;
-      final chartHeight = size.height - topPadding - bottomPadding;
-
-      // Convert screen coordinates to chart coordinates
-      final x = screenPosition.dx - leftPadding;
-      final y = screenPosition.dy - topPadding;
-
-      // Allow slight out-of-bounds for edge detection
-      if (x < -20 || x > chartWidth + 20 || y < -20 || y > chartHeight + 20) {
-        return null;
-      }
-
-      // Get data ranges
-      final minX = widget.data.minX ?? 0;
-      final maxX = widget.data.maxX ?? 1;
-      final minY = widget.data.minY ?? 0;
-      final maxY = widget.data.maxY ?? 1;
-
-      // Convert to chart data coordinates
-      final dataX = minX + (x / chartWidth) * (maxX - minX);
-      final dataY = maxY - (y / chartHeight) * (maxY - minY);
-
-      return FlSpot(
-        dataX.clamp(minX, maxX),
-        dataY.clamp(minY, maxY),
-      );
-    } catch (e) {
-      return null;
-    }
+    // Use LineChartHelper for accurate conversion
+    return LineChartHelper.screenToData(screenPosition, size, widget.data);
   }
 }

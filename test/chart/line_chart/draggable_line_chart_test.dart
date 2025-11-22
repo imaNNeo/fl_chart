@@ -57,7 +57,7 @@ void main() {
       );
 
       final lineChart = tester.widget<LineChart>(find.byType(LineChart));
-      expect(lineChart.data.lineTouchData?.enabled, false);
+      expect(lineChart.data.lineTouchData.enabled, false);
     });
 
     testWidgets('calls onSpotTap when spot is tapped', (WidgetTester tester) async {
@@ -139,12 +139,12 @@ void main() {
     });
 
     testWidgets('calls onDragUpdate during drag', (WidgetTester tester) async {
-      final List<FlSpot> updatedSpots = [];
+      final updatedSpots = <FlSpot>[];
 
       await tester.pumpWidget(
         createTestWidget(
           chart: DraggableLineChart(
-            dragTolerance: 50.0, // High tolerance to ensure we hit the spot
+            dragTolerance: 50, // High tolerance to ensure we hit the spot
             data: LineChartData(
               minX: 0,
               maxX: 10,
@@ -178,7 +178,7 @@ void main() {
     });
 
     testWidgets('calls onDragEnd when drag ends', (WidgetTester tester) async {
-      bool dragEnded = false;
+      var dragEnded = false;
 
       await tester.pumpWidget(
         createTestWidget(
@@ -221,7 +221,7 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           chart: DraggableLineChart(
-            dragTolerance: 50.0,
+            dragTolerance: 50,
             data: LineChartData(
               minX: 0,
               maxX: 10,
@@ -260,7 +260,7 @@ void main() {
     });
 
     testWidgets('respects canDragSpot callback', (WidgetTester tester) async {
-      bool dragStarted = false;
+      var dragStarted = false;
 
       await tester.pumpWidget(
         createTestWidget(
@@ -293,8 +293,8 @@ void main() {
     });
 
     testWidgets('does not trigger onSpotTap during drag', (WidgetTester tester) async {
-      bool tapped = false;
-      bool dragged = false;
+      var tapped = false;
+      var dragged = false;
 
       await tester.pumpWidget(
         createTestWidget(
@@ -336,7 +336,7 @@ void main() {
       await tester.pumpWidget(
         createTestWidget(
           chart: DraggableLineChart(
-            dragTolerance: 50.0,
+            dragTolerance: 50,
             data: LineChartData(
               minX: 0,
               maxX: 10,
@@ -367,13 +367,13 @@ void main() {
     });
 
     testWidgets('respects dragTolerance parameter', (WidgetTester tester) async {
-      bool dragStartedWithHighTolerance = false;
+      var dragStartedWithHighTolerance = false;
 
       // Test with high tolerance (easier to hit)
       await tester.pumpWidget(
         createTestWidget(
           chart: DraggableLineChart(
-            dragTolerance: 50.0, // Very high tolerance
+            dragTolerance: 50, // Very high tolerance
             data: LineChartData(
               minX: 0,
               maxX: 10,
