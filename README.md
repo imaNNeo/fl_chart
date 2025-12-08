@@ -79,7 +79,7 @@ First of all, you need to add the `fl_chart` in your project. In order to do tha
 
 Then you need to read the docs. Start from [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/index.md).
 
-We suggest you to check samples source code.
+We suggest you check the sample source code.
 
 ##### - You can read about the animation handling [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_animations.md)
 |Sample1	|Sample2		|Sample3		|
@@ -99,22 +99,22 @@ You can try the FL Chart sample app on the platforms that are available below:
 
 
 ### Donation
-Your donation **motivates** me to work more on the **fl_chart** and resolve more issues.
-There are multiple ways to donate me:
+Your donation **motivates** me to work more on **fl_chart** and resolve more issues.
+There are multiple ways to donate to me:
 
-1. You can be my sponsor on [GitHub](https://github.com/sponsors/imaNNeo) (This is the most reliable way to donate me)
+1. You can sponsor me on [GitHub](https://github.com/sponsors/imaNNeo) (This is the most reliable way to donate)
 2. You can <a href="https://www.buymeacoffee.com/fl_chart">buy me a coffee!</a>
 3. Or if you are a fan of crypto, you can donate me Bitcoins here: `1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
 
 ### Contributing
 ##### :beer: Pull requests are welcome!
-Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
+Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot, even if it is just a line of change.
 
 There might be a lot of grammar issues in the docs. It's a big help to us to fix them if you are fluent in English.
 
 Check out [CONTRIBUTING.md](https://github.com/imaNNeo/fl_chart/blob/main/CONTRIBUTING.md), which contains a guide for those who want to contribute to the FL Chart.
 
-Reporting bugs and issues are contribution too, yes it is.
+Reporting bugs and issues is also a contribution, yes it is.
 
-#### Below are the people who has contributed to the FL Chart. We hope we have your picture here soon.
+#### Below are the people who have contributed to FL Chart. We hope to have your picture here soon.
 [![](https://opencollective.com/fl_chart/contributors.svg?width=890&button=false)](https://github.com/imaNNeo/fl_chart/graphs/contributors)
