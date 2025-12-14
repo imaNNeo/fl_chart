@@ -44,8 +44,8 @@ class PieChart2State extends State {
                   borderData: FlBorderData(
                     show: false,
                   ),
-                  sectionsSpace: 8,
-                  centerSpaceRadius: 80,
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
                   sections: showingSections(),
                 ),
               ),
