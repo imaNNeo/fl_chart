@@ -217,17 +217,77 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final endLineTo = endLineFrom + endLineDirection * section.radius;
     final endLine = Line(endLineFrom, endLineTo);
 
-    var sectionPath = Path()
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..lineTo(startLine.to.dx, startLine.to.dy)
-      ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
-      ..lineTo(endLine.from.dx, endLine.from.dy)
-      ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..close();
+    Path sectionPath;
+
+    // Apply rounded corners if borderRadius is set
+    if (section.borderRadius > 0) {
+      // Calculate the angular offset for section spacing
+      final spaceAngleOffset = sectionSpace > 0
+          ? math.atan2(sectionSpace / 2, centerRadius + section.radius / 2)
+          : 0.0;
+
+      // Adjust start and end angles to account for section spacing
+      final adjustedStartRadians = startRadians + spaceAngleOffset;
+      final adjustedEndRadians = endRadians - spaceAngleOffset;
+      final adjustedSweepRadians = sweepRadians - (2 * spaceAngleOffset);
+
+      // Recalculate lines with adjusted angles
+      final adjustedStartLineDirection = Offset(
+        math.cos(adjustedStartRadians),
+        math.sin(adjustedStartRadians),
+      );
+      final adjustedStartLineFrom =
+          center + adjustedStartLineDirection * centerRadius;
+      final adjustedStartLineTo =
+          adjustedStartLineFrom + adjustedStartLineDirection * section.radius;
+
+      final adjustedEndLineDirection = Offset(
+        math.cos(adjustedEndRadians),
+        math.sin(adjustedEndRadians),
+      );
+      final adjustedEndLineFrom =
+          center + adjustedEndLineDirection * centerRadius;
+      final adjustedEndLineTo =
+          adjustedEndLineFrom + adjustedEndLineDirection * section.radius;
+
+      // Clamp the border radius to ensure it doesn't exceed available space
+      final maxRadiusForWidth = section.radius / 2;
+      final arcLength =
+          (centerRadius + section.radius / 2) * adjustedSweepRadians;
+      final maxRadiusForArc = arcLength / 2;
+      final effectiveRadius = math.min(
+        section.borderRadius,
+        math.min(maxRadiusForWidth, maxRadiusForArc),
+      );
+
+      sectionPath = _generateRoundedSectionPath(
+        Line(adjustedStartLineFrom, adjustedStartLineTo),
+        Line(adjustedEndLineFrom, adjustedEndLineTo),
+        adjustedStartRadians,
+        adjustedSweepRadians,
+        adjustedEndRadians,
+        center,
+        centerRadius,
+        section.radius,
+        effectiveRadius,
+        sectionRadiusRect,
+        centerRadiusRect,
+      );
+    } else {
+      // Original sharp-corner path
+      sectionPath = Path()
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..lineTo(startLine.to.dx, startLine.to.dy)
+        ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+        ..lineTo(endLine.from.dx, endLine.from.dy)
+        ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..close();
+    }
 
     /// Subtract section space from the sectionPath
-    if (sectionSpace != 0) {
+    /// (Skip this for rounded corners since spacing is already accounted for)
+    if (sectionSpace != 0 && section.borderRadius == 0) {
       final startLineSeparatorPath = createRectPathAroundLine(
         Line(startLineFrom, startLineTo),
         sectionSpace,
@@ -258,6 +318,115 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
 
     return sectionPath;
+  }
+
+  /// Generates a path with rounded corners for a pie section
+  Path _generateRoundedSectionPath(
+    Line startLine,
+    Line endLine,
+    double startRadians,
+    double sweepRadians,
+    double endRadians,
+    Offset center,
+    double centerRadius,
+    double sectionRadius,
+    double cornerRadius,
+    Rect sectionRadiusRect,
+    Rect centerRadiusRect,
+  ) {
+    // Calculate the four corners
+    final outerRadius = centerRadius + sectionRadius;
+    final innerRadius = centerRadius;
+
+    // Corner 1: Start line inner (where start line meets inner arc)
+    final corner1End = center +
+        Offset(
+          math.cos(startRadians) * (innerRadius + cornerRadius),
+          math.sin(startRadians) * (innerRadius + cornerRadius),
+        );
+
+    // Corner 2: Start line outer (where start line meets outer arc)
+    final corner2Start = center +
+        Offset(
+          math.cos(startRadians) * (outerRadius - cornerRadius),
+          math.sin(startRadians) * (outerRadius - cornerRadius),
+        );
+    final corner2End = center +
+        Offset(
+          math.cos(startRadians) * outerRadius,
+          math.sin(startRadians) * outerRadius,
+        ) +
+        Offset(
+          math.cos(startRadians + math.pi / 2) * cornerRadius,
+          math.sin(startRadians + math.pi / 2) * cornerRadius,
+        );
+
+    // Corner 3: End line outer (where outer arc meets end line)
+    final corner3End = center +
+        Offset(
+          math.cos(endRadians) * (outerRadius - cornerRadius),
+          math.sin(endRadians) * (outerRadius - cornerRadius),
+        );
+
+    // Corner 4: End line inner (where end line meets inner arc)
+    final corner4Start = center +
+        Offset(
+          math.cos(endRadians) * (innerRadius + cornerRadius),
+          math.sin(endRadians) * (innerRadius + cornerRadius),
+        );
+    final corner4End = center +
+        Offset(
+          math.cos(endRadians) * innerRadius,
+          math.sin(endRadians) * innerRadius,
+        ) +
+        Offset(
+          math.cos(endRadians - math.pi / 2) * cornerRadius,
+          math.sin(endRadians - math.pi / 2) * cornerRadius,
+        );
+
+    // Calculate adjusted angles for the main arcs
+    final outerArcAngleOffset = cornerRadius / outerRadius;
+    final innerArcAngleOffset = cornerRadius / innerRadius;
+
+    // Build the path
+    final adjustedOuterStartAngle = startRadians + outerArcAngleOffset;
+    final adjustedOuterSweepAngle = sweepRadians - (2 * outerArcAngleOffset);
+    final adjustedInnerStartAngle = endRadians - innerArcAngleOffset;
+    final adjustedInnerSweepAngle = -(sweepRadians - (2 * innerArcAngleOffset));
+
+    return Path()
+      ..moveTo(corner1End.dx, corner1End.dy)
+      ..lineTo(corner2Start.dx, corner2Start.dy)
+      ..arcToPoint(
+        corner2End,
+        radius: Radius.circular(cornerRadius),
+      )
+      ..arcTo(
+        sectionRadiusRect,
+        adjustedOuterStartAngle,
+        adjustedOuterSweepAngle,
+        false,
+      )
+      ..arcToPoint(
+        corner3End,
+        radius: Radius.circular(cornerRadius),
+      )
+      ..lineTo(corner4Start.dx, corner4Start.dy)
+      ..arcToPoint(
+        corner4End,
+        radius: Radius.circular(cornerRadius),
+      )
+      ..arcTo(
+        centerRadiusRect,
+        adjustedInnerStartAngle,
+        adjustedInnerSweepAngle,
+        false,
+      )
+      ..arcToPoint(
+        corner1End,
+        radius: Radius.circular(cornerRadius),
+      )
+      ..close();
   }
 
   /// Creates a rect around a narrow line

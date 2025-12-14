@@ -153,6 +153,9 @@ class PieChartSectionData with EquatableMixin {
   /// by default it draws the widget at the middle of section, but you can change the
   /// [badgePositionPercentageOffset] to have your desire design,
   /// the value works the same way as [titlePositionPercentageOffset].
+  ///
+  /// [borderRadius] defines the radius of rounded corners for the section.
+  /// Set to 0 for sharp corners (default).
   PieChartSectionData({
     double? value,
     Color? color,
@@ -165,6 +168,7 @@ class PieChartSectionData with EquatableMixin {
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    double? borderRadius,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
@@ -172,7 +176,8 @@ class PieChartSectionData with EquatableMixin {
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
-        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5,
+        borderRadius = borderRadius ?? 0;
 
   /// It determines how much space it should occupy around the circle.
   ///
@@ -223,6 +228,10 @@ class PieChartSectionData with EquatableMixin {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
+  /// Defines the radius of rounded corners for the section.
+  /// Set to 0 for sharp corners.
+  final double borderRadius;
+
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -237,6 +246,7 @@ class PieChartSectionData with EquatableMixin {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    double? borderRadius,
   }) =>
       PieChartSectionData(
         value: value ?? this.value,
@@ -252,6 +262,7 @@ class PieChartSectionData with EquatableMixin {
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
         badgePositionPercentageOffset:
             badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
+        borderRadius: borderRadius ?? this.borderRadius,
       );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
@@ -280,6 +291,7 @@ class PieChartSectionData with EquatableMixin {
           b.badgePositionPercentageOffset,
           t,
         ),
+        borderRadius: lerpDouble(a.borderRadius, b.borderRadius, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -296,6 +308,7 @@ class PieChartSectionData with EquatableMixin {
         badgeWidget,
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
+        borderRadius,
       ];
 }
 
