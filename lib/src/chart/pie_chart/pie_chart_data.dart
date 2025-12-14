@@ -156,6 +156,7 @@ class PieChartSectionData with EquatableMixin {
   ///
   /// [borderRadius] defines the radius of rounded corners for the section.
   /// Set to 0 for sharp corners (default).
+  /// Maximum supported value is 8.0 - values above this may cause visual artifacts.
   PieChartSectionData({
     double? value,
     Color? color,
@@ -169,7 +170,11 @@ class PieChartSectionData with EquatableMixin {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     double? borderRadius,
-  })  : value = value ?? 10,
+  })  : assert(
+          (borderRadius ?? 0) <= 8.0,
+          'borderRadius must be <= 8.0. Values above 8.0 are not supported and may cause visual artifacts.',
+        ),
+        value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
         showTitle = showTitle ?? true,

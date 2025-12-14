@@ -109,7 +109,6 @@ class PieChart2State extends State {
             value: 40,
             title: '40%',
             radius: radius,
-            borderRadius: 8,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -122,7 +121,6 @@ class PieChart2State extends State {
             value: 30,
             title: '30%',
             radius: radius,
-          borderRadius: 8,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -135,8 +133,6 @@ class PieChart2State extends State {
             value: 15,
             title: '15%',
             radius: radius,
-          borderRadius: 8,
-
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -149,7 +145,6 @@ class PieChart2State extends State {
             value: 15,
             title: '15%',
             radius: radius,
-          borderRadius: 8,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
