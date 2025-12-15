@@ -231,7 +231,7 @@ class BarChartGroupData with EquatableMixin {
   /// on top of each [BarChartRodData] using [showingTooltipIndicators],
   /// just put indices you want to show it on top of them.
   ///
-  /// An important point is that you have to disable the default touch behaviour
+  /// An important point is that you have to disable the default touch behavior
   /// to show the tooltip manually, see [BarTouchData.handleBuiltInTouches].
   final List<int> showingTooltipIndicators;
 
