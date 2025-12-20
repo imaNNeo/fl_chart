@@ -10,6 +10,7 @@ import 'bar/bar_chart_sample6.dart';
 import 'bar/bar_chart_sample7.dart';
 import 'bar/bar_chart_sample8.dart';
 import 'chart_sample.dart';
+import 'line/draggable_line_chart_sample.dart';
 import 'line/line_chart_sample1.dart';
 import 'line/line_chart_sample10.dart';
 import 'line/line_chart_sample11.dart';
@@ -46,6 +47,7 @@ class ChartSamples {
       LineChartSample(11, (context) => const LineChartSample11()),
       LineChartSample(12, (context) => const LineChartSample12()),
       LineChartSample(13, (context) => const LineChartSample13()),
+      LineChartSample(14, (context) => const DraggableLineChartSample()),
     ],
     ChartType.bar: [
       BarChartSample(1, (context) => BarChartSample1()),
