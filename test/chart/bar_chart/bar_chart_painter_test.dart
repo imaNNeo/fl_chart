@@ -1562,6 +1562,115 @@ void main() {
 
       expect(HelperMethods.equalsPaths(expectedPath, currentPath), true);
     });
+
+    test('test small bar values with large border radius (issue #1757)', () {
+      const viewSize = Size(200, 200);
+
+      // Test case: bar height (2) is smaller than corner height (16)
+      // This should trigger the scale factor logic
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 2,
+              width: 40,
+              rodStackItems: [
+                BarChartRodStackItem(
+                  0,
+                  1,
+                  Colors.amber,
+                ),
+                BarChartRodStackItem(
+                  1,
+                  2,
+                  Colors.red,
+                ),
+              ],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 100,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final clipRectResults = <Rect>[];
+      when(mockCanvasWrapper.clipRect(captureAny)).thenAnswer((inv) {
+        final rect = inv.positionalArguments[0] as Rect;
+        clipRectResults.add(rect);
+      });
+
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.drawRRect(any, any)).thenReturn(null);
+
+      barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
+
+      // Verify that clipRect was called for each stack item
+      expect(
+        clipRectResults.length,
+        2,
+        reason: 'Should have clipped for 2 stack items',
+      );
+
+      // Verify that the clip rectangles have been scaled properly
+      // The total bar height in pixels would be very small (2% of 200 = 4px)
+      // But corner height is 8, so scale factor should be 8/4 = 2.0
+      // Each stack item should be scaled proportionally
+      final rect1 = clipRectResults[0];
+      final rect2 = clipRectResults[1];
+
+      // Debug: print actual values
+      // print('rect1: $rect1, height: ${rect1.height}');
+      // print('rect2: $rect2, height: ${rect2.height}');
+
+      // Stack items should not overlap and should be adjacent
+      expect(
+        rect2.bottom,
+        closeTo(rect1.top, tolerance),
+        reason:
+            'Stack items should be adjacent without gaps (rect2.bottom should equal rect1.top)',
+      );
+
+      // The combined height should equal the scaled total height (cornerHeight)
+      final totalScaledHeight = rect1.height + rect2.height;
+      expect(
+        totalScaledHeight,
+        closeTo(8.0, tolerance),
+        reason: 'Total scaled height should equal corner height (8px)',
+      );
+
+      // Heights should be proportional to data values (1:1 ratio)
+      expect(
+        rect1.height,
+        closeTo(rect2.height, tolerance),
+        reason:
+            'Stack items with equal data heights (1) should have equal pixel heights',
+      );
+    });
   });
 
   group('drawBars() - label tests', () {
