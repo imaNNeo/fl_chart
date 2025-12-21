@@ -1,7 +1,7 @@
 # Migrate to 0.50.0
 
 ## Widgets as titles (instead of boring strings) [#183](https://github.com/imaNNeo/fl_chart/issues/183)
-We did a lot of hard-work to bring widgets to our titles around the axis-based charts.
+We did a lot of hard work to bring widgets to our titles around the axis-based charts.
 It means that you can now put a widget as a title instead of a string.
 Look at the below samples:
 

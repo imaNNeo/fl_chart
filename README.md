@@ -99,16 +99,16 @@ You can try the FL Chart sample app on the platforms that are available below:
 
 
 ### Donation
-Your donation motivates me to work more on the fl_chart and resolve more issues.
+Your donation **motivates** me to work more on **fl_chart** and resolve more issues.
 There are multiple ways to donate to me:
 
-1. You can be my sponsor on [GitHub](https://github.com/sponsors/imaNNeo) (This is the most reliable way to donate to me)
+1. You can sponsor me on [GitHub](https://github.com/sponsors/imaNNeo) (This is the most reliable way to donate)
 2. You can <a href="https://www.buymeacoffee.com/fl_chart">buy me a coffee!</a>
 3. Or if you are a fan of crypto, you can donate me Bitcoins here: `1L7ghKdcmgydmUJAnmYmMaiVjT1LoP4a45`
 
 ### Contributing
 ##### :beer: Pull requests are welcome!
-Remember that open-source projects thrive on contributions. Every improvement—no matter how small—makes a meaningful difference, even if it’s just a single line.
+Remember that open-source projects thrive on contributions. Every improvement—no matter how small—makes a meaningful difference, even if it's just a single line.
 
 Our documentation may contain grammatical issues, and if you’re fluent in English, your help in correcting them would be greatly appreciated.
 
@@ -116,5 +116,5 @@ Check out [CONTRIBUTING.md](https://github.com/imaNNeo/fl_chart/blob/main/CONTRI
 
 Reporting bugs and issues is also a contribution, yes, it is.
 
-#### Below are the people who have contributed to the FL Chart. We hope we have your picture here soon.
+#### Below are the people who have contributed to FL Chart. We hope to have your picture here soon.
 [![](https://opencollective.com/fl_chart/contributors.svg?width=890&button=false)](https://github.com/imaNNeo/fl_chart/graphs/contributors)
