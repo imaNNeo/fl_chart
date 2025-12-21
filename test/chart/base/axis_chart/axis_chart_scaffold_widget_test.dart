@@ -1072,7 +1072,7 @@ void main() {
 
           // Verify that scaling actually occurred
           final renderBox = tester.renderObject<RenderBox>(
-            find.byType(ColoredBox),
+            find.byKey(chartColoredBoxKey),
           );
 
           // Wait until chartVirtualRect is updated and scaling is complete
