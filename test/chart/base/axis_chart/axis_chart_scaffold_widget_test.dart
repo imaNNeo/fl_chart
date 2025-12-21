@@ -1055,13 +1055,20 @@ void main() {
 
           final gesture1 = await tester.startGesture(scaleStart1);
           final gesture2 = await tester.startGesture(scaleStart2);
+          await tester.pump();
           await gesture1.moveTo(scaleEnd1);
           await gesture2.moveTo(scaleEnd2);
+          await tester.pump();
           await gesture1.up();
           await gesture2.up();
           await tester.pumpAndSettle();
 
+          // Wait for the chart virtual rect to be updated after scaling
+          await tester.pump();
+          await tester.pump();
+
           final chartVirtualRectBeforePan = chartVirtualRect;
+          expect(chartVirtualRectBeforePan, isNotNull);
           expect(chartVirtualRectBeforePan!.top, 0);
 
           const panOffset = Offset(100, 100);
@@ -1112,13 +1119,20 @@ void main() {
 
           final gesture1 = await tester.startGesture(scaleStart1);
           final gesture2 = await tester.startGesture(scaleStart2);
+          await tester.pump();
           await gesture1.moveTo(scaleEnd1);
           await gesture2.moveTo(scaleEnd2);
+          await tester.pump();
           await gesture1.up();
           await gesture2.up();
           await tester.pumpAndSettle();
 
+          // Wait for the chart virtual rect to be updated after scaling
+          await tester.pump();
+          await tester.pump();
+
           final chartVirtualRectBeforePan = chartVirtualRect;
+          expect(chartVirtualRectBeforePan, isNotNull);
           expect(chartVirtualRectBeforePan!.left, 0);
 
           const panOffset = Offset(100, 100);
@@ -1168,13 +1182,20 @@ void main() {
 
           final gesture1 = await tester.startGesture(scaleStart1);
           final gesture2 = await tester.startGesture(scaleStart2);
+          await tester.pump();
           await gesture1.moveTo(scaleEnd1);
           await gesture2.moveTo(scaleEnd2);
+          await tester.pump();
           await gesture1.up();
           await gesture2.up();
           await tester.pumpAndSettle();
 
+          // Wait for the chart virtual rect to be updated after scaling
+          await tester.pump();
+          await tester.pump();
+
           final chartVirtualRectBeforePan = chartVirtualRect;
+          expect(chartVirtualRectBeforePan, isNotNull);
           expect(chartVirtualRectBeforePan!.left, isNegative);
           expect(chartVirtualRectBeforePan.top, isNegative);
 
@@ -1230,12 +1251,19 @@ void main() {
 
       final gesture1 = await tester.startGesture(scaleStart1);
       final gesture2 = await tester.startGesture(scaleStart2);
+      await tester.pump();
       await gesture1.moveTo(scaleEnd1);
       await gesture2.moveTo(scaleEnd2);
+      await tester.pump();
       await gesture1.up();
       await gesture2.up();
       await tester.pumpAndSettle();
 
+      // Wait for the chart virtual rect to be updated after scaling
+      await tester.pump();
+      await tester.pump();
+
+      expect(chartVirtualRect, isNotNull);
       final sideTitlesWidgets = tester.allWidgets.whereType<SideTitlesWidget>();
       expect(sideTitlesWidgets.length, 4);
       for (final sideTitlesWidget in sideTitlesWidgets) {
