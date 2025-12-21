@@ -1067,9 +1067,25 @@ void main() {
           await tester.pump();
           await tester.pump();
 
+          // Verify that scaling actually occurred
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byType(ColoredBox),
+          );
+          
+          // Wait until chartVirtualRect is updated and scaling is complete
+          var attempts = 0;
+          while ((chartVirtualRect == null || chartVirtualRect!.size.width <= renderBox.size.width) && attempts < 50) {
+            await tester.pump(const Duration(milliseconds: 16));
+            attempts++;
+            if (chartVirtualRect != null && chartVirtualRect!.size.width > renderBox.size.width) {
+              break;
+            }
+          }
+
           final chartVirtualRectBeforePan = chartVirtualRect;
           expect(chartVirtualRectBeforePan, isNotNull);
-          expect(chartVirtualRectBeforePan!.top, 0);
+          expect(chartVirtualRectBeforePan!.size.width, greaterThan(renderBox.size.width));
+          expect(chartVirtualRectBeforePan.top, 0);
 
           // Use single-finger gesture to simulate panning
           const panOffset = Offset(100, 100);
@@ -1139,9 +1155,25 @@ void main() {
           await tester.pump();
           await tester.pump();
 
+          // Verify that scaling actually occurred
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byType(ColoredBox),
+          );
+          
+          // Wait until chartVirtualRect is updated and scaling is complete
+          var attempts = 0;
+          while ((chartVirtualRect == null || chartVirtualRect!.size.height <= renderBox.size.height) && attempts < 50) {
+            await tester.pump(const Duration(milliseconds: 16));
+            attempts++;
+            if (chartVirtualRect != null && chartVirtualRect!.size.height > renderBox.size.height) {
+              break;
+            }
+          }
+
           final chartVirtualRectBeforePan = chartVirtualRect;
           expect(chartVirtualRectBeforePan, isNotNull);
-          expect(chartVirtualRectBeforePan!.left, 0);
+          expect(chartVirtualRectBeforePan!.size.height, greaterThan(renderBox.size.height));
+          expect(chartVirtualRectBeforePan.left, 0);
 
           // Use single-finger gesture to simulate panning
           const panOffset = Offset(100, 100);
@@ -1210,9 +1242,30 @@ void main() {
           await tester.pump();
           await tester.pump();
 
+          // Verify that scaling actually occurred
+          final renderBox = tester.renderObject<RenderBox>(
+            find.byType(ColoredBox),
+          );
+          
+          // Wait until chartVirtualRect is updated and scaling is complete
+          var attempts = 0;
+          while ((chartVirtualRect == null || 
+                 chartVirtualRect!.size.width <= renderBox.size.width ||
+                 chartVirtualRect!.size.height <= renderBox.size.height) && attempts < 50) {
+            await tester.pump(const Duration(milliseconds: 16));
+            attempts++;
+            if (chartVirtualRect != null && 
+                chartVirtualRect!.size.width > renderBox.size.width &&
+                chartVirtualRect!.size.height > renderBox.size.height) {
+              break;
+            }
+          }
+
           final chartVirtualRectBeforePan = chartVirtualRect;
           expect(chartVirtualRectBeforePan, isNotNull);
-          expect(chartVirtualRectBeforePan!.left, isNegative);
+          expect(chartVirtualRectBeforePan!.size.width, greaterThan(renderBox.size.width));
+          expect(chartVirtualRectBeforePan.size.height, greaterThan(renderBox.size.height));
+          expect(chartVirtualRectBeforePan.left, isNegative);
           expect(chartVirtualRectBeforePan.top, isNegative);
 
           // Use single-finger gesture to simulate panning
@@ -1286,6 +1339,25 @@ void main() {
       // Wait for the chart virtual rect to be updated after scaling
       await tester.pump();
       await tester.pump();
+
+      // Verify that scaling actually occurred and chartVirtualRect is set
+      final renderBox = tester.renderObject<RenderBox>(
+        find.byType(ColoredBox),
+      );
+      
+      // Wait until chartVirtualRect is updated and scaling is complete
+      var attempts = 0;
+      while ((chartVirtualRect == null || 
+             chartVirtualRect!.size.width <= renderBox.size.width ||
+             chartVirtualRect!.size.height <= renderBox.size.height) && attempts < 50) {
+        await tester.pump(const Duration(milliseconds: 16));
+        attempts++;
+        if (chartVirtualRect != null && 
+            chartVirtualRect!.size.width > renderBox.size.width &&
+            chartVirtualRect!.size.height > renderBox.size.height) {
+          break;
+        }
+      }
 
       expect(chartVirtualRect, isNotNull);
       final sideTitlesWidgets = tester.allWidgets.whereType<SideTitlesWidget>();
