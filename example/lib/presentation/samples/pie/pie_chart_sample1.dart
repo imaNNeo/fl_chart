@@ -109,6 +109,8 @@ class PieChartSample1State extends State {
       AppColors.contentColorGreen,
     ];
 
+    final radiusValues = <double>[80, 65, 60, 70];
+
     return List.generate(
       4,
       (i) {
@@ -119,7 +121,7 @@ class PieChartSample1State extends State {
               color: colors[i],
               value: 25,
               title: '',
-              radius: 80,
+              radius: radiusValues[i],
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? const BorderSide(
@@ -131,7 +133,7 @@ class PieChartSample1State extends State {
               color: colors[i],
               value: 25,
               title: '',
-              radius: 65,
+              radius: radiusValues[i],
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? const BorderSide(
@@ -143,7 +145,7 @@ class PieChartSample1State extends State {
               color: colors[i],
               value: 25,
               title: '',
-              radius: 60,
+              radius: radiusValues[i],
               titlePositionPercentageOffset: 0.6,
               borderSide: isTouched
                   ? const BorderSide(
@@ -155,7 +157,7 @@ class PieChartSample1State extends State {
               color: colors[i],
               value: 25,
               title: '',
-              radius: 70,
+              radius: radiusValues[i],
               titlePositionPercentageOffset: 0.55,
               borderSide: isTouched
                   ? const BorderSide(
