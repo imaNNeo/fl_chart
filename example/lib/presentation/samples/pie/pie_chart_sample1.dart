@@ -102,18 +102,21 @@ class PieChartSample1State extends State {
   }
 
   List<PieChartSectionData> showingSections() {
+    final colors = [
+      AppColors.contentColorBlue,
+      AppColors.contentColorYellow,
+      AppColors.contentColorPink,
+      AppColors.contentColorGreen,
+    ];
+
     return List.generate(
       4,
       (i) {
         final isTouched = i == touchedIndex;
-        const color0 = AppColors.contentColorBlue;
-        const color1 = AppColors.contentColorYellow;
-        const color2 = AppColors.contentColorPink;
-        const color3 = AppColors.contentColorGreen;
 
         return switch (i) {
           0 => PieChartSectionData(
-              color: color0,
+              color: colors[i],
               value: 25,
               title: '',
               radius: 80,
@@ -125,7 +128,7 @@ class PieChartSample1State extends State {
                       color: AppColors.contentColorWhite.withValues(alpha: 0)),
             ),
           1 => PieChartSectionData(
-              color: color1,
+              color: colors[i],
               value: 25,
               title: '',
               radius: 65,
@@ -137,7 +140,7 @@ class PieChartSample1State extends State {
                       color: AppColors.contentColorWhite.withValues(alpha: 0)),
             ),
           2 => PieChartSectionData(
-              color: color2,
+              color: colors[i],
               value: 25,
               title: '',
               radius: 60,
@@ -149,7 +152,7 @@ class PieChartSample1State extends State {
                       color: AppColors.contentColorWhite.withValues(alpha: 0)),
             ),
           3 => PieChartSectionData(
-              color: color3,
+              color: colors[i],
               value: 25,
               title: '',
               radius: 70,
