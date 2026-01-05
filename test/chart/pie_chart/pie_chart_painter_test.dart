@@ -202,39 +202,31 @@ void main() {
       when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       barChartPainter.drawSections(mockCanvasWrapper, [360], 10, holder);
 
-      final rect = Rect.fromCircle(
-        center: viewSize.center(Offset.zero),
-        radius: radius + centerSpace,
-      );
-      final results = verifyInOrder([
-        mockCanvasWrapper.saveLayer(
-          rect,
-          any,
-        ),
-        mockCanvasWrapper.drawCircle(
-          const Offset(100, 100),
-          10 + 30,
-          captureAny,
-        ),
-        mockCanvasWrapper.drawCircle(
-          const Offset(100, 100),
-          10,
-          captureAny,
-        ),
-        mockCanvasWrapper.restore(),
-      ]);
-      final result = results[1];
+      final result = verify(mockCanvasWrapper.drawPath(captureAny, captureAny));
       expect(result.callCount, 1);
+      final path = result.captured[0] as Path;
+      final paint = result.captured[1] as Paint;
+
+      final expectedPath = barChartPainter.generateSegmentPath(
+        viewSize.center(Offset.zero),
+        centerSpace,
+        radius,
+        0,
+        360,
+      );
+      expect(HelperMethods.equalsPaths(path, expectedPath), true);
       expect(
-        (result.captured.single as Paint).color,
+        paint.color,
         isSameColorAs(MockData.color2),
       );
-      expect((result.captured.single as Paint).style, PaintingStyle.fill);
 
+      expect(paint.style, PaintingStyle.fill);
+
+      // Outer border
       final result2 = verify(
         mockCanvasWrapper.drawCircle(
           const Offset(100, 100),
-          10 + (3 / 2),
+          centerSpace + radius - (3 / 2),
           captureAny,
         ),
       );
@@ -245,6 +237,22 @@ void main() {
       );
       expect((result2.captured.single as Paint).strokeWidth, 3);
       expect((result2.captured.single as Paint).style, PaintingStyle.stroke);
+
+      // Inner border
+      final result3 = verify(
+        mockCanvasWrapper.drawCircle(
+          const Offset(100, 100),
+          centerSpace + (3 / 2),
+          captureAny,
+        ),
+      );
+      expect(result3.callCount, 1);
+      expect(
+        (result3.captured.single as Paint).color,
+        isSameColorAs(MockData.color3),
+      );
+      expect((result3.captured.single as Paint).strokeWidth, 3);
+      expect((result3.captured.single as Paint).style, PaintingStyle.stroke);
     });
 
     test('test 2', () {
@@ -289,13 +297,12 @@ void main() {
 
       expect(results.length, 4);
 
-      final path0 = barChartPainter.generateSectionPath(
-        data.sections[0],
-        10,
-        0,
-        36,
+      final path0 = barChartPainter.generateSegmentPath(
         const Offset(100, 100),
         10,
+        data.sections[0].radius,
+        0,
+        36,
       );
       expect(
         HelperMethods.equalsPaths(results[0]['path'] as Path, path0),
@@ -307,13 +314,12 @@ void main() {
       );
       expect(results[0]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
-      final path1 = barChartPainter.generateSectionPath(
-        data.sections[1],
-        10,
-        36,
-        72,
+      final path1 = barChartPainter.generateSegmentPath(
         const Offset(100, 100),
         10,
+        data.sections[1].radius,
+        36,
+        72,
       );
       expect(
         HelperMethods.equalsPaths(results[1]['path'] as Path, path1),
@@ -325,13 +331,12 @@ void main() {
       );
       expect(results[1]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
-      final path2 = barChartPainter.generateSectionPath(
-        data.sections[2],
-        10,
-        108,
-        108,
+      final path2 = barChartPainter.generateSegmentPath(
         const Offset(100, 100),
         10,
+        data.sections[2].radius,
+        108,
+        108,
       );
       expect(
         HelperMethods.equalsPaths(results[2]['path'] as Path, path2),
@@ -343,13 +348,12 @@ void main() {
       );
       expect(results[2]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
-      final path3 = barChartPainter.generateSectionPath(
-        data.sections[3],
-        10,
-        216,
-        144,
+      final path3 = barChartPainter.generateSegmentPath(
         const Offset(100, 100),
         10,
+        data.sections[3].radius,
+        216,
+        144,
       );
       expect(
         HelperMethods.equalsPaths(results[3]['path'] as Path, path3),
@@ -821,7 +825,7 @@ void main() {
           PieChartSectionData(color: MockData.color4, value: 4),
         ],
       );
-      final barChartPainter = PieChartPainter();
+      final pieChartPainter = PieChartPainter();
 
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
@@ -838,24 +842,24 @@ void main() {
         });
       });
 
-      barChartPainter
-        ..drawSection(
-          data.sections[0],
+      pieChartPainter
+        ..drawSegment(
+          data.sections[0].asSegment,
           MockData.path1,
           mockCanvasWrapper,
         )
-        ..drawSection(
-          data.sections[1],
+        ..drawSegment(
+          data.sections[1].asSegment,
           MockData.path2,
           mockCanvasWrapper,
         )
-        ..drawSection(
-          data.sections[2],
+        ..drawSegment(
+          data.sections[2].asSegment,
           MockData.path3,
           mockCanvasWrapper,
         )
-        ..drawSection(
-          data.sections[3],
+        ..drawSegment(
+          data.sections[3].asSegment,
           MockData.path4,
           mockCanvasWrapper,
         );

@@ -22,8 +22,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   PieChartPainter() : super() {
     _sectionPaint = Paint()..style = PaintingStyle.stroke;
 
-    _sectionSaveLayerPaint = Paint();
-
     _sectionStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;
@@ -33,7 +31,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   static const double _kRadiusSafetyMargin = 0.499;
 
   late Paint _sectionPaint;
-  late Paint _sectionSaveLayerPaint;
   late Paint _sectionStrokePaint;
   late Paint _centerSpacePaint;
   late Paint _clipPaint;
@@ -114,34 +111,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionDegree = sectionsAngle[i];
 
       if (sectionDegree == 360) {
-        final radius = centerRadius + section.radius / 2;
-        final rect = Rect.fromCircle(center: center, radius: radius);
-        _sectionPaint
-          ..setColorOrGradient(
-            section.color,
-            section.gradient,
-            rect,
-          )
-          ..strokeWidth = section.radius
-          ..style = PaintingStyle.fill;
-
-        final bounds = Rect.fromCircle(
-          center: center,
-          radius: centerRadius + section.radius,
+        drawSegments(
+          canvasWrapper,
+          section,
+          sectionDegree,
+          centerRadius,
+          0,
+          center,
         );
-        canvasWrapper
-          ..saveLayer(bounds, _sectionSaveLayerPaint)
-          ..drawCircle(
-            center,
-            centerRadius + section.radius,
-            _sectionPaint..blendMode = BlendMode.srcOver,
-          )
-          ..drawCircle(
-            center,
-            centerRadius,
-            _sectionPaint..blendMode = BlendMode.srcOut,
-          )
-          ..restore();
+
         _sectionPaint.blendMode = BlendMode.srcOver;
         if (section.borderSide.width != 0.0 &&
             section.borderSide.color.a != 0.0) {
@@ -152,7 +130,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           canvasWrapper
             ..drawCircle(
               center,
-              centerRadius + section.radius - (section.borderSide.width / 2),
+              centerRadius +
+                  section.totalRadius -
+                  (section.borderSide.width / 2),
               _sectionStrokePaint,
             )
 
@@ -166,6 +146,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         return;
       }
 
+      if (section.value == 0 || section.totalRadius == 0) continue;
+
       final sectionPath = generateSectionPath(
         section,
         data.sectionsSpace,
@@ -175,10 +157,124 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         centerRadius,
       );
 
-      drawSection(section, sectionPath, canvasWrapper);
+      canvasWrapper
+        ..save()
+        ..clipPath(sectionPath);
+
+      drawSegments(
+        canvasWrapper,
+        section,
+        sectionDegree,
+        centerRadius,
+        tempAngle,
+        center,
+      );
+      canvasWrapper.restore();
+
       drawSectionStroke(section, sectionPath, canvasWrapper, viewSize);
+
       tempAngle += sectionDegree;
     }
+  }
+
+  /// Draws all segments of a section. To support old pie chart logic the
+  /// section radius, color, and gradient will be wrapped in a [PieChartStackSegmentData]
+  void drawSegments(
+    CanvasWrapper canvasWrapper,
+    PieChartSectionData section,
+    double sweepAngle,
+    double startRadius,
+    double startAngle,
+    Offset center,
+  ) {
+    final nonZeroSegments = [
+      if (section.radius > 0) section.asSegment,
+      ...section.segments.where((s) => s.radius > 0),
+    ];
+
+    if (nonZeroSegments.isEmpty) {
+      return;
+    }
+
+    var currentSegmentRadius = startRadius;
+
+    for (var i = 0; i < nonZeroSegments.length; i++) {
+      final seg = nonZeroSegments[i];
+
+      final segPath = generateSegmentPath(
+        center,
+        currentSegmentRadius,
+        seg.radius,
+        startAngle,
+        sweepAngle,
+      );
+      drawSegment(seg, segPath, canvasWrapper);
+
+      currentSegmentRadius += seg.radius;
+      if (i == 0 && nonZeroSegments.length > 1 && section.segments.isNotEmpty) {
+        currentSegmentRadius += section.segmentsSpace;
+      } else if (i > 0 && i < nonZeroSegments.length - 1) {
+        currentSegmentRadius += section.segmentsSpace;
+      }
+    }
+  }
+
+  @visibleForTesting
+  void drawSegment(
+    PieChartStackSegmentData segment,
+    Path segmentPath,
+    CanvasWrapper canvasWrapper,
+  ) {
+    _sectionPaint
+      ..setColorOrGradient(
+        segment.color,
+        segment.gradient,
+        segmentPath.getBounds(),
+      )
+      ..style = PaintingStyle.fill;
+    canvasWrapper.drawPath(segmentPath, _sectionPaint);
+  }
+
+  @visibleForTesting
+  Path generateSegmentPath(
+    Offset center,
+    double innerRadius,
+    double segmentRadius,
+    double startAngle,
+    double sweepAngle,
+  ) {
+    if (sweepAngle == 360) {
+      return Path()
+        ..addOval(
+          Rect.fromCircle(
+            center: center,
+            radius: innerRadius + segmentRadius,
+          ),
+        )
+        ..addOval(Rect.fromCircle(center: center, radius: innerRadius))
+        ..fillType = PathFillType.evenOdd
+        ..close();
+    }
+
+    final outerRadius = innerRadius + segmentRadius;
+    final rectOuter = Rect.fromCircle(center: center, radius: outerRadius);
+    final rectInner = Rect.fromCircle(center: center, radius: innerRadius);
+
+    final startRadians = Utils().radians(startAngle);
+    final sweepRadians = Utils().radians(sweepAngle);
+
+    return Path()
+      ..moveTo(
+        center.dx + innerRadius * math.cos(startRadians),
+        center.dy + innerRadius * math.sin(startRadians),
+      )
+      ..arcTo(rectOuter, startRadians, sweepRadians, false)
+      ..lineTo(
+        center.dx + innerRadius * math.cos(startRadians + sweepRadians),
+        center.dy + innerRadius * math.sin(startRadians + sweepRadians),
+      )
+      ..arcTo(rectInner, startRadians + sweepRadians, -sweepRadians, false)
+      ..close();
   }
 
   /// Generates a path around a section
@@ -193,7 +289,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   ) {
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
-      radius: centerRadius + section.radius,
+      radius: centerRadius + section.totalRadius,
     );
 
     final centerRadiusRect = Rect.fromCircle(
@@ -209,13 +305,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         Offset(math.cos(startRadians), math.sin(startRadians));
 
     final startLineFrom = center + startLineDirection * centerRadius;
-    final startLineTo = startLineFrom + startLineDirection * section.radius;
+    final startLineTo =
+        startLineFrom + startLineDirection * section.totalRadius;
     final startLine = Line(startLineFrom, startLineTo);
 
     final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
 
     final endLineFrom = center + endLineDirection * centerRadius;
-    final endLineTo = endLineFrom + endLineDirection * section.radius;
+    final endLineTo = endLineFrom + endLineDirection * section.totalRadius;
     final endLine = Line(endLineFrom, endLineTo);
 
     Path sectionPath;
@@ -557,22 +654,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   }
 
   @visibleForTesting
-  void drawSection(
-    PieChartSectionData section,
-    Path sectionPath,
-    CanvasWrapper canvasWrapper,
-  ) {
-    _sectionPaint
-      ..setColorOrGradient(
-        section.color,
-        section.gradient,
-        sectionPath.getBounds(),
-      )
-      ..style = PaintingStyle.fill;
-    canvasWrapper.drawPath(sectionPath, _sectionPaint);
-  }
-
-  @visibleForTesting
   void drawSectionStroke(
     PieChartSectionData section,
     Path sectionPath,
@@ -637,9 +718,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           center +
           Offset(
             math.cos(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.radius * percentageOffset)),
+                (centerRadius + (section.totalRadius * percentageOffset)),
             math.sin(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.radius * percentageOffset)),
+                (centerRadius + (section.totalRadius * percentageOffset)),
           );
 
       final sectionCenterOffsetTitle =
@@ -678,8 +759,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     if (data.centerSpaceRadius.isFinite) {
       return data.centerSpaceRadius;
     }
-    final maxRadius =
-        data.sections.reduce((a, b) => a.radius > b.radius ? a : b).radius;
+    if (data.sections.isEmpty) {
+      return 0;
+    }
+    final maxRadius = data.sections.map((s) => s.totalRadius).reduce(math.max);
     return (viewSize.shortestSide - (maxRadius * 2)) / 2;
   }
 
@@ -722,7 +805,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
               math.pow(localPosition.dy - center.dy, 2),
         );
         if (distance >= centerRadius &&
-            distance <= section.radius + centerRadius) {
+            distance <= section.totalRadius + centerRadius) {
           foundSectionData = section;
           foundSectionDataPosition = i;
         }
