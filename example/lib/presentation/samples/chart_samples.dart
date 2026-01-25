@@ -1,4 +1,5 @@
 import 'package:fl_chart_app/presentation/samples/candlestick/candlestick_chart_sample1.dart';
+import 'package:fl_chart_app/presentation/samples/line/line_chart_sample14.dart';
 import 'package:fl_chart_app/util/app_helper.dart';
 
 import 'bar/bar_chart_sample1.dart';
@@ -46,6 +47,7 @@ class ChartSamples {
       LineChartSample(11, (context) => const LineChartSample11()),
       LineChartSample(12, (context) => const LineChartSample12()),
       LineChartSample(13, (context) => const LineChartSample13()),
+      LineChartSample(14, (context) => const LineChartSample14()),
     ],
     ChartType.bar: [
       BarChartSample(1, (context) => BarChartSample1()),
