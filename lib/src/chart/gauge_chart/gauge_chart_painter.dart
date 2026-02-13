@@ -34,7 +34,10 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
     final size = canvasWrapper.size;
 
     final centerOffset = center(size);
-    final angleRange = data.endAngle - data.startAngle;
+    final startAngle = data.startDegreeOffset;
+    final angleRange = data.direction == GaugeDirection.clockwise
+        ? data.sweepAngle
+        : -data.sweepAngle;
     final interTickAngle = angleRange / (ticks.count - 1);
 
     _tickPaint.color = ticks.color;
@@ -43,7 +46,7 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
 
     /// draw gauge ticks
     for (var i = 0; i < ticks.count; i++) {
-      final angle = Utils().radians(data.startAngle + interTickAngle * i);
+      final angle = Utils().radians(startAngle + interTickAngle * i);
       _drawTick(
         canvasWrapper,
         centerOffset,
@@ -56,11 +59,9 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
 
     // draw changing color ticks
     final valueColor = data.valueColor;
-    if (ticks.showChangingColorTicks && valueColor is ColoredTicksGenerator) {
-      for (final tick
-          in (valueColor as ColoredTicksGenerator).getColoredTicks()) {
-        final angle =
-            Utils().radians(data.startAngle + angleRange * tick.position);
+    if (ticks.showChangingColorTicks) {
+      for (final tick in valueColor.getColoredTicks()) {
+        final angle = Utils().radians(startAngle + angleRange * tick.position);
         _tickPaint.color = tick.color;
         _drawTick(
           canvasWrapper,
@@ -161,13 +162,16 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
       max(viewSize.width - viewSize.height, 0) / 2 + demiStroke,
       max(viewSize.height - viewSize.width, 0) / 2 + demiStroke,
     );
-    final angleRange = data.endAngle - data.startAngle;
+    final startAngle = data.startDegreeOffset;
+    final angleRange = data.direction == GaugeDirection.clockwise
+        ? data.sweepAngle
+        : -data.sweepAngle;
     return _GaugePosition(
       offset & size,
       data.strokeCap,
       data.strokeWidth,
       angleRange,
-      data.startAngle,
+      startAngle,
       angleRange * data.value.clamp(0, 1),
     );
   }

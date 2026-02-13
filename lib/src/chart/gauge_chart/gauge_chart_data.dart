@@ -28,20 +28,22 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
     required this.valueColor,
     required this.value,
     required this.strokeWidth,
-    required this.startAngle,
-    required this.endAngle,
+    this.startDegreeOffset = 0.0,
+    this.direction = GaugeDirection.clockwise,
+    required this.sweepAngle,
     this.ticks,
     GaugeTouchData? touchData,
-  })  : gaugeTouchData = touchData ?? GaugeTouchData(),
-        super();
+    super.borderData,
+  })  : gaugeTouchData = touchData ?? GaugeTouchData();
 
   final StrokeCap strokeCap;
   final double value;
   final double strokeWidth;
   final GaugeColor valueColor;
   final Color? backgroundColor;
-  final double startAngle;
-  final double endAngle;
+  final double startDegreeOffset;
+  final GaugeDirection direction;
+  final double sweepAngle;
   final GaugeTouchData gaugeTouchData;
   final GaugeTicks? ticks;
 
@@ -53,10 +55,10 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         valueColor,
         value,
         strokeWidth,
-        startAngle,
-        endAngle,
+        startDegreeOffset,
+        direction,
+        sweepAngle,
         gaugeTouchData,
-        ticks,
         borderData,
       ];
 
@@ -66,8 +68,9 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
     GaugeColor? valueColor,
     double? value,
     double? strokeWidth,
-    double? startAngle,
-    double? endAngle,
+    double? startDegreeOffset,
+    GaugeDirection? direction,
+    double? sweepAngle,
     GaugeTicks? ticks,
     FlBorderData? borderData,
     GaugeTouchData? gaugeTouchData,
@@ -78,8 +81,9 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         valueColor: valueColor ?? this.valueColor,
         value: value ?? this.value,
         strokeWidth: strokeWidth ?? this.strokeWidth,
-        startAngle: startAngle ?? this.startAngle,
-        endAngle: endAngle ?? this.endAngle,
+        startDegreeOffset: startDegreeOffset ?? this.startDegreeOffset,
+        direction: direction ?? this.direction,
+        sweepAngle: sweepAngle ?? this.sweepAngle,
         ticks: ticks ?? this.ticks,
         touchData: gaugeTouchData ?? this.gaugeTouchData,
       );
@@ -94,8 +98,9 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         valueColor: GaugeColor.lerp(a.valueColor, b.valueColor, t),
         value: lerpDouble(a.value, b.value, t)!,
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-        startAngle: lerpDouble(a.startAngle, b.startAngle, t)!,
-        endAngle: lerpDouble(a.endAngle, b.endAngle, t)!,
+        startDegreeOffset: lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t)!,
+        direction: b.direction,
+        sweepAngle: lerpDouble(a.sweepAngle, b.sweepAngle, t)!,
         touchData: b.gaugeTouchData,
       );
     } else {
@@ -189,6 +194,11 @@ class GaugeColor with EquatableMixin implements ColoredTicksGenerator {
   static GaugeColor lerp(GaugeColor a, GaugeColor b, double t) {
     return _LerpGaugeColor(a, b, t);
   }
+}
+
+enum GaugeDirection {
+  clockwise,
+  counterClockwise,
 }
 
 enum GaugeTickPosition {

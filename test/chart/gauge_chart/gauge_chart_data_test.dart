@@ -4,15 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../data_pool.dart';
 
-// A dummy BaseChartData subtype used to trigger the negative branch
-// in GaugeChartData.lerp when non-gauge BaseChartData instances are provided.
-class _DummyData extends BaseChartData {
-  _DummyData();
-
-  @override
-  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) => this;
-}
-
 void main() {
   group('GaugeChart Data equality check', () {
     test('GaugeChartData equality test', () {
@@ -64,12 +55,19 @@ void main() {
       );
 
       expect(
-        gaugeChartData1 == gaugeChartData1Clone.copyWith(startAngle: 0),
+        gaugeChartData1 == gaugeChartData1Clone.copyWith(startDegreeOffset: 0),
         false,
       );
 
       expect(
-        gaugeChartData1 == gaugeChartData1Clone.copyWith(endAngle: 0),
+        gaugeChartData1 == gaugeChartData1Clone.copyWith(sweepAngle: 0),
+        false,
+      );
+
+      expect(
+        gaugeChartData1 ==
+            gaugeChartData1Clone.copyWith(
+                direction: GaugeDirection.counterClockwise),
         false,
       );
 
@@ -272,8 +270,7 @@ void main() {
       final a = GaugeChartData(
         value: 0.7,
         strokeWidth: 5,
-        startAngle: 0,
-        endAngle: 270,
+        sweepAngle: 270,
         valueColor: GaugeColor.simple(color: MockData.color0),
         backgroundColor: MockData.color0,
         strokeCap: StrokeCap.round,
@@ -296,8 +293,8 @@ void main() {
       final b = GaugeChartData(
         value: 0.3,
         strokeWidth: 3,
-        startAngle: 20,
-        endAngle: 250,
+        startDegreeOffset: 20,
+        sweepAngle: 230,
         valueColor: GaugeColor(
           colors: const [MockData.color0, MockData.color2],
           limits: const [0.4],
@@ -323,8 +320,8 @@ void main() {
 
       expect(data.value, 0.5);
       expect(data.strokeWidth, 4);
-      expect(data.startAngle, 10);
-      expect(data.endAngle, 260);
+      expect(data.startDegreeOffset, 10);
+      expect(data.sweepAngle, 250);
       expect(data.valueColor.getColor(0.5), MockData.color1);
       expect(data.valueColor.getColor(0.5), MockData.color1);
       final colorTicks =
@@ -380,8 +377,7 @@ void main() {
       final gauge = GaugeChartData(
         value: 0.5,
         strokeWidth: 4,
-        startAngle: 0,
-        endAngle: 180,
+        sweepAngle: 180,
         valueColor: GaugeColor.simple(color: MockData.color0),
       );
 
@@ -412,4 +408,13 @@ void main() {
       expect(updated.touchedSpot, newSpot);
     });
   });
+}
+
+// A dummy BaseChartData subtype used to trigger the negative branch
+// in GaugeChartData.lerp when non-gauge BaseChartData instances are provided.
+class _DummyData extends BaseChartData {
+  _DummyData();
+
+  @override
+  BaseChartData lerp(BaseChartData a, BaseChartData b, double t) => this;
 }

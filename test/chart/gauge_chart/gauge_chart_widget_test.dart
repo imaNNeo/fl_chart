@@ -11,8 +11,7 @@ void main() {
       final data = GaugeChartData(
         value: 0.4,
         strokeWidth: 8,
-        startAngle: 0,
-        endAngle: 270,
+        sweepAngle: 270,
         valueColor: GaugeColor.simple(color: MockData.color0),
       );
 
@@ -35,16 +34,15 @@ void main() {
       final dataA = GaugeChartData(
         value: 0.2,
         strokeWidth: 6,
-        startAngle: 0,
-        endAngle: 180,
+        sweepAngle: 180,
         valueColor: GaugeColor.simple(color: Colors.red),
       );
 
       final dataB = GaugeChartData(
         value: 0.8,
         strokeWidth: 10,
-        startAngle: 30,
-        endAngle: 300,
+        startDegreeOffset: 30,
+        sweepAngle: 270,
         valueColor: GaugeColor.simple(color: Colors.blue),
       );
 

@@ -35,8 +35,9 @@ class GaugeChartSample3State extends State {
                 backgroundColor:
                     AppColors.contentColorPurple.withValues(alpha: 0.2),
                 strokeWidth: 30,
-                startAngle: -225,
-                endAngle: 45,
+                startDegreeOffset: -225,
+                sweepAngle: 270,
+                direction: GaugeDirection.clockwise,
                 strokeCap: StrokeCap.round,
                 ticks: const GaugeTicks(
                   count: 11,

@@ -20,8 +20,7 @@ void main() {
     test('test 1', () {
       const viewSize = Size(400, 400);
       final data = GaugeChartData(
-        startAngle: 0,
-        endAngle: 90,
+        sweepAngle: 90,
         valueColor: GaugeColor.simple(color: Colors.red),
         strokeWidth: 2,
         value: 0.5,
@@ -53,8 +52,7 @@ void main() {
     test('only value', () {
       const viewSize = Size(400, 400);
       final data = GaugeChartData(
-        startAngle: 0,
-        endAngle: 90,
+        sweepAngle: 90,
         valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
@@ -108,7 +106,7 @@ void main() {
       expect(
         drawArcResults[0]['sweep_angle'],
         45,
-      ); // (endAngle - startAngle) * value
+      ); // sweepAngle * value
       expect(drawArcResults[0]['use_center'], false);
       expect(drawArcResults[0]['paint_color'], MockData.color0);
       expect(drawArcResults[0]['paint_stroke_width'], data.strokeWidth);
@@ -120,8 +118,7 @@ void main() {
     test('with background', () {
       const viewSize = Size(400, 400);
       final data = GaugeChartData(
-        startAngle: 0,
-        endAngle: 90,
+        sweepAngle: 90,
         valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
@@ -195,7 +192,7 @@ void main() {
       expect(
         drawArcResults[1]['sweep_angle'],
         45,
-      ); // (endAngle - startAngle) * value
+      ); // sweepAngle * value
       expect(drawArcResults[1]['use_center'], false);
       expect(drawArcResults[1]['paint_color'], MockData.color0);
       expect(drawArcResults[1]['paint_stroke_width'], data.strokeWidth);
@@ -217,8 +214,9 @@ void main() {
         margin: 5,
       );
       final data = GaugeChartData(
-        startAngle: 0,
-        endAngle: 90,
+        startDegreeOffset: 0,
+        sweepAngle: 90,
+        direction: GaugeDirection.clockwise,
         valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
@@ -276,8 +274,9 @@ void main() {
         margin: 5,
       );
       final data = GaugeChartData(
-        startAngle: 0,
-        endAngle: 90,
+        startDegreeOffset: 0,
+        sweepAngle: 90,
+        direction: GaugeDirection.clockwise,
         valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
@@ -342,11 +341,12 @@ void main() {
           MockData.color2,
           MockData.color3,
         ],
-        limits: const [1 / 3, 2 / 3, 1.0],
+        limits: const [1 / 4, 2 / 4, 3 / 4],
       );
       final data = GaugeChartData(
-        startAngle: 0,
-        endAngle: 270,
+        startDegreeOffset: 0,
+        sweepAngle: 270,
+        direction: GaugeDirection.clockwise,
         valueColor: gaugeColor,
         strokeWidth: 2,
         value: 0.5,
@@ -395,9 +395,10 @@ void main() {
       }
 
       for (var i = 0; i < 3; i++) {
-        final angle = 270 * gaugeColor.limits![i];
-        final tickX = 200 + cos(angle) * radius;
-        final tickY = 200 + sin(angle) * radius;
+        // tick.position is the normalized position (0-1), angleRange is 270
+        final angleInRadians = Utils().radians(0 + 270 * gaugeColor.limits![i]);
+        final tickX = 200 + cos(angleInRadians) * radius;
+        final tickY = 200 + sin(angleInRadians) * radius;
 
         expect(
           drawCircleResults[5 + i]['offset'],
@@ -422,8 +423,9 @@ void main() {
         value: 0.7,
         valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 30,
-        startAngle: 45,
-        endAngle: -225,
+        startDegreeOffset: 45,
+        sweepAngle: 270,
+        direction: GaugeDirection.counterClockwise,
         strokeCap: StrokeCap.round,
         touchData: GaugeTouchData(
           enabled: true,
