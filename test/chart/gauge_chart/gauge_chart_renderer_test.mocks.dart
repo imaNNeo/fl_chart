@@ -33,6 +33,7 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeRect_0 extends _i1.SmartFake implements _i2.Rect {
   _FakeRect_0(
@@ -44,8 +45,9 @@ class _FakeRect_0 extends _i1.SmartFake implements _i2.Rect {
         );
 }
 
-class _FakeCanvas_1 extends _i1.SmartFake implements _i2.Canvas {
-  _FakeCanvas_1(
+class _FakePictureRecorder_1 extends _i1.SmartFake
+    implements _i2.PictureRecorder {
+  _FakePictureRecorder_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -54,9 +56,19 @@ class _FakeCanvas_1 extends _i1.SmartFake implements _i2.Canvas {
         );
 }
 
-class _FakePaintingContext_2 extends _i1.SmartFake
+class _FakeCanvas_2 extends _i1.SmartFake implements _i2.Canvas {
+  _FakeCanvas_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakePaintingContext_3 extends _i1.SmartFake
     implements _i3.PaintingContext {
-  _FakePaintingContext_2(
+  _FakePaintingContext_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -65,9 +77,9 @@ class _FakePaintingContext_2 extends _i1.SmartFake
         );
 }
 
-class _FakeColorFilterLayer_3 extends _i1.SmartFake
+class _FakeColorFilterLayer_4 extends _i1.SmartFake
     implements _i4.ColorFilterLayer {
-  _FakeColorFilterLayer_3(
+  _FakeColorFilterLayer_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -80,8 +92,8 @@ class _FakeColorFilterLayer_3 extends _i1.SmartFake
       super.toString();
 }
 
-class _FakeOpacityLayer_4 extends _i1.SmartFake implements _i4.OpacityLayer {
-  _FakeOpacityLayer_4(
+class _FakeOpacityLayer_5 extends _i1.SmartFake implements _i4.OpacityLayer {
+  _FakeOpacityLayer_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -94,8 +106,8 @@ class _FakeOpacityLayer_4 extends _i1.SmartFake implements _i4.OpacityLayer {
       super.toString();
 }
 
-class _FakeWidget_5 extends _i1.SmartFake implements _i6.Widget {
-  _FakeWidget_5(
+class _FakeWidget_6 extends _i1.SmartFake implements _i6.Widget {
+  _FakeWidget_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -108,9 +120,9 @@ class _FakeWidget_5 extends _i1.SmartFake implements _i6.Widget {
       super.toString();
 }
 
-class _FakeInheritedWidget_6 extends _i1.SmartFake
+class _FakeInheritedWidget_7 extends _i1.SmartFake
     implements _i6.InheritedWidget {
-  _FakeInheritedWidget_6(
+  _FakeInheritedWidget_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -123,9 +135,9 @@ class _FakeInheritedWidget_6 extends _i1.SmartFake
       super.toString();
 }
 
-class _FakeDiagnosticsNode_7 extends _i1.SmartFake
+class _FakeDiagnosticsNode_8 extends _i1.SmartFake
     implements _i5.DiagnosticsNode {
-  _FakeDiagnosticsNode_7(
+  _FakeDiagnosticsNode_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -141,8 +153,8 @@ class _FakeDiagnosticsNode_7 extends _i1.SmartFake
       super.toString();
 }
 
-class _FakeOffset_8 extends _i1.SmartFake implements _i2.Offset {
-  _FakeOffset_8(
+class _FakeOffset_9 extends _i1.SmartFake implements _i2.Offset {
+  _FakeOffset_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -319,6 +331,20 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 
   @override
+  void clipRSuperellipse(
+    _i2.RSuperellipse? rsuperellipse, {
+    bool? doAntiAlias = true,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #clipRSuperellipse,
+          [rsuperellipse],
+          {#doAntiAlias: doAntiAlias},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void clipPath(
     _i2.Path? path, {
     bool? doAntiAlias = true,
@@ -449,6 +475,22 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
           [
             outer,
             inner,
+            paint,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawRSuperellipse(
+    _i2.RSuperellipse? rsuperellipse,
+    _i2.Paint? paint,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawRSuperellipse,
+          [
+            rsuperellipse,
             paint,
           ],
         ),
@@ -755,9 +797,18 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
       ) as _i2.Rect);
 
   @override
+  _i2.PictureRecorder get recorder => (super.noSuchMethod(
+        Invocation.getter(#recorder),
+        returnValue: _FakePictureRecorder_1(
+          this,
+          Invocation.getter(#recorder),
+        ),
+      ) as _i2.PictureRecorder);
+
+  @override
   _i2.Canvas get canvas => (super.noSuchMethod(
         Invocation.getter(#canvas),
-        returnValue: _FakeCanvas_1(
+        returnValue: _FakeCanvas_2(
           this,
           Invocation.getter(#canvas),
         ),
@@ -867,7 +918,7 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
             bounds,
           ],
         ),
-        returnValue: _FakePaintingContext_2(
+        returnValue: _FakePaintingContext_3(
           this,
           Invocation.method(
             #createChildContext,
@@ -928,6 +979,31 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
       )) as _i4.ClipRRectLayer?);
 
   @override
+  _i4.ClipRSuperellipseLayer? pushClipRSuperellipse(
+    bool? needsCompositing,
+    _i2.Offset? offset,
+    _i2.Rect? bounds,
+    _i2.RSuperellipse? clipRSuperellipse,
+    _i3.PaintingContextCallback? painter, {
+    _i2.Clip? clipBehavior = _i2.Clip.antiAlias,
+    _i4.ClipRSuperellipseLayer? oldLayer,
+  }) =>
+      (super.noSuchMethod(Invocation.method(
+        #pushClipRSuperellipse,
+        [
+          needsCompositing,
+          offset,
+          bounds,
+          clipRSuperellipse,
+          painter,
+        ],
+        {
+          #clipBehavior: clipBehavior,
+          #oldLayer: oldLayer,
+        },
+      )) as _i4.ClipRSuperellipseLayer?);
+
+  @override
   _i4.ClipPathLayer? pushClipPath(
     bool? needsCompositing,
     _i2.Offset? offset,
@@ -969,7 +1045,7 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
           ],
           {#oldLayer: oldLayer},
         ),
-        returnValue: _FakeColorFilterLayer_3(
+        returnValue: _FakeColorFilterLayer_4(
           this,
           Invocation.method(
             #pushColorFilter,
@@ -1019,7 +1095,7 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
           ],
           {#oldLayer: oldLayer},
         ),
-        returnValue: _FakeOpacityLayer_4(
+        returnValue: _FakeOpacityLayer_5(
           this,
           Invocation.method(
             #pushOpacity,
@@ -1074,6 +1150,26 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
       );
 
   @override
+  void clipRSuperellipseAndPaint(
+    _i2.RSuperellipse? rse,
+    _i2.Clip? clipBehavior,
+    _i2.Rect? bounds,
+    _i2.VoidCallback? painter,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #clipRSuperellipseAndPaint,
+          [
+            rse,
+            clipBehavior,
+            bounds,
+            painter,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void clipRectAndPaint(
     _i2.Rect? rect,
     _i2.Clip? clipBehavior,
@@ -1105,7 +1201,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
   @override
   _i6.Widget get widget => (super.noSuchMethod(
         Invocation.getter(#widget),
-        returnValue: _FakeWidget_5(
+        returnValue: _FakeWidget_6(
           this,
           Invocation.getter(#widget),
         ),
@@ -1134,7 +1230,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           [ancestor],
           {#aspect: aspect},
         ),
-        returnValue: _FakeInheritedWidget_6(
+        returnValue: _FakeInheritedWidget_7(
           this,
           Invocation.method(
             #dependOnInheritedElement,
@@ -1184,7 +1280,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           [name],
           {#style: style},
         ),
-        returnValue: _FakeDiagnosticsNode_7(
+        returnValue: _FakeDiagnosticsNode_8(
           this,
           Invocation.method(
             #describeElement,
@@ -1205,7 +1301,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           [name],
           {#style: style},
         ),
-        returnValue: _FakeDiagnosticsNode_7(
+        returnValue: _FakeDiagnosticsNode_8(
           this,
           Invocation.method(
             #describeWidget,
@@ -1234,7 +1330,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           #describeOwnershipChain,
           [name],
         ),
-        returnValue: _FakeDiagnosticsNode_7(
+        returnValue: _FakeDiagnosticsNode_8(
           this,
           Invocation.method(
             #describeOwnershipChain,
@@ -1258,7 +1354,7 @@ class MockGaugeChartPainter extends _i1.Mock implements _i10.GaugeChartPainter {
           #center,
           [size],
         ),
-        returnValue: _FakeOffset_8(
+        returnValue: _FakeOffset_9(
           this,
           Invocation.method(
             #center,

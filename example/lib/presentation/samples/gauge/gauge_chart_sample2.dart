@@ -2,14 +2,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
 
-class GaugeChartSample1 extends StatefulWidget {
-  const GaugeChartSample1({super.key});
+class GaugeChartSample2 extends StatefulWidget {
+  const GaugeChartSample2({super.key});
 
   @override
-  State<StatefulWidget> createState() => GaugeChartSample1State();
+  State<StatefulWidget> createState() => GaugeChartSample2State();
 }
 
-class GaugeChartSample1State extends State {
+class GaugeChartSample2State extends State {
   double _value = 0.5;
 
   @override
@@ -32,6 +32,13 @@ class GaugeChartSample1State extends State {
                 startAngle: -225,
                 endAngle: 45,
                 strokeCap: StrokeCap.butt,
+                ticks: const GaugeTicks(
+                  count: 11,
+                  color: AppColors.contentColorCyan,
+                  radius: 5,
+                  position: GaugeTickPosition.inner,
+                  margin: 5,
+                ),
                 touchData: GaugeTouchData(
                   enabled: true,
                 ),

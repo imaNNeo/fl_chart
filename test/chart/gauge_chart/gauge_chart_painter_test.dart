@@ -22,7 +22,7 @@ void main() {
       final data = GaugeChartData(
         startAngle: 0,
         endAngle: 90,
-        valueColor: const SimpleGaugeColor(color: Colors.red),
+        valueColor: GaugeColor.simple(color: Colors.red),
         strokeWidth: 2,
         value: 0.5,
       );
@@ -55,7 +55,7 @@ void main() {
       final data = GaugeChartData(
         startAngle: 0,
         endAngle: 90,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
       );
@@ -122,7 +122,7 @@ void main() {
       final data = GaugeChartData(
         startAngle: 0,
         endAngle: 90,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
         backgroundColor: MockData.color1,
@@ -219,7 +219,7 @@ void main() {
       final data = GaugeChartData(
         startAngle: 0,
         endAngle: 90,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
         ticks: gaugeTicks,
@@ -278,7 +278,7 @@ void main() {
       final data = GaugeChartData(
         startAngle: 0,
         endAngle: 90,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 2,
         value: 0.5,
         ticks: gaugeTicks,
@@ -335,14 +335,14 @@ void main() {
         position: GaugeTickPosition.center,
         margin: 5,
       );
-      final gaugeColor = VariableGaugeColor(
-        limits: [0.3, 0.5, 0.8],
-        colors: [
+      final gaugeColor = GaugeColor(
+        colors: const [
           MockData.color0,
           MockData.color1,
           MockData.color2,
           MockData.color3,
         ],
+        limits: const [1 / 3, 2 / 3, 1.0],
       );
       final data = GaugeChartData(
         startAngle: 0,
@@ -395,7 +395,7 @@ void main() {
       }
 
       for (var i = 0; i < 3; i++) {
-        final angle = 270 * gaugeColor.limits[i];
+        final angle = 270 * gaugeColor.limits![i];
         final tickX = 200 + cos(angle) * radius;
         final tickY = 200 + sin(angle) * radius;
 
@@ -420,7 +420,7 @@ void main() {
       const viewSize = Size(250, 250);
       final data = GaugeChartData(
         value: 0.7,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
         strokeWidth: 30,
         startAngle: 45,
         endAngle: -225,

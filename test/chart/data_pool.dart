@@ -3529,11 +3529,11 @@ final GaugeTouchData gaugeTouchData2 = GaugeTouchData(
   mouseCursorResolver: (_, __) => MouseCursor.defer,
 );
 
-const GaugeColor gaugeColor1 = SimpleGaugeColor(color: Colors.black);
+final GaugeColor gaugeColor1 = GaugeColor.simple(color: Colors.black);
 
-final GaugeColor gaugeColor2 = VariableGaugeColor(
-  limits: [0.1, 0.5],
-  colors: [Colors.red, Colors.red, Colors.red],
+final GaugeColor gaugeColor2 = GaugeColor(
+  colors: const [Colors.red, Colors.red, Colors.red],
+  limits: const [0.1, 0.5],
 );
 
 const GaugeTicks gaugeTicks1 = GaugeTicks(

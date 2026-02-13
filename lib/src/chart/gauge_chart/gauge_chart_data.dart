@@ -117,9 +117,75 @@ class GaugeChartDataTween extends Tween<GaugeChartData> {
 }
 
 @immutable
-abstract class GaugeColor {
-  Color getColor(double value);
+class GaugeColor with EquatableMixin implements ColoredTicksGenerator {
+  GaugeColor({
+    required this.colors,
+    this.limits,
+  }) : assert(colors.isNotEmpty, 'colors list must not be empty') {
+    if (colors.length > 1 && limits != null) {
+      assert(
+        limits!.length == colors.length - 1,
+        'length of limits should be equals to colors length minus one',
+      );
+      assert(
+        limits!.length <= 1 || limits!.reduce((a, b) => a < b ? 0 : 2) == 0,
+        'the limits list should be sorted in ascending order',
+      );
+      if (limits!.isNotEmpty) {
+        assert(
+          limits!.first > 0 && limits!.last < 1.0,
+          'limits values should be in range 0, 1 (exclusive)',
+        );
+      }
+    }
+  }
 
+  /// Factory constructor for single color
+  factory GaugeColor.simple({required Color color}) {
+    return GaugeColor(colors: [color]);
+  }
+
+  final List<double>? limits;
+  final List<Color> colors;
+
+  @override
+  List<Object?> get props => [_effectiveLimits, colors];
+
+  List<double> get _effectiveLimits {
+    if (colors.length == 1) {
+      return [];
+    }
+    if (limits != null) {
+      return limits!;
+    }
+    // Calculate limits automatically by dividing the space evenly
+    final step = 1.0 / (colors.length - 1);
+    return [for (var i = 1; i < colors.length; i++) i * step];
+  }
+
+  Color getColor(double value) {
+    if (colors.length == 1) {
+      return colors.first;
+    }
+    final effectiveLimits = _effectiveLimits;
+    for (var i = 0; i < effectiveLimits.length; i++) {
+      if (value < effectiveLimits[i]) return colors[i];
+    }
+    return colors.last;
+  }
+
+  @override
+  Iterable<ColoredTick> getColoredTicks() sync* {
+    if (colors.length == 1) {
+      return;
+    }
+    final effectiveLimits = _effectiveLimits;
+    for (var i = 0; i < effectiveLimits.length; i++) {
+      yield ColoredTick(effectiveLimits[i], colors[i + 1]);
+    }
+  }
+
+  /// Lerps a [GaugeColor] to another [GaugeColor] (handles animation for updating values)
   static GaugeColor lerp(GaugeColor a, GaugeColor b, double t) {
     return _LerpGaugeColor(a, b, t);
   }
@@ -214,61 +280,14 @@ class GaugeTouchResponse extends BaseTouchResponse {
       );
 }
 
-@immutable
-class SimpleGaugeColor with EquatableMixin implements GaugeColor {
-  const SimpleGaugeColor({required this.color});
-  final Color color;
-
-  @override
-  List<Object?> get props => [color];
-
-  @override
-  Color getColor(double value) => color;
-}
-
-class VariableGaugeColor
-    with EquatableMixin
-    implements GaugeColor, ColoredTicksGenerator {
-  VariableGaugeColor({
-    required this.limits,
-    required this.colors,
-  })  : assert(
-          colors.length - 1 == limits.length,
-          'length of limits should be equals to colors length minus one',
-        ),
-        assert(
-          limits.length <= 1 || limits.reduce((a, b) => a < b ? 0 : 2) == 0,
-          'the limits list should be sorted in ascending order',
-        ),
-        assert(
-          limits.first > 0 || limits.last < 1.0,
-          'limits values should be in range 0, 1 (exclusive)',
+class _LerpGaugeColor extends GaugeColor {
+  _LerpGaugeColor(this.a, this.b, this.t)
+      : super(
+          colors: [
+            ...a.colors,
+            ...b.colors,
+          ],
         );
-
-  final List<double> limits;
-  final List<Color> colors;
-
-  @override
-  List<Object?> get props => [limits, colors];
-
-  @override
-  Color getColor(double value) {
-    for (var i = 0; i < limits.length; i++) {
-      if (value < limits[i]) return colors[i];
-    }
-    return colors.last;
-  }
-
-  @override
-  Iterable<ColoredTick> getColoredTicks() sync* {
-    for (var i = 0; i < limits.length; i++) {
-      yield ColoredTick(limits[i], colors[i + 1]);
-    }
-  }
-}
-
-class _LerpGaugeColor implements GaugeColor, ColoredTicksGenerator {
-  _LerpGaugeColor(this.a, this.b, this.t);
   final GaugeColor a;
   final GaugeColor b;
   final double t;
@@ -280,15 +299,11 @@ class _LerpGaugeColor implements GaugeColor, ColoredTicksGenerator {
 
   @override
   Iterable<ColoredTick> getColoredTicks() sync* {
-    if (a is ColoredTicksGenerator) {
-      for (final tick in (a as ColoredTicksGenerator).getColoredTicks()) {
-        yield ColoredTick(tick.position, tick.color.withValues(alpha: 1 - t));
-      }
+    for (final tick in a.getColoredTicks()) {
+      yield ColoredTick(tick.position, tick.color.withValues(alpha: 1 - t));
     }
-    if (b is ColoredTicksGenerator) {
-      for (final tick in (b as ColoredTicksGenerator).getColoredTicks()) {
-        yield ColoredTick(tick.position, tick.color.withValues(alpha: t));
-      }
+    for (final tick in b.getColoredTicks()) {
+      yield ColoredTick(tick.position, tick.color.withValues(alpha: t));
     }
   }
 }

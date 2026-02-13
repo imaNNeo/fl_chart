@@ -13,7 +13,7 @@ void main() {
         strokeWidth: 8,
         startAngle: 0,
         endAngle: 270,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
       );
 
       await tester.pumpWidget(
@@ -37,7 +37,7 @@ void main() {
         strokeWidth: 6,
         startAngle: 0,
         endAngle: 180,
-        valueColor: const SimpleGaugeColor(color: Colors.red),
+        valueColor: GaugeColor.simple(color: Colors.red),
       );
 
       final dataB = GaugeChartData(
@@ -45,7 +45,7 @@ void main() {
         strokeWidth: 10,
         startAngle: 30,
         endAngle: 300,
-        valueColor: const SimpleGaugeColor(color: Colors.blue),
+        valueColor: GaugeColor.simple(color: Colors.blue),
       );
 
       Widget build(GaugeChartData d) => Directionality(

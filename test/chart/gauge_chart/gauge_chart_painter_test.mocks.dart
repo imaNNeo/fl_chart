@@ -27,6 +27,7 @@ import 'package:mockito/src/dummies.dart' as _i9;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeRect_0 extends _i1.SmartFake implements _i2.Rect {
   _FakeRect_0(
@@ -311,6 +312,20 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
       );
 
   @override
+  void clipRSuperellipse(
+    _i2.RSuperellipse? rsuperellipse, {
+    bool? doAntiAlias = true,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #clipRSuperellipse,
+          [rsuperellipse],
+          {#doAntiAlias: doAntiAlias},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void clipPath(
     _i2.Path? path, {
     bool? doAntiAlias = true,
@@ -441,6 +456,22 @@ class MockCanvas extends _i1.Mock implements _i2.Canvas {
           [
             outer,
             inner,
+            paint,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void drawRSuperellipse(
+    _i2.RSuperellipse? rsuperellipse,
+    _i2.Paint? paint,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #drawRSuperellipse,
+          [
+            rsuperellipse,
             paint,
           ],
         ),
@@ -1000,14 +1031,16 @@ class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
   @override
   void drawVerticalText(
     _i3.TextPainter? tp,
-    _i2.Offset? offset,
-  ) =>
+    _i2.Offset? offset, [
+    double? rotateAngle = 90.0,
+  ]) =>
       super.noSuchMethod(
         Invocation.method(
           #drawVerticalText,
           [
             tp,
             offset,
+            rotateAngle,
           ],
         ),
         returnValueForMissingStub: null,

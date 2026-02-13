@@ -19,7 +19,7 @@ void main() {
       endAngle: 270,
       strokeWidth: 5,
       value: 0.7,
-      valueColor: const SimpleGaugeColor(color: MockData.color0),
+      valueColor: GaugeColor.simple(color: MockData.color0),
       backgroundColor: MockData.color6,
       strokeCap: StrokeCap.round,
       ticks: const GaugeTicks(
@@ -37,7 +37,7 @@ void main() {
       endAngle: 180,
       strokeWidth: 5,
       value: 0.5,
-      valueColor: const SimpleGaugeColor(color: MockData.color1),
+      valueColor: GaugeColor.simple(color: MockData.color1),
       backgroundColor: MockData.color5,
       strokeCap: StrokeCap.round,
       ticks: const GaugeTicks(

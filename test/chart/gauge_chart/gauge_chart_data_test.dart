@@ -86,41 +86,41 @@ void main() {
     });
 
     test('GaugeColor equality test', () {
-      expect(gaugeColor1 == const SimpleGaugeColor(color: Colors.black), true);
-      expect(gaugeColor1 == const SimpleGaugeColor(color: Colors.red), false);
+      expect(gaugeColor1 == GaugeColor.simple(color: Colors.black), true);
+      expect(gaugeColor1 == GaugeColor.simple(color: Colors.red), false);
 
       expect(
         gaugeColor2 ==
-            VariableGaugeColor(
-              limits: [0.1, 0.5],
-              colors: [Colors.red, Colors.red, Colors.red],
+            GaugeColor(
+              colors: const [Colors.red, Colors.red, Colors.red],
+              limits: const [0.1, 0.5],
             ),
         true,
       );
 
       expect(
         gaugeColor2 ==
-            VariableGaugeColor(
-              limits: [0.2, 0.5],
-              colors: [Colors.red, Colors.red, Colors.red],
+            GaugeColor(
+              colors: const [Colors.red, Colors.red, Colors.red],
+              limits: const [0.2, 0.5],
             ),
         false,
       );
 
       expect(
         gaugeColor2 ==
-            VariableGaugeColor(
-              limits: [0.1, 0.5],
-              colors: [Colors.blue, Colors.red, Colors.red],
+            GaugeColor(
+              colors: const [Colors.blue, Colors.red, Colors.red],
+              limits: const [0.1, 0.5],
             ),
         false,
       );
 
       expect(
         gaugeColor2 ==
-            VariableGaugeColor(
-              limits: [0.1, 0.5, 0.6],
-              colors: [Colors.red, Colors.red, Colors.red, Colors.red],
+            GaugeColor(
+              colors: const [Colors.red, Colors.red, Colors.red, Colors.red],
+              limits: const [0.1, 0.5, 0.6],
             ),
         false,
       );
@@ -274,7 +274,7 @@ void main() {
         strokeWidth: 5,
         startAngle: 0,
         endAngle: 270,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
         backgroundColor: MockData.color0,
         strokeCap: StrokeCap.round,
         ticks: const GaugeTicks(
@@ -298,9 +298,9 @@ void main() {
         strokeWidth: 3,
         startAngle: 20,
         endAngle: 250,
-        valueColor: VariableGaugeColor(
-          limits: [0.4],
-          colors: [MockData.color0, MockData.color2],
+        valueColor: GaugeColor(
+          colors: const [MockData.color0, MockData.color2],
+          limits: const [0.4],
         ),
         backgroundColor: MockData.color2,
         strokeCap: StrokeCap.square,
@@ -344,28 +344,27 @@ void main() {
     });
 
     test('GaugeColor lerp', () {
-      final a = VariableGaugeColor(
-        limits: [0.2, 0.5, 0.7],
-        colors: [
+      final a = GaugeColor(
+        colors: const [
           MockData.color0,
           MockData.color1,
           MockData.color2,
           MockData.color3,
         ],
+        limits: const [0.2, 0.5, 0.7],
       );
-      final b = VariableGaugeColor(
-        limits: [0.3, 0.6, 0.8],
-        colors: [
+      final b = GaugeColor(
+        colors: const [
           MockData.color6,
           MockData.color5,
           MockData.color4,
           MockData.color3,
         ],
+        limits: const [0.3, 0.6, 0.8],
       );
       final color = GaugeColor.lerp(a, b, 0.2);
 
-      expect(color is ColoredTicksGenerator, true);
-      final generator = color as ColoredTicksGenerator;
+      final generator = color;
       final ticks = generator.getColoredTicks().toList();
       expect(ticks, [
         ColoredTick(0.2, MockData.color1.withValues(alpha: 0.8)),
@@ -383,7 +382,7 @@ void main() {
         strokeWidth: 4,
         startAngle: 0,
         endAngle: 180,
-        valueColor: const SimpleGaugeColor(color: MockData.color0),
+        valueColor: GaugeColor.simple(color: MockData.color0),
       );
 
       expect(
