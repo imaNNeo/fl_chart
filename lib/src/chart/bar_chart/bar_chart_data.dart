@@ -214,7 +214,6 @@ class BarChartGroupData with EquatableMixin {
   ///
   /// Note [x] does not reorder bars from [barRods]; instead, it gets the title
   /// in [x] position through [SideTitles.getTitlesWidget] function.
-  @required
   final int x;
 
   /// If set true, it will show bars below/above each other.
