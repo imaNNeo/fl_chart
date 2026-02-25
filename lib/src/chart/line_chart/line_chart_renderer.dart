@@ -122,6 +122,14 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
   }
 
   @override
+  bool hitTestSelf(Offset position) {
+    if (!targetData.lineTouchData.enabled) {
+      return false;
+    }
+    return super.hitTestSelf(position);
+  }
+
+  @override
   LineTouchResponse getResponseAtLocation(Offset localPosition) {
     final chartSize = mockTestSize ?? size;
     return LineTouchResponse(

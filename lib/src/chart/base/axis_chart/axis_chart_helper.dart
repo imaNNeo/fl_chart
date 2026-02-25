@@ -85,7 +85,7 @@ class AxisChartHelper {
       isOverflowed = (axisPosition + (childSize / 2)) > parentAxisSize;
     }
 
-    if (isOverflowed == false) return Offset.zero;
+    if (!isOverflowed) return Offset.zero;
 
     // Calc offset if child overflowed
     late double offset;

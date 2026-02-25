@@ -121,6 +121,14 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
   }
 
   @override
+  bool hitTestSelf(Offset position) {
+    if (!targetData.barTouchData.enabled) {
+      return false;
+    }
+    return super.hitTestSelf(position);
+  }
+
+  @override
   BarTouchResponse getResponseAtLocation(Offset localPosition) {
     final chartSize = mockTestSize ?? size;
     return BarTouchResponse(

@@ -17,27 +17,14 @@ class BarChartSample4 extends StatefulWidget {
 class BarChartSample4State extends State<BarChartSample4> {
   Widget bottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Apr';
-        break;
-      case 1:
-        text = 'May';
-        break;
-      case 2:
-        text = 'Jun';
-        break;
-      case 3:
-        text = 'Jul';
-        break;
-      case 4:
-        text = 'Aug';
-        break;
-      default:
-        text = '';
-        break;
-    }
+    String text = switch (value.toInt()) {
+      0 => 'Apr',
+      1 => 'May',
+      2 => 'Jun',
+      3 => 'Jul',
+      4 => 'Aug',
+      _ => '',
+    };
     return SideTitleWidget(
       meta: meta,
       child: Text(text, style: style),

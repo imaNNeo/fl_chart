@@ -71,7 +71,7 @@ class _SideTitleWidgetState extends State<SideTitleWidget> {
   final GlobalKey widgetKey = GlobalKey();
   double? _childSize;
 
-  void _getChildSize(_) {
+  void _getChildSize(Duration duration) {
     // If fitInside is false, no need to find child size
     if (!widget.fitInside.enabled) return;
 

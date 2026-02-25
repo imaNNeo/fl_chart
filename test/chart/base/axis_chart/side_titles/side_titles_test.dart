@@ -78,4 +78,100 @@ void main() {
       }
     },
   );
+
+  testWidgets('LineChart with only left titles overlayed on chart area',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: SizedBox(
+              width: viewSize.width,
+              height: viewSize.height,
+              child: LineChart(
+                LineChartData(
+                  titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                      sideTitleAlignment: SideTitleAlignment.inside,
+                      axisNameWidget: const Text('Left Titles'),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (double value, TitleMeta meta) {
+                          return Text('L-${value.toInt()}');
+                        },
+                        interval: 1,
+                      ),
+                    ),
+                  ),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: data,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final leftTitleFinder = find.text('L-0');
+    expect(leftTitleFinder, findsOneWidget);
+
+    final leftTitleRect = tester.getRect(leftTitleFinder);
+
+    final chartFinder = find.byType(LineChart);
+    final chartRect = tester.getRect(chartFinder);
+
+    expect(leftTitleRect.left >= chartRect.left, true);
+  });
+
+  testWidgets('LineChart with only left titles overlayed on chart border',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: SizedBox(
+              width: viewSize.width,
+              height: viewSize.height,
+              child: LineChart(
+                LineChartData(
+                  titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                      sideTitleAlignment: SideTitleAlignment.border,
+                      axisNameWidget: const Text('Left Titles'),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (double value, TitleMeta meta) {
+                          return Text('L-${value.toInt()}');
+                        },
+                        interval: 1,
+                      ),
+                    ),
+                  ),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: data,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final leftTitleFinder = find.text('L-0');
+    expect(leftTitleFinder, findsOneWidget);
+
+    final leftTitleRect = tester.getRect(leftTitleFinder);
+
+    final chartFinder = find.byType(LineChart);
+    final chartRect = tester.getRect(chartFinder);
+
+    expect(leftTitleRect.left >= chartRect.left, true);
+  });
 }

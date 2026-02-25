@@ -178,7 +178,7 @@ class MockData {
     showingIndicators: [0, 4],
   );
 
-  static const flSpot0 = FlSpot.zero;
+  static const FlSpot flSpot0 = FlSpot.zero;
   static const flSpot1 = FlSpot(1, 1);
   static const flSpot2 = FlSpot(2, 2);
   static const flSpot3 = FlSpot(3, 3);
@@ -581,9 +581,9 @@ final FlSpot flSpot1Clone = flSpot1.copyWith();
 const FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
-const nullSpot1 = FlSpot.nullSpot;
-final nullSpot2 = nullSpot1.copyWith();
-const nullSpot3 = FlSpot.nullSpot;
+const FlSpot nullSpot1 = FlSpot.nullSpot;
+final FlSpot nullSpot2 = nullSpot1.copyWith();
+const FlSpot nullSpot3 = FlSpot.nullSpot;
 
 Widget getTitles(double value, TitleMeta meta) => const Text('sallam');
 
@@ -2403,7 +2403,7 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
     getLabelFunction: getLabel,
   ),
 );
-final scatterChartData1Clone = scatterChartData1.copyWith();
+final ScatterChartData scatterChartData1Clone = scatterChartData1.copyWith();
 final scatterTouchTooltipData1 = ScatterTouchTooltipData(
   tooltipBorderRadius: BorderRadius.circular(23),
   tooltipPadding: const EdgeInsets.all(11),
@@ -2452,6 +2452,12 @@ final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
   1,
   2,
   Colors.green,
+  label: 'Test Label',
+  labelStyle: const TextStyle(
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  ),
 );
 final BarChartRodStackItem barChartRodStackItem1Clone =
     barChartRodStackItem1.copyWith();
@@ -2460,6 +2466,22 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
   2,
   3,
   Colors.green,
+);
+
+final BarChartRodStackItem barChartRodStackItem3 = BarChartRodStackItem(
+  3,
+  4,
+  Colors.green,
+  label: 'This is a very long label that might not fit',
+  labelStyle: const TextStyle(fontSize: 12),
+);
+
+final BarChartRodStackItem barChartRodStackItem4 = BarChartRodStackItem(
+  8,
+  10,
+  Colors.purple,
+  label: 'Label with emojis 🎯 & symbols!',
+  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
 );
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 =
@@ -2495,6 +2517,8 @@ final BarChartRodData barChartRodData1 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem3,
+    barChartRodStackItem4,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2503,6 +2527,8 @@ final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
   rodStackItems: [
     barChartRodStackItem1Clone,
     barChartRodStackItem2,
+    barChartRodStackItem3,
+    barChartRodStackItem4,
   ],
 );
 
@@ -2514,6 +2540,8 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem3,
+    barChartRodStackItem4,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2535,6 +2563,8 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem2,
     barChartRodStackItem1,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2546,6 +2576,8 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -2564,6 +2596,8 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData2,
 );
@@ -2575,6 +2609,8 @@ final BarChartRodData barChartRodData8 = BarChartRodData(
   rodStackItems: [
     barChartRodStackItem1,
     barChartRodStackItem2,
+    barChartRodStackItem4,
+    barChartRodStackItem3,
   ],
   backDrawRodData: backgroundBarChartRodData1,
 );
@@ -3189,7 +3225,7 @@ final radarTouchedSpot1 = RadarTouchedSpot(
   Offset.zero,
 );
 
-final radarTouchedSpotClone1 = radarTouchedSpot1;
+final RadarTouchedSpot radarTouchedSpotClone1 = radarTouchedSpot1;
 
 final radarTouchedSpot2 = RadarTouchedSpot(
   radarDataSet2,
@@ -3308,7 +3344,7 @@ final candlestickSpot1 = CandlestickSpot(
   close: 20,
 );
 
-final candlestickSpot1Clone = candlestickSpot1.copyWith();
+final CandlestickSpot candlestickSpot1Clone = candlestickSpot1.copyWith();
 
 final candlestickSpot2 = CandlestickSpot(
   x: 10,
@@ -3318,7 +3354,7 @@ final candlestickSpot2 = CandlestickSpot(
   close: 20,
 );
 
-final candlestickSpot2Clone = candlestickSpot2.copyWith();
+final CandlestickSpot candlestickSpot2Clone = candlestickSpot2.copyWith();
 
 final candlestickSpot3 = CandlestickSpot(
   x: 20,
@@ -3368,7 +3404,8 @@ final candleStickChartData1 = CandlestickChartData(
   clipData: const FlClipData.none(),
 );
 
-final candleStickChartData1Clone = candleStickChartData1.copyWith();
+final CandlestickChartData candleStickChartData1Clone =
+    candleStickChartData1.copyWith();
 
 final candleStickChartData2 = CandlestickChartData(
   candlestickSpots: [

@@ -45,6 +45,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |spots| list of [FlSpot](base_chart.md#FlSpot)'s x and y coordinates that the line go through it| []
 |color|color of the line|[Colors.redAccent]|
 |gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)|null|
+|gradientArea| determines the area where the gradient is applied |null|
 |barWidth| gets the stroke width of the line bar|2.0|
 |isCurved| curves the corners of the line on the spot's positions| false|
 |curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|

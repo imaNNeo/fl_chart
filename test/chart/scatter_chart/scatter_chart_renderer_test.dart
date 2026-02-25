@@ -18,7 +18,10 @@ void main() {
       scatterSpots: [MockData.scatterSpot1, MockData.scatterSpot2],
     );
 
-    final targetData = ScatterChartData(scatterSpots: [MockData.scatterSpot3]);
+    final targetData = ScatterChartData(
+      scatterSpots: [MockData.scatterSpot3],
+      scatterTouchData: ScatterTouchData(enabled: false),
+    );
 
     const textScaler = TextScaler.linear(4);
 
@@ -49,6 +52,7 @@ void main() {
       expect(renderScatterChart.paintHolder.data == data, true);
       expect(renderScatterChart.paintHolder.targetData == targetData, true);
       expect(renderScatterChart.paintHolder.textScaler == textScaler, true);
+      expect(renderScatterChart.hitTestSelf(Offset.zero), false);
     });
 
     test('test 2 check paint function', () {
