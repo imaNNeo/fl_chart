@@ -20,7 +20,7 @@ void main() {
     () {
       testWidgets(
         'SideTitleWidget left',
-        (WidgetTester tester) async {
+        (tester) async {
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -39,7 +39,7 @@ void main() {
 
       testWidgets(
         'SideTitleWidget top',
-        (WidgetTester tester) async {
+        (tester) async {
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -58,7 +58,7 @@ void main() {
 
       testWidgets(
         'SideTitleWidget right',
-        (WidgetTester tester) async {
+        (tester) async {
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -77,7 +77,7 @@ void main() {
 
       testWidgets(
         'SideTitleWidget bottom',
-        (WidgetTester tester) async {
+        (tester) async {
           const widgetKey = Key('SideTitleWidget');
           final sideTitleWidget = SideTitleWidget(
             key: widgetKey,
@@ -113,7 +113,7 @@ void main() {
     () {
       testWidgets(
         'SideTitleWidget left with FitInsideEnabled on Top Side',
-        (WidgetTester tester) async {
+        (tester) async {
           const widgetKey = Key('SideTitleWidget');
           final sideTitleWidget = SideTitleWidget(
             key: widgetKey,
@@ -149,7 +149,7 @@ void main() {
 
       testWidgets(
         'SideTitleWidget left with FitInsideEnabled on Bottom Side',
-        (WidgetTester tester) async {
+        (tester) async {
           const widgetKey = Key('SideTitleWidget');
           final sideTitleWidget = SideTitleWidget(
             key: widgetKey,
@@ -185,7 +185,7 @@ void main() {
 
       testWidgets(
         'SideTitleWidget bottom with FitInsideEnabled on Left Side',
-        (WidgetTester tester) async {
+        (tester) async {
           const widgetKey = Key('SideTitleWidget');
           final sideTitleWidget = SideTitleWidget(
             key: widgetKey,
@@ -221,7 +221,7 @@ void main() {
 
       testWidgets(
         'SideTitleWidget bottom with FitInsideEnabled on Right Side',
-        (WidgetTester tester) async {
+        (tester) async {
           const widgetKey = Key('SideTitleWidget');
           final sideTitleWidget = SideTitleWidget(
             key: widgetKey,

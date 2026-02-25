@@ -269,7 +269,7 @@ void main() {
           candlestickSpot3,
         ],
         candlestickPainter: DefaultCandlestickPainter(
-          candlestickStyleProvider: (CandlestickSpot spot, int index) {
+          candlestickStyleProvider: (spot, index) {
             final generalColor =
                 spot.isUp ? const Color(0xFF4CAF50) : const Color(0xFFEF5350);
             return CandlestickStyle(

@@ -30,7 +30,7 @@ void main() {
         axisNameWidget: const Text('Left Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('L-${value.toInt()}');
           },
           interval: 1,
@@ -40,7 +40,7 @@ void main() {
         axisNameWidget: const Text('Top Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('T-${value.toInt()}');
           },
           interval: 1,
@@ -50,7 +50,7 @@ void main() {
         axisNameWidget: const Text('Right Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('R-${value.toInt()}');
           },
           interval: 1,
@@ -60,7 +60,7 @@ void main() {
         axisNameWidget: const Text('Bottom Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('B-${value.toInt()}');
           },
           interval: 1,
@@ -75,7 +75,7 @@ void main() {
         axisNameWidget: const Text('Left Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('L-${value.toInt()}');
           },
           interval: 1,
@@ -93,7 +93,7 @@ void main() {
       leftTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('L-${value.toInt()}');
           },
           interval: 1,
@@ -231,7 +231,7 @@ void main() {
 
   testWidgets(
     'LineChart with no titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -256,7 +256,7 @@ void main() {
 
   testWidgets(
     'LineChart with all titles',
-    (WidgetTester tester) async {
+    (tester) async {
       Future<void> checkSide(AxisSide side) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -297,7 +297,7 @@ void main() {
 
   testWidgets(
     'LineChart with Only left titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -326,7 +326,7 @@ void main() {
 
   testWidgets(
     'LineChart with Only left titles without axis name',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -354,7 +354,7 @@ void main() {
 
   testWidgets(
     'BarChart with Only bottom titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -383,7 +383,7 @@ void main() {
 
   testWidgets(
     'BarChart with Only right titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -412,7 +412,7 @@ void main() {
 
   testWidgets(
     'BarChart with empty bars',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
