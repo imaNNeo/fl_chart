@@ -317,7 +317,7 @@ void main() {
             scatterChartData1Clone.copyWith(
               scatterLabelSettings: ScatterLabelSettings(
                 showLabel: true,
-                getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
+                getLabelTextStyleFunction: (index, spot) =>
                     const TextStyle(color: Colors.green),
               ),
             ),
@@ -329,10 +329,9 @@ void main() {
             scatterChartData1Clone.copyWith(
               scatterLabelSettings: ScatterLabelSettings(
                 showLabel: false,
-                getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
+                getLabelTextStyleFunction: (index, spot) =>
                     const TextStyle(color: Colors.red),
-                getLabelFunction: (int index, ScatterSpot spot) =>
-                    'Label - $index',
+                getLabelFunction: (index, spot) => 'Label - $index',
               ),
             ),
         false,
@@ -343,10 +342,9 @@ void main() {
             scatterChartData1Clone.copyWith(
               scatterLabelSettings: ScatterLabelSettings(
                 showLabel: true,
-                getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
+                getLabelTextStyleFunction: (index, spot) =>
                     const TextStyle(color: Colors.red),
-                getLabelFunction: (int index, ScatterSpot spot) =>
-                    'Different Label - $index',
+                getLabelFunction: (index, spot) => 'Different Label - $index',
               ),
             ),
         false,
@@ -513,7 +511,7 @@ void main() {
       changed = ScatterLabelSettings(
         showLabel: true,
         getLabelTextStyleFunction: getLabelTextStyle,
-        getLabelFunction: (int index, ScatterSpot spot) => 'Label',
+        getLabelFunction: (index, spot) => 'Label',
       );
       expect(sample1 == changed, false);
 

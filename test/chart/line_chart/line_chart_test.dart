@@ -18,7 +18,7 @@ void main() {
   }
 
   group('LineChart', () {
-    testWidgets('has correct default values', (WidgetTester tester) async {
+    testWidgets('has correct default values', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           chart: LineChart(
@@ -32,7 +32,7 @@ void main() {
     });
 
     testWidgets('passes interaction parameters to AxisChartScaffoldWidget',
-        (WidgetTester tester) async {
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           chart: LineChart(
@@ -79,8 +79,7 @@ void main() {
     });
 
     for (final scaleAxis in FlScaleAxis.scalingEnabledAxis) {
-      testWidgets('passes canBeScaled true for $scaleAxis',
-          (WidgetTester tester) async {
+      testWidgets('passes canBeScaled true for $scaleAxis', (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
@@ -100,7 +99,7 @@ void main() {
     }
 
     testWidgets('passes canBeScaled false for FlScaleAxis.none',
-        (WidgetTester tester) async {
+        (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           chart: LineChart(
@@ -123,8 +122,7 @@ void main() {
     });
 
     group('touch gesture', () {
-      testWidgets('does not scale with FlScaleAxis.none',
-          (WidgetTester tester) async {
+      testWidgets('does not scale with FlScaleAxis.none', (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
@@ -158,8 +156,7 @@ void main() {
         expect(lineChartLeaf.chartVirtualRect, isNull);
       });
 
-      testWidgets('scales freely with FlScaleAxis.free',
-          (WidgetTester tester) async {
+      testWidgets('scales freely with FlScaleAxis.free', (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
@@ -203,7 +200,7 @@ void main() {
       });
 
       testWidgets('scales horizontally with FlScaleAxis.horizontal',
-          (WidgetTester tester) async {
+          (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
@@ -246,7 +243,7 @@ void main() {
       });
 
       testWidgets('scales vertically with FlScaleAxis.vertical',
-          (WidgetTester tester) async {
+          (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
@@ -293,7 +290,7 @@ void main() {
 
       group('pans', () {
         testWidgets('only horizontally with FlScaleAxis.horizontal',
-            (WidgetTester tester) async {
+            (tester) async {
           await tester.pumpWidget(
             createTestWidget(
               chart: LineChart(
@@ -347,7 +344,7 @@ void main() {
         });
 
         testWidgets('only vertically with FlScaleAxis.vertical',
-            (WidgetTester tester) async {
+            (tester) async {
           await tester.pumpWidget(
             createTestWidget(
               chart: LineChart(
@@ -399,8 +396,7 @@ void main() {
           );
         });
 
-        testWidgets('freely with FlScaleAxis.free',
-            (WidgetTester tester) async {
+        testWidgets('freely with FlScaleAxis.free', (tester) async {
           await tester.pumpWidget(
             createTestWidget(
               chart: LineChart(
@@ -461,7 +457,7 @@ void main() {
     group('trackpad scroll', () {
       group('pans', () {
         testWidgets('only horizontally with FlScaleAxis.horizontal',
-            (WidgetTester tester) async {
+            (tester) async {
           await tester.pumpWidget(
             createTestWidget(
               chart: LineChart(
@@ -519,8 +515,7 @@ void main() {
           expect(chartVirtualRectAfterPan.top, 0);
         });
 
-        testWidgets('vertically with FlScaleAxis.vertical',
-            (WidgetTester tester) async {
+        testWidgets('vertically with FlScaleAxis.vertical', (tester) async {
           await tester.pumpWidget(
             createTestWidget(
               chart: LineChart(
@@ -578,8 +573,7 @@ void main() {
           );
         });
 
-        testWidgets('freely with FlScaleAxis.free',
-            (WidgetTester tester) async {
+        testWidgets('freely with FlScaleAxis.free', (tester) async {
           await tester.pumpWidget(
             createTestWidget(
               chart: LineChart(
@@ -643,7 +637,7 @@ void main() {
       testWidgets(
         'does not scale with FlScaleAxis.none when '
         'trackpadScrollCausesScale is true',
-        (WidgetTester tester) async {
+        (tester) async {
           await tester.pumpWidget(
             createTestWidget(
               chart: LineChart(
@@ -680,7 +674,7 @@ void main() {
         testWidgets(
           'does not scale when trackpadScrollCausesScale is false '
           'for $scaleAxis',
-          (WidgetTester tester) async {
+          (tester) async {
             await tester.pumpWidget(
               createTestWidget(
                 chart: LineChart(
@@ -715,7 +709,7 @@ void main() {
       }
 
       testWidgets('scales horizontally with FlScaleAxis.horizontal',
-          (WidgetTester tester) async {
+          (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
@@ -752,7 +746,7 @@ void main() {
       });
 
       testWidgets('scales vertically with FlScaleAxis.vertical',
-          (WidgetTester tester) async {
+          (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
@@ -791,8 +785,7 @@ void main() {
         expect(chartVirtualRect.top, isNegative);
       });
 
-      testWidgets('scales freely with FlScaleAxis.free',
-          (WidgetTester tester) async {
+      testWidgets('scales freely with FlScaleAxis.free', (tester) async {
         await tester.pumpWidget(
           createTestWidget(
             chart: LineChart(
