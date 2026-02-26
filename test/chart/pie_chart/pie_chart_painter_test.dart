@@ -702,7 +702,7 @@ void main() {
         centerRadiusRect,
       );
 
-      final endRadians = startRadians + sweepRadians;
+      const endRadians = startRadians + sweepRadians;
       final innerStart = center +
           Offset(math.cos(startRadians), math.sin(startRadians)) * centerRadius;
       final outerStart = center +
