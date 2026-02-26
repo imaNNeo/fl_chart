@@ -583,6 +583,87 @@ void main() {
           .reduce((a, b) => a + b);
       expect(path3Length, 210.1807098388672);
     });
+
+    test('test 4 with cornerRadius matches rounded path when no space', () {
+      const center = Offset(100, 100);
+      const centerRadius = 10.0;
+      const tempAngle = 36.0;
+      const sectionDegree = 144.0;
+
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        cornerRadius: 10,
+      );
+
+      final barChartPainter = PieChartPainter();
+
+      final generatedPath = barChartPainter.generateSectionPath(
+        section,
+        0,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
+
+      final startRadians = Utils().radians(tempAngle);
+      final sweepRadians = Utils().radians(sectionDegree);
+      final expectedRoundedPath = barChartPainter.generateRoundedSectionPath(
+        section,
+        startRadians,
+        sweepRadians,
+        center,
+        centerRadius,
+        Rect.fromCircle(center: center, radius: centerRadius + section.radius),
+        Rect.fromCircle(center: center, radius: centerRadius),
+      );
+
+      expect(
+        HelperMethods.equalsPaths(generatedPath, expectedRoundedPath),
+        true,
+      );
+    });
+
+    test('test 5 with cornerRadius and sectionSpace trims rounded path', () {
+      const center = Offset(100, 100);
+      const centerRadius = 10.0;
+      const tempAngle = 36.0;
+      const sectionDegree = 144.0;
+
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        cornerRadius: 10,
+      );
+
+      final barChartPainter = PieChartPainter();
+
+      final pathWithoutSpace = barChartPainter.generateSectionPath(
+        section,
+        0,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
+
+      final pathWithSpace = barChartPainter.generateSectionPath(
+        section,
+        10,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
+
+      expect(HelperMethods.equalsPaths(pathWithSpace, pathWithoutSpace), false);
+
+      final withSpaceMetrics = pathWithSpace.computeMetrics().toList();
+      expect(withSpaceMetrics.isNotEmpty, true);
+    });
   });
 
   group('createRectPathAroundLine()', () {
@@ -1209,6 +1290,47 @@ void main() {
       expect(
         barChartPainter
             .handleTouch(const Offset(164.5, 91.4), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
+    });
+
+    test('test 3 with cornerRadius sections', () {
+      const viewSize = Size(200, 200);
+      final data = PieChartData(
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(value: 1, radius: 10, cornerRadius: 5),
+          PieChartSectionData(value: 2, radius: 20, cornerRadius: 8),
+          PieChartSectionData(value: 3, radius: 30, cornerRadius: 10),
+          PieChartSectionData(value: 4, radius: 40, cornerRadius: 12),
+        ],
+      );
+      final barChartPainter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(159.76, 135.56), viewSize, holder)
+            .touchedSectionIndex,
+        0,
+      );
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(121.06, 160.38), viewSize, holder)
+            .touchedSectionIndex,
+        1,
+      );
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(40.3, 124.8), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(126.7, 40.6), viewSize, holder)
             .touchedSectionIndex,
         3,
       );

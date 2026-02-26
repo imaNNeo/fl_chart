@@ -41,6 +41,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |titleStyle| TextStyle of the titles| TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)|
 |title| title of the section| value|
 |borderSide| Defines border stroke around the section | BorderSide(width: 0)|
+|cornerRadius| defines corner radius for rounded section edges |0|
 |badgeWidget| badge component of the section| null|
 |titlePositionPercentageOffset|the place of the title in the section, this field should be between 0 and 1|0.5|
 |badgePositionPercentageOffset|the place of the badge component in the section, this field should be between 0 and 1|0.5|
