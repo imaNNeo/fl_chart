@@ -1263,4 +1263,189 @@ void main() {
       );
     });
   });
+
+  group('drawSectionIndividualBorders()', () {
+    test('does nothing when border has no visible sides', () {
+      const viewSize = Size(200, 200);
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        border: const PieChartSectionBorder(),
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      pieChartPainter.drawSectionIndividualBorders(
+        section,
+        0,
+        0,
+        90,
+        const Offset(100, 100),
+        30,
+        mockCanvasWrapper,
+      );
+
+      verifyNever(mockCanvasWrapper.drawArc(any, any, any, any, any));
+      verifyNever(mockCanvasWrapper.drawLine(any, any, any));
+    });
+
+    test('draws outer arc when outer border is set', () {
+      const viewSize = Size(200, 200);
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        border: const PieChartSectionBorder(
+          outer: BorderSide(color: MockData.color2, width: 2),
+        ),
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      pieChartPainter.drawSectionIndividualBorders(
+        section,
+        0,
+        0,
+        90,
+        const Offset(100, 100),
+        30,
+        mockCanvasWrapper,
+      );
+
+      verify(mockCanvasWrapper.drawArc(any, any, any, false, any)).called(1);
+      verifyNever(mockCanvasWrapper.drawLine(any, any, any));
+    });
+
+    test('draws inner arc when inner border is set', () {
+      const viewSize = Size(200, 200);
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        border: const PieChartSectionBorder(
+          inner: BorderSide(color: MockData.color2, width: 2),
+        ),
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      pieChartPainter.drawSectionIndividualBorders(
+        section,
+        0,
+        0,
+        90,
+        const Offset(100, 100),
+        30,
+        mockCanvasWrapper,
+      );
+
+      verify(mockCanvasWrapper.drawArc(any, any, any, false, any)).called(1);
+      verifyNever(mockCanvasWrapper.drawLine(any, any, any));
+    });
+
+    test('draws left and right lines when radial borders are set', () {
+      const viewSize = Size(200, 200);
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        border: const PieChartSectionBorder(
+          left: BorderSide(color: MockData.color3, width: 2),
+          right: BorderSide(color: MockData.color4, width: 2),
+        ),
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      pieChartPainter.drawSectionIndividualBorders(
+        section,
+        0,
+        0,
+        90,
+        const Offset(100, 100),
+        30,
+        mockCanvasWrapper,
+      );
+
+      verifyNever(mockCanvasWrapper.drawArc(any, any, any, any, any));
+      verify(mockCanvasWrapper.drawLine(any, any, any)).called(2);
+    });
+
+    test('draws all borders when .all() is used', () {
+      const viewSize = Size(200, 200);
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        border: const PieChartSectionBorder.all(
+          BorderSide(color: MockData.color2, width: 2),
+        ),
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      pieChartPainter.drawSectionIndividualBorders(
+        section,
+        0,
+        0,
+        90,
+        const Offset(100, 100),
+        30,
+        mockCanvasWrapper,
+      );
+
+      // 2 arcs (outer + inner)
+      verify(mockCanvasWrapper.drawArc(any, any, any, false, any)).called(2);
+      // 2 lines (left + right)
+      verify(mockCanvasWrapper.drawLine(any, any, any)).called(2);
+    });
+
+    test('draws only arcs when .arcsOnly() is used', () {
+      const viewSize = Size(200, 200);
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        border: const PieChartSectionBorder.arcsOnly(
+          BorderSide(color: MockData.color2, width: 2),
+        ),
+      );
+
+      final pieChartPainter = PieChartPainter();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      pieChartPainter.drawSectionIndividualBorders(
+        section,
+        0,
+        0,
+        90,
+        const Offset(100, 100),
+        30,
+        mockCanvasWrapper,
+      );
+
+      // 2 arcs (outer + inner)
+      verify(mockCanvasWrapper.drawArc(any, any, any, false, any)).called(2);
+      // No lines
+      verifyNever(mockCanvasWrapper.drawLine(any, any, any));
+    });
+  });
 }

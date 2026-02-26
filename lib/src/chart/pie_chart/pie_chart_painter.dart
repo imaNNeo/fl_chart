@@ -142,8 +142,36 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           )
           ..restore();
         _sectionPaint.blendMode = BlendMode.srcOver;
-        if (section.borderSide.width != 0.0 &&
+
+        // Draw borders for full circle section
+        final border = section.border;
+        if (border.hasVisibleBorder) {
+          // Outer circle border
+          if (border.outer.width > 0 && border.outer.color.a > 0) {
+            _sectionStrokePaint
+              ..strokeWidth = border.outer.width
+              ..color = border.outer.color;
+            canvasWrapper.drawCircle(
+              center,
+              centerRadius + section.radius - (border.outer.width / 2),
+              _sectionStrokePaint,
+            );
+          }
+
+          // Inner circle border
+          if (border.inner.width > 0 && border.inner.color.a > 0) {
+            _sectionStrokePaint
+              ..strokeWidth = border.inner.width
+              ..color = border.inner.color;
+            canvasWrapper.drawCircle(
+              center,
+              centerRadius + (border.inner.width / 2),
+              _sectionStrokePaint,
+            );
+          }
+        } else if (section.borderSide.width != 0.0 &&
             section.borderSide.color.a != 0.0) {
+          // Legacy borderSide support
           _sectionStrokePaint
             ..strokeWidth = section.borderSide.width
             ..color = section.borderSide.color;
@@ -154,7 +182,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
               centerRadius + section.radius - (section.borderSide.width / 2),
               _sectionStrokePaint,
             )
-
             // Inner
             ..drawCircle(
               center,
@@ -176,6 +203,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       drawSection(section, sectionPath, canvasWrapper);
       drawSectionStroke(section, sectionPath, canvasWrapper, viewSize);
+      drawSectionIndividualBorders(
+        section,
+        data.sectionsSpace,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+        canvasWrapper,
+      );
       tempAngle += sectionDegree;
     }
   }
@@ -329,7 +365,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     CanvasWrapper canvasWrapper,
     Size viewSize,
   ) {
-    if (section.borderSide.width != 0.0 && section.borderSide.color.a != 0.0) {
+    // Legacy support: if borderSide is set and border is default, use borderSide
+    if (section.borderSide.width != 0.0 &&
+        section.borderSide.color.a != 0.0 &&
+        !section.border.hasVisibleBorder) {
       canvasWrapper
         ..saveLayer(
           Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
@@ -346,6 +385,89 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           _sectionStrokePaint,
         )
         ..restore();
+    }
+  }
+
+  @visibleForTesting
+  void drawSectionIndividualBorders(
+    PieChartSectionData section,
+    double sectionSpace,
+    double tempAngle,
+    double sectionDegree,
+    Offset center,
+    double centerRadius,
+    CanvasWrapper canvasWrapper,
+  ) {
+    final border = section.border;
+    if (!border.hasVisibleBorder) return;
+
+    final startRadians = Utils().radians(tempAngle);
+    final sweepRadians = Utils().radians(sectionDegree);
+    final endRadians = startRadians + sweepRadians;
+
+    final outerRadius = centerRadius + section.radius;
+
+    // Draw outer arc
+    if (border.outer.width > 0 && border.outer.color.a > 0) {
+      _sectionStrokePaint
+        ..strokeWidth = border.outer.width
+        ..color = border.outer.color
+        ..style = PaintingStyle.stroke;
+
+      final outerRect = Rect.fromCircle(center: center, radius: outerRadius);
+      canvasWrapper.drawArc(
+        outerRect,
+        startRadians,
+        sweepRadians,
+        false,
+        _sectionStrokePaint,
+      );
+    }
+
+    // Draw inner arc
+    if (border.inner.width > 0 && border.inner.color.a > 0) {
+      _sectionStrokePaint
+        ..strokeWidth = border.inner.width
+        ..color = border.inner.color
+        ..style = PaintingStyle.stroke;
+
+      final innerRect = Rect.fromCircle(center: center, radius: centerRadius);
+      canvasWrapper.drawArc(
+        innerRect,
+        startRadians,
+        sweepRadians,
+        false,
+        _sectionStrokePaint,
+      );
+    }
+
+    // Draw left radial line (start of section)
+    if (border.left.width > 0 && border.left.color.a > 0) {
+      _sectionStrokePaint
+        ..strokeWidth = border.left.width
+        ..color = border.left.color
+        ..style = PaintingStyle.stroke;
+
+      final startDirection =
+          Offset(math.cos(startRadians), math.sin(startRadians));
+      final startFrom = center + startDirection * centerRadius;
+      final startTo = center + startDirection * outerRadius;
+
+      canvasWrapper.drawLine(startFrom, startTo, _sectionStrokePaint);
+    }
+
+    // Draw right radial line (end of section)
+    if (border.right.width > 0 && border.right.color.a > 0) {
+      _sectionStrokePaint
+        ..strokeWidth = border.right.width
+        ..color = border.right.color
+        ..style = PaintingStyle.stroke;
+
+      final endDirection = Offset(math.cos(endRadians), math.sin(endRadians));
+      final endFrom = center + endDirection * centerRadius;
+      final endTo = center + endDirection * outerRadius;
+
+      canvasWrapper.drawLine(endFrom, endTo, _sectionStrokePaint);
     }
   }
 

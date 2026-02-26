@@ -132,6 +132,99 @@ class PieChartData extends BaseChartData with EquatableMixin {
       ];
 }
 
+/// Defines individual border sides for a [PieChartSectionData].
+///
+/// A pie chart section has 4 sides:
+/// - [outer]: the outer arc (furthest from center)
+/// - [inner]: the inner arc (closest to center)
+/// - [left]: the left radial line (start of the section)
+/// - [right]: the right radial line (end of the section)
+///
+/// This allows you to control which borders are visible, useful when
+/// sections are adjacent and you don't want doubled borders.
+class PieChartSectionBorder with EquatableMixin {
+  /// Creates a border configuration for a pie chart section.
+  ///
+  /// By default, all sides use [BorderSide.none].
+  const PieChartSectionBorder({
+    this.outer = BorderSide.none,
+    this.inner = BorderSide.none,
+    this.left = BorderSide.none,
+    this.right = BorderSide.none,
+  });
+
+  /// Creates a border with the same [BorderSide] on all sides.
+  const PieChartSectionBorder.all(BorderSide side)
+      : outer = side,
+        inner = side,
+        left = side,
+        right = side;
+
+  /// Creates a border with only the arcs (outer and inner) visible.
+  /// Useful for adjacent sections where you don't want doubled radial borders.
+  const PieChartSectionBorder.arcsOnly(BorderSide side)
+      : outer = side,
+        inner = side,
+        left = BorderSide.none,
+        right = BorderSide.none;
+
+  /// Creates a border with only the outer arc visible.
+  const PieChartSectionBorder.outerOnly(BorderSide side)
+      : outer = side,
+        inner = BorderSide.none,
+        left = BorderSide.none,
+        right = BorderSide.none;
+
+  /// The border on the outer arc (furthest from center).
+  final BorderSide outer;
+
+  /// The border on the inner arc (closest to center).
+  final BorderSide inner;
+
+  /// The border on the left radial line (start of the section).
+  final BorderSide left;
+
+  /// The border on the right radial line (end of the section).
+  final BorderSide right;
+
+  /// Copies this border with the given fields replaced.
+  PieChartSectionBorder copyWith({
+    BorderSide? outer,
+    BorderSide? inner,
+    BorderSide? left,
+    BorderSide? right,
+  }) =>
+      PieChartSectionBorder(
+        outer: outer ?? this.outer,
+        inner: inner ?? this.inner,
+        left: left ?? this.left,
+        right: right ?? this.right,
+      );
+
+  /// Linearly interpolates between two [PieChartSectionBorder]s.
+  static PieChartSectionBorder lerp(
+    PieChartSectionBorder a,
+    PieChartSectionBorder b,
+    double t,
+  ) =>
+      PieChartSectionBorder(
+        outer: BorderSide.lerp(a.outer, b.outer, t),
+        inner: BorderSide.lerp(a.inner, b.inner, t),
+        left: BorderSide.lerp(a.left, b.left, t),
+        right: BorderSide.lerp(a.right, b.right, t),
+      );
+
+  /// Returns true if any border side is visible.
+  bool get hasVisibleBorder =>
+      (outer.width > 0 && outer.color.a > 0) ||
+      (inner.width > 0 && inner.color.a > 0) ||
+      (left.width > 0 && left.color.a > 0) ||
+      (right.width > 0 && right.color.a > 0);
+
+  @override
+  List<Object?> get props => [outer, inner, left, right];
+}
+
 /// Holds data related to drawing each [PieChart] section.
 class PieChartSectionData with EquatableMixin {
   /// [PieChart] draws section from right side of the circle (0 degrees),
@@ -161,7 +254,9 @@ class PieChartSectionData with EquatableMixin {
     bool? showTitle,
     this.titleStyle,
     String? title,
+    @Deprecated('Use border instead for individual border control')
     BorderSide? borderSide,
+    PieChartSectionBorder? border,
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
@@ -171,6 +266,7 @@ class PieChartSectionData with EquatableMixin {
         showTitle = showTitle ?? true,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
+        border = border ?? const PieChartSectionBorder(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
@@ -200,8 +296,22 @@ class PieChartSectionData with EquatableMixin {
   /// Defines text of showing title at the middle of section.
   final String title;
 
-  /// Defines border stroke around the section
+  /// Defines border stroke around the section.
+  ///
+  /// @deprecated Use [border] instead for individual border control.
   final BorderSide borderSide;
+
+  /// Defines individual border sides for the section.
+  ///
+  /// This allows you to control which borders are visible on each side:
+  /// - [PieChartSectionBorder.outer]: the outer arc
+  /// - [PieChartSectionBorder.inner]: the inner arc
+  /// - [PieChartSectionBorder.left]: the left radial line
+  /// - [PieChartSectionBorder.right]: the right radial line
+  ///
+  /// Useful when sections are adjacent and you don't want doubled borders.
+  /// For example, use [PieChartSectionBorder.arcsOnly] to only show arc borders.
+  final PieChartSectionBorder border;
 
   /// Defines a widget that represents the section.
   ///
@@ -233,7 +343,8 @@ class PieChartSectionData with EquatableMixin {
     bool? showTitle,
     TextStyle? titleStyle,
     String? title,
-    BorderSide? borderSide,
+    @Deprecated('Use border instead') BorderSide? borderSide,
+    PieChartSectionBorder? border,
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
@@ -247,6 +358,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle: titleStyle ?? this.titleStyle,
         title: title ?? this.title,
         borderSide: borderSide ?? this.borderSide,
+        border: border ?? this.border,
         badgeWidget: badgeWidget ?? this.badgeWidget,
         titlePositionPercentageOffset:
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
@@ -269,6 +381,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
         title: b.title,
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
+        border: PieChartSectionBorder.lerp(a.border, b.border, t),
         badgeWidget: b.badgeWidget,
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,
@@ -293,6 +406,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle,
         title,
         borderSide,
+        border,
         badgeWidget,
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
