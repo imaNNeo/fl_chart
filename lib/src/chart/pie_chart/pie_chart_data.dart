@@ -168,11 +168,12 @@ class PieChartSectionData with EquatableMixin {
     double? badgePositionPercentageOffset,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
-        radius = radius ?? 40,
+        radius = (radius ?? 40).clamp(0, double.infinity).toDouble(),
         showTitle = showTitle ?? true,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
-        cornerRadius = cornerRadius ?? 0.0,
+        cornerRadius =
+            (cornerRadius ?? 0.0).clamp(0, double.infinity).toDouble(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
