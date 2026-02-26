@@ -3,6 +3,7 @@
 * **BUGFIX** (by @artshooter) Fix wrong bar chart color with small value, #1757
 * **FEATURE** (by @3ph) Add `horizontalMirrored` and `verticalMirrored` properties in our `LabelDirection` enum which is used in ([HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#HorizontalLineLabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#VerticalLineLabel)), #1890
 * **FEATURE** (by @Vizten18) Add `cornerRadius` property in the [PieChartSectionData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#piechartsectiondata), #1175
+* **IMPROVEMENT** (by @imaNNeo) Add convention and linter (checker) for PRs title and updated contributing guideline. We're gonna have automated changelog generation from the next release
 
 ## 1.1.1
 * **IMPROVEMENT** (by @imaNNeo) Upgrade `vector_math` dependency to `2.2.0`, #1985
