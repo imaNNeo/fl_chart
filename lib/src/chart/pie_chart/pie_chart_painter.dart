@@ -30,6 +30,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     _clipPaint = Paint();
   }
+  static const double _kRadiusSafetyMargin = 0.499;
 
   late Paint _sectionPaint;
   late Paint _sectionSaveLayerPaint;
@@ -217,19 +218,30 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final endLineTo = endLineFrom + endLineDirection * section.radius;
     final endLine = Line(endLineFrom, endLineTo);
 
-    var sectionPath = Path();
+    Path sectionPath;
 
-    // First create the basic section path (without rounding)
-    sectionPath = Path()
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..lineTo(startLine.to.dx, startLine.to.dy)
-      ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
-      ..lineTo(endLine.from.dx, endLine.from.dy)
-      ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
-      ..moveTo(startLine.from.dx, startLine.from.dy)
-      ..close();
+    if (section.cornerRadius > 0) {
+      sectionPath = generateRoundedSectionPath(
+        section,
+        startRadians,
+        sweepRadians,
+        center,
+        centerRadius,
+        sectionRadiusRect,
+        centerRadiusRect,
+      );
+    } else {
+      sectionPath = Path()
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..lineTo(startLine.to.dx, startLine.to.dy)
+        ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+        ..lineTo(endLine.from.dx, endLine.from.dy)
+        ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..close();
+    }
 
-    /// First apply section space separators to the basic path
+    /// Apply section-space separators as parallel radial cuts.
     if (sectionSpace != 0) {
       final startLineSeparatorPath = createRectPathAroundLine(
         Line(startLineFrom, startLineTo),
@@ -257,49 +269,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       } catch (_) {
         /// It's a flutter engine issue with [Path.combine] in web-html renderer
         /// https://github.com/imaNNeo/fl_chart/issues/955
-      }
-    }
-
-    // Then apply border radius to the resulting separated path
-    if (section.cornerRadius > 0) {
-      // Get the bounds of the separated path
-      final pathBounds = sectionPath.getBounds();
-      if (!pathBounds.isEmpty) {
-        // We need to calculate new angles for the separated section
-        // to apply rounding correctly to the actual shape we have
-
-        // Calculate effective angles after separation
-        final separatorAngleReduction = sectionSpace != 0
-            ? math.atan2(sectionSpace, centerRadius + section.radius / 2)
-            : 0.0;
-
-        final effectiveStartRadians = startRadians + separatorAngleReduction;
-        final effectiveSweepRadians =
-            sweepRadians - (2 * separatorAngleReduction);
-
-        if (effectiveSweepRadians > 0) {
-          // Create new rects for the adjusted geometry
-          final effectiveSectionRadiusRect = Rect.fromCircle(
-            center: center,
-            radius: centerRadius + section.radius,
-          );
-
-          final effectiveCenterRadiusRect = Rect.fromCircle(
-            center: center,
-            radius: centerRadius,
-          );
-
-          // Generate rounded path with the effective angles
-          sectionPath = generateRoundedSectionPath(
-            section,
-            effectiveStartRadians,
-            effectiveSweepRadians,
-            center,
-            centerRadius,
-            effectiveSectionRadiusRect,
-            effectiveCenterRadiusRect,
-          );
-        }
       }
     }
 
@@ -366,10 +335,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       // maximum for the outer arc (based on section radius and sweep angle)
       // and for the inner arc (based on centerRadius). This keeps rounding
       // visually stable across different section sizes.
-      final maxRadiusForSection = section.radius * 0.499;
-      final maxRadiusForOuterArc = sweepRadians * outerRadius * 0.499;
-      final maxRadiusForInnerArc =
-          centerRadius > 0 ? sweepRadians * centerRadius * 0.499 : 0.0;
+      final maxRadiusForSection = section.radius * _kRadiusSafetyMargin;
+      final maxRadiusForOuterArc =
+          sweepRadians * outerRadius * _kRadiusSafetyMargin;
+      final maxRadiusForInnerArc = centerRadius > 0
+          ? sweepRadians * centerRadius * _kRadiusSafetyMargin
+          : 0.0;
 
       final clampedOuterRadius = math.min(
         cornerRadius,
