@@ -881,7 +881,12 @@ typedef CheckToShowDot = bool Function(FlSpot spot, LineChartBarData barData);
 /// Shows all dots on spots.
 bool showAllDots(FlSpot spot, LineChartBarData barData) => true;
 
-enum LabelDirection { horizontal, vertical }
+enum LabelDirection {
+  horizontal,
+  vertical,
+  horizontalMirrored,
+  verticalMirrored
+}
 
 /// Shows a text label
 abstract class FlLineLabel with EquatableMixin {
@@ -1069,7 +1074,7 @@ List<TouchedSpotIndicatorData> defaultTouchedIndicators(
   LineChartBarData barData,
   List<int> indicators,
 ) =>
-    indicators.map((int index) {
+    indicators.map((index) {
       /// Indicator Line
       var lineColor = barData.gradient?.colors.first ?? barData.color;
       if (barData.dotData.show) {
@@ -1207,7 +1212,7 @@ typedef GetLineTooltipItems = List<LineTooltipItem?> Function(
 
 /// Default implementation for [LineTouchTooltipData.getTooltipItems].
 List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) =>
-    touchedSpots.map((LineBarSpot touchedSpot) {
+    touchedSpots.map((touchedSpot) {
       final textStyle = TextStyle(
         color: touchedSpot.bar.gradient?.colors.first ??
             touchedSpot.bar.color ??

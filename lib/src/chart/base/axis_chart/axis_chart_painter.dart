@@ -322,6 +322,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
           switch (label.direction) {
             case LabelDirection.horizontal:
+            case LabelDirection.horizontalMirrored:
               canvasWrapper.drawText(
                 tp,
                 label.alignment.withinRect(
@@ -332,6 +333,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
                     to.dy + padding.top,
                   ),
                 ),
+                label.direction == LabelDirection.horizontalMirrored
+                    ? -180
+                    : null,
               );
             case LabelDirection.vertical:
               canvasWrapper.drawVerticalText(
@@ -344,6 +348,19 @@ abstract class AxisChartPainter<D extends AxisChartData>
                     to.dy + padding.top,
                   ),
                 ),
+              );
+            case LabelDirection.verticalMirrored:
+              canvasWrapper.drawVerticalText(
+                tp,
+                label.alignment.withinRect(
+                  Rect.fromLTRB(
+                    from.dx + padding.left,
+                    from.dy - padding.bottom,
+                    to.dx - padding.right - tp.height,
+                    to.dy + padding.top + tp.width,
+                  ),
+                ),
+                -90,
               );
           }
         }
@@ -428,6 +445,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
           switch (label.direction) {
             case LabelDirection.horizontal:
+            case LabelDirection.horizontalMirrored:
               canvasWrapper.drawText(
                 tp,
                 label.alignment.withinRect(
@@ -438,6 +456,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
                     to.dy - padding.bottom - tp.height,
                   ),
                 ),
+                label.direction == LabelDirection.horizontalMirrored
+                    ? -180
+                    : null,
               );
             case LabelDirection.vertical:
               canvasWrapper.drawVerticalText(
@@ -450,6 +471,19 @@ abstract class AxisChartPainter<D extends AxisChartData>
                     to.dy - padding.bottom - tp.width,
                   ),
                 ),
+              );
+            case LabelDirection.verticalMirrored:
+              canvasWrapper.drawVerticalText(
+                tp,
+                label.alignment.withinRect(
+                  Rect.fromLTRB(
+                    from.dx - padding.right + tp.height,
+                    from.dy + padding.top - tp.width,
+                    to.dx + padding.left,
+                    to.dy - padding.bottom,
+                  ),
+                ),
+                -90,
               );
           }
         }

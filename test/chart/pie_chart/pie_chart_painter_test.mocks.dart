@@ -1031,14 +1031,16 @@ class MockCanvasWrapper extends _i1.Mock implements _i6.CanvasWrapper {
   @override
   void drawVerticalText(
     _i3.TextPainter? tp,
-    _i2.Offset? offset,
-  ) =>
+    _i2.Offset? offset, [
+    double? rotateAngle = 90.0,
+  ]) =>
       super.noSuchMethod(
         Invocation.method(
           #drawVerticalText,
           [
             tp,
             offset,
+            rotateAngle,
           ],
         ),
         returnValueForMissingStub: null,

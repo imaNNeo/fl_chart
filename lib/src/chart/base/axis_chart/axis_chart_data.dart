@@ -2256,6 +2256,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
 
       switch (label.direction) {
         case LabelDirection.horizontal:
+        case LabelDirection.horizontalMirrored:
           canvasWrapper.drawText(
             tp,
             label.alignment.withinRect(
@@ -2268,6 +2269,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
             ),
           );
         case LabelDirection.vertical:
+        case LabelDirection.verticalMirrored:
           canvasWrapper.drawVerticalText(
             tp,
             label.alignment.withinRect(
@@ -2354,6 +2356,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
 
       switch (label.direction) {
         case LabelDirection.horizontal:
+        case LabelDirection.horizontalMirrored:
           canvasWrapper.drawText(
             tp,
             label.alignment.withinRect(
@@ -2366,6 +2369,7 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
             ),
           );
         case LabelDirection.vertical:
+        case LabelDirection.verticalMirrored:
           canvasWrapper.drawVerticalText(
             tp,
             label.alignment.withinRect(
