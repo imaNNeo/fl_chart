@@ -1,51 +1,7 @@
-## 1.2.0
+## newVersion
 * **BUGFIX** (by @imaNNeo) Consider the `enabled` property in [LineTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling), [BarTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#bartouchdata-read-about-touch-handling), [PieTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#pietouchdata-read-about-touch-handling), [ScatterTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#scattertouchdata-read-about-touch-handling), [RadarTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md#radartouchdata-read-about-touch-handling) and [CandlestickTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/candlestick_chart.md#candlesticktouchdata-read-about-touch-handling), #1676
-* **BREAKING** ⚠️ (by @huanghui1998hhh) Enhanced line chart curve function with a new extensible curve system. Introduced `LineChartCurve` abstract class. You can implement your own curve or use built-in curve: `LineChartCubicTensionCurve`(old curve implementation), and `LineChartCubicMonotoneCurve`.
-**Migration Guide:**
-
-Old API (deprecated):
-```dart
-LineChartBarData(
-  spots: spots,
-  isCurved: true,
-  curveSmoothness: 0.35,
-  preventCurveOverShooting: true,
-  preventCurveOvershootingThreshold: 10.0,
-)
-```
-
-New API:
-```dart
-LineChartBarData(
-  spots: spots,
-  curve: LineChartCurve.cubicTension( // or use LineChartCubicTensionCurve()
-    smoothness: 0.35,
-    preventCurveOverShooting: true,
-    preventCurveOvershootingThreshold: 10.0,
-  ),
-)
-```
-
-Or use the new monotone curve:
-```dart
-LineChartBarData(
-  spots: spots,
-  curve: LineChartCurve.cubicMonotone( // or use LineChartCubicMonotoneCurve()
-    smooth: 0.5,
-    monotone: SmoothMonotone.x,  // Prevents overshooting along X-axis
-  ),
-)
-```
-
-For straight lines (isCurved: false):
-```dart
-LineChartBarData(
-  spots: spots,
-  curve: LineChartCurve.noCurve,  // or omit the curve parameter (default)
-)
-```
-
-Check the updated [LineChart documentation](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#linechartcurve) for more details.
+* **BUGFIX** (by @artshooter) Fix wrong bar chart color with small value, #1757
+* **FEATURE** (by @3ph) Add `horizontalMirrored` and `verticalMirrored` properties in our `LabelDirection` enum which is used in ([HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#HorizontalLineLabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#VerticalLineLabel)), #1890
 
 ## 1.1.1
 * **IMPROVEMENT** (by @imaNNeo) Upgrade `vector_math` dependency to `2.2.0`, #1985
