@@ -6,8 +6,8 @@ LineChart(
   LineChartData(
     // read about it in the LineChartData section
   ),
-  swapAnimationDuration: Duration(milliseconds: 150), // Optional
-  swapAnimationCurve: Curves.linear, // Optional
+  duration: Duration(milliseconds: 150), // Optional
+  curve: Curves.linear, // Optional
 );
 ```
 

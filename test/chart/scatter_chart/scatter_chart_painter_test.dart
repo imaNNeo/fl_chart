@@ -193,9 +193,9 @@ void main() {
         clipData: const FlClipData.all(),
         scatterLabelSettings: ScatterLabelSettings(
           showLabel: true,
-          getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
+          getLabelTextStyleFunction: (index, spot) =>
               const TextStyle(fontSize: 12),
-          getLabelFunction: (int index, ScatterSpot spot) {
+          getLabelFunction: (index, spot) {
             if (index == 5) {
               return '';
             }

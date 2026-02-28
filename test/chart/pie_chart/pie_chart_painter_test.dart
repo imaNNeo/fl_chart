@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
@@ -582,6 +584,200 @@ void main() {
           .map((e) => e.length)
           .reduce((a, b) => a + b);
       expect(path3Length, 210.1807098388672);
+    });
+
+    test('test 4 with cornerRadius matches rounded path when no space', () {
+      const center = Offset(100, 100);
+      const centerRadius = 10.0;
+      const tempAngle = 36.0;
+      const sectionDegree = 144.0;
+
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        cornerRadius: 10,
+      );
+
+      final barChartPainter = PieChartPainter();
+
+      final generatedPath = barChartPainter.generateSectionPath(
+        section,
+        0,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
+
+      final startRadians = Utils().radians(tempAngle);
+      final sweepRadians = Utils().radians(sectionDegree);
+      final expectedRoundedPath = barChartPainter.generateRoundedSectionPath(
+        section,
+        startRadians,
+        sweepRadians,
+        center,
+        centerRadius,
+        Rect.fromCircle(center: center, radius: centerRadius + section.radius),
+        Rect.fromCircle(center: center, radius: centerRadius),
+      );
+
+      expect(
+        HelperMethods.equalsPaths(generatedPath, expectedRoundedPath),
+        true,
+      );
+    });
+
+    test('test 5 with cornerRadius and sectionSpace trims rounded path', () {
+      const center = Offset(100, 100);
+      const centerRadius = 10.0;
+      const tempAngle = 36.0;
+      const sectionDegree = 144.0;
+
+      final section = PieChartSectionData(
+        color: MockData.color1,
+        value: 1,
+        radius: 40,
+        cornerRadius: 10,
+      );
+
+      final barChartPainter = PieChartPainter();
+
+      final pathWithoutSpace = barChartPainter.generateSectionPath(
+        section,
+        0,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
+
+      final pathWithSpace = barChartPainter.generateSectionPath(
+        section,
+        10,
+        tempAngle,
+        sectionDegree,
+        center,
+        centerRadius,
+      );
+
+      expect(HelperMethods.equalsPaths(pathWithSpace, pathWithoutSpace), false);
+
+      final withSpaceMetrics = pathWithSpace.computeMetrics().toList();
+      expect(withSpaceMetrics.isNotEmpty, true);
+    });
+  });
+
+  group('generateRoundedSectionPath()', () {
+    test('test 1 uses standard path when cornerRadius <= 1', () {
+      const center = Offset(100, 100);
+      const centerRadius = 10.0;
+      const startRadians = 0.4;
+      const sweepRadians = 1.3;
+
+      final section = PieChartSectionData(
+        value: 10,
+        radius: 40,
+        cornerRadius: 1,
+      );
+
+      final barChartPainter = PieChartPainter();
+
+      final sectionRadiusRect = Rect.fromCircle(
+        center: center,
+        radius: centerRadius + section.radius,
+      );
+      final centerRadiusRect = Rect.fromCircle(
+        center: center,
+        radius: centerRadius,
+      );
+
+      final result = barChartPainter.generateRoundedSectionPath(
+        section,
+        startRadians,
+        sweepRadians,
+        center,
+        centerRadius,
+        sectionRadiusRect,
+        centerRadiusRect,
+      );
+
+      const endRadians = startRadians + sweepRadians;
+      final innerStart = center +
+          Offset(math.cos(startRadians), math.sin(startRadians)) * centerRadius;
+      final outerStart = center +
+          Offset(math.cos(startRadians), math.sin(startRadians)) *
+              (centerRadius + section.radius);
+      final innerEnd = center +
+          Offset(math.cos(endRadians), math.sin(endRadians)) * centerRadius;
+
+      final expected = Path()
+        ..moveTo(innerStart.dx, innerStart.dy)
+        ..lineTo(outerStart.dx, outerStart.dy)
+        ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+        ..lineTo(innerEnd.dx, innerEnd.dy)
+        ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+        ..close();
+
+      expect(HelperMethods.equalsPaths(result, expected), true);
+    });
+
+    test('test 2 uses inner fallback lines when clampedInnerRadius <= 1', () {
+      const center = Offset(100, 100);
+      const centerRadius = 0.2;
+      const startRadians = 0.0;
+      const sweepRadians = 1.0;
+
+      final section = PieChartSectionData(
+        value: 10,
+        radius: 40,
+        cornerRadius: 10,
+      );
+
+      final barChartPainter = PieChartPainter();
+
+      final result = barChartPainter.generateRoundedSectionPath(
+        section,
+        startRadians,
+        sweepRadians,
+        center,
+        centerRadius,
+        Rect.fromCircle(center: center, radius: centerRadius + section.radius),
+        Rect.fromCircle(center: center, radius: centerRadius),
+      );
+
+      final metrics = result.computeMetrics().toList();
+      expect(metrics.isNotEmpty, true);
+      expect(metrics.map((e) => e.length).reduce((a, b) => a + b) > 0, true);
+    });
+
+    test('test 3 supports centerRadius == 0 with fallback line branches', () {
+      const center = Offset(100, 100);
+      const centerRadius = 0.0;
+      const startRadians = 0.3;
+      const sweepRadians = 1.2;
+
+      final section = PieChartSectionData(
+        value: 10,
+        radius: 1,
+        cornerRadius: 10,
+      );
+
+      final barChartPainter = PieChartPainter();
+
+      final result = barChartPainter.generateRoundedSectionPath(
+        section,
+        startRadians,
+        sweepRadians,
+        center,
+        centerRadius,
+        Rect.fromCircle(center: center, radius: centerRadius + section.radius),
+        Rect.fromCircle(center: center, radius: centerRadius),
+      );
+
+      final metrics = result.computeMetrics().toList();
+      expect(metrics.isNotEmpty, true);
+      expect(result.getBounds().contains(center), true);
     });
   });
 
@@ -1209,6 +1405,47 @@ void main() {
       expect(
         barChartPainter
             .handleTouch(const Offset(164.5, 91.4), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
+    });
+
+    test('test 3 with cornerRadius sections', () {
+      const viewSize = Size(200, 200);
+      final data = PieChartData(
+        sectionsSpace: 10,
+        sections: [
+          PieChartSectionData(value: 1, radius: 10, cornerRadius: 5),
+          PieChartSectionData(value: 2, radius: 20, cornerRadius: 8),
+          PieChartSectionData(value: 3, radius: 30, cornerRadius: 10),
+          PieChartSectionData(value: 4, radius: 40, cornerRadius: 12),
+        ],
+      );
+      final barChartPainter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(159.76, 135.56), viewSize, holder)
+            .touchedSectionIndex,
+        0,
+      );
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(121.06, 160.38), viewSize, holder)
+            .touchedSectionIndex,
+        1,
+      );
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(40.3, 124.8), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
+      expect(
+        barChartPainter
+            .handleTouch(const Offset(126.7, 40.6), viewSize, holder)
             .touchedSectionIndex,
         3,
       );

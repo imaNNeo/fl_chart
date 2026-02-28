@@ -8,7 +8,7 @@ void main() {
   group('SideTitlesFlex test', () {
     testWidgets(
       'Test vertical mode',
-      (WidgetTester tester) async {
+      (tester) async {
         const viewHeight = 400.0;
         await tester.pumpWidget(
           MaterialApp(
@@ -43,7 +43,7 @@ void main() {
 
     testWidgets(
       'Test horizontal mode',
-      (WidgetTester tester) async {
+      (tester) async {
         const viewWidth = 400.0;
         await tester.pumpWidget(
           MaterialApp(
@@ -88,7 +88,7 @@ void main() {
 
     testWidgets(
       'Test update from horizontal to vertical',
-      (WidgetTester tester) async {
+      (tester) async {
         const valueKey = ValueKey('asdf');
 
         const viewSize = 400.0;

@@ -78,8 +78,7 @@ void main() {
           ]),
         ],
         lineTouchData: LineTouchData(
-          getTouchedSpotIndicator:
-              (LineChartBarData barData, List<int> spotIndexes) {
+          getTouchedSpotIndicator: (barData, spotIndexes) {
             return spotIndexes.asMap().entries.map((entry) {
               final i = entry.key;
               if (i == 0) {
@@ -160,8 +159,7 @@ void main() {
         lineBarsData: lineChartBarsData,
         clipData: const FlClipData.all(),
         lineTouchData: LineTouchData(
-          getTouchedSpotIndicator:
-              (LineChartBarData barData, List<int> spotIndexes) {
+          getTouchedSpotIndicator: (barData, spotIndexes) {
             return List.generate(
               spotIndexes.length + 1,
               (index) {
@@ -285,8 +283,7 @@ void main() {
           ]),
         ],
         lineTouchData: LineTouchData(
-          getTouchedSpotIndicator:
-              (LineChartBarData barData, List<int> spotIndexes) {
+          getTouchedSpotIndicator: (barData, spotIndexes) {
             return spotIndexes.asMap().entries.map((entry) {
               final i = entry.key;
               if (i == 0) {
@@ -2784,7 +2781,7 @@ void main() {
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideHorizontally: true,
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -2909,7 +2906,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.left,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3020,7 +3017,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3141,7 +3138,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3263,7 +3260,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3354,7 +3351,7 @@ void main() {
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipPadding: const EdgeInsets.all(12),
           fitInsideVertically: true,
-          getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          getTooltipItems: (touchedSpots) {
             return touchedSpots
                 .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
                 .toList();
@@ -3375,11 +3372,11 @@ void main() {
                 const FlLine(color: Colors.red, strokeWidth: 1),
                 FlDotData(
                   getDotPainter: (
-                    FlSpot spot,
-                    double xPercentage,
-                    LineChartBarData bar,
-                    int index, {
-                    double? size,
+                    spot,
+                    xPercentage,
+                    bar,
+                    index, {
+                    size,
                   }) =>
                       FlDotCirclePainter(
                     color: Colors.red,
@@ -3957,7 +3954,7 @@ void main() {
         showingTooltipIndicators: [],
         titlesData: const FlTitlesData(show: false),
         lineTouchData: LineTouchData(
-          distanceCalculator: (Offset a, Offset b) {
+          distanceCalculator: (a, b) {
             final dx = a.dx - b.dx;
             final dy = a.dy - b.dy;
             return math.sqrt(dx * dx + dy * dy);
