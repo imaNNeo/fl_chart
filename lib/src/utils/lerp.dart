@@ -135,6 +135,7 @@ List<PieChartSectionData>? lerpPieChartSectionDataList(
 ) =>
     lerpList(a, b, t, lerp: PieChartSectionData.lerp);
 
+/// Lerps [PieChartStackSegmentData] list based on [t] value, check [Tween.lerp].
 List<PieChartStackSegmentData>? lerpPieChartStackSegmentDataList(
   List<PieChartStackSegmentData>? a,
   List<PieChartStackSegmentData>? b,
