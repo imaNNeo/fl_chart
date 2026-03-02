@@ -252,7 +252,10 @@ class PieChartSectionData with EquatableMixin {
       0,
       (sum, segment) => sum + segment.radius,
     );
-    final spaces = (segments.where((s) => s.radius > 0).length) * segmentsSpace;
+    // final spaces = (segments.where((s) => s.radius > 0).length) * segmentsSpace;
+    final nonZeroSegments = segments.where((s) => s.radius > 0).length;
+    final gapCount = nonZeroSegments > 1 ? nonZeroSegments - 1 : 0;
+    final spaces = gapCount * segmentsSpace;
     return radius + segmentsRadius + spaces;
   }
 
@@ -348,10 +351,10 @@ class PieChartSectionData with EquatableMixin {
       ];
 }
 
-/// A stylized segment of Stacked Pie Chart section item
+/// A stylized segment of a Stacked Pie Chart section item.
 ///
 /// Each [PieChartSectionData] can have a list of [PieChartStackSegmentData] (with different radius, color
-/// and gradient) to represent a Stacked Pie Chart section,
+/// and gradient) to represent a Stacked Pie Chart section.
 class PieChartStackSegmentData with EquatableMixin {
   /// Renders a segment of Stacked Pie Chart with given [radius] and [color] or [gradient]
   /// for example if you want to have a Stacked Pie Chart with three colors:
@@ -366,7 +369,7 @@ class PieChartStackSegmentData with EquatableMixin {
   ///   ]
   /// )
   /// ```
-  /// To use the [gradient], set [color] to null
+  /// If [gradient] is specified, it overrides the [color] setting.
   PieChartStackSegmentData({
     double? radius,
     Color? color,
