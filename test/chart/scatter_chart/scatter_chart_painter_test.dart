@@ -877,4 +877,45 @@ void main() {
       expect(touchedSpot6, null);
     });
   });
+
+  group('drawScatterErrorBars()', () {
+    test('asymmetric yError maps lowerBy downward and upperBy upward', () {
+      const viewSize = Size(400, 400);
+
+      final data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        scatterSpots: [
+          ScatterSpot(
+            5,
+            5,
+            yError: const FlErrorRange(lowerBy: 1, upperBy: 3),
+          ),
+        ],
+      );
+
+      final scatterChartPainter = ScatterChartPainter();
+      final holder =
+          PaintHolder<ScatterChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      scatterChartPainter.drawScatterErrorBars(
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final result = verify(
+        mockCanvasWrapper.drawErrorIndicator(any, any, any, captureAny, any),
+      )..called(1);
+      final rect = result.captured[0] as Rect;
+      // getPixelY(y) = 400 - (y/10)*400
+      // spot y=5 -> pixel 200
+      // upper bound y=8 -> pixel 80, relative top = 80 - 200 = -120
+      // lower bound y=4 -> pixel 240, relative bottom = 240 - 200 = 40
+      expect(rect.top, -120);
+      expect(rect.bottom, 40);
+    });
+  });
 }

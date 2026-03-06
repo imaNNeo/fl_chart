@@ -931,6 +931,51 @@ void main() {
       }
       verifyNever(mockCanvasWrapper.drawText(any, any, any));
     });
+
+    test('test 4 - asymmetric yError maps lowerBy downward and upperBy upward',
+        () {
+      const viewSize = Size(400, 400);
+
+      final barData = LineChartBarData(
+        spots: [
+          const FlSpot(
+            5,
+            5,
+            yError: FlErrorRange(lowerBy: 1, upperBy: 3),
+          ),
+        ],
+      );
+
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        lineBarsData: [barData],
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawErrorIndicatorData(
+        mockCanvasWrapper,
+        barData,
+        holder,
+      );
+
+      final result = verify(
+        mockCanvasWrapper.drawErrorIndicator(any, any, any, captureAny, any),
+      )..called(1);
+      final rect = result.captured[0] as Rect;
+      // getPixelY(y) = 400 - (y/10)*400
+      // spot y=5 -> pixel 200
+      // upper bound y=8 -> pixel 80, relative top = 80 - 200 = -120
+      // lower bound y=4 -> pixel 240, relative bottom = 240 - 200 = 40
+      expect(rect.top, -120);
+      expect(rect.bottom, 40);
+    });
   });
 
   group('drawTouchedSpotsIndicator()', () {
