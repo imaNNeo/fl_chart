@@ -166,6 +166,29 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
                         getDrawingHorizontalLine: (_) => _gridLine,
                         getDrawingVerticalLine: (_) => _gridLine,
                       ),
+                      extraLinesData: ExtraLinesData(
+                        horizontalLines: [
+                          HorizontalLine(
+                            y: _monthMedian,
+                            color: AppColors.contentColorYellow,
+                            strokeWidth: 2,
+                            dashArray: [10, 5],
+                            label: HorizontalLineLabel(
+                              show: true,
+                              alignment: Alignment.topRight,
+                              padding:
+                                  const EdgeInsets.only(bottom: 8, right: 8),
+                              style: const TextStyle(
+                                color: AppColors.contentColorYellow,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              labelResolver: (line) =>
+                                  'Median: \$${line.y.toStringAsFixed(0)}',
+                            ),
+                          ),
+                        ],
+                      ),
                       titlesData: FlTitlesData(
                         show: true,
                         rightTitles: const AxisTitles(
@@ -257,6 +280,22 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
   bool get _canGoNext => _currentMonthIndex < 11;
 
   bool get _canGoPrevious => _currentMonthIndex > 0;
+
+  double get _monthMedian {
+    if (_btcMonthlyData == null) return 0;
+    final monthData = _btcMonthlyData![_currentMonthIndex];
+    if (monthData.isEmpty) return 0;
+
+    // Calculate median of closing prices
+    final closingPrices = monthData.map((e) => e.close).toList()..sort();
+    final middle = closingPrices.length ~/ 2;
+
+    if (closingPrices.length % 2 == 0) {
+      return (closingPrices[middle - 1] + closingPrices[middle]) / 2;
+    } else {
+      return closingPrices[middle];
+    }
+  }
 
   void _previousMonth() {
     if (!_canGoPrevious) {

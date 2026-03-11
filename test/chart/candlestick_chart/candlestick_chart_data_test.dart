@@ -273,6 +273,38 @@ void main() {
             ),
         false,
       );
+
+      expect(
+        candleStickChartData1 ==
+            candleStickChartData1Clone.copyWith(
+              extraLinesData: ExtraLinesData(
+                horizontalLines: [
+                  HorizontalLine(y: 10),
+                ],
+              ),
+            ),
+        false,
+      );
+
+      expect(
+        candleStickChartData1 ==
+            candleStickChartData1Clone.copyWith(
+              extraLinesData: ExtraLinesData(
+                verticalLines: [
+                  VerticalLine(x: 5),
+                ],
+              ),
+            ),
+        false,
+      );
+
+      expect(
+        candleStickChartData1 ==
+            candleStickChartData1Clone.copyWith(
+              extraLinesData: const ExtraLinesData(),
+            ),
+        true,
+      );
     });
 
     test('CandlestickSpot equality test', () {
