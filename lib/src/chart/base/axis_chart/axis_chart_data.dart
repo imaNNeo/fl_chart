@@ -9,6 +9,7 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
+import 'package:flutter/services.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -1464,6 +1465,73 @@ abstract class FlDotPainter with EquatableMixin {
     final thresholdRect = spotRect.inflate(extraThreshold);
     return thresholdRect.contains(touched);
   }
+}
+
+/// This class is an implementation of a [FlDotPainter] that draws
+/// an image as the dot marker
+class FlDotImagePainter extends FlDotPainter {
+  /// Creates an image dot painter.
+  ///
+  /// [image] must be loaded before creating this painter.
+  /// Use [loadImageFromAsset] to load images from assets.
+  FlDotImagePainter({
+    required this.image,
+    this.size = 24.0,
+  });
+
+  /// The image to draw as the dot marker
+  final Image image;
+
+  /// The size of the dot (width and height)
+  final double size;
+
+  /// Loads an image from asset path and returns a [Image] object.
+  ///
+  /// Example:
+  /// ```dart
+  /// final image = await FlDotImagePainter.loadImageFromAsset('assets/dot.png');
+  /// final painter = FlDotImagePainter(image: image, size: 20.0);
+  /// ```
+  static Future<Image> loadImageFromAsset(String assetPath) async {
+    final byteData = await rootBundle.load(assetPath);
+    final codec = await instantiateImageCodec(byteData.buffer.asUint8List());
+    final frame = await codec.getNextFrame();
+    return frame.image;
+  }
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    // Center the image at the offset
+    final drawOffset = offsetInCanvas - Offset(size / 2, size / 2);
+    final rect = Rect.fromLTWH(drawOffset.dx, drawOffset.dy, size, size);
+    paintImage(
+      canvas: canvas,
+      rect: rect,
+      image: image,
+      fit: BoxFit.contain,
+      filterQuality: FilterQuality.high,
+    );
+  }
+
+  @override
+  Color get mainColor => Colors.transparent;
+
+  @override
+  Size getSize(FlSpot spot) => Size(size, size);
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is! FlDotImagePainter || b is! FlDotImagePainter) {
+      return b;
+    }
+    return FlDotImagePainter(
+      image: b.image,
+      size: lerpDouble(a.size, b.size, t) ?? b.size,
+    );
+  }
+
+  @override
+  List<Object?> get props => [image, size];
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
