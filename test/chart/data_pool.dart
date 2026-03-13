@@ -2269,7 +2269,6 @@ final LineChartData lineChartData21 = LineChartData(
 );
 
 final PieChartData pieChartData1 = PieChartData(
-  borderData: FlBorderData(show: false, border: Border.all()),
   startDegreeOffset: 0,
   sections: [
     PieChartSectionData(value: 12, color: Colors.red),

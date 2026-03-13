@@ -86,9 +86,6 @@ class PieChartSample1State extends State {
                     },
                   ),
                   startDegreeOffset: 180,
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
                   sectionsSpace: 1,
                   centerSpaceRadius: 0,
                   sections: showingSections(),
