@@ -1,4 +1,4 @@
-import 'dart:math' show cos, min, pi, sin;
+import 'dart:math' show cos, min, pi, sin, sqrt;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
@@ -66,6 +66,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     drawTicks(context, canvasWrapper, holder);
     drawTitles(context, canvasWrapper, holder);
     drawDataSets(canvasWrapper, holder);
+    drawVerticeLabels(context, canvasWrapper, holder);
   }
 
   @visibleForTesting
@@ -334,6 +335,75 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
             title.angle - baseTitleAngle,
           );
         },
+      );
+    }
+  }
+
+  @visibleForTesting
+  /// Draws labels at each vertex of the [RadarChart].
+  void drawVerticeLabels(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<RadarChartData> holder,
+  ) {
+    final data = holder.data;
+    if (data.getVerticeLabel == null) return;
+
+    dataSetsPosition ??= calculateDataSetsPosition(canvasWrapper.size, holder);
+    if (dataSetsPosition!.isEmpty) return;
+
+    final size = canvasWrapper.size;
+    final centerX = radarCenterX(size);
+    final centerY = radarCenterY(size);
+    final vertexPositions = dataSetsPosition![0].entriesOffset;
+
+    final style = Utils().getThemeAwareTextStyle(
+      context,
+      data.verticeLabelTextStyle,
+    );
+
+    _titleTextPaint
+      ..textAlign = TextAlign.center
+      ..textDirection = TextDirection.ltr
+      ..textScaler = holder.textScaler;
+
+    for (var index = 0; index < vertexPositions.length; index++) {
+      final verticeLabel = data.getVerticeLabel!(index);
+      final threshold = 1.0 + (verticeLabel.offset ?? 0.2);
+      final span = TextSpan(
+        text: verticeLabel.text,
+        style: style,
+      );
+      _titleTextPaint
+        ..text = span
+        ..layout();
+
+      // Get the vertex position from dataSetsPosition
+      final vertexOffset = vertexPositions[index];
+
+      final vectorX = vertexOffset.dx - centerX;
+      final vectorY = vertexOffset.dy - centerY;
+
+      final vectorLength = sqrt(vectorX * vectorX + vectorY * vectorY);
+
+      final normalizedX = vectorX / vectorLength * threshold;
+      final normalizedY = vectorY / vectorLength * threshold;
+
+      const labelOffset = 20.0;
+      final labelX = vertexOffset.dx + normalizedX * labelOffset;
+      final labelY = vertexOffset.dy + normalizedY * labelOffset;
+
+      final rect = Rect.fromLTWH(
+        labelX - _titleTextPaint.width / 2,
+        labelY - _titleTextPaint.height / 2,
+        _titleTextPaint.width,
+        _titleTextPaint.height,
+      );
+
+      canvasWrapper.drawText(
+        _titleTextPaint,
+        rect.topLeft,
+        0,
       );
     }
   }
