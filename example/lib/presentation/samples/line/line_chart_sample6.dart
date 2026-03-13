@@ -165,7 +165,7 @@ class LineChartSample6 extends StatelessWidget {
                   ],
                 ),
                 spots: reverseSpots(spots, minSpotY, maxSpotY),
-                isCurved: true,
+                curve: const LineChartCubicTensionCurve(),
                 isStrokeCapRound: true,
                 barWidth: 10,
                 belowBarData: BarAreaData(
@@ -195,7 +195,7 @@ class LineChartSample6 extends StatelessWidget {
                   ],
                 ),
                 spots: reverseSpots(spots2, minSpotY, maxSpotY),
-                isCurved: true,
+                curve: const LineChartCubicTensionCurve(),
                 isStrokeCapRound: true,
                 barWidth: 10,
                 belowBarData: BarAreaData(

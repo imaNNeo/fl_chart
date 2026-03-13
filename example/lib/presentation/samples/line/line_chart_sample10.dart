@@ -119,7 +119,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
         stops: const [0.1, 1.0],
       ),
       barWidth: 4,
-      isCurved: false,
+      curve: LineChartCurve.noCurve,
     );
   }
 
@@ -134,7 +134,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
         stops: const [0.1, 1.0],
       ),
       barWidth: 4,
-      isCurved: false,
+      curve: LineChartCurve.noCurve,
     );
   }
 

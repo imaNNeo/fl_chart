@@ -572,8 +572,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final path = appendToPath ?? Path();
     final size = barSpots.length;
 
-    var temp = Offset.zero;
-
     final x = getPixelX(barSpots[0].x, viewSize, holder);
     final y = getPixelY(barSpots[0].y, viewSize, holder);
     if (appendToPath == null) {
@@ -598,43 +596,14 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       );
 
       /// next point
-      final next = Offset(
-        getPixelX(barSpots[i + 1 < size ? i + 1 : i].x, viewSize, holder),
-        getPixelY(barSpots[i + 1 < size ? i + 1 : i].y, viewSize, holder),
-      );
+      final next = i < size - 1
+          ? Offset(
+              getPixelX(barSpots[i + 1].x, viewSize, holder),
+              getPixelY(barSpots[i + 1].y, viewSize, holder),
+            )
+          : null;
 
-      final controlPoint1 = previous + temp;
-
-      /// if the isCurved is false, we set 0 for smoothness,
-      /// it means we should not have any smoothness then we face with
-      /// the sharped corners line
-      final smoothness = barData.isCurved ? barData.curveSmoothness : 0.0;
-      temp = ((next - previous) / 2) * smoothness;
-
-      if (barData.preventCurveOverShooting) {
-        if ((next - current).dy <= barData.preventCurveOvershootingThreshold ||
-            (current - previous).dy <=
-                barData.preventCurveOvershootingThreshold) {
-          temp = Offset(temp.dx, 0);
-        }
-
-        if ((next - current).dx <= barData.preventCurveOvershootingThreshold ||
-            (current - previous).dx <=
-                barData.preventCurveOvershootingThreshold) {
-          temp = Offset(0, temp.dy);
-        }
-      }
-
-      final controlPoint2 = current - temp;
-
-      path.cubicTo(
-        controlPoint1.dx,
-        controlPoint1.dy,
-        controlPoint2.dx,
-        controlPoint2.dy,
-        current.dx,
-        current.dy,
-      );
+      barData.curve.appendToPath(path, previous, current, next);
     }
 
     return path;
