@@ -213,9 +213,15 @@ class _SideTitlesWidgetState extends State<SideTitlesWidget> {
     List<AxisSideTitleMetaData> axisPositions,
     AxisSide side,
   ) {
+    final borderPadding = widget.axisChartData.borderData.allSidesPadding;
+    final titlesPadding = titlesData.allSidesPadding;
     final chartSize = Size(
-      widget.parentSize.width - thisSidePaddingTotal,
-      widget.parentSize.height - thisSidePaddingTotal,
+      widget.parentSize.width -
+          titlesPadding.horizontal -
+          borderPadding.horizontal,
+      widget.parentSize.height -
+          titlesPadding.vertical -
+          borderPadding.vertical,
     ).rotateByQuarterTurns(widget.axisChartData.rotationQuarterTurns);
     // Add 1 pixel to the chart's edges to avoid clipping the last title.
     final chartRect = (Offset.zero & chartSize).inflate(1);
