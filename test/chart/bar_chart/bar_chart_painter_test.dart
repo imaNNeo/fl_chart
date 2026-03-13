@@ -3548,6 +3548,409 @@ void main() {
     });
   });
 
+  group('drawBarLabels()', () {
+    late MockUtils mockUtils;
+    final utilsMainInstance = Utils();
+
+    setUp(() {
+      mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+    });
+
+    tearDown(() {
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('should render label above upward bar', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              label: const BarChartRodLabel(
+                text: 'Top',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 1, reason: 'Should have drawn 1 label');
+    });
+
+    test('should render label below downward bar', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: 10,
+              toY: 0,
+              width: 20,
+              label: const BarChartRodLabel(
+                text: 'Bottom',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 1, reason: 'Should have drawn 1 label');
+    });
+
+    test('should not render label when show is false', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              label: const BarChartRodLabel(
+                show: false,
+                text: 'Hidden',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        paragraphs.add({});
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 0, reason: 'Should not draw any label');
+    });
+
+    test('should not render label when text is empty', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              label: const BarChartRodLabel(),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        paragraphs.add({});
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(
+        paragraphs.length,
+        0,
+        reason: 'Should not draw label for empty text',
+      );
+    });
+
+    test('should use getLabel callback when provided', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              label: const BarChartRodLabel(
+                text: 'Custom 10',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 1, reason: 'Should draw callback label');
+    });
+
+    test('should not render when getLabel returns null', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        paragraphs.add({});
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(
+        paragraphs.length,
+        0,
+        reason: 'Should not draw label when callback returns null',
+      );
+    });
+  });
+
   group('BarChartRodStackItem()', () {
     test('throws an exception if color and gradient is null', () {
       expect(() => BarChartRodStackItem(0, 10, null), throwsAssertionError);
