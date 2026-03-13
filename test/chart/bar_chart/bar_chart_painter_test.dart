@@ -3587,6 +3587,7 @@ void main() {
               toY: 10,
               width: 20,
               label: const BarChartRodLabel(
+                show: true,
                 text: 'Top',
               ),
             ),
@@ -3654,6 +3655,7 @@ void main() {
               toY: 0,
               width: 20,
               label: const BarChartRodLabel(
+                show: true,
                 text: 'Bottom',
               ),
             ),
@@ -3720,7 +3722,6 @@ void main() {
               toY: 10,
               width: 20,
               label: const BarChartRodLabel(
-                show: false,
                 text: 'Hidden',
               ),
             ),
@@ -3777,7 +3778,6 @@ void main() {
             BarChartRodData(
               toY: 10,
               width: 20,
-              label: const BarChartRodLabel(),
             ),
           ],
         ),
@@ -3837,6 +3837,7 @@ void main() {
               toY: 10,
               width: 20,
               label: const BarChartRodLabel(
+                show: true,
                 text: 'Custom 10',
               ),
             ),
@@ -3892,7 +3893,7 @@ void main() {
       expect(paragraphs.length, 1, reason: 'Should draw callback label');
     });
 
-    test('should not render when getLabel returns null', () {
+    test('should not render when label has default show:false', () {
       const viewSize = Size(200, 100);
 
       final barGroups = [
@@ -3946,7 +3947,7 @@ void main() {
       expect(
         paragraphs.length,
         0,
-        reason: 'Should not draw label when callback returns null',
+        reason: 'Should not draw label when show is false',
       );
     });
   });

@@ -340,7 +340,7 @@ class BarChartRodData with EquatableMixin {
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
-    this.label,
+    this.label = const BarChartRodLabel(show: false),
   })  : fromY = fromY ?? 0,
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
@@ -397,7 +397,7 @@ class BarChartRodData with EquatableMixin {
   final List<BarChartRodStackItem> rodStackItems;
 
   /// Optional label to display near the rod tip.
-  final BarChartRodLabel? label;
+  final BarChartRodLabel label;
 
   /// Determines the upward or downward direction
   bool isUpward() => toY >= fromY;
@@ -1056,14 +1056,12 @@ class BarChartRodLabel extends FlLabel {
   /// [Offset.dx] shifts horizontally, [Offset.dy] shifts vertically.
   final Offset offset;
 
-  /// Lerps a nullable [BarChartRodLabel] based on [t] value.
-  static BarChartRodLabel? lerpBarChartRodLabel(
-    BarChartRodLabel? a,
-    BarChartRodLabel? b,
+  /// Lerps a [BarChartRodLabel] based on [t] value.
+  static BarChartRodLabel lerpBarChartRodLabel(
+    BarChartRodLabel a,
+    BarChartRodLabel b,
     double t,
   ) {
-    if (a == null && b == null) return null;
-    if (a == null || b == null) return b;
     return BarChartRodLabel(
       show: b.show,
       text: b.text,

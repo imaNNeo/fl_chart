@@ -431,7 +431,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       for (var j = 0; j < barGroup.barRods.length; j++) {
         final barRod = barGroup.barRods[j];
         final rodLabel = barRod.label;
-        if (rodLabel == null || !rodLabel.show) continue;
+        if (!rodLabel.show) continue;
 
         final labelText = rodLabel.text;
         final labelStyle = rodLabel.style;
@@ -619,7 +619,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     // Shift tooltip anchor to avoid overlapping with rod label
     final rodLabel = showOnRodData.label;
-    if (rodLabel != null && rodLabel.show && rodLabel.text.isNotEmpty) {
+    if (rodLabel.show && rodLabel.text.isNotEmpty) {
       final labelStyle =
           Utils().getThemeAwareTextStyle(context, rodLabel.style);
       final labelSpan = TextSpan(text: rodLabel.text, style: labelStyle);
