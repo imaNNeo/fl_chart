@@ -80,12 +80,13 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     if (data.clipData.any && holder.chartVirtualRect == null) {
+      final overflow = canvasWrapper.size.width + canvasWrapper.size.height;
       canvasWrapper.saveLayer(
-        Rect.fromLTWH(
-          0,
-          -40,
-          canvasWrapper.size.width + 40,
-          canvasWrapper.size.height + 40,
+        Rect.fromLTRB(
+          -overflow,
+          -overflow,
+          canvasWrapper.size.width + overflow,
+          canvasWrapper.size.height + overflow,
         ),
         _clipPaint,
       );
@@ -202,11 +203,12 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     final viewSize = canvasWrapper.size;
     final clip = data.clipData;
     final border = data.borderData.show ? data.borderData.border : null;
+    final overflow = viewSize.width + viewSize.height;
 
-    var left = 0.0;
-    var top = 0.0;
-    var right = viewSize.width;
-    var bottom = viewSize.height;
+    var left = -overflow;
+    var top = -overflow;
+    var right = viewSize.width + overflow;
+    var bottom = viewSize.height + overflow;
 
     if (clip.left) {
       final borderWidth = border?.left.width ?? 0;
