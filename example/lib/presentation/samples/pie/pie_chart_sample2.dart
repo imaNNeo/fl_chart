@@ -41,9 +41,6 @@ class PieChart2State extends State {
                       });
                     },
                   ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
                   sections: showingSections(),
