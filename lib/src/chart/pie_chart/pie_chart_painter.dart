@@ -716,6 +716,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final section = data.sections[i];
       final sectionAngle = sectionsAngle[i];
 
+      if (section.value == 0) {
+        continue;
+      }
+
       if (sectionAngle == 360) {
         final distance = math.sqrt(
           math.pow(localPosition.dx - center.dx, 2) +
