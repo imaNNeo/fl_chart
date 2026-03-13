@@ -61,6 +61,7 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
 |rodStackItem|if you want to have stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
 |toYErrorRange|If you want to show an error range on the rod, provide [FlErrorRange](base_chart.md#FlErrorRange)|null|
+|label|a [BarChartRodLabel](#BarChartRodLabel) to show a text label on the rod|null|
 
 ### BackgroundBarChartRodData
 |PropName|Description|default value|
@@ -81,6 +82,17 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |label|optional text label for the stack item|null|
 |labelStyle|optional TextStyle for the label|null|
 |borderSide|draw border stroke for each stack item|null|
+
+### BarChartRodLabel
+Extends [FlLabel](base_chart.md#FlLabel).
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|show|determines whether to show or hide the label (inherited from [FlLabel](base_chart.md#FlLabel))|true|
+|text|the text content of the label (inherited from [FlLabel](base_chart.md#FlLabel))|''|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the label. When null or when `inherit` is true, the style is merged with the ambient [DefaultTextStyle](https://api.flutter.dev/flutter/widgets/DefaultTextStyle-class.html) and respects the platform's bold-text accessibility setting (inherited from [FlLabel](base_chart.md#FlLabel))|null|
+|angle|rotation angle of the label in degrees (inherited from [FlLabel](base_chart.md#FlLabel))|0|
+|textDirection|[TextDirection](https://api.flutter.dev/flutter/dart-ui/TextDirection-class.html) of the label text (inherited from [FlLabel](base_chart.md#FlLabel))|TextDirection.ltr|
+|offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) from the rod tip to position the label. `dx` shifts horizontally, `dy` shifts vertically|Offset(0, 8)|
 
 ### BarTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
