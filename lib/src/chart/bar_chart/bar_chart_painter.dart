@@ -611,11 +611,31 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
     final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
 
-    final barTopY = min(barToYPixel.dy, barFromYPixel.dy);
-    final barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
+    var barTopY = min(barToYPixel.dy, barFromYPixel.dy);
+    var barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
     final drawTooltipOnTop = tooltipData.direction == TooltipDirection.top ||
         (tooltipData.direction == TooltipDirection.auto &&
             showOnRodData.isUpward());
+
+    // Shift tooltip anchor to avoid overlapping with rod label
+    final rodLabel = showOnRodData.label;
+    if (rodLabel != null && rodLabel.show && rodLabel.text.isNotEmpty) {
+      final labelStyle =
+          Utils().getThemeAwareTextStyle(context, rodLabel.style);
+      final labelSpan = TextSpan(text: rodLabel.text, style: labelStyle);
+      final labelPainter = TextPainter(
+        text: labelSpan,
+        textAlign: TextAlign.center,
+        textDirection: rodLabel.textDirection,
+        textScaler: holder.textScaler,
+      )..layout();
+      final labelSpace = labelPainter.height + rodLabel.offset.dy;
+      if (drawTooltipOnTop) {
+        barTopY -= labelSpace;
+      } else {
+        barBottomY += labelSpace;
+      }
+    }
 
     final tooltipOriginPoint = Offset(
       barX,
