@@ -7,46 +7,48 @@ import '../chart/data_pool.dart';
 void main() {
   group('BarChartDataExtension.calculateGroupsX', () {
     test('calculates correct positions for basic alignments', () {
+      const width = 200.0;
+
       expect(
         MockData.barChartData1
             .copyWith(alignment: BarChartAlignment.start)
-            .calculateGroupsX(100),
+            .calculateGroupsX(width),
         [9.0, 43.0, 77.0],
       );
 
       expect(
         MockData.barChartData1
             .copyWith(alignment: BarChartAlignment.end)
-            .calculateGroupsX(100),
-        [23.0, 57.0, 91.0],
+            .calculateGroupsX(width),
+        [123.0, 157.0, 191.0],
       );
 
       expect(
         MockData.barChartData1
             .copyWith(alignment: BarChartAlignment.center)
-            .calculateGroupsX(100),
-        [16.0, 50.0, 84.0],
+            .calculateGroupsX(width),
+        [66.0, 100.0, 134.0],
       );
 
       expect(
         MockData.barChartData1
             .copyWith(alignment: BarChartAlignment.spaceBetween)
-            .calculateGroupsX(100),
-        [9.0, 50.0, 91.0],
+            .calculateGroupsX(width),
+        [9.0, 100.0, 191.0],
       );
 
       expect(
         MockData.barChartData1
             .copyWith(alignment: BarChartAlignment.spaceAround)
-            .calculateGroupsX(100),
-        [16.666666666666668, 50.0, 83.33333333333334],
+            .calculateGroupsX(width),
+        [33.33333333333333, 99.99999999999999, 166.66666666666666],
       );
 
       expect(
         MockData.barChartData1
             .copyWith(alignment: BarChartAlignment.spaceEvenly)
-            .calculateGroupsX(100),
-        [20.5, 50.0, 79.5],
+            .calculateGroupsX(width),
+        [9.0, 100.0, 191.0],
       );
     });
 
@@ -62,7 +64,7 @@ void main() {
             MockData.barChartData1
                 .copyWith(alignment: alignment)
                 .calculateGroupsX(60),
-            [10.5, 30.0, 49.5],
+            [9.0, 30.0, 51.0],
           );
         },
       );
@@ -73,6 +75,13 @@ void main() {
         () => MockData.barChartData1
             .copyWith(barGroups: []).calculateGroupsX(100),
         throwsAssertionError,
+      );
+    });
+
+    test('Test shrinkWrapOnWidthOverflow calcualtes spacing correctly', () {
+      expect(
+        MockData.barChartData1.calculateGroupsX(100),
+        [9.0, 50.0, 91.0],
       );
     });
   });
