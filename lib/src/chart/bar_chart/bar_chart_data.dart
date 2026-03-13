@@ -760,6 +760,7 @@ class BarTouchTooltipData with EquatableMixin {
     TooltipDirection? direction,
     double? rotateAngle,
     BorderSide? tooltipBorder,
+    Shadow? shadow,
   })  : _tooltipBorderRadius = tooltipBorderRadius,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -775,6 +776,7 @@ class BarTouchTooltipData with EquatableMixin {
         direction = direction ?? TooltipDirection.auto,
         rotateAngle = rotateAngle ?? 0.0,
         tooltipBorder = tooltipBorder ?? BorderSide.none,
+        shadow = shadow ?? const Shadow(color: Colors.transparent),
         super();
 
   /// Sets a rounded radius for the tooltip.
@@ -819,6 +821,9 @@ class BarTouchTooltipData with EquatableMixin {
 
   /// Retrieves data for setting background color of the tooltip.
   final GetBarTooltipColor getTooltipColor;
+
+  /// The shadow of the tooltip.
+  final Shadow shadow;
 
   /// Used for equality check, see [EquatableMixin].
   @override
