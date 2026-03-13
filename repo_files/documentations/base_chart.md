@@ -56,7 +56,13 @@
 |getDrawingVerticalLine|a function to get the line style of each grid line by giving the related axis value|defaultGridLine|
 |checkToShowVerticalLine|a function to determine whether to show or hide the vertical grid by giving the related axis value |showAllGrids|
 
-
+### FlLabel
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|show|determines whether to show or hide the label|true|
+|text|the text content of the label|''|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the label. When null or when `inherit` is true, the style is merged with the ambient [DefaultTextStyle](https://api.flutter.dev/flutter/widgets/DefaultTextStyle-class.html) and respects the platform's bold-text accessibility setting|null|
+|angle|rotation angle of the label in degrees|0|
 
 ### FlSpot
 |PropName|Description|default value|
