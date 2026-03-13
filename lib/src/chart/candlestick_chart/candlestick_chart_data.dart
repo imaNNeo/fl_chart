@@ -50,6 +50,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
     super.backgroundColor,
     super.rotationQuarterTurns,
     this.touchedPointIndicator,
+    this.candleMarkerPainter,
   })  : candlestickSpots = candlestickSpots ?? const [],
         candlestickPainter = candlestickPainter ?? DefaultCandlestickPainter(),
         candlestickTouchData = candlestickTouchData ?? CandlestickTouchData(),
@@ -108,6 +109,13 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
   /// if you want to have customized [touchedPointIndicator]
   final AxisSpotIndicator? touchedPointIndicator;
 
+  /// The painter used to draw markers on candlesticks.
+  ///
+  /// For example, buy/sell signal markers, important point markers, etc.
+  /// If null, no markers will be drawn.
+  /// You can use the built-in [BuySellSignalMarkerPainter] or implement your own.
+  final CandleMarkerPainter? candleMarkerPainter;
+
   /// Lerps a [CandlestickChartData] based on [t] value, check [Tween.lerp].
   @override
   CandlestickChartData lerp(BaseChartData a, BaseChartData b, double t) {
@@ -144,6 +152,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         rotationQuarterTurns: b.rotationQuarterTurns,
         touchedPointIndicator: b.touchedPointIndicator,
+        candleMarkerPainter: b.candleMarkerPainter,
       );
     } else {
       throw Exception('Illegal State');
@@ -171,6 +180,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
     Color? backgroundColor,
     int? rotationQuarterTurns,
     AxisSpotIndicator? touchedPointIndicator,
+    CandleMarkerPainter? candleMarkerPainter,
   }) =>
       CandlestickChartData(
         candlestickSpots: candlestickSpots ?? this.candlestickSpots,
@@ -193,6 +203,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         rotationQuarterTurns: rotationQuarterTurns ?? this.rotationQuarterTurns,
         touchedPointIndicator:
             touchedPointIndicator ?? this.touchedPointIndicator,
+        candleMarkerPainter: candleMarkerPainter ?? this.candleMarkerPainter,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -216,6 +227,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
         borderData,
         rotationQuarterTurns,
         touchedPointIndicator,
+        candleMarkerPainter,
       ];
 }
 
@@ -996,4 +1008,257 @@ class CandlestickChartDataTween extends Tween<CandlestickChartData> {
   /// Lerps a [CandlestickChartData] based on [t] value, check [Tween.lerp].
   @override
   CandlestickChartData lerp(double t) => begin!.lerp(begin!, end!, t);
+}
+
+/// Base class for custom candle markers.
+///
+/// Use this class to implement your own marker painter.
+abstract class CandleMarkerPainter with EquatableMixin {
+  const CandleMarkerPainter();
+
+  /// Determines whether this marker should be shown on the given candle spot.
+  ///
+  /// [spot] contains the candlestick data (open, high, low, close, x).
+  /// [spotIndex] is the index of the spot in the candlestickSpots list.
+  ///
+  /// Return true if you want to draw this marker on this spot, false otherwise.
+  bool shouldShow(CandlestickSpot spot, int spotIndex);
+
+  /// Paints the marker on the canvas.
+  ///
+  /// [canvas] is the canvas to paint on.
+  /// [spot] contains the candlestick data.
+  /// [spotIndex] is the index of the spot.
+  /// [xInCanvasProvider] is a function that converts data X values to canvas pixel X.
+  /// [yInCanvasProvider] is a function that converts data Y values to canvas pixel Y.
+  void paint(
+    Canvas canvas,
+    CandlestickSpot spot,
+    int spotIndex,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
+  );
+
+  /// Used for animation transitions.
+  ///
+  /// For static markers, you can simply return b.
+  CandleMarkerPainter lerp(
+    CandleMarkerPainter a,
+    CandleMarkerPainter b,
+    double t,
+  );
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// Signal type enum for buy/sell markers.
+enum BuyAndSellSignalType {
+  buy,
+  sell,
+  trade,
+}
+
+/// Typedef for custom balloon text builder.
+typedef BalloonTextBuilder = TextPainter? Function(
+  CandlestickSpot spot,
+  int spotIndex,
+  BuyAndSellSignalType signalType,
+);
+
+/// A marker painter that displays buy, sell, and trade signals on candlesticks.
+///
+/// This painter allows you to mark signal points on your candlestick chart.
+/// You can customize the conditions for displaying different signals and
+/// provide custom balloon painters and text builders.
+class BuyAndSellSignalPainter extends CandleMarkerPainter {
+  const BuyAndSellSignalPainter({
+    required this.buySignalCondition,
+    required this.sellSignalCondition,
+    required this.tradeSignalCondition,
+    this.balloonPainter = _defaultBalloonPainter,
+    this.balloonTextBuilder = _defaultBalloonText,
+  });
+
+  /// A callback that determines whether to show a buy signal for the given candlestick.
+  final bool Function(CandlestickSpot spot, int spotIndex) buySignalCondition;
+
+  /// A callback that determines whether to show a sell signal for the given candlestick.
+  final bool Function(CandlestickSpot spot, int spotIndex) sellSignalCondition;
+
+  /// A callback that determines whether to show a trade signal for the given candlestick.
+  final bool Function(CandlestickSpot spot, int spotIndex) tradeSignalCondition;
+
+  /// Custom balloon painter for drawing different signal types.
+  /// Users can override this to customize balloon appearance and colors.
+  final void Function(Canvas, Offset, BuyAndSellSignalType) balloonPainter;
+
+  /// Custom balloon text builder for displaying text inside the balloon.
+  /// Users can override this to customize the text shown for each signal type.
+  final BalloonTextBuilder balloonTextBuilder;
+
+  static const double _iconOffsetY = -15;
+
+  @override
+  bool shouldShow(CandlestickSpot spot, int spotIndex) {
+    return buySignalCondition(spot, spotIndex) ||
+        sellSignalCondition(spot, spotIndex) ||
+        tradeSignalCondition.call(spot, spotIndex);
+  }
+
+  @override
+  void paint(
+    Canvas canvas,
+    CandlestickSpot spot,
+    int spotIndex,
+    ValueInCanvasProvider xInCanvasProvider,
+    ValueInCanvasProvider yInCanvasProvider,
+  ) {
+    final pixelX = xInCanvasProvider(spot.x);
+    final highPixelY = yInCanvasProvider(spot.high) + _iconOffsetY;
+    final iconCenter = Offset(pixelX, highPixelY);
+
+    if (buySignalCondition(spot, spotIndex)) {
+      balloonPainter(canvas, iconCenter, BuyAndSellSignalType.buy);
+      _drawBalloonText(
+        canvas,
+        iconCenter,
+        spot,
+        spotIndex,
+        BuyAndSellSignalType.buy,
+      );
+    }
+
+    if (sellSignalCondition(spot, spotIndex)) {
+      balloonPainter(canvas, iconCenter, BuyAndSellSignalType.sell);
+      _drawBalloonText(
+        canvas,
+        iconCenter,
+        spot,
+        spotIndex,
+        BuyAndSellSignalType.sell,
+      );
+    }
+
+    if (tradeSignalCondition(spot, spotIndex)) {
+      balloonPainter(canvas, iconCenter, BuyAndSellSignalType.trade);
+      _drawBalloonText(
+        canvas,
+        iconCenter,
+        spot,
+        spotIndex,
+        BuyAndSellSignalType.trade,
+      );
+    }
+  }
+
+  void _drawBalloonText(
+    Canvas canvas,
+    Offset center,
+    CandlestickSpot spot,
+    int spotIndex,
+    BuyAndSellSignalType signalType,
+  ) {
+    final textPainter = balloonTextBuilder(spot, spotIndex, signalType);
+    if (textPainter != null) {
+      textPainter.layout();
+      final textOffset = Offset(
+        center.dx - textPainter.width / 2,
+        center.dy - textPainter.height / 2,
+      );
+      textPainter.paint(canvas, textOffset);
+    }
+  }
+
+  @override
+  CandleMarkerPainter lerp(
+    CandleMarkerPainter a,
+    CandleMarkerPainter b,
+    double t,
+  ) {
+    // Marker configuration (conditions and painters) are functions that cannot be interpolated.
+    // During animation transitions, we directly return the target painter instead of blending.
+    if (b is BuyAndSellSignalPainter) {
+      return b;
+    }
+    return this;
+  }
+
+  @override
+  List<Object?> get props => [
+        buySignalCondition,
+        sellSignalCondition,
+        tradeSignalCondition,
+        balloonPainter,
+        balloonTextBuilder,
+      ];
+
+  /// Default balloon painter for different signal types.
+  static void _defaultBalloonPainter(
+    Canvas canvas,
+    Offset center,
+    BuyAndSellSignalType signalType,
+  ) {
+    const balloonRadius = 6.0;
+    const tailHeight = 3.0;
+
+    // Determine color based on signal type
+    final color = switch (signalType) {
+      BuyAndSellSignalType.buy => const Color(0xFF4CAF50), // Green
+      BuyAndSellSignalType.sell => const Color(0xFFEF5350), // Red
+      BuyAndSellSignalType.trade => const Color(0xFF2196F3), // Blue
+    };
+
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    // Create circular part of balloon
+    final balloonCircle = Path()
+      ..addOval(
+        Rect.fromCircle(
+          center: center,
+          radius: balloonRadius,
+        ),
+      );
+
+    // Create tail (triangle pointing down)
+    final tailTopY = center.dy + balloonRadius - 1;
+    final tailTipY = center.dy + balloonRadius + tailHeight;
+    final balloonTail = Path()
+      ..moveTo(center.dx - 2.5, tailTopY)
+      ..lineTo(center.dx, tailTipY)
+      ..lineTo(center.dx + 2.5, tailTopY)
+      ..close();
+
+    // Paint both circle and tail
+    canvas
+      ..drawPath(balloonCircle, paint)
+      ..drawPath(balloonTail, paint);
+  }
+
+  /// Default balloon text builder for different signal types.
+  static TextPainter? _defaultBalloonText(
+    CandlestickSpot spot,
+    int spotIndex,
+    BuyAndSellSignalType signalType,
+  ) {
+    final text = switch (signalType) {
+      BuyAndSellSignalType.buy => 'B',
+      BuyAndSellSignalType.sell => 'S',
+      BuyAndSellSignalType.trade => 'T',
+    };
+
+    return TextPainter(
+      text: TextSpan(
+        text: text,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+  }
 }
