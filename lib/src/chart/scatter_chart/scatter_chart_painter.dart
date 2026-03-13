@@ -69,20 +69,21 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     final border = data.borderData.show ? data.borderData.border : null;
 
     if (data.clipData.any) {
+      final overflow = viewSize.width + viewSize.height;
       canvasWrapper.saveLayer(
         Rect.fromLTRB(
-          0,
-          0,
-          canvasWrapper.size.width,
-          canvasWrapper.size.height,
+          -overflow,
+          -overflow,
+          canvasWrapper.size.width + overflow,
+          canvasWrapper.size.height + overflow,
         ),
         _clipPaint,
       );
 
-      var left = 0.0;
-      var top = 0.0;
-      var right = viewSize.width;
-      var bottom = viewSize.height;
+      var left = -overflow;
+      var top = -overflow;
+      var right = viewSize.width + overflow;
+      var bottom = viewSize.height + overflow;
 
       if (clip.left) {
         final borderWidth = border?.left.width ?? 0;
