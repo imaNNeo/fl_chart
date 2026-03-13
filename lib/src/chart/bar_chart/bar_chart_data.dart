@@ -1063,8 +1063,7 @@ class BarChartRodLabel extends FlLabel {
     double t,
   ) {
     if (a == null && b == null) return null;
-    if (a == null) return b;
-    if (b == null) return a;
+    if (a == null || b == null) return b;
     return BarChartRodLabel(
       show: b.show,
       text: b.text,
