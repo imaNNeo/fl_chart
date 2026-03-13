@@ -406,9 +406,9 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         var top = 0.0;
         var bottom = 0.0;
         if (spot.yError != null) {
-          top = getPixelY(spot.y + spot.yError!.lowerBy, viewSize, holder) - y;
+          top = getPixelY(spot.y + spot.yError!.upperBy, viewSize, holder) - y;
           bottom =
-              getPixelY(spot.y - spot.yError!.upperBy, viewSize, holder) - y;
+              getPixelY(spot.y - spot.yError!.lowerBy, viewSize, holder) - y;
         }
         final relativeErrorPixelsRect = Rect.fromLTRB(
           left,
