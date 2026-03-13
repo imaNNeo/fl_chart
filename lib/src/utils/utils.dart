@@ -236,27 +236,37 @@ class Utils {
       axisValue = axisValue.abs();
     }
 
+    final diff = (axisMin - axisMax).abs();
+
     String resultNumber;
     String symbol;
     if (axisValue >= billion) {
-      resultNumber = (axisValue / billion).toStringAsFixed(1);
+      final scaledDiff = diff / billion;
+      resultNumber =
+          (axisValue / billion).toStringAsFixed(getFractionDigits(scaledDiff));
       symbol = 'B';
     } else if (axisValue >= million) {
-      resultNumber = (axisValue / million).toStringAsFixed(1);
+      final scaledDiff = diff / million;
+      resultNumber =
+          (axisValue / million).toStringAsFixed(getFractionDigits(scaledDiff));
       symbol = 'M';
     } else if (axisValue >= kilo) {
-      resultNumber = (axisValue / kilo).toStringAsFixed(1);
+      final scaledDiff = diff / kilo;
+      resultNumber =
+          (axisValue / kilo).toStringAsFixed(getFractionDigits(scaledDiff));
       symbol = 'K';
     } else {
-      final diff = (axisMin - axisMax).abs();
       resultNumber = axisValue.toStringAsFixed(
         getFractionDigits(diff),
       );
       symbol = '';
     }
 
-    if (resultNumber.endsWith('.0')) {
-      resultNumber = resultNumber.substring(0, resultNumber.length - 2);
+    if (resultNumber.contains('.')) {
+      resultNumber = resultNumber.replaceAll(RegExp(r'0+$'), '');
+      if (resultNumber.endsWith('.')) {
+        resultNumber = resultNumber.substring(0, resultNumber.length - 1);
+      }
     }
 
     if (isNegative) {
