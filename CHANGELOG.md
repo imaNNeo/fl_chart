@@ -5,6 +5,7 @@
 * **FEATURE** (by @Vizten18) Add `cornerRadius` property in the [PieChartSectionData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#piechartsectiondata), #1175
 * **IMPROVEMENT** (by @imaNNeo) Add convention and linter (checker) for PRs title and updated contributing guideline. We're gonna have automated changelog generation from the next release
 * **BUGFIX** (by @diymelvin) Fix inverted lowerBy/upperBy in error range calculation, #2031
+* **FEATURE** (by @imaNNeo) Add `label` property in the [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#barchartroddata) to allow you to show a label on top of each bar rod, #2071, #84
 
 ## 1.1.1
 * **IMPROVEMENT** (by @imaNNeo) Upgrade `vector_math` dependency to `2.2.0`, #1985
