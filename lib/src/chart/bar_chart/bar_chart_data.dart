@@ -1048,6 +1048,7 @@ class BarChartRodLabel extends FlLabel {
     super.text,
     super.style,
     super.angle,
+    super.textDirection,
     this.offset = const Offset(0, 8),
   });
 
@@ -1069,6 +1070,7 @@ class BarChartRodLabel extends FlLabel {
       text: b.text,
       style: TextStyle.lerp(a.style, b.style, t),
       angle: lerpDouble(a.angle, b.angle, t)!,
+      textDirection: b.textDirection,
       offset: Offset.lerp(a.offset, b.offset, t)!,
     );
   }
@@ -1079,6 +1081,7 @@ class BarChartRodLabel extends FlLabel {
     String? text,
     TextStyle? style,
     double? angle,
+    TextDirection? textDirection,
     Offset? offset,
   }) =>
       BarChartRodLabel(
@@ -1086,11 +1089,12 @@ class BarChartRodLabel extends FlLabel {
         text: text ?? this.text,
         style: style ?? this.style,
         angle: angle ?? this.angle,
+        textDirection: textDirection ?? this.textDirection,
         offset: offset ?? this.offset,
       );
 
   @override
-  List<Object?> get props => [show, text, style, angle, offset];
+  List<Object?> get props => [show, text, style, angle, textDirection, offset];
 }
 
 /// It lerps a [BarChartData] to another [BarChartData] (handles animation for updating values)

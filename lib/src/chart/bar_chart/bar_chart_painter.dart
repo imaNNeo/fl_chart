@@ -444,7 +444,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         final textPainter = TextPainter(
           text: textSpan,
           textAlign: TextAlign.center,
-          textDirection: TextDirection.ltr,
+          textDirection: rodLabel.textDirection,
           textScaler: holder.textScaler,
         )..layout();
 

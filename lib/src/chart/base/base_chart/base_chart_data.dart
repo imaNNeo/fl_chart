@@ -198,6 +198,7 @@ class FlLabel with EquatableMixin {
     this.text = '',
     this.style,
     this.angle = 0,
+    this.textDirection = TextDirection.ltr,
   });
 
   /// Whether the label is visible.
@@ -212,12 +213,16 @@ class FlLabel with EquatableMixin {
   /// Rotation angle of the label in degrees.
   final double angle;
 
+  /// Text direction of the label.
+  final TextDirection textDirection;
+
   /// Lerps a [FlLabel] based on [t] value, check [Tween.lerp].
   static FlLabel lerp(FlLabel a, FlLabel b, double t) => FlLabel(
         show: b.show,
         text: b.text,
         style: TextStyle.lerp(a.style, b.style, t),
         angle: lerpDouble(a.angle, b.angle, t)!,
+        textDirection: b.textDirection,
       );
 
   /// Copies current [FlLabel] to a new [FlLabel],
@@ -227,17 +232,19 @@ class FlLabel with EquatableMixin {
     String? text,
     TextStyle? style,
     double? angle,
+    TextDirection? textDirection,
   }) =>
       FlLabel(
         show: show ?? this.show,
         text: text ?? this.text,
         style: style ?? this.style,
         angle: angle ?? this.angle,
+        textDirection: textDirection ?? this.textDirection,
       );
 
   /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [show, text, style, angle];
+  List<Object?> get props => [show, text, style, angle, textDirection];
 }
 
 /// Controls an element horizontal alignment to given point.

@@ -91,6 +91,7 @@ Extends [FlLabel](base_chart.md#FlLabel).
 |text|the text content of the label (inherited from [FlLabel](base_chart.md#FlLabel))|''|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the label. When null or when `inherit` is true, the style is merged with the ambient [DefaultTextStyle](https://api.flutter.dev/flutter/widgets/DefaultTextStyle-class.html) and respects the platform's bold-text accessibility setting (inherited from [FlLabel](base_chart.md#FlLabel))|null|
 |angle|rotation angle of the label in degrees (inherited from [FlLabel](base_chart.md#FlLabel))|0|
+|textDirection|[TextDirection](https://api.flutter.dev/flutter/dart-ui/TextDirection-class.html) of the label text (inherited from [FlLabel](base_chart.md#FlLabel))|TextDirection.ltr|
 |offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) from the rod tip to position the label. `dx` shifts horizontally, `dy` shifts vertically|Offset(0, 8)|
 
 ### BarTouchData ([read about touch handling](handle_touches.md))

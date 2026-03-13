@@ -63,6 +63,7 @@
 |text|the text content of the label|''|
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the label. When null or when `inherit` is true, the style is merged with the ambient [DefaultTextStyle](https://api.flutter.dev/flutter/widgets/DefaultTextStyle-class.html) and respects the platform's bold-text accessibility setting|null|
 |angle|rotation angle of the label in degrees|0|
+|textDirection|[TextDirection](https://api.flutter.dev/flutter/dart-ui/TextDirection-class.html) of the label text|TextDirection.ltr|
 
 ### FlSpot
 |PropName|Description|default value|
