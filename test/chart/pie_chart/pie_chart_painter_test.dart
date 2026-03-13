@@ -1410,6 +1410,56 @@ void main() {
       );
     });
 
+    test('test with zero-value sections returns correct indices', () {
+      const viewSize = Size(200, 200);
+      final data = PieChartData(
+        centerSpaceRadius: 20,
+        sectionsSpace: 0,
+        sections: [
+          PieChartSectionData(value: 0, radius: 40),
+          PieChartSectionData(value: 0, radius: 40),
+          PieChartSectionData(value: 100, radius: 40),
+          PieChartSectionData(value: 200, radius: 40),
+          PieChartSectionData(value: 300, radius: 40),
+        ],
+      );
+      final painter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      // Section 2 (value=100) occupies 0°-60°, touch at ~30°, r=40
+      expect(
+        painter
+            .handleTouch(const Offset(134.6, 120), viewSize, holder)
+            .touchedSectionIndex,
+        2,
+      );
+
+      // Section 3 (value=200) occupies 60°-180°, touch at ~120°, r=40
+      expect(
+        painter
+            .handleTouch(const Offset(80, 134.6), viewSize, holder)
+            .touchedSectionIndex,
+        3,
+      );
+
+      // Section 4 (value=300) occupies 180°-360°, touch at ~270°, r=40
+      expect(
+        painter
+            .handleTouch(const Offset(100, 60), viewSize, holder)
+            .touchedSectionIndex,
+        4,
+      );
+
+      // Touch outside all sections should return -1
+      expect(
+        painter
+            .handleTouch(const Offset(100, 100), viewSize, holder)
+            .touchedSectionIndex,
+        -1,
+      );
+    });
+
     test('test 3 with cornerRadius sections', () {
       const viewSize = Size(200, 200);
       final data = PieChartData(
