@@ -206,6 +206,7 @@ void main() {
   });
 
   test('test formatNumber', () {
+    // Sub-kilo values (axis range 0-10)
     expect(Utils().formatNumber(0, 10, 0), '0');
     expect(Utils().formatNumber(0, 10, -0), '0');
     expect(Utils().formatNumber(0, 10, -0.01), '0');
@@ -213,26 +214,48 @@ void main() {
     expect(Utils().formatNumber(0, 10, -0.1), '-0.1');
     expect(Utils().formatNumber(0, 10, 423), '423');
     expect(Utils().formatNumber(0, 10, -423), '-423');
-    expect(Utils().formatNumber(0, 10, 1000), '1K');
-    expect(Utils().formatNumber(0, 10, 1234), '1.2K');
-    expect(Utils().formatNumber(0, 10, 10000), '10K');
-    expect(Utils().formatNumber(0, 10, 41234), '41.2K');
-    expect(Utils().formatNumber(0, 10, 82349), '82.3K');
-    expect(Utils().formatNumber(0, 10, 82350), '82.3K');
-    expect(Utils().formatNumber(0, 10, 82351), '82.4K');
-    expect(Utils().formatNumber(0, 10, -82351), '-82.4K');
-    expect(Utils().formatNumber(0, 10, 100000), '100K');
-    expect(Utils().formatNumber(0, 10, 101000), '101K');
-    expect(Utils().formatNumber(0, 10, 2345123), '2.3M');
-    expect(Utils().formatNumber(0, 10, 2352123), '2.4M');
-    expect(Utils().formatNumber(0, 10, -2352123), '-2.4M');
-    expect(Utils().formatNumber(0, 10, 521000000), '521M');
-    expect(Utils().formatNumber(0, 10, 4324512345), '4.3B');
-    expect(Utils().formatNumber(0, 10, 4000000000), '4B');
-    expect(Utils().formatNumber(0, 10, -4000000000), '-4B');
-    expect(Utils().formatNumber(0, 10, 823147521343), '823.1B');
-    expect(Utils().formatNumber(0, 10, 8231475213435), '8231.5B');
-    expect(Utils().formatNumber(0, 10, -8231475213435), '-8231.5B');
+
+    // Kilo values (axis range in thousands)
+    expect(Utils().formatNumber(0, 100000, 1000), '1K');
+    expect(Utils().formatNumber(0, 100000, 1234), '1.2K');
+    expect(Utils().formatNumber(0, 100000, 10000), '10K');
+    expect(Utils().formatNumber(0, 100000, 41234), '41.2K');
+    expect(Utils().formatNumber(0, 100000, 82349), '82.3K');
+    expect(Utils().formatNumber(0, 100000, 82350), '82.3K');
+    expect(Utils().formatNumber(0, 100000, 82351), '82.4K');
+    expect(Utils().formatNumber(0, 100000, -82351), '-82.4K');
+    expect(Utils().formatNumber(0, 100000, 100000), '100K');
+    expect(Utils().formatNumber(0, 100000, 101000), '101K');
+
+    // Million values (axis range in millions)
+    expect(Utils().formatNumber(0, 10000000, 2345123), '2.3M');
+    expect(Utils().formatNumber(0, 10000000, 2352123), '2.4M');
+    expect(Utils().formatNumber(0, 10000000, -2352123), '-2.4M');
+    expect(Utils().formatNumber(0, 10000000, 521000000), '521M');
+
+    // Billion values (axis range in billions)
+    expect(Utils().formatNumber(0, 10000000000, 4324512345), '4.3B');
+    expect(Utils().formatNumber(0, 10000000000, 4000000000), '4B');
+    expect(Utils().formatNumber(0, 10000000000, -4000000000), '-4B');
+    expect(Utils().formatNumber(0, 10000000000, 823147521343), '823.1B');
+    expect(Utils().formatNumber(0, 10000000000, 8231475213435), '8231.5B');
+    expect(Utils().formatNumber(0, 10000000000, -8231475213435), '-8231.5B');
+  });
+
+  test('test formatNumber with narrow axis range for K/M/B values', () {
+    // When axis range is narrow relative to values, more precision is shown
+    // This was the bug: previously K/M/B always showed 1 decimal place
+    expect(Utils().formatNumber(1000000, 1001000, 1000000), '1M');
+    expect(Utils().formatNumber(1000000, 1001000, 1000500), '1.0005M');
+    expect(Utils().formatNumber(1000000, 1001000, 1001000), '1.001M');
+
+    expect(Utils().formatNumber(5000, 5100, 5000), '5K');
+    expect(Utils().formatNumber(5000, 5100, 5050), '5.05K');
+    expect(Utils().formatNumber(5000, 5100, 5100), '5.1K');
+
+    expect(Utils().formatNumber(1000000000, 1010000000, 1000000000), '1B');
+    expect(Utils().formatNumber(1000000000, 1010000000, 1005000000), '1.005B');
+    expect(Utils().formatNumber(1000000000, 1010000000, 1010000000), '1.01B');
   });
 
   group('test getThemeAwareTextStyle', () {
