@@ -436,4 +436,73 @@ void main() {
       expect(find.byType(TextButton), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'Rotated BarChart labels render with large reservedSize',
+    (tester) async {
+      // Regression test for https://github.com/imaNNeo/fl_chart/issues/1963
+      // With rotationQuarterTurns=1 and a large bottomTitles reservedSize,
+      // labels would disappear because the chart size calculation subtracted
+      // the wrong padding dimension, making it negative.
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: 350,
+                height: 120,
+                child: BarChart(
+                  BarChartData(
+                    rotationQuarterTurns: 1,
+                    titlesData: FlTitlesData(
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 25,
+                        ),
+                      ),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 115,
+                        ),
+                      ),
+                      rightTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                    ),
+                    barGroups: [
+                      BarChartGroupData(
+                        x: 1,
+                        barRods: [BarChartRodData(toY: 5, color: Colors.blue)],
+                      ),
+                      BarChartGroupData(
+                        x: 2,
+                        barRods: [BarChartRodData(toY: 10, color: Colors.red)],
+                      ),
+                      BarChartGroupData(
+                        x: 3,
+                        barRods: [
+                          BarChartRodData(toY: 7, color: Colors.orange),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Labels should be visible, not filtered out.
+      // Before the fix, no Text widgets would appear because
+      // _getPositionsWithinChartRange incorrectly created a negative-size
+      // chart rect, filtering out all label positions.
+      expect(find.byType(Text), findsWidgets);
+    },
+  );
 }
