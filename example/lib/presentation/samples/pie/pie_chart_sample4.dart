@@ -59,7 +59,7 @@ class _PieChartSample4State extends State<PieChartSample4> {
             color: AppColors.contentColorGreen,
             value: value,
             title: 'A',
-            radius: 30 * scaleFactor,
+            radius: 100 * scaleFactor,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -69,17 +69,22 @@ class _PieChartSample4State extends State<PieChartSample4> {
             titlePositionPercentageOffset: 0.75,
             segments: [
               PieChartStackSegmentData(
-                radius: 70 * scaleFactor,
+                fromRadius: 30 * scaleFactor,
+                toRadius: 32 * scaleFactor,
+                color: AppColors.pageBackground,
+              ),
+              PieChartStackSegmentData(
+                fromRadius: 32 * scaleFactor,
+                toRadius: 100 * scaleFactor,
                 color: AppColors.contentColorRed,
-              )
+              ),
             ],
-            segmentsSpace: 2,
           ),
         1 => PieChartSectionData(
             color: AppColors.contentColorGreen,
             value: value,
             title: 'B',
-            radius: 65 * scaleFactor,
+            radius: 100 * scaleFactor,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -89,17 +94,22 @@ class _PieChartSample4State extends State<PieChartSample4> {
             titlePositionPercentageOffset: 0.75,
             segments: [
               PieChartStackSegmentData(
-                radius: 35 * scaleFactor,
+                fromRadius: 65 * scaleFactor,
+                toRadius: 67 * scaleFactor,
+                color: AppColors.pageBackground,
+              ),
+              PieChartStackSegmentData(
+                fromRadius: 67 * scaleFactor,
+                toRadius: 100 * scaleFactor,
                 color: AppColors.contentColorRed,
-              )
+              ),
             ],
-            segmentsSpace: 2,
           ),
         2 => PieChartSectionData(
             color: AppColors.contentColorGreen,
             value: value,
             title: 'C',
-            radius: 50 * scaleFactor,
+            radius: 100 * scaleFactor,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -109,17 +119,22 @@ class _PieChartSample4State extends State<PieChartSample4> {
             titlePositionPercentageOffset: 0.75,
             segments: [
               PieChartStackSegmentData(
-                radius: 50 * scaleFactor,
+                fromRadius: 50 * scaleFactor,
+                toRadius: 52 * scaleFactor,
+                color: AppColors.pageBackground,
+              ),
+              PieChartStackSegmentData(
+                fromRadius: 52 * scaleFactor,
+                toRadius: 100 * scaleFactor,
                 color: AppColors.contentColorRed,
-              )
+              ),
             ],
-            segmentsSpace: 2,
           ),
         3 => PieChartSectionData(
             color: AppColors.contentColorGreen,
             value: value,
             title: 'D',
-            radius: 90 * scaleFactor,
+            radius: 100 * scaleFactor,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -129,17 +144,22 @@ class _PieChartSample4State extends State<PieChartSample4> {
             titlePositionPercentageOffset: 0.75,
             segments: [
               PieChartStackSegmentData(
-                radius: 10 * scaleFactor,
+                fromRadius: 90 * scaleFactor,
+                toRadius: 92 * scaleFactor,
+                color: AppColors.pageBackground,
+              ),
+              PieChartStackSegmentData(
+                fromRadius: 92 * scaleFactor,
+                toRadius: 100 * scaleFactor,
                 color: AppColors.contentColorRed,
-              )
+              ),
             ],
-            segmentsSpace: 2,
           ),
         4 => PieChartSectionData(
             color: AppColors.contentColorGreen,
             value: value,
             title: 'E',
-            radius: 70 * scaleFactor,
+            radius: 100 * scaleFactor,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -149,11 +169,16 @@ class _PieChartSample4State extends State<PieChartSample4> {
             titlePositionPercentageOffset: 0.75,
             segments: [
               PieChartStackSegmentData(
-                radius: 30 * scaleFactor,
+                fromRadius: 70 * scaleFactor,
+                toRadius: 72 * scaleFactor,
+                color: AppColors.pageBackground,
+              ),
+              PieChartStackSegmentData(
+                fromRadius: 72 * scaleFactor,
+                toRadius: 100 * scaleFactor,
                 color: AppColors.contentColorRed,
-              )
+              ),
             ],
-            segmentsSpace: 2,
           ),
         _ => throw StateError('Invalid'),
       };

@@ -166,7 +166,6 @@ class PieChartSectionData with EquatableMixin {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     List<PieChartStackSegmentData>? segments,
-    double? segmentsSpace,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = (radius ?? 40).clamp(0, double.infinity).toDouble(),
@@ -177,8 +176,7 @@ class PieChartSectionData with EquatableMixin {
             (cornerRadius ?? 0.0).clamp(0, double.infinity).toDouble(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5,
-        segments = segments ?? const [],
-        segmentsSpace = segmentsSpace ?? 0.0;
+        segments = segments ?? const [];
 
   /// It determines how much space it should occupy around the circle.
   ///
@@ -232,32 +230,12 @@ class PieChartSectionData with EquatableMixin {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
-  /// Fill up the [segments] to add stacked segments to a pie chart section.
+  /// Stacked segments rendered on top of the main section.
+  ///
+  /// Each segment defines [PieChartStackSegmentData.fromRadius] and
+  /// [PieChartStackSegmentData.toRadius] to specify its position within
+  /// the section's [radius]. Values are clamped to [0, radius] at render time.
   final List<PieChartStackSegmentData> segments;
-
-  /// Defines the spacing between [segments].
-  final double segmentsSpace;
-
-  /// Transform section to a segment to help while rendering
-  PieChartStackSegmentData get asSegment => PieChartStackSegmentData(
-        radius: radius,
-        color: color,
-        gradient: gradient,
-      );
-
-  /// Total radius including the section radius, segments radii and segment spaces.
-  double get totalRadius {
-    if (segments.isEmpty) return radius;
-    final segmentsRadius = segments.fold<double>(
-      0,
-      (sum, segment) => sum + segment.radius,
-    );
-    // final spaces = (segments.where((s) => s.radius > 0).length) * segmentsSpace;
-    final nonZeroSegments = segments.where((s) => s.radius > 0).length;
-    final gapCount = nonZeroSegments > 1 ? nonZeroSegments - 1 : 0;
-    final spaces = gapCount * segmentsSpace;
-    return radius + segmentsRadius + spaces;
-  }
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
@@ -275,7 +253,6 @@ class PieChartSectionData with EquatableMixin {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     List<PieChartStackSegmentData>? segments,
-    double? segmentsSpace,
   }) =>
       PieChartSectionData(
         value: value ?? this.value,
@@ -293,7 +270,6 @@ class PieChartSectionData with EquatableMixin {
         badgePositionPercentageOffset:
             badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
         segments: segments ?? this.segments,
-        segmentsSpace: segmentsSpace ?? this.segmentsSpace,
       );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
@@ -328,7 +304,6 @@ class PieChartSectionData with EquatableMixin {
           b.segments,
           t,
         ),
-        segmentsSpace: lerpDouble(a.segmentsSpace, b.segmentsSpace, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -347,54 +322,71 @@ class PieChartSectionData with EquatableMixin {
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
         segments,
-        segmentsSpace,
       ];
 }
 
 /// A stylized segment of a Stacked Pie Chart section item.
 ///
-/// Each [PieChartSectionData] can have a list of [PieChartStackSegmentData] (with different radius, color
-/// and gradient) to represent a Stacked Pie Chart section.
+/// Each [PieChartSectionData] can have a list of [PieChartStackSegmentData]
+/// that are rendered on top of the main section, similar to how
+/// [BarChartRodStackItem] works in bar charts.
+///
+/// Each segment defines [fromRadius] and [toRadius] to specify its position
+/// within the section's total [PieChartSectionData.radius]. Values are clamped
+/// to the valid range [0, sectionRadius].
 class PieChartStackSegmentData with EquatableMixin {
-  /// Renders a segment of Stacked Pie Chart with given [radius] and [color] or [gradient]
-  /// for example if you want to have a Stacked Pie Chart with three colors:
+  /// Renders a segment of Stacked Pie Chart with given [fromRadius], [toRadius]
+  /// and [color] or [gradient].
+  ///
+  /// For example, to have a section with a colored overlay in the outer half:
   ///
   /// ```dart
   /// PieChartSectionData(
   ///   color: Colors.red,
-  ///   radius: 10,
+  ///   radius: 100,
   ///   segments: [
-  ///     PieChartStackSegmentData(radius: 20, color: Colors.green),
-  ///     PieChartStackSegmentData(radius: 30, color: Colors.blue),
+  ///     PieChartStackSegmentData(
+  ///       fromRadius: 50,
+  ///       toRadius: 100,
+  ///       color: Colors.green,
+  ///     ),
   ///   ]
   /// )
   /// ```
   /// If [gradient] is specified, it overrides the [color] setting.
   PieChartStackSegmentData({
-    double? radius,
+    double? fromRadius,
+    required this.toRadius,
     Color? color,
     this.gradient,
-  })  : radius = radius ?? 10,
+  })  : fromRadius = fromRadius ?? 0,
         color = color ?? Colors.purple;
 
-  /// The radius that defines the "thickness" of a segment
-  final double radius;
+  /// The start radius of this segment (distance from center of the section).
+  /// Clamped to [0, sectionRadius] at render time.
+  final double fromRadius;
 
-  /// Defines the color of section.
+  /// The end radius of this segment (distance from center of the section).
+  /// Clamped to [0, sectionRadius] at render time.
+  final double toRadius;
+
+  /// Defines the color of segment.
   final Color color;
 
-  /// Defines the gradient of section. If specified, overrides the color setting.
+  /// Defines the gradient of segment. If specified, overrides the color setting.
   final Gradient? gradient;
 
   /// Copies current [PieChartStackSegmentData] to a new [PieChartStackSegmentData],
   /// and replaces provided values.
   PieChartStackSegmentData copyWith({
-    double? radius,
+    double? fromRadius,
+    double? toRadius,
     Color? color,
     Gradient? gradient,
   }) =>
       PieChartStackSegmentData(
-        radius: radius ?? this.radius,
+        fromRadius: fromRadius ?? this.fromRadius,
+        toRadius: toRadius ?? this.toRadius,
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
       );
@@ -406,7 +398,8 @@ class PieChartStackSegmentData with EquatableMixin {
     double t,
   ) =>
       PieChartStackSegmentData(
-        radius: lerpDouble(a.radius, b.radius, t),
+        fromRadius: lerpDouble(a.fromRadius, b.fromRadius, t),
+        toRadius: lerpDouble(a.toRadius, b.toRadius, t)!,
         color: lerpColor(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
       );
@@ -414,7 +407,8 @@ class PieChartStackSegmentData with EquatableMixin {
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
-        radius,
+        fromRadius,
+        toRadius,
         color,
         gradient,
       ];

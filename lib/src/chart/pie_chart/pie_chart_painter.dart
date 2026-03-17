@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/line.dart';
-import 'package:fl_chart/src/chart/pie_chart/pie_chart_data.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -130,9 +129,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           canvasWrapper
             ..drawCircle(
               center,
-              centerRadius +
-                  section.totalRadius -
-                  (section.borderSide.width / 2),
+              centerRadius + section.radius - (section.borderSide.width / 2),
               _sectionStrokePaint,
             )
 
@@ -146,7 +143,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         return;
       }
 
-      if (section.value == 0 || section.totalRadius == 0) continue;
+      if (section.value == 0 || section.radius == 0) continue;
 
       final sectionPath = generateSectionPath(
         section,
@@ -177,8 +174,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
   }
 
-  /// Draws all segments of a section. To support old pie chart logic the
-  /// section radius, color, and gradient will be wrapped in a [PieChartStackSegmentData]
+  /// Draws the main section background first, then renders stacked segments
+  /// on top, similar to how [BarChartRodStackItem] works in bar charts.
+  ///
+  /// The main section spans the full [PieChartSectionData.radius].
+  /// Each segment's [PieChartStackSegmentData.fromRadius] and
+  /// [PieChartStackSegmentData.toRadius] are clamped to [0, section.radius]
+  /// and rendered as overlays.
   void drawSegments(
     CanvasWrapper canvasWrapper,
     PieChartSectionData section,
@@ -187,35 +189,38 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     double startAngle,
     Offset center,
   ) {
-    final nonZeroSegments = [
-      if (section.radius > 0) section.asSegment,
-      ...section.segments.where((s) => s.radius > 0),
-    ];
+    if (section.radius <= 0) return;
 
-    if (nonZeroSegments.isEmpty) {
-      return;
-    }
+    final mainPath = generateSegmentPath(
+      center,
+      startRadius,
+      section.radius,
+      startAngle,
+      sweepAngle,
+    );
+    _sectionPaint
+      ..setColorOrGradient(
+        section.color,
+        section.gradient,
+        mainPath.getBounds(),
+      )
+      ..style = PaintingStyle.fill;
+    canvasWrapper.drawPath(mainPath, _sectionPaint);
 
-    var currentSegmentRadius = startRadius;
-
-    for (var i = 0; i < nonZeroSegments.length; i++) {
-      final seg = nonZeroSegments[i];
+    for (final seg in section.segments) {
+      final clampedFrom = seg.fromRadius.clamp(0.0, section.radius);
+      final clampedTo = seg.toRadius.clamp(0.0, section.radius);
+      final segRadius = clampedTo - clampedFrom;
+      if (segRadius <= 0) continue;
 
       final segPath = generateSegmentPath(
         center,
-        currentSegmentRadius,
-        seg.radius,
+        startRadius + clampedFrom,
+        segRadius,
         startAngle,
         sweepAngle,
       );
       drawSegment(seg, segPath, canvasWrapper);
-
-      currentSegmentRadius += seg.radius;
-      if (i == 0 && nonZeroSegments.length > 1 && section.segments.isNotEmpty) {
-        currentSegmentRadius += section.segmentsSpace;
-      } else if (i > 0 && i < nonZeroSegments.length - 1) {
-        currentSegmentRadius += section.segmentsSpace;
-      }
     }
   }
 
@@ -289,7 +294,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   ) {
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
-      radius: centerRadius + section.totalRadius,
+      radius: centerRadius + section.radius,
     );
 
     final centerRadiusRect = Rect.fromCircle(
@@ -305,14 +310,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         Offset(math.cos(startRadians), math.sin(startRadians));
 
     final startLineFrom = center + startLineDirection * centerRadius;
-    final startLineTo =
-        startLineFrom + startLineDirection * section.totalRadius;
+    final startLineTo = startLineFrom + startLineDirection * section.radius;
     final startLine = Line(startLineFrom, startLineTo);
 
     final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
 
     final endLineFrom = center + endLineDirection * centerRadius;
-    final endLineTo = endLineFrom + endLineDirection * section.totalRadius;
+    final endLineTo = endLineFrom + endLineDirection * section.radius;
     final endLine = Line(endLineFrom, endLineTo);
 
     Path sectionPath;
@@ -718,9 +722,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           center +
           Offset(
             math.cos(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.totalRadius * percentageOffset)),
+                (centerRadius + (section.radius * percentageOffset)),
             math.sin(Utils().radians(sectionCenterAngle)) *
-                (centerRadius + (section.totalRadius * percentageOffset)),
+                (centerRadius + (section.radius * percentageOffset)),
           );
 
       final sectionCenterOffsetTitle =
@@ -762,7 +766,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     if (data.sections.isEmpty) {
       return 0;
     }
-    final maxRadius = data.sections.map((s) => s.totalRadius).reduce(math.max);
+    final maxRadius = data.sections.map((s) => s.radius).reduce(math.max);
     return (viewSize.shortestSide - (maxRadius * 2)) / 2;
   }
 
@@ -805,7 +809,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
               math.pow(localPosition.dy - center.dy, 2),
         );
         if (distance >= centerRadius &&
-            distance <= section.totalRadius + centerRadius) {
+            distance <= section.radius + centerRadius) {
           foundSectionData = section;
           foundSectionDataPosition = i;
         }

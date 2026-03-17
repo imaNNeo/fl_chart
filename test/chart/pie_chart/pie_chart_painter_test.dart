@@ -844,22 +844,34 @@ void main() {
 
       pieChartPainter
         ..drawSegment(
-          data.sections[0].asSegment,
+          PieChartStackSegmentData(
+            toRadius: data.sections[0].radius,
+            color: data.sections[0].color,
+          ),
           MockData.path1,
           mockCanvasWrapper,
         )
         ..drawSegment(
-          data.sections[1].asSegment,
+          PieChartStackSegmentData(
+            toRadius: data.sections[1].radius,
+            color: data.sections[1].color,
+          ),
           MockData.path2,
           mockCanvasWrapper,
         )
         ..drawSegment(
-          data.sections[2].asSegment,
+          PieChartStackSegmentData(
+            toRadius: data.sections[2].radius,
+            color: data.sections[2].color,
+          ),
           MockData.path3,
           mockCanvasWrapper,
         )
         ..drawSegment(
-          data.sections[3].asSegment,
+          PieChartStackSegmentData(
+            toRadius: data.sections[3].radius,
+            color: data.sections[3].color,
+          ),
           MockData.path4,
           mockCanvasWrapper,
         );
