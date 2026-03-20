@@ -12,28 +12,6 @@ void main() {
       expect(
         pieChartData1 ==
             pieChartData1Clone.copyWith(
-              borderData: FlBorderData(
-                show: false,
-                border: Border.all(),
-              ),
-            ),
-        true,
-      );
-
-      expect(
-        pieChartData1 ==
-            pieChartData1Clone.copyWith(
-              borderData: FlBorderData(
-                show: true,
-                border: Border.all(),
-              ),
-            ),
-        false,
-      );
-
-      expect(
-        pieChartData1 ==
-            pieChartData1Clone.copyWith(
               startDegreeOffset: 33,
             ),
         false,
@@ -42,10 +20,6 @@ void main() {
       expect(
         pieChartData1 ==
             PieChartData(
-              borderData: FlBorderData(
-                show: false,
-                border: Border.all(),
-              ),
               startDegreeOffset: 0,
               centerSpaceColor: Colors.white,
               centerSpaceRadius: 12,

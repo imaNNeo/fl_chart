@@ -29,7 +29,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? sectionsSpace,
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
-    FlBorderData? borderData,
     bool? titleSunbeamLayout,
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
@@ -39,7 +38,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData = pieTouchData ?? PieTouchData(),
         titleSunbeamLayout = titleSunbeamLayout ?? false,
         super(
-          borderData: borderData ?? FlBorderData(show: false),
+          borderData: FlBorderData(show: false),
         );
 
   /// Defines showing sections of the [PieChart].
@@ -80,7 +79,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? sectionsSpace,
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
-    FlBorderData? borderData,
     bool? titleSunbeamLayout,
   }) =>
       PieChartData(
@@ -90,7 +88,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
         sectionsSpace: sectionsSpace ?? this.sectionsSpace,
         startDegreeOffset: startDegreeOffset ?? this.startDegreeOffset,
         pieTouchData: pieTouchData ?? this.pieTouchData,
-        borderData: borderData ?? this.borderData,
         titleSunbeamLayout: titleSunbeamLayout ?? this.titleSunbeamLayout,
       );
 
@@ -99,7 +96,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
   PieChartData lerp(BaseChartData a, BaseChartData b, double t) {
     if (a is PieChartData && b is PieChartData) {
       return PieChartData(
-        borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         centerSpaceColor: Color.lerp(a.centerSpaceColor, b.centerSpaceColor, t),
         centerSpaceRadius: lerpDoubleAllowInfinity(
           a.centerSpaceRadius,
@@ -127,7 +123,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData,
         sectionsSpace,
         startDegreeOffset,
-        borderData,
         titleSunbeamLayout,
       ];
 }
