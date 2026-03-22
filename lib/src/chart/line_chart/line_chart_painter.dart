@@ -281,6 +281,18 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         barData,
       );
       drawBarShadow(canvasWrapper, barPath, barData);
+      if (barData.strokeColor != null && barData.strokeWidth > 0) {
+        final borderPaint = Paint()
+          ..color = barData.strokeColor!
+          ..strokeWidth = barData.barWidth + (barData.strokeWidth * 2)
+          ..style = PaintingStyle.stroke
+          ..strokeCap =
+              barData.isStrokeCapRound ? StrokeCap.round : StrokeCap.butt
+          ..strokeJoin =
+              barData.isStrokeJoinRound ? StrokeJoin.round : StrokeJoin.miter;
+
+        canvasWrapper.canvas.drawPath(barPath, borderPaint);
+      }
       drawBar(canvasWrapper, barPath, barData, holder);
     }
   }
