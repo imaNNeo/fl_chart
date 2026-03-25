@@ -241,10 +241,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       radius: centerRadius,
     );
 
-    final sweepRadians = Utils().radians(sectionDegree);
+    // final sweepRadians = Utils().radians(sectionDegree);
+    // final startRadians = clockWise
+    //     ? Utils().radians(tempAngle)
+    //     : Utils().radians(tempAngle - sectionDegree);
+    final radius = centerRadius + section.radius;
+    final spaceRadians = sectionSpace / radius;
+    final sweepRadians = Utils().radians(sectionDegree) - spaceRadians;
     final startRadians = clockWise
-        ? Utils().radians(tempAngle)
-        : Utils().radians(tempAngle - sectionDegree);
+        ? Utils().radians(tempAngle) + (spaceRadians / 2)
+        : Utils().radians(tempAngle - sectionDegree) + (spaceRadians / 2);
     final endRadians = startRadians + sweepRadians;
 
     final startLineDirection =
@@ -299,35 +305,35 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     //   ..close();
 
     /// Subtract section space from the sectionPath
-    if (sectionSpace != 0) {
-      final startLineSeparatorPath = createRectPathAroundLine(
-        Line(startLineFrom, startLineTo),
-        sectionSpace,
-      );
-      try {
-        sectionPath = Path.combine(
-          PathOperation.difference,
-          sectionPath,
-          startLineSeparatorPath,
-        );
-      } catch (_) {
-        /// It's a flutter engine issue with [Path.combine] in web-html renderer
-        /// https://github.com/imaNNeo/fl_chart/issues/955
-      }
+    // if (sectionSpace != 0) {
+    //   final startLineSeparatorPath = createRectPathAroundLine(
+    //     Line(startLineFrom, startLineTo),
+    //     sectionSpace,
+    //   );
+    //   try {
+    //     sectionPath = Path.combine(
+    //       PathOperation.difference,
+    //       sectionPath,
+    //       startLineSeparatorPath,
+    //     );
+    //   } catch (_) {
+    //     /// It's a flutter engine issue with [Path.combine] in web-html renderer
+    //     /// https://github.com/imaNNeo/fl_chart/issues/955
+    //   }
 
-      final endLineSeparatorPath =
-          createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
-      try {
-        sectionPath = Path.combine(
-          PathOperation.difference,
-          sectionPath,
-          endLineSeparatorPath,
-        );
-      } catch (_) {
-        /// It's a flutter engine issue with [Path.combine] in web-html renderer
-        /// https://github.com/imaNNeo/fl_chart/issues/955
-      }
-    }
+    //   final endLineSeparatorPath =
+    //       createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
+    //   try {
+    //     sectionPath = Path.combine(
+    //       PathOperation.difference,
+    //       sectionPath,
+    //       endLineSeparatorPath,
+    //     );
+    //   } catch (_) {
+    //     /// It's a flutter engine issue with [Path.combine] in web-html renderer
+    //     /// https://github.com/imaNNeo/fl_chart/issues/955
+    //   }
+    // }
 
     return sectionPath;
   }
