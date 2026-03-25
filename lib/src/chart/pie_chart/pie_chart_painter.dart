@@ -269,7 +269,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     // const cornerRadius = 4.0;
     Path sectionPath;
-    if (section.cornerRadius == null) {
+    if (section.cornerRadius == 0) {
       sectionPath = Path()
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..lineTo(startLine.to.dx, startLine.to.dy)
@@ -283,12 +283,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..arcToPoint(
           Offset(startLine.to.dx, startLine.to.dy),
-          radius: Radius.circular(section.cornerRadius ?? 0),
+          radius: Radius.circular(section.cornerRadius),
         )
         ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
         ..arcToPoint(
           Offset(endLine.from.dx, endLine.from.dy),
-          radius: Radius.circular(section.cornerRadius ?? 0),
+          radius: Radius.circular(section.cornerRadius),
         )
         ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
 

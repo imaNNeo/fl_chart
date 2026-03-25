@@ -619,6 +619,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final generatedPath = barChartPainter.generateSectionPath(
+        true,
         section,
         0,
         tempAngle,
@@ -661,6 +662,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final pathWithoutSpace = barChartPainter.generateSectionPath(
+        true,
         section,
         0,
         tempAngle,
@@ -670,6 +672,7 @@ void main() {
       );
 
       final pathWithSpace = barChartPainter.generateSectionPath(
+        true,
         section,
         10,
         tempAngle,
