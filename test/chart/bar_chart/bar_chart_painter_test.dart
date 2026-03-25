@@ -2486,6 +2486,326 @@ void main() {
       final drawOffset = result2.captured[1] as Offset;
       expect(drawOffset, const Offset(-2420, -6926));
     });
+
+    test('shifts tooltip up when upward rod has a visible label', () {
+      final mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenReturn(BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
+      Utils.changeInstance(mockUtils);
+
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+              label: const BarChartRodLabel(
+                text: 'Label',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final tooltipData = BarTouchTooltipData(
+        tooltipBorderRadius: BorderRadius.circular(8),
+        getTooltipColor: (group) => const Color(0xf33f33f3),
+        maxContentWidth: 80,
+        rotateAngle: 0,
+        tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
+        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+          return BarTooltipItem('tooltip', textStyle1);
+        },
+      );
+
+      final (minY, maxY) = BarChartHelper().calculateMaxAxisValues(barGroups);
+
+      final data = BarChartData(
+        groupsSpace: 10,
+        barGroups: barGroups,
+        barTouchData: BarTouchData(touchTooltipData: tooltipData),
+        alignment: BarChartAlignment.center,
+        minY: minY,
+        maxY: maxY,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((inv) {
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
+        callback();
+      });
+
+      // Draw tooltip WITHOUT label first (to get baseline position)
+      final barGroupsNoLabel = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+            ),
+          ],
+        ),
+      ];
+      final dataNoLabel = BarChartData(
+        groupsSpace: 10,
+        barGroups: barGroupsNoLabel,
+        barTouchData: BarTouchData(touchTooltipData: tooltipData),
+        alignment: BarChartAlignment.center,
+        minY: minY,
+        maxY: maxY,
+      );
+      final holderNoLabel = PaintHolder<BarChartData>(
+        dataNoLabel,
+        dataNoLabel,
+        TextScaler.noScaling,
+      );
+      final groupsXNoLabel = dataNoLabel.calculateGroupsX(viewSize.width);
+      final barGroupsPositionNoLabel =
+          barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsXNoLabel,
+        barGroupsNoLabel,
+      );
+
+      barChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPositionNoLabel,
+        tooltipData,
+        barGroupsNoLabel[0],
+        0,
+        barGroupsNoLabel[0].barRods[0],
+        0,
+        holderNoLabel,
+      );
+      final resultNoLabel =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
+      final rrectNoLabel = resultNoLabel.captured[0] as RRect;
+
+      // Now draw tooltip WITH label
+      barChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        tooltipData,
+        barGroups[0],
+        0,
+        barGroups[0].barRods[0],
+        0,
+        holder,
+      );
+      final resultWithLabel =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
+      final rrectWithLabel = resultWithLabel.captured[0] as RRect;
+
+      // With a visible label, the tooltip should be shifted further up
+      expect(
+        rrectWithLabel.top,
+        lessThan(rrectNoLabel.top),
+        reason: 'Tooltip should be shifted up to avoid overlapping with label',
+      );
+    });
+
+    test('shifts tooltip down when downward rod has a visible label', () {
+      final mockUtils = MockUtils();
+      when(mockUtils.getThemeAwareTextStyle(any, any)).thenReturn(textStyle1);
+      when(mockUtils.getEfficientInterval(any, any)).thenReturn(11);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenReturn(BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenReturn(BorderSide.none);
+      when(mockUtils.calculateRotationOffset(any, any)).thenReturn(Offset.zero);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any)).thenReturn(0);
+      Utils.changeInstance(mockUtils);
+
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: 10,
+              toY: 0,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+              label: const BarChartRodLabel(
+                text: 'Label',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final tooltipData = BarTouchTooltipData(
+        tooltipBorderRadius: BorderRadius.circular(8),
+        getTooltipColor: (group) => const Color(0xf33f33f3),
+        maxContentWidth: 80,
+        rotateAngle: 0,
+        direction: TooltipDirection.bottom,
+        tooltipBorder: const BorderSide(color: Color(0xf33f33f3), width: 2),
+        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+          return BarTooltipItem('tooltip', textStyle1);
+        },
+      );
+
+      final data = BarChartData(
+        groupsSpace: 10,
+        barGroups: barGroups,
+        barTouchData: BarTouchData(touchTooltipData: tooltipData),
+        alignment: BarChartAlignment.center,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      when(
+        mockCanvasWrapper.drawRotated(
+          size: anyNamed('size'),
+          rotationOffset: anyNamed('rotationOffset'),
+          drawOffset: anyNamed('drawOffset'),
+          angle: anyNamed('angle'),
+          drawCallback: anyNamed('drawCallback'),
+        ),
+      ).thenAnswer((inv) {
+        final callback =
+            inv.namedArguments[const Symbol('drawCallback')] as DrawCallback;
+        callback();
+      });
+
+      // Draw tooltip WITHOUT label first (to get baseline position)
+      final barGroupsNoLabel = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: 10,
+              toY: 0,
+              width: 10,
+              color: const Color(0x00000000),
+              borderRadius: const BorderRadius.all(Radius.circular(0.1)),
+            ),
+          ],
+        ),
+      ];
+      final dataNoLabel = BarChartData(
+        groupsSpace: 10,
+        barGroups: barGroupsNoLabel,
+        barTouchData: BarTouchData(touchTooltipData: tooltipData),
+        alignment: BarChartAlignment.center,
+        minY: 0,
+        maxY: 10,
+      );
+      final holderNoLabel = PaintHolder<BarChartData>(
+        dataNoLabel,
+        dataNoLabel,
+        TextScaler.noScaling,
+      );
+      final groupsXNoLabel = dataNoLabel.calculateGroupsX(viewSize.width);
+      final barGroupsPositionNoLabel =
+          barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsXNoLabel,
+        barGroupsNoLabel,
+      );
+
+      barChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPositionNoLabel,
+        tooltipData,
+        barGroupsNoLabel[0],
+        0,
+        barGroupsNoLabel[0].barRods[0],
+        0,
+        holderNoLabel,
+      );
+      final resultNoLabel =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
+      final rrectNoLabel = resultNoLabel.captured[0] as RRect;
+
+      // Now draw tooltip WITH label
+      barChartPainter.drawTouchTooltip(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        tooltipData,
+        barGroups[0],
+        0,
+        barGroups[0].barRods[0],
+        0,
+        holder,
+      );
+      final resultWithLabel =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(2);
+      final rrectWithLabel = resultWithLabel.captured[0] as RRect;
+
+      // With a visible label on a downward bar, tooltip should be shifted further down
+      expect(
+        rrectWithLabel.top,
+        greaterThan(rrectNoLabel.top),
+        reason:
+            'Tooltip should be shifted down to avoid overlapping with label',
+      );
+    });
   });
 
   group('drawStackItemBorderStroke()', () {
@@ -3545,6 +3865,408 @@ void main() {
           holder.data.extraLinesData.horizontalLines[0].dashArray,
         ),
       ).called(2);
+    });
+  });
+
+  group('drawBarLabels()', () {
+    late MockUtils mockUtils;
+    final utilsMainInstance = Utils();
+
+    setUp(() {
+      mockUtils = MockUtils();
+      Utils.changeInstance(mockUtils);
+      when(mockUtils.getThemeAwareTextStyle(any, any))
+          .thenAnswer((realInvocation) => textStyle1);
+      when(mockUtils.calculateRotationOffset(any, any))
+          .thenAnswer((realInvocation) => Offset.zero);
+      when(mockUtils.convertRadiusToSigma(any))
+          .thenAnswer((realInvocation) => 4.0);
+      when(mockUtils.getEfficientInterval(any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.getBestInitialIntervalValue(any, any, any))
+          .thenAnswer((realInvocation) => 1.0);
+      when(mockUtils.normalizeBorderRadius(any, any))
+          .thenAnswer((realInvocation) => BorderRadius.zero);
+      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
+        (realInvocation) => const BorderSide(color: MockData.color0),
+      );
+    });
+
+    tearDown(() {
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('should render label above upward bar', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              label: const BarChartRodLabel(
+                text: 'Top',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 1, reason: 'Should have drawn 1 label');
+    });
+
+    test('should render label below downward bar', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              fromY: 10,
+              toY: 0,
+              width: 20,
+              label: const BarChartRodLabel(
+                text: 'Bottom',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 1, reason: 'Should have drawn 1 label');
+    });
+
+    test('should not render label when show is false', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              label: const BarChartRodLabel(
+                show: false,
+                text: 'Hidden',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        paragraphs.add({});
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 0, reason: 'Should not draw any label');
+    });
+
+    test('should not render label when text is empty', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        paragraphs.add({});
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(
+        paragraphs.length,
+        0,
+        reason: 'Should not draw label for empty text',
+      );
+    });
+
+    test('should use getLabel callback when provided', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+              label: const BarChartRodLabel(
+                text: 'Custom 10',
+              ),
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+      when(mockCanvasWrapper.save()).thenReturn(null);
+      when(mockCanvasWrapper.restore()).thenReturn(null);
+      when(mockCanvasWrapper.translate(any, any)).thenReturn(null);
+      when(mockCanvasWrapper.rotate(any)).thenReturn(null);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        final paragraph = inv.positionalArguments[0];
+        final offset = inv.positionalArguments[1] as Offset;
+        paragraphs.add({
+          'paragraph': paragraph,
+          'offset': offset,
+        });
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(paragraphs.length, 1, reason: 'Should draw callback label');
+    });
+
+    test('should not render when label has default show:false', () {
+      const viewSize = Size(200, 100);
+
+      final barGroups = [
+        BarChartGroupData(
+          x: 0,
+          barRods: [
+            BarChartRodData(
+              toY: 10,
+              width: 20,
+            ),
+          ],
+        ),
+      ];
+
+      final data = BarChartData(
+        titlesData: const FlTitlesData(show: false),
+        barGroups: barGroups,
+        minY: 0,
+        maxY: 10,
+      );
+
+      final barChartPainter = BarChartPainter();
+      final holder =
+          PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
+
+      final mockCanvas = MockCanvas();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
+
+      final paragraphs = <Map<String, dynamic>>[];
+      when(mockCanvas.drawParagraph(captureAny, captureAny)).thenAnswer((inv) {
+        paragraphs.add({});
+      });
+
+      final groupsX = data.calculateGroupsX(viewSize.width);
+      final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
+        viewSize,
+        groupsX,
+        barGroups,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      barChartPainter.drawBarLabels(
+        mockBuildContext,
+        mockCanvasWrapper,
+        barGroupsPosition,
+        holder,
+      );
+
+      expect(
+        paragraphs.length,
+        0,
+        reason: 'Should not draw label when show is false',
+      );
     });
   });
 

@@ -1,7 +1,11 @@
-## newVersion
+## 1.2.0
 * **BUGFIX** (by @imaNNeo) Consider the `enabled` property in [LineTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/line_chart.md#linetouchdata-read-about-touch-handling), [BarTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#bartouchdata-read-about-touch-handling), [PieTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#pietouchdata-read-about-touch-handling), [ScatterTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/scatter_chart.md#scattertouchdata-read-about-touch-handling), [RadarTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/radar_chart.md#radartouchdata-read-about-touch-handling) and [CandlestickTouchData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/candlestick_chart.md#candlesticktouchdata-read-about-touch-handling), #1676
 * **BUGFIX** (by @artshooter) Fix wrong bar chart color with small value, #1757
 * **FEATURE** (by @3ph) Add `horizontalMirrored` and `verticalMirrored` properties in our `LabelDirection` enum which is used in ([HorizontalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#HorizontalLineLabel) and [VerticalLineLabel](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#VerticalLineLabel)), #1890
+* **FEATURE** (by @Vizten18) Add `cornerRadius` property in the [PieChartSectionData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/pie_chart.md#piechartsectiondata), #1175
+* **IMPROVEMENT** (by @imaNNeo) Add convention and linter (checker) for PRs title and updated contributing guideline. We're gonna have automated changelog generation from the next release
+* **BUGFIX** (by @diymelvin) Fix inverted lowerBy/upperBy in error range calculation, #2031
+* **FEATURE** (by @imaNNeo) Add `label` property in the [BarChartRodData](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/bar_chart.md#barchartroddata) to allow you to show a label on top of each bar rod, #2071, #84
 
 ## 1.1.1
 * **IMPROVEMENT** (by @imaNNeo) Upgrade `vector_math` dependency to `2.2.0`, #1985

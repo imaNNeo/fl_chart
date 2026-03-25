@@ -226,8 +226,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       var top = 0.0;
       var bottom = 0.0;
       if (spot.yError != null) {
-        top = getPixelY(spot.y + spot.yError!.lowerBy, viewSize, holder) - y;
-        bottom = getPixelY(spot.y - spot.yError!.upperBy, viewSize, holder) - y;
+        top = getPixelY(spot.y + spot.yError!.upperBy, viewSize, holder) - y;
+        bottom = getPixelY(spot.y - spot.yError!.lowerBy, viewSize, holder) - y;
       }
       final relativeErrorPixelsRect = Rect.fromLTRB(
         left,

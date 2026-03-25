@@ -13,7 +13,7 @@ void main() {
 
   testWidgets(
     'Test the effect of minIncluded and maxIncluded in sideTitles',
-    (WidgetTester tester) async {
+    (tester) async {
       // Minimum/maximum included
       final mima = [
         [true, true],
@@ -80,7 +80,7 @@ void main() {
   );
 
   testWidgets('LineChart with only left titles overlayed on chart area',
-      (WidgetTester tester) async {
+      (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -96,7 +96,7 @@ void main() {
                       axisNameWidget: const Text('Left Titles'),
                       sideTitles: SideTitles(
                         showTitles: true,
-                        getTitlesWidget: (double value, TitleMeta meta) {
+                        getTitlesWidget: (value, meta) {
                           return Text('L-${value.toInt()}');
                         },
                         interval: 1,
@@ -128,7 +128,7 @@ void main() {
   });
 
   testWidgets('LineChart with only left titles overlayed on chart border',
-      (WidgetTester tester) async {
+      (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -144,7 +144,7 @@ void main() {
                       axisNameWidget: const Text('Left Titles'),
                       sideTitles: SideTitles(
                         showTitles: true,
-                        getTitlesWidget: (double value, TitleMeta meta) {
+                        getTitlesWidget: (value, meta) {
                           return Text('L-${value.toInt()}');
                         },
                         interval: 1,

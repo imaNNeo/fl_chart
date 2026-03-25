@@ -170,16 +170,19 @@ class PieChartSectionData with EquatableMixin {
     this.titleStyle,
     String? title,
     BorderSide? borderSide,
+    double? cornerRadius,
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     this.cornerRadius,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
-        radius = radius ?? 40,
+        radius = (radius ?? 40).clamp(0, double.infinity).toDouble(),
         showTitle = showTitle ?? true,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
+        cornerRadius =
+            (cornerRadius ?? 0.0).clamp(0, double.infinity).toDouble(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
         badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
@@ -211,6 +214,9 @@ class PieChartSectionData with EquatableMixin {
 
   /// Defines border stroke around the section
   final BorderSide borderSide;
+
+  /// Defines corner radius for rounded edges (applies to all corners)
+  final double cornerRadius;
 
   /// Defines a widget that represents the section.
   ///
@@ -246,6 +252,7 @@ class PieChartSectionData with EquatableMixin {
     TextStyle? titleStyle,
     String? title,
     BorderSide? borderSide,
+    double? cornerRadius,
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
@@ -260,6 +267,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle: titleStyle ?? this.titleStyle,
         title: title ?? this.title,
         borderSide: borderSide ?? this.borderSide,
+        cornerRadius: cornerRadius ?? this.cornerRadius,
         badgeWidget: badgeWidget ?? this.badgeWidget,
         titlePositionPercentageOffset:
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
@@ -283,6 +291,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
         title: b.title,
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
+        cornerRadius: lerpDouble(a.cornerRadius, b.cornerRadius, t),
         badgeWidget: b.badgeWidget,
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,
@@ -308,6 +317,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle,
         title,
         borderSide,
+        cornerRadius,
         badgeWidget,
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,

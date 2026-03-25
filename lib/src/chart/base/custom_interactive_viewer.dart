@@ -1005,7 +1005,7 @@ class _CustomInteractiveViewerState extends State<CustomInteractiveViewer>
       assert(widget.builder != null);
       assert(!widget.constrained);
       child = LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
+        builder: (context, constraints) {
           final matrix = _transformationController!.value;
           return _CustomInteractiveViewerBuilt(
             childKey: _childKey,

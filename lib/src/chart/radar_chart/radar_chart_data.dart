@@ -62,7 +62,7 @@ class RadarChartData extends BaseChartData with EquatableMixin {
   ///
   /// You can modify [radarTouchData] to customize touch behaviors and responses.
   RadarChartData({
-    @required List<RadarDataSet>? dataSets,
+    required List<RadarDataSet>? dataSets,
     Color? radarBackgroundColor,
     BorderSide? radarBorderData,
     RadarShape? radarShape,

@@ -18,7 +18,7 @@ Your financial support acts as fuel for fl_chart's development. [Support here](h
 		<tr>
 				<td>
 					<a href="https://github.com/sponsors/imaNNeo">
-						<img src="https://github.com/imaNNeo/fl_chart_landing/blob/main/static/img/sponsors/intero-the-sniffers.png?raw=true">
+						<img src="https://github.com/imaNNeo/fl_chart_landing/raw/main/static/img/sponsors/intero-the-sniffers.png">
 					</a>
 				</td>
 				<td>
