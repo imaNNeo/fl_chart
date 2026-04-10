@@ -147,10 +147,12 @@ class MockData {
     aboveBarData: barAreaData1,
     belowBarData: barAreaData2,
     barWidth: 12,
-    curveSmoothness: 12,
+    curve: const LineChartCubicTensionCurve(
+      smoothness: 12,
+      preventCurveOvershootingThreshold: 1.2,
+    ),
     dotData: flDotData1,
     isStrokeCapRound: true,
-    preventCurveOvershootingThreshold: 1.2,
     showingIndicators: [0, 1],
   );
 
@@ -171,10 +173,12 @@ class MockData {
     aboveBarData: barAreaData1,
     belowBarData: barAreaData2,
     barWidth: 12,
-    curveSmoothness: 12,
+    curve: const LineChartCubicTensionCurve(
+      smoothness: 12,
+      preventCurveOvershootingThreshold: 1.2,
+    ),
     dotData: flDotData1,
     isStrokeCapRound: true,
-    preventCurveOvershootingThreshold: 1.2,
     showingIndicators: [0, 4],
   );
 
@@ -829,10 +833,12 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
   errorIndicatorData: const FlErrorIndicatorData(
     show: false,
@@ -854,10 +860,12 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
   aboveBarData: barAreaData1Clone,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1Clone,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
   errorIndicatorData: const FlErrorIndicatorData(
     show: false,
@@ -881,10 +889,12 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 4],
 );
 
@@ -905,10 +915,12 @@ final LineChartBarData lineChartBarData3 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
 );
 
@@ -929,10 +941,12 @@ final LineChartBarData lineChartBarData4 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
 );
 
@@ -951,10 +965,12 @@ final LineChartBarData lineChartBarData5 = LineChartBarData(
   aboveBarData: barAreaData2,
   belowBarData: barAreaData1,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
 );
 
@@ -973,10 +989,12 @@ final LineChartBarData lineChartBarData6 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
 );
 
@@ -995,10 +1013,12 @@ final LineChartBarData lineChartBarData7 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
 );
 
@@ -1017,10 +1037,12 @@ final LineChartBarData lineChartBarData8 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12.01,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12.01,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
 );
 
@@ -1039,11 +1061,13 @@ final LineChartBarData lineChartBarData9 = LineChartBarData(
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
   barWidth: 12,
-  curveSmoothness: 12,
+  curve: const LineChartCubicTensionCurve(
+    smoothness: 12,
+    preventCurveOverShooting: true,
+    preventCurveOvershootingThreshold: 1.2,
+  ),
   dotData: flDotData1,
   isStrokeCapRound: true,
-  preventCurveOverShooting: true,
-  preventCurveOvershootingThreshold: 1.2,
   showingIndicators: [0, 1],
 );
 

@@ -47,10 +47,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)|null|
 |gradientArea| determines the area where the gradient is applied |null|
 |barWidth| gets the stroke width of the line bar|2.0|
-|isCurved| curves the corners of the line on the spot's positions| false|
-|curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
-|preventCurveOverShooting|prevent overshooting when draw curve line on linear sequence spots, check this [issue](https://github.com/imaNNeo/fl_chart/issues/25)| false|
-|preventCurveOvershootingThreshold|threshold for applying prevent overshooting algorithm | 10.0|
+|curve| determines the curve style for drawing segments between spots (use [LineChartCurve](#LineChartCurve) types)| LineChartCurve.noCurve (straight lines)|
 |isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
 |isStrokeJoinRound| determines whether stroke joins have a round shape or a sharp edge | false|
 |belowBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
@@ -62,6 +59,21 @@ When you change the chart's state, it animates to the new state internally (usin
 |isStepLineChart|If sets true, it draws the chart in Step Line Chart style, using `lineChartStepData`.|false|
 |lineChartStepData|Holds data for representing a Step Line Chart, and works only if [isStepChart] is true.|[LineChartStepData](#LineChartStepData)()|
 |errorIndicatorData|Holds data for representing an error indicator (you see the error indicators if you provide the `xError` or `yError` in the [FlSpot](base_chart.md#FlSpot)).|[ErrorIndicatorData()](base_chart.md#FlErrorIndicatorData)|
+
+### LineChartCurve
+#### LineChartCubicTensionCurve
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|smoothness| smoothness radius of the curve corners | 0.35|
+|preventCurveOverShooting|prevent overshooting when draw curve line on linear sequence spots, check this [issue](https://github.com/imaNNeo/fl_chart/issues/25)| false|
+|preventCurveOvershootingThreshold|threshold for applying prevent overshooting algorithm | 10.0|
+
+#### LineChartCubicMonotoneCurve
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|smooth| determines smoothness of the curve (0.0 = straight, 1.0 = roundest) | 0.5|
+|monotone| monotonicity constraint (none, x, or y) to prevent overshooting along the specified axis | SmoothMonotone.none|
+|tinyThresholdSquared| squared distance threshold to draw straight line when points are too close (avoids jitter) | 0.5|
 
 ### LineChartStepData
 |PropName|Description|default value|

@@ -82,7 +82,7 @@ class LineChartSample9 extends StatelessWidget {
                   LineChartBarData(
                     color: AppColors.contentColorPink,
                     spots: spots,
-                    isCurved: true,
+                    curve: const LineChartCubicTensionCurve(),
                     isStrokeCapRound: true,
                     barWidth: 3,
                     belowBarData: BarAreaData(

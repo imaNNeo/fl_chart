@@ -283,7 +283,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                     spots: widget.yValues.asMap().entries.map((e) {
                       return FlSpot(e.key.toDouble(), e.value);
                     }).toList(),
-                    isCurved: false,
+                    curve: LineChartCurve.noCurve,
                     barWidth: 4,
                     color: widget.lineColor,
                     belowBarData: BarAreaData(

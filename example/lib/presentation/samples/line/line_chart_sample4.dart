@@ -93,7 +93,7 @@ class LineChartSample4 extends StatelessWidget {
                   FlSpot(10, 6),
                   FlSpot(11, 7),
                 ],
-                isCurved: true,
+                curve: const LineChartCubicTensionCurve(),
                 barWidth: 8,
                 color: mainLineColor,
                 belowBarData: BarAreaData(
