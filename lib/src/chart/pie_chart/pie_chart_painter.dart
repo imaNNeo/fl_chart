@@ -27,8 +27,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     _sectionStrokePaint = Paint()..style = PaintingStyle.stroke;
 
     _centerSpacePaint = Paint()..style = PaintingStyle.fill;
-
-    _clipPaint = Paint();
   }
   static const double _kRadiusSafetyMargin = 0.499;
 
@@ -36,7 +34,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   late Paint _sectionSaveLayerPaint;
   late Paint _sectionStrokePaint;
   late Paint _centerSpacePaint;
-  late Paint _clipPaint;
 
   /// Paints [PieChartData] into the provided canvas.
   @override
@@ -130,7 +127,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           radius: centerRadius + section.radius,
         );
         canvasWrapper
-          ..saveLayer(bounds, _sectionSaveLayerPaint)
+          ..saveLayer(bounds, _sectionSaveLayerPaint..color = Colors.black)
           ..drawCircle(
             center,
             centerRadius + section.radius,
@@ -147,26 +144,31 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
             section.borderSide.color.a != 0.0) {
           _sectionStrokePaint
             ..strokeWidth = section.borderSide.width
-            ..color = section.borderSide.color;
-          // Outer
-          canvasWrapper
-            ..drawCircle(
-              center,
-              centerRadius + section.radius - (section.borderSide.width / 2),
-              _sectionStrokePaint,
-            )
+            ..color = section.borderSide.color
+            ..style = PaintingStyle.stroke;
 
-            // Inner
-            ..drawCircle(
-              center,
-              centerRadius + (section.borderSide.width / 2),
-              _sectionStrokePaint,
-            );
+          // Draw outer ring stroke
+          final outerRadius =
+              centerRadius + section.radius - (section.borderSide.width / 2);
+          final outerPath = Path();
+          final outerRect =
+              Rect.fromCircle(center: center, radius: outerRadius);
+          outerPath.addOval(outerRect);
+          canvasWrapper.drawPath(outerPath, _sectionStrokePaint);
+
+          // Draw inner ring stroke
+          final innerRadius = centerRadius + (section.borderSide.width / 2);
+          final innerPath = Path();
+          final innerRect =
+              Rect.fromCircle(center: center, radius: innerRadius);
+          innerPath.addOval(innerRect);
+          canvasWrapper.drawPath(innerPath, _sectionStrokePaint);
         }
         return;
       }
 
       final sectionPath = generateSectionPath(
+        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
@@ -176,14 +178,53 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       );
 
       drawSection(section, sectionPath, canvasWrapper);
-      drawSectionStroke(section, sectionPath, canvasWrapper, viewSize);
-      tempAngle += sectionDegree;
+
+      // Draw radial lines with strokeCap for rounded corners
+      if (section.borderSide.width != 0.0 &&
+          section.borderSide.color.a != 0.0) {
+        _sectionStrokePaint
+          ..strokeWidth = section.borderSide.width
+          ..color = section.borderSide.color
+          ..style = PaintingStyle.stroke;
+
+        // Calculate radial lines (the sides of the section)
+        final sweepRadians = Utils().radians(sectionDegree);
+        final startRadians = data.clockWise
+            ? Utils().radians(tempAngle)
+            : Utils().radians(tempAngle - sectionDegree);
+        final endRadians = startRadians + sweepRadians;
+
+        final startLineDirection =
+            Offset(math.cos(startRadians), math.sin(startRadians));
+        final startLineFrom = center + startLineDirection * centerRadius;
+        final startLineTo = startLineFrom + startLineDirection * section.radius;
+
+        final endLineDirection =
+            Offset(math.cos(endRadians), math.sin(endRadians));
+        final endLineFrom = center + endLineDirection * centerRadius;
+        final endLineTo = endLineFrom + endLineDirection * section.radius;
+
+        // Draw only radial lines with rounded caps
+        final radialLinesPath = Path()
+          ..moveTo(startLineFrom.dx, startLineFrom.dy)
+          ..lineTo(startLineTo.dx, startLineTo.dy)
+          ..moveTo(endLineFrom.dx, endLineFrom.dy)
+          ..lineTo(endLineTo.dx, endLineTo.dy);
+
+        canvasWrapper.drawPath(radialLinesPath, _sectionStrokePaint);
+      }
+      if (data.clockWise) {
+        tempAngle += sectionDegree;
+      } else {
+        tempAngle -= sectionDegree;
+      }
     }
   }
 
   /// Generates a path around a section
   @visibleForTesting
   Path generateSectionPath(
+    bool clockWise,
     PieChartSectionData section,
     double sectionSpace,
     double tempAngle,
@@ -201,8 +242,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       radius: centerRadius,
     );
 
-    final startRadians = Utils().radians(tempAngle);
-    final sweepRadians = Utils().radians(sectionDegree);
+    // final sweepRadians = Utils().radians(sectionDegree);
+    // final startRadians = clockWise
+    //     ? Utils().radians(tempAngle)
+    //     : Utils().radians(tempAngle - sectionDegree);
+    final radius = centerRadius + section.radius;
+    final spaceRadians = sectionSpace / radius;
+    final sweepRadians = Utils().radians(sectionDegree) - spaceRadians;
+    final startRadians = clockWise
+        ? Utils().radians(tempAngle) + (spaceRadians / 2)
+        : Utils().radians(tempAngle - sectionDegree) + (spaceRadians / 2);
     final endRadians = startRadians + sweepRadians;
 
     final startLineDirection =
@@ -218,19 +267,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final endLineTo = endLineFrom + endLineDirection * section.radius;
     final endLine = Line(endLineFrom, endLineTo);
 
+    // const cornerRadius = 4.0;
     Path sectionPath;
-
-    if (section.cornerRadius > 0) {
-      sectionPath = generateRoundedSectionPath(
-        section,
-        startRadians,
-        sweepRadians,
-        center,
-        centerRadius,
-        sectionRadiusRect,
-        centerRadiusRect,
-      );
-    } else {
+    if (section.cornerRadius == 0) {
       sectionPath = Path()
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..lineTo(startLine.to.dx, startLine.to.dy)
@@ -239,38 +278,63 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
         ..moveTo(startLine.from.dx, startLine.from.dy)
         ..close();
+    } else {
+      sectionPath = Path()
+        ..moveTo(startLine.from.dx, startLine.from.dy)
+        ..arcToPoint(
+          Offset(startLine.to.dx, startLine.to.dy),
+          radius: Radius.circular(section.cornerRadius),
+        )
+        ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+        ..arcToPoint(
+          Offset(endLine.from.dx, endLine.from.dy),
+          radius: Radius.circular(section.cornerRadius),
+        )
+        ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+
+        // cerrar
+        ..close();
     }
 
-    /// Apply section-space separators as parallel radial cuts.
-    if (sectionSpace != 0) {
-      final startLineSeparatorPath = createRectPathAroundLine(
-        Line(startLineFrom, startLineTo),
-        sectionSpace,
-      );
-      try {
-        sectionPath = Path.combine(
-          PathOperation.difference,
-          sectionPath,
-          startLineSeparatorPath,
-        );
-      } catch (_) {
-        /// It's a flutter engine issue with [Path.combine] in web-html renderer
-        /// https://github.com/imaNNeo/fl_chart/issues/955
-      }
+    // var sectionPath = Path()
+    //   ..moveTo(startLine.from.dx, startLine.from.dy)
+    //   ..lineTo(startLine.to.dx, startLine.to.dy)
+    //   ..arcTo(sectionRadiusRect, startRadians, sweepRadians, false)
+    //   ..lineTo(endLine.from.dx, endLine.from.dy)
+    //   ..arcTo(centerRadiusRect, endRadians, -sweepRadians, false)
+    //   ..moveTo(startLine.from.dx, startLine.from.dy)
+    //   ..close();
 
-      final endLineSeparatorPath =
-          createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
-      try {
-        sectionPath = Path.combine(
-          PathOperation.difference,
-          sectionPath,
-          endLineSeparatorPath,
-        );
-      } catch (_) {
-        /// It's a flutter engine issue with [Path.combine] in web-html renderer
-        /// https://github.com/imaNNeo/fl_chart/issues/955
-      }
-    }
+    /// Subtract section space from the sectionPath
+    // if (sectionSpace != 0) {
+    //   final startLineSeparatorPath = createRectPathAroundLine(
+    //     Line(startLineFrom, startLineTo),
+    //     sectionSpace,
+    //   );
+    //   try {
+    //     sectionPath = Path.combine(
+    //       PathOperation.difference,
+    //       sectionPath,
+    //       startLineSeparatorPath,
+    //     );
+    //   } catch (_) {
+    //     /// It's a flutter engine issue with [Path.combine] in web-html renderer
+    //     /// https://github.com/imaNNeo/fl_chart/issues/955
+    //   }
+
+    //   final endLineSeparatorPath =
+    //       createRectPathAroundLine(Line(endLineFrom, endLineTo), sectionSpace);
+    //   try {
+    //     sectionPath = Path.combine(
+    //       PathOperation.difference,
+    //       sectionPath,
+    //       endLineSeparatorPath,
+    //     );
+    //   } catch (_) {
+    //     /// It's a flutter engine issue with [Path.combine] in web-html renderer
+    //     /// https://github.com/imaNNeo/fl_chart/issues/955
+    //   }
+    // }
 
     return sectionPath;
   }
@@ -568,34 +632,51 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         section.gradient,
         sectionPath.getBounds(),
       )
-      ..style = PaintingStyle.fill;
+      ..style = PaintingStyle.fill
+      ..strokeCap = StrokeCap.round;
     canvasWrapper.drawPath(sectionPath, _sectionPaint);
   }
 
   @visibleForTesting
   void drawSectionStroke(
+    bool clockWise,
     PieChartSectionData section,
-    Path sectionPath,
+    double tempAngle,
+    double sectionDegree,
+    Offset center,
+    double centerRadius,
     CanvasWrapper canvasWrapper,
     Size viewSize,
   ) {
     if (section.borderSide.width != 0.0 && section.borderSide.color.a != 0.0) {
-      canvasWrapper
-        ..saveLayer(
-          Rect.fromLTWH(0, 0, viewSize.width, viewSize.height),
-          _clipPaint,
-        )
-        ..clipPath(sectionPath);
-
       _sectionStrokePaint
         ..strokeWidth = section.borderSide.width * 2
         ..color = section.borderSide.color;
-      canvasWrapper
-        ..drawPath(
-          sectionPath,
-          _sectionStrokePaint,
-        )
-        ..restore();
+
+      // Calculate radial lines (the sides of the section)
+      final startRadians = Utils().radians(tempAngle);
+      final sweepRadians = Utils().radians(sectionDegree);
+      final endRadians =
+          clockWise ? startRadians + sweepRadians : startRadians - sweepRadians;
+
+      final startLineDirection =
+          Offset(math.cos(startRadians), math.sin(startRadians));
+      final startLineFrom = center + startLineDirection * centerRadius;
+      final startLineTo = startLineFrom + startLineDirection * section.radius;
+
+      final endLineDirection =
+          Offset(math.cos(endRadians), math.sin(endRadians));
+      final endLineFrom = center + endLineDirection * centerRadius;
+      final endLineTo = endLineFrom + endLineDirection * section.radius;
+
+      // Draw only the radial lines with strokeCap
+      final radialLinesPath = Path()
+        ..moveTo(startLineFrom.dx, startLineFrom.dy)
+        ..lineTo(startLineTo.dx, startLineTo.dy)
+        ..moveTo(endLineFrom.dx, endLineFrom.dy)
+        ..lineTo(endLineTo.dx, endLineTo.dy);
+
+      canvasWrapper.drawPath(radialLinesPath, _sectionStrokePaint);
     }
   }
 
@@ -622,7 +703,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
       final startAngle = tempAngle;
       final sweepAngle = 360 * (section.value / data.sumValue);
-      final sectionCenterAngle = startAngle + (sweepAngle / 2);
+      final baseAngle = startAngle + (sweepAngle / 2);
+      final sectionCenterAngle = data.clockWise ? baseAngle : 360 - baseAngle;
 
       double? rotateAngle;
       if (data.titleSunbeamLayout) {
@@ -707,6 +789,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final touchR = math.sqrt(math.pow(touchX, 2) + math.pow(touchY, 2));
     var touchAngle = Utils().degrees(math.atan2(touchY, touchX));
     touchAngle = touchAngle < 0 ? (180 - touchAngle.abs()) + 180 : touchAngle;
+    if (!data.clockWise) {
+      touchAngle = (360 - touchAngle) % 360;
+    }
 
     PieChartSectionData? foundSectionData;
     var foundSectionDataPosition = -1;
@@ -730,6 +815,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
+        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
@@ -744,7 +830,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         break;
       }
 
-      tempAngle += sectionAngle;
+      if (data.clockWise) {
+        tempAngle += sectionAngle;
+      } else {
+        tempAngle -= sectionAngle;
+      }
     }
 
     return PieTouchedSection(
@@ -792,7 +882,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       badgeWidgetsOffsets[i] = sectionCenterOffsetBadgeWidget;
 
-      tempAngle += sweepAngle;
+      if (data.clockWise) {
+        tempAngle += sweepAngle;
+      } else {
+        tempAngle -= sweepAngle;
+      }
     }
 
     return badgeWidgetsOffsets;

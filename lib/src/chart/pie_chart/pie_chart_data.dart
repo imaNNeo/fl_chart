@@ -31,6 +31,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    this.clockWise = true,
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
@@ -66,6 +67,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// Whether to rotate the titles on each section of the chart
   final bool titleSunbeamLayout;
 
+  /// Defines sweep order
+  final bool clockWise;
+
   /// We hold this value to determine weight of each [PieChartSectionData.value].
   double get sumValue => sections
       .map((data) => data.value)
@@ -82,6 +86,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    bool? clockWise,
   }) =>
       PieChartData(
         sections: sections ?? this.sections,
@@ -92,6 +97,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData: pieTouchData ?? this.pieTouchData,
         borderData: borderData ?? this.borderData,
         titleSunbeamLayout: titleSunbeamLayout ?? this.titleSunbeamLayout,
+        clockWise: clockWise ?? this.clockWise,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -112,6 +118,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
             lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
         sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
         titleSunbeamLayout: b.titleSunbeamLayout,
+        clockWise: a.clockWise,
       );
     } else {
       throw Exception('Illegal State');
@@ -129,6 +136,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         startDegreeOffset,
         borderData,
         titleSunbeamLayout,
+        clockWise,
       ];
 }
 
@@ -277,7 +285,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
         title: b.title,
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
-        cornerRadius: lerpDouble(a.cornerRadius, b.cornerRadius, t),
+        cornerRadius: lerpDouble(a.cornerRadius, b.cornerRadius, t) ?? 0,
         badgeWidget: b.badgeWidget,
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,

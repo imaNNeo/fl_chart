@@ -7,6 +7,7 @@ import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -290,6 +291,7 @@ void main() {
       expect(results.length, 4);
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         10,
         0,
@@ -308,6 +310,7 @@ void main() {
       expect(results[0]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         10,
         36,
@@ -326,6 +329,7 @@ void main() {
       expect(results[1]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         10,
         108,
@@ -344,6 +348,7 @@ void main() {
       expect(results[2]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         10,
         216,
@@ -378,6 +383,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         10,
         0,
@@ -393,6 +399,7 @@ void main() {
       expect(path0Length, 90.08028411865234);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         10,
         36,
@@ -408,6 +415,7 @@ void main() {
       expect(path1Length, 136.93048095703125);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         10,
         108,
@@ -423,6 +431,7 @@ void main() {
       expect(path2Length, closeTo(174.6013, tolerance));
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         10,
         216,
@@ -452,6 +461,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         0,
         0,
@@ -467,6 +477,7 @@ void main() {
       expect(path0Length, 117.56398010253906);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         0,
         36,
@@ -482,6 +493,7 @@ void main() {
       expect(path1Length, 155.1278076171875);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         0,
         108,
@@ -497,6 +509,7 @@ void main() {
       expect(path2Length, closeTo(192.8401, tolerance));
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         0,
         216,
@@ -526,6 +539,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         0,
         0,
@@ -541,6 +555,7 @@ void main() {
       expect(path0Length, 108.80243682861328);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         0,
         36,
@@ -556,6 +571,7 @@ void main() {
       expect(path1Length, 140.05465698242188);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         0,
         108,
@@ -571,6 +587,7 @@ void main() {
       expect(path2Length, 173.86875915527344);
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         0,
         216,
@@ -602,6 +619,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final generatedPath = barChartPainter.generateSectionPath(
+        true,
         section,
         0,
         tempAngle,
@@ -644,6 +662,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final pathWithoutSpace = barChartPainter.generateSectionPath(
+        true,
         section,
         0,
         tempAngle,
@@ -653,6 +672,7 @@ void main() {
       );
 
       final pathWithSpace = barChartPainter.generateSectionPath(
+        true,
         section,
         10,
         tempAngle,
@@ -922,28 +942,47 @@ void main() {
         });
       });
 
+      final center = Offset(viewSize.width / 2, viewSize.height / 2);
+      const centerRadius = 50.0;
+
       barChartPainter
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[0],
-          MockData.path1,
+          0,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[1],
-          MockData.path2,
+          90,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[2],
-          MockData.path3,
+          180,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[3],
-          MockData.path4,
+          270,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         );
@@ -1007,28 +1046,47 @@ void main() {
         });
       });
 
+      final center = Offset(viewSize.width / 2, viewSize.height / 2);
+      const centerRadius = 50.0;
+
       barChartPainter
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[0],
-          MockData.path1,
+          0,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[1],
-          MockData.path2,
+          90,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[2],
-          MockData.path3,
+          180,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[3],
-          MockData.path4,
+          270,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         );
@@ -1498,6 +1556,87 @@ void main() {
           3: const Offset(124.72135954999578, 23.91547869638771),
         },
       );
+    });
+  });
+
+  group('cornerRadius test', () {
+    test('PieChartSectionData with different cornerRadius values', () {
+      final sectionSmallRadius = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        borderSide: const BorderSide(width: 2),
+        cornerRadius: 0,
+      );
+      expect(sectionSmallRadius.cornerRadius, 0);
+
+      final sectionMediumRadius = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        borderSide: const BorderSide(width: 2),
+        cornerRadius: 6,
+      );
+      expect(sectionMediumRadius.cornerRadius, 6);
+
+      final sectionLargeRadius = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        borderSide: const BorderSide(width: 2),
+        cornerRadius: 12,
+      );
+      expect(sectionLargeRadius.cornerRadius, 12);
+
+      /// copyWith preserves value
+      final copiedSection = sectionMediumRadius.copyWith(
+        value: 15,
+      );
+      expect(copiedSection.cornerRadius, 6);
+      expect(copiedSection.value, 15);
+
+      /// copyWith allows changing radius
+      final changedRadiusSection = sectionMediumRadius.copyWith(
+        cornerRadius: 20,
+      );
+      expect(changedRadiusSection.cornerRadius, 20);
+
+      /// lerp takes end value
+      final lerped = PieChartSectionData.lerp(
+        sectionSmallRadius,
+        sectionLargeRadius,
+        0.5,
+      );
+      expect(lerped.cornerRadius, 12);
+    });
+
+    test('PieChartData with sections having different cornerRadius', () {
+      final data = PieChartData(
+        sections: [
+          PieChartSectionData(
+            value: 10,
+            color: Colors.red,
+            cornerRadius: 4,
+          ),
+          PieChartSectionData(
+            value: 20,
+            color: Colors.green,
+            cornerRadius: 8,
+          ),
+          PieChartSectionData(
+            value: 30,
+            color: Colors.blue,
+            cornerRadius: 12,
+          ),
+        ],
+      );
+
+      expect(data.sections[0].cornerRadius, 4);
+      expect(data.sections[1].cornerRadius, 8);
+      expect(data.sections[2].cornerRadius, 12);
+
+      /// copy preserves
+      final copiedData = data.copyWith();
+      expect(copiedData.sections[0].cornerRadius, 4);
+      expect(copiedData.sections[1].cornerRadius, 8);
+      expect(copiedData.sections[2].cornerRadius, 12);
     });
   });
 }

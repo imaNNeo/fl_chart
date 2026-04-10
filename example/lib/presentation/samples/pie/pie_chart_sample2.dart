@@ -46,6 +46,7 @@ class PieChart2State extends State {
                   ),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
+                  clockWise: false,
                   sections: showingSections(),
                 ),
               ),

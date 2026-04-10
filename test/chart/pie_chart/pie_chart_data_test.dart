@@ -164,5 +164,61 @@ void main() {
       );
       expect(sample1 == zeroLongPressDuration, false);
     });
+
+    test('PieChartSectionData strokeCap test', () {
+      final sectionWithDefaultStrokeCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+      );
+      expect(sectionWithDefaultStrokeCap.cornerRadius, 4);
+
+      final sectionWithRoundStrokeCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        cornerRadius: 4,
+      );
+      expect(sectionWithRoundStrokeCap.cornerRadius, 4);
+
+      final sectionWithSquareStrokeCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        cornerRadius: 4,
+      );
+      expect(sectionWithSquareStrokeCap.cornerRadius, 4);
+
+      // Test copyWith preserves strokeCap
+      final copiedSection = sectionWithRoundStrokeCap.copyWith(
+        color: Colors.blue,
+      );
+      expect(copiedSection.cornerRadius, 4);
+      expect(copiedSection.color, Colors.blue);
+
+      // Test copyWith can change strokeCap
+      final copiedWithNewStrokeCap = sectionWithRoundStrokeCap.copyWith(
+        cornerRadius: 4,
+      );
+      expect(copiedWithNewStrokeCap.cornerRadius, 4);
+
+      // Test equality with different strokeCap
+      expect(
+        sectionWithDefaultStrokeCap == sectionWithDefaultStrokeCap.copyWith(),
+        true,
+      );
+
+      expect(
+        sectionWithRoundStrokeCap ==
+            sectionWithDefaultStrokeCap.copyWith(cornerRadius: 4),
+        true, // Same properties
+      );
+
+      // Create sections with same properties but different strokeCap
+      final sectionA =
+          PieChartSectionData(value: 10, color: Colors.red, cornerRadius: 7);
+
+      final sectionB =
+          PieChartSectionData(value: 10, color: Colors.red, cornerRadius: 10);
+
+      expect(sectionA == sectionB, false);
+    });
   });
 }
