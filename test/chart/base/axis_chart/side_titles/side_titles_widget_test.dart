@@ -229,6 +229,38 @@ void main() {
     );
   }
 
+  LineChartData createLineChartDataWithLargeBottomReservedSize({
+    required int rotationQuarterTurns,
+  }) {
+    return lineChartDataBase.copyWith(
+      rotationQuarterTurns: rotationQuarterTurns,
+      titlesData: FlTitlesData(
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitlesWidget: (value, meta) {
+              return Text('L-${value.toInt()}');
+            },
+          ),
+        ),
+        topTitles: const AxisTitles(),
+        rightTitles: const AxisTitles(),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 190,
+            interval: 1,
+            getTitlesWidget: (value, meta) {
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
   testWidgets(
     'LineChart with no titles',
     (tester) async {
@@ -434,6 +466,53 @@ void main() {
       expect(find.byIcon(Icons.arrow_right), findsOneWidget);
       expect(find.byType(Text), findsOneWidget);
       expect(find.byType(TextButton), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'LineChart left titles remain visible with large cross-axis reserved size (unrotated and rotated)',
+    (tester) async {
+      Future<void> pumpChart({
+        required Size parentSize,
+        required int rotationQuarterTurns,
+      }) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: parentSize.width,
+                  height: parentSize.height,
+                  child: SideTitlesWidget(
+                    side: AxisSide.left,
+                    axisChartData:
+                        createLineChartDataWithLargeBottomReservedSize(
+                      rotationQuarterTurns: rotationQuarterTurns,
+                    ),
+                    parentSize: parentSize,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      await pumpChart(
+        parentSize: const Size(180, 400),
+        rotationQuarterTurns: 0,
+      );
+      for (var i = 0; i <= 10; i++) {
+        expect(find.text('L-$i'), findsOneWidget);
+      }
+
+      await pumpChart(
+        parentSize: const Size(400, 180),
+        rotationQuarterTurns: 1,
+      );
+      for (var i = 0; i <= 10; i++) {
+        expect(find.text('L-$i'), findsOneWidget);
+      }
     },
   );
 }
