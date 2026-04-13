@@ -110,9 +110,17 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionDegree = sectionsAngle[i];
 
       if (sectionDegree == 360) {
+        final fullCirclePath = generateSegmentPath(
+          center,
+          centerRadius,
+          section.radius,
+          0,
+          sectionDegree,
+        );
         drawSegments(
           canvasWrapper,
           section,
+          fullCirclePath,
           sectionDegree,
           centerRadius,
           0,
@@ -161,6 +169,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       drawSegments(
         canvasWrapper,
         section,
+        sectionPath,
         sectionDegree,
         centerRadius,
         tempAngle,
@@ -177,27 +186,23 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// Draws the main section background first, then renders stacked segments
   /// on top, similar to how [BarChartRodStackItem] works in bar charts.
   ///
-  /// The main section spans the full [PieChartSectionData.radius].
+  /// [mainPath] is the path for the full section fill, to avoid recalculating
+  /// the same geometry. The [PieChartStackSegmentData] overlays must still be
+  /// generated here since they use different radii.
+  ///
   /// Each segment's [PieChartStackSegmentData.fromRadius] and
   /// [PieChartStackSegmentData.toRadius] are clamped to [0, section.radius]
   /// and rendered as overlays.
+  @visibleForTesting
   void drawSegments(
     CanvasWrapper canvasWrapper,
     PieChartSectionData section,
+    Path mainPath,
     double sweepAngle,
     double startRadius,
     double startAngle,
     Offset center,
   ) {
-    if (section.radius <= 0) return;
-
-    final mainPath = generateSegmentPath(
-      center,
-      startRadius,
-      section.radius,
-      startAngle,
-      sweepAngle,
-    );
     _sectionPaint
       ..setColorOrGradient(
         section.color,
