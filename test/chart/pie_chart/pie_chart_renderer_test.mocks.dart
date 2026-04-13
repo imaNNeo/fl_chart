@@ -1435,6 +1435,7 @@ class MockPieChartPainter extends _i1.Mock implements _i11.PieChartPainter {
   void drawSegments(
     _i12.CanvasWrapper? canvasWrapper,
     _i7.PieChartSectionData? section,
+    _i2.Path? mainPath,
     double? sweepAngle,
     double? startRadius,
     double? startAngle,
@@ -1446,6 +1447,7 @@ class MockPieChartPainter extends _i1.Mock implements _i11.PieChartPainter {
           [
             canvasWrapper,
             section,
+            mainPath,
             sweepAngle,
             startRadius,
             startAngle,
