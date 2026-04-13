@@ -45,6 +45,16 @@ When you change the chart's state, it animates to the new state internally (usin
 |badgeWidget| badge component of the section| null|
 |titlePositionPercentageOffset|the place of the title in the section, this field should be between 0 and 1|0.5|
 |badgePositionPercentageOffset|the place of the badge component in the section, this field should be between 0 and 1|0.5|
+|segments| list of [PieChartStackSegmentData](#PieChartStackSegmentData) rendered on top of the section fill, similar to bar chart rod stacks. Each segment's `fromRadius`/`toRadius` are clamped to `[0, radius]` at render time|[]|
+
+
+### PieChartStackSegmentData
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|fromRadius| start of the segment, measured as a distance from the section's inner edge, clamped to `[0, sectionRadius]` at render time|0|
+|toRadius| end of the segment, clamped to `[0, sectionRadius]` at render time|required|
+|color| fill color of the segment|Colors.purple|
+|gradient| gradient fill, overrides `color` when set|null|
 
 
 ### PieTouchData ([read about touch handling](handle_touches.md))
