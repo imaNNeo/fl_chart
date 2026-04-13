@@ -127,8 +127,8 @@ class FlTapDownEvent extends FlTouchEvent {
 /// The position at which the pointer contacted the screen is available in the
 /// [details].
 /// Inspired from [GestureTapDownCallback]
-class FlTapDownSecondaryEvent extends FlTouchEvent {
-  const FlTapDownSecondaryEvent(this.details);
+class FlSecondaryTapDownEvent extends FlTouchEvent {
+  const FlSecondaryTapDownEvent(this.details);
 
   /// Contains information of happened touch gesture
   final TapDownDetails details;
@@ -144,10 +144,10 @@ class FlTapCancelEvent extends FlTouchEvent {
   const FlTapCancelEvent();
 }
 
-/// When the pointer that previously triggered a [FlTapDownSecondaryEvent] will not end up causing a tap.
+/// When the pointer that previously triggered a [FlSecondaryTapDownEvent] will not end up causing a tap.
 /// Inspired from [GestureTapCancelCallback]
-class FlTapCancelSecondaryEvent extends FlTouchEvent {
-  const FlTapCancelSecondaryEvent();
+class FlSecondaryTapCancelEvent extends FlTouchEvent {
+  const FlSecondaryTapCancelEvent();
 }
 
 /// When a pointer that will trigger a tap has stopped contacting
@@ -173,8 +173,8 @@ class FlTapUpEvent extends FlTouchEvent {
 /// The position at which the pointer stopped contacting the screen is available
 /// in the [details].
 /// Inspired from [GestureTapUpCallback]
-class FlTapUpSecondaryEvent extends FlTouchEvent {
-  const FlTapUpSecondaryEvent(this.details);
+class FlSecondaryTapUpEvent extends FlTouchEvent {
+  const FlSecondaryTapUpEvent(this.details);
 
   /// Contains information of happened touch gesture
   final TapUpDetails details;
@@ -207,8 +207,8 @@ class FlLongPressStart extends FlTouchEvent {
 /// Details are available in the [details].
 ///
 /// Inspired from [GestureLongPressStartCallback]
-class FlLongPressSecondaryStart extends FlTouchEvent {
-  const FlLongPressSecondaryStart(this.details);
+class FlSecondaryLongPressStart extends FlTouchEvent {
+  const FlSecondaryLongPressStart(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressStartDetails details;
@@ -243,8 +243,8 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
 /// Details are available in the [details]
 ///
 /// Inspired from [GestureLongPressMoveUpdateCallback]
-class FlLongPressMoveSecondaryUpdate extends FlTouchEvent {
-  const FlLongPressMoveSecondaryUpdate(this.details);
+class FlSecondaryLongPressMoveUpdate extends FlTouchEvent {
+  const FlSecondaryLongPressMoveUpdate(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressMoveUpdateDetails details;
@@ -279,8 +279,8 @@ class FlLongPressEnd extends FlTouchEvent {
 /// Details are available in the [details]
 ///
 /// Inspired from [GestureLongPressEndCallback]
-class FlLongPressSecondaryEnd extends FlTouchEvent {
-  const FlLongPressSecondaryEnd(this.details);
+class FlSecondaryLongPressEnd extends FlTouchEvent {
+  const FlSecondaryLongPressEnd(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressEndDetails details;
