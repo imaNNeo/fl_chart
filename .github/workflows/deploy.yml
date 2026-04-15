@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+  push:
+    branches:
+      - improvement/fastlane-deployment  # TEMP: remove after testing
 
 jobs:
   deploy-ios:
