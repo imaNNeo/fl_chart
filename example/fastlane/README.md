@@ -33,6 +33,27 @@ Deploy to App Store
 
 ----
 
+
+## Mac
+
+### mac sync_certificates
+
+```sh
+[bundle exec] fastlane mac sync_certificates
+```
+
+Sync certificates and provisioning profiles for macOS
+
+### mac deploy
+
+```sh
+[bundle exec] fastlane mac deploy
+```
+
+Deploy to Mac App Store
+
+----
+
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
 
 More information about _fastlane_ can be found on [fastlane.tools](https://fastlane.tools).

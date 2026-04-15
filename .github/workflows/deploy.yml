@@ -99,3 +99,47 @@ jobs:
           releaseFiles: example/build/app/outputs/bundle/release/app-release.aab
           track: internal
           status: draft
+
+  deploy-macos:
+    name: Build and Deploy macOS
+    runs-on: macos-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: example
+
+      - run: flutter pub get
+
+      - name: Install CocoaPods
+        run: cd macos && pod install
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Mac App Store
+        run: bundle exec fastlane mac deploy
+        env:
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+          ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
+          FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
+          MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_KEY_ISSUER_ID: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
+          APPSTORE_KEY_CONTENT: ${{ secrets.APPSTORE_KEY_CONTENT }}
