@@ -82,7 +82,11 @@ platform :mac do
       key_content: ENV["APPSTORE_KEY_CONTENT"],
     )
 
-    match(type: "appstore", platform: "macos")
+    match(
+      type: "appstore",
+      platform: "macos",
+      additional_cert_types: ["mac_installer_distribution"],
+    )
   end
 
   desc "Deploy to Mac App Store"
@@ -114,6 +118,7 @@ platform :mac do
     match(
       type: "appstore",
       platform: "macos",
+      additional_cert_types: ["mac_installer_distribution"],
       readonly: is_ci,
       keychain_name: keychain_name,
       keychain_password: keychain_password,
