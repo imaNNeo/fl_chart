@@ -32,6 +32,9 @@ jobs:
 
       - run: flutter pub get
 
+      - name: Install CocoaPods
+        run: cd ios && pod install
+
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}

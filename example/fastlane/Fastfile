@@ -46,6 +46,15 @@ platform :ios do
       keychain_password: keychain_password,
     )
 
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "ios/Runner.xcodeproj",
+      team_id: ENV["TEAM_ID"],
+      bundle_identifier: "dev.flchart.app",
+      profile_name: "match AppStore dev.flchart.app",
+      code_sign_identity: "Apple Distribution",
+    )
+
     build_app(
       workspace: "ios/Runner.xcworkspace",
       scheme: "Runner",
