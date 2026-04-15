@@ -32,22 +32,9 @@ jobs:
 
       - run: flutter pub get
 
-      - name: Setup SSH keys for fastlane match
-        run: |
-          SSH_PATH="$HOME/.ssh"
-          mkdir -p "$SSH_PATH"
-          touch "$SSH_PATH/known_hosts"
-
-          echo "$PRIVATE_KEY" > "$SSH_PATH/id_rsa"
-
-          chmod 700 "$SSH_PATH"
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          chmod 600 "$SSH_PATH/known_hosts"
-          chmod 600 "$SSH_PATH/id_rsa"
-          eval $(ssh-agent)
-          ssh-add "$SSH_PATH/id_rsa"
-        env:
-          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to App Store
         run: bundle exec fastlane ios deploy
