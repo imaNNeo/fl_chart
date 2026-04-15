@@ -1,0 +1,5 @@
+git_url(ENV["MATCH_GIT_URL"])
+storage_mode("git")
+type("appstore")
+app_identifier(["dev.flchart.app"])
+username(ENV["FASTLANE_USER"])
