@@ -52,3 +52,46 @@ jobs:
           APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
           APPSTORE_KEY_ISSUER_ID: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
           APPSTORE_KEY_CONTENT: ${{ secrets.APPSTORE_KEY_CONTENT }}
+
+  deploy-android:
+    name: Build and Deploy Android
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+
+      - name: Decode keystore
+        run: echo "${{ secrets.KEY_STORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
+
+      - name: Create key.properties
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_STORE_PASSWORD }}
+          keyAlias=${{ secrets.KEY_STORE_ALIAS }}
+          storeFile=keystore.jks
+          EOF
+
+      - name: Build App Bundle
+        run: flutter build appbundle --release
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: example/build/app/outputs/bundle/release/app-release.aab
