@@ -79,13 +79,14 @@ jobs:
         run: echo "${{ secrets.KEY_STORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
 
       - name: Create key.properties
+        env:
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_STORE_ALIAS: ${{ secrets.KEY_STORE_ALIAS }}
         run: |
-          cat > android/key.properties << EOF
-          storePassword=${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword=${{ secrets.KEY_STORE_PASSWORD }}
-          keyAlias=${{ secrets.KEY_STORE_ALIAS }}
-          storeFile=keystore.jks
-          EOF
+          printf 'storePassword=%s\n' "$KEY_STORE_PASSWORD" > android/key.properties
+          printf 'keyPassword=%s\n' "$KEY_STORE_PASSWORD" >> android/key.properties
+          printf 'keyAlias=%s\n' "$KEY_STORE_ALIAS" >> android/key.properties
+          printf 'storeFile=keystore.jks\n' >> android/key.properties
 
       - name: Build App Bundle
         run: flutter build appbundle --release
