@@ -7,7 +7,6 @@ platform :ios do
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
       key_content: ENV["APPSTORE_KEY_CONTENT"],
-      is_key_content_base64: true,
     )
 
     match(type: "appstore")
@@ -22,7 +21,6 @@ platform :ios do
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
       key_content: ENV["APPSTORE_KEY_CONTENT"],
-      is_key_content_base64: true,
     )
 
     if is_ci
@@ -82,7 +80,6 @@ platform :mac do
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
       key_content: ENV["APPSTORE_KEY_CONTENT"],
-      is_key_content_base64: true,
     )
 
     match(type: "appstore", platform: "macos")
@@ -97,7 +94,6 @@ platform :mac do
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
       key_content: ENV["APPSTORE_KEY_CONTENT"],
-      is_key_content_base64: true,
     )
 
     if is_ci
