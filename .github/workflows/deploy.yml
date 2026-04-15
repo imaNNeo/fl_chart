@@ -91,8 +91,14 @@ jobs:
       - name: Build App Bundle
         run: flutter build appbundle --release
 
-      - name: Upload AAB artifact
-        uses: actions/upload-artifact@v4
+      - name: Decode service account key
+        run: echo "${{ secrets.SERVICE_ACCOUNT_FOR_RELEASE_KEY_BASE64 }}" | base64 --decode > service-account-key.json
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
         with:
-          name: app-release.aab
-          path: example/build/app/outputs/bundle/release/app-release.aab
+          serviceAccountJson: example/service-account-key.json
+          packageName: dev.flchart.app
+          releaseFiles: example/build/app/outputs/bundle/release/app-release.aab
+          track: internal
+          status: draft
