@@ -6,7 +6,8 @@ platform :ios do
     app_store_connect_api_key(
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
-      key_content: ENV["APPSTORE_KEY_CONTENT"],
+      key_content: ENV["APPSTORE_KEY_CONTENT_BASE64"],
+      is_key_content_base64: true,
     )
 
     match(type: "appstore")
@@ -20,7 +21,8 @@ platform :ios do
     app_store_connect_api_key(
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
-      key_content: ENV["APPSTORE_KEY_CONTENT"],
+      key_content: ENV["APPSTORE_KEY_CONTENT_BASE64"],
+      is_key_content_base64: true,
     )
 
     if is_ci
@@ -79,7 +81,8 @@ platform :mac do
     app_store_connect_api_key(
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
-      key_content: ENV["APPSTORE_KEY_CONTENT"],
+      key_content: ENV["APPSTORE_KEY_CONTENT_BASE64"],
+      is_key_content_base64: true,
     )
 
     match(
@@ -97,7 +100,8 @@ platform :mac do
     app_store_connect_api_key(
       key_id: ENV["APPSTORE_KEY_ID"],
       issuer_id: ENV["APPSTORE_KEY_ISSUER_ID"],
-      key_content: ENV["APPSTORE_KEY_CONTENT"],
+      key_content: ENV["APPSTORE_KEY_CONTENT_BASE64"],
+      is_key_content_base64: true,
     )
 
     if is_ci

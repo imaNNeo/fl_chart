@@ -51,7 +51,7 @@ jobs:
           MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
           APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
           APPSTORE_KEY_ISSUER_ID: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
-          APPSTORE_KEY_CONTENT: ${{ secrets.APPSTORE_KEY_CONTENT }}
+          APPSTORE_KEY_CONTENT_BASE64: ${{ secrets.APPSTORE_KEY_CONTENT_BASE64 }}
 
   deploy-android:
     name: Build and Deploy Android
@@ -145,4 +145,4 @@ jobs:
           MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
           APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
           APPSTORE_KEY_ISSUER_ID: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
-          APPSTORE_KEY_CONTENT: ${{ secrets.APPSTORE_KEY_CONTENT }}
+          APPSTORE_KEY_CONTENT_BASE64: ${{ secrets.APPSTORE_KEY_CONTENT_BASE64 }}
