@@ -174,7 +174,7 @@ jobs:
         uses: microsoft/setup-msstore-cli@v1
 
       - name: Configure Microsoft Store Developer CLI
-        run: msstore reconfigure --tenantId ${{ secrets.AZURE_AD_TENANT_ID }} --clientId ${{ secrets.AZURE_AD_CLIENT_ID }} --clientSecret ${{ secrets.AZURE_AD_CLIENT_SECRET }} --sellerId ${{ secrets.SELLER_ID }}
+        run: msstore reconfigure --tenantId ${{ secrets.MICROSOFT_AZURE_AD_TENANT_ID }} --clientId ${{ secrets.MICROSOFT_AZURE_AD_CLIENT_ID }} --clientSecret ${{ secrets.MICROSOFT_AZURE_AD_CLIENT_SECRET }} --sellerId ${{ secrets.MICROSOFT_SELLER_ID }}
 
       - name: Publish to Microsoft Store
-        run: msstore publish . -v -id 9PF0B361V3HC
+        run: msstore publish . -v -id ${{ secrets.MICROSOFT_STORE_PRODUCT_ID }}
