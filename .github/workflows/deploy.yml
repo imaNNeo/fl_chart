@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+  push:
+    branches:
+      - ci/web-deployment  # TEMP: remove after testing
 
 jobs:
   deploy-ios:
@@ -175,3 +178,39 @@ jobs:
 
       - name: Publish to Microsoft Store
         run: msstore publish . -v -id ${{ secrets.MICROSOFT_STORE_PRODUCT_ID }}
+
+  deploy-web:
+    name: Build and Deploy Web
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Set fl_chart version
+        working-directory: ${{ github.workspace }}
+        run: |
+          VERSION=$(grep "version:" pubspec.yaml | awk '{ print $2 }')
+          echo "USING_FL_CHART_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - run: flutter pub get
+
+      - name: Build web
+        run: flutter build web --release --wasm --base-href=/ --dart-define="USING_FL_CHART_VERSION=${{ env.USING_FL_CHART_VERSION }}"
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git --work-tree build/web add --all
+          git commit -m "Automatic deployment by github-actions"
+          git push origin HEAD:gh-pages --force
