@@ -30,3 +30,5 @@ parts:
     source-subdir: example
     plugin: flutter
     flutter-target: lib/main.dart
+    build-packages:
+      - lld
