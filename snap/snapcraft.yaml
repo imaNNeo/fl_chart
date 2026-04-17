@@ -31,4 +31,12 @@ parts:
     plugin: flutter
     flutter-target: lib/main.dart
     build-packages:
-      - lld
+      - lld-14
+    override-build: |
+      # Flutter's native assets looks for ld.lld in the LLVM directory.
+      # lld-14 installs it elsewhere, so create a symlink.
+      if [ ! -f /usr/lib/llvm-14/bin/ld.lld ]; then
+        ln -sf /usr/bin/ld.lld-14 /usr/lib/llvm-14/bin/ld.lld 2>/dev/null || \
+        ln -sf /usr/bin/ld /usr/lib/llvm-14/bin/ld 2>/dev/null || true
+      fi
+      craftctl default
