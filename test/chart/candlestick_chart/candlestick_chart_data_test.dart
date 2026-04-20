@@ -406,5 +406,110 @@ void main() {
       );
       expect(sample1 == changed, false);
     });
+
+    test('BuyAndSellSignalPainter equality test', () {
+      expect(buyAndSellSignalPainter1 == buyAndSellSignalPainter1, true);
+      expect(buyAndSellSignalPainter1 == buyAndSellSignalPainter2, false);
+    });
+
+    test('BuyAndSellSignalPainter shouldShow logic', () {
+      final buySignalPainter = BuyAndSellSignalPainter(
+        buySignalCondition: (spot, index) => spot.isUp,
+        sellSignalCondition: (spot, index) => false,
+        tradeSignalCondition: (spot, index) => false,
+      );
+      expect(
+        buySignalPainter.shouldShow(candlestickSpot1, 0),
+        candlestickSpot1.isUp,
+      );
+
+      final sellSignalPainter = BuyAndSellSignalPainter(
+        buySignalCondition: (spot, index) => false,
+        sellSignalCondition: (spot, index) => !spot.isUp,
+        tradeSignalCondition: (spot, index) => false,
+      );
+      expect(
+        sellSignalPainter.shouldShow(candlestickSpot1, 0),
+        !candlestickSpot1.isUp,
+      );
+
+      final noConditionPainter = BuyAndSellSignalPainter(
+        buySignalCondition: (spot, index) => false,
+        sellSignalCondition: (spot, index) => false,
+        tradeSignalCondition: (spot, index) => false,
+      );
+      expect(noConditionPainter.shouldShow(candlestickSpot1, 0), false);
+    });
+
+    test('BuyAndSellSignalPainter lerp', () {
+      final targetPainter = buyAndSellSignalPainter2;
+      final result = buyAndSellSignalPainter1.lerp(
+        buyAndSellSignalPainter1,
+        targetPainter,
+        0.5,
+      );
+      expect(result, targetPainter);
+    });
+  });
+
+  group('CandlestickChartData with markers test', () {
+    test('CandlestickChartData with candleMarkerPainter equality', () {
+      final sameMarker = buyAndSellSignalPainter1;
+      final dataWithMarker1 = candleStickChartData1.copyWith(
+        candleMarkerPainter: sameMarker,
+      );
+      final dataWithMarker1Clone = candleStickChartData1.copyWith(
+        candleMarkerPainter: sameMarker,
+      );
+      expect(dataWithMarker1 == dataWithMarker1Clone, true);
+
+      final differentMarker = buyAndSellSignalPainter2;
+      final dataWithMarker2 = candleStickChartData1.copyWith(
+        candleMarkerPainter: differentMarker,
+      );
+      expect(dataWithMarker1 == dataWithMarker2, false);
+    });
+
+    test('CandlestickChartData with touchedPointIndicator equality', () {
+      final indicator1 = AxisSpotIndicator(
+        painter: AxisLinesIndicatorPainter(
+          verticalLineProvider: (x) => VerticalLine(
+            x: x,
+            color: Colors.red,
+            strokeWidth: 1,
+          ),
+          horizontalLineProvider: (y) => HorizontalLine(
+            y: y,
+            color: Colors.red,
+            strokeWidth: 1,
+          ),
+        ),
+      );
+      final indicator2 = AxisSpotIndicator(
+        painter: AxisLinesIndicatorPainter(
+          verticalLineProvider: (x) => VerticalLine(
+            x: x,
+            color: Colors.blue,
+          ),
+          horizontalLineProvider: (y) => HorizontalLine(
+            y: y,
+            color: Colors.blue,
+          ),
+        ),
+      );
+
+      final dataWithIndicator1 = candleStickChartData1.copyWith(
+        touchedPointIndicator: indicator1,
+      );
+      final dataWithIndicator2 = candleStickChartData1.copyWith(
+        touchedPointIndicator: indicator1,
+      );
+      expect(dataWithIndicator1 == dataWithIndicator2, true);
+
+      final dataWithDifferentIndicator = candleStickChartData1.copyWith(
+        touchedPointIndicator: indicator2,
+      );
+      expect(dataWithIndicator1 == dataWithDifferentIndicator, false);
+    });
   });
 }

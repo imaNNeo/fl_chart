@@ -43,6 +43,7 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
     super.paint(context, canvasWrapper, holder);
     drawAxisSpotIndicator(context, canvasWrapper, holder);
     drawCandlesticks(context, canvasWrapper, holder);
+    drawCandleMarkers(context, canvasWrapper, holder);
 
     if (holder.chartVirtualRect != null) {
       canvasWrapper.restore();
@@ -115,6 +116,39 @@ class CandlestickChartPainter extends AxisChartPainter<CandlestickChartData> {
 
     if (data.clipData.any) {
       canvasWrapper.restore();
+    }
+  }
+
+  @visibleForTesting
+  void drawCandleMarkers(
+    BuildContext context,
+    CanvasWrapper canvasWrapper,
+    PaintHolder<CandlestickChartData> holder,
+  ) {
+    final painter = holder.data.candleMarkerPainter;
+    if (painter == null) {
+      return;
+    }
+
+    final data = holder.data;
+    final viewSize = canvasWrapper.size;
+
+    for (var i = 0; i < data.candlestickSpots.length; i++) {
+      final spot = data.candlestickSpots[i];
+
+      if (!spot.show) {
+        continue;
+      }
+
+      if (painter.shouldShow(spot, i)) {
+        painter.paint(
+          canvasWrapper.canvas,
+          spot,
+          i,
+          (x) => getPixelX(x, viewSize, holder),
+          (y) => getPixelY(y, viewSize, holder),
+        );
+      }
     }
   }
 

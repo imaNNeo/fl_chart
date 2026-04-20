@@ -240,6 +240,15 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
                           ),
                         ),
                       ),
+                      candleMarkerPainter: BuyAndSellSignalPainter(
+                        buySignalCondition: (spot, index) {
+                          return spot.isUp && spot.high > 60000;
+                        },
+                        sellSignalCondition: (spot, index) {
+                          return !spot.isUp && spot.low < 40000;
+                        },
+                        tradeSignalCondition: (spot, index) => false,
+                      ),
                     ),
                   ),
                 ),
