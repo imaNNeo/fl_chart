@@ -274,4 +274,47 @@ void main() {
       expect(mid.toRadius, 50);
     });
   });
+
+  group('PieChartSectionData', () {
+    test('equality', () {
+      final a =
+          PieChartSectionData(value: 10, color: Colors.red, sectionOffset: 8);
+      final b =
+          PieChartSectionData(value: 10, color: Colors.red, sectionOffset: 8);
+      expect(a == b, true);
+
+      expect(
+        a ==
+            PieChartSectionData(value: 10, color: Colors.red, sectionOffset: 0),
+        false,
+      );
+    });
+
+    test('copyWith', () {
+      final original = PieChartSectionData(value: 10, color: Colors.red);
+      expect(original.sectionOffset, 0);
+
+      final withOffset = original.copyWith(sectionOffset: 12);
+      expect(withOffset.sectionOffset, 12);
+      expect(withOffset.value, 10);
+
+      expect(original.copyWith() == original, true);
+    });
+
+    test('lerp', () {
+      final a =
+          PieChartSectionData(value: 10, color: Colors.red, sectionOffset: 0);
+      final b =
+          PieChartSectionData(value: 10, color: Colors.red, sectionOffset: 20);
+
+      final atZero = PieChartSectionData.lerp(a, b, 0);
+      expect(atZero.sectionOffset, 0);
+
+      final atOne = PieChartSectionData.lerp(a, b, 1);
+      expect(atOne.sectionOffset, 20);
+
+      final mid = PieChartSectionData.lerp(a, b, 0.5);
+      expect(mid.sectionOffset, 10);
+    });
+  });
 }
