@@ -37,6 +37,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |color| colors the section| Colors.red|
 |gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html) (you have to provide either `color` or `gradient`)|null|
 |radius| the width radius of each section|40|
+|sectionOffset| radial translation (in logical pixels) applied to the whole section, moving it outward along its center angle. Useful for "exploded" pie charts|0|
 |showTitle| determines whether to show or hide the titles on each section|true|
 |titleStyle| TextStyle of the titles| TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)|
 |title| title of the section| value|
