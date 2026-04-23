@@ -29,6 +29,20 @@ void main() {
       expect(barChartRodData1 == barChartRodData8, false);
     });
 
+    test('BarChartRodData copyWith borderDashArray', () {
+      final base = BarChartRodData(toY: 10, borderDashArray: [4, 4]);
+
+      final unchanged = base.copyWith(toY: 20);
+      expect(unchanged.borderDashArray, [4, 4]);
+
+      final changed = base.copyWith(borderDashArray: [2, 8]);
+      expect(changed.borderDashArray, [2, 8]);
+
+      final noArray = BarChartRodData(toY: 10);
+      final withArray = noArray.copyWith(borderDashArray: [6, 2]);
+      expect(withArray.borderDashArray, [6, 2]);
+    });
+
     test('BarChartRodStackItem equality test', () {
       expect(barChartRodStackItem1 == barChartRodStackItem1Clone, true);
       expect(
