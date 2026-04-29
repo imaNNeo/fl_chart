@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=FL Chart
-Comment=Interactive chart samples built with fl_chart
-Exec=fl-chart-app
-Icon=${SNAP}/meta/gui/fl-chart-app.png
-Terminal=false
-Type=Application
-Categories=Development;
