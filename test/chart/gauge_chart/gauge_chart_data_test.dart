@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -662,6 +665,249 @@ void main() {
       expect(a.props.length, 5);
     });
 
+    test('GaugeMarker equality, copyWith, lerp', () {
+      const a = GaugeMarker(
+        value: 0.2,
+        offset: 4,
+      );
+      const b = GaugeMarker(
+        value: 0.8,
+        offset: 12,
+        position: GaugeTickPosition.inner,
+        painter: _DummyMarkerPainter(),
+      );
+      expect(a == a.copyWith(), true);
+      expect(a == a.copyWith(value: 0.5), false);
+      expect(a == a.copyWith(offset: 5), false);
+      expect(
+        a == a.copyWith(position: GaugeTickPosition.inner),
+        false,
+      );
+      expect(
+        a ==
+            a.copyWith(
+              painter: const GaugeMarkerLinePainter(length: 99),
+            ),
+        false,
+      );
+
+      final mid = GaugeMarker.lerp(a, b, 0.5);
+      expect(mid.value, closeTo(0.5, 1e-9));
+      expect(mid.offset, closeTo(8, 1e-9));
+      // Position snaps to b (matches GaugeTicks.lerp pattern).
+      expect(mid.position, GaugeTickPosition.inner);
+      // Cross-type painter lerp snaps to b.
+      expect(mid.painter, isA<_DummyMarkerPainter>());
+    });
+
+    test('GaugeMarkerInfo equality and props', () {
+      const a = GaugeMarkerInfo(
+        value: 0.5,
+        minValue: 0,
+        maxValue: 1,
+        angleDegrees: 0,
+      );
+      const b = GaugeMarkerInfo(
+        value: 0.5,
+        minValue: 0,
+        maxValue: 1,
+        angleDegrees: 0,
+      );
+      const c = GaugeMarkerInfo(
+        value: 0.6,
+        minValue: 0,
+        maxValue: 1,
+        angleDegrees: 0,
+      );
+      const d = GaugeMarkerInfo(
+        value: 0.5,
+        minValue: 0,
+        maxValue: 1,
+        angleDegrees: 45,
+      );
+      expect(a == b, true);
+      expect(a == c, false);
+      expect(a == d, false);
+      expect(a.props.length, 4);
+    });
+
+    test('GaugeMarkerLinePainter equality, getSize, lerp', () {
+      const a = GaugeMarkerLinePainter();
+      const b = GaugeMarkerLinePainter();
+      const c = GaugeMarkerLinePainter(length: 30);
+      expect(a == b, true);
+      expect(a == c, false);
+      // Default alignment is centered → outward extent is length / 2.
+      expect(a.getSize(), const Size(5, 2));
+      // Outward alignment → outward extent is length.
+      expect(
+        const GaugeMarkerLinePainter(
+          alignment: GaugeMarkerLineAlignment.outward,
+        ).getSize(),
+        const Size(10, 2),
+      );
+
+      // Same-type lerp blends scalar fields, snaps strokeCap /
+      // alignment / label* to b.
+      final mid = a.lerp(c, 0.5) as GaugeMarkerLinePainter;
+      expect(mid.length, closeTo(20, 1e-9));
+
+      // alignment, label, labelStyle, labelOffset, labelSide all
+      // affect equality.
+      const otherAlignment =
+          GaugeMarkerLinePainter(alignment: GaugeMarkerLineAlignment.outward);
+      expect(a == otherAlignment, false);
+      const labeled =
+          GaugeMarkerLinePainter(label: 'x', labelStyle: TextStyle());
+      expect(a == labeled, false);
+
+      // Cross-type lerp snaps to b.
+      final fallback = a.lerp(const _DummyMarkerPainter(), 0.3);
+      expect(fallback, isA<_DummyMarkerPainter>());
+    });
+
+    test('GaugeMarkerLinePainter draw — centered default + outward', () {
+      // Default: centered → line spans [-length/2, length/2].
+      const centered = GaugeMarkerLinePainter();
+      final canvas = _RecordingCanvas();
+      centered.draw(canvas, _markerInfo);
+      expect(canvas.lines.length, 1);
+      expect(canvas.lines.first.p1, const Offset(-5, 0));
+      expect(canvas.lines.first.p2, const Offset(5, 0));
+
+      // alignment: outward → line spans [0, length].
+      const outward = GaugeMarkerLinePainter(
+        alignment: GaugeMarkerLineAlignment.outward,
+      );
+      final canvas2 = _RecordingCanvas();
+      outward.draw(canvas2, _markerInfo);
+      expect(canvas2.lines.first.p1, Offset.zero);
+      expect(canvas2.lines.first.p2, const Offset(10, 0));
+    });
+
+    test(
+        'GaugeMarkerLinePainter draws label when label + labelStyle set, '
+        'no flip on right hemisphere', () {
+      const painter = GaugeMarkerLinePainter(
+        label: 'X',
+        labelStyle: TextStyle(fontSize: 12),
+      );
+      // angleDegrees=0 → cos(0) = 1 → no auto-flip.
+      const info = GaugeMarkerInfo(
+        value: 0.5,
+        minValue: 0,
+        maxValue: 1,
+        angleDegrees: 0,
+      );
+      final canvas = _RecordingCanvas();
+      painter.draw(canvas, info);
+
+      // Line + text; text is recorded as a paragraph.
+      expect(canvas.lines.length, 1);
+      expect(canvas.paragraphs.length, 1);
+      // No flip → no save / translate / rotate around the text.
+      expect(canvas.transformOps, isEmpty);
+    });
+
+    test(
+        'GaugeMarkerLinePainter auto-flips label on left hemisphere '
+        'so it stays upright', () {
+      const painter = GaugeMarkerLinePainter(
+        label: 'X',
+        labelStyle: TextStyle(fontSize: 12),
+      );
+      // angleDegrees=180 → cos(π) = -1 → flip.
+      const info = GaugeMarkerInfo(
+        value: 0.5,
+        minValue: 0,
+        maxValue: 1,
+        angleDegrees: 180,
+      );
+      final canvas = _RecordingCanvas();
+      painter.draw(canvas, info);
+
+      // Line drawn, text drawn, plus a save + translate + rotate(π) +
+      // restore around the text.
+      expect(canvas.lines.length, 1);
+      expect(canvas.paragraphs.length, 1);
+      expect(canvas.transformOps, ['save', 'translate', 'rotate', 'restore']);
+      expect(canvas.rotations.single, closeTo(pi, 1e-9));
+    });
+
+    test(
+        'GaugeMarkerLinePainter labelSide and labelOffset position the '
+        'text on either side of the line', () {
+      // outward side: text origin x ≈ lineEndX + labelOffset.
+      const outwardLabel = GaugeMarkerLinePainter(
+        length: 20,
+        label: 'X',
+        labelStyle: TextStyle(fontSize: 12),
+        labelOffset: 4,
+      );
+      final canvas = _RecordingCanvas();
+      outwardLabel.draw(canvas, _markerInfo);
+      // _lineEndX = 10 (centered, length 20), labelOffset = 4.
+      expect(canvas.paragraphOffsets.single.dx, closeTo(14, 1e-9));
+
+      // inward side: text origin x ≈ lineStartX - labelOffset - textWidth.
+      // Negative because the text sits at negative x.
+      const inwardLabel = GaugeMarkerLinePainter(
+        length: 20,
+        label: 'X',
+        labelStyle: TextStyle(fontSize: 12),
+        labelOffset: 4,
+        labelSide: GaugeMarkerLabelSide.inward,
+      );
+      final canvas2 = _RecordingCanvas();
+      inwardLabel.draw(canvas2, _markerInfo);
+      // _lineStartX = -10, labelOffset = 4 → text origin <= -14 (label
+      // width depends on the text painter's layout, which we can't
+      // hard-code, but it must be < -14).
+      expect(canvas2.paragraphOffsets.single.dx, lessThan(-14));
+    });
+
+    test('GaugeMarkerLinePainter ignores label when labelStyle is null', () {
+      const painter = GaugeMarkerLinePainter(label: 'X');
+      final canvas = _RecordingCanvas();
+      painter.draw(canvas, _markerInfo);
+      expect(canvas.lines.length, 1);
+      expect(canvas.paragraphs, isEmpty);
+    });
+
+    test('GaugeMarkerLinePainter ignores empty label', () {
+      const painter = GaugeMarkerLinePainter(
+        label: '',
+        labelStyle: TextStyle(fontSize: 12),
+      );
+      final canvas = _RecordingCanvas();
+      painter.draw(canvas, _markerInfo);
+      expect(canvas.lines.length, 1);
+      expect(canvas.paragraphs, isEmpty);
+    });
+
+    test('GaugeChartData.markers default, copyWith, lerp', () {
+      final empty = GaugeChartData(
+        rings: const [GaugeProgressRing(value: 0.5, color: Colors.red)],
+      );
+      expect(empty.markers, isEmpty);
+
+      final withMarkers = empty.copyWith(
+        markers: const [GaugeMarker(value: 0.4)],
+      );
+      expect(withMarkers.markers, hasLength(1));
+      expect(withMarkers.markers.first.value, 0.4);
+
+      // Lerp two charts with marker lists of equal length.
+      final a = empty.copyWith(
+        markers: const [GaugeMarker(value: 0.2)],
+      );
+      final b = empty.copyWith(
+        markers: const [GaugeMarker(value: 0.8)],
+      );
+      final mid = a.lerp(a, b, 0.5);
+      expect(mid.markers.single.value, closeTo(0.5, 1e-9));
+    });
+
     test('GaugeChartData.pointers default, copyWith, lerp', () {
       final empty = GaugeChartData(
         rings: const [GaugeProgressRing(value: 0.5, color: Colors.red)],
@@ -803,6 +1049,12 @@ class _RecordingCanvas implements Canvas {
   final List<_RecordedCircle> circles = <_RecordedCircle>[];
   final List<_RecordedLine> lines = <_RecordedLine>[];
   final List<_RecordedPath> paths = <_RecordedPath>[];
+  final List<Paragraph> paragraphs = <Paragraph>[];
+  final List<Offset> paragraphOffsets = <Offset>[];
+  // Order of save / translate / rotate / restore calls — useful for
+  // verifying the auto-flip transform structure.
+  final List<String> transformOps = <String>[];
+  final List<double> rotations = <double>[];
 
   @override
   void drawCircle(Offset c, double radius, Paint paint) {
@@ -820,5 +1072,51 @@ class _RecordingCanvas implements Canvas {
   }
 
   @override
+  void drawParagraph(Paragraph paragraph, Offset offset) {
+    paragraphs.add(paragraph);
+    paragraphOffsets.add(offset);
+  }
+
+  @override
+  void save() => transformOps.add('save');
+
+  @override
+  void restore() => transformOps.add('restore');
+
+  @override
+  void translate(double dx, double dy) => transformOps.add('translate');
+
+  @override
+  void rotate(double radians) {
+    transformOps.add('rotate');
+    rotations.add(radians);
+  }
+
+  @override
   dynamic noSuchMethod(Invocation invocation) => null;
+}
+
+const _markerInfo = GaugeMarkerInfo(
+  value: 0.5,
+  minValue: 0,
+  maxValue: 1,
+  angleDegrees: 0,
+);
+
+/// Tiny marker painter used to exercise the cross-type lerp fallback
+/// path in [GaugeMarkerLinePainter] / [GaugeMarker]. Not a built-in.
+class _DummyMarkerPainter extends GaugeMarkerPainter {
+  const _DummyMarkerPainter();
+
+  @override
+  void draw(Canvas canvas, GaugeMarkerInfo markerInfo) {}
+
+  @override
+  Size getSize() => Size.zero;
+
+  @override
+  GaugeMarkerPainter lerp(GaugeMarkerPainter b, double t) => b;
+
+  @override
+  List<Object?> get props => const [];
 }

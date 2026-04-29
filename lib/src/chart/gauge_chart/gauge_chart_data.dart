@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -30,10 +31,12 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
     this.ringsSpace = 0.0,
     this.ticks,
     List<GaugePointer> pointers = const [],
+    List<GaugeMarker> markers = const [],
     GaugeTouchData? touchData,
     super.borderData,
   })  : rings = List.unmodifiable(rings),
         pointers = List.unmodifiable(pointers),
+        markers = List.unmodifiable(markers),
         gaugeTouchData = touchData ?? GaugeTouchData(),
         assert(maxValue > minValue, 'maxValue must be greater than minValue'),
         assert(
@@ -81,6 +84,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
     GaugeDirection direction = GaugeDirection.clockwise,
     GaugeTicks? ticks,
     List<GaugePointer> pointers = const [],
+    List<GaugeMarker> markers = const [],
     GaugeTouchData? touchData,
     FlBorderData? borderData,
   }) =>
@@ -102,6 +106,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         direction: direction,
         ticks: ticks,
         pointers: pointers,
+        markers: markers,
         touchData: touchData,
         borderData: borderData,
       );
@@ -147,6 +152,14 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
   /// by default.
   final List<GaugePointer> pointers;
 
+  /// Markers anchored at arbitrary continuous values along the gauge's
+  /// scale. Like [ticks] in shape and local frame — but each marker
+  /// carries its own `value` on `[minValue, maxValue]` instead of being
+  /// constrained to an evenly-spaced index. Use this to highlight
+  /// thresholds, targets, or annotations at non-grid positions. Empty
+  /// by default.
+  final List<GaugeMarker> markers;
+
   /// Touch configuration and callback.
   final GaugeTouchData gaugeTouchData;
 
@@ -166,6 +179,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         ringsSpace,
         ticks,
         pointers,
+        markers,
         gaugeTouchData,
         borderData,
       ];
@@ -181,6 +195,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
     double? ringsSpace,
     GaugeTicks? ticks,
     List<GaugePointer>? pointers,
+    List<GaugeMarker>? markers,
     GaugeTouchData? touchData,
     FlBorderData? borderData,
   }) =>
@@ -195,6 +210,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         ringsSpace: ringsSpace ?? this.ringsSpace,
         ticks: ticks ?? this.ticks,
         pointers: pointers ?? this.pointers,
+        markers: markers ?? this.markers,
         touchData: touchData ?? gaugeTouchData,
         borderData: borderData ?? this.borderData,
       );
@@ -215,6 +231,7 @@ class GaugeChartData extends BaseChartData with EquatableMixin {
         ringsSpace: lerpDouble(a.ringsSpace, b.ringsSpace, t)!,
         ticks: GaugeTicks.lerp(a.ticks, b.ticks, t),
         pointers: lerpGaugePointerList(a.pointers, b.pointers, t)!,
+        markers: lerpGaugeMarkerList(a.markers, b.markers, t)!,
         touchData: b.gaugeTouchData,
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
       );
@@ -939,6 +956,316 @@ class GaugePointerCirclePainter extends GaugePointerPainter {
   @override
   List<Object?> get props =>
       [radius, anchorRadius, color, strokeWidth, strokeColor];
+}
+
+/// A single marker drawn along the gauge's arc at an arbitrary
+/// continuous [value]. Conceptually a continuous-value cousin of
+/// [GaugeTicks] — markers reference the ring stack as a whole (outer /
+/// inner / center) and use the same arc-anchored local frame as
+/// [GaugeTickPainter], but each carries its own `value` instead of
+/// being constrained to an evenly-spaced index.
+///
+/// Use this to highlight thresholds, targets, or annotations that fall
+/// at non-grid positions (e.g. a "min" marker at `0.234` or a "target"
+/// at `0.71`). For drawing things that emanate from the gauge's center
+/// (needles, hands), use [GaugePointer] instead.
+@immutable
+class GaugeMarker with EquatableMixin {
+  const GaugeMarker({
+    required this.value,
+    this.position = GaugeTickPosition.outer,
+    this.offset = 0,
+    this.painter = const GaugeMarkerLinePainter(),
+  });
+
+  /// Position on the gauge scale where the marker is anchored. Values
+  /// outside `[GaugeChartData.minValue, maxValue]` are not asserted —
+  /// the marker simply extends past the sweep endpoints.
+  final double value;
+
+  /// Where the marker sits relative to the gauge's outer / inner
+  /// bounds. Same semantics as [GaugeTicks.position].
+  final GaugeTickPosition position;
+
+  /// Signed pixel delta from the natural marker anchor, measured along
+  /// the [position]'s outward axis. Same semantics as
+  /// [GaugeTicks.offset].
+  final double offset;
+
+  /// Renders the marker. The canvas is pre-translated and pre-rotated
+  /// so the painter just draws a horizontal, right-facing shape at
+  /// the origin — see [GaugeMarkerPainter.draw].
+  final GaugeMarkerPainter painter;
+
+  GaugeMarker copyWith({
+    double? value,
+    GaugeTickPosition? position,
+    double? offset,
+    GaugeMarkerPainter? painter,
+  }) =>
+      GaugeMarker(
+        value: value ?? this.value,
+        position: position ?? this.position,
+        offset: offset ?? this.offset,
+        painter: painter ?? this.painter,
+      );
+
+  static GaugeMarker lerp(GaugeMarker a, GaugeMarker b, double t) =>
+      GaugeMarker(
+        value: lerpDouble(a.value, b.value, t)!,
+        position: b.position,
+        offset: lerpDouble(a.offset, b.offset, t)!,
+        painter: a.painter.lerp(b.painter, t),
+      );
+
+  @override
+  List<Object?> get props => [value, position, offset, painter];
+}
+
+/// Context passed to [GaugeMarkerPainter.draw].
+@immutable
+class GaugeMarkerInfo with EquatableMixin {
+  const GaugeMarkerInfo({
+    required this.value,
+    required this.minValue,
+    required this.maxValue,
+    required this.angleDegrees,
+  });
+
+  /// Scale value at this marker's position, on `[minValue, maxValue]`.
+  final double value;
+
+  /// The gauge's minimum scale value ([GaugeChartData.minValue]).
+  final double minValue;
+
+  /// The gauge's maximum scale value ([GaugeChartData.maxValue]).
+  final double maxValue;
+
+  /// Angle on the gauge's coordinate system at which this marker is
+  /// anchored, in degrees (same convention as
+  /// [GaugeChartData.startDegreeOffset]: `0°` points right, increases
+  /// clockwise; values may be negative or beyond `360`). Useful for
+  /// angle-aware rendering — e.g. flipping a label by 180° on the
+  /// gauge's left hemisphere so it stays upright.
+  final double angleDegrees;
+
+  @override
+  List<Object?> get props => [value, minValue, maxValue, angleDegrees];
+}
+
+/// Interface for rendering a single [GaugeMarker].
+///
+/// Mirrors the [GaugeTickPainter] local-frame convention exactly:
+///
+/// - origin `(0, 0)` is the **marker's anchor on the arc**
+/// - `+x` axis points in the marker's outward direction (per
+///   [GaugeMarker.position])
+/// - `+y` axis is **tangent** to the arc in the sweep direction
+///
+/// Draw a horizontal, right-facing shape at the origin and the gauge
+/// handles placing and rotating it for every marker's value.
+abstract class GaugeMarkerPainter with EquatableMixin {
+  const GaugeMarkerPainter();
+
+  /// Draws a single marker in the pre-transformed local frame
+  /// described in the class docstring.
+  void draw(Canvas canvas, GaugeMarkerInfo markerInfo);
+
+  /// Bounding box of the marker in the unrotated local frame.
+  ///
+  /// `width` is the radial extent (along `+x`) and is used to reserve
+  /// outer padding when [GaugeMarker.position] is
+  /// [GaugeTickPosition.outer]; `height` is the tangential extent
+  /// (across `+y`).
+  Size getSize();
+
+  /// Lerps two painter configurations. Cross-type lerps fall back to
+  /// [b], matching [GaugeTickPainter.lerp] / [FlDotPainter.lerp].
+  GaugeMarkerPainter lerp(GaugeMarkerPainter b, double t);
+}
+
+/// Where the line sits relative to the marker's anchor on the arc.
+enum GaugeMarkerLineAlignment {
+  /// Line spans `[-length / 2, length / 2]` along `+x` — a symmetric
+  /// crossbar centered on the marker's anchor. Reads as a "this point
+  /// on the arc" indicator. Default for markers.
+  centered,
+
+  /// Line spans `[0, length]` along `+x` — anchored at the marker's
+  /// anchor and extending radially outward (tick-style, mirrors
+  /// [GaugeTickLinePainter]).
+  outward,
+}
+
+/// Which side of the line a [GaugeMarkerLinePainter]'s optional label
+/// sits on, in the painter's pre-transformed local frame.
+enum GaugeMarkerLabelSide {
+  /// Label sits radially outward of the line — further from the gauge
+  /// center. Default.
+  outward,
+
+  /// Label sits radially inward of the line — between the line and the
+  /// gauge's center.
+  inward,
+}
+
+/// [GaugeMarkerPainter] that draws a line segment, optionally with a
+/// text label beside it.
+///
+/// The line is centered on the marker's anchor by default
+/// ([GaugeMarkerLineAlignment.centered]) — markers are point
+/// indicators, so a symmetric crossbar reads more naturally than a
+/// tick-style outward line. Switch to
+/// [GaugeMarkerLineAlignment.outward] for tick-style behavior.
+///
+/// When [label] is non-null and non-empty, the painter renders the
+/// text on [labelSide] of the line, [labelOffset] pixels away. The
+/// label is **auto-flipped by 180°** when the marker sits on the
+/// gauge's left hemisphere (`cos(angleDegrees) < 0`) so it stays
+/// upright regardless of where the marker lands on the dial — no
+/// per-marker flip flag needed.
+///
+/// Note: [getSize] reports only the line's outward radial extent. If
+/// you place a long label on [GaugeMarkerLabelSide.outward] and want
+/// the rings to shrink to make room, add `offset:
+/// labelOffset + estimatedLabelWidth` on the [GaugeMarker] itself.
+class GaugeMarkerLinePainter extends GaugeMarkerPainter {
+  const GaugeMarkerLinePainter({
+    this.length = 10.0,
+    this.thickness = 2.0,
+    this.color = const Color(0xFF000000),
+    this.strokeCap = StrokeCap.round,
+    this.alignment = GaugeMarkerLineAlignment.centered,
+    this.label,
+    this.labelStyle,
+    this.labelOffset = 6.0,
+    this.labelSide = GaugeMarkerLabelSide.outward,
+  })  : assert(length > 0, 'length must be > 0'),
+        assert(thickness > 0, 'thickness must be > 0'),
+        assert(labelOffset >= 0, 'labelOffset must be >= 0');
+
+  final double length;
+  final double thickness;
+  final Color color;
+  final StrokeCap strokeCap;
+
+  /// Where the line sits relative to the marker's anchor.
+  final GaugeMarkerLineAlignment alignment;
+
+  /// Optional text drawn alongside the line. Skipped when null, empty,
+  /// or [labelStyle] is null.
+  final String? label;
+
+  /// Style applied to [label]. If null, no label is drawn even when
+  /// [label] is set.
+  final TextStyle? labelStyle;
+
+  /// Gap in pixels between the line's end and the label. Measured
+  /// along the radial axis on [labelSide].
+  final double labelOffset;
+
+  /// Side of the line on which the label sits.
+  final GaugeMarkerLabelSide labelSide;
+
+  double get _lineStartX => switch (alignment) {
+        GaugeMarkerLineAlignment.centered => -length / 2,
+        GaugeMarkerLineAlignment.outward => 0,
+      };
+
+  double get _lineEndX => switch (alignment) {
+        GaugeMarkerLineAlignment.centered => length / 2,
+        GaugeMarkerLineAlignment.outward => length,
+      };
+
+  @override
+  void draw(Canvas canvas, GaugeMarkerInfo markerInfo) {
+    canvas.drawLine(
+      Offset(_lineStartX, 0),
+      Offset(_lineEndX, 0),
+      Paint()
+        ..color = color
+        ..strokeWidth = thickness
+        ..strokeCap = strokeCap
+        ..isAntiAlias = true,
+    );
+
+    final label = this.label;
+    final style = labelStyle;
+    if (label == null || label.isEmpty || style == null) return;
+
+    final textPainter = TextPainter(
+      text: TextSpan(text: label, style: style),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    // Label position in the painter's logical (un-flipped) frame.
+    final labelLeftX = switch (labelSide) {
+      GaugeMarkerLabelSide.outward => _lineEndX + labelOffset,
+      GaugeMarkerLabelSide.inward =>
+        _lineStartX - labelOffset - textPainter.width,
+    };
+
+    // Auto-flip the label by 180° when the marker sits on the gauge's
+    // left hemisphere so its glyphs stay upright. We rotate around
+    // the label's own center so the *position* (which side of the
+    // line it sits on) doesn't change — only its orientation.
+    final angleRad = markerInfo.angleDegrees * math.pi / 180.0;
+    final flipText = math.cos(angleRad) < 0;
+    if (flipText) {
+      final centerX = labelLeftX + textPainter.width / 2;
+      canvas
+        ..save()
+        ..translate(centerX, 0)
+        ..rotate(math.pi);
+      textPainter.paint(
+        canvas,
+        Offset(-textPainter.width / 2, -textPainter.height / 2),
+      );
+      canvas.restore();
+    } else {
+      textPainter.paint(
+        canvas,
+        Offset(labelLeftX, -textPainter.height / 2),
+      );
+    }
+  }
+
+  /// Outward radial extent of the line, used to reserve outer padding
+  /// on the [GaugeChartData]. Does not include the label's extent —
+  /// see the class docstring for guidance on outward labels.
+  @override
+  Size getSize() => Size(_lineEndX, thickness);
+
+  @override
+  GaugeMarkerPainter lerp(GaugeMarkerPainter b, double t) {
+    if (b is! GaugeMarkerLinePainter) {
+      return b;
+    }
+    return GaugeMarkerLinePainter(
+      length: lerpDouble(length, b.length, t)!,
+      thickness: lerpDouble(thickness, b.thickness, t)!,
+      color: Color.lerp(color, b.color, t)!,
+      strokeCap: b.strokeCap,
+      alignment: b.alignment,
+      label: b.label,
+      labelStyle: TextStyle.lerp(labelStyle, b.labelStyle, t),
+      labelOffset: lerpDouble(labelOffset, b.labelOffset, t)!,
+      labelSide: b.labelSide,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        length,
+        thickness,
+        color,
+        strokeCap,
+        alignment,
+        label,
+        labelStyle,
+        labelOffset,
+        labelSide,
+      ];
 }
 
 class GaugeTouchData extends FlTouchData<GaugeTouchResponse>

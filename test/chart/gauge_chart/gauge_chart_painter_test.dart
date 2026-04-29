@@ -1180,4 +1180,313 @@ void main() {
       Utils.changeInstance(utilsMainInstance);
     });
   });
+
+  group('drawMarkers()', () {
+    test('no-op when markers list is empty', () {
+      const viewSize = Size(400, 400);
+      final data = GaugeChartData(
+        rings: const [
+          GaugeProgressRing(value: 1, color: Colors.red, width: 10),
+        ],
+        sweepAngle: 90,
+      );
+      final gaugePainter = GaugeChartPainter();
+      final holder =
+          PaintHolder<GaugeChartData>(data, data, TextScaler.noScaling);
+      installIdentityUtilsMock();
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      gaugePainter.drawMarkers(mockCanvasWrapper, holder);
+
+      verifyNever(mockCanvasWrapper.save());
+      verifyNever(mockCanvasWrapper.translate(any, any));
+      verifyNever(mockCanvasWrapper.rotate(any));
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test(
+        'one save/translate/rotate/restore per marker, angle from value, '
+        'painter receives marker info', () {
+      const viewSize = Size(400, 400);
+      final captured = <GaugeMarkerInfo>[];
+      final data = GaugeChartData(
+        maxValue: 100,
+        rings: const [
+          GaugeProgressRing(value: 1, color: Colors.red, width: 10),
+        ],
+        startDegreeOffset: 0,
+        sweepAngle: 180,
+        markers: [
+          GaugeMarker(
+            value: 0,
+            painter: _RecordingMarkerPainter(captured),
+          ),
+          GaugeMarker(
+            value: 25,
+            painter: _RecordingMarkerPainter(captured),
+          ),
+          GaugeMarker(
+            value: 100,
+            painter: _RecordingMarkerPainter(captured),
+          ),
+        ],
+      );
+      final gaugePainter = GaugeChartPainter();
+      final holder =
+          PaintHolder<GaugeChartData>(data, data, TextScaler.noScaling);
+      installIdentityUtilsMock();
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final rotations = <double>[];
+      when(mockCanvasWrapper.rotate(captureAny)).thenAnswer((inv) {
+        rotations.add(inv.positionalArguments[0] as double);
+      });
+
+      gaugePainter.drawMarkers(mockCanvasWrapper, holder);
+
+      verify(mockCanvasWrapper.save()).called(3);
+      verify(mockCanvasWrapper.restore()).called(3);
+      verify(mockCanvasWrapper.translate(any, any)).called(3);
+
+      // value 0 → 0°, value 25 → 45°, value 100 → 180° (identity mock).
+      expect(rotations[0], 0);
+      expect(rotations[1], closeTo(45, 1e-9));
+      expect(rotations[2], closeTo(180, 1e-9));
+
+      // Painter received the right marker value each time.
+      expect(captured.length, 3);
+      expect(captured[0].value, 0);
+      expect(captured[1].value, 25);
+      expect(captured[2].value, 100);
+      // minValue / maxValue propagated.
+      expect(captured.first.minValue, 0);
+      expect(captured.first.maxValue, 100);
+      // angleDegrees matches the canvas rotation:
+      // dir = 1, sweep = 180, start = 0
+      // value 0 → 0°, value 25 → 45°, value 100 → 180°.
+      expect(captured[0].angleDegrees, 0);
+      expect(captured[1].angleDegrees, closeTo(45, 1e-9));
+      expect(captured[2].angleDegrees, closeTo(180, 1e-9));
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('counter-clockwise direction flips the angle sign', () {
+      const viewSize = Size(400, 400);
+      final data = GaugeChartData(
+        maxValue: 100,
+        rings: const [
+          GaugeProgressRing(value: 1, color: Colors.red, width: 10),
+        ],
+        startDegreeOffset: 0,
+        sweepAngle: 180,
+        direction: GaugeDirection.counterClockwise,
+        markers: const [GaugeMarker(value: 50)],
+      );
+      final gaugePainter = GaugeChartPainter();
+      final holder =
+          PaintHolder<GaugeChartData>(data, data, TextScaler.noScaling);
+      installIdentityUtilsMock();
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final rotations = <double>[];
+      when(mockCanvasWrapper.rotate(captureAny)).thenAnswer((inv) {
+        rotations.add(inv.positionalArguments[0] as double);
+      });
+
+      gaugePainter.drawMarkers(mockCanvasWrapper, holder);
+
+      // dir = -1, progress 0.5 → angle = 0 + -1 * 180 * 0.5 = -90.
+      expect(rotations.single, closeTo(-90, 1e-9));
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test('inner position adds π to rotation so +x points toward center', () {
+      const viewSize = Size(400, 400);
+      final data = GaugeChartData(
+        rings: const [
+          GaugeProgressRing(value: 1, color: Colors.red, width: 10),
+        ],
+        startDegreeOffset: 0,
+        sweepAngle: 90,
+        markers: const [
+          GaugeMarker(value: 0, position: GaugeTickPosition.inner),
+          GaugeMarker(value: 1, position: GaugeTickPosition.inner),
+        ],
+      );
+      final gaugePainter = GaugeChartPainter();
+      final holder =
+          PaintHolder<GaugeChartData>(data, data, TextScaler.noScaling);
+      installIdentityUtilsMock();
+
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final rotations = <double>[];
+      when(mockCanvasWrapper.rotate(captureAny)).thenAnswer((inv) {
+        rotations.add(inv.positionalArguments[0] as double);
+      });
+
+      gaugePainter.drawMarkers(mockCanvasWrapper, holder);
+
+      expect(rotations.length, 2);
+      expect(rotations[0], closeTo(pi, 1e-9));
+      expect(rotations[1], closeTo(90 + pi, 1e-9));
+      Utils.changeInstance(utilsMainInstance);
+    });
+
+    test(
+        'outer markers reserve padding so rings shrink to fit '
+        '(picks max across ticks + markers)', () {
+      // Two charts: one with no overlay, one with a big outer marker.
+      // The marker should shrink the ring's outer radius by exactly
+      // (offset + painter width), proven by comparing drawArc rect.
+      const viewSize = Size(400, 400);
+      const ringWidth = 20.0;
+
+      Rect? rectFor(GaugeChartData data) {
+        final gaugePainter = GaugeChartPainter();
+        final holder =
+            PaintHolder<GaugeChartData>(data, data, TextScaler.noScaling);
+        installIdentityUtilsMock();
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+        Rect? captured;
+        when(
+          mockCanvasWrapper.drawArc(captureAny, any, any, any, any),
+        ).thenAnswer((inv) {
+          captured = inv.positionalArguments[0] as Rect;
+        });
+        gaugePainter.drawSections(mockCanvasWrapper, holder);
+        Utils.changeInstance(utilsMainInstance);
+        return captured;
+      }
+
+      final base = GaugeChartData(
+        rings: const [
+          GaugeProgressRing(value: 1, color: Colors.red, width: ringWidth),
+        ],
+        sweepAngle: 90,
+      );
+
+      // Centered line (default): outward extent is length / 2.
+      // padding = offset (4) + length / 2 (6) = 10 → width diff = 20.
+      final centered = base.copyWith(
+        markers: const [
+          GaugeMarker(
+            value: 0.5,
+            offset: 4,
+            painter: GaugeMarkerLinePainter(length: 12),
+          ),
+        ],
+      );
+      final baseRect = rectFor(base)!;
+      final centeredRect = rectFor(centered)!;
+      expect(baseRect.width - centeredRect.width, closeTo(20, 1e-9));
+      expect(baseRect.height - centeredRect.height, closeTo(20, 1e-9));
+
+      // Outward alignment: outward extent is the full length.
+      // padding = offset (4) + length (12) = 16 → width diff = 32.
+      final outward = base.copyWith(
+        markers: const [
+          GaugeMarker(
+            value: 0.5,
+            offset: 4,
+            painter: GaugeMarkerLinePainter(
+              length: 12,
+              alignment: GaugeMarkerLineAlignment.outward,
+            ),
+          ),
+        ],
+      );
+      final outwardRect = rectFor(outward)!;
+      expect(baseRect.width - outwardRect.width, closeTo(32, 1e-9));
+      expect(baseRect.height - outwardRect.height, closeTo(32, 1e-9));
+    });
+
+    test(
+        'inner / center markers do not affect outer padding '
+        '(rings keep their original radius)', () {
+      const viewSize = Size(400, 400);
+      const ringWidth = 20.0;
+
+      Rect? rectFor(GaugeChartData data) {
+        final gaugePainter = GaugeChartPainter();
+        final holder =
+            PaintHolder<GaugeChartData>(data, data, TextScaler.noScaling);
+        installIdentityUtilsMock();
+        final mockCanvasWrapper = MockCanvasWrapper();
+        when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
+        when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+        Rect? captured;
+        when(
+          mockCanvasWrapper.drawArc(captureAny, any, any, any, any),
+        ).thenAnswer((inv) {
+          captured = inv.positionalArguments[0] as Rect;
+        });
+        gaugePainter.drawSections(mockCanvasWrapper, holder);
+        Utils.changeInstance(utilsMainInstance);
+        return captured;
+      }
+
+      final base = GaugeChartData(
+        rings: const [
+          GaugeProgressRing(value: 1, color: Colors.red, width: ringWidth),
+        ],
+        sweepAngle: 90,
+      );
+      final innerMarker = base.copyWith(
+        markers: const [
+          GaugeMarker(
+            value: 0.5,
+            position: GaugeTickPosition.inner,
+            offset: 99,
+            painter: GaugeMarkerLinePainter(length: 99),
+          ),
+        ],
+      );
+      final centerMarker = base.copyWith(
+        markers: const [
+          GaugeMarker(
+            value: 0.5,
+            position: GaugeTickPosition.center,
+            offset: 99,
+          ),
+        ],
+      );
+
+      expect(rectFor(base), rectFor(innerMarker));
+      expect(rectFor(base), rectFor(centerMarker));
+    });
+  });
+}
+
+class _RecordingMarkerPainter extends GaugeMarkerPainter {
+  _RecordingMarkerPainter(this.captured);
+
+  final List<GaugeMarkerInfo> captured;
+
+  @override
+  void draw(Canvas canvas, GaugeMarkerInfo markerInfo) {
+    captured.add(markerInfo);
+  }
+
+  @override
+  Size getSize() => Size.zero;
+
+  @override
+  GaugeMarkerPainter lerp(GaugeMarkerPainter b, double t) => b;
+
+  @override
+  List<Object?> get props => [captured];
 }

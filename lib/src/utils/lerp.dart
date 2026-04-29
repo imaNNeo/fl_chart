@@ -167,6 +167,14 @@ List<GaugePointer>? lerpGaugePointerList(
 ) =>
     lerpList(a, b, t, lerp: GaugePointer.lerp);
 
+/// Lerps [GaugeMarker] list based on [t] value, check [Tween.lerp].
+List<GaugeMarker>? lerpGaugeMarkerList(
+  List<GaugeMarker>? a,
+  List<GaugeMarker>? b,
+  double t,
+) =>
+    lerpList(a, b, t, lerp: GaugeMarker.lerp);
+
 /// Lerps [ScatterSpot] list based on [t] value, check [Tween.lerp].
 List<ScatterSpot>? lerpScatterSpotList(
   List<ScatterSpot>? a,

@@ -25,6 +25,7 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
     super.paint(context, canvasWrapper, holder);
     drawSections(canvasWrapper, holder);
     drawTicks(context, canvasWrapper, holder);
+    drawMarkers(canvasWrapper, holder);
     drawPointers(canvasWrapper, holder);
   }
 
@@ -318,29 +319,40 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
     );
   }
 
-  /// Padding reserved past the widget's shortest side for
-  /// outer-positioned ticks (and their labels, when present).
+  /// Padding reserved past the widget's shortest side for any overlay
+  /// (ticks or markers) anchored at [GaugeTickPosition.outer].
   ///
-  /// Accounts for the tick's radial extent (`painter.getSize().width`
-  /// because the canvas is rotated so `+x` is radial), the signed
-  /// [GaugeTicks.offset], and — when [GaugeTicks.labelBuilder] is set
-  /// — a label-height heuristic (`labelStyle.fontSize * 1.2`, falling
-  /// back to 14) plus [GaugeTicks.labelOffset].
-  double _outerTickPadding(GaugeChartData data) {
+  /// Returns the max outward extent across all outer overlays — they
+  /// sit at different angles, so the rings only need to shrink by the
+  /// largest one. For ticks: `painter.getSize().width + offset` plus a
+  /// label-height heuristic (`labelStyle.fontSize * 1.2`, falling back
+  /// to 14) and `labelOffset` when [GaugeTicks.labelBuilder] is set.
+  /// For each marker: `painter.getSize().width + offset`.
+  double _outerOverlayPadding(GaugeChartData data) {
+    var padding = 0.0;
     final ticks = data.ticks;
-    if (ticks == null || ticks.position != GaugeTickPosition.outer) return 0;
-    var padding = ticks.offset + ticks.painter.getSize().width;
-    if (ticks.labelBuilder != null) {
-      final labelHeight = (ticks.labelStyle?.fontSize ?? 14) * 1.2;
-      padding += ticks.labelOffset + labelHeight;
+    if (ticks != null && ticks.position == GaugeTickPosition.outer) {
+      var p = ticks.offset + ticks.painter.getSize().width;
+      if (ticks.labelBuilder != null) {
+        final labelHeight = (ticks.labelStyle?.fontSize ?? 14) * 1.2;
+        p += ticks.labelOffset + labelHeight;
+      }
+      padding = math.max<double>(padding, p);
+    }
+    for (final marker in data.markers) {
+      if (marker.position != GaugeTickPosition.outer) continue;
+      padding = math.max<double>(
+        padding,
+        marker.offset + marker.painter.getSize().width,
+      );
     }
     return math.max<double>(0, padding);
   }
 
   /// Outer radius available for the gauge's rings — shrunk by
-  /// [_outerTickPadding] when outer ticks are configured.
+  /// [_outerOverlayPadding] when outer ticks or markers are configured.
   double _outerArcRadius(Size viewSize, GaugeChartData data) =>
-      viewSize.shortestSide / 2 - _outerTickPadding(data);
+      viewSize.shortestSide / 2 - _outerOverlayPadding(data);
 
   /// Total radial thickness consumed by all rings plus the gaps between
   /// them.
@@ -369,16 +381,21 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
     return centers;
   }
 
-  /// Radial position of the tick's anchor point (where the canvas
-  /// origin sits before the painter's `draw()` is called).
-  double _tickAnchorRadius(Size viewSize, GaugeChartData data) {
-    final ticks = data.ticks!;
+  /// Radial position of an overlay's anchor point (where the canvas
+  /// origin sits before the painter's `draw()` is called) — shared by
+  /// ticks and markers.
+  double _overlayAnchorRadius(
+    Size viewSize,
+    GaugeChartData data,
+    GaugeTickPosition position,
+    double offset,
+  ) {
     final outer = _outerArcRadius(viewSize, data);
     final inner = outer - _totalRingsDepth(data);
-    return switch (ticks.position) {
-      GaugeTickPosition.outer => outer + ticks.offset,
-      GaugeTickPosition.inner => inner - ticks.offset,
-      GaugeTickPosition.center => (outer + inner) / 2 + ticks.offset,
+    return switch (position) {
+      GaugeTickPosition.outer => outer + offset,
+      GaugeTickPosition.inner => inner - offset,
+      GaugeTickPosition.center => (outer + inner) / 2 + offset,
     };
   }
 
@@ -399,7 +416,8 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
     final viewSize = canvasWrapper.size;
     final c = center(viewSize);
     final dir = data.direction == GaugeDirection.clockwise ? 1 : -1;
-    final tickAnchorRadius = _tickAnchorRadius(viewSize, data);
+    final tickAnchorRadius =
+        _overlayAnchorRadius(viewSize, data, ticks.position, ticks.offset);
     final outwardSign = ticks.position == GaugeTickPosition.inner ? -1.0 : 1.0;
     final rotationOffset =
         ticks.position == GaugeTickPosition.inner ? math.pi : 0.0;
@@ -456,6 +474,60 @@ class GaugeChartPainter extends BaseChartPainter<GaugeChartData> {
           Offset(labelCenter.dx - tp.width / 2, labelCenter.dy - tp.height / 2),
         );
       }
+    }
+  }
+
+  /// Draws every [GaugeMarker]. For each marker the canvas is
+  /// translated to the marker's anchor on the arc and rotated so the
+  /// painter just draws a horizontal, right-facing shape at the
+  /// origin — same local frame as [GaugeTickPainter.draw].
+  ///
+  /// Drawn after ticks and before pointers, so a marker overlays
+  /// neighbouring tick marks but stays under any [GaugePointer].
+  @visibleForTesting
+  void drawMarkers(
+    CanvasWrapper canvasWrapper,
+    PaintHolder<GaugeChartData> holder,
+  ) {
+    final data = holder.data;
+    if (data.markers.isEmpty) return;
+
+    final viewSize = canvasWrapper.size;
+    final c = center(viewSize);
+    final dir = data.direction == GaugeDirection.clockwise ? 1 : -1;
+    final range = data.maxValue - data.minValue;
+
+    for (final marker in data.markers) {
+      final progress = (marker.value - data.minValue) / range;
+      final angleDeg =
+          data.startDegreeOffset + dir * data.sweepAngle * progress;
+      final angleRad = Utils().radians(angleDeg);
+      final anchorRadius = _overlayAnchorRadius(
+        viewSize,
+        data,
+        marker.position,
+        marker.offset,
+      );
+      final rotationOffset =
+          marker.position == GaugeTickPosition.inner ? math.pi : 0.0;
+      final anchor = Offset(
+        c.dx + anchorRadius * math.cos(angleRad),
+        c.dy + anchorRadius * math.sin(angleRad),
+      );
+      canvasWrapper
+        ..save()
+        ..translate(anchor.dx, anchor.dy)
+        ..rotate(angleRad + rotationOffset);
+      marker.painter.draw(
+        canvasWrapper.canvas,
+        GaugeMarkerInfo(
+          value: marker.value,
+          minValue: data.minValue,
+          maxValue: data.maxValue,
+          angleDegrees: angleDeg,
+        ),
+      );
+      canvasWrapper.restore();
     }
   }
 

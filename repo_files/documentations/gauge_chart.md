@@ -118,6 +118,7 @@ GaugeChart(
 |ringsSpace| radial pixel gap between adjacent rings|0.0|
 |ticks| optional tick configuration; see [GaugeTicks](#GaugeTicks)|null|
 |pointers| list of [GaugePointer](#GaugePointer)s drawn on top of the rings and ticks. Empty by default; each pointer carries its own `value` on the shared scale|`[]`|
+|markers| list of [GaugeMarker](#GaugeMarker)s anchored at arbitrary continuous values along the gauge's scale. Empty by default|`[]`|
 |touchData| [GaugeTouchData](#GaugeTouchData) holds the touch interactivity details|GaugeTouchData()|
 |borderData| shows a border around the chart, see [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 
@@ -237,6 +238,71 @@ pointers: const [
   ),
 ],
 ```
+
+### GaugeMarker
+A marker anchored at an arbitrary continuous value along the gauge's scale. Conceptually a continuous-value cousin of [GaugeTicks](#GaugeTicks): markers reference the ring stack as a whole (outer / inner / center) and use the same arc-anchored local frame as [GaugeTickPainter](#GaugeTickPainter), but each carries its own `value` instead of being constrained to an evenly-spaced index.
+
+Use markers for thresholds, targets, or annotations that fall at non-grid positions (e.g. a "min" marker at `0.234` or a "target" at `0.71`). For things that emanate from the gauge's center (needles, hands), use [GaugePointer](#GaugePointer) instead.
+
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|value| position on the gauge scale where the marker is anchored. Values outside `[minValue, maxValue]` simply extend past the sweep endpoints|required|
+|position| where the marker sits relative to the gauge's outer / inner bounds — same semantics as [GaugeTickPosition](#GaugeTickPosition)|GaugeTickPosition.outer|
+|offset| signed pixel delta from the natural marker anchor, along the position's outward axis — same semantics as `GaugeTicks.offset`|0|
+|painter| [GaugeMarkerPainter](#GaugeMarkerPainter) that renders the marker's shape|GaugeMarkerLinePainter()|
+
+When `position: outer`, the gauge reserves padding so the rings shrink to keep the marker on canvas (the same way it does for outer ticks). The reserved padding is the **max** outward extent across all outer overlays, since they sit at different angles.
+
+```dart
+markers: [
+  GaugeMarker(
+    value: 0.234,
+    position: GaugeTickPosition.center,
+    painter: GaugeMarkerLinePainter(
+      length: 40,
+      thickness: 4,
+      color: Colors.green,
+      label: 'Min',
+      labelStyle: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+      labelSide: GaugeMarkerLabelSide.inward,
+    ),
+  ),
+  GaugeMarker(
+    value: 0.71,
+    position: GaugeTickPosition.center,
+    painter: GaugeMarkerLinePainter(
+      length: 40,
+      thickness: 4,
+      color: Colors.red,
+      label: 'Max',
+      labelStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      labelSide: GaugeMarkerLabelSide.inward,
+    ),
+  ),
+],
+```
+
+### GaugeMarkerPainter
+Interface for rendering a single [GaugeMarker](#GaugeMarker). Subclass it to draw custom marker shapes. Mirrors the [GaugeTickPainter](#GaugeTickPainter) pattern — the local frame is identical, so visually-similar tick painters can be ported in a couple of lines.
+
+**Pre-transformed canvas** — the gauge painter translates and rotates the canvas around each marker's anchor on the arc before calling `draw`, so implementations never touch trigonometry:
+
+- origin `(0, 0)` is the **marker's anchor on the arc**
+- `+x` axis points in the marker's outward direction (per `GaugeMarker.position`)
+- `+y` axis is **tangent** to the arc in the sweep direction
+
+Draw a horizontal, right-facing shape at the origin; the gauge handles placing and rotating it for every marker's value. `getSize()` reports the bounding box in this unrotated local frame — `width` is the radial extent (used for outer-position padding), `height` is the tangential extent.
+
+Built-in implementations:
+- **GaugeMarkerLinePainter** — line segment, optionally with a text label beside it. Centered on the marker's anchor by default (markers are point indicators, so a symmetric crossbar reads more naturally than a tick-style outward line). This is the default. Properties:
+  - `length` (default 10), `thickness` (default 2), `color` (default black), `strokeCap` (default `StrokeCap.round`).
+  - `alignment` — `GaugeMarkerLineAlignment.centered` (default) draws the line spanning `[-length/2, +length/2]`; `.outward` matches the tick-style line `[0, length]`.
+  - `label` (optional) — text drawn alongside the line. When set together with `labelStyle`, the painter renders the text on `labelSide` of the line, `labelOffset` pixels away. The label is **auto-flipped by 180°** when the marker sits on the gauge's left hemisphere (`cos(angleDegrees) < 0`) so it stays upright regardless of where it lands on the dial — no per-marker flip flag needed.
+  - `labelStyle` — applied to the label; required for the label to render.
+  - `labelOffset` (default 6) — gap in pixels between the line's end and the label.
+  - `labelSide` — `GaugeMarkerLabelSide.outward` (default) sits the label radially outward of the line; `.inward` sits it between the line and the gauge center.
+
+`getSize()` reports only the line's outward extent. If you place a long label on `GaugeMarkerLabelSide.outward` and want the rings to shrink to make room, add `offset: labelOffset + estimatedLabelWidth` on the [GaugeMarker](#GaugeMarker) itself.
 
 ### GaugeTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
