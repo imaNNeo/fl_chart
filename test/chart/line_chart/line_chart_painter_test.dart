@@ -2888,9 +2888,27 @@ void main() {
 
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-            ..called(2);
-      final rRect = result1.captured[0] as RRect;
-      final paint = result1.captured[1] as Paint;
+            ..called(3);
+      final rRectShadow = result1.captured[0] as RRect;
+      final paintShadow = result1.captured[1] as Paint;
+      expect(
+        rRectShadow,
+        RRect.fromLTRBAndCorners(
+          0,
+          40,
+          38,
+          78,
+          topLeft: const Radius.circular(10),
+          topRight: const Radius.circular(8),
+        ),
+      );
+      expect(paintShadow.color, isSameColorAs(const Color(0x00000000)));
+      expect(
+        paintShadow.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+      final rRect = result1.captured[2] as RRect;
+      final paint = result1.captured[3] as Paint;
       expect(
         rRect,
         RRect.fromLTRBAndCorners(
@@ -2903,8 +2921,8 @@ void main() {
         ),
       );
       expect(paint.color, isSameColorAs(const Color(0x11111111)));
-      final rRectBorder = result1.captured[2] as RRect;
-      final paintBorder = result1.captured[3] as Paint;
+      final rRectBorder = result1.captured[4] as RRect;
+      final paintBorder = result1.captured[5] as Paint;
       expect(
         rRectBorder,
         RRect.fromLTRBAndCorners(
@@ -2957,6 +2975,7 @@ void main() {
               .toList();
         },
         tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+        shadow: const Shadow(),
       );
       final data = LineChartData(
         minY: 0,
@@ -3013,16 +3032,27 @@ void main() {
 
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-            ..called(2);
-      final rRect = result1.captured[0] as RRect;
-      final paint = result1.captured[1] as Paint;
+            ..called(3);
+      final rRectShadow = result1.captured[0] as RRect;
+      final paintShadow = result1.captured[1] as Paint;
+      expect(
+        rRectShadow,
+        RRect.fromLTRBR(-28, 40, 10, 78, const Radius.circular(12)),
+      );
+      expect(paintShadow.color, isSameColorAs(const Color(0xFF000000)));
+      expect(
+        paintShadow.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+      final rRect = result1.captured[2] as RRect;
+      final paint = result1.captured[3] as Paint;
       expect(
         rRect,
         RRect.fromLTRBR(-28, 40, 10, 78, const Radius.circular(12)),
       );
       expect(paint.color, isSameColorAs(const Color(0x11111111)));
-      final rRectBorder = result1.captured[2] as RRect;
-      final paintBorder = result1.captured[3] as Paint;
+      final rRectBorder = result1.captured[4] as RRect;
+      final paintBorder = result1.captured[5] as Paint;
       expect(
         rRectBorder,
         RRect.fromLTRBR(-28, 40, 10, 78, const Radius.circular(12)),
@@ -3068,6 +3098,10 @@ void main() {
               .toList();
         },
         tooltipBorder: const BorderSide(color: Color(0x11111111), width: 2),
+        shadow: Shadow(
+          color: Colors.black.withValues(alpha: 0.25),
+          offset: const Offset(0, 3),
+        ),
       );
       final data = LineChartData(
         minY: 0,
@@ -3124,16 +3158,27 @@ void main() {
 
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-            ..called(2);
-      final rRect = result1.captured[0] as RRect;
-      final paint = result1.captured[1] as Paint;
+            ..called(3);
+      final rRectShadow = result1.captured[0] as RRect;
+      final paintShadow = result1.captured[1] as Paint;
+      expect(
+        rRectShadow,
+        RRect.fromLTRBR(10, 40 + 3, 48, 78 + 3, const Radius.circular(12)),
+      );
+      expect(paintShadow.color, isSameColorAs(const Color(0x40000000)));
+      expect(
+        paintShadow.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+      final rRect = result1.captured[2] as RRect;
+      final paint = result1.captured[3] as Paint;
       expect(
         rRect,
         RRect.fromLTRBR(10, 40, 48, 78, const Radius.circular(12)),
       );
       expect(paint.color, isSameColorAs(const Color(0x11111111)));
-      final rRectBorder = result1.captured[2] as RRect;
-      final paintBorder = result1.captured[3] as Paint;
+      final rRectBorder = result1.captured[4] as RRect;
+      final paintBorder = result1.captured[5] as Paint;
       expect(
         rRectBorder,
         RRect.fromLTRBR(10, 40, 48, 78, const Radius.circular(12)),
@@ -3251,16 +3296,27 @@ void main() {
 
       final result1 =
           verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
-            ..called(2);
-      final rRect = result1.captured[0] as RRect;
-      final paint = result1.captured[1] as Paint;
+            ..called(3);
+      final rRectShadow = result1.captured[0] as RRect;
+      final paintShadow = result1.captured[1] as Paint;
+      expect(
+        rRectShadow,
+        RRect.fromLTRBR(10, 0, 48, 56, const Radius.circular(12)),
+      );
+      expect(paintShadow.color, isSameColorAs(const Color(0x00000000)));
+      expect(
+        paintShadow.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+      final rRect = result1.captured[2] as RRect;
+      final paint = result1.captured[3] as Paint;
       expect(
         rRect,
         RRect.fromLTRBR(10, 0, 48, 56, const Radius.circular(12)),
       );
       expect(paint.color, isSameColorAs(const Color(0x11111111)));
-      final rRectBorder = result1.captured[2] as RRect;
-      final paintBorder = result1.captured[3] as Paint;
+      final rRectBorder = result1.captured[4] as RRect;
+      final paintBorder = result1.captured[5] as Paint;
       expect(
         rRectBorder,
         RRect.fromLTRBR(10, 0, 48, 56, const Radius.circular(12)),

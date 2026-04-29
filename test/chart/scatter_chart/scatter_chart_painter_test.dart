@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/scatter_chart/scatter_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -456,14 +457,29 @@ void main() {
 
       verificationResult.called(1);
 
-      final captured2 = verifyInOrder([
-        mockCanvasWrapper.drawRRect(captureAny, captureAny),
-        mockCanvasWrapper.drawText(captureAny, any),
-      ]).captured;
+      final result1 =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(3);
 
-      final rRect = captured2[0][0] as RRect;
-      final bgPaint = captured2[0][1] as Paint;
-      final textPainter = captured2[1][0] as TextPainter;
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, any))
+        ..called(1);
+
+      final rRectShadow = result1.captured[0] as RRect;
+      final shadowPaint = result1.captured[1] as Paint;
+      expect(rRectShadow.blRadiusX, 0);
+      expect(rRectShadow.blRadiusY, 0);
+      expect(rRectShadow.tlRadiusY, 85);
+      expect(rRectShadow.trRadiusX, 8);
+      expect(shadowPaint.color, isSameColorAs(const Color(0x00000000)));
+      expect(shadowPaint.style, PaintingStyle.fill);
+      expect(
+        shadowPaint.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+
+      final rRect = result1.captured[2] as RRect;
+      final bgPaint = result1.captured[3] as Paint;
+      final textPainter = result2.captured[0] as TextPainter;
 
       expect(rRect.blRadiusX, 0);
       expect(rRect.blRadiusY, 0);
@@ -522,6 +538,7 @@ void main() {
                 ],
               );
             },
+            shadow: const Shadow(),
           ),
         ),
       );
@@ -563,14 +580,28 @@ void main() {
 
       verificationResult.called(1);
 
-      final captured2 = verifyInOrder([
-        mockCanvasWrapper.drawRRect(captureAny, captureAny),
-        mockCanvasWrapper.drawText(captureAny, any),
-      ]).captured;
+      final result1 =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(3);
 
-      final rRect = captured2[0][0] as RRect;
-      final bgPaint = captured2[0][1] as Paint;
-      final textPainter = captured2[1][0] as TextPainter;
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, any))
+        ..called(1);
+
+      final rRectShadow = result1.captured[0] as RRect;
+      final shadowPaint = result1.captured[1] as Paint;
+      expect(rRectShadow.blRadiusX, 22);
+      expect(rRectShadow.tlRadiusY, 22);
+      expect(rRectShadow.left, -134);
+      expect(shadowPaint.color, isSameColorAs(const Color(0xFF000000)));
+      expect(shadowPaint.style, PaintingStyle.fill);
+      expect(
+        shadowPaint.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+
+      final rRect = result1.captured[2] as RRect;
+      final bgPaint = result1.captured[3] as Paint;
+      final textPainter = result2.captured[0] as TextPainter;
 
       expect(rRect.blRadiusX, 22);
       expect(rRect.tlRadiusY, 22);
@@ -629,6 +660,10 @@ void main() {
                 ],
               );
             },
+            shadow: Shadow(
+              color: Colors.black.withValues(alpha: 0.25),
+              offset: const Offset(3, 0),
+            ),
           ),
         ),
       );
@@ -670,14 +705,28 @@ void main() {
 
       verificationResult.called(1);
 
-      final captured2 = verifyInOrder([
-        mockCanvasWrapper.drawRRect(captureAny, captureAny),
-        mockCanvasWrapper.drawText(captureAny, any),
-      ]).captured;
+      final result1 =
+          verify(mockCanvasWrapper.drawRRect(captureAny, captureAny))
+            ..called(3);
 
-      final rRect = captured2[0][0] as RRect;
-      final bgPaint = captured2[0][1] as Paint;
-      final textPainter = captured2[1][0] as TextPainter;
+      final result2 = verify(mockCanvasWrapper.drawText(captureAny, any))
+        ..called(1);
+
+      final rRectShadow = result1.captured[0] as RRect;
+      final shadowPaint = result1.captured[1] as Paint;
+      expect(rRectShadow.blRadiusX, 22);
+      expect(rRectShadow.tlRadiusY, 22);
+      expect(rRectShadow.left, 10 + 3);
+      expect(shadowPaint.color, isSameColorAs(const Color(0x40000000)));
+      expect(shadowPaint.style, PaintingStyle.fill);
+      expect(
+        shadowPaint.maskFilter,
+        const MaskFilter.blur(BlurStyle.normal, 0),
+      );
+
+      final rRect = result1.captured[2] as RRect;
+      final bgPaint = result1.captured[3] as Paint;
+      final textPainter = result2.captured[0] as TextPainter;
 
       expect(rRect.blRadiusX, 22);
       expect(rRect.tlRadiusY, 22);
