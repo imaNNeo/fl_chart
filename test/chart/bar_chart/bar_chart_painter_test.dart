@@ -761,6 +761,7 @@ void main() {
       List<Color> borderColors,
       List<StrokeCap> borderStrokeCaps,
       List<Rect> clipRects,
+      List<({RRect outer, RRect inner, Color color})> drRects,
     }) drawSingleBorderedRod({
       required Border border,
       BorderRadius borderRadius = BorderRadius.zero,
@@ -793,9 +794,10 @@ void main() {
       final holder =
           PaintHolder<BarChartData>(data, data, TextScaler.noScaling);
 
+      final mockCanvas = MockCanvas();
       final mockCanvasWrapper = MockCanvasWrapper();
       when(mockCanvasWrapper.size).thenAnswer((_) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      when(mockCanvasWrapper.canvas).thenReturn(mockCanvas);
 
       final groupsX = data.calculateGroupsX(viewSize.width);
       final barGroupsPosition = barChartPainter.calculateGroupAndBarsPosition(
@@ -809,6 +811,7 @@ void main() {
       final borderColors = <Color>[];
       final borderStrokeCaps = <StrokeCap>[];
       final clipRects = <Rect>[];
+      final drRects = <({RRect outer, RRect inner, Color color})>[];
 
       when(mockCanvasWrapper.drawRRect(captureAny, captureAny))
           .thenAnswer((inv) {
@@ -826,6 +829,13 @@ void main() {
         final rect = inv.positionalArguments[0] as Rect;
         clipRects.add(rect);
       });
+      when(mockCanvas.drawDRRect(captureAny, captureAny, captureAny))
+          .thenAnswer((inv) {
+        final outer = inv.positionalArguments[0] as RRect;
+        final inner = inv.positionalArguments[1] as RRect;
+        final paint = inv.positionalArguments[2] as Paint;
+        drRects.add((outer: outer, inner: inner, color: paint.color));
+      });
 
       barChartPainter.drawBars(mockCanvasWrapper, barGroupsPosition, holder);
 
@@ -835,6 +845,7 @@ void main() {
         borderColors: borderColors,
         borderStrokeCaps: borderStrokeCaps,
         clipRects: clipRects,
+        drRects: drRects,
       );
     }
 
@@ -1656,7 +1667,7 @@ void main() {
       expect(HelperMethods.equalsPaths(expectedPath, currentPath), true);
     });
 
-    test('renders top border side only when border is provided', () {
+    test('renders top border side inside with Container-style smooth edge', () {
       final result = drawSingleBorderedRod(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(4),
@@ -1667,23 +1678,23 @@ void main() {
         ),
       );
 
-      expect(result.borderPaths.length, 1);
-      expect(result.borderColors.single, Colors.white);
-      expect(result.clipRects.length, 1);
+      expect(result.borderPaths, isEmpty);
+      expect(result.clipRects, isEmpty);
+      expect(result.drRects.length, 1);
 
       final rrect = result.rodRRect;
-      final borderPath = result.borderPaths.single;
-      final expectedPath = (Path()..addRRect(rrect)).toDashedPath(null);
-      expect(HelperMethods.equalsPaths(expectedPath, borderPath), true);
-
-      final clipRect = result.clipRects.single;
-      expect(clipRect.left, closeTo(rrect.left, tolerance));
-      expect(clipRect.top, closeTo(rrect.top - 1, tolerance));
-      expect(clipRect.right, closeTo(rrect.right, tolerance));
-      expect(clipRect.bottom, closeTo(rrect.top + 1, tolerance));
+      final drRect = result.drRects.single;
+      expect(drRect.color, Colors.white);
+      expect(HelperMethods.equalsRRects(drRect.outer, rrect), true);
+      expect(drRect.inner.left, closeTo(rrect.left, tolerance));
+      expect(drRect.inner.top, closeTo(rrect.top + 2, tolerance));
+      expect(drRect.inner.right, closeTo(rrect.right, tolerance));
+      expect(drRect.inner.bottom, closeTo(rrect.bottom, tolerance));
+      expect(drRect.inner.tlRadius.x, closeTo(4, tolerance));
+      expect(drRect.inner.tlRadius.y, closeTo(2, tolerance));
     });
 
-    test('renders clip rect for each border side when border is provided', () {
+    test('renders full non-uniform border with default centered strokes', () {
       final result = drawSingleBorderedRod(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(4),
@@ -1697,7 +1708,9 @@ void main() {
         ),
       );
 
+      expect(result.borderPaths.length, 4);
       expect(result.clipRects.length, 4);
+      expect(result.drRects, isEmpty);
 
       final rrect = result.rodRRect;
 
@@ -1734,30 +1747,34 @@ void main() {
       expect(result.borderPaths.length, 1);
       expect(result.borderColors.single, Colors.white);
       expect(result.clipRects, isEmpty);
+      expect(result.drRects, isEmpty);
     });
 
-    test('joins connected corners and avoids disconnected edge bleeding', () {
+    test('smooths connected curved joins inside the bar body', () {
       final result = drawSingleBorderedRod(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(4),
+        ),
         border: const Border(
-          top: BorderSide(color: Colors.white, width: 2),
-          left: BorderSide(color: Colors.white, width: 2),
+          top: BorderSide(color: Colors.red, width: 2),
+          left: BorderSide(color: Colors.red, width: 4),
         ),
       );
 
-      expect(result.clipRects.length, 2);
+      expect(result.borderPaths, isEmpty);
+      expect(result.clipRects, isEmpty);
+      expect(result.drRects.length, 1);
       final rrect = result.rodRRect;
+      final drRect = result.drRects.single;
 
-      final topRect = result.clipRects[0];
-      expect(topRect.left, closeTo(rrect.left - 1, tolerance));
-      expect(topRect.top, closeTo(rrect.top - 1, tolerance));
-      expect(topRect.right, closeTo(rrect.right, tolerance));
-      expect(topRect.bottom, closeTo(rrect.top + 1, tolerance));
-
-      final leftRect = result.clipRects[1];
-      expect(leftRect.left, closeTo(rrect.left - 1, tolerance));
-      expect(leftRect.top, closeTo(rrect.top - 1, tolerance));
-      expect(leftRect.right, closeTo(rrect.left + 1, tolerance));
-      expect(leftRect.bottom, closeTo(rrect.bottom, tolerance));
+      expect(drRect.color.toARGB32(), Colors.red.shade500.toARGB32());
+      expect(HelperMethods.equalsRRects(drRect.outer, rrect), true);
+      expect(drRect.inner.left, closeTo(rrect.left + 4, tolerance));
+      expect(drRect.inner.top, closeTo(rrect.top + 2, tolerance));
+      expect(drRect.inner.right, closeTo(rrect.right, tolerance));
+      expect(drRect.inner.bottom, closeTo(rrect.bottom, tolerance));
+      expect(drRect.inner.tlRadius.x, closeTo(0, tolerance));
+      expect(drRect.inner.tlRadius.y, closeTo(2, tolerance));
     });
 
     test('uses butt stroke cap for dashed per-side border', () {
@@ -1771,6 +1788,7 @@ void main() {
       expect(result.borderPaths.length, 1);
       expect(result.borderColors.single, Colors.white);
       expect(result.borderStrokeCaps.single, StrokeCap.butt);
+      expect(result.drRects, isEmpty);
     });
 
     test('test small bar values with large border radius (issue #1757)', () {

@@ -470,6 +470,15 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     required Border border,
     required List<int>? dashArray,
   }) {
+    if (dashArray == null && !_hasFullVisibleBorder(border)) {
+      _drawInsideNonUniformBorderUsingBoxBorder(
+        canvasWrapper: canvasWrapper,
+        barRRect: barRRect,
+        border: border,
+      );
+      return;
+    }
+
     for (final edge in _BarBorderEdge.values) {
       final borderSide = _borderSideForEdge(border, edge);
       _drawPerSideBorderWithClipping(
@@ -497,6 +506,51 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
   bool _isVisibleBorderSide(BorderSide side) =>
       side.width > 0 && side.color.a > 0;
+
+  bool _hasFullVisibleBorder(Border border) =>
+      _BarBorderEdge.values.every((edge) {
+        return _isVisibleBorderSide(_borderSideForEdge(border, edge));
+      });
+
+  void _drawInsideNonUniformBorderUsingBoxBorder({
+    required CanvasWrapper canvasWrapper,
+    required RRect barRRect,
+    required Border border,
+  }) {
+    final colors = <Color>{};
+    for (final edge in _BarBorderEdge.values) {
+      final side = _borderSideForEdge(border, edge);
+      if (_isVisibleBorderSide(side)) {
+        colors.add(side.color);
+      }
+    }
+
+    for (final color in colors) {
+      BoxBorder.paintNonUniformBorder(
+        canvasWrapper.canvas,
+        barRRect.getRect(),
+        borderRadius: BorderRadius.only(
+          topLeft: barRRect.tlRadius,
+          topRight: barRRect.trRadius,
+          bottomRight: barRRect.brRadius,
+          bottomLeft: barRRect.blRadius,
+        ),
+        textDirection: TextDirection.ltr,
+        top: _borderSideForColor(border.top, color),
+        right: _borderSideForColor(border.right, color),
+        bottom: _borderSideForColor(border.bottom, color),
+        left: _borderSideForColor(border.left, color),
+        color: color,
+      );
+    }
+  }
+
+  BorderSide _borderSideForColor(BorderSide side, Color color) {
+    if (!_isVisibleBorderSide(side) || side.color != color) {
+      return BorderSide.none;
+    }
+    return side;
+  }
 
   (BorderSide start, BorderSide end) _edgeNeighbors(
     Border border,
