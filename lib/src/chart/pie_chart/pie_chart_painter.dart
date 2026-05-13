@@ -109,14 +109,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
       final sectionDegree = sectionsAngle[i];
 
-      // Compute offset for "exploded" sections
       final sectionCenterAngle = tempAngle + (sectionDegree / 2);
-      final sectionOffset = section.sectionOffset;
-      final offsetDx =
-          math.cos(Utils().radians(sectionCenterAngle)) * sectionOffset;
-      final offsetDy =
-          math.sin(Utils().radians(sectionCenterAngle)) * sectionOffset;
-      final sectionCenter = center.translate(offsetDx, offsetDy);
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sectionDegree,
+      );
+      final sectionCenter = center + radialOffset;
 
       if (sectionDegree == 360) {
         final fullCirclePath = generateSegmentPath(
@@ -732,14 +731,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         }
       }
 
-      final sectionOffset = section.sectionOffset;
-      final offsetDx =
-          math.cos(Utils().radians(sectionCenterAngle)) * sectionOffset;
-      final offsetDy =
-          math.sin(Utils().radians(sectionCenterAngle)) * sectionOffset;
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sweepAngle,
+      );
 
       Offset sectionCenter(double percentageOffset) =>
-          center.translate(offsetDx, offsetDy) +
+          center +
+          radialOffset +
           Offset(
             math.cos(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
@@ -836,20 +836,19 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         break;
       }
 
-      // Account for outward offset when hit-testing
       final sectionCenterAngle = tempAngle + (sectionAngle / 2);
-      final sectionOffset = section.sectionOffset;
-      final offsetDx =
-          math.cos(Utils().radians(sectionCenterAngle)) * sectionOffset;
-      final offsetDy =
-          math.sin(Utils().radians(sectionCenterAngle)) * sectionOffset;
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sectionAngle,
+      );
 
       final sectionPath = generateSectionPath(
         section,
         data.sectionsSpace,
         tempAngle,
         sectionAngle,
-        center.translate(offsetDx, offsetDy),
+        center + radialOffset,
         centerRadius,
       );
 
@@ -893,14 +892,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
       final centerRadius = calculateCenterRadius(viewSize, holder);
 
-      final sectionOffset = section.sectionOffset;
-      final offsetDx =
-          math.cos(Utils().radians(sectionCenterAngle)) * sectionOffset;
-      final offsetDy =
-          math.sin(Utils().radians(sectionCenterAngle)) * sectionOffset;
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sweepAngle,
+      );
 
       Offset sectionCenter(double percentageOffset) =>
-          center.translate(offsetDx, offsetDy) +
+          center +
+          radialOffset +
           Offset(
             math.cos(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
@@ -917,5 +917,19 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
 
     return badgeWidgetsOffsets;
+  }
+
+  /// Computes the radial offset translation for a section along its center angle.
+  /// Returns [Offset.zero] when [sectionDegree] is 360 (single full-circle section).
+  Offset _computeRadialOffset(
+    double radialOffset,
+    double sectionCenterAngle,
+    double sectionDegree,
+  ) {
+    if (sectionDegree == 360) return Offset.zero;
+    return Offset(
+      math.cos(Utils().radians(sectionCenterAngle)) * radialOffset,
+      math.sin(Utils().radians(sectionCenterAngle)) * radialOffset,
+    );
   }
 }

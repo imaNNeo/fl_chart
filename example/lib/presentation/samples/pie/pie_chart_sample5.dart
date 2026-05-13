@@ -48,7 +48,7 @@ class _PieChartSample5State extends State<PieChartSample5> {
     return List.generate(4, (i) {
       final isTouched = i == touchedIndex;
       final radius = 56.0;
-      final sectionOffset = isTouched ? 12.0 : 0.0;
+      final radialOffset = isTouched ? 12.0 : 0.0;
       final fontSize = isTouched ? 18.0 : 14.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
 
@@ -58,7 +58,7 @@ class _PieChartSample5State extends State<PieChartSample5> {
             value: 40,
             title: '40%',
             radius: radius,
-            sectionOffset: sectionOffset,
+            radialOffset: radialOffset,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class _PieChartSample5State extends State<PieChartSample5> {
             value: 30,
             title: '30%',
             radius: radius,
-            sectionOffset: sectionOffset,
+            radialOffset: radialOffset,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class _PieChartSample5State extends State<PieChartSample5> {
             value: 20,
             title: '20%',
             radius: radius,
-            sectionOffset: sectionOffset,
+            radialOffset: radialOffset,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _PieChartSample5State extends State<PieChartSample5> {
             value: 10,
             title: '10%',
             radius: radius,
-            sectionOffset: sectionOffset,
+            radialOffset: radialOffset,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,

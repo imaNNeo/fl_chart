@@ -370,7 +370,7 @@ void main() {
       expect(results[3]['paint_style'] as PaintingStyle, PaintingStyle.fill);
     });
 
-    test('test 3 - sectionOffset translates section along center angle', () {
+    test('test 3 - radialOffset translates section along center angle', () {
       const viewSize = Size(200, 200);
       const centerRadius = 10.0;
       const offset = 20.0;
@@ -378,7 +378,7 @@ void main() {
       final section0 = PieChartSectionData(
         color: MockData.color1,
         value: 1,
-        sectionOffset: offset,
+        radialOffset: offset,
       );
       final section1 = PieChartSectionData(
         color: MockData.color2,
