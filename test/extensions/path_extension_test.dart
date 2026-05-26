@@ -22,4 +22,16 @@ void main() {
 
     expect(HelperMethods.equalsPaths(path1.toDashedPath([10, 5]), path2), true);
   });
+
+  test('toDashedPath returns the original path for an empty dashArray', () {
+    // Regression test: previously, passing an empty list reached
+    // `CircularIntervalList<double>([]).next` inside `dashPath()` and threw
+    // `RangeError` for any non-empty source path. An empty `dashArray` has no
+    // dashes to repeat, so the source path is returned unchanged — mirroring
+    // the existing `null` behaviour.
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(10, 0);
+    expect(path.toDashedPath([]), path);
+  });
 }
