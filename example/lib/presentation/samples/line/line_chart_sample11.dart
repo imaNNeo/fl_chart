@@ -118,13 +118,13 @@ class _Chart extends StatelessWidget {
       return const FlLine(
         color: Colors.white70,
         strokeWidth: 1,
-        dashArray: [8, 4],
+        dashData: FlDashData(dashArray: [8, 4]),
       );
     } else {
       return const FlLine(
         color: Colors.blueGrey,
         strokeWidth: 0.4,
-        dashArray: [8, 4],
+        dashData: FlDashData(dashArray: [8, 4]),
       );
     }
   }
@@ -134,13 +134,13 @@ class _Chart extends StatelessWidget {
       return const FlLine(
         color: Colors.white70,
         strokeWidth: 1,
-        dashArray: [8, 4],
+        dashData: FlDashData(dashArray: [8, 4]),
       );
     } else {
       return const FlLine(
         color: Colors.blueGrey,
         strokeWidth: 0.4,
-        dashArray: [8, 4],
+        dashData: FlDashData(dashArray: [8, 4]),
       );
     }
   }

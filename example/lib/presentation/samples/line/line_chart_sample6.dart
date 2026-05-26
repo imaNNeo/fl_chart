@@ -166,7 +166,7 @@ class LineChartSample6 extends StatelessWidget {
                 ),
                 spots: reverseSpots(spots, minSpotY, maxSpotY),
                 isCurved: true,
-                isStrokeCapRound: true,
+                dashData: const FlDashData(strokeCap: StrokeCap.round),
                 barWidth: 10,
                 belowBarData: BarAreaData(
                   show: false,
@@ -196,7 +196,7 @@ class LineChartSample6 extends StatelessWidget {
                 ),
                 spots: reverseSpots(spots2, minSpotY, maxSpotY),
                 isCurved: true,
-                isStrokeCapRound: true,
+                dashData: const FlDashData(strokeCap: StrokeCap.round),
                 barWidth: 10,
                 belowBarData: BarAreaData(
                   show: false,

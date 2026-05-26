@@ -273,7 +273,7 @@ class _LineChartSample3State extends State<LineChartSample3> {
                       y: 1.8,
                       color: widget.averageLineColor,
                       strokeWidth: 3,
-                      dashArray: [20, 10],
+                      dashData: const FlDashData(dashArray: [20, 10]),
                     ),
                   ],
                 ),
