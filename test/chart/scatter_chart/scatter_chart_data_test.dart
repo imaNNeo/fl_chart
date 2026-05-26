@@ -1,6 +1,3 @@
-// Keep deprecated APIs for testing backwards-compatibility.
-// ignore_for_file: deprecated_member_use_from_same_package
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -151,30 +148,24 @@ void main() {
             ),
         false,
       );
-      expect(
-        scatterChartData1 ==
-            scatterChartData1Clone.copyWith(
-              gridData: FlGridData(
-                show: false,
-                getDrawingHorizontalLine: (value) => const FlLine(
-                  color: Colors.green,
-                  strokeWidth: 12,
-                  dashArray: [1, 2],
+      for (final (horizontalLine, verticalLine) in dashedGridLineVariants) {
+        expect(
+          scatterChartData1 ==
+              scatterChartData1Clone.copyWith(
+                gridData: FlGridData(
+                  show: false,
+                  getDrawingHorizontalLine: (value) => horizontalLine,
+                  getDrawingVerticalLine: (value) => verticalLine,
+                  checkToShowHorizontalLine: (value) => false,
+                  checkToShowVerticalLine: (value) => true,
+                  drawVerticalLine: false,
+                  horizontalInterval: 32,
+                  verticalInterval: 1,
                 ),
-                getDrawingVerticalLine: (value) => const FlLine(
-                  color: Colors.yellow,
-                  strokeWidth: 33,
-                  dashArray: [0, 1],
-                ),
-                checkToShowHorizontalLine: (value) => false,
-                checkToShowVerticalLine: (value) => true,
-                drawVerticalLine: false,
-                horizontalInterval: 32,
-                verticalInterval: 1,
               ),
-            ),
-        false,
-      );
+          false,
+        );
+      }
       expect(
         scatterChartData1 ==
             scatterChartData1Clone.copyWith(

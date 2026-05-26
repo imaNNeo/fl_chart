@@ -90,6 +90,7 @@ void main() {
 
     test('FlLine equality test', () {
       expect(flLine1 == flLine1Clone, true);
+      expect(flLine2 == flLine2Clone, true);
 
       expect(
         flLine1 ==
