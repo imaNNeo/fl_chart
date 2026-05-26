@@ -1,3 +1,6 @@
+// Keep deprecated APIs for testing backwards-compatibility.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:math' as math;
 import 'dart:ui' as ui show Gradient;
 import 'dart:ui';
@@ -1204,7 +1207,6 @@ void main() {
             FlSpot.zero,
             0,
             const TouchedSpotIndicatorData(
-              // ignore: deprecated_member_use_from_same_package
               FlLine(dashArray: [12, 22]),
               FlDotData(show: false),
             ),
@@ -1795,7 +1797,6 @@ void main() {
           show: true,
           spotsLine: const BarAreaSpotsLine(
             show: true,
-            // ignore: deprecated_member_use_from_same_package
             flLineStyle: FlLine(dashArray: [12, 22]),
           ),
         ),
@@ -2014,7 +2015,6 @@ void main() {
           show: true,
           spotsLine: const BarAreaSpotsLine(
             show: true,
-            // ignore: deprecated_member_use_from_same_package
             flLineStyle: FlLine(dashArray: [12, 22]),
           ),
         ),

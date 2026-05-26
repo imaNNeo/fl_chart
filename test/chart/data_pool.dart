@@ -1,3 +1,6 @@
+// Keep deprecated APIs for testing backwards-compatibility.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';

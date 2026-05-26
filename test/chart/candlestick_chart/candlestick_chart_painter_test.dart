@@ -1,3 +1,6 @@
+// Keep deprecated APIs for testing backwards-compatibility.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_painter.dart';
