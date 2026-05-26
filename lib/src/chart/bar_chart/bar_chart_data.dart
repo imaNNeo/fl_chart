@@ -305,7 +305,8 @@ class BarChartRodData with EquatableMixin {
   /// and the x is equivalent to the [BarChartGroupData.x] value.
   ///
   /// It renders each rod using [color], [width], and [borderRadius] for rounding corners and also [borderSide] for stroke border.
-  /// Optionally you can use [borderDashArray] if you want your borders to have dashed lines.
+  /// Optionally you can use [dashData] if you want your borders to have dashed
+  /// lines and configure their stroke cap and join.
   ///
   /// This bar draws with provided [color] or [gradient].
   /// You must provide one of them.
@@ -336,7 +337,8 @@ class BarChartRodData with EquatableMixin {
     this.gradient,
     double? width,
     BorderRadius? borderRadius,
-    this.borderDashArray,
+    FlDashData? dashData,
+    @Deprecated('Use dashData.dashArray instead.') List<int>? borderDashArray,
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
@@ -346,6 +348,10 @@ class BarChartRodData with EquatableMixin {
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
         width = width ?? 8,
         borderRadius = Utils().normalizeBorderRadius(borderRadius, width ?? 8),
+        dashData = dashData ??
+            (borderDashArray == null
+                ? null
+                : FlDashData(dashArray: borderDashArray)),
         borderSide = Utils().normalizeBorderSide(borderSide, width ?? 8),
         backDrawRodData = backDrawRodData ?? BackgroundBarChartRodData(),
         rodStackItems = rodStackItems ?? const [];
@@ -381,8 +387,8 @@ class BarChartRodData with EquatableMixin {
   /// If you want to have a rounded rod, set this value.
   final BorderRadius? borderRadius;
 
-  /// If you want to have dashed border, set this value.
-  final List<int>? borderDashArray;
+  /// Holds dash configuration for the rod border.
+  final FlDashData? dashData;
 
   /// If you want to have a border for rod, set this value.
   final BorderSide borderSide;
@@ -412,7 +418,7 @@ class BarChartRodData with EquatableMixin {
     Gradient? gradient,
     double? width,
     BorderRadius? borderRadius,
-    List<int>? dashArray,
+    FlDashData? dashData,
     BorderSide? borderSide,
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
@@ -426,7 +432,7 @@ class BarChartRodData with EquatableMixin {
         gradient: gradient ?? this.gradient,
         width: width ?? this.width,
         borderRadius: borderRadius ?? this.borderRadius,
-        borderDashArray: borderDashArray,
+        dashData: dashData ?? this.dashData,
         borderSide: borderSide ?? this.borderSide,
         backDrawRodData: backDrawRodData ?? this.backDrawRodData,
         rodStackItems: rodStackItems ?? this.rodStackItems,
@@ -440,7 +446,7 @@ class BarChartRodData with EquatableMixin {
         color: Color.lerp(a.color, b.color, t),
         width: lerpDouble(a.width, b.width, t),
         borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
-        borderDashArray: lerpIntList(a.borderDashArray, b.borderDashArray, t),
+        dashData: FlDashData.lerp(a.dashData, b.dashData, t),
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
         fromY: lerpDouble(a.fromY, b.fromY, t),
         toY: lerpDouble(a.toY, b.toY, t)!,
@@ -463,7 +469,7 @@ class BarChartRodData with EquatableMixin {
         toYErrorRange,
         width,
         borderRadius,
-        borderDashArray,
+        dashData,
         borderSide,
         backDrawRodData,
         rodStackItems,

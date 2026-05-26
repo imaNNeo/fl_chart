@@ -86,6 +86,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final to = Offset(x2, y2);
 
         final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
+        final dashData = flLineStyle.dashData ?? const FlDashData();
         _gridPaint
           ..setColorOrGradientForLine(
             flLineStyle.color,
@@ -94,13 +95,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = flLineStyle.strokeWidth
+          ..strokeCap = dashData.strokeCap
+          ..strokeJoin = dashData.strokeJoin
+          ..strokeMiterLimit = dashData.strokeMiterLimit
           ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _gridPaint,
-          flLineStyle.dashArray,
+          dashData.dashArray,
         );
       }
     }
@@ -132,6 +136,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final from = Offset(x1, y1);
         final to = Offset(x2, y2);
 
+        final dashData = flLine.dashData ?? const FlDashData();
         _gridPaint
           ..setColorOrGradientForLine(
             flLine.color,
@@ -140,13 +145,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = flLine.strokeWidth
+          ..strokeCap = dashData.strokeCap
+          ..strokeJoin = dashData.strokeJoin
+          ..strokeMiterLimit = dashData.strokeMiterLimit
           ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _gridPaint,
-          flLine.dashArray,
+          dashData.dashArray,
         );
       }
     }
@@ -262,6 +270,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
           to.dy > viewSize.height;
 
       if (!isLineOutsideOfChart) {
+        final dashData = line.dashData ?? const FlDashData();
         _extraLinesPaint
           ..setColorOrGradientForLine(
             line.color,
@@ -270,14 +279,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = line.strokeWidth
-          ..transparentIfWidthIsZero()
-          ..strokeCap = line.strokeCap;
+          ..strokeCap = dashData.strokeCap
+          ..strokeJoin = dashData.strokeJoin
+          ..strokeMiterLimit = dashData.strokeMiterLimit
+          ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _extraLinesPaint,
-          line.dashArray,
+          dashData.dashArray,
         );
 
         if (line.sizedPicture != null) {
@@ -384,6 +395,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
           to.dx > viewSize.width;
 
       if (!isLineOutsideOfChart) {
+        final dashData = line.dashData ?? const FlDashData();
         _extraLinesPaint
           ..setColorOrGradientForLine(
             line.color,
@@ -392,14 +404,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = line.strokeWidth
-          ..transparentIfWidthIsZero()
-          ..strokeCap = line.strokeCap;
+          ..strokeCap = dashData.strokeCap
+          ..strokeJoin = dashData.strokeJoin
+          ..strokeMiterLimit = dashData.strokeMiterLimit
+          ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _extraLinesPaint,
-          line.dashArray,
+          dashData.dashArray,
         );
 
         if (line.sizedPicture != null) {
