@@ -501,7 +501,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
 
       final indicatorLine = indicatorData.indicatorBelowLine;
-      final dashData = indicatorLine.dashData ?? const FlDashData();
+      final dashData = indicatorLine.dashData ??
+          FlDashData(
+            // ignore: deprecated_member_use_from_same_package
+            dashArray: indicatorLine.dashArray,
+          );
       _touchLinePaint
         ..setColorOrGradientForLine(
           indicatorLine.color,
@@ -855,7 +859,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           }
 
           final lineStyle = barData.belowBarData.spotsLine.flLineStyle;
-          final dashData = lineStyle.dashData ?? const FlDashData();
+          final dashData = lineStyle.dashData ??
+              FlDashData(
+                // ignore: deprecated_member_use_from_same_package
+                dashArray: lineStyle.dashArray,
+              );
           _barAreaLinesPaint
             ..setColorOrGradientForLine(
               lineStyle.color,
@@ -953,7 +961,11 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
           }
 
           final lineStyle = barData.aboveBarData.spotsLine.flLineStyle;
-          final dashData = lineStyle.dashData ?? const FlDashData();
+          final dashData = lineStyle.dashData ??
+              FlDashData(
+                // ignore: deprecated_member_use_from_same_package
+                dashArray: lineStyle.dashArray,
+              );
           _barAreaLinesPaint
             ..setColorOrGradientForLine(
               lineStyle.color,

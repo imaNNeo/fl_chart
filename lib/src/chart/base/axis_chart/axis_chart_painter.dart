@@ -86,7 +86,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final to = Offset(x2, y2);
 
         final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
-        final dashData = flLineStyle.dashData ?? const FlDashData();
+        final dashData = flLineStyle.dashData ??
+            FlDashData(
+              // ignore: deprecated_member_use_from_same_package
+              dashArray: flLineStyle.dashArray,
+            );
         _gridPaint
           ..setColorOrGradientForLine(
             flLineStyle.color,
@@ -136,7 +140,11 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final from = Offset(x1, y1);
         final to = Offset(x2, y2);
 
-        final dashData = flLine.dashData ?? const FlDashData();
+        final dashData = flLine.dashData ??
+            FlDashData(
+              // ignore: deprecated_member_use_from_same_package
+              dashArray: flLine.dashArray,
+            );
         _gridPaint
           ..setColorOrGradientForLine(
             flLine.color,
@@ -270,7 +278,13 @@ abstract class AxisChartPainter<D extends AxisChartData>
           to.dy > viewSize.height;
 
       if (!isLineOutsideOfChart) {
-        final dashData = line.dashData ?? const FlDashData();
+        final dashData = line.dashData ??
+            FlDashData(
+              // ignore: deprecated_member_use_from_same_package
+              dashArray: line.dashArray,
+              // ignore: deprecated_member_use_from_same_package
+              strokeCap: line.strokeCap,
+            );
         _extraLinesPaint
           ..setColorOrGradientForLine(
             line.color,
@@ -395,7 +409,13 @@ abstract class AxisChartPainter<D extends AxisChartData>
           to.dx > viewSize.width;
 
       if (!isLineOutsideOfChart) {
-        final dashData = line.dashData ?? const FlDashData();
+        final dashData = line.dashData ??
+            FlDashData(
+              // ignore: deprecated_member_use_from_same_package
+              dashArray: line.dashArray,
+              // ignore: deprecated_member_use_from_same_package
+              strokeCap: line.strokeCap,
+            );
         _extraLinesPaint
           ..setColorOrGradientForLine(
             line.color,

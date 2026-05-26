@@ -1182,6 +1182,41 @@ void main() {
 
       verify(mockCanvasWrapper.drawDot(any, any, any)).called(2);
     });
+
+    test('honors deprecated FlLine.dashArray on indicatorBelowLine', () {
+      final barData = LineChartBarData(spots: const [FlSpot.zero]);
+      final data = LineChartData(lineBarsData: [barData]);
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(const Size(100, 100));
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      LineChartPainter().drawTouchedSpotsIndicator(
+        mockCanvasWrapper,
+        [
+          LineIndexDrawingInfo(
+            barData,
+            0,
+            FlSpot.zero,
+            0,
+            const TouchedSpotIndicatorData(
+              // ignore: deprecated_member_use_from_same_package
+              FlLine(dashArray: [12, 22]),
+              FlDotData(show: false),
+            ),
+          ),
+        ],
+        holder,
+      );
+
+      verify(
+        mockCanvasWrapper.drawDashedLine(any, any, any, [12, 22]),
+      ).called(1);
+    });
   });
 
   group('generateBarPath()', () {
@@ -1750,6 +1785,43 @@ void main() {
         expect(item['paint_stroke_width'], 18);
       }
     });
+
+    test(
+        'honors deprecated FlLine.dashArray on '
+        'belowBarData.spotsLine.flLineStyle', () {
+      final barData = LineChartBarData(
+        spots: const [FlSpot(0, 1), FlSpot(1, 1)],
+        belowBarData: BarAreaData(
+          show: true,
+          spotsLine: const BarAreaSpotsLine(
+            show: true,
+            // ignore: deprecated_member_use_from_same_package
+            flLineStyle: FlLine(dashArray: [12, 22]),
+          ),
+        ),
+      );
+      final data = LineChartData(lineBarsData: [barData]);
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(const Size(100, 100));
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      LineChartPainter().drawBelowBar(
+        mockCanvasWrapper,
+        Path(),
+        Path(),
+        holder,
+        barData,
+      );
+
+      verify(
+        mockCanvasWrapper.drawDashedLine(any, any, any, [12, 22]),
+      ).called(2);
+    });
   });
 
   group('drawAboveBar()', () {
@@ -1931,6 +2003,43 @@ void main() {
         expect((item['paint_color'] as Color).a, 0);
         expect(item['paint_stroke_width'], 18);
       }
+    });
+
+    test(
+        'honors deprecated FlLine.dashArray on '
+        'aboveBarData.spotsLine.flLineStyle', () {
+      final barData = LineChartBarData(
+        spots: const [FlSpot(0, 1), FlSpot(1, 1)],
+        aboveBarData: BarAreaData(
+          show: true,
+          spotsLine: const BarAreaSpotsLine(
+            show: true,
+            // ignore: deprecated_member_use_from_same_package
+            flLineStyle: FlLine(dashArray: [12, 22]),
+          ),
+        ),
+      );
+      final data = LineChartData(lineBarsData: [barData]);
+      final holder = PaintHolder<LineChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(const Size(100, 100));
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      LineChartPainter().drawAboveBar(
+        mockCanvasWrapper,
+        Path(),
+        Path(),
+        holder,
+        barData,
+      );
+
+      verify(
+        mockCanvasWrapper.drawDashedLine(any, any, any, [12, 22]),
+      ).called(2);
     });
   });
 
