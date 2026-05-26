@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 
 /// Describes how a dashed line/path should be painted.
-class FlDashData extends Equatable {
-  const FlDashData({
+class FlPathData extends Equatable {
+  const FlPathData({
     this.strokeCap = StrokeCap.butt,
     this.strokeJoin = StrokeJoin.miter,
     this.strokeMiterLimit = 4,
@@ -27,14 +27,14 @@ class FlDashData extends Equatable {
   /// rendered solid.
   final List<int>? dashArray;
 
-  /// Lerps two [FlDashData] based on [t].
-  static FlDashData? lerp(FlDashData? a, FlDashData? b, double t) {
+  /// Lerps two [FlPathData] based on [t].
+  static FlPathData? lerp(FlPathData? a, FlPathData? b, double t) {
     // If only one value is provided, return it (or null if both are null).
     if (a == null || b == null) {
       return a ?? b;
     }
 
-    return FlDashData(
+    return FlPathData(
       strokeCap: b.strokeCap,
       strokeJoin: b.strokeJoin,
       strokeMiterLimit: lerpDouble(a.strokeMiterLimit, b.strokeMiterLimit, t)!,
@@ -42,15 +42,15 @@ class FlDashData extends Equatable {
     );
   }
 
-  /// Copies current [FlDashData] to a new [FlDashData],
+  /// Copies current [FlPathData] to a new [FlPathData],
   /// and replaces provided values.
-  FlDashData copyWith({
+  FlPathData copyWith({
     StrokeCap? strokeCap,
     StrokeJoin? strokeJoin,
     double? strokeMiterLimit,
     List<int>? dashArray,
   }) =>
-      FlDashData(
+      FlPathData(
         strokeCap: strokeCap ?? this.strokeCap,
         strokeJoin: strokeJoin ?? this.strokeJoin,
         strokeMiterLimit: strokeMiterLimit ?? this.strokeMiterLimit,

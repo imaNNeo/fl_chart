@@ -219,7 +219,7 @@ class LineChartBarData with EquatableMixin {
   /// to overshooting understand the problem.
   ///
   /// To customize the line's cap, joins, miter limit, or dash pattern, use
-  /// [dashData].
+  /// [pathData].
   ///
   /// [belowBarData], and  [aboveBarData] used to fill the space below or above the drawn line,
   /// you can fill with a solid color or a linear gradient.
@@ -245,11 +245,11 @@ class LineChartBarData with EquatableMixin {
     this.preventCurveOverShooting = false,
     this.preventCurveOvershootingThreshold = 10.0,
     @Deprecated(
-      'Use dashData.strokeCap with StrokeCap.round instead.',
+      'Use pathData.strokeCap with StrokeCap.round instead.',
     )
     bool? isStrokeCapRound,
     @Deprecated(
-      'Use dashData.strokeJoin with StrokeJoin.round instead.',
+      'Use pathData.strokeJoin with StrokeJoin.round instead.',
     )
     bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
@@ -258,15 +258,15 @@ class LineChartBarData with EquatableMixin {
     this.errorIndicatorData =
         const FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(),
     this.showingIndicators = const [],
-    FlDashData? dashData,
-    @Deprecated('Use dashData.dashArray instead.') List<int>? dashArray,
+    FlPathData? pathData,
+    @Deprecated('Use pathData.dashArray instead.') List<int>? dashArray,
     this.shadow = const Shadow(color: Colors.transparent),
     this.isStepLineChart = false,
     this.lineChartStepData = const LineChartStepData(),
   })  : color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
-        dashData = dashData ??
-            FlDashData(
+        pathData = pathData ??
+            FlPathData(
               dashArray: dashArray,
               strokeCap: (isStrokeCapRound ?? false)
                   ? StrokeCap.round
@@ -387,7 +387,7 @@ class LineChartBarData with EquatableMixin {
   final List<int> showingIndicators;
 
   /// Holds dash configuration for the rendered line.
-  final FlDashData? dashData;
+  final FlPathData? pathData;
 
   /// Drops a shadow behind the bar line.
   final Shadow shadow;
@@ -423,7 +423,7 @@ class LineChartBarData with EquatableMixin {
           b.errorIndicatorData,
           t,
         ),
-        dashData: FlDashData.lerp(a.dashData, b.dashData, t),
+        pathData: FlPathData.lerp(a.pathData, b.pathData, t),
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         gradientArea: b.gradientArea,
@@ -453,7 +453,7 @@ class LineChartBarData with EquatableMixin {
     FlDotData? dotData,
     FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>?
         errorIndicatorData,
-    FlDashData? dashData,
+    FlPathData? pathData,
     List<int>? showingIndicators,
     Shadow? shadow,
     bool? isStepLineChart,
@@ -474,7 +474,7 @@ class LineChartBarData with EquatableMixin {
             this.preventCurveOvershootingThreshold,
         belowBarData: belowBarData ?? this.belowBarData,
         aboveBarData: aboveBarData ?? this.aboveBarData,
-        dashData: dashData ?? this.dashData,
+        pathData: pathData ?? this.pathData,
         dotData: dotData ?? this.dotData,
         errorIndicatorData: errorIndicatorData ?? this.errorIndicatorData,
         showingIndicators: showingIndicators ?? this.showingIndicators,
@@ -501,7 +501,7 @@ class LineChartBarData with EquatableMixin {
         dotData,
         errorIndicatorData,
         showingIndicators,
-        dashData,
+        pathData,
         shadow,
         isStepLineChart,
         lineChartStepData,

@@ -294,7 +294,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
     return FlLine(
       color: isZero ? Colors.white38 : Colors.blueGrey,
       strokeWidth: isZero ? 0.8 : 0.4,
-      dashData: isZero ? null : const FlDashData(dashArray: [8, 4]),
+      pathData: isZero ? null : const FlPathData(dashArray: [8, 4]),
     );
   }
 

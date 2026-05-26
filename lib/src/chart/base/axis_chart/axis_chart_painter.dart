@@ -86,8 +86,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final to = Offset(x2, y2);
 
         final flLineStyle = data.gridData.getDrawingVerticalLine(axisValue);
-        final dashData = flLineStyle.dashData ??
-            FlDashData(
+        final pathData = flLineStyle.pathData ??
+            FlPathData(
+              // Kept for backwards-compatibility.
               // ignore: deprecated_member_use_from_same_package
               dashArray: flLineStyle.dashArray,
             );
@@ -99,16 +100,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = flLineStyle.strokeWidth
-          ..strokeCap = dashData.strokeCap
-          ..strokeJoin = dashData.strokeJoin
-          ..strokeMiterLimit = dashData.strokeMiterLimit
+          ..strokeCap = pathData.strokeCap
+          ..strokeJoin = pathData.strokeJoin
+          ..strokeMiterLimit = pathData.strokeMiterLimit
           ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _gridPaint,
-          dashData.dashArray,
+          pathData.dashArray,
         );
       }
     }
@@ -140,8 +141,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
         final from = Offset(x1, y1);
         final to = Offset(x2, y2);
 
-        final dashData = flLine.dashData ??
-            FlDashData(
+        final pathData = flLine.pathData ??
+            FlPathData(
+              // Kept for backwards-compatibility.
               // ignore: deprecated_member_use_from_same_package
               dashArray: flLine.dashArray,
             );
@@ -153,16 +155,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = flLine.strokeWidth
-          ..strokeCap = dashData.strokeCap
-          ..strokeJoin = dashData.strokeJoin
-          ..strokeMiterLimit = dashData.strokeMiterLimit
+          ..strokeCap = pathData.strokeCap
+          ..strokeJoin = pathData.strokeJoin
+          ..strokeMiterLimit = pathData.strokeMiterLimit
           ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _gridPaint,
-          dashData.dashArray,
+          pathData.dashArray,
         );
       }
     }
@@ -278,10 +280,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
           to.dy > viewSize.height;
 
       if (!isLineOutsideOfChart) {
-        final dashData = line.dashData ??
-            FlDashData(
+        final pathData = line.pathData ??
+            FlPathData(
+              // Kept for backwards-compatibility.
               // ignore: deprecated_member_use_from_same_package
               dashArray: line.dashArray,
+              // Kept for backwards-compatibility.
               // ignore: deprecated_member_use_from_same_package
               strokeCap: line.strokeCap,
             );
@@ -293,16 +297,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = line.strokeWidth
-          ..strokeCap = dashData.strokeCap
-          ..strokeJoin = dashData.strokeJoin
-          ..strokeMiterLimit = dashData.strokeMiterLimit
+          ..strokeCap = pathData.strokeCap
+          ..strokeJoin = pathData.strokeJoin
+          ..strokeMiterLimit = pathData.strokeMiterLimit
           ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _extraLinesPaint,
-          dashData.dashArray,
+          pathData.dashArray,
         );
 
         if (line.sizedPicture != null) {
@@ -409,10 +413,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
           to.dx > viewSize.width;
 
       if (!isLineOutsideOfChart) {
-        final dashData = line.dashData ??
-            FlDashData(
+        final pathData = line.pathData ??
+            FlPathData(
+              // Kept for backwards-compatibility.
               // ignore: deprecated_member_use_from_same_package
               dashArray: line.dashArray,
+              // Kept for backwards-compatibility.
               // ignore: deprecated_member_use_from_same_package
               strokeCap: line.strokeCap,
             );
@@ -424,16 +430,16 @@ abstract class AxisChartPainter<D extends AxisChartData>
             to: to,
           )
           ..strokeWidth = line.strokeWidth
-          ..strokeCap = dashData.strokeCap
-          ..strokeJoin = dashData.strokeJoin
-          ..strokeMiterLimit = dashData.strokeMiterLimit
+          ..strokeCap = pathData.strokeCap
+          ..strokeJoin = pathData.strokeJoin
+          ..strokeMiterLimit = pathData.strokeMiterLimit
           ..transparentIfWidthIsZero();
 
         canvasWrapper.drawDashedLine(
           from,
           to,
           _extraLinesPaint,
-          dashData.dashArray,
+          pathData.dashArray,
         );
 
         if (line.sizedPicture != null) {

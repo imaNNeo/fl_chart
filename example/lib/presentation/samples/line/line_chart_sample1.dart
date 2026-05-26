@@ -166,7 +166,7 @@ class _LineChart extends StatelessWidget {
         isCurved: true,
         color: AppColors.contentColorGreen,
         barWidth: 8,
-        dashData: const FlDashData(strokeCap: StrokeCap.round),
+        pathData: const FlPathData(strokeCap: StrokeCap.round),
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: const [
@@ -184,7 +184,7 @@ class _LineChart extends StatelessWidget {
         isCurved: true,
         color: AppColors.contentColorPink,
         barWidth: 8,
-        dashData: const FlDashData(strokeCap: StrokeCap.round),
+        pathData: const FlPathData(strokeCap: StrokeCap.round),
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(
           show: false,
@@ -204,7 +204,7 @@ class _LineChart extends StatelessWidget {
         isCurved: true,
         color: AppColors.contentColorCyan,
         barWidth: 8,
-        dashData: const FlDashData(strokeCap: StrokeCap.round),
+        pathData: const FlPathData(strokeCap: StrokeCap.round),
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: const [
@@ -221,7 +221,7 @@ class _LineChart extends StatelessWidget {
         curveSmoothness: 0,
         color: AppColors.contentColorGreen.withValues(alpha: 0.5),
         barWidth: 4,
-        dashData: const FlDashData(strokeCap: StrokeCap.round),
+        pathData: const FlPathData(strokeCap: StrokeCap.round),
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: const [
@@ -239,7 +239,7 @@ class _LineChart extends StatelessWidget {
         isCurved: true,
         color: AppColors.contentColorPink.withValues(alpha: 0.5),
         barWidth: 4,
-        dashData: const FlDashData(strokeCap: StrokeCap.round),
+        pathData: const FlPathData(strokeCap: StrokeCap.round),
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
@@ -260,7 +260,7 @@ class _LineChart extends StatelessWidget {
         curveSmoothness: 0,
         color: AppColors.contentColorCyan.withValues(alpha: 0.5),
         barWidth: 2,
-        dashData: const FlDashData(strokeCap: StrokeCap.round),
+        pathData: const FlPathData(strokeCap: StrokeCap.round),
         dotData: const FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
         spots: const [

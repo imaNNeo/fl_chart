@@ -146,7 +146,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             y: 5,
             color: AppColors.contentColorGreen,
             strokeWidth: 2,
-            dashData: const FlDashData(dashArray: [5, 10]),
+            pathData: const FlPathData(dashArray: [5, 10]),
             label: HorizontalLineLabel(
               show: true,
               alignment: Alignment.topRight,
@@ -164,7 +164,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             x: 5.7,
             color: AppColors.contentColorBlue,
             strokeWidth: 2,
-            dashData: const FlDashData(dashArray: [5, 10]),
+            pathData: const FlPathData(dashArray: [5, 10]),
             label: VerticalLineLabel(
               show: true,
               alignment: Alignment.bottomRight,
@@ -276,7 +276,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             FlSpot(10, 2),
             FlSpot(11, 2.5),
           ],
-          dashData: const FlDashData(
+          pathData: const FlPathData(
             dashArray: [10, 6],
             strokeCap: StrokeCap.round,
           ),

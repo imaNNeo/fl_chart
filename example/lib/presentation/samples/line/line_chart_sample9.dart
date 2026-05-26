@@ -83,7 +83,7 @@ class LineChartSample9 extends StatelessWidget {
                     color: AppColors.contentColorPink,
                     spots: spots,
                     isCurved: true,
-                    dashData: const FlDashData(strokeCap: StrokeCap.round),
+                    pathData: const FlPathData(strokeCap: StrokeCap.round),
                     barWidth: 3,
                     belowBarData: BarAreaData(
                       show: false,
@@ -131,12 +131,12 @@ class LineChartSample9 extends StatelessWidget {
                   },
                   getDrawingHorizontalLine: (_) => FlLine(
                     color: AppColors.contentColorBlue.withValues(alpha: 1),
-                    dashData: const FlDashData(dashArray: [8, 2]),
+                    pathData: const FlPathData(dashArray: [8, 2]),
                     strokeWidth: 0.8,
                   ),
                   getDrawingVerticalLine: (_) => FlLine(
                     color: AppColors.contentColorYellow.withValues(alpha: 1),
-                    dashData: const FlDashData(dashArray: [8, 2]),
+                    pathData: const FlPathData(dashArray: [8, 2]),
                     strokeWidth: 0.8,
                   ),
                   checkToShowVerticalLine: (value) {

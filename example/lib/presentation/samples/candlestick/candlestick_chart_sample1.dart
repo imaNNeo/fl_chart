@@ -42,7 +42,7 @@ class CandlestickChartSample1State extends State<CandlestickChartSample1> {
     _gridLine = FlLine(
       color: Colors.blueGrey.withValues(alpha: 0.4),
       strokeWidth: 0.4,
-      dashData: const FlDashData(dashArray: [8, 4]),
+      pathData: const FlPathData(dashArray: [8, 4]),
     );
     super.initState();
   }

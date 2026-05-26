@@ -781,26 +781,26 @@ typedef GetDrawingGridLine = FlLine Function(double value);
 FlLine defaultGridLine(double value) => const FlLine(
       color: Colors.blueGrey,
       strokeWidth: 0.4,
-      dashData: FlDashData(dashArray: [8, 4]),
+      pathData: FlPathData(dashArray: [8, 4]),
     );
 
 /// Defines style of a line.
 class FlLine with EquatableMixin {
   /// Renders a line, color it by [color],
   /// thickness is defined by [strokeWidth],
-  /// and if you want to have dashed line, provide [dashData] with
-  /// [FlDashData.dashArray]. It is a circular array of dash offsets and
+  /// and if you want to have dashed line, provide [pathData] with
+  /// [FlPathData.dashArray]. It is a circular array of dash offsets and
   /// lengths. For example, the array `[5, 10]` would result in dashes 5 pixels
   /// long followed by blank spaces 10 pixels long.
   const FlLine({
     Color? color,
     this.gradient,
     this.strokeWidth = 2,
-    this.dashData,
-    @Deprecated('Use dashData.dashArray instead.') this.dashArray,
+    this.pathData,
+    @Deprecated('Use pathData.dashArray instead.') this.dashArray,
   })  : assert(
-          !(dashData != null && dashArray != null),
-          'dashData and dashArray cannot be provided together.',
+          !(pathData != null && dashArray != null),
+          'pathData and dashArray cannot be provided together.',
         ),
         color = color ??
             ((color == null && gradient == null) ? Colors.black : null);
@@ -815,10 +815,10 @@ class FlLine with EquatableMixin {
   final double strokeWidth;
 
   /// Defines dash effect of the line.
-  final FlDashData? dashData;
+  final FlPathData? pathData;
 
   /// Returns the dash pattern of this line.
-  @Deprecated('Use dashData.dashArray instead.')
+  @Deprecated('Use pathData.dashArray instead.')
   final List<int>? dashArray;
 
   /// Lerps a [FlLine] based on [t] value, check [Tween.lerp].
@@ -826,7 +826,8 @@ class FlLine with EquatableMixin {
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-        dashData: FlDashData.lerp(a.dashData, b.dashData, t),
+        pathData: FlPathData.lerp(a.pathData, b.pathData, t),
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
       );
@@ -837,14 +838,15 @@ class FlLine with EquatableMixin {
     Color? color,
     Gradient? gradient,
     double? strokeWidth,
-    FlDashData? dashData,
-    @Deprecated('Use dashData.dashArray instead.') List<int>? dashArray,
+    FlPathData? pathData,
+    @Deprecated('Use pathData.dashArray instead.') List<int>? dashArray,
   }) =>
       FlLine(
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
         strokeWidth: strokeWidth ?? this.strokeWidth,
-        dashData: dashData ?? this.dashData,
+        pathData: pathData ?? this.pathData,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray: dashArray ?? this.dashArray,
       );
@@ -855,7 +857,8 @@ class FlLine with EquatableMixin {
         color,
         gradient,
         strokeWidth,
-        dashData,
+        pathData,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray,
       ];
@@ -1088,8 +1091,8 @@ class HorizontalLine extends FlLine with EquatableMixin {
   ///
   /// It draws a [label] over it.
   ///
-  /// You can have a dashed line by providing [dashData] with a
-  /// [FlDashData.dashArray].
+  /// You can have a dashed line by providing [pathData] with a
+  /// [FlPathData.dashArray].
   ///
   /// It draws an image in left side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
@@ -1099,11 +1102,11 @@ class HorizontalLine extends FlLine with EquatableMixin {
     super.color,
     super.gradient,
     super.strokeWidth,
-    super.dashData,
-    @Deprecated('Use dashData.dashArray instead.') super.dashArray,
+    super.pathData,
+    @Deprecated('Use pathData.dashArray instead.') super.dashArray,
     this.image,
     this.sizedPicture,
-    @Deprecated('Use dashData.strokeCap instead.')
+    @Deprecated('Use pathData.strokeCap instead.')
     this.strokeCap = StrokeCap.butt,
   }) : label = label ?? HorizontalLineLabel();
 
@@ -1121,7 +1124,7 @@ class HorizontalLine extends FlLine with EquatableMixin {
 
   /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
-  @Deprecated('Use dashData.strokeCap instead.')
+  @Deprecated('Use pathData.strokeCap instead.')
   final StrokeCap strokeCap;
 
   /// Lerps a [HorizontalLine] based on [t] value, check [Tween.lerp].
@@ -1132,11 +1135,13 @@ class HorizontalLine extends FlLine with EquatableMixin {
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-        dashData: FlDashData.lerp(a.dashData, b.dashData, t),
+        pathData: FlPathData.lerp(a.pathData, b.pathData, t),
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
         image: b.image,
         sizedPicture: b.sizedPicture,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         strokeCap: b.strokeCap,
       );
@@ -1148,11 +1153,13 @@ class HorizontalLine extends FlLine with EquatableMixin {
         label,
         color,
         strokeWidth,
-        dashData,
+        pathData,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray,
         image,
         sizedPicture,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         strokeCap,
       ];
@@ -1169,8 +1176,8 @@ class VerticalLine extends FlLine with EquatableMixin {
   ///
   /// It draws a [label] over it.
   ///
-  /// You can have a dashed line by providing [dashData] with a
-  /// [FlDashData.dashArray].
+  /// You can have a dashed line by providing [pathData] with a
+  /// [FlPathData.dashArray].
   ///
   /// It draws an image in bottom side of the chart, use [sizedPicture] for vectors,
   /// or [image] for any kind of image.
@@ -1180,11 +1187,11 @@ class VerticalLine extends FlLine with EquatableMixin {
     super.color,
     super.gradient,
     super.strokeWidth,
-    super.dashData,
-    @Deprecated('Use dashData.dashArray instead.') super.dashArray,
+    super.pathData,
+    @Deprecated('Use pathData.dashArray instead.') super.dashArray,
     this.image,
     this.sizedPicture,
-    @Deprecated('Use dashData.strokeCap instead.')
+    @Deprecated('Use pathData.strokeCap instead.')
     this.strokeCap = StrokeCap.butt,
   }) : label = label ?? VerticalLineLabel();
 
@@ -1202,7 +1209,7 @@ class VerticalLine extends FlLine with EquatableMixin {
 
   /// if not drawing dash line, then this is the StrokeCap for the line.
   /// i.e. if the two ends of the line is round or butt or square.
-  @Deprecated('Use dashData.strokeCap instead.')
+  @Deprecated('Use pathData.strokeCap instead.')
   final StrokeCap strokeCap;
 
   /// Lerps a [VerticalLine] based on [t] value, check [Tween.lerp].
@@ -1213,11 +1220,13 @@ class VerticalLine extends FlLine with EquatableMixin {
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
-        dashData: FlDashData.lerp(a.dashData, b.dashData, t),
+        pathData: FlPathData.lerp(a.pathData, b.pathData, t),
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray: lerpIntList(a.dashArray, b.dashArray, t),
         image: b.image,
         sizedPicture: b.sizedPicture,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         strokeCap: b.strokeCap,
       );
@@ -1229,22 +1238,24 @@ class VerticalLine extends FlLine with EquatableMixin {
     VerticalLineLabel? label,
     Color? color,
     double? strokeWidth,
-    FlDashData? dashData,
-    @Deprecated('Use dashData.dashArray instead.') List<int>? dashArray,
+    FlPathData? pathData,
+    @Deprecated('Use pathData.dashArray instead.') List<int>? dashArray,
     Image? image,
     SizedPicture? sizedPicture,
-    @Deprecated('Use dashData.strokeCap instead.') StrokeCap? strokeCap,
+    @Deprecated('Use pathData.strokeCap instead.') StrokeCap? strokeCap,
   }) =>
       VerticalLine(
         x: x ?? this.x,
         label: label ?? this.label,
         color: color ?? this.color,
         strokeWidth: strokeWidth ?? this.strokeWidth,
-        dashData: dashData ?? this.dashData,
+        pathData: pathData ?? this.pathData,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray: dashArray ?? this.dashArray,
         image: image ?? this.image,
         sizedPicture: sizedPicture ?? this.sizedPicture,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         strokeCap: strokeCap ?? this.strokeCap,
       );
@@ -1256,11 +1267,13 @@ class VerticalLine extends FlLine with EquatableMixin {
         label,
         color,
         strokeWidth,
-        dashData,
+        pathData,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         dashArray,
         image,
         sizedPicture,
+        // Kept for backwards-compatibility.
         // ignore: deprecated_member_use_from_same_package
         strokeCap,
       ];
@@ -2231,10 +2244,12 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
     Offset from,
     Offset to,
   ) {
-    final dashData = line.dashData ??
-        FlDashData(
+    final pathData = line.pathData ??
+        FlPathData(
+          // Kept for backwards-compatibility.
           // ignore: deprecated_member_use_from_same_package
           dashArray: line.dashArray,
+          // Kept for backwards-compatibility.
           // ignore: deprecated_member_use_from_same_package
           strokeCap: line.strokeCap,
         );
@@ -2247,16 +2262,16 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
       )
       ..style = PaintingStyle.stroke
       ..strokeWidth = line.strokeWidth
-      ..strokeCap = dashData.strokeCap
-      ..strokeJoin = dashData.strokeJoin
-      ..strokeMiterLimit = dashData.strokeMiterLimit
+      ..strokeCap = pathData.strokeCap
+      ..strokeJoin = pathData.strokeJoin
+      ..strokeMiterLimit = pathData.strokeMiterLimit
       ..transparentIfWidthIsZero();
 
     canvasWrapper.drawDashedLine(
       from,
       to,
       _linePaint,
-      dashData.dashArray,
+      pathData.dashArray,
     );
 
     if (line.sizedPicture != null) {
@@ -2339,10 +2354,12 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
   ) {
     final viewSize = canvasWrapper.size;
 
-    final dashData = line.dashData ??
-        FlDashData(
+    final pathData = line.pathData ??
+        FlPathData(
+          // Kept for backwards-compatibility.
           // ignore: deprecated_member_use_from_same_package
           dashArray: line.dashArray,
+          // Kept for backwards-compatibility.
           // ignore: deprecated_member_use_from_same_package
           strokeCap: line.strokeCap,
         );
@@ -2355,16 +2372,16 @@ class AxisLinesIndicatorPainter extends AxisSpotIndicatorPainter {
       )
       ..strokeWidth = line.strokeWidth
       ..style = PaintingStyle.stroke
-      ..strokeCap = dashData.strokeCap
-      ..strokeJoin = dashData.strokeJoin
-      ..strokeMiterLimit = dashData.strokeMiterLimit
+      ..strokeCap = pathData.strokeCap
+      ..strokeJoin = pathData.strokeJoin
+      ..strokeMiterLimit = pathData.strokeMiterLimit
       ..transparentIfWidthIsZero();
 
     canvasWrapper.drawDashedLine(
       from,
       to,
       _linePaint,
-      dashData.dashArray,
+      pathData.dashArray,
     );
 
     if (line.sizedPicture != null) {

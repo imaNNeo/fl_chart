@@ -5,7 +5,7 @@ export 'src/chart/base/axis_chart/axis_chart_widgets.dart';
 export 'src/chart/base/axis_chart/scale_axis.dart';
 export 'src/chart/base/axis_chart/transformation_config.dart';
 export 'src/chart/base/base_chart/base_chart_data.dart';
-export 'src/chart/base/base_chart/fl_dash_data.dart';
+export 'src/chart/base/base_chart/fl_path_data.dart';
 export 'src/chart/base/base_chart/fl_touch_event.dart';
 export 'src/chart/candlestick_chart/candlestick_chart.dart';
 export 'src/chart/candlestick_chart/candlestick_chart_data.dart';

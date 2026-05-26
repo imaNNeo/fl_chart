@@ -162,7 +162,7 @@ class _LineChartSample12State extends State<LineChartSample12> {
                         const FlLine(
                           color: AppColors.contentColorRed,
                           strokeWidth: 1.5,
-                          dashData: FlDashData(dashArray: [8, 2]),
+                          pathData: FlPathData(dashArray: [8, 2]),
                         ),
                         FlDotData(
                           show: true,
