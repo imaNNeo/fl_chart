@@ -165,4 +165,113 @@ void main() {
       expect(sample1 == zeroLongPressDuration, false);
     });
   });
+
+  group('PieChartStackSegmentData', () {
+    test('equality', () {
+      final a = PieChartStackSegmentData(
+        fromRadius: 10,
+        toRadius: 30,
+        color: Colors.red,
+      );
+      final b = PieChartStackSegmentData(
+        fromRadius: 10,
+        toRadius: 30,
+        color: Colors.red,
+      );
+      expect(a == b, true);
+
+      expect(
+        a ==
+            PieChartStackSegmentData(
+              fromRadius: 20,
+              toRadius: 30,
+              color: Colors.red,
+            ),
+        false,
+      );
+      expect(
+        a ==
+            PieChartStackSegmentData(
+              fromRadius: 10,
+              toRadius: 40,
+              color: Colors.red,
+            ),
+        false,
+      );
+      expect(
+        a ==
+            PieChartStackSegmentData(
+              fromRadius: 10,
+              toRadius: 30,
+              color: Colors.blue,
+            ),
+        false,
+      );
+    });
+
+    test('copyWith', () {
+      final original = PieChartStackSegmentData(
+        fromRadius: 10,
+        toRadius: 40,
+        color: Colors.red,
+      );
+
+      expect(original.copyWith() == original, true);
+
+      expect(
+        original.copyWith(fromRadius: 5) ==
+            PieChartStackSegmentData(
+              fromRadius: 5,
+              toRadius: 40,
+              color: Colors.red,
+            ),
+        true,
+      );
+
+      expect(
+        original.copyWith(toRadius: 50) ==
+            PieChartStackSegmentData(
+              fromRadius: 10,
+              toRadius: 50,
+              color: Colors.red,
+            ),
+        true,
+      );
+
+      expect(
+        original.copyWith(color: Colors.green) ==
+            PieChartStackSegmentData(
+              fromRadius: 10,
+              toRadius: 40,
+              color: Colors.green,
+            ),
+        true,
+      );
+    });
+
+    test('lerp', () {
+      final a = PieChartStackSegmentData(
+        fromRadius: 0,
+        toRadius: 20,
+        color: const Color(0xFF000000),
+      );
+      final b = PieChartStackSegmentData(
+        fromRadius: 40,
+        toRadius: 80,
+        color: const Color(0xFFFFFFFF),
+      );
+
+      final atZero = PieChartStackSegmentData.lerp(a, b, 0);
+      expect(atZero.fromRadius, 0);
+      expect(atZero.toRadius, 20);
+
+      final atOne = PieChartStackSegmentData.lerp(a, b, 1);
+      expect(atOne.fromRadius, 40);
+      expect(atOne.toRadius, 80);
+
+      final mid = PieChartStackSegmentData.lerp(a, b, 0.5);
+      expect(mid.fromRadius, 20);
+      expect(mid.toRadius, 50);
+    });
+  });
 }

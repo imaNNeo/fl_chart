@@ -1,4 +1,4 @@
-# Migrate to new version
+# Migrate to version 0.67.0
 
 ## Replaced tooltipBgColor
 

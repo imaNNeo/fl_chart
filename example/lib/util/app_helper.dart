@@ -1,7 +1,7 @@
 import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart_app/urls.dart';
 
-enum ChartType { line, bar, pie, scatter, radar, candlestick }
+enum ChartType { line, bar, pie, scatter, radar, candlestick, gauge }
 
 extension ChartTypeExtension on ChartType {
   String get displayName => '$simpleName Chart';
@@ -13,6 +13,7 @@ extension ChartTypeExtension on ChartType {
         ChartType.scatter => 'Scatter',
         ChartType.radar => 'Radar',
         ChartType.candlestick => 'Candlestick',
+        ChartType.gauge => 'Gauge',
       };
 
   String get documentationUrl => Urls.getChartDocumentationUrl(this);

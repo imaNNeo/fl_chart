@@ -1,11 +1,11 @@
 # Contributing
 Hello, we are glad to have a contributor like you here.  
 
-Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
+Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot, even if it is just a line of change.
 
 This file is intended to be a guide for those who are interested in contributing to the FL Chart.
 
-#### Below are the people who have contributed to the FL Chart. We hope we have your picture here soon.
+#### Below are the people who have contributed to FL Chart. We hope to have your picture here soon.
 [![](https://opencollective.com/fl_chart/contributors.svg?width=890&button=false)](https://github.com/imaNNeo/fl_chart/graphs/contributors)
 
 ## Let's get Started
@@ -50,7 +50,7 @@ It makes draw functions testable.
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
 ## Keep your branch updated
-If your branch falls behind the `main` branch, you can update it using the "Update branch" button on GitHub or by merging `main` into your branch. 
+If your branch falls behind the `main` branch, you can update it using the "Update branch" button on GitHub or by merging `main` into your branch.
 
 We use **Squash and Merge**, which combines all your PR commits into a single, clean commit in the `main` branch.
 
@@ -83,7 +83,7 @@ We should write unit tests for our written code. If you are not familiar with un
 Our code coverage is calculated by [Codecov](https://app.codecov.io/gh/imaNNeo/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
  at the moment)
 
-When you push something in your PR (after approving your PR by one of us), you see a coverage report which describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 
+When you push something in your PR (after your PR is approved by one of us), you will see a coverage report that describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 
 
 Please make sure that your code is **not decreasing** the coverage.
 

@@ -55,14 +55,18 @@ class _MenuRowState extends State<MenuRow> {
               const SizedBox(
                 width: 18,
               ),
-              Text(
-                widget.text,
-                style: TextStyle(
-                  color: _showSelectedState ? AppColors.primary : Colors.white,
-                  fontSize: AppDimens.menuTextSize,
+              Expanded(
+                child: Text(
+                  widget.text,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color:
+                        _showSelectedState ? AppColors.primary : Colors.white,
+                    fontSize: AppDimens.menuTextSize,
+                  ),
                 ),
               ),
-              Expanded(child: Container()),
               _DocumentationIcon(onTap: widget.onDocumentsTap),
               const SizedBox(
                 width: 18,

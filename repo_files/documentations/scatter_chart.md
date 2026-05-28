@@ -19,35 +19,35 @@ When you change the chart's state, it animates to the new state internally (usin
 ### ScatterChartData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|scatterSpots| list of [ScatterSpot ](#ScatterSpot ) to show the scatter spots on the chart|[]|
+|scatterSpots| list of [ScatterSpot](#ScatterSpot) to show the scatter spots on the chart|[]|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |axisTitleData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
 |scatterTouchData| [ScatterTouchData](#scattertouchdata-read-about-touch-handling) holds the touch interactivity details| ScatterTouchData()|
-|showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
-|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
+|showingTooltipIndicators| indices of showing tooltip. The point is that you need to disable touches to show these tooltips manually|[]|
+|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turn. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget|0|
 |errorIndicatorData|Holds data for representing an error indicator (you see the error indicators if you provide the `xError` or `yError` in the [ScatterSpot](#ScatterSpot))|[ErrorIndicatorData()](base_chart.md#FlErrorIndicatorData)|
 
 ### ScatterSpot
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|show| determines to show or hide the spot|true|
-|radius| radius of the showing spot| [8]
-|color| colors of the spot|// a color based on the values|
+|show| determines whether to show or hide the spot|true|
+|radius| radius of the showing spot| [8]|
+|color| color of the spot|// a color based on the values|
 |renderPriority| sort by this to manage overlap|0|
-|xError| Determines the error range of the data point using (FlErrorRange)[base_chart.md#FlErrorRange] (which ontains `lowerBy` and `upperValue`) for the x-axis|null|
-|yError| Determines the error range of the data point using (FlErrorRange)[base_chart.md#FlErrorRange] (which ontains `upperBy` and `upperValue`) for the y-axis|null|
+|xError| Determines the error range of the data point using [FlErrorRange](base_chart.md#FlErrorRange) (which contains `lowerBy` and `upperValue`) for the x-axis|null|
+|yError| Determines the error range of the data point using [FlErrorRange](base_chart.md#FlErrorRange) (which contains `lowerBy` and `upperValue`) for the y-axis|null|
 
 
 ### ScatterTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|enabled|determines to enable or disable touch behaviors|true|
+|enabled|determines whether to enable or disable touch behaviors|true|
 |mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)|MouseCursor.defer|
-|touchTooltipData|a [ScatterTouchTooltipData](#ScatterTouchTooltipData), that determines how show the tooltip on top of touched spot (appearance of the showing tooltip bubble)|ScatterTouchTooltipData()|
+|touchTooltipData|a [ScatterTouchTooltipData](#ScatterTouchTooltipData), that determines how to show the tooltip on top of touched spot (appearance of the showing tooltip bubble)|ScatterTouchTooltipData()|
 |touchSpotThreshold|the threshold of the touch accuracy|0|
-|handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
+|handleBuiltInTouches| set this to true if you want the built-in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [ScatterTouchResponse](#ScatterTouchResponse)| null|
-|longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
+|longPressDuration| allows you to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 ### ScatterTouchTooltipData
 |PropName|Description|default value|
@@ -55,13 +55,13 @@ When you change the chart's state, it animates to the new state internally (usin
 |tooltipBorder|border of the tooltip bubble|BorderSide.none|
 |tooltipBorderRadius|background corner radius of the tooltip bubble|BorderRadius.circular(4)|
 |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
-|tooltipHorizontalAlignment|horizontal alginment of tooltip relative to the spot|FLHorizontalAlignment.center|
+ |tooltipHorizontalAlignment|horizontal alignment of tooltip relative to the spot|FLHorizontalAlignment.center|
 |tooltipHorizontalOffset|horizontal offset of tooltip|0|
 |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
-|getTooltipItems|a callback that retrieve a [ScatterTooltipItem](#ScatterTooltipItem) by the given [ScatterSpot](#ScatterSpot) |defaultScatterTooltipItem|
-|fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
-|fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
-|getTooltipColor|a callback that retrieves the Color for each touched spots separately from the given [ScatterSpot](#ScatterSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)| 
+ |getTooltipItems|a callback that retrieves a [ScatterTooltipItem](#ScatterTooltipItem) by the given [ScatterSpot](#ScatterSpot) |defaultScatterTooltipItem|
+ |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
+ |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
+ |getTooltipColor|a callback that retrieves the Color for each touched spot separately from the given [ScatterSpot](#ScatterSpot) to set the background color of the tooltip bubble|Colors.blueGrey.darken(15)|
 
 ### ScatterTooltipItem
 |PropName|Description|default value|
@@ -74,7 +74,7 @@ When you change the chart's state, it animates to the new state internally (usin
 
 
 ### ScatterTouchResponse
-###### you can listen to touch behaviors callback and retrieve this object when any touch action happened.
+###### You can listen to touch behaviors callback and retrieve this object when any touch action happens.
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |touchLocation|the location of the touch event in the device pixels coordinates|required|
@@ -84,8 +84,8 @@ When you change the chart's state, it animates to the new state internally (usin
 ### ScatterTouchedSpot
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|spot|touched [ScatterSpot](#ScatterSpot)|null|
-|spotIndex|index of touched [ScatterSpot](#ScatterSpot)|null|
+|spot|the touched [ScatterSpot](#ScatterSpot)|null|
+|spotIndex|index of the touched [ScatterSpot](#ScatterSpot)|null|
 
 ### ScatterLabelSettings
 |PropName|Description|default value|
@@ -93,7 +93,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |showLabel|Determines whether to show or hide the labels.|false|
 |getLabelTextStyleFunction|This function gives you the index value of the spot in the list and returns the text style.|null|
 |getLabelFunction|This function gives you the index value of the spot in the list and returns the label.|spot.radius.toString()|
-|textDirection|Determines the direction of the text for the labels.|TextDirection.ltr|
+|textDirection|Determines the direction of the text for the labels|TextDirection.ltr|
 
 ### some samples
 ----
