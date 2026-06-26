@@ -38,10 +38,12 @@ class FlBorderData with EquatableMixin {
   FlBorderData({
     bool? show,
     Border? border,
+    this.borderRadius,
   })  : show = show ?? true,
         border = border ?? Border.all();
   final bool show;
   final Border border;
+  final BorderRadius? borderRadius;
 
   /// returns false if all borders have 0 width or 0 opacity
   bool isVisible() => show && border.isVisible();
@@ -51,6 +53,7 @@ class FlBorderData with EquatableMixin {
       FlBorderData(
         show: b.show,
         border: Border.lerp(a.border, b.border, t),
+        borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
       );
 
   /// Copies current [FlBorderData] to a new [FlBorderData],
@@ -58,10 +61,12 @@ class FlBorderData with EquatableMixin {
   FlBorderData copyWith({
     bool? show,
     Border? border,
+    BorderRadius? borderRadius,
   }) =>
       FlBorderData(
         show: show ?? this.show,
         border: border ?? this.border,
+        borderRadius: borderRadius ?? this.borderRadius,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -69,6 +74,7 @@ class FlBorderData with EquatableMixin {
   List<Object?> get props => [
         show,
         border,
+        borderRadius,
       ];
 }
 

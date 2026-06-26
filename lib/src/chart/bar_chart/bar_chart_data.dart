@@ -299,6 +299,92 @@ class BarChartGroupData with EquatableMixin {
       ];
 }
 
+class BarChartRodBadge with EquatableMixin {
+  const BarChartRodBadge({
+    required this.text,
+    this.color = const Color(0xFF006837),
+    this.textStyle = const TextStyle(
+      color: Color(0xFFFFFFFF),
+      fontSize: 11,
+      fontWeight: FontWeight.bold,
+    ),
+    this.radius = 12,
+    this.margin = 4,
+    this.points = 12,
+    this.innerRadiusRatio = 0.8,
+    this.scale = 1,
+  });
+
+  final String text;
+
+  final Color color;
+
+  final TextStyle textStyle;
+
+  final double radius;
+
+  final double margin;
+
+  final int points;
+
+  final double innerRadiusRatio;
+
+  final double scale;
+
+  BarChartRodBadge copyWith({
+    String? text,
+    Color? color,
+    TextStyle? textStyle,
+    double? radius,
+    double? margin,
+    int? points,
+    double? innerRadiusRatio,
+    double? scale,
+  }) =>
+      BarChartRodBadge(
+        text: text ?? this.text,
+        color: color ?? this.color,
+        textStyle: textStyle ?? this.textStyle,
+        radius: radius ?? this.radius,
+        margin: margin ?? this.margin,
+        points: points ?? this.points,
+        innerRadiusRatio: innerRadiusRatio ?? this.innerRadiusRatio,
+        scale: scale ?? this.scale,
+      );
+
+  static BarChartRodBadge? lerp(
+    BarChartRodBadge? a,
+    BarChartRodBadge? b,
+    double t,
+  ) {
+    if (a == null || b == null) {
+      return b;
+    }
+    return BarChartRodBadge(
+      text: b.text,
+      color: Color.lerp(a.color, b.color, t)!,
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t)!,
+      radius: lerpDouble(a.radius, b.radius, t)!,
+      margin: lerpDouble(a.margin, b.margin, t)!,
+      points: b.points,
+      innerRadiusRatio: lerpDouble(a.innerRadiusRatio, b.innerRadiusRatio, t)!,
+      scale: lerpDouble(a.scale, b.scale, t)!,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        text,
+        color,
+        textStyle,
+        radius,
+        margin,
+        points,
+        innerRadiusRatio,
+        scale,
+      ];
+}
+
 /// Holds data about rendering each rod (or bar) in the [BarChart].
 class BarChartRodData with EquatableMixin {
   /// [BarChart] renders rods vertically from zero to [toY],
@@ -341,6 +427,7 @@ class BarChartRodData with EquatableMixin {
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
     this.label = const BarChartRodLabel(show: false),
+    this.badge,
   })  : fromY = fromY ?? 0,
         color =
             color ?? ((color == null && gradient == null) ? Colors.cyan : null),
@@ -399,6 +486,8 @@ class BarChartRodData with EquatableMixin {
   /// Optional label to display near the rod tip.
   final BarChartRodLabel label;
 
+  final BarChartRodBadge? badge;
+
   /// Determines the upward or downward direction
   bool isUpward() => toY >= fromY;
 
@@ -417,6 +506,7 @@ class BarChartRodData with EquatableMixin {
     BackgroundBarChartRodData? backDrawRodData,
     List<BarChartRodStackItem>? rodStackItems,
     BarChartRodLabel? label,
+    BarChartRodBadge? badge,
   }) =>
       BarChartRodData(
         fromY: fromY ?? this.fromY,
@@ -431,6 +521,7 @@ class BarChartRodData with EquatableMixin {
         backDrawRodData: backDrawRodData ?? this.backDrawRodData,
         rodStackItems: rodStackItems ?? this.rodStackItems,
         label: label ?? this.label,
+        badge: badge ?? this.badge,
       );
 
   /// Lerps a [BarChartRodData] based on [t] value, check [Tween.lerp].
@@ -453,6 +544,7 @@ class BarChartRodData with EquatableMixin {
         rodStackItems:
             lerpBarChartRodStackList(a.rodStackItems, b.rodStackItems, t),
         label: BarChartRodLabel.lerpBarChartRodLabel(a.label, b.label, t),
+        badge: BarChartRodBadge.lerp(a.badge, b.badge, t),
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -470,6 +562,7 @@ class BarChartRodData with EquatableMixin {
         color,
         gradient,
         label,
+        badge,
       ];
 }
 

@@ -205,6 +205,10 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
         ? widget.data.borderData.border
         : null;
 
+    final borderRadius = widget.data.borderData.isVisible()
+        ? widget.data.borderData.borderRadius
+        : null;
+
     final borderWidth =
         borderData == null ? 0 : borderData.dimensions.horizontal;
     final borderHeight =
@@ -251,7 +255,8 @@ class _AxisChartScaffoldWidgetState extends State<AxisChartScaffoldWidget> {
     final widgets = <Widget>[
       Container(
         margin: margin,
-        decoration: BoxDecoration(border: borderData),
+        decoration:
+            BoxDecoration(border: borderData, borderRadius: borderRadius),
         child: child,
       ),
     ];
