@@ -155,7 +155,10 @@ class _LineChartSample8State extends State<LineChartSample8> {
                 fontSize: 9,
                 fontWeight: FontWeight.bold,
               ),
-              labelResolver: (line) => 'H: ${line.y}',
+              // textAlign aligns text within the label box.
+              // Right-align so both lines end at the same edge.
+              textAlign: TextAlign.right,
+              labelResolver: (line) => 'Average\nH: ${line.y}',
             ),
           ),
         ],
