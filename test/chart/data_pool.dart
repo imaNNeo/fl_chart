@@ -1531,6 +1531,16 @@ final HorizontalLineLabel horizontalLineLabel7 = HorizontalLineLabel(
   direction: LabelDirection.vertical,
 );
 
+final HorizontalLineLabel horizontalLineLabel8 = HorizontalLineLabel(
+  show: true,
+  style: const TextStyle(color: Colors.green),
+  labelResolver: horizontalLabelResolver,
+  alignment: Alignment.topCenter,
+  padding: const EdgeInsets.all(12),
+  direction: LabelDirection.vertical,
+  textAlign: TextAlign.right,
+);
+
 final HorizontalRangeAnnotation horizontalRangeAnnotation1 =
     HorizontalRangeAnnotation(color: Colors.green, y2: 12, y1: 12.1);
 final HorizontalRangeAnnotation horizontalRangeAnnotation1Clone =
@@ -2896,6 +2906,16 @@ final VerticalLineLabel verticalLineLabel7 = VerticalLineLabel(
   padding: const EdgeInsets.all(12),
   direction: LabelDirection.vertical,
 );
+
+final VerticalLineLabel verticalLineLabel8 = VerticalLineLabel(
+  show: true,
+  style: const TextStyle(color: Colors.green),
+  labelResolver: verticalLabelResolver,
+  alignment: Alignment.topCenter,
+  padding: const EdgeInsets.all(12),
+  textAlign: TextAlign.right,
+);
+
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
     VerticalRangeAnnotation(color: Colors.green, x2: 12, x1: 12.1);
 final VerticalRangeAnnotation verticalRangeAnnotation1Clone =
