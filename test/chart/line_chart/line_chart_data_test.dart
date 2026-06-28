@@ -102,6 +102,7 @@ void main() {
       expect(horizontalLineLabel1 == horizontalLineLabel5, false);
       expect(horizontalLineLabel1 == horizontalLineLabel6, false);
       expect(horizontalLineLabel1 == horizontalLineLabel7, false);
+      expect(horizontalLineLabel1 == horizontalLineLabel8, false);
     });
 
     test('VerticalLineLabel equality test', () {
@@ -112,6 +113,7 @@ void main() {
       expect(verticalLineLabel1 == verticalLineLabel5, false);
       expect(verticalLineLabel1 == verticalLineLabel6, false);
       expect(verticalLineLabel1 == verticalLineLabel7, false);
+      expect(verticalLineLabel1 == verticalLineLabel8, false);
     });
 
     test('ExtraLinesData equality test', () {
