@@ -268,6 +268,52 @@ void main() {
 
       verify(mockCanvasWrapper.clipRect(any)).called(1);
     });
+
+    test('enabling one clip side does not clip the others (#1262)', () {
+      const viewSize = Size(100, 100);
+
+      final data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [ScatterSpot(1, 1)],
+        titlesData: const FlTitlesData(show: false),
+        borderData: FlBorderData(show: true, border: Border.all(width: 8)),
+        clipData: const FlClipData(
+          top: false,
+          bottom: false,
+          left: true,
+          right: false,
+        ),
+      );
+
+      final scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawSpots(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
+      final rect = verifyResult.captured.single as Rect;
+      verifyResult.called(1);
+      // Only the left side is clipped; the other three stay unbounded.
+      expect(rect.left, 4);
+      expect(rect.top, double.negativeInfinity);
+      expect(rect.right, double.infinity);
+      expect(rect.bottom, double.infinity);
+    });
   });
 
   group('drawTooltips()', () {
