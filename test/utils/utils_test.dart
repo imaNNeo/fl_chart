@@ -115,6 +115,32 @@ void main() {
     expect(Utils().normalizeBorderSide(input2, 40), output2);
   });
 
+  test('normalizeBorder()', () {
+    const input1 = Border(
+      top: BorderSide(width: 4),
+      right: BorderSide(width: 8),
+      bottom: BorderSide(width: 10),
+      left: BorderSide(width: 2),
+    );
+    const output1 = input1;
+    expect(Utils().normalizeBorder(input1, 40), output1);
+
+    const input2 = Border(
+      top: BorderSide(width: 24),
+      right: BorderSide(width: 30),
+      bottom: BorderSide(width: 21),
+      left: BorderSide(),
+    );
+    const output2 = Border(
+      top: BorderSide(width: 20),
+      right: BorderSide(width: 20),
+      bottom: BorderSide(width: 20),
+      left: BorderSide(),
+    );
+    expect(Utils().normalizeBorder(input2, 40), output2);
+    expect(Utils().normalizeBorder(null, 40), isNull);
+  });
+
   test('lerp gradient', () {
     expect(
       lerpGradient(

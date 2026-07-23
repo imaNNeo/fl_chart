@@ -57,7 +57,8 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |width|stroke width of the rod bar|8|
 |borderRadius|Determines the edge rounding of the bar corners, see [BorderRadius](https://api.flutter.dev/flutter/painting/BorderRadius-class.html). When `null`, it defaults to completely round bars. |null|
 |borderDashArray|Determines whether the border stroke is dashed. It is a circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long. The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
-|borderSide|Determines the border stroke around the bar, see [BorderSide](https://api.flutter.dev/flutter/painting/BorderSide-class.html). When `null`, it defaults to drawing no stroke. |null|
+|borderSide|**Deprecated**. Determines the border stroke around the bar, see [BorderSide](https://api.flutter.dev/flutter/painting/BorderSide-class.html). Use `border` instead. When `null`, it defaults to drawing no stroke. |null|
+|border|Determines the border stroke per-side, see [Border](https://api.flutter.dev/flutter/painting/Border-class.html). When provided, it takes precedence over `borderSide`. |null|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
 |rodStackItem|if you want to have a stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
 |toYErrorRange|If you want to show an error range on the rod, provide [FlErrorRange](base_chart.md#FlErrorRange)|null|
