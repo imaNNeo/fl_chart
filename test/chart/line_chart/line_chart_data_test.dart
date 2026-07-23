@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../data_pool.dart';
@@ -142,6 +143,23 @@ void main() {
       expect(lineTouchTooltipData1 == lineTouchTooltipData5, false);
       expect(lineTouchTooltipData1 == lineTouchTooltipData6, false);
       expect(lineTouchTooltipData1 == lineTouchTooltipData7, false);
+    });
+
+    test('LineTouchTooltipData copyWith', () {
+      const base = LineTouchTooltipData(tooltipMargin: 8);
+
+      final unchanged = base.copyWith(maxContentWidth: 200);
+      expect(unchanged.tooltipMargin, 8);
+      expect(unchanged.showOnTopOfTheChartBoxArea, false);
+
+      final changed = base.copyWith(
+        tooltipMargin: 24,
+        showOnTopOfTheChartBoxArea: true,
+        tooltipBorderRadius: BorderRadius.circular(8),
+      );
+      expect(changed.tooltipMargin, 24);
+      expect(changed.showOnTopOfTheChartBoxArea, true);
+      expect(changed.tooltipBorderRadius, BorderRadius.circular(8));
     });
 
     test('LineBarSpot equality test', () {
