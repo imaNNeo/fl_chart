@@ -1,3 +1,6 @@
+// Keep deprecated APIs for testing backwards-compatibility.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -80,6 +83,110 @@ const FlLine flLine1 =
     FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
 const FlLine flLine1Clone =
     FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
+
+const FlLine flLine2 = FlLine(
+  color: Colors.green,
+  strokeWidth: 1,
+  pathData: FlPathData(dashArray: [1, 2, 3]),
+);
+const FlLine flLine2Clone = FlLine(
+  color: Colors.green,
+  strokeWidth: 1,
+  pathData: FlPathData(dashArray: [1, 2, 3]),
+);
+
+const dashArrayPattern = [12, 22];
+
+// Variants that cover the deprecated [dashArray] and the new [pathData] APIs.
+final dashedBarChartRodVariants = <(String, BarChartRodData)>[
+  (
+    'borderDashArray',
+    BarChartRodData(
+      fromY: 0,
+      toY: 15,
+      borderDashArray: dashArrayPattern,
+      borderSide: const BorderSide(color: Colors.white, width: 2),
+      borderRadius: BorderRadius.zero,
+      color: Colors.transparent,
+    ),
+  ),
+  (
+    'pathData',
+    BarChartRodData(
+      fromY: 0,
+      toY: 15,
+      pathData: const FlPathData(dashArray: dashArrayPattern),
+      borderSide: const BorderSide(color: Colors.white, width: 2),
+      borderRadius: BorderRadius.zero,
+      color: Colors.transparent,
+    ),
+  ),
+];
+
+const dashedGridLineVariants = <(FlLine, FlLine)>[
+  (
+    FlLine(color: Colors.green, strokeWidth: 12, dashArray: dashArrayPattern),
+    FlLine(color: Colors.yellow, strokeWidth: 33, dashArray: dashArrayPattern),
+  ),
+  (
+    FlLine(
+      color: Colors.green,
+      strokeWidth: 12,
+      pathData: FlPathData(dashArray: dashArrayPattern),
+    ),
+    FlLine(
+      color: Colors.yellow,
+      strokeWidth: 33,
+      pathData: FlPathData(dashArray: dashArrayPattern),
+    ),
+  ),
+];
+
+final dashedHorizontalLineVariants =
+    <(String, HorizontalLine Function(double y))>[
+  (
+    'dashArray',
+    (y) => HorizontalLine(
+          y: y,
+          color: MockData.color1,
+          strokeWidth: 4,
+          dashArray: dashArrayPattern,
+        ),
+  ),
+  (
+    'pathData',
+    (y) => HorizontalLine(
+          y: y,
+          color: MockData.color1,
+          strokeWidth: 4,
+          pathData: const FlPathData(dashArray: dashArrayPattern),
+        ),
+  ),
+];
+
+const dashedFlLineVariants = <(String, FlLine)>[
+  ('dashArray', FlLine(dashArray: dashArrayPattern)),
+  ('pathData', FlLine(pathData: FlPathData(dashArray: dashArrayPattern))),
+];
+
+final dashedVerticalLineVariants = <(String, VerticalLine Function(double x))>[
+  (
+    'dashArray',
+    (x) => VerticalLine(
+          x: x,
+          color: Colors.cyanAccent,
+          dashArray: dashArrayPattern,
+        ),
+  ),
+  (
+    'pathData',
+    (x) => VerticalLine(
+          x: x,
+          color: Colors.cyanAccent,
+          pathData: const FlPathData(dashArray: dashArrayPattern),
+        ),
+  ),
+];
 
 const FlSpot flSpot1 = FlSpot(1, 1);
 const FlSpot flSpot2 = FlSpot(4, 2);

@@ -120,30 +120,24 @@ void main() {
             ),
         false,
       );
-      expect(
-        candleStickChartData1 ==
-            candleStickChartData1Clone.copyWith(
-              gridData: FlGridData(
-                show: false,
-                getDrawingHorizontalLine: (value) => const FlLine(
-                  color: Colors.green,
-                  strokeWidth: 12,
-                  dashArray: [1, 2],
+      for (final (horizontalLine, verticalLine) in dashedGridLineVariants) {
+        expect(
+          candleStickChartData1 ==
+              candleStickChartData1Clone.copyWith(
+                gridData: FlGridData(
+                  show: false,
+                  getDrawingHorizontalLine: (value) => horizontalLine,
+                  getDrawingVerticalLine: (value) => verticalLine,
+                  checkToShowHorizontalLine: (value) => false,
+                  checkToShowVerticalLine: (value) => true,
+                  drawVerticalLine: false,
+                  horizontalInterval: 32,
+                  verticalInterval: 1,
                 ),
-                getDrawingVerticalLine: (value) => const FlLine(
-                  color: Colors.yellow,
-                  strokeWidth: 33,
-                  dashArray: [0, 1],
-                ),
-                checkToShowHorizontalLine: (value) => false,
-                checkToShowVerticalLine: (value) => true,
-                drawVerticalLine: false,
-                horizontalInterval: 32,
-                verticalInterval: 1,
               ),
-            ),
-        false,
-      );
+          false,
+        );
+      }
       expect(
         candleStickChartData1 ==
             candleStickChartData1Clone.copyWith(

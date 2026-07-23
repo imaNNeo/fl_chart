@@ -1,3 +1,6 @@
+// Keep deprecated APIs for testing backwards-compatibility.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -87,6 +90,7 @@ void main() {
 
     test('FlLine equality test', () {
       expect(flLine1 == flLine1Clone, true);
+      expect(flLine2 == flLine2Clone, true);
 
       expect(
         flLine1 ==
