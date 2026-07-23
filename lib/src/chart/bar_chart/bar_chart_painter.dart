@@ -943,7 +943,12 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
             final stackItem = nearestBarRod.rodStackItems[stackIndex];
             final fromPixel = getPixelY(stackItem.fromY, viewSize, holder);
             final toPixel = getPixelY(stackItem.toY, viewSize, holder);
-            if (touchedPoint.dy <= fromPixel && touchedPoint.dy >= toPixel) {
+            // A negative-direction stack item has fromY > toY, in which case
+            // fromPixel < toPixel (Flutter Y grows downward). Compare against
+            // the [min, max] range so the check works in either orientation.
+            final topPixel = min(fromPixel, toPixel);
+            final bottomPixel = max(fromPixel, toPixel);
+            if (touchedPoint.dy >= topPixel && touchedPoint.dy <= bottomPixel) {
               touchedStackIndex = stackIndex;
               touchedStack = stackItem;
               break;
