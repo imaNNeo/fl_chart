@@ -157,6 +157,7 @@ class PieChartSectionData with EquatableMixin {
     Color? color,
     this.gradient,
     double? radius,
+    double? radialOffset,
     bool? showTitle,
     this.titleStyle,
     String? title,
@@ -169,6 +170,7 @@ class PieChartSectionData with EquatableMixin {
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = (radius ?? 40).clamp(0, double.infinity).toDouble(),
+        radialOffset = radialOffset ?? 0,
         showTitle = showTitle ?? true,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
@@ -194,6 +196,13 @@ class PieChartSectionData with EquatableMixin {
 
   /// Defines the radius of section.
   final double radius;
+
+  /// Additional radial translation applied to the whole section (in logical pixels).
+  /// Positive values move the section outward along its center angle.
+  ///
+  /// Note: This parameter is ignored when there is only a single section
+  /// occupying 360 degrees, as there is no meaningful direction to offset.
+  final double radialOffset;
 
   /// Defines show or hide the title of section.
   final bool showTitle;
@@ -244,6 +253,7 @@ class PieChartSectionData with EquatableMixin {
     Color? color,
     Gradient? gradient,
     double? radius,
+    double? radialOffset,
     bool? showTitle,
     TextStyle? titleStyle,
     String? title,
@@ -259,6 +269,7 @@ class PieChartSectionData with EquatableMixin {
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
         radius: radius ?? this.radius,
+        radialOffset: radialOffset ?? this.radialOffset,
         showTitle: showTitle ?? this.showTitle,
         titleStyle: titleStyle ?? this.titleStyle,
         title: title ?? this.title,
@@ -283,6 +294,7 @@ class PieChartSectionData with EquatableMixin {
         color: Color.lerp(a.color, b.color, t),
         gradient: Gradient.lerp(a.gradient, b.gradient, t),
         radius: lerpDouble(a.radius, b.radius, t),
+        radialOffset: lerpDouble(a.radialOffset, b.radialOffset, t),
         showTitle: b.showTitle,
         titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
         title: b.title,
@@ -313,6 +325,7 @@ class PieChartSectionData with EquatableMixin {
         color,
         gradient,
         radius,
+        radialOffset,
         showTitle,
         titleStyle,
         title,
