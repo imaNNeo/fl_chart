@@ -251,6 +251,8 @@ class LineChartBarData with EquatableMixin {
     this.isStrokeJoinRound = false,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
+    this.strokeColor,
+    this.strokeWidth = 0,
     this.dotData = const FlDotData(),
     this.errorIndicatorData =
         const FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>(),
@@ -346,6 +348,14 @@ class LineChartBarData with EquatableMixin {
   /// otherwise it draws line with hard edges.
   final bool isCurved;
 
+  /// Optional border color for the line.
+  /// Useful for improving visibility when lines overlap.
+  final Color? strokeColor;
+
+  /// Width of the border around the line.
+  /// Default is 0 (no border).
+  final double strokeWidth;
+
   /// If [isCurved] is true, it determines smoothness of the curved edges.
   final double curveSmoothness;
 
@@ -427,6 +437,8 @@ class LineChartBarData with EquatableMixin {
         isStepLineChart: b.isStepLineChart,
         lineChartStepData:
             LineChartStepData.lerp(a.lineChartStepData, b.lineChartStepData, t),
+        strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t),
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t)!,
       );
 
   /// Copies current [LineChartBarData] to a new [LineChartBarData],
@@ -454,6 +466,8 @@ class LineChartBarData with EquatableMixin {
     Shadow? shadow,
     bool? isStepLineChart,
     LineChartStepData? lineChartStepData,
+    Color? strokeColor,
+    double? strokeWidth,
   }) =>
       LineChartBarData(
         spots: spots ?? this.spots,
@@ -479,6 +493,8 @@ class LineChartBarData with EquatableMixin {
         shadow: shadow ?? this.shadow,
         isStepLineChart: isStepLineChart ?? this.isStepLineChart,
         lineChartStepData: lineChartStepData ?? this.lineChartStepData,
+        strokeColor: strokeColor ?? this.strokeColor,
+        strokeWidth: strokeWidth ?? this.strokeWidth,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -505,6 +521,8 @@ class LineChartBarData with EquatableMixin {
         shadow,
         isStepLineChart,
         lineChartStepData,
+        strokeColor,
+        strokeWidth,
       ];
 }
 
