@@ -44,8 +44,9 @@ class _FakeRect_0 extends _i1.SmartFake implements _i2.Rect {
         );
 }
 
-class _FakeCanvas_1 extends _i1.SmartFake implements _i2.Canvas {
-  _FakeCanvas_1(
+class _FakePictureRecorder_1 extends _i1.SmartFake
+    implements _i2.PictureRecorder {
+  _FakePictureRecorder_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -54,9 +55,19 @@ class _FakeCanvas_1 extends _i1.SmartFake implements _i2.Canvas {
         );
 }
 
-class _FakePaintingContext_2 extends _i1.SmartFake
+class _FakeCanvas_2 extends _i1.SmartFake implements _i2.Canvas {
+  _FakeCanvas_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakePaintingContext_3 extends _i1.SmartFake
     implements _i3.PaintingContext {
-  _FakePaintingContext_2(
+  _FakePaintingContext_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -65,9 +76,9 @@ class _FakePaintingContext_2 extends _i1.SmartFake
         );
 }
 
-class _FakeColorFilterLayer_3 extends _i1.SmartFake
+class _FakeColorFilterLayer_4 extends _i1.SmartFake
     implements _i4.ColorFilterLayer {
-  _FakeColorFilterLayer_3(
+  _FakeColorFilterLayer_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -80,8 +91,8 @@ class _FakeColorFilterLayer_3 extends _i1.SmartFake
       super.toString();
 }
 
-class _FakeOpacityLayer_4 extends _i1.SmartFake implements _i4.OpacityLayer {
-  _FakeOpacityLayer_4(
+class _FakeOpacityLayer_5 extends _i1.SmartFake implements _i4.OpacityLayer {
+  _FakeOpacityLayer_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -94,8 +105,8 @@ class _FakeOpacityLayer_4 extends _i1.SmartFake implements _i4.OpacityLayer {
       super.toString();
 }
 
-class _FakeWidget_5 extends _i1.SmartFake implements _i6.Widget {
-  _FakeWidget_5(
+class _FakeWidget_6 extends _i1.SmartFake implements _i6.Widget {
+  _FakeWidget_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -108,9 +119,9 @@ class _FakeWidget_5 extends _i1.SmartFake implements _i6.Widget {
       super.toString();
 }
 
-class _FakeInheritedWidget_6 extends _i1.SmartFake
+class _FakeInheritedWidget_7 extends _i1.SmartFake
     implements _i6.InheritedWidget {
-  _FakeInheritedWidget_6(
+  _FakeInheritedWidget_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -123,9 +134,9 @@ class _FakeInheritedWidget_6 extends _i1.SmartFake
       super.toString();
 }
 
-class _FakeDiagnosticsNode_7 extends _i1.SmartFake
+class _FakeDiagnosticsNode_8 extends _i1.SmartFake
     implements _i5.DiagnosticsNode {
-  _FakeDiagnosticsNode_7(
+  _FakeDiagnosticsNode_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -141,8 +152,8 @@ class _FakeDiagnosticsNode_7 extends _i1.SmartFake
       super.toString();
 }
 
-class _FakePath_8 extends _i1.SmartFake implements _i2.Path {
-  _FakePath_8(
+class _FakePath_9 extends _i1.SmartFake implements _i2.Path {
+  _FakePath_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -151,8 +162,8 @@ class _FakePath_8 extends _i1.SmartFake implements _i2.Path {
         );
 }
 
-class _FakeOffset_9 extends _i1.SmartFake implements _i2.Offset {
-  _FakeOffset_9(
+class _FakeOffset_10 extends _i1.SmartFake implements _i2.Offset {
+  _FakeOffset_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -795,9 +806,18 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
       ) as _i2.Rect);
 
   @override
+  _i2.PictureRecorder get recorder => (super.noSuchMethod(
+        Invocation.getter(#recorder),
+        returnValue: _FakePictureRecorder_1(
+          this,
+          Invocation.getter(#recorder),
+        ),
+      ) as _i2.PictureRecorder);
+
+  @override
   _i2.Canvas get canvas => (super.noSuchMethod(
         Invocation.getter(#canvas),
-        returnValue: _FakeCanvas_1(
+        returnValue: _FakeCanvas_2(
           this,
           Invocation.getter(#canvas),
         ),
@@ -907,7 +927,7 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
             bounds,
           ],
         ),
-        returnValue: _FakePaintingContext_2(
+        returnValue: _FakePaintingContext_3(
           this,
           Invocation.method(
             #createChildContext,
@@ -1034,7 +1054,7 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
           ],
           {#oldLayer: oldLayer},
         ),
-        returnValue: _FakeColorFilterLayer_3(
+        returnValue: _FakeColorFilterLayer_4(
           this,
           Invocation.method(
             #pushColorFilter,
@@ -1084,7 +1104,7 @@ class MockPaintingContext extends _i1.Mock implements _i3.PaintingContext {
           ],
           {#oldLayer: oldLayer},
         ),
-        returnValue: _FakeOpacityLayer_4(
+        returnValue: _FakeOpacityLayer_5(
           this,
           Invocation.method(
             #pushOpacity,
@@ -1190,7 +1210,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
   @override
   _i6.Widget get widget => (super.noSuchMethod(
         Invocation.getter(#widget),
-        returnValue: _FakeWidget_5(
+        returnValue: _FakeWidget_6(
           this,
           Invocation.getter(#widget),
         ),
@@ -1219,7 +1239,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           [ancestor],
           {#aspect: aspect},
         ),
-        returnValue: _FakeInheritedWidget_6(
+        returnValue: _FakeInheritedWidget_7(
           this,
           Invocation.method(
             #dependOnInheritedElement,
@@ -1269,7 +1289,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           [name],
           {#style: style},
         ),
-        returnValue: _FakeDiagnosticsNode_7(
+        returnValue: _FakeDiagnosticsNode_8(
           this,
           Invocation.method(
             #describeElement,
@@ -1290,7 +1310,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           [name],
           {#style: style},
         ),
-        returnValue: _FakeDiagnosticsNode_7(
+        returnValue: _FakeDiagnosticsNode_8(
           this,
           Invocation.method(
             #describeWidget,
@@ -1319,7 +1339,7 @@ class MockBuildContext extends _i1.Mock implements _i6.BuildContext {
           #describeOwnershipChain,
           [name],
         ),
-        returnValue: _FakeDiagnosticsNode_7(
+        returnValue: _FakeDiagnosticsNode_8(
           this,
           Invocation.method(
             #describeOwnershipChain,
@@ -1482,7 +1502,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
           {#appendToPath: appendToPath},
         ),
-        returnValue: _FakePath_8(
+        returnValue: _FakePath_9(
           this,
           Invocation.method(
             #generateBarPath,
@@ -1516,7 +1536,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
           {#appendToPath: appendToPath},
         ),
-        returnValue: _FakePath_8(
+        returnValue: _FakePath_9(
           this,
           Invocation.method(
             #generateNormalBarPath,
@@ -1550,7 +1570,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
           {#appendToPath: appendToPath},
         ),
-        returnValue: _FakePath_8(
+        returnValue: _FakePath_9(
           this,
           Invocation.method(
             #generateStepBarPath,
@@ -1586,7 +1606,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
           {#fillCompletely: fillCompletely},
         ),
-        returnValue: _FakePath_8(
+        returnValue: _FakePath_9(
           this,
           Invocation.method(
             #generateBelowBarPath,
@@ -1623,7 +1643,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
           ],
           {#fillCompletely: fillCompletely},
         ),
-        returnValue: _FakePath_8(
+        returnValue: _FakePath_9(
           this,
           Invocation.method(
             #generateAboveBarPath,
@@ -2012,7 +2032,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             holder,
           ],
         ),
-        returnValue: _FakeOffset_9(
+        returnValue: _FakeOffset_10(
           this,
           Invocation.method(
             #getChartCoordinateFromPixel,

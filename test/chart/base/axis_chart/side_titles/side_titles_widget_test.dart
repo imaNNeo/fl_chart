@@ -30,7 +30,7 @@ void main() {
         axisNameWidget: const Text('Left Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('L-${value.toInt()}');
           },
           interval: 1,
@@ -40,7 +40,7 @@ void main() {
         axisNameWidget: const Text('Top Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('T-${value.toInt()}');
           },
           interval: 1,
@@ -50,7 +50,7 @@ void main() {
         axisNameWidget: const Text('Right Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('R-${value.toInt()}');
           },
           interval: 1,
@@ -60,7 +60,7 @@ void main() {
         axisNameWidget: const Text('Bottom Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('B-${value.toInt()}');
           },
           interval: 1,
@@ -75,7 +75,7 @@ void main() {
         axisNameWidget: const Text('Left Titles'),
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('L-${value.toInt()}');
           },
           interval: 1,
@@ -93,7 +93,7 @@ void main() {
       leftTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
-          getTitlesWidget: (double value, TitleMeta meta) {
+          getTitlesWidget: (value, meta) {
             return Text('L-${value.toInt()}');
           },
           interval: 1,
@@ -229,9 +229,41 @@ void main() {
     );
   }
 
+  LineChartData createLineChartDataWithLargeBottomReservedSize({
+    required int rotationQuarterTurns,
+  }) {
+    return lineChartDataBase.copyWith(
+      rotationQuarterTurns: rotationQuarterTurns,
+      titlesData: FlTitlesData(
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitlesWidget: (value, meta) {
+              return Text('L-${value.toInt()}');
+            },
+          ),
+        ),
+        topTitles: const AxisTitles(),
+        rightTitles: const AxisTitles(),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 190,
+            interval: 1,
+            getTitlesWidget: (value, meta) {
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
   testWidgets(
     'LineChart with no titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -256,7 +288,7 @@ void main() {
 
   testWidgets(
     'LineChart with all titles',
-    (WidgetTester tester) async {
+    (tester) async {
       Future<void> checkSide(AxisSide side) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -297,7 +329,7 @@ void main() {
 
   testWidgets(
     'LineChart with Only left titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -326,7 +358,7 @@ void main() {
 
   testWidgets(
     'LineChart with Only left titles without axis name',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -354,7 +386,7 @@ void main() {
 
   testWidgets(
     'BarChart with Only bottom titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -383,7 +415,7 @@ void main() {
 
   testWidgets(
     'BarChart with Only right titles',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -412,7 +444,7 @@ void main() {
 
   testWidgets(
     'BarChart with empty bars',
-    (WidgetTester tester) async {
+    (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -434,6 +466,53 @@ void main() {
       expect(find.byIcon(Icons.arrow_right), findsOneWidget);
       expect(find.byType(Text), findsOneWidget);
       expect(find.byType(TextButton), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'LineChart left titles remain visible with large cross-axis reserved size (unrotated and rotated)',
+    (tester) async {
+      Future<void> pumpChart({
+        required Size parentSize,
+        required int rotationQuarterTurns,
+      }) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: parentSize.width,
+                  height: parentSize.height,
+                  child: SideTitlesWidget(
+                    side: AxisSide.left,
+                    axisChartData:
+                        createLineChartDataWithLargeBottomReservedSize(
+                      rotationQuarterTurns: rotationQuarterTurns,
+                    ),
+                    parentSize: parentSize,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      await pumpChart(
+        parentSize: const Size(180, 400),
+        rotationQuarterTurns: 0,
+      );
+      for (var i = 0; i <= 10; i++) {
+        expect(find.text('L-$i'), findsOneWidget);
+      }
+
+      await pumpChart(
+        parentSize: const Size(400, 180),
+        rotationQuarterTurns: 1,
+      );
+      for (var i = 0; i <= 10; i++) {
+        expect(find.text('L-$i'), findsOneWidget);
+      }
     },
   );
 }

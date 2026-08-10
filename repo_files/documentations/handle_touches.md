@@ -11,11 +11,11 @@ When an interaction happens, our renderers give us a [FlTouchEvent](https://gith
 We pass it to correspond painter class. Then it calculates and gives us a TouchResponse (per interaction).
 Then we call the touchCallback function that provided through the chart's data.
 
-If you set `handleBuiltInTouches` true, it will handle touch by showing a tooltip or an indicator on the touched spot (in the line, bar and scatter charts), you can also handle your own touch handling along with the built in touches.
+If you set `handleBuiltInTouches` to true, it will handle touch by showing a tooltip or an indicator on the touched spot (in the line, bar and scatter charts), you can also handle your own touch handling along with the built-in touches.
 
 
 #### How to use? (for example in `LineChart`)
-##### In the Line and Bar Charts we show a built in tooltip on the touched spots, then you just need to config how to show it, just fill the `touchTooltipData` in the `LineTouchData`.
+##### In the Line and Bar Charts we show a built-in tooltip on the touched spots, then you just need to configure how to show it, just fill the `touchTooltipData` in the `LineTouchData`.
 #####
 ```dart
 LineChart(

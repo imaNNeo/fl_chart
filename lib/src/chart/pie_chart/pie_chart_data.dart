@@ -67,9 +67,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
   final bool titleSunbeamLayout;
 
   /// We hold this value to determine weight of each [PieChartSectionData.value].
-  double get sumValue => sections
-      .map((data) => data.value)
-      .reduce((first, second) => first + second);
+  double get sumValue =>
+      sections.fold<double>(0, (sumVal, second) => sumVal + second.value);
 
   /// Copies current [PieChartData] to a new [PieChartData],
   /// and replaces provided values.
@@ -162,17 +161,22 @@ class PieChartSectionData with EquatableMixin {
     this.titleStyle,
     String? title,
     BorderSide? borderSide,
+    double? cornerRadius,
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    List<PieChartStackSegmentData>? segments,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
-        radius = radius ?? 40,
+        radius = (radius ?? 40).clamp(0, double.infinity).toDouble(),
         showTitle = showTitle ?? true,
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
+        cornerRadius =
+            (cornerRadius ?? 0.0).clamp(0, double.infinity).toDouble(),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
-        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5,
+        segments = segments ?? const [];
 
   /// It determines how much space it should occupy around the circle.
   ///
@@ -203,6 +207,9 @@ class PieChartSectionData with EquatableMixin {
   /// Defines border stroke around the section
   final BorderSide borderSide;
 
+  /// Defines corner radius for rounded edges (applies to all corners)
+  final double cornerRadius;
+
   /// Defines a widget that represents the section.
   ///
   /// This can be anything from a text, an image, an animation, and even a combination of widgets.
@@ -223,6 +230,13 @@ class PieChartSectionData with EquatableMixin {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
+  /// Stacked segments rendered on top of the main section.
+  ///
+  /// Each segment defines [PieChartStackSegmentData.fromRadius] and
+  /// [PieChartStackSegmentData.toRadius] to specify its position within
+  /// the section's [radius]. Values are clamped to [0, radius] at render time.
+  final List<PieChartStackSegmentData> segments;
+
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -234,9 +248,11 @@ class PieChartSectionData with EquatableMixin {
     TextStyle? titleStyle,
     String? title,
     BorderSide? borderSide,
+    double? cornerRadius,
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
+    List<PieChartStackSegmentData>? segments,
   }) =>
       PieChartSectionData(
         value: value ?? this.value,
@@ -247,11 +263,13 @@ class PieChartSectionData with EquatableMixin {
         titleStyle: titleStyle ?? this.titleStyle,
         title: title ?? this.title,
         borderSide: borderSide ?? this.borderSide,
+        cornerRadius: cornerRadius ?? this.cornerRadius,
         badgeWidget: badgeWidget ?? this.badgeWidget,
         titlePositionPercentageOffset:
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
         badgePositionPercentageOffset:
             badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
+        segments: segments ?? this.segments,
       );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
@@ -269,6 +287,7 @@ class PieChartSectionData with EquatableMixin {
         titleStyle: TextStyle.lerp(a.titleStyle, b.titleStyle, t),
         title: b.title,
         borderSide: BorderSide.lerp(a.borderSide, b.borderSide, t),
+        cornerRadius: lerpDouble(a.cornerRadius, b.cornerRadius, t),
         badgeWidget: b.badgeWidget,
         titlePositionPercentageOffset: lerpDouble(
           a.titlePositionPercentageOffset,
@@ -278,6 +297,11 @@ class PieChartSectionData with EquatableMixin {
         badgePositionPercentageOffset: lerpDouble(
           a.badgePositionPercentageOffset,
           b.badgePositionPercentageOffset,
+          t,
+        ),
+        segments: lerpPieChartStackSegmentDataList(
+          a.segments,
+          b.segments,
           t,
         ),
       );
@@ -293,9 +317,100 @@ class PieChartSectionData with EquatableMixin {
         titleStyle,
         title,
         borderSide,
+        cornerRadius,
         badgeWidget,
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
+        segments,
+      ];
+}
+
+/// A stylized segment of a Stacked Pie Chart section item.
+///
+/// Each [PieChartSectionData] can have a list of [PieChartStackSegmentData]
+/// that are rendered on top of the main section, similar to how
+/// [BarChartRodStackItem] works in bar charts.
+///
+/// Each segment defines [fromRadius] and [toRadius] to specify its position
+/// within the section's total [PieChartSectionData.radius]. Values are clamped
+/// to the valid range [0, sectionRadius].
+class PieChartStackSegmentData with EquatableMixin {
+  /// Renders a segment of Stacked Pie Chart with given [fromRadius], [toRadius]
+  /// and [color] or [gradient].
+  ///
+  /// For example, to have a section with a colored overlay in the outer half:
+  ///
+  /// ```dart
+  /// PieChartSectionData(
+  ///   color: Colors.red,
+  ///   radius: 100,
+  ///   segments: [
+  ///     PieChartStackSegmentData(
+  ///       fromRadius: 50,
+  ///       toRadius: 100,
+  ///       color: Colors.green,
+  ///     ),
+  ///   ]
+  /// )
+  /// ```
+  /// If [gradient] is specified, it overrides the [color] setting.
+  PieChartStackSegmentData({
+    double? fromRadius,
+    required this.toRadius,
+    Color? color,
+    this.gradient,
+  })  : fromRadius = fromRadius ?? 0,
+        color = color ?? Colors.purple;
+
+  /// The start radius of this segment (distance from center of the section).
+  /// Clamped to [0, sectionRadius] at render time.
+  final double fromRadius;
+
+  /// The end radius of this segment (distance from center of the section).
+  /// Clamped to [0, sectionRadius] at render time.
+  final double toRadius;
+
+  /// Defines the color of segment.
+  final Color color;
+
+  /// Defines the gradient of segment. If specified, overrides the color setting.
+  final Gradient? gradient;
+
+  /// Copies current [PieChartStackSegmentData] to a new [PieChartStackSegmentData],
+  /// and replaces provided values.
+  PieChartStackSegmentData copyWith({
+    double? fromRadius,
+    double? toRadius,
+    Color? color,
+    Gradient? gradient,
+  }) =>
+      PieChartStackSegmentData(
+        fromRadius: fromRadius ?? this.fromRadius,
+        toRadius: toRadius ?? this.toRadius,
+        color: color ?? this.color,
+        gradient: gradient ?? this.gradient,
+      );
+
+  /// Lerps a [PieChartStackSegmentData] based on [t] value, check [Tween.lerp].
+  static PieChartStackSegmentData lerp(
+    PieChartStackSegmentData a,
+    PieChartStackSegmentData b,
+    double t,
+  ) =>
+      PieChartStackSegmentData(
+        fromRadius: lerpDouble(a.fromRadius, b.fromRadius, t),
+        toRadius: lerpDouble(a.toRadius, b.toRadius, t)!,
+        color: lerpColor(a.color, b.color, t),
+        gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        fromRadius,
+        toRadius,
+        color,
+        gradient,
       ];
 }
 

@@ -17,7 +17,7 @@ When you change the chart's state, it animates to the new state internally (usin
 ### BarChartData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
-|barGroups| list of [BarChartGroupData ](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show normal bar chart|[]|
+|barGroups| list of [BarChartGroupData](#BarChartGroupData) to show the bar lines together, you can provide one item per group to show a normal bar chart|[]|
 |groupsSpace| space between groups, it applies only when the [alignment](#BarChartAlignment) is `BarChartAlignment.start`, `BarChartAlignment.center` or `BarChartAlignment.end`|16|
 |alignment| a [BarChartAlignment](#BarChartAlignment) that determines the alignment of the barGroups, inspired by [Flutter MainAxisAlignment](https://docs.flutter.io/flutter/rendering/MainAxisAlignment-class.html)| BarChartAlignment.spaceEvenly|
 |titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)|FlTitlesData()|
@@ -31,16 +31,16 @@ When you change the chart's state, it animates to the new state internally (usin
 |minY| gets minimum y of y axis, if null, value will be read from the input barGroups (But it is more performant if you provide them) | null|
 |baselineY| defines the baseline of y-axis | 0|
 |extraLinesData| allows extra horizontal lines to be drawn on the chart. Vertical lines are ignored when used with BarChartData, please see [#1149](https://github.com/imaNNeo/fl_chart/issues/1149), check [ExtraLinesData](base_chart.md#ExtraLinesData)|ExtraLinesData()|
-|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turns. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget. You can have horizontal BarChart by changing this value to |0|
+|rotationQuarterTurns|Rotates the chart 90 degrees (clockwise) in every quarter turn. This feature works like the [RotatedBox](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget. You can have a horizontal BarChart by changing this value|0|
 |errorIndicatorData|Holds data for representing an error indicator (you see the error indicators if you provide the `toYErrorRange` in the [BarChartRodData](#BarChartRodData))|[ErrorIndicatorData()](base_chart.md#FlErrorIndicatorData)|
 
 ### BarChartGroupData
 |PropName		|Description	|default value|
 |:---------------|:---------------|:-------|
 |x| x position of the group on horizontal axis|null|
-|barRods| list of [BarChartRodData](#BarChartRodData) that are a bar line| []
+|barRods| list of [BarChartRodData](#BarChartRodData) that are bar lines| []
 |barsSpace| the space between barRods of the group|2|
-|showingTooltipIndicators| indexes of barRods to show the tooltip on top of them, The point is that you need to disable touches to show these tooltips manually | []|
+|showingTooltipIndicators| indices of barRods to show the tooltip on top of them. The point is that you need to disable touches to show these tooltips manually | []|
 
 
 ### BarChartAlignment
@@ -56,18 +56,19 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)|null|
 |width|stroke width of the rod bar|8|
 |borderRadius|Determines the edge rounding of the bar corners, see [BorderRadius](https://api.flutter.dev/flutter/painting/BorderRadius-class.html). When `null`, it defaults to completely round bars. |null|
-|borderDashArray|Determines wether the border stroke is dashed. It is a circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
-|borderSide|Determines the border stroke around of the bar, see [BorderSide](https://api.flutter.dev/flutter/painting/BorderSide-class.html). When `null`, it defaults to draw no stroke. |null|
+|borderDashArray|Determines whether the border stroke is dashed. It is a circular array of dash offsets and lengths. For example, the array `[5, 10]` would result in dashes 5 pixels long followed by blank spaces 10 pixels long. The array `[5, 10, 5]` would result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap, a 10 pixel dash, etc.|null|
+|borderSide|Determines the border stroke around the bar, see [BorderSide](https://api.flutter.dev/flutter/painting/BorderSide-class.html). When `null`, it defaults to drawing no stroke. |null|
 |backDrawRodData|if provided, draws a rod in the background of the line bar, check the [BackgroundBarChartRodData](#BackgroundBarChartRodData)|null|
-|rodStackItem|if you want to have stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
+|rodStackItem|if you want to have a stacked bar chart, provide a list of [BarChartRodStackItem](#BarChartRodStackItem), it will draw over your rod.|[]|
 |toYErrorRange|If you want to show an error range on the rod, provide [FlErrorRange](base_chart.md#FlErrorRange)|null|
+|label|a [BarChartRodLabel](#BarChartRodLabel) to show a text label on the rod|null|
 
 ### BackgroundBarChartRodData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |fromY|same as [BarChartRodData](#BarChartRodData)'s fromY|0|
 |toY|same as [BarChartRodData](#BarChartRodData)'s y|8|
-|show|determines to show or hide this section|false|
+|show|determines whether to show or hide this section|false|
 |color|same as [BarChartRodData](#BarChartRodData)'s colors|[Colors.blueGrey]|
 |gradient|same as [BarChartRodData](#BarChartRodData)'s gradient|null|
 
@@ -82,17 +83,28 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 |labelStyle|optional TextStyle for the label|null|
 |borderSide|draw border stroke for each stack item|null|
 
+### BarChartRodLabel
+Extends [FlLabel](base_chart.md#FlLabel).
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|show|determines whether to show or hide the label (inherited from [FlLabel](base_chart.md#FlLabel))|true|
+|text|the text content of the label (inherited from [FlLabel](base_chart.md#FlLabel))|''|
+|style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) of the label. When null or when `inherit` is true, the style is merged with the ambient [DefaultTextStyle](https://api.flutter.dev/flutter/widgets/DefaultTextStyle-class.html) and respects the platform's bold-text accessibility setting (inherited from [FlLabel](base_chart.md#FlLabel))|null|
+|angle|rotation angle of the label in degrees (inherited from [FlLabel](base_chart.md#FlLabel))|0|
+|textDirection|[TextDirection](https://api.flutter.dev/flutter/dart-ui/TextDirection-class.html) of the label text (inherited from [FlLabel](base_chart.md#FlLabel))|TextDirection.ltr|
+|offset|[Offset](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) from the rod tip to position the label. `dx` shifts horizontally, `dy` shifts vertically|Offset(0, 8)|
+
 ### BarTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|enabled|determines to enable or disable touch behaviors|true|
+|enabled|determines whether to enable or disable touch behaviors|true|
 |mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)|MouseCursor.defer|
-|touchTooltipData|a [BarTouchTooltipData](#BarTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|BarTouchTooltipData()|
+|touchTooltipData|a [BarTouchTooltipData](#BarTouchTooltipData), that determines how to show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|BarTouchTooltipData()|
 |touchExtraThreshold|an [EdgeInsets](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html) class to hold a bounding threshold of touch accuracy|EdgeInsets.all(4)|
-|allowTouchBarBackDraw| if sets true, touch works on backdraw bar line| false |
-|handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
+|allowTouchBarBackDraw| if set to true, touch works on backdraw bar line| false |
+|handleBuiltInTouches| set this to true if you want the built-in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [BarTouchResponse](#BarTouchResponse)| null|
-|longPressDuration| allows to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
+|longPressDuration| allows you to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
 
 ### BarTouchTooltipData
  |PropName|Description|default value|
@@ -101,10 +113,10 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
  |tooltipBorderRadius|background corner radius of the tooltip bubble|BorderRadius.circular(4)|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
  |tooltipMargin|margin between the tooltip and the touched spot|16|
- |tooltipHorizontalAlignment|horizontal alginment of tooltip relative to the bar|FLHorizontalAlignment.center|
+ |tooltipHorizontalAlignment|horizontal alignment of tooltip relative to the bar|FLHorizontalAlignment.center|
  |tooltipHorizontalOffset|horizontal offset of tooltip|0|
  |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
- |getTooltipItems|a callback that retrieve [BarTooltipItem](#BarTooltipItem) by the given [BarChartGroupData](#BarChartGroupData), groupIndex, [BarChartRodData](#BarChartRodData) and rodIndex |defaultBarTooltipItem|
+ |getTooltipItems|a callback that retrieves [BarTooltipItem](#BarTooltipItem) by the given [BarChartGroupData](#BarChartGroupData), groupIndex, [BarChartRodData](#BarChartRodData) and rodIndex |defaultBarTooltipItem|
  |fitInsideHorizontally| forces tooltip to horizontally shift inside the chart's bounding box| false|
  |fitInsideVertically| forces tooltip to vertically shift inside the chart's bounding box| false|
  |direction| Controls showing tooltip on top or bottom, default is auto.| auto|
@@ -130,11 +142,11 @@ enum values {`start`, `end`, `center`, `spaceEvenly`, `spaceAround`, `spaceBetwe
 ### BarTouchedSpot
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|touchedBarGroup|the [BarChartGroupData](#BarChartGroupData) that user touched its rod's spot| null |
+|touchedBarGroup|the [BarChartGroupData](#BarChartGroupData) that the user touched its rod's spot| null |
 |touchedBarGroupIndex| index of touched barGroup| null|
-|touchedRodData|the [BarChartRodData](#BarChartRodData) that user touched its spot|null|
+|touchedRodData|the [BarChartRodData](#BarChartRodData) that the user touched its spot|null|
 |touchedRodDataIndex| index of touchedRod | null|
-|touchedStackItem| [BarChartRodStackItem](#BarChartRodStackItem) is the touched stack (if you have stacked bar chart) |null|
+|touchedStackItem| [BarChartRodStackItem](#BarChartRodStackItem) is the touched stack (if you have a stacked bar chart) |null|
 |touchedStackItemIndex| index of barChartRodStackItem, -1 if nothing found | -1|
 
 

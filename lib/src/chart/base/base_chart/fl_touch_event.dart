@@ -106,8 +106,7 @@ class FlPanEndEvent extends FlTouchEvent {
   final DragEndDetails details;
 }
 
-/// When a pointer that might cause a tap has contacted the
-/// screen.
+/// When a pointer that might cause a tap has contacted the screen.
 ///
 /// The position at which the pointer contacted the screen is available in the
 /// [details].
@@ -123,10 +122,32 @@ class FlTapDownEvent extends FlTouchEvent {
   Offset get localPosition => details.localPosition;
 }
 
+/// When a secondary pointer that might cause a tap has contacted the screen.
+///
+/// The position at which the pointer contacted the screen is available in the
+/// [details].
+/// Inspired from [GestureTapDownCallback]
+class FlSecondaryTapDownEvent extends FlTouchEvent {
+  const FlSecondaryTapDownEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final TapDownDetails details;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
+}
+
 /// When the pointer that previously triggered a [FlTapDownEvent] will not end up causing a tap.
 /// Inspired from [GestureTapCancelCallback]
 class FlTapCancelEvent extends FlTouchEvent {
   const FlTapCancelEvent();
+}
+
+/// When the pointer that previously triggered a [FlSecondaryTapDownEvent] will not end up causing a tap.
+/// Inspired from [GestureTapCancelCallback]
+class FlSecondaryTapCancelEvent extends FlTouchEvent {
+  const FlSecondaryTapCancelEvent();
 }
 
 /// When a pointer that will trigger a tap has stopped contacting
@@ -146,6 +167,23 @@ class FlTapUpEvent extends FlTouchEvent {
   Offset get localPosition => details.localPosition;
 }
 
+/// When a secondary pointer that will trigger a tap has stopped contacting
+/// the screen.
+///
+/// The position at which the pointer stopped contacting the screen is available
+/// in the [details].
+/// Inspired from [GestureTapUpCallback]
+class FlSecondaryTapUpEvent extends FlTouchEvent {
+  const FlSecondaryTapUpEvent(this.details);
+
+  /// Contains information of happened touch gesture
+  final TapUpDetails details;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
+}
+
 /// Called When a pointer has remained in contact with the screen at the
 /// same location for a long period of time.
 ///
@@ -154,6 +192,23 @@ class FlTapUpEvent extends FlTouchEvent {
 /// Inspired from [GestureLongPressStartCallback]
 class FlLongPressStart extends FlTouchEvent {
   const FlLongPressStart(this.details);
+
+  /// Contains information of happened touch gesture
+  final LongPressStartDetails details;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
+}
+
+/// Called When a secondary pointer has remained in contact with the screen at the
+/// same location for a long period of time.
+///
+/// Details are available in the [details].
+///
+/// Inspired from [GestureLongPressStartCallback]
+class FlSecondaryLongPressStart extends FlTouchEvent {
+  const FlSecondaryLongPressStart(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressStartDetails details;
@@ -181,6 +236,24 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
   Offset get localPosition => details.localPosition;
 }
 
+/// When a secondary pointer is moving after being held in contact at the same
+/// location for a long period of time. Reports the new position and its offset
+/// from the original down position.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [GestureLongPressMoveUpdateCallback]
+class FlSecondaryLongPressMoveUpdate extends FlTouchEvent {
+  const FlSecondaryLongPressMoveUpdate(this.details);
+
+  /// Contains information of happened touch gesture
+  final LongPressMoveUpdateDetails details;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
+}
+
 /// When a pointer stops contacting the screen after a long press
 /// gesture was detected. Also reports the position where the pointer stopped
 /// contacting the screen.
@@ -190,6 +263,24 @@ class FlLongPressMoveUpdate extends FlTouchEvent {
 /// Inspired from [GestureLongPressEndCallback]
 class FlLongPressEnd extends FlTouchEvent {
   const FlLongPressEnd(this.details);
+
+  /// Contains information of happened touch gesture
+  final LongPressEndDetails details;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
+}
+
+/// When a secondary pointer stops contacting the screen after a long press
+/// gesture was detected. Also reports the position where the pointer stopped
+/// contacting the screen.
+///
+/// Details are available in the [details]
+///
+/// Inspired from [GestureLongPressEndCallback]
+class FlSecondaryLongPressEnd extends FlTouchEvent {
+  const FlSecondaryLongPressEnd(this.details);
 
   /// Contains information of happened touch gesture
   final LongPressEndDetails details;

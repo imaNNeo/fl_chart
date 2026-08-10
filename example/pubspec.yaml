@@ -29,6 +29,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  msix: ^3.16.13
 
 flutter:
   uses-material-design: true
@@ -41,3 +42,14 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/data/
+
+msix_config:
+  display_name: FL Chart
+  publisher_display_name: App2Pack
+  identity_name: App2Pack.FLChart
+  publisher: CN=FBB84607-3250-433E-9236-B21FF8A84B05
+  msix_version: 1.2.0.0
+  logo_path: assets/icons/fl_chart_logo_icon.png
+  architecture: x64
+  capabilities: internetClient
+  store: true

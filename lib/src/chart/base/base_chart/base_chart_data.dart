@@ -1,5 +1,6 @@
 // coverage:ignore-file
 import 'dart:core';
+import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -188,6 +189,62 @@ abstract class BaseTouchResponse {
 
   /// The location of the touch in pixels on the screen.
   final Offset touchLocation;
+}
+
+/// A reusable label configuration for chart elements.
+class FlLabel with EquatableMixin {
+  const FlLabel({
+    this.show = true,
+    this.text = '',
+    this.style,
+    this.angle = 0,
+    this.textDirection = TextDirection.ltr,
+  });
+
+  /// Whether the label is visible.
+  final bool show;
+
+  /// The text content of the label.
+  final String text;
+
+  /// The text style of the label.
+  final TextStyle? style;
+
+  /// Rotation angle of the label in degrees.
+  final double angle;
+
+  /// Text direction of the label.
+  final TextDirection textDirection;
+
+  /// Lerps a [FlLabel] based on [t] value, check [Tween.lerp].
+  static FlLabel lerp(FlLabel a, FlLabel b, double t) => FlLabel(
+        show: b.show,
+        text: b.text,
+        style: TextStyle.lerp(a.style, b.style, t),
+        angle: lerpDouble(a.angle, b.angle, t)!,
+        textDirection: b.textDirection,
+      );
+
+  /// Copies current [FlLabel] to a new [FlLabel],
+  /// and replaces provided values.
+  FlLabel copyWith({
+    bool? show,
+    String? text,
+    TextStyle? style,
+    double? angle,
+    TextDirection? textDirection,
+  }) =>
+      FlLabel(
+        show: show ?? this.show,
+        text: text ?? this.text,
+        style: style ?? this.style,
+        angle: angle ?? this.angle,
+        textDirection: textDirection ?? this.textDirection,
+      );
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [show, text, style, angle, textDirection];
 }
 
 /// Controls an element horizontal alignment to given point.

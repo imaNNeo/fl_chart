@@ -78,8 +78,7 @@ void main() {
           ]),
         ],
         lineTouchData: LineTouchData(
-          getTouchedSpotIndicator:
-              (LineChartBarData barData, List<int> spotIndexes) {
+          getTouchedSpotIndicator: (barData, spotIndexes) {
             return spotIndexes.asMap().entries.map((entry) {
               final i = entry.key;
               if (i == 0) {
@@ -160,8 +159,7 @@ void main() {
         lineBarsData: lineChartBarsData,
         clipData: const FlClipData.all(),
         lineTouchData: LineTouchData(
-          getTouchedSpotIndicator:
-              (LineChartBarData barData, List<int> spotIndexes) {
+          getTouchedSpotIndicator: (barData, spotIndexes) {
             return List.generate(
               spotIndexes.length + 1,
               (index) {
@@ -285,8 +283,7 @@ void main() {
           ]),
         ],
         lineTouchData: LineTouchData(
-          getTouchedSpotIndicator:
-              (LineChartBarData barData, List<int> spotIndexes) {
+          getTouchedSpotIndicator: (barData, spotIndexes) {
             return spotIndexes.asMap().entries.map((entry) {
               final i = entry.key;
               if (i == 0) {
@@ -933,6 +930,51 @@ void main() {
         expect(captured.errorTextStyle.fontSize, spots[i].y);
       }
       verifyNever(mockCanvasWrapper.drawText(any, any, any));
+    });
+
+    test('test 4 - asymmetric yError maps lowerBy downward and upperBy upward',
+        () {
+      const viewSize = Size(400, 400);
+
+      final barData = LineChartBarData(
+        spots: [
+          const FlSpot(
+            5,
+            5,
+            yError: FlErrorRange(lowerBy: 1, upperBy: 3),
+          ),
+        ],
+      );
+
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        lineBarsData: [barData],
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      lineChartPainter.drawErrorIndicatorData(
+        mockCanvasWrapper,
+        barData,
+        holder,
+      );
+
+      final result = verify(
+        mockCanvasWrapper.drawErrorIndicator(any, any, any, captureAny, any),
+      )..called(1);
+      final rect = result.captured[0] as Rect;
+      // getPixelY(y) = 400 - (y/10)*400
+      // spot y=5 -> pixel 200
+      // upper bound y=8 -> pixel 80, relative top = 80 - 200 = -120
+      // lower bound y=4 -> pixel 240, relative bottom = 240 - 200 = 40
+      expect(rect.top, -120);
+      expect(rect.bottom, 40);
     });
   });
 
@@ -2784,7 +2826,7 @@ void main() {
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideHorizontally: true,
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -2909,7 +2951,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.left,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3020,7 +3062,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3141,7 +3183,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3263,7 +3305,7 @@ void main() {
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
         fitInsideVertically: true,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+        getTooltipItems: (touchedSpots) {
           return touchedSpots
               .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
               .toList();
@@ -3354,7 +3396,7 @@ void main() {
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipPadding: const EdgeInsets.all(12),
           fitInsideVertically: true,
-          getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          getTooltipItems: (touchedSpots) {
             return touchedSpots
                 .map((e) => LineTooltipItem(e.barIndex.toString(), textStyle1))
                 .toList();
@@ -3375,11 +3417,11 @@ void main() {
                 const FlLine(color: Colors.red, strokeWidth: 1),
                 FlDotData(
                   getDotPainter: (
-                    FlSpot spot,
-                    double xPercentage,
-                    LineChartBarData bar,
-                    int index, {
-                    double? size,
+                    spot,
+                    xPercentage,
+                    bar,
+                    index, {
+                    size,
                   }) =>
                       FlDotCirclePainter(
                     color: Colors.red,
@@ -3957,7 +3999,7 @@ void main() {
         showingTooltipIndicators: [],
         titlesData: const FlTitlesData(show: false),
         lineTouchData: LineTouchData(
-          distanceCalculator: (Offset a, Offset b) {
+          distanceCalculator: (a, b) {
             final dx = a.dx - b.dx;
             final dy = a.dy - b.dy;
             return math.sqrt(dx * dx + dy * dy);

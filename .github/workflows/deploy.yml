@@ -1,0 +1,213 @@
+name: Deploy
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  deploy-ios:
+    name: Build and Deploy iOS
+    runs-on: macos-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: example
+
+      - run: flutter pub get
+
+      - name: Install CocoaPods
+        run: cd ios && pod install
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to App Store
+        run: bundle exec fastlane ios deploy
+        env:
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+          ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
+          FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
+          MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_KEY_ISSUER_ID: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
+          APPSTORE_KEY_CONTENT_BASE64: ${{ secrets.APPSTORE_KEY_CONTENT_BASE64 }}
+
+  deploy-android:
+    name: Build and Deploy Android
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+
+      - name: Decode keystore
+        run: echo "${{ secrets.KEY_STORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
+
+      - name: Create key.properties
+        env:
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_STORE_ALIAS: ${{ secrets.KEY_STORE_ALIAS }}
+        run: |
+          printf 'storePassword=%s\n' "$KEY_STORE_PASSWORD" > android/key.properties
+          printf 'keyPassword=%s\n' "$KEY_STORE_PASSWORD" >> android/key.properties
+          printf 'keyAlias=%s\n' "$KEY_STORE_ALIAS" >> android/key.properties
+          printf 'storeFile=keystore.jks\n' >> android/key.properties
+
+      - name: Build App Bundle
+        run: flutter build appbundle --release
+
+      - name: Decode service account key
+        run: echo "${{ secrets.SERVICE_ACCOUNT_FOR_RELEASE_KEY_BASE64 }}" | base64 --decode > service-account-key.json
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: example/service-account-key.json
+          packageName: dev.flchart.app
+          releaseFiles: example/build/app/outputs/bundle/release/app-release.aab
+          track: internal
+          status: draft
+
+  deploy-macos:
+    name: Build and Deploy macOS
+    runs-on: macos-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: example
+
+      - run: flutter pub get
+
+      - name: Build macOS app
+        run: flutter build macos --release
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Mac App Store
+        run: bundle exec fastlane mac deploy
+        env:
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+          ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
+          FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
+          MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_KEY_ISSUER_ID: ${{ secrets.APPSTORE_KEY_ISSUER_ID }}
+          APPSTORE_KEY_CONTENT_BASE64: ${{ secrets.APPSTORE_KEY_CONTENT_BASE64 }}
+
+  deploy-windows:
+    name: Build and Deploy Windows
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+
+      - name: Build Windows
+        run: flutter build windows --release
+
+      - name: Create MSIX
+        run: dart run msix:create --store
+
+      - name: Setup Microsoft Store Developer CLI
+        uses: microsoft/setup-msstore-cli@v1
+
+      - name: Configure Microsoft Store Developer CLI
+        run: msstore reconfigure --tenantId ${{ secrets.MICROSOFT_AZURE_AD_TENANT_ID }} --clientId ${{ secrets.MICROSOFT_AZURE_AD_CLIENT_ID }} --clientSecret ${{ secrets.MICROSOFT_AZURE_AD_CLIENT_SECRET }} --sellerId ${{ secrets.MICROSOFT_SELLER_ID }}
+
+      - name: Publish to Microsoft Store
+        run: msstore publish . -v -id ${{ secrets.MICROSOFT_STORE_PRODUCT_ID }}
+
+  deploy-web:
+    name: Build and Deploy Web
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: example
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Set fl_chart version
+        working-directory: ${{ github.workspace }}
+        run: |
+          VERSION=$(grep "version:" pubspec.yaml | awk '{ print $2 }')
+          echo "USING_FL_CHART_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - run: flutter pub get
+
+      - name: Build web
+        run: flutter build web --release --wasm --base-href=/ --dart-define="USING_FL_CHART_VERSION=${{ env.USING_FL_CHART_VERSION }}"
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git --work-tree build/web add --all
+          git commit -m "Automatic deployment by github-actions"
+          git push origin HEAD:gh-pages --force

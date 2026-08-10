@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 
 class BarChartSample2 extends StatefulWidget {
   BarChartSample2({super.key});
-  final Color leftBarColor = AppColors.contentColorYellow;
-  final Color rightBarColor = AppColors.contentColorRed;
+
+  final Color leftBarColor = AppColors.contentColorRed;
+  final Color rightBarColor = AppColors.contentColorYellow;
   final Color avgColor =
       AppColors.contentColorOrange.avg(AppColors.contentColorRed);
+
   @override
   State<StatefulWidget> createState() => BarChartSample2State();
 }
@@ -125,7 +127,10 @@ class BarChartSample2State extends State<BarChartSample2> {
                                 .barRods
                                 .map((rod) {
                               return rod.copyWith(
-                                  toY: avg, color: widget.avgColor);
+                                toY: avg,
+                                color: widget.avgColor,
+                                label: makeLabel(avg, widget.avgColor, true),
+                              );
                             }).toList(),
                           );
                         }
@@ -215,6 +220,24 @@ class BarChartSample2State extends State<BarChartSample2> {
     );
   }
 
+  BarChartRodLabel makeLabel(
+    double value,
+    Color color,
+    bool avg,
+  ) =>
+      BarChartRodLabel(
+        text: value.toString(),
+        angle: avg ? -90 : 0,
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          shadows: [
+            Shadow(color: Colors.black54, blurRadius: 4),
+          ],
+        ),
+      );
+
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
     return BarChartGroupData(
       barsSpace: 4,
@@ -224,11 +247,13 @@ class BarChartSample2State extends State<BarChartSample2> {
           toY: y1,
           color: widget.leftBarColor,
           width: width,
+          label: makeLabel(y1, widget.leftBarColor, false),
         ),
         BarChartRodData(
           toY: y2,
           color: widget.rightBarColor,
           width: width,
+          label: makeLabel(y2, widget.rightBarColor, false),
         ),
       ],
     );

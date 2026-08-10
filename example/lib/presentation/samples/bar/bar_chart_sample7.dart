@@ -28,6 +28,7 @@ class _BarChartSample7State extends State<BarChartSample7> {
     double value,
     double shadowValue,
   ) {
+    final isTouched = touchedGroupIndex == x;
     return BarChartGroupData(
       x: x,
       barRods: [
@@ -35,6 +36,21 @@ class _BarChartSample7State extends State<BarChartSample7> {
           toY: value,
           color: color,
           width: 6,
+          label: BarChartRodLabel(
+            show: isTouched,
+            text: value.toString(),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: color,
+              fontSize: 18,
+              shadows: const [
+                Shadow(
+                  color: Colors.black26,
+                  blurRadius: 12,
+                )
+              ],
+            ),
+          ),
         ),
         BarChartRodData(
           toY: shadowValue,
@@ -42,7 +58,6 @@ class _BarChartSample7State extends State<BarChartSample7> {
           width: 6,
         ),
       ],
-      showingTooltipIndicators: touchedGroupIndex == x ? [0] : [],
     );
   }
 
@@ -153,37 +168,11 @@ class _BarChartSample7State extends State<BarChartSample7> {
                 barTouchData: BarTouchData(
                   enabled: true,
                   handleBuiltInTouches: false,
-                  touchTooltipData: BarTouchTooltipData(
-                    getTooltipColor: (group) => Colors.transparent,
-                    tooltipMargin: 0,
-                    getTooltipItem: (
-                      BarChartGroupData group,
-                      int groupIndex,
-                      BarChartRodData rod,
-                      int rodIndex,
-                    ) {
-                      return BarTooltipItem(
-                        rod.toY.toString(),
-                        TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: rod.color,
-                          fontSize: 18,
-                          shadows: const [
-                            Shadow(
-                              color: Colors.black26,
-                              blurRadius: 12,
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
                   touchCallback: (event, response) {
-                    if (event.isInterestedForInteractions &&
-                        response != null &&
-                        response.spot != null) {
+                    final spot = response?.spot;
+                    if (event.isInterestedForInteractions && spot != null) {
                       setState(() {
-                        touchedGroupIndex = response.spot!.touchedBarGroupIndex;
+                        touchedGroupIndex = spot.touchedBarGroupIndex;
                       });
                     } else {
                       setState(() {
@@ -230,7 +219,8 @@ class _IconWidgetState extends AnimatedWidgetBaseState<_IconWidget> {
     final rotation = math.pi * 4 * _rotationTween!.evaluate(animation);
     final scale = 1 + _rotationTween!.evaluate(animation) * 0.5;
     return Transform(
-      transform: Matrix4.rotationZ(rotation).scaledByDouble(scale, scale, scale, 1.0),
+      transform:
+          Matrix4.rotationZ(rotation).scaledByDouble(scale, scale, scale, 1.0),
       origin: const Offset(14, 14),
       child: Icon(
         widget.isSelected ? Icons.face_retouching_natural : Icons.face,

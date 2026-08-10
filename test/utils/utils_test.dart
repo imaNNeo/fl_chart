@@ -236,7 +236,7 @@ void main() {
   });
 
   group('test getThemeAwareTextStyle', () {
-    testWidgets('test 1', (WidgetTester tester) async {
+    testWidgets('test 1', (tester) async {
       const style = TextStyle(color: Colors.brown);
       await tester.pumpWidget(
         MaterialApp(
@@ -257,7 +257,7 @@ void main() {
       );
     });
 
-    testWidgets('test 2', (WidgetTester tester) async {
+    testWidgets('test 2', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

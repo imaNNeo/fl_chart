@@ -14,6 +14,8 @@ Click and learn more about them.
 
 - [CandlestickChart](candlestick_chart.md)
 
+- [GaugeChart](gauge_chart.md)
+
 -----------
 
 - [Migration Guides](migration_guides/INDEX.md)

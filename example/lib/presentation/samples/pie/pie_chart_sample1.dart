@@ -102,66 +102,34 @@ class PieChartSample1State extends State {
   }
 
   List<PieChartSectionData> showingSections() {
+    final colors = [
+      AppColors.contentColorBlue,
+      AppColors.contentColorYellow,
+      AppColors.contentColorPink,
+      AppColors.contentColorGreen,
+    ];
+
+    final radiusValues = <double>[80, 65, 60, 70];
+
+    //This can be removed because no title is being displayed in the first place
+    final titlePositionPercentageOffsets = <double>[.55, .55, .6, .55];
+
     return List.generate(
       4,
       (i) {
         final isTouched = i == touchedIndex;
-        const color0 = AppColors.contentColorBlue;
-        const color1 = AppColors.contentColorYellow;
-        const color2 = AppColors.contentColorPink;
-        const color3 = AppColors.contentColorGreen;
 
-        return switch (i) {
-          0 => PieChartSectionData(
-              color: color0,
-              value: 25,
-              title: '',
-              radius: 80,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
-            ),
-          1 => PieChartSectionData(
-              color: color1,
-              value: 25,
-              title: '',
-              radius: 65,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
-            ),
-          2 => PieChartSectionData(
-              color: color2,
-              value: 25,
-              title: '',
-              radius: 60,
-              titlePositionPercentageOffset: 0.6,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
-            ),
-          3 => PieChartSectionData(
-              color: color3,
-              value: 25,
-              title: '',
-              radius: 70,
-              titlePositionPercentageOffset: 0.55,
-              borderSide: isTouched
-                  ? const BorderSide(
-                      color: AppColors.contentColorWhite, width: 6)
-                  : BorderSide(
-                      color: AppColors.contentColorWhite.withValues(alpha: 0)),
-            ),
-          _ => throw StateError('Invalid'),
-        };
+        return PieChartSectionData(
+          color: colors[i],
+          value: 25,
+          title: '',
+          radius: radiusValues[i],
+          titlePositionPercentageOffset: titlePositionPercentageOffsets[i],
+          borderSide: isTouched
+              ? const BorderSide(color: AppColors.contentColorWhite, width: 6)
+              : BorderSide(
+                  color: AppColors.contentColorWhite.withValues(alpha: 0)),
+        );
       },
     );
   }

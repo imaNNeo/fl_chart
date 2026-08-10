@@ -79,10 +79,13 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
         _clipPaint,
       );
 
-      var left = 0.0;
-      var top = 0.0;
-      var right = viewSize.width;
-      var bottom = viewSize.height;
+      // Sides that aren't enabled in [clip] must stay unclipped. We extend
+      // their boundary to infinity so [Canvas.clipRect] only clips the enabled
+      // sides (otherwise enabling any single side would clip all four).
+      var left = double.negativeInfinity;
+      var top = double.negativeInfinity;
+      var right = double.infinity;
+      var bottom = double.infinity;
 
       if (clip.left) {
         final borderWidth = border?.left.width ?? 0;
@@ -226,8 +229,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       var top = 0.0;
       var bottom = 0.0;
       if (spot.yError != null) {
-        top = getPixelY(spot.y + spot.yError!.lowerBy, viewSize, holder) - y;
-        bottom = getPixelY(spot.y - spot.yError!.upperBy, viewSize, holder) - y;
+        top = getPixelY(spot.y + spot.yError!.upperBy, viewSize, holder) - y;
+        bottom = getPixelY(spot.y - spot.yError!.lowerBy, viewSize, holder) - y;
       }
       final relativeErrorPixelsRect = Rect.fromLTRB(
         left,

@@ -1,9 +1,9 @@
-# Migrate to new version
+# Migrate to version 0.55.0
 
 ## The ability to rotate the RadarChart titles [#1057](https://github.com/imaNNeo/fl_chart/issues/1057)
 
 We added the ability to customize the rotation angles of the RadarChart titles.  
-To do that we add to break one thing and added a new type.
+To do that we had to break one thing and added a new type.
 
 <img src="https://github.com/imaNNeo/fl_chart/raw/main/repo_files/documentations/migration_guides/0.55.0/attachments/radar_chart_sample_1.gif" width="300" >  
 

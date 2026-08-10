@@ -3,46 +3,29 @@ import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class _BarChart extends StatelessWidget {
-  const _BarChart();
+class BarChartSample3 extends StatefulWidget {
+  const BarChartSample3({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BarChart(
-      BarChartData(
-        barTouchData: barTouchData,
-        titlesData: titlesData,
-        borderData: borderData,
-        barGroups: barGroups,
-        gridData: const FlGridData(show: false),
-        alignment: BarChartAlignment.spaceAround,
-        maxY: 20,
-      ),
-    );
-  }
+  State<StatefulWidget> createState() => BarChartSample3State();
+}
+
+class BarChartSample3State extends State<BarChartSample3> {
+  int? touchedGroupIndex;
 
   BarTouchData get barTouchData => BarTouchData(
-        enabled: false,
-        touchTooltipData: BarTouchTooltipData(
-          getTooltipColor: (group) => Colors.transparent,
-          tooltipPadding: EdgeInsets.zero,
-          tooltipMargin: 8,
-          getTooltipItem: (
-            BarChartGroupData group,
-            int groupIndex,
-            BarChartRodData rod,
-            int rodIndex,
-          ) {
-            return BarTooltipItem(
-              rod.toY.round().toString(),
-              const TextStyle(
-                color: AppColors.contentColorCyan,
-                fontWeight: FontWeight.bold,
-              ),
-            );
-          },
-        ),
-      );
+      enabled: true,
+      handleBuiltInTouches: false,
+      touchCallback: (event, response) {
+        setState(() {
+          final groupI = response?.spot?.touchedBarGroupIndex;
+          if (event.isInterestedForInteractions && groupI != null) {
+            touchedGroupIndex = groupI;
+          } else {
+            touchedGroupIndex = null;
+          }
+        });
+      });
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
@@ -100,93 +83,47 @@ class _BarChart extends StatelessWidget {
         end: Alignment.topCenter,
       );
 
-  List<BarChartGroupData> get barGroups => [
-        BarChartGroupData(
-          x: 0,
+  List<BarChartGroupData> get barGroups =>
+      [8, 10, 14, 15, 13, 10, 16].asMap().entries.map((entry) {
+        int i = entry.key;
+        int value = entry.value;
+        final isTouched = i == touchedGroupIndex;
+        return BarChartGroupData(
+          x: i,
           barRods: [
             BarChartRodData(
-              toY: 8,
+              toY: value.toDouble(),
               gradient: _barsGradient,
-            )
+              label: BarChartRodLabel(
+                text: value.toString(),
+                style: TextStyle(
+                  color: AppColors.contentColorCyan,
+                  fontWeight: FontWeight.bold,
+                  fontSize: isTouched ? 40 : 18,
+                ),
+              ),
+            ),
           ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 2,
-          barRods: [
-            BarChartRodData(
-              toY: 14,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-              toY: 15,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 4,
-          barRods: [
-            BarChartRodData(
-              toY: 13,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 5,
-          barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 6,
-          barRods: [
-            BarChartRodData(
-              toY: 16,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-      ];
-}
+        );
+      }).toList();
 
-class BarChartSample3 extends StatefulWidget {
-  const BarChartSample3({super.key});
-
-  @override
-  State<StatefulWidget> createState() => BarChartSample3State();
-}
-
-class BarChartSample3State extends State<BarChartSample3> {
   @override
   Widget build(BuildContext context) {
-    return const AspectRatio(
+    return AspectRatio(
       aspectRatio: 1.6,
-      child: _BarChart(),
+      child: BarChart(
+        duration: Duration(milliseconds: 100),
+        curve: Curves.easeOutQuad,
+        BarChartData(
+          barTouchData: barTouchData,
+          titlesData: titlesData,
+          borderData: borderData,
+          barGroups: barGroups,
+          gridData: const FlGridData(show: false),
+          alignment: BarChartAlignment.spaceAround,
+          maxY: 20,
+        ),
+      ),
     );
   }
 }

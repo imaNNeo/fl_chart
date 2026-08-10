@@ -193,9 +193,9 @@ void main() {
         clipData: const FlClipData.all(),
         scatterLabelSettings: ScatterLabelSettings(
           showLabel: true,
-          getLabelTextStyleFunction: (int index, ScatterSpot spot) =>
+          getLabelTextStyleFunction: (index, spot) =>
               const TextStyle(fontSize: 12),
-          getLabelFunction: (int index, ScatterSpot spot) {
+          getLabelFunction: (index, spot) {
             if (index == 5) {
               return '';
             }
@@ -267,6 +267,52 @@ void main() {
       verify(mockCanvasWrapper.drawText(any, any)).called(4);
 
       verify(mockCanvasWrapper.clipRect(any)).called(1);
+    });
+
+    test('enabling one clip side does not clip the others (#1262)', () {
+      const viewSize = Size(100, 100);
+
+      final data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        scatterSpots: [ScatterSpot(1, 1)],
+        titlesData: const FlTitlesData(show: false),
+        borderData: FlBorderData(show: true, border: Border.all(width: 8)),
+        clipData: const FlClipData(
+          top: false,
+          bottom: false,
+          left: true,
+          right: false,
+        ),
+      );
+
+      final scatterChartPainter = ScatterChartPainter();
+      final holder = PaintHolder<ScatterChartData>(
+        data,
+        data,
+        TextScaler.noScaling,
+      );
+
+      final mockBuildContext = MockBuildContext();
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenReturn(viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      scatterChartPainter.drawSpots(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final verifyResult = verify(mockCanvasWrapper.clipRect(captureAny));
+      final rect = verifyResult.captured.single as Rect;
+      verifyResult.called(1);
+      // Only the left side is clipped; the other three stay unbounded.
+      expect(rect.left, 4);
+      expect(rect.top, double.negativeInfinity);
+      expect(rect.right, double.infinity);
+      expect(rect.bottom, double.infinity);
     });
   });
 
@@ -875,6 +921,47 @@ void main() {
         holder,
       );
       expect(touchedSpot6, null);
+    });
+  });
+
+  group('drawScatterErrorBars()', () {
+    test('asymmetric yError maps lowerBy downward and upperBy upward', () {
+      const viewSize = Size(400, 400);
+
+      final data = ScatterChartData(
+        minY: 0,
+        maxY: 10,
+        scatterSpots: [
+          ScatterSpot(
+            5,
+            5,
+            yError: const FlErrorRange(lowerBy: 1, upperBy: 3),
+          ),
+        ],
+      );
+
+      final scatterChartPainter = ScatterChartPainter();
+      final holder =
+          PaintHolder<ScatterChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      scatterChartPainter.drawScatterErrorBars(
+        mockCanvasWrapper,
+        holder,
+      );
+
+      final result = verify(
+        mockCanvasWrapper.drawErrorIndicator(any, any, any, captureAny, any),
+      )..called(1);
+      final rect = result.captured[0] as Rect;
+      // getPixelY(y) = 400 - (y/10)*400
+      // spot y=5 -> pixel 200
+      // upper bound y=8 -> pixel 80, relative top = 80 - 200 = -120
+      // lower bound y=4 -> pixel 240, relative bottom = 240 - 200 = 40
+      expect(rect.top, -120);
+      expect(rect.bottom, 40);
     });
   });
 }

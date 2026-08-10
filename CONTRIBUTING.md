@@ -1,11 +1,11 @@
 # Contributing
 Hello, we are glad to have a contributor like you here.  
 
-Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot even it is a line of change.
+Don't forget that `open-source` makes no sense without contributors. No matter how big your changes are, it helps us a lot, even if it is just a line of change.
 
 This file is intended to be a guide for those who are interested in contributing to the FL Chart.
 
-#### Below are the people who have contributed to the FL Chart. We hope we have your picture here soon.
+#### Below are the people who have contributed to FL Chart. We hope to have your picture here soon.
 [![](https://opencollective.com/fl_chart/contributors.svg?width=890&button=false)](https://github.com/imaNNeo/fl_chart/graphs/contributors)
 
 ## Let's get Started
@@ -23,6 +23,9 @@ Follow these steps to clone FL Chart and set up the development environment:
 4. Install all packages: `flutter packages get`
 
 5. Try to run the sample app. It should work on all platforms (Android, iOS, Web, Linux, MacOS, Windows)
+
+6. Create a new branch for your changes: `git checkout -b your-branch-name`.
+   The branch name doesn't matter for our project history (as we use **Squash and Merge**), but it's good practice to use descriptive names. You can [read more about naming conventions here](https://www.geeksforgeeks.org/git/how-to-naming-conventions-for-git-branches/).
 
 ## Before Modifying the Code
 
@@ -47,10 +50,9 @@ It makes draw functions testable.
 (made with [draw.io](https://drive.google.com/file/d/1bj-2TqTRUh80dRKJk10drPNeA3fp3EA8/view))
 
 ## Keep your branch updated
-While you are developing your branch, It is common that your branch gets outdated and you need to update your branch with the `master` branch.
-To do that, please use `rebase` instead of `merge`. Because when you finish the PR, we must `rebase` your branch and merge it with the master.
-The reason that we prefer `rebase` over `merge` is the simplicity of the commit history. It allows us to have sequential commits in the `master`
-[This article](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) might help you understand it better.
+If your branch falls behind the `main` branch, you can update it using the "Update branch" button on GitHub or by merging `main` into your branch.
+
+We use **Squash and Merge**, which combines all your PR commits into a single, clean commit in the `main` branch.
 
 ## Checking Your Code's Quality
 
@@ -81,7 +83,7 @@ We should write unit tests for our written code. If you are not familiar with un
 Our code coverage is calculated by [Codecov](https://app.codecov.io/gh/imaNNeo/fl_chart) (Our coverage is [![codecov](https://codecov.io/gh/imaNNeo/fl_chart/branch/main/graph/badge.svg?token=XBhsIZBbZG)](https://codecov.io/gh/imaNNeo/fl_chart)
  at the moment)
 
-When you push something in your PR (after approving your PR by one of us), you see a coverage report which describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 
+When you push something in your PR (after your PR is approved by one of us), you will see a coverage report that describes how much coverage is increased or decreased by your code (You can check the details to see which part of your code made the change). 
 
 Please make sure that your code is **not decreasing** the coverage.
 
@@ -90,12 +92,28 @@ Please make sure that your code is **not decreasing** the coverage.
 Congratulations! Your code meets all of our guidelines :100:. Now you have to
 submit a pull request (PR for short) to us. These are the steps you should
 follow when creating a PR:
- 
-- Make a descriptive title that summarizes what changes were in the PR.
 
-- Mention the issues that you are fixing (if they don't exist, try to make one and explain the issue clearly)
+### PR Title Convention
+We use [Conventional Commits](https://www.conventionalcommits.org/) for our PR titles. This title will be used to automatically generate the **CHANGELOG**.
 
-- Change your code according to feedback (if any).
+The title must follow this format:
+`<type>: <Subject>`
 
-After you follow the above steps, your PR will hopefully be merged. Thanks for
-contributing!
+- **Type**: Must be one of `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+- **Subject**: Must start with a **Capital Letter** and adequately summarize the changes.
+- **Breaking Changes**: If your PR contains a breaking change, add a `!` after the type (e.g., `feat!: Change PieChart API`).
+
+**Examples:**
+- `feat: Add rounded corners to PieChart`
+- `fix: Resolve memory leak in BarChart`
+- `docs: Update BarChart documentation`
+
+A GitHub Action will validate your PR title and will fail if it doesn't follow this convention.
+
+### PR Description
+- Use the provided PR template.
+- Provide a concise description of the changes. This text will become the permanent commit body in our Git history, so please keep it clear and brief. (Tip: Feel free to use AI assistants to help you draft this!)
+- Mention the issues that you are fixing (e.g., `Closes #1234`).
+- If it's a breaking change, provide migration instructions in the "Migration instructions" section of the template.
+
+After you follow the above steps, your PR will hopefully be merged. Thanks for contributing!
