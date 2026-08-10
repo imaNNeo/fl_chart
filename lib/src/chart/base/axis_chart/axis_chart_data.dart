@@ -9,7 +9,6 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart' hide Image;
-import 'package:flutter/services.dart';
 
 /// This is the base class for axis base charts data
 /// that contains a [FlGridData] that holds data for showing grid lines,
@@ -1468,70 +1467,88 @@ abstract class FlDotPainter with EquatableMixin {
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
-/// an image as the dot marker
+/// an [Image] as the dot marker
 class FlDotImagePainter extends FlDotPainter {
-  /// Creates an image dot painter.
+  /// The [image] is drawn centered on the spot, scaled to fit inside a
+  /// [size] x [size] square while keeping its aspect ratio.
   ///
-  /// [image] must be loaded before creating this painter.
-  /// Use [loadImageFromAsset] to load images from assets.
+  /// Because [draw] is synchronous, [image] has to be decoded before you
+  /// create this painter. Load it however you like (from an asset, from the
+  /// network, or generate it) and pass the result in. Check our
+  /// `LineChartSample14` for an example.
   FlDotImagePainter({
     required this.image,
     this.size = 24.0,
+    this.mainColor = Colors.green,
   });
 
   /// The image to draw as the dot marker
   final Image image;
 
-  /// The size of the dot (width and height)
+  /// The width and height of the dot, in logical pixels
   final double size;
 
-  /// Loads an image from asset path and returns a [Image] object.
+  /// Used to show default UIs, for example [defaultScatterTooltipItem].
   ///
-  /// Example:
-  /// ```dart
-  /// final image = await FlDotImagePainter.loadImageFromAsset('assets/dot.png');
-  /// final painter = FlDotImagePainter(image: image, size: 20.0);
-  /// ```
-  static Future<Image> loadImageFromAsset(String assetPath) async {
-    final byteData = await rootBundle.load(assetPath);
-    final codec = await instantiateImageCodec(byteData.buffer.asUint8List());
-    final frame = await codec.getNextFrame();
-    return frame.image;
-  }
+  /// It does not tint the [image].
+  @override
+  final Color mainColor;
 
+  /// The paint object that is used to draw the [image]
+  final _imagePaint = Paint()..filterQuality = FilterQuality.high;
+
+  /// Implementation of the parent class to draw the image
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    // Center the image at the offset
-    final drawOffset = offsetInCanvas - Offset(size / 2, size / 2);
-    final rect = Rect.fromLTWH(drawOffset.dx, drawOffset.dy, size, size);
-    paintImage(
-      canvas: canvas,
-      rect: rect,
-      image: image,
-      fit: BoxFit.contain,
-      filterQuality: FilterQuality.high,
+    final imageSize = Size(image.width.toDouble(), image.height.toDouble());
+    final destinationRect = Rect.fromCenter(
+      center: offsetInCanvas,
+      width: size,
+      height: size,
+    );
+    final fittedSizes = applyBoxFit(
+      BoxFit.contain,
+      imageSize,
+      destinationRect.size,
+    );
+    canvas.drawImageRect(
+      image,
+      Alignment.center.inscribe(fittedSizes.source, Offset.zero & imageSize),
+      Alignment.center.inscribe(fittedSizes.destination, destinationRect),
+      _imagePaint,
     );
   }
 
-  @override
-  Color get mainColor => Colors.transparent;
-
+  /// Implementation of the parent class to get the size of the dot
   @override
   Size getSize(FlSpot spot) => Size(size, size);
+
+  FlDotImagePainter _lerp(
+    FlDotImagePainter a,
+    FlDotImagePainter b,
+    double t,
+  ) =>
+      FlDotImagePainter(
+        image: b.image,
+        size: lerpDouble(a.size, b.size, t)!,
+        mainColor: Color.lerp(a.mainColor, b.mainColor, t)!,
+      );
 
   @override
   FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
     if (a is! FlDotImagePainter || b is! FlDotImagePainter) {
       return b;
     }
-    return FlDotImagePainter(
-      image: b.image,
-      size: lerpDouble(a.size, b.size, t) ?? b.size,
-    );
+    return _lerp(a, b, t);
   }
 
+  /// Used for equality check, see [EquatableMixin].
   @override
-  List<Object?> get props => [image, size];
+  List<Object?> get props => [
+        image,
+        size,
+        mainColor,
+      ];
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws

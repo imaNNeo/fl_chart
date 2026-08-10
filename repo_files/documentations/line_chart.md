@@ -100,7 +100,18 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |show|determines whether to show or hide the dots|true|
 |checkToShowDot|a function to determine whether to show or hide the dot on the given spot|showAllDots|
-|getDotPainter|a function to determine how the dot is drawn on the given spot|_defaultGetDotPainter|
+|getDotPainter|a function to determine how the dot is drawn on the given spot, it returns a `FlDotPainter` (for example a `FlDotCirclePainter`, `FlDotSquarePainter`, `FlDotCrossPainter` or a [FlDotImagePainter](#FlDotImagePainter))|_defaultGetDotPainter|
+
+### FlDotImagePainter
+A `FlDotPainter` that draws an image instead of a shape. The image is centered on the spot and scaled to fit inside a `size` x `size` square, keeping its aspect ratio.
+
+Because drawing happens synchronously, the image has to be decoded before you create the painter. Load it however you like (from an asset, from the network, or generate it) and pass the resulting `dart:ui` `Image` in. Check our [LineChartSample14](https://github.com/imaNNeo/fl_chart/blob/main/example/lib/presentation/samples/line/line_chart_sample14.dart) for a working example.
+
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|image|the already decoded image to draw as the dot|**required**|
+|size|the width and height of the dot, in logical pixels|24|
+|mainColor|used by default UIs (for example the scatter chart tooltip), it does not tint the image|Colors.green|
 
 ### LineTouchData ([read about touch handling](handle_touches.md))
 |PropName|Description|default value|
