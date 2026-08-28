@@ -1470,6 +1470,59 @@ void main() {
         3,
       );
     });
+
+    test('test 4 with zero-value sections', () {
+      const viewSize = Size(200, 200);
+      final data = PieChartData(
+        centerSpaceColor: MockData.color1,
+        sections: [
+          PieChartSectionData(
+            color: MockData.color1,
+            value: 0,
+            radius: 40,
+          ),
+          PieChartSectionData(
+            color: MockData.color2,
+            value: 0,
+            radius: 40,
+          ),
+          PieChartSectionData(
+            color: MockData.color3,
+            value: 100,
+            radius: 40,
+          ),
+          PieChartSectionData(
+            color: MockData.color4,
+            value: 200,
+            radius: 40,
+          ),
+          PieChartSectionData(
+            color: MockData.color1,
+            value: 300,
+            radius: 40,
+          ),
+        ],
+      );
+      final pieChartPainter = PieChartPainter();
+      final holder =
+          PaintHolder<PieChartData>(data, data, TextScaler.noScaling);
+
+      final result0 = pieChartPainter.handleTouch(
+        const Offset(140, 100),
+        viewSize,
+        holder,
+      );
+      expect(result0.touchedSectionIndex, isNot(0));
+      expect(result0.touchedSectionIndex, isNot(1));
+
+      final result1 = pieChartPainter.handleTouch(
+        const Offset(100, 60),
+        viewSize,
+        holder,
+      );
+      expect(result1.touchedSectionIndex, isNot(0));
+      expect(result1.touchedSectionIndex, isNot(1));
+    });
   });
 
   group('getBadgeOffsets()', () {
