@@ -35,9 +35,9 @@ class BarChartSample3State extends State<BarChartSample3> {
     );
     String text = switch (value.toInt()) {
       0 => 'Mn',
-      1 => 'Te',
+      1 => 'Tu',
       2 => 'Wd',
-      3 => 'Tu',
+      3 => 'Th',
       4 => 'Fr',
       5 => 'St',
       6 => 'Sn',
