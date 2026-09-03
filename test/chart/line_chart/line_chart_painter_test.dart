@@ -2730,6 +2730,68 @@ void main() {
       expect(offset4, const Offset(80, 38));
     });
 
+    test('test lines label textAlign', () {
+      const viewSize = Size(100, 100);
+
+      String horizontalLabelResolver(HorizontalLine line) => 'test';
+      String verticalLabelResolver(VerticalLine line) => 'test';
+
+      final data = LineChartData(
+        minY: 0,
+        maxY: 10,
+        minX: 0,
+        maxX: 10,
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 3,
+              label: HorizontalLineLabel(
+                show: true,
+                labelResolver: horizontalLabelResolver,
+                textAlign: TextAlign.right,
+              ),
+            ),
+          ],
+          verticalLines: [
+            VerticalLine(
+              x: 3,
+              label: VerticalLineLabel(
+                show: true,
+                labelResolver: verticalLabelResolver,
+                textAlign: TextAlign.right,
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      verify(mockCanvasWrapper.drawText(
+        argThat(
+          isA<TextPainter>().having(
+            (tp) => tp.textAlign,
+            'textAlign',
+            TextAlign.right,
+          ),
+        ),
+        any,
+      )).called(2);
+    });
+
     test(
         'should restore canvas before drawing extra lines and clip after '
         'when chart virtual rect is provided', () {

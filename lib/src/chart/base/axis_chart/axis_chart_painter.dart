@@ -318,7 +318,12 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
+            textAlign: label.textAlign,
           )..layout();
+          // Re-layout with the natural width as maxWidth so that textAlign
+          // takes effect for multi-line labels (e.g. right-aligning the
+          // value line above a wider time line).
+          tp.layout(maxWidth: tp.width);
 
           switch (label.direction) {
             case LabelDirection.horizontal:
@@ -441,7 +446,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
+            textAlign: label.textAlign,
           )..layout();
+          tp.layout(maxWidth: tp.width);
 
           switch (label.direction) {
             case LabelDirection.horizontal:

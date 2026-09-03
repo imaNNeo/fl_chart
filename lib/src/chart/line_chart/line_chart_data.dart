@@ -849,6 +849,7 @@ abstract class FlLineLabel with EquatableMixin {
     required this.style,
     required this.alignment,
     required this.direction,
+    this.textAlign = TextAlign.left,
   });
 
   /// Determines showing label or not.
@@ -866,6 +867,10 @@ abstract class FlLineLabel with EquatableMixin {
   /// Determines the direction of the text.
   final LabelDirection direction;
 
+  /// Alignment of text within its bounding box.
+  /// Useful for right-aligning multi-line labels placed to the left of a line.
+  final TextAlign textAlign;
+
   /// Used for equality check, see [EquatableMixin].
   @override
   List<Object?> get props => [
@@ -874,6 +879,7 @@ abstract class FlLineLabel with EquatableMixin {
         style,
         alignment,
         direction,
+        textAlign,
       ];
 }
 

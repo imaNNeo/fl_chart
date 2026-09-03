@@ -1245,6 +1245,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
     super.alignment = Alignment.topLeft,
     super.show = false,
     super.direction = LabelDirection.horizontal,
+    super.textAlign = TextAlign.left,
     this.labelResolver = HorizontalLineLabel.defaultLineLabelResolver,
   });
 
@@ -1272,6 +1273,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         labelResolver: b.labelResolver,
         show: b.show,
         direction: b.direction,
+        textAlign: b.textAlign,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -1283,6 +1285,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         style,
         alignment,
         direction,
+        textAlign,
       ];
 }
 
@@ -1305,6 +1308,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
     super.alignment = Alignment.bottomRight,
     super.show = false,
     super.direction = LabelDirection.horizontal,
+    super.textAlign = TextAlign.left,
     this.labelResolver = VerticalLineLabel.defaultLineLabelResolver,
   });
 
@@ -1332,6 +1336,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
         labelResolver: b.labelResolver,
         show: b.show,
         direction: b.direction,
+        textAlign: b.textAlign,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -1343,6 +1348,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
         style,
         alignment,
         direction,
+        textAlign,
       ];
 }
 

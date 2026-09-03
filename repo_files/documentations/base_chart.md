@@ -186,6 +186,7 @@ Base class for all supported touch/pointer events.
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
 |direction|Direction of the text (horizontal, vertical, horizontalMirrored, verticalMirrored)|LabelDirection.horizontal|
+|textAlign|[TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign.html) alignment of text within its bounding box. Useful for right-aligning multi-line labels|TextAlign.left|
 |labelResolver|Getter function returning label title|defaultLineLabelResolver|
 
 ### VerticalLineLabel
@@ -196,6 +197,7 @@ Base class for all supported touch/pointer events.
 |style|[TextStyle](https://api.flutter.dev/flutter/dart-ui/TextStyle-class.html) which determines label text style|TextStyle(fontSize: 11, color: line.color)|
 |alignment|[Alignment](https://api.flutter.dev/flutter/painting/Alignment-class.html) with label position relative to line|Alignment.topLeft|
 |direction|Direction of the text (horizontal, vertical, horizontalMirrored, verticalMirrored)|LabelDirection.vertical|
+|textAlign|[TextAlign](https://api.flutter.dev/flutter/dart-ui/TextAlign.html) alignment of text within its bounding box. Useful for right-aligning multi-line labels|TextAlign.left|
 |labelResolver|Getter function returning label title|defaultLineLabelResolver|
 
 ### FLHorizontalAlignment
