@@ -462,6 +462,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     double? rotateAngle,
     BorderSide? tooltipBorder,
     GetScatterTooltipColor? getTooltipColor,
+    Shadow? shadow,
   })  : _tooltipBorderRadius = tooltipBorderRadius,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -475,6 +476,7 @@ class ScatterTouchTooltipData with EquatableMixin {
         rotateAngle = rotateAngle ?? 0.0,
         tooltipBorder = tooltipBorder ?? BorderSide.none,
         getTooltipColor = getTooltipColor ?? defaultScatterTooltipColor,
+        shadow = shadow ?? const Shadow(color: Colors.transparent),
         super();
 
   /// Sets a rounded radius for the tooltip.
@@ -513,6 +515,9 @@ class ScatterTouchTooltipData with EquatableMixin {
 
   /// Retrieves data for showing content inside the tooltip.
   final GetScatterTooltipColor getTooltipColor;
+
+  /// The shadow of the tooltip.
+  final Shadow shadow;
 
   /// Used for equality check, see [EquatableMixin].
   @override
