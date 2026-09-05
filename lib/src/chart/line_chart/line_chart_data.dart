@@ -300,6 +300,11 @@ class LineChartBarData with EquatableMixin {
       mostTopSpot = mostTop!;
       mostRightSpot = mostRight!;
       mostBottomSpot = mostBottom!;
+    } else {
+      mostLeftSpot = FlSpot.nullSpot;
+      mostTopSpot = FlSpot.nullSpot;
+      mostRightSpot = FlSpot.nullSpot;
+      mostBottomSpot = FlSpot.nullSpot;
     }
   }
 
@@ -320,6 +325,9 @@ class LineChartBarData with EquatableMixin {
 
   /// We keep the most bottom spot to prevent redundant calculations
   late final FlSpot mostBottomSpot;
+
+  /// Returns true if this [LineChartBarData] has at least one valid spot (not [FlSpot.nullSpot]).
+  bool get hasValidSpots => mostLeftSpot != FlSpot.nullSpot;
 
   /// Determines to show or hide the line.
   final bool show;
