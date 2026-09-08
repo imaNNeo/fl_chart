@@ -1385,7 +1385,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     }
 
     /// Find the nearest spot (based on distanceCalculator)
-    final sortedSpots = <FlSpot>[];
+    FlSpot? nearestSpot;
     double? smallestDistance;
     for (final spot in barData.spots) {
       if (spot.isNull()) continue;
@@ -1398,22 +1398,24 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       );
 
       if (distance <= data.lineTouchData.touchSpotThreshold) {
-        smallestDistance ??= distance;
-
-        if (distance < smallestDistance) {
-          sortedSpots.insert(0, spot);
+        if (nearestSpot == null) {
+          nearestSpot = spot;
           smallestDistance = distance;
-        } else {
-          sortedSpots.add(spot);
+          continue;
+        }
+
+        if (distance < smallestDistance!) {
+          nearestSpot = spot;
+          smallestDistance = distance;
         }
       }
     }
 
-    if (sortedSpots.isNotEmpty) {
+    if (nearestSpot != null) {
       return TouchLineBarSpot(
         barData,
         barDataPosition,
-        sortedSpots.first,
+        nearestSpot,
         smallestDistance!,
       );
     } else {
