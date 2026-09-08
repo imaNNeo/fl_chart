@@ -192,7 +192,6 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         minY,
         maxY,
         baselineY,
-        rangeAnnotations,
         scatterLabelSettings,
         clipData,
         backgroundColor,
@@ -533,6 +532,7 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// Copies current [ScatterTouchTooltipData] to a new [ScatterTouchTooltipData],
   /// and replaces provided values.
   ScatterTouchTooltipData copyWith({
+    BorderRadius? tooltipBorderRadius,
     EdgeInsets? tooltipPadding,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
@@ -545,6 +545,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     GetScatterTooltipColor? getTooltipColor,
   }) =>
       ScatterTouchTooltipData(
+        tooltipBorderRadius: tooltipBorderRadius ?? _tooltipBorderRadius,
         tooltipPadding: tooltipPadding ?? this.tooltipPadding,
         tooltipHorizontalAlignment:
             tooltipHorizontalAlignment ?? this.tooltipHorizontalAlignment,

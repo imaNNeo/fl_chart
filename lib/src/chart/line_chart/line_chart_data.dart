@@ -1145,6 +1145,43 @@ class LineTouchTooltipData with EquatableMixin {
         tooltipBorder,
         getTooltipColor,
       ];
+
+  /// Copies current [LineTouchTooltipData] to a new [LineTouchTooltipData],
+  /// and replaces provided values.
+  LineTouchTooltipData copyWith({
+    BorderRadius? tooltipBorderRadius,
+    EdgeInsets? tooltipPadding,
+    double? tooltipMargin,
+    FLHorizontalAlignment? tooltipHorizontalAlignment,
+    double? tooltipHorizontalOffset,
+    double? maxContentWidth,
+    GetLineTooltipItems? getTooltipItems,
+    GetLineTooltipColor? getTooltipColor,
+    bool? fitInsideHorizontally,
+    bool? fitInsideVertically,
+    bool? showOnTopOfTheChartBoxArea,
+    double? rotateAngle,
+    BorderSide? tooltipBorder,
+  }) =>
+      LineTouchTooltipData(
+        tooltipBorderRadius: tooltipBorderRadius ?? _tooltipBorderRadius,
+        tooltipPadding: tooltipPadding ?? this.tooltipPadding,
+        tooltipMargin: tooltipMargin ?? this.tooltipMargin,
+        tooltipHorizontalAlignment:
+            tooltipHorizontalAlignment ?? this.tooltipHorizontalAlignment,
+        tooltipHorizontalOffset:
+            tooltipHorizontalOffset ?? this.tooltipHorizontalOffset,
+        maxContentWidth: maxContentWidth ?? this.maxContentWidth,
+        getTooltipItems: getTooltipItems ?? this.getTooltipItems,
+        getTooltipColor: getTooltipColor ?? this.getTooltipColor,
+        fitInsideHorizontally:
+            fitInsideHorizontally ?? this.fitInsideHorizontally,
+        fitInsideVertically: fitInsideVertically ?? this.fitInsideVertically,
+        showOnTopOfTheChartBoxArea:
+            showOnTopOfTheChartBoxArea ?? this.showOnTopOfTheChartBoxArea,
+        rotateAngle: rotateAngle ?? this.rotateAngle,
+        tooltipBorder: tooltipBorder ?? this.tooltipBorder,
+      );
 }
 
 /// Provides a [LineTooltipItem] for showing content inside the [LineTouchTooltipData].
