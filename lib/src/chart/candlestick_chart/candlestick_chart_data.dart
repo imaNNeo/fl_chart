@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 ///
 /// It holds data needed to draw a candlestick chart,
 /// including background color, Candlestick spots, ...
-class CandlestickChartData extends AxisChartData with EquatableMixin {
+class CandlestickChartData extends AxisChartData with Equatable {
   /// [CandlestickChart] draws some candlesticks on the chart based on
   /// the provided [candlestickSpots],
   ///
@@ -195,7 +195,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
             touchedPointIndicator ?? this.touchedPointIndicator,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         candlestickSpots,
@@ -220,7 +220,7 @@ class CandlestickChartData extends AxisChartData with EquatableMixin {
 }
 
 /// Defines information about a spot in the [CandlestickChart]
-class CandlestickSpot extends FlSpot with EquatableMixin {
+class CandlestickSpot extends FlSpot with Equatable {
   /// You can change [show] value to show or hide the spot,
   /// [x] determines the location of [CandlestickChart] in the x-axis,
   /// [open], [high], [low], and [close] defines the values of the spot
@@ -309,7 +309,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
         show: b.show,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         x,
@@ -327,7 +327,7 @@ class CandlestickSpot extends FlSpot with EquatableMixin {
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [CandlestickTouchResponse].
 class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
-    with EquatableMixin {
+    with Equatable {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -392,7 +392,7 @@ class CandlestickTouchData extends FlTouchData<CandlestickTouchResponse>
         touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       );
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         enabled,
@@ -441,7 +441,7 @@ class CandlestickTouchResponse extends AxisBaseTouchResponse {
 }
 
 /// Holds the touched spot data
-class CandlestickTouchedSpot with EquatableMixin {
+class CandlestickTouchedSpot with Equatable {
   /// [spot], and [spotIndex] tells you
   /// in which spot (of [CandlestickChartData.candleSpots]) touch happened.
   const CandlestickTouchedSpot(this.spot, this.spotIndex);
@@ -452,7 +452,7 @@ class CandlestickTouchedSpot with EquatableMixin {
   /// Touch happened on this spot index
   final int spotIndex;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         spot,
@@ -469,7 +469,7 @@ class CandlestickTouchedSpot with EquatableMixin {
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
-class CandlestickTouchTooltipData with EquatableMixin {
+class CandlestickTouchTooltipData with Equatable {
   /// if [CandlestickTouchData.handleBuiltInTouches] is true,
   /// [CandlestickChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [CandlestickChartData.showingTooltipIndicators].
@@ -547,7 +547,7 @@ class CandlestickTouchTooltipData with EquatableMixin {
   /// Retrieves data for showing content inside the tooltip.
   final GetCandlestickTooltipColor getTooltipColor;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         tooltipBorderRadius,
@@ -685,7 +685,7 @@ Color defaultCandlestickTooltipColor(CandlestickSpot touchedSpot) =>
     Colors.blueGrey.darken(80);
 
 /// Holds data of showing each item in the tooltip popup.
-class CandlestickTooltipItem with EquatableMixin {
+class CandlestickTooltipItem with Equatable {
   /// Shows a [text] with [textStyle], [textDirection],  and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   CandlestickTooltipItem(
@@ -717,7 +717,7 @@ class CandlestickTooltipItem with EquatableMixin {
   /// Add further style and format to the text of the tooltip
   final List<TextSpan>? children;
 
-  /// Used for equality check, see [EquatableMixin].
+  /// Used for equality check, see [Equatable].
   @override
   List<Object?> get props => [
         text,
@@ -749,7 +749,7 @@ class CandlestickTooltipItem with EquatableMixin {
 }
 
 /// This class contains the interface for drawing the candlestick shape.
-abstract class FlCandlestickPainter with EquatableMixin {
+abstract class FlCandlestickPainter with Equatable {
   const FlCandlestickPainter();
 
   /// This method should be overridden to draw the candlestick shape
@@ -926,7 +926,7 @@ class DefaultCandlestickPainter extends FlCandlestickPainter {
 }
 
 /// Holds data for drawing each candlestick shape.
-class CandlestickStyle with EquatableMixin {
+class CandlestickStyle with Equatable {
   const CandlestickStyle({
     required this.lineColor,
     required this.lineWidth,
