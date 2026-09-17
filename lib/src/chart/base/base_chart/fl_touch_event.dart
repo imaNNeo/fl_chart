@@ -104,6 +104,10 @@ class FlPanEndEvent extends FlTouchEvent {
 
   /// Contains information of happened touch gesture
   final DragEndDetails details;
+
+  /// Represents the position of happened touch/pointer event
+  @override
+  Offset get localPosition => details.localPosition;
 }
 
 /// When a pointer that might cause a tap has contacted the screen.
