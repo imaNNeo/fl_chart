@@ -146,6 +146,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
+          strokeColor: Colors.red,
+          strokeWidth: 3,
           spots: const [
             FlSpot(0, 3),
             FlSpot(2.6, 2),
