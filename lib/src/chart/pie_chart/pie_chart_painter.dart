@@ -109,6 +109,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
       final sectionDegree = sectionsAngle[i];
 
+      final sectionCenterAngle = tempAngle + (sectionDegree / 2);
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sectionDegree,
+      );
+      final sectionCenter = center + radialOffset;
+
       if (sectionDegree == 360) {
         final fullCirclePath = generateSegmentPath(
           center,
@@ -124,7 +132,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           sectionDegree,
           centerRadius,
           0,
-          center,
+          sectionCenter,
         );
 
         _sectionPaint.blendMode = BlendMode.srcOver;
@@ -136,14 +144,14 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           // Outer
           canvasWrapper
             ..drawCircle(
-              center,
+              sectionCenter,
               centerRadius + section.radius - (section.borderSide.width / 2),
               _sectionStrokePaint,
             )
 
             // Inner
             ..drawCircle(
-              center,
+              sectionCenter,
               centerRadius + (section.borderSide.width / 2),
               _sectionStrokePaint,
             );
@@ -158,7 +166,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         data.sectionsSpace,
         tempAngle,
         sectionDegree,
-        center,
+        sectionCenter,
         centerRadius,
       );
 
@@ -173,7 +181,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         sectionDegree,
         centerRadius,
         tempAngle,
-        center,
+        sectionCenter,
       );
       canvasWrapper.restore();
 
@@ -723,8 +731,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         }
       }
 
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sweepAngle,
+      );
+
       Offset sectionCenter(double percentageOffset) =>
           center +
+          radialOffset +
           Offset(
             math.cos(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
@@ -821,12 +836,19 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         break;
       }
 
+      final sectionCenterAngle = tempAngle + (sectionAngle / 2);
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sectionAngle,
+      );
+
       final sectionPath = generateSectionPath(
         section,
         data.sectionsSpace,
         tempAngle,
         sectionAngle,
-        center,
+        center + radialOffset,
         centerRadius,
       );
 
@@ -870,8 +892,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final sectionCenterAngle = startAngle + (sweepAngle / 2);
       final centerRadius = calculateCenterRadius(viewSize, holder);
 
+      final radialOffset = _computeRadialOffset(
+        section.radialOffset,
+        sectionCenterAngle,
+        sweepAngle,
+      );
+
       Offset sectionCenter(double percentageOffset) =>
           center +
+          radialOffset +
           Offset(
             math.cos(Utils().radians(sectionCenterAngle)) *
                 (centerRadius + (section.radius * percentageOffset)),
@@ -888,5 +917,19 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     }
 
     return badgeWidgetsOffsets;
+  }
+
+  /// Computes the radial offset translation for a section along its center angle.
+  /// Returns [Offset.zero] when [sectionDegree] is 360 (single full-circle section).
+  Offset _computeRadialOffset(
+    double radialOffset,
+    double sectionCenterAngle,
+    double sectionDegree,
+  ) {
+    if (sectionDegree == 360) return Offset.zero;
+    return Offset(
+      math.cos(Utils().radians(sectionCenterAngle)) * radialOffset,
+      math.sin(Utils().radians(sectionCenterAngle)) * radialOffset,
+    );
   }
 }
