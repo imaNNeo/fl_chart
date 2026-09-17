@@ -109,6 +109,21 @@ void main() {
         },
       );
 
+      test('disposes gesture recognizers on dispose (#1975)', () {
+        TestRenderBaseChart(
+          mockContext,
+          data,
+          canBeScaled: false,
+          panGestureRecognizerOverride: panGestureRecognizer,
+          tapGestureRecognizerOverride: tapGestureRecognizer,
+          longPressGestureRecognizerOverride: longPressGestureRecognizer,
+        ).dispose();
+
+        verify(panGestureRecognizer.dispose()).called(1);
+        verify(tapGestureRecognizer.dispose()).called(1);
+        verify(longPressGestureRecognizer.dispose()).called(1);
+      });
+
       test('calls touchCallback for PointerHoverEvent', () {
         late FlTouchEvent testEvent;
         late LineTouchResponse? testResponse;
