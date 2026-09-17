@@ -71,7 +71,12 @@ class BarChartSample1State extends State<BarChartSample8> {
           toYErrorRange: errorRange,
           color: x >= 4 ? Colors.transparent : widget.barColor,
           borderRadius: BorderRadius.zero,
-          borderDashArray: x >= 4 ? [4, 4] : null,
+          pathData: x >= 4
+              ? const FlPathData(
+                  dashArray: [4, 4],
+                  strokeCap: StrokeCap.round,
+                )
+              : null,
           width: 22,
           borderSide: BorderSide(color: widget.barColor, width: 2.0),
         ),

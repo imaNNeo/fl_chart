@@ -398,15 +398,20 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
           // draw border stroke
           if (borderSide.width > 0 && borderSide.color.a > 0) {
+            final pathData = barRod.pathData ?? const FlPathData();
+
             _barStrokePaint
               ..color = borderSide.color
-              ..strokeWidth = borderSide.width;
+              ..strokeWidth = borderSide.width
+              ..strokeCap = pathData.strokeCap
+              ..strokeJoin = pathData.strokeJoin
+              ..strokeMiterLimit = pathData.strokeMiterLimit;
 
             final borderPath = Path()..addRRect(barRRect);
 
             canvasWrapper.drawPath(
               borderPath.toDashedPath(
-                barRod.borderDashArray,
+                pathData.dashArray,
               ),
               _barStrokePaint,
             );

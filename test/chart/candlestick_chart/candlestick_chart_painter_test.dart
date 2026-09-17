@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/candlestick_chart/candlestick_chart_painter.dart';
+import 'package:fl_chart/src/extensions/path_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -114,87 +115,87 @@ void main() {
   });
 
   group('drawAxisSpotIndicator()', () {
-    test('test 1 - draw both lines', () {
-      final utilsMainInstance = Utils();
-      const viewSize = Size(400, 400);
-      final data = CandlestickChartData(
-        minX: 0,
-        maxX: 100,
-        minY: 0,
-        maxY: 100,
-        gridData: const FlGridData(show: false),
-        touchedPointIndicator: AxisSpotIndicator(
-          x: 50,
-          y: 50,
-          painter: AxisLinesIndicatorPainter(
-            verticalLineProvider: (x) => VerticalLine(
-              x: x,
-              color: MockData.color2,
-              strokeWidth: 8,
+    for (final (variant, makeHorizontalLine) in dashedHorizontalLineVariants) {
+      test('test 1 - draw both lines via $variant', () {
+        final utilsMainInstance = Utils();
+        const viewSize = Size(400, 400);
+        final data = CandlestickChartData(
+          minX: 0,
+          maxX: 100,
+          minY: 0,
+          maxY: 100,
+          gridData: const FlGridData(show: false),
+          touchedPointIndicator: AxisSpotIndicator(
+            x: 50,
+            y: 50,
+            painter: AxisLinesIndicatorPainter(
+              verticalLineProvider: (x) => VerticalLine(
+                x: x,
+                color: MockData.color2,
+                strokeWidth: 8,
+              ),
+              horizontalLineProvider: makeHorizontalLine,
             ),
-            horizontalLineProvider: (y) => HorizontalLine(
-              y: y,
-              color: MockData.color1,
-              strokeWidth: 4,
-              dashArray: [0, 1, 0],
-            ),
-          ),
-        ),
-      );
-
-      final candlestickPainter = CandlestickChartPainter();
-      final holder = PaintHolder<CandlestickChartData>(
-        data,
-        data,
-        TextScaler.noScaling,
-      );
-
-      final mockUtils = MockUtils();
-      Utils.changeInstance(mockUtils);
-      when(mockUtils.getEfficientInterval(any, any))
-          .thenAnswer((realInvocation) => 1.0);
-      when(mockUtils.getBestInitialIntervalValue(any, any, any))
-          .thenAnswer((realInvocation) => 1.0);
-      final mockBuildContext = MockBuildContext();
-      final mockCanvas = MockCanvas();
-      final canvasWrapper = CanvasWrapper(mockCanvas, viewSize);
-      final drawCalls = <(Path, Color, double)>[];
-      when(mockCanvas.drawPath(any, any)).thenAnswer((invocation) {
-        drawCalls.add(
-          (
-            invocation.positionalArguments[0] as Path,
-            (invocation.positionalArguments[1] as Paint).color,
-            (invocation.positionalArguments[1] as Paint).strokeWidth,
           ),
         );
+
+        final candlestickPainter = CandlestickChartPainter();
+        final holder = PaintHolder<CandlestickChartData>(
+          data,
+          data,
+          TextScaler.noScaling,
+        );
+
+        final mockUtils = MockUtils();
+        Utils.changeInstance(mockUtils);
+        when(mockUtils.getEfficientInterval(any, any))
+            .thenAnswer((realInvocation) => 1.0);
+        when(mockUtils.getBestInitialIntervalValue(any, any, any))
+            .thenAnswer((realInvocation) => 1.0);
+        final mockBuildContext = MockBuildContext();
+        final mockCanvas = MockCanvas();
+        final canvasWrapper = CanvasWrapper(mockCanvas, viewSize);
+        final drawCalls = <(Path, Color, double)>[];
+        when(mockCanvas.drawPath(any, any)).thenAnswer((invocation) {
+          drawCalls.add(
+            (
+              invocation.positionalArguments[0] as Path,
+              (invocation.positionalArguments[1] as Paint).color,
+              (invocation.positionalArguments[1] as Paint).strokeWidth,
+            ),
+          );
+        });
+
+        candlestickPainter.paint(
+          mockBuildContext,
+          canvasWrapper,
+          holder,
+        );
+
+        expect(drawCalls.length, 2);
+
+        final horizontalPath = Path()
+          ..moveTo(0, 200)
+          ..lineTo(400, 200);
+        final expectedHorizontalPath =
+            horizontalPath.toDashedPath(dashArrayPattern);
+        expect(
+          HelperMethods.equalsPaths(drawCalls[0].$1, expectedHorizontalPath),
+          true,
+        );
+        expect(drawCalls[0].$2.toARGB32(), MockData.color1.toARGB32());
+        expect(drawCalls[0].$3, 4);
+
+        expect(drawCalls[1].$1.getBounds().left, 200);
+        expect(drawCalls[1].$1.getBounds().right, 200);
+        expect(drawCalls[1].$1.getBounds().top, 0);
+        expect(drawCalls[1].$1.getBounds().bottom, 400);
+        expect(drawCalls[1].$2.toARGB32(), MockData.color2.toARGB32());
+        expect(drawCalls[1].$3, 8);
+
+        Utils.changeInstance(utilsMainInstance);
       });
-
-      candlestickPainter.paint(
-        mockBuildContext,
-        canvasWrapper,
-        holder,
-      );
-
-      expect(drawCalls.length, 2);
-
-      // Horizontal line
-      expect(drawCalls[0].$1.getBounds().left, 0);
-      expect(drawCalls[0].$1.getBounds().right, 400);
-      expect(drawCalls[0].$1.getBounds().top, 200);
-      expect(drawCalls[0].$1.getBounds().bottom, 200);
-      expect(drawCalls[0].$2.toARGB32(), MockData.color1.toARGB32());
-      expect(drawCalls[0].$3, 4);
-
-      /// Vertical line
-      expect(drawCalls[1].$1.getBounds().left, 200);
-      expect(drawCalls[1].$1.getBounds().right, 200);
-      expect(drawCalls[1].$1.getBounds().top, 0);
-      expect(drawCalls[1].$1.getBounds().bottom, 400);
-      expect(drawCalls[1].$2.toARGB32(), MockData.color2.toARGB32());
-      expect(drawCalls[1].$3, 8);
-
-      Utils.changeInstance(utilsMainInstance);
-    });
+    }
 
     test('test 1 - draw only horizontal line', () {
       final utilsMainInstance = Utils();
