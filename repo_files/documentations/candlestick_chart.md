@@ -21,7 +21,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |candlestickSpots| Holds the data for the candlestick chart, which is a list of [CandlestickSpot](#CandlestickSpot) objects. Each [CandlestickSpot](#CandlestickSpot) represents a single data point in the chart.|[]|
 |candlestickPainter| It is a painter that is used to draw each individual candlestick. You can use this to customize the appearance of the candlesticks (Or you can implement your own painter).|DefaultCandlestickPainter()|
-|titlesData| check the [FlAxisTitleData](base_chart.md#FlAxisTitleData)| FlAxisTitleData()|
+|titlesData| check the [FlTitlesData](base_chart.md#FlTitlesData)| FlTitlesData()|
 |candlestickTouchData| [CandlestickTouchData](#CandlestickTouchData) holds the touch interactivity details| CandlestickTouchData()|
 |showingTooltipIndicators| indices of showing tooltip, The point is that you need to disable touches to show these tooltips manually|[]|
 |gridData|check the [FlGridData](base_chart.md#FlGridData)|FlGridData()|
