@@ -98,6 +98,33 @@ void main() {
       expect(results[2], 25);
       expect(results[3], 35);
     });
+
+    test('large values do not drift away from the interval grid (#1473)', () {
+      const min = 1698797425.0;
+      const max = 1698797426.0;
+      const interval = 0.1;
+      final results = <double>[];
+      AxisChartHelper()
+          .iterateThroughAxis(
+            min: min,
+            max: max,
+            interval: interval,
+            baseLine: 0,
+          )
+          .forEach(results.add);
+
+      expect(results.last, max);
+      // No artifact label may sit right next to max (e.g. 1698797425.999999);
+      // every neighboring pair must be roughly one interval apart.
+      for (var i = 1; i < results.length; i++) {
+        expect(
+          results[i] - results[i - 1],
+          greaterThan(interval / 2),
+          reason: 'values ${results[i - 1]} and ${results[i]} are '
+              'closer than half an interval',
+        );
+      }
+    });
   });
 
   group('calcFitInsideOffset', () {
