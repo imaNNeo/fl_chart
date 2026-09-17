@@ -214,25 +214,49 @@ void main() {
     expect(Utils().formatNumber(0, 10, 423), '423');
     expect(Utils().formatNumber(0, 10, -423), '-423');
     expect(Utils().formatNumber(0, 10, 1000), '1K');
-    expect(Utils().formatNumber(0, 10, 1234), '1.2K');
+    expect(Utils().formatNumber(0, 5000, 1234), '1.2K');
     expect(Utils().formatNumber(0, 10, 10000), '10K');
-    expect(Utils().formatNumber(0, 10, 41234), '41.2K');
-    expect(Utils().formatNumber(0, 10, 82349), '82.3K');
-    expect(Utils().formatNumber(0, 10, 82350), '82.3K');
-    expect(Utils().formatNumber(0, 10, 82351), '82.4K');
-    expect(Utils().formatNumber(0, 10, -82351), '-82.4K');
+    expect(Utils().formatNumber(0, 50000, 41234), '41.2K');
+    expect(Utils().formatNumber(0, 100000, 82349), '82.3K');
+    expect(Utils().formatNumber(0, 100000, 82350), '82.3K');
+    expect(Utils().formatNumber(0, 100000, 82351), '82.4K');
+    expect(Utils().formatNumber(0, 100000, -82351), '-82.4K');
     expect(Utils().formatNumber(0, 10, 100000), '100K');
     expect(Utils().formatNumber(0, 10, 101000), '101K');
-    expect(Utils().formatNumber(0, 10, 2345123), '2.3M');
-    expect(Utils().formatNumber(0, 10, 2352123), '2.4M');
-    expect(Utils().formatNumber(0, 10, -2352123), '-2.4M');
+    expect(Utils().formatNumber(0, 5000000, 2345123), '2.3M');
+    expect(Utils().formatNumber(0, 5000000, 2352123), '2.4M');
+    expect(Utils().formatNumber(0, 5000000, -2352123), '-2.4M');
     expect(Utils().formatNumber(0, 10, 521000000), '521M');
-    expect(Utils().formatNumber(0, 10, 4324512345), '4.3B');
+    expect(Utils().formatNumber(0, 5000000000, 4324512345), '4.3B');
     expect(Utils().formatNumber(0, 10, 4000000000), '4B');
     expect(Utils().formatNumber(0, 10, -4000000000), '-4B');
-    expect(Utils().formatNumber(0, 10, 823147521343), '823.1B');
-    expect(Utils().formatNumber(0, 10, 8231475213435), '8231.5B');
-    expect(Utils().formatNumber(0, 10, -8231475213435), '-8231.5B');
+    expect(Utils().formatNumber(0, 1000000000000, 823147521343), '823.1B');
+    expect(Utils().formatNumber(0, 10000000000000, 8231475213435), '8231.5B');
+    expect(
+      Utils().formatNumber(0, 10000000000000, -8231475213435),
+      '-8231.5B',
+    );
+  });
+
+  test('test formatNumber uses axis range for K/M/B fraction digits (#1584)',
+      () {
+    // Narrow range over large values: labels must stay distinguishable.
+    const min = 976405.27;
+    const max = 1135594.31;
+    expect(Utils().formatNumber(min, max, 1000000), '1M');
+    expect(
+      Utils().formatNumber(min, max, 1010000),
+      isNot(Utils().formatNumber(min, max, 1000000)),
+    );
+    expect(Utils().formatNumber(min, max, 1010000), '1.01M');
+    expect(Utils().formatNumber(min, max, 1030000), '1.03M');
+    expect(Utils().formatNumber(min, max, 1135594.31), '1.14M');
+    expect(Utils().formatNumber(min, max, 976405.27), '976.4K');
+
+    // Wide ranges keep the short single-digit form.
+    expect(Utils().formatNumber(0, 5000000, 2345123), '2.3M');
+    expect(Utils().formatNumber(0, 5000, 1234), '1.2K');
+    expect(Utils().formatNumber(0, 5000000000, 4324512345), '4.3B');
   });
 
   group('test getThemeAwareTextStyle', () {
