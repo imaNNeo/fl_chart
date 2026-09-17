@@ -9,8 +9,9 @@ void main() {
     test('Test validity 1', () {
       final lineChartHelper = LineChartHelper();
       final lineBars = [lineChartBarData1, lineChartBarData2];
-      final (minX, maxX, minY, maxY) =
-          lineChartHelper.calculateMaxAxisValues(lineBars);
+      final (minX, maxX, minY, maxY) = lineChartHelper.calculateMaxAxisValues(
+        lineBars,
+      );
       expect(minX, 1);
       expect(maxX, 4);
       expect(minY, 1);
@@ -21,15 +22,12 @@ void main() {
       final lineChartHelper = LineChartHelper();
       final lineBars = [
         lineChartBarData1.copyWith(
-          spots: const [
-            FlSpot(3, 4),
-            FlSpot(-3, 50),
-            FlSpot(14, -10),
-          ],
+          spots: const [FlSpot(3, 4), FlSpot(-3, 50), FlSpot(14, -10)],
         ),
       ];
-      final (minX, maxX, minY, maxY) =
-          lineChartHelper.calculateMaxAxisValues(lineBars);
+      final (minX, maxX, minY, maxY) = lineChartHelper.calculateMaxAxisValues(
+        lineBars,
+      );
       expect(minX, -3);
       expect(maxX, 14);
       expect(minY, -10);
@@ -75,32 +73,40 @@ void main() {
       expect(lineChartHelper.calculateMaxAxisValues(lineBars), (-1, 4, -3, 5));
     });
 
-    test('Test barData with only nullSpot alongside valid barData (Issue #2115)', () {
-      final lineChartHelper = LineChartHelper();
-      final lineBars = [
-        LineChartBarData(spots: const [FlSpot(0, 0), FlSpot(1, 1)]),
-        LineChartBarData(spots: [FlSpot.nullSpot]),
-      ];
-      final (minX, maxX, minY, maxY) =
-          lineChartHelper.calculateMaxAxisValues(lineBars);
-      expect(minX, 0);
-      expect(maxX, 1);
-      expect(minY, 0);
-      expect(maxY, 1);
-    });
+    test(
+      'Test barData with only nullSpot alongside valid barData (Issue #2115)',
+      () {
+        final lineChartHelper = LineChartHelper();
+        final lineBars = [
+          LineChartBarData(spots: const [FlSpot(0, 0), FlSpot(1, 1)]),
+          LineChartBarData(spots: [FlSpot.nullSpot]),
+        ];
+        final (minX, maxX, minY, maxY) = lineChartHelper.calculateMaxAxisValues(
+          lineBars,
+        );
+        expect(minX, 0);
+        expect(maxX, 1);
+        expect(minY, 0);
+        expect(maxY, 1);
+      },
+    );
 
-    test('Test first barData with only nullSpot and second barData with valid spots', () {
-      final lineChartHelper = LineChartHelper();
-      final lineBars = [
-        LineChartBarData(spots: [FlSpot.nullSpot]),
-        LineChartBarData(spots: const [FlSpot(2, 3), FlSpot(5, 7)]),
-      ];
-      final (minX, maxX, minY, maxY) =
-          lineChartHelper.calculateMaxAxisValues(lineBars);
-      expect(minX, 2);
-      expect(maxX, 5);
-      expect(minY, 3);
-      expect(maxY, 7);
-    });
+    test(
+      'Test first barData with only nullSpot and second barData with valid spots',
+      () {
+        final lineChartHelper = LineChartHelper();
+        final lineBars = [
+          LineChartBarData(spots: [FlSpot.nullSpot]),
+          LineChartBarData(spots: const [FlSpot(2, 3), FlSpot(5, 7)]),
+        ];
+        final (minX, maxX, minY, maxY) = lineChartHelper.calculateMaxAxisValues(
+          lineBars,
+        );
+        expect(minX, 2);
+        expect(maxX, 5);
+        expect(minY, 3);
+        expect(maxY, 7);
+      },
+    );
   });
 }
