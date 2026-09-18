@@ -1,3 +1,5 @@
+import 'dart:ui' as ui show Image;
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -382,6 +384,139 @@ void main() {
       verify(
         mockCanvas.drawParagraph(captureAny, captureAny),
       ).called(4);
+    });
+  });
+
+  group('FlDotImagePainter', () {
+    // A single handle is reused everywhere, because [ui.Image] compares by
+    // identity and createTestImage() hands out a fresh clone on every call.
+    late final ui.Image image;
+
+    setUpAll(() async {
+      image = await createTestImage(width: 20, height: 10);
+    });
+
+    test('equality', () {
+      final painter1 = FlDotImagePainter(image: image);
+      final painter2 = FlDotImagePainter(image: image);
+      final painter3 = FlDotImagePainter(image: image, size: 12);
+      final painter4 = FlDotImagePainter(image: image, mainColor: Colors.red);
+
+      expect(painter1 == painter2, true);
+      expect(painter1 == painter3, false);
+      expect(painter1 == painter4, false);
+    });
+
+    test('equality with a different image', () async {
+      final otherImage = await createTestImage(
+        width: 20,
+        height: 10,
+        cache: false,
+      );
+
+      expect(
+        FlDotImagePainter(image: image) == FlDotImagePainter(image: otherImage),
+        false,
+      );
+    });
+
+    test('getSize and mainColor', () {
+      const spot = FlSpot(1, 1);
+
+      expect(FlDotImagePainter(image: image).getSize(spot), const Size(24, 24));
+      expect(
+        FlDotImagePainter(image: image, size: 12).getSize(spot),
+        const Size(12, 12),
+      );
+      expect(FlDotImagePainter(image: image).mainColor, Colors.green);
+      expect(
+        FlDotImagePainter(image: image, mainColor: Colors.red).mainColor,
+        Colors.red,
+      );
+    });
+
+    test('lerp between two image painters', () async {
+      final otherImage = await createTestImage(width: 4, height: 4);
+      final painter1 = FlDotImagePainter(
+        image: image,
+        size: 10,
+        mainColor: Colors.black,
+      );
+      final painter2 = FlDotImagePainter(
+        image: otherImage,
+        size: 20,
+        mainColor: Colors.white,
+      );
+
+      final lerped =
+          painter1.lerp(painter1, painter2, 0.5) as FlDotImagePainter;
+      expect(lerped.size, 15);
+      expect(lerped.mainColor, Color.lerp(Colors.black, Colors.white, 0.5));
+      // The image can't be interpolated, so it snaps to the target one.
+      expect(lerped.image, same(otherImage));
+    });
+
+    test('lerp falls back to b when the types differ', () {
+      final painter = FlDotImagePainter(image: image);
+      final circlePainter = FlDotCirclePainter();
+
+      expect(painter.lerp(painter, circlePainter, 0.5), same(circlePainter));
+      expect(painter.lerp(circlePainter, painter, 0.5), same(painter));
+    });
+
+    test('hitTest behaves like a square of getSize', () {
+      final painter = FlDotImagePainter(image: image, size: 20);
+      const spot = FlSpot(1, 1);
+      const center = Offset(50, 50);
+
+      expect(painter.hitTest(spot, const Offset(59, 59), center, 0), true);
+      expect(painter.hitTest(spot, const Offset(61, 61), center, 0), false);
+      expect(painter.hitTest(spot, const Offset(61, 61), center, 5), true);
+    });
+
+    test('draw fits the image inside the dot square, keeping its ratio', () {
+      final painter = FlDotImagePainter(image: image);
+      final mockCanvas = MockCanvas();
+
+      painter.draw(mockCanvas, const FlSpot(1, 1), const Offset(50, 60));
+
+      final result = verify(
+        mockCanvas.drawImageRect(
+          captureAny,
+          captureAny,
+          captureAny,
+          captureAny,
+        ),
+      )..called(1);
+      expect(result.captured[0], same(image));
+      // The whole 20x10 image is drawn...
+      expect(result.captured[1], const Rect.fromLTWH(0, 0, 20, 10));
+      // ...scaled down to 24x12 and centered on the spot, so it fits inside
+      // the 24x24 square without being stretched.
+      expect(result.captured[2], const Rect.fromLTRB(38, 54, 62, 66));
+      expect(
+        (result.captured[3] as Paint).filterQuality,
+        FilterQuality.high,
+      );
+    });
+
+    test('draw fills the dot square when the image is a square', () async {
+      final squareImage = await createTestImage(width: 10, height: 10);
+      final painter = FlDotImagePainter(image: squareImage, size: 20);
+      final mockCanvas = MockCanvas();
+
+      painter.draw(mockCanvas, const FlSpot(1, 1), const Offset(50, 60));
+
+      final result = verify(
+        mockCanvas.drawImageRect(
+          captureAny,
+          captureAny,
+          captureAny,
+          captureAny,
+        ),
+      )..called(1);
+      expect(result.captured[1], const Rect.fromLTWH(0, 0, 10, 10));
+      expect(result.captured[2], const Rect.fromLTRB(40, 50, 60, 70));
     });
   });
 }
