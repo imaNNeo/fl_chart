@@ -41,6 +41,7 @@ class PropertyEditor extends StatelessWidget {
     }
     // A missing minX/maxX/... is stored as NaN.
     final current = value is double && (value! as double).isNaN ? null : value;
+    final isNullable = spec.isNullable && (hint?.nullable ?? true);
     return switch (spec.kind) {
       PropertyKind.boolean => Row(
         children: [
@@ -52,6 +53,7 @@ class PropertyEditor extends StatelessWidget {
       PropertyKind.integer || PropertyKind.decimal => _NumberEditor(
         spec: spec,
         hint: hint,
+        isNullable: isNullable,
         value: current as num?,
         onChanged: onChanged,
       ),
@@ -61,11 +63,12 @@ class PropertyEditor extends StatelessWidget {
       ),
       PropertyKind.color => _ColorEditor(
         value: current as Color?,
-        isNullable: spec.isNullable,
+        isNullable: isNullable,
         onChanged: onChanged,
       ),
       PropertyKind.enumeration => _EnumEditor(
         spec: spec,
+        isNullable: isNullable,
         value: current as Enum?,
         onChanged: onChanged,
       ),
@@ -84,12 +87,14 @@ class _NumberEditor extends StatelessWidget {
   const _NumberEditor({
     required this.spec,
     required this.hint,
+    required this.isNullable,
     required this.value,
     required this.onChanged,
   });
 
   final PropertySpec spec;
   final PropertyHint? hint;
+  final bool isNullable;
   final num? value;
   final ValueChanged<Object?> onChanged;
 
@@ -107,7 +112,7 @@ class _NumberEditor extends StatelessWidget {
           final parsed = _isInteger
               ? int.tryParse(text)
               : double.tryParse(text);
-          if (parsed != null || spec.isNullable) onChanged(parsed);
+          if (parsed != null || isNullable) onChanged(parsed);
         },
       );
     }
@@ -128,7 +133,7 @@ class _NumberEditor extends StatelessWidget {
           width: 52,
           child: _CodeText(dartCode(value, isDouble: !_isInteger)),
         ),
-        if (spec.isNullable)
+        if (isNullable)
           FilterChip(
             label: const Text('null'),
             selected: value == null,
@@ -255,11 +260,13 @@ class _Swatch extends StatelessWidget {
 class _EnumEditor extends StatelessWidget {
   const _EnumEditor({
     required this.spec,
+    required this.isNullable,
     required this.value,
     required this.onChanged,
   });
 
   final PropertySpec spec;
+  final bool isNullable;
   final Enum? value;
   final ValueChanged<Object?> onChanged;
 
@@ -269,8 +276,7 @@ class _EnumEditor extends StatelessWidget {
     isExpanded: true,
     style: _codeStyle,
     items: [
-      if (spec.isNullable)
-        const DropdownMenuItem(value: null, child: Text('null')),
+      if (isNullable) const DropdownMenuItem(value: null, child: Text('null')),
       for (final item in spec.values!)
         DropdownMenuItem(value: item, child: Text('$item')),
     ],

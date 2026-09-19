@@ -263,19 +263,28 @@ class ApiExtractor {
         if (inherited != null) return inherited;
       }
     }
+    // `field = param ?? value` initializers, or `super(param ?? value)`.
     final node = await _declarationNode(ctor);
     final initializers = node is ConstructorDeclaration
         ? node.initializers
         : const <ConstructorInitializer>[];
-    for (final initializer in initializers) {
-      if (initializer is! ConstructorFieldInitializer) continue;
-      final expression = initializer.expression;
+    final expressions = [
+      for (final initializer in initializers)
+        if (initializer is ConstructorFieldInitializer)
+          initializer.expression
+        else if (initializer is SuperConstructorInvocation)
+          for (final argument in initializer.argumentList.arguments)
+            argument.argumentExpression,
+    ];
+    for (final expression in expressions) {
       if (expression is! BinaryExpression ||
           expression.operator.lexeme != '??' ||
           expression.leftOperand.toSource() != param.name) {
         continue;
       }
       final fallback = expression.rightOperand.toSource();
+      // NaN stands for "not provided" (like a missing minY), it's null.
+      if (fallback == 'double.nan') break;
       final dependsOnOtherParams = ctor.formalParameters.any(
         (other) => RegExp('\\b${other.name}\\b').hasMatch(fallback),
       );

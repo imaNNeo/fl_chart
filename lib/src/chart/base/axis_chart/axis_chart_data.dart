@@ -88,7 +88,7 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
   double get horizontalDiff => maxX - minX;
 
   /// Extra horizontal or vertical lines to draw on the chart,
-  /// see [ExtraLinesData].
+  /// see [ExtraLinesData] (the bar chart only draws the horizontal ones).
   final ExtraLinesData extraLinesData;
 
   /// Rotates the chart 90 degrees (clockwise) in every quarter turn.

@@ -76,6 +76,47 @@ final apiRegistry = <String, ClassSpec>{
     read: _readAxisTitles,
     copy: _copyAxisTitles,
   ),
+  'BackgroundBarChartRodData': ClassSpec(
+    name: 'BackgroundBarChartRodData',
+    properties: const [
+      PropertySpec(
+        name: 'fromY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'toY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'show',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'color',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'gradient',
+        type: 'Gradient?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readBackgroundBarChartRodData,
+    copy: _copyBackgroundBarChartRodData,
+  ),
   'BarAreaData': ClassSpec(
     name: 'BarAreaData',
     properties: const [
@@ -152,6 +193,564 @@ final apiRegistry = <String, ClassSpec>{
     ],
     read: _readBarAreaSpotsLine,
     copy: _copyBarAreaSpotsLine,
+  ),
+  'BarChartData': ClassSpec(
+    name: 'BarChartData',
+    properties: const [
+      PropertySpec(
+        name: 'barGroups',
+        type: 'List<BarChartGroupData>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'groupsSpace',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '16',
+      ),
+      PropertySpec(
+        name: 'alignment',
+        type: 'BarChartAlignment?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: BarChartAlignment.values,
+        defaultCode: 'BarChartAlignment.spaceEvenly',
+      ),
+      PropertySpec(
+        name: 'titlesData',
+        type: 'FlTitlesData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlTitlesData',
+        defaultCode: 'const FlTitlesData(topTitles: AxisTitles())',
+      ),
+      PropertySpec(
+        name: 'barTouchData',
+        type: 'BarTouchData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'BarTouchData',
+        defaultCode: 'const BarTouchData()',
+      ),
+      PropertySpec(
+        name: 'maxY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'minY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'baselineY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'gridData',
+        type: 'FlGridData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlGridData',
+        defaultCode: 'const FlGridData()',
+      ),
+      PropertySpec(
+        name: 'borderData',
+        type: 'FlBorderData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlBorderData',
+        defaultCode: 'FlBorderData()',
+      ),
+      PropertySpec(
+        name: 'rangeAnnotations',
+        type: 'RangeAnnotations?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'RangeAnnotations',
+        defaultCode: 'const RangeAnnotations()',
+      ),
+      PropertySpec(
+        name: 'backgroundColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.transparent',
+      ),
+      PropertySpec(
+        name: 'extraLinesData',
+        type: 'ExtraLinesData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'ExtraLinesData',
+        defaultCode: 'const ExtraLinesData()',
+      ),
+      PropertySpec(
+        name: 'rotationQuarterTurns',
+        type: 'int',
+        kind: PropertyKind.integer,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'errorIndicatorData',
+        type: 'FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>',
+        kind: PropertyKind.nested,
+        nestedType: 'FlErrorIndicatorData',
+        defaultCode: 'const FlErrorIndicatorData()',
+      ),
+    ],
+    read: _readBarChartData,
+    copy: _copyBarChartData,
+  ),
+  'BarChartGroupData': ClassSpec(
+    name: 'BarChartGroupData',
+    properties: const [
+      PropertySpec(
+        name: 'x',
+        type: 'int',
+        kind: PropertyKind.integer,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'groupVertically',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'barRods',
+        type: 'List<BarChartRodData>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'barsSpace',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '2',
+      ),
+      PropertySpec(
+        name: 'showingTooltipIndicators',
+        type: 'List<int>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+    ],
+    read: _readBarChartGroupData,
+    copy: _copyBarChartGroupData,
+  ),
+  'BarChartRodData': ClassSpec(
+    name: 'BarChartRodData',
+    properties: const [
+      PropertySpec(
+        name: 'fromY',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'toY',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'toYErrorRange',
+        type: 'FlErrorRange?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlErrorRange',
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'color',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'gradient',
+        type: 'Gradient?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'width',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '8',
+      ),
+      PropertySpec(
+        name: 'borderRadius',
+        type: 'BorderRadius?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'borderDashArray',
+        type: 'List<int>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'borderSide',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'backDrawRodData',
+        type: 'BackgroundBarChartRodData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'BackgroundBarChartRodData',
+        defaultCode: 'BackgroundBarChartRodData()',
+      ),
+      PropertySpec(
+        name: 'rodStackItems',
+        type: 'List<BarChartRodStackItem>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'label',
+        type: 'BarChartRodLabel',
+        kind: PropertyKind.nested,
+        nestedType: 'BarChartRodLabel',
+        defaultCode: 'const BarChartRodLabel(show: false)',
+      ),
+    ],
+    read: _readBarChartRodData,
+    copy: _copyBarChartRodData,
+  ),
+  'BarChartRodLabel': ClassSpec(
+    name: 'BarChartRodLabel',
+    properties: const [
+      PropertySpec(
+        name: 'show',
+        type: 'bool',
+        kind: PropertyKind.boolean,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'text',
+        type: 'String',
+        kind: PropertyKind.text,
+        defaultCode: '\'\'',
+      ),
+      PropertySpec(
+        name: 'style',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'angle',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'textDirection',
+        type: 'TextDirection',
+        kind: PropertyKind.enumeration,
+        values: TextDirection.values,
+        defaultCode: 'TextDirection.ltr',
+      ),
+      PropertySpec(
+        name: 'offset',
+        type: 'Offset',
+        kind: PropertyKind.other,
+        defaultCode: 'const Offset(0, 8)',
+      ),
+    ],
+    read: _readBarChartRodLabel,
+    copy: _copyBarChartRodLabel,
+  ),
+  'BarChartRodStackItem': ClassSpec(
+    name: 'BarChartRodStackItem',
+    properties: const [
+      PropertySpec(
+        name: 'fromY',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'toY',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'color',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'gradient',
+        type: 'Gradient?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'label',
+        type: 'String?',
+        kind: PropertyKind.text,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'labelStyle',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'borderSide',
+        type: 'BorderSide',
+        kind: PropertyKind.other,
+        defaultCode: 'Utils.defaultBorderSide',
+      ),
+    ],
+    read: _readBarChartRodStackItem,
+    copy: _copyBarChartRodStackItem,
+  ),
+  'BarTooltipItem': ClassSpec(
+    name: 'BarTooltipItem',
+    properties: const [
+      PropertySpec(
+        name: 'text',
+        type: 'String',
+        kind: PropertyKind.text,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'textStyle',
+        type: 'TextStyle',
+        kind: PropertyKind.other,
+        isRequired: true,
+        isPositional: true,
+      ),
+      PropertySpec(
+        name: 'textAlign',
+        type: 'TextAlign',
+        kind: PropertyKind.enumeration,
+        values: TextAlign.values,
+        defaultCode: 'TextAlign.center',
+      ),
+      PropertySpec(
+        name: 'textDirection',
+        type: 'TextDirection',
+        kind: PropertyKind.enumeration,
+        values: TextDirection.values,
+        defaultCode: 'TextDirection.ltr',
+      ),
+      PropertySpec(
+        name: 'children',
+        type: 'List<TextSpan>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readBarTooltipItem,
+    copy: _copyBarTooltipItem,
+  ),
+  'BarTouchData': ClassSpec(
+    name: 'BarTouchData',
+    properties: const [
+      PropertySpec(
+        name: 'enabled',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'touchCallback',
+        type: 'void Function(FlTouchEvent, BarTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'mouseCursorResolver',
+        type: 'MouseCursor Function(FlTouchEvent, BarTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'longPressDuration',
+        type: 'Duration?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'touchTooltipData',
+        type: 'BarTouchTooltipData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'BarTouchTooltipData',
+        defaultCode: 'const BarTouchTooltipData()',
+      ),
+      PropertySpec(
+        name: 'touchExtraThreshold',
+        type: 'EdgeInsets?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const EdgeInsets.all(4)',
+      ),
+      PropertySpec(
+        name: 'allowTouchBarBackDraw',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'handleBuiltInTouches',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+    ],
+    read: _readBarTouchData,
+    copy: _copyBarTouchData,
+  ),
+  'BarTouchTooltipData': ClassSpec(
+    name: 'BarTouchTooltipData',
+    properties: const [
+      PropertySpec(
+        name: 'tooltipBorderRadius',
+        type: 'BorderRadius?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'BorderRadius.circular(4)',
+      ),
+      PropertySpec(
+        name: 'tooltipPadding',
+        type: 'EdgeInsets?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const EdgeInsets.symmetric(horizontal: 16, vertical: 8)',
+      ),
+      PropertySpec(
+        name: 'tooltipMargin',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '16',
+      ),
+      PropertySpec(
+        name: 'tooltipHorizontalAlignment',
+        type: 'FLHorizontalAlignment?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: FLHorizontalAlignment.values,
+        defaultCode: 'FLHorizontalAlignment.center',
+      ),
+      PropertySpec(
+        name: 'tooltipHorizontalOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'maxContentWidth',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '120',
+      ),
+      PropertySpec(
+        name: 'getTooltipItem',
+        type:
+            'BarTooltipItem? Function(BarChartGroupData, int, BarChartRodData, int)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'defaultBarTooltipItem',
+      ),
+      PropertySpec(
+        name: 'getTooltipColor',
+        type: 'Color Function(BarChartGroupData)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'defaultBarTooltipColor',
+      ),
+      PropertySpec(
+        name: 'fitInsideHorizontally',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'fitInsideVertically',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+      PropertySpec(
+        name: 'direction',
+        type: 'TooltipDirection?',
+        kind: PropertyKind.enumeration,
+        isNullable: true,
+        values: TooltipDirection.values,
+        defaultCode: 'TooltipDirection.auto',
+      ),
+      PropertySpec(
+        name: 'rotateAngle',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0.0',
+      ),
+      PropertySpec(
+        name: 'tooltipBorder',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'BorderSide.none',
+      ),
+    ],
+    read: _readBarTouchTooltipData,
+    copy: _copyBarTouchTooltipData,
   ),
   'BetweenBarsData': ClassSpec(
     name: 'BetweenBarsData',
@@ -1515,6 +2114,32 @@ AxisTitles _copyAxisTitles(Object instance, Map<String, Object?> values) {
   );
 }
 
+Object? _readBackgroundBarChartRodData(Object instance, String property) {
+  final o = instance as BackgroundBarChartRodData;
+  return switch (property) {
+    'fromY' => o.fromY,
+    'toY' => o.toY,
+    'show' => o.show,
+    'color' => o.color,
+    'gradient' => o.gradient,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BackgroundBarChartRodData _copyBackgroundBarChartRodData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as BackgroundBarChartRodData;
+  return BackgroundBarChartRodData(
+    fromY: _value<double?>(values, 'fromY', o.fromY),
+    toY: _value<double?>(values, 'toY', o.toY),
+    show: _value<bool?>(values, 'show', o.show),
+    color: _value<ui.Color?>(values, 'color', o.color),
+    gradient: _value<Gradient?>(values, 'gradient', o.gradient),
+  );
+}
+
 Object? _readBarAreaData(Object instance, String property) {
   final o = instance as BarAreaData;
   return switch (property) {
@@ -1565,6 +2190,395 @@ BarAreaSpotsLine _copyBarAreaSpotsLine(
       o.checkToShowSpotLine,
     ),
     applyCutOffY: _value<bool>(values, 'applyCutOffY', o.applyCutOffY),
+  );
+}
+
+Object? _readBarChartData(Object instance, String property) {
+  final o = instance as BarChartData;
+  return switch (property) {
+    'barGroups' => o.barGroups,
+    'groupsSpace' => o.groupsSpace,
+    'alignment' => o.alignment,
+    'titlesData' => o.titlesData,
+    'barTouchData' => o.barTouchData,
+    'maxY' => o.maxY,
+    'minY' => o.minY,
+    'baselineY' => o.baselineY,
+    'gridData' => o.gridData,
+    'borderData' => o.borderData,
+    'rangeAnnotations' => o.rangeAnnotations,
+    'backgroundColor' => o.backgroundColor,
+    'extraLinesData' => o.extraLinesData,
+    'rotationQuarterTurns' => o.rotationQuarterTurns,
+    'errorIndicatorData' => o.errorIndicatorData,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarChartData _copyBarChartData(Object instance, Map<String, Object?> values) {
+  final o = instance as BarChartData;
+  return BarChartData(
+    barGroups: _value<List<BarChartGroupData>?>(
+      values,
+      'barGroups',
+      o.barGroups,
+    ),
+    groupsSpace: _value<double?>(values, 'groupsSpace', o.groupsSpace),
+    alignment: _value<BarChartAlignment?>(values, 'alignment', o.alignment),
+    titlesData: _value<FlTitlesData?>(values, 'titlesData', o.titlesData),
+    barTouchData: _value<BarTouchData?>(values, 'barTouchData', o.barTouchData),
+    maxY: _value<double?>(values, 'maxY', o.maxY),
+    minY: _value<double?>(values, 'minY', o.minY),
+    baselineY: _value<double?>(values, 'baselineY', o.baselineY),
+    gridData: _value<FlGridData?>(values, 'gridData', o.gridData),
+    borderData: _value<FlBorderData?>(values, 'borderData', o.borderData),
+    rangeAnnotations: _value<RangeAnnotations?>(
+      values,
+      'rangeAnnotations',
+      o.rangeAnnotations,
+    ),
+    backgroundColor: _value<ui.Color?>(
+      values,
+      'backgroundColor',
+      o.backgroundColor,
+    ),
+    extraLinesData: _value<ExtraLinesData?>(
+      values,
+      'extraLinesData',
+      o.extraLinesData,
+    ),
+    rotationQuarterTurns: _value<int>(
+      values,
+      'rotationQuarterTurns',
+      o.rotationQuarterTurns,
+    ),
+    errorIndicatorData:
+        _value<FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>>(
+          values,
+          'errorIndicatorData',
+          o.errorIndicatorData,
+        ),
+  );
+}
+
+Object? _readBarChartGroupData(Object instance, String property) {
+  final o = instance as BarChartGroupData;
+  return switch (property) {
+    'x' => o.x,
+    'groupVertically' => o.groupVertically,
+    'barRods' => o.barRods,
+    'barsSpace' => o.barsSpace,
+    'showingTooltipIndicators' => o.showingTooltipIndicators,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarChartGroupData _copyBarChartGroupData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as BarChartGroupData;
+  return BarChartGroupData(
+    x: _value<int>(values, 'x', o.x),
+    groupVertically: _value<bool?>(
+      values,
+      'groupVertically',
+      o.groupVertically,
+    ),
+    barRods: _value<List<BarChartRodData>?>(values, 'barRods', o.barRods),
+    barsSpace: _value<double?>(values, 'barsSpace', o.barsSpace),
+    showingTooltipIndicators: _value<List<int>?>(
+      values,
+      'showingTooltipIndicators',
+      o.showingTooltipIndicators,
+    ),
+  );
+}
+
+Object? _readBarChartRodData(Object instance, String property) {
+  final o = instance as BarChartRodData;
+  return switch (property) {
+    'fromY' => o.fromY,
+    'toY' => o.toY,
+    'toYErrorRange' => o.toYErrorRange,
+    'color' => o.color,
+    'gradient' => o.gradient,
+    'width' => o.width,
+    'borderRadius' => o.borderRadius,
+    'borderDashArray' => o.borderDashArray,
+    'borderSide' => o.borderSide,
+    'backDrawRodData' => o.backDrawRodData,
+    'rodStackItems' => o.rodStackItems,
+    'label' => o.label,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarChartRodData _copyBarChartRodData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as BarChartRodData;
+  return BarChartRodData(
+    fromY: _value<double?>(values, 'fromY', o.fromY),
+    toY: _value<double>(values, 'toY', o.toY),
+    toYErrorRange: _value<FlErrorRange?>(
+      values,
+      'toYErrorRange',
+      o.toYErrorRange,
+    ),
+    color: _value<ui.Color?>(values, 'color', o.color),
+    gradient: _value<Gradient?>(values, 'gradient', o.gradient),
+    width: _value<double?>(values, 'width', o.width),
+    borderRadius: _value<BorderRadius?>(values, 'borderRadius', o.borderRadius),
+    borderDashArray: _value<List<int>?>(
+      values,
+      'borderDashArray',
+      o.borderDashArray,
+    ),
+    borderSide: _value<BorderSide?>(values, 'borderSide', o.borderSide),
+    backDrawRodData: _value<BackgroundBarChartRodData?>(
+      values,
+      'backDrawRodData',
+      o.backDrawRodData,
+    ),
+    rodStackItems: _value<List<BarChartRodStackItem>?>(
+      values,
+      'rodStackItems',
+      o.rodStackItems,
+    ),
+    label: _value<BarChartRodLabel>(values, 'label', o.label),
+  );
+}
+
+Object? _readBarChartRodLabel(Object instance, String property) {
+  final o = instance as BarChartRodLabel;
+  return switch (property) {
+    'show' => o.show,
+    'text' => o.text,
+    'style' => o.style,
+    'angle' => o.angle,
+    'textDirection' => o.textDirection,
+    'offset' => o.offset,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarChartRodLabel _copyBarChartRodLabel(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as BarChartRodLabel;
+  return BarChartRodLabel(
+    show: _value<bool>(values, 'show', o.show),
+    text: _value<String>(values, 'text', o.text),
+    style: _value<TextStyle?>(values, 'style', o.style),
+    angle: _value<double>(values, 'angle', o.angle),
+    textDirection: _value<ui.TextDirection>(
+      values,
+      'textDirection',
+      o.textDirection,
+    ),
+    offset: _value<ui.Offset>(values, 'offset', o.offset),
+  );
+}
+
+Object? _readBarChartRodStackItem(Object instance, String property) {
+  final o = instance as BarChartRodStackItem;
+  return switch (property) {
+    'fromY' => o.fromY,
+    'toY' => o.toY,
+    'color' => o.color,
+    'gradient' => o.gradient,
+    'label' => o.label,
+    'labelStyle' => o.labelStyle,
+    'borderSide' => o.borderSide,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarChartRodStackItem _copyBarChartRodStackItem(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as BarChartRodStackItem;
+  return BarChartRodStackItem(
+    _value<double>(values, 'fromY', o.fromY),
+    _value<double>(values, 'toY', o.toY),
+    _value<ui.Color?>(values, 'color', o.color),
+    gradient: _value<Gradient?>(values, 'gradient', o.gradient),
+    label: _value<String?>(values, 'label', o.label),
+    labelStyle: _value<TextStyle?>(values, 'labelStyle', o.labelStyle),
+    borderSide: _value<BorderSide>(values, 'borderSide', o.borderSide),
+  );
+}
+
+Object? _readBarTooltipItem(Object instance, String property) {
+  final o = instance as BarTooltipItem;
+  return switch (property) {
+    'text' => o.text,
+    'textStyle' => o.textStyle,
+    'textAlign' => o.textAlign,
+    'textDirection' => o.textDirection,
+    'children' => o.children,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarTooltipItem _copyBarTooltipItem(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as BarTooltipItem;
+  return BarTooltipItem(
+    _value<String>(values, 'text', o.text),
+    _value<TextStyle>(values, 'textStyle', o.textStyle),
+    textAlign: _value<ui.TextAlign>(values, 'textAlign', o.textAlign),
+    textDirection: _value<ui.TextDirection>(
+      values,
+      'textDirection',
+      o.textDirection,
+    ),
+    children: _value<List<TextSpan>?>(values, 'children', o.children),
+  );
+}
+
+Object? _readBarTouchData(Object instance, String property) {
+  final o = instance as BarTouchData;
+  return switch (property) {
+    'enabled' => o.enabled,
+    'touchCallback' => o.touchCallback,
+    'mouseCursorResolver' => o.mouseCursorResolver,
+    'longPressDuration' => o.longPressDuration,
+    'touchTooltipData' => o.touchTooltipData,
+    'touchExtraThreshold' => o.touchExtraThreshold,
+    'allowTouchBarBackDraw' => o.allowTouchBarBackDraw,
+    'handleBuiltInTouches' => o.handleBuiltInTouches,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarTouchData _copyBarTouchData(Object instance, Map<String, Object?> values) {
+  final o = instance as BarTouchData;
+  return BarTouchData(
+    enabled: _value<bool?>(values, 'enabled', o.enabled),
+    touchCallback: _value<BaseTouchCallback<BarTouchResponse>?>(
+      values,
+      'touchCallback',
+      o.touchCallback,
+    ),
+    mouseCursorResolver: _value<MouseCursorResolver<BarTouchResponse>?>(
+      values,
+      'mouseCursorResolver',
+      o.mouseCursorResolver,
+    ),
+    longPressDuration: _value<Duration?>(
+      values,
+      'longPressDuration',
+      o.longPressDuration,
+    ),
+    touchTooltipData: _value<BarTouchTooltipData?>(
+      values,
+      'touchTooltipData',
+      o.touchTooltipData,
+    ),
+    touchExtraThreshold: _value<EdgeInsets?>(
+      values,
+      'touchExtraThreshold',
+      o.touchExtraThreshold,
+    ),
+    allowTouchBarBackDraw: _value<bool?>(
+      values,
+      'allowTouchBarBackDraw',
+      o.allowTouchBarBackDraw,
+    ),
+    handleBuiltInTouches: _value<bool?>(
+      values,
+      'handleBuiltInTouches',
+      o.handleBuiltInTouches,
+    ),
+  );
+}
+
+Object? _readBarTouchTooltipData(Object instance, String property) {
+  final o = instance as BarTouchTooltipData;
+  return switch (property) {
+    'tooltipBorderRadius' => o.tooltipBorderRadius,
+    'tooltipPadding' => o.tooltipPadding,
+    'tooltipMargin' => o.tooltipMargin,
+    'tooltipHorizontalAlignment' => o.tooltipHorizontalAlignment,
+    'tooltipHorizontalOffset' => o.tooltipHorizontalOffset,
+    'maxContentWidth' => o.maxContentWidth,
+    'getTooltipItem' => o.getTooltipItem,
+    'getTooltipColor' => o.getTooltipColor,
+    'fitInsideHorizontally' => o.fitInsideHorizontally,
+    'fitInsideVertically' => o.fitInsideVertically,
+    'direction' => o.direction,
+    'rotateAngle' => o.rotateAngle,
+    'tooltipBorder' => o.tooltipBorder,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+BarTouchTooltipData _copyBarTouchTooltipData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as BarTouchTooltipData;
+  return BarTouchTooltipData(
+    tooltipBorderRadius: _value<BorderRadius?>(
+      values,
+      'tooltipBorderRadius',
+      o.tooltipBorderRadius,
+    ),
+    tooltipPadding: _value<EdgeInsets?>(
+      values,
+      'tooltipPadding',
+      o.tooltipPadding,
+    ),
+    tooltipMargin: _value<double?>(values, 'tooltipMargin', o.tooltipMargin),
+    tooltipHorizontalAlignment: _value<FLHorizontalAlignment?>(
+      values,
+      'tooltipHorizontalAlignment',
+      o.tooltipHorizontalAlignment,
+    ),
+    tooltipHorizontalOffset: _value<double?>(
+      values,
+      'tooltipHorizontalOffset',
+      o.tooltipHorizontalOffset,
+    ),
+    maxContentWidth: _value<double?>(
+      values,
+      'maxContentWidth',
+      o.maxContentWidth,
+    ),
+    getTooltipItem: _value<GetBarTooltipItem?>(
+      values,
+      'getTooltipItem',
+      o.getTooltipItem,
+    ),
+    getTooltipColor: _value<GetBarTooltipColor?>(
+      values,
+      'getTooltipColor',
+      o.getTooltipColor,
+    ),
+    fitInsideHorizontally: _value<bool?>(
+      values,
+      'fitInsideHorizontally',
+      o.fitInsideHorizontally,
+    ),
+    fitInsideVertically: _value<bool?>(
+      values,
+      'fitInsideVertically',
+      o.fitInsideVertically,
+    ),
+    direction: _value<TooltipDirection?>(values, 'direction', o.direction),
+    rotateAngle: _value<double?>(values, 'rotateAngle', o.rotateAngle),
+    tooltipBorder: _value<BorderSide?>(
+      values,
+      'tooltipBorder',
+      o.tooltipBorder,
+    ),
   );
 }
 

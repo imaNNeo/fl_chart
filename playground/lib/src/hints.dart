@@ -1,3 +1,4 @@
+import 'hints/bar.dart';
 import 'hints/base.dart';
 import 'hints/line.dart';
 
@@ -9,6 +10,7 @@ class PropertyHint {
     this.presets,
     this.requires = const {},
     this.note,
+    this.nullable = true,
   });
 
   /// The range of the slider of a number.
@@ -24,6 +26,10 @@ class PropertyHint {
 
   /// Shown under the chart.
   final String? note;
+
+  /// False when `null` is not a valid value, even if the type is nullable
+  /// (like the color of a stack item that has no gradient).
+  final bool nullable;
 }
 
 /// A value, with the Dart code that creates it.
@@ -35,4 +41,4 @@ class Preset {
 }
 
 /// The hints of the properties, keyed by `ClassName.property`.
-final hints = <String, PropertyHint>{...lineHints, ...baseHints};
+final hints = <String, PropertyHint>{...lineHints, ...baseHints, ...barHints};

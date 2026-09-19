@@ -21,7 +21,7 @@ When you change the chart's state, it animates to the new state internally (usin
 |lineBarsData|`List<LineChartBarData>`|`const []`|List of [`LineChartBarData`](#linechartbardata) to show the chart's lines, they stack and can be drawn on top of each other.|
 |betweenBarsData|`List<BetweenBarsData>`|`const []`|Fills area between two [`LineChartBarData`](#linechartbardata) with a color or gradient.|
 |titlesData|`FlTitlesData`|`const FlTitlesData()`|Holds data to draw the titles around the chart, see [`FlTitlesData`](base_chart.md#fltitlesdata).|
-|extraLinesData|`ExtraLinesData?`|`const ExtraLinesData()`|Extra horizontal or vertical lines to draw on the chart, see [`ExtraLinesData`](base_chart.md#extralinesdata).|
+|extraLinesData|`ExtraLinesData?`|`const ExtraLinesData()`|Extra horizontal or vertical lines to draw on the chart, see [`ExtraLinesData`](base_chart.md#extralinesdata) (the bar chart only draws the horizontal ones).|
 |lineTouchData|`LineTouchData`|`const LineTouchData()`|Handles touch behaviors and responses.|
 |showingTooltipIndicators|`List<ShowingTooltipIndicators>`|`const []`|You can show some tooltipIndicators (a popup with an information) on top of each [`LineChartBarData.spots`](#linechartbardata) using `showingTooltipIndicators`, just put line indicator number and spots indices you want to show it on top of them.<br><br>An important point is that you have to disable the default touch behaviour to show the tooltip manually, see [`LineTouchData.handleBuiltInTouches`](#linetouchdata-read-about-touch-handling).|
 |gridData|`FlGridData?`|`const FlGridData()`|Holds data to draw the grid lines behind the chart, see [`FlGridData`](base_chart.md#flgriddata).|

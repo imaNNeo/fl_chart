@@ -60,6 +60,41 @@
       }
     ]
   },
+  "BackgroundBarChartRodData": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "fromY",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "`fromY` is where background starts to show"
+      },
+      {
+        "name": "toY",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "background starts to show from `fromY` to `toY`"
+      },
+      {
+        "name": "show",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Determines to show or hide this"
+      },
+      {
+        "name": "color",
+        "type": "Color?",
+        "description": "If provided, the background rod draws with this `color`.\nOtherwise we use `gradient` to draw it.\nIt throws an exception if you provide both `color` and `gradient`.\n\nDefaults to [`Colors.blueGrey`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither `color` nor `gradient` is\nprovided."
+      },
+      {
+        "name": "gradient",
+        "type": "Gradient?",
+        "defaultValue": "null",
+        "description": "If provided, the background rod draws with this `gradient`.\nOtherwise we use `color` to draw it.\nIt throws an exception if you provide both `color` and `gradient`."
+      }
+    ]
+  },
   "BarAreaData": {
     "page": "line_chart.md",
     "mode": "constructor",
@@ -128,6 +163,570 @@
         "type": "bool",
         "defaultValue": "true",
         "description": "Determines to inherit the cutOff properties from its parent [`BarAreaData`](#barareadata)"
+      }
+    ]
+  },
+  "BarChartAlignment": {
+    "page": "bar_chart.md",
+    "mode": "enumValues",
+    "members": [
+      {
+        "name": "start",
+        "description": "Places the groups at the start of the chart."
+      },
+      {
+        "name": "end",
+        "description": "Places the groups at the end of the chart."
+      },
+      {
+        "name": "center",
+        "description": "Places the groups in the middle of the chart."
+      },
+      {
+        "name": "spaceEvenly",
+        "description": "Places the free space evenly between the groups, and before the first\nand after the last one."
+      },
+      {
+        "name": "spaceAround",
+        "description": "Places the free space evenly between the groups, and half of it before\nthe first and after the last one."
+      },
+      {
+        "name": "spaceBetween",
+        "description": "Places the free space evenly between the groups, and none before the\nfirst and after the last one."
+      }
+    ]
+  },
+  "BarChartData": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "barGroups",
+        "type": "List<BarChartGroupData>?",
+        "defaultValue": "const []",
+        "description": "[`BarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BarChart-class.html) draws `barGroups` that each of them contains a list of [`BarChartRodData`](#barchartroddata)."
+      },
+      {
+        "name": "groupsSpace",
+        "type": "double?",
+        "defaultValue": "16",
+        "description": "Apply space between the `barGroups`.\n\nIt is used only when `alignment` is [`BarChartAlignment.start`](#barchartalignment),\n[`BarChartAlignment.center`](#barchartalignment) or [`BarChartAlignment.end`](#barchartalignment) (the other\nalignments spread the groups in the free space)."
+      },
+      {
+        "name": "alignment",
+        "type": "BarChartAlignment?",
+        "defaultValue": "BarChartAlignment.spaceEvenly",
+        "description": "Arrange the `barGroups`, see [`BarChartAlignment`](#barchartalignment)."
+      },
+      {
+        "name": "titlesData",
+        "type": "FlTitlesData?",
+        "defaultValue": "const FlTitlesData(topTitles: AxisTitles())",
+        "description": "Holds data to draw the titles around the chart, see [`FlTitlesData`](base_chart.md#fltitlesdata)."
+      },
+      {
+        "name": "barTouchData",
+        "type": "BarTouchData?",
+        "defaultValue": "const BarTouchData()",
+        "description": "Handles touch behaviors and responses."
+      },
+      {
+        "name": "maxY",
+        "type": "double?",
+        "defaultValue": "null",
+        "description": "Maximum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "minY",
+        "type": "double?",
+        "defaultValue": "null",
+        "description": "Minimum y value of the chart. If you don't provide it, it is calculated\nfrom the chart's data (providing it is more performant)."
+      },
+      {
+        "name": "baselineY",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "The y value that the horizontal grid lines and the titles are aligned to,\nthey are drawn at every `baselineY + n * interval`."
+      },
+      {
+        "name": "gridData",
+        "type": "FlGridData?",
+        "defaultValue": "const FlGridData()",
+        "description": "Holds data to draw the grid lines behind the chart, see [`FlGridData`](base_chart.md#flgriddata)."
+      },
+      {
+        "name": "borderData",
+        "type": "FlBorderData?",
+        "defaultValue": "FlBorderData()",
+        "description": "Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata)."
+      },
+      {
+        "name": "rangeAnnotations",
+        "type": "RangeAnnotations?",
+        "defaultValue": "const RangeAnnotations()",
+        "description": "Highlights some horizontal or vertical ranges behind the chart,\nsee [`RangeAnnotations`](base_chart.md#rangeannotations)."
+      },
+      {
+        "name": "backgroundColor",
+        "type": "Color?",
+        "defaultValue": "Colors.transparent",
+        "description": "A background color which is drawn behind the chart."
+      },
+      {
+        "name": "extraLinesData",
+        "type": "ExtraLinesData?",
+        "defaultValue": "const ExtraLinesData()",
+        "description": "Extra horizontal or vertical lines to draw on the chart,\nsee [`ExtraLinesData`](base_chart.md#extralinesdata) (the bar chart only draws the horizontal ones)."
+      },
+      {
+        "name": "rotationQuarterTurns",
+        "type": "int",
+        "defaultValue": "0",
+        "description": "Rotates the chart 90 degrees (clockwise) in every quarter turn.\nIt works like the [`RotatedBox`](https://api.flutter.dev/flutter/widgets/RotatedBox-class.html) widget."
+      },
+      {
+        "name": "errorIndicatorData",
+        "type": "FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>",
+        "defaultValue": "const FlErrorIndicatorData()",
+        "description": "Holds data for showing error (threshold) indicators on the spots in\nthe different [`BarChartGroupData.barRods`](#barchartgroupdata)"
+      }
+    ]
+  },
+  "BarChartGroupData": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "x",
+        "type": "int",
+        "required": true,
+        "description": "Order along the x axis in which titles, and titles only, will be shown.\n\nNote `x` does not reorder bars from `barRods`; instead, it gets the title\nin `x` position through [`SideTitles.getTitlesWidget`](base_chart.md#sidetitles) function."
+      },
+      {
+        "name": "groupVertically",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "If set true, it will show bars below/above each other.\nOtherwise, it will show bars beside each other."
+      },
+      {
+        "name": "barRods",
+        "type": "List<BarChartRodData>?",
+        "defaultValue": "const []",
+        "description": "[`BarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BarChart-class.html) renders `barRods` that represents a rod (or a bar) in the bar chart."
+      },
+      {
+        "name": "barsSpace",
+        "type": "double?",
+        "defaultValue": "2",
+        "description": "[`BarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BarChart-class.html) applies `barsSpace` between `barRods` if `groupVertically` is false."
+      },
+      {
+        "name": "showingTooltipIndicators",
+        "type": "List<int>?",
+        "defaultValue": "const []",
+        "description": "you can show some tooltipIndicators (a popup with an information)\non top of each [`BarChartRodData`](#barchartroddata) using `showingTooltipIndicators`,\njust put indices you want to show it on top of them.\n\nAn important point is that you have to disable the default touch behaviour\nto show the tooltip manually, see [`BarTouchData.handleBuiltInTouches`](#bartouchdata-read-about-touch-handling)."
+      }
+    ]
+  },
+  "BarChartRodData": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "fromY",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "[`BarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BarChart-class.html) renders rods vertically from `fromY`."
+      },
+      {
+        "name": "toY",
+        "type": "double",
+        "required": true,
+        "description": "[`BarChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BarChart-class.html) renders rods vertically from `fromY` to `toY`."
+      },
+      {
+        "name": "toYErrorRange",
+        "type": "FlErrorRange?",
+        "defaultValue": "null",
+        "description": "If the data has error range/threshold, it will be rendered\nwith this error range. So you can provide the\n[`FlErrorRange.lowerBy`](base_chart.md#flerrorrange) and [`FlErrorRange.upperBy`](base_chart.md#flerrorrange) that is relative to\nthe `toY` property.\n\nIf you want to customize the visual representation of the error range,\nyou can use [`BarChartData.errorIndicatorData`](#barchartdata) to customize the error range"
+      },
+      {
+        "name": "color",
+        "type": "Color?",
+        "description": "If provided, this [`BarChartRodData`](#barchartroddata) draws with this `color`.\nOtherwise we use `gradient` to draw the rod.\nIt throws an exception if you provide both `color` and `gradient`.\n\nDefaults to [`Colors.cyan`](https://api.flutter.dev/flutter/material/Colors-class.html) if neither `color` nor `gradient` is provided."
+      },
+      {
+        "name": "gradient",
+        "type": "Gradient?",
+        "defaultValue": "null",
+        "description": "If provided, this [`BarChartRodData`](#barchartroddata) draws with this `gradient`.\nOtherwise we use `color` to draw the rod.\nIt throws an exception if you provide both `color` and `gradient`.\n\nYou can use any [`Gradient`](https://api.flutter.dev/flutter/painting/Gradient-class.html) here, such as [`LinearGradient`](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [`RadialGradient`](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)."
+      },
+      {
+        "name": "width",
+        "type": "double?",
+        "defaultValue": "8",
+        "description": "The width of the rod."
+      },
+      {
+        "name": "borderRadius",
+        "type": "BorderRadius?",
+        "defaultValue": "null",
+        "description": "The rounding of the corners of the rod. When null, the rod is fully\nrounded (with a radius of half of its `width`)."
+      },
+      {
+        "name": "borderDashArray",
+        "type": "List<int>?",
+        "defaultValue": "null",
+        "description": "Draws the `borderSide` dashed, it's a circular array of dash lengths\nand gaps. For example, `[5, 10]` results in dashes 5 pixels long\nfollowed by gaps 10 pixels long."
+      },
+      {
+        "name": "borderSide",
+        "type": "BorderSide?",
+        "defaultValue": "null",
+        "description": "The border stroke around the rod, see [`BorderSide`](https://api.flutter.dev/flutter/painting/BorderSide-class.html)."
+      },
+      {
+        "name": "backDrawRodData",
+        "type": "BackgroundBarChartRodData?",
+        "defaultValue": "BackgroundBarChartRodData()",
+        "description": "If you want to have a bar drawn in rear of this rod, use `backDrawRodData`,\nit uses to have a bar with a passive color in rear of the rod,\nfor example you can use it as the maximum value place holder."
+      },
+      {
+        "name": "rodStackItems",
+        "type": "List<BarChartRodStackItem>?",
+        "defaultValue": "const []",
+        "description": "If you are a fan of stacked charts (If you don't know what is it, google it),\nyou can fill up the `rodStackItems` to have a Stacked Chart."
+      },
+      {
+        "name": "label",
+        "type": "BarChartRodLabel",
+        "defaultValue": "const BarChartRodLabel(show: false)",
+        "description": "Optional label to display near the rod tip."
+      }
+    ]
+  },
+  "BarChartRodLabel": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "show",
+        "type": "bool",
+        "defaultValue": "true",
+        "description": "Whether the label is visible."
+      },
+      {
+        "name": "text",
+        "type": "String",
+        "defaultValue": "''",
+        "description": "The text content of the label."
+      },
+      {
+        "name": "style",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "The text style of the label.\n\nWhen null (or when its `inherit` is true), it is merged with the ambient\n[`DefaultTextStyle`](https://api.flutter.dev/flutter/widgets/DefaultTextStyle-class.html), and it respects the bold text setting of the platform."
+      },
+      {
+        "name": "angle",
+        "type": "double",
+        "defaultValue": "0",
+        "description": "Rotation angle of the label in degrees."
+      },
+      {
+        "name": "textDirection",
+        "type": "TextDirection",
+        "defaultValue": "TextDirection.ltr",
+        "description": "Text direction of the label."
+      },
+      {
+        "name": "offset",
+        "type": "Offset",
+        "defaultValue": "const Offset(0, 8)",
+        "description": "Offset from the rod tip to position the label.\n[`Offset.dx`](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) shifts horizontally, [`Offset.dy`](https://api.flutter.dev/flutter/dart-ui/Offset-class.html) shifts vertically."
+      }
+    ]
+  },
+  "BarChartRodStackItem": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "fromY",
+        "type": "double",
+        "required": true,
+        "description": "Renders a Stacked Chart section from `fromY`"
+      },
+      {
+        "name": "toY",
+        "type": "double",
+        "required": true,
+        "description": "Renders a Stacked Chart section to `toY`"
+      },
+      {
+        "name": "color",
+        "type": "Color?",
+        "required": true,
+        "description": "Renders a Stacked Chart section with `color`"
+      },
+      {
+        "name": "gradient",
+        "type": "Gradient?",
+        "defaultValue": "null",
+        "description": "Renders a Stacked Chart section with `gradient`"
+      },
+      {
+        "name": "label",
+        "type": "String?",
+        "defaultValue": "null",
+        "description": "An optional text label of the stack item."
+      },
+      {
+        "name": "labelStyle",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "The [`TextStyle`](https://api.flutter.dev/flutter/painting/TextStyle-class.html) of the `label`."
+      },
+      {
+        "name": "borderSide",
+        "type": "BorderSide",
+        "defaultValue": "Utils.defaultBorderSide",
+        "description": "Renders border stroke for a Stacked Chart section"
+      }
+    ]
+  },
+  "BarTooltipItem": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "text",
+        "type": "String",
+        "required": true,
+        "description": "Text of the content."
+      },
+      {
+        "name": "textStyle",
+        "type": "TextStyle",
+        "required": true,
+        "description": "TextStyle of the showing content."
+      },
+      {
+        "name": "textAlign",
+        "type": "TextAlign",
+        "defaultValue": "TextAlign.center",
+        "description": "TextAlign of the showing content."
+      },
+      {
+        "name": "textDirection",
+        "type": "TextDirection",
+        "defaultValue": "TextDirection.ltr",
+        "description": "Direction of showing text."
+      },
+      {
+        "name": "children",
+        "type": "List<TextSpan>?",
+        "defaultValue": "null",
+        "description": "Add further style and format to the text of the tooltip"
+      }
+    ]
+  },
+  "BarTouchData": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "enabled",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines whether to enable or disable touch behaviors."
+      },
+      {
+        "name": "touchCallback",
+        "type": "void Function(FlTouchEvent, BarTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "`touchCallback` notifies you about the happened touch/pointer events.\nIt gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ...\nIt also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information\nabout the elements that has touched."
+      },
+      {
+        "name": "mouseCursorResolver",
+        "type": "MouseCursor Function(FlTouchEvent, BarTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "Using `mouseCursorResolver` you can change the mouse cursor\nbased on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)"
+      },
+      {
+        "name": "longPressDuration",
+        "type": "Duration?",
+        "defaultValue": "null",
+        "description": "This property that allows to customize the duration of the longPress gesture.\nIf null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds)."
+      },
+      {
+        "name": "touchTooltipData",
+        "type": "BarTouchTooltipData?",
+        "defaultValue": "const BarTouchTooltipData()",
+        "description": "Determines how the tooltip looks on top of the touched rods,\nsee [`BarTouchTooltipData`](#bartouchtooltipdata)."
+      },
+      {
+        "name": "touchExtraThreshold",
+        "type": "EdgeInsets?",
+        "defaultValue": "const EdgeInsets.all(4)",
+        "description": "Extends the touchable area of each rod by these insets."
+      },
+      {
+        "name": "allowTouchBarBackDraw",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "If true, touching the background rod ([`BarChartRodData.backDrawRodData`](#barchartroddata))\ncounts as touching the rod."
+      },
+      {
+        "name": "handleBuiltInTouches",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "If true, the chart handles touches by itself: it shows a tooltip\nbubble on top of the touched rod."
+      }
+    ]
+  },
+  "BarTouchResponse": {
+    "page": "bar_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchLocation",
+        "type": "Offset",
+        "description": "The location of the touch in pixels on the screen."
+      },
+      {
+        "name": "touchChartCoordinate",
+        "type": "Offset",
+        "description": "The axis coordinate of the touch in chart's coordinate system."
+      },
+      {
+        "name": "spot",
+        "type": "BarTouchedSpot?",
+        "description": "Gives information about the touched spot"
+      }
+    ]
+  },
+  "BarTouchTooltipData": {
+    "page": "bar_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "tooltipBorderRadius",
+        "type": "BorderRadius?",
+        "defaultValue": "BorderRadius.circular(4)",
+        "description": "Sets a rounded radius for the tooltip."
+      },
+      {
+        "name": "tooltipPadding",
+        "type": "EdgeInsets?",
+        "defaultValue": "const EdgeInsets.symmetric(horizontal: 16, vertical: 8)",
+        "description": "Applies a padding for showing contents inside the tooltip."
+      },
+      {
+        "name": "tooltipMargin",
+        "type": "double?",
+        "defaultValue": "16",
+        "description": "Margin between the tooltip and the touched rod."
+      },
+      {
+        "name": "tooltipHorizontalAlignment",
+        "type": "FLHorizontalAlignment?",
+        "defaultValue": "FLHorizontalAlignment.center",
+        "description": "Controls showing tooltip on left side, right side or center aligned with rod."
+      },
+      {
+        "name": "tooltipHorizontalOffset",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "Applies horizontal offset for showing tooltip."
+      },
+      {
+        "name": "maxContentWidth",
+        "type": "double?",
+        "defaultValue": "120",
+        "description": "Maximum width of the tooltip's content, a text row which is wider than\nthis breaks into a new line."
+      },
+      {
+        "name": "getTooltipItem",
+        "type": "BarTooltipItem? Function(BarChartGroupData, int, BarChartRodData, int)?",
+        "defaultValue": "defaultBarTooltipItem",
+        "description": "Retrieves data for showing content inside the tooltip."
+      },
+      {
+        "name": "getTooltipColor",
+        "type": "Color Function(BarChartGroupData)?",
+        "defaultValue": "defaultBarTooltipColor",
+        "description": "Retrieves the background color of the tooltip for each touched rod."
+      },
+      {
+        "name": "fitInsideHorizontally",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Forces the tooltip to shift horizontally inside the chart, if overflow happens."
+      },
+      {
+        "name": "fitInsideVertically",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Forces the tooltip to shift vertically inside the chart, if overflow happens."
+      },
+      {
+        "name": "direction",
+        "type": "TooltipDirection?",
+        "defaultValue": "TooltipDirection.auto",
+        "description": "Controls showing tooltip on top or bottom, default is auto."
+      },
+      {
+        "name": "rotateAngle",
+        "type": "double?",
+        "defaultValue": "0.0",
+        "description": "Controls the rotation of the tooltip (in degrees)"
+      },
+      {
+        "name": "tooltipBorder",
+        "type": "BorderSide?",
+        "defaultValue": "BorderSide.none",
+        "description": "Border of the tooltip bubble."
+      }
+    ]
+  },
+  "BarTouchedSpot": {
+    "page": "bar_chart.md",
+    "mode": "fields",
+    "inheritsFrom": {
+      "name": "TouchedSpot",
+      "link": "base_chart.md#touchedspot"
+    },
+    "members": [
+      {
+        "name": "touchedBarGroup",
+        "type": "BarChartGroupData",
+        "description": "The [`BarChartGroupData`](#barchartgroupdata) of the touched rod."
+      },
+      {
+        "name": "touchedBarGroupIndex",
+        "type": "int",
+        "description": "The index of `touchedBarGroup` in [`BarChartData.barGroups`](#barchartdata)."
+      },
+      {
+        "name": "touchedRodData",
+        "type": "BarChartRodData",
+        "description": "The touched [`BarChartRodData`](#barchartroddata)."
+      },
+      {
+        "name": "touchedRodDataIndex",
+        "type": "int",
+        "description": "The index of `touchedRodData` in [`BarChartGroupData.barRods`](#barchartgroupdata)."
+      },
+      {
+        "name": "touchedStackItem",
+        "type": "BarChartRodStackItem?",
+        "description": "The touched [`BarChartRodStackItem`](#barchartrodstackitem) (in a stacked bar chart), null if\nno stack item is touched."
+      },
+      {
+        "name": "touchedStackItemIndex",
+        "type": "int",
+        "description": "The index of `touchedStackItem` in [`BarChartRodData.rodStackItems`](#barchartroddata),\n-1 if no stack item is touched."
       }
     ]
   },
@@ -784,7 +1383,7 @@
         "name": "extraLinesData",
         "type": "ExtraLinesData?",
         "defaultValue": "const ExtraLinesData()",
-        "description": "Extra horizontal or vertical lines to draw on the chart,\nsee [`ExtraLinesData`](base_chart.md#extralinesdata)."
+        "description": "Extra horizontal or vertical lines to draw on the chart,\nsee [`ExtraLinesData`](base_chart.md#extralinesdata) (the bar chart only draws the horizontal ones)."
       },
       {
         "name": "lineTouchData",

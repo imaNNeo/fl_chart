@@ -141,7 +141,8 @@ List<Object?> _sampleValues(PropertySpec property, PropertyHint? hint) {
     PropertyKind.enumeration => property.values!,
     _ => <Object?>[],
   };
-  return [...values, if (values.isNotEmpty && property.isNullable) null];
+  final isNullable = property.isNullable && (hint?.nullable ?? true);
+  return [...values, if (values.isNotEmpty && isNullable) null];
 }
 
 Widget _app(Widget child) => MaterialApp(
