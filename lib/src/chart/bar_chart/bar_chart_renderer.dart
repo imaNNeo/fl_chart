@@ -53,12 +53,12 @@ class RenderBarChart extends RenderBaseChart<BarTouchResponse> {
     BarChartData targetData,
     TextScaler textScaler,
     Rect? chartVirtualRect, {
-    required bool canBeScaled,
+    required super.canBeScaled,
   })  : _data = data,
         _targetData = targetData,
         _textScaler = textScaler,
         _chartVirtualRect = chartVirtualRect,
-        super(targetData.barTouchData, context, canBeScaled: canBeScaled);
+        super(targetData.barTouchData, context);
 
   BarChartData get data => _data;
   BarChartData _data;
