@@ -1752,6 +1752,237 @@ final apiRegistry = <String, ClassSpec>{
     read: _readLineTouchTooltipData,
     copy: _copyLineTouchTooltipData,
   ),
+  'PieChartData': ClassSpec(
+    name: 'PieChartData',
+    properties: const [
+      PropertySpec(
+        name: 'sections',
+        type: 'List<PieChartSectionData>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+      PropertySpec(
+        name: 'centerSpaceRadius',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: 'double.infinity',
+      ),
+      PropertySpec(
+        name: 'centerSpaceColor',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.transparent',
+      ),
+      PropertySpec(
+        name: 'sectionsSpace',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '2',
+      ),
+      PropertySpec(
+        name: 'startDegreeOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'pieTouchData',
+        type: 'PieTouchData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'PieTouchData',
+        defaultCode: 'PieTouchData()',
+      ),
+      PropertySpec(
+        name: 'borderData',
+        type: 'FlBorderData?',
+        kind: PropertyKind.nested,
+        isNullable: true,
+        nestedType: 'FlBorderData',
+        defaultCode: 'FlBorderData(show: false)',
+      ),
+      PropertySpec(
+        name: 'titleSunbeamLayout',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'false',
+      ),
+    ],
+    read: _readPieChartData,
+    copy: _copyPieChartData,
+  ),
+  'PieChartSectionData': ClassSpec(
+    name: 'PieChartSectionData',
+    properties: const [
+      PropertySpec(
+        name: 'value',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '10',
+      ),
+      PropertySpec(
+        name: 'color',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.cyan',
+      ),
+      PropertySpec(
+        name: 'gradient',
+        type: 'Gradient?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'radius',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '40',
+      ),
+      PropertySpec(
+        name: 'showTitle',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'titleStyle',
+        type: 'TextStyle?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'title',
+        type: 'String?',
+        kind: PropertyKind.text,
+        isNullable: true,
+      ),
+      PropertySpec(
+        name: 'borderSide',
+        type: 'BorderSide?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const BorderSide(width: 0)',
+      ),
+      PropertySpec(
+        name: 'cornerRadius',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0.0',
+      ),
+      PropertySpec(
+        name: 'badgeWidget',
+        type: 'Widget?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'titlePositionPercentageOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0.5',
+      ),
+      PropertySpec(
+        name: 'badgePositionPercentageOffset',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0.5',
+      ),
+      PropertySpec(
+        name: 'segments',
+        type: 'List<PieChartStackSegmentData>?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'const []',
+      ),
+    ],
+    read: _readPieChartSectionData,
+    copy: _copyPieChartSectionData,
+  ),
+  'PieChartStackSegmentData': ClassSpec(
+    name: 'PieChartStackSegmentData',
+    properties: const [
+      PropertySpec(
+        name: 'fromRadius',
+        type: 'double?',
+        kind: PropertyKind.decimal,
+        isNullable: true,
+        defaultCode: '0',
+      ),
+      PropertySpec(
+        name: 'toRadius',
+        type: 'double',
+        kind: PropertyKind.decimal,
+        isRequired: true,
+      ),
+      PropertySpec(
+        name: 'color',
+        type: 'Color?',
+        kind: PropertyKind.color,
+        isNullable: true,
+        defaultCode: 'Colors.purple',
+      ),
+      PropertySpec(
+        name: 'gradient',
+        type: 'Gradient?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readPieChartStackSegmentData,
+    copy: _copyPieChartStackSegmentData,
+  ),
+  'PieTouchData': ClassSpec(
+    name: 'PieTouchData',
+    properties: const [
+      PropertySpec(
+        name: 'enabled',
+        type: 'bool?',
+        kind: PropertyKind.boolean,
+        isNullable: true,
+        defaultCode: 'true',
+      ),
+      PropertySpec(
+        name: 'touchCallback',
+        type: 'void Function(FlTouchEvent, PieTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'mouseCursorResolver',
+        type: 'MouseCursor Function(FlTouchEvent, PieTouchResponse?)?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+      PropertySpec(
+        name: 'longPressDuration',
+        type: 'Duration?',
+        kind: PropertyKind.other,
+        isNullable: true,
+        defaultCode: 'null',
+      ),
+    ],
+    read: _readPieTouchData,
+    copy: _copyPieTouchData,
+  ),
   'RangeAnnotations': ClassSpec(
     name: 'RangeAnnotations',
     properties: const [
@@ -3320,6 +3551,166 @@ LineTouchTooltipData _copyLineTouchTooltipData(
     ),
     rotateAngle: _value<double>(values, 'rotateAngle', o.rotateAngle),
     tooltipBorder: _value<BorderSide>(values, 'tooltipBorder', o.tooltipBorder),
+  );
+}
+
+Object? _readPieChartData(Object instance, String property) {
+  final o = instance as PieChartData;
+  return switch (property) {
+    'sections' => o.sections,
+    'centerSpaceRadius' => o.centerSpaceRadius,
+    'centerSpaceColor' => o.centerSpaceColor,
+    'sectionsSpace' => o.sectionsSpace,
+    'startDegreeOffset' => o.startDegreeOffset,
+    'pieTouchData' => o.pieTouchData,
+    'borderData' => o.borderData,
+    'titleSunbeamLayout' => o.titleSunbeamLayout,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+PieChartData _copyPieChartData(Object instance, Map<String, Object?> values) {
+  final o = instance as PieChartData;
+  return PieChartData(
+    sections: _value<List<PieChartSectionData>?>(
+      values,
+      'sections',
+      o.sections,
+    ),
+    centerSpaceRadius: _value<double?>(
+      values,
+      'centerSpaceRadius',
+      o.centerSpaceRadius,
+    ),
+    centerSpaceColor: _value<ui.Color?>(
+      values,
+      'centerSpaceColor',
+      o.centerSpaceColor,
+    ),
+    sectionsSpace: _value<double?>(values, 'sectionsSpace', o.sectionsSpace),
+    startDegreeOffset: _value<double?>(
+      values,
+      'startDegreeOffset',
+      o.startDegreeOffset,
+    ),
+    pieTouchData: _value<PieTouchData?>(values, 'pieTouchData', o.pieTouchData),
+    borderData: _value<FlBorderData?>(values, 'borderData', o.borderData),
+    titleSunbeamLayout: _value<bool?>(
+      values,
+      'titleSunbeamLayout',
+      o.titleSunbeamLayout,
+    ),
+  );
+}
+
+Object? _readPieChartSectionData(Object instance, String property) {
+  final o = instance as PieChartSectionData;
+  return switch (property) {
+    'value' => o.value,
+    'color' => o.color,
+    'gradient' => o.gradient,
+    'radius' => o.radius,
+    'showTitle' => o.showTitle,
+    'titleStyle' => o.titleStyle,
+    'title' => o.title,
+    'borderSide' => o.borderSide,
+    'cornerRadius' => o.cornerRadius,
+    'badgeWidget' => o.badgeWidget,
+    'titlePositionPercentageOffset' => o.titlePositionPercentageOffset,
+    'badgePositionPercentageOffset' => o.badgePositionPercentageOffset,
+    'segments' => o.segments,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+PieChartSectionData _copyPieChartSectionData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as PieChartSectionData;
+  return PieChartSectionData(
+    value: _value<double?>(values, 'value', o.value),
+    color: _value<ui.Color?>(values, 'color', o.color),
+    gradient: _value<Gradient?>(values, 'gradient', o.gradient),
+    radius: _value<double?>(values, 'radius', o.radius),
+    showTitle: _value<bool?>(values, 'showTitle', o.showTitle),
+    titleStyle: _value<TextStyle?>(values, 'titleStyle', o.titleStyle),
+    title: _value<String?>(values, 'title', o.title),
+    borderSide: _value<BorderSide?>(values, 'borderSide', o.borderSide),
+    cornerRadius: _value<double?>(values, 'cornerRadius', o.cornerRadius),
+    badgeWidget: _value<Widget?>(values, 'badgeWidget', o.badgeWidget),
+    titlePositionPercentageOffset: _value<double?>(
+      values,
+      'titlePositionPercentageOffset',
+      o.titlePositionPercentageOffset,
+    ),
+    badgePositionPercentageOffset: _value<double?>(
+      values,
+      'badgePositionPercentageOffset',
+      o.badgePositionPercentageOffset,
+    ),
+    segments: _value<List<PieChartStackSegmentData>?>(
+      values,
+      'segments',
+      o.segments,
+    ),
+  );
+}
+
+Object? _readPieChartStackSegmentData(Object instance, String property) {
+  final o = instance as PieChartStackSegmentData;
+  return switch (property) {
+    'fromRadius' => o.fromRadius,
+    'toRadius' => o.toRadius,
+    'color' => o.color,
+    'gradient' => o.gradient,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+PieChartStackSegmentData _copyPieChartStackSegmentData(
+  Object instance,
+  Map<String, Object?> values,
+) {
+  final o = instance as PieChartStackSegmentData;
+  return PieChartStackSegmentData(
+    fromRadius: _value<double?>(values, 'fromRadius', o.fromRadius),
+    toRadius: _value<double>(values, 'toRadius', o.toRadius),
+    color: _value<ui.Color?>(values, 'color', o.color),
+    gradient: _value<Gradient?>(values, 'gradient', o.gradient),
+  );
+}
+
+Object? _readPieTouchData(Object instance, String property) {
+  final o = instance as PieTouchData;
+  return switch (property) {
+    'enabled' => o.enabled,
+    'touchCallback' => o.touchCallback,
+    'mouseCursorResolver' => o.mouseCursorResolver,
+    'longPressDuration' => o.longPressDuration,
+    _ => throw ArgumentError.value(property, 'property'),
+  };
+}
+
+PieTouchData _copyPieTouchData(Object instance, Map<String, Object?> values) {
+  final o = instance as PieTouchData;
+  return PieTouchData(
+    enabled: _value<bool?>(values, 'enabled', o.enabled),
+    touchCallback: _value<BaseTouchCallback<PieTouchResponse>?>(
+      values,
+      'touchCallback',
+      o.touchCallback,
+    ),
+    mouseCursorResolver: _value<MouseCursorResolver<PieTouchResponse>?>(
+      values,
+      'mouseCursorResolver',
+      o.mouseCursorResolver,
+    ),
+    longPressDuration: _value<Duration?>(
+      values,
+      'longPressDuration',
+      o.longPressDuration,
+    ),
   );
 }
 

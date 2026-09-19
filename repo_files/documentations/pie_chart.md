@@ -18,66 +18,78 @@ PieChart(
 When you change the chart's state, it animates to the new state internally (using [implicit animations](https://flutter.dev/docs/development/ui/animations/implicit-animations)). You can control the animation [duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) and [curve](https://api.flutter.dev/flutter/animation/Curves-class.html) using optional `duration` and `curve` properties, respectively.
 
 ### PieChartData
-|PropName		|Description	|default value|
-|:---------------|:---------------|:-------|
-|sections| list of [PieChartSectionData](#PieChartSectionData) that are shown on the pie chart|[]|
-|centerSpaceRadius| free space in the middle of the PieChart, set `double.infinity` if you want it to be calculated according to the view size| double.nan|
-|centerSpaceColor| colors the free space in the middle of the PieChart|Colors.transparent|
-|sectionsSpace| space between the sections (margin of them). It does not work on html-renderer, read more about it [here](https://github.com/imaNNeo/fl_chart/issues/955) |2|
-|startDegreeOffset| degree offset of the sections around the pie chart, should be between 0 and 360|0|
-|pieTouchData| [PieTouchData](#pietouchdata-read-about-touch-handling) holds the touch interactivity details| PieTouchData()|
-|borderData| shows a border around the chart, check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
-|titleSunbeamLayout| whether to rotate the titles on each section of the chart|false|
+<!-- api:PieChartData -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|sections|`List<PieChartSectionData>?`|`const []`|Defines showing sections of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html).|
+|centerSpaceRadius|`double?`|`double.infinity`|Radius of free space in center of the circle.<br><br>If it's not finite (like [`double.infinity`](https://api.flutter.dev/flutter/dart-core/double-class.html)), it is calculated from the size of the chart.|
+|centerSpaceColor|`Color?`|`Colors.transparent`|Color of free space in center of the circle.|
+|sectionsSpace|`double?`|`2`|Defines gap between sections.<br><br>Does not work on html-renderer, https://github.com/imaNNeo/fl_chart/issues/955|
+|startDegreeOffset|`double?`|`0`|[`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html) draws `sections` from zero degree (right side of the circle) clockwise.|
+|pieTouchData|`PieTouchData?`|`PieTouchData()`|Handles touch behaviors and responses.|
+|borderData|`FlBorderData?`|`FlBorderData(show: false)`|Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata).|
+|titleSunbeamLayout|`bool?`|`false`|Whether to rotate the titles on each section of the chart|
+<!-- /api -->
 
 
 ### PieChartSectionData
-|PropName		|Description	|default value|
-|:---------------|:---------------|:-------|
-|value| value is the weight of each section, for example if all values are 25, and we have 4 sections, then the sum is 100 and each section takes 1/4 of the whole circle (360/4) degree|10|
-|color| colors the section| Colors.red|
-|gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html) (you have to provide either `color` or `gradient`)|null|
-|radius| the width radius of each section|40|
-|showTitle| determines whether to show or hide the titles on each section|true|
-|titleStyle| TextStyle of the titles| TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)|
-|title| title of the section| value|
-|borderSide| Defines border stroke around the section | BorderSide(width: 0)|
-|cornerRadius| defines corner radius for rounded section edges |0|
-|badgeWidget| badge component of the section| null|
-|titlePositionPercentageOffset|the place of the title in the section, this field should be between 0 and 1|0.5|
-|badgePositionPercentageOffset|the place of the badge component in the section, this field should be between 0 and 1|0.5|
-|segments| list of [PieChartStackSegmentData](#PieChartStackSegmentData) rendered on top of the section fill, similar to bar chart rod stacks. Each segment's `fromRadius`/`toRadius` are clamped to `[0, radius]` at render time|[]|
+<!-- api:PieChartSectionData -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|value|`double?`|`10`|It determines how much space it should occupy around the circle.<br><br>This is depends on sum of all sections, each section should occupy (`value` / sumValues) * 360 degrees.<br><br>value can not be null.|
+|color|`Color?`|`Colors.cyan`|Defines the color of section.|
+|gradient|`Gradient?`|`null`|Defines the gradient of section. If specified, overrides the color setting.|
+|radius|`double?`|`40`|Defines the radius of section.|
+|showTitle|`bool?`|`true`|Defines show or hide the title of section.|
+|titleStyle|`TextStyle?`|`null`|Defines style of showing title of section, merged with the text style of the theme.|
+|title|`String?`||Defines text of showing title at the middle of section.<br><br>Defaults to the `value` of the section, if it is provided.|
+|borderSide|`BorderSide?`|`const BorderSide(width: 0)`|Defines border stroke around the section|
+|cornerRadius|`double?`|`0.0`|Defines corner radius for rounded edges (applies to all corners)|
+|badgeWidget|`Widget?`|`null`|Defines a widget that represents the section.<br><br>This can be anything from a text, an image, an animation, and even a combination of widgets. Use AnimatedWidgets to animate this widget.|
+|titlePositionPercentageOffset|`double?`|`0.5`|Defines position of showing title in the section.<br><br>It should be between 0.0 to 1.0, 0.0 means near the center, 1.0 means near the outside of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html).|
+|badgePositionPercentageOffset|`double?`|`0.5`|Defines position of badge widget in the section.<br><br>It should be between 0.0 to 1.0, 0.0 means near the center, 1.0 means near the outside of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html).|
+|segments|`List<PieChartStackSegmentData>?`|`const []`|Stacked segments rendered on top of the main section.<br><br>Each segment defines [`PieChartStackSegmentData.fromRadius`](#piechartstacksegmentdata) and [`PieChartStackSegmentData.toRadius`](#piechartstacksegmentdata) to specify its position within the section's `radius`. Values are clamped to [0, radius] at render time.|
+<!-- /api -->
 
 
 ### PieChartStackSegmentData
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|fromRadius| start of the segment, measured as a distance from the section's inner edge, clamped to `[0, sectionRadius]` at render time|0|
-|toRadius| end of the segment, clamped to `[0, sectionRadius]` at render time|required|
-|color| fill color of the segment|Colors.purple|
-|gradient| gradient fill, overrides `color` when set|null|
+<!-- api:PieChartStackSegmentData -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|fromRadius|`double?`|`0`|The start radius of this segment (distance from center of the section). Clamped to [0, sectionRadius] at render time.|
+|toRadius|`double`|required|The end radius of this segment (distance from center of the section). Clamped to [0, sectionRadius] at render time.|
+|color|`Color?`|`Colors.purple`|Defines the color of segment.|
+|gradient|`Gradient?`|`null`|Defines the gradient of segment. If specified, overrides the color setting.|
+<!-- /api -->
 
 
 ### PieTouchData ([read about touch handling](handle_touches.md))
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|enabled|determines whether to enable or disable touch behaviors|true|
-|mouseCursorResolver|you can change the mouse cursor based on the provided [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [PieTouchResponse](#PieTouchResponse)|MouseCursor.defer|
-|touchCallback| listen to this callback to retrieve touch/pointer events and responses, it gives you a [FlTouchEvent](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/base_chart.md#fltouchevent) and [PieTouchResponse](#PieTouchResponse)| null|
-|longPressDuration| allows you to customize the duration of the longPress gesture. If null, the duration of the longPressGesture is [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html)| null|
+<!-- api:PieTouchData -->
+|Property|Type|Default|Description|
+|:-------|:---|:------|:----------|
+|enabled|`bool?`|`true`|Determines whether to enable or disable touch behaviors.|
+|touchCallback|`void Function(FlTouchEvent, PieTouchResponse?)?`|`null`|`touchCallback` notifies you about the happened touch/pointer events. It gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ... It also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information about the elements that has touched.|
+|mouseCursorResolver|`MouseCursor Function(FlTouchEvent, PieTouchResponse?)?`|`null`|Using `mouseCursorResolver` you can change the mouse cursor based on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)|
+|longPressDuration|`Duration?`|`null`|This property that allows to customize the duration of the longPress gesture. If null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds).|
+<!-- /api -->
 
 ### PieTouchResponse
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|touchLocation|the location of the touch event in the device pixels coordinates|required|
-|touchedSection|Instance of [PieTouchedSection](#PieTouchedSection) which holds data about the touched section|null|
+<!-- api:PieTouchResponse fields -->
+|Property|Type|Description|
+|:-------|:---|:----------|
+|touchLocation|`Offset`|The location of the touch in pixels on the screen.|
+|touchedSection|`PieTouchedSection?`|Contains information about touched section, like index, angle, radius, ...|
+<!-- /api -->
 
 ### PieTouchedSection
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|touchedSection|the [PieChartSectionData](#PieChartSectionData) that the user touched| null |
-|touchedSectionIndex| index of the touched section | null|
-|touchAngle|the angle of the touch|null|
-|touchRadius| the radius of the touch|null|
+<!-- api:PieTouchedSection fields -->
+|Property|Type|Description|
+|:-------|:---|:----------|
+|touchedSection|`PieChartSectionData?`|The touched section, null if no section is touched.|
+|touchedSectionIndex|`int`|The index of `touchedSection` in [`PieChartData.sections`](#piechartdata), -1 if no section is touched.|
+|touchAngle|`double`|The angle of the touch around the center of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html), in degrees.|
+|touchRadius|`double`|The distance of the touch from the center of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html).|
+<!-- /api -->
 
 ### some samples
 ----

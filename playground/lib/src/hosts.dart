@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'hosts/bar.dart';
 import 'hosts/base.dart';
 import 'hosts/line.dart';
+import 'hosts/pie.dart';
 
 /// How the properties of a documented class are shown: an [instance] to
 /// start from, and the chart it's [build] into.
@@ -17,4 +18,9 @@ class Host {
 }
 
 /// The hosts of the documented classes, by class name.
-final hosts = <String, Host>{...lineHosts, ...baseHosts, ...barHosts};
+final hosts = <String, Host>{
+  ...lineHosts,
+  ...baseHosts,
+  ...barHosts,
+  ...pieHosts,
+};

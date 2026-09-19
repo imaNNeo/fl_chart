@@ -1710,6 +1710,245 @@
       }
     ]
   },
+  "PieChartData": {
+    "page": "pie_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "sections",
+        "type": "List<PieChartSectionData>?",
+        "defaultValue": "const []",
+        "description": "Defines showing sections of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html)."
+      },
+      {
+        "name": "centerSpaceRadius",
+        "type": "double?",
+        "defaultValue": "double.infinity",
+        "description": "Radius of free space in center of the circle.\n\nIf it's not finite (like [`double.infinity`](https://api.flutter.dev/flutter/dart-core/double-class.html)), it is calculated from the\nsize of the chart."
+      },
+      {
+        "name": "centerSpaceColor",
+        "type": "Color?",
+        "defaultValue": "Colors.transparent",
+        "description": "Color of free space in center of the circle."
+      },
+      {
+        "name": "sectionsSpace",
+        "type": "double?",
+        "defaultValue": "2",
+        "description": "Defines gap between sections.\n\nDoes not work on html-renderer,\nhttps://github.com/imaNNeo/fl_chart/issues/955"
+      },
+      {
+        "name": "startDegreeOffset",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "[`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html) draws `sections` from zero degree (right side of the circle) clockwise."
+      },
+      {
+        "name": "pieTouchData",
+        "type": "PieTouchData?",
+        "defaultValue": "PieTouchData()",
+        "description": "Handles touch behaviors and responses."
+      },
+      {
+        "name": "borderData",
+        "type": "FlBorderData?",
+        "defaultValue": "FlBorderData(show: false)",
+        "description": "Holds data to draw the border around the chart, see [`FlBorderData`](base_chart.md#flborderdata)."
+      },
+      {
+        "name": "titleSunbeamLayout",
+        "type": "bool?",
+        "defaultValue": "false",
+        "description": "Whether to rotate the titles on each section of the chart"
+      }
+    ]
+  },
+  "PieChartSectionData": {
+    "page": "pie_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "value",
+        "type": "double?",
+        "defaultValue": "10",
+        "description": "It determines how much space it should occupy around the circle.\n\nThis is depends on sum of all sections, each section should\noccupy (`value` / sumValues) * 360 degrees.\n\nvalue can not be null."
+      },
+      {
+        "name": "color",
+        "type": "Color?",
+        "defaultValue": "Colors.cyan",
+        "description": "Defines the color of section."
+      },
+      {
+        "name": "gradient",
+        "type": "Gradient?",
+        "defaultValue": "null",
+        "description": "Defines the gradient of section. If specified, overrides the color setting."
+      },
+      {
+        "name": "radius",
+        "type": "double?",
+        "defaultValue": "40",
+        "description": "Defines the radius of section."
+      },
+      {
+        "name": "showTitle",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Defines show or hide the title of section."
+      },
+      {
+        "name": "titleStyle",
+        "type": "TextStyle?",
+        "defaultValue": "null",
+        "description": "Defines style of showing title of section, merged with the text style\nof the theme."
+      },
+      {
+        "name": "title",
+        "type": "String?",
+        "description": "Defines text of showing title at the middle of section.\n\nDefaults to the `value` of the section, if it is provided."
+      },
+      {
+        "name": "borderSide",
+        "type": "BorderSide?",
+        "defaultValue": "const BorderSide(width: 0)",
+        "description": "Defines border stroke around the section"
+      },
+      {
+        "name": "cornerRadius",
+        "type": "double?",
+        "defaultValue": "0.0",
+        "description": "Defines corner radius for rounded edges (applies to all corners)"
+      },
+      {
+        "name": "badgeWidget",
+        "type": "Widget?",
+        "defaultValue": "null",
+        "description": "Defines a widget that represents the section.\n\nThis can be anything from a text, an image, an animation, and even a combination of widgets.\nUse AnimatedWidgets to animate this widget."
+      },
+      {
+        "name": "titlePositionPercentageOffset",
+        "type": "double?",
+        "defaultValue": "0.5",
+        "description": "Defines position of showing title in the section.\n\nIt should be between 0.0 to 1.0,\n0.0 means near the center,\n1.0 means near the outside of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html)."
+      },
+      {
+        "name": "badgePositionPercentageOffset",
+        "type": "double?",
+        "defaultValue": "0.5",
+        "description": "Defines position of badge widget in the section.\n\nIt should be between 0.0 to 1.0,\n0.0 means near the center,\n1.0 means near the outside of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html)."
+      },
+      {
+        "name": "segments",
+        "type": "List<PieChartStackSegmentData>?",
+        "defaultValue": "const []",
+        "description": "Stacked segments rendered on top of the main section.\n\nEach segment defines [`PieChartStackSegmentData.fromRadius`](#piechartstacksegmentdata) and\n[`PieChartStackSegmentData.toRadius`](#piechartstacksegmentdata) to specify its position within\nthe section's `radius`. Values are clamped to [0, radius] at render time."
+      }
+    ]
+  },
+  "PieChartStackSegmentData": {
+    "page": "pie_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "fromRadius",
+        "type": "double?",
+        "defaultValue": "0",
+        "description": "The start radius of this segment (distance from center of the section).\nClamped to [0, sectionRadius] at render time."
+      },
+      {
+        "name": "toRadius",
+        "type": "double",
+        "required": true,
+        "description": "The end radius of this segment (distance from center of the section).\nClamped to [0, sectionRadius] at render time."
+      },
+      {
+        "name": "color",
+        "type": "Color?",
+        "defaultValue": "Colors.purple",
+        "description": "Defines the color of segment."
+      },
+      {
+        "name": "gradient",
+        "type": "Gradient?",
+        "defaultValue": "null",
+        "description": "Defines the gradient of segment. If specified, overrides the color setting."
+      }
+    ]
+  },
+  "PieTouchData": {
+    "page": "pie_chart.md",
+    "mode": "constructor",
+    "members": [
+      {
+        "name": "enabled",
+        "type": "bool?",
+        "defaultValue": "true",
+        "description": "Determines whether to enable or disable touch behaviors."
+      },
+      {
+        "name": "touchCallback",
+        "type": "void Function(FlTouchEvent, PieTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "`touchCallback` notifies you about the happened touch/pointer events.\nIt gives you a [`FlTouchEvent`](base_chart.md#fltouchevent) which is the happened event such as [`FlPointerHoverEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlPointerHoverEvent-class.html), [`FlTapUpEvent`](https://pub.dev/documentation/fl_chart/latest/fl_chart/FlTapUpEvent-class.html), ...\nIt also gives you a [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html) which is the chart specific type and contains information\nabout the elements that has touched."
+      },
+      {
+        "name": "mouseCursorResolver",
+        "type": "MouseCursor Function(FlTouchEvent, PieTouchResponse?)?",
+        "defaultValue": "null",
+        "description": "Using `mouseCursorResolver` you can change the mouse cursor\nbased on the provided [`FlTouchEvent`](base_chart.md#fltouchevent) and [`BaseTouchResponse`](https://pub.dev/documentation/fl_chart/latest/fl_chart/BaseTouchResponse-class.html)"
+      },
+      {
+        "name": "longPressDuration",
+        "type": "Duration?",
+        "defaultValue": "null",
+        "description": "This property that allows to customize the duration of the longPress gesture.\nIf null, it uses [kLongPressTimeout](https://api.flutter.dev/flutter/gestures/kLongPressTimeout-constant.html) (500 milliseconds)."
+      }
+    ]
+  },
+  "PieTouchResponse": {
+    "page": "pie_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchLocation",
+        "type": "Offset",
+        "description": "The location of the touch in pixels on the screen."
+      },
+      {
+        "name": "touchedSection",
+        "type": "PieTouchedSection?",
+        "description": "Contains information about touched section, like index, angle, radius, ..."
+      }
+    ]
+  },
+  "PieTouchedSection": {
+    "page": "pie_chart.md",
+    "mode": "fields",
+    "members": [
+      {
+        "name": "touchedSection",
+        "type": "PieChartSectionData?",
+        "description": "The touched section, null if no section is touched."
+      },
+      {
+        "name": "touchedSectionIndex",
+        "type": "int",
+        "description": "The index of `touchedSection` in [`PieChartData.sections`](#piechartdata), -1 if no\nsection is touched."
+      },
+      {
+        "name": "touchAngle",
+        "type": "double",
+        "description": "The angle of the touch around the center of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html), in degrees."
+      },
+      {
+        "name": "touchRadius",
+        "type": "double",
+        "description": "The distance of the touch from the center of the [`PieChart`](https://pub.dev/documentation/fl_chart/latest/fl_chart/PieChart-class.html)."
+      }
+    ]
+  },
   "RangeAnnotations": {
     "page": "base_chart.md",
     "mode": "constructor",

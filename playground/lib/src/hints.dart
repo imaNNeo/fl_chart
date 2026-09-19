@@ -1,6 +1,7 @@
 import 'hints/bar.dart';
 import 'hints/base.dart';
 import 'hints/line.dart';
+import 'hints/pie.dart';
 
 /// What the type of a property doesn't tell about its demo.
 class PropertyHint {
@@ -41,4 +42,9 @@ class Preset {
 }
 
 /// The hints of the properties, keyed by `ClassName.property`.
-final hints = <String, PropertyHint>{...lineHints, ...baseHints, ...barHints};
+final hints = <String, PropertyHint>{
+  ...lineHints,
+  ...baseHints,
+  ...barHints,
+  ...pieHints,
+};

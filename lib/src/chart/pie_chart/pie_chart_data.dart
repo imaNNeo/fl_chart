@@ -46,6 +46,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   final List<PieChartSectionData> sections;
 
   /// Radius of free space in center of the circle.
+  ///
+  /// If it's not finite (like [double.infinity]), it is calculated from the
+  /// size of the chart.
   final double centerSpaceRadius;
 
   /// Color of free space in center of the circle.
@@ -198,10 +201,13 @@ class PieChartSectionData with EquatableMixin {
   /// Defines show or hide the title of section.
   final bool showTitle;
 
-  /// Defines style of showing title of section.
+  /// Defines style of showing title of section, merged with the text style
+  /// of the theme.
   final TextStyle? titleStyle;
 
   /// Defines text of showing title at the middle of section.
+  ///
+  /// Defaults to the [value] of the section, if it is provided.
   final String title;
 
   /// Defines border stroke around the section
@@ -463,16 +469,17 @@ class PieTouchedSection with EquatableMixin {
     this.touchRadius,
   );
 
-  /// touch happened on this section
+  /// The touched section, null if no section is touched.
   final PieChartSectionData? touchedSection;
 
-  /// touch happened on this position
+  /// The index of [touchedSection] in [PieChartData.sections], -1 if no
+  /// section is touched.
   final int touchedSectionIndex;
 
-  /// touch happened with this angle on the [PieChart]
+  /// The angle of the touch around the center of the [PieChart], in degrees.
   final double touchAngle;
 
-  /// touch happened with this radius on the [PieChart]
+  /// The distance of the touch from the center of the [PieChart].
   final double touchRadius;
 
   /// Used for equality check, see [EquatableMixin].

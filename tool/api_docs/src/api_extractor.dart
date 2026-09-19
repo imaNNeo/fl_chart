@@ -277,12 +277,12 @@ class ApiExtractor {
             argument.argumentExpression,
     ];
     for (final expression in expressions) {
-      if (expression is! BinaryExpression ||
-          expression.operator.lexeme != '??' ||
-          expression.leftOperand.toSource() != param.name) {
-        continue;
-      }
-      final fallback = expression.rightOperand.toSource();
+      // Also inside another expression, like `(radius ?? 40).clamp(...)`.
+      final finder = _IfNullFinder(param.name!);
+      expression.accept(finder);
+      final ifNull = finder.found;
+      if (ifNull == null) continue;
+      final fallback = ifNull.rightOperand.toSource();
       // NaN stands for "not provided" (like a missing minY), it's null.
       if (fallback == 'double.nan') break;
       final dependsOnOtherParams = ctor.formalParameters.any(
@@ -454,6 +454,22 @@ Map<String, String> _readTemplates(String libDir) {
     }
   }
   return templates;
+}
+
+/// Finds `name ?? value` in an expression.
+class _IfNullFinder extends RecursiveAstVisitor<void> {
+  _IfNullFinder(this.name);
+
+  final String name;
+  BinaryExpression? found;
+
+  @override
+  void visitBinaryExpression(BinaryExpression node) {
+    if (node.operator.lexeme == '??' && node.leftOperand.toSource() == name) {
+      found ??= node;
+    }
+    super.visitBinaryExpression(node);
+  }
 }
 
 class _DeclarationFinder extends GeneralizingAstVisitor<void> {
